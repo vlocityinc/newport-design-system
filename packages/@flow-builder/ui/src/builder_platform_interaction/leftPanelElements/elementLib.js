@@ -21,6 +21,7 @@ const mutateElements = (elements) => elements.reduce((acc, element) => {
     item.guid = generateGuid();
     item.iconName = nodeConfig.iconName;
     item.dragImageSrc = nodeConfig.dragImageSrc;
+    item.iconBackgroundColor = nodeConfig.iconBackgroundColor;
     delete item.section;
     acc[element.section].push(item);
     return acc;

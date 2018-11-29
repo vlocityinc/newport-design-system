@@ -18,7 +18,8 @@ const ELEMENT_DATA = [
                         "label": "myLabel3",
                         "description": "myDescription",
                         "iconName": "myIconName3",
-                        "dragImageSrc": "myDragImageSrc3"
+                        "dragImageSrc": "myDragImageSrc3",
+                        "iconBackgroundColor": "myIconBackgroundColor3"
                     },
                     // Items without a description should have an empty string
                     // as a description in the flattened version.
@@ -27,7 +28,8 @@ const ELEMENT_DATA = [
                         "guid": "myGuid4",
                         "label": "myLabel4",
                         "iconName": "myIconName4",
-                        "dragImageSrc": "myDragImageSrc4"
+                        "dragImageSrc": "myDragImageSrc4",
+                        "iconBackgroundColor": "myIconBackgroundColor4"
                     }
                 ]
             }
@@ -43,14 +45,16 @@ const ELEMENT_DATA = [
                 "guid": "myGuid6",
                 "label": "myLabel6",
                 "iconName": "myIconName6",
-                "dragImageSrc": "myDragImageSrc6"
+                "dragImageSrc": "myDragImageSrc6",
+                "iconBackgroundColor": "myIconBackgroundColor6"
             },
             {
                 "elementType": "Variable",
                 "guid": "myGuid7",
                 "label": "myLabel7",
                 "iconName": "myIconName7",
-                "dragImageSrc": "myDragImageSrc7"
+                "dragImageSrc": "myDragImageSrc7",
+                "iconBackgroundColor": "myIconBackgroundColor7"
             }
         ]
     },
@@ -60,7 +64,8 @@ const ELEMENT_DATA = [
         "guid": "leaf",
         "label": "myLabel8",
         "iconName": "myIconName8",
-        "dragImageSrc": "myDragImageSrc8"
+        "dragImageSrc": "myDragImageSrc8",
+        "iconBackgroundColor": "myIconBackgroundColor8"
     }
 ];
 
@@ -103,7 +108,8 @@ const ELEMENT_DATA_FLATTENED = [
         "description": "myDescription",
         "elementType": "Variable",
         "iconName": "myIconName3",
-        "dragImageSrc": "myDragImageSrc3"
+        "dragImageSrc": "myDragImageSrc3",
+        "iconBackgroundColor": "myIconBackgroundColor3"
     },
     {
         "isSection": false,
@@ -115,7 +121,8 @@ const ELEMENT_DATA_FLATTENED = [
         "description": "",
         "elementType": "Variable",
         "iconName": "myIconName4",
-        "dragImageSrc": "myDragImageSrc4"
+        "dragImageSrc": "myDragImageSrc4",
+        "iconBackgroundColor": "myIconBackgroundColor4"
     },
     {
         "isSection": true,
@@ -139,7 +146,8 @@ const ELEMENT_DATA_FLATTENED = [
         "description": "",
         "elementType": "Variable",
         "iconName": "myIconName8",
-        "dragImageSrc": "myDragImageSrc8"
+        "dragImageSrc": "myDragImageSrc8",
+        "iconBackgroundColor": "myIconBackgroundColor8"
     }
 ];
 
@@ -241,7 +249,8 @@ describe('palette-lib', () => {
                             "label": "myLabel6",
                             "description": "myDescription",
                             "iconName": "myIconName6",
-                            "dragImageSrc": "myDragImageSrc6"
+                            "dragImageSrc": "myDragImageSrc6",
+                            "iconBackgroundColor": "myIconBackgroundColor6"
                         }
                     ]
                 }
@@ -269,7 +278,8 @@ describe('palette-lib', () => {
                     "description": "myDescription",
                     "elementType": "Variable",
                     "iconName": "myIconName6",
-                    "dragImageSrc": "myDragImageSrc6"
+                    "dragImageSrc": "myDragImageSrc6",
+                    "iconBackgroundColor": "myIconBackgroundColor6"
                 }
             ];
             expect(createLevel(input, { collapsedSections: {} }, 3)).toEqual(expected);
@@ -282,7 +292,8 @@ describe('palette-lib', () => {
                     "guid": "leaf",
                     "label": "myLabel",
                     "iconName": "myIconName",
-                    "dragImageSrc": "myDragImageSrc"
+                    "dragImageSrc": "myDragImageSrc",
+                    "iconBackgroundColor": "myIconBackgroundColor"
                 }
             ];
             const expected = [
@@ -296,7 +307,8 @@ describe('palette-lib', () => {
                     "description": "",
                     "elementType": "Variable",
                     "iconName": "myIconName",
-                    "dragImageSrc": "myDragImageSrc"
+                    "dragImageSrc": "myDragImageSrc",
+                    "iconBackgroundColor": "myIconBackgroundColor"
                 }
             ];
             expect(createLevel(input, { collapsedSections: {} }, 2)).toEqual(expected);

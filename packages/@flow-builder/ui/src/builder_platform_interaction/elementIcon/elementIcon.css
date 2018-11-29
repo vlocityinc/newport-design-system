@@ -11,6 +11,10 @@
     background: transparent;
 }
 
-.action-icon {
-    background-color: #54698d
+.background-navy {
+    background-color: #54698d;
+}
+
+.background-gray {
+    background-color: var(--lwc-colorGray8);
 }

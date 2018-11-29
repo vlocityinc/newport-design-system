@@ -7,6 +7,7 @@ export default class ElementIcon extends LightningElement {
     @api isDraggable = false;
     @api title = '';
     @api alternativeText = '';
+    @api backgroundColor;
 
     @api
     get iconElement() {
@@ -41,13 +42,12 @@ export default class ElementIcon extends LightningElement {
         let commonClasses;
         if (this.iconName === 'standard:decision') {
             commonClasses =  'rotate-icon-svg';
-        } else if (this.iconName === 'standard:flow' || this.iconName === 'standard:email' || this.iconName === 'standard:custom_notification') {
-            // 'action' types must all have the same background color
+        } else if (this.backgroundColor) {
             commonClasses = 'slds-m-right_x-small';
-            commonClasses = this.updateClassesForNonCanvasElements('action-icon', commonClasses);
+            commonClasses = this.updateClassesForNonCanvasElements('background-' + this.backgroundColor, commonClasses);
         } else {
-             commonClasses = 'slds-m-right_x-small';
-             commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
+            commonClasses = 'slds-m-right_x-small';
+            commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
         }
         return commonClasses;
     }

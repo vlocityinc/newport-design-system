@@ -133,6 +133,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:flow',
             utilityIconName: 'utility:flow',
             dragImageSrc: ICONS_LARGE.SUBFLOW,
+            iconBackgroundColor: 'navy',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -159,6 +160,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
             dragImageSrc: ICONS_LARGE.ACTION_CALL,
+            iconBackgroundColor: 'navy',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -189,6 +191,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:apex_plugin',
             utilityIconName: 'utility:apex_plugin',
             dragImageSrc: ICONS_LARGE.APEX_PLUGIN_CALL,
+            iconBackgroundColor: 'navy',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -215,6 +218,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:apex',
             utilityIconName: 'utility:apex',
             dragImageSrc: ICONS_LARGE.APEX_CALL,
+            iconBackgroundColor: 'navy',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -242,6 +246,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:email',
             utilityIconName: 'utility:email',
             dragImageSrc: ICONS_LARGE.EMAIL_ALERT,
+            iconBackgroundColor: 'navy',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,

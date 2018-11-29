@@ -128,6 +128,7 @@ function getTypeMap(pattern) {
             elementType: guid,
             guid,
             iconName: type.icon,
+            iconBackgroundColor: 'gray',
             label: type.label,
             fieldTypeName: type.name
         };

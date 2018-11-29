@@ -18,6 +18,7 @@ export default class PaletteItem extends LightningElement {
     @api label;
     @api iconSize;
     @api dragImageSrc;
+    @api iconBackgroundColor;
 
     @api
     get elementIcon() {

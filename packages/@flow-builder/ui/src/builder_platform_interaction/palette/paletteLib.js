@@ -38,7 +38,8 @@ export function createItem(item, level, posinset, setsize) {
         description,
         elementType: item.elementType,
         iconName: item.iconName,
-        dragImageSrc: item.dragImageSrc
+        dragImageSrc: item.dragImageSrc,
+        iconBackgroundColor: item.iconBackgroundColor
     };
     return row;
 }

@@ -22,7 +22,7 @@ const screenFieldTypes = [
         fieldType: 'InputField',
         dataType: 'String',
         label: LABELS.fieldTypeLabelTextField,
-        icon: 'utility:type_tool',
+        icon: 'standard:textbox',
         category: LABELS.fieldCategoryInput,
         type: 'String'
     }, {
@@ -30,7 +30,7 @@ const screenFieldTypes = [
         fieldType: 'LargeTextArea',
         dataType: undefined,
         label: LABELS.fieldTypeLabelLargeTextArea,
-        icon: 'utility:type_tool',
+        icon: 'standard:textarea',
         category: LABELS.fieldCategoryInput,
         type: 'String'
     }, {
@@ -38,7 +38,7 @@ const screenFieldTypes = [
         fieldType: 'InputField',
         dataType: 'Number',
         label: LABELS.fieldTypeLabelNumber,
-        icon: 'utility:topic2',
+        icon: 'standard:number_input',
         category: LABELS.fieldCategoryInput,
         type: 'Number'
     }, {
@@ -46,7 +46,7 @@ const screenFieldTypes = [
         fieldType: 'InputField',
         dataType: 'Currency',
         label: LABELS.fieldTypeLabelCurrency,
-        icon: 'utility:moneybag',
+        icon: 'standard:currency_input',
         category: LABELS.fieldCategoryInput,
         type: 'Number'
     }, {
@@ -54,7 +54,7 @@ const screenFieldTypes = [
         fieldType: 'InputField',
         dataType: 'Date',
         label: LABELS.fieldTypeLabelDate,
-        icon: 'utility:event',
+        icon: 'standard:date_input',
         category: LABELS.fieldCategoryInput,
         type: 'Date'
     }, {
@@ -62,7 +62,7 @@ const screenFieldTypes = [
         fieldType: 'InputField',
         dataType: 'DateTime',
         label: LABELS.fieldTypeLabelDateTime,
-        icon: 'utility:event',
+        icon: 'standard:date_time',
         category: LABELS.fieldCategoryInput,
         type: 'DateTime'
     }, {
@@ -70,7 +70,7 @@ const screenFieldTypes = [
         fieldType: 'PasswordField',
         dataType: undefined,
         label: LABELS.fieldTypeLabelPassword,
-        icon: 'utility:lock',
+        icon: 'standard:password',
         category: LABELS.fieldCategoryInput,
         type: 'String'
     }, {
@@ -78,7 +78,7 @@ const screenFieldTypes = [
         fieldType: 'InputField',
         dataType: 'Boolean',
         label: LABELS.fieldTypeLabelCheckbox,
-        icon: 'utility:check',
+        icon: 'standard:task2',
         category: LABELS.fieldCategoryInput,
         type: 'Boolean'
     }, {
@@ -86,35 +86,35 @@ const screenFieldTypes = [
         fieldType: 'RadioButtons',
         dataType: null,
         label: LABELS.fieldTypeLabelRadioButtons,
-        icon: 'utility:radio_button',
+        icon: 'standard:radio_button',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'DropdownBox',
         fieldType: 'DropdownBox',
         dataType: null,
         label: LABELS.fieldTypeLabelPicklist,
-        icon: 'utility:picklist_type',
+        icon: 'standard:picklist_type',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'MultiSelectCheckboxes',
         fieldType: 'MultiSelectCheckboxes',
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
-        icon: 'utility:multi_select_checkbox',
+        icon: 'standard:multi_select_checkbox',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'MultiSelectPicklist',
         fieldType: 'MultiSelectPicklist',
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
-        icon: 'utility:multi_picklist',
+        icon: 'standard:multi_picklist',
         category: LABELS.fieldCategoryInput
     }, {
         name: 'DisplayText',
         fieldType: 'DisplayText',
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayText,
-        icon: 'utility:type_tool',
+        icon: 'standard:display_text',
         category: LABELS.fieldCategoryDisplay,
         type: 'String'
     },
@@ -126,7 +126,7 @@ const screenFieldTypes = [
         fieldType: 'DisplayText',
         dataType: undefined,
         label: LABELS.fieldTypeLabelDisplayRichText,
-        icon: 'utility:type_tool',
+        icon: 'standard:type_tool',
         category: LABELS.fieldCategoryDisplay,
         type: 'String'
     }
@@ -172,7 +172,7 @@ export function getLocalExtensionFieldType(name) {
         name,
         fieldType: COMPONENT_INSTANCE,
         label: name,
-        icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
+        icon: 'standard:custom_notification',
         source: EXTENSION_TYPE_SOURCE.LOCAL
     };
 }

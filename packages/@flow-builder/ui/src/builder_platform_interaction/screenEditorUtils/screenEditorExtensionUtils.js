@@ -144,7 +144,7 @@ function getListExtensionsRetriever() {
                                     name: extension.qualifiedApiName,
                                     fieldType: COMPONENT_INSTANCE,
                                     label: extension.label ? extension.label : extension.qualifiedApiName,
-                                    icon: 'utility:connected_apps', // 'standard:custom_notification', //Removing this until we clarify how to change the size and the background of icons in the palette
+                                    icon: 'standard:custom_notification',
                                     category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
                                     description: extension.description,
                                     marker: extension.marker,
