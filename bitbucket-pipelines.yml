@@ -9,8 +9,8 @@ pipelines:
   default:
     - step:
         script: # This will pull all branches from bitbucket and push all to github
-          - git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-          - git fetch --all
-          - git pull --all
-          - git remote add github git@github.com:vlocityinc/newport-design-system.git
-          - git push --mirror github
+          - git clone --mirror git@github.com:sf-industries/newport-design-system.git
+          - cd newport-design-system.git
+          - git remote set-url --push origin git@github.com:vlocityinc/newport-design-system.git
+          - git fetch -p origin
+          - git push --mirror
