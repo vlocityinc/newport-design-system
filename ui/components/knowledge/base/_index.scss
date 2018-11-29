@@ -2,7 +2,7 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * @summary Initializes text input
+ * @summary Initializes Knowledge block
  *
  * @name base
  * @selector .nds-knowledge-block
@@ -35,10 +35,14 @@
       position: absolute;
       transform: rotate(270deg);
       border: 1px solid $color-grey-shaded;
-      right: -2.8125rem;
+      right: -3.75rem;
       padding: 0.3125rem 0.9375rem;
       margin: 0;
       top: 6.25rem;
+      width: 150px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     .nds-input-has-icon_left {
