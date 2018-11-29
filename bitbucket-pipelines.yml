@@ -11,5 +11,7 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
+          - git fetch --all
+          - git pull --all
           - git remote add github git@github.com:vlocityinc/newport-design-system.git
           - git push --mirror github
