@@ -253,7 +253,7 @@ export default class Editor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType).catch(() => {}));
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType, { disableErrorModal : true }).catch(() => {}));
         }
     }
 
