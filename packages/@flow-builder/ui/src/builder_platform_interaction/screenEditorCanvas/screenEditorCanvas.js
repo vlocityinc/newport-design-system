@@ -67,7 +67,7 @@ export default class ScreenEditorCanvas extends LightningElement {
         const range = this.getDraggingRange(event);
 
         // Figure out if we're adding a field or moving a field and fire the correct event.
-        if (event.dataTransfer.effectAllowed === 'copy') {
+        if (event.dataTransfer && (event.dataTransfer.effectAllowed === 'copy' || event.dataTransfer.getData('dragStartLocation') === 'leftPanel')) {
             // Field is being added from the palette.
             const fieldTypeName = event.dataTransfer.getData('text');
             const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index);

@@ -80,6 +80,7 @@ export default class ScreenPalette extends LightningElement {
         const fieldTypeName = getFieldTypeNameByGuid(this.types, fieldGuid);
         event.dataTransfer.setData('text', fieldTypeName);
         event.dataTransfer.effectAllowed = 'copy';
+        event.dataTransfer.setData('dragStartLocation', 'leftPanel'); // Needed for safari browser. effectAllowed always resolves to 'all' and it is not supported by safari.
     }
 
     /* TODO - W-5617771
