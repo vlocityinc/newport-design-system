@@ -65,6 +65,7 @@ const selectors = {
     ADVANCED_PROPERTIES: 'div.advanced',
     LAST_PROCESS_TYPE: 'div.lastProcessType',
     LAST_MODIFIED: 'div.lastModified',
+    VERSION_NUMBER: 'div.versionNumber',
     RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea'
 };
 
@@ -257,6 +258,41 @@ describe('FlowPropertiesEditor', () => {
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             return Promise.resolve().then(() => {
                 expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual(processTypes[1].label);
+            });
+        });
+
+        describe('versionNumber', () => {
+            let defaultNode;
+            beforeEach(() => {
+                defaultNode = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'process type' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    lastModifiedBy: { value: 'some user' },
+                    lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
+                    versionNumber: 1,
+                    saveType: SaveType.UPDATE,
+                };
+            });
+
+            it('is shown when save type is UPDATE', () => {
+                const component = createComponentUnderTest(defaultNode);
+                return Promise.resolve().then(() => {
+                    expect(getShadowRoot(component).querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                });
+            });
+
+            it('is shown when save type is NEW_VERSION', () => {
+                defaultNode.saveType = SaveType.NEW_VERSION;
+                const component = createComponentUnderTest(defaultNode);
+                const button = getShadowRoot(component).querySelector(selectors.SHOW_ADVANCED);
+                button.dispatchEvent(new CustomEvent('click'));
+                return Promise.resolve().then(() => {
+                    expect(getShadowRoot(component).querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                });
             });
         });
     });

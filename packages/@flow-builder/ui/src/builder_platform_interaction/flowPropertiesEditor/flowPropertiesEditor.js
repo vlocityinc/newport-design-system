@@ -112,21 +112,6 @@ export default class FlowPropertiesEditor extends LightningElement {
         return this.node.saveType === SaveType.NEW_VERSION || this.node.saveType === SaveType.UPDATE;
     }
 
-    /**
-     * Indicates that the flow properties editor is being shown in the context of saving a new version of an
-     * existing flow
-     */
-    get savingExistingFlowAsNewVersion() {
-        return this.node.saveType === SaveType.NEW_VERSION;
-    }
-
-    /**
-     * @returns {String} The help text indicating what the next version number would be
-     */
-    get currentVersionHelpText() {
-        return format(LABELS.currentVersionHelpText, this.node.versionNumber + 1);
-    }
-
     get showSaveAsTypePicker() {
         let visible;
         switch (this.node.saveType) {
