@@ -36,6 +36,20 @@
             panelConfig: {
                 body: welcomeMat,
                 bodyClass: 'slds-p-around_none',
+                // override close behavior
+                closeAction: function(panel) {
+                    var welcomeMatCmp = welcomeMat.get('v.body')[0];
+                    if (welcomeMatCmp) {
+                        var checkbox = welcomeMatCmp.find('checkbox');
+                        if (checkbox) {
+                            var checkboxValue = checkbox.get("v.checked");
+                            // The root is builder_platform_interaction:flowBuilder.
+                            var userPreferencesLib = $A.getRoot().find('userPreferencesLib');
+                            userPreferencesLib.setWelcomeMatPreference(!checkboxValue);
+                        }
+                    }
+                    panel.close();
+                }
             },
             // set focus to the lightning:button
             onAfterShow: function() {
