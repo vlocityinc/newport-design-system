@@ -8,7 +8,8 @@ image: node:6.9.4
 pipelines:
   default:
     - step:
-        script: # Modify the commands below to build your repository.
+        script: # This will pull all branches from bitbucket and push all to github
+          - git branch -r | grep -v '\->' | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
           - git fetch --all
           - git pull --all
           - git remote add github git@github.com:vlocityinc/newport-design-system.git
