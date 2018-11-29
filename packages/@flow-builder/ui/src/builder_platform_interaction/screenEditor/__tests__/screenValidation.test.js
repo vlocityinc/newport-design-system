@@ -3,11 +3,63 @@ import { createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_int
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { LABELS } from "builder_platform_interaction/validationRules";
 import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
         isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
     };
+});
+
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
+    return {
+        validateTextWithMergeFields: jest.fn().mockName('validateTextWithMergeFields').mockReturnValue([]),
+    };
+});
+
+describe('When field has validation enabled', () => {
+    let field;
+
+    beforeEach(() => {
+        field = createTestScreenField('field1', 'Number', '1', {
+            validation: true,
+        });
+    });
+
+    it('error message cannot have an invalid merge field', () => {
+        const error = { message: 'invalid merge field' };
+        const rules = getRulesForField(field);
+        validateTextWithMergeFields.mockReturnValueOnce([error]);
+        expect(screenValidation.validateProperty('errorMessage', field.validationRule.errorMessage.value, rules.validationRule.errorMessage)).toEqual(error.message);
+    });
+
+    it('formula cannot have an invalid merge field', () => {
+        const error = { message: 'invalid merge field' };
+        const rules = getRulesForField(field);
+        validateTextWithMergeFields.mockReturnValueOnce([error]);
+        expect(screenValidation.validateProperty('formulaExpression', field.validationRule.errorMessage.value, rules.validationRule.errorMessage)).toEqual(error.message);
+    });
+
+    it('help text cannot have an invalid merge field', () => {
+        const error = { message: 'invalid merge field' };
+        const rules = getRulesForField(field);
+        validateTextWithMergeFields.mockReturnValueOnce([error]);
+        expect(screenValidation.validateProperty('helpText', field.helpText.value, rules.helpText)).toEqual(error.message);
+    });
+});
+
+describe('when screen has paused text and help text', () => {
+    it('paused text cannot have an invalid merge field', () => {
+        const error = { message: 'invalid merge field' };
+        validateTextWithMergeFields.mockReturnValueOnce([error]);
+        expect(screenValidation.validateProperty('pausedText', 'some bad merge field')).toEqual(error.message);
+    });
+
+    it('help text cannot have an invalid merge field', () => {
+        const error = { message: 'invalid merge field' };
+        validateTextWithMergeFields.mockReturnValueOnce([error]);
+        expect(screenValidation.validateProperty('helpText', 'some bad merge field')).toEqual(error.message);
+    });
 });
 
 describe('When field type is NUMBER', () => {
@@ -127,6 +179,13 @@ describe('When field type is DisplayText', () => {
         const displayTextStarter = 'this will get repeated until it is a giant string';
         expect(screenValidation.validateProperty('fieldText', displayTextStarter.repeat(2000), rules.fieldText)).toBe(LABELS.maximumCharactersLimit);
     });
+    it('cannot have an invalid merge field', () => {
+        const field = createTestScreenField('field1', 'DisplayText', {validation: false});
+        const error = { message: 'invalid merge field' };
+        const rules = getRulesForField(field);
+        validateTextWithMergeFields.mockReturnValueOnce([error]);
+        expect(screenValidation.validateProperty('fieldText', field.fieldText.value, rules.fieldText)).toEqual(error.message);
+    });
 });
 
 describe('When field type is TextBox', () => {
@@ -150,6 +209,32 @@ describe('When field type is TextBox', () => {
     });
     it('and default value is a reference, there should be no error', () => {
         const field = createTestScreenField('field1', 'TextBox');
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
+    });
+});
+
+describe('When field type is LargeTextArea', () => {
+    it('and a formulaExpression is provided without an errorMessage, we should get an error', () => {
+        const field = createTestScreenField('field1', 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: false});
+        field.validationRule.formulaExpression = {value: 'abc', error: null};
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('errorMessage', "", rules.validationRule.errorMessage)).toBe(LABELS.cannotBeBlank);
+    });
+    it('and a errorMessage is provided without an formulaExpression, we should get an error', () => {
+        const field = createTestScreenField('field1', 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: false});
+        field.validationRule.errorMessage = {value: 'abc', error: null};
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('formulaExpression', "", rules.validationRule.formulaExpression)).toBe(LABELS.cannotBeBlank);
+    });
+    it('and both errorMessage and formulaExpression are provided, there should be no error', () => {
+        const field = createTestScreenField('field1', 'LargeTextArea', SCREEN_NO_DEF_VALUE, {validation: true});
+        const rules = getRulesForField(field);
+        expect(screenValidation.validateProperty('formulaExpression', field.validationRule.formulaExpression.value, rules.validationRule.formulaExpression)).toBeNull();
+        expect(screenValidation.validateProperty('errorMessage', field.validationRule.errorMessage.value, rules.validationRule.errorMessage)).toBeNull();
+    });
+    it('and default value is a reference, there should be no error', () => {
+        const field = createTestScreenField('field1', 'LargeTextArea');
         const rules = getRulesForField(field);
         expect(screenValidation.validateProperty('defaultValue', "{!myVar}", rules.defaultValue)).toBeNull();
     });

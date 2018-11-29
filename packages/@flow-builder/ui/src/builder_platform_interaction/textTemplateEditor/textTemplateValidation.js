@@ -5,7 +5,7 @@ export const additionalRules = {
     text : [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
-        ValidationRules.isValidTextWithMergeFields({ allowGlobalConstants : false }),
+        ValidationRules.isValidResourcedTextArea,
     ],
 };
 

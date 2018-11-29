@@ -277,4 +277,12 @@ export const isValidTextWithMergeFields = (options) => {
         return errors.length > 0 ? errors[0].message : null;
     };
 };
+
+/**
+ * Validates that the text inside a resourced text area is valid
+ * @param {String} text the text to validate
+ */
+export const isValidResourcedTextArea = (text) => {
+    return isValidTextWithMergeFields({ allowGlobalConstants : false, allowCollectionVariables : true })(text);
+};
     /** Exported Validation Rules End **/

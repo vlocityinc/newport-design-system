@@ -301,6 +301,14 @@ describe('isValidTextWithMergeFields', () => {
     });
 });
 
+describe('isValideResourceTextArea', () => {
+    it('calls isValidTextWithMergeFields and disables global constants and allows collection variables ', () => {
+        const text = 'some text';
+        rules.isValidResourcedTextArea(text);
+        expect(validateTextWithMergeFields).toHaveBeenCalledWith(text, { allowGlobalConstants : false, allowCollectionVariables : true });
+    });
+});
+
 /*
 TODO: to be used when we being validating null on RHS W-4983953
 describe('RHS validation', () => {

@@ -10,7 +10,7 @@ const additionalRules = {
     'expression' : [
         ValidationRules.maximumCharactersLimit(3900),
         ValidationRules.shouldNotBeBlank,
-        ValidationRules.isValidTextWithMergeFields({ allowGlobalConstants : false }),
+        ValidationRules.isValidResourcedTextArea,
     ]
 };
 

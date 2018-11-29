@@ -31,6 +31,14 @@ const addDefaultRules = (rules) => {
  */
 const addCommonRules = (rules) => {
     // Common rules
+    addRules('helpText', rules, [
+        ValidationRules.isValidResourcedTextArea,
+    ]);
+
+    addRules('pausedText', rules, [
+        ValidationRules.isValidResourcedTextArea,
+    ]);
+
     addDefaultRules(rules);
 };
 
@@ -227,17 +235,31 @@ const getRulesForInputField = (field, rules) => {
         };
     }
 
+    // LargeTextArea
+    if (typeName === 'LargeTextArea') {
+        addRules('defaultValue', rules, [
+            ValidationRules.isValidResourcedTextArea,
+        ]);
+    }
+
     // DisplayText
     if (typeName === 'DisplayText') {
         addRules('fieldText', rules, [
-            createReferenceSafeRule(ValidationRules.maximumCharactersLimit(LONG_STRING_LEN))
+            createReferenceSafeRule(ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)),
+            ValidationRules.isValidResourcedTextArea,
         ]);
     }
 
     // Error message and formulaExpression are dependent on each other
     rules.validationRule = {
-        formulaExpression: [createConditionalRuleForTextProperty(field.validationRule.errorMessage)],
-        errorMessage:[createConditionalRuleForTextProperty(field.validationRule.formulaExpression)]
+        formulaExpression: [
+            createConditionalRuleForTextProperty(field.validationRule.errorMessage),
+            ValidationRules.isValidResourcedTextArea,
+        ],
+        errorMessage:[
+            createConditionalRuleForTextProperty(field.validationRule.formulaExpression),
+            ValidationRules.isValidResourcedTextArea,
+        ],
     };
 };
 

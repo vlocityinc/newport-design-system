@@ -1,5 +1,12 @@
 import { flowPropertiesEditorValidation } from '../flowPropertiesEditorValidation';
 import { LABELS } from "builder_platform_interaction/validationRules";
+import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+
+jest.mock('builder_platform_interaction/mergeFieldLib', () => {
+    return {
+        validateTextWithMergeFields: jest.fn().mockName('validateTextWithMergeFields').mockReturnValue([]),
+    };
+});
 
 describe('FlowPropertiesValidations', () => {
     describe('Process Type property', () => {
@@ -22,6 +29,12 @@ describe('FlowPropertiesValidations', () => {
         it('should return - {string} Cannot accept more than 1000 characters when string length more than 1000 characters.', () => {
             const test = 'hello'.repeat(1000);
             expect(flowPropertiesEditorValidation.validateProperty('interviewLabel', test)).toBe(LABELS.maximumCharactersLimit);
+        });
+
+        it('cannnot have an invalid merge field', () => {
+            const error = { message: 'invalid merge field' };
+            validateTextWithMergeFields.mockReturnValueOnce([error]);
+            expect(flowPropertiesEditorValidation.validateProperty('interviewLabel', 'some invalid text')).toEqual(error.message);
         });
     });
 });

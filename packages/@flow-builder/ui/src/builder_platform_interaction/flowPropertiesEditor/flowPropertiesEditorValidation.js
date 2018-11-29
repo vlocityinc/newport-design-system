@@ -7,11 +7,12 @@ import { Validation } from "builder_platform_interaction/validation";
  */
 const additionalRules = {
     'interviewLabel': [
-        ValidationRules.maximumCharactersLimit(1000)
+        ValidationRules.maximumCharactersLimit(1000),
+        ValidationRules.isValidResourcedTextArea,
     ],
     'processType' : [
         ValidationRules.shouldNotBeNullOrUndefined
-    ]
+    ],
 };
 
 export const flowPropertiesEditorValidation = new Validation(additionalRules);
