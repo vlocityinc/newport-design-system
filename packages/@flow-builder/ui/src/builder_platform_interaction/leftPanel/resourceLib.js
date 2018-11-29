@@ -5,6 +5,15 @@ import { labelComparator } from "builder_platform_interaction/sortLib";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 
 /**
+ * Helper function to return the dataType associated with a screen field
+ * @param {Object} screenFieldTypeObject Type object associated with each screen field
+ * @returns dataType associated with a screen field
+ */
+const getScreenFieldDataType = (screenFieldTypeObject = {}) => {
+    return screenFieldTypeObject.type || screenFieldTypeObject.dataType;
+};
+
+/**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
  * are grouped by element category so that they can more easily be placed into
  * sections.
@@ -25,7 +34,9 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
     // TODO: Figure out a better way to recognize elements that do need an icon
     // based on the dataType
     const dataTypeIconElements = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET];
-    if (element.dataType && dataTypeIconElements.includes(element.elementType)) {
+    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD && element.type) {
+        resourceElement.iconName = (element.type.type || element.type.dataType) ? getDataTypeIcons(getScreenFieldDataType(element.type), 'utility') : 'utility:connected_apps';
+    } else if (element.dataType && dataTypeIconElements.includes(element.elementType)) {
         resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
     }
 
