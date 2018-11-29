@@ -327,6 +327,15 @@ describe('record-lookup-reducer - State with sObject', () => {
                 expect(newState.queriedFields[1].field.value).toBe('');
             });
         });
+        describe('update sobject variable with same current value', () => {
+            it('should NOT reset "queriedFields"', () => {
+                const currentOutputReferenceValue = recordLookupUsingSobjectState().outputReference.value;
+                const propChangedEvent = new PropertyChangedEvent('outputReference', currentOutputReferenceValue, null, null, currentOutputReferenceValue);
+                const newState = recordLookupReducer(originalState, propChangedEvent);
+                expect(newState.queriedFields).toHaveLength(2);
+                expect(newState.queriedFields[1].field.value).toBe('BillingAddress');
+            });
+        });
         describe('update numberRecordsToStore from First Record to All Records', () => {
             let newState;
             beforeAll(() => {

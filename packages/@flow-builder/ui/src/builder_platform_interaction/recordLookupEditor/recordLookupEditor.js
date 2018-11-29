@@ -93,12 +93,10 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * @returns {String} the sObject or sObject collection variable that you want to assign the records to reference them later
+     * outputReference defaulted to '' in factory if undefined, see {@link elementFactory#createRecordLookup}
      */
-    get outputReference() {
-        if (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.value) {
-            return this.state.recordLookupElement.outputReference.value;
-        }
-        return '';
+    get outputReferenceValue() {
+        return this.state.recordLookupElement.outputReference.value;
     }
 
     /**
@@ -174,7 +172,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleSObjectReferenceChanged(event) {
         event.stopPropagation();
-        this.updateProperty('outputReference', event.detail.value, event.detail.error, false, this.sObjectName);
+        this.updateProperty('outputReference', event.detail.value, event.detail.error, false, this.outputReferenceValue);
     }
 
     /**

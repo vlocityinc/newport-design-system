@@ -11,11 +11,14 @@ import { RecordStoreOptionChangedEvent,
     RecordFilterTypeChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent, } from "builder_platform_interaction/events";
+    UpdateRecordFieldAssignmentEvent,
+    SObjectReferenceChangedEvent} from "builder_platform_interaction/events";
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 jest.mock('builder_platform_interaction/fieldPicker', () => require('builder_platform_interaction_mocks/fieldPicker'));
+
+const MOCK_GUID = '515fa22c-c633-48fe-a97e-4fd3c272cc24';
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
@@ -100,7 +103,15 @@ const recordLookupElementWithSObject = () => ({
     sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
     assignNullValuesIfNoRecordsFound : false,
     outputAssignments : [],
-    queriedFields: [],
+    queriedFields: [
+        {
+         field:{value: "Id", error: null},
+         rowIndex: MOCK_GUID
+        }, {
+         field:{value: "Name", error: null},
+         rowIndex: MOCK_GUID
+        }
+    ],
     object: { value: 'Account', error: ''},
     filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
     filters: [],
@@ -335,7 +346,7 @@ describe('record-lookup-editor', () => {
             expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
         });
     });
-    describe('Handle Events', () => {
+    describe('Handle Events (using SObject)', () => {
         let recordLookupEditor;
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
@@ -395,6 +406,14 @@ describe('record-lookup-editor', () => {
             getRecordFilter(recordLookupEditor).dispatchEvent(recordFilterTypeChangedEvent);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
+            });
+        });
+        it('reselect same "outputReference" should not reset query fields', () => {
+            const recordQueryFields = getRecordQueryFields(recordLookupEditor);
+            const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(recordQueryFields);
+            sObjectOrSObjectCollectionPicker.dispatchEvent(new SObjectReferenceChangedEvent(store.accountSObjectVariableGuid));
+            return Promise.resolve().then(() => {
+                expect(recordQueryFields.queriedFields[1].field.value).toBe('Name');
             });
         });
     });
