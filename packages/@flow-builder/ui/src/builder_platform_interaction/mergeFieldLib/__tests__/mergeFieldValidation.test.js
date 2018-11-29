@@ -108,6 +108,20 @@ describe('Merge field validation', () => {
                     'startIndex': 2
                 }]);
         });
+        it('Returns no validation error for collection variables with allowCollectionVariables true', () => {
+            const validationErrors = validateMergeField('{!collStrVar1}', { allowGlobalConstants: true, allowCollectionVariables: true });
+            expect(validationErrors).toEqual([]);
+        });
+        it('Returns validation error for sobject collection variables with allowCollectionVariables is not set to true ', () => {
+            const validationErrors = validateMergeField('{!accCollectionVar1}', { allowGlobalConstants: true });
+            expect(validationErrors).toEqual([
+                {
+                    'endIndex': 18,
+                    'errorType': 'wrongDataType',
+                    'message': 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField',
+                    'startIndex': 2
+                }]);
+        });
     });
     describe('Global constants', () => {
         it('Returns no validation error when it references {!$GlobalConstant.EmptyString}', () => {
