@@ -144,7 +144,8 @@ export default class Combobox extends LightningElement {
     }
 
     /**
-     * If true, only references are allowed in this combobox
+     * True: allow literal or reference
+     * False : allow only reference
      * @param {String|Boolean} isAllowed value to set allow literals
      */
     set literalsAllowed(isAllowed) {
@@ -516,6 +517,7 @@ export default class Combobox extends LightningElement {
             this.getParentElementAndFetchFields();
         } else if (this._mergeFieldLevel === this.menuDataMaxLevel && !this.hasMergeFieldCrossedMaxLevel()) {
             // if on the second level and no longer a potential field, get first level menu data
+            // TODO check _mergeFieldLevel before setting to null if/when we have fields that have hasNext = true
             this._base = null;
             this.fireFetchMenuDataEvent();
         }
@@ -567,9 +569,12 @@ export default class Combobox extends LightningElement {
     handleBlur() {
         this.setMergeFieldState(this.state.displayText, true);
 
-        // Remove the last dot from the expression
+        // Remove the last dot from the expression & get the updated menudata
         if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === this.separator) {
             this.state.displayText = this.state.displayText.substring(0, this.state.displayText.length - 2) + '}';
+            // TODO check _mergeFieldLevel before setting to null if/when we have fields that have hasNext = true
+            this._base = null;
+            this.fireFetchMenuDataEvent();
         }
 
         // If value is null, check if there is one item associated with displayText
