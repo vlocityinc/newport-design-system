@@ -13,6 +13,8 @@ import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 
+const INPUT_ICON = 'utility:back';
+
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
 
@@ -110,6 +112,10 @@ export default class RecordUpdateEditor extends LightningElement {
             return entityToDisplay.entityLabel;
         }
         return '';
+    }
+
+    get operatorIconName() {
+        return INPUT_ICON;
     }
 
     /**

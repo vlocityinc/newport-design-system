@@ -26,6 +26,8 @@ const OUTPUT_PARAMETER_DEFINITION = {
     dataType: FLOW_DATA_TYPE.SOBJECT.value,
 };
 
+const ASSIGNMENT_ICON = 'utility:assignment';
+
 export default class WaitPlatformEvent extends LightningElement {
     labels = LABELS;
 
@@ -166,6 +168,10 @@ export default class WaitPlatformEvent extends LightningElement {
 
     get isEventTypeValid() {
         return getValueFromHydratedItem(this._eventType) && !getErrorFromHydratedItem(this._eventType);
+    }
+
+    get operatorIconName() {
+        return ASSIGNMENT_ICON;
     }
 
     /**

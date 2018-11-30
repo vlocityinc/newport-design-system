@@ -11,6 +11,8 @@ import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataM
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { format } from 'builder_platform_interaction/commonUtils';
 
+const OUTPUT_ICON = 'utility:forward';
+
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
 
@@ -143,6 +145,10 @@ export default class RecordLookupEditor extends LightningElement {
 
     get assignmentTitle() {
         return format(this.labels.lookupAssignmentTitleFormat, this.resourceDisplayText);
+    }
+
+    get operatorIconName() {
+        return OUTPUT_ICON;
     }
 
     /**

@@ -58,6 +58,9 @@ export default class RecordInputOutputAssignments extends LightningElement {
         return this.inputOutputAssignmentsItems.length > 1;
     }
 
+    @api
+    operatorIconName = '';
+
     /**
      * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included.
      */

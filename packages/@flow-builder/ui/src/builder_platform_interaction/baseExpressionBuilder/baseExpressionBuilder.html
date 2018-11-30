@@ -14,16 +14,25 @@
                                                enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
-            <lightning-combobox if:false={hideOperator} class="operator slds-col slds-grow slds-size_x-small"
-                                label={operatorLabel}
-                                value={operatorValue}
-                                placeholder={operatorPlaceholder}
-                                options={operatorMenuData}
-                                onchange={handleOperatorChanged}
-                                dropdown-alignment="auto"
-                                disabled={state.operatorAndRhsDisabled}
-        	>
-        	</lightning-combobox>
+        <lightning-combobox if:false={hideOperator} class="operator slds-col slds-grow slds-size_x-small"
+                            label={operatorLabel}
+                            value={operatorValue}
+                            placeholder={operatorPlaceholder}
+                            options={operatorMenuData}
+                            onchange={handleOperatorChanged}
+                            dropdown-alignment="auto"
+                            disabled={state.operatorAndRhsDisabled}
+        >
+        </lightning-combobox>
+        <div if:true={showOperatorIcon} class="slds-col slds-grow-none">
+            <span class="slds-form-element__label slds-is-visually-empty">&nbsp;</span>
+            <div class="slds-line-height_reset slds-p-vertical_x-small">
+                <lightning-icon
+                    icon-name={operatorIconName}
+                    size="x-small">
+                </lightning-icon>
+            </div>
+        </div>
         <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
                                                label={rhsLabel}
                                                value={rhsValue}

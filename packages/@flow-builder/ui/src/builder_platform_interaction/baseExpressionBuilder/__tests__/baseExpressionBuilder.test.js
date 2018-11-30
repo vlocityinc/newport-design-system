@@ -46,6 +46,7 @@ function createDefaultFerToFerovComponentForTest(hideOperator = false, rhsIsFer 
     });
     if (hideOperator) {
         expressionBuilder.hideOperator = true;
+        expressionBuilder.operatorIconName = 'utility:assignment';
     } else {
         expressionBuilder.operatorValue = rulesMock.RULE_OPERATOR.ADD;
     }
@@ -192,6 +193,15 @@ describe('base expression builder', () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest(false, true);
             const rhsCombobox = getComboboxElements(expressionBuilder)[1];
             expect(rhsCombobox.allowedParamTypes).toBeFalsy();
+        });
+        it('should show operator icon if hideOperator is true & icon name is passed', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest(true);
+
+            return Promise.resolve().then(() => {
+                expect(getShadowRoot(expressionBuilder).querySelector('lightning-icon')).toBeDefined();
+                // make sure operator combobox is not present
+                expect(getShadowRoot(expressionBuilder).querySelector('lightning-combobox')).toBeNull();
+            });
         });
     });
 

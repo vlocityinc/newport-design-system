@@ -117,6 +117,10 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     lhsError;
 
+    @api
+    operatorIconName = '';
+
+
     /**
      * @param {String[]} fields  fields that will populate the LHS menu data
      */
@@ -338,6 +342,10 @@ export default class BaseExpressionBuilder extends LightningElement {
     _unsubscribeStore;
     _hideFerovMenuData = false;
     _hideSystemVariables = false;
+
+    get showOperatorIcon() {
+        return this.hideOperator && this.operatorIconName;
+    }
 
     /**
      * Sets LHS menu data if all the necessary attributes have been initialized

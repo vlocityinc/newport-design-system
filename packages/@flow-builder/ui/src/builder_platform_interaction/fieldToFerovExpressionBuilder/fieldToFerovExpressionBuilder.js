@@ -43,6 +43,9 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     @track
     hideOperator = false;
 
+    @api
+    operatorIconName = '';
+
     get operatorValue() {
         return this.state.operatorValue;
     }
