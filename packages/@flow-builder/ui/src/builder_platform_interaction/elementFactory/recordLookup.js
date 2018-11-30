@@ -75,6 +75,7 @@ export function createRecordLookup(recordLookup = {}) {
             assignNullValuesIfNoRecordsFound,
             filterType,
             filters,
+            queriedFields:[],
             sortOrder,
             sortField,
             maxConnections,

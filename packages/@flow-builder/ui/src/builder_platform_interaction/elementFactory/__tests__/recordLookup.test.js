@@ -141,6 +141,7 @@ const recordLoookupFieldsStore = () => ({
     outputAssignments: [{
         leftHandSide: "Account.BillingCountry",
         rightHandSide: "myCountry"}],
+    queriedFields: [],
     sortField: "",
     sortOrder: "NotSorted"
 });
@@ -257,6 +258,10 @@ describe('recordLookup', () => {
         it('should have an "outputReference" with empty text value', () => {
             const actualResult = createRecordLookup(recordLookupUsingFields);
             expect(actualResult).toHaveProperty('outputReference', '');
+        });
+        it('"queriedFields" should be an empty array', () => {
+            const actualResult = createRecordLookup(recordLookupUsingFields);
+            expect(actualResult).toHaveProperty('queriedFields', []);
         });
       });
     });
