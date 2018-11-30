@@ -35,10 +35,15 @@
       position: absolute;
       transform: rotate(270deg);
       border: 1px solid $color-grey-shaded;
-      right: -2.8125rem;
+      right: -3.75rem;
       padding: 0.3125rem 0.9375rem;
       margin: 0;
       top: 6.25rem;
+      width: 150px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      cursor: pointer;
     }
 
     .nds-input-has-icon_left {
@@ -144,6 +149,13 @@
   }
 }
 
+.nds-knowledge_full-cont-width {
+  width: 30%;
+}
+
+.nds-knowledge_cont-init-width {
+  width: 5%;
+}
 
 .nds-modal_knowledge {
   .nds-icon_small {
