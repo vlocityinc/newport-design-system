@@ -258,7 +258,11 @@ export default class ParameterItem extends LightningElement {
     handleUpdateParameter(event) {
         event.stopPropagation();
         const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, this.getDataType());
-        this.dispatchParameterEvent(value, dataType, error);
+        // the first time loading the parameter, if value is null, the combobox will set displayText to ''
+        // if the parameter item is a collection, the combobox will fire a comboboxStateChangedEvent. So to make the combobox invisible, we should not dispatch the UpdateParameterItemEvent to update the value to ''
+        if (!this.isCollection || !(this.isOptionalInput() && isUndefinedOrNull(getValueFromHydratedItem(this.state.parameterItem.value)) && value === '')) {
+            this.dispatchParameterEvent(value, dataType, error);
+        }
     }
 
     /**

@@ -22,7 +22,7 @@ function createComponentForTest({ item = createMockParameterItem(true, true, 'st
     return el;
 }
 
-function createMockParameterItem(isInput, isRequired, dataType, value, valueDataType, objectType) {
+function createMockParameterItem(isInput, isRequired, dataType, value, valueDataType, objectType, maxOccurs) {
     const item = {
         isInput,
         isOutput: !isInput,
@@ -32,6 +32,7 @@ function createMockParameterItem(isInput, isRequired, dataType, value, valueData
         label: parameterLabel,
         name: parameterName,
         description: 'Parameter Description',
+        maxOccurs,
         rowIndex : generateGuid()
     };
     if (!isUndefinedOrNull(value)) {
@@ -352,6 +353,20 @@ describe('parameter-item', () => {
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: newParamValue, valueDataType: FEROV_DATA_TYPE.STRING, rowIndex : expect.any(String)}});
+            });
+        });
+        it('should not fire UpdateParameterItemEvent if parameter is an optional input collection and it has no value', () => {
+            const parameterItemCmp = createComponentForTest({
+               item: createMockParameterItem(true, false, FLOW_DATA_TYPE.STRING.value, null, null, null, 5),
+            });
+            const eventCallback = jest.fn();
+            parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            const newParamValue = '';
+            const cbChangeEvent = new ComboboxStateChangedEvent(null, newParamValue);
+            const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+            ferovResourcePicker.dispatchEvent(cbChangeEvent);
+            return Promise.resolve().then(() => {
+                    expect(eventCallback).not.toHaveBeenCalled();
             });
         });
     });
