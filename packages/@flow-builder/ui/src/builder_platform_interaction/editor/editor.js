@@ -217,11 +217,12 @@ export default class Editor extends LightningElement {
             const newFlow =  translateUIModelToFlow(storeInstance.getCurrentState());
 
             // full diff
-            const fullDiff = diffFlow(originalFlow, newFlow, false, false);
+            const fullDiff = diffFlow(originalFlow, newFlow, false, false, false);
             const fullDiffJson = JSON.stringify(fullDiff, null, 2);
 
-            // Trimmed Diff - use blacklist, ignore undefined values, empty arrays, and empty strings
-            const trimmedDiff = diffFlow(originalFlow, newFlow, true, true);
+            // Trimmed Diff - use blacklist, ignore undefined values, empty arrays, empty strings,
+            // and differences in date/dateTime formats
+            const trimmedDiff = diffFlow(originalFlow, newFlow, true, true, true);
             const trimmedDiffJson = JSON.stringify(trimmedDiff, null, 2);
 
             invokeModalInternalData({
