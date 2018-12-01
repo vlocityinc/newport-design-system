@@ -50,6 +50,10 @@ export default class Node extends LightningElement {
         return getConfigForElementType(this.node.elementType).nodeConfig.iconName;
     }
 
+    get iconBackgroundColor() {
+        return getConfigForElementType(this.node.elementType).nodeConfig.iconBackgroundColor;
+    }
+
     get hasAvailableConnections() {
         return (this.node.maxConnections !== this.node.connectorCount);
     }
