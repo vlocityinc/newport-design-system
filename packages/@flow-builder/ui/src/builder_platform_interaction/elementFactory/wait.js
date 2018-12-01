@@ -21,17 +21,6 @@ import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/common
 import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
-const getDefaultAvailableConnections = () => [
-    {
-        type: CONNECTOR_TYPE.REGULAR
-    },
-    {
-        type: CONNECTOR_TYPE.FAULT
-    },
-    {
-        type: CONNECTOR_TYPE.DEFAULT
-    }
-];
 const MAX_CONNECTIONS_DEFAULT = 2;
 
 /**
@@ -188,16 +177,11 @@ export function createWaitWithWaitEvents(wait = {}) {
         waitEvents = [newWaitEvent];
     }
 
-    const {
-        availableConnections = getDefaultAvailableConnections()
-    } = wait;
-
     const maxConnections = calculateMaxWaitConnections(wait);
     return Object.assign(newWait, {
         waitEvents,
         defaultConnectorLabel,
         maxConnections,
-        availableConnections,
         elementType
     });
 }

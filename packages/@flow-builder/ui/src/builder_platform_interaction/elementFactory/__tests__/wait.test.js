@@ -164,13 +164,6 @@ describe('wait', () => {
             it('have a maximum of 2 default connections when no wait events are present', () => {
                 expect(newWait.maxConnections).toEqual(2);
             });
-
-            it('have 3 types of available connections by default', () => {
-                expect(newWait.availableConnections).toHaveLength(3);
-                expect(newWait.availableConnections[0]).toEqual({type: CONNECTOR_TYPE.REGULAR});
-                expect(newWait.availableConnections[1]).toEqual({type: CONNECTOR_TYPE.FAULT});
-                expect(newWait.availableConnections[2]).toEqual({type: CONNECTOR_TYPE.DEFAULT});
-            });
         });
     });
 

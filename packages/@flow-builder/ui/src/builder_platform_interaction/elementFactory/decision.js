@@ -27,7 +27,7 @@ export function createDecisionWithOutcomes(decision = {}) {
         const newOutcome = createOutcome();
         outcomes = [newOutcome];
     }
-    // Add maxConnections and availableConnections for new/existing decision if needed.
+    // Add maxConnections for new/existing decision if needed.
     return Object.assign(newDecision, {
         outcomes,
         defaultConnectorLabel,
