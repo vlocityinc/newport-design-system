@@ -210,7 +210,7 @@ const handleStandardScreenFieldPropertyChange = (data) => {
         if (data.newValueGuid) {
             // If the new value is a reference, set the value to the GUID
             updatedValueField = updateProperties(data.field, {
-                'defaultValue': data.newValueGuid,
+                'defaultValue': {value: data.newValueGuid, error}
             });
         } else {
             updatedValueField = updateProperties(data.field, {
@@ -303,7 +303,8 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
         updatedParams = deleteItem(field[parametersPropName], index);
     } else {
         // Replace the property in the parameter
-        let newParam = updateProperties(param, {value: data.newValue});
+        const newParamValue = data.newValueGuid ? {value: data.newValueGuid, error: data.newValue.error} : data.newValue; // If it is a reference store the guid, not the devName
+        let newParam = updateProperties(param, {value: newParamValue});
         const dataTypePropName = 'valueDataType';
 
         newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,

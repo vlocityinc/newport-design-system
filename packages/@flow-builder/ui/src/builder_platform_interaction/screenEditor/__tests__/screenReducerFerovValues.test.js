@@ -101,7 +101,8 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     if (valueAfter.shouldBeUndefined) {
         expect(newField).toBeUndefined();
     } else {
-        expect(newField[propertyName].value).toBe(valueAfter.value);
+        const expectedValue = valueAfter.isReference && !valueAfter.globalConstantDataType ? valueAfter.valueGuid : valueAfter.value;
+        expect(newField[propertyName].value).toBe(expectedValue);
 
         if (valueAfter.isReference && valueAfter.globalConstantDataType) {
             expect(newField[dataTypePropName]).toBe(valueAfter.globalConstantDataType);
