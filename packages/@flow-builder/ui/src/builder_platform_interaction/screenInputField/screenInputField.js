@@ -58,9 +58,13 @@ export default class ScreenInputField extends LightningElement {
             // Don't try to convert to a date if the value is a reference.
             // As long as this value isn't blank, we should get a valid date back. The value itself
             // should have already been validated as being a valid date from the combobox component.
-            return new Date(displayValue).toISOString();
+            try {
+                return new Date(displayValue).toISOString();
+            } catch (e) {
+                // If we run into any issues trying to convert the value into a date, display nothing.
+                return '';
+            }
         }
-
         return displayValue;
     }
 
