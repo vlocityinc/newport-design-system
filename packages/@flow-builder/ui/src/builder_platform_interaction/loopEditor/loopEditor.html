@@ -1,68 +1,64 @@
 <template>
 	<div if:true={loopElement}>
-	   <div class="slds-border_top slds-p-around_small">
-            <h3 class="slds-modal__content slds-m-left_small">{labels.loopDescription}</h3>
-            <div class="slds-p-horizontal_small slds-p-top_small">
-                <builder_platform_interaction-label-description
-                    label={loopElement.label}
-                    dev-name={loopElement.name} description={loopElement.description}
-                    guid={loopElement.guid} onpropertychanged={handleEvent}>
-                </builder_platform_interaction-label-description>
-                <div class=" slds-border_top slds-p-around_small">
-                    <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.selectCollectionVariableHeader}</h3>
-                    <div class="slds-size_medium">
-                        <builder_platform_interaction-ferov-resource-picker
-                            class = "test-loop-collection"
-                            value={collectionVariable}
-                            error-message={loopElement.collectionReference.error}
-                            combobox-config={collectionVariableComboboxConfig}
-                            property-editor-element-type={loopElement.elementType}
-                            element-config={collectionVariableElementConfig}
-                            oncomboboxstatechanged={handleCollectionVariablePropertyChanged}
-                            onitemselected={handleCollectionVariablePropertyChanged}
-                            hide-global-constants
-                            hide-system-variables>
-                        </builder_platform_interaction-ferov-resource-picker>
-                    </div>
-                </div>
-                <div class=" slds-border_top slds-p-around_small">
-                    <div class="slds-grid">
-                        <h3 class="slds-text-heading_small slds-section__title">
-                            <span>{labels.evaluateCollectionHeader}</span>
-                        </h3>
-					</div>
-                    <lightning-radio-group
-                        label={labels.evaluateCollectionRadioGroupLabel}
-                        name="iterationOrder"
-                        value={iterationOrderValue}
-                        options={iterationOrderOptions}
-                        onchange={handleLoopIterationOrderChanged}
-                        required>
-                    </lightning-radio-group>
-                </div>
-                <div class="slds-border_top">
-                <div class="slds-grid slds-p-around_small">
-                    <h3 class="slds-text-heading_small slds-section__title">
-                        <span>{labels.loopVariableHeader}</span>
-                    </h3>
-                <lightning-helptext content={labels.loopVariableHelpText}></lightning-helptext>
-                </div>
-                <div class="slds-size_medium slds-m-left_x-small">
-                    <builder_platform_interaction-ferov-resource-picker
-                        class = "test-loop-variable"
-                        value={loopVariable}
-                        error-message={loopElement.assignNextValueToReference.error}
-                        combobox-config={loopVariableComboboxConfig}
-                        property-editor-element-type={loopElement.elementType}
-                        element-config={loopVariableElementConfig}
-                        oncomboboxstatechanged={handleLoopVariablePropertyChanged}
-                        onitemselected={handleLoopVariablePropertyChanged}
-                        hide-global-constants
-                        hide-system-variables>
-                    </builder_platform_interaction-ferov-resource-picker>
-                </div>
-                </div>
-            </div>
+        <h3 class="slds-m-top_small slds-modal__content slds-m-left_small">{labels.loopDescription}</h3>
+        <div class="slds-p-around_small">
+            <builder_platform_interaction-label-description
+                label={loopElement.label}
+                dev-name={loopElement.name} description={loopElement.description}
+                guid={loopElement.guid} onpropertychanged={handleEvent}>
+            </builder_platform_interaction-label-description>
 		</div>
+        <div class="slds-border_top slds-p-around_small">
+            <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.selectCollectionVariableHeader}</h3>
+            <div class="slds-size_medium">
+                <builder_platform_interaction-ferov-resource-picker
+                    class = "test-loop-collection"
+                    value={collectionVariable}
+                    error-message={loopElement.collectionReference.error}
+                    combobox-config={collectionVariableComboboxConfig}
+                    property-editor-element-type={loopElement.elementType}
+                    element-config={collectionVariableElementConfig}
+                    oncomboboxstatechanged={handleCollectionVariablePropertyChanged}
+                    onitemselected={handleCollectionVariablePropertyChanged}
+                    hide-global-constants
+                    hide-system-variables>
+                </builder_platform_interaction-ferov-resource-picker>
+            </div>
+        </div>
+        <div class="slds-border_top slds-p-around_small">
+            <div class="slds-grid">
+                <h3 class="slds-text-heading_small slds-section__title">
+                    <span>{labels.evaluateCollectionHeader}</span>
+                </h3>
+			</div>
+            <lightning-radio-group
+                label={labels.evaluateCollectionRadioGroupLabel}
+                name="iterationOrder"
+                value={iterationOrderValue}
+                options={iterationOrderOptions}
+                onchange={handleLoopIterationOrderChanged}
+                required>
+            </lightning-radio-group>
+        </div>
+        <div class="slds-border_top slds-grid slds-p-around_small">
+            <h3 class="slds-text-heading_small slds-section__title">
+                <span>{labels.loopVariableHeader}</span>
+            </h3>
+        <lightning-helptext content={labels.loopVariableHelpText}></lightning-helptext>
+        </div>
+        <div class="slds-size_medium slds-m-left_x-small">
+            <builder_platform_interaction-ferov-resource-picker
+                class = "test-loop-variable"
+                value={loopVariable}
+                error-message={loopElement.assignNextValueToReference.error}
+                combobox-config={loopVariableComboboxConfig}
+                property-editor-element-type={loopElement.elementType}
+                element-config={loopVariableElementConfig}
+                oncomboboxstatechanged={handleLoopVariablePropertyChanged}
+                onitemselected={handleLoopVariablePropertyChanged}
+                hide-global-constants
+                hide-system-variables>
+            </builder_platform_interaction-ferov-resource-picker>
+        </div>
 	</div>
 </template>
