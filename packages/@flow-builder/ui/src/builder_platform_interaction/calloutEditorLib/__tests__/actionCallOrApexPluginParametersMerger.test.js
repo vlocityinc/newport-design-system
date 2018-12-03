@@ -77,7 +77,6 @@ const duplicatedOutputParameters = [
 const mergedInputs = [
     {
         dataType: 'String',
-        isInput: true,
         isRequired: false,
         label: 'Community Id',
         maxOccurs: 1,
@@ -87,7 +86,6 @@ const mergedInputs = [
     },
     {
         dataType: 'String',
-        isInput: true,
         isRequired: true,
         label: 'Target Name or ID',
         maxOccurs: 1,
@@ -102,7 +100,6 @@ const mergedInputs = [
     },
     {
         dataType: 'String',
-        isInput: true,
         isRequired: true,
         label: 'Message',
         maxOccurs: 1,
@@ -117,7 +114,6 @@ const mergedInputs = [
     },
     {
         dataType: 'SObject',
-        isInput: true,
         isRequired: false,
         label: 'Account',
         maxOccurs: 1,
@@ -127,7 +123,6 @@ const mergedInputs = [
     },
     {
         dataType: 'SObject',
-        isInput: true,
         isRequired: false,
         label: 'Account List',
         maxOccurs: 2000,
@@ -140,7 +135,6 @@ const mergedInputs = [
 const mergedOutputs = [
     {
         dataType: 'String',
-        isInput: false,
         isRequired: false,
         label: 'Feed Item ID',
         maxOccurs: 1,
@@ -158,7 +152,6 @@ const mergedOutputs = [
 const duplicatedMergedOutputs = [
     {
         dataType: 'String',
-        isInput: false,
         isRequired: false,
         label: 'Feed Item ID',
         maxOccurs: 1,
@@ -174,7 +167,6 @@ const duplicatedMergedOutputs = [
     },
     {
         dataType: 'String',
-        isInput: false,
         isRequired: false,
         label: 'Feed Item ID',
         maxOccurs: 1,

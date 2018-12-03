@@ -53,17 +53,16 @@ function getAsMap(actionParameters, nodeParameters) {
 /**
 * @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
 * @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
-* @param {Boolean} isInput true if merging input parameters
 * @return {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
 */
-function mergeParameters(inputOrOutputParameters, nodeParameters, isInput) {
+function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
     const allParameters = getAsMap(inputOrOutputParameters, nodeParameters);
     for (const [name, { parameter, paramAssigments }] of Object.entries(allParameters)) {
-        let parameterItem = {name, isInput};
+        let parameterItem = {name};
         if (parameter) {
             const {isRequired, maxOccurs, dataType, label, sobjectType} = parameter;
-            parameterItem = {name, isInput, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
+            parameterItem = {name, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
         }
         if (paramAssigments.length > 0) {
             paramAssigments.forEach(nodeParameter => {
@@ -99,9 +98,9 @@ function getMergeWarnings(parameter, paramAssigments) {
  */
 export function mergeInputOutputParameters(allParameters, nodeInputParameters, nodeOutputParameters) {
     const newParameters = {};
-    newParameters.inputs = allParameters.filter(parameter => parameter.isInput === true);
-    newParameters.outputs = allParameters.filter(parameter => parameter.isInput === false);
-    newParameters.inputs = mergeParameters(newParameters.inputs, nodeInputParameters, true);
-    newParameters.outputs = mergeParameters(newParameters.outputs, nodeOutputParameters, false);
-   return newParameters;
+    const inputParameters = allParameters.filter(parameter => parameter.isInput === true);
+    const outputParameters = allParameters.filter(parameter => parameter.isInput === false);
+    newParameters.inputs = mergeParameters(inputParameters, nodeInputParameters);
+    newParameters.outputs = mergeParameters(outputParameters, nodeOutputParameters);
+    return newParameters;
 }

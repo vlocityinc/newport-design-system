@@ -76,7 +76,7 @@ describe('Subflow parameters merger', () => {
             expect(outputs).toHaveLength(2);
             const parameterItem = getParameterItem(inputs, 'inputNumberVariable');
             expect(parameterItem).toEqual(
-                    { "dataType": "Number", "isInput": true, "isRequired": false, "label": "inputNumberVariable", "name": "inputNumberVariable", "value": {"error": null, "value": "numberVariable"}, "valueDataType": "reference", "rowIndex" : expect.any(String) });
+                    { "dataType": "Number", "isRequired": false, "label": "inputNumberVariable", "name": "inputNumberVariable", "value": {"error": null, "value": "numberVariable"}, "valueDataType": "reference", "rowIndex" : expect.any(String) });
         });
     });
     describe('When there is a latest version and an active version for variables', () => {
@@ -145,9 +145,9 @@ describe('Subflow parameters merger', () => {
             expect(inputs).toHaveLength(1);
             expect(outputs).toHaveLength(1);
             const parameterItemInput = getParameterItem(inputs, 'inputOutputNumberVariable');
+            expect(parameterItemInput).toBeDefined();
             const parameterItemOutput = getParameterItem(outputs, 'inputOutputNumberVariable');
-            expect(parameterItemInput.isInput).toBe(true);
-            expect(parameterItemOutput.isInput).toBe(false);
+            expect(parameterItemOutput).toBeDefined();
         });
     });
     describe('When there is no variable in the referenced flow for the assignment', () => {
@@ -185,7 +185,7 @@ describe('Subflow parameters merger', () => {
         const { inputs }  = mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignments, nodeOutputAssignments, inputOutputVariablesVersions);
         const parameterItem = getParameterItem(inputs, 'inputVariable');
         expect(parameterItem).toEqual(
-          { "dataType": "Number", "isInput": true, "isRequired": false, "label": "inputVariable", "name": "inputVariable", "rowIndex" : expect.any(String)});
+          { "dataType": "Number", "isRequired": false, "label": "inputVariable", "name": "inputVariable", "rowIndex" : expect.any(String)});
       });
     });
     describe('When a variable is assigned several times', () => {
@@ -205,9 +205,9 @@ describe('Subflow parameters merger', () => {
             expect(inputs).toHaveLength(1);
             expect(outputs).toHaveLength(2);
             expect(outputs[0]).toMatchObject(
-              { "isInput": false, "name": "outputVariable", "value": {"error": null, "value": "masterVariable1"}, "valueDataType": "reference"});
+              { "name": "outputVariable", "value": {"error": null, "value": "masterVariable1"}, "valueDataType": "reference"});
               expect(outputs[1]).toMatchObject(
-              { "isInput": false, "name": "outputVariable", "value": {"error": null, "value": "masterVariable2"}, "valueDataType": "reference"});
+              { "name": "outputVariable", "value": {"error": null, "value": "masterVariable2"}, "valueDataType": "reference"});
         });
         it('generates a parameterItem for each input assignment with this variable', () => {
             nodeInputAssignments = [subflowVariableAssignmentToReference('inputVariable', 'masterVariable1'),
@@ -217,9 +217,9 @@ describe('Subflow parameters merger', () => {
             expect(inputs).toHaveLength(2);
             expect(outputs).toHaveLength(1);
             expect(inputs[0]).toMatchObject(
-              { "isInput": true, "name": "inputVariable", "value": {"error": null, "value": "masterVariable1"}, "valueDataType": "reference"});
+              { "name": "inputVariable", "value": {"error": null, "value": "masterVariable1"}, "valueDataType": "reference"});
             expect(inputs[1]).toMatchObject(
-              { "isInput": true, "name": "inputVariable", "value": {"error": null, "value": "masterVariable2"}, "valueDataType": "reference"});
+              { "name": "inputVariable", "value": {"error": null, "value": "masterVariable2"}, "valueDataType": "reference"});
         });
         it('generates a parameterItem with duplicate warning', () => {
             nodeInputAssignments = [subflowVariableAssignmentToReference('inputVariable', 'masterVariable1'),

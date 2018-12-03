@@ -5,6 +5,7 @@
                 <ul if:false={emptyInputs}>
                     <template for:each={sortedInputsWithWarnings} for:item="input" for:index="index">
                         <builder_platform_interaction-parameter-item item={input.item}
+                                is-input=true
                                 key={input.item.rowIndex} item-index={index} element-type={elementType}
                                 rules={inputRules} warning-badge={input.warning.warningBadge} warning-message={input.warning.warningMessage}
                                 show-delete={input.warning.shouldBeDeleted} hide-parameter-icon={input.warning.hideIcon}>
@@ -21,7 +22,8 @@
             <div class="slds-p-horizontal_small">
                 <ul if:false={emptyOutputs}>
                     <template for:each={sortedOutputsWithWarnings} for:item="output" for:index="index">
-                        <builder_platform_interaction-parameter-item item={output.item} 
+                        <builder_platform_interaction-parameter-item item={output.item}
+                                is-input=false 
                                 key={output.item.rowIndex} item-index={index} element-type={elementType}
                                 warning-badge={output.warning.warningBadge} warning-message={output.warning.warningMessage}
                                 show-delete={output.warning.shouldBeDeleted}>

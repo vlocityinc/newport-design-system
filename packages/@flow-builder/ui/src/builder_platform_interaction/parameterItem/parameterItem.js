@@ -14,6 +14,7 @@ export default class ParameterItem extends LightningElement {
     @track state = {
         toggleStatus: false,
         parameterItem: {},
+        isInput : true
     }
 
     @api
@@ -59,8 +60,7 @@ export default class ParameterItem extends LightningElement {
      * @typedef {Object} ParameterItem
      * @property {String} name  parameter's name (may be hydrated)
      * @property {String} rowIndex  the unique identifier
-     * @property {boolean} isInput  true if the parameter is input parameter
-     * @property {boolean} isRequired   true if the parameter is required input parameter
+     * @property {boolean} [isRequired]   true if the parameter is required input parameter
      * @property {String|Object} [label]   parameter label (may be hydrated)
      * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
      * @property {Number} [maxOccurs]   the maximum occurrences
@@ -68,22 +68,9 @@ export default class ParameterItem extends LightningElement {
      * @property {Object} [value]    parameter's value (must be hydrated)
      * @property {String} [valueDataType]   parameter's value data type
      * @property {String} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
-     * @example <caption>input parameter</caption
-     * {
-     * name: 'subjectOrTargetId',
-     * isInput: true,
-     * isRequired: true,
-     * label: 'Subject or Target Id',
-     * dataType: 'String',
-     * maxOccurs: 1,
-     * objectType: null,
-     * value: {value: 'textVar', error: null},
-     * valueDataType: 'reference',
-     * }
-     * @example <caption>output parameter</caption>
+     * @example <caption>parameter item</caption>
      * {
      * name: 'feedId',
-     * isInput: false,
      * isRequired: false,
      * label: 'Feed Id',
      * dataType: 'String',
@@ -100,13 +87,24 @@ export default class ParameterItem extends LightningElement {
      */
     set item(parameter) {
         this.state.parameterItem = parameter;
-        this.state.toggleStatus = !this.state.parameterItem.isInput || this.state.parameterItem.isRequired || this.checked;
+        this.state.toggleStatus = !this.state.isInput || this.state.parameterItem.isRequired || this.checked;
     }
 
     @api
     get item() {
         return this.state.parameterItem;
     }
+
+    set isInput(value) {
+        this.state.isInput = value ? value !== 'false' : false;
+        this.state.toggleStatus = !this.state.isInput || this.state.parameterItem.isRequired || this.checked;
+    }
+
+    @api
+    get isInput() {
+        return this.state.isInput;
+    }
+
 
     get showToggle() {
         return this.isOptionalInput() && !this.showDelete;
@@ -130,7 +128,7 @@ export default class ParameterItem extends LightningElement {
      * @returns {boolean} true if this parameter is optional input parameter
      */
     isOptionalInput() {
-        return this.state.parameterItem.isInput && !this.state.parameterItem.isRequired;
+        return this.state.isInput && !this.state.parameterItem.isRequired;
     }
 
     /**
@@ -169,8 +167,8 @@ export default class ParameterItem extends LightningElement {
             this.parameterLabel,
             this.labels.parameterPlaceholder, // placeholder
             this.errorMessage, // errorMessage
-            this.state.parameterItem.isInput, // literalsAllowed
-            this.state.parameterItem.isRequired, // required
+            this.state.isInput, // literalsAllowed
+            this.state.parameterItem.isRequired || false, // required
             this.disabled, // disabled
             this.getDataType(),
             this.enableFieldDrilldown // enableFieldDrilldown
@@ -276,7 +274,7 @@ export default class ParameterItem extends LightningElement {
      * @param {String} error error message
      */
     dispatchParameterEvent(value, dataType, error) {
-        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name), value, dataType, error);
+        const itemUpdatedEvent = new UpdateParameterItemEvent(this.state.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name), value, dataType, error);
         this.dispatchEvent(itemUpdatedEvent);
     }
 
@@ -286,7 +284,7 @@ export default class ParameterItem extends LightningElement {
      */
     handleDelete(event) {
         event.stopPropagation();
-        const itemDeleteEvent = new DeleteParameterItemEvent(this.state.parameterItem.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name));
+        const itemDeleteEvent = new DeleteParameterItemEvent(this.state.isInput, this.state.parameterItem.rowIndex, getValueFromHydratedItem(this.state.parameterItem.name));
         this.dispatchEvent(itemDeleteEvent);
     }
 }

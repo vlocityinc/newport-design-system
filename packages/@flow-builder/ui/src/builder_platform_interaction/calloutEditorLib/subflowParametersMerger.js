@@ -41,8 +41,8 @@ export function mergeSubflowAssignmentsWithInputOutputVariables(nodeInputAssignm
     const latestOutputVariables = getVariables(inputOutputVariablesVersions, version => version.isLatestVersion === true, variable => variable.isOutput === true);
 
     return {
-        inputs : mergeSubflowAssignmentsWithVariables(nodeInputAssignments, true, activeInputVariables, latestInputVariables),
-        outputs : mergeSubflowAssignmentsWithVariables(nodeOutputAssignments, false, activeOutputVariables, latestOutputVariables)
+        inputs : mergeSubflowAssignmentsWithVariables(nodeInputAssignments, activeInputVariables, latestInputVariables),
+        outputs : mergeSubflowAssignmentsWithVariables(nodeOutputAssignments, activeOutputVariables, latestOutputVariables)
     };
 }
 
@@ -88,7 +88,7 @@ function getAsMap(activeVariables, latestVariables, nodeAssignments) {
 /**
  * Merge either input or output subflow assignments with input or output subflow active and latest variables
  */
-function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVariables, latestVariables) {
+function mergeSubflowAssignmentsWithVariables(nodeAssignments, activeVariables, latestVariables) {
     const flowHasActiveVersion = activeVariables !== undefined;
     const allParameters = getAsMap(activeVariables, latestVariables, nodeAssignments);
     const parameterItems = [];
@@ -97,7 +97,7 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVa
             // When using CFD, there is a warning when an input variable has multiple input assignments. At runtime, the last input assignment win
             // When using CFD, you can add multiple output assignments for the same subflow variable
             nodeAssignmentsForVariable.forEach(nodeAssignment => {
-                const parameterItem = merge(name, nodeAssignment, isInput, activeVariable, latestVariable);
+                const parameterItem = merge(name, nodeAssignment, activeVariable, latestVariable);
                 const warnings = nodeAssignmentsForVariable.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
                 const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);
                 if (warning) {
@@ -110,7 +110,7 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVa
             });
         } else {
             const nodeAssignment = undefined;
-            const parameterItem = merge(name, nodeAssignment, isInput, activeVariable, latestVariable);
+            const parameterItem = merge(name, nodeAssignment, activeVariable, latestVariable);
             const warning = getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, latestVariable);
             if (warning) {
                 parameterItem.warnings = [warning];
@@ -121,9 +121,9 @@ function mergeSubflowAssignmentsWithVariables(nodeAssignments, isInput, activeVa
     return parameterItems;
 }
 
-function merge(name, nodeAssignment, isInput, activeVariable, latestVariable) {
+function merge(name, nodeAssignment, activeVariable, latestVariable) {
     const variable = activeVariable || latestVariable;
-    let parameterItem = {name, isInput, isRequired : false};
+    let parameterItem = {name, isRequired : false};
     if (nodeAssignment) {
         // only value can be hydrated. Copy it to avoid side effects
         const value = { value : getValueFromHydratedItem(nodeAssignment.value), error : getErrorFromHydratedItem(nodeAssignment.value) };
