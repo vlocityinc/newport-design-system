@@ -80,7 +80,7 @@ export const getRules = (nodeElement, {wayToStoreFields}) => {
         overrideRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
 
-    if (nodeElement.object && nodeElement.object.value) {
+    if (nodeElement.object && nodeElement.object.value && !nodeElement.object.error) {
         if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && nodeElement.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD) {
             overrideRules.outputAssignments = validateAssignments();
         } else {

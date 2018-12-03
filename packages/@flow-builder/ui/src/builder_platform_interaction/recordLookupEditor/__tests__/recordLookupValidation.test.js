@@ -111,16 +111,23 @@ describe('Record Lookup Validation', () => {
         });
     });
     describe('object is not valid', () => {
-        const createRecordLookupEditor = (invalidObject) => {
-            recordLookupEditorNode.object.value = invalidObject;
+        const createRecordLookupEditor = (value, error) => {
+            recordLookupEditorNode.object = {value, error};
             return createComponentForTest(recordLookupEditorNode);
         };
-        it('should return an error if object is blank', () => {
-            const recordLookupEditor = createRecordLookupEditor('');
+        it('should return 1 error only if object is blank', () => {
+            const recordLookupEditor = createRecordLookupEditor('', LABELS.cannotBeBlank);
             const errors = validate(recordLookupEditor.node, event);
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('object');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return 1 error only if object is invalid (but not blank)', () => {
+            const recordLookupEditor = createRecordLookupEditor('AnInvalidObjectIAmBelieveMe', LABELS.enterValidValue);
+            const errors = validate(recordLookupEditor.node, event);
+            expect(errors).toHaveLength(1);
+            expect(errors[0].key).toBe('object');
+            expect(errors[0].errorString).toBe(LABELS.enterValidValue);
         });
     });
     describe('filter item is empty', () => {

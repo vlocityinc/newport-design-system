@@ -6,7 +6,7 @@
         <builder_platform_interaction-label-description label={state.recordLookupElement.label} dev-name={state.recordLookupElement.name} description={state.recordLookupElement.description} guid={state.recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
     </div>
     
-    <!-- sobject picker -->
+    <!-- Entity picker (object) -->
     <div class="slds-m-bottom_small slds-border_top">
         <h3 class="slds-text-heading_small slds-p-around_small">{labels.getRecordsOfObjectType}</h3>
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
@@ -20,12 +20,12 @@
         </div>
     </div>
 
-    <div if:true={state.recordEntityName}>
+    <div if:true={hasValidRecordEntityName}>
         <!-- Find Records section -->
         <builder_platform_interaction-record-filter 
-            element-type={state.recordLookupElement.elementType}
+            element-type={elementType}
             filter-items={state.recordLookupElement.filters}
-            record-entity-name={state.recordEntityName}
+            record-entity-name={recordEntityName}
             resource-display-text={resourceDisplayText}
             record-fields={recordFields}
             filter-type={state.recordLookupElement.filterType.value}
@@ -37,7 +37,7 @@
 
         <!-- Sort Records section -->
         <builder_platform_interaction-record-sort
-            resource-api-name={state.recordEntityName}
+            resource-api-name={recordEntityName}
             resource-display-text={resourceDisplayText}
             selected-field={state.recordLookupElement.sortField.value}
             sort-order={state.recordLookupElement.sortOrder.value}
@@ -47,7 +47,7 @@
                 
         <!-- Record Store Fields Selection section -->
         <builder_platform_interaction-record-store-options
-            element-type={state.recordLookupElement.elementType}
+            element-type={elementType}
             resource-display-text={resourceDisplayText}
             number-of-records-to-store={numberRecordsToStoreValue}
             way-to-store-fields={wayToStoreFieldsValue}
@@ -58,9 +58,9 @@
         <!-- SObject or SObject collection section -->
         <builder_platform_interaction-record-query-fields if:true={isSObjectMode} 
             is-collection={isCollection}
-            record-entity-name={state.recordEntityName}
+            record-entity-name={recordEntityName}
             resource-display-text={resourceDisplayText}
-            element-type={state.recordLookupElement.elementType}
+            element-type={elementType}
             queried-fields={state.recordLookupElement.queriedFields}
             output-reference={outputReferenceValue}
             sobject-variable-error-message={outputReferenceErrorMessage}
@@ -74,9 +74,9 @@
             if:false={isSObjectMode} 
             input-output-assignments-items={state.recordLookupElement.outputAssignments}
             resource-display-text={resourceDisplayText}
-            record-entity-name={state.recordEntityName}
+            record-entity-name={recordEntityName}
             record-fields={recordFields}
-            element-type={state.recordLookupElement.elementType}
+            element-type={elementType}
             operator-icon-name={operatorIconName}
             title={assignmentTitle}
             rhs-label={labels.filterRhsLabel}

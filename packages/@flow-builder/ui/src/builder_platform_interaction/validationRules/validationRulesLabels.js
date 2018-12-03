@@ -10,6 +10,8 @@ import fieldNotUnique from '@salesforce/label/FlowBuilderValidation.fieldNotUniq
 import overMaxIntegerValue from '@salesforce/label/FlowBuilderValidation.overMaxIntegerValue';
 import orderNumberNotUnique from '@salesforce/label/FlowBuilderValidation.numberNotUnique';
 import shouldBeInRange from '@salesforce/label/FlowBuilderValidation.shouldBeInRange';
+import enterValidValue from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+
 export const LABELS = {
     cannotBeBlank,
     shouldNotBeginOrEndWithUnderscores,
@@ -22,5 +24,6 @@ export const LABELS = {
     fieldNotUnique,
     overMaxIntegerValue,
     orderNumberNotUnique,
-    shouldBeInRange
+    shouldBeInRange,
+    enterValidValue
 };

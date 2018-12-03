@@ -10,8 +10,7 @@ import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { format } from 'builder_platform_interaction/commonUtils';
-
-const OUTPUT_ICON = 'utility:forward';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -24,18 +23,27 @@ export default class RecordLookupEditor extends LightningElement {
     @track
     state = {
         recordLookupElement: {},
-        recordEntityName: '',
         wayToStoreFields: '',
-        resourceDisplayText: '',
         fields: {},
     }
 
-    sObjectName = '';
-
+    /**
+     * only queryable entities available
+     */
     crudFilterType = ENTITY_TYPE.QUERYABLE
 
     /**
-     * public api function to return the node
+     * element type of the current editor
+     */
+    elementType = ELEMENT_TYPE.RECORD_LOOKUP;
+
+    /**
+     * output assignment operator icon name (output icon)
+     */
+    operatorIconName = 'utility:forward';
+
+    /**
+     * public API function to return the node
      *
      * @returns {object} node - node
      */
@@ -50,19 +58,34 @@ export default class RecordLookupEditor extends LightningElement {
 
     set node(newValue) {
         this.state.recordLookupElement = newValue;
-        this.state.recordEntityName = this.state.recordLookupElement.object.value;
         this.state.wayToStoreFields = this.hasOutputAssignemts ? WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
         this.updateFields();
     }
 
     /**
-     * public api function to run the rules from record lookup validation library
+     * public API function to run the rules from record lookup validation library
      * @returns {Object[]} list of errors
      */
     @api validate() {
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, { type: VALIDATE_ALL,
             wayToStoreFields : this.wayToStoreFieldsValue });
         return getErrorsFromHydratedElement(this.state.recordLookupElement);
+    }
+
+    /**
+     * set the entity name (object) and load fields accordingly
+     * @param {string} newValue - new entity name
+     */
+    set recordEntityName(newValue) {
+        this.state.recordLookupElement.object.value = newValue;
+        this.updateFields();
+    }
+
+    /**
+     * @returns {string} entity name (object)
+     */
+    get recordEntityName() {
+        return this.state.recordLookupElement.object.value;
     }
 
     get hasOutputAssignemts() {
@@ -80,7 +103,8 @@ export default class RecordLookupEditor extends LightningElement {
      * Returns the number of result stored.
      * If firstRecord then the user will be able to select a sObject variable
      * If allRecord then the user will be able to select a sObject Collection variable
-     * @returns {String} This value can be 'firstRecord' or 'allRecords'
+     * {@link recordEditorLib#NUMBER_RECORDS_TO_STORE}
+     * @returns {string} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
         return this.state.recordLookupElement.numberRecordsToStore;
@@ -94,7 +118,7 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @returns {String} the sObject or sObject collection variable that you want to assign the records to reference them later
+     * @returns {string} the sObject or sObject collection variable that you want to assign the records to reference them later
      * outputReference defaulted to '' in factory if undefined, see {@link elementFactory#createRecordLookup}
      */
     get outputReferenceValue() {
@@ -102,7 +126,7 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @returns {String} the output reference error message
+     * @returns {string} the output reference error message
      */
     get outputReferenceErrorMessage() {
         if (this.state.recordLookupElement.outputReference) {
@@ -126,38 +150,54 @@ export default class RecordLookupEditor extends LightningElement {
         );
     }
 
+    /**
+     * @returns {string} entity label if any found for current selected entity empty string otherwise
+     */
     get resourceDisplayText() {
-        const entityToDisplay = getAllEntities().filter(entity => entity.apiName === this.state.recordEntityName);
-        if (entityToDisplay.length === 1) {
-            return entityToDisplay[0].entityLabel;
-        }
-        return '';
+        const entityToDisplay = getAllEntities().find(entity => entity.apiName === this.recordEntityName);
+        return entityToDisplay ? entityToDisplay.entityLabel : '';
     }
 
+    /**
+     * @returns {boolean} true if record lookup element in sobject mode false otherwise
+     */
     get isSObjectMode() {
         return (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && this.state.wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
         || (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
     }
 
+    /**
+     * Returns the way to store: sobject variable or separate variables
+     * If "sObjectVariable" then the user will be able to store in an sObject variable
+     * If "separateVariables" then the user will be able to store in separate variables
+     * see {@link recordEditorLib#WAY_TO_STORE_FIELDS}
+     * @returns {string} This value can be 'sObjectVariable' or 'separateVariables'
+     */
     get wayToStoreFieldsValue() {
         return this.state.wayToStoreFields;
     }
 
+    /**
+     * @returns {string} dynamic output assignment title (based on current entity label)
+     */
     get assignmentTitle() {
         return format(this.labels.lookupAssignmentTitleFormat, this.resourceDisplayText);
     }
 
-    get operatorIconName() {
-        return OUTPUT_ICON;
+    /**
+     * @returns {boolean} true if valid entity name selected/typed
+     */
+    get hasValidRecordEntityName() {
+        return this.recordEntityName && !this.state.recordLookupElement.object.error;
     }
 
     /**
-     * get the fields of the selected entity
+     * update the fields of the selected entity
      */
     updateFields() {
         this.state.fields = {};
-        if (this.state.recordEntityName) {
-            fetchFieldsForEntity(this.state.recordEntityName).then(fields => {
+        if (this.hasValidRecordEntityName) {
+            fetchFieldsForEntity(this.recordEntityName).then(fields => {
                 this.state.fields = fields;
             }).catch(() => {
                 // fetchFieldsForEntity displays an error message
@@ -166,7 +206,7 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @param {object} event - property changed event coming from label-description component or the list item changed events (add/update/delete)
+     * @param {Object} event - property changed event coming from label-description component or the list item changed events (add/update/delete)
      */
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
@@ -174,7 +214,7 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @param {object} event - sobjectreferencechanged event from sobject-or-sobject-collection component. The property name depends on the record node (create/update/lookup)
+     * @param {Object} event - sobjectreferencechanged event from sobject-or-sobject-collection component. The property name depends on the record node (create/update/lookup)
      */
     handleSObjectReferenceChanged(event) {
         event.stopPropagation();
@@ -182,62 +222,77 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @param {object} event - comboboxstatechanged event from entity-resource-picker component. The property name depends on the record node
+     * @param {Object} event - comboboxstatechanged event from entity-resource-picker component. The property name depends on the record node
      */
     handleResourceChanged(event) {
         event.stopPropagation();
-        const oldRecordEntityName = this.state.recordEntityName;
         const {item, error, displayText} = event.detail;
-        const value = item ? item.value : displayText;
-        if (oldRecordEntityName !== value) {
-           this.state.recordEntityName = value;
-           if (item) {
-             this.updateFields();
-           }
+        const oldRecordEntityName = this.recordEntityName;
+        const newRecordEntityName = (item && item.value) || displayText;
+        if (newRecordEntityName !== oldRecordEntityName) {
+            this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
+            this.recordEntityName = newRecordEntityName;
         }
-        this.updateProperty('object', value, error, false, oldRecordEntityName);
     }
 
     /**
-     * @param {object} event - recordstoreoptionchanged event from record-store-options component.
+     * @param {Object} event - recordstoreoptionchanged event from record-store-options component.
      */
     handleRecordStoreOptionsChanged(event) {
         event.stopPropagation();
-        if (this.numberRecordsToStoreValue !== event.detail.numberRecordsToStore) {
-            this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, null, true, this.numberRecordsToStoreValue);
-            this.updateProperty('outputReference', '', null, true, this.sObjectName);
-        } else if (this.state.recordLookupElement.assignNullValuesIfNoRecordsFound !== event.detail.assignNullToVariableNoRecord) {
-            this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.assignNullToVariableNoRecord, null, false);
-        } else if (this.state.wayToStoreFields !== event.detail.wayToStoreFields) {
+        const {numberRecordsToStore, assignNullToVariableNoRecord, wayToStoreFields} = event.detail;
+        if (this.numberRecordsToStoreValue !== numberRecordsToStore) {
+            this.updateProperty('numberRecordsToStore', numberRecordsToStore, null, true, this.numberRecordsToStoreValue);
+            this.updateProperty('outputReference', '', null, true, this.outputReferenceValue);
+        } else if (this.state.recordLookupElement.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord) {
+            this.updateProperty('assignNullValuesIfNoRecordsFound', assignNullToVariableNoRecord, null, true);
+        } else if (this.state.wayToStoreFields !== wayToStoreFields) {
             // reset outputAssignments
             this.updateProperty('wayToStoreFields', '', null, true);
-            this.state.wayToStoreFields = event.detail.wayToStoreFields;
+            this.state.wayToStoreFields = wayToStoreFields;
         }
     }
 
     /**
-     * @param {object} event - change event from record-sort component.
+     * @param {Object} event - change event from record-sort component.
      */
     handleRecordSortChanged(event) {
         event.stopPropagation();
-        if (this.state.recordLookupElement.sortField.value !== event.detail.fieldApiName) {
-            this.updateProperty('sortField', event.detail.fieldApiName, event.detail.error, false);
+        const {fieldApiName, error, sortOrder} = event.detail;
+        if (this.state.recordLookupElement.sortField.value !== fieldApiName) {
+            this.updateProperty('sortField', fieldApiName, error, false);
         } else {
             // Can't have error on this field, all errors are related to sortFields
-            this.updateProperty('sortOrder', event.detail.sortOrder, null, false);
+            this.updateProperty('sortOrder', sortOrder, null, false);
         }
     }
 
+    /**
+     * Handle filterType change and via reducer update element's state accordingly
+     * @param {Object} event - event
+     */
     handleFilterTypeChanged(event) {
         event.stopPropagation();
         this.updateProperty('filterType', event.detail.filterType, event.detail.error, false);
     }
 
+    /**
+     * Handle output assignments change and via reducer update element's state accordingly
+     * @param {Object} event - event
+     */
     handleRecordInputOutputAssignmentsChanged(event) {
         event.stopPropagation();
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
+    /**
+     * Instantiates property changed event based to handle property change and updating via element's reducer state accordingly
+     * @param {string} propertyName - name of the property changed
+     * @param {Object|string|boolean} newValue - new value to be passed to property
+     * @param {string} error - error on property
+     * @param {boolean} ignoreValidate - true if we do not want to have specific property validation
+     * @param {Object|string|boolean} oldValue - property's previous value
+     */
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
         const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
         propChangedEvent.detail.ignoreValidate = ignoreValidate;

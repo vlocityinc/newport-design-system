@@ -22,15 +22,13 @@ const MOCK_GUID = '515fa22c-c633-48fe-a97e-4fd3c272cc24';
 
 function createComponentForTest(node) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
-    if (node) {
-        el.node = node;
-    }
+    Object.assign(el, {node});
     document.body.appendChild(el);
     return el;
 }
 
 const defaultValueItem = {item: {value: 'guid1', displayText: 'var 1'}},
-      eventDetailOnObjectRemoval = {item: null, displayText: '', error : 'A value is required.'};
+      eventDetailObjectWithError = (displayText, error) => ({item: null, displayText, error});
 
 function getComboboxStateChangedEvent(detail = defaultValueItem) {
     return new CustomEvent('comboboxstatechanged', {
@@ -237,25 +235,53 @@ describe('record-lookup-editor', () => {
         beforeEach(() => {
             recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
             const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
-            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(eventDetailOnObjectRemoval));
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(eventDetailObjectWithError('', 'A value is required.')));
         });
-        it('record filter should NOT be visible', () => {
+        it('"recordFilter" should NOT be visible', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
             expect(recordFilter).toBeNull();
         });
-        it('recordStoreOption should NOT be visible', () => {
+        it('"recordStoreOption" should NOT be visible', () => {
             const recordStoreOption = getRecordStoreOption(recordLookupEditor);
             expect(recordStoreOption).toBeNull();
         });
-        it('recordSort should NOT be visible', () => {
+        it('"recordSort" should NOT be visible', () => {
             const recordSort = getRecordSort(recordLookupEditor);
             expect(recordSort).toBeNull();
         });
-        it('recordQueryField should NOT be visible', () => {
+        it('"recordQueryField" should NOT be visible', () => {
             const recordQueryField = getRecordQueryFields(recordLookupEditor);
             expect(recordQueryField).toBeNull();
         });
-        it('record inputOutPutAssignments should NOT be visible', () => {
+        it('"recordInputOutputAssignments" should NOT be visible', () => {
+            const recordOutputAssignments = getInputOutputAssignments(recordLookupEditor);
+            expect(recordOutputAssignments).toBeNull();
+        });
+    });
+    describe('Existing record element typing invalid "object"', () => {
+        let recordLookupEditor;
+        beforeEach(() => {
+            recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
+            const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(eventDetailObjectWithError('invalid entity name', 'Enter a valid value.')));
+        });
+        it('"recordFilter" should NOT be visible', () => {
+            const recordFilter = getRecordFilter(recordLookupEditor);
+            expect(recordFilter).toBeNull();
+        });
+        it('"recordStoreOption" should NOT be visible', () => {
+            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
+            expect(recordStoreOption).toBeNull();
+        });
+        it('"recordSort" should NOT be visible', () => {
+            const recordSort = getRecordSort(recordLookupEditor);
+            expect(recordSort).toBeNull();
+        });
+        it('"recordQueryField" should NOT be visible', () => {
+            const recordQueryField = getRecordQueryFields(recordLookupEditor);
+            expect(recordQueryField).toBeNull();
+        });
+        it('"recordInputOutputAssignments" should NOT be visible', () => {
             const recordOutputAssignments = getInputOutputAssignments(recordLookupEditor);
             expect(recordOutputAssignments).toBeNull();
         });
