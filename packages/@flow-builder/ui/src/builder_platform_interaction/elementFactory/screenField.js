@@ -42,7 +42,7 @@ export function createScreenField(screenField = {}) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
         type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
         isRequired = true;
-        inputParameters = screenField.inputParameters.map(inputParameter => createInputParameter(inputParameter));
+        inputParameters = screenField.inputParameters.filter(inputParameter => !!inputParameter.value).map(inputParameter => createInputParameter(inputParameter));
         outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
     } else {
         type = getScreenFieldType(screenField);
