@@ -6,7 +6,8 @@
 image: node:6.9.4
 
 pipelines:
-  default:
+  branches:
+    '{master,ins-104,cmt-104,ins-103,cmt-103,ins-102,cmt-102}':
     - step:
         script: # This will pull all branches from bitbucket and push all to github
           - git clone --mirror git@github.com:sf-industries/newport-design-system.git
