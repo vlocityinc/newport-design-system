@@ -6,7 +6,7 @@ import { getOutputRules } from "builder_platform_interaction/ruleLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import { AddElementEvent, PropertyChangedEvent } from "builder_platform_interaction/events";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -23,9 +23,10 @@ export default class RecordLookupEditor extends LightningElement {
     @track
     state = {
         recordLookupElement: {},
-        wayToStoreFields: '',
         fields: {},
     }
+
+    wayToStoreFields = '';
 
     /**
      * only queryable entities available
@@ -58,8 +59,21 @@ export default class RecordLookupEditor extends LightningElement {
 
     set node(newValue) {
         this.state.recordLookupElement = newValue;
-        this.state.wayToStoreFields = this.hasOutputAssignemts ? WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
         this.updateFields();
+    }
+
+    /**
+     * Used to know if we are dealing with an editor in edit mode or addition mode.
+     */
+    @api
+    mode;
+
+    /**
+     * Is in "add element" mode (ie: added from the palette to the canvas)?
+     * @returns {boolean} true if in "addElement" mode otherwise false
+     */
+    get isInAddElementMode() {
+        return this.mode === AddElementEvent.EVENT_NAME;
     }
 
     /**
@@ -88,8 +102,11 @@ export default class RecordLookupEditor extends LightningElement {
         return this.state.recordLookupElement.object.value;
     }
 
-    get hasOutputAssignemts() {
-        return this.state.recordLookupElement.outputAssignments && this.state.recordLookupElement.outputAssignments.length > 0;
+    /**
+     * return {boolean} true if the element is using the output reference.
+     */
+    get hasOutputReference() {
+        return this.isInAddElementMode || (this.outputReferenceValue !== '');
     }
 
     /**
@@ -119,10 +136,12 @@ export default class RecordLookupEditor extends LightningElement {
 
     /**
      * @returns {string} the sObject or sObject collection variable that you want to assign the records to reference them later
-     * outputReference defaulted to '' in factory if undefined, see {@link elementFactory#createRecordLookup}
      */
     get outputReferenceValue() {
-        return this.state.recordLookupElement.outputReference.value;
+        if (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.value) {
+             return this.state.recordLookupElement.outputReference.value;
+        }
+        return '';
     }
 
     /**
@@ -162,7 +181,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {boolean} true if record lookup element in sobject mode false otherwise
      */
     get isSObjectMode() {
-        return (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && this.state.wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
+        return (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
         || (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
     }
 
@@ -174,7 +193,10 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {string} This value can be 'sObjectVariable' or 'separateVariables'
      */
     get wayToStoreFieldsValue() {
-        return this.state.wayToStoreFields;
+        if (this.wayToStoreFields === '') {
+           this.wayToStoreFields = this.hasOutputReference ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
+        }
+        return this.wayToStoreFields;
     }
 
     /**
@@ -246,10 +268,10 @@ export default class RecordLookupEditor extends LightningElement {
             this.updateProperty('outputReference', '', null, true, this.outputReferenceValue);
         } else if (this.state.recordLookupElement.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord) {
             this.updateProperty('assignNullValuesIfNoRecordsFound', assignNullToVariableNoRecord, null, true);
-        } else if (this.state.wayToStoreFields !== wayToStoreFields) {
+        } else if (this.wayToStoreFieldsValue !== wayToStoreFields) {
             // reset outputAssignments
-            this.updateProperty('wayToStoreFields', '', null, true);
-            this.state.wayToStoreFields = wayToStoreFields;
+            this.updateProperty('wayToStoreFields', '', null, false);
+            this.wayToStoreFields = wayToStoreFields;
         }
     }
 

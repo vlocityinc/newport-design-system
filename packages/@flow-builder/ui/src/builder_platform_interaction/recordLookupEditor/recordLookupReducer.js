@@ -98,7 +98,13 @@ const addRecordFieldAssignment = (state) => {
 
 const deleteRecordFieldAssignment = (state, event) => {
     const updatedItems = deleteItem(state.outputAssignments, event.detail.index);
-    return set(state, OUTPUTASSIGNMENTS_PROP, updatedItems);
+    state = set(state, OUTPUTASSIGNMENTS_PROP, updatedItems);
+    // reset last empty outputAssignments's blank error if any
+    if (state.outputAssignments.length === 1 && state.outputAssignments[0].leftHandSide.value === '' && state.outputAssignments[0].leftHandSide.error) {
+        state.outputAssignments[0].leftHandSide.error = null;
+        state.outputAssignments[0].rightHandSide .error = null;
+    }
+    return state;
 };
 
 const updateRecordFieldAssignment = (state, event) => {

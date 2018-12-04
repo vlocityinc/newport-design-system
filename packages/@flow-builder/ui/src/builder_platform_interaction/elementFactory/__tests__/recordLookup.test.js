@@ -161,6 +161,11 @@ const uiModelOutputAssignmentFieldValue = {
     rightHandSide: 'vDescription',
 };
 
+const uiModelOutputAssignmentFieldEmptyValue = {
+    leftHandSide: '',
+    rightHandSide: '',
+};
+
 const uiModelOutputAssignmentField = {
     leftHandSide: 'Account.title',
     rightHandSide: 'vTitle',
@@ -255,9 +260,9 @@ describe('recordLookup', () => {
             const actualResult = createRecordLookup(recordLookupUsingFields);
             expect(actualResult).toHaveNoCommonMutableObjectWith(recordLookupUsingFields);
         });
-        it('should have an "outputReference" with empty text value', () => {
+        it('should have an "outputReference" undefined', () => {
             const actualResult = createRecordLookup(recordLookupUsingFields);
-            expect(actualResult).toHaveProperty('outputReference', '');
+            expect(actualResult).toHaveProperty('outputReference', undefined);
         });
         it('"queriedFields" should be an empty array', () => {
             const actualResult = createRecordLookup(recordLookupUsingFields);
@@ -299,6 +304,12 @@ describe('recordLookup', () => {
         it('has no common mutable object with record lookup store passed as parameter', () => {
             const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
             expect(actualResult).toHaveNoCommonMutableObjectWith(uiModelRecordLookupWithFields);
+        });
+        it('outputAssignments with empty values', () => {
+            uiModelRecordLookupWithFields.outputAssignments = [uiModelOutputAssignmentFieldEmptyValue];
+            recordLookupUsingFields.outputAssignments = [];
+            const actualResult = createRecordLookupMetadataObject(uiModelRecordLookupWithFields);
+            expect(actualResult).toMatchObject(recordLookupUsingFields);
         });
     });
   });

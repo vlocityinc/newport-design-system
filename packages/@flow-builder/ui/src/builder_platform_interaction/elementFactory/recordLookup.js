@@ -51,7 +51,7 @@ export function createRecordLookup(recordLookup = {}) {
         numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD } = recordLookup;
     const {
         object = '',
-        outputReference = '',
+        outputReference,
         assignNullValuesIfNoRecordsFound = false,
         sortOrder = SORT_ORDER.NOT_SORTED,
         sortField = ''
@@ -65,7 +65,7 @@ export function createRecordLookup(recordLookup = {}) {
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    if (outputReference === '' && outputAssignments.length > 0) {
+    if (!outputReference) {
         outputAssignments = outputAssignments.map(item => createFlowOutputFieldAssignment(item, object, 'assignToReference'));
 
         return Object.assign(newRecordLookup, {
@@ -185,6 +185,10 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
 
     let { outputAssignments = [] } = recordLookup;
     outputAssignments = outputAssignments.map(output => createFlowOutputFieldAssignmentMetadataObject(output));
+
+    if (outputAssignments.length === 1 && outputAssignments[0].field === '') {
+        outputAssignments = [];
+    }
 
     return Object.assign(recordUpdateMetadata, {
         object,

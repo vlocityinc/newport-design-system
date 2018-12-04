@@ -4,7 +4,9 @@ import { getShadowRoot } from 'lwc-test-utils';
 import * as expressionUtilsMock from "builder_platform_interaction/expressionUtils";
 import * as store from "mock/storeData";
 import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
-import { RecordStoreOptionChangedEvent,
+import { AddElementEvent,
+    EditElementEvent,
+    RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
     UpdateRecordFilterEvent,
@@ -20,9 +22,9 @@ jest.mock('builder_platform_interaction/fieldPicker', () => require('builder_pla
 
 const MOCK_GUID = '515fa22c-c633-48fe-a97e-4fd3c272cc24';
 
-function createComponentForTest(node) {
+function createComponentForTest(node, mode = EditElementEvent.EVENT_NAME) {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
-    Object.assign(el, {node});
+    Object.assign(el, {node, mode});
     document.body.appendChild(el);
     return el;
 }
@@ -197,7 +199,7 @@ describe('record-lookup-editor', () => {
     describe('with default values', () => {
         let recordLookupEditor;
         beforeEach(() => {
-            recordLookupEditor = createComponentForTest(defaultRecordLookupElement());
+            recordLookupEditor = createComponentForTest(defaultRecordLookupElement(), AddElementEvent.EVENT_NAME);
         });
         it('contains an entity resource picker for sobject', () => {
             const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);

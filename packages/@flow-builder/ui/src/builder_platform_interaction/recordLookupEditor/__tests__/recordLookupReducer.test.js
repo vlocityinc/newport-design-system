@@ -70,6 +70,40 @@ recordLookupUsingFieldsState = () => {
             rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
         }],
     };
+},
+recordLookupUsingFieldsStateEmptyOutPutAssignments = () => {
+    return {
+        description : { value: '', error: null },
+        elementType : 'RECORD_LOOKUP',
+        guid : '724cafc2-7744-4e46-8eaa-f2df29539d1e',
+        isCanvasElement : true,
+        label : { value: 'testRecord', error: null },
+        name : { value: 'testRecord', error: null },
+        sortField : { value:'Name', error:null},
+        sortOrder : { value: SORT_ORDER.ASC, error: null},
+        assignNullValuesIfNoRecordsFound : false,
+        queriedFields: [
+            {field: {value: 'Id', error: null}, rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
+            {field: {value: 'BillingAddress', error: null}, rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
+        object: { value: 'Account', error: ''},
+        filterType: { error: null, value: RECORD_FILTER_CRITERIA.ALL},
+        filters: [{
+            leftHandSide: {value: "Account.BillingAddress", error: null},
+            operator: {value: "EqualTo", error: null},
+            rightHandSide: {value: "my address", error: null},
+            rightHandSideDataType: {value: "String", error: null},
+            rowIndex: "72cb7e19-9f98-4b59-9fdd-a276f216ddcf"
+        }],
+        outputAssignments:[{
+            leftHandSide: {value: "", error: "A value is required."},
+            rightHandSide: {value: "", error: "A value is required."},
+            rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
+        }, {
+            leftHandSide: {value: "", error: "A value is required."},
+            rightHandSide: {value: "", error: "A value is required."},
+            rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
+        }],
+    };
 };
 
 describe('record-lookup-reducer', () => {
@@ -423,6 +457,29 @@ describe('record-lookup-reducer - State with Fields', () => {
             expect(newState.outputAssignments).toHaveLength(1);
             expect(newState.outputAssignments[0].leftHandSide.value).toBe('Account.Description');
             expect(newState).not.toBe(originalState);
+        });
+    });
+});
+
+describe('record-lookup-reducer - State with Fields and errors', () => {
+    let originalState;
+    beforeEach(() => {
+        originalState = recordLookupUsingFieldsStateEmptyOutPutAssignments();
+    });
+    describe('handle list item events', () => {
+        describe('delete an assignment item', () => {
+           it('Should reset the error if only one output assignment left and its value is ""', () => {
+              const event = {
+                type: DeleteRecordFieldAssignmentEvent.EVENT_NAME,
+                detail: {
+                    index: 0,
+                }
+            };
+            const newState = recordLookupReducer(originalState, event);
+            expect(newState.outputAssignments).toHaveLength(1);
+            expect(newState.outputAssignments[0].leftHandSide.error).toBeNull();
+            expect(newState.outputAssignments[0].rightHandSide.error).toBeNull();
+           });
         });
     });
 });

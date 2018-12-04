@@ -46,7 +46,8 @@ const recordLookupElementWithValidSObject = () => ({
         rightHandSideDataType: {value: "String", error: null},
         rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
     }],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    outputAssignments:[]
 }), recordLookupElementWithValidFields = () => ({
     description : { value: '', error: null },
     elementType : 'RECORD_LOOKUP',
@@ -240,13 +241,11 @@ describe('Record Lookup Validation using Fields', () => {
         event = {wayToStoreFields : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES};
     });
     describe('inputAssignments item is empty', () => {
-        it('should return an error when an outputAssignment lhs is set without a value', () => {
+        it('should not return an error when there is only one outputAssignment and the lhs is set without a value', () => {
             recordLookupEditorNode.outputAssignments[0].leftHandSide.value = '';
             const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node, event);
-            expect(errors).toHaveLength(1);
-            expect(errors[0].key).toBe('leftHandSide');
-            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+            expect(errors).toHaveLength(0);
         });
         it('should return an error when an outputAssignment rhs does not have a value', () => {
             recordLookupEditorNode.outputAssignments[0].rightHandSide.value = '';
@@ -256,9 +255,14 @@ describe('Record Lookup Validation using Fields', () => {
             expect(errors[0].key).toBe('rightHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
-        it('should return 2 errors when an outputAssignment does not have any value', () => {
+        it('should return 2 errors when there is more than 1 outputAssignment and one of them does not have any value', () => {
             recordLookupEditorNode.outputAssignments[0].leftHandSide.value = '';
             recordLookupEditorNode.outputAssignments[0].rightHandSide.value = '';
+            recordLookupEditorNode.outputAssignments.push({
+                leftHandSide: {value: "Account.BillingCounstry", error: null},
+                rightHandSide: {value: "vCountry", error: null},
+                rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216eede"
+            });
             const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node, event);
             expect(errors).toHaveLength(2);

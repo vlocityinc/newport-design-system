@@ -81,9 +81,11 @@ export const getRules = (nodeElement, {wayToStoreFields}) => {
     }
 
     if (nodeElement.object && nodeElement.object.value && !nodeElement.object.error) {
-        if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && nodeElement.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD) {
+        if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && nodeElement.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && nodeElement.outputAssignments.length > 1) {
             overrideRules.outputAssignments = validateAssignments();
-        } else {
+        } else if (nodeElement.outputAssignments && nodeElement.outputAssignments.length === 1 && nodeElement.outputAssignments[0].leftHandSide.value) {
+            overrideRules.outputAssignments = validateAssignments();
+        } else if (wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE) {
             overrideRules.outputReference = validateOutputReference();
 
             if (nodeElement.outputReference && nodeElement.outputReference.value && nodeElement.queriedFields.length > 2) {
