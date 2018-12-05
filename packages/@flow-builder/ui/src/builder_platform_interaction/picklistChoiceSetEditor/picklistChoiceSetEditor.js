@@ -173,6 +173,8 @@ export default class PicklistChoiceSetEditor extends LightningElement {
             if (this.picklistChoiceSetResource.dataType && this.picklistChoiceSetResource.dataType.value) {
                 this.filterEntityFields();
             }
+        }).catch(() => {
+            // fetchFieldsForEntity displays an error message
         });
     }
 

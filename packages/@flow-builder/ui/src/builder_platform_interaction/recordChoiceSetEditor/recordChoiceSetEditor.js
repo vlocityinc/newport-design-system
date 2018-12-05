@@ -197,6 +197,8 @@ export default class RecordChoiceSetEditor extends LightningElement {
             if (this.recordChoiceSetResource.dataType && this.recordChoiceSetResource.dataType.value) {
                 this.filterEntityFields();
             }
+        }).catch(() => {
+            // fetchFieldsForEntity displays an error message
         });
     }
 
