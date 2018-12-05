@@ -98,7 +98,6 @@ export function createActionCallForStore(actionCall) {
             return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.EMAIL_ALERT);
         case ACTION_TYPE.APEX:
             return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.APEX_CALL);
-        // TODO: Handle case for action type flow
         default:
             return createActionCallWithConnectors(actionCall);
     }
