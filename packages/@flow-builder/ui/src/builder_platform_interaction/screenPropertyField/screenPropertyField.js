@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { booleanAttributeValue, getFlowDataTypeByName, booleanValue, compareValues } from "builder_platform_interaction/screenEditorUtils";
@@ -15,6 +15,7 @@ const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'bi
  */
 export default class ScreenPropertyField extends LightningElement {
     @api name;
+    @api value;
     @api label;
     @api type;
     @api required = false;
@@ -31,8 +32,7 @@ export default class ScreenPropertyField extends LightningElement {
 
     @api hideTopPadding = false;
 
-    @track _value;
-
+    currentError;
     labels = LABELS;
     formats = RTE_FORMATS;
     rules = [];
@@ -42,12 +42,9 @@ export default class ScreenPropertyField extends LightningElement {
         this.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
     }
 
-    @api set value(newValue) {
-        const oldValue = this._value;
-        this._value = newValue;
-
-        const oldError = oldValue && oldValue.error;
-        const newError = newValue && newValue.error;
+    renderedCallback() {
+        const oldError = this.currentError;
+        const newError = this.value && this.value.error;
 
         if (compareValues(oldError, newError)) { // Error changed
             const input = this.input;
@@ -61,12 +58,9 @@ export default class ScreenPropertyField extends LightningElement {
                 }
             }
         }
-    }
 
-    get value() {
-        return this._value;
+        this.currentError = newError;
     }
-
     get propertyEditorElementType() {
         return ELEMENT_TYPE.SCREEN;
     }

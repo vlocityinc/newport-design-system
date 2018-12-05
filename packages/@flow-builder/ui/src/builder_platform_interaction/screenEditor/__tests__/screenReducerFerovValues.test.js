@@ -65,14 +65,15 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     expect(screen).toBeDefined();
     if (valueBefore.value) {
         expect(field[propertyName].value).toBe(valueBefore.value);
-    } else {
+    } else if (!valueBefore.isInput) { // Input parameters without a value should be removed from the list
         expect(field[propertyName].value).toEqual('');
     }
+
     if (valueBefore.isReference) {
         expect(field[dataTypePropName]).toBe('reference');
     } else if (valueBefore.value) {
         expect(field[dataTypePropName]).toBe('String');
-    } else {
+    } else if (!valueBefore.isInput) { // Input parameters without a value should be removed from the list
         expect(field[dataTypePropName]).toBeFalsy();
     }
 
@@ -84,7 +85,7 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
             value: {value: valueAfter.value, error: null},
             error: null,
             guid: (valueAfter.isReference ? valueAfter.valueGuid : null),
-            oldValue: field[propertyName],
+            oldValue: field ? field[propertyName] : null,
         }
     };
 
@@ -130,7 +131,7 @@ function testInputParamValue(valueBefore, valueAfter) {
     };
 
     const propertyNameProvider = (field) => {
-        return EXTENSION_PARAM_PREFIX.INPUT + '.' + field.name.value;
+        return EXTENSION_PARAM_PREFIX.INPUT + '.' + (field ? field.name.value : 'attribute1');
     };
 
     testFerovValue(valueBefore, valueAfter, 'value', screenFieldProvider, fieldProvider, propertyNameProvider, 'String');
@@ -208,7 +209,7 @@ describe('screen reducer change LC screen field input parameter value value', ()
     });
 
     it('from null to literal', () => {
-        testInputParamValue({value:null, isReference: false}, {value:'AFTER', isReference:false});
+        testInputParamValue({value:null, isReference: false, isInput: true}, {value:'AFTER', isReference:false});
     });
 
     it('from literal to reference', () => {
@@ -228,7 +229,7 @@ describe('screen reducer change LC screen field input parameter value value', ()
     });
 
     it('from null to reference', () => {
-        testInputParamValue({value:null, isReference:false}, REFERENCE_VALUES.STRING_1);
+        testInputParamValue({value:null, isReference:false, isInput: true}, REFERENCE_VALUES.STRING_1);
     });
 
     it('from reference to literal', () => {

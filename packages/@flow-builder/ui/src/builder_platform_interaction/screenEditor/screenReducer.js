@@ -13,7 +13,7 @@ import { isScreen,
          isMultiSelectPicklistField,
          isMultiSelectCheckboxField,
          isRadioField,
-         getFerovTypeFromFieldType,
+         getFerovTypeFromTypeName,
          compareValues,
          EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
 
@@ -162,7 +162,7 @@ const reorderFields = (screen, event) => {
  */
 const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName) => {
     // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
-    const currentDataType =  currentFieldDataType || getFerovTypeFromFieldType(defaultValueDataType);
+    const currentDataType =  currentFieldDataType || getFerovTypeFromTypeName(defaultValueDataType);
 
     if (newValueGuid && newValueGuid in GLOBAL_CONSTANT_OBJECTS) {
         // Going to reference, but it's actually a global constant, which needs to be treated
@@ -196,7 +196,7 @@ const handleStandardScreenFieldPropertyChange = (data) => {
 
     // Run validation
     let field = data.field;
-    const rules = getRulesForField(field);
+    const rules = getRulesForField(field, !!data.newValueGuid);
     const newValue = data.hydrated ? data.newValue.value : data.newValue; // TODO property must be hydrated here
     const error = data.error === null ? screenValidation.validateProperty(data.property, newValue, rules[data.property]) : data.error;
     if (error && data.hydrated) {

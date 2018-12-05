@@ -200,29 +200,31 @@ const createReferenceSafeRule = (rule, dataType) => {
  * @param {screenfield} field - The screen field
  * @param {object} rules - The rules
  */
-const getRulesForInputField = (field, rules) => {
+const getRulesForInputField = (field, rules, newValueIsReference = false) => {
     const typeName = field && field.type && field.type.name;
 
-    // Number based fields
-    if (typeName === 'Number' || typeName === 'Currency') {
-        addRules('scale', rules, [
-            createReferenceSafeRule(ValidationRules.shouldBeAPositiveIntegerOrZero),
-            createReferenceSafeRule(ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE))
-        ]);
-    }
+    if (!newValueIsReference) {
+        // Number based fields
+        if (typeName === 'Number' || typeName === 'Currency') {
+            addRules('scale', rules, [
+                createReferenceSafeRule(ValidationRules.shouldBeAPositiveIntegerOrZero),
+                createReferenceSafeRule(ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE))
+            ]);
+        }
 
-    // Date
-    if (typeName === 'Date') {
-        addRules('defaultValue', rules, [
-            createReferenceSafeRule(ValidationRules.shouldBeADate, field.defaultValueDataType)
-        ]);
-    }
+        // Date
+        if (typeName === 'Date') {
+            addRules('defaultValue', rules, [
+                createReferenceSafeRule(ValidationRules.shouldBeADate, field.defaultValueDataType)
+            ]);
+        }
 
-    // Date/Time
-    if (typeName === FLOW_DATA_TYPE.DATE_TIME.value) {
-        addRules('defaultValue', rules, [
-            createReferenceSafeRule(ValidationRules.shouldBeADateTime)
-        ]);
+        // Date/Time
+        if (typeName === FLOW_DATA_TYPE.DATE_TIME.value) {
+            addRules('defaultValue', rules, [
+                createReferenceSafeRule(ValidationRules.shouldBeADateTime)
+            ]);
+        }
     }
 
     // Choice based field
@@ -269,7 +271,7 @@ const getRulesForInputField = (field, rules) => {
  * @param {screenfield} field - The screen field
  * @returns {object} rules - The rules
  */
-export const getRulesForField = (field) => {
+export const getRulesForField = (field, newValueIsReference = false) => {
     const rules = {};
 
     addCommonRules(rules);
@@ -278,7 +280,7 @@ export const getRulesForField = (field) => {
     if (isExtensionField(field)) {
         getRulesForExtensionField(field, rules);
     } else {
-        getRulesForInputField(field, rules);
+        getRulesForInputField(field, rules, newValueIsReference);
     }
 
     return rules;
@@ -295,7 +297,7 @@ const getScreenAdditionalRules = () => {
     addCommonRules(rules);
 
     rules.fields = (field) => {
-        return getRulesForField(field);
+        return getRulesForField(field, field.defaultValueDataType === 'reference');
     };
 
     return rules;
