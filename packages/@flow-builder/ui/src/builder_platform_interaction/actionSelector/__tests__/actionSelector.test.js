@@ -263,7 +263,7 @@ describe('Action selector', () => {
         it('should fire ValueChangedEvent with just the elementType and an error when user types text that does not match an action', () => {
             dispatchActionChangeEvent(null, 'not an existing action');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderValidation.cannotBeBlank", value : {'elementType': 'ACTION_CALL'}});
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderCombobox.genericErrorMessage", value : {'elementType': 'ACTION_CALL'}});
         });
         it('should fire ValueChangedEvent with just the elementType and an error when user focus out with no action selected', () => {
             dispatchActionChangeEvent(null, '');

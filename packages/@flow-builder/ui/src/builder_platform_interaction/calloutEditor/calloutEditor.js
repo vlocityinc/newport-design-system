@@ -94,12 +94,14 @@ export default class CalloutEditor extends LightningElement {
     }
 
     validateSelectedAction() {
-        if (this.selectedAction.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
-            this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.apexClass);
-        } else if (this.selectedAction.elementType === ELEMENT_TYPE.SUBFLOW) {
-            this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.flowName);
-        } else {
-            this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.actionName);
+        if (this.selectedActionError === null) {
+            if (this.selectedAction.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
+                this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.apexClass);
+            } else if (this.selectedAction.elementType === ELEMENT_TYPE.SUBFLOW) {
+                this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.flowName);
+            } else {
+                this.selectedActionError = shouldNotBeNullOrUndefined(this.selectedAction.actionName);
+            }
         }
     }
 

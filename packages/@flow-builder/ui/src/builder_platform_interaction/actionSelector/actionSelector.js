@@ -4,7 +4,8 @@ import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from "builder_platform_in
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "./actionSelectorLabels";
-import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export default class ActionSelector extends LightningElement {
     labels = LABELS;
@@ -319,11 +320,17 @@ export default class ActionSelector extends LightningElement {
 
     handleActionChanged(event) {
         event.stopPropagation();
-        const { item } = event.detail;
+        const { item, displayText } = event.detail;
         let newSelectedActionValue;
+        let error = null;
         if (item === null) {
             // typed something that does not match an item
             newSelectedActionValue = null;
+            if (displayText !== '') {
+                error = genericErrorMessage;
+            } else {
+                error = cannotBeBlank;
+            }
         } else {
             if (this.state.selectedActionValue === item.value) {
                 return;
@@ -331,7 +338,6 @@ export default class ActionSelector extends LightningElement {
             newSelectedActionValue = item.value;
         }
         const newSelectedAction = this.getSelectedActionFrom(this.state.selectedElementType, newSelectedActionValue);
-        const error = shouldNotBeNullOrUndefined(newSelectedActionValue);
         const valueChangedEvent = new ValueChangedEvent(newSelectedAction, error);
         this.dispatchEvent(valueChangedEvent);
     }

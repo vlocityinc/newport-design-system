@@ -176,7 +176,7 @@ describe('callout-editor', () => {
             dispatchValueChangeEvent(actionSelector, { elementType : ELEMENT_TYPE.ACTION_CALL }, mockError);
             return Promise.resolve().then(() => {
                 const errors = calloutEditor.validate();
-                expect(errors).toEqual(["FlowBuilderValidation.cannotBeBlank"]);
+                expect(errors).toEqual([mockError]);
             });
         });
 
