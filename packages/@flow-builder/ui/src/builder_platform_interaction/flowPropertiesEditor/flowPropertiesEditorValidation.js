@@ -6,13 +6,26 @@ import { Validation } from "builder_platform_interaction/validation";
  * @type {Object}
  */
 const additionalRules = {
-    'interviewLabel': [
-        ValidationRules.maximumCharactersLimit(1000),
-        ValidationRules.isValidResourcedTextArea,
+    'label' : [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.maximumCharactersLimit(255)
+    ],
+    'name' : [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.shouldNotBeginOrEndWithUnderscores,
+        ValidationRules.shouldNotBeginWithNumericOrSpecialCharacters,
+        ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
+        ValidationRules.maximumCharactersLimit(80)
     ],
     'processType' : [
         ValidationRules.shouldNotBeNullOrUndefined
     ],
+    'interviewLabel': [
+        ValidationRules.maximumCharactersLimit(1000),
+        ValidationRules.isValidResourcedTextArea,
+    ]
 };
 
-export const flowPropertiesEditorValidation = new Validation(additionalRules);
+export const flowPropertiesEditorValidation = new Validation(additionalRules, true);

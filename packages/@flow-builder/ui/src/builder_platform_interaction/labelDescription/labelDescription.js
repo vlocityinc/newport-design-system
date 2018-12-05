@@ -44,6 +44,9 @@ export default class LabelDescription extends LightningElement {
     @api
     disableDevName;
 
+    @api
+    disableDevNameValidation = false;
+
     /**
     * Used for cases where the name shouldn't be editable for Step Elements
     */
@@ -161,7 +164,7 @@ export default class LabelDescription extends LightningElement {
      */
     updateDevName(newDevName) {
         let error = null;
-        if (newDevName) {
+        if (newDevName && !this.disableDevNameValidation) {
             error = isUniqueDevNameInStore(newDevName, [this.guid]);
         }
         const event = new PropertyChangedEvent(
