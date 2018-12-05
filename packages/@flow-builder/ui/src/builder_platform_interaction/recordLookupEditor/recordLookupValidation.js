@@ -24,15 +24,18 @@ const validateFilter = () => {
 };
 
 /**
- * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
+ * Validate the assignments item.
+ * The rule on the RHS is added only if the LHS has a value.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
 const validateAssignments = () => {
-    return () => {
+    return (assignment) => {
         const rules = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank],
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
         };
+        if (assignment[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+           rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [ValidationRules.shouldNotBeBlank];
+        }
         return rules;
     };
 };

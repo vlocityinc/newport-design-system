@@ -255,9 +255,8 @@ describe('Record Lookup Validation using Fields', () => {
             expect(errors[0].key).toBe('rightHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
         });
-        it('should return 2 errors when there is more than 1 outputAssignment and one of them does not have any value', () => {
+        it('should return 1 error when there is more than 1 outputAssignment and one of them does not have any value', () => {
             recordLookupEditorNode.outputAssignments[0].leftHandSide.value = '';
-            recordLookupEditorNode.outputAssignments[0].rightHandSide.value = '';
             recordLookupEditorNode.outputAssignments.push({
                 leftHandSide: {value: "Account.BillingCounstry", error: null},
                 rightHandSide: {value: "vCountry", error: null},
@@ -265,11 +264,9 @@ describe('Record Lookup Validation using Fields', () => {
             });
             const recordLookupEditor = createComponentForTest(recordLookupEditorNode);
             const errors = validate(recordLookupEditor.node, event);
-            expect(errors).toHaveLength(2);
+            expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
-            expect(errors[1].key).toBe('rightHandSide');
-            expect(errors[1].errorString).toBe(LABELS.cannotBeBlank);
         });
     });
 });
