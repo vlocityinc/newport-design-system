@@ -758,7 +758,7 @@ describe('Combobox Tests', () => {
             });
         });
 
-        it('FetchMenuData is fired when a . is deleted', () => {
+        it('FetchMenuData is fired when a . is deleted manually', () => {
             combobox.value = '{!MyAccount}';
 
             return Promise.resolve().then(() => {
@@ -767,6 +767,17 @@ describe('Combobox Tests', () => {
                 textInputEvent = getTextInputEvent('{!MyAccount}');
                 groupedCombobox.dispatchEvent(textInputEvent);
                 expect(fetchMenuDataHandler).toHaveBeenCalledTimes(2);
+            });
+        });
+
+        it('FetchMenuData is fired when a . is deleted on blur', () => {
+            combobox.value = '{!MyAccount.}';
+
+            return Promise.resolve().then(() => {
+                blurEvent = new CustomEvent('blur');
+                groupedCombobox.dispatchEvent(blurEvent);
+                expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+                expect(combobox.value).toBe('{!MyAccount}');
             });
         });
 
