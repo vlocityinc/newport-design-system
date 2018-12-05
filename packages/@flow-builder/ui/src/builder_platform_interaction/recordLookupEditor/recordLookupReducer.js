@@ -91,6 +91,11 @@ const updateQueriedField = (state, event) => {
     return state;
 };
 
+const resetOutputAssignments = (state) => {
+    // reset outputAssignments
+    return set(state, OUTPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
+};
+
 const addRecordFieldAssignment = (state) => {
     const path = [OUTPUTASSIGNMENTS_PROP, state.outputAssignments.length];
     return set(state, path, emptyAssignmentItem());
@@ -101,8 +106,7 @@ const deleteRecordFieldAssignment = (state, event) => {
     state = set(state, OUTPUTASSIGNMENTS_PROP, updatedItems);
     // reset last empty outputAssignments's blank error if any
     if (state.outputAssignments.length === 1 && state.outputAssignments[0].leftHandSide.value === '' && state.outputAssignments[0].leftHandSide.error) {
-        state.outputAssignments[0].leftHandSide.error = null;
-        state.outputAssignments[0].rightHandSide .error = null;
+        state = resetOutputAssignments(state);
     }
     return state;
 };
@@ -111,11 +115,6 @@ const updateRecordFieldAssignment = (state, event) => {
     const path = [OUTPUTASSIGNMENTS_PROP, event.detail.index];
     const item = updateProperties(state.outputAssignments[event.detail.index], event.detail.value);
     return set(state, path, item);
-};
-
-const resetOutputAssignments = (state) => {
-    // reset outputAssignments
-    return set(state, OUTPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
 };
 
 const resetQueriedFields = (state) => {

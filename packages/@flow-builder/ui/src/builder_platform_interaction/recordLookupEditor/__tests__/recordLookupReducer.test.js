@@ -477,8 +477,10 @@ describe('record-lookup-reducer - State with Fields and errors', () => {
             };
             const newState = recordLookupReducer(originalState, event);
             expect(newState.outputAssignments).toHaveLength(1);
-            expect(newState.outputAssignments[0].leftHandSide.error).toBeNull();
-            expect(newState.outputAssignments[0].rightHandSide.error).toBeNull();
+            expect(newState.outputAssignments[0]).toMatchObject({
+                leftHandSide: {value: '', error: null},
+                rightHandSide: {value: '', error: null}
+            });
            });
         });
     });
