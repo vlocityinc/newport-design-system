@@ -129,7 +129,10 @@ export const normalizeRHS = (rhsIdentifier) => {
             rhs.itemOrDisplayText = addCurlyBraces(item.text + '.' + fieldName);
         } else {
             const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
-            rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], item, true, true);
+            const field = fields && fields[fieldName];
+            if (field) {
+                rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], item, true, true);
+            }
             rhs.fields = fields;
         }
     }
@@ -174,7 +177,7 @@ export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFiel
     const lhsState = {
         fields,
     };
-    const field = fields[fieldName];
+    const field = fields && fields[fieldName];
     if (field) {
         lhsState.value = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
         lhsState.activePicklistValues = field.activePicklistValues || false;

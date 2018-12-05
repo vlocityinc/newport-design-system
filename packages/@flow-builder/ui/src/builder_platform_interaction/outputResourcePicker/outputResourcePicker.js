@@ -222,10 +222,12 @@ export default class OutputResourcePicker extends LightningElement {
             if (fieldName) {
                 const sobject = flowElement.objectType;
                 const fields =  sobjectLib.getFieldsForEntity(sobject);
-                const field = fields[fieldName];
-                field.isCollection = false;
-                const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
-                normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
+                const field = fields && fields[fieldName];
+                if (field) {
+                    field.isCollection = false;
+                    const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
+                    normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
+                }
             } else {
                 normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
             }
