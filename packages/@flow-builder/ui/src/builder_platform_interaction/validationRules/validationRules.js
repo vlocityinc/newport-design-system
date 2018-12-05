@@ -1,7 +1,7 @@
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { isUndefinedOrNull, format } from "builder_platform_interaction/commonUtils";
 import { Store } from "builder_platform_interaction/storeLib";
-import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS as labels} from "./validationRulesLabels";
 
@@ -22,6 +22,8 @@ const evaluateRegex = (rule, value) => {
 };
 
 const cannotBeBlankError = LABELS.cannotBeBlank;
+const dateErrorMessage = format(LABELS.dateErrorMessage, getFormat());
+const datetimeErrorMessage = format(LABELS.datetimeErrorMessage, getFormat(true));
 
 const regexConfig = {
     shouldNotBeBlank: {
@@ -96,7 +98,7 @@ export const shouldBeADate = (value) => {
     }
 
     if (!isValidMetadataDateTime(value, false)) {
-        return LABELS.mustBeAValidDate;
+        return dateErrorMessage;
     }
 
     return null;
@@ -113,7 +115,7 @@ export const shouldBeADateTime = (value) => {
     }
 
     if (!isValidMetadataDateTime(value, true)) {
-        return LABELS.mustBeAValidDate;
+        return datetimeErrorMessage;
     }
 
     return null;

@@ -8,6 +8,7 @@ import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeF
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
         isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
+        getFormat: jest.fn().mockReturnValue('mm/dd/yyyy'),
     };
 });
 
@@ -129,7 +130,7 @@ describe('When field type is DATE', () => {
         isValidMetadataDateTime.mockReturnValueOnce(false);
         const field = createTestScreenField('field1', 'Date');
         const rules = getRulesForField(field);
-        expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.mustBeAValidDate);
+        expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.dateErrorMessage);
     });
     it('and default value is a devName, there should be no error', () => {
         const field = createTestScreenField('field1', 'Date');
@@ -158,7 +159,7 @@ describe('When field type is DATE/TIME', () => {
         isValidMetadataDateTime.mockReturnValueOnce(false);
         const field = createTestScreenField('field1', 'DateTime');
         const rules = getRulesForField(field);
-        expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.mustBeAValidDate);
+        expect(screenValidation.validateProperty('defaultValue', "abc", rules.defaultValue)).toBe(LABELS.datetimeErrorMessage);
     });
     it('and default value is a reference, there should be no error', () => {
         const field = createTestScreenField('field1', 'DateTime');

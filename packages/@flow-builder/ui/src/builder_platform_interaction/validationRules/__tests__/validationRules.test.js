@@ -4,7 +4,7 @@ import { mockAccountFields } from "mock/serverEntityData";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "../validationRulesLabels";
 import { format } from "builder_platform_interaction/commonUtils";
-import { isValidMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -37,6 +37,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
+        getFormat: jest.fn().mockName('getFormat'),
         isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime'),
     };
 });
@@ -110,6 +111,10 @@ describe('shouldBeAPositiveIntegerOrZero method', () => {
 });
 
 describe('shouldBeADate method', () => {
+    beforeEach(() => {
+        getFormat.mockReturnValueOnce('mm/dd/yyyy');
+    });
+
     it('calls isValidMetadataDateTime', () => {
         const date = new Date();
         rules.shouldBeADate(date.toISOString());
@@ -126,14 +131,19 @@ describe('shouldBeADate method', () => {
         expect(rules.shouldBeADate('')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
+        const expectedErrorMessage = format(LABELS.dateErrorMessage, getFormat());
         isValidMetadataDateTime.mockReturnValueOnce(false);
         isValidMetadataDateTime.mockReturnValueOnce(false);
-        expect(rules.shouldBeADate('aaa')).toBe(LABELS.mustBeAValidDate);
-        expect(rules.shouldBeADate('13/13/13')).toBe(LABELS.mustBeAValidDate);
+        expect(rules.shouldBeADate('aaa')).toBe(expectedErrorMessage);
+        expect(rules.shouldBeADate('13/13/13')).toBe(expectedErrorMessage);
     });
 });
 
 describe('shouldBeADateTime method', () => {
+    beforeEach(() => {
+        getFormat.mockReturnValueOnce('mm/dd/yyyy hh:mm:ss');
+    });
+
     it('calls isValidMetadataDateTime', () => {
         const date = new Date();
         rules.shouldBeADateTime(date.toISOString());
@@ -150,10 +160,11 @@ describe('shouldBeADateTime method', () => {
         expect(rules.shouldBeADateTime('')).toBeNull();
     });
     it('should return an error when the input contains non-alphanumeric characters', () => {
+        const expectedErrorMessage = format(LABELS.datetimeErrorMessage, getFormat(true));
         isValidMetadataDateTime.mockReturnValueOnce(false);
         isValidMetadataDateTime.mockReturnValueOnce(false);
-        expect(rules.shouldBeADateTime('aaa')).toBe(LABELS.mustBeAValidDate);
-        expect(rules.shouldBeADateTime('13/13/13')).toBe(LABELS.mustBeAValidDate);
+        expect(rules.shouldBeADateTime('aaa')).toBe(expectedErrorMessage);
+        expect(rules.shouldBeADateTime('13/13/13')).toBe(expectedErrorMessage);
     });
 });
 
