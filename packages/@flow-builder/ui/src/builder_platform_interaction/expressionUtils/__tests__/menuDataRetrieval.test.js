@@ -1,17 +1,19 @@
 import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData,
-    getEventTypesMenuData } from '../menuDataRetrieval';
+    getEventTypesMenuData, getSecondLevelItems } from '../menuDataRetrieval';
 import { numberParamCanBeField, stringParam, booleanParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getAllEntities } from 'builder_platform_interaction/sobjectLib';
-import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects } from 'builder_platform_interaction/systemLib';
+import { GLOBAL_CONSTANTS as gcLabels, GLOBAL_CONSTANT_OBJECTS as gcObjects, SYSTEM_VARIABLE_PREFIX } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../expressionUtilsLabels';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
 import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
+import { getSystemVariables } from '../../systemLib/systemLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -360,6 +362,36 @@ describe('Menu data retrieval', () => {
             expect(eventTypesMenuData[0].subText).toEqual(platformEvent1ApiName);
             expect(eventTypesMenuData[0].dataType).toEqual('SObject');
             expect(eventTypesMenuData[0].objectType).toEqual(platformEvent1ApiName);
+        });
+    });
+
+    describe('getSecondLevelItems', () => {
+        let mockSystemVariables;
+
+        beforeEach(() => {
+            const sysVar = [
+                { devName: 'CurrentDate', isAssignable: false },
+                { devName: 'CurrentRecord', isAssignable: true },
+            ];
+            setSystemVariables(JSON.stringify(sysVar));
+            mockSystemVariables = getSystemVariables();
+        });
+        describe('system variables', () => {
+            it('calls the callback with all system variables when shouldBeWritable is false', () => {
+                const callback = jest.fn();
+                const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
+                getSecondLevelItems(mockConfig, SYSTEM_VARIABLE_PREFIX, callback);
+                expect(callback).toHaveBeenCalledWith(mockSystemVariables);
+            });
+
+            it('calls the callback with only writeable variables when shouldBeWritable is true', () => {
+                const callback = jest.fn();
+                const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: true };
+                getSecondLevelItems(mockConfig, SYSTEM_VARIABLE_PREFIX, callback);
+                const filteredSystemVariables = callback.mock.calls[0][0];
+                expect(Object.keys(filteredSystemVariables)).toHaveLength(1);
+                expect(Object.values(filteredSystemVariables)[0].apiName).toEqual('CurrentRecord');
+            });
         });
     });
     // TODO: write tests for gettings category once we switch to using labels

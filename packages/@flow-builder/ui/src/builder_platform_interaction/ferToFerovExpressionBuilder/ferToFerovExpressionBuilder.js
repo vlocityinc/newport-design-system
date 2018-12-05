@@ -37,6 +37,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     lhsPlaceholder;
 
     @api
+    lhsMustBeWritable = false;
+
+    @api
     operatorLabel;
 
     @api
@@ -103,7 +106,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                 const lhsItem = mutateFlowResourceToComboboxShape(fer);
                 const fieldName = sanitizeGuid(lhs.value).fieldName;
                 if (fieldName) {
-                    getSecondLevelItems({ elementType: this.containerElement, shouldBeWritable: true },
+                    getSecondLevelItems({ elementType: this.containerElement, shouldBeWritable: this.lhsMustBeWritable },
                         lhsItem.objectType, (fields) => {
                         const isFieldOnSobjectVar = true;
                         this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,

@@ -277,6 +277,16 @@ describe('fer-to-ferov-expression-builder', () => {
             expect(baseExpressionBuilder.lhsFields).toBeDefined();
             expect(baseExpressionBuilder.lhsFields).toBeFalsy();
         });
+
+        it('passes lhsMustBeWritable to the baseExpressionBuilder', () => {
+            const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                expression: createMockPopulatedFieldExpression(),
+                lhsMustBeWritable: true,
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.lhsMustBeWritable).toEqual(true);
+        });
     });
     describe('parsing RHS', () => {
         it('should handle FER on RHS', () => {

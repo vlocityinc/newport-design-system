@@ -107,4 +107,13 @@ describe('assignment-editor', () => {
             });
         });
     });
+
+    it('sets lhs to be writable', () => {
+        const assignmentElement = createComponentForTest();
+        assignmentElement.node = deepCopy(testObj);
+        return Promise.resolve().then(() => {
+            const ferToFerov = getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-fer-to-ferov-expression-builder');
+            expect(ferToFerov.lhsMustBeWritable).toEqual(true);
+        });
+    });
 });

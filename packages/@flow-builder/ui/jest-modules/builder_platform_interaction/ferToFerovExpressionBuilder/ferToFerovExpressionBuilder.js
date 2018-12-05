@@ -8,6 +8,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     lhsPlaceholder;
 
     @api
+    lhsMustBeWritable;
+
+    @api
     operatorLabel;
 
     @api

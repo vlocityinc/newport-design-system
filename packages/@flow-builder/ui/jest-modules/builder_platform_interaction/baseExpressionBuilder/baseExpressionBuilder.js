@@ -32,6 +32,9 @@ export default class BaseExpressionBuilder extends LightningElement {
     showLhsAsFieldReference;
 
     @api
+    lhsMustBeWritable;
+
+    @api
     operatorLabel;
 
     @api

@@ -195,7 +195,8 @@ function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, da
 function screenSelectors(shouldBeWritable, choices, dataType) {
     if (shouldBeWritable) {
         return {
-            selector: writableElementsSelector
+            selector: writableElementsSelector,
+            isWritable: shouldBeWritable
         };
     }
 
@@ -215,7 +216,7 @@ const filterInformationProviderMap = {
     [ELEMENT_TYPE.CHOICE]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
-    [ELEMENT_TYPE.WAIT]: () => writableOrReadableElement(),
+    [ELEMENT_TYPE.WAIT]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({shouldBeWritable, dataType, choices}) => screenSelectors(shouldBeWritable, choices, dataType),
     [ELEMENT_TYPE.RECORD_CREATE]: ({shouldBeWritable, isCollection, entityName, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({ isCollection, entityName, createable:true}),
     [ELEMENT_TYPE.RECORD_UPDATE]: ({shouldBeWritable, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({allSObjectsAndSObjectCollections: true, updateable:true}),

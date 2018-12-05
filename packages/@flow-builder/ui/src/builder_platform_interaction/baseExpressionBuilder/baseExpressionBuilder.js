@@ -189,6 +189,9 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     @api
+    lhsMustBeWritable = false;
+
+    @api
     operatorLabel;
 
     /**
@@ -546,11 +549,10 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @param {Object} parentMenuItem   object representing the parent object of the fields, if getFields is true
      */
     populateLhsMenuData(getFields, parentMenuItem) {
-        const shouldBeWritable = true;
         const isDisplayedAsFieldReference = this.lhsDisplayOption !== LHS_DISPLAY_OPTION.SOBJECT_FIELD;
 
         this.populateMenuData(getFields, parentMenuItem, LHS_FULL_MENU_DATA, LHS_FILTERED_MENU_DATA, LHS_FIELDS,
-            this.lhsParamTypes, shouldBeWritable, isDisplayedAsFieldReference);
+            this.lhsParamTypes, this.lhsMustBeWritable, isDisplayedAsFieldReference);
     }
 
     /**
