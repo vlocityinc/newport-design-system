@@ -6,6 +6,7 @@ import {
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
+import { getOutputRules, getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 
 export default class RecordInputOutputAssignments extends LightningElement {
     labels = LABELS;
@@ -34,11 +35,8 @@ export default class RecordInputOutputAssignments extends LightningElement {
     @api
     rhsLabel = '';
 
-    /**
-     * @param {Object[]} rules  Rules to use when fetching menudata
-     */
     @api
-    rules;
+    isOutput = false;
 
     @api
     hideNewResource = false;
@@ -54,12 +52,20 @@ export default class RecordInputOutputAssignments extends LightningElement {
         return this.entityName;
     }
 
+    get rules() {
+        if (this.isOutput) {
+            return getOutputRules();
+        }
+        return getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementType);
+    }
+
+    get operatorIconName() {
+        return this.isOutput ? 'utility:forward' : 'utility:back';
+    }
+
     get showDelete() {
         return this.inputOutputAssignmentsItems.length > 1;
     }
-
-    @api
-    operatorIconName = '';
 
     /**
      * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included.

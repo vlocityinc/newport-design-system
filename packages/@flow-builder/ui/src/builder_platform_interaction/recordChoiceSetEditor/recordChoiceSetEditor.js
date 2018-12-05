@@ -20,7 +20,6 @@ import {
     SORT_ORDER,
     RECORD_FILTER_CRITERIA
 } from 'builder_platform_interaction/recordEditorLib';
-import { getOutputRules } from 'builder_platform_interaction/ruleLib';
 
 const RECORD_CHOICE_SET_FIELDS = {
     RECORD_OBJECT: 'object',
@@ -49,8 +48,6 @@ export default class RecordChoiceSetEditor extends LightningElement {
 
     @track
     filteredMenuDataFields = {};
-
-    rules = getOutputRules();
 
     /**
      * second section includes Filter, Sort Results, Choice Template and Additional Assignments sections

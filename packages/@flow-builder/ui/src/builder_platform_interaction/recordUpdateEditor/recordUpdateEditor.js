@@ -1,6 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordUpdateReducer } from "./recordUpdateReducer";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "./recordUpdateEditorLabels";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -9,11 +8,8 @@ import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEdit
 import { ENTITY_TYPE, fetchFieldsForEntity, getUpdateableEntities } from "builder_platform_interaction/sobjectLib";
 import { SUB_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { format } from 'builder_platform_interaction/commonUtils';
-import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-
-const INPUT_ICON = 'utility:back';
 
 export default class RecordUpdateEditor extends LightningElement {
     labels = LABELS;
@@ -25,8 +21,6 @@ export default class RecordUpdateEditor extends LightningElement {
         recordEntityName: '',
         entityFields: {},
     }
-
-    rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.RECORD_UPDATE);
 
     /**
      * public api function to return the node
@@ -112,10 +106,6 @@ export default class RecordUpdateEditor extends LightningElement {
             return entityToDisplay.entityLabel;
         }
         return '';
-    }
-
-    get operatorIconName() {
-        return INPUT_ICON;
     }
 
     /**
