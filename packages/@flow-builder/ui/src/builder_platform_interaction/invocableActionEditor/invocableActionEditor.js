@@ -72,6 +72,7 @@ export default class InvocableActionEditor extends LightningElement {
 
     fetchActionParameters() {
         const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
+        this.displaySpinner = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, actionParams).then((parameters) => {
             if (this.connected) {
                 this.displaySpinner = false;
