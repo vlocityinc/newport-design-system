@@ -36,7 +36,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
             collection,
             elementConfig: null,
             hideGlobalConstants: this.isOutput,
-            hideNewResource: true
+            hideNewResource: false
         };
 
         if (this.descriptor.objectType) {
