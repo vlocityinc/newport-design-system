@@ -10,6 +10,7 @@ import defaultPathNoConditionsNeeded from '@salesforce/label/FlowBuilderWaitEdit
 import defaultPathDescription from '@salesforce/label/FlowBuilderWaitEditor.defaultPathDescription';
 import shouldBeHoursOrDays from '@salesforce/label/FlowBuilderWaitEditor.shouldBeHoursOrDays';
 import defaultPathNameLabel from '@salesforce/label/FlowBuilderWaitEditor.defaultPathNameLabel';
+import waitSingularLabel from "@salesforce/label/FlowBuilderElementConfig.waitSingularLabel";
 
 export const LABELS = {
     waitEventsSectionDescription,
@@ -23,4 +24,5 @@ export const LABELS = {
     defaultPathNoConditionsNeeded,
     defaultPathDescription,
     shouldBeHoursOrDays,
+    waitSingularLabel,
 };

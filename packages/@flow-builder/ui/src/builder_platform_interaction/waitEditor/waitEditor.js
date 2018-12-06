@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { waitReducer } from "./waitReducer";
+import { waitReducer, resetDeletedGuids } from "./waitReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -14,6 +14,11 @@ const DEFAULT_WAIT_EVENT_ID = 'defaultWaitEvent';
 
 export default class WaitEditor extends LightningElement {
     labels = LABELS;
+
+    constructor() {
+        super();
+        resetDeletedGuids();
+    }
 
     /**
      * internal state for the wait editor

@@ -18,9 +18,16 @@ import { generateGuid } from "builder_platform_interaction/storeLib";
 import { createOutcome } from "builder_platform_interaction/elementFactory";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
+import { EXPRESSION_PROPERTY_TYPE, checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
+import { LABELS } from "./decisionEditorLabels";
+
+let deletedOutcomeGuids;
+
+export const resetDeletedGuids = () => {
+    deletedOutcomeGuids = new Map();
+};
 
 const addOutcome = (state) => {
     let newOutcome = createOutcome();
@@ -39,6 +46,11 @@ const deleteOutcome = (state, event) => {
         const outcomes = state.outcomes.filter((outcome) => {
             return outcome.guid !== event.detail.guid;
         });
+
+        // store guids that have been removed
+        // TODO: W-5507691 handle addition/removal of store elements inside editors more cleanly
+        deletedOutcomeGuids.set(event.detail.guid, true);
+
         return updateProperties(state, {outcomes});
     }
     return state;
@@ -93,9 +105,9 @@ const updateCondition = (state, event) => {
     const outcomes = state.outcomes.map((outcome) => {
         if (outcome.guid === event.detail.parentGUID) {
             const newCondition = updateProperties(outcome.conditions[event.detail.index], event.detail.value);
-
+            checkExpressionForDeletedElem(deletedOutcomeGuids, newCondition, LABELS.decisionSingularLabel);
             return updateProperties(outcome, {
-                conditions: replaceItem(outcome.conditions, newCondition, event.detail.index)
+                conditions: replaceItem(outcome.conditions, newCondition, event.detail.index),
             });
         }
 

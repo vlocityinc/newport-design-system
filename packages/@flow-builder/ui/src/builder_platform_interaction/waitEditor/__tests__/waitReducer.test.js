@@ -1,4 +1,4 @@
-import {waitReducer} from "../waitReducer";
+import { waitReducer, resetDeletedGuids, } from "../waitReducer";
 import {
     PropertyChangedEvent,
     AddConditionEvent,
@@ -12,8 +12,15 @@ import {
 import { createCondition } from 'builder_platform_interaction/elementFactory';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/expressionUtils', () => {
+    return {
+        checkExpressionForDeletedElem: jest.fn(),
+    };
+});
 
 describe('wait-reducer', () => {
     let initState;
@@ -114,6 +121,7 @@ describe('wait-reducer', () => {
                 },
             ],
         };
+        resetDeletedGuids();
     });
     it('updates label value', () => {
         const event = {
@@ -163,6 +171,7 @@ describe('wait-reducer', () => {
         expect(resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions).toHaveLength(1);
         const resultCondition = resultObj.waitEvents[absoluteBaseTimeTypeWaitEventIndex].conditions[0];
         expect(resultCondition).toEqual(currCondition);
+        expect(checkExpressionForDeletedElem).toHaveBeenCalledTimes(1);
     });
     it('deletes a condition', () => {
         const deleteConditionEvent = new DeleteConditionEvent(absoluteBaseTimeTypeWaitEventGUID, absoluteBaseTimeTypeWaitEventIndex);

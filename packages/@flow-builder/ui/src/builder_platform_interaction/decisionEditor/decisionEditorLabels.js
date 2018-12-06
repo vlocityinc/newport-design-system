@@ -9,6 +9,7 @@ import emptyDefaultOutcomeLabel from "@salesforce/label/FlowBuilderDecisionEdito
 import outcomeDetailsHeader from "@salesforce/label/FlowBuilderDecisionEditor.outcomeDetailsHeader";
 import defaultOutcomeDetailsDescription1 from "@salesforce/label/FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription1";
 import defaultOutcomeDetailsDescription2 from "@salesforce/label/FlowBuilderDecisionEditor.defaultOutcomeDetailsDescription2";
+import decisionSingularLabel from "@salesforce/label/FlowBuilderElementConfig.decisionSingularLabel";
 
 export const LABELS = {
     outcomesSectionHeader,
@@ -20,5 +21,6 @@ export const LABELS = {
     emptyDefaultOutcomeLabel,
     outcomeDetailsHeader,
     defaultOutcomeDetailsDescription1,
-    defaultOutcomeDetailsDescription2
+    defaultOutcomeDetailsDescription2,
+    decisionSingularLabel,
 };

@@ -2,13 +2,28 @@ import {
     normalizeRHS,
     getResourceByUniqueIdentifier,
     getFerovInfoAndErrorFromEvent,
+    checkExpressionForDeletedElem,
+    EXPRESSION_PROPERTY_TYPE,
 } from '../resourceUtils';
 import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
-import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
+import { addCurlyBraces, format } from "builder_platform_interaction/commonUtils";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/commonUtils', () => {
+    return {
+        addCurlyBraces: require.requireActual('builder_platform_interaction/commonUtils').addCurlyBraces,
+        removeCurlyBraces: require.requireActual('builder_platform_interaction/commonUtils').removeCurlyBraces,
+        isObject: require.requireActual('builder_platform_interaction/commonUtils').isObject,
+        format: jest.fn(),
+    };
+});
+const anError = 'an error';
+format.mockImplementation(() => {
+    return anError;
+});
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -85,5 +100,31 @@ describe('getFerovInfoAndErrorFromEvent', () => {
         const invalid = 'invalid';
         const result = getFerovInfoAndErrorFromEvent({detail: {item: {value: invalid}, displayText: invalid}});
         expect(result.error).toBeTruthy();
+    });
+});
+
+describe('checkExpressionForDeletedElem', () => {
+    const deletedGuids = new Map().set(store.numberVariableGuid, true);
+    it('catches deleted guid on LHS', () => {
+        const expression = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                value: store.numberVariableGuid,
+            },
+        };
+        checkExpressionForDeletedElem(deletedGuids, expression, 'DECISION');
+        const updatedValues = expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE];
+        expect(updatedValues.value).toEqual(addCurlyBraces(store.elements[store.numberVariableGuid].name));
+        expect(updatedValues.error).toEqual(anError);
+    });
+    it('catches deleted guid on RHS', () => {
+        const expression = {
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                value: store.numberVariableGuid,
+            },
+        };
+        checkExpressionForDeletedElem(deletedGuids, expression, 'DECISION');
+        const updatedValues = expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE];
+        expect(updatedValues.value).toEqual(addCurlyBraces(store.elements[store.numberVariableGuid].name));
+        expect(updatedValues.error).toEqual(anError);
     });
 });

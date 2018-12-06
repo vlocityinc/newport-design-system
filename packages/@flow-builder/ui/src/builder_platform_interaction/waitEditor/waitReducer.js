@@ -37,10 +37,17 @@ import {
 } from 'builder_platform_interaction/events';
 import {waitValidation, shouldBeHoursDaysOrBlank } from './waitValidation';
 import { CONDITION_LOGIC, WAIT_TIME_EVENT_PARAMETER_NAMES } from 'builder_platform_interaction/flowMetadata';
+import { checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
+import { LABELS } from "./waitEditorLabels";
 
 let lastValidWaitEventInputParameters = [];
 let lastValidWaitEventOutputParameters = [];
 let wasErrorBeforeForWaitEventType = false;
+let deletedWaitEventGuids;
+
+export const resetDeletedGuids = () => {
+    deletedWaitEventGuids = new Map();
+};
 
 const validateProperty = (state, event) => {
     event.detail.error = event.detail.error === null ? waitValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
@@ -80,6 +87,10 @@ const deleteWaitEvent = (state, event) => {
         const waitEvents = state.waitEvents.filter((waitEvent) => {
             return waitEvent.guid !== event.detail.guid;
         });
+
+        // store guids that have been removed
+        // TODO: W-5507691 handle addition/removal of store elements inside editors more cleanly
+        deletedWaitEventGuids.set(event.detail.guid, true);
         return updateProperties(state, {waitEvents});
     }
     return state;
@@ -151,8 +162,9 @@ const deleteWaitCondition = function (state, event) {
 
 const updateWaitCondition = function (state, event) {
     const updateCondition = conditions => {
-        const conditionToUpdate = conditions[event.detail.index];
-        return replaceItem(conditions, Object.assign({}, conditionToUpdate, event.detail.value), event.detail.index);
+        const updatedCondition = Object.assign({}, conditions[event.detail.index], event.detail.value);
+        checkExpressionForDeletedElem(deletedWaitEventGuids, updatedCondition, LABELS.waitSingularLabel);
+        return replaceItem(conditions, updatedCondition, event.detail.index);
     };
     return waitEventReducer(state, event, waitEventOperation('conditions', updateCondition));
 };

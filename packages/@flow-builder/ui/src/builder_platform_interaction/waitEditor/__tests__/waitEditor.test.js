@@ -10,7 +10,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { getShadowRoot } from 'lwc-test-utils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { waitReducer } from '../waitReducer';
+import { waitReducer, } from '../waitReducer';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
@@ -34,6 +34,7 @@ const selectors = {
 jest.mock('../waitReducer', () => {
     return {
         waitReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))).mockName('waitReducer'),
+        resetDeletedGuids: require.requireActual('../waitReducer').resetDeletedGuids,
     };
 });
 

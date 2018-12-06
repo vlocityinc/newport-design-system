@@ -1,4 +1,4 @@
-import {decisionReducer} from "../decisionReducer";
+import { decisionReducer, resetDeletedGuids, } from "../decisionReducer";
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
@@ -7,9 +7,16 @@ import {
     UpdateConditionEvent
 } from "builder_platform_interaction/events";
 import {PROPERTY_EDITOR_ACTION} from "builder_platform_interaction/actions";
-import { EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
+import { EXPRESSION_PROPERTY_TYPE, checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
+jest.mock('builder_platform_interaction/expressionUtils', () => {
+    return {
+        checkExpressionForDeletedElem: jest.fn(),
+        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
+    };
+});
 
 describe('decision-reducer', () => {
     let originalState;
@@ -44,6 +51,7 @@ describe('decision-reducer', () => {
                 },
             ]
         };
+        resetDeletedGuids();
     });
 
     describe('PropertyChangedEvent', () => {
@@ -212,6 +220,7 @@ describe('decision-reducer', () => {
                 value: mockLHS.value,
                 error: mockLHS.error
             });
+            expect(checkExpressionForDeletedElem).toHaveBeenCalledTimes(1);
         });
 
         it('does not delete condition from other outcomes', () => {

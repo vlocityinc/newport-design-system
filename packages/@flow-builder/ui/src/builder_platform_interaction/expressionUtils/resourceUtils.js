@@ -12,8 +12,9 @@ import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { isObject, addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { isObject, addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import removedSibling from "@salesforce/label/FlowBuilderValidation.removedSibling";
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -206,4 +207,17 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
         rhsState.isField = !!rhsState.fields;
     }
     callback(rhsState);
+};
+
+export const checkExpressionForDeletedElem = (deletedGuids, expression, propertyEditorLabel) => {
+    const checkComboboxForDeletedElem = (prop) => {
+        const property = expression[prop];
+        if (property && !property.error && deletedGuids.has(property.value)) {
+            const deletedDevName = getResourceByUniqueIdentifier(property.value).name;
+            property.value = addCurlyBraces(deletedDevName);
+            property.error = format(removedSibling, deletedDevName, propertyEditorLabel);
+        }
+    };
+
+    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].forEach(prop => checkComboboxForDeletedElem(prop));
 };

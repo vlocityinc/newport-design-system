@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { decisionReducer } from "./decisionReducer";
+import { decisionReducer, resetDeletedGuids } from "./decisionReducer";
 import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -19,6 +19,11 @@ export default class DecisionEditor extends LightningElement {
     @track decisionElement;
 
     labels = LABELS;
+
+    constructor() {
+        super();
+        resetDeletedGuids();
+    }
 
     /**
      * public api function to return the node
