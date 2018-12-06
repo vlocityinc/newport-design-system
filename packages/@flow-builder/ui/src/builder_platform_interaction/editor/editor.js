@@ -44,6 +44,10 @@ export default class Editor extends LightningElement {
     runDebugUrl;
     isFlowServerCallInProgress = false;
 
+    originalFlowLabel;
+    originalFlowDescription;
+    originalFlowInterviewLabel;
+
     @track
     appState = {
         canvas: {
@@ -68,6 +72,7 @@ export default class Editor extends LightningElement {
     @track hasNotBeenSaved = true;
     @track disableSave = true;
     @track saveStatus;
+    @track saveType;
 
     propertyEditorBlockerCalls = [];
 
@@ -186,6 +191,7 @@ export default class Editor extends LightningElement {
             // TODO: handle error case
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
+            this.setOriginalFlowValues();
             this.loadFieldsForSobjectsInFlow();
         }
         this.isFlowServerCallInProgress = false;
@@ -244,6 +250,17 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * This is called when the flow has been loaded or successfully saved, so that we always have the label, description and
+     * interviewLabel of the version of the flow that is currently persisted in the DB. This is so that if the user attempts to
+     * save a new version, having changed any of these values, and the save fails, then we can revert back to the original values.
+     */
+    setOriginalFlowValues()  {
+        this.originalFlowLabel = this.appState.properties.label;
+        this.originalFlowDescription = this.appState.properties.description;
+        this.originalFlowInterviewLabel = this.appState.properties.interviewLabel;
+    }
+
+    /**
      * This is called once the flow has been loaded, so that sobjects in the flow have their fields loaded and cached
      */
     loadFieldsForSobjectsInFlow() {
@@ -276,8 +293,28 @@ export default class Editor extends LightningElement {
                 lastModifiedBy: data.lastModifiedBy,
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
+            this.setOriginalFlowValues();
         } else {
             this.saveStatus = null;
+            // If the save failed and saveType === SaveType.NEW_DEFINITION, then clear the flowId from the url
+            // and reset some of the flow properties as if this is a net new flow
+            if (this.saveType === SaveType.NEW_DEFINITION) {
+                this.currentFlowId = undefined;
+                storeInstance.dispatch(updateProperties({
+                    versionNumber: null,
+                    status: null,
+                    lastModifiedDate: null,
+                    isLightningFlowBuilder: true,
+                    lastModifiedBy: null
+                }));
+                window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0]);
+            } else if (this.saveType === SaveType.NEW_VERSION) {
+                storeInstance.dispatch(updateProperties({
+                    label: this.originalFlowLabel,
+                    description: this.originalFlowDescription,
+                    interviewLabel: this.originalFlowInterviewLabel
+                }));
+            }
         }
 
         if (this.flowId) {
@@ -374,7 +411,7 @@ export default class Editor extends LightningElement {
         const nodeUpdate = this.flowPropertiesCallback;
         const newResourceCallback = this.newResourceCallback;
         invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
-};
+    };
 
     /**
      * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.
@@ -783,6 +820,7 @@ export default class Editor extends LightningElement {
 
         // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
+        this.saveType = saveType;
         this.saveStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
