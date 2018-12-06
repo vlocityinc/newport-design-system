@@ -317,6 +317,7 @@ export default class Canvas extends LightningElement {
      */
     handleCanvasMouseUp = (event) => {
         event.preventDefault();
+        this.canvasArea.focus();
         if (event.target && (event.target.classList.contains('canvas') || event.target.classList.contains('inner-canvas'))) {
             const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
                 bubbles: true,
