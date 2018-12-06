@@ -1,11 +1,11 @@
 {
   "name": "newport-design-system",
   "description": "Vlocity Newport Design System",
-  "version": "0.0.0",
+  "version": "104.0.0",
   "author": "Vlocity",
   "nds": {
-    "name": "v103",
-    "id": "103"
+    "name": "v104",
+    "id": "104"
   },
   "devDependencies": {
     "@salesforce-ux/build-server-api": "2.0.2",
