@@ -2,6 +2,10 @@ import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables
 
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 
+export const SYSTEM_VARIABLES = {
+    CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime',
+};
+
 let systemVariables = {};
 
 /**

@@ -1,13 +1,14 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
+import { getValueFromHydratedItem, getErrorFromHydratedItem, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./flowPropertiesEditorLabels";
 import { flowPropertiesEditorReducer } from "./flowPropertiesEditorReducer";
-import { format } from "builder_platform_interaction/commonUtils";
+import { format, addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { normalizeDateTime } from "builder_platform_interaction/dateTimeUtils";
 import { SaveType } from "builder_platform_interaction/saveType";
 import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
 /**
  * Flow Properties property editor for Flow Builder
  *
@@ -28,6 +29,7 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalApiName = this.flowProperties.name.value;
         this._originalDescription = this.flowProperties.description.value;
         this._originalProcessType = this.flowProperties.processType.value;
+        this._originalInterviewLabel = this.flowProperties.interviewLabel.value;
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
         }
@@ -73,6 +75,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     _originalApiName;
     _originalDescription;
     _originalProcessType;
+    _originalInterviewLabel;
 
     saveAsTypeOptions = [
         { 'label': LABELS.saveAsNewVersionTypeLabel, 'value': SaveType.NEW_VERSION },
@@ -184,6 +187,12 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleEvent(event) {
         event.stopPropagation();
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
+        const flowLabelValue = getValueFromHydratedItem(this.flowProperties.label);
+        const flowLabelError = getErrorFromHydratedItem(this.flowProperties.label);
+        const interviewLabel = getValueFromHydratedItem(this.flowProperties.interviewLabel);
+        if (flowLabelValue && !interviewLabel && !flowLabelError) {
+            this.updateProperty('interviewLabel', flowLabelValue + ' ' + addCurlyBraces(SYSTEM_VARIABLES.CURRENT_DATE_TIME));
+        }
     }
 
     /**
@@ -193,11 +202,12 @@ export default class FlowPropertiesEditor extends LightningElement {
         event.stopPropagation();
         this.flowProperties.saveType = event.detail.value;
         if (this.flowProperties.saveType === SaveType.NEW_VERSION) {
-            // If switching from new flow to new version then restore the original name, label, description and processtype
+            // If switching from new flow to new version then restore the original name, label, description, processtype, and interviewLabel
             this.updateProperty('label', this._originalLabel);
             this.updateProperty('name', this._originalApiName);
             this.updateProperty('description', this._originalDescription);
             this.updateProperty('processType', this._originalProcessType);
+            this.updateProperty('interviewLabel', this._originalInterviewLabel);
         } else {
             this.clearForNewDefinition();
         }
@@ -208,6 +218,7 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.updateProperty('label', '');
         this.updateProperty('name', '');
         this.updateProperty('description', '');
+        this.updateProperty('interviewLabel', '');
     }
 
     /**
