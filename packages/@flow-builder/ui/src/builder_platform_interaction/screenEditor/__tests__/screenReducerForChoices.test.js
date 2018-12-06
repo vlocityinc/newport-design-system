@@ -88,7 +88,7 @@ it('defaultValue is cleared when corresponding choice is changed', () => {
     // The default value should be cleared, along with the choice change.
     expect(newScreen).toBeDefined();
     expect(newScreen.fields[0].choiceReferences[0].choiceReference.value).toBe(newChoice.name);
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('');
+    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBeNull();
 });
 
 it('defaultValue should not be cleared when unrelated choice is changed', () => {
@@ -236,7 +236,7 @@ it('Delete choice from radio screen field when it was the defaultValue', () => {
 
     // DefaultValue should be gone because its corresponding choice was deleted.
     expect(newScreen).toBeDefined();
-    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBe('');
+    expect(newScreen.fields[0].defaultSelectedChoiceReference.value).toBeNull();
 });
 
 it('Deleting choice from radio screen field when it is not the defaultValue', () => {

@@ -41,8 +41,9 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     handleDefaultValuePropertyChanged = (event) => {
         event.stopPropagation();
 
-        // User is trying to set default value back to nothing.
-        let newValue = '';
+        // If user is trying to set default value back to nothing, set the value to null,
+        // otherwise get the GUID corresponding to the new default choice.
+        let newValue = null;
         if (event && event.detail && event.detail.guid) {
             // We get the display value from the event, which might be something
             // like {!choice1}, but we want the devName. Get the devName by using the GUID.
@@ -170,10 +171,12 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get defaultValue() {
-        if (this.field.defaultSelectedChoiceReference && this.field.defaultSelectedChoiceReference.value !== '') {
+        if (this.field.defaultSelectedChoiceReference && this.field.defaultSelectedChoiceReference.value) {
             return this.field.defaultSelectedChoiceReference;
         }
         // Select the 'nothing selected' option (i.e. no default set).
+        // We can't use null here, because the component used to render the defaultValue options
+        // wants a real string.
         return this.defaultValueNone;
     }
 }

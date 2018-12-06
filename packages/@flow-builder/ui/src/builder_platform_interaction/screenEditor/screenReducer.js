@@ -82,7 +82,7 @@ const changeChoice = (screen, event, field) => {
     // changed. If it was, then clear the default value as it may no longer be valid.
     if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
         if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
-            updatedField.defaultSelectedChoiceReference.value = '';
+            updatedField.defaultSelectedChoiceReference.value = null;
         }
     }
 
@@ -107,7 +107,7 @@ const deleteChoice = (screen, event, field) => {
     // delete. If it was, then clear the default value as it may no longer be valid.
     if (field.defaultSelectedChoiceReference && field.defaultSelectedChoiceReference.value) {
         if (field.defaultSelectedChoiceReference.value === originalChoice.choiceReference.value) {
-            updatedField.defaultSelectedChoiceReference.value = '';
+            updatedField.defaultSelectedChoiceReference.value = null;
         }
     }
 
