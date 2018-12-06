@@ -180,7 +180,8 @@ export default class RecordCreateEditor extends LightningElement {
             true, // literalsAllowed
             false, // required
             false, // disabled
-            FLOW_DATA_TYPE.STRING.value
+            FLOW_DATA_TYPE.STRING.value,
+            true, // enableFieldDrilldown
         );
     }
 

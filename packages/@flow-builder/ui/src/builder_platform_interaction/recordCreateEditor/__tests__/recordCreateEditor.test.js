@@ -214,6 +214,11 @@ describe('record-create-editor', () => {
                 creatable: false
             }));
         });
+        it('enables field drilldown for outputResourcePicker', () => {
+            const outputResourcePicker = getAssignRecordIdToReference(recordCreateEditor);
+            const config = outputResourcePicker.comboboxConfig;
+            expect(config.enableFieldDrilldown).toEqual(true);
+        });
     });
     describe('Handle Events with fields', () => {
         let recordCreateEditor;
