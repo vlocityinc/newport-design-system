@@ -1,17 +1,32 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
-import { datetimeParamTypes } from "mock/ruleService";
+import { datetimeParamTypes, numberParamCanBeField } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/systemLib', () => {
     const emptyString = '$GlobalConstant.EmptyString';
+    const currentDateSystemVariable = '$Flow.CurrentDate';
     return {
         GLOBAL_CONSTANTS: {
             EMPTY_STRING: emptyString,
         },
         GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
         getGlobalConstantOrSystemVariable: (id) => {
+            if (id === currentDateSystemVariable) {
+                return {
+                    apiName: 'CurrentDate',
+                    dataType: 'Date',
+                    guid: '$Flow.CurrentDate',
+                    isAssignable: false,
+                    isCollection: false,
+                    isSystemVariable: true,
+                    label: 'CurrentDate',
+                    name: '$Flow.CurrentDate',
+                    objectType: '$Flow',
+                    readOnly: true,
+                    };
+            }
             return id === emptyString;
         }
     };
@@ -145,6 +160,16 @@ describe('Merge field validation', () => {
                     'endIndex': 8,
                     'errorType': 'invalidGlobalVariable',
                     'message': 'FlowBuilderCombobox.genericErrorMessage',
+                    'startIndex': 2
+                }]);
+        });
+        it('Returns a validation error when it references a global variable with invalid data type', () => {
+            const validationErrors = validateMergeField('{!$Flow.CurrentDate}', { allowedParamTypes: numberParamCanBeField });
+            expect(validationErrors).toEqual([
+                {
+                    'endIndex': 18,
+                    'errorType': 'wrongDataType',
+                    'message': 'FlowBuilderMergeFieldValidation.invalidDataType',
                     'startIndex': 2
                 }]);
         });

@@ -151,24 +151,32 @@ export class MergeFieldsValidation {
 
     _validateGlobalConstant(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
+        const globalConstant = getGlobalConstantOrSystemVariable(mergeFieldReferenceValue);
         if (!this.allowGlobalConstants) {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, LABELS.globalConstantsNotAllowed, index, endIndex);
             return [validationError];
         }
-        if (!getGlobalConstantOrSystemVariable(mergeFieldReferenceValue)) {
+        if (!globalConstant) {
             const validationErrorLabel = format(LABELS.genericErrorMessage, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_CONSTANT, validationErrorLabel, index, endIndex);
             return [validationError];
+        }
+        if (this.allowedParamTypes) {
+            return this._validateForAllowedParamTypes(globalConstant, index, endIndex);
         }
         return [];
     }
 
     _validateSystemVariable(mergeFieldReferenceValue, index) {
-        if (!getGlobalConstantOrSystemVariable(mergeFieldReferenceValue)) {
-            const endIndex = index + mergeFieldReferenceValue.length - 1;
+        const endIndex = index + mergeFieldReferenceValue.length - 1;
+        const systemVariable = getGlobalConstantOrSystemVariable(mergeFieldReferenceValue);
+        if (!systemVariable) {
             const validationErrorLabel = format(LABELS.genericErrorMessage, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_GLOBAL_VARIABLE, validationErrorLabel, index, endIndex);
             return [validationError];
+        }
+        if (this.allowedParamTypes) {
+            return this._validateForAllowedParamTypes(systemVariable, index, endIndex);
         }
         return [];
     }
@@ -191,20 +199,14 @@ export class MergeFieldsValidation {
             return [validationError];
         }
 
-        // if allowed param types is defined use it for validation
         if (this.allowedParamTypes) {
-            // Note: uses outer return Promise.resolve([]) for else
-            if (!this._isElementValidForAllowedParamTypes(element)) {
-                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
-                return [validationError];
-            }
-        } else {
-            const elementType = this._getElementType(element);
-            if (elementType.dataType === null || (!this.allowCollectionVariables && elementType.isCollection)) {
-                const validationErrorLabel = format(LABELS.resourceCannotBeUsedAsMergeField, mergeFieldReferenceValue);
-                const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
-                return [validationError];
-            }
+            return this._validateForAllowedParamTypes(element, index, endIndex);
+        }
+        const elementType = this._getElementType(element);
+        if (elementType.dataType === null || (!this.allowCollectionVariables && elementType.isCollection)) {
+            const validationErrorLabel = format(LABELS.resourceCannotBeUsedAsMergeField, mergeFieldReferenceValue);
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
+            return [validationError];
         }
         return [];
     }
@@ -258,10 +260,8 @@ export class MergeFieldsValidation {
         if (!field) {
             const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
             errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
-        } else if (this.allowedParamTypes && !this._isElementValidForAllowedParamTypes(field)) {
-            // validate field for the allowed param types
-            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
-            errors = [validationError];
+        } else if (this.allowedParamTypes) {
+            errors = this._validateForAllowedParamTypes(field, index, endIndex);
         }
         return errors;
     }
@@ -277,6 +277,14 @@ export class MergeFieldsValidation {
             }
         }
         return undefined;
+    }
+
+    _validateForAllowedParamTypes(element, index, endIndex) {
+        if (!this._isElementValidForAllowedParamTypes(element)) {
+            const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, LABELS.invalidDataType, index, endIndex);
+            return [validationError];
+        }
+        return [];
     }
 }
 
