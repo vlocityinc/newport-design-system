@@ -1,15 +1,13 @@
 <template>
     <div class="slds-builder-header flow-builder-header_border_icon">
         <div class="slds-builder-header__item">
-            <div class="slds-builder-header__item-label">
-                <lightning-icon variant="inverse" size="x-small" icon-name="utility:flow" class="slds-col test-flow-utility-icon"></lightning-icon>
-                <div class="slds-col slds-text-body_regular slds-p-left_small test-app-name">{labels.appNameText}</div>
+            <div class="slds-builder-header__item-label slds-media slds-media_center">
+                <lightning-icon variant="inverse" size="x-small" icon-name="utility:flow" class="slds-media__figure test-flow-utility-icon"></lightning-icon>
+                <div class="slds-media__body test-app-name">{labels.appNameText}</div>
             </div>
         </div>
-        <div class="slds-builder-header__item">
-            <div class="slds-builder-header__item-label">
-                <div class="slds-col slds-text-body_regular test-flow-name-label">{fileNameAndVersion}</div>
-            </div>
+        <div class="slds-builder-header__item custom-item-width">
+            <div class="custom-builder-header__item-label slds-p-horizontal_medium slds-truncate test-flow-name-label">{fileNameAndVersion}</div>
         </div>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">

@@ -1,0 +1,11 @@
+.custom-item-width {
+    max-width: var(--lwc-sizeXLarge);
+}
+
+.custom-builder-header__item-label {
+    color: currentColor;
+    align-content: center;
+    align-items: center;
+    flex-grow: 1;
+    min-width: 0%;
+}
