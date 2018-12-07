@@ -140,8 +140,33 @@ describe('Check validations update using fields', () => {
         });
     });
     describe('inputAssignments item is empty', () => {
-        it('should return an error when an inputAssignment is set without a value', () => {
+        it('should not return an error when an inputAssignment is set without a value', () => {
             recordCreateUsingFields.inputAssignments[0].leftHandSide.value = '';
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            expect(errors).toHaveLength(0);
+        });
+        it('should return 2 errors when 2 inputAssignments are set without a value', () => {
+            recordCreateUsingFields.inputAssignments[0].leftHandSide.value = '';
+            recordCreateUsingFields.inputAssignments.push({
+                leftHandSide: {value: "", error: null},
+                rightHandSide: {value: "", error: null},
+                rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216eede"
+            });
+            const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
+            const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+            expect(errors).toHaveLength(2);
+            expect(errors[0].key).toBe('leftHandSide');
+            expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+            expect(errors[1].key).toBe('leftHandSide');
+            expect(errors[1].errorString).toBe(LABELS.cannotBeBlank);
+        });
+        it('should return an error when 1 of 2 inputAssignments is set without a value', () => {
+            recordCreateUsingFields.inputAssignments.push({
+                leftHandSide: {value: "", error: null},
+                rightHandSide: {value: "", error: null},
+                rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216eede"
+            });
             const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
             const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);

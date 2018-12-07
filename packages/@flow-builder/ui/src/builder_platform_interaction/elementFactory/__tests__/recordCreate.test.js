@@ -117,6 +117,12 @@ const uiModelInputAssignmentField = {
     rightHandSideDataType: '',
 };
 
+const uiModelEmptyInputAssignmentField = {
+    leftHandSide: '',
+    rightHandSide: '',
+    rightHandSideDataType: '',
+};
+
 const uiModelInputAssignmentFieldBooleanValue = {
     leftHandSide: 'Account.isEditable',
     rightHandSide: globalConstantPrefixLabel + '.' + globalConstantFalseLabel,
@@ -229,6 +235,12 @@ describe('recordCreate UI model => flow metadata', () => {
         beforeEach(() => {
             recordCreateUsingFields = flowRecordCreateFieldsMetadata();
             uiModelRecordCreateWithFields = flowRecordCreateFieldsStore();
+        });
+        it('inputAssignments without value', () => {
+            uiModelRecordCreateWithFields.inputAssignments = [uiModelEmptyInputAssignmentField];
+            recordCreateUsingFields.inputAssignments = [];
+            const actualResult = createRecordCreateMetadataObject(uiModelRecordCreateWithFields);
+            expect(actualResult).toMatchObject(recordCreateUsingFields);
         });
         it('inputAssignments with value', () => {
             uiModelRecordCreateWithFields.inputAssignments = [uiModelInputAssignmentFieldValue];

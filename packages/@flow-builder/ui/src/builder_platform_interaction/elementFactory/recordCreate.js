@@ -14,7 +14,7 @@ import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEdit
 
 import { getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections }  from "./base/baseRecordElement";
+import { createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections, createEmptyAssignmentMetadata }  from "./base/baseRecordElement";
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
@@ -98,6 +98,8 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         const {assignRecordIdToReference } = recordCreate;
         let { inputAssignments = [] } = recordCreate;
         inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
+
+        inputAssignments = createEmptyAssignmentMetadata(inputAssignments);
 
         const newRecordCreateMetadata = Object.assign(recordCreateMetadata, {
             object,

@@ -118,6 +118,17 @@ export function createFlowOutputFieldAssignmentMetadataObject(outputParameter) {
     return { field, [outputLhsMetadataPropertyName]: outputParameter.rightHandSide };
 }
 
+/**
+ * @param {Object[]} assignments - input or output Assignments.
+ * @returns {Object[] || []} [] if the assignments array contains only one empty assignment.
+ */
+export function createEmptyAssignmentMetadata(assignments) {
+    if (assignments.length === 1 && assignments[0].field === '') {
+        return [];
+    }
+    return assignments;
+}
+
 export const getDefaultAvailableConnections = () => [
     {
         type: CONNECTOR_TYPE.REGULAR

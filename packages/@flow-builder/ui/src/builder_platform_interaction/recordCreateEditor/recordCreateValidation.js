@@ -29,21 +29,27 @@ const validateInputReference = () => {
 export const recordCreateValidation = new Validation();
 
 /**
- * @param {Object} nodeElement the element that need to be validated
+ * Build specific overridden rules
+ * @param {Object} nodeElement the element that needs to be validated
+ * @param {string} nodeElement.numberRecordsToStore - current element's numberRecordsToStore
+ * @param {Object} nodeElement.object - current element's object
+ * @param {Object[]} nodeElement.inputAssignments - current element's inputAssignments
  * @param {string} wayToStoreFields can be sObjectVariable or separateVariables
- * @return {Object} the override rules
+ * @return {Object} the overridden rules
  */
-export const getRules = (nodeElement, wayToStoreFields) => {
-    const overrideRules = Object.assign({}, recordCreateValidation.finalizedRules);
+export const getRules = ({numberRecordsToStore, object, inputAssignments}, wayToStoreFields) => {
+    const overriddenRules = Object.assign({}, recordCreateValidation.finalizedRules);
     // case where a sObject has been selected
-    if (getValueFromHydratedItem(nodeElement.numberRecordsToStore) ===  NUMBER_RECORDS_TO_STORE.FIRST_RECORD && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
-        overrideRules.object = validateInputReference();
-        if (nodeElement.object.value !== '' && !nodeElement.object.error) {
-            overrideRules.inputAssignments = validateAssignments();
+    if (getValueFromHydratedItem(numberRecordsToStore) ===  NUMBER_RECORDS_TO_STORE.FIRST_RECORD && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
+        overriddenRules.object = validateInputReference();
+        if (object.value !== '' && !object.error) {
+            if (inputAssignments.length > 1) {
+                overriddenRules.inputAssignments = validateAssignments();
+            }
         }
     } else {
-        overrideRules.inputReference = validateInputReference();
+        overriddenRules.inputReference = validateInputReference();
     }
 
-    return overrideRules;
+    return overriddenRules;
 };

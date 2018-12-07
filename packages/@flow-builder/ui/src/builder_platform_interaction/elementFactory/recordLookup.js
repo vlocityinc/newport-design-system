@@ -12,7 +12,8 @@ import { createRecordFilters,
     createFilterMetadataObject,
     createFlowOutputFieldAssignment,
     getDefaultAvailableConnections,
-    createFlowOutputFieldAssignmentMetadataObject } from './base/baseRecordElement';
+    createFlowOutputFieldAssignmentMetadataObject,
+    createEmptyAssignmentMetadata} from './base/baseRecordElement';
 import {
     RECORD_FILTER_CRITERIA,
     SORT_ORDER
@@ -186,9 +187,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
     let { outputAssignments = [] } = recordLookup;
     outputAssignments = outputAssignments.map(output => createFlowOutputFieldAssignmentMetadataObject(output));
 
-    if (outputAssignments.length === 1 && outputAssignments[0].field === '') {
-        outputAssignments = [];
-    }
+    outputAssignments = createEmptyAssignmentMetadata(outputAssignments);
 
     return Object.assign(recordUpdateMetadata, {
         object,
