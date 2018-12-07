@@ -346,6 +346,8 @@ export function query(element, selector, returnList) {
     const res = SELECTOR_REGEX.exec(selector);
     if (res && res.length === 5) {
         return find(element, res[1], res[2], res[4], ATT_SELECTOR_OPERATORS.parse(res[3]), returnList);
+    } else if (selector) {
+        return find(element, selector, null, null, null, returnList);
     }
 
     return null;
@@ -368,19 +370,18 @@ export function query(element, selector, returnList) {
 export function find(element, childName, attributeName, attributeValue, operator, returnList = false) {
     const results = [];
     for (const child of getShadowRoot(element).querySelectorAll(childName)) {
-        if (child[attributeName]) {
-            if (check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator])) {
-                if (!returnList) {
-                    return child;
-                }
-                results.push(child);
+        if (!attributeName || (child[attributeName] && check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator]))) {
+            if (!returnList) {
+                return child;
             }
+            results.push(child);
         }
     }
 
     if (returnList) {
         return results;
     }
+
     return null;
 }
 

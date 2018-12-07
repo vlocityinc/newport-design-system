@@ -5,7 +5,6 @@ import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
  * Dynamic property editor for screen extensions.
  */
 export default class ScreenExtensionPropertiesEditor extends LightningElement {
-    // TODO can't close this story until we are able to handle two outputs for the same attribute
     @track _field;
     @track _extensionDescription;
     @track inputParameters;
@@ -43,36 +42,34 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         const extName = this._extensionDescription ? this._extensionDescription.name : null;
         const fieldName = this._field ? this._field.name : null;
 
-        if (this._extensionDescription && extName !== fieldName) {
+        if (this._extensionDescription && fieldName && extName !== fieldName) {
             this.inputParameters = this.createParametersMapping('inputParameters', true);
             this.outputParameters = this.createParametersMapping('outputParameters', false);
         }
     };
 
-    createParametersMapping = (name, sort) => {
+    createParametersMapping = (name, sortByRequiredness) => {
         const params = [];
         for (let i = 0; i <  this._extensionDescription[name].length; i++) {
             const descriptor = this._extensionDescription[name][i];
             const attributes = this.field[name].filter(param => descriptor.apiName === param.name.value);
             if (attributes && attributes.length > 0) {
                 for (let j = 0; j < attributes.length; j++) {
-                    params.push({attribute: attributes[j], descriptor, index: j + 1});
+                    params.push({attribute: attributes[j], descriptor, index: j + 1, key: descriptor.apiName + j});
                 }
             } else {
-                params.push({attribute: undefined, descriptor});
+                params.push({attribute: undefined, descriptor, key: descriptor.apiName});
             }
         }
 
-        if (sort) {
-            params.sort((p1, p2) => {
-                if (p1.descriptor.isRequired !== p2.descriptor.isRequired) {
-                    return p1.descriptor.isRequired ? -1 : 1;
-                }
-                const p1Label = (p1.descriptor.label || p1.descriptor.apiName || '').toLowerCase();
-                const p2Label = (p2.descriptor.label || p2.descriptor.apiName || '').toLowerCase();
-                return p1Label.localeCompare(p2Label);
-            });
-        }
+        params.sort((p1, p2) => {
+            if (sortByRequiredness && p1.descriptor.isRequired !== p2.descriptor.isRequired) {
+                return p1.descriptor.isRequired ? -1 : 1;
+            }
+            const p1Label = (p1.descriptor.label || p1.descriptor.apiName || '').toLowerCase();
+            const p2Label = (p2.descriptor.label || p2.descriptor.apiName || '').toLowerCase();
+            return p1Label.localeCompare(p2Label);
+        });
 
         return params;
     };

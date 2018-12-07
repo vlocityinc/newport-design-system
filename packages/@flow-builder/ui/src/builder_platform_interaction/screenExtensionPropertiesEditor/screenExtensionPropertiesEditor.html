@@ -1,5 +1,5 @@
 <template>
-    <div if:true={field} class='full-height'>
+    <div if:true={field} class='container full-height'>
         <div if:true={extensionDescription}>
             <section class='slds-p-horizontal_small slds-p-bottom_small'>
                 <builder_platform_interaction-screen-property-field label={labels.apiNameLabel} 
@@ -23,7 +23,7 @@
                 <!--  validation text -->
                 <lightning-accordion-section name='outputsSection' label={labels.extensionOutputsHeader}>
                     <template for:each={outputParameters} for:item='param' for:index='index'>
-                        <builder_platform_interaction-screen-extension-attribute-editor key={param.descriptor.apiName} 
+                        <builder_platform_interaction-screen-extension-attribute-editor key={param.key} 
                                                                                         index={index} 
                                                                                         descriptor={param.descriptor} 
                                                                                         attribute={param.attribute} 
