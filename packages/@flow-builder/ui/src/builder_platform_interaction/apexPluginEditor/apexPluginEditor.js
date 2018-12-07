@@ -112,6 +112,7 @@ export default class ApexPluginEditor extends LightningElement {
 
     fetchApexPluginParameters() {
         const apexParams = { apexClass: getValueFromHydratedItem(this.apexPluginNode.apexClass)};
+        this.displaySpinner = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams).then((parameters) => {
             if (this.connected) {
                 this.displaySpinner = false;
