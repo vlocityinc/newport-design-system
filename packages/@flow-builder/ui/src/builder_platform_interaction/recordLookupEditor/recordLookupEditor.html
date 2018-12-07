@@ -28,7 +28,7 @@
             record-entity-name={recordEntityName}
             resource-display-text={resourceDisplayText}
             record-fields={recordFields}
-            filter-type={state.recordLookupElement.filterType.value}
+            filter-type={state.recordLookupElement.filterType}
             onrecordfiltertypechanged={handleFilterTypeChanged}
             onaddrecordfilter={handlePropertyOrListItemChanged}
             onupdaterecordfilter={handlePropertyOrListItemChanged}
@@ -40,7 +40,7 @@
             resource-api-name={recordEntityName}
             resource-display-text={resourceDisplayText}
             selected-field={state.recordLookupElement.sortField.value}
-            sort-order={state.recordLookupElement.sortOrder.value}
+            sort-order={state.recordLookupElement.sortOrder}
             sort-field-error={state.recordLookupElement.sortField.error}
             onchange={handleRecordSortChanged}>
         </builder_platform_interaction-record-sort>

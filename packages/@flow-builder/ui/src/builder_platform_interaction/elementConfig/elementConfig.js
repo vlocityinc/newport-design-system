@@ -446,7 +446,7 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        nonHydratableProperties: ['numberRecordsToStore'],
+        nonHydratableProperties: ['numberRecordsToStore', 'filterType', 'sortOrder', 'assignNullValuesIfNoRecordsFound'],
         factory: {
             propertyEditor: createRecordLookup,
             uiToFlow: createRecordLookupMetadataObject,

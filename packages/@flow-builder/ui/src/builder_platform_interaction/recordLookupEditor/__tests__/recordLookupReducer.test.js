@@ -25,13 +25,13 @@ const recordLookupUsingSobjectState = () => {
         name : { value: 'testRecord', error: null },
         outputReference : { value: store.accountSObjectVariableGuid, error: null},
         sortField : { value:'Name', error:null},
-        sortOrder : { value: SORT_ORDER.ASC, error: null},
-        assignNullValuesIfNoRecordsFound : false,
+        sortOrder : SORT_ORDER.ASC,
+        assignNullValuesIfNoRecordsFound : true,
         queriedFields: [
             {field: {value: 'Id', error: null}, rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
             {field: {value: 'BillingAddress', error: null}, rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
         object: { value: 'Account', error: ''},
-        filterType: { error: null, value: RECORD_FILTER_CRITERIA.ALL},
+        filterType: RECORD_FILTER_CRITERIA.ALL,
         filters: [{
             leftHandSide: {value: "Account.BillingAddress", error: null},
             operator: {value: "EqualTo", error: null},
@@ -50,13 +50,13 @@ recordLookupUsingFieldsState = () => {
         label : { value: 'testRecord', error: null },
         name : { value: 'testRecord', error: null },
         sortField : { value:'Name', error:null},
-        sortOrder : { value: SORT_ORDER.ASC, error: null},
+        sortOrder : SORT_ORDER.ASC,
         assignNullValuesIfNoRecordsFound : false,
         queriedFields: [
             {field: {value: 'Id', error: null}, rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
             {field: {value: 'BillingAddress', error: null}, rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
         object: { value: 'Account', error: ''},
-        filterType: { error: null, value: RECORD_FILTER_CRITERIA.ALL},
+        filterType: RECORD_FILTER_CRITERIA.ALL,
         filters: [{
             leftHandSide: {value: "Account.BillingAddress", error: null},
             operator: {value: "EqualTo", error: null},
@@ -80,13 +80,13 @@ recordLookupUsingFieldsStateEmptyOutPutAssignments = () => {
         label : { value: 'testRecord', error: null },
         name : { value: 'testRecord', error: null },
         sortField : { value:'Name', error:null},
-        sortOrder : { value: SORT_ORDER.ASC, error: null},
+        sortOrder : SORT_ORDER.ASC,
         assignNullValuesIfNoRecordsFound : false,
         queriedFields: [
             {field: {value: 'Id', error: null}, rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
             {field: {value: 'BillingAddress', error: null}, rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
         object: { value: 'Account', error: ''},
-        filterType: { error: null, value: RECORD_FILTER_CRITERIA.ALL},
+        filterType: RECORD_FILTER_CRITERIA.ALL,
         filters: [{
             leftHandSide: {value: "Account.BillingAddress", error: null},
             operator: {value: "EqualTo", error: null},
@@ -192,24 +192,38 @@ describe('record-lookup-reducer', () => {
                 };
                 newState = recordLookupReducer(originalState, event);
             });
-            it('should update entity name', () => {
+            it('should update "entity name"', () => {
                 expect(newState.object.value).toBe('Account History');
                 expect(newState).not.toBe(originalState);
             });
-            it('should reset outputReference', () => {
+            it('should reset "outputReference"', () => {
                 expect(newState.outputReference.value).toBe('');
             });
-            it('should reset sortOrder and sortField', () => {
-                expect(newState.sortOrder.value).toBe(SORT_ORDER.NOT_SORTED);
+            it('should reset "sortOrder"', () => {
+                expect(newState.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
+            });
+            it('should reset "sortField"', () => {
                 expect(newState.sortField.value).toBe('');
             });
-            it('should reset filters', () => {
+            it('should reset "filterType"', () => {
+                expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
+            });
+            it('should reset "filters"', () => {
                 expect(newState.filters).toHaveLength(1);
                 expect(newState.filters[0].leftHandSide.value).toBe('');
             });
-            it('should reset queriedFields', () => {
+            it('should reset "queriedFields"', () => {
                 expect(newState.queriedFields).toHaveLength(2);
                 expect(newState.queriedFields[1].field.value).toBe('');
+            });
+            it('should reset "numberRecordsToStore"', () => {
+                expect(newState.numberRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+            });
+            it('should reset "wayToStoreFields"', () => {
+                expect(newState.wayToStoreFields).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
+            });
+            it('should reset "assignNullValuesIfNoRecordsFound"', () => {
+                expect(newState.assignNullValuesIfNoRecordsFound).toBe(false);
             });
         });
 
@@ -228,7 +242,7 @@ describe('record-lookup-reducer', () => {
                 newState = recordLookupReducer(originalState, event);
             });
             it('should update sortOrder', () => {
-                expect(newState.sortOrder.value).toBe(SORT_ORDER.NOT_SORTED);
+                expect(newState.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
                 expect(newState).not.toBe(originalState);
             });
             it('should reset sortField error', () => {
@@ -256,7 +270,7 @@ describe('record-lookup-reducer', () => {
                 newState = recordLookupReducer(originalState, event);
             });
             it('should update filterType', () => {
-                expect(newState.filterType.value).toBe(RECORD_FILTER_CRITERIA.NONE);
+                expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
                 expect(newState).not.toBe(originalState);
             });
             it('should reset filter errors and value', () => {
@@ -352,11 +366,11 @@ describe('record-lookup-reducer - State with sObject', () => {
                 };
                 newState = recordLookupReducer(originalState, event);
             });
-            it('should update sobject variable name', () => {
+            it('should update "outputReference" (sobject variable name)', () => {
                 expect(newState.outputReference.value).toBe('NewOutputReference');
                 expect(newState).not.toBe(originalState);
             });
-            it('should reset queriedFields', () => {
+            it('should reset "queriedFields"', () => {
                 expect(newState.queriedFields).toHaveLength(2);
                 expect(newState.queriedFields[1].field.value).toBe('');
             });
@@ -498,7 +512,7 @@ describe('record-lookup-reducer - State with errors', () => {
             name : { value: 'testRecord', error: null },
             outputReference : { value: store.accountSObjectVariableGuid, error: null},
             sortField : { value:'Name', error:null},
-            sortOrder : { value: SORT_ORDER.ASC, error: null},
+            sortOrder : SORT_ORDER.ASC,
             assignNullValuesIfNoRecordsFound : false,
             outputAssignments : [],
             queriedFields: [
@@ -506,7 +520,7 @@ describe('record-lookup-reducer - State with errors', () => {
                 {field: {value: 'BillingAddress', error: null}, rowIndex: '77cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
                 {field: {value: 'BillingAddress', error: "DuplicateValue"}, rowIndex: '78cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
             object: { value: 'Account', error: ''},
-            filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+            filterType: RECORD_FILTER_CRITERIA.NONE,
             filters: [{ }],
         };
     });

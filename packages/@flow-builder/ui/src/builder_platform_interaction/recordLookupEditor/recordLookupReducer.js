@@ -1,30 +1,31 @@
 import { updateProperties, set, deleteItem, hydrateWithErrors, replaceItem } from "builder_platform_interaction/dataMutationLib";
-import {
-    PropertyChangedEvent,
-    AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent,
-    AddRecordLookupFieldEvent,
-    UpdateRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent,
-    AddRecordFieldAssignmentEvent,
-    DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent,
-} from "builder_platform_interaction/events";
+import { PropertyChangedEvent, AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent, AddRecordLookupFieldEvent, UpdateRecordLookupFieldEvent,
+    DeleteRecordLookupFieldEvent, AddRecordFieldAssignmentEvent, DeleteRecordFieldAssignmentEvent, UpdateRecordFieldAssignmentEvent } from "builder_platform_interaction/events";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { recordLookupValidation, getRules } from "./recordLookupValidation";
-import { RECORD_FILTER_CRITERIA, SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
-const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
+import { RECORD_FILTER_CRITERIA, SORT_ORDER, NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 
-const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
-
-const RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
-
+const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR, RHS = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE;
 const RHS_DATA_TYPE = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
+const PROPS = {
+        object: 'object',
+        outputAssignments: 'outputAssignments',
+        assignNullValuesIfNoRecordsFound: 'assignNullValuesIfNoRecordsFound',
+        filters: 'filters',
+        filterType: 'filterType',
+        queriedFields: 'queriedFields',
+        numberRecordsToStore: 'numberRecordsToStore',
+        wayToStoreFields: 'wayToStoreFields',
+        sortOrder: 'sortOrder',
+        sortField: 'sortField',
+        outputReference: 'outputReference'
+   };
 
-const OUTPUTASSIGNMENTS_PROP = 'outputAssignments';
+const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP].nonHydratableProperties, PROPS.wayToStoreFields]);
 
 const emptyFilterItem = () => {
     return {
@@ -45,31 +46,31 @@ const emptyAssignmentItem = () => {
 };
 
 const addRecordFilter = (state) => {
-    const path = ['filters', state.filters.length];
+    const path = [PROPS.filters, state.filters.length];
     return set(state, path, emptyFilterItem());
 };
 
 const deleteRecordFilter = (state, event) => {
     const updatedItems = deleteItem(state.filters, event.detail.index);
-    return set(state, 'filters', updatedItems);
+    return set(state, PROPS.filters, updatedItems);
 };
 
 const updateRecordFilter = (state, event) => {
-    const path = ['filters', event.detail.index];
+    const path = [PROPS.filters, event.detail.index];
     const item = updateProperties(state.filters[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
 const addQueriedField = (state) => {
     const emptyField = hydrateWithErrors({field: '', rowIndex: generateGuid()});
-    const path = ['queriedFields', state.queriedFields.length];
+    const path = [PROPS.queriedFields, state.queriedFields.length];
     return set(state, path, emptyField);
 };
 
 const deleteQueriedField = (state, event) => {
     const oldFieldValue = state.queriedFields[event.detail.index].field.value;
     const updatedItems = deleteItem(state.queriedFields, event.detail.index);
-    state = set(state, 'queriedFields', updatedItems);
+    state = set(state, PROPS.queriedFields, updatedItems);
     // reset last empty field's blank error if any
     // 'Id' + one field
     if (state.queriedFields.length === 2 && state.queriedFields[1].field.value === '' && state.queriedFields[1].field.error) {
@@ -92,19 +93,18 @@ const updateQueriedField = (state, event) => {
 };
 
 const resetOutputAssignments = (state) => {
-    // reset outputAssignments
-    return set(state, OUTPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
+    return set(state, PROPS.outputAssignments, [emptyAssignmentItem()]);
 };
 
 const addRecordFieldAssignment = (state) => {
-    const path = [OUTPUTASSIGNMENTS_PROP, state.outputAssignments.length];
+    const path = [PROPS.outputAssignments, state.outputAssignments.length];
     return set(state, path, emptyAssignmentItem());
 };
 
 const deleteRecordFieldAssignment = (state, event) => {
     const updatedItems = deleteItem(state.outputAssignments, event.detail.index);
-    state = set(state, OUTPUTASSIGNMENTS_PROP, updatedItems);
-    // reset last empty outputAssignments's blank error if any
+    state = set(state, PROPS.outputAssignments, updatedItems);
+    // reset if single empty outputAssignments's its blank error if any
     if (state.outputAssignments.length === 1 && state.outputAssignments[0].leftHandSide.value === '' && state.outputAssignments[0].leftHandSide.error) {
         state = resetOutputAssignments(state);
     }
@@ -112,68 +112,125 @@ const deleteRecordFieldAssignment = (state, event) => {
 };
 
 const updateRecordFieldAssignment = (state, event) => {
-    const path = [OUTPUTASSIGNMENTS_PROP, event.detail.index];
+    const path = [PROPS.outputAssignments, event.detail.index];
     const item = updateProperties(state.outputAssignments[event.detail.index], event.detail.value);
     return set(state, path, item);
 };
 
 const resetQueriedFields = (state) => {
     // reset queriedFields: create one empty query field item + Id
-    return set(state, 'queriedFields', hydrateWithErrors([{field: 'Id', rowIndex: generateGuid()}, {field: '', rowIndex: generateGuid()}]));
-};
-
-const resetFilter = (state) => {
-    // reset filters: create one empty filter item
-    return set(state, 'filters', [emptyFilterItem()]);
+    return set(state, PROPS.queriedFields, hydrateWithErrors([{field: 'Id', rowIndex: generateGuid()}, {field: '', rowIndex: generateGuid()}]));
 };
 
 const updateOutputReferenceAndQueriedFields = (state, value, error) => {
     // update outputReference
-    state = updateProperties(state, {'outputReference': {value, error}});
+    state = updateProperties(state, {[PROPS.outputReference]: {value, error}});
     // reset queriedFields: create one empty query item + Id
     return resetQueriedFields(state);
 };
 
-const resetRecordLookupWithoutFilter = (state) => {
-    // reset sortField & sortOrder
-    state = updateProperties(state, {sortOrder: { value: SORT_ORDER.NOT_SORTED, error: null}});
-    state = updateProperties(state, {sortField: { value: '', error: null}});
+/**
+ * Reset current element state's sortOrder and sortField properties
+ * @param {Object} state - current element's state
+ * @returns {Object} updated state
+ */
+const resetSordOrderAndSortField = state => {
+    return updateProperties(state, {
+        sortOrder: SORT_ORDER.NOT_SORTED,
+        sortField: { value: '', error: null}
+    });
+};
+
+/**
+ * Reset current element state's outputAssignments, outputReference, queriedFields, sortOrder and sortField properties
+ * @param {Object} state - current element's state
+ * @returns {Object} updated state
+ */
+const resetRecordLookupWithoutFilter = state => {
+    state = resetSordOrderAndSortField(state);
     state = resetOutputAssignments(state);
     // reset outputReference and queried fields
     return updateOutputReferenceAndQueriedFields(state, '', null);
 };
 
+/**
+ * Reset current element's state filters property
+ * @param {Object} state - current element's state
+ * @returns {Object} updated state
+ */
+const resetFilters = state => {
+    // reset filters: create one empty filter item
+    return set(state, PROPS.filters, [emptyFilterItem()]);
+};
+
+/**
+ * Reset current element's state numberRecordsToStore, wayToStoreFields and assignNullValuesIfNoRecordsFound properties
+ * @param {Object} state - current element's state
+ * @returns {Object} updated state
+ */
+const resetStoreOptions = state => {
+    return updateProperties(state, {
+        [PROPS.numberRecordsToStore]: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+        [PROPS.wayToStoreFields]: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+        [PROPS.assignNullValuesIfNoRecordsFound]: false
+    });
+};
+
+/**
+ * Reset filterType, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
+ * @param {Object} state - current element state
+ * @returns {Object} updated state
+ */
+const resetSubSections = state => {
+            // reset all filterItems, outputReference, queriedFields
+            state = resetRecordLookupWithoutFilter(state);
+            // reset filters & filterType
+            state = updateProperties(state, {[PROPS.filterType]: RECORD_FILTER_CRITERIA.NONE});
+            state = resetFilters(state);
+            // reset storing options
+            return resetStoreOptions(state);
+};
+
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
-    if (propertyName === 'wayToStoreFields') {
-        // reset outputReference and queried fields
-        state = updateOutputReferenceAndQueriedFields(state, '', null);
-        return resetOutputAssignments(state);
+    if (value === oldValue) {
+        return state;
     }
+
     if (!ignoreValidate) {
         error = error === null ? recordLookupValidation.validateProperty(propertyName, value) : error;
     }
 
-    if (propertyName !== 'assignNullValuesIfNoRecordsFound' && propertyName !== 'assignNullValuesIfNoRecordsFound') {
+    //  filtering out non-hydratable properties
+    if (!NON_HYDRATABLE_PROPS.has(propertyName)) {
         state = updateProperties(state, {[propertyName]: {value, error}});
     }
 
     if (!error) {
-        if (propertyName === 'object' && value !== oldValue) {
-            // reset all filterItems, outputReference, queriedFields
-            state = resetRecordLookupWithoutFilter(state);
-            state = resetFilter(state);
-        } else if (propertyName === 'outputReference' && value !== oldValue) {
+        if (propertyName === PROPS.object) {
+            state = resetSubSections(state);
+        } else if (propertyName === PROPS.outputReference) {
             state = resetQueriedFields(state);
-        } else if (propertyName === 'numberRecordsToStore' && value !== oldValue) {
+        } else if (propertyName === PROPS.numberRecordsToStore) {
             state = updateProperties(state, {[propertyName]: value});
             state = resetRecordLookupWithoutFilter(state);
-        } else if (propertyName === 'sortOrder' && value === SORT_ORDER.NOT_SORTED) {
-            // reset error if any, and preserve value
-            state = updateProperties(state, {sortField: {value: state.sortField.value, error: null}});
-        } else if (propertyName === 'filterType' && value === RECORD_FILTER_CRITERIA.NONE) {
-            // reset errors in filters if any, and preserve values
-            state = resetFilter(state);
-        } else if (propertyName === 'assignNullValuesIfNoRecordsFound') {
+        } else if (propertyName === PROPS.sortOrder) {
+            state = updateProperties(state,  {[propertyName]: value});
+            // if set to no sorting: reset error if any, and preserve value
+            if (value === SORT_ORDER.NOT_SORTED) {
+               state = updateProperties(state, {sortField: {value: state.sortField.value, error: null}});
+            }
+        } else if (propertyName === PROPS.filterType) {
+            state = updateProperties(state, {[propertyName]: value});
+            if (value === RECORD_FILTER_CRITERIA.NONE) {
+                // reset errors in filters if any, and preserve values
+                state = resetFilters(state);
+            }
+        } else if (propertyName === PROPS.wayToStoreFields) {
+            state = updateProperties(state, {[propertyName]: value});
+            // reset outputReference and queried fields
+            state = updateOutputReferenceAndQueriedFields(state, '', null);
+            state = resetOutputAssignments(state);
+        } else if (propertyName === PROPS.assignNullValuesIfNoRecordsFound) {
             state = updateProperties(state, {[propertyName]: value});
         }
     }
@@ -181,10 +238,10 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
 };
 
 /**
- * decision reducer function runs validation rules and returns back the updated element state
- * @param {object} state - element / node state
- * @param {object} event - The event to be handled
- * @returns {object} state - updated state
+ * Element reducer function: runs validation rules and returns back the updated element state
+ * @param {Object} state - element's state
+ * @param {Object} event - The event to be handled
+ * @returns {object} updated state
  */
 export const recordLookupReducer = (state, event) => {
     switch (event.type) {

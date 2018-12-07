@@ -69,33 +69,40 @@ const additionalRules = {
 export const recordLookupValidation = new Validation(additionalRules);
 
 /**
+ * Build specific overridden rules
  * @param {Object} nodeElement the element that need to be validated
- * @return {Object} the override rules
+ * @param {string} nodeElement.filterType - current element's filterType
+ * @param {string} nodeElement.sortOrder - current element's sortOrder
+ * @param {Object} nodeElement.object - current element's object
+ * @param {string} nodeElement.wayToStoreFields - current element's wayToStoreFields
+ * @param {string} nodeElement.numberRecordsToStore - current element's numberRecordsToStore
+ * @param {Object[]} nodeElement.outputAssignments - current element's outputAssignments
+ * @param {Object} nodeElement.outputReference - current element's outputReference
+ * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
+ * @return {Object} the overridden rules
  */
-export const getRules = (nodeElement, {wayToStoreFields}) => {
-    const overrideRules = { ...recordLookupValidation.finalizedRules};
+export const getRules = ({filterType, sortOrder, object, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, queriedFields}) => {
+    const overriddenRules = { ...recordLookupValidation.finalizedRules};
     // validate filters if filter type is ALL
-    if (nodeElement.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
-        overrideRules.filters = validateFilter();
+    if (filterType === RECORD_FILTER_CRITERIA.ALL) {
+        overriddenRules.filters = validateFilter();
     }
     // validate sortField when sortOrder !== NOT_SORTED
-    if (nodeElement.sortOrder.value !== SORT_ORDER.NOT_SORTED) {
-        overrideRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
+    if (sortOrder !== SORT_ORDER.NOT_SORTED) {
+        overriddenRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
 
-    if (nodeElement.object && nodeElement.object.value && !nodeElement.object.error) {
-        if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && nodeElement.numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && nodeElement.outputAssignments.length > 1) {
-            overrideRules.outputAssignments = validateAssignments();
-        } else if (nodeElement.outputAssignments && nodeElement.outputAssignments.length === 1 && nodeElement.outputAssignments[0].leftHandSide.value) {
-            overrideRules.outputAssignments = validateAssignments();
+    if (object && object.value && !object.error) {
+        if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && outputAssignments.length > 1) {
+            overriddenRules.outputAssignments = validateAssignments();
+        } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {
+            overriddenRules.outputAssignments = validateAssignments();
         } else if (wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE) {
-            overrideRules.outputReference = validateOutputReference();
-
-            if (nodeElement.outputReference && nodeElement.outputReference.value && nodeElement.queriedFields.length > 2) {
-                overrideRules.queriedFields = validateQueriedField();
+            overriddenRules.outputReference = validateOutputReference();
+            if (outputReference && outputReference.value && queriedFields.length > 2) {
+                overriddenRules.queriedFields = validateQueriedField();
             }
         }
     }
-
-    return overrideRules;
+    return overriddenRules;
 };

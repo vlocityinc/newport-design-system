@@ -81,12 +81,12 @@ const defaultRecordLookupElement = () => ({
     name : { value: '', error: null },
     outputReference : { value: '', error: null},
     sortField : { value:'', error: null},
-    sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
+    sortOrder : SORT_ORDER.NOT_SORTED,
     assignNullValuesIfNoRecordsFound : false,
     outputAssignments : [],
     queriedFields: [],
     object: { value: '', error: null},
-    filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+    filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 });
@@ -100,7 +100,7 @@ const recordLookupElementWithSObject = () => ({
     name : { value: 'testRecord', error: null },
     outputReference : { value: store.accountSObjectVariableGuid, error: null},
     sortField : { value:'', error:null},
-    sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
+    sortOrder : SORT_ORDER.NOT_SORTED,
     assignNullValuesIfNoRecordsFound : false,
     outputAssignments : [],
     queriedFields: [
@@ -113,7 +113,7 @@ const recordLookupElementWithSObject = () => ({
         }
     ],
     object: { value: 'Account', error: ''},
-    filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+    filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 });
@@ -127,12 +127,12 @@ const recordLookupElementWithSObjectAndFilters = () => ({
     name : { value: 'testRecord', error: null },
     outputReference : { value: store.accountSObjectVariableGuid, error: null},
     sortField : { value:'', error:null},
-    sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
+    sortOrder : SORT_ORDER.NOT_SORTED,
     assignNullValuesIfNoRecordsFound : false,
     outputAssignments : [],
     queriedFields: [],
     object: { value: 'Account', error: null},
-    filterType: { error: null, value:'all'},
+    filterType: RECORD_FILTER_CRITERIA.ALL,
     filters: [{leftHandSide: {value: 'Account.billingAddress', error: null},
         operator: {value: 'EqualTo', error: null},
         rightHandSide: {value: 'my address', error: null},
@@ -153,10 +153,10 @@ const recordLookupElementWithFields = () => ({
         rightHandSide: {value: 'vCity', error: null},
         rowIndex: 'f972abcb-1df5-41f1-9d31-f5076cbc8'}],
     sortField : { value:'', error:null},
-    sortOrder : { value: SORT_ORDER.NOT_SORTED, error: null},
+    sortOrder : SORT_ORDER.NOT_SORTED,
     assignNullValuesIfNoRecordsFound : false,
     object: { value: 'Account', error: ''},
-    filterType: { error: null, value: RECORD_FILTER_CRITERIA.NONE},
+    filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 });
@@ -323,7 +323,7 @@ describe('record-lookup-editor', () => {
             const recordSort = getRecordSort(recordLookupEditor);
             expect(recordSort.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
         });
-        it('record filter criteria should be "none" ', () => {
+        it('record filter type should be "none" ', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
             expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
         });
@@ -369,7 +369,7 @@ describe('record-lookup-editor', () => {
             const recordQueryField = getRecordQueryFields(recordLookupEditor);
             expect(recordQueryField).toBeNull();
         });
-        it('record filter criteria should be "none" ', () => {
+        it('record filterType should be "none" ', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
             expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
         });
@@ -395,7 +395,7 @@ describe('record-lookup-editor', () => {
             return Promise.resolve().then(() => {
                 const recordSort = getRecordSort(recordLookupEditor);
                 expect(recordSort.sortOrder).toBe(SORT_ORDER.ASC);
-                expect(recordLookupEditor.node.sortOrder.value).toBe(SORT_ORDER.ASC);
+                expect(recordLookupEditor.node.sortOrder).toBe(SORT_ORDER.ASC);
             });
         });
         it('change number record to store to All records, sObject picker should changed', () => {
@@ -433,7 +433,7 @@ describe('record-lookup-editor', () => {
             const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(RECORD_FILTER_CRITERIA.ALL);
             getRecordFilter(recordLookupEditor).dispatchEvent(recordFilterTypeChangedEvent);
             return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.filterType.value).toBe(RECORD_FILTER_CRITERIA.ALL);
+                expect(recordLookupEditor.node.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
             });
         });
         it('reselect same "outputReference" should not reset query fields', () => {

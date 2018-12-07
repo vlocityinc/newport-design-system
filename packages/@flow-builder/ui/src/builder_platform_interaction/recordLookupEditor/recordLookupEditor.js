@@ -23,10 +23,8 @@ export default class RecordLookupEditor extends LightningElement {
         fields: {},
     }
 
-    wayToStoreFields = '';
-
     /**
-     * only queryable entities available
+     * only "Queryable" entities available
      */
     crudFilterType = ENTITY_TYPE.QUERYABLE
 
@@ -58,7 +56,15 @@ export default class RecordLookupEditor extends LightningElement {
      * Used to know if we are dealing with an editor in edit mode or addition mode.
      */
     @api
-    mode;
+    get mode() {
+        return this._mode;
+    }
+
+    set mode(newValue) {
+        this._mode = newValue;
+        this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement,
+                {wayToStoreFields: this.hasOutputReference ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES});
+    }
 
     /**
      * Is in "add element" mode (ie: added from the palette to the canvas)?
@@ -73,8 +79,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {Object[]} list of errors
      */
     @api validate() {
-        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, { type: VALIDATE_ALL,
-            wayToStoreFields : this.wayToStoreFieldsValue });
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, { type: VALIDATE_ALL});
         return getErrorsFromHydratedElement(this.state.recordLookupElement);
     }
 
@@ -130,24 +135,18 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {string} the sObject or sObject collection variable that you want to assign the records to reference them later
      */
     get outputReferenceValue() {
-        if (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.value) {
-             return this.state.recordLookupElement.outputReference.value;
-        }
-        return '';
+        return (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.value) || '';
     }
 
     /**
      * @returns {string} the output reference error message
      */
     get outputReferenceErrorMessage() {
-        if (this.state.recordLookupElement.outputReference) {
-            return this.state.recordLookupElement.outputReference.error;
-        }
-        return '';
+        return (this.state.recordLookupElement.outputReference && this.state.recordLookupElement.outputReference.error) || '';
     }
 
     /**
-     * @returns {Object} config to pass to entity-resource-picker component
+     * @returns {Object} configuration to pass to entity-resource-picker component
      */
     get entityComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
@@ -185,10 +184,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {string} This value can be 'sObjectVariable' or 'separateVariables'
      */
     get wayToStoreFieldsValue() {
-        if (this.wayToStoreFields === '') {
-           this.wayToStoreFields = this.hasOutputReference ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
-        }
-        return this.wayToStoreFields;
+        return this.state.recordLookupElement.wayToStoreFields;
     }
 
     /**
@@ -261,9 +257,7 @@ export default class RecordLookupEditor extends LightningElement {
         } else if (this.state.recordLookupElement.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord) {
             this.updateProperty('assignNullValuesIfNoRecordsFound', assignNullToVariableNoRecord, null, true);
         } else if (this.wayToStoreFieldsValue !== wayToStoreFields) {
-            // reset outputAssignments
-            this.updateProperty('wayToStoreFields', '', null, false);
-            this.wayToStoreFields = wayToStoreFields;
+            this.updateProperty('wayToStoreFields', wayToStoreFields, null, true);
         }
     }
 
@@ -287,7 +281,8 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleFilterTypeChanged(event) {
         event.stopPropagation();
-        this.updateProperty('filterType', event.detail.filterType, event.detail.error, false);
+        const {filterType, error} = event.detail;
+        this.updateProperty('filterType', filterType, error, true, this.state.recordLookupElement.filterType);
     }
 
     /**
