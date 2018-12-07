@@ -1,10 +1,10 @@
 <template>
-    <div if:true={descriptor}>
+    <div class='container' if:true={descriptor}>
         <div class='slds-is-relative slds-grid'>
-            <div class='slds-grow' if:true={isInput}>
+            <div class='input slds-grow' if:true={isInput}>
                 <builder_platform_interaction-screen-property-field allow-resources-for-parameter
                                                                     data-param-type='input'
-                                                                    help-text={descriptor.descriptor}
+                                                                    help-text={helptext}
                                                                     label={label} 
                                                                     name={descriptor.apiName}
                                                                     required={descriptor.isRequired}
@@ -14,9 +14,9 @@
                                                                     onpropertychanged={handlePropertyChanged}>
                 </builder_platform_interaction-screen-property-field>
             </div>
-            <div class='slds-grid slds-grow' if:true={isOutput}>
+            <div class='output slds-grid slds-grow' if:true={isOutput}>
                 <div class='slds-p-top_xx-small slds-p-right_x-small' if:true={icon}>
-                    <div if:false={isFirst} class='slds-p-top_xx-small'></div>
+                    <div if:false={isFirst} class='padding slds-p-top_xx-small'></div>
                     <lightning-icon icon-name={icon} size='x-small'></lightning-icon>
                 </div>
                 <builder_platform_interaction-screen-property-field class='slds-grow'
