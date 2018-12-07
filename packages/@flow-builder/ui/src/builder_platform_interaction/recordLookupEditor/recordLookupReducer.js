@@ -142,12 +142,11 @@ const resetSordOrderAndSortField = state => {
 };
 
 /**
- * Reset current element state's outputAssignments, outputReference, queriedFields, sortOrder and sortField properties
+ * Reset current element state's outputAssignments, outputReference and queriedFields properties
  * @param {Object} state - current element's state
  * @returns {Object} updated state
  */
-const resetRecordLookupWithoutFilter = state => {
-    state = resetSordOrderAndSortField(state);
+const resetOutputAssignmentsOutputReferenceAndQueriedfields = state => {
     state = resetOutputAssignments(state);
     // reset outputReference and queried fields
     return updateOutputReferenceAndQueriedFields(state, '', null);
@@ -182,13 +181,13 @@ const resetStoreOptions = state => {
  * @returns {Object} updated state
  */
 const resetSubSections = state => {
-            // reset all filterItems, outputReference, queriedFields
-            state = resetRecordLookupWithoutFilter(state);
-            // reset filters & filterType
-            state = updateProperties(state, {[PROPS.filterType]: RECORD_FILTER_CRITERIA.NONE});
-            state = resetFilters(state);
-            // reset storing options
-            return resetStoreOptions(state);
+    state = resetSordOrderAndSortField(state);
+    state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
+    // reset filters & filterType
+    state = updateProperties(state, {[PROPS.filterType]: RECORD_FILTER_CRITERIA.NONE});
+    state = resetFilters(state);
+    // reset storing options
+    return resetStoreOptions(state);
 };
 
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
@@ -212,7 +211,7 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
             state = resetQueriedFields(state);
         } else if (propertyName === PROPS.numberRecordsToStore) {
             state = updateProperties(state, {[propertyName]: value});
-            state = resetRecordLookupWithoutFilter(state);
+            state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
         } else if (propertyName === PROPS.sortOrder) {
             state = updateProperties(state,  {[propertyName]: value});
             // if set to no sorting: reset error if any, and preserve value

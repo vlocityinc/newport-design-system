@@ -384,19 +384,23 @@ describe('record-lookup-reducer - State with sObject', () => {
                 expect(newState.queriedFields[1].field.value).toBe('BillingAddress');
             });
         });
-        describe('update numberRecordsToStore from First Record to All Records', () => {
+        describe('update "numberRecordsToStore" from "First Record" to "All Records"', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordLookupUsingSobjectState();
-                const propertyName = 'numberRecordsToStore';
-                const value = NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.outputReference.value);
+                const propertyName = 'numberRecordsToStore', value = NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error = null;
+                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, true, originalState.outputReference.value);
                 propChangedEvent.detail.ignoreValidate = true;
                 newState = recordLookupReducer(originalState, propChangedEvent);
             });
-            it('should reset outputReference', () => {
+            it('should reset "outputReference"', () => {
                 expect(newState.outputReference.value).toBe('');
+            });
+            it('should NOT reset "sortOrder"', () => {
+                expect(newState.sortOrder.value).toBe(originalState.sortOrder.value);
+            });
+            it('should NOT reset "sortField"', () => {
+                expect(newState.sortField.value).toBe(originalState.sortField.value);
             });
         });
         describe('update numberRecordsToStore from All Records to First Record', () => {
