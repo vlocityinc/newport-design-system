@@ -513,8 +513,8 @@ describe('base expression builder', () => {
                 rhsLiteralsAllowed: true,
             });
             const item = {
-                value: 'Advertisement',
-                displayText: 'Advertisement',
+                value: accountField.picklistValues[0].value + '-' + accountField.picklistValues[0].label,
+                displayText: accountField.picklistValues[0].value,
             };
             const eventCallback = jest.fn();
             expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
@@ -524,7 +524,7 @@ describe('base expression builder', () => {
             return Promise.resolve().then(() => {
                 const newExpression = eventCallback.mock.calls[0][0].detail.newValue;
                 expect(eventCallback).toHaveBeenCalled();
-                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.value);
+                expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value).toEqual(item.displayText);
                 expect(newExpression[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE].value).toEqual(FLOW_DATA_TYPE.STRING.value);
             });
         });

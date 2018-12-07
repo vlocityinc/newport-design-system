@@ -736,8 +736,10 @@ export default class BaseExpressionBuilder extends LightningElement {
             if (getResourceByUniqueIdentifier(rhsItem.value) || rhsItem.parent) {
                 // if it's a store element it's FEROV dataType is 'REFERENCE', or it may be a faked element e.g. global constant false
                 rhsdt = getFerovDataTypeForValidId(rhsItem.value);
-            } else if (!this.lhsActivePicklistValues || !this.lhsActivePicklistValues.find((picklistItem) => picklistItem.value === rhsItem.value)) {
-                // if it isn't uniquely identifiable, and it's not a faked item for a picklist value, something else is wrong
+            } else if (this.isPicklistItem(rhsItem)) {
+                // if picklist, the value should be the displayText that the user sees
+                rhs = rhsItem.displayText;
+            } else {
                 rhs = event.detail.displayText;
                 error = genericErrorMessage;
             }
@@ -751,6 +753,16 @@ export default class BaseExpressionBuilder extends LightningElement {
             expressionUpdates[RHSDT] = {value: rhsdt, error: CLEAR_ERROR};
         }
         this.fireRowContentsChangedEvent(expressionUpdates);
+    }
+
+    isPicklistItem(rhsItem) {
+        const matchPicklistItem = (picklistItem) => {
+            if (picklistItem.label) {
+                return (picklistItem.value + '-' + picklistItem.label) === rhsItem.value;
+            }
+            return picklistItem.value === rhsItem.value;
+        };
+        return this.lhsActivePicklistValues && this.lhsActivePicklistValues.find(matchPicklistItem);
     }
 
     fireRowContentsChangedEvent(newExpression) {

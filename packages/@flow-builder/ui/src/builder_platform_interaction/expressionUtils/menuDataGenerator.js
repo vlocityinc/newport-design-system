@@ -182,17 +182,18 @@ export const mutateEntitiesToComboboxShape = (entities) => {
 
 /**
  * Mutates one picklist value into a combobox menu item
- * @param {Object} picklistValue object that is a picklist value
+ * @param {Object} picklistOption object that is a picklist value
  * @returns {MenuItem} menu item representing the picklist value
  */
-export const mutatePicklistValue = (picklistValue) => {
+export const mutatePicklistValue = (picklistOption) => {
     return createMenuItem(
         COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-        picklistValue.label || picklistValue.value,
+        picklistOption.label || picklistOption.value,
         FLOW_DATA_TYPE.STRING.label,
-        picklistValue.label || picklistValue.value,
+        picklistOption.value,
         getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
-        picklistValue.value,
+        // This is to insure uniqueness among picklist values
+        (picklistOption.label) ? (picklistOption.value + '-' + picklistOption.label) : picklistOption.value,
     );
 };
 
