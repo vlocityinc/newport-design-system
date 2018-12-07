@@ -12,4 +12,5 @@ export default class LightningIcon extends LightningElement {
     @api iconName;
     @api size = 'medium';
     @api variant;
+    @api title;
 }

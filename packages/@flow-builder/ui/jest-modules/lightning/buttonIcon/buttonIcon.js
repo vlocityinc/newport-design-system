@@ -14,4 +14,5 @@ export default class LightningButtonIcon extends LightningElement {
     @api variant;
     @api disabled;
     @api iconClass;
+    @api title;
 }
