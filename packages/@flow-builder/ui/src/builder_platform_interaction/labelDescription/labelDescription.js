@@ -48,14 +48,14 @@ export default class LabelDescription extends LightningElement {
     disableDevNameValidation = false;
 
     /**
-    * Used for cases where the name shouldn't be editable for Step Elements
-    */
+     * Used for cases where the name shouldn't be editable for Step Elements
+     */
     @api
     disableName;
 
     /**
      * Used for cases where the name shouldn't be editable for Step Elements
-    */
+     */
     @api
     disableDescription;
 
@@ -132,13 +132,17 @@ export default class LabelDescription extends LightningElement {
         labelInput.focus();
     }
 
-    /** LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering. **/
+    /**
+     * LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering.
+     *
+     * TODO: revisit as part of W-5676962
+     * **/
     renderedCallback() {
-        if (this.state.label.value !== '') {
+        if (this.state.label.value !== '' || this.state.label.error) {
             const labelInput = this.template.querySelector(SELECTORS.LABEL);
             this.setInputErrorMessage(labelInput, this.state.label.error);
         }
-        if (this.state.devName.value !== '') {
+        if (this.state.devName.value !== '' || this.state.devName.error) {
             const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);
         }
