@@ -1,5 +1,6 @@
 import {
     normalizeRHS,
+    populateLhsStateForField,
     getResourceByUniqueIdentifier,
     getFerovInfoAndErrorFromEvent,
     checkExpressionForDeletedElem,
@@ -9,6 +10,8 @@ import * as store from "mock/storeData";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces, format } from "builder_platform_interaction/commonUtils";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { mutateFieldToComboboxShape } from '../menuDataGenerator';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -40,6 +43,20 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/ruleLib', () => {
+    return {
+        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
+        elementToParam: jest.fn(),
+    };
+});
+
+jest.mock('../menuDataGenerator', () => {
+    return {
+        mutateFlowResourceToComboboxShape: require.requireActual('../menuDataGenerator').mutateFlowResourceToComboboxShape,
+        mutateFieldToComboboxShape: jest.fn(),
+    };
+});
+
 describe('RHS normalize', () => {
     it('should match an rhs value with a picklist api name to a menu item', () => {
         const rhsApiValue = 'AccountSource';
@@ -51,6 +68,36 @@ describe('RHS normalize', () => {
         const fieldTraversal = ".Owner.Id";
         const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + fieldTraversal);
         expect(normalizedRHS.itemOrDisplayText).toEqual(addCurlyBraces(store.elements[store.accountSObjectVariableGuid].name + fieldTraversal));
+    });
+    it('should not throw an exception if the user does not have access to the SObject in a merge field', () => {
+        getFieldsForEntity.mockReturnValueOnce(undefined);
+        const field = ".Name";
+        const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + field);
+        expect(normalizedRHS.itemOrDisplayText).toBe('guid2.Name');
+    });
+    it('should not throw an exception if the user does not have access to the SObject field in a merge field', () => {
+        getFieldsForEntity.mockReturnValueOnce(['Name1']);
+        const field = ".Name";
+        const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + field);
+        expect(normalizedRHS.itemOrDisplayText).toBe('guid2.Name');
+    });
+});
+
+describe('populate LHS state for field', () => {
+    it('should populate lhs state if user has access to the entity and field', () => {
+        mutateFieldToComboboxShape.mockReturnValueOnce('formattedField');
+        const lhsState = populateLhsStateForField({'Name':{}}, 'Name', 'Account', true);
+        expect(lhsState.value).toBe('formattedField');
+        expect(mutateFieldToComboboxShape).toHaveBeenCalledWith({}, 'Account',
+                true, true);
+    });
+    it('should not throw an exception if the user does not have access to the SObject', () => {
+        const lhsState = populateLhsStateForField(undefined, 'Name');
+        expect(lhsState.value).toBeUndefined();
+    });
+    it('should not throw an exception if the user does not have access to the SObject field', () => {
+        const lhsState = populateLhsStateForField({'BillingAddress':{}}, 'Name');
+        expect(lhsState.value).toBeUndefined();
     });
 });
 

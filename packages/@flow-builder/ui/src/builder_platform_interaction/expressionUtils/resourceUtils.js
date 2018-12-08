@@ -132,7 +132,7 @@ export const normalizeRHS = (rhsIdentifier) => {
             const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
             const field = fields && fields[fieldName];
             if (field) {
-                rhs.itemOrDisplayText = mutateFieldToComboboxShape(fields[fieldName], item, true, true);
+                rhs.itemOrDisplayText = mutateFieldToComboboxShape(field, item, true, true);
             }
             rhs.fields = fields;
         }
