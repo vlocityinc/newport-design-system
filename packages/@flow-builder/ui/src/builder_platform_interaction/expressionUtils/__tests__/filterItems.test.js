@@ -1,5 +1,7 @@
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
 
+const displayText = 'displayText';
+
 const filterText = {
     name: 'Name',
     str: 'str',
@@ -11,6 +13,7 @@ const filterText = {
     esperanto: '«คู้Eöש是[[Activate Session-Based Permission Set]]是שöEคู้是שöEคู้»',
     regexSpecialChar1: '$',
     regexSpecialChar2: '$%^',
+    displayText,
 };
 
 const menuData = [
@@ -58,7 +61,8 @@ const menuData = [
                 text: 'MyName',
                 iconName: 'utility:text_color',
                 subText: 'String',
-                value: 'MyVar1'
+                value: 'MyVar1',
+                displayText,
             },
             {
                 type: 'option-card',
@@ -222,6 +226,12 @@ describe('Combobox Search Library', () => {
         it('Search should work for empty filter text', () => {
             const filteredArray = filterMatches('', menuData);
             expect(filteredArray).toEqual(menuData);
+        });
+        it('Search should filter on displayText', () => {
+            const filteredArray = filterMatches(filterText.displayText, menuData);
+            expect(filteredArray).toHaveLength(1);
+            expect(filteredArray[0].label).toBe(labelVariables);
+            expect(filteredArray[0].items).toHaveLength(1);
         });
     });
 });

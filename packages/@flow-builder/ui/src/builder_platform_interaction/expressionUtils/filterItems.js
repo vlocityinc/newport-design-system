@@ -148,7 +148,7 @@ export function filterMatches(filterText, menuData, isMergeField) {
         }
 
         const matchedItems = itemsToMatch.filter(menuItem => {
-            return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1;
+            return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1 || getIndex(filterText, menuItem.displayText) !== -1;
         });
 
         const escapedFilterText = isEmpty(filterText) ? filterText : escapeForRegExp(filterText);
