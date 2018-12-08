@@ -42,7 +42,10 @@ normalizeDateTime.normalizeDateTime = jest.fn(() => {
 const mockFormattedLabel = 'some user last saved at some date time string';
 jest.mock('builder_platform_interaction/commonUtils', () => {
     return {
-        format: jest.fn()
+        format: jest.fn(),
+        isUndefinedOrNull: jest.fn(),
+        addCurlyBraces: require.requireActual('builder_platform_interaction/commonUtils').addCurlyBraces,
+        removeCurlyBraces: jest.fn(),
     };
 });
 
@@ -60,6 +63,7 @@ const createComponentUnderTest = (node) => {
 const selectors = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     FLOW_TYPE: 'lightning-combobox',
+    SAVE_AS_TOGGLE: 'lightning-radio-group',
     SHOW_ADVANCED: '.show-advanced-button',
     HIDE_ADVANCED: '.hide-advanced-button',
     ADVANCED_PROPERTIES: 'div.advanced',
@@ -101,6 +105,16 @@ const getLastProcessType = (flowPropertiesEditor) => {
     return getShadowRoot(flowPropertiesEditor).querySelector(selectors.LAST_PROCESS_TYPE);
 };
 
+const getSaveAsToggle = (flowPropertiesEditor) => {
+    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.SAVE_AS_TOGGLE);
+};
+
+const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) => {
+    const event = new PropertyChangedEvent('label', newLabelValue, error);
+    const labelDescription = getLabelDescription(flowPropertiesEditor);
+    labelDescription.dispatchEvent(event);
+};
+
 describe('FlowPropertiesEditor', () => {
     let flowProperties;
     let flowPropertiesEditor;
@@ -133,6 +147,21 @@ describe('FlowPropertiesEditor', () => {
                     const labelDescription = getLabelDescription(flowPropertiesEditor);
                     labelDescription.dispatchEvent(event);
                     expect(flowPropertiesEditor.node.description.value).toBe('new desc');
+                });
+            });
+            describe('Updating the flow label', () => {
+                it('should update the interview label if it is blank', () => {
+                    dispatchLabelChangedEvent(flowPropertiesEditor, 'new label', null);
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('new label {!$Flow.CurrentDateTime}');
+                });
+                it('should not update the interview label if the flow label has an error', () => {
+                    dispatchLabelChangedEvent(flowPropertiesEditor, 'new label', 'error');
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
+                });
+                it('should not update the interview label if it already has a value', () => {
+                    flowProperties.interviewLabel.value = 'old interview label';
+                    dispatchLabelChangedEvent(flowPropertiesEditor, 'new label', 'error');
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('old interview label');
                 });
             });
         });
@@ -292,6 +321,49 @@ describe('FlowPropertiesEditor', () => {
                 button.dispatchEvent(new CustomEvent('click'));
                 return Promise.resolve().then(() => {
                     expect(getShadowRoot(component).querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                });
+            });
+        });
+
+        describe('Toggle between save as types', () => {
+            let defaultNode;
+            beforeEach(() => {
+                defaultNode = {
+                    label: { value: 'flow label' },
+                    name: { value: 'flow name' },
+                    description: { value: 'flow description' },
+                    processType: { value: 'process type' },
+                    status: { value: 'Active' },
+                    interviewLabel: { value: 'interviewLabel' },
+                    versionNumber: 1,
+                    saveType: SaveType.NEW_DEFINITION,
+                };
+            });
+
+            it('restores the original flow property values when toggling back to New Version', () => {
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                return Promise.resolve().then(() => {
+                    const event = new PropertyChangedEvent('interviewLabel', 'new label', null);
+                    const labelDescription = getLabelDescription(flowPropertiesEditor);
+                    labelDescription.dispatchEvent(event);
+                    // This first expect is to ensure the test is not a false positive
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('new label');
+                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(new CustomEvent('change',
+                        {detail: {value: SaveType.NEW_VERSION}}));
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('interviewLabel');
+                });
+            });
+
+            it('clears the label, name, description, interview label flow properties when toggling to New Flow', () => {
+                defaultNode.saveType = SaveType.NEW_VERSION;
+                flowPropertiesEditor = createComponentUnderTest(defaultNode);
+                return Promise.resolve().then(() => {
+                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(new CustomEvent('change',
+                        {detail: {value: SaveType.NEW_DEFINITION}}));
+                    expect(flowPropertiesEditor.node.label.value).toBe('');
+                    expect(flowPropertiesEditor.node.name.value).toBe('');
+                    expect(flowPropertiesEditor.node.description.value).toBe('');
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
                 });
             });
         });
