@@ -15,7 +15,9 @@ function createComponentForTest(name, version, backUrl, helpUrl) {
 
 const selectors = {
     root: '.header',
-    flowName: '.test-flow-name-label',
+    flowNameVersionTitle: '.test-flow-name-version-title',
+    flowName: '.test-flow-name',
+    flowVersion: '.test-flow-version',
     appName: '.test-app-name',
     backUrl: '.test-back-url',
     backLabel: '.test-back-label',
@@ -42,10 +44,24 @@ describe('HEADER', () => {
         });
     });
 
+    it('checks the rendering FLOW NAME VERSION TITLE', () => {
+        const headerComponent = createComponentForTest('Flow Name', '1');
+        return Promise.resolve().then(() => {
+            expect(getShadowRoot(headerComponent).querySelector(selectors.flowNameVersionTitle).title).toEqual(`Flow Name${LABELS.versionLabelText}1`);
+        });
+    });
+
     it('checks the rendering FLOW NAME', () => {
         const headerComponent = createComponentForTest('Flow Name', '1');
         return Promise.resolve().then(() => {
-            expect(getShadowRoot(headerComponent).querySelector(selectors.flowName).textContent).toEqual(`Flow Name${LABELS.versionLabelText}1`);
+            expect(getShadowRoot(headerComponent).querySelector(selectors.flowName).textContent).toEqual(`Flow Name`);
+        });
+    });
+
+    it('checks the rendering FLOW VERSION', () => {
+        const headerComponent = createComponentForTest('Flow Name', '1');
+        return Promise.resolve().then(() => {
+            expect(getShadowRoot(headerComponent).querySelector(selectors.flowVersion).textContent).toEqual(`${LABELS.versionLabelText}1`);
         });
     });
 

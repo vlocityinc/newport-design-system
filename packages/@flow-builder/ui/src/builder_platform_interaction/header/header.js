@@ -18,9 +18,23 @@ export default class Header extends LightningElement {
         return LABELS;
     }
 
-    get fileNameAndVersion() {
+    get flowNameAndVersionTitle() {
         if (this.flowName && this.flowVersion) {
             return this.flowName + LABELS.versionLabelText + this.flowVersion;
+        }
+        return null;
+    }
+
+    get currentFlowName() {
+        if (this.flowName && this.flowVersion) {
+            return this.flowName;
+        }
+        return null;
+    }
+
+    get flowVersionNumber() {
+        if (this.flowName && this.flowVersion) {
+            return LABELS.versionLabelText + this.flowVersion;
         }
         return null;
     }

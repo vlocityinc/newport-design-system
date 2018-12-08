@@ -6,8 +6,10 @@
                 <div class="slds-media__body test-app-name">{labels.appNameText}</div>
             </div>
         </div>
-        <div class="slds-builder-header__item custom-item-width">
-            <div class="custom-builder-header__item-label slds-p-horizontal_medium slds-truncate test-flow-name-label">{fileNameAndVersion}</div>
+        <div title={flowNameAndVersionTitle} class="slds-builder-header__item custom-item-width test-flow-name-version-title">
+            <span class="custom-builder-header__item-label slds-p-left_medium slds-truncate test-flow-name">{currentFlowName}</span>
+            &nbsp;
+            <span class="custom-builder-header__item-label test-flow-version">{flowVersionNumber}</span>
         </div>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">
