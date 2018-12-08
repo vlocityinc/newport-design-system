@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import ScreenExtensionAttributeEditor from "builder_platform_interaction/ScreenExtensionAttributeEditor";
+import ScreenExtensionAttributeEditor from "builder_platform_interaction/screenExtensionAttributeEditor";
 import { query } from "builder_platform_interaction/builderTestUtils";
 import { EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";

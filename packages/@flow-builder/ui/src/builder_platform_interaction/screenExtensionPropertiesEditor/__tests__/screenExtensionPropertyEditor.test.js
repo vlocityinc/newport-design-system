@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import ScreenExtensionPropertiesEditor from "builder_platform_interaction/ScreenExtensionPropertiesEditor";
+import ScreenExtensionPropertiesEditor from "builder_platform_interaction/screenExtensionPropertiesEditor";
 import { query, createTestScreenField } from "builder_platform_interaction/builderTestUtils";
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
