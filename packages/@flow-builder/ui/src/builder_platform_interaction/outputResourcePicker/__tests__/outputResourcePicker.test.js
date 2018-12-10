@@ -2,11 +2,13 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import OutputResourcePicker from '../outputResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getMenuData, getResourceByUniqueIdentifier, mutateFieldToComboboxShape } from 'builder_platform_interaction/expressionUtils';
+import { getMenuData, getResourceByUniqueIdentifier, mutateFieldToComboboxShape, mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getRHSTypes, RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -182,20 +184,17 @@ describe('output-resource-picker', () => {
         });
     });
 
-    /*
     describe('normalize', () => {
-        commenting this out until we can find a better solution for normalizing values in the output picker
-        it('normalizes value when changing element config', () => {
-            props.value = 'barfoo';
+        it('normalizes value when changing value', () => {
             const outputResourcePicker = setupComponentUnderTest(props);
 
-            props.elementConfig = { elementType: 'foo' };
-            props.value = 'foobar';
-
-            outputResourcePicker.comboboxConfig = props.elementConfig;
-            outputResourcePicker.value = 'foobar';
+            const newValue = 'foobar';
+            outputResourcePicker.value = newValue;
             return Promise.resolve().then(() => {
-                expect(outputResourcePicker.value).toEqual('foobar');
+                expect(getResourceByUniqueIdentifier).toHaveBeenCalledWith(newValue);
+                expect(outputResourcePicker.value).toEqual(newValue);
+                expect(mutateFlowResourceToComboboxShape).not.toHaveBeenCalled();
+                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
             });
         });
 
@@ -203,14 +202,44 @@ describe('output-resource-picker', () => {
             const outputResourcePicker = setupComponentUnderTest(props);
 
             props.comboboxConfig.type = FLOW_DATA_TYPE.STRING;
-            props.value = 'foobar';
 
             outputResourcePicker.comboboxConfig = props.comboboxConfig;
-            outputResourcePicker.value = props.value;
             return Promise.resolve().then(() => {
+                expect(getResourceByUniqueIdentifier).toHaveBeenCalledWith(props.value);
                 expect(outputResourcePicker.value).toEqual(props.value);
+                expect(mutateFlowResourceToComboboxShape).not.toHaveBeenCalled();
+                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
+            });
+        });
+
+        it('does not normalize when no fields exist for entity', () => {
+            props.value = {
+                value: 'someSobject.Name',
+            };
+            getResourceByUniqueIdentifier.mockReturnValueOnce(parentItem);
+            getFieldsForEntity.mockReturnValueOnce({});
+
+            setupComponentUnderTest(props);
+
+            return Promise.resolve().then(() => {
+                expect(mutateFlowResourceToComboboxShape).not.toHaveBeenCalled();
+                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
+            });
+        });
+
+        it('does not normalize when the field does not exist for the entity', () => {
+            props.value = {
+                value: 'someSobject.Name',
+            };
+            getResourceByUniqueIdentifier.mockReturnValueOnce(parentItem);
+            getFieldsForEntity.mockReturnValueOnce({Description: 'some field value'});
+
+            setupComponentUnderTest(props);
+
+            return Promise.resolve().then(() => {
+                expect(mutateFlowResourceToComboboxShape).not.toHaveBeenCalled();
+                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
             });
         });
     });
-    */
 });
