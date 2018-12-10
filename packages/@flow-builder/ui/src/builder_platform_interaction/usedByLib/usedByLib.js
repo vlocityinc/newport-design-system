@@ -7,6 +7,8 @@ import { LABELS } from './usedByLibLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { isTemplateField, isReferenceField, shouldCallSwapFunction } from 'builder_platform_interaction/translatorLib';
 
+let mapOfChildElements = {};
+
 /**
  * This function return list of elements which are referencing elements in the elementGuids array.
  * @param {String[]} elementGuids list of guids to be matched
@@ -96,13 +98,13 @@ export function invokeUsedByAlertModal(usedByElements, elementGuidsToBeDeleted, 
  */
 export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
     let listOfGuidsToSkipWhenCheckingUsedByGlobally = [parentGuid];
-    const mapOfInternalOutcomes = internalElements.reduce((acc, element) => {
+    mapOfChildElements = internalElements.reduce((acc, element) => {
         listOfGuidsToSkipWhenCheckingUsedByGlobally = addItem(listOfGuidsToSkipWhenCheckingUsedByGlobally, element.guid);
         acc[element.guid] = element;
         return acc;
     }, []);
 
-    const locallyUsedElements = usedBy([guid], mapOfInternalOutcomes);
+    const locallyUsedElements = usedBy([guid], mapOfChildElements);
     const globallyUsedElements = usedBy([guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
     return unionOfArrays(locallyUsedElements, globallyUsedElements);
 }
@@ -170,6 +172,40 @@ function findReference(elementGuids, object, elementGuidsReferenced = new Set())
 }
 
 /**
+ * This function returns the devName of the given element
+ * @param {object} element Element object
+ * @returns {string} Returns the devName of the element
+ */
+function getElementDevName(element = {}) {
+    let devName = '';
+    if (element && element.name) {
+        devName = element.name.value || element.name;
+    }
+    return devName;
+}
+
+/**
+ * This function returns the guid associated with any passed devName. Merge Fields, for example, contain devNames instead of the guid.
+ * This is useful in finding any referenced sibling elements in an ongoing property editor session.
+ * @param {String} guidOrDevName - Guid or Devname of the referenced element
+ * @returns {String} returns the guid or converts the devname to it's matching guid and returns that
+ */
+function updateDevNameToGuid(guidOrDevName = '') {
+    let childElementGuid = guidOrDevName;
+    if (mapOfChildElements && Object.values(mapOfChildElements).length > 0) {
+        const childElements = Object.values(mapOfChildElements);
+        const childElementsLength = childElements.length;
+        for (let index = 0; index < childElementsLength; index++) {
+            if (getElementDevName(childElements[index]) === childElementGuid) {
+                childElementGuid = childElements[index].guid;
+            }
+        }
+    }
+
+    return childElementGuid;
+}
+
+/**
  * This function checks if the elementGuid is present or not
  * @param {String[]} elementGuids list of elements to be matched
  * @param {String} key key of the object
@@ -184,7 +220,7 @@ function matchElement(elementGuids, object, key, value) {
             // After slice and split, occurences = ['var_1']
             const occurences = value.match(EXPRESSION_RE);
             if (occurences) {
-                return occurences.map((occurence) => splitStringBySeparator(occurence.slice(2, occurence.length - 1))[0])
+                return occurences.map((occurence) => updateDevNameToGuid(splitStringBySeparator(occurence.slice(2, occurence.length - 1))[0]))
                     .filter((guid) => elementGuids.includes(guid));
             }
         } else if (isReferenceField(object, key)) {

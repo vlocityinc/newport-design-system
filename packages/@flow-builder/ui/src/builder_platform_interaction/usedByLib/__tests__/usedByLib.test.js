@@ -391,7 +391,8 @@ describe('Used by library', () => {
         it('returns an empty array if an element is only referenced by the parent element', () => {
             const decisionOneOutcomes = elements.DECISION_1.outcomeReferences.map((ref) => {
                 return {
-                    guid: ref.outcomeReference
+                    guid: ref.outcomeReference,
+                    name: elements[ref.outcomeReference].name
                 };
             });
 
@@ -406,7 +407,8 @@ describe('Used by library', () => {
         it('returns an empty array if an screen field element is only referenced by the screen element', () => {
             const screenOneFields = elements.SCREEN_1.fieldReferences.map((ref) => {
                 return {
-                    guid: ref.fieldReference
+                    guid: ref.fieldReference,
+                    name: elements[ref.fieldReference].name
                 };
             });
 
