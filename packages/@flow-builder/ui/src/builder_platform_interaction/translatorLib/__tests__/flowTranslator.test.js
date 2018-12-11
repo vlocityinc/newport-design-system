@@ -1,13 +1,13 @@
 import { readonly } from 'lwc';
 import { translateFlowToUIModel } from "../flowToUiTranslator";
 import { translateUIModelToFlow } from "../uiToFlowTranslator";
-import { flowWithVariables } from './flowTestData/flowWithVariablesTestData';
-import { flowWithAssignments } from "./flowTestData/flowWithAssignmentsTestData";
+import { flowWithVariables } from 'mock/flows/flowWithVariables';
+import { flowWithAssignments } from "mock/flows/flowWithAssignments";
 import { deepCopy, Store } from "builder_platform_interaction/storeLib";
-import { flowCollectionServicesDemo } from './flowTestData/flowCollectionServicesDemo';
+import { flowCollectionServicesDemo } from 'mock/flows/flowCollectionServicesDemo';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { flowLegalNameChange } from './flowTestData/flowLegalNameChangeTestData';
+import { flowLegalNameChange } from 'mock/flows/flowLegalNameChange';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
 expect.extend(deepFindMatchers);
