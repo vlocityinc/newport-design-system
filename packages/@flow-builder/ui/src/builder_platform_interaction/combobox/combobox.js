@@ -544,6 +544,9 @@ export default class Combobox extends LightningElement {
         const item = this.findItem(event.detail.value);
         const itemHasNextLevel = item && item.hasNext;
 
+        // menu data should be filtered using new display text, filtering must be fired before item is selected, as if the user typed the whole string
+        this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue(item.displayText)), true);
+
         this._item = item;
 
         if (itemHasNextLevel) {
