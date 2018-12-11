@@ -52,7 +52,7 @@ export default class FieldPicker extends LightningElement {
     }
 
     /**
-     * @param {String[]} newFields the queriedFields from recordNode.queriedFields
+     * @param {Object} newFields map of the queriedFields from recordNode.queriedFields
      */
     set fields(newFields) {
         if (newFields) {

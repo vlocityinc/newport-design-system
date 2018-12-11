@@ -6,7 +6,7 @@ import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
 import { PropertyChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { mockAccountFields } from 'mock/serverEntityData';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -38,10 +38,12 @@ jest.mock('../picklistChoiceSetReducer', () => {
     };
 });
 
+const mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockResolvedValue();
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;
 });
 
@@ -200,13 +202,22 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let fieldPicker;
         beforeEach(() => {
-            const hydratedPicklistObject = hydrateWithErrors(picklistChoiceObject, ['guid', 'elementType']);
-            picklistChoiceEditor = setupComponentUnderTest(hydratedPicklistObject);
+            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
             fieldPicker = getShadowRoot(picklistChoiceEditor).querySelector(SELECTORS.FIELD_PICKER);
         });
 
         it('fieldPicker should be defined', () => {
             expect(fieldPicker).not.toBeNull();
+        });
+
+        it('fields should be defined and have the right length', () => {
+            // There are 5 picklist fields in the mock entity data
+            expect(Object.keys(fieldPicker.fields)).toHaveLength(5);
+        });
+
+        it('fields should have the field we expect', () => {
+            // Comes from the mock entity data
+            expect(fieldPicker.fields.AccountSource).toBeDefined();
         });
 
         it('Changing value in field-picker should update picklistField', () => {
@@ -224,8 +235,7 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let sortOrderCombobox;
         beforeEach(() => {
-            const hydratedPicklistObject = hydrateWithErrors(picklistChoiceObject, ['guid', 'elementType']);
-            picklistChoiceEditor = setupComponentUnderTest(hydratedPicklistObject);
+            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
             sortOrderCombobox = getShadowRoot(picklistChoiceEditor).querySelector('lightning-combobox');
         });
 
@@ -251,8 +261,7 @@ describe('picklist-choice-set-editor', () => {
 
     describe('Validation', () => {
         it('Calls reducer with validate all event', () => {
-            const hydratedPicklistObject = hydrateWithErrors(picklistChoiceObject, ['guid', 'elementType']);
-            const picklistChoiceEditor = setupComponentUnderTest(hydratedPicklistObject);
+            const picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
             picklistChoiceEditor.validate();
             expect(picklistChoiceSetReducer.mock.calls[0][1]).toEqual({type: VALIDATE_ALL});
         });

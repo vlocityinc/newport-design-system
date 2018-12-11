@@ -16,12 +16,14 @@ import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { mockAccountFields } from 'mock/serverEntityData';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
+    FIELD_PICKER: 'builder_platform_interaction-field-picker',
     RECORD_FILTER: 'builder_platform_interaction-record-filter',
     RECORD_SORT: 'builder_platform_interaction-record-sort',
     CHOICE_LIMIT_INPUT: '.choice-limit',
@@ -51,10 +53,12 @@ jest.mock('../recordChoiceSetReducer', () => {
         recordChoiceSetReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
     };
 });
+
+const mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockResolvedValue();
+    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;
 });
 const newRecordObjectOrField = {item: {value: 'Contact'}, displayText: 'contact', error: null};
@@ -242,6 +246,23 @@ describe('record-choice-set-editor', () => {
                 error: null,
                 doValidateProperty: false
             });
+        });
+    });
+
+    describe('Choice Value Field Picker', () => {
+        let recordChoiceEditor;
+        let fieldPicker;
+        beforeEach(() => {
+            recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
+            fieldPicker = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.FIELD_PICKER);
+        });
+
+        it('field-picker should be defined', () => {
+            expect(fieldPicker).not.toBeNull();
+        });
+
+        it('field-picker fields should be defined', () => {
+            expect(Object.keys(fieldPicker.fields)).toHaveLength(Object.keys(mockAccountFields).length);
         });
     });
 
