@@ -1,4 +1,4 @@
-import { flowPropertiesEditorValidation } from "./flowPropertiesEditorValidation";
+import { flowPropertiesEditorValidation, getRules } from "./flowPropertiesEditorValidation";
 import { updateProperties } from "builder_platform_interaction/dataMutationLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent } from "builder_platform_interaction/events";
@@ -23,7 +23,7 @@ export const flowPropertiesEditorReducer = (state, event) => {
             return flowPropertiesPropertyChanged(state, event);
         }
         case VALIDATE_ALL: {
-            return flowPropertiesEditorValidation.validateAll(state);
+            return flowPropertiesEditorValidation.validateAll(state, getRules(state, event.isSavingExistingFlow));
         }
         default: return state;
     }

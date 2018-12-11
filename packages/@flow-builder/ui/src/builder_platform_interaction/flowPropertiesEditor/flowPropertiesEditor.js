@@ -50,7 +50,7 @@ export default class FlowPropertiesEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
-        const event = { type: VALIDATE_ALL };
+        const event = { type: VALIDATE_ALL, isSavingExistingFlow: this.savingExistingFlow };
         this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
         const processTypeElement = this.template.querySelector('.process-type');
         if (this.flowProperties.processType && this.flowProperties.processType.error) {

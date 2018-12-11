@@ -29,3 +29,12 @@ const additionalRules = {
 };
 
 export const flowPropertiesEditorValidation = new Validation(additionalRules, true);
+export const getRules = (state, isSavingExistingFlow) => {
+    const overrideRules = Object.assign({}, flowPropertiesEditorValidation.finalizedRules);
+
+    if (isSavingExistingFlow) {
+        overrideRules.name = [];
+    }
+
+    return overrideRules;
+};
