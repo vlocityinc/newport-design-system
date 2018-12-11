@@ -172,7 +172,7 @@ export function getLocalExtensionFieldType(name) {
         name,
         fieldType: COMPONENT_INSTANCE,
         label: name,
-        icon: 'standard:custom_notification',
+        icon: 'standard:lightning_component',
         source: EXTENSION_TYPE_SOURCE.LOCAL
     };
 }

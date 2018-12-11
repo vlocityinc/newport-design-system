@@ -144,7 +144,7 @@ function getListExtensionsRetriever() {
                                     name: extension.qualifiedApiName,
                                     fieldType: COMPONENT_INSTANCE,
                                     label: extension.label ? extension.label : extension.qualifiedApiName,
-                                    icon: 'standard:custom_notification',
+                                    icon: 'standard:lightning_component',
                                     category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
                                     description: extension.description,
                                     marker: extension.marker,
