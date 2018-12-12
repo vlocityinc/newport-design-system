@@ -73,6 +73,7 @@ export default class Editor extends LightningElement {
     @track disableSave = true;
     @track saveStatus;
     @track saveType;
+    @track retrievedHeaderUrls = false;
 
     propertyEditorBlockerCalls = [];
 
@@ -123,6 +124,7 @@ export default class Editor extends LightningElement {
 
         const getProcessTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES).then(data => setProcessTypes(data));
         getProcessTypesPromise.catch(() => {});
+        this.propertyEditorBlockerCalls.push(getProcessTypesPromise);
     }
 
     @api
@@ -160,6 +162,10 @@ export default class Editor extends LightningElement {
 
     get spinnerAlternativeText() {
         return LABELS.spinnerAlternativeText;
+    }
+
+    get isRunDebugDisabled() {
+        return this.hasNotBeenSaved || !this.retrievedHeaderUrls;
     }
 
     /**
@@ -341,6 +347,7 @@ export default class Editor extends LightningElement {
         this.backUrl = isFromAloha ? data.flowUrl : data.lightningFlowUrl;
         this.helpUrl = data.helpUrl;
         this.runDebugUrl = data.runDebugUrl;
+        this.retrievedHeaderUrls = true;
     };
 
     getAllGlobalVariablesCallback = (data) => {
@@ -412,7 +419,7 @@ export default class Editor extends LightningElement {
         node.saveType = SaveType.UPDATE;
         const nodeUpdate = this.flowPropertiesCallback;
         const newResourceCallback = this.newResourceCallback;
-        invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
+        this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
     };
 
     /**
@@ -457,7 +464,7 @@ export default class Editor extends LightningElement {
 
             const nodeUpdate = this.flowPropertiesCallback;
             const newResourceCallback = this.newResourceCallback;
-            invokePropertyEditor(PROPERTY_EDITOR, { mode, node, nodeUpdate, newResourceCallback });
+            this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
         }
     };
 
