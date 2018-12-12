@@ -19,7 +19,7 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
     defaultValueNone = {
-        label: this.labels.select,
+        label: this.labels.noDefaultValueSelected,
         value: ''
     };
 
