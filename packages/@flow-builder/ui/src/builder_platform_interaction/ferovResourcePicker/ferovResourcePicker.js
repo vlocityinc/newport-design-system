@@ -1,6 +1,6 @@
 import { LightningElement, api, track }  from 'lwc';
 import {
-    normalizeRHS,
+    normalizeFEROV,
     getMenuData,
 } from "builder_platform_interaction/expressionUtils";
 import {
@@ -229,7 +229,7 @@ export default class FerovResourcePicker extends LightningElement {
             this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
 
             const identifier = isObject(this.value) ? this.value.value : this.value;
-            this.initializeResourcePicker(normalizeRHS(identifier));
+            this.initializeResourcePicker(normalizeFEROV(identifier));
         }
     }
 

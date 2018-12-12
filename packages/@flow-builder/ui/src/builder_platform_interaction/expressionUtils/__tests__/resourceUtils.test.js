@@ -1,5 +1,5 @@
 import {
-    normalizeRHS,
+    normalizeFEROV,
     populateLhsStateForField,
     getResourceByUniqueIdentifier,
     getFerovInfoAndErrorFromEvent,
@@ -60,25 +60,25 @@ jest.mock('../menuDataGenerator', () => {
 describe('RHS normalize', () => {
     it('should match an rhs value with a picklist api name to a menu item', () => {
         const rhsApiValue = 'AccountSource';
-        const rhs = normalizeRHS(rhsApiValue);
+        const rhs = normalizeFEROV(rhsApiValue);
         expect(rhs.itemOrDisplayText).toBeDefined();
         expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
     });
     it('should handle values that traverse more than two levels by cleaning display value, but not passing item', () => {
         const fieldTraversal = ".Owner.Id";
-        const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + fieldTraversal);
+        const normalizedRHS = normalizeFEROV(store.accountSObjectVariableGuid + fieldTraversal);
         expect(normalizedRHS.itemOrDisplayText).toEqual(addCurlyBraces(store.elements[store.accountSObjectVariableGuid].name + fieldTraversal));
     });
     it('should not throw an exception if the user does not have access to the SObject in a merge field', () => {
         getFieldsForEntity.mockReturnValueOnce(undefined);
         const field = ".Name";
-        const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + field);
+        const normalizedRHS = normalizeFEROV(store.accountSObjectVariableGuid + field);
         expect(normalizedRHS.itemOrDisplayText).toBe('guid2.Name');
     });
     it('should not throw an exception if the user does not have access to the SObject field in a merge field', () => {
         getFieldsForEntity.mockReturnValueOnce(['Name1']);
         const field = ".Name";
-        const normalizedRHS = normalizeRHS(store.accountSObjectVariableGuid + field);
+        const normalizedRHS = normalizeFEROV(store.accountSObjectVariableGuid + field);
         expect(normalizedRHS.itemOrDisplayText).toBe('guid2.Name');
     });
 });

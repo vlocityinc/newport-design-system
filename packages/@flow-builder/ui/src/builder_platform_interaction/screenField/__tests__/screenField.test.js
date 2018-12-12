@@ -4,6 +4,7 @@ import { createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_int
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements)),

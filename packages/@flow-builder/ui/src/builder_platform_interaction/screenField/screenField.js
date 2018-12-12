@@ -1,10 +1,9 @@
 import { LightningElement, api } from 'lwc';
 import { hydrateWithErrors, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { isObject, isReference } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables } from "builder_platform_interaction/systemLib";
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { normalizeFEROV } from 'builder_platform_interaction/expressionUtils';
 import {
     isExtensionField,
     isNumberField,
@@ -73,35 +72,18 @@ export default class ScreenField extends LightningElement {
     }
 
     get defaultValue() {
-        const defaultValue = this.screenfield.defaultValue && this.screenfield.defaultValue.hasOwnProperty('value') ?
+        let defaultValue = this.screenfield.defaultValue && this.screenfield.defaultValue.hasOwnProperty('value') ?
                              this.screenfield.defaultValue.value : this.screenfield.defaultValue;
 
+        const shouldNotPreviewFERs = isCurrencyField(this.screenfield) || isNumberField(this.screenfield) || isDateField(this.screenfield) || isDateTimeField(this.screenfield);
 
-        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE) {
-            // For certain field types, if the defaultValue is a reference, we don't display anything in the canvas preview.
-            if (isCurrencyField(this.screenfield) || isNumberField(this.screenfield) || isDateField(this.screenfield) || isDateTimeField(this.screenfield)) {
-                return '';
-            } else if (defaultValue in getSystemVariables()) {
-                return addCurlyBraces(defaultValue);
-            } else if (!(defaultValue.startsWith('{!') && defaultValue.endsWith('}'))) {
-                // This should be a GUID for an element created by the user.
-                // Resolve the devName from the guid and add curly braces for preview.
-                const defaultValueElement = getElementByGuid(defaultValue);
-                if (defaultValueElement) {
-                    return addCurlyBraces(defaultValueElement.name);
-                }
-                // If we couldn't find the element by the GUID, display nothing in the preview
-                // and log an error. Theoretically, this should never happen.
-                throw new Error("Unable to find element: " + defaultValue);
-            }
-        } else if (defaultValue in GLOBAL_CONSTANT_OBJECTS) {
-            // Global constants are "sort of" references. We store their defaultValueDataType as the actual
-            // data type corresponding to the the global constant though, not as a reference.
-            // As of 218, the only global constant types we have are either boolean or string.
-            return addCurlyBraces(defaultValue);
+        if (this.screenfield.defaultValueDataType === FEROV_DATA_TYPE.REFERENCE && shouldNotPreviewFERs) {
+            defaultValue = '';
+        } else if (!isReference(defaultValue)) {
+            const normalizedValue = normalizeFEROV(defaultValue).itemOrDisplayText;
+            defaultValue = isObject(normalizedValue) ? normalizedValue.displayText : normalizedValue;
         }
 
-        // If it's a literal, just display it as is.
         return defaultValue;
     }
 }

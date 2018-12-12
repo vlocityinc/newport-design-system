@@ -2,7 +2,7 @@ import { LightningElement, api, track, unwrap } from 'lwc';
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { COMBOBOX_NEW_RESOURCE_VALUE } from "builder_platform_interaction/expressionUtils";
-import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringBySeparator } from "builder_platform_interaction/commonUtils";
+import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringBySeparator, isReference } from "builder_platform_interaction/commonUtils";
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
 import { LABELS } from "./comboboxLabels";
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
@@ -635,7 +635,7 @@ export default class Combobox extends LightningElement {
      * @param {Boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
      */
     setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
-        if (value.startsWith('{!') && value.endsWith('}')) {
+        if (isReference(value)) {
             this._isMergeField = isStrictMode ? !this.isExpressionIdentifierLiteral(value, true) : true;
         } else {
             this._isMergeField = false;
@@ -814,7 +814,7 @@ export default class Combobox extends LightningElement {
 
         // Add a separator to the end if selected value has a next level
         if (hasNextLevel) {
-            if (value.startsWith('{!') && value.endsWith('}')) {
+            if (isReference(value)) {
                 value = value.substring(0, value.length - 1) + `${this.separator}}`;
             } else {
                 value += this.separator;
@@ -837,7 +837,7 @@ export default class Combobox extends LightningElement {
     getSanitizedValue(value = this.state.displayText) {
         if (value === this.state.displayText && this._isMergeField) {
             return value.substring(2, value.length - 1);
-        } else if (value.startsWith('{!') && value.endsWith('}')) {
+        } else if (isReference(value)) {
             return value.substring(2, value.length - 1);
         }
         return value;
@@ -1080,7 +1080,7 @@ export default class Combobox extends LightningElement {
         const consecutiveSeparatorsRegex = new RegExp(`\\${this.separator}{2,}`);
         let value;
         let regexResult = true;
-        if (valueToCheck.startsWith('{!') && valueToCheck.endsWith('}')) {
+        if (isReference(valueToCheck)) {
             value = valueToCheck.substring(2, valueToCheck.length - 1);
         }
 

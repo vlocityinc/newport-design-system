@@ -14,7 +14,7 @@ import { elementToParam } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { isObject, addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import removedSibling from "@salesforce/label/FlowBuilderValidation.removedSibling";
+import removedResource from "@salesforce/label/FlowBuilderValidation.removedResource";
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -114,15 +114,15 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
- * @param {String} rhsIdentifier    used to identify RHS, could be GUID or literal
- * @returns {Item}                  Combobox display value
+ * @param {String} identifier    used to identify value, could be GUID or literal
+ * @returns {Item}               value in format displayable by combobox
  */
-export const normalizeRHS = (rhsIdentifier) => {
-    const rhs = { itemOrDisplayText: rhsIdentifier };
-    const flowElement = getResourceByUniqueIdentifier(rhsIdentifier);
+export const normalizeFEROV = (identifier) => {
+    const rhs = { itemOrDisplayText: identifier };
+    const flowElement = getResourceByUniqueIdentifier(identifier);
     if (flowElement) {
         const item = mutateFlowResourceToComboboxShape(flowElement);
-        const sanitizedGuid = sanitizeGuid(rhsIdentifier);
+        const sanitizedGuid = sanitizeGuid(identifier);
         const fieldName = sanitizedGuid.fieldName;
         if (!fieldName) {
             rhs.itemOrDisplayText = item;
@@ -203,7 +203,7 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
     };
 
     if (!rightHandSide.error) {
-        rhsState = Object.assign(rhsState, normalizeRHS(rightHandSide.value));
+        rhsState = Object.assign(rhsState, normalizeFEROV(rightHandSide.value));
         rhsState.isField = !!rhsState.fields;
     }
     callback(rhsState);
@@ -215,7 +215,7 @@ export const checkExpressionForDeletedElem = (deletedGuids, expression, property
         if (property && !property.error && deletedGuids.has(property.value)) {
             const deletedDevName = getResourceByUniqueIdentifier(property.value).name;
             property.value = addCurlyBraces(deletedDevName);
-            property.error = format(removedSibling, deletedDevName, propertyEditorLabel);
+            property.error = format(removedResource, deletedDevName, propertyEditorLabel);
         }
     };
 

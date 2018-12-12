@@ -45,8 +45,8 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                     name
                 };
             }
-
-            throw new Error('Wrong guid for getElementByGuid in mock function');
+            // getElementByGuid returns undefined if no element can be found, this is by design
+            return undefined;
         }
     };
 });

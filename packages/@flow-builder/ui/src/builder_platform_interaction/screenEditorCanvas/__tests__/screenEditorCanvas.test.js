@@ -4,6 +4,8 @@ import { createTestScreen, createDropEvent } from "builder_platform_interaction/
 import { getShadowRoot } from 'lwc-test-utils';
 import { createScreenElementSelectedEvent, SCREEN_EDITOR_EVENT_NAME, ReorderListEvent } from "builder_platform_interaction/events";
 
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-editor-canvas', {
         is: ScreenEditorCanvas
@@ -14,17 +16,6 @@ const createComponentUnderTest = (props) => {
     document.body.appendChild(el);
     return el;
 };
-
-jest.mock('builder_platform_interaction/storeUtils', () => {
-    return {
-        getElementByGuid(guid) {
-            return {
-                name: guid,
-                guid,
-            };
-        }
-    };
-});
 
 const selectors = {
     lightningButtonIcon: 'lightning-button-icon',

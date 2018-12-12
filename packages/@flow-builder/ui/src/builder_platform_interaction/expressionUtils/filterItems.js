@@ -1,4 +1,4 @@
-import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
+import { escapeForRegExp, isReference } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Persist original text/subText else clear highlight if present.
@@ -143,7 +143,7 @@ export function filterMatches(filterText, menuData, isMergeField) {
         let itemsToMatch = menuData[i].items || [menuData[i]];
         if (isMergeField) {
             itemsToMatch = itemsToMatch.filter(menuItem => {
-                return menuItem.displayText.startsWith('{!') && menuItem.displayText.endsWith('}');
+                return isReference(menuItem.displayText);
             });
         }
 
