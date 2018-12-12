@@ -291,6 +291,7 @@ export default class Editor extends LightningElement {
                 lastModifiedDate: data.lastModifiedDate,
                 isLightningFlowBuilder: true,
                 lastModifiedBy: data.lastModifiedBy,
+                canOnlySaveAsNewDefinition: false
             }));
             window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
             this.setOriginalFlowValues();
@@ -305,7 +306,8 @@ export default class Editor extends LightningElement {
                     status: null,
                     lastModifiedDate: null,
                     isLightningFlowBuilder: true,
-                    lastModifiedBy: null
+                    lastModifiedBy: null,
+                    canOnlySaveAsNewDefinition: false
                 }));
                 window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0]);
             } else if (this.saveType === SaveType.NEW_VERSION) {
