@@ -21,8 +21,7 @@
 
             // show welcome mat
             var userPreferencesLib = cmp.find('userPreferencesLib');
-            var flowId = cmp.get('v.flowId');
-            if(userPreferencesLib.getWelcomeMatPreference() && !flowId) {
+            if(userPreferencesLib.getWelcomeMatPreference()) {
                 cmp.get('c.createWelcomeMat').run();
             }
         }
