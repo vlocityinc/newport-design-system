@@ -14,16 +14,17 @@ let mapOfChildElements = {};
  * @param {String[]} elementGuids list of guids to be matched
  * @param {Object} elements list of elements in the store by default or a custom list of elements passed in to the function
  * @param {String[]} listOfGuidsToSkip while creating used by element list. Example Usage: In case of an outcome (or any secondary level element), it might need to pass the parent guid (decision) in this list.
+ * @param {Object} flowProps object in the store containing all the current flow properties
  * @returns {Object[]} usedByElements list of elements which contains elementGuids
  */
-export function usedBy(elementGuids = [], elements = Store.getStore().getCurrentState().elements, listOfGuidsToSkip = []) {
+export function usedBy(elementGuids = [], elements = Store.getStore().getCurrentState().elements, listOfGuidsToSkip = [], flowProps = Store.getStore().getCurrentState().properties) {
     const updatedElementGuids = insertChildReferences(elementGuids, elements) || [];
     const elementsKeys = Object.keys(elements);
 
-    const usedByElements = elementsKeys && elementsKeys.filter(element => !listOfGuidsToSkip.includes(element)).reduce((acc, key) => {
+    let usedByElements = elementsKeys && elementsKeys.filter(element => !listOfGuidsToSkip.includes(element)).reduce((acc, key) => {
         if (!updatedElementGuids.includes(key)) {
             const elementGuidsReferenced = findReference(updatedElementGuids, elements[key]);
-            if (elementGuidsReferenced.size > 0) {
+            if (elementGuidsReferenced && elementGuidsReferenced.size > 0) {
                 const usedByElement = createUsedByElement({
                     element: elements[key],
                     elementGuidsReferenced: [...elementGuidsReferenced]
@@ -33,6 +34,19 @@ export function usedBy(elementGuids = [], elements = Store.getStore().getCurrent
         }
         return acc;
     }, []);
+    if (flowProps) {
+        const elementGuidsReferencedByFlowProps = findReference(updatedElementGuids, flowProps);
+        if (elementGuidsReferencedByFlowProps && elementGuidsReferencedByFlowProps.size > 0) {
+            const label = LABELS.interviewLabelLabel;
+            const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
+            const flowPropsElement = {elementType, guid: elementType, label, name: label};
+            const usedByElement = createUsedByElement({
+                element: flowPropsElement,
+                elementGuidsReferenced: [...elementGuidsReferencedByFlowProps]
+            });
+            usedByElements = [...usedByElements, usedByElement];
+        }
+    }
     return usedByElements;
 }
 
@@ -104,7 +118,7 @@ export function usedByStoreAndElementState(guid, parentGuid, internalElements) {
         return acc;
     }, []);
 
-    const locallyUsedElements = usedBy([guid], mapOfChildElements);
+    const locallyUsedElements = usedBy([guid], mapOfChildElements, undefined, null);
     const globallyUsedElements = usedBy([guid], undefined, listOfGuidsToSkipWhenCheckingUsedByGlobally);
     return unionOfArrays(locallyUsedElements, globallyUsedElements);
 }

@@ -103,6 +103,9 @@ export const elementTypeToConfigMap = {
     [ELEMENT_TYPE.FLOW_PROPERTIES]: {
         descriptor: 'builder_platform_interaction:flowPropertiesEditor',
         modalSize: MODAL_SIZE.MEDIUM,
+        nodeConfig: {
+            iconName: 'utility:settings'
+        },
         labels: {
             singular: LABELS.flowPropertiesSingularLabel
         },

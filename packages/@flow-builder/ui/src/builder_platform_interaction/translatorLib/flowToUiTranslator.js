@@ -36,7 +36,8 @@ export function translateFlowToUIModel(flow) {
     // Swap out dev names for guids in all element references and template fields
     swapDevNamesToUids(nameToGuid, {
         storeElements,
-        storeConnectors
+        storeConnectors,
+        properties
     });
 
     return {
