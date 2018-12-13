@@ -1,12 +1,12 @@
 <template>
-    <div class="slds-vertical-tabs__nav slds-size_2-of-2">
+    <div class="slds-vertical-tabs__nav slds-size_full slds-m-left_xxx-small">
         <div class="slds-text-title_caps slds-grid slds-grid_vertical-align-center slds-shrink-none slds-p-top_xx-small slds-p-bottom_xx-small slds-p-left_small -slds-theme_shade slds-border_bottom">
-                 <slot name="header">
+                 <slot name="header" class="slds-show_inline">
                      <!-- Example: -->
                      Item Order
                  </slot>
         </div>
-        <div class="slds-vertical-tabs__nav slds-size_2-of-2 slds-m-left_xxx-small" role="tablist" aria-orientation="vertical">
+        <div class="slds-vertical-tabs__nav slds-size_full" role="tablist" aria-orientation="vertical">
             <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
                 <builder_platform_interaction-reorderable-vertical-navigation-item
                     has-front-icon={item.isDraggable}
