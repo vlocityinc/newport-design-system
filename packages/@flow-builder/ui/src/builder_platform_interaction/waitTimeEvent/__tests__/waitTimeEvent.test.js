@@ -95,6 +95,40 @@ describe('waitTimeEvent', () => {
             expect(picker.comboboxConfig.type).toEqual(FLOW_DATA_TYPE.DATE_TIME.value);
         });
 
+        describe('absolute base time customValidity', () => {
+            it('is set if an error is present', () => {
+                const someError = 'someError';
+
+                waitTimeEvent.resumeTimeParameters = [{
+                    name: 'AlarmTime',
+                    value: {
+                        value: 'someValue',
+                        error: someError
+                    },
+                }];
+
+                return Promise.resolve().then(() => {
+                    const absoluteBaseTimePicker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+                    expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith(someError);
+                });
+            });
+
+            it('is set to an empty string if no error present', () => {
+                waitTimeEvent.resumeTimeParameters = [{
+                    name: 'AlarmTime',
+                    value: {
+                        value: 'someValue',
+                        error: null
+                    },
+                }];
+
+                return Promise.resolve().then(() => {
+                    const absoluteBaseTimePicker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+                    expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith('');
+                });
+            });
+        });
+
         it('allows sobjects in menudata, so the user can select an sobject field', () => {
             const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
             expect(picker.comboboxConfig.enableFieldDrilldown).toEqual(true);
