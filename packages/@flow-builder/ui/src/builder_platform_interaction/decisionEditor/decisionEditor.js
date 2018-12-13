@@ -136,14 +136,16 @@ export default class DecisionEditor extends LightningElement {
     }
 
     /**
-     * Handles deletion and sets focus to the first outcome
+     * Handles deletion and sets focus to the first outcome (if deletion was successful)
      * @param {object} event - deleteOutcomeEvent
      */
     handleDeleteOutcome(event) {
         event.stopPropagation();
+        const originalNumberOfOutcomes = this.decisionElement.outcomes.length;
         this.decisionElement = decisionReducer(this.decisionElement, event);
-
-        this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+        if (this.decisionElement.outcomes.length < originalNumberOfOutcomes) {
+           this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+        }
     }
 
     /**

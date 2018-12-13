@@ -7,6 +7,7 @@ import {
     PropertyChangedEvent,
     WaitEventPropertyChangedEvent,
     WaitEventParameterChangedEvent,
+    DeleteWaitEventEvent,
 } from 'builder_platform_interaction/events';
 import { getShadowRoot } from 'lwc-test-utils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
@@ -168,4 +169,93 @@ describe('default path', () => {
             expect(menuItems[1].hasErrors).toBeTruthy();
         });
     });
+});
+
+describe('handleDeleteWaitEvent', () => {
+    let waitWithTwoWaitEvents;
+    let mockNewState;
+    let waitEditor;
+    beforeEach(() => {
+        waitWithTwoWaitEvents = {
+            label: {value: 'Test Name of the Wait'},
+            name: {value: 'Test Dev Name'},
+            guid: {value: 'wait1'},
+            waitEvents: [
+                {
+                    guid: 'waitEvent1',
+                    label: { value: ''},
+                    conditionLogic: { value: ''},
+                    conditions: [],
+                    inputParameters: [],
+                    outputParameters: {},
+                },
+                {
+                    guid: 'waitEvent2',
+                    label: { value: ''},
+                    conditionLogic: { value: ''},
+                    conditions: [],
+                    inputParameters: [],
+                    outputParameters: {},
+                },
+            ]
+        };
+
+        mockNewState = {
+            label: {value: 'Test Name of the Wait'},
+            name: {value: 'Test Dev Name'},
+            guid: {value: 'wait1'},
+            waitEvents: [
+                {
+                    guid: 'waitEvent2',
+                    label: { value: ''},
+                    conditionLogic: { value: ''},
+                    conditions: [],
+                    inputParameters: [],
+                    outputParameters: {},
+                },
+            ]
+        };
+
+        waitEditor = createComponentForTest({node: waitWithTwoWaitEvents});
+    });
+
+    it('calls the reducer with the passed in action', () => {
+        waitReducer.mockReturnValueOnce(mockNewState);
+        const deleteWaitEvent = new DeleteWaitEventEvent('waitEventGuid');
+
+        const waitEvent = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+        waitEvent.dispatchEvent(deleteWaitEvent);
+
+        expect(waitEditor.node).toEqual(mockNewState);
+    });
+
+     it('sets the first wait event as active', () => {
+         return Promise.resolve().then(() => {
+             waitReducer.mockReturnValueOnce(mockNewState);
+             const deleteWaitEvent = new DeleteWaitEventEvent('waitEvent1');
+
+             const waitEvent = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             waitEvent.dispatchEvent(deleteWaitEvent);
+         }).then(() => {
+             const waitEvent = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             expect(waitEvent.waitEvent).toEqual(mockNewState.waitEvents[0]);
+         });
+     });
+
+     it('does not change the active wait event if the wait event was not deleted', () => {
+         const reorderableWaitEventNav = getShadowRoot(waitEditor).querySelector(selectors.REORDERABLE_NAV);
+         reorderableWaitEventNav.dispatchEvent(new CustomEvent('itemselected', {
+             detail: { itemId: 'waitEvent2' }
+         }));
+
+         return Promise.resolve().then(() => {
+             const deleteWaitEventEvent = new DeleteWaitEventEvent('waitEvent1');
+
+             const waitEventElement = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             waitEventElement.dispatchEvent(deleteWaitEventEvent);
+         }).then(() => {
+             const waitEventElement = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             expect(waitEventElement.waitEvent).toEqual(waitWithTwoWaitEvents.waitEvents[1]);
+         });
+     });
 });

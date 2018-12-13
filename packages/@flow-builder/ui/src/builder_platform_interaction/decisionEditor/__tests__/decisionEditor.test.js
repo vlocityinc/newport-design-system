@@ -113,22 +113,38 @@ describe('Decision Editor', () => {
             });
         });
 
-        // TODO: W-4972558
-        // Figure out rendering issue (outcome is not being re-rendered) due to slots
-        // it('sets the first outcome as active', () => {
-        //     const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
-        //
-        //     return Promise.resolve().then(() => {
-        //         const deleteOutcomeEvent = new DeleteOutcomeEvent('outcomeGuid');
-        //
-        //         const outcomeElement = getShadowRoot(decisionEditor).querySelector(selectors.outcome);
-        //         outcomeElement.dispatchEvent(deleteOutcomeEvent);
-        //     }).then(() => {
-        //         const outcomeElement = getShadowRoot(decisionEditor).querySelector(selectors.outcome);
-        //         debugger;
-        //         expect(outcomeElement.outcome).toEqual(mockNewState.outcomes[0]);
-        //     });
-        // });
+         it('sets the first outcome as active', () => {
+             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+
+             return Promise.resolve().then(() => {
+                 const deleteOutcomeEvent = new DeleteOutcomeEvent('outcome1');
+
+                 const outcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
+                 outcomeElement.dispatchEvent(deleteOutcomeEvent);
+             }).then(() => {
+                 const outcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
+                 expect(outcomeElement.outcome).toEqual(mockNewState.outcomes[0]);
+             });
+         });
+
+         it('does not change the active outcome if the outcome was not deleted', () => {
+             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
+             const reorderableOutcomeNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
+             reorderableOutcomeNav.dispatchEvent(new CustomEvent('itemselected', {
+                 detail: { itemId: 'outcome2' }
+             }));
+
+             return Promise.resolve().then(() => {
+                 decisionReducer.mockReturnValueOnce(decisionWithTwoOutcomes);
+                 const deleteOutcomeEvent = new DeleteOutcomeEvent('outcome1');
+
+                 const outcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
+                 outcomeElement.dispatchEvent(deleteOutcomeEvent);
+             }).then(() => {
+                 const outcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
+                 expect(outcomeElement.outcome).toEqual(decisionWithTwoOutcomes.outcomes[1]);
+             });
+         });
     });
 
     describe('showDeleteOutcome', () => {

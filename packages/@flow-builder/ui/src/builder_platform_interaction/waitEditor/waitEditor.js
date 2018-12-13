@@ -111,14 +111,16 @@ export default class WaitEditor extends LightningElement {
     }
 
     /**
-     * Handles deletion and sets focus to the first wait event
+     * Handles deletion and sets focus to the first wait event (if deletion was successful)
      * @param {object} event - deleteWaitEventEvent
      */
     handleDeleteWaitEvent(event) {
         event.stopPropagation();
+        const originalNumberOfWaitEvents = this.waitElement.waitEvents.length;
         this.waitElement = waitReducer(this.waitElement, event);
-
-        this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
+        if (this.waitElement.waitEvents.length < originalNumberOfWaitEvents) {
+           this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
+        }
     }
 
     /**
