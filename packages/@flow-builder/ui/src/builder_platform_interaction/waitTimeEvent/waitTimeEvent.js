@@ -15,6 +15,7 @@ import { LABELS } from "./waitTimeEventLabels";
 const timeEventRules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.WAIT);
 
 const SELECTORS = {
+    ABSOLUTE_BASE_TIME_INPUT: '.absolute-basetime',
     SALESFORCE_OBJECT_INPUT: '.salesforce-object',
     DIRECT_RECORD_BASE_TIME_INPUT: '.direct-record-basetime',
     OFFSET_NUMBER: '.offset-number',
@@ -384,6 +385,18 @@ export default class WaitTimeEvent extends LightningElement {
                 element.setCustomValidity('');
             }
             element.showHelpMessageIfInvalid();
+        }
+    }
+
+    /**
+     * LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering.
+     *
+     * TODO: revisit as part of W-5676962
+     * **/
+    renderedCallback() {
+        if (this.absoluteBaseTime && (this.absoluteBaseTime !== '' || this.absoluteBaseTimeErrorMessage)) {
+            const absoluteBaseTimeInput = this.template.querySelector(SELECTORS.ABSOLUTE_BASE_TIME_INPUT);
+            absoluteBaseTimeInput.setCustomValidity(this.absoluteBaseTimeErrorMessage || '');
         }
     }
 }
