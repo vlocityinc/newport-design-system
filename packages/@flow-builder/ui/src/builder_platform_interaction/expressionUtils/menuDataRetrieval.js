@@ -388,9 +388,12 @@ export const getEntitiesMenuData = (entityType) => {
  * @returns {Array} array of alphabetized objects
  */
 export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields, showAsFieldReference, showSubText) {
-    return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
-        return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
-    });
+    if (fields) {
+        return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
+            return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
+        });
+    }
+    return [];
 }
 
 export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {

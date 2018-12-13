@@ -11,6 +11,7 @@ import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, setSystemVariables, getSyste
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import * as mockSystemLibData from "mock/systemGlobalVars";
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
@@ -192,6 +193,18 @@ describe('fer-to-ferov-expression-builder', () => {
                 expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE);
                 expect(baseExpressionBuilder.lhsFields).toBeTruthy();
             });
+        });
+        it('should handle field if no access to sobject fields on LHS', () => {
+            // returns null when no permissions to access field on object
+            getFieldsForEntity.mockReturnValueOnce(null);
+            const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                expression: createMockPopulatedFieldExpression(),
+            });
+            const displayValue = '{!accVar1.AccountSource}';
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+            expect(baseExpressionBuilder.lhsValue).toEqual(displayValue);
+            expect(baseExpressionBuilder.lhsDisplayOption).toBe(LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE);
         });
         it('should handle system variable on LHS', () => {
             setSystemVariables(mockSystemLibData.systemVariables);

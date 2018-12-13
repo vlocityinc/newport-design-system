@@ -126,13 +126,13 @@ export const normalizeFEROV = (identifier) => {
         const fieldName = sanitizedGuid.fieldName;
         if (!fieldName) {
             rhs.itemOrDisplayText = item;
-        } else if (fieldName.indexOf('.') >= 0) {
-            rhs.itemOrDisplayText = addCurlyBraces(item.text + '.' + fieldName);
         } else {
             const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
             const field = fields && fields[fieldName];
-            if (field) {
+            if (field && fieldName.indexOf('.') === -1) {
                 rhs.itemOrDisplayText = mutateFieldToComboboxShape(field, item, true, true);
+            } else {
+                rhs.itemOrDisplayText = addCurlyBraces(item.text + '.' + fieldName);
             }
             rhs.fields = fields;
         }

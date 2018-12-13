@@ -38,7 +38,9 @@ jest.mock('builder_platform_interaction/selectors', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
+            if (callback) {
+                callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
+            }
         }),
     };
 });
@@ -73,13 +75,13 @@ describe('RHS normalize', () => {
         getFieldsForEntity.mockReturnValueOnce(undefined);
         const field = ".Name";
         const normalizedRHS = normalizeFEROV(store.accountSObjectVariableGuid + field);
-        expect(normalizedRHS.itemOrDisplayText).toBe('guid2.Name');
+        expect(normalizedRHS.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariableDevName + field));
     });
     it('should not throw an exception if the user does not have access to the SObject field in a merge field', () => {
         getFieldsForEntity.mockReturnValueOnce(['Name1']);
         const field = ".Name";
         const normalizedRHS = normalizeFEROV(store.accountSObjectVariableGuid + field);
-        expect(normalizedRHS.itemOrDisplayText).toBe('guid2.Name');
+        expect(normalizedRHS.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariableDevName + field));
     });
 });
 

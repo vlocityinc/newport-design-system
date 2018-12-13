@@ -9,6 +9,7 @@ import {
     populateRhsState,
     getSecondLevelItems,
 } from "builder_platform_interaction/expressionUtils";
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { elementToParam } from "builder_platform_interaction/ruleLib";
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -109,9 +110,13 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                     getSecondLevelItems({ elementType: this.containerElement, shouldBeWritable: this.lhsMustBeWritable },
                         lhsItem.objectType, (fields) => {
                         const isFieldOnSobjectVar = true;
-                        this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
-                            populateLhsStateForField(fields, fieldName, lhsItem, isFieldOnSobjectVar));
                         this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
+                        if (fields && fields[fieldName]) {
+                            this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
+                                populateLhsStateForField(fields, fieldName, lhsItem, isFieldOnSobjectVar));
+                        } else {
+                            this.state.lhsDescribe.value = addCurlyBraces(fer.name + '.' + fieldName);
+                        }
                     });
                 } else {
                     this.state.lhsDescribe.value = lhsItem;
