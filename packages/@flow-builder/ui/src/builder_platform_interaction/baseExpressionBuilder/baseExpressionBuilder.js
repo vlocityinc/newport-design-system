@@ -342,6 +342,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     _objectType;
     _rules;
     _lhsDisplayOption;
+    _lhsMustBeWritable;
     _operatorValue;
     _operatorMenuData;
     _rhsDataType;
