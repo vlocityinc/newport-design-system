@@ -901,11 +901,17 @@ describe('Combobox Tests', () => {
             expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(secondLevelMenuData[0]);
         });
 
-        it('FilterMatches is fired when item is selected', () => {
+        it('FilterMatches is not fired when item with hasNext true is selected', () => {
             selectEvent = getSelectEvent(comboboxInitialConfig.menuData[1].items[0].value);
             groupedCombobox.dispatchEvent(selectEvent);
+            expect(filterMatchesHandler).not.toHaveBeenCalled();
+        });
+
+        it('FilterMatches is fired only when item with hasNext false is selected', () => {
+            selectEvent = getSelectEvent(comboboxInitialConfig.menuData[2].items[0].value);
+            groupedCombobox.dispatchEvent(selectEvent);
             expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
-            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(removeCurlyBraces(comboboxInitialConfig.menuData[1].items[0].displayText));
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(removeCurlyBraces(comboboxInitialConfig.menuData[2].items[0].displayText));
         });
 
         it('ComboboxStateChanged is fired on blur (tests matchTextWithItem)', () => {
