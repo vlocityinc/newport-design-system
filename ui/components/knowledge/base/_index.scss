@@ -56,7 +56,6 @@
       }
 
       svg {
-        #{$left}: 0;
         margin-#{$left}: 0.5rem;
         opacity: 0.5;
       }
@@ -129,6 +128,7 @@
 
         svg {
           fill: $color-icon-grey;
+          #{$left}: 0;
         }
       }
     }
