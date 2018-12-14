@@ -583,7 +583,10 @@ export default class Combobox extends LightningElement {
         }
 
         // If value is null, check if there is one item associated with displayText
-        this.matchTextWithItem();
+        const item = this.matchTextWithItem();
+        if (item && this.state.displayText !== item.displayText) {
+            this.state.displayText = item.displayText;
+        }
 
         this.doValidation();
 
@@ -660,8 +663,14 @@ export default class Combobox extends LightningElement {
      * Grabs the flow element from the cache/store and gets the fields for the item
      */
     getParentElementAndFetchFields() {
-        const base = splitStringBySeparator(this.getSanitizedValue(), this.separator)[0];
-        const baseMergeField = addCurlyBraces(base);
+        const devNames = splitStringBySeparator(this.getSanitizedValue(), this.separator);
+        let baseMergeField = addCurlyBraces(devNames[0]);
+        const item = this.matchTextWithItem(baseMergeField, false);
+        if (item && baseMergeField !== item.displayText) {
+            const newDisplayText = item.displayText.substring(0, item.displayText.length - 1) + this.separator + devNames[1] + '}';
+            this.setValueAndCursor(newDisplayText);
+            baseMergeField = item.displayText;
+        }
         if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === this.menuDataMaxLevel && this._base !== baseMergeField)) {
             // get parent element from combobox cache
             const parentElementInComboboxShape = getElementFromParentElementCache(baseMergeField);
@@ -731,8 +740,11 @@ export default class Combobox extends LightningElement {
     /**
      * If there is a single item that matches with text, assign that to _item
      * @param {String} text The text to match with an item's displayText
+     * @param {Boolean} setItem set _item if a match is found
+     * @returns {MenuItem} returns the item if found, otherwise undefined
      */
-    matchTextWithItem(text = this.state.displayText) {
+    matchTextWithItem(text = this.state.displayText, setItem = true) {
+        let matchedItem;
         if (!this._item && text && this.state.menuData) {
             const matchedItems = [];
             const groupOrItemCount =  this.state.menuData.length;
@@ -740,22 +752,26 @@ export default class Combobox extends LightningElement {
                 if (this.state.menuData[i].items) {
                     // a menu data group
                     this.state.menuData[i].items.forEach(item => {
-                        if (item.displayText === text) {
+                        if (item.displayText && (item.displayText.toLowerCase() === text.toLowerCase())) {
                             matchedItems.push(item);
                         }
                     });
                 } else {
                     // a menu data item
                     const item = this.state.menuData[i];
-                    if (item.displayText === text) {
+                    if (item.displayText && (item.displayText.toLowerCase() === text.toLowerCase())) {
                         matchedItems.push(item);
                     }
                 }
             }
             if (matchedItems.length === 1) {
-                this._item = matchedItems[0];
+                matchedItem = matchedItems[0];
+                if (setItem) {
+                    this._item = matchedItem;
+                }
             }
         }
+        return matchedItem;
     }
 
     /**

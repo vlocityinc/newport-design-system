@@ -862,6 +862,16 @@ describe('Combobox Tests', () => {
                 });
             });
 
+            it('From first level straight to second level (case insensitive)', () => {
+                combobox.value = comboboxInitialConfig.menuData[2].items[0];
+                return Promise.resolve().then(() => {
+                    textInputEvent = getTextInputEvent('{!myaccount.Na}');
+                    groupedCombobox.dispatchEvent(textInputEvent);
+                    expect(fetchMenuDataHandler).toHaveBeenCalledTimes(1);
+                    expect(fetchMenuDataHandler.mock.calls[0][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+                });
+            });
+
             it('From second level of one sObject to second level of same sObject', () => {
                 combobox.value = secondLevelMenuData[0];
                 return Promise.resolve().then(() => {
@@ -937,6 +947,19 @@ describe('Combobox Tests', () => {
             expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(2);
             expect(comboboxStateChangedHandler.mock.calls[1][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
             expect(comboboxStateChangedHandler.mock.calls[1][0].detail.displayText).toEqual(blurValue);
+        });
+
+        it('ComboboxStateChanged is fired on blur with the correct item even with incorrect case', () => {
+            const initialValue = '{!foobar}';
+            const blurValue = '{!myaccount}';
+            combobox.value = initialValue;
+            combobox.menuData = comboboxInitialConfig.menuData;
+            textInputEvent = getTextInputEvent(blurValue);
+            groupedCombobox.dispatchEvent(textInputEvent);
+            groupedCombobox.dispatchEvent(blurEvent);
+            expect(comboboxStateChangedHandler).toHaveBeenCalledTimes(1);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.item).toEqual(comboboxInitialConfig.menuData[1].items[0]);
+            expect(comboboxStateChangedHandler.mock.calls[0][0].detail.displayText).toEqual('{!MyAccount}');
         });
 
         it('ComboboxStateChanged is fired after literalsAllowed property has changed', () => {
