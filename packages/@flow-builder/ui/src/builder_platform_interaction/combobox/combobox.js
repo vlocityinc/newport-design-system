@@ -545,16 +545,14 @@ export default class Combobox extends LightningElement {
         const itemHasNextLevel = item && item.hasNext;
 
         // menu data should be filtered using new display text, filtering must be fired before item is selected, as if the user typed the whole string
-        if (!itemHasNextLevel) {
-            this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue(item.displayText)), this._isMergeField);
-        }
+        this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue(item.displayText)), this._isMergeField);
 
         this._item = item;
 
         if (itemHasNextLevel) {
             this._base = item.displayText;
-            this._waitingForMenuDataDropDown = true;
             this.fireFetchMenuDataEvent(item);
+            this._waitingForMenuDataDropDown = true;
         }
 
         this.setMergeFieldState(item.displayText);
@@ -716,7 +714,7 @@ export default class Combobox extends LightningElement {
      * NOTE: This event is only fired if there have been changes
      */
     fireComboboxStateChangedEvent() {
-        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.literalValue, this._errorMessage);
+        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.literalValue, this._errorMessage, this._isMergeField);
         this.dispatchEvent(comboboxStateChangedEvent);
     }
 
@@ -1030,7 +1028,8 @@ export default class Combobox extends LightningElement {
             } else {
                 this.validateUsingMergeFieldLib(validateMergeField, this.allowedParamTypes);
             }
-        } else if (!this.literalsAllowed && this.hasMergeFieldCrossedMaxLevel()) {
+            // we do not want to check data type here for literals allowed
+        } else if (!this._isLiteralAllowed && this.hasMergeFieldCrossedMaxLevel()) {
             // if literals are not allowed, then you cannot reference a merge field past the max level
             this._errorMessage = ERROR_MESSAGE.GENERIC;
         }

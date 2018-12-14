@@ -1062,6 +1062,8 @@ describe('Combobox Tests', () => {
                 { value: 'true', isLiteralsAllowed: true, error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}', error: null },
                 { value: '{!MyBooleanVar}', error: null },
+                { value: '{!myContact.Account.IsDeleted}', isLiteralsAllowed: true, error: null},
+                { value: '{!myContact.Account.IsDeleted}', isLiteralsAllowed: false, error: VALIDATION_ERROR_MESSAGE.GENERIC },
             ],
             Picklist : [
                 { value: 'test picklist value', error: null },

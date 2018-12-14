@@ -6,6 +6,8 @@ import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
+import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 // QUILL supported formats
 const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
@@ -206,6 +208,19 @@ export default class ScreenPropertyField extends LightningElement {
         throw new Error('Unknown type for property field ' + this.type);
     }
 
+    handleComboboxChanged = (event) => {
+        event.stopPropagation();
+
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, getFlowDataTypeByName(this.type));
+        let newValue = hydrateIfNecessary(event.detail.item ? event.detail.item.displayText : event.detail.displayText);
+        const currentValue = hydrateIfNecessary(this.value);
+        if (newValue === '') {
+            newValue = null;
+        }
+
+        this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, value, currentValue, this.listIndex, dataType));
+    }
+
     handleEvent = (event) => {
         event.stopPropagation();
 
@@ -215,18 +230,7 @@ export default class ScreenPropertyField extends LightningElement {
             return;
         }
 
-        // This block of code tries to filter events fired by the combobox even when there's been
-        // no user interaction. It seems that the combobox fires events even when a component
-        // is rerendered due to cahnges in its template...
-        if (event.type === 'comboboxstatechanged') {
-            const eventValue = event.detail.item || event.detail.displayText;
-
-            if (!compareValues(eventValue, this.propertyValue) && this.error === event.detail.error) {
-                return;
-            }
-        }
-
-        let newValue = null, newGuid = null, currentValue = null;
+        let newValue = null, newGuid = null, currentValue = null, ferovDataType = null;
 
         if (event.detail && event.detail.item && this.allowsResources) { // And it contains a ferov
             newValue = event.detail.item.displayText;
@@ -235,6 +239,7 @@ export default class ScreenPropertyField extends LightningElement {
             newGuid = event.detail.value;
         } else if (this.isLongString && event.detail.value) {
             newValue = event.detail.value;
+            ferovDataType = FEROV_DATA_TYPE.STRING;
         } else {
             newValue = this.domValue;
         }
@@ -258,6 +263,6 @@ export default class ScreenPropertyField extends LightningElement {
         }
 
         const error = event.detail && event.detail.error ? event.detail.error : null;
-        this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, currentValue, this.listIndex));
+        this.dispatchEvent(new PropertyChangedEvent(this.name, newValue, error, newGuid, currentValue, this.listIndex, ferovDataType));
     }
 }

@@ -8,11 +8,9 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./variableConstantEditorLabels";
-import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId, getItemOrDisplayText } from "builder_platform_interaction/expressionUtils";
-import { isObject } from "builder_platform_interaction/commonUtils";
+import { getItemOrDisplayText, getFerovInfoAndErrorFromEvent } from "builder_platform_interaction/expressionUtils";
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
-import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
@@ -284,7 +282,8 @@ export default class VariableConstantEditor extends LightningElement {
             this.updateProperty(VARIABLE_CONSTANT_FIELDS.OBJECT_TYPE, null, null);
         } else if (this.isDataTypeOrCollectionChange(value.dataType, value.isCollection)) {
             // we want to clear the default value and scale when either switching data types or the collection status
-            this.updateDefaultValueWithLiteral(null, null);
+            this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
+            this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, null, null);
             if (this.isVariable) { // Don't want to set the scale if this is a constant
                 value.scale = null;
             }
@@ -390,36 +389,9 @@ export default class VariableConstantEditor extends LightningElement {
     updateDefaultValue(event) {
         event.stopPropagation();
 
-        const error = event.detail.error;
-        // if there's an error, only store the display text even if there's an item (an item means something was selected from the dropdown)
-        const itemOrDisplayText = error ? event.detail.displayText : getItemOrDisplayText(event);
-
-        // if it's an object, we know something was selected from the menu data & there was no error
-        if (isObject(itemOrDisplayText)) {
-            // set the correct ferov data type based on the user selected data type
-            const element = getResourceByUniqueIdentifier(itemOrDisplayText.value);
-            if (element || itemOrDisplayText.parent) {
-                this.updateDefaultValueWithElement(itemOrDisplayText, error);
-            } else {
-                // the combobox didn't send an error but we couldn't find a resource to match this item, so something is wrong
-                // the main use case for this is if a user leaves the combobox with only {!$Flow.} selected
-                this.updateDefaultValueWithLiteral(event.detail.displayText, genericErrorMessage);
-            }
-        } else {
-            this.updateDefaultValueWithLiteral(itemOrDisplayText, error);
-        }
-    }
-
-    updateDefaultValueWithElement(item, error) {
-        const dataType = getFerovDataTypeForValidId(item.value);
-
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, this.dataType);
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
-        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, item.value, error);
-    }
-
-    updateDefaultValueWithLiteral(displayText, error) {
-        this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
-        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, displayText, error);
+        this.updateProperty(VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE, value, error);
     }
 
     /**

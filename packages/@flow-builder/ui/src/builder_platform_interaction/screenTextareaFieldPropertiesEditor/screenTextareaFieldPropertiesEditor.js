@@ -21,7 +21,7 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
 
     /* Handle change of Default Value resource picker */
     handleDefaultValueChanged(event) {
-        const propChangedEvent = new PropertyChangedEvent('defaultValue', event.detail.value, event.detail.error, null, this.field.defaultValue);
+        const propChangedEvent = new PropertyChangedEvent('defaultValue', event.detail.value, event.detail.error, null, this.field.defaultValue, undefined, event.detail.dataType);
         // This lets the next event handler know that the default value should be treated like a string
         // if it's not a reference and it's not null.
         propChangedEvent.detail.defaultValueDataType = 'String';

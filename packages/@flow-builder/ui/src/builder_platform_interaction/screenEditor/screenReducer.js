@@ -1,19 +1,17 @@
 import { screenValidation, getExtensionParameterValidation, getRulesForField } from "./screenValidation";
 import { VALIDATE_ALL, isUniqueDevNameInStore } from "builder_platform_interaction/validationRules";
-import { updateProperties, set, deleteItem, insertItem, replaceItem, hydrateWithErrors, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { updateProperties, set, deleteItem, insertItem, replaceItem, hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { ReorderListEvent, PropertyChangedEvent, ValidationRuleChangedEvent, SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
 import { createEmptyScreenFieldOfType } from "builder_platform_interaction/elementFactory";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { createChoiceReference } from "builder_platform_interaction/elementFactory";
-import { GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
 import { isScreen,
          isExtensionField,
          isPicklistField,
          isMultiSelectPicklistField,
          isMultiSelectCheckboxField,
          isRadioField,
-         getFerovTypeFromTypeName,
          compareValues,
          EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
 
@@ -153,36 +151,12 @@ const reorderFields = (screen, event) => {
  * Processes a Ferov change and makes sure the three properties used to describe the ferov value are in sync (dataType, dataGuid and the property itself)
  *
  * @param {object} valueField - The field to be processed (containing a ferov value)
- * @param {string} currentFieldDataType - The data type of the current value
- * @param {string} defaultValueDataType - The default data type of the ferov (the data type when it is not a reference)
- * @param {any} newValue - The new value of the ferov field
- * @param {string} newValueGuid - The guid of the new value (or null if it is not a reference)
+ * @param {string} ferovDataType - The data type of the value being placed into the field
  * @param {string} typePropertyName - The name of the data type property (assigned in ferov mutation)
  * @return {object} - The processed field
  */
-const processFerovValueChange = (valueField, currentFieldDataType, defaultValueDataType, newValue, newValueGuid, typePropertyName) => {
-    // Figure out if we need to update typePropertyName (typePropertyName can be null if value is null)
-    const currentDataType =  currentFieldDataType || getFerovTypeFromTypeName(defaultValueDataType);
-
-    if (newValueGuid && newValueGuid in GLOBAL_CONSTANT_OBJECTS) {
-        // Going to reference, but it's actually a global constant, which needs to be treated
-        // like a primitive.
-        valueField = updateProperties(valueField, {[typePropertyName]: GLOBAL_CONSTANT_OBJECTS[newValueGuid].dataType});
-    } else if (currentDataType === 'reference') {
-        if (!newValueGuid) { // Going from reference to literal
-            valueField = updateProperties(valueField, {[typePropertyName]: defaultValueDataType});
-        }
-    } else if (currentDataType !== 'reference' && !!newValueGuid) { // Going from literal to reference
-        valueField = updateProperties(valueField, {[typePropertyName]: 'reference'});
-    }
-
-    if (getValueFromHydratedItem(newValue) === null || getValueFromHydratedItem(newValue) === '') { // New value is null, remove data type
-        delete valueField[typePropertyName];
-    } else if (!valueField[typePropertyName]) { // Coming from null value to non-null, add data type
-        valueField[typePropertyName] = newValueGuid ? 'reference' : defaultValueDataType;
-    }
-
-    return valueField;
+const processFerovValueChange = (valueField, ferovDataType, typePropertyName) => {
+    return updateProperties(valueField, {[typePropertyName]: ferovDataType});
 };
 
 /**
@@ -218,8 +192,7 @@ const handleStandardScreenFieldPropertyChange = (data) => {
             });
         }
         // Now the defaultValue object.
-        return processFerovValueChange(updatedValueField, data.field.defaultValueDataType, data.dataType,
-            newValue, data.newValueGuid, 'defaultValueDataType');
+        return processFerovValueChange(updatedValueField, data.ferovDataType, 'defaultValueDataType');
     }
 
     // If the dataType of the field was changed and this is a choice based field, clear out any choices
@@ -307,8 +280,7 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
         let newParam = updateProperties(param, {value: newParamValue});
         const dataTypePropName = 'valueDataType';
 
-        newParam = processFerovValueChange(newParam, newParam[dataTypePropName], data.dataType,
-                                           newValue, data.newValueGuid, dataTypePropName);
+        newParam = processFerovValueChange(newParam, data.ferovDataType, dataTypePropName);
 
         // Replace the new parameter in the parameters array
         updatedParams = replaceItem(field[parametersPropName], newParam, index);
@@ -415,6 +387,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
                 error,
                 newValueGuid: event.detail.guid,
                 dataType: selectedNode.dataType || event.detail.valueDataType || event.detail.defaultValueDataType,
+                ferovDataType: event.detail.dataType,
                 required: event.detail.required
             };
 

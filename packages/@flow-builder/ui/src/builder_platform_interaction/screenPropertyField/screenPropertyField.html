@@ -11,8 +11,8 @@
                                                             rules={resourcePickerRules}
                                                             hide-new-resource={resourcePickerConfig.hideNewResource}
                                                             value={propertyValue}
-                                                            oncomboboxstatechanged={handleEvent}
-                                                            onitemselected={handleEvent}>
+                                                            oncomboboxstatechanged={handleComboboxChanged}
+                                                            onitemselected={handleComboboxChanged}>
         </builder_platform_interaction-ferov-resource-picker>
 
         <builder_platform_interaction-output-resource-picker if:true={allowsResourcesForOutput} 
@@ -21,8 +21,8 @@
                                                              element-param={elementParam}
                                                              property-editor-element-type={propertyEditorElementType}
                                                              value={propertyValue}
-                                                             oncomboboxstatechanged={handleEvent}
-                                                             onitemselected={handleEvent}>
+                                                             oncomboboxstatechanged={handleComboboxChanged}
+                                                             onitemselected={handleComboboxChanged}>
         </builder_platform_interaction-output-resource-picker>
 
         <lightning-input if:true={isInput}

@@ -103,6 +103,8 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
         } else {
             error = genericErrorMessage;
         }
+    } else if (event.detail.isMergeField) {
+        dataType = FEROV_DATA_TYPE.REFERENCE;
     }
     return {
         value,

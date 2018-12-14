@@ -21,6 +21,7 @@ jest.mock('builder_platform_interaction/selectors', () => ({
     readableElementsSelector: jest.fn(data => Object.values(data.elements)),
 }));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -59,6 +60,7 @@ jest.mock('builder_platform_interaction/dataMutationLib', () => {
         FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/elementFactory').FEROV_DATA_TYPE_PROPERTY,
         pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
         dehydrate: require.requireActual('builder_platform_interaction/dataMutationLib').dehydrate,
+        sanitizeGuid: require.requireActual('builder_platform_interaction/dataMutationLib').sanitizeGuid,
     };
 });
 
@@ -98,6 +100,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
         getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
         getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
+        getFerovInfoAndErrorFromEvent: require.requireActual('builder_platform_interaction/expressionUtils').getFerovInfoAndErrorFromEvent,
     };
 });
 

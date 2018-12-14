@@ -408,7 +408,7 @@ export function getPlaceHolderLabel(fieldName) {
 export function getFieldChoiceData(field) {
     if (field.choiceReferences && field.choiceReferences.length > 0) {
         return field.choiceReferences.map((choice) => {
-            if (choice && choice.choiceReference && choice.choiceReference.value && choice.choiceReference.value !== "") {
+            if (choice && choice.choiceReference && choice.choiceReference.value && choice.choiceReference.value !== "" && !choice.choiceReference.error) {
                 const choiceElement = getElementByGuid(choice.choiceReference.value);
                 if (!choiceElement) {
                     throw new Error('Unable to find element: ' + choice);

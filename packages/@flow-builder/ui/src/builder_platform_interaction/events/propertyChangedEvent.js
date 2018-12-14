@@ -6,7 +6,7 @@ const eventName = 'propertychanged';
 
 
 export class PropertyChangedEvent {
-    constructor(propertyName, value, error = null, guid = null, oldValue = undefined, listIndex = undefined) {
+    constructor(propertyName, value, error = null, guid = null, oldValue = undefined, listIndex = undefined, dataType) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
@@ -17,7 +17,8 @@ export class PropertyChangedEvent {
                 error,
                 guid,
                 oldValue,
-                listIndex
+                listIndex,
+                dataType,
             }
         });
     }

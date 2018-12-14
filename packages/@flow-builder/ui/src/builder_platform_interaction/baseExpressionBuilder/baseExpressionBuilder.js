@@ -750,6 +750,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 rhs = event.detail.displayText;
                 error = genericErrorMessage;
             }
+        } else if (event.detail.isMergeField) {
+            rhsdt = FEROV_DATA_TYPE.REFERENCE;
         }
 
         const expressionUpdates = {

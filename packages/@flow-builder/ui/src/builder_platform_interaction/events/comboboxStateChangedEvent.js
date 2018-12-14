@@ -14,10 +14,11 @@ const eventName = 'comboboxstatechanged';
  * @property {Object} parent the parent flow element of the second level item in combobox shape
  * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
  * @property {String} objectType the object type when data type is SObject otherwise null. eg: Account
+ * @property {Boolean} isMergeField true if the displayText contains a merge field reference
  */
 
 export class ComboboxStateChangedEvent {
-    constructor(item = null, displayText = null, error = null) {
+    constructor(item = null, displayText = null, error = null, isMergeField = false) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
@@ -26,7 +27,8 @@ export class ComboboxStateChangedEvent {
             detail: {
                 item,
                 displayText,
-                error
+                error,
+                isMergeField,
             }
         });
     }

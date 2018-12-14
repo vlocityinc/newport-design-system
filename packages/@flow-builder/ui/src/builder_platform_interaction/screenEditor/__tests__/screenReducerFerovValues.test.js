@@ -14,7 +14,7 @@ export const REFERENCE_VALUES = {
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid(guid) {
-            if (guid.startsWith('GUID_')) {
+            if (guid && guid.startsWith('GUID_')) {
                 const groups = (/GUID_([a-zA-Z]*)_(\d)/g).exec(guid);
                 return {
                     dataType: groups[1],
@@ -86,12 +86,9 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
             error: null,
             guid: (valueAfter.isReference ? valueAfter.valueGuid : null),
             oldValue: field ? field[propertyName] : null,
+            dataType: valueAfter.isReference ? (valueAfter.globalConstantDataType || 'reference') : (valueAfter.value ? defaultDataType || 'String' : undefined),
         }
     };
-
-    if (defaultDataType) {
-        event.detail.valueDataType = defaultDataType;
-    }
 
     const newScreen = screenReducer(screen, event, screen.fields[0]);
     const newField = fieldProvider(newScreen);
