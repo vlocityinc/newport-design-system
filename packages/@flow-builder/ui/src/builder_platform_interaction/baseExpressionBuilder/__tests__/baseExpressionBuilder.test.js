@@ -170,6 +170,7 @@ describe('base expression builder', () => {
                 lhsFields: null,
                 lhsDisplayOption: expressionUtilsMock.LHS_DISPLAY_OPTION.NOT_FIELD,
                 showLhsAsFieldReference: true,
+                lhsMustBeWritable: true,
             });
             const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
