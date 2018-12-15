@@ -188,15 +188,8 @@ export default class BaseExpressionBuilder extends LightningElement {
         return this._lhsDisplayOption;
     }
 
-    set lhsMustBeWritable(writable) {
-        this._lhsMustBeWritable = writable;
-        this.setLhsMenuData();
-    }
-
     @api
-    get lhsMustBeWritable() {
-        return this._lhsMustBeWritable;
-    }
+    lhsMustBeWritable = false;
 
     @api
     operatorLabel;
@@ -363,7 +356,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     setLhsMenuData() {
         if (!this.areAllDefined([this.containerElement, this.rules, this.lhsFields,
-            this.lhsDisplayOption, this.lhsMustBeWritable])) {
+            this.lhsDisplayOption])) {
             return;
         }
         this.lhsParamTypes = getLHSTypes(this.containerElement, this.rules);
