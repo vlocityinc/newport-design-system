@@ -69,3 +69,9 @@
     margin-#{$left}: 0;
   }
 }
+
+@media(max-width:38em){
+    .via-slds.via-omni .slds-notify--toast{
+        min-width:unset;
+    }
+}
