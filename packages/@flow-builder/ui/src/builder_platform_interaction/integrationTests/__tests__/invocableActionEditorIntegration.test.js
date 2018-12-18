@@ -299,11 +299,11 @@ const verifyOutputParameter = (parameter, label, value) => {
 const getParameter = (parameters, name) => parameters.find(parameter => parameter.name === name);
 
 const findParameterElement = (parameterElements, name) => {
-    return parameterElements.find(parameter => parameter.item.name === name);
+    return Array.from(parameterElements).find(parameter => parameter.item.name === name);
 };
 
 const filterParameterElements = (parameterElements, name) => {
-    return parameterElements.filter(parameter => parameter.item.name === name);
+    return Array.from(parameterElements).filter(parameter => parameter.item.name === name);
 };
 
 const findIndex = (parameters, rowIndex) => {
@@ -402,7 +402,7 @@ describe('Invocable Action Editor', () => {
                 verifyOptionalInputParameterNoValue(inputParameters[10], 'String Collection Parameter');
             });
             it('update value when setting the litteral string to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(inputParameters.items, 'stringParam');
+                const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent('any value'));
                 return resolveRenderCycles(() => {
@@ -413,7 +413,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the variable number to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(inputParameters.items, 'stringParam');
+                const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(numberVariableDevName)));
                 return resolveRenderCycles(() => {
@@ -424,7 +424,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the empty string constant to the String Parameter', () => {
-                const stringParameterElement = findParameterElement(inputParameters.items, 'stringParam');
+                const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(GLOBAL_CONSTANTS.EMPTY_STRING)));
                 return resolveRenderCycles(() => {
@@ -435,7 +435,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the valid number to the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(inputParameters.items, 'numberParam');
+                const numberParameterElement = findParameterElement(inputParameters, 'numberParam');
                 const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
                 numberParameterCombobox.dispatchEvent(textInputEvent('1234'));
                 return resolveRenderCycles(() => {
@@ -446,7 +446,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the date variable to the Date Parameter', () => {
-                const dateParameterElement = findParameterElement(inputParameters.items, 'dateParam');
+                const dateParameterElement = findParameterElement(inputParameters, 'dateParam');
                 const toggle = getLightningInputToggle(dateParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
@@ -461,7 +461,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the global constant to the Boolean Parameter', () => {
-                const booleanParameterElement = findParameterElement(inputParameters.items, 'booleanParam');
+                const booleanParameterElement = findParameterElement(inputParameters, 'booleanParam');
                 const toggle = getLightningInputToggle(booleanParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
@@ -476,7 +476,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show combobox when toggle is active', () => {
-                const accountColParameterElement = findParameterElement(inputParameters.items, 'accountColParam');
+                const accountColParameterElement = findParameterElement(inputParameters, 'accountColParam');
                 const toggle = getLightningInputToggle(accountColParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
@@ -484,7 +484,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('hide combobox when toggle is deactive', () => {
-                const numberParamElement = findParameterElement(inputParameters.items, 'numberParam');
+                const numberParamElement = findParameterElement(inputParameters, 'numberParam');
                 const toggle = getLightningInputToggle(numberParamElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
                 return resolveRenderCycles(() => {
@@ -492,7 +492,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('preserve value when toggle is reactive', () => {
-                const numberParamElement = findParameterElement(inputParameters.items, 'numberParam');
+                const numberParamElement = findParameterElement(inputParameters, 'numberParam');
                 const toggle = getLightningInputToggle(numberParamElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
                 return resolveRenderCycles(() => {
@@ -512,7 +512,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if clearing the value of required input parameter', () => {
-                const stringParameterElement = findParameterElement(inputParameters.items, 'stringParam');
+                const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(''));
                 return resolveRenderCycles(() => {
@@ -523,7 +523,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the string for the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(inputParameters.items, 'numberParam');
+                const numberParameterElement = findParameterElement(inputParameters, 'numberParam');
                 const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
                 numberParameterCombobox.dispatchEvent(textInputEvent('invalidNumber'));
                 return resolveRenderCycles(() => {
@@ -534,7 +534,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the string for the Account Parameter', () => {
-                const accountParameterElement = findParameterElement(inputParameters.items, 'accountParam');
+                const accountParameterElement = findParameterElement(inputParameters, 'accountParam');
                 const accountParameterCombobox = getInputParameterComboboxElement(accountParameterElement);
                 accountParameterCombobox.dispatchEvent(textInputEvent('any string'));
                 return resolveRenderCycles(() => {
@@ -545,7 +545,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the collection variable for the String Parameter', () => {
-                const stringParameterElement = findParameterElement(inputParameters.items, 'stringParam');
+                const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
                 return resolveRenderCycles(() => {
@@ -556,7 +556,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the string collection variable for the Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(inputParameters.items, 'accountColParam');
+                const accountColParameterElement = findParameterElement(inputParameters, 'accountColParam');
                 const toggle = getLightningInputToggle(accountColParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
@@ -571,7 +571,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the empty string constant for the Boolean Parameter', () => {
-                const booleanParameterElement = findParameterElement(inputParameters.items, 'booleanParam');
+                const booleanParameterElement = findParameterElement(inputParameters, 'booleanParam');
                 const toggle = getLightningInputToggle(booleanParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
@@ -602,7 +602,7 @@ describe('Invocable Action Editor', () => {
                     coreActionElement = createComponentForTest(actionNode);
                     return resolveRenderCycles(() => {
                         inputParameters = getInputParameterItems(coreActionElement);
-                        numberParameterItems = filterParameterElements(inputParameters.items, 'numberParam');
+                        numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
                     });
                 });
                 afterEach(() => {
@@ -626,7 +626,7 @@ describe('Invocable Action Editor', () => {
                     deleteBtn.click();
                     return resolveRenderCycles(() => {
                         inputParameters = getInputParameterItems(coreActionElement);
-                        numberParameterItems = filterParameterElements(inputParameters.items, 'numberParam');
+                        numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
                         expect(numberParameterItems).toHaveLength(1);
                         verifyOptionalInputParameterWithValue(numberParameterItems[0], 'Number Parameter', addCurlyBraces(numberVariableDevName));
                     });
@@ -647,7 +647,7 @@ describe('Invocable Action Editor', () => {
                     const coreActionElement = createComponentForTest(actionNode);
                     return resolveRenderCycles(() => {
                         const inputParameters = getInputParameterItems(coreActionElement);
-                        notAvailableItem = findParameterElement(inputParameters.items, 'notAvailableParam');
+                        notAvailableItem = findParameterElement(inputParameters, 'notAvailableParam');
                     });
                 });
                 afterEach(() => {
@@ -700,7 +700,7 @@ describe('Invocable Action Editor', () => {
                 verifyOutputParameter(outputParameters[7], 'Output String Parameter', addCurlyBraces(stringVariableDevName));
             });
             it('update value when setting the string variable to the Output String Parameter', () => {
-                const stringParameterElement = findParameterElement(outputParameters.items, 'outputStringParam');
+                const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                 const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringVariableDevName)));
                 return resolveRenderCycles(() => {
@@ -711,7 +711,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the number variable to the Output Number Parameter', () => {
-                const numberParameterElement = findParameterElement(outputParameters.items, 'outputNumberParam');
+                const numberParameterElement = findParameterElement(outputParameters, 'outputNumberParam');
                 const numberParameterCombobox = getOutputParameterComboboxElement(numberParameterElement);
                 numberParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(numberVariableDevName)));
                 return resolveRenderCycles(() => {
@@ -722,7 +722,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the account variable to the Output Account Parameter', () => {
-                const accountParameterElement = findParameterElement(outputParameters.items, 'outputAccountParam');
+                const accountParameterElement = findParameterElement(outputParameters, 'outputAccountParam');
                 const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
                 accountParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(accountSObjectVariableDevName)));
                 return resolveRenderCycles(() => {
@@ -733,7 +733,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('update value when setting the account collection variable to the Output Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(outputParameters.items, 'outputAccountColParam');
+                const accountColParameterElement = findParameterElement(outputParameters, 'outputAccountColParam');
                 const accountColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
                 accountColParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(accountSObjectCollectionVariableDevName)));
                 return resolveRenderCycles(() => {
@@ -753,7 +753,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the litteral string for the Output String Parameter', () => {
-                const stringParameterElement = findParameterElement(outputParameters.items, 'outputStringParam');
+                const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                 const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent('any string'));
                 return resolveRenderCycles(() => {
@@ -764,7 +764,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the string variable for the Output Account Parameter', () => {
-                const accountParameterElement = findParameterElement(outputParameters.items, 'outputAccountParam');
+                const accountParameterElement = findParameterElement(outputParameters, 'outputAccountParam');
                 const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
                 accountParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringVariableDevName)));
                 return resolveRenderCycles(() => {
@@ -775,7 +775,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the collection variable for the Output String Parameter', () => {
-                const stringParameterElement = findParameterElement(outputParameters.items, 'outputStringParam');
+                const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                 const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
                 stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
                 return resolveRenderCycles(() => {
@@ -786,7 +786,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show the error if entering the string collection variable for the Output Account Collection Parameter', () => {
-                const accountColParameterElement = findParameterElement(outputParameters.items, 'outputAccountColParam');
+                const accountColParameterElement = findParameterElement(outputParameters, 'outputAccountColParam');
                 const sObjectColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
                 sObjectColParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
                 return resolveRenderCycles(() => {
@@ -813,7 +813,7 @@ describe('Invocable Action Editor', () => {
                     coreActionElement = createComponentForTest(actionNode);
                     return resolveRenderCycles(() => {
                         outputParameters = getOutputParameterItems(coreActionElement);
-                        numberParameterItems = filterParameterElements(outputParameters.items, 'outputNumberParam');
+                        numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
                     });
                 });
                 afterEach(() => {
@@ -837,7 +837,7 @@ describe('Invocable Action Editor', () => {
                     deleteBtn.click();
                     return resolveRenderCycles(() => {
                         outputParameters = getOutputParameterItems(coreActionElement);
-                        numberParameterItems = filterParameterElements(outputParameters.items, 'outputNumberParam');
+                        numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
                         expect(numberParameterItems).toHaveLength(1);
                         verifyOutputParameter(numberParameterItems[0], 'Output Number Parameter', addCurlyBraces(numberVariableDevName));
                     });
@@ -858,7 +858,7 @@ describe('Invocable Action Editor', () => {
                     const coreActionElement = createComponentForTest(actionNode);
                     return resolveRenderCycles(() => {
                         const outputParameters = getOutputParameterItems(coreActionElement);
-                        notAvailableItem = findParameterElement(outputParameters.items, 'notAvailableParam');
+                        notAvailableItem = findParameterElement(outputParameters, 'notAvailableParam');
                     });
                 });
                 afterEach(() => {
