@@ -7,13 +7,15 @@ import {
     EXPRESSION_PROPERTY_TYPE,
 } from '../resourceUtils';
 import * as store from "mock/storeData";
-import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces, format } from "builder_platform_interaction/commonUtils";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { mutateFieldToComboboxShape } from '../menuDataGenerator';
+import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
 
 jest.mock('builder_platform_interaction/commonUtils', () => {
     return {
@@ -116,6 +118,14 @@ describe('resource retrieval', () => {
 });
 
 describe('getFerovInfoAndErrorFromEvent', () => {
+    let badMenuItem;
+
+    beforeEach(() => {
+        badMenuItem = {
+            value: 'invalidIdentifier',
+            displayText: '{!invalidIdentifier}',
+        };
+    });
     it('returns an object with value and dataType properties', () => {
         const result = getFerovInfoAndErrorFromEvent({ detail: {}});
         expect(result).toHaveProperty('value');
@@ -133,13 +143,19 @@ describe('getFerovInfoAndErrorFromEvent', () => {
         const result = getFerovInfoAndErrorFromEvent({ detail: { displayText: 'foo' } }, undefined);
         expect(result.value).toEqual(displayText);
     });
-
-    it('uses the displayText as value when given a menu item', () => {
-        const mockItem = { value: 'fooValue', displayText: 'fooDisplayText' };
-        const result = getFerovInfoAndErrorFromEvent({ detail: mockItem });
-        expect(result.value).toEqual(mockItem.displayText);
+    it('sets an error when given an invalid resource identifier', () => {
+        const { error } = getFerovInfoAndErrorFromEvent({detail: {item: badMenuItem}});
+        expect(error).toEqual(genericErrorMessage);
     });
-
+    it('uses display text as value when given an invalid resource identifier', () => {
+        const { value } = getFerovInfoAndErrorFromEvent({detail: {item: badMenuItem, displayText: badMenuItem.displayText}});
+        expect(value).toEqual(badMenuItem.displayText);
+    });
+    it('uses literal data type when given an invalid resource identifier', () => {
+        const literalDataType = 'sfdcDataType';
+        const { dataType } = getFerovInfoAndErrorFromEvent({detail: {item: badMenuItem}}, literalDataType);
+        expect(dataType).toEqual(literalDataType);
+    });
     it('gets the ferov data type when given a menu item', () => {
         const mockItem = { item: { value: store.numberVariableGuid }, displayText: '{!fooValue}' };
         const result = getFerovInfoAndErrorFromEvent({ detail: mockItem });
@@ -149,6 +165,37 @@ describe('getFerovInfoAndErrorFromEvent', () => {
         const invalid = 'invalid';
         const result = getFerovInfoAndErrorFromEvent({detail: {item: {value: invalid}, displayText: invalid}});
         expect(result.error).toBeTruthy();
+    });
+    it('returns ferov data type of REFERENCE when the display text is a merge field', () => {
+        const displayText = '{!someMergeField}';
+        const { dataType } = getFerovInfoAndErrorFromEvent({detail: {displayText, isMergeField: true} });
+        expect(dataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
+    });
+    it('uses the literal data type when given display text that is not a merge field', () => {
+        const displayText = 'some display text';
+        const mockDataType = 'sfdcDataType';
+        const { dataType } = getFerovInfoAndErrorFromEvent({detail: {displayText, isMergeField: false} }, mockDataType);
+        expect(dataType).toEqual(mockDataType);
+    });
+    it('treats global constants as elements but gives them a non reference data type', () => {
+        const mockMenuItem = {
+            value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
+            displayText: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}',
+        };
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent({detail: {item: mockMenuItem} });
+        expect(value).toEqual(mockMenuItem.value);
+        expect(dataType).toEqual(FEROV_DATA_TYPE.BOOLEAN);
+        expect(error).toBeUndefined();
+    });
+    it('treats system variables as elements and gives them a reference data type', () => {
+        const mockMenuItem = {
+            value: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime',
+            displayText: '{!' + SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime}',
+        };
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent({detail: {item: mockMenuItem, displayText: mockMenuItem.displayText}});
+        expect(value).toEqual(mockMenuItem.value);
+        expect(dataType).toEqual(FEROV_DATA_TYPE.REFERENCE);
+        expect(error).toBeUndefined();
     });
 });
 

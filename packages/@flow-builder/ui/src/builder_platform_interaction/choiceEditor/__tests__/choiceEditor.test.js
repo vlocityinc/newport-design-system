@@ -5,9 +5,11 @@ import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interacti
 import { choiceReducer } from '../choiceReducer';
 import { PropertyChangedEvent, ComboboxStateChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId } from 'builder_platform_interaction/expressionUtils';
+import { getResourceByUniqueIdentifier, getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../choiceEditorLabels';
+import { FEROV_DATA_TYPE } from '../../dataTypeLib/dataTypeLib';
+import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
@@ -56,14 +58,14 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getResourceByUniqueIdentifier: jest.fn(),
         getFerovDataTypeForValidId: jest.fn(),
         getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
-        getFerovInfoAndErrorFromEvent: require.requireActual('builder_platform_interaction/expressionUtils').getFerovInfoAndErrorFromEvent,
+        getFerovInfoAndErrorFromEvent: jest.fn().mockName('getFerovInfoAndErrorFromEvent'),
     };
 });
 
 describe('choice-editor', () => {
     const defaultChoiceObject = {
         choiceText: 'choiceText',
-        dataType: 'String',
+        dataType: {value: 'String', error: null },
         description: 'Desc',
         elementType: 'CHOICE',
         guid: 'guid_1',
@@ -226,19 +228,25 @@ describe('choice-editor', () => {
     });
 
     describe('Default value combobox', () => {
-        it('Should allow global constants and treat them as elements', () => {
+        it('should call getFerovInfoAndErrorFromEvent to get the ferov data type of new combobox value', () => {
             const choiceEditor = setupComponentUnderTest(defaultChoiceObject);
             const selectedMenuItem = {
                 value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
                 displayText: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}',
             };
-
+            const mockFerovInfo = {
+                dataType: FEROV_DATA_TYPE.BOOLEAN,
+                value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
+                error: null,
+            };
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
+            getFerovInfoAndErrorFromEvent.mockReturnValueOnce(mockFerovInfo);
 
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
             const flowCombobox = getShadowRoot(choiceEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
             flowCombobox.dispatchEvent(valueChangedEvent);
-            expect(getFerovDataTypeForValidId).toHaveBeenCalledWith(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
+            expect(getFerovInfoAndErrorFromEvent).toHaveBeenCalledWith(valueChangedEvent, defaultChoiceObject.dataType.value);
+            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: STORED_VALUE_DATA_TYPE_PROPERTY, value: mockFerovInfo.dataType, error: null });
         });
     });
 

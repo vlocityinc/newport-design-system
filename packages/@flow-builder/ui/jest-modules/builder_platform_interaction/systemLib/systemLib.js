@@ -15,6 +15,16 @@ const removeCurlyBraces = (id) => {
     return id;
 };
 
+const systemVariables = [
+    {
+        devName: 'CurrentDateTime',
+        dataType: 'DateTime',
+        isAssignable: false,
+    }
+];
+
+mockSystemLib.setSystemVariables(JSON.stringify(systemVariables));
+
 export const GLOBAL_CONSTANT_PREFIX = globalConstantPrefixLabel;
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 
@@ -59,11 +69,11 @@ export const isGlobalConstantOrSystemVariableId = (id) => {
     return id === GLOBAL_CONSTANTS.BOOLEAN_TRUE
         || id === GLOBAL_CONSTANTS.BOOLEAN_FALSE
         || id === GLOBAL_CONSTANTS.EMPTY_STRING
-        || getSystemVariables()[id];
+        || mockSystemLib.getSystemVariables()[id];
 };
 
 export const getGlobalConstantOrSystemVariable = (id) => {
-    return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)] || getSystemVariables()[id];
+    return GLOBAL_CONSTANT_OBJECTS[removeCurlyBraces(id)] || mockSystemLib.getSystemVariables()[id];
 };
 
 export const getGlobalVariable = mockSystemLib.getGlobalVariable;

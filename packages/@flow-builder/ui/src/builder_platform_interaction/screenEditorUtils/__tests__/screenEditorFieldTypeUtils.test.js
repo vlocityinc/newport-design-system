@@ -88,11 +88,11 @@ describe('getFieldChoiceData function', () => {
     it('Returns data when there are choice references', () => {
         const mockField = {
             choiceReferences: [{
-                choiceReference: {value: choice1Guid, error: 'error1'}
+                choiceReference: {value: choice1Guid, error: null}
             }, {
                 choiceReference: {value: choice2Guid, error: 'error2'}
             }, {
-                choiceReference: {value: choice3Guid, error: 'error3'}
+                choiceReference: {value: choice3Guid, error: null}
             }, {
                 choiceReference: {error: 'error4'}
             }, {}]
@@ -101,7 +101,7 @@ describe('getFieldChoiceData function', () => {
         const expectedData = [{
                 defaultValueOption: false,
                 label: {
-                    error: 'error1',
+                    error: null,
                     value: choiceNameMergeField
                 },
                 name: 'choiceName',
@@ -110,14 +110,14 @@ describe('getFieldChoiceData function', () => {
                 defaultValueOption: false,
                 label: {
                     error: 'error2',
-                    value: choiceNameMergeField
+                    value: null,
                 },
-                name: 'choiceName',
-                value: choice2Guid
+                name: '',
+                value: ''
             }, {
                 defaultValueOption: true,
                 label: {
-                    error: 'error3',
+                    error: null,
                     value: choiceNameMergeField
                 },
                 name: 'choiceName',

@@ -435,9 +435,9 @@ describe('variable-constant-editor', () => {
         it('has ferovDataType set to reference when default value changed from literal to reference', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const selectedMenuItem = {
-                text: '{!var1}',
-                value: 'GUID1',
-                displayText: '{!var1}'
+                text: '{!someSobjectVar}',
+                value: mockStoreData.accountSObjectVariableGuid,
+                displayText: '{!someSobjectVar}'
             };
             const expectedUpdatePropPayload = {
                 propertyName: 'defaultValueDataType',
@@ -445,29 +445,33 @@ describe('variable-constant-editor', () => {
                 error: null
             };
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
-            getFerovDataTypeForValidId.mockReturnValue(FEROV_DATA_TYPE.REFERENCE);
+            getFerovDataTypeForValidId.mockReturnValueOnce(FEROV_DATA_TYPE.REFERENCE);
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
+            const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            flowCombobox.dispatchEvent(valueChangedEvent);
             return Promise.resolve().then(() => {
-                const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-                flowCombobox.dispatchEvent(valueChangedEvent);
                 expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
             });
         });
 
-        it('should allow global constants and treat them as elements', () => {
+        it('should allow global constants', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const selectedMenuItem = {
                 value: GLOBAL_CONSTANTS.BOOLEAN_TRUE,
                 displayText: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}',
             };
-
+            const expectedUpdatePropPayload = {
+                error: null,
+                propertyName: "defaultValueDataType",
+                value: FEROV_DATA_TYPE.BOOLEAN,
+            };
             getResourceByUniqueIdentifier.mockReturnValueOnce({});
 
             const valueChangedEvent = new ComboboxStateChangedEvent(selectedMenuItem, null, null);
             return Promise.resolve().then(() => {
                 const flowCombobox = getShadowRoot(variableEditor).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
                 flowCombobox.dispatchEvent(valueChangedEvent);
-                expect(getFerovDataTypeForValidId).toHaveBeenCalledWith(GLOBAL_CONSTANTS.BOOLEAN_TRUE);
+                expect(createAction.mock.calls[0][1]).toEqual(expectedUpdatePropPayload);
             });
         });
 
