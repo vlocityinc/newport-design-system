@@ -188,8 +188,18 @@ export default class BaseExpressionBuilder extends LightningElement {
         return this._lhsDisplayOption;
     }
 
+    /**
+     * @param {Boolean} writable   should LHS menu data always be writable elements?
+     */
+    set lhsMustBeWritable(writable) {
+        this._lhsMustBeWritable = writable;
+        this.setLhsMenuData();
+    }
+
     @api
-    lhsMustBeWritable = false;
+    get lhsMustBeWritable() {
+        return this._lhsMustBeWritable;
+    }
 
     @api
     operatorLabel;
@@ -356,7 +366,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     setLhsMenuData() {
         if (!this.areAllDefined([this.containerElement, this.rules, this.lhsFields,
-            this.lhsDisplayOption])) {
+            this.lhsDisplayOption, this.lhsMustBeWritable])) {
             return;
         }
         this.lhsParamTypes = getLHSTypes(this.containerElement, this.rules);
