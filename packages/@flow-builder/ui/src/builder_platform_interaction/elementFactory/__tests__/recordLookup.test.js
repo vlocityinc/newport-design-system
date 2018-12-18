@@ -184,7 +184,7 @@ describe('recordLookup', () => {
         });
 
         describe('when flow recordLookup is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 recordLookup = createRecordLookup(recordLoookupSObjectMetadata());
             });
             it('has dataType of boolean', () => {
@@ -196,7 +196,7 @@ describe('recordLookup', () => {
         });
 
         describe('when store recordLookup is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 recordLookup = createRecordLookup(recordLookupSObjectStore());
             });
             it('has dataType of boolean', () => {

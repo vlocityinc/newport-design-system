@@ -119,7 +119,7 @@ describe('apexPlugin', () => {
     describe('createApexPlugin function', () => {
         let apexPlugin;
         describe('when empty apexPlugin is created', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 apexPlugin = createApexPlugin();
             });
 
@@ -144,7 +144,7 @@ describe('apexPlugin', () => {
         });
 
         describe('when flow apexPlugin is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 apexPlugin = createApexPlugin(apexPluginMetaData);
             });
             it('creates element of type APEX_PLUGIN_CALL', () => {
@@ -168,7 +168,7 @@ describe('apexPlugin', () => {
         });
 
         describe('when store apexPlugin is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 apexPlugin = createApexPlugin(apexPluginInStore);
             });
             it('has apexClass equal to apexClass from store', () => {
@@ -191,7 +191,7 @@ describe('apexPlugin', () => {
     describe('createApexPluginMetadataObject function', () => {
         let apexPluginMetaDataObject;
         describe('when store apexPlugin is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 apexPluginMetaDataObject = createApexPluginMetadataObject(apexPluginInStore);
             });
             it('has apexClass equal to apexClass from flow', () => {

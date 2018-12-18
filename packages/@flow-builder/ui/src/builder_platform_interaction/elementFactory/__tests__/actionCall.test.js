@@ -123,7 +123,7 @@ describe('actionCall', () => {
     describe('createActionCall function', () => {
         let actionCall;
         describe('when empty actionCall is created', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 actionCall = createActionCall();
             });
 
@@ -152,7 +152,7 @@ describe('actionCall', () => {
         });
 
         describe('when flow actionCall is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 actionCall = createActionCall(actionCallMetaData);
             });
             it('creates element of type ACTION_CALL', () => {
@@ -179,7 +179,7 @@ describe('actionCall', () => {
         });
 
         describe('when store actionCall is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 actionCall = createActionCall(actionCallInStore);
             });
             it('has actionName equal to actionName from store', () => {
@@ -205,7 +205,7 @@ describe('actionCall', () => {
     describe('createActionCallMetadataObject function', () => {
         let actionCallMetaDataObject;
         describe('when store actionCall is passed', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 actionCallMetaDataObject = createActionCallMetadataObject(actionCallInStore);
             });
             it('has actionName equal to actionName from flow', () => {

@@ -125,7 +125,7 @@ describe('subflow', () => {
     describe('createSubflow function', () => {
         let subflow;
         describe('when empty subflow is created', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 subflow = createSubflow();
             });
             it('creates element of type SUBFLOW', () => {
@@ -146,7 +146,7 @@ describe('subflow', () => {
         });
         describe('when subflow metadata is passed as parameter', () => {
             let expectedSubflowInStore;
-            beforeAll(() => {
+            beforeEach(() => {
                 subflow = createSubflow(subflowMetadata);
                 expectedSubflowInStore = subflowInStoreWithAnyRowIndexGuidExpected(subflowInStore);
             });
@@ -168,7 +168,7 @@ describe('subflow', () => {
         });
         describe('when subflow from store is passed', () => {
             let expectedSubflowInStore;
-            beforeAll(() => {
+            beforeEach(() => {
                 subflow = createSubflow(subflowInStore);
                 // inputParameter changes the rowId property. It probably should not though
                 expectedSubflowInStore = subflowInStoreWithAnyRowIndexGuidExpected(subflowInStore);
@@ -188,7 +188,7 @@ describe('subflow', () => {
         });
         describe('createSubflowMetadataObject function', () => {
             describe('when store apexPlugin is passed', () => {
-                beforeAll(() => {
+                beforeEach(() => {
                     subflow = createSubflowMetadataObject(subflowInStore);
                 });
                 it('is equal to the subflow metadata', () => {
@@ -202,7 +202,7 @@ describe('subflow', () => {
             });
         });
         describe('createSubflowWithConnectors function', () => {
-            beforeAll(() => {
+            beforeEach(() => {
                 subflow = createSubflowWithConnectors(subflowMetadata);
             });
             it('has no common mutable object with subflow metadata passed as parameter', () => {
