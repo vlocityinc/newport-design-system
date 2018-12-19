@@ -1,62 +1,46 @@
 import {createElement} from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
 import { getShadowRoot } from 'lwc-test-utils';
-import {
-    stringCollectionVariable1DevName,
-    stringVariableDevName,
-    stringVariableGuid,
-    dateVariableGuid,
-    accountSObjectCollectionVariableDevName,
-    accountSObjectCollectionVariableGuid,
-    accountSObjectVariableDevName,
-    accountSObjectVariableGuid,
-    numberVariableGuid,
-    numberVariableDevName,
-} from 'mock/storeData';
-import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { resolveRenderCycles} from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
-import { mockRulesFromServiceForAssigment } from "mock/ruleService";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { createActionCall } from 'builder_platform_interaction/elementFactory';
-
-jest.mock('builder_platform_interaction/storeLib', () => {
-    const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
-    const originalCreateSelector = require.requireActual('builder_platform_interaction/storeLib').createSelector;
-    const partialStoreLibMock = Object.assign({}, mockStoreLib);
-    partialStoreLibMock.createSelector = originalCreateSelector;
-    return partialStoreLibMock;
-});
+import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import { updateFlow } from 'builder_platform_interaction/actions';
+import { Store } from "builder_platform_interaction/storeLib";
+import { getElementByDevName } from "builder_platform_interaction/storeUtils";
+import { translateFlowToUIModel } from "builder_platform_interaction/translatorLib";
+import { reducer } from 'builder_platform_interaction/reducers';
+import { flowWithApexAction } from 'mock/flows/flowWithApexAction';
+import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
+import { mockAllRules } from "mock/ruleService";
 
 jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix', () => ({ default: "$GlobalConstant" }), { virtual: true });
 jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse', () => ({ default: "False" }), { virtual: true });
 jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString', () => ({ default: "EmptyString" }), { virtual: true });
 
-const mockActionParametersPromise = Promise.resolve(mockAllTypesActionParameters);
-const mockActionsPromise = Promise.resolve(mockActions);
 
-// TODO: it's better to pass mock stub to setAuraFetch
-jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
-    const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
-    return {
-        SERVER_ACTION_TYPE,
-        fetchOnce : (serverActionType) => {
-            switch (serverActionType) {
-            case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
-                return mockActionsPromise;
-            case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS:
-                return mockActionParametersPromise;
-            default:
-                return Promise.reject();
-            }
-        }
-    };
-});
+const auraFetch = (actionName, shouldExecuteCallback, callback) => {
+    if (!shouldExecuteCallback()) {
+        return undefined;
+    }
+    let result;
+    switch (actionName) {
+    case 'c.getAllInvocableActionsForType':
+        result = { data : mockActions };
+        break;
+    case 'c.getInvocableActionParameters':
+        result = { data : mockAllTypesActionParameters };
+        break;
+    default:
+        result = { error : 'Unknown actionName'};
+    break;
+    }
+    return callback(result);
+};
 
 const SELECTORS = {
         BASE_CALLOUT_EDITOR: 'builder_platform_interaction-base-callout-editor',
@@ -187,60 +171,6 @@ const toggleChangeEvent = (checked) => {
     });
 };
 
-const actionDevName = 'actionIntegrationTest';
-const coreActionName = 'chatterPost';
-const coreActionType = 'chatterPost';
-
-const actionCallMetaData = {
-    actionName: coreActionName,
-    actionType: coreActionType,
-    inputParameters: [
-        {
-            name: 'stringParam',
-            value: {
-                elementReference: stringVariableGuid
-            },
-            processMetadataValues: [],
-        },
-        {
-            name: 'accountParam',
-            value: {
-                elementReference: accountSObjectVariableGuid
-            },
-            processMetadataValues: [],
-        },
-        {
-            name: 'numberParam',
-            value: {
-                elementReference: numberVariableGuid
-            },
-            processMetadataValues: [],
-        },
-        {
-            name: 'idParam',
-            value: {
-                elementReference: stringVariableGuid
-            },
-            processMetadataValues: [],
-        },
-    ],
-    label: 'Action Integration Test',
-    name: actionDevName,
-    outputParameters: [
-        {
-            name: "outputStringParam",
-            assignToReference: stringVariableGuid,
-            processMetadataValues: [],
-        },
-        {
-            name: "outputNumberParam",
-            assignToReference: numberVariableGuid,
-            processMetadataValues: [],
-        },
-    ],
-    processMetadataValues: [],
-};
-
 const createComponentForTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, {node, isNewMode});
@@ -310,12 +240,21 @@ const findIndex = (parameters, rowIndex) => {
     return parameters.findIndex(parameter => parameter.rowIndex === rowIndex);
 };
 
+const getElementGuid = (elementDevName) => {
+    const element = getElementByDevName(elementDevName);
+    return element === undefined ? undefined : element.guid;
+};
+
 const itSkip = it.skip;
 
 describe('Invocable Action Editor', () => {
     beforeAll(() => {
-        setRules(JSON.stringify(mockRulesFromServiceForAssigment));
+        setRules(JSON.stringify(mockAllRules));
+        setAuraFetch(auraFetch);
         OutputResourcePicker.RULES = getOutputRules();
+        const store = Store.getStore(reducer);
+        const uiFlow = translateFlowToUIModel(flowWithApexAction);
+        store.dispatch(updateFlow(uiFlow));
     });
     afterAll(() => {
         // reset rules
@@ -324,7 +263,8 @@ describe('Invocable Action Editor', () => {
     });
     let actionNode;
     beforeEach(() => {
-        actionNode = getElementForPropertyEditor(createActionCall(actionCallMetaData));
+        const element = getElementByDevName('allTypesApexAction');
+        actionNode = getElementForPropertyEditor(element);
     });
     describe('name and dev name', () => {
         it('do not change devName if it already exists after the user modifies the name', () => {
@@ -336,7 +276,7 @@ describe('Invocable Action Editor', () => {
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(coreActionElement.node.label.value).toBe(newLabel);
-                    expect(coreActionElement.node.name.value).toBe(actionDevName);
+                    expect(coreActionElement.node.name.value).toBe('allTypesApexAction');
                 });
             });
         });
@@ -388,17 +328,21 @@ describe('Invocable Action Editor', () => {
             });
             it('show all input parameters', () => {
                 // required parameters: Account Parameter and String Parameter
-                verifyRequiredInputParameter(inputParameters[0], 'Account Parameter', addCurlyBraces(accountSObjectVariableDevName));
-                verifyRequiredInputParameter(inputParameters[1], 'Id Parameter', addCurlyBraces(stringVariableDevName));
-                verifyRequiredInputParameter(inputParameters[2], 'String Parameter', addCurlyBraces(stringVariableDevName));
-                // optional parameters: Account Collection Parameter (no value), Date Collection Parameter (no value), Date Parameter (no value), Number Collection Parameter (no value), Number Parameter (with value), String Collection Parameter (no value)
+                verifyRequiredInputParameter(inputParameters[0], 'Account Parameter', '{!accountSObjectVariable}');
+                verifyRequiredInputParameter(inputParameters[1], 'Id Parameter', '{!stringVariable}');
+                verifyRequiredInputParameter(inputParameters[2], 'String Parameter', '{!stringVariable}');
+                // optional parameters: Account Collection Parameter (no value),
+                // Date Collection Parameter (no value), Date Parameter (no
+                // value), Number Collection Parameter (no value), Number
+                // Parameter (with value), String Collection Parameter (no
+                // value)
                 verifyOptionalInputParameterNoValue(inputParameters[3], 'Account Collection Parameter');
                 verifyOptionalInputParameterNoValue(inputParameters[4], 'Boolean Collection Parameter');
                 verifyOptionalInputParameterNoValue(inputParameters[5], 'Boolean Parameter');
                 verifyOptionalInputParameterNoValue(inputParameters[6], 'Date Collection Parameter');
                 verifyOptionalInputParameterNoValue(inputParameters[7], 'Date Parameter');
                 verifyOptionalInputParameterNoValue(inputParameters[8], 'Number Collection Parameter');
-                verifyOptionalInputParameterWithValue(inputParameters[9], 'Number Parameter', addCurlyBraces(numberVariableDevName));
+                verifyOptionalInputParameterWithValue(inputParameters[9], 'Number Parameter', '{!numberVariable}');
                 verifyOptionalInputParameterNoValue(inputParameters[10], 'String Collection Parameter');
             });
             it('update value when setting the litteral string to the String Parameter', () => {
@@ -415,11 +359,11 @@ describe('Invocable Action Editor', () => {
             it('update value when setting the variable number to the String Parameter', () => {
                 const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
-                stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(numberVariableDevName)));
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({value: numberVariableGuid, error: null});
+                        expect(getParameter(coreActionElement.node.inputParameters, 'stringParam').value).toEqual({value: getElementGuid('numberVariable'), error: null});
                     });
                 });
             });
@@ -451,11 +395,11 @@ describe('Invocable Action Editor', () => {
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
                     const dateParameterCombobox = getInputParameterComboboxElement(dateParameterElement);
-                    dateParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces('dateVar1')));
+                    dateParameterCombobox.dispatchEvent(textInputEvent('{!dateVariable}'));
                     return resolveRenderCycles(() => {
                         dateParameterCombobox.dispatchEvent(blurEvent);
                         return resolveRenderCycles(() => {
-                            expect(getParameter(coreActionElement.node.inputParameters, 'dateParam').value).toEqual({value: dateVariableGuid, error: null});
+                            expect(getParameter(coreActionElement.node.inputParameters, 'dateParam').value).toEqual({value: getElementGuid('dateVariable'), error: null});
                         });
                     });
                 });
@@ -498,7 +442,7 @@ describe('Invocable Action Editor', () => {
                 return resolveRenderCycles(() => {
                     toggle.dispatchEvent(toggleChangeEvent(true));
                     return resolveRenderCycles(() => {
-                        verifyOptionalInputParameterWithValue(numberParamElement, 'Number Parameter', addCurlyBraces(numberVariableDevName));
+                        verifyOptionalInputParameterWithValue(numberParamElement, 'Number Parameter', '{!numberVariable}');
                     });
                 });
             });
@@ -547,7 +491,7 @@ describe('Invocable Action Editor', () => {
             it('show the error if entering the collection variable for the String Parameter', () => {
                 const stringParameterElement = findParameterElement(inputParameters, 'stringParam');
                 const stringParameterCombobox = getInputParameterComboboxElement(stringParameterElement);
-                stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -561,7 +505,7 @@ describe('Invocable Action Editor', () => {
                 toggle.dispatchEvent(toggleChangeEvent(true));
                 return resolveRenderCycles(() => {
                     const sObjectColParameterCombobox = getInputParameterComboboxElement(accountColParameterElement);
-                    sObjectColParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
+                    sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                     return resolveRenderCycles(() => {
                         sObjectColParameterCombobox.dispatchEvent(blurEvent);
                         return resolveRenderCycles(() => {
@@ -628,7 +572,7 @@ describe('Invocable Action Editor', () => {
                         inputParameters = getInputParameterItems(coreActionElement);
                         numberParameterItems = filterParameterElements(inputParameters, 'numberParam');
                         expect(numberParameterItems).toHaveLength(1);
-                        verifyOptionalInputParameterWithValue(numberParameterItems[0], 'Number Parameter', addCurlyBraces(numberVariableDevName));
+                        verifyOptionalInputParameterWithValue(numberParameterItems[0], 'Number Parameter', '{!numberVariable}');
                     });
                 });
             });
@@ -689,57 +633,61 @@ describe('Invocable Action Editor', () => {
                 });
             });
             it('show all output parameters', () => {
-                // output parameters: Output Account Parameter, Output Account Collection Parameter, Output Date Collection Parameter, Output Date Parameter, Output Number Collection Parameter, Output Number Parameter, Output String Collection Parameter, Output String Parameter
+                // output parameters: Output Account Parameter, Output Account
+                // Collection Parameter, Output Date Collection Parameter,
+                // Output Date Parameter, Output Number Collection Parameter,
+                // Output Number Parameter, Output String Collection Parameter,
+                // Output String Parameter
                 verifyOutputParameter(outputParameters[0], 'Output Account Collection Parameter', null);
                 verifyOutputParameter(outputParameters[1], 'Output Account Parameter', null);
                 verifyOutputParameter(outputParameters[2], 'Output Date Collection Parameter', null);
                 verifyOutputParameter(outputParameters[3], 'Output Date Parameter', null);
                 verifyOutputParameter(outputParameters[4], 'Output Number Collection Parameter', null);
-                verifyOutputParameter(outputParameters[5], 'Output Number Parameter', addCurlyBraces(numberVariableDevName));
+                verifyOutputParameter(outputParameters[5], 'Output Number Parameter', '{!numberVariable}');
                 verifyOutputParameter(outputParameters[6], 'Output String Collection Parameter', null);
-                verifyOutputParameter(outputParameters[7], 'Output String Parameter', addCurlyBraces(stringVariableDevName));
+                verifyOutputParameter(outputParameters[7], 'Output String Parameter', '{!stringVariable}');
             });
             it('update value when setting the string variable to the Output String Parameter', () => {
                 const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                 const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
-                stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringVariableDevName)));
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!stringVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(getParameter(coreActionElement.node.outputParameters, 'outputStringParam').value).toEqual({value: stringVariableGuid, error: null});
+                        expect(getParameter(coreActionElement.node.outputParameters, 'outputStringParam').value).toEqual({value: getElementGuid('stringVariable'), error: null});
                     });
                 });
             });
             it('update value when setting the number variable to the Output Number Parameter', () => {
                 const numberParameterElement = findParameterElement(outputParameters, 'outputNumberParam');
                 const numberParameterCombobox = getOutputParameterComboboxElement(numberParameterElement);
-                numberParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(numberVariableDevName)));
+                numberParameterCombobox.dispatchEvent(textInputEvent('{!numberVariable}'));
                 return resolveRenderCycles(() => {
                     numberParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(getParameter(coreActionElement.node.outputParameters, 'outputNumberParam').value).toEqual({value: numberVariableGuid, error: null});
+                        expect(getParameter(coreActionElement.node.outputParameters, 'outputNumberParam').value).toEqual({value: getElementGuid('numberVariable'), error: null});
                     });
                 });
             });
             it('update value when setting the account variable to the Output Account Parameter', () => {
                 const accountParameterElement = findParameterElement(outputParameters, 'outputAccountParam');
                 const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
-                accountParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(accountSObjectVariableDevName)));
+                accountParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectVariable}'));
                 return resolveRenderCycles(() => {
                     accountParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(getParameter(coreActionElement.node.outputParameters, 'outputAccountParam').value).toEqual({value: accountSObjectVariableGuid, error: null});
+                        expect(getParameter(coreActionElement.node.outputParameters, 'outputAccountParam').value).toEqual({value: getElementGuid('accountSObjectVariable'), error: null});
                     });
                 });
             });
             it('update value when setting the account collection variable to the Output Account Collection Parameter', () => {
                 const accountColParameterElement = findParameterElement(outputParameters, 'outputAccountColParam');
                 const accountColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
-                accountColParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(accountSObjectCollectionVariableDevName)));
+                accountColParameterCombobox.dispatchEvent(textInputEvent('{!accountSObjectCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     accountColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
-                        expect(getParameter(coreActionElement.node.outputParameters, 'outputAccountColParam').value).toEqual({value: accountSObjectCollectionVariableGuid, error: null});
+                        expect(getParameter(coreActionElement.node.outputParameters, 'outputAccountColParam').value).toEqual({value: getElementGuid('accountSObjectCollectionVariable'), error: null});
                     });
                 });
             });
@@ -766,7 +714,7 @@ describe('Invocable Action Editor', () => {
             it('show the error if entering the string variable for the Output Account Parameter', () => {
                 const accountParameterElement = findParameterElement(outputParameters, 'outputAccountParam');
                 const accountParameterCombobox = getOutputParameterComboboxElement(accountParameterElement);
-                accountParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringVariableDevName)));
+                accountParameterCombobox.dispatchEvent(textInputEvent('{!stringVariable}'));
                 return resolveRenderCycles(() => {
                     accountParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -777,7 +725,7 @@ describe('Invocable Action Editor', () => {
             it('show the error if entering the collection variable for the Output String Parameter', () => {
                 const stringParameterElement = findParameterElement(outputParameters, 'outputStringParam');
                 const stringParameterCombobox = getOutputParameterComboboxElement(stringParameterElement);
-                stringParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
+                stringParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     stringParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -788,7 +736,7 @@ describe('Invocable Action Editor', () => {
             it('show the error if entering the string collection variable for the Output Account Collection Parameter', () => {
                 const accountColParameterElement = findParameterElement(outputParameters, 'outputAccountColParam');
                 const sObjectColParameterCombobox = getOutputParameterComboboxElement(accountColParameterElement);
-                sObjectColParameterCombobox.dispatchEvent(textInputEvent(addCurlyBraces(stringCollectionVariable1DevName)));
+                sObjectColParameterCombobox.dispatchEvent(textInputEvent('{!stringCollectionVariable}'));
                 return resolveRenderCycles(() => {
                     sObjectColParameterCombobox.dispatchEvent(blurEvent);
                     return resolveRenderCycles(() => {
@@ -839,7 +787,7 @@ describe('Invocable Action Editor', () => {
                         outputParameters = getOutputParameterItems(coreActionElement);
                         numberParameterItems = filterParameterElements(outputParameters, 'outputNumberParam');
                         expect(numberParameterItems).toHaveLength(1);
-                        verifyOutputParameter(numberParameterItems[0], 'Output Number Parameter', addCurlyBraces(numberVariableDevName));
+                        verifyOutputParameter(numberParameterItems[0], 'Output Number Parameter', '{!numberVariable}');
                     });
                 });
             });
