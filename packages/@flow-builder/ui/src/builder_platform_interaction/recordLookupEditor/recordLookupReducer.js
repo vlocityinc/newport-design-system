@@ -191,10 +191,6 @@ const resetSubSections = state => {
 };
 
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
-    if (value === oldValue) {
-        return state;
-    }
-
     if (!ignoreValidate) {
         error = error === null ? recordLookupValidation.validateProperty(propertyName, value) : error;
     }
@@ -202,6 +198,10 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
     //  filtering out non-hydratable properties
     if (!NON_HYDRATABLE_PROPS.has(propertyName)) {
         state = updateProperties(state, {[propertyName]: {value, error}});
+    }
+
+    if (value === oldValue) {
+        return state;
     }
 
     if (!error) {
