@@ -8,13 +8,18 @@ import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from "builder_platform_interaction/storeLib";
 import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 import { translateFlowToUIModel } from "builder_platform_interaction/translatorLib";
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithApexAction } from 'mock/flows/flowWithApexAction';
+import {
+    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, INTERACTION_COMPONENTS_SELECTORS, LIGHTNING_COMPONENTS_SELECTORS,
+    getLabelDescriptionNameElement, getLabelDescriptionLabelElement,
+    focusoutEvent, textInputEvent, blurEvent
+    } from '../integrationTestUtils';
 import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { mockAllRules } from "mock/ruleService";
 
@@ -43,27 +48,16 @@ const auraFetch = (actionName, shouldExecuteCallback, callback) => {
 };
 
 const SELECTORS = {
-        BASE_CALLOUT_EDITOR: 'builder_platform_interaction-base-callout-editor',
-        BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
-        COMBOBOX: 'builder_platform_interaction-combobox',
-        LIGHTNING_COMBOBOX: 'lightning-grouped-combobox',
-        LABEL_DESCRIPTION_COMPONENT: 'builder_platform_interaction-label-description',
-        PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
-        LIGHTNING_TAB: 'lightning-tab',
+        ...INTERACTION_COMPONENTS_SELECTORS,
+        ...LIGHTNING_COMPONENTS_SELECTORS,
         INPUT_TAB: '.tabitem-inputs',
         OUTPUT_TAB: '.tabitem-outputs',
-        PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
-        FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
-        OUTPUT_RESOURCE_PICKER: 'builder_platform_interaction-output-resource-picker',
         HIDDENT_FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker.slds-hide',
         LIGHTNING_TOGGLE: 'lightning-input',
-        LIGHTNING_ICON: 'lightning-icon',
         PARAMETER_LABEL: 'label',
         WARNING_ICON: 'builder_platform_interaction-status-icon',
         WARNING_BADGE: 'lightning-badge',
         DELETE_BUTTON: 'lightning-button-icon',
-        LABEL: '.label',
-        DEV_NAME: '.devName'
 };
 
 const getBaseCalloutElement = (actionEditor) => {
@@ -90,7 +84,7 @@ const getInputParameterComboboxElement = (parameterItem) => {
     const ferovResourcePicker = getShadowRoot(parameterItem).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
     const resourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
     const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
 };
 
@@ -98,7 +92,7 @@ const getOutputParameterComboboxElement = (parameterItem) => {
     const outputResourcePicker = getShadowRoot(parameterItem).querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
     const resourcePicker = getShadowRoot(outputResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
     const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
 };
 
@@ -126,41 +120,11 @@ const getDeleteButton = (parameterItem) => {
     return getShadowRoot(parameterItem).querySelector(SELECTORS.DELETE_BUTTON);
 };
 
-const getLabelDescriptionElement = (actionEditor) => {
-    return getShadowRoot(getBaseCalloutElement(actionEditor)).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT);
-};
-
-const getLabelElement = (actionEditor) => {
-    return getShadowRoot(getLabelDescriptionElement(actionEditor)).querySelector(SELECTORS.LABEL);
-};
-
-const getNameElement = (actionEditor) => {
-    return getShadowRoot(getLabelDescriptionElement(actionEditor)).querySelector(SELECTORS.DEV_NAME);
-};
-
 const VALIDATION_ERROR_MESSAGES = {
         GENERIC : 'FlowBuilderCombobox.genericErrorMessage',
         NUMBER_ERROR_MESSAGE: 'FlowBuilderCombobox.numberErrorMessage',
         INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
-        CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
-};
-
-const focusoutEvent = new FocusEvent('focusout', {
-    'bubbles'   : true,
-    'cancelable': true,
-});
-
-const blurEvent = new FocusEvent('blur', {
-    'bubbles'   : true,
-    'cancelable': true,
-});
-
-const textInputEvent = (textInput) => {
-    return new CustomEvent('textinput', {
-        'bubbles'   : true,
-        'cancelable': true,
-        detail: { text: textInput },
-    });
+        ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
 };
 
 const toggleChangeEvent = (checked) => {
@@ -248,17 +212,20 @@ const getElementGuid = (elementDevName) => {
 const itSkip = it.skip;
 
 describe('Invocable Action Editor', () => {
+    let store;
     beforeAll(() => {
         setRules(JSON.stringify(mockAllRules));
         setAuraFetch(auraFetch);
         OutputResourcePicker.RULES = getOutputRules();
-        const store = Store.getStore(reducer);
+        store = Store.getStore(reducer);
         const uiFlow = translateFlowToUIModel(flowWithApexAction);
         store.dispatch(updateFlow(uiFlow));
     });
     afterAll(() => {
-        // reset rules
+        store.dispatch({type: 'INIT'});
         setRules();
+        setAuraFetch();
+        resetFetchOnceCache();
         OutputResourcePicker.RULES = [];
     });
     let actionNode;
@@ -271,7 +238,7 @@ describe('Invocable Action Editor', () => {
             const newLabel = 'new label';
             const coreActionElement = createComponentForTest(actionNode);
             return resolveRenderCycles(() => {
-                const labelInput = getLabelElement(coreActionElement);
+                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
                 labelInput.mockUserInput(newLabel);
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -284,7 +251,7 @@ describe('Invocable Action Editor', () => {
             const newDevName = 'newName';
             const coreActionElement = createComponentForTest(actionNode);
             return resolveRenderCycles(() => {
-                const devNameInput = getNameElement(coreActionElement);
+                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
                 devNameInput.mockUserInput(newDevName);
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -296,7 +263,7 @@ describe('Invocable Action Editor', () => {
             const newLabel = '';
             const coreActionElement = createComponentForTest(actionNode);
             return resolveRenderCycles(() => {
-                const labelInput = getLabelElement(coreActionElement);
+                const labelInput = getLabelDescriptionLabelElement(getBaseCalloutElement(coreActionElement));
                 labelInput.mockUserInput(newLabel);
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -308,7 +275,7 @@ describe('Invocable Action Editor', () => {
             const newDevName = '';
             const coreActionElement = createComponentForTest(actionNode);
             return resolveRenderCycles(() => {
-                const devNameInput = getNameElement(coreActionElement);
+                const devNameInput = getLabelDescriptionNameElement(getBaseCalloutElement(coreActionElement));
                 devNameInput.mockUserInput(newDevName);
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
