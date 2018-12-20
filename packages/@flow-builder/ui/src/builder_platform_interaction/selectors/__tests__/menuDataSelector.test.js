@@ -53,21 +53,45 @@ const elementsInStore = {
         objectType: 'Opportunity',
     },
     'guid5': {
+        dataType: 'SObject',
+        description: '',
+        elementType: 'VARIABLE',
+        guid: 'guid5',
+        isCanvasElement: false,
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        name: 'opportunityCollectionDevName',
+        objectType: 'Opportunity',
+    },
+    'guid6': {
+        dataType: 'SObject',
+        description: '',
+        elementType: 'VARIABLE',
+        guid: 'guid6',
+        isCanvasElement: false,
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        name: 'campaignCollectionDevName',
+        objectType: 'Campaign',
+    },
+    'guid7': {
         dataType: 'Text',
         description: '',
         elementType: 'TEXT_TEMPLATE',
-        guid: 'guid5',
+        guid: 'guid7',
         isCanvasElement: false,
         isCollection: false,
         isInput: false,
         isOutput: false,
         name: 'textTemplate',
     },
-    'guid6': {
+    'guid8': {
         dataType: 'Text',
         description: '',
         elementType: 'VARIABLE',
-        guid: 'guid6',
+        guid: 'guid8',
         isCanvasElement: false,
         isCollection: false,
         isInput: false,
@@ -113,6 +137,13 @@ const mockDeleteableEntities = [
         "queryable":false,
         "updateable":false,
         "createable":false,
+    },
+    {
+        "apiName":"Campaign",
+        "deletable":true,
+        "queryable":false,
+        "updateable":false,
+        "createable":false,
     }
 ];
 
@@ -133,55 +164,100 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-describe('getSObjectOrSObjectCollectionByEntityElements selector', () => {
-    describe('Retrieve all sObject collection & sObject elements without any extra option', () => {
-        it('Should return all sObject elements', () => {
-            const retrieveAllSObjectOptions = {allSObjectsAndSObjectCollections:true};
-            const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllSObjectOptions);
-            expect(result).toHaveLength(4);
-        });
+describe('Retrieve sObject collection & sObject elements', () => {
+    it('without any extra option should return only sObject elements (not sObject collection)', () => {
+        const emptyRetrieveOptions = {};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, emptyRetrieveOptions);
+        expect(result).toHaveLength(4);
+        expect(result[0]).toHaveProperty('name', 'contactDevName');
+        expect(result[1]).toHaveProperty('name', 'accountDevName');
+        expect(result[2]).toHaveProperty('name', 'caseDevName');
+        expect(result[3]).toHaveProperty('name', 'opportunityDevName');
     });
-    describe('Filter only queryable sObject collection & sObject elements', () => {
-        it('Should return the only one queryable element', () => {
-            const retrieveAllUpdateableSObjectOptions = {allSObjectsAndSObjectCollections:true, queryable:true};
-            const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllUpdateableSObjectOptions);
-            expect(result).toHaveLength(1);
-            expect(result[0]).toHaveProperty('name', 'caseDevName');
-        });
+    it('with option to select all sObject & sObject collection should return all sObject and sObject collection elements', () => {
+        const retrieveAllSObjectAndSobjectCollectionOptions = {allSObjectsAndSObjectCollections:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllSObjectAndSobjectCollectionOptions);
+        expect(result).toHaveLength(6);
+        expect(result[0]).toHaveProperty('name', 'contactDevName');
+        expect(result[1]).toHaveProperty('name', 'accountDevName');
+        expect(result[2]).toHaveProperty('name', 'caseDevName');
+        expect(result[3]).toHaveProperty('name', 'opportunityDevName');
+        expect(result[4]).toHaveProperty('name', 'opportunityCollectionDevName');
+        expect(result[5]).toHaveProperty('name', 'campaignCollectionDevName');
     });
-    describe('Filter only createable sObject collection & sObject elements', () => {
-        it('Should return the only one creatable element', () => {
-            const retrieveAllUpdateableSObjectOptions = {allSObjectsAndSObjectCollections:true, createable:true};
-            const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllUpdateableSObjectOptions);
-            expect(result).toHaveLength(1);
-            expect(result[0]).toHaveProperty('name', 'accountDevName');
-        });
+    it('with options to select all sObject & sObject collection and only queryable elements should return the only one queryable element', () => {
+        const retrieveAllQueryableSObjectAndSObjectCollectionOptions = {allSObjectsAndSObjectCollections:true, queryable:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllQueryableSObjectAndSObjectCollectionOptions);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', 'caseDevName');
     });
-    describe('Filter only updateable sObject collection & sObject elements', () => {
-        it('Should return the only one updateable element', () => {
-            const retrieveAllUpdateableSObjectOptions = {allSObjectsAndSObjectCollections:true, updateable:true};
-            const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllUpdateableSObjectOptions);
-            expect(result).toHaveLength(1);
-            expect(result[0]).toHaveProperty('name', 'contactDevName');
-        });
+    it('with options to select all sObject & sObject collection and only createable elements should return the only one createable element', () => {
+        const retrieveAllCreateableSObjectAndSObjectCollectionOptions = {allSObjectsAndSObjectCollections:true, createable:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllCreateableSObjectAndSObjectCollectionOptions);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', 'accountDevName');
     });
-    describe('Filter only deleteable sObject collection & sObject elements', () => {
-        it('Should return the only one deleteable element', () => {
-            const retrieveAllUpdateableSObjectOptions = {allSObjectsAndSObjectCollections:true, deleteable:true};
-            const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllUpdateableSObjectOptions);
-            expect(result).toHaveLength(1);
-            expect(result[0]).toHaveProperty('name', 'opportunityDevName');
-        });
+    it('with options to select all sObject & sObject collection and only updateable elements should return the only one updateable element', () => {
+        const retrieveAllUpdateableSObjectAndSObjectCollectionOptions = {allSObjectsAndSObjectCollections:true, updateable:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllUpdateableSObjectAndSObjectCollectionOptions);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', 'contactDevName');
+    });
+    it('with options to select all sObject & sObject collection and only deleteable elements should return the three deleteable elements', () => {
+        const retrieveAllDeleteableSObjectAndSObjectCollectionOptions = {allSObjectsAndSObjectCollections:true, deleteable:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllDeleteableSObjectAndSObjectCollectionOptions);
+        expect(result).toHaveLength(3);
+        expect(result[0]).toHaveProperty('name', 'opportunityDevName');
+        expect(result[1]).toHaveProperty('name', 'opportunityCollectionDevName');
+        expect(result[2]).toHaveProperty('name', 'campaignCollectionDevName');
+    });
+    it('with option to filter only by entity name opportunity elements should return all elements with entity name opportunity', () => {
+        const retrieveAllOpportunitySObjectAndSObjectCollectionOptions = {allSObjectsAndSObjectCollections:true, entityName:'Opportunity'};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllOpportunitySObjectAndSObjectCollectionOptions);
+        expect(result).toHaveLength(2);
+        expect(result[0]).toHaveProperty('name', 'opportunityDevName');
+        expect(result[1]).toHaveProperty('name', 'opportunityCollectionDevName');
+    });
+    it('with option to filter only sObject collection should return the two sObject collection elements', () => {
+        const retrieveAllSObjectCollectionOptions = {allSObjectsAndSObjectCollections:false, isCollection:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllSObjectCollectionOptions);
+        expect(result).toHaveLength(2);
+        expect(result[0]).toHaveProperty('name', 'opportunityCollectionDevName');
+        expect(result[1]).toHaveProperty('name', 'campaignCollectionDevName');
+    });
+    it('with options to filter only sObject collection & entity name Opportunity should return only one Opportunity collection element', () => {
+        const retrieveAllOpportunitySObjectCollectionOptions = {allSObjectsAndSObjectCollections:false, isCollection:true, entityName:'Opportunity'};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllOpportunitySObjectCollectionOptions);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', 'opportunityCollectionDevName');
+    });
+    it('with options to filter only sObject collection & entity name Account should return an empty array', () => {
+        const retrieveAllAccountSObjectCollectionOptions = {allSObjectsAndSObjectCollections:false, isCollection:true, entityName:'Account'};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllAccountSObjectCollectionOptions);
+        expect(result).toHaveLength(0);
+    });
+    it('with options to filter only sObject collection with entity name Opportunity & deleteable entity should return the only one sObject Opportunity collection element', () => {
+        const retrieveAllDeleteableOpportunitySObjectCollectionOptions = {allSObjectsAndSObjectCollections:false, isCollection:true, deleteable:true, entityName:'Opportunity'};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllDeleteableOpportunitySObjectCollectionOptions);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', 'opportunityCollectionDevName');
+    });
+    it('with options to filter only sObject collection & deleteable entity should return the two sObject deletable collection elements', () => {
+        const retrieveAllDeleteableSObjectCollectionOptions = {allSObjectsAndSObjectCollections:false, isCollection:true, deleteable:true};
+        const result = getSObjectOrSObjectCollectionByEntityElements(elementsInStore, retrieveAllDeleteableSObjectCollectionOptions);
+        expect(result).toHaveLength(2);
+        expect(result[0]).toHaveProperty('name', 'opportunityCollectionDevName');
+        expect(result[1]).toHaveProperty('name', 'campaignCollectionDevName');
     });
 });
 
 describe('byTypeWritableElementsSelector', () => {
     it('should only retrieve variables of the given type', () => {
-        byTypeWritableElementsSelector(elementsInStore.guid6.dataType);
+        byTypeWritableElementsSelector(elementsInStore.guid8.dataType);
         const selector = storeLib.createSelector.mock.calls[0][1];
         const result = selector(elementsInStore);
         expect(result).toHaveLength(1);
-        expect(result[0]).toMatchObject(elementsInStore.guid6);
+        expect(result[0]).toMatchObject(elementsInStore.guid8);
     });
     it('should call createSelector', () => {
         const returnVal = 'returnVal';
