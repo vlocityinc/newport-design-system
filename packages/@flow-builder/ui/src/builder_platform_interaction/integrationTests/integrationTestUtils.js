@@ -14,6 +14,7 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_ICON: 'lightning-icon',
     LIGHTNING_TAB: 'lightning-tab',
+    LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {
@@ -28,6 +29,9 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     COMBOBOX: 'builder_platform_interaction-combobox',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
+    FIELD_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
+    BASE_EXPRESSION_BUILDER: 'builder_platform_interaction-base-expression-builder',
+    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
 };
 
 export const getLabelDescriptionElement = (editor) => {
@@ -95,4 +99,20 @@ export const getGroupedComboboxItem = (groupedCombobox, itemText) => {
         }
     }
     return undefined;
+};
+
+export const getFieldToFerovExpressionBuilders = (parentElement) => {
+    return getShadowRoot(parentElement).querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
+};
+
+export const getBaseExpressionBuilder = (parentElement) => {
+    return getShadowRoot(parentElement).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
+};
+
+export const getEntityResourcePicker = (editor) => {
+    return getShadowRoot(editor).querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
+};
+
+export const getRadioGroup = (parentElement) => {
+    return getShadowRoot(parentElement).querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
 };

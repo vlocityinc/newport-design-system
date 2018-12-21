@@ -29,8 +29,10 @@ describe('SObject Lib Tests', () => {
 
         it('Get Queryable Entities', () => {
             const queryableEntities = getQueryableEntities();
-            expect(queryableEntities).toHaveLength(1);
+            expect(queryableEntities).toHaveLength(3);
             expect(queryableEntities[0].apiName).toEqual('AcceptedEventRelation');
+            expect(queryableEntities[1].apiName).toEqual('Account');
+            expect(queryableEntities[2].apiName).toEqual('Case');
         });
 
         it('Get Creatable Entities', () => {

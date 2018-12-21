@@ -9,7 +9,7 @@ export const mockEntities = [
     {
         "apiName":"Account",
         "deletable":true,
-        "queryable":false,
+        "queryable":true,
         "updateable":false,
         "createable":false,
     },
@@ -23,7 +23,7 @@ export const mockEntities = [
     {
         "apiName":"Case",
         "deletable":false,
-        "queryable":false,
+        "queryable":true,
         "updateable":false,
         "createable":true,
     },
