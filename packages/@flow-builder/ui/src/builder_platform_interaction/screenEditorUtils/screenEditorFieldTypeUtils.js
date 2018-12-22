@@ -411,7 +411,7 @@ export function getFieldChoiceData(field) {
             if (choice && choice.choiceReference && choice.choiceReference.value && choice.choiceReference.value !== "" && !choice.choiceReference.error) {
                 const choiceElement = getElementByGuid(choice.choiceReference.value);
                 if (!choiceElement) {
-                    throw new Error('Unable to find element: ' + choice);
+                    throw new Error('Unable to find element associated with choice: ' + choice.choiceReference.value);
                 }
 
                 return {
