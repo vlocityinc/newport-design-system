@@ -1,9 +1,7 @@
 import {createElement} from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import { getShadowRoot } from 'lwc-test-utils';
 import { resolveRenderCycles} from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
@@ -16,10 +14,16 @@ import { translateFlowToUIModel } from "builder_platform_interaction/translatorL
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithApexAction } from 'mock/flows/flowWithApexAction';
 import {
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, INTERACTION_COMPONENTS_SELECTORS, LIGHTNING_COMPONENTS_SELECTORS,
     getLabelDescriptionNameElement, getLabelDescriptionLabelElement,
     focusoutEvent, textInputEvent, blurEvent
     } from '../integrationTestUtils';
+import {
+    VALIDATION_ERROR_MESSAGES,
+    getBaseCalloutElement, getInputParameterItems, getOutputParameterItems, getInputParameterComboboxElement, getOutputParameterComboboxElement,
+    getLightningInputToggle, getDeleteButton, getParameterIcon, getWarningIcon, getWarningBadge, toggleChangeEvent,
+    verifyRequiredInputParameter, verifyOptionalInputParameterWithValue, verifyOptionalInputParameterNoValue, verifyOutputParameter,
+    getParameter, findParameterElement, filterParameterElements, findIndex, getElementGuid,
+    } from '../baseCalloutEditorTestUtils';
 import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { mockAllRules } from "mock/ruleService";
 
@@ -47,166 +51,11 @@ const auraFetch = (actionName, shouldExecuteCallback, callback) => {
     return callback(result);
 };
 
-const SELECTORS = {
-        ...INTERACTION_COMPONENTS_SELECTORS,
-        ...LIGHTNING_COMPONENTS_SELECTORS,
-        INPUT_TAB: '.tabitem-inputs',
-        OUTPUT_TAB: '.tabitem-outputs',
-        HIDDENT_FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker.slds-hide',
-        LIGHTNING_TOGGLE: 'lightning-input',
-        PARAMETER_LABEL: 'label',
-        WARNING_ICON: 'builder_platform_interaction-status-icon',
-        WARNING_BADGE: 'lightning-badge',
-        DELETE_BUTTON: 'lightning-button-icon',
-};
-
-const getBaseCalloutElement = (actionEditor) => {
-    return getShadowRoot(actionEditor).querySelector(SELECTORS.BASE_CALLOUT_EDITOR);
-};
-
-const getParameterList = (actionEditor) => {
-    return getShadowRoot(getBaseCalloutElement(actionEditor)).querySelector(SELECTORS.PARAMETER_LIST);
-};
-
-const getInputParameterItems = (actionEditor) => {
-    return getShadowRoot(getParameterList(actionEditor)).querySelector(SELECTORS.INPUT_TAB).querySelectorAll(SELECTORS.PARAMETER_ITEM);
-};
-
-const getOutputParameterItems = (actionEditor) => {
-    return getShadowRoot(getParameterList(actionEditor)).querySelector(SELECTORS.OUTPUT_TAB).querySelectorAll(SELECTORS.PARAMETER_ITEM);
-};
-
-const getFerovResourcePicker = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-};
-
-const getInputParameterComboboxElement = (parameterItem) => {
-    const ferovResourcePicker = getShadowRoot(parameterItem).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-    const resourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
-    return lightningGroupCombobox;
-};
-
-const getOutputParameterComboboxElement = (parameterItem) => {
-    const outputResourcePicker = getShadowRoot(parameterItem).querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
-    const resourcePicker = getShadowRoot(outputResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
-    return lightningGroupCombobox;
-};
-
-const getLightningInputToggle = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.LIGHTNING_TOGGLE);
-};
-
-const getParameterLabel = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.PARAMETER_LABEL);
-};
-
-const getParameterIcon = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.LIGHTNING_ICON);
-};
-
-const getWarningIcon = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.WARNING_ICON);
-};
-
-const getWarningBadge = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.WARNING_BADGE);
-};
-
-const getDeleteButton = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.DELETE_BUTTON);
-};
-
-const VALIDATION_ERROR_MESSAGES = {
-        GENERIC : 'FlowBuilderCombobox.genericErrorMessage',
-        NUMBER_ERROR_MESSAGE: 'FlowBuilderCombobox.numberErrorMessage',
-        INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
-        ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
-};
-
-const toggleChangeEvent = (checked) => {
-    return new CustomEvent('change', {
-        'bubbles'   : true,
-        'cancelable': true,
-        detail: { checked },
-    });
-};
-
 const createComponentForTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-invocable-action-editor', { is: InvocableActionEditor });
     Object.assign(el, {node, isNewMode});
     document.body.appendChild(el);
     return el;
-};
-
-const verifyRequiredInputParameter = (parameter, label, value) => {
-    const inputComboboxElement = getInputParameterComboboxElement(parameter);
-    const toggleInput = getLightningInputToggle(parameter);
-    const icon = getParameterIcon(parameter);
-    expect(inputComboboxElement.required).toBe(true);
-    expect(inputComboboxElement.label).toEqual(label);
-    expect(inputComboboxElement.value).toEqual(value);
-    expect(toggleInput).toBeNull();
-    const iconName = getDataTypeIcons(parameter.item.dataType, 'utility');
-    expect(icon.iconName).toEqual(iconName);
-};
-
-const verifyOptionalInputParameterWithValue = (parameter, label, value) => {
-    const inputComboboxElement = getInputParameterComboboxElement(parameter);
-    const toggleInput = getLightningInputToggle(parameter);
-    const icon = getParameterIcon(parameter);
-    expect(inputComboboxElement.required).toBe(false);
-    expect(inputComboboxElement.label).toEqual(label);
-    expect(inputComboboxElement.value).toEqual(value);
-    expect(toggleInput.checked).toBe(true);
-    const iconName = getDataTypeIcons(parameter.item.dataType, 'utility');
-    expect(icon.iconName).toEqual(iconName);
-};
-
-const verifyOptionalInputParameterNoValue = (parameter, label) => {
-    const ferovResourcePicker = getFerovResourcePicker(parameter);
-    const toggleInput = getLightningInputToggle(parameter);
-    const parameterLabel = getParameterLabel(parameter);
-    const icon = getParameterIcon(parameter);
-    expect(ferovResourcePicker.classList).toContain('slds-hide');
-    expect(parameterLabel.textContent).toEqual(label);
-    expect(toggleInput.checked).toBe(false);
-    const iconName = getDataTypeIcons(parameter.item.dataType, 'utility');
-    expect(icon.iconName).toEqual(iconName);
-};
-
-const verifyOutputParameter = (parameter, label, value) => {
-    const outputComboboxElement = getOutputParameterComboboxElement(parameter);
-    const icon = getParameterIcon(parameter);
-    expect(outputComboboxElement.required).toBe(false);
-    expect(outputComboboxElement.label).toEqual(label);
-    if (value) {
-        expect(outputComboboxElement.value).toEqual(value);
-    }
-    const iconName = getDataTypeIcons(parameter.item.dataType, 'utility');
-    expect(icon.iconName).toEqual(iconName);
-};
-
-const getParameter = (parameters, name) => parameters.find(parameter => parameter.name === name);
-
-const findParameterElement = (parameterElements, name) => {
-    return Array.from(parameterElements).find(parameter => parameter.item.name === name);
-};
-
-const filterParameterElements = (parameterElements, name) => {
-    return Array.from(parameterElements).filter(parameter => parameter.item.name === name);
-};
-
-const findIndex = (parameters, rowIndex) => {
-    return parameters.findIndex(parameter => parameter.rowIndex === rowIndex);
-};
-
-const getElementGuid = (elementDevName) => {
-    const element = getElementByDevName(elementDevName);
-    return element === undefined ? undefined : element.guid;
 };
 
 const itSkip = it.skip;
