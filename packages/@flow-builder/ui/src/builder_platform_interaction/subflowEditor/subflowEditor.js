@@ -16,6 +16,8 @@ export default class SubflowEditor extends LightningElement {
 
     @track subflowDescriptor;
 
+    @track subflowVariablesDescriptor;
+
     labels = LABELS;
     connected = false;
 
@@ -41,11 +43,13 @@ export default class SubflowEditor extends LightningElement {
 
     fetchFlowInputOutputVariables() {
         this.displaySpinner = true;
+        this.subflowVariablesDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const serverActionParams = { flowName };
         fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, serverActionParams).then((inputOutputVariables) => {
             if (this.connected) {
                 this.displaySpinner = false;
+                this.subflowVariablesDescriptor = inputOutputVariables;
                 const event = new CustomEvent(MERGE_WITH_VARIABLES, { detail : inputOutputVariables });
                 this.subflowNode = subflowReducer(this.subflowNode, event);
             }
@@ -139,6 +143,9 @@ export default class SubflowEditor extends LightningElement {
     }
 
     get parameterListConfig() {
+        const inputs = this.subflowVariablesDescriptor ? this.subflowNode.inputAssignments : [];
+        const outputs = this.subflowVariablesDescriptor ? this.subflowNode.outputAssignments : [];
+        const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
@@ -148,9 +155,9 @@ export default class SubflowEditor extends LightningElement {
             emptyOutputsBody: format(this.labels.emptyOutputsBody, this.labels.subflowTypeLabel),
             inputsNeedToBeSorted: true,
             outputsNeedToBeSorted: true,
-            inputs: this.subflowNode.inputAssignments,
-            outputs: this.subflowNode.outputAssignments,
-            warnings: getParameterListWarnings(this.subflowNode.inputAssignments, this.subflowNode.outputAssignments, this.labels)
+            inputs,
+            outputs,
+            warnings
         };
     }
 

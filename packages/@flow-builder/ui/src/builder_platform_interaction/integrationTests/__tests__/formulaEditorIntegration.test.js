@@ -14,7 +14,8 @@ import {
     INTERACTION_COMPONENTS_SELECTORS, LIGHTNING_COMPONENTS_SELECTORS,
     getLabelDescriptionNameElement,
     focusoutEvent, blurEvent, selectEvent,
-    expectGroupedComboboxItem, expectGroupedComboboxItemInGroup, getGroupedComboboxItemInGroup, getGroupedComboboxItem
+    expectGroupedComboboxItem, expectGroupedComboboxItemInGroup, getGroupedComboboxItemInGroup, getGroupedComboboxItem,
+    auraFetch
     } from '../integrationTestUtils';
 import { setEntities, fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
@@ -28,22 +29,6 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
     Object.assign(el, {node, isNewMode});
     document.body.appendChild(el);
     return el;
-};
-
-const auraFetch = (actionName, shouldExecuteCallback, callback) => {
-    if (!shouldExecuteCallback()) {
-        return undefined;
-    }
-    let result;
-    switch (actionName) {
-    case 'c.getFieldsForEntity':
-        result = { data : JSON.stringify(mockAccountFields) };
-        break;
-    default:
-        result = { error : 'Unknown actionName'};
-    break;
-    }
-    return callback(result);
 };
 
 const SELECTORS = {
@@ -90,7 +75,7 @@ describe('Formula Editor', () => {
         setSystemVariables(systemVariables);
         setEntities(JSON.stringify(mockEntities));
         store = Store.getStore(reducer);
-        setAuraFetch(auraFetch);
+        setAuraFetch(auraFetch({ 'c.getFieldsForEntity' : () => ({ data : JSON.stringify(mockAccountFields) }) }));
     });
     afterAll(() => {
         // TODO : fix setEntities (currently does not reset)

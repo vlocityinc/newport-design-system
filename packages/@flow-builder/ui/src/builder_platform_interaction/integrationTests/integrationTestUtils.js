@@ -1,4 +1,5 @@
 import { getShadowRoot } from 'lwc-test-utils';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -115,4 +116,19 @@ export const getEntityResourcePicker = (editor) => {
 
 export const getRadioGroup = (parentElement) => {
     return getShadowRoot(parentElement).querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
+};
+
+export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
+    await ticks(10);
+    if (!shouldExecuteCallback()) {
+        return undefined;
+    }
+    let result;
+    if (actions[actionName]) {
+        result = actions[actionName](params);
+    } else {
+        result = { error : 'Unknown actionName'};
+    }
+    callback(result);
+    return undefined;
 };

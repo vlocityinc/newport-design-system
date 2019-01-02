@@ -16,6 +16,7 @@ export default class ApexPluginEditor extends LightningElement {
 
     @track displaySpinner = true;
     @track apexPluginDescriptor;
+    @track apexPluginParametersDescriptor;
 
     labels = LABELS;
     connected = false;
@@ -82,6 +83,9 @@ export default class ApexPluginEditor extends LightningElement {
     }
 
     get parameterListConfig() {
+        const inputs = this.apexPluginParametersDescriptor ? this.apexPluginNode.inputParameters : [];
+        const outputs = this.apexPluginParametersDescriptor ? this.apexPluginNode.outputParameters : [];
+        const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
@@ -91,9 +95,9 @@ export default class ApexPluginEditor extends LightningElement {
             emptyOutputsBody: format(this.labels.emptyOutputsBody, this.labels.apexPluginTypeLabel),
             sortInputs: true,
             sortOutputs: true,
-            inputs: this.apexPluginNode.inputParameters,
-            outputs: this.apexPluginNode.outputParameters,
-            warnings: getParameterListWarnings(this.apexPluginNode.inputParameters, this.apexPluginNode.outputParameters, this.labels),
+            inputs,
+            outputs,
+            warnings
         };
     }
 
@@ -111,11 +115,13 @@ export default class ApexPluginEditor extends LightningElement {
     }
 
     fetchApexPluginParameters() {
+        this.apexPluginParametersDescriptor = undefined;
         const apexParams = { apexClass: getValueFromHydratedItem(this.apexPluginNode.apexClass)};
         this.displaySpinner = true;
         fetchOnce(SERVER_ACTION_TYPE.GET_APEX_PLUGIN_PARAMETERS, apexParams).then((parameters) => {
             if (this.connected) {
                 this.displaySpinner = false;
+                this.apexPluginParametersDescriptor = parameters;
                 const event = new CustomEvent(MERGE_WITH_PARAMETERS, { detail : parameters });
                 this.apexPluginNode = apexPluginReducer(this.apexPluginNode, event);
             }

@@ -14,6 +14,7 @@ import { translateFlowToUIModel } from "builder_platform_interaction/translatorL
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
 import {
+    auraFetch,
     getLabelDescriptionNameElement, getLabelDescriptionLabelElement,
     focusoutEvent, textInputEvent, blurEvent
     } from '../integrationTestUtils';
@@ -31,26 +32,6 @@ jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix', (
 jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse', () => ({ default: "False" }), { virtual: true });
 jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString', () => ({ default: "EmptyString" }), { virtual: true });
 
-
-const auraFetch = (actionName, shouldExecuteCallback, callback) => {
-    if (!shouldExecuteCallback()) {
-        return undefined;
-    }
-    let result;
-    switch (actionName) {
-    case 'c.getSubflows':
-        result = { data : mockSubflows };
-        break;
-    case 'c.getFlowInputOutputVariables':
-        result = { data : mockSubflowAllTypesVariables };
-        break;
-    default:
-        result = { error : 'Unknown actionName'};
-    break;
-    }
-    return callback(result);
-};
-
 const createComponentForTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-subflow-editor', { is: SubflowEditor });
     Object.assign(el, {node, isNewMode});
@@ -64,7 +45,10 @@ describe('Subflow Editor', () => {
     let store;
     beforeAll(() => {
         setRules(JSON.stringify(mockAllRules));
-        setAuraFetch(auraFetch);
+        setAuraFetch(auraFetch({
+            'c.getSubflows' : () => ({ data : mockSubflows }),
+            'c.getFlowInputOutputVariables' : () => ({ data : mockSubflowAllTypesVariables })
+        }));
         OutputResourcePicker.RULES = getOutputRules();
         store = Store.getStore(reducer);
         const uiFlow = translateFlowToUIModel(flowWithSubflows);

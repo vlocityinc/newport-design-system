@@ -17,6 +17,7 @@ export default class InvocableActionEditor extends LightningElement {
 
     @track displaySpinner = true;
     @track invocableActionDescriptor;
+    @track invocableActionParametersDescriptor;
 
     labels = LABELS;
     connected = false;
@@ -73,9 +74,11 @@ export default class InvocableActionEditor extends LightningElement {
     fetchActionParameters() {
         const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
         this.displaySpinner = true;
+        this.invocableActionParametersDescriptor = undefined;
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, actionParams).then((parameters) => {
             if (this.connected) {
                 this.displaySpinner = false;
+                this.invocableActionParametersDescriptor = parameters;
                 const event = new CustomEvent(MERGE_WITH_PARAMETERS, { detail : parameters });
                 this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
             }
@@ -127,6 +130,9 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     get parameterListConfig() {
+        const inputs = this.invocableActionParametersDescriptor ? this.actionCallNode.inputParameters : [];
+        const outputs = this.invocableActionParametersDescriptor ? this.actionCallNode.outputParameters : [];
+        const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
@@ -136,9 +142,9 @@ export default class InvocableActionEditor extends LightningElement {
             emptyOutputsBody: format(this.labels.emptyOutputsBody, ACTION_TYPE_LABEL[this.elementType]),
             sortInputs: true,
             sortOutputs: true,
-            inputs: this.actionCallNode.inputParameters,
-            outputs: this.actionCallNode.outputParameters,
-            warnings: getParameterListWarnings(this.actionCallNode.inputParameters, this.actionCallNode.outputParameters, this.labels)
+            inputs,
+            outputs,
+            warnings
         };
     }
 
