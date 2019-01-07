@@ -196,8 +196,8 @@ const getInputOutputAssignments = (recordLookupEditor) => {
 };
 
 describe('record-lookup-editor', () => {
+    let recordLookupEditor;
     describe('with default values', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             recordLookupEditor = createComponentForTest(defaultRecordLookupElement(), AddElementEvent.EVENT_NAME);
         });
@@ -233,7 +233,6 @@ describe('record-lookup-editor', () => {
         });
     });
     describe('Existing record element remove "object"', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
             const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
@@ -261,11 +260,11 @@ describe('record-lookup-editor', () => {
         });
     });
     describe('Existing record element typing invalid "object"', () => {
-        let recordLookupEditor;
+        let entityResourcePicker;
         beforeEach(() => {
             recordLookupEditor = createComponentForTest(recordLookupElementWithSObject());
-            const entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
-            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(eventDetailObjectWithError('invalid entity name', 'Enter a valid value.')));
+            entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
+            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent(eventDetailObjectWithError('invalidEntityName', 'Enter a valid value.')));
         });
         it('"recordFilter" should NOT be visible', () => {
             const recordFilter = getRecordFilter(recordLookupEditor);
@@ -287,9 +286,11 @@ describe('record-lookup-editor', () => {
             const recordOutputAssignments = getInputOutputAssignments(recordLookupEditor);
             expect(recordOutputAssignments).toBeNull();
         });
+        it('"object" picker value should be set to empty string', () => {
+            expect(entityResourcePicker.value).toBe("");
+        });
     });
     describe('Edit existing record element using sObject', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             const sobjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sobjectVariableElement);
@@ -333,7 +334,6 @@ describe('record-lookup-editor', () => {
         });
     });
     describe('Edit existing record element using Fields', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             recordLookupEditor = createComponentForTest(recordLookupElementWithFields());
         });
@@ -375,7 +375,6 @@ describe('record-lookup-editor', () => {
         });
     });
     describe('Handle Events (using SObject)', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
@@ -446,7 +445,6 @@ describe('record-lookup-editor', () => {
         });
     });
     describe('Handle Events for existing element with filters', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             const sObjectVariableElement = store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(sObjectVariableElement);
@@ -465,7 +463,6 @@ describe('record-lookup-editor', () => {
         });
     });
     describe('Handle Events for element using fields', () => {
-        let recordLookupEditor;
         beforeEach(() => {
             recordLookupEditor = createComponentForTest(recordLookupElementWithFields());
         });

@@ -195,18 +195,11 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @returns {boolean} true if valid entity name selected/typed
-     */
-    get hasValidRecordEntityName() {
-        return this.recordEntityName && !this.state.recordLookupElement.object.error;
-    }
-
-    /**
      * update the fields of the selected entity
      */
     updateFields() {
         this.state.fields = {};
-        if (this.hasValidRecordEntityName) {
+        if (this.recordEntityName) {
             fetchFieldsForEntity(this.recordEntityName).then(fields => {
                 this.state.fields = fields;
             }).catch(() => {
@@ -236,9 +229,9 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleResourceChanged(event) {
         event.stopPropagation();
-        const {item, error, displayText} = event.detail;
+        const {item, error} = event.detail;
         const oldRecordEntityName = this.recordEntityName;
-        const newRecordEntityName = (item && item.value) || displayText;
+        const newRecordEntityName = (item && item.value) || '';
         if (newRecordEntityName !== oldRecordEntityName) {
             this.updateProperty('object', newRecordEntityName, error, false, oldRecordEntityName);
             this.recordEntityName = newRecordEntityName;
