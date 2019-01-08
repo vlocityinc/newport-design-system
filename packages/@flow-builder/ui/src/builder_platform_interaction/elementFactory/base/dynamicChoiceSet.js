@@ -46,15 +46,17 @@ export const createDynamicChoiceSetMetadataObject = (element) => {
     const newDynamicChoiceSet = baseResourceMetadataObject(element);
     const {
         displayField,
-        valueField,
-        dataType,
+        dataType
     } = element;
-    let { sortOrder, limit } = element;
+    let { sortOrder, limit, valueField } = element;
     if (limit === '') {
         limit = undefined;
     }
     if (sortOrder === SORT_ORDER.NOT_SORTED) {
         sortOrder = undefined;
+    }
+    if (valueField === '') {
+        valueField = undefined;
     }
     Object.assign(newDynamicChoiceSet, {
         limit,

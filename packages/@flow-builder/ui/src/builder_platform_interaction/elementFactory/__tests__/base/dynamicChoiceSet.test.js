@@ -28,17 +28,31 @@ const mockParamForDynamicChoiceSet = {
     dataType: 'mockDataType',
     sortOrder: undefined
 };
-const mockDynamicChoiceSetResult = {
+const mockParamWithEmptyValuesForDynamicChoiceSet = {
     limit: '',
     displayField: 'mockDisplayField',
-    valueField: 'mockValueField',
+    valueField: '',
     dataType: 'mockDataType',
     sortOrder: SORT_ORDER.NOT_SORTED
 };
-const mockDyanmicChoiceMetadataObjectResult = {
-    limit: undefined,
+const mockDynamicChoiceSetResult = {
+    limit: 5,
     displayField: 'mockDisplayField',
     valueField: 'mockValueField',
+    dataType: 'mockDataType',
+    sortOrder: SORT_ORDER.ASC
+};
+const mockDyanmicChoiceMetadataObjectResult = {
+    limit: 5,
+    displayField: 'mockDisplayField',
+    valueField: 'mockValueField',
+    dataType: 'mockDataType',
+    sortOrder: SORT_ORDER.ASC
+};
+const mockDyanmicChoiceWithUndefinedValuesMetadataObjectResult = {
+    limit: undefined,
+    displayField: 'mockDisplayField',
+    valueField: undefined,
     dataType: 'mockDataType',
     sortOrder: undefined
 };
@@ -66,6 +80,12 @@ describe('createDynamicChoiceMetadataObject', () => {
         const result = createDynamicChoiceSetMetadataObject(mockDynamicChoiceSetResult);
         it('result object matches the mockDyanmicChoiceMetadataObjectResult object', () => {
             expect(result).toMatchObject(mockDyanmicChoiceMetadataObjectResult);
+        });
+    });
+    describe('when a valid element is passed with empty values', () => {
+        const result = createDynamicChoiceSetMetadataObject(mockParamWithEmptyValuesForDynamicChoiceSet);
+        it('result object matches the mock metadata object with undefined values', () => {
+            expect(result).toMatchObject(mockDyanmicChoiceWithUndefinedValuesMetadataObjectResult);
         });
     });
 });
