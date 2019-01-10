@@ -258,7 +258,8 @@ export default class ActionSelector extends LightningElement {
         }
         this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
         this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
-        this.fullActionMenuData = this.state.filteredActionMenuData = items;
+        this.fullActionMenuData = items;
+        this.state.filteredActionMenuData = this.state.selectedActionValue ? filterMatches(this.state.selectedActionValue, this.fullActionMenuData, false) : this.fullActionMenuData;
         // dispatch event up so that other cmps know to render 'no available actions of this type'
         const newSelectedAction = this.getSelectedActionFrom(selectedElementType, null);
         const valueChangedEvent = new ActionsLoadedEvent(newSelectedAction, this.fullActionMenuData.length);
