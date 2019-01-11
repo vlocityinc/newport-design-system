@@ -3,6 +3,7 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
+    GENERIC : 'FlowBuilderCombobox.genericErrorMessage'
 };
 
 const LABEL_DESCRIPTION_SELECTORS = {
@@ -131,4 +132,8 @@ export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, 
     }
     callback(result);
     return undefined;
+};
+
+export const getChildComponent = (parentComponent, childComponentSelector) => {
+    return getShadowRoot(parentComponent).querySelector(childComponentSelector);
 };

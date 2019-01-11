@@ -43,8 +43,9 @@ describe('SObject Lib Tests', () => {
 
         it('Get Deletable Entities', () => {
             const deletableEntities = getDeletableEntities();
-            expect(deletableEntities).toHaveLength(1);
+            expect(deletableEntities).toHaveLength(2);
             expect(deletableEntities[0].apiName).toEqual('Account');
+            expect(deletableEntities[1].apiName).toEqual('Case');
         });
 
         it('Get Updatable Entities', () => {
