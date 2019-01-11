@@ -13,7 +13,7 @@
 .nds-knowledge-block {
   position: fixed;
   top: 10.625rem;
-  right: 0;
+  #{$right}: 0;
   width: 30%;
   background: white;
   bottom: 0;
@@ -35,7 +35,7 @@
       position: absolute;
       transform: rotate(270deg);
       border: 1px solid $color-grey-shaded;
-      right: -3.75rem;
+      #{$right}: -3.75rem;
       padding: 0.3125rem 0.9375rem;
       margin: 0;
       top: 6.25rem;
@@ -44,6 +44,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       cursor: pointer;
+      text-align: center;
     }
 
     .nds-input-has-icon_left {
@@ -51,11 +52,11 @@
         border-bottom: none;
         border: 1px solid $color-border-input;
         border-radius: 0.25rem;
-        padding-left: 2rem;
+        padding-#{$left}: 2rem;
       }
 
       svg {
-        margin-left: 0.5rem;
+        margin-#{$left}: 0.5rem;
         opacity: 0.5;
       }
     }
@@ -82,7 +83,7 @@
             position: absolute;
             top: -0.8rem;
             flex-wrap: wrap;
-            right: -1rem;
+            #{$right}: -1rem;
             color: $color-light-border;
           }
         }
@@ -117,7 +118,7 @@
 
     .nds-knowledge-data_wrapper {
       position: relative;
-      border-left: 2px solid $color-grey-shaded;
+      border-#{$left}: 2px solid $color-grey-shaded;
       border-top: 2px solid $color-grey-shaded;
       height: 100%;
       padding: 1.25rem;
@@ -127,6 +128,7 @@
 
         svg {
           fill: $color-icon-grey;
+          #{$left}: 0;
         }
       }
     }
@@ -136,7 +138,7 @@
 
       svg.nds-input__icon {
         top: 0.75rem;
-        right: 0;
+        #{$right}: 0;
         cursor: pointer;
       }
     }
@@ -160,7 +162,7 @@
 .nds-modal_knowledge {
   .nds-icon_small {
     position: absolute;
-    right: 1rem;
+    #{$right}: 1rem;
     fill: $color-blue-font;
     top: 1.5rem;
     width: 1.25rem;
@@ -177,7 +179,7 @@
 
       .modal-title {
         font-size: 1.375rem;
-        text-align: left;
+        text-align: #{$left};
         font-weight: bold;
       }
     }
