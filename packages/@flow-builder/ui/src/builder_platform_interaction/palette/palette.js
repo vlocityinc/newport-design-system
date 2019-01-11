@@ -127,29 +127,31 @@ export default class Palette extends LightningElement {
      *            event drag start event
      */
     handleDragStart(event) {
-        const referenceElement = event.currentTarget;
-        const item = this.itemMap[referenceElement.dataset.key];
+        if (event) {
+            const referenceElement = event.currentTarget;
+            const item = this.itemMap[referenceElement.dataset.key];
 
-        // Only items in the map should be considered draggable.
-        if (!item) {
-            event.dataTransfer.effectAllowed = 'none';
-            return;
-        }
+            // Only items in the map should be considered draggable.
+            if (!item) {
+                event.dataTransfer.effectAllowed = 'none';
+                return;
+            }
 
-        // TODO: The setDragImage function is not supported in IE11, we'll need
-        // to create our own polyfill since the Raptor team doesn't plan on
-        // creating one in the near future.
-        const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
-        let dragElement = paletteItem.dragImage;
-        if (!dragElement) {
-            const elementIcon = paletteItem.elementIcon;
-            dragElement = elementIcon.iconElement;
-        }
+            // TODO: The setDragImage function is not supported in IE11, we'll need
+            // to create our own polyfill since the Raptor team doesn't plan on
+            // creating one in the near future.
+            const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
+            let dragElement = paletteItem.dragImage;
+            if (!dragElement) {
+                const elementIcon = paletteItem.elementIcon;
+                dragElement = elementIcon && elementIcon.iconElement;
+            }
 
-        event.dataTransfer.setData('text', item.elementType);
-        if (event.dataTransfer.setDragImage && dragElement) {
-            event.dataTransfer.setDragImage(dragElement, 0, 0);
+            event.dataTransfer.setData('text', item.elementType);
+            if (event.dataTransfer.setDragImage && dragElement) {
+                event.dataTransfer.setDragImage(dragElement, 0, 0);
+            }
+            event.dataTransfer.effectAllowed = 'copy';
         }
-        event.dataTransfer.effectAllowed = 'copy';
     }
 }

@@ -141,13 +141,14 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const resourceLabel = resource.type ? resource.type.label : resource.label;
     const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
     const resourceDataType = getDataType(resource);
+    const elementCategory = getElementCategory(resource.elementType, resourceDataType, resource.isCollection);
 
     newElement.text = resource.name;
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.objectType, resourceLabel);
     newElement.value = resource.guid;
     newElement.displayText = addCurlyBraces(resource.name);
     newElement.hasNext = resourceDataType === SOBJECT_TYPE && !resource.isCollection;
-    newElement.category = resource.category || getElementCategory(resource.elementType, resourceDataType, resource.isCollection).toUpperCase();
+    newElement.category = resource.category || (elementCategory && elementCategory.toUpperCase());
     newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resourceDataType;
