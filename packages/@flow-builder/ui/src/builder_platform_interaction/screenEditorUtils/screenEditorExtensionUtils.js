@@ -185,18 +185,20 @@ export function getAllCachedExtensionTypes() {
  * @param {Function} callback - The callback to execute to notify, fn(data, error)
  */
 export function describeExtension(name, refreshCache, callback) {
-    if (!refreshCache && extensionDescriptionCache[name] !== undefined) {
-        callback(cloneDescription(extensionDescriptionCache[name]), null);
-    }
-
-    fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS, ({data, error}) => {
-        if (error) {
-            callback(null, error);
-        } else {
-            extensionDescriptionCache[name] = createDescription(name, data);
+    if (name) {
+        if (!refreshCache && extensionDescriptionCache[name] !== undefined) {
             callback(cloneDescription(extensionDescriptionCache[name]), null);
         }
-    }, {name});
+
+        fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS, ({data, error}) => {
+            if (error) {
+                callback(null, error);
+            } else {
+                extensionDescriptionCache[name] = createDescription(name, data);
+                callback(cloneDescription(extensionDescriptionCache[name]), null);
+            }
+        }, {name});
+    }
 }
 
 /**

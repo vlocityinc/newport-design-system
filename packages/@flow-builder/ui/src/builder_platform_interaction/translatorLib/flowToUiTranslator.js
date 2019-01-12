@@ -172,7 +172,7 @@ function createElementsUsingFlowMetadata(metadata) {
         for (let j = 0, metadataElementsListLen = metadataElementsList.length; j < metadataElementsListLen; j++) {
             const metadataElementsListItem = metadataElementsList[j];
 
-            if (metadataElementsListItem.locationX < minX && metadataElementsListItem.locationY < EXTRA_SPACING) {
+            if (metadataElementsListItem && metadataElementsListItem.locationX < minX && metadataElementsListItem.locationY < EXTRA_SPACING) {
                 minX = metadataElementsListItem.locationX;
             }
 
