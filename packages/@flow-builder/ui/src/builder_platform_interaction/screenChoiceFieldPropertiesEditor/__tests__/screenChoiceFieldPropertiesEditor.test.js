@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import ScreenChoiceFieldPropertiesEditor from "../screenChoiceFieldPropertiesEditor";
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
 import { getShadowRoot } from 'lwc-test-utils';
+import { PropertyChangedEvent, SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
@@ -289,6 +290,31 @@ describe('DefaultValue options based on choice type', () => {
             expect(defaultValueProp.listChoices).toHaveLength(2);
             expect(defaultValueProp.listChoices[0].value).toMatch('');
             expect(defaultValueProp.listChoices[1].value).toMatch('choice1');
+        });
+    });
+    it('does not fire choice changed event when the choice does not change', () => {
+        const propChangedEvent = new PropertyChangedEvent(null, null, null, screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value, null, 0, null);
+        const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
+
+        const choiceChangedSpy = jest.fn();
+        window.addEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+
+        renderedDefaultValueField.dispatchEvent(propChangedEvent);
+        return Promise.resolve().then(() => {
+            window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+            expect(choiceChangedSpy).not.toHaveBeenCalled();
+        });
+    });
+    it('fires a choice changed event when the choice error does change', () => {
+        const propChangedEvent = new PropertyChangedEvent(null, null, "some new error", screenChoiceFieldPropEditor.field.choiceReferences[0].choiceReference.value, null, 0, null);
+        const renderedDefaultValueField = query(screenChoiceFieldPropEditor, SELECTORS.CHOICE_SELECTOR);
+
+        const choiceChangedSpy = jest.fn();
+        window.addEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+        renderedDefaultValueField.dispatchEvent(propChangedEvent);
+        return Promise.resolve().then(() => {
+            window.removeEventListener(SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED, choiceChangedSpy);
+            expect(choiceChangedSpy).toHaveBeenCalled();
         });
     });
 });

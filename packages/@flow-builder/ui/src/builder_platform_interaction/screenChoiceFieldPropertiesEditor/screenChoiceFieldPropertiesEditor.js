@@ -68,7 +68,8 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             // If the choice value didn't actually change, don't do anything.
             if (this.field.choiceReferences[event.detail.listIndex] &&
                 this.field.choiceReferences[event.detail.listIndex].choiceReference &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference.value === event.detail.guid) {
+                this.field.choiceReferences[event.detail.listIndex].choiceReference.value === event.detail.guid &&
+                this.field.choiceReferences[event.detail.listIndex].choiceReference.error === event.detail.error) {
                 return;
             }
 
