@@ -24,7 +24,7 @@ describe('SObject Lib Tests', () => {
 
     describe('Get Entity Types Tests', () => {
         it('Get All Entities', () => {
-            expect(getAllEntities()).toHaveLength(4);
+            expect(getAllEntities()).toHaveLength(5);
         });
 
         it('Get Queryable Entities', () => {
@@ -50,8 +50,9 @@ describe('SObject Lib Tests', () => {
 
         it('Get Updatable Entities', () => {
             const updateableEntities = getUpdateableEntities();
-            expect(updateableEntities).toHaveLength(1);
+            expect(updateableEntities).toHaveLength(2);
             expect(updateableEntities[0].apiName).toEqual('Contact');
+            expect(updateableEntities[1].apiName).toEqual('Contract');
         });
     });
 

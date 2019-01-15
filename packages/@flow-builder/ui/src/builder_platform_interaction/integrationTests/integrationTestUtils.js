@@ -137,3 +137,45 @@ export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, 
 export const getChildComponent = (parentComponent, childComponentSelector) => {
     return getShadowRoot(parentComponent).querySelector(childComponentSelector);
 };
+
+export const getRecordVariablePickerChildGroupedComboboxComponent = parentPickerComponent => {
+    const ferovResourcePicker = getShadowRoot(parentPickerComponent).querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
+    const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+    const interactionCombobox = getShadowRoot(baseResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX);
+    return getShadowRoot(interactionCombobox).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+};
+
+export const getEntityResourcePickerChildGroupedComboboxComponent = parentPickerComponent => {
+    const resourcePicker = getShadowRoot(parentPickerComponent).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = getShadowRoot(resourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+    return getShadowRoot(combobox).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+};
+
+export const changeComboboxValue = (combobox, newValue) => {
+    combobox.dispatchEvent(textInputEvent(newValue));
+    combobox.dispatchEvent(blurEvent);
+};
+
+export const changeInputValue = (input, newValue) => {
+    input.mockUserInput(newValue);
+    input.dispatchEvent(focusoutEvent);
+};
+
+export const newFilterItem = (lhsValue = '', operatorValue = '', rhsValue = '', rhsDataType = '') => ({
+    leftHandSide: {
+        value: lhsValue,
+        error: null
+      },
+      rightHandSide: {
+        value: rhsValue,
+        error: null
+      },
+      rightHandSideDataType: {
+        value: rhsDataType,
+        error: null
+      },
+      operator: {
+        value: operatorValue,
+        error: null
+      }
+});

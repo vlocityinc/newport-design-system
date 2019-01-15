@@ -27,6 +27,13 @@ export const mockEntities = [
         "updateable":false,
         "createable":true,
     },
+    {
+        "apiName":"Contract",
+        "deletable":false,
+        "queryable":false,
+        "updateable":true,
+        "createable":false,
+    },
 ];
 
 export const mockEntitiesWithNoLabel = [

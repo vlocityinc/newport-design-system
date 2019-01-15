@@ -1,9 +1,9 @@
 import {createElement} from 'lwc';
-import RecordDeleteEditor from "builder_platform_interaction/recordDeleteEditor";
+import RecordUpdateEditor from "builder_platform_interaction/recordUpdateEditor";
 
 import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, auraFetch,
-    getLabelDescriptionLabelElement, getLabelDescriptionNameElement,
-    expectGroupedComboboxItem, getChildComponent, getEntityResourcePicker, getRecordVariablePickerChildGroupedComboboxComponent,
+    getLabelDescriptionLabelElement, getLabelDescriptionNameElement, expectGroupedComboboxItem, getChildComponent, getEntityResourcePicker,
+    getBaseExpressionBuilder, getFieldToFerovExpressionBuilders, getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue} from "../integrationTestUtils";
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from "builder_platform_interaction/events";
@@ -17,14 +17,14 @@ import { Store } from "builder_platform_interaction/storeLib";
 import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 import { translateFlowToUIModel } from "builder_platform_interaction/translatorLib";
 import { reducer } from 'builder_platform_interaction/reducers';
-import * as FLOWS_WITH_DELETE_RECORDS from 'mock/flows/flowWithDeleteRecords';
+import * as FLOWS_WITH_UPDATE_RECORDS from 'mock/flows/flowWithUpdateRecord';
 import { mockAllRules } from "mock/ruleService";
 import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import { globalVariableTypes, globalVariables, systemVariables,  } from 'mock/systemGlobalVars';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
-    const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
+    const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
     Object.assign(el, {node, mode});
     document.body.appendChild(el);
     return el;
@@ -33,14 +33,15 @@ const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
 const SELECTORS = {
     SOBJECT_OR_SOBJECT_COLLECTION_PICKER: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
     RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options'
+    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
+    RECORD_INPUT_OUTPUT_ASSIGNMENTS: 'builder_platform_interaction-record-input-output-assignments',
 };
 
-const DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT = 'delete_acccount_using_sobject',
-    DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'delete_acccount_using_fields';
+const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT = 'update_contract_using_sobject',
+    UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'update_contract_using_fields';
 
-describe('Record Delete Editor', () => {
-    let recordDeleteNode, recordDeleteComponent, store, uiFlow;
+describe('Record Update Editor', () => {
+    let recordUpdateNode, recordUpdateComponent, store, uiFlow;
     beforeAll(() => {
         setRules(JSON.stringify(mockAllRules));
         setEntities(JSON.stringify(mockEntities));
@@ -58,58 +59,58 @@ describe('Record Delete Editor', () => {
     describe('name and dev name', () => {
         let newLabel, newDevName;
         beforeAll(() => {
-            uiFlow = translateFlowToUIModel(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT);
+            uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT);
             store.dispatch(updateFlow(uiFlow));
         });
         afterAll(() => {
             store.dispatch({type: 'INIT'});
         });
         beforeEach(() => {
-            recordDeleteNode = getElementForPropertyEditor(getElementByDevName(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT));
-            recordDeleteComponent = createComponentForTest(recordDeleteNode);
+            recordUpdateNode = getElementForPropertyEditor(getElementByDevName(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT));
+            recordUpdateComponent = createComponentForTest(recordUpdateNode);
         });
         it('do not change "dev name" if it already exists after the user modifies the "label"', () => {
             newLabel = 'new label';
-            changeInputValue(getLabelDescriptionLabelElement(recordDeleteComponent), newLabel);
+            changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
             return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.label.value).toBe(newLabel);
-                expect(recordDeleteComponent.node.name.value).toBe(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
+                expect(recordUpdateComponent.node.label.value).toBe(newLabel);
+                expect(recordUpdateComponent.node.name.value).toBe(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT);
             });
         });
         it('modify the "dev name"', () => {
             newDevName = 'newDevName';
-            changeInputValue(getLabelDescriptionNameElement(recordDeleteComponent), newDevName);
+            changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
             return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.name.value).toBe(newDevName);
+                expect(recordUpdateComponent.node.name.value).toBe(newDevName);
             });
         });
         it('display error if the "label" is cleared', () => {
             newLabel = '';
-            changeInputValue(getLabelDescriptionLabelElement(recordDeleteComponent), newLabel);
+            changeInputValue(getLabelDescriptionLabelElement(recordUpdateComponent), newLabel);
             return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                expect(recordUpdateComponent.node.label.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });
         it('display error if the "dev name" is cleared', () => {
             newDevName = '';
-            changeInputValue(getLabelDescriptionNameElement(recordDeleteComponent), newDevName);
+            changeInputValue(getLabelDescriptionNameElement(recordUpdateComponent), newDevName);
             return Promise.resolve().then(() => {
-                expect(recordDeleteComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                expect(recordUpdateComponent.node.name.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });
     });
 
     describe('Add new element', () => {
         beforeEach(() => {
-            recordDeleteNode = getElementForPropertyEditor({
-                elementType: ELEMENT_TYPE.RECORD_DELETE
+            recordUpdateNode = getElementForPropertyEditor({
+                elementType: ELEMENT_TYPE.RECORD_UPDATE
             });
-            recordDeleteComponent = createComponentForTest(recordDeleteNode, AddElementEvent.EVENT_NAME);
+            recordUpdateComponent = createComponentForTest(recordUpdateNode, AddElementEvent.EVENT_NAME);
         });
         describe('Filtering (store options)', () => {
             let storeOptions;
             beforeEach(() => {
-                storeOptions = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_STORE_OPTION);
+                storeOptions = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
             });
             it('should be displayed', () => {
                 expect(storeOptions).not.toBeNull();
@@ -121,7 +122,7 @@ describe('Record Delete Editor', () => {
         describe('Record Variable or Record Collection Variable picker', () => {
             let recordVariablePicker;
             beforeEach(() => {
-                recordVariablePicker = getChildComponent(recordDeleteComponent, SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+                recordVariablePicker = getChildComponent(recordUpdateComponent, SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
             });
             it('should be displayed', () => {
                 expect(recordVariablePicker).not.toBeNull();
@@ -134,20 +135,20 @@ describe('Record Delete Editor', () => {
     describe('Existing element', () => {
         describe('Working with sObject', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(FLOWS_WITH_DELETE_RECORDS.USING_SOBJECT);
+                uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_SOBJECT);
                 store.dispatch(updateFlow(uiFlow));
             });
             afterAll(() => {
                 store.dispatch({type: 'INIT'});
             });
             beforeEach(() => {
-                recordDeleteNode = getElementForPropertyEditor(getElementByDevName(DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT));
-                recordDeleteComponent = createComponentForTest(recordDeleteNode);
+                recordUpdateNode = getElementForPropertyEditor(getElementByDevName(UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT));
+                recordUpdateComponent = createComponentForTest(recordUpdateNode);
             });
             describe('Filtering (store options)', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_STORE_OPTION);
+                    storeOptions = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
@@ -159,13 +160,13 @@ describe('Record Delete Editor', () => {
             describe('Record Variable or Record Collection Variable picker', () => {
                 let recordVariablePicker;
                 beforeEach(() => {
-                    recordVariablePicker = getChildComponent(recordDeleteComponent, SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+                    recordVariablePicker = getChildComponent(recordUpdateComponent, SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
                 });
                 it('should be displayed', () => {
                     expect(recordVariablePicker).not.toBeNull();
                 });
                 it('Selected value is correctly displayed', () => {
-                    expect(recordVariablePicker.value).toBe(recordDeleteNode.inputReference.value);
+                    expect(recordVariablePicker.value).toBe(recordUpdateNode.inputReference.value);
                 });
                 it('Should contain "New Resource" entry', () => {
                     const groupedCombobox = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker);
@@ -176,27 +177,27 @@ describe('Record Delete Editor', () => {
                 it('Should contain all record variables', () => {
                     const comboboxItems = getRecordVariablePickerChildGroupedComboboxComponent(recordVariablePicker).items;
                     expect(comboboxItems).toEqual(expect.arrayContaining([
-                        expect.objectContaining({items: expect.arrayContaining([expect.objectContaining({ "text": 'vAccount'}), expect.objectContaining({ "text": 'vCase'})])})
+                        expect.objectContaining({items: expect.arrayContaining([expect.objectContaining({ "text": 'contactToUpdateVar'}), expect.objectContaining({ "text": 'contractToUpdateVar'})])})
                     ]));
                 });
             });
         });
         describe('Working with fields', () => {
             beforeAll(() => {
-                uiFlow = translateFlowToUIModel(FLOWS_WITH_DELETE_RECORDS.USING_FIELDS);
+                uiFlow = translateFlowToUIModel(FLOWS_WITH_UPDATE_RECORDS.USING_FIELDS);
                 store.dispatch(updateFlow(uiFlow));
             });
             afterAll(() => {
                 store.dispatch({type: 'INIT'});
             });
             beforeEach(() => {
-                recordDeleteNode = getElementForPropertyEditor(getElementByDevName(DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT));
-                recordDeleteComponent = createComponentForTest(recordDeleteNode);
+                recordUpdateNode = getElementForPropertyEditor(getElementByDevName(UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT));
+                recordUpdateComponent = createComponentForTest(recordUpdateNode);
             });
             describe('Filtering (store options)', () => {
                 let storeOptions;
                 beforeEach(() => {
-                    storeOptions = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_STORE_OPTION);
+                    storeOptions = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
                 });
                 it('should be displayed', () => {
                     expect(storeOptions).not.toBeNull();
@@ -208,21 +209,20 @@ describe('Record Delete Editor', () => {
             describe('Entity resource picker', () => {
                 let entityResourcePicker;
                 beforeEach(() => {
-                    entityResourcePicker = getEntityResourcePicker(recordDeleteComponent);
+                    entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
                 });
                 it('should be displayed', () => {
                     expect(entityResourcePicker).not.toBeNull();
                 });
                 it('selected entity is correctly displayed', () => {
-                    expect(entityResourcePicker.value.displayText).toBe(recordDeleteNode.object.value);
+                    expect(entityResourcePicker.value.displayText).toBe(recordUpdateNode.object.value);
                 });
-                it('only deleteable entities available', () => {
-                    // see mock-entity.js (deletable = true)
+                it('only updateable entities available', () => {
+                    // see mock-entity.js (updateable = true)
                     const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker).items;
                     expect(comboboxItems).toHaveLength(2);
-                    expect(comboboxItems).toContainEqual(expect.objectContaining({displayText: 'Account' }));
-                    expect(comboboxItems).toContainEqual(expect.objectContaining({displayText: 'Case' }));
-                    expect(comboboxItems).not.toContainEqual(expect.objectContaining({displayText: 'Contact' }));
+                    expect(comboboxItems).toContainEqual(expect.objectContaining({displayText: 'Contract' }));
+                    expect(comboboxItems).not.toContainEqual(expect.objectContaining({displayText: 'Case' }));
                 });
                 describe('Enter invalid value', () => {
                     beforeEach(() => {
@@ -230,35 +230,35 @@ describe('Record Delete Editor', () => {
                     });
                     it('should NOT display record filters', () => {
                         return Promise.resolve().then(() => {
-                            expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
+                            expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                         });
                     });
                     it('should display invalid entry error', () => {
                         return Promise.resolve().then(() => {
-                            expect(recordDeleteComponent.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
+                            expect(recordUpdateComponent.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
                         });
                     });
                 });
                 describe('Enter new valid value', () => {
                     let filterItems;
                     beforeEach(() => {
-                        changeComboboxValue(getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker), 'Case');
+                        changeComboboxValue(getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker), 'Contact');
                     });
                     it('should change value and display it', () => {
-                        expect(entityResourcePicker.value).toMatchObject({displayText : 'Case', value : 'Case'});
+                        expect(entityResourcePicker.value).toMatchObject({displayText : 'Contact', value : 'Contact'});
                     });
                     it('should NOT display an error', () => {
-                        expect(recordDeleteComponent.node.object.error).toBeNull();
+                        expect(recordUpdateComponent.node.object.error).toBeNull();
                     });
                     it('should display record filters', () => {
-                        expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).not.toBeNull();
+                        expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).not.toBeNull();
                     });
                     it('should display 1 filters item', () => {
-                        filterItems = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER).filterItems;
+                        filterItems = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER).filterItems;
                         expect(filterItems).toHaveLength(1);
                     });
                     it('filters item LHS/Operator/RHS', () => {
-                        filterItems = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER).filterItems;
+                        filterItems = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER).filterItems;
                         expect(filterItems[0]).toMatchObject(newFilterItem());
                     });
                 });
@@ -268,12 +268,12 @@ describe('Record Delete Editor', () => {
                     });
                     it('should NOT display record filters', () => {
                         return Promise.resolve().then(() => {
-                            expect(getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER)).toBeNull();
+                            expect(getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER)).toBeNull();
                         });
                     });
                     it('should display required value error', () => {
                         return Promise.resolve().then(() => {
-                            expect(recordDeleteComponent.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
+                            expect(recordUpdateComponent.node.object.error).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                         });
                     });
                 });
@@ -281,7 +281,7 @@ describe('Record Delete Editor', () => {
             describe('Record Filter', () => {
                 let recordFilter;
                 beforeEach(() => {
-                    recordFilter = getChildComponent(recordDeleteComponent, SELECTORS.RECORD_FILTER);
+                    recordFilter = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER);
                 });
                 it('should be displayed', () => {
                     expect(recordFilter).not.toBeNull();
@@ -293,8 +293,28 @@ describe('Record Delete Editor', () => {
                     expect(recordFilter.filterItems).toHaveLength(2);
                 });
                 it('filters item LHS/Operator/RHS', () => {
-                    expect(recordFilter.filterItems[0]).toMatchObject(newFilterItem("Account.BillingCity", "EqualTo", "Paris", "String"));
-                    expect(recordFilter.filterItems[1]).toMatchObject(newFilterItem("Account.BillingCountry", "EqualTo", "France", "String"));
+                    expect(recordFilter.filterItems[0]).toMatchObject(newFilterItem("Contract.BillingCity", "EqualTo", "San Francisco", "String"));
+                    expect(recordFilter.filterItems[1]).toMatchObject(newFilterItem("Contract.BillingCountry", "EqualTo", "US", "String"));
+                });
+            });
+            describe('Input Assignments', () => {
+                let inputAssignments;
+                let fieldToFerovExpressionBuilder;
+                beforeEach(() => {
+                    inputAssignments = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+                    fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
+                });
+                it('should be displayed', () => {
+                    expect(inputAssignments).not.toBeNull();
+                });
+                it('number of input assignment', () => {
+                    expect(fieldToFerovExpressionBuilder).toHaveLength(1);
+                });
+                it('input assignment item LHS/Operator/RHS', () => {
+                    const baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
+                    expect(baseExpressionBuilder.lhsValue).toBe('Contract.Name');
+                    expect(baseExpressionBuilder.operatorValue).toBeUndefined();
+                    expect(baseExpressionBuilder.rhsValue).toMatchObject({"displayText": "{!newNameVar}", "text": "newNameVar"});
                 });
             });
         });
