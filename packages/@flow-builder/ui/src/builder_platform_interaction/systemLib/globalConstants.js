@@ -1,19 +1,15 @@
-import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
-import globalConstantEmptyStringLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString';
-import globalConstantTrueLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantTrue';
-import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
 import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
 import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 
-export const GLOBAL_CONSTANT_PREFIX = globalConstantPrefixLabel;
+export const GLOBAL_CONSTANT_PREFIX = '$GlobalConstant';
 
 export const GLOBAL_CONSTANTS = {
-    EMPTY_STRING: globalConstantPrefixLabel + '.' + globalConstantEmptyStringLabel,
-    BOOLEAN_TRUE:  globalConstantPrefixLabel + '.' + globalConstantTrueLabel,
-    BOOLEAN_FALSE: globalConstantPrefixLabel + '.' +  globalConstantFalseLabel,
+    EMPTY_STRING: GLOBAL_CONSTANT_PREFIX + '.EmptyString',
+    BOOLEAN_TRUE: GLOBAL_CONSTANT_PREFIX + '.True',
+    BOOLEAN_FALSE: GLOBAL_CONSTANT_PREFIX + '.False',
 };
 
 /**

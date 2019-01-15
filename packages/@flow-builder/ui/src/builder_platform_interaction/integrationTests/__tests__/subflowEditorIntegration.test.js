@@ -28,10 +28,6 @@ import {
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import { mockAllRules } from "mock/ruleService";
 
-jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix', () => ({ default: "$GlobalConstant" }), { virtual: true });
-jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse', () => ({ default: "False" }), { virtual: true });
-jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString', () => ({ default: "EmptyString" }), { virtual: true });
-
 const createComponentForTest = (node, { isNewMode = false} = {}) => {
     const el = createElement('builder_platform_interaction-subflow-editor', { is: SubflowEditor });
     Object.assign(el, {node, isNewMode});

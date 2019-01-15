@@ -1,9 +1,8 @@
 import { createRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
-import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
-import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -125,7 +124,7 @@ const uiModelEmptyInputAssignmentField = {
 
 const uiModelInputAssignmentFieldBooleanValue = {
     leftHandSide: 'Account.isEditable',
-    rightHandSide: globalConstantPrefixLabel + '.' + globalConstantFalseLabel,
+    rightHandSide: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
     rightHandSideDataType: 'Boolean',
 };
 

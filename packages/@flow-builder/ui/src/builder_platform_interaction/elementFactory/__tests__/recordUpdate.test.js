@@ -2,9 +2,8 @@ import { createRecordUpdate, createRecordUpdateMetadataObject } from '../recordU
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
-import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 expect.extend(deepFindMatchers);
 
@@ -89,7 +88,7 @@ const mutatedInputAssignmentField = {
 
 const mutatedInputAssignmentFieldBooleanValue = {
     leftHandSide: 'myObject.isEditable',
-    rightHandSide: globalConstantPrefixLabel + '.' + globalConstantFalseLabel,
+    rightHandSide: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
     rightHandSideDataType: 'Boolean',
 };
 

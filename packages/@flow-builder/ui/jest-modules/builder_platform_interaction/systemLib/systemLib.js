@@ -1,7 +1,4 @@
 const mockSystemLib = require.requireActual('builder_platform_interaction/systemLib');
-import globalConstantPrefixLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix';
-import globalConstantEmptyStringLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString';
-import globalConstantTrueLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantTrue';
 import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
@@ -25,14 +22,10 @@ const systemVariables = [
 
 mockSystemLib.setSystemVariables(JSON.stringify(systemVariables));
 
-export const GLOBAL_CONSTANT_PREFIX = globalConstantPrefixLabel;
+export const GLOBAL_CONSTANT_PREFIX = mockSystemLib.GLOBAL_CONSTANT_PREFIX;
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 
-export const GLOBAL_CONSTANTS = {
-    EMPTY_STRING: globalConstantPrefixLabel + '.' + globalConstantEmptyStringLabel,
-    BOOLEAN_TRUE:  globalConstantPrefixLabel + '.' + globalConstantTrueLabel,
-    BOOLEAN_FALSE: globalConstantPrefixLabel + '.' +  globalConstantFalseLabel,
-};
+export const GLOBAL_CONSTANTS = mockSystemLib.GLOBAL_CONSTANTS
 
 export const GLOBAL_CONSTANT_OBJECTS = {
     [GLOBAL_CONSTANTS.BOOLEAN_TRUE] : {

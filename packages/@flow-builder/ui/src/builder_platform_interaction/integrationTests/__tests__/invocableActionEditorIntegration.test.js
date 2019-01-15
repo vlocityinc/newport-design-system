@@ -29,10 +29,6 @@ import {
 import { mockAllTypesActionParameters, mockActions, submitForApprovalActionParameters } from 'mock/calloutData';
 import { mockAllRules } from "mock/ruleService";
 
-jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantPrefix', () => ({ default: "$GlobalConstant" }), { virtual: true });
-jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse', () => ({ default: "False" }), { virtual: true });
-jest.mock('@salesforce/label/FlowBuilderGlobalConstants.globalConstantEmptyString', () => ({ default: "EmptyString" }), { virtual: true });
-
 const getInvocableActionParameters = (invocableActionParameters) => params => {
     let invocableActionParametersForAction;
     const invocableActionParametersForType = invocableActionParameters[params.actionType];
