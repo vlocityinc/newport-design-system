@@ -74,7 +74,11 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     get getPanelTitle() {
-        return screenEditorUtils.isScreen(this.node) ? LABELS.screenProperties : this.node.type.label;
+        let title = '';
+        if (this.node) {
+            title = screenEditorUtils.isScreen(this.node) ? LABELS.screenProperties : this.node.type.label;
+        }
+        return title;
     }
 
     get panelHeaderTextClasses() {
