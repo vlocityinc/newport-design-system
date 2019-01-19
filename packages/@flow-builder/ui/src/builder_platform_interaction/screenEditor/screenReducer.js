@@ -308,7 +308,7 @@ const updateFieldInScreen = (screen, field, newField) => {
  */
 const handleScreenFieldPropertyChange = (data, screen, event, screenfield) => {
     const newValueForProperty = data.newValue.value;
-    if (data.property === 'name' && data.error === null) {
+    if (data.property === 'name' && data.error === null && screen) {
         data.error = screenValidation.validateFieldNameUniquenessLocally(screen, newValueForProperty, screenfield.guid) || isUniqueDevNameInStore(newValueForProperty, [event.detail.guid]);
     }
 
@@ -365,7 +365,7 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
         if (isScreen(selectedNode)) {
             if (hydrated) {
                 value.error = error || screenValidation.validateProperty(property, value.value);
-                if (value.error === null && property === 'name') {
+                if (value.error === null && property === 'name' && screen) {
                     value.error = screenValidation.validateFieldNameUniquenessLocally(screen, value.value, screen.guid);
                 }
             }
