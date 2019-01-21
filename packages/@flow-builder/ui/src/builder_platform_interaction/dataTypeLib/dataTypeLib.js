@@ -61,6 +61,12 @@ const FLOW_DATA_TYPE = {
         iconName: 'standard:multi_picklist',
         utilityIconName: 'utility:multi_picklist'
     },
+    APEX: {
+        label: DATA_TYPE_LABELS.apexDataTypeLabel,
+        value: 'Apex',
+        iconName: 'standard:apex',
+        utilityIconName: 'utility:apex'
+    },
 };
 
 const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
@@ -72,7 +78,8 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.DATE.value]: 'DATE',
     [FLOW_DATA_TYPE.DATE_TIME.value]: 'DATE_TIME',
     [FLOW_DATA_TYPE.PICKLIST.value]: 'PICKLIST',
-    [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST'
+    [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST',
+    [FLOW_DATA_TYPE.APEX.value]: 'APEX',
 };
 
 export const SCALE_RANGE = {
@@ -238,4 +245,12 @@ export function setResourceTypes(newResourceTypes = []) {
  */
 export function getResourceTypes() {
     return resourceTypes;
+}
+
+/**
+ * @param {String} type   The data type being tested
+ * @returns {Boolean}     True if data type represents a complex type, such as sobject or apex
+ */
+export function isComplexType(type) {
+    return [FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.APEX.value].includes(type);
 }

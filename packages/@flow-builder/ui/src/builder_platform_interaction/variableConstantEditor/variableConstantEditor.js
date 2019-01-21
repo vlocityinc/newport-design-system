@@ -2,9 +2,10 @@ import { LightningElement, api, track, unwrap } from 'lwc';
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
 import { variableConstantReducer } from "./variableConstantReducer";
-import { FLOW_DATA_TYPE, FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FLOW_DATA_TYPE, FEROV_DATA_TYPE, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import { PropertyEditorWarningEvent } from "builder_platform_interaction/events";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
+import EntityResourcePicker from "builder_platform_interaction/entityResourcePicker";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { LABELS } from "./variableConstantEditorLabels";
@@ -35,7 +36,8 @@ const EXTERNAL_ACCESS_VALUES = [
 const WARNING_FIELDS = [VARIABLE_CONSTANT_FIELDS.NAME, VARIABLE_CONSTANT_FIELDS.IS_INPUT, VARIABLE_CONSTANT_FIELDS.IS_OUTPUT];
 // TODO W-5303776: Get information about which data types are allowed for each resource,
 // and which data types can have a default value, from the service once it's complete
-const DATATYPES_WITH_NO_DEFAULT_VALUE = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value, FLOW_DATA_TYPE.SOBJECT.value];
+const DATATYPES_WITH_NO_DEFAULT_VALUE = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value, FLOW_DATA_TYPE.SOBJECT.value,
+    FLOW_DATA_TYPE.APEX.value];
 const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE);
 const flowDataTypeConstantMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
     FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.BOOLEAN];
@@ -43,6 +45,19 @@ const flowDataTypeConstantMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUM
 // TODO: This is being used by the assessWarning function, which is not being used at this time. I will leave
 // this here hard coded and we will move it to the labels file if and when we start using the assessWarning function.
 const warningMessage = 'Changing this field may result in runtime errors when this flow is called by another flow.';
+
+const complexTypeConfig = {
+    [FLOW_DATA_TYPE.APEX.value] : {
+        mode: EntityResourcePicker.ENTITY_MODE.APEX,
+        pickerLabel: LABELS.apexPickerLabel,
+        pickerPlaceholder: LABELS.apexPickerPlaceholder,
+    },
+    [FLOW_DATA_TYPE.SOBJECT.value] : {
+        mode: EntityResourcePicker.ENTITY_MODE.SOBJECT,
+        pickerLabel: LABELS.sObjectPickerLabel,
+        pickerPlaceholder: LABELS.sObjectPickerPlaceholder,
+    },
+};
 
 /**
  * Variable/constant property editor for Flow Builder
@@ -199,8 +214,8 @@ export default class VariableConstantEditor extends LightningElement {
         return getValueFromHydratedItem(this.variableConstantResource.objectType);
     }
 
-    get hasObjectType() {
-        return this.dataType === FLOW_DATA_TYPE.SOBJECT.value;
+    get isComplexDataType() {
+        return this.dataType && isComplexType(this.dataType);
     }
 
     /**
@@ -246,8 +261,8 @@ export default class VariableConstantEditor extends LightningElement {
 
     get entityComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
-            LABELS.sObjectPickerLabel,
-            LABELS.sObjectPickerPlaceholder,
+            this.subtypePickerLabel,
+            this.subtypePickerPlaceholder,
             this.variableConstantResource.objectType.error,
             false,
             true,
@@ -256,16 +271,24 @@ export default class VariableConstantEditor extends LightningElement {
         );
     }
 
-    get sobjectPickerLabel() {
-        return LABELS.sObjectPickerLabel;
+    get subtypePickerLabel() {
+        return complexTypeConfig[this.dataType] && complexTypeConfig[this.dataType].pickerLabel;
     }
 
-    get sobjectPickerPlaceholder() {
-        return LABELS.sObjectPickerPlaceholder;
+    get subtypePickerPlaceholder() {
+        return complexTypeConfig[this.dataType] && complexTypeConfig[this.dataType].pickerPlaceholder;
     }
 
     get externalAccessLabel() {
         return LABELS.externalAccessSectionLabel;
+    }
+
+    get isExternallyAccessible() {
+        return this.isVariable && this.dataType && this.dataType !== FLOW_DATA_TYPE.APEX.value;
+    }
+
+    get entityMode() {
+        return complexTypeConfig[this.dataType] && complexTypeConfig[this.dataType].mode;
     }
 
     isDataTypeOrCollectionChange(dataType, isCollection) {
@@ -277,8 +300,7 @@ export default class VariableConstantEditor extends LightningElement {
      * @param {Object} value the object containing the new dataType, scale, and collection values
      */
     clearOnDataTypeChange(value) {
-        // we want to clear the sobject value when switching away from it (this prevents false negatives on validation)
-        if (this.hasObjectType && value.dataType !== FLOW_DATA_TYPE.SOBJECT.value) {
+        if (this.isComplexDataType && (!isComplexType(value.dataType) || value.dataType !== this.dataType)) {
             this.updateProperty(VARIABLE_CONSTANT_FIELDS.OBJECT_TYPE, null, null);
         } else if (this.isDataTypeOrCollectionChange(value.dataType, value.isCollection)) {
             // we want to clear the default value and scale when either switching data types or the collection status

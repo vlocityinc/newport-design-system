@@ -36,17 +36,18 @@
                 </builder_platform_interaction-ferov-resource-picker>
             </div>
 
-            <div if:true={hasObjectType} class="slds-form-element__row">
+            <div if:true={isComplexDataType} class="slds-form-element__row">
                 <builder_platform_interaction-entity-resource-picker
                     class="slds-form-element slds-size_1-of-2"
                     combobox-config={entityComboboxConfig}
                     value={objectType}
+                    mode={entityMode}
                     oncomboboxstatechanged={handleObjectTypeChange}
                     onitemselected={handleObjectTypeSelect}>
                 </builder_platform_interaction-entity-resource-picker>
             </div>
             
-            <div if:true={isVariable} class="slds-form-element__row">
+            <div if:true={isExternallyAccessible} class="slds-form-element__row">
                 <!-- TODO: Add field-level-help={externalAccessHelpText} once W-4972926 is fixed. Tracking bug W-4981924 -->
                 <lightning-checkbox-group 
                     class="slds-form-element"

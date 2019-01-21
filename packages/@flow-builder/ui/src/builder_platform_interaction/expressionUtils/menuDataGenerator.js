@@ -7,6 +7,7 @@ import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, getGlobalVa
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from "builder_platform_interaction/ruleLib";
+import { isComplexType } from "builder_platform_interaction/dataTypeLib";
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
@@ -147,7 +148,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.objectType, resourceLabel);
     newElement.value = resource.guid;
     newElement.displayText = addCurlyBraces(resource.name);
-    newElement.hasNext = resourceDataType === SOBJECT_TYPE && !resource.isCollection;
+    newElement.hasNext = isComplexType(resourceDataType) && !resource.isCollection;
     newElement.category = resource.category || (elementCategory && elementCategory.toUpperCase());
     newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;

@@ -19,6 +19,7 @@ import {
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 
 const OUTPUT_PARAMETER_DEFINITION = {
     label: LABELS.platformEventOutputLabel,
@@ -211,6 +212,10 @@ export default class WaitPlatformEvent extends LightningElement {
 
     get elementType() {
         return ELEMENT_TYPE.WAIT;
+    }
+
+    get mode() {
+        return EntityResourcePicker.ENTITY_MODE.EVENT;
     }
 
     /**

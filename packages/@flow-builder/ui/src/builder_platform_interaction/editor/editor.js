@@ -12,7 +12,7 @@ import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { setEntities, fetchFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './editorLabels';
-import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
+import { setResourceTypes, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
@@ -851,16 +851,22 @@ export default class Editor extends LightningElement {
         // pass the node collection modification mode (CREATE, UPDATE, etc) and switch the store
         // action based on that.
         const nodeForStore = getElementForStore(node);
-        // Fetches and caches the fields for new sobject fields. Shows spinner till this is done
-        this.cacheNewSobjectFields(nodeForStore);
+        this.cacheNewComplexObjectFields(nodeForStore);
         storeInstance.dispatch(addElement(nodeForStore));
     };
 
-    cacheNewSobjectFields(node) {
+    /**
+     * Fetches & caches the fields/properties for new sobject/apex variable types. Shows spinner until this is done
+     */
+    cacheNewComplexObjectFields(node) {
         if (node.elementType === ELEMENT_TYPE.VARIABLE && node.objectType && !node.isCollection) {
-            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(node);
-            addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
-            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.objectType).catch(() => {}));
+            const varInComboboxShape = mutateFlowResourceToComboboxShape(node);
+            addToParentElementCache(varInComboboxShape.displayText, varInComboboxShape);
+            if (node.type === FLOW_DATA_TYPE.SOBJECT.value) {
+                this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.objectType).catch(() => {}));
+            } else if (node.type === FLOW_DATA_TYPE.APEX.value) {
+                // TODO: W-5776232 hook up controller to load apex types & properties
+            }
         }
     }
 

@@ -6,6 +6,8 @@ import defaultValuePlaceholder from '@salesforce/label/FlowBuilderCombobox.defau
 import valuePickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.valuePickerLabel';
 import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerLabel';
 import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerPlaceholder';
+import apexPickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.apexPickerLabel';
+import apexPickerPlaceholder from '@salesforce/label/FlowBuilderVariableConstantEditor.apexPickerPlaceholder';
 import sObjectCannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import externalAccessSectionLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessSectionLabel';
 import externalAccessHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessHelpText';
@@ -21,6 +23,8 @@ export const LABELS = {
     sObjectPickerLabel,
     sObjectPickerPlaceholder,
     sObjectCannotBeBlank,
+    apexPickerLabel,
+    apexPickerPlaceholder,
     externalAccessSectionLabel,
     externalAccessHelpText,
     externalAccessInput,

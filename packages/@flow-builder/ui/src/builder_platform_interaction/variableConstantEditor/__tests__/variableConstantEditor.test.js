@@ -10,7 +10,7 @@ import { deepCopy } from "builder_platform_interaction/storeLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 import { getResourceByUniqueIdentifier, getFerovDataTypeForValidId } from "builder_platform_interaction/expressionUtils";
-import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
@@ -176,7 +176,7 @@ describe('variable-constant-editor', () => {
                 const dataTypePicker = getShadowRoot(
                     getShadowRoot(variableEditor).querySelector('builder_platform_interaction-data-type-picker')
                 ).querySelector('lightning-combobox');
-                expect(dataTypePicker.options).toHaveLength(9);
+                expect(dataTypePicker.options).toHaveLength(Object.values(FLOW_DATA_TYPE).length);
             });
         });
 

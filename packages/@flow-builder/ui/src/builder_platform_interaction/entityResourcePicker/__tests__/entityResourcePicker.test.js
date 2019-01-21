@@ -149,7 +149,7 @@ describe('entity-resource-picker', () => {
 
     it('retrieves event type menu data on initial load', () => {
         getEventTypesMenuData.mockReturnValueOnce(eventTypesMenuData);
-        props.isEventMode = true;
+        props.mode = EntityResourcePicker.ENTITY_MODE.EVENT;
         const entityResourcePicker = setupComponentUnderTest(props);
         const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
         return Promise.resolve().then(() => {

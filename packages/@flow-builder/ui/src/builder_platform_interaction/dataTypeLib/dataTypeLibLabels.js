@@ -7,6 +7,7 @@ import dateTimeDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.dateTi
 import sObjectDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.sObjectDataTypeLabel';
 import picklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.picklistDataTypeLabel';
 import multiPicklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.multiPicklistDataTypeLabel';
+import apexDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.apexDataTypeLabel';
 
 export const LABELS = {
     textDataTypeLabel,
@@ -18,4 +19,5 @@ export const LABELS = {
     sObjectDataTypeLabel,
     picklistDataTypeLabel,
     multiPicklistDataTypeLabel,
+    apexDataTypeLabel,
 };

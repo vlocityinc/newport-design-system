@@ -1,11 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import { getEntitiesMenuData, getEventTypesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { getEntitiesMenuData, getEventTypesMenuData, getApexClassMenuData } from 'builder_platform_interaction/expressionUtils';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 /**
- * Object resource picker that has one BaseResourcePicker. The picker shows entities or event type menu data.
- * For event menu data set the attribute 'isEventMode' to true.
+ * Object resource picker that has one BaseResourcePicker. The picker shows sobject, apex, or event type menu data.
  * Note: this component follows the convention from the combobox where we have displayText and value
  * DisplayText is just a string, use this when you are loading from the store or have just a literal/merge field
  * Value should be used when you have a combobox menu item (taken from CombbooxValueChanged event)
@@ -13,6 +12,12 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
  * @extends {Element}
  */
 export default class EntityResourcePicker extends LightningElement {
+    static ENTITY_MODE = {
+        SOBJECT: 'sobject',
+        EVENT: 'event',
+        APEX: 'apex',
+    };
+
     /**
      * The entity type that will be displayed in the combobox
      * If not specified defaults to all entity types.
@@ -51,6 +56,12 @@ export default class EntityResourcePicker extends LightningElement {
     _isInitialized = false;
 
     /**
+     * Determines what menu data will be loaded
+     * @type {String}
+     */
+    _mode = EntityResourcePicker.ENTITY_MODE.SOBJECT;
+
+    /**
      * Internal state of entity resource picker
      * @typedef {Object}
      * @property {module:base-resource-picker.item} item the currently selected combobox menu item
@@ -61,27 +72,32 @@ export default class EntityResourcePicker extends LightningElement {
 
     /**
      * Set the entity type of @member _crudFilterType
-     * Use only for entity menu data when isEventMode is false.
+     * Use only for entity menu data when in sobject mode.
      * Changing the crudFilter.
      * @param {String} crudFilterType the new filter type
      */
     set crudFilterType(crudFilterType) {
         this._crudFilterType = crudFilterType;
-        if (this._isInitialized && !this.isEventMode) {
+        if (this._isInitialized && this.mode === EntityResourcePicker.ENTITY_MODE.SOBJECT) {
             this.populateEntityMenuData();
         }
     }
 
-    /**
-     * Set the combobox config object
-     * @type {module:base-resource-picker.ComboboxConfig}
-     */
-    @api
-    isEventMode = false;
-
     @api
     get crudFilterType() {
         return this._crudFilterType;
+    }
+
+    set mode(mode) {
+        if (this._isInitialized && this._mode !== mode) {
+            this.populateEntityMenuData(mode);
+        }
+        this._mode = mode;
+    }
+
+    @api
+    get mode() {
+        return this._mode;
     }
 
     /**
@@ -142,11 +158,16 @@ export default class EntityResourcePicker extends LightningElement {
     }
 
     /**
-     * Populates the menu data based on the given crud filter type
+     * Populates the menu data based on mode & crud filter when relevant
      * Uses the BaseResourcePicker instance to set the full menu data
      */
-    populateEntityMenuData() {
-        this._fullEntityMenuData = this.isEventMode ? getEventTypesMenuData() : getEntitiesMenuData(this._crudFilterType);
+    populateEntityMenuData(newMode = this.mode) {
+        const fetchMenuDataForEntityMode = {
+            [EntityResourcePicker.ENTITY_MODE.APEX]: getApexClassMenuData,
+            [EntityResourcePicker.ENTITY_MODE.EVENT]: getEventTypesMenuData,
+            [EntityResourcePicker.ENTITY_MODE.SOBJECT]: () => getEntitiesMenuData(this._crudFilterType),
+        };
+        this._fullEntityMenuData = fetchMenuDataForEntityMode[newMode]();
         this._baseResourcePicker.setMenuData(this._fullEntityMenuData);
     }
 }

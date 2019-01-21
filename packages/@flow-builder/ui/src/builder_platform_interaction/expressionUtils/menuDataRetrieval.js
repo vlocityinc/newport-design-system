@@ -475,3 +475,10 @@ export const getEventTypesMenuData = () => {
     }
     return _eventTypesCache;
 };
+
+export const getApexClassMenuData = () => {
+    // TODO: W-5776232 hook up controller to load apex types & properties
+    return mutateEntitiesToComboboxShape([{
+        'apiName': 'SampleClass',
+    }]);
+};
