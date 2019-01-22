@@ -1,10 +1,10 @@
 import {createElement} from 'lwc';
 import RecordDeleteEditor from "builder_platform_interaction/recordDeleteEditor";
 
-import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, auraFetch,
+import { LIGHTNING_COMPONENTS_SELECTORS, FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, auraFetch,
     getLabelDescriptionLabelElement, getLabelDescriptionNameElement,
     expectGroupedComboboxItem, getChildComponent, getEntityResourcePicker, getRecordVariablePickerChildGroupedComboboxComponent,
-    getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue} from "../integrationTestUtils";
+    getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue, getBaseExpressionBuilder, getFieldToFerovExpressionBuilders} from "../integrationTestUtils";
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { EditElementEvent, AddElementEvent } from "builder_platform_interaction/events";
 import { mockEntities } from "mock/serverEntityData";
@@ -295,6 +295,21 @@ describe('Record Delete Editor', () => {
                 it('filters item LHS/Operator/RHS', () => {
                     expect(recordFilter.filterItems[0]).toMatchObject(newFilterItem("Account.BillingCity", "EqualTo", "Paris", "String"));
                     expect(recordFilter.filterItems[1]).toMatchObject(newFilterItem("Account.BillingCountry", "EqualTo", "France", "String"));
+                });
+                it('operators available for the first filter', () => {
+                    const fieldToFerovExpressionBuilderComponents = getFieldToFerovExpressionBuilders(recordFilter);
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(fieldToFerovExpressionBuilderComponents[0]);
+                    const operatorsComboboxComponent = getChildComponent(baseExpressionBuilderComponent, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX);
+                    expect(operatorsComboboxComponent.options).toHaveLength(6);
+                    expect(operatorsComboboxComponent.options).toEqual(expect.arrayContaining(
+                        [
+                            expect.objectContaining({ "value": 'EqualTo'}),
+                            expect.objectContaining({ "value": 'NotEqualTo'}),
+                            expect.objectContaining({ "value": 'StartsWith'}),
+                            expect.objectContaining({ "value": 'Contains'}),
+                            expect.objectContaining({ "value": 'EndsWith'}),
+                            expect.objectContaining({ "value": 'IsNull'})
+                    ]));
                 });
             });
         });
