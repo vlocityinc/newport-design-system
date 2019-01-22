@@ -862,9 +862,9 @@ export default class Editor extends LightningElement {
         if (node.elementType === ELEMENT_TYPE.VARIABLE && node.objectType && !node.isCollection) {
             const varInComboboxShape = mutateFlowResourceToComboboxShape(node);
             addToParentElementCache(varInComboboxShape.displayText, varInComboboxShape);
-            if (node.type === FLOW_DATA_TYPE.SOBJECT.value) {
+            if (node.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
                 this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.objectType).catch(() => {}));
-            } else if (node.type === FLOW_DATA_TYPE.APEX.value) {
+            } else if (node.dataType === FLOW_DATA_TYPE.APEX.value) {
                 // TODO: W-5776232 hook up controller to load apex types & properties
             }
         }
