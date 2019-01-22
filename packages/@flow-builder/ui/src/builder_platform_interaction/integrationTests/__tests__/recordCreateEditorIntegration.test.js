@@ -6,8 +6,7 @@ import { LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     focusoutEvent,
-    blurEvent,
-    textInputEvent,
+    changeComboboxValue,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
@@ -70,6 +69,11 @@ const getEntityResourcePickerComboboxElement = (entityResourcePicker) => {
     const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
     const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
+};
+
+const getExpressionBuilderComboboxElement = (expressionBuilder) => {
+    const interactionCombobox = getShadowRoot(expressionBuilder).querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    return getShadowRoot(interactionCombobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 const getOutputResourcePicker = (recordEditor) => {
@@ -303,8 +307,7 @@ describe('Record Create Editor', () => {
             it('removing the entity should hide input assignment but store option element should remained', () => {
                 const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                comboboxElement.dispatchEvent(textInputEvent(''));
-                comboboxElement.dispatchEvent(blurEvent);
+                changeComboboxValue(comboboxElement, '');
                 return resolveRenderCycles(() => {
                     expect(recordCreateElement.node.object.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
                     expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
@@ -319,8 +322,7 @@ describe('Record Create Editor', () => {
             it('enter an invalid value in the entity resource picker should not display other element but should display an error', () => {
                 const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                comboboxElement.dispatchEvent(textInputEvent('invalidValue'));
-                comboboxElement.dispatchEvent(blurEvent);
+                changeComboboxValue(comboboxElement, 'invalidValue');
                 return resolveRenderCycles(() => {
                     expect(getInputOutputAssignments(recordCreateElement)).toBeNull();
                     expect(getOutputResourcePicker(recordCreateElement)).toBeNull();
@@ -330,8 +332,7 @@ describe('Record Create Editor', () => {
             it('enter an valid value in the entity resource picker should not display an error', () => {
                 const entityResourcePicker = getEntityResourcePicker(recordCreateElement);
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
-                comboboxElement.dispatchEvent(textInputEvent('Case'));
-                comboboxElement.dispatchEvent(blurEvent);
+                changeComboboxValue(comboboxElement, 'Case');
                 return resolveRenderCycles(() => {
                     return resolveRenderCycles(() => {
                         expect(recordCreateElement.node.object.error).toBeNull();
@@ -342,24 +343,33 @@ describe('Record Create Editor', () => {
             });
             describe('Input Assignments', () => {
                 let inputAssignments;
-                let FieldToFerovExpressionBuilder;
+                let fieldToFerovExpressionBuilder;
                 let baseExpressionBuilder;
                 beforeEach(() => {
                     inputAssignments = getInputOutputAssignments(recordCreateElement);
-                    FieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
+                    fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(inputAssignments);
+                    baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
                 });
                 it('input Assignments should be visible and correctly displayed', () => {
                     return resolveRenderCycles(() => {
-                        expect(FieldToFerovExpressionBuilder).toHaveLength(2);
-                        baseExpressionBuilder = getBaseExpressionBuilder(FieldToFerovExpressionBuilder[0]);
+                        expect(fieldToFerovExpressionBuilder).toHaveLength(2);
                         expect(baseExpressionBuilder.lhsValue).toBe('Account.BillingCity');
                         expect(baseExpressionBuilder.operatorValue).toBeUndefined();
                         expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vBillingCity}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "objectType": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vBillingCity", "type": "option-card"});
-                        baseExpressionBuilder = getBaseExpressionBuilder(FieldToFerovExpressionBuilder[1]);
+                        baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[1]);
                         expect(baseExpressionBuilder.lhsValue).toBe('Account.Name');
                         expect(baseExpressionBuilder.operatorValue).toBeUndefined();
                         expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vName}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "objectType": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vName", "type": "option-card"});
                      });
+                });
+                it('Removing the selected field should not change the value if the RHS has a value', () => {
+                    const combobox = getExpressionBuilderComboboxElement(baseExpressionBuilder);
+                    changeComboboxValue(combobox, '');
+                    return resolveRenderCycles(() => {
+                        expect(fieldToFerovExpressionBuilder).toHaveLength(2);
+                        baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[0]);
+                        expect(baseExpressionBuilder.lhsValue).toBe('Account.BillingCity');
+                      });
                 });
             });
         });

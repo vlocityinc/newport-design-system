@@ -43,9 +43,14 @@ const deleteRecordRecordFieldAssignment = (state, event) => {
     return set(state, INPUTASSIGNMENTS_PROP, updatedItems);
 };
 
-const updateRecordRecordFieldAssignment = (state, event) => {
-    const path = [INPUTASSIGNMENTS_PROP, event.detail.index];
-    const item = updateProperties(state.inputAssignments[event.detail.index], event.detail.value);
+const hasRhsValueButNoLhs = (assignMentToUpdate, leftHandSide) => {
+    return assignMentToUpdate[RHS].value !== '' && leftHandSide && leftHandSide.value === '';
+};
+
+const updateRecordRecordFieldAssignment = (state, {index, value}) => {
+    const path = [INPUTASSIGNMENTS_PROP, index];
+    const assignMentToUpdate = state.inputAssignments[index];
+    const item = updateProperties(assignMentToUpdate, hasRhsValueButNoLhs(assignMentToUpdate, value.leftHandSide) ? assignMentToUpdate : value);
     return set(state, path, item);
 };
 
@@ -95,7 +100,7 @@ export const recordCreateReducer = (state, event) => {
         case DeleteRecordFieldAssignmentEvent.EVENT_NAME:
             return deleteRecordRecordFieldAssignment(state, event);
         case UpdateRecordFieldAssignmentEvent.EVENT_NAME:
-            return updateRecordRecordFieldAssignment(state, event);
+            return updateRecordRecordFieldAssignment(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL: {

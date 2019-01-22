@@ -47,6 +47,13 @@ const recordCreateUsingSobjectTemplate = () =>
         assignRecordIdToReference: {value: '', error: null},
     });
 
+const updateAssignmentEvent = (side, newValue = '', index = 0) => ({
+    type: UpdateRecordFieldAssignmentEvent.EVENT_NAME,
+    detail: {
+        index,
+        value: {[side]: {value: newValue, error: null}},
+    }
+});
 
 describe('record-create-reducer using sObject', () => {
     let originalState;
@@ -140,17 +147,32 @@ describe('record-create-reducer using fields', () => {
             expect(newState).not.toBe(originalState);
         });
         it('update the left hand side of an assignment item', () => {
-            const event = {
-                type: UpdateRecordFieldAssignmentEvent.EVENT_NAME,
-                detail: {
-                    index: 0,
-                    value: {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'Account.Description', error: null}},
-                }
-            };
+            const event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, 'Account.Description');
             const newState = recordCreateReducer(originalState, event);
             expect(newState.inputAssignments).toHaveLength(1);
             expect(newState.inputAssignments[0].leftHandSide.value).toBe('Account.Description');
             expect(newState).not.toBe(originalState);
+        });
+        describe('update the left hand side of an assignment item', () => {
+            it('with an empty value when the right hand side has a value', () => {
+                const event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE);
+                const newState = recordCreateReducer(originalState, event);
+                expect(newState.inputAssignments).toHaveLength(1);
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe('Account.BillingCountry');
+                expect(newState).not.toBe(originalState);
+            });
+            it('with an empty value when the right hand side does not have a value', () => {
+                // Remove Right Hand Side value first
+                let event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE);
+                let newState = recordCreateReducer(originalState, event);
+
+                // Remove Left Hand Side after
+                event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE);
+                newState = recordCreateReducer(newState, event);
+                expect(newState.inputAssignments).toHaveLength(1);
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+                expect(newState).not.toBe(originalState);
+            });
         });
     });
     describe('handle property changed event', () => {
