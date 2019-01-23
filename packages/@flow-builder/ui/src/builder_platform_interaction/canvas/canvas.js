@@ -59,7 +59,10 @@ export default class Canvas extends LightningElement {
     centerOffsetY = 0;
 
     isMultiSelect(event) {
-        return event.shiftKey || event.metaKey;
+        if (event && event.shiftKey) {
+            return event.shiftKey;
+        }
+        return false;
     }
 
     constructor() {

@@ -91,7 +91,10 @@ export default class Node extends LightningElement {
     }
 
     isMultiSelect(event) {
-        return event.shiftKey || event.metaKey;
+        if (event && event.shiftKey) {
+            return event.shiftKey;
+        }
+        return false;
     }
 
     isNodeDragging = false;
