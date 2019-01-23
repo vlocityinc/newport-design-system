@@ -108,7 +108,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                 const fieldName = sanitizeGuid(lhs.value).fieldName;
                 if (fieldName) {
                     getSecondLevelItems({ elementType: this.containerElement, shouldBeWritable: this.lhsMustBeWritable },
-                        lhsItem.objectType, (fields) => {
+                        lhsItem.subtype, (fields) => {
                         const isFieldOnSobjectVar = true;
                         this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
                         if (fields && fields[fieldName]) {

@@ -26,14 +26,14 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
  * This will also probably use a label service eventually.
  *
  * @param {String} dataType  datatype of an element
- * @param {String} objectType  object type of an element, if exists
+ * @param {String} subtype  object type or apex class of an element, if exists
  * @param {String} label  the label of an element, if exists
  * @returns {String} the subtext to display in a combobox row
  */
-function getSubText(dataType, objectType, label) {
+function getSubText(dataType, subtype, label) {
     let subText = '';
     if (dataType === SOBJECT_TYPE) {
-        subText = objectType;
+        subText = subtype;
     } else if (label) {
         subText = label;
     } else if (dataType) {
@@ -53,7 +53,7 @@ function getSubText(dataType, objectType, label) {
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
  * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
  * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
- * @property {String} objectType the object type when data type is SObject otherwise null. eg: Account
+ * @property {String} subtype the object type or apex when data type is SObject otherwise null. eg: Account
  */
 
 /**
@@ -78,10 +78,10 @@ function getSubText(dataType, objectType, label) {
  * @param {String} value the value of the menu item
  * @param {Object} parent the parent flow element of the second level item in combobox shape
  * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
- * @param {String} objectType the object type when data type is SObject otherwise null. eg: Account
+ * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
  * @returns {MenuItem}  the generated menu item
  */
-export const createMenuItem = (type, text, subText, displayText, iconName, value, parent, dataType, objectType) => {
+export const createMenuItem = (type, text, subText, displayText, iconName, value, parent, dataType, subtype) => {
     return {
         type,
         text,
@@ -92,7 +92,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
         value,
         parent,
         dataType,
-        objectType
+        subtype
     };
 };
 
@@ -145,7 +145,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const elementCategory = getElementCategory(resource.elementType, resourceDataType, resource.isCollection);
 
     newElement.text = resource.name;
-    newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.objectType, resourceLabel);
+    newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.subtype, resourceLabel);
     newElement.value = resource.guid;
     newElement.displayText = addCurlyBraces(resource.name);
     newElement.hasNext = isComplexType(resourceDataType) && !resource.isCollection;
@@ -153,7 +153,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resourceDataType;
-    newElement.objectType = resource.objectType || null;
+    newElement.subtype = resource.subtype || null;
     if (newElement.hasNext) {
         newElement.rightIconName = RIGHT_ICON_NAME;
         newElement.rightIconSize = ICON_SIZE;
@@ -223,7 +223,7 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
 const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
     return {
         value,
-        objectType: value,
+        subtype: value,
         text: value,
         displayText: addCurlyBraces(value),
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,

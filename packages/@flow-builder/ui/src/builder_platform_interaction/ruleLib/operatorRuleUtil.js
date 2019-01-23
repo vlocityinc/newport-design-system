@@ -15,7 +15,7 @@ const IS_SYSTEM_VARIABLE = 'isSystemVariable';
 
 let operatorsInstance = {};
 
-export const OBJECT_TYPE = 'objectType';
+export const SUBTYPE = 'subtype';
 
 /**
  * A map from an elementType or dataType to an array of params relating to that elementType or dataType.
@@ -105,7 +105,7 @@ export const elementToParam = (element) => {
     const isSobjectField = !!element[IS_SOBJECT_FIELD] || !!element.sobjectName;
 
     return {
-        [OBJECT_TYPE]: element.objectType ? element.objectType : undefined,
+        [SUBTYPE]: element.subtype,
         [DATA_TYPE]: getDataType(element),
 
 
@@ -192,7 +192,7 @@ const ruleAllowedInElementEditor = (rule, elementType) => {
 
 /**
  * Adds param to map under type
- * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/objectType to parameters relating to that type
+ * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
  * @param {param} param   Param to be stringified and added to the map
  * @param {String} type   dataTypeLib.FLOW_DATA_TYPE, flowMetadata.ELEMENT_TYPE, or sObject api name
  */
@@ -208,7 +208,7 @@ const addParamToTypeMap = (map, param, type) => {
 
 /**
  * Turns the passed in map into an allowedParamMap (see above typedef)
- * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/objectType to parameters relating to that type
+ * @param {Object.map<String, Object.set<param>>} map   dataType/elementType/subtype to parameters relating to that type
  */
 const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
     let canBeSystemVariable = false;
@@ -325,7 +325,7 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
                 let type = getDataTypeOrElementType(rhsParam);
                 if (type === 'SObject') {
                     // if element is an sObject, we want to track by object type because sObject type must match exactly
-                    type = lhsElement.objectType;
+                    type = lhsElement.subtype;
                 }
                 addParamToTypeMap(paramTypeMap, rhsParam, type);
             });

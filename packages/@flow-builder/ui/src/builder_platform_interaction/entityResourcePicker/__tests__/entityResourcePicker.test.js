@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import { getEntitiesMenuData, getEventTypesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { getApexClassMenuData, getEntitiesMenuData, getEventTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import EntityResourcePicker from '../entityResourcePicker';
@@ -17,11 +17,13 @@ const setupComponentUnderTest = (props) => {
     return element;
 };
 
+const apexClassMenuData = [{value:'apexClassMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}];
 const entityMenuData = [{value:'entityMenuData', displayText: 'entity menu data'}, {value: 'testValue', displayText: 'test display text'}];
 const eventTypesMenuData = [{value:'PlatformEvent1', displayText: 'platform event 1'}, {value: 'testValue', displayText: 'test display text'}];
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
+        getApexClassMenuData: jest.fn(),
         getEntitiesMenuData: jest.fn(),
         getEventTypesMenuData: jest.fn(),
     };
@@ -155,7 +157,36 @@ describe('entity-resource-picker', () => {
         return Promise.resolve().then(() => {
             expect(getEventTypesMenuData).toHaveBeenCalledTimes(1);
             expect(getEntitiesMenuData).not.toHaveBeenCalled();
+            expect(getApexClassMenuData).not.toHaveBeenCalled();
             expect(baseResourcePicker.fullMenuData).toEqual(eventTypesMenuData);
+        });
+    });
+
+    it('retrieves apex type menu data on initial load', () => {
+        getApexClassMenuData.mockReturnValueOnce(apexClassMenuData);
+        props.mode = EntityResourcePicker.ENTITY_MODE.APEX;
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+        return Promise.resolve().then(() => {
+            expect(getApexClassMenuData).toHaveBeenCalledTimes(1);
+            expect(getEntitiesMenuData).not.toHaveBeenCalled();
+            expect(getEventTypesMenuData).not.toHaveBeenCalled();
+            expect(baseResourcePicker.fullMenuData).toEqual(apexClassMenuData);
+        });
+    });
+    it('retrieves new set of menu data when mode changes', () => {
+        getApexClassMenuData.mockReturnValueOnce(apexClassMenuData);
+        props.mode = EntityResourcePicker.ENTITY_MODE.APEX;
+        const entityResourcePicker = setupComponentUnderTest(props);
+        const baseResourcePicker = getShadowRoot(entityResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+        return Promise.resolve().then(() => {
+            expect(getApexClassMenuData).toHaveBeenCalledTimes(1);
+            expect(baseResourcePicker.fullMenuData).toEqual(apexClassMenuData);
+            entityResourcePicker.mode = EntityResourcePicker.ENTITY_MODE.SOBJECT;
+            return Promise.resolve().then(() => {
+                expect(getEntitiesMenuData).toHaveBeenCalledTimes(1);
+                expect(baseResourcePicker.fullMenuData).toEqual(entityMenuData);
+            });
         });
     });
 });

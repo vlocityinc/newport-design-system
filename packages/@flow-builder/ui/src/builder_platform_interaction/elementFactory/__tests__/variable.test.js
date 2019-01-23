@@ -2,7 +2,7 @@ import { createVariable, createVariableForStore, createVariableMetadataObject } 
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const variableWithDefaultValueAsString = {
+const storeVariableWithDefaultValueAsString = {
     name: 'Var1',
     description: 'This is description',
     elementType: 'VARIABLE',
@@ -10,13 +10,13 @@ const variableWithDefaultValueAsString = {
     isInput: false,
     isOutput: false,
     dataType: 'String',
-    objectType: null,
+    subtype: null,
     scale: 0,
     defaultValue: 'Hello {!var_guid}',
     defaultValueDataType: 'String'
 };
 
-const variableWithDefaultValueAsReference = {
+const storeVariableWithDefaultValueAsReference = {
     name: 'Var2',
     description: 'This is description',
     elementType: 'VARIABLE',
@@ -24,7 +24,7 @@ const variableWithDefaultValueAsReference = {
     isInput: false,
     isOutput: false,
     dataType: 'String',
-    objectType: null,
+    subtype: null,
     scale: 0,
     defaultValue: 'var',
     defaultValueDataType: 'reference'
@@ -67,7 +67,7 @@ describe('Variable:', () => {
                 isInput: false,
                 isOutput: false,
                 dataType: null,
-                objectType: null,
+                subtype: null,
                 scale: 2,
                 defaultValue: null,
                 defaultValueDataType: null
@@ -77,12 +77,12 @@ describe('Variable:', () => {
         });
         describe('when existing variable is passed', () => {
             it('returns a new variable object with same value', () => {
-                const actualResult = createVariable(variableWithDefaultValueAsString);
-                expect(actualResult).toMatchObject(variableWithDefaultValueAsString);
+                const actualResult = createVariable(storeVariableWithDefaultValueAsString);
+                expect(actualResult).toMatchObject(storeVariableWithDefaultValueAsString);
             });
             it('returns a new variable object', () => {
-                const actualResult = createVariable(variableWithDefaultValueAsString);
-                expect(actualResult).not.toBe(variableWithDefaultValueAsString);
+                const actualResult = createVariable(storeVariableWithDefaultValueAsString);
+                expect(actualResult).not.toBe(storeVariableWithDefaultValueAsString);
             });
         });
     });
@@ -90,22 +90,22 @@ describe('Variable:', () => {
         describe('variable metadata is passed', () => {
             it('return a new variable object when variable has default value of type string value', () => {
                 const { elements } = createVariableForStore(variableFlowMetadataWithDefaultValueAsString);
-                expect(Object.values(elements)[0]).toMatchObject(variableWithDefaultValueAsString);
+                expect(Object.values(elements)[0]).toMatchObject(storeVariableWithDefaultValueAsString);
             });
             it('return a new variable object when variable has default value of type element references value', () => {
                 const { elements } = createVariableForStore(variableFlowMetadataWithDefaultValueAsReference);
-                expect(Object.values(elements)[0]).toMatchObject(variableWithDefaultValueAsReference);
+                expect(Object.values(elements)[0]).toMatchObject(storeVariableWithDefaultValueAsReference);
             });
         });
     });
     describe('createVariableMetadataObject function', () => {
         describe('variable is passed', () => {
             it('return a new metadata object when variable has default value of type string value', () => {
-                const actualResult = createVariableMetadataObject(variableWithDefaultValueAsString);
+                const actualResult = createVariableMetadataObject(storeVariableWithDefaultValueAsString);
                 expect(actualResult).toMatchObject(variableFlowMetadataWithDefaultValueAsString);
             });
             it('return a new metadata object when variable has default value of type reference value', () => {
-                const actualResult = createVariableMetadataObject(variableWithDefaultValueAsReference);
+                const actualResult = createVariableMetadataObject(storeVariableWithDefaultValueAsReference);
                 expect(actualResult).toMatchObject(variableFlowMetadataWithDefaultValueAsReference);
             });
         });

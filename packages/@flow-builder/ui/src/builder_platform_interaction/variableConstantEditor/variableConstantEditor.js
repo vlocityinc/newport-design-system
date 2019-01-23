@@ -22,7 +22,7 @@ const VARIABLE_CONSTANT_FIELDS = {
     IS_INPUT: 'isInput',
     IS_OUTPUT: 'isOutput',
     NAME: 'name',
-    OBJECT_TYPE: 'objectType',
+    SUBTYPE: 'subtype',
     SCALE: 'scale',
     DEFAULT_VALUE: 'defaultValue',
 };
@@ -210,8 +210,8 @@ export default class VariableConstantEditor extends LightningElement {
         return defaultValue;
     }
 
-    get objectType() {
-        return getValueFromHydratedItem(this.variableConstantResource.objectType);
+    get subtype() {
+        return getValueFromHydratedItem(this.variableConstantResource.subtype);
     }
 
     get isComplexDataType() {
@@ -219,8 +219,8 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     /**
-     * No Default Value for Picklist, Multipicklist and SObject and collection variables.
-     * @return {boolean} false for Picklist, Multipicklist and SObject data type or collection variables, otherwise true.
+     * No Default Value for Picklist, Multipicklist, SObject, Apex and collection variables.
+     * @return {boolean} false for Picklist, Multipicklist, SObject, Apex data type or collection variables, otherwise true.
      */
     get hasDefaultValue() {
         return !this.variableConstantResource.isCollection && this.dataType && !DATATYPES_WITH_NO_DEFAULT_VALUE.includes(this.dataType);
@@ -263,7 +263,7 @@ export default class VariableConstantEditor extends LightningElement {
         return BaseResourcePicker.getComboboxConfig(
             this.subtypePickerLabel,
             this.subtypePickerPlaceholder,
-            this.variableConstantResource.objectType.error,
+            this.variableConstantResource.subtype.error,
             false,
             true,
             this.isFieldDisabled,
@@ -301,7 +301,7 @@ export default class VariableConstantEditor extends LightningElement {
      */
     clearOnDataTypeChange(value) {
         if (this.isComplexDataType && (!isComplexType(value.dataType) || value.dataType !== this.dataType)) {
-            this.updateProperty(VARIABLE_CONSTANT_FIELDS.OBJECT_TYPE, null, null);
+            this.updateProperty(VARIABLE_CONSTANT_FIELDS.SUBTYPE, null, null);
         } else if (this.isDataTypeOrCollectionChange(value.dataType, value.isCollection)) {
             // we want to clear the default value and scale when either switching data types or the collection status
             this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
@@ -334,7 +334,7 @@ export default class VariableConstantEditor extends LightningElement {
         event.stopPropagation();
         const value = event.detail.value;
         value.isVariable = this.isVariable;
-        // clear any values that need to be cleared (ie: default value, object type)
+        // clear any values that need to be cleared (ie: default value, subtype)
         this.clearOnDataTypeChange(value);
         const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value });
         this.variableConstantResource = variableConstantReducer(this.variableConstantResource, action);
@@ -369,12 +369,12 @@ export default class VariableConstantEditor extends LightningElement {
         this.updateDefaultValue(event);
     }
 
-    handleObjectTypeChange(event) {
-        this.updateObjectType(event, event.detail.error);
+    handleSubtypeChange(event) {
+        this.updateSubtype(event, event.detail.error);
     }
 
-    handleObjectTypeSelect(event) {
-        this.updateObjectType(event, null);
+    handleSubtypeSelect(event) {
+        this.updateSubtype(event, null);
     }
 
     /** *********************************/
@@ -395,13 +395,13 @@ export default class VariableConstantEditor extends LightningElement {
         this.updateProperty(propertyName, value, error);
     }
 
-    updateObjectType(event, error) {
+    updateSubtype(event, error) {
         event.stopPropagation();
 
         const itemOrDisplayText = getItemOrDisplayText(event);
         const value = itemOrDisplayText.value || itemOrDisplayText;
 
-        this.updateProperty(VARIABLE_CONSTANT_FIELDS.OBJECT_TYPE, value, error);
+        this.updateProperty(VARIABLE_CONSTANT_FIELDS.SUBTYPE, value, error);
     }
 
     /**

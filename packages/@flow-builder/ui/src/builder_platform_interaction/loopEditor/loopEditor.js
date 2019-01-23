@@ -105,7 +105,7 @@ export default class LoopEditor extends LightningElement {
             elementType: ELEMENT_TYPE.LOOP,
             dataType: collectionVariableDataType,
             sObjectSelector: collectionVariableDataType === FLOW_DATA_TYPE.SOBJECT.value,
-            entityName: this._collectionVariable ? this._collectionVariable.objectType : null
+            entityName: this._collectionVariable ? this._collectionVariable.subtype : null
         };
     }
 
@@ -149,9 +149,9 @@ export default class LoopEditor extends LightningElement {
         this._collectionVariable = event.detail.item ? this.mutateComboboxItem(event.detail.item) : null;
         let loopVarErrorMessage = getErrorFromHydratedItem(this.loopElement.assignNextValueToReference);
         const isDataTypeChanged = this.getLoopVariableDataType() !==  this.getCollectionVariableDataType();
-        const isSObjectTypeChanged = this.getLoopVariableSObjectType() !== this.getCollectionVariableSObjectType();
+        const isSubtypeChanged = this.getLoopVariableSubtype() !== this.getCollectionVariableSubtype();
 
-        if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSObjectTypeChanged)) {
+        if (this.loopVariableState && this._collectionVariable && (isDataTypeChanged || isSubtypeChanged)) {
             // set datatype mismatch error message for loopVariable
             loopVarErrorMessage = LABELS.loopVariableErrorMessage;
         } else if (event.detail.error !== null &&  this.loopElement.assignNextValueToReference.error === LABELS.loopVariableErrorMessage) {
@@ -212,19 +212,19 @@ export default class LoopEditor extends LightningElement {
     }
 
     /**
-     * Returns the the string value of loop variable sObject objectType
+     * Returns the the string value of loop variable subtype, if applicable
      * @returns {String} The string value
      */
-    getLoopVariableSObjectType() {
-        return this.loopVariableState && this.loopVariableState.objectType ? this.loopVariableState.objectType : null;
+    getLoopVariableSubtype() {
+        return this.loopVariableState && this.loopVariableState.subtype ? this.loopVariableState.subtype : null;
     }
 
     /**
-     * Returns the the string value of loop variable sObject objectType
+     * Returns the the string value of loop variable subtype, if applicable
      * @returns {String} The string value
      */
-    getCollectionVariableSObjectType() {
-        return this._collectionVariable && this._collectionVariable.objectType ? this._collectionVariable.objectType : null;
+    getCollectionVariableSubtype() {
+        return this._collectionVariable && this._collectionVariable.subtype ? this._collectionVariable.subtype : null;
     }
 
     /**
@@ -237,7 +237,7 @@ export default class LoopEditor extends LightningElement {
             name: removeCurlyBraces(item.displayText),
             guid: item.value,
             dataType: item.dataType,
-            objectType: item.objectType ? item.objectType : null
+            subtype: item.subtype ? item.subtype : null
         };
     }
 }

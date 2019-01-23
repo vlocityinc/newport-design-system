@@ -42,19 +42,19 @@ export const getSObjectOrSObjectCollectionByEntityElements = (elements, retrieve
             allElements = getFilteredElements(element => !!element.isCollection === !!retrieveOptions.isCollection)(allElements);
         }
         if (retrieveOptions.entityName) {
-            allElements = allElements.filter(element => element.objectType === retrieveOptions.entityName);
+            allElements = allElements.filter(element => element.subtype === retrieveOptions.entityName);
         }
         if (retrieveOptions.queryable) {
-            allElements = allElements.filter(element => isQueryableSObject(element.objectType));
+            allElements = allElements.filter(element => isQueryableSObject(element.subtype));
         }
         if (retrieveOptions.createable) {
-            allElements = allElements.filter(element => isCreateableSObject(element.objectType));
+            allElements = allElements.filter(element => isCreateableSObject(element.subtype));
         }
         if (retrieveOptions.updateable) {
-            allElements = allElements.filter(element => isUpdateableSObject(element.objectType));
+            allElements = allElements.filter(element => isUpdateableSObject(element.subtype));
         }
         if (retrieveOptions.deleteable) {
-            allElements = allElements.filter(element => isDeleteableSObject(element.objectType));
+            allElements = allElements.filter(element => isDeleteableSObject(element.subtype));
         }
     }
     return allElements;

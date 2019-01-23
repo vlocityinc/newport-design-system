@@ -214,13 +214,13 @@ export class MergeFieldsValidation {
     _getElementType(element) {
         let dataType = getDataType(element) || null;
         let isCollection = false;
-        let objectType;
+        let subtype;
         const elementType = element.elementType;
 
         switch (elementType) {
             case ELEMENT_TYPE.VARIABLE:
                 isCollection = element.isCollection;
-                objectType = element.objectType;
+                subtype = element.subtype;
                 break;
             case ELEMENT_TYPE.STAGE:
                 dataType = FLOW_DATA_TYPE.STRING.value;
@@ -230,7 +230,7 @@ export class MergeFieldsValidation {
         return {
             dataType,
             isCollection,
-            objectType
+            subtype
         };
     }
 
@@ -255,10 +255,10 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return [validationError];
         }
-        const field = this._getFieldForEntity(element.objectType, fieldName);
+        const field = this._getFieldForEntity(element.subtype, fieldName);
         let errors = [];
         if (!field) {
-            const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.objectType);
+            const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.subtype);
             errors = [this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex)];
         } else if (this.allowedParamTypes) {
             errors = this._validateForAllowedParamTypes(field, index, endIndex);

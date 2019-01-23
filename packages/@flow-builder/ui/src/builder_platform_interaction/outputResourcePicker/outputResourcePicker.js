@@ -220,7 +220,7 @@ export default class OutputResourcePicker extends LightningElement {
         if (flowElement) {
             const fieldName = sanitizeGuid(identifier).fieldName;
             if (fieldName) {
-                const sobject = flowElement.objectType;
+                const sobject = flowElement.subtype;
                 const fields =  sobjectLib.getFieldsForEntity(sobject);
                 const field = fields && fields[fieldName];
                 if (field) {

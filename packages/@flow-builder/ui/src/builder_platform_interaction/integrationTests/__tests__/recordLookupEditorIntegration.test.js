@@ -469,7 +469,7 @@ describe('Record Lookup Editor', () => {
                         baseExpressionBuilder = getBaseExpressionBuilder(FieldToFerovExpressionBuilder[0]);
                         expect(baseExpressionBuilder.lhsValue).toBe('Account.BillingCity');
                         expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                        expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vBillingCity}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "objectType": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vBillingCity", "type": "option-card"});
+                        expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vBillingCity}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "subtype": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vBillingCity", "type": "option-card"});
                      });
                 });
             });

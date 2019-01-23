@@ -25,7 +25,7 @@ const convertData = (data) => data.reduce((acc, obj) => {
         name,
         readOnly: !obj.isAssignable,
         isSystemVariable: true,
-        objectType: SYSTEM_VARIABLE_PREFIX,
+        subtype: SYSTEM_VARIABLE_PREFIX,
     });
     delete variable.devName;
 

@@ -129,7 +129,7 @@ export const normalizeFEROV = (identifier) => {
         if (!fieldName) {
             rhs.itemOrDisplayText = item;
         } else {
-            const fields = sobjectLib.getFieldsForEntity(flowElement.objectType);
+            const fields = sobjectLib.getFieldsForEntity(flowElement.subtype);
             const field = fields && fields[fieldName];
             if (field && fieldName.indexOf('.') === -1) {
                 rhs.itemOrDisplayText = mutateFieldToComboboxShape(field, item, true, true);

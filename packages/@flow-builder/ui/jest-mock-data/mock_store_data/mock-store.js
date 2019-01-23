@@ -20,6 +20,7 @@ export const caseSObjectCollectionVariableGuid = 'guid17';
 export const stringConstantGuid = 'guid18';
 export const textTemplateGuid = 'guid19';
 export const waitEventGuid = 'guid20';
+const apexSampleVariableGuid = 'guid21';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -42,16 +43,19 @@ export const decisionDevName = "decision1";
 export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
 export const textTemplateDevName = 'textTemplate1';
 export const waitEventDevName = "waitEvent1";
+const apexSampleVariableDevName = 'apexVariable1';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
 export const stringDataType = 'String';
 export const currencyDataType = 'Currency';
 const dateDataType = 'Date';
+const apexDataType = 'Apex';
 
 const choiceElementType = 'CHOICE';
 const stageElementType = 'STAGE';
 
+const apexClass = 'apexClass';
 export const account = 'Account';
 export const caseObjectType = 'Case';
 export const choiceLabel = 'Choice 1';
@@ -75,7 +79,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: numberVariableDevName,
-        objectType: null,
+        subtype: null,
     },
     [stringVariableGuid]: {
         dataType: stringDataType,
@@ -87,7 +91,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: stringVariableDevName,
-        objectType: null,
+        subtype: null,
         value: {
             stringValue: 'fooDefault',
         },
@@ -103,7 +107,7 @@ export const elements = {
         isOutput: false,
         name: currencyVariableDevName,
         scale: 2,
-        objectType: null,
+        subtype: null,
     },
     [accountSObjectVariableGuid]: {
         dataType: sobjectDataType,
@@ -115,7 +119,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: accountSObjectVariableDevName,
-        objectType: account,
+        subtype: account,
     },
     [accountSObjectCollectionVariableGuid]: {
         dataType: sobjectDataType,
@@ -127,7 +131,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: accountSObjectCollectionVariableDevName,
-        objectType: account,
+        subtype: account,
     },
     [caseSObjectCollectionVariableGuid]: {
         dataType: sobjectDataType,
@@ -139,7 +143,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: caseSObjectCollectionVariableDevName,
-        objectType: caseObjectType,
+        subtype: caseObjectType,
     },
     [stringCollectionVariable1Guid]: {
         dataType: stringDataType,
@@ -151,7 +155,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: stringCollectionVariable1DevName,
-        objectType: null,
+        subtype: null,
     },
     [stringCollectionVariable2Guid]: {
         dataType: stringDataType,
@@ -163,7 +167,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: stringCollectionVariable2DevName,
-        objectType: null,
+        subtype: null,
     },
     [choiceGuid]: {
         dataType: numberDataType,
@@ -182,7 +186,7 @@ export const elements = {
         isCanvasElement: false,
         isCollection: false,
         name: dateVariableDevName,
-        objectType: null,
+        subtype: null,
     },
     [dateCollectionVariableGuid]: {
         dataType: dateDataType,
@@ -192,7 +196,7 @@ export const elements = {
         isCanvasElement: false,
         isCollection: true,
         name: dateVariableDevName,
-        objectType: null,
+        subtype: null,
     },
     [stageCollectionGuid]: {
         elementType: stageElementType,
@@ -329,10 +333,22 @@ export const elements = {
         text: 'Hello {!World}',
         dataType: FLOW_DATA_TYPE.STRING.value,
     },
+    [apexSampleVariableGuid]: {
+        dataType: apexDataType,
+        description: '',
+        elementType: variable,
+        guid: apexSampleVariableGuid,
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: apexSampleVariableDevName,
+        subtype: apexClass,
+    },
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,
-    stringCollectionVariable2Guid, choiceGuid, dateVariableGuid, stageGuid];
+    stringCollectionVariable2Guid, choiceGuid, dateVariableGuid, stageGuid, apexSampleVariableGuid];
 
 export const hydratedElements = {
     [stringVariableGuid]: {
@@ -345,7 +361,7 @@ export const hydratedElements = {
         isInput: false,
         isOutput: false,
         name: { value: numberVariableDevName, error: 'Invalid name.' },
-        objectType: null,
+        subtype: null,
         value: {
             stringValue: 'fooDefault',
         },
@@ -363,7 +379,7 @@ export const mutatedVariablesAndConstants = {
         isInput: false,
         isOutput: false,
         name: { value: stringVariableDevName, error: null },
-        objectType: { value: null, error: null },
+        subtype: { value: null, error: null },
         defaultValue: {
             value: 'fooDefault',
             error: null
@@ -379,7 +395,7 @@ export const mutatedVariablesAndConstants = {
         isInput: false,
         isOutput: false,
         name: numberVariableDevName,
-        objectType: { value: null, error: null },
+        subtype: { value: null, error: null },
         defaultValue: {
             value: 45,
             error: null
@@ -393,7 +409,7 @@ export const mutatedVariablesAndConstants = {
         isCanvasElement: false,
         isCollection: false,
         name: dateVariableDevName,
-        objectType: { value: null, error: null },
+        subtype: { value: null, error: null },
         defaultValue: {
             value: '10/24/1995',
             error: null
@@ -409,7 +425,7 @@ export const mutatedVariablesAndConstants = {
         isInput: false,
         isOutput: false,
         name: stringCollectionVariable1DevName,
-        objectType: { value: null, error: null },
+        subtype: { value: null, error: null },
         defaultValue: {
             value: null,
             error: null
@@ -425,7 +441,7 @@ export const mutatedVariablesAndConstants = {
         isInput: false,
         isOutput: false,
         name: accountSObjectVariableDevName,
-        objectType: { value : account, error: null },
+        subtype: { value : account, error: null },
         defaultValue: {
             value: null,
             error: null,

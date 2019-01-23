@@ -35,10 +35,10 @@ describe('Variable Validation', () => {
 
     it('returns error for sobject variable with no sobject type', () => {
         const sobjectVar = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.accountSObjectVariableGuid]);
-        sobjectVar.objectType.value = undefined;
+        sobjectVar.subtype.value = undefined;
         const variable = setupComponentUnderTest(sobjectVar);
         const errors = validate(variable.node);
         expect(errors).toHaveLength(1);
-        expect(errors[0]).toHaveProperty('key', 'objectType');
+        expect(errors[0]).toHaveProperty('key', 'subtype');
     });
 });

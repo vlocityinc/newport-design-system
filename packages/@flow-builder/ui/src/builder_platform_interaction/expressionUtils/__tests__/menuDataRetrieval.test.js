@@ -124,7 +124,7 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.displayText).toBe(addCurlyBraces(store.numberVariableDevName));
         selectorsMock.writableElementsSelector.mockClear();
     });
-    it('should set subText to objectType for sObject var', () => {
+    it('should set subText to subtype for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -142,7 +142,7 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.subText).toBe(store.outcomeDevName);
         selectorsMock.readableElementsSelector.mockClear();
     });
-    it('should set subText to dataType label if no objectType or label', () => {
+    it('should set subText to dataType label if no subtype or label', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -226,14 +226,14 @@ describe('Menu data retrieval', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.numberVariableGuid]]);
         const copiedElement = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.dataType).toBe(store.numberDataType);
-        expect(copiedElement.objectType).toBeNull();
+        expect(copiedElement.subtype).toBeNull();
         selectorsMock.writableElementsSelector.mockClear();
     });
-    it('should have dataType and objectType populated for sObject var', () => {
+    it('should have dataType and subtype populated for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid]]);
         const copiedElement = getElementsForMenuData({elementType: ELEMENT_TYPE.ASSIGNMENT, shouldBeWritable: true})[0].items[0];
         expect(copiedElement.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
-        expect(copiedElement.objectType).toBe('Account');
+        expect(copiedElement.subtype).toBe('Account');
         selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have the iconName and iconSize populated', () => {
@@ -361,7 +361,7 @@ describe('Menu data retrieval', () => {
             expect(eventTypesMenuData[0].text).toEqual(platformEvent1Label);
             expect(eventTypesMenuData[0].subText).toEqual(platformEvent1ApiName);
             expect(eventTypesMenuData[0].dataType).toEqual('SObject');
-            expect(eventTypesMenuData[0].objectType).toEqual(platformEvent1ApiName);
+            expect(eventTypesMenuData[0].subtype).toEqual(platformEvent1ApiName);
         });
     });
 

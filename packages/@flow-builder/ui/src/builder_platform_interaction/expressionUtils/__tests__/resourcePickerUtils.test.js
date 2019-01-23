@@ -12,7 +12,7 @@ let resourcePicker;
 
 const objectName = 'Account';
 const parentItem = {
-    objectType: objectName,
+    subtype: objectName,
 };
 
 const fields = ['field1'];

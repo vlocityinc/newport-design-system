@@ -277,7 +277,7 @@ export default class Editor extends LightningElement {
             const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].objectType, { disableErrorModal : true }).catch(() => {}));
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].subtype, { disableErrorModal : true }).catch(() => {}));
         }
     }
 
@@ -859,11 +859,11 @@ export default class Editor extends LightningElement {
      * Fetches & caches the fields/properties for new sobject/apex variable types. Shows spinner until this is done
      */
     cacheNewComplexObjectFields(node) {
-        if (node.elementType === ELEMENT_TYPE.VARIABLE && node.objectType && !node.isCollection) {
+        if (node.elementType === ELEMENT_TYPE.VARIABLE && node.subtype && !node.isCollection) {
             const varInComboboxShape = mutateFlowResourceToComboboxShape(node);
             addToParentElementCache(varInComboboxShape.displayText, varInComboboxShape);
             if (node.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-                this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.objectType).catch(() => {}));
+                this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.subtype).catch(() => {}));
             } else if (node.dataType === FLOW_DATA_TYPE.APEX.value) {
                 // TODO: W-5776232 hook up controller to load apex types & properties
             }

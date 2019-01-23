@@ -121,12 +121,14 @@ describe('variable-constant-editor', () => {
     let numberVariable;
     let dateVariable;
     let stringConstant;
+    let sobjectVariable;
 
     beforeEach(() => {
         stringVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.stringVariableGuid]);
         numberVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.numberVariableGuid]);
         dateVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.dateVariableGuid]);
         stringConstant = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.stringConstantGuid]);
+        sobjectVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.accountSObjectVariableGuid]);
     });
 
     it('contains a variable element', () => {
@@ -216,6 +218,27 @@ describe('variable-constant-editor', () => {
                 expect(createAction.mock.calls[0][1].value).toEqual(oldDataType);
                 expect(createAction.mock.calls[1][1].propertyName).toEqual('defaultValue');
                 expect(createAction.mock.calls[1][1].value).toEqual(null);
+                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
+            });
+        });
+
+        it('clears the subtype when switching to data type without subtype', () => {
+            const variableEditor = setupComponentUnderTest(sobjectVariable);
+            const eventPayload = { dataType : 'String', isCollection: false, scale: null };
+            dispatchValueChangedEvent(variableEditor, eventPayload);
+            return Promise.resolve().then(() => {
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
+                expect(createAction.mock.calls[0][1].value).toEqual(null);
+                expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
+            });
+        });
+        it('clears the subtype when switching from sobject type to apex type', () => {
+            const variableEditor = setupComponentUnderTest(sobjectVariable);
+            const eventPayload = { dataType : 'Apex', isCollection: false, scale: null };
+            dispatchValueChangedEvent(variableEditor, eventPayload);
+            return Promise.resolve().then(() => {
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
+                expect(createAction.mock.calls[0][1].value).toEqual(null);
                 expect(variableConstantReducer.mock.calls[0][1]).toEqual(createAction.mock.calls[0][1]);
             });
         });
@@ -519,7 +542,7 @@ describe('variable-constant-editor', () => {
             const entityResourcePicker = getShadowRoot(variableEditor).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
             entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
             return Promise.resolve().then(() => {
-                expect(createAction.mock.calls[0][1].propertyName).toEqual('objectType');
+                expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
                 expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
             });
         });

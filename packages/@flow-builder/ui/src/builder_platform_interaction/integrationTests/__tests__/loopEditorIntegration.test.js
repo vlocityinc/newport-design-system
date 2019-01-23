@@ -282,7 +282,7 @@ describe('Loop Editor', () => {
                         expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTVARIABLEPLURALLABEL');
                         expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
                         expect(loopVariableLightningCombobox.items[1].items[0].dataType).toBe('SObject');
-                        expect(loopVariableLightningCombobox.items[1].items[0].objectType).toBe('Account');
+                        expect(loopVariableLightningCombobox.items[1].items[0].subtype).toBe('Account');
                         expect(loopVariableLightningCombobox.items[1].items[0].text).toBe(accountSObjectVariableDevName);
                         expect(loopVariableLightningCombobox.items[1].items[0].subText).toBe('Account');
                         expect(loopVariableLightningCombobox.items[1].items[0].displayText).toBe('{!' + accountSObjectVariableDevName + '}');

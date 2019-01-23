@@ -15,7 +15,7 @@ const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entit
         menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, entityFields, showAsFieldReference, showSubText);
         return menuData;
     }
-    const entityName = parentItem.objectType;
+    const entityName = parentItem.subtype;
     // TODO: this no longer needs to be a callback
     getSecondLevelItems(elementConfig, entityName, (fields) => {
         menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, fields, showAsFieldReference, showSubText);

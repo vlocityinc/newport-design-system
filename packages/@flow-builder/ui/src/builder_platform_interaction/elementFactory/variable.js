@@ -1,4 +1,5 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { baseResource, baseElementsArrayToMap } from "./base/baseElement";
 import { baseResourceMetadataObject } from "./base/baseMetadata";
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
@@ -7,6 +8,11 @@ const elementType = ELEMENT_TYPE.VARIABLE;
 export const DEFAULT_VALUE_PROPERTY = 'defaultValue';
 export const DEFAULT_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(DEFAULT_VALUE_PROPERTY);
 
+const subtypeProperties = {
+    [FLOW_DATA_TYPE.APEX.value]: 'apexClass',
+    [FLOW_DATA_TYPE.SOBJECT.value]: 'objectType',
+};
+
 /**
  * Either creates a new variable or create a new copy of existing variable
  * @param {Object} variable existing variable which needs to be copied
@@ -14,7 +20,7 @@ export const DEFAULT_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(DEFAULT_VALUE_PRO
  */
 export function createVariable(variable = {}) {
     const newVariable = baseResource(variable);
-    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, scale = 2, value} = variable;
+    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, apexClass = null, subtype = null, scale = 2, value} = variable;
     let valueFerov;
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
@@ -26,7 +32,7 @@ export function createVariable(variable = {}) {
         isInput,
         isOutput,
         dataType,
-        objectType,
+        subtype: objectType || apexClass || subtype,
         scale,
         defaultValue,
         defaultValueDataType,
@@ -57,7 +63,7 @@ export function createVariableMetadataObject(variable) {
         throw new Error('variable is not defined');
     }
     const newVariable = baseResourceMetadataObject(variable);
-    const { isCollection = false, isInput = false, isOutput = false, scale, dataType, objectType } = variable;
+    const { isCollection = false, isInput = false, isOutput = false, scale, dataType, subtype } = variable;
     let valueFerovObject;
     const valueFerov = createFEROVMetadataObject(
         variable,
@@ -67,12 +73,14 @@ export function createVariableMetadataObject(variable) {
     if (valueFerov) {
         valueFerovObject = { value : valueFerov };
     }
+    if (subtype) {
+        newVariable[subtypeProperties[dataType]] = subtype;
+    }
     Object.assign(newVariable, {
         dataType,
         isCollection,
         isInput,
         isOutput,
-        objectType,
         scale,
     }, valueFerovObject);
     return newVariable;

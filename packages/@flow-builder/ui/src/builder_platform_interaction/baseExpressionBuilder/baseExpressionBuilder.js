@@ -612,17 +612,17 @@ export default class BaseExpressionBuilder extends LightningElement {
         };
 
         if (getFields) {
-            let preFetchedFieldsObjectType;
+            let preFetchedFieldsSubtype;
             // get the sobject type from the first field
             for (const prop in this.state[preFetchedFields]) {
                 if (this.state[preFetchedFields].hasOwnProperty(prop)) {
-                    preFetchedFieldsObjectType = this.state[preFetchedFields][prop].sobjectName;
+                    preFetchedFieldsSubtype = this.state[preFetchedFields][prop].sobjectName;
                     break;
                 }
             }
             // get fields if preFetchedFields is empty or of the wrong sobject
-            if (parentMenuItem && (!this.state[preFetchedFields] || preFetchedFieldsObjectType !== parentMenuItem.objectType)) {
-                getSecondLevelItems(config, parentMenuItem.objectType, setFieldMenuData);
+            if (parentMenuItem && (!this.state[preFetchedFields] || preFetchedFieldsSubtype !== parentMenuItem.subtype)) {
+                getSecondLevelItems(config, parentMenuItem.subtype, setFieldMenuData);
             } else {
                 setFieldMenuData();
             }

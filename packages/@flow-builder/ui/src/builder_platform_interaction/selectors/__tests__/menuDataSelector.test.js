@@ -14,7 +14,7 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'contactDevName',
-        objectType: 'Contact',
+        subtype: 'Contact',
     },
     'guid2': {
         dataType: 'SObject',
@@ -26,7 +26,7 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'accountDevName',
-        objectType: 'Account',
+        subtype: 'Account',
     },
     'guid3': {
         dataType: 'SObject',
@@ -38,7 +38,7 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'caseDevName',
-        objectType: 'Case',
+        subtype: 'Case',
     },
     'guid4': {
         dataType: 'SObject',
@@ -50,7 +50,7 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'opportunityDevName',
-        objectType: 'Opportunity',
+        subtype: 'Opportunity',
     },
     'guid5': {
         dataType: 'SObject',
@@ -62,7 +62,7 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'opportunityCollectionDevName',
-        objectType: 'Opportunity',
+        subtype: 'Opportunity',
     },
     'guid6': {
         dataType: 'SObject',
@@ -74,7 +74,7 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'campaignCollectionDevName',
-        objectType: 'Campaign',
+        subtype: 'Campaign',
     },
     'guid7': {
         dataType: 'Text',

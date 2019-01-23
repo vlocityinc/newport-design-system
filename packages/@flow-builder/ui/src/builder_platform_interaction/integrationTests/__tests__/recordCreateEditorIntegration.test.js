@@ -355,11 +355,11 @@ describe('Record Create Editor', () => {
                         expect(fieldToFerovExpressionBuilder).toHaveLength(2);
                         expect(baseExpressionBuilder.lhsValue).toBe('Account.BillingCity');
                         expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                        expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vBillingCity}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "objectType": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vBillingCity", "type": "option-card"});
+                        expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vBillingCity}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "subtype": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vBillingCity", "type": "option-card"});
                         baseExpressionBuilder = getBaseExpressionBuilder(fieldToFerovExpressionBuilder[1]);
                         expect(baseExpressionBuilder.lhsValue).toBe('Account.Name');
                         expect(baseExpressionBuilder.operatorValue).toBeUndefined();
-                        expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vName}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "objectType": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vName", "type": "option-card"});
+                        expect(baseExpressionBuilder.rhsValue).toMatchObject({"category": "FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL", "dataType": "String", "displayText": "{!vName}", "hasNext": false, "iconName": "utility:text", "iconSize": "xx-small", "subtype": null, "subText": "FlowBuilderDataTypes.textDataTypeLabel", "text": "vName", "type": "option-card"});
                      });
                 });
                 it('Removing the selected field should not change the value if the RHS has a value', () => {

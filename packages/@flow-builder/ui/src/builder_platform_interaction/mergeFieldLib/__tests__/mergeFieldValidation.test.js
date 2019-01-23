@@ -23,7 +23,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
                     isSystemVariable: true,
                     label: 'CurrentDate',
                     name: '$Flow.CurrentDate',
-                    objectType: '$Flow',
+                    subtype: '$Flow',
                     readOnly: true,
                     };
             }

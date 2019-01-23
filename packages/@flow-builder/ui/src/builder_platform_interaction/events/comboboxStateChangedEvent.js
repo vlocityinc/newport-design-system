@@ -13,7 +13,7 @@ const eventName = 'comboboxstatechanged';
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
  * @property {Object} parent the parent flow element of the second level item in combobox shape
  * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
- * @property {String} objectType the object type when data type is SObject otherwise null. eg: Account
+ * @property {String} subtype the subtype when data type is SObject or Apex otherwise null. eg: Account, apexClass
  * @property {Boolean} isMergeField true if the displayText contains a merge field reference
  */
 
