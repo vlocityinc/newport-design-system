@@ -63,12 +63,6 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         return screenEditorUtils.isChoiceField(this.node);
     }
 
-    // Temporary function that is only needed while property editors are in development.
-    get isOther() {
-        return !this.isScreen && !this.isExtensionField && !this.isDisplayField && !this.isInputField &&
-            !this.isTextAreaField && !this.isPasswordField && !this.isChoiceField;
-    }
-
     get hasErrors() {
         return getErrorsFromHydratedElement(this.node).length > 0;
     }
