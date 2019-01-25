@@ -82,16 +82,18 @@ const screenFieldTypes = [
         category: LABELS.fieldCategoryInput,
         type: 'Boolean'
     }, {
+        // TODO: Set dataType to null once W-5795949 is completed
         name: 'RadioButtons',
         fieldType: 'RadioButtons',
-        dataType: null,
+        dataType: 'String',
         label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'standard:radio_button',
         category: LABELS.fieldCategoryInput
     }, {
+        // TODO: Set dataType to null once W-5795949 is completed
         name: 'DropdownBox',
         fieldType: 'DropdownBox',
-        dataType: null,
+        dataType: 'String',
         label: LABELS.fieldTypeLabelPicklist,
         icon: 'standard:picklist_type',
         category: LABELS.fieldCategoryInput

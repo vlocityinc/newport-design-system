@@ -6,11 +6,11 @@ import { generateGuid } from "builder_platform_interaction/storeLib";
 
 /**
  * Helper function to return the dataType associated with a screen field
- * @param {Object} screenFieldTypeObject Type object associated with each screen field
+ * @param {Object} screenFieldObject Screen field object
  * @returns dataType associated with a screen field
  */
-const getScreenFieldDataType = (screenFieldTypeObject = {}) => {
-    return screenFieldTypeObject.type || screenFieldTypeObject.dataType;
+const getScreenFieldDataType = (screenFieldObject = {}) => {
+    return screenFieldObject.dataType || (screenFieldObject.type && screenFieldObject.type.type);
 };
 
 /**
@@ -34,8 +34,9 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
     // TODO: Figure out a better way to recognize elements that do need an icon
     // based on the dataType
     const dataTypeIconElements = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET];
-    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD && element.type) {
-        resourceElement.iconName = (element.type.type || element.type.dataType) ? getDataTypeIcons(getScreenFieldDataType(element.type), 'utility') : 'utility:connected_apps';
+    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
+        const screenFieldDataType = getScreenFieldDataType(element);
+        resourceElement.iconName = screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
     } else if (element.dataType && dataTypeIconElements.includes(element.elementType)) {
         resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
     }
