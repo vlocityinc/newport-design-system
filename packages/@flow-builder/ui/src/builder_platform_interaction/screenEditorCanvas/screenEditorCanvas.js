@@ -78,10 +78,16 @@ export default class ScreenEditorCanvas extends LightningElement {
             const sourceGuid = event.dataTransfer.getData('text');
             const sourceIndex = this.screen.getFieldIndexByGUID(sourceGuid);
             const destIndex = range.index > sourceIndex ? range.index - 1 : range.index;
-            const destGuid = this.screen.fields[destIndex].guid;
-            if (sourceGuid && destIndex !== sourceIndex) {
-                this.fireReorder(sourceGuid, destGuid);
-                this.clearDraggingState();
+            const destScreenField = this.screen.fields[destIndex];
+            if (destScreenField) {
+                const destGuid = destScreenField.guid;
+                if (sourceGuid && destIndex !== sourceIndex) {
+                    this.fireReorder(sourceGuid, destGuid);
+                    this.clearDraggingState();
+                }
+            } else {
+                throw new Error('No screen field found at drag destination. Source index: ' + sourceIndex + '. Destination index: ' + destIndex +
+                        '. Event: ' + event.dataTransfer.effectAllowed + '. Number of screen fields: ' + this.screen.fields.length);
             }
         }
     }
