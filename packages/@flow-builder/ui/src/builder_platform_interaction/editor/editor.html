@@ -10,7 +10,7 @@
                 is-save-as-disabled={hasNotBeenSaved} is-lightning-flow-builder={appState.properties.isLightningFlowBuilder} can-only-save-as-new-definition={appState.properties.canOnlySaveAsNewDefinition} has-unsaved-changes={appState.properties.hasUnsavedChanges}></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
-            <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceElement} onaddelement={handleAddCanvasElement} oneditelement={handleEditElement} ondeleteelement={handleElementDelete}></builder_platform_interaction-left-panel>
+            <builder_platform_interaction-left-panel onaddnewresource={handleAddResourceElement} onaddelement={handleAddCanvasElement} oneditelement={handleEditElement} ondeleteelement={handleElementDelete} onlocatoriconclicked={handleHighlightOnCanvas}></builder_platform_interaction-left-panel>
             <div class="slds-col">
                 <builder_platform_interaction-canvas if:true={shouldCreateCanvas} nodes={appState.canvas.nodes} connectors={appState.canvas.connectors}
                     oncanvasmouseup={handleElementDeselection} oneditelement={handleEditElement} onnodeselected={handleNodeSelection}

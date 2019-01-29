@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
+import { LocatorIconClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
 import { flatten } from './paletteLib';
 import { LABELS } from './paletteLabels';
 
@@ -11,6 +11,7 @@ import { LABELS } from './paletteLabels';
  */
 export default class Palette extends LightningElement {
     @api iconSize;
+    @api showLocatorIcon;
 
     @api
     // eslint-disable-next-line lwc/valid-api
@@ -49,6 +50,10 @@ export default class Palette extends LightningElement {
     set showSectionItemCount(value) {
         this.showItemCount = value === 'true';
         this.init();
+    }
+
+    get enableLocator() {
+        return (this.showLocatorIcon && this.showResourceDetails);
     }
 
     @track rows = [];
@@ -105,6 +110,16 @@ export default class Palette extends LightningElement {
         const sectionId = event.currentTarget.dataset.id;
         this.collapsedSections[sectionId] = !this.collapsedSections[sectionId];
         this.init();
+    }
+
+    /**
+     * Dispatches the LocatorIconClickedEvent that highlights the element on canvas
+     * @param {object} event onclick event
+     */
+    handleLocatorClick(event) {
+        const guid = event && event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.guid;
+        const locatorIconEvent = new LocatorIconClickedEvent(guid);
+        this.dispatchEvent(locatorIconEvent);
     }
 
     /**

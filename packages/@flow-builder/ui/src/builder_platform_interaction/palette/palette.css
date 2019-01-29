@@ -6,6 +6,6 @@ tr.palette-item td:first-of-type {
     padding-left: 1.5rem;
 }
 
-td:last-of-type {
+td:not(:first-child) {
     width: 30px;
 }

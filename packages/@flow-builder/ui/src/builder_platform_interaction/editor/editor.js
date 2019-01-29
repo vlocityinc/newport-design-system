@@ -815,6 +815,16 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * Highlights the element on the canvas
+     * @param {object} event locator icon clicked event coming from left-panel
+     */
+    handleHighlightOnCanvas(event) {
+        if (event && event.detail && event.detail.elementGuid) {
+            // TODO: Add code for highlighting the element (W-5772529)
+        }
+    }
+
+    /**
      * Translates the client side model to the format expected by the server and then invokes
      * the save flow action with the correct save type: create or update.
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow

@@ -1,21 +1,24 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
-import { PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
+import { PaletteItemChevronClickedEvent, LocatorIconClickedEvent } from 'builder_platform_interaction/events';
 import Palette from 'builder_platform_interaction/palette';
 import { LABELS } from '../paletteLabels';
 
-const createComponentUnderTest = (data, detailsButton) => {
+const createComponentUnderTest = (data, detailsButton, showLocatorIcon = "false") => {
     const el = createElement('builder_platform_interaction-palette', {
         is: Palette
     });
     el.data = data;
     el.detailsButton = detailsButton;
+    el.showLocatorIcon = showLocatorIcon;
     document.body.appendChild(el);
     return el;
 };
 
 const selectors = {
-    chevron: 'lightning-button-icon',
+    sectionChevron: '.test-section-chevron-icon',
+    detailsChevron: '.test-details-chevron-icon',
+    locatorIcon: '.test-locator-icon',
     row: 'tr',
     text: 'div.slds-truncate'
 };
@@ -72,7 +75,7 @@ describe('Palette', () => {
 
         it('collapses an expands a palette section using the chevron', () => {
             const palette = createComponentUnderTest(ELEMENT_DATA);
-            verifyToggle(palette, selectors.chevron);
+            verifyToggle(palette, selectors.sectionChevron);
         });
 
         it('collapses and expands a palette section by clicking the section text', () => {
@@ -86,7 +89,7 @@ describe('Palette', () => {
         });
     });
 
-    describe('resource details', () => {
+    describe('Manager Tab', () => {
         const ELEMENT_DATA = [
             {
                 "elementType": "Variable",
@@ -99,7 +102,7 @@ describe('Palette', () => {
         it('checks that there is no chevron button when detailsButton is false', () => {
             const palette = createComponentUnderTest(ELEMENT_DATA);
             return Promise.resolve().then(() => {
-                const chevron = getShadowRoot(palette).querySelector(selectors.chevron);
+                const chevron = getShadowRoot(palette).querySelector(selectors.detailsChevron);
                 expect(chevron).toBeNull();
             });
         });
@@ -107,7 +110,7 @@ describe('Palette', () => {
         it('checks that there is a chevron button when detailsButton is true', () => {
             const palette = createComponentUnderTest(ELEMENT_DATA, "true");
             return Promise.resolve().then(() => {
-                const chevron = getShadowRoot(palette).querySelector(selectors.chevron);
+                const chevron = getShadowRoot(palette).querySelector(selectors.detailsChevron);
                 expect(chevron).not.toBeNull();
                 expect(chevron.iconName).toEqual('utility:chevronright');
                 expect(chevron.alternativeText).toEqual(LABELS.detailsText);
@@ -119,7 +122,7 @@ describe('Palette', () => {
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 palette.addEventListener(PaletteItemChevronClickedEvent.EVENT_NAME, eventCallback);
-                const chevron = getShadowRoot(palette).querySelector(selectors.chevron);
+                const chevron = getShadowRoot(palette).querySelector(selectors.detailsChevron);
                 chevron.click();
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -128,6 +131,39 @@ describe('Palette', () => {
                         elementGUID: ELEMENT_DATA[0].guid,
                         iconName: ELEMENT_DATA[0].iconName
                     }
+                });
+            });
+        });
+
+        it('checks that there is no locator icon when showLocatorIcon is false', () => {
+            const palette = createComponentUnderTest(ELEMENT_DATA, "true", false);
+            return Promise.resolve().then(() => {
+                const locatorIcon = getShadowRoot(palette).querySelector(selectors.locatorIcon);
+                expect(locatorIcon).toBeNull();
+            });
+        });
+
+        it('checks that there is a locator icon when showLocatorIcon is true', () => {
+            const palette = createComponentUnderTest(ELEMENT_DATA, "true", true);
+            return Promise.resolve().then(() => {
+                const locatorIcon = getShadowRoot(palette).querySelector(selectors.locatorIcon);
+                expect(locatorIcon).not.toBeNull();
+                expect(locatorIcon.iconName).toEqual('utility:search');
+                expect(locatorIcon.alternativeText).toEqual(LABELS.locatorIconText);
+            });
+        });
+
+        it('clicks the locator icon to dispatch a LocatorIconClickedEvent with the guid', () => {
+            const palette = createComponentUnderTest(ELEMENT_DATA, "true", true);
+            return Promise.resolve().then(() => {
+                const eventCallback = jest.fn();
+                palette.addEventListener(LocatorIconClickedEvent.EVENT_NAME, eventCallback);
+                const locatorIcon = getShadowRoot(palette).querySelector(selectors.locatorIcon);
+                locatorIcon.click();
+
+                expect(eventCallback).toHaveBeenCalled();
+                expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
+                    elementGuid: ELEMENT_DATA[0].guid
                 });
             });
         });
