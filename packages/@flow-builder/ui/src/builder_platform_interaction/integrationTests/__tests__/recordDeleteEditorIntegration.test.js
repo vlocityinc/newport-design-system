@@ -46,7 +46,7 @@ describe('Record Delete Editor', () => {
         setEntities(JSON.stringify(mockEntities));
         setGlobalVariables({ globalVariableTypes, globalVariables });
         setSystemVariables(systemVariables);
-        setAuraFetch(auraFetch({ 'c.getEntities' : () => ({ data : JSON.stringify(mockAccountFields) }), 'c.getFieldsForEntity' : () => ({ data : JSON.stringify(mockAccountFields) })}));
+        setAuraFetch(auraFetch({ 'c.getFieldsForEntity' : () => ({ data : JSON.stringify(mockAccountFields) })}));
         store = Store.getStore(reducer);
     });
     afterAll(() => {

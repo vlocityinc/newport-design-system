@@ -21868,7 +21868,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -21918,7 +21918,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -21968,7 +21968,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -22018,7 +22018,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -22068,7 +22068,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -22118,7 +22118,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -22168,7 +22168,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -22222,7 +22222,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",
@@ -22276,7 +22276,7 @@ export const mockAllRules = [
           }
         ],
         "includeElems": null,
-        "excludeElems": ["RECORDDELETE"]
+        "excludeElems": ["RECORDDELETE", "RECORDQUERY", "RECORDUPDATE"]
       },
       {
         "ruleType": "comparison",

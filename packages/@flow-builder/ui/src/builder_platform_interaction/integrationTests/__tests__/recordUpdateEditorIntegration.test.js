@@ -1,7 +1,7 @@
 import {createElement} from 'lwc';
 import RecordUpdateEditor from "builder_platform_interaction/recordUpdateEditor";
 
-import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, auraFetch,
+import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, auraFetch, LIGHTNING_COMPONENTS_SELECTORS,
     getLabelDescriptionLabelElement, getLabelDescriptionNameElement, expectGroupedComboboxItem, getChildComponent, getEntityResourcePicker,
     getBaseExpressionBuilder, getFieldToFerovExpressionBuilders, getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue} from "../integrationTestUtils";
@@ -47,7 +47,7 @@ describe('Record Update Editor', () => {
         setEntities(JSON.stringify(mockEntities));
         setGlobalVariables({ globalVariableTypes, globalVariables });
         setSystemVariables(systemVariables);
-        setAuraFetch(auraFetch({ 'c.getEntities' : () => ({ data : JSON.stringify(mockAccountFields) }), 'c.getFieldsForEntity' : () => ({ data : JSON.stringify(mockAccountFields) })}));
+        setAuraFetch(auraFetch({ 'c.getFieldsForEntity' : () => ({ data : JSON.stringify(mockAccountFields) })}));
         store = Store.getStore(reducer);
     });
     afterAll(() => {
@@ -295,6 +295,21 @@ describe('Record Update Editor', () => {
                 it('filters item LHS/Operator/RHS', () => {
                     expect(recordFilter.filterItems[0]).toMatchObject(newFilterItem("Contract.BillingCity", "EqualTo", "San Francisco", "String"));
                     expect(recordFilter.filterItems[1]).toMatchObject(newFilterItem("Contract.BillingCountry", "EqualTo", "US", "String"));
+                });
+                it('operators available for the first filter', () => {
+                    const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(recordFilter);
+                    const baseExpressionBuilderComponent = getBaseExpressionBuilder(fieldToFerovExpressionBuilders[0]);
+                    const operatorsComboboxComponent = getChildComponent(baseExpressionBuilderComponent, LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX);
+                    expect(operatorsComboboxComponent.options).toHaveLength(6);
+                    expect(operatorsComboboxComponent.options).toEqual(expect.arrayContaining(
+                        [
+                            expect.objectContaining({ "value": 'EqualTo'}),
+                            expect.objectContaining({ "value": 'NotEqualTo'}),
+                            expect.objectContaining({ "value": 'StartsWith'}),
+                            expect.objectContaining({ "value": 'Contains'}),
+                            expect.objectContaining({ "value": 'EndsWith'}),
+                            expect.objectContaining({ "value": 'IsNull'})
+                    ]));
                 });
             });
             describe('Input Assignments', () => {
