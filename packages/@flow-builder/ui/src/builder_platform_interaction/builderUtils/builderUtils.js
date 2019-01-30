@@ -391,7 +391,7 @@ export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
                 closeOnClickOut: panelAttributes.closeOnClickOut == null ? false : panelAttributes.closeOnClickOut
             },
             onCreate: (panel) => {
-                panelAttributes.createPanel(panel, newComponent.elements[0]);
+                panelAttributes.createPanel(panel, newComponent.getElement());
             }
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
