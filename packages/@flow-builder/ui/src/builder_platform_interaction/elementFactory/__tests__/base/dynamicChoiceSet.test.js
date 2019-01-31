@@ -14,6 +14,13 @@ jest.mock('../../base/baseElement', () => {
     };
 });
 
+const mockDynamicChoiceSet = {
+    limit: 5,
+    displayField: 'mockDisplayField',
+    valueField: 'mockValueField',
+    dataType: 'mockDataType',
+    sortOrder: SORT_ORDER.ASC
+};
 const mockDynamicChoiceSetObjectForNoParam = {
     limit: '',
     displayField: undefined,
@@ -36,7 +43,7 @@ const mockParamWithEmptyValuesForDynamicChoiceSet = {
     sortOrder: SORT_ORDER.NOT_SORTED
 };
 const mockDynamicChoiceSetResult = {
-    limit: 5,
+    limit: '5',
     displayField: 'mockDisplayField',
     valueField: 'mockValueField',
     dataType: 'mockDataType',
@@ -71,7 +78,7 @@ describe('createDynamicChoiceSet', () => {
         });
     });
     describe('when valid mock dyanmic choice set element is sent as a param', () => {
-        const result = createDynamicChoiceSet(mockDynamicChoiceSetResult);
+        const result = createDynamicChoiceSet(mockDynamicChoiceSet);
         it('result object matches the mockDynamicChoiceSetResult object', () => {
             expect(result).toMatchObject(mockDynamicChoiceSetResult);
         });
@@ -90,7 +97,7 @@ describe('createDynamicChoiceMetadataObject', () => {
         }).toThrow();
     });
     describe('when a valid element is passed', () => {
-        const result = createDynamicChoiceSetMetadataObject(mockDynamicChoiceSetResult);
+        const result = createDynamicChoiceSetMetadataObject(mockDynamicChoiceSet);
         it('result object matches the mockDyanmicChoiceMetadataObjectResult object', () => {
             expect(result).toMatchObject(mockDyanmicChoiceMetadataObjectResult);
         });
