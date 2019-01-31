@@ -64,3 +64,4 @@ export { CannotRetrieveCalloutParametersEvent } from './cannotRetrieveCalloutPar
 export { CannotRetrieveActionsEvent } from './cannotRetrieveActionsEvent';
 export { ActionsLoadedEvent } from './actionsLoadedEvent';
 export { SetPropertyEditorTitleEvent } from './setPropertyEditorTitleEvent';
+export { VisualPickerItemChangedEvent } from './visualPickerItemChangedEvent';

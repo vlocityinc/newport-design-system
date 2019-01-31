@@ -1,0 +1,25 @@
+<template>
+<div class="slds-form-element__control">
+    <div class="slds-visual-picker slds-visual-picker_vertical">
+        <input type="checkbox" id={id} name={id} value={id} checked={isSelected} onchange={handleChange}>
+        <label for={id}>
+            <span class="slds-media slds-visual-picker__figure slds-visual-picker__text">
+                <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small">
+                    <span>
+                        <lightning-icon icon-name={iconName} size='x-large'>
+                        </lightning-icon>
+                    </span>
+                </div>
+                <div class="slds-media__body slds-border_left slds-p-left_small">
+                    <h2 class="slds-truncate slds-text-heading_small slds-m-bottom_x-small" title={label}>{label}</h2>
+                    <p class="slds-text-title">{description}</p>
+                </div>
+            </span>
+            <span>
+                <lightning-icon icon-name='utility:check' size='x-small' class='slds-visual-picker__text-check slds-current-color'>
+                </lightning-icon>
+            </span>
+        </label>
+    </div>
+</div>
+</template>
