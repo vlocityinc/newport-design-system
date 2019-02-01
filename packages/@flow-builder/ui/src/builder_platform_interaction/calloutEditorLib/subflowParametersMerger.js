@@ -137,8 +137,8 @@ function merge(name, nodeAssignment, activeVariable, latestVariable) {
             label : name,
             dataType : variable.dataType
         });
-        if (variable.subtype) {
-            parameterItem = Object.assign(parameterItem, {  objectType: variable.subtype });
+        if (variable.objectType) {
+            parameterItem = Object.assign(parameterItem, {  subtype: variable.objectType });
         }
         if (variable.isCollection) {
             parameterItem = Object.assign(parameterItem, { maxOccurs : Number.MAX_SAFE_INTEGER });
@@ -164,7 +164,7 @@ function getMergeWarning(nodeAssignment, flowHasActiveVersion, activeVariable, l
         return MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST;
     }
     if (latestVariable && activeVariable) {
-        if (latestVariable.dataType !== activeVariable.dataType || latestVariable.subtype !== activeVariable.subtype || latestVariable.isCollection !== activeVariable.isCollection) {
+        if (latestVariable.dataType !== activeVariable.dataType || latestVariable.objectType !== activeVariable.objectType || latestVariable.isCollection !== activeVariable.isCollection) {
             return MERGE_WARNING_TYPE.DATA_TYPE_CHANGED;
         }
     }
