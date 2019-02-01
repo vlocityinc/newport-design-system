@@ -13,6 +13,5 @@ module:
   isTest: false
 
 ownership:
-- team: Process UI RunTime
-  status: UNCONFIRMED
+- team: Process UI DesignTime
 
