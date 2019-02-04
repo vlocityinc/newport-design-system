@@ -3,10 +3,6 @@
   "description": "Vlocity Newport Design System",
   "version": "104.0.0",
   "author": "Vlocity",
-  "nds": {
-    "name": "v104",
-    "id": "104"
-  },
   "devDependencies": {
     "@salesforce-ux/build-server-api": "2.0.2",
     "@salesforce-ux/create-snap": "0.0.6",
@@ -147,16 +143,10 @@
     "type": "git",
     "url": "git@github.com:vlocityinc/newport-design-system.git"
   },
-  "greenkeeper": {
-    "ignore": [
-      "theo",
-      "webpack"
-    ]
-  },
   "scripts": {
     "build": "gulp build -v",
     "build-prod": "gulp build",
-    "build-server": "babel-node scripts/npm/build-server.js",
+    "build-server": "babel-node scripts/npm/build-server.js --verbose",
     "build-travis": "babel-node scripts/npm/build-travis.js",
     "postinstall": "node scripts/nds/fix-preview.js && node scripts/nds/fix-markup.js",
     "dist": "babel-node scripts/dist.js",
