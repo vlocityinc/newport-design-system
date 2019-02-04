@@ -45,8 +45,6 @@ const createComponentForTest = (node, { isNewMode = false} = {}) => {
     return el;
 };
 
-const itSkip = it.skip;
-
 describe('Invocable Action Editor', () => {
     let store;
     let actionNode;
@@ -631,8 +629,7 @@ describe('Invocable Action Editor', () => {
                         const deleteBtn = getDeleteButton(notAvailableItem);
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });
-                    // W-5696987: from 220, it should be fixed
-                    itSkip('do not show data type icon', () => {
+                    it('do not show data type icon', () => {
                         const parameterIcon = getParameterIcon(notAvailableItem);
                         expect(parameterIcon).toBeNull();
                     });

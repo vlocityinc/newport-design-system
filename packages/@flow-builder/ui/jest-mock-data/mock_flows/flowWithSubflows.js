@@ -111,7 +111,7 @@ export const flowWithSubflows = {
                         }
                     },
                     {
-                        "name":"notAvailableParam",
+                        "name":"inputNotAvailableParam",
                         "processMetadataValues":[],
                         "value":{
                             "elementReference":"stringVariable"
@@ -172,7 +172,7 @@ export const flowWithSubflows = {
                     },
                     {
                         "assignToReference":"stringVariable",
-                        "name":"notAvailableParam",
+                        "name":"outputNotAvailableParam",
                         "processMetadataValues":[],
                     },
                     {

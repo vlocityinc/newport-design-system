@@ -16,7 +16,7 @@ import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
 import {
     auraFetch,
     getLabelDescriptionNameElement, getLabelDescriptionLabelElement,
-    focusoutEvent, textInputEvent, blurEvent
+    focusoutEvent, textInputEvent, blurEvent, changeComboboxValue
     } from '../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -122,7 +122,7 @@ describe('Subflow Editor', () => {
                     inputAssignments = getInputParameterItems(subflowElement);
                 });
             });
-            it('show all input parameters', () => {
+            it('show all input parameters (sorted)', () => {
                 verifyOptionalInputParameterNoValue(inputAssignments[0], 'inputAccountColVar');
                 verifyOptionalInputParameterNoValue(inputAssignments[1], 'inputAccountVar');
                 verifyOptionalInputParameterNoValue(inputAssignments[2], 'inputBoolColVar');
@@ -133,29 +133,29 @@ describe('Subflow Editor', () => {
                 verifyOptionalInputParameterNoValue(inputAssignments[7], 'inputDateTimeColVar');
                 verifyOptionalInputParameterNoValue(inputAssignments[8], 'inputDateTimeVar');
                 verifyOptionalInputParameterNoValue(inputAssignments[9], 'inputDateVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[10], 'inputNumberColVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[11], 'inputNumberVar');
-                verifyOptionalInputParameterWithValue(inputAssignments[12], 'inputOutputAccountColVar', '{!accountSObjectCollectionVariable}');
-                verifyOptionalInputParameterWithValue(inputAssignments[13], 'inputOutputAccountVar', '{!accountSObjectVariable}');
-                verifyOptionalInputParameterNoValue(inputAssignments[14], 'inputOutputBoolColVar');
-                verifyOptionalInputParameterWithValue(inputAssignments[15], 'inputOutputBoolVar', '{!booleanVariable}');
-                verifyOptionalInputParameterNoValue(inputAssignments[16], 'inputOutputCurrencyColVar');
-                verifyOptionalInputParameterWithValue(inputAssignments[17], 'inputOutputCurrencyVar', '{!currencyVariable}');
-                verifyOptionalInputParameterNoValue(inputAssignments[18], 'inputOutputDateColVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[19], 'inputOutputDateTimeColVar');
-                verifyOptionalInputParameterWithValue(inputAssignments[20], 'inputOutputDateTimeVar', '{!dateTimeVariable}');
-                verifyOptionalInputParameterWithValue(inputAssignments[21], 'inputOutputDateVar', '{!dateVariable}');
-                verifyOptionalInputParameterNoValue(inputAssignments[22], 'inputOutputNumberColVar');
+                // inputNotAvailableParam is not available item and will be check in warning cases
+                verifyOptionalInputParameterNoValue(inputAssignments[11], 'inputNumberColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[12], 'inputNumberVar');
+                verifyOptionalInputParameterWithValue(inputAssignments[13], 'inputOutputAccountColVar', '{!accountSObjectCollectionVariable}');
+                verifyOptionalInputParameterWithValue(inputAssignments[14], 'inputOutputAccountVar', '{!accountSObjectVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[15], 'inputOutputBoolColVar');
+                verifyOptionalInputParameterWithValue(inputAssignments[16], 'inputOutputBoolVar', '{!booleanVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[17], 'inputOutputCurrencyColVar');
+                verifyOptionalInputParameterWithValue(inputAssignments[18], 'inputOutputCurrencyVar', '{!currencyVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[19], 'inputOutputDateColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[20], 'inputOutputDateTimeColVar');
+                verifyOptionalInputParameterWithValue(inputAssignments[21], 'inputOutputDateTimeVar', '{!dateTimeVariable}');
+                verifyOptionalInputParameterWithValue(inputAssignments[22], 'inputOutputDateVar', '{!dateVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[23], 'inputOutputNumberColVar');
                 // inputOutputNumberVar is duplicated and will be check in warning cases
-                verifyOptionalInputParameterNoValue(inputAssignments[25], 'inputOutputStringColVar');
-                verifyOptionalInputParameterWithValue(inputAssignments[26], 'inputOutputStringVar', '{!stringVariable}');
-                verifyOptionalInputParameterNoValue(inputAssignments[27], 'inputStringColVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[28], 'inputStringVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[29], 'latestInputOutputStringColVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[30], 'latestInputOutputStringVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[31], 'latestInputStringColVar');
-                verifyOptionalInputParameterNoValue(inputAssignments[32], 'latestInputStringVar');
-                // notAvailableParam is not available item and will be check in warning cases
+                verifyOptionalInputParameterNoValue(inputAssignments[26], 'inputOutputStringColVar');
+                verifyOptionalInputParameterWithValue(inputAssignments[27], 'inputOutputStringVar', '{!stringVariable}');
+                verifyOptionalInputParameterNoValue(inputAssignments[28], 'inputStringColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[29], 'inputStringVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[30], 'latestInputOutputStringColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[31], 'latestInputOutputStringVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[32], 'latestInputStringColVar');
+                verifyOptionalInputParameterNoValue(inputAssignments[33], 'latestInputStringVar');
             });
             it('update value when setting the litteral string to the String Parameter', () => {
                 const stringParameterElement = findParameterElement(inputAssignments, 'inputOutputStringVar');
@@ -206,17 +206,14 @@ describe('Subflow Editor', () => {
                 });
             });
             it('update value when setting the valid number to the Number Parameter', () => {
-                const numberParameterElement = findParameterElement(inputAssignments, 'inputOutputNumberVar');
+                const numberParameterElement = findParameterElement(inputAssignments, 'inputNumberVar');
                 const numberParameterCombobox = getInputParameterComboboxElement(numberParameterElement);
-                numberParameterCombobox.dispatchEvent(textInputEvent('1234'));
+                changeComboboxValue(numberParameterCombobox, '1234');
                 return resolveRenderCycles(() => {
-                    numberParameterCombobox.dispatchEvent(blurEvent);
-                    return resolveRenderCycles(() => {
-                        expect(getParameter(subflowElement.node.inputAssignments, 'inputOutputNumberVar').value).toEqual({value: '1234', error: null});
-                    });
+                    expect(getParameter(subflowElement.node.inputAssignments, 'inputNumberVar').value).toEqual({value: '1234', error: null});
                 });
             });
-            it('update value when setting the dateTime variabme to the Date Parameter', () => {
+            it('update value when setting the dateTime variable to the Date Parameter', () => {
                 const dateParameterElement = findParameterElement(inputAssignments, 'inputOutputDateVar');
                 const dateParameterCombobox = getInputParameterComboboxElement(dateParameterElement);
                 dateParameterCombobox.dispatchEvent(textInputEvent('{!dateTimeVariable}'));
@@ -279,7 +276,7 @@ describe('Subflow Editor', () => {
                     });
                 });
             });
-            it('show combobox when toggle is active', () => {
+            it('show combobox when toggle is set ON', () => {
                 const boolParameterElement = findParameterElement(inputAssignments, 'inputBoolColVar');
                 const toggle = getLightningInputToggle(boolParameterElement);
                 toggle.dispatchEvent(toggleChangeEvent(true));
@@ -287,7 +284,7 @@ describe('Subflow Editor', () => {
                     verifyOptionalInputParameterWithValue(boolParameterElement, 'inputBoolColVar', '');
                 });
             });
-            it('hide combobox when toggle is deactive', () => {
+            it('hide combobox when toggle is set OFF', () => {
                 const inputBoolElement = findParameterElement(inputAssignments, 'inputOutputBoolVar');
                 const toggle = getLightningInputToggle(inputBoolElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
@@ -295,7 +292,7 @@ describe('Subflow Editor', () => {
                     verifyOptionalInputParameterNoValue(inputBoolElement, 'inputOutputBoolVar');
                 });
             });
-            it('preserve value when toggle is reactive', () => {
+            it('preserve value when toggle is set OFF then ON', () => {
                 const accountElement = findParameterElement(inputAssignments, 'inputOutputAccountVar');
                 const toggle = getLightningInputToggle(accountElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
@@ -447,7 +444,7 @@ describe('Subflow Editor', () => {
                     const subflowElement = createComponentForTest(subflowNode);
                     return resolveRenderCycles(() => {
                         const inputAssignments = getInputParameterItems(subflowElement);
-                        notAvailableItem = findParameterElement(inputAssignments, 'notAvailableParam');
+                        notAvailableItem = findParameterElement(inputAssignments, 'inputNotAvailableParam');
                     });
                 });
                 it('show delete button', () => {
@@ -539,7 +536,7 @@ describe('Subflow Editor', () => {
                     outputAssignments = getOutputParameterItems(subflowElement);
                 });
             });
-            it('show all output parameters', () => {
+            it('show all output parameters (sorted)', () => {
                 verifyOutputParameter(outputAssignments[0], 'inputOutputAccountColVar', '{!accountSObjectCollectionVariable}');
                 verifyOutputParameter(outputAssignments[1], 'inputOutputAccountVar', '{!accountSObjectVariable}');
                 verifyOutputParameter(outputAssignments[2], 'inputOutputBoolColVar');
@@ -554,25 +551,25 @@ describe('Subflow Editor', () => {
                 // inputOutputNumberVar is duplicated and will be check in warning cases
                 verifyOutputParameter(outputAssignments[13], 'inputOutputStringColVar', '{!stringCollectionVariable}');
                 verifyOutputParameter(outputAssignments[14], 'inputOutputStringVar', '{!stringVariable}');
-                verifyOutputParameter(outputAssignments[15], 'outputAccountColVar');
-                verifyOutputParameter(outputAssignments[16], 'outputAccountVar');
-                verifyOutputParameter(outputAssignments[17], 'outputBoolColVar');
-                verifyOutputParameter(outputAssignments[18], 'outputBoolVar');
-                verifyOutputParameter(outputAssignments[19], 'outputCurrencyColVar');
-                verifyOutputParameter(outputAssignments[20], 'outputCurrencyVar');
-                verifyOutputParameter(outputAssignments[21], 'outputDateColVar');
-                verifyOutputParameter(outputAssignments[22], 'outputDateTimeColVar');
-                verifyOutputParameter(outputAssignments[23], 'outputDateTimeVar');
-                verifyOutputParameter(outputAssignments[24], 'outputDateVar');
-                verifyOutputParameter(outputAssignments[25], 'outputNumberColVar');
-                verifyOutputParameter(outputAssignments[26], 'outputNumberVar');
-                verifyOutputParameter(outputAssignments[27], 'outputStringColVar');
-                verifyOutputParameter(outputAssignments[28], 'outputStringVar');
-                verifyOutputParameter(outputAssignments[29], 'latestInputOutputStringColVar');
-                verifyOutputParameter(outputAssignments[30], 'latestInputOutputStringVar');
-                verifyOutputParameter(outputAssignments[31], 'latestOutputStringColVar', '{!stringCollectionVariable}');
-                verifyOutputParameter(outputAssignments[32], 'latestOutputStringVar', '{!stringVariable}');
-                // notAvailableParam is not available item and will be check in warning cases
+                verifyOutputParameter(outputAssignments[15], 'latestInputOutputStringColVar');
+                verifyOutputParameter(outputAssignments[16], 'latestInputOutputStringVar');
+                verifyOutputParameter(outputAssignments[17], 'latestOutputStringColVar', '{!stringCollectionVariable}');
+                verifyOutputParameter(outputAssignments[18], 'latestOutputStringVar', '{!stringVariable}');
+                verifyOutputParameter(outputAssignments[19], 'outputAccountColVar');
+                verifyOutputParameter(outputAssignments[20], 'outputAccountVar');
+                verifyOutputParameter(outputAssignments[21], 'outputBoolColVar');
+                verifyOutputParameter(outputAssignments[22], 'outputBoolVar');
+                verifyOutputParameter(outputAssignments[23], 'outputCurrencyColVar');
+                verifyOutputParameter(outputAssignments[24], 'outputCurrencyVar');
+                verifyOutputParameter(outputAssignments[25], 'outputDateColVar');
+                verifyOutputParameter(outputAssignments[26], 'outputDateTimeColVar');
+                verifyOutputParameter(outputAssignments[27], 'outputDateTimeVar');
+                verifyOutputParameter(outputAssignments[28], 'outputDateVar');
+                // outputNotAvailableParam is not available item and will be check in warning cases
+                verifyOutputParameter(outputAssignments[30], 'outputNumberColVar');
+                verifyOutputParameter(outputAssignments[31], 'outputNumberVar');
+                verifyOutputParameter(outputAssignments[32], 'outputStringColVar');
+                verifyOutputParameter(outputAssignments[33], 'outputStringVar');
             });
             it('update value when setting the string variable to the String Parameter', () => {
                 const stringParameterElement = findParameterElement(outputAssignments, 'outputStringVar');
@@ -835,15 +832,14 @@ describe('Subflow Editor', () => {
                     const subflowElement = createComponentForTest(subflowNode);
                     return resolveRenderCycles(() => {
                         const outputAssignments = getOutputParameterItems(subflowElement);
-                        notAvailableItem = findParameterElement(outputAssignments, 'notAvailableParam');
+                        notAvailableItem = findParameterElement(outputAssignments, 'outputNotAvailableParam');
                     });
                 });
                 it('show delete button', () => {
                     const deleteBtn = getDeleteButton(notAvailableItem);
                     expect(deleteBtn.iconName).toEqual('utility:delete');
                 });
-                // W-5696987: from 220, it should be fixed
-                itSkip('do not show data type icon', () => {
+                it('do not show data type icon', () => {
                     const icon = getParameterIcon(notAvailableItem);
                     expect(icon).toBeNull();
                 });
