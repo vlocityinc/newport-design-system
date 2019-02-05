@@ -2,9 +2,8 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, deleteElement, addConnector, selectOnCanvas, toggleOnCanvas, deselectOnCanvas, updatePropertiesAfterSaving } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction/connectorUtils';
+import { updateFlow, updateProperties, addElement, updateElement, deleteElement, updatePropertiesAfterSaving } from 'builder_platform_interaction/actions';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -154,10 +153,6 @@ export default class Editor extends LightningElement {
 
     get showSpinner() {
         return this.spinners.showFlowMetadataSpinner || this.spinners.showPropertyEditorSpinner;
-    }
-
-    get shouldCreateCanvas() {
-        return (this.appState.canvas.nodes && this.appState.canvas.nodes.length > 0);
     }
 
     get spinnerAlternativeText() {
@@ -545,7 +540,6 @@ export default class Editor extends LightningElement {
         }
     };
 
-
     /**
      * Handles the edit element event and fires up the property editor based on node type
      * It uses builder-util library to fire up the ui:panel.
@@ -562,55 +556,6 @@ export default class Editor extends LightningElement {
             const newResourceCallback = this.newResourceCallback;
             this.queueOpenPropertyEditor({ mode, nodeUpdate, node, newResourceCallback });
         }
-    };
-
-    /**
-     * Handles the node click event and dispatches an action to select the clicked node and deselect everything else on
-     * the canvas when multi-select is off. If multi-select is off, then dispatches an action to toggle the current
-     * state of the clicked node.
-     *
-     * @param {object} event - node clicked event coming from node.js
-     */
-    handleNodeSelection = (event) => {
-        if (event && event.detail) {
-            const payload = {
-                guid: event.detail.canvasElementGUID
-            };
-
-            if (!event.detail.isMultiSelectKeyPressed) {
-                storeInstance.dispatch(selectOnCanvas(payload));
-            } else {
-                storeInstance.dispatch(toggleOnCanvas(payload));
-            }
-        }
-    };
-
-    /**
-     * Handles the connector click event and dispatches an action to select the clicked connector and deselect everything else on
-     * the canvas when multi-select is off. If multi-select is off, then dispatches an action to toggle the current
-     * state of the clicked connector.
-     *
-     * @param {object} event - connection clicked event coming from canvas.js
-     */
-    handleConnectorSelection = (event) => {
-        if (event && event.detail) {
-            const payload = {
-                guid : event.detail.connectorGUID
-            };
-
-            if (!event.detail.isMultiSelectKeyPressed) {
-                storeInstance.dispatch(selectOnCanvas(payload));
-            } else {
-                storeInstance.dispatch(toggleOnCanvas(payload));
-            }
-        }
-    };
-
-    /**
-     * Handles the canvas mouse up event and dispatches an action to deselect all selected nodes and connectors.
-     */
-    handleElementDeselection = () => {
-        storeInstance.dispatch(deselectOnCanvas());
     };
 
     /**
@@ -715,102 +660,6 @@ export default class Editor extends LightningElement {
             }
 
             this.doDeleteOrInvokeAlert(selectedElementGUIDs, connectorsToDelete, elementType);
-        }
-    };
-
-    /**
-     * Handles the drag node stop event and dispatches  an action to update the location of the node.
-     *
-     * @param {object} event - node stop event coming from node.js
-     */
-    handleDragNodeStop = (event) => {
-        if (event && event.detail) {
-            const payload = {
-                guid: event.detail.canvasElementGUID,
-                elementType: event.detail.elementType,
-                locationX: event.detail.locationX,
-                locationY: event.detail.locationY
-            };
-            storeInstance.dispatch(updateElement(payload));
-        }
-    };
-
-    /**
-     * Dispatches add connection action with the new connector
-     *
-     * @param {object} elements - Current state of elements in the store
-     * @param {string} sourceGuid - Contains the source guid
-     * @param {string} targetGuid - Contains the target guid
-     * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
-     */
-    addConnection = (elements, sourceGuid, targetGuid) => (valueFromCombobox) => {
-        const connectorObject = createNewConnector(elements, sourceGuid, targetGuid, valueFromCombobox);
-        storeInstance.dispatch(addConnector(connectorObject));
-    };
-
-    /**
-     * Handles the add connection event and dispatches an action to either add the newly created connector or invoke a connector picker panel
-     *
-     * @param {object} event - add connection event coming from canvas.js
-     */
-    handleAddConnection = (event) => {
-        if (event && event.detail) {
-            const currentState = storeInstance.getCurrentState();
-            const elements = currentState.elements;
-            const sourceElement = elements[event.detail.sourceGuid];
-            const targetElement = elements[event.detail.targetGuid];
-            if (sourceElement && targetElement) {
-                const sourceElementType = sourceElement.elementType;
-                const targetElementLabel = targetElement.label;
-
-                const availableConnections = sourceElement.availableConnections;
-                if (!availableConnections) {
-                    // Creates a regular connection. Would be needed for Start element, Assignment element, Screen element and Steps element
-                    if (sourceElementType === ELEMENT_TYPE.START_ELEMENT) {
-                        this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.START);
-                    } else {
-                        this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
-                    }
-                } else if (availableConnections.length === 1) {
-                    // Creates the only connection remaining in availableConnections
-                    let remainingConnectionValue;
-                    const childReference = availableConnections[0].childReference;
-                    const availableConnectionType = availableConnections[0].type;
-                    if (childReference) {
-                        remainingConnectionValue = childReference;
-                    } else {
-                        remainingConnectionValue = availableConnectionType;
-                    }
-                    this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(remainingConnectionValue);
-                } else if (sourceElementType === ELEMENT_TYPE.DECISION || sourceElementType === ELEMENT_TYPE.WAIT || sourceElementType === ELEMENT_TYPE.LOOP) {
-                    // Opens the connector-picker to select which connector to connect when there are multiple available connections
-                    let comboboxOptions = [];
-                    const availableConnectionsLength = availableConnections.length;
-
-                    for (let i = 0; i < availableConnectionsLength; i++) {
-                        const childReference = availableConnections[i].childReference;
-                        const availableConnectionType = availableConnections[i].type;
-                        const {label, value} = getLabelAndValueForConnectorPickerOptions(elements, sourceElement, childReference, availableConnectionType);
-
-                        comboboxOptions.push({
-                            label,
-                            value
-                        });
-                    }
-
-                    // Sorting the options in the right order
-                    comboboxOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
-
-                    // Invokes the connector-picker panel
-                    const mode = event.type;
-                    const nodeUpdate = this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid);
-                    invokePropertyEditor(PROPERTY_EDITOR, {mode, nodeUpdate, comboboxOptions, sourceElementType, targetElementLabel});
-                } else {
-                    // Creates the first regular connector for all element types (such as CRUD, Action etc.)
-                    // that support 2 connectors namely regular and fault
-                    this.addConnection(elements, event.detail.sourceGuid, event.detail.targetGuid)(CONNECTOR_TYPE.REGULAR);
-                }
-            }
         }
     };
 

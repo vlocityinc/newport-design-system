@@ -1,0 +1,6 @@
+<template>
+    <builder_platform_interaction-canvas if:true={shouldCreateCanvas} nodes={nodes} connectors={connectors}
+                                        onnodeselected={handleCanvasElementSelection} onconnectorselected={handleConnectorSelection} 
+                                        oncanvasmouseup={handleElementDeselection} ondragnodestop={handleCanvasElementMove} onaddconnection={handleAddConnector}>
+    </builder_platform_interaction-canvas>
+</template>
