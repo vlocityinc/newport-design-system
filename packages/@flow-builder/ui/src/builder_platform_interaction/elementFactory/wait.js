@@ -12,6 +12,7 @@ import {
     baseChildElement,
     createCondition
 } from "./base/baseElement";
+import { getConnectionProperties } from "./commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil";
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
@@ -22,6 +23,11 @@ import { LABELS } from "./elementFactoryLabels";
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
+
+const childReferenceKeys = {
+    childReferencesKey: 'waitEventReferences',
+    childReferenceKey: 'waitEventReference'
+};
 
 /**
  * Whether the event type is one of the wait time event types (AlarmEvent or DateRefAlarmEvent)
@@ -184,6 +190,34 @@ export function createWaitWithWaitEvents(wait = {}) {
         maxConnections,
         elementType
     });
+}
+
+/**
+ * Calculates the connection properties such as maxConnections, connectorCount and availableConnections for edited or newly created wait element
+ *
+ * @param {Object} originalWait - Original Wait element
+ * @param {Object} newWait - Wait element being added or modified
+ * @param {Object[]} waitEvents - All wait events in the updated canvas element state (does not include deleted wait events)
+ * @param {Object[]} deletedWaitEventGuids - Guids of all the deleted wait events
+ * @returns {{maxConnections: Number, availableConnections: Object[], connectorCount: Number}}
+ */
+export function getWaitConnectionProperties(originalWait, newWait, waitEvents = [], deletedWaitEventGuids = []) {
+    const newChildReferences = newWait[childReferenceKeys.childReferencesKey];
+    const connectionProperties = getConnectionProperties(originalWait, newChildReferences, deletedWaitEventGuids, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
+    let { connectorCount } = connectionProperties;
+    const { availableConnections, addFaultConnectionForWaitElement } = connectionProperties;
+
+    const maxConnections = waitEvents.length + 2;
+
+    // If addFaultConnectionForWaitElement is false, it means that the Fault Connector has already been established and
+    // the connector count needs to be incremented
+    if (addFaultConnectionForWaitElement) {
+        availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
+    } else {
+        connectorCount += 1;
+    }
+
+    return { maxConnections, connectorCount, availableConnections };
 }
 
 /**

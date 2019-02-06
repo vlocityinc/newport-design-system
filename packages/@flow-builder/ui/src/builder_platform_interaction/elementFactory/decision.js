@@ -5,12 +5,18 @@ import {
     baseCanvasElementsArrayToMap,
     createCondition,
 } from "./base/baseElement";
+import { getConnectionProperties } from "./commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil";
 import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject } from "./base/baseMetadata";
 import { LABELS } from "./elementFactoryLabels";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createConnectorObjects } from "./connector";
 
 const elementType = ELEMENT_TYPE.DECISION;
+
+const childReferenceKeys = {
+    childReferencesKey: 'outcomeReferences',
+    childReferenceKey: 'outcomeReference'
+};
 
 // For Opening Property editor or copying a decision
 export function createDecisionWithOutcomes(decision = {}) {
@@ -33,6 +39,23 @@ export function createDecisionWithOutcomes(decision = {}) {
         defaultConnectorLabel,
         elementType
     });
+}
+
+/**
+ * Calculates the connection properties such as maxConnections, connectorCount and availableConnections for edited or newly created decision element
+ *
+ * @param {Object} originalDecision - Original Decision element
+ * @param {Object} newDecision - Decision element being added or modified
+ * @param {Object[]} outcomes - All outcomes in the updated canvas element state (does not include deleted outcomes)
+ * @param {Object[]} deletedOutcomeGuids - Guids of all the deleted outcomes
+ * @returns {{maxConnections: Number, availableConnections: Object[], connectorCount: Number}}
+ */
+export function getDecisionConnectionProperties(originalDecision, newDecision, outcomes = [], deletedOutcomeGuids = []) {
+    const newChildReferences = newDecision[childReferenceKeys.childReferencesKey];
+    const { connectorCount, availableConnections } = getConnectionProperties(originalDecision, newChildReferences, deletedOutcomeGuids, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
+    const maxConnections = outcomes.length + 1;
+
+    return { maxConnections, connectorCount, availableConnections };
 }
 
 export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {

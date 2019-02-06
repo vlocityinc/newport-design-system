@@ -20,9 +20,10 @@ import {
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT
 } from "builder_platform_interaction/actions";
-import {deepCopy} from "builder_platform_interaction/storeLib";
-import {shallowCopyArray, updateProperties, omit, addItem} from "builder_platform_interaction/dataMutationLib";
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { deepCopy } from "builder_platform_interaction/storeLib";
+import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { getDecisionConnectionProperties, getWaitConnectionProperties } from "builder_platform_interaction/elementFactory";
 
 /**
  * Reducer for elements.
@@ -59,10 +60,10 @@ export default function elementsReducer(state = {}, action) {
             return _deselectCanvasElements(state);
         case ADD_DECISION_WITH_OUTCOMES:
         case MODIFY_DECISION_WITH_OUTCOMES:
-            return _addOrUpdateDecisionWithOutcomes(state, action.payload.decision, action.payload.deletedOutcomes, action.payload.outcomes);
+            return _addOrUpdateCanvasElementWithChildElements(state, action.payload.decision, action.payload.deletedOutcomes, action.payload.outcomes, getDecisionConnectionProperties);
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-            return _addOrUpdateWaitWithWaitEvents(state, action.payload.wait, action.payload.deletedWaitEvents, action.payload.waitEvents);
+            return _addOrUpdateCanvasElementWithChildElements(state, action.payload.wait, action.payload.deletedWaitEvents, action.payload.waitEvents, getWaitConnectionProperties);
         case ADD_SCREEN_WITH_FIELDS:
         case MODIFY_SCREEN_WITH_FIELDS:
             return _addOrUpdateScreenWithScreenFields(state, action.payload.screen, action.payload.deletedFields, action.payload.fields);
@@ -72,179 +73,33 @@ export default function elementsReducer(state = {}, action) {
 }
 
 /**
- * Helper function to add or update a decision
+ * Helper function to add or update a decision/wait element
  *
  * @param {Object} state - current state of elements in the store
- * @param {Object} decision - the decision being added/modified
- * @param {Object[]} deletedOutcomes - All outcomes being deleted. If deleted outcomes have connectors, then
- * the decision connectorCount will be decremented appropriately
- * @param {Object[]} outcomes - All outcomes in the updated decision state (does not include deleted outcomes)
+ * @param {Object} canvasElement - the canvas element being added/modified
+ * @param {Object[]} deletedChildElements - All child elements being deleted. If deleted child elements have associated connectors, then
+ * the connectorCount will be decremented appropriately
+ * @param {Object[]} childElements - All child elements in the updated canvas element state (does not include deleted child elements)
+ * @param {Function} updateConnectionPropertiesFunction - Factory function associated with a given canvas element
  *
  * @return {Object} new state after reduction
  * @private
  */
-function _addOrUpdateDecisionWithOutcomes(state, decision, deletedOutcomes, outcomes = []) {
+function _addOrUpdateCanvasElementWithChildElements(state, canvasElement, deletedChildElements, childElements = [], updateConnectionPropertiesFunction) {
     let newState = updateProperties(state);
-    newState[decision.guid] = updateProperties(newState[decision.guid], decision);
+    newState[canvasElement.guid] = updateProperties(newState[canvasElement.guid], canvasElement);
 
-    for (const outcome of outcomes) {
-        newState[outcome.guid] = updateProperties(newState[outcome.guid], outcome);
+    for (const childElement of childElements) {
+        newState[childElement.guid] = updateProperties(newState[childElement.guid], childElement);
     }
 
-    // TODO: available connections management should be moved to the elementFactory
-    // See: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005XCn7IAG/view
-    const availableConnections = newState[decision.guid].availableConnections ?
-        shallowCopyArray(newState[decision.guid].availableConnections) : [];
+    const deletedChildElementGuids = deletedChildElements.map(element => element.guid);
 
-    // Figure out what outcomes were newly added and add them to the list of available connections
-    const currentDecision = state[decision.guid];
-    let newOutcomeGuids = [];
-    if (currentDecision) {
-        const currentOutcomes = currentDecision.outcomeReferences;
-        for (let i = 0; i < outcomes.length; i++) {
-            let outcomeCurrentlyExists = false;
-            for (let j = 0; j < currentOutcomes.length; j++) {
-                if (outcomes[i].guid === currentOutcomes[j].outcomeReference) {
-                    outcomeCurrentlyExists = true;
-                    break;
-                }
-            }
-            if (!outcomeCurrentlyExists) {
-                newOutcomeGuids.push(outcomes[i].guid);
-            }
-        }
-    } else {
-        // For a new decision, all the outcomes are new outcomes,
-        // Also, the default connector always exists so add to the list of available connections
-        newOutcomeGuids = outcomes.map(outcome => outcome.guid);
-        availableConnections.push({ type: CONNECTOR_TYPE.DEFAULT });
-    }
-    for (let i = 0; i < newOutcomeGuids.length; i++) {
-        availableConnections.push({
-            type: CONNECTOR_TYPE.REGULAR,
-            childReference: newOutcomeGuids[i]
-        });
-    }
+    const {maxConnections, connectorCount, availableConnections} = updateConnectionPropertiesFunction(state[canvasElement.guid], newState[canvasElement.guid], childElements, deletedChildElementGuids);
 
-    const deletedOutcomeGuids = [];
-    let connectorCount = newState[decision.guid].connectorCount || 0;
-    for (const outcome of deletedOutcomes) {
-        let availableConnectionExists = false;
-        for (let i = 0; i < availableConnections.length; i++) {
-            // If the deleted outcome was part of the list of available connections,
-            // remove it from the list
-            if (outcome.guid === availableConnections[i].childReference) {
-                availableConnections.splice(i, 1);
-                availableConnectionExists = true;
-                break;
-            }
-        }
-        // If the deleted outcome was not part of the list of available connections,
-        // it means that a connector existed for that outcome, so decrement the connector count
-        if (!availableConnectionExists) {
-            connectorCount -= 1;
-        }
+    newState[canvasElement.guid] = updateProperties(newState[canvasElement.guid], {maxConnections, connectorCount, availableConnections});
 
-        deletedOutcomeGuids.push(outcome.guid);
-    }
-
-    // Max connections for a decision is the number of outcomes + 1 for the default outcome
-    const maxConnections = outcomes.length + 1;
-
-    newState[decision.guid] = updateProperties(newState[decision.guid], {maxConnections, connectorCount, availableConnections});
-
-    newState = omit(newState, deletedOutcomeGuids);
-
-    return newState;
-}
-
-/**
- * Helper function to add or update a wait
- *
- * @param {Object} state - current state of elements in the store
- * @param {Object} wait - the wait being added/modified
- * @param {Object[]} deletedWaitEvents - All waitEvents being deleted. If deleted waitEvents have connectors, then
- * the wait connectorCount will be decremented appropriately
- * @param {Object[]} waitEvents - All waitEvents in the updated wait state (does not include deleted waitEvents)
- *
- * @return {Object} new state after reduction
- * @private
- */
-function _addOrUpdateWaitWithWaitEvents(state, wait, deletedWaitEvents, waitEvents = []) {
-    // TODO: https://gus.lightning.force.com/a07B0000005YnL5IAK - Should we refactor for shared code with
-    // _addOrUpdateDecisionWithOutcomes?
-    let newState = updateProperties(state);
-    newState[wait.guid] = updateProperties(newState[wait.guid], wait);
-
-    for (const waitEvent of waitEvents) {
-        newState[waitEvent.guid] = updateProperties(newState[waitEvent.guid], waitEvent);
-    }
-
-    // TODO: available connections management should be moved to the elementFactory
-    // See: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000005XCn7IAG/view
-    const availableConnections = newState[wait.guid].availableConnections ?
-        shallowCopyArray(newState[wait.guid].availableConnections) : [];
-
-    // Figure out what waitEvents were newly added and add them to the list of available connections
-    const currentWait = state[wait.guid];
-    let newWaitEventGuids = [];
-    if (currentWait) {
-        const currentWaitEvents = currentWait.waitEventReferences;
-        for (let i = 0; i < waitEvents.length; i++) {
-            let waitEventCurrentlyExists = false;
-            for (let j = 0; j < currentWaitEvents.length; j++) {
-                if (waitEvents[i].guid === currentWaitEvents[j].waitEventReference) {
-                    waitEventCurrentlyExists = true;
-                    break;
-                }
-            }
-            if (!waitEventCurrentlyExists) {
-                newWaitEventGuids.push(waitEvents[i].guid);
-            }
-        }
-    } else {
-        // For a new wait, all the waitEvents are new WaitEvents,
-        // The default connector always exists so add it to the list of available connections
-        // Also add the FAULT connector to the list of available connections
-        newWaitEventGuids = waitEvents.map(waitEvent => waitEvent.guid);
-        availableConnections.push({ type: CONNECTOR_TYPE.DEFAULT });
-        availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
-    }
-    for (let i = 0; i < newWaitEventGuids.length; i++) {
-        availableConnections.push({
-            type: CONNECTOR_TYPE.REGULAR,
-            childReference: newWaitEventGuids[i]
-        });
-    }
-
-    const deletedWaitEventGuids = [];
-    let connectorCount = newState[wait.guid].connectorCount || 0;
-    for (const waitEvent of deletedWaitEvents) {
-        let availableConnectionExists = false;
-        for (let i = 0; i < availableConnections.length; i++) {
-            // If the deleted waitEvent was part of the list of available connections,
-            // remove it from the list
-            if (waitEvent.guid === availableConnections[i].childReference) {
-                availableConnections.splice(i, 1);
-                availableConnectionExists = true;
-                break;
-            }
-        }
-        // If the deleted waitEvent was not part of the list of available connections,
-        // it means that a connector existed for that waitEvent, so decrement the connector count
-        if (!availableConnectionExists) {
-            connectorCount -= 1;
-        }
-
-        deletedWaitEventGuids.push(waitEvent.guid);
-    }
-
-    // Max connections for a wait is the number of wait events + 1 for the default + 1 for fault
-    const maxConnections = waitEvents.length + 2;
-
-    newState[wait.guid] = updateProperties(newState[wait.guid], {maxConnections, connectorCount, availableConnections});
-
-    newState = omit(newState, deletedWaitEventGuids);
+    newState = omit(newState, deletedChildElementGuids);
 
     return newState;
 }
@@ -505,28 +360,6 @@ function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields
         newState[field.guid] = updateProperties(newState[field.guid], field);
     }
 
-    // Figure out what fields were newly added
-    const currentScreen = state[screen.guid];
-    let newScreenFieldGuids = [];
-    if (currentScreen) {
-        const currentScreenFields = currentScreen.fieldReferences;
-        for (let i = 0; i < fields.length; i++) {
-            let screenFieldCurrentlyExists = false;
-            for (let j = 0; j < currentScreenFields.length; j++) {
-                if (fields[i].guid === currentScreenFields[j].fieldReferences) {
-                    screenFieldCurrentlyExists = true;
-                    break;
-                }
-            }
-            if (!screenFieldCurrentlyExists) {
-                newScreenFieldGuids.push(fields[i].guid);
-            }
-        }
-    } else {
-        // TOD0: Need to figure out how we can handle newly added screen field in factory instead of reducer
-        // For a new screen, all the screenFields are new screenFields
-        newScreenFieldGuids = fields.map(field => field.guid);
-    }
     const deletedFieldGuids = [];
     for (const field of deletedFields) {
         deletedFieldGuids.push(field.guid);
