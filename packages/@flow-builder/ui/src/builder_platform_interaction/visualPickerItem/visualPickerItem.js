@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
 
-export default class VisualPicker extends LightningElement {
+export default class VisualPickerItem extends LightningElement {
     @api
     isSelected;
     @api
