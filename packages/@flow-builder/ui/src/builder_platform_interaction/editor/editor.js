@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, deleteElement, updatePropertiesAfterSaving } from 'builder_platform_interaction/actions';
+import { updateFlow, updateProperties, addElement, updateElement, deleteElement, updatePropertiesAfterSaving, selectOnCanvas } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -547,7 +547,6 @@ export default class Editor extends LightningElement {
      * @param {object} event - node double clicked event coming from node.js
      */
     handleEditElement = (event) => {
-        this.handleNodeSelection(event);
         if (event && event.detail && event.type) {
             const mode = event.type;
             const guid = event.detail.canvasElementGUID;
@@ -555,6 +554,11 @@ export default class Editor extends LightningElement {
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             this.queueOpenPropertyEditor({ mode, nodeUpdate, node, newResourceCallback });
+            if (node && node.isCanvasElement) {
+                storeInstance.dispatch(selectOnCanvas({
+                    guid
+                }));
+            }
         }
     };
 
