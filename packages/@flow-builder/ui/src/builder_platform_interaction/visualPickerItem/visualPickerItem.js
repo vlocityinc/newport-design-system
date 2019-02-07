@@ -11,10 +11,10 @@ export default class VisualPickerItem extends LightningElement {
     @api
     description;
     @api
-    id;
+    itemId;
 
     handleChange(event) {
         event.stopPropagation();
-        this.dispatchEvent(new VisualPickerItemChangedEvent(this.id, event.currentTarget.checked));
+        this.dispatchEvent(new VisualPickerItemChangedEvent(this.itemId, event.currentTarget.checked));
     }
 }

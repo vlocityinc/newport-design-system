@@ -8,9 +8,9 @@ const TEMPLATE_LABEL = 'Flow Label';
 const TEMPLATE_DESCRIPTION = 'Flow description';
 const TEMPLATE_ICON = 'utility:flow';
 
-function createComponentForTest({ id = TEMPLATE_ID, label = TEMPLATE_LABEL, description = TEMPLATE_DESCRIPTION, iconName = TEMPLATE_ICON, isSelected = false } = {}) {
+function createComponentForTest({ itemId = TEMPLATE_ID, label = TEMPLATE_LABEL, description = TEMPLATE_DESCRIPTION, iconName = TEMPLATE_ICON, isSelected = false } = {}) {
     const el = createElement('builder_platform_interaction-visual-picker-item', { is: VisualPickerItem });
-    Object.assign(el, {id, label, description, iconName, isSelected});
+    Object.assign(el, {itemId, label, description, iconName, isSelected});
     document.body.appendChild(el);
     return el;
 }

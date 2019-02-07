@@ -4,7 +4,11 @@
 }
 
 .slds-media__body {
-    height: calc(var(--lwc-sizeXxSmall) - var(--lwc-spacingMedium)*2);
+    height: calc(var(--lwc-sizeXxSmall) - var(--lwc-spacingXSmall)*2);
+}
+
+.slds-visual-picker_vertical .slds-visual-picker__figure {
+    padding: var(--lwc-spacingXSmall);
 }
 
 /*truncate the text to 2 lines*/
@@ -12,9 +16,6 @@
     max-height: calc(var(--lwc-lineHeightHeading)rem*2 - var(--lwc-spacingXSmall));
     overflow: hidden;
     position: relative;
-    text-align: justify;
-    margin-right: -1em;
-    padding-right: 1em;
 }
 
 .slds-text-title:before {

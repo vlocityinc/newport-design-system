@@ -1,8 +1,8 @@
 <template>
 <div class="slds-form-element__control">
     <div class="slds-visual-picker slds-visual-picker_vertical">
-        <input type="checkbox" id={id} name={id} value={id} checked={isSelected} onchange={handleChange}>
-        <label for={id}>
+        <input type="checkbox" id={itemId} name={itemId} value={itemId} checked={isSelected} onchange={handleChange}>
+        <label for={itemId}>
             <span class="slds-media slds-visual-picker__figure slds-visual-picker__text">
                 <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small">
                     <span>
@@ -11,8 +11,8 @@
                     </span>
                 </div>
                 <div class="slds-media__body slds-border_left slds-p-left_small">
-                    <h2 class="slds-truncate slds-text-heading_small slds-m-bottom_x-small" title={label}>{label}</h2>
-                    <p class="slds-text-title">{description}</p>
+                    <h2 class="slds-truncate slds-text-heading_small" title={label}>{label}</h2>
+                    <p title={description} class="slds-text-title slds-p-right_none slds-m-top_small slds-m-left_none">{description}</p>
                 </div>
             </span>
             <span>
