@@ -25,13 +25,13 @@ export function createInputParameterMetadataObject(inputParameter) {
         throw new Error('inputParameter is not defined');
     }
 
-    const { name, value } = inputParameter;
+    const { name } = inputParameter;
+    const ferov = createFEROVMetadataObject(inputParameter, VALUE_PROPERTY_NAME, VALUE_DATA_TYPE_PROPERTY_NAME);
 
-    let valueFerov;
-    if (value) {
-        const ferov = createFEROVMetadataObject(inputParameter, VALUE_PROPERTY_NAME, VALUE_DATA_TYPE_PROPERTY_NAME);
-        valueFerov = { value: ferov };
-    }
+    const inputParameterMetadataObject = {
+        name,
+        value: ferov
+    };
 
-    return Object.assign({}, {name}, valueFerov);
+    return inputParameterMetadataObject;
 }
