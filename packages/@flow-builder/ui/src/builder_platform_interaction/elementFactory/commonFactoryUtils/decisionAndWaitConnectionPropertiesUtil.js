@@ -12,7 +12,7 @@ import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
  * @returns {Object[]} usedChildReferences - child references that have an associated connector and have not been deleted
  * @private
  */
-function _getChildReferencesWithAssociatedConnectors(flatOriginalAvailableConnections, originalChildReferences, deletedChildElementGuids, childReferenceKey) {
+function _getChildReferencesWithAssociatedConnectors(flatOriginalAvailableConnections = [], originalChildReferences = [], deletedChildElementGuids = [], childReferenceKey) {
     const usedChildReferences = [];
     for (let i = 0; i < originalChildReferences.length; i++) {
         if (!flatOriginalAvailableConnections.includes(originalChildReferences[i][childReferenceKey]) && !deletedChildElementGuids.includes(originalChildReferences[i][childReferenceKey])) {
@@ -58,7 +58,7 @@ function _getAvailableConnectionsContainingChildReferences(newChildReferences = 
  * @returns {{additionalConnectorCount: number, defaultAvailableConnection: Array, addFaultConnection: Boolean}} - Any additional connector
  * count, available connection corresponding to Default Connection and addFaultConnection to track if we need to add Fault Connection
  */
-function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections) {
+function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections = []) {
     let additionalConnectorCount = 0;
     const defaultAvailableConnection = [];
 
@@ -80,7 +80,7 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  * Function to calculate the availableConnections, connectorCount and the deletedChildElementGuids of an edited or
  * a newly created Decision or Wait element.
  *
- * @param {Object} originalCanvasElement - original state of the canvas element (Undefined in case of a newly created canvas element)
+ * @param {Object} originalCanvasElement - original state of the canvas element
  * @param {Object[]} newChildReferences - Child References Array for the updated element state (eg: decision.outcomeReferences)
  * @param {Object[]} deletedChildElementGuids - all the deleted child element guids (if any)
  * @param {String} childReferencesKey - Object key for childReferences (eg: "outcomeReferences" for Decision)
@@ -88,38 +88,31 @@ function _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableC
  * @returns {{connectorCount: Number, availableConnections: Object[]}} - availableConnections and connectorCount of the
  * updated element along with the deletedChildElementGuids
  */
-export function getConnectionProperties(originalCanvasElement, newChildReferences, deletedChildElementGuids, childReferencesKey, childReferenceKey) {
+export function getConnectionProperties(originalCanvasElement, newChildReferences = [], deletedChildElementGuids = [], childReferencesKey, childReferenceKey) {
     let connectorCount = 0;
     let availableConnections = [];
 
     // This is required by the wait factory to add a Fault Connection to our availableConnections
     let addFaultConnectionForWaitElement = false;
 
-    // If originalCanvasElement exists then that means we are editing an existing canvas element, else we are creating a new canvas element
-    if (originalCanvasElement) {
+    if (originalCanvasElement && originalCanvasElement.availableConnections && originalCanvasElement[childReferencesKey]) {
         const flatOriginalAvailableConnections = originalCanvasElement.availableConnections.map(availableConnection => (availableConnection.childReference || availableConnection.type));
         const originalChildReferences = originalCanvasElement[childReferencesKey];
 
-        // Gets the childReferences that already have a connector associated. These should not be included in our availableConnections.
+        // Gets the childReferences that already have a connector associated. These should not be included in our availableConnections
         const usedChildReferences = _getChildReferencesWithAssociatedConnectors(flatOriginalAvailableConnections, originalChildReferences, deletedChildElementGuids, childReferenceKey);
 
-        connectorCount = usedChildReferences.length;
-
+        // Gets the availableConnections associated with any available childElements
         const childAvailableConnections = _getAvailableConnectionsContainingChildReferences(newChildReferences, childReferenceKey, usedChildReferences);
+
+        // Gets any additionalConnectorCount and defaultAvailableConnection associated with the Default Connection along
+        // with a boolean to indicate whether a Fault Connection needs to be added or not. The addition of the Fault Connection
+        // or the increment in the connectorCount due to the unavailability of the Fault Connection is handle in the wait factory
         const { additionalConnectorCount, defaultAvailableConnection, addFaultConnection } = _calculateForDefaultAndFaultAvailableConnections(flatOriginalAvailableConnections);
 
-        connectorCount += additionalConnectorCount;
+        connectorCount = usedChildReferences.length + additionalConnectorCount;
         availableConnections = [...childAvailableConnections, ...defaultAvailableConnection];
         addFaultConnectionForWaitElement = addFaultConnection;
-    } else {
-        availableConnections = _getAvailableConnectionsContainingChildReferences(newChildReferences, childReferenceKey);
-
-        // Both Decision and Wait element support a Default Connection, hence adding it to the availableConnections
-        availableConnections.push({
-            type: CONNECTOR_TYPE.DEFAULT
-        });
-
-        addFaultConnectionForWaitElement = true;
     }
 
     return { connectorCount, availableConnections, addFaultConnectionForWaitElement };

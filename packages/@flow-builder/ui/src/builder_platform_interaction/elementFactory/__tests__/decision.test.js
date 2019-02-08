@@ -5,10 +5,11 @@ import {
     createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
     createDecisionWithOutcomeReferences, createDecisionMetadataObject
 } from '../decision';
-import { ELEMENT_TYPE, CONDITION_LOGIC} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC} from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from "../elementFactoryLabels";
 import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject } from '../base/baseMetadata';
+import { getConnectionProperties } from "../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil";
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
@@ -26,7 +27,6 @@ const existingDecision = {
     ]
 };
 
-const foundElementGuidPrefix = 'found';
 getElementByGuid.mockImplementation((guid) => {
     if (guid === newDecisionGuid) {
         return null;
@@ -35,7 +35,7 @@ getElementByGuid.mockImplementation((guid) => {
     }
 
     return {
-        guid: foundElementGuidPrefix + guid
+        guid
     };
 });
 
@@ -57,6 +57,16 @@ baseChildElementMetadataObject.mockImplementation((element) => {
 });
 createConditionMetadataObject.mockImplementation(element => Object.assign({}, element)).mockName('createConditionMetadataObject');
 
+jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
+getConnectionProperties.mockImplementation(() => {
+    return {
+        connectorCount: 1,
+        availableConnections: [{
+            type: CONNECTOR_TYPE.DEFAULT
+        }],
+        addFaultConnectionForWaitElement: false
+    };
+});
 
 // TODO: https://gus.my.salesforce.com/a07B0000004ihceIAA - add connector tests
 
@@ -114,9 +124,9 @@ describe('decision', () => {
                 });
 
                 expect(decision.outcomes).toHaveLength(3);
-                expect(decision.outcomes[0].guid).toEqual(foundElementGuidPrefix + outcomeReferences[0].outcomeReference);
-                expect(decision.outcomes[1].guid).toEqual(foundElementGuidPrefix + outcomeReferences[1].outcomeReference);
-                expect(decision.outcomes[2].guid).toEqual(foundElementGuidPrefix + outcomeReferences[2].outcomeReference);
+                expect(decision.outcomes[0].guid).toEqual(outcomeReferences[0].outcomeReference);
+                expect(decision.outcomes[1].guid).toEqual(outcomeReferences[1].outcomeReference);
+                expect(decision.outcomes[2].guid).toEqual(outcomeReferences[2].outcomeReference);
             });
         });
     });
@@ -180,15 +190,14 @@ describe('decision', () => {
         it('decision element type is DECISION', () => {
             const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
-            expect(result.decision.elementType).toEqual(ELEMENT_TYPE.DECISION);
+            expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.DECISION);
         });
-
 
         describe('defaultConnectorLabel', () => {
             it('defaults to LABELS.emptyDefaultOutcomeLabel', () => {
                 const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
-                expect(result.decision.defaultConnectorLabel).toEqual(LABELS.emptyDefaultOutcomeLabel);
+                expect(result.canvasElement.defaultConnectorLabel).toEqual(LABELS.emptyDefaultOutcomeLabel);
             });
             it('is used if passed in', () => {
                 const defaultConnectorLabel = 'some label';
@@ -196,74 +205,99 @@ describe('decision', () => {
                 decisionFromPropertyEditor.defaultConnectorLabel = defaultConnectorLabel;
                 const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
-                expect(result.decision.defaultConnectorLabel).toEqual(defaultConnectorLabel);
+                expect(result.canvasElement.defaultConnectorLabel).toEqual(defaultConnectorLabel);
+            });
+        });
+
+        describe('connection properties of a decision', () => {
+            it('result has availableConnections', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+                expect(result.canvasElement.availableConnections).toHaveLength(1);
+                expect(result.canvasElement.availableConnections[0]).toEqual({type: CONNECTOR_TYPE.DEFAULT});
+            });
+
+            it('has connectorCount', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+                expect(result.canvasElement.connectorCount).toEqual(1);
+            });
+
+            it('decision has the right maxConnections', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+                expect(result.canvasElement.maxConnections).toEqual(2);
             });
         });
 
         describe('new/modified outcomes', () => {
-            it('decision includes outcome references for all outcomes present', () => {
-                const outcomes = [
+            let outcomes;
+
+            beforeEach(() => {
+                outcomes = [
                     { guid: 'a'},
                     { guid: 'b'},
                     { guid: 'c'}
                 ];
 
                 decisionFromPropertyEditor.outcomes = outcomes;
-
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
-
-                expect(result.decision.outcomeReferences).toHaveLength(3);
-                expect(result.decision.outcomeReferences[0].outcomeReference).toEqual(outcomes[0].guid);
-                expect(result.decision.outcomeReferences[1].outcomeReference).toEqual(outcomes[1].guid);
-                expect(result.decision.outcomeReferences[2].outcomeReference).toEqual(outcomes[2].guid);
             });
-            it('includes outcomes for all outcomes present', () => {
-                const outcomes = [
-                    { guid: 'a'},
-                    { guid: 'b'},
-                    { guid: 'c'}
-                ];
 
-                decisionFromPropertyEditor.outcomes = outcomes;
-
+            it('decision includes outcome references for all outcomes present', () => {
                 const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
-                expect(result.outcomes).toHaveLength(3);
-                expect(result.outcomes[0].guid).toEqual(outcomes[0].guid);
-                expect(result.outcomes[1].guid).toEqual(outcomes[1].guid);
-                expect(result.outcomes[2].guid).toEqual(outcomes[2].guid);
+                expect(result.canvasElement.outcomeReferences).toHaveLength(3);
+                expect(result.canvasElement.outcomeReferences[0].outcomeReference).toEqual(outcomes[0].guid);
+                expect(result.canvasElement.outcomeReferences[1].outcomeReference).toEqual(outcomes[1].guid);
+                expect(result.canvasElement.outcomeReferences[2].outcomeReference).toEqual(outcomes[2].guid);
+            });
+
+            it('includes outcomes for all outcomes present', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+
+                expect(result.childElements).toHaveLength(3);
+                expect(result.childElements[0].guid).toEqual(outcomes[0].guid);
+                expect(result.childElements[1].guid).toEqual(outcomes[1].guid);
+                expect(result.childElements[2].guid).toEqual(outcomes[2].guid);
+            });
+
+            it('has the right maxConnections', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+
+                expect(result.canvasElement.maxConnections).toEqual(4);
             });
         });
+
         describe('deleted outcomes', () => {
-            it('decision does not include outcome references for deleted outcomes', () => {
+            beforeEach(() => {
                 decisionFromPropertyEditor = {
                     guid: existingDecisionGuid,
                     outcomes: [{
                         guid: 'outcome1'
                     }]
                 };
-
-                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
-
-                expect(result.decision.outcomeReferences).toHaveLength(1);
-                expect(result.decision.outcomeReferences[0].outcomeReference).toEqual(decisionFromPropertyEditor.outcomes[0].guid);
             });
-            it('includes all deleted outcomes', () => {
-                decisionFromPropertyEditor = {
-                    guid: existingDecisionGuid,
-                    outcomes: [{
-                        guid: 'outcome1'
-                    }]
-                };
 
+            it('decision does not include outcome references for deleted outcomes', () => {
                 const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
 
-                expect(result.deletedOutcomes).toHaveLength(2);
-                expect(result.deletedOutcomes[0].guid).toEqual(foundElementGuidPrefix + existingDecision.outcomeReferences[0].outcomeReference);
-                expect(result.deletedOutcomes[1].guid).toEqual(foundElementGuidPrefix + existingDecision.outcomeReferences[1].outcomeReference);
+                expect(result.canvasElement.outcomeReferences).toHaveLength(1);
+                expect(result.canvasElement.outcomeReferences[0].outcomeReference).toEqual(decisionFromPropertyEditor.outcomes[0].guid);
+            });
+
+            it('includes all deleted outcomes', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+
+                expect(result.deletedChildElementGuids).toHaveLength(2);
+                expect(result.deletedChildElementGuids[0]).toEqual(existingDecision.outcomeReferences[0].outcomeReference);
+                expect(result.deletedChildElementGuids[1]).toEqual(existingDecision.outcomeReferences[1].outcomeReference);
+            });
+
+            it('has the right maxConnections', () => {
+                const result = createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decisionFromPropertyEditor);
+
+                expect(result.canvasElement.maxConnections).toEqual(2);
             });
         });
     });
+
     describe('createDecisionWithOutcomeReferences', () => {
         let decisionFromFlow;
 
@@ -369,9 +403,9 @@ describe('decision', () => {
                 const decision = createDecisionMetadataObject(decisionFromStore);
 
                 expect(decision.rules).toHaveLength(3);
-                expect(decision.rules[0].guid).toEqual(foundElementGuidPrefix + decisionFromStore.outcomeReferences[0].outcomeReference);
-                expect(decision.rules[1].guid).toEqual(foundElementGuidPrefix + decisionFromStore.outcomeReferences[1].outcomeReference);
-                expect(decision.rules[2].guid).toEqual(foundElementGuidPrefix + decisionFromStore.outcomeReferences[2].outcomeReference);
+                expect(decision.rules[0].guid).toEqual(decisionFromStore.outcomeReferences[0].outcomeReference);
+                expect(decision.rules[1].guid).toEqual(decisionFromStore.outcomeReferences[1].outcomeReference);
+                expect(decision.rules[2].guid).toEqual(decisionFromStore.outcomeReferences[2].outcomeReference);
             });
 
             it('calls createConditionMetadataObject for each condition given', () => {

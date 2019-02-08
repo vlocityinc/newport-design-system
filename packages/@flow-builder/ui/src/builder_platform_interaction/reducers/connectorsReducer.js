@@ -26,19 +26,13 @@ export default function connectorsReducer(state = [], action) {
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
         case DESELECT_ON_CANVAS: return _deselectConnectors(state);
-        case MODIFY_DECISION_WITH_OUTCOMES: return _deleteAndUpdateConnectorsForChildElements(
-            state,
-            action.payload.decision.guid,
-            action.payload.decision.defaultConnectorLabel,
-            action.payload.outcomes,
-            action.payload.deletedOutcomes
-        );
+        case MODIFY_DECISION_WITH_OUTCOMES:
         case MODIFY_WAIT_WITH_WAIT_EVENTS: return _deleteAndUpdateConnectorsForChildElements(
                 state,
-                action.payload.wait.guid,
-                action.payload.wait.defaultConnectorLabel,
-                action.payload.waitEvents,
-                action.payload.deletedWaitEvents
+                action.payload.canvasElement.guid,
+                action.payload.canvasElement.defaultConnectorLabel,
+                action.payload.childElements,
+                action.payload.deletedChildElementGuids
             );
         default: return state;
     }
@@ -71,18 +65,13 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * @param {String} defaultConnectorLabel    Connector Label of the default connector
  * @param {Object[]} updatedElements     array of child elements (outcomes or wait events) whose connectors are to be
  * updated
- * @param {Object[]} deletedElements     array of child elements (outcomes or wait events) whose connectors are to be
+ * @param {Object[]} deletedChildElementGuids     array of guids of child elements (outcomes or wait events) whose connectors are to be
  * deleted
  *
  * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElementGuid, defaultConnectorLabel, updatedElements, deletedElements) {
-    const deletedElementGuidMap = new Map();
-    for (let i = 0; i < deletedElements.length; i++) {
-        deletedElementGuidMap.set(deletedElements[i].guid, deletedElements[i]);
-    }
-
+function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElementGuid, defaultConnectorLabel, updatedElements, deletedChildElementGuids) {
     const updatedElementGuidMap = new Map();
     for (let i = 0; i < updatedElements.length; i++) {
         updatedElementGuidMap.set(updatedElements[i].guid, updatedElements[i]);
@@ -108,7 +97,7 @@ function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElemen
                 label: updatedElement.label
             });
             connectors.push(updatedConnector);
-        } else if (!deletedElementGuidMap.has(connector.childSource)) {
+        } else if (!deletedChildElementGuids.includes(connector.childSource)) {
             connectors.push(connector);
         }
     }

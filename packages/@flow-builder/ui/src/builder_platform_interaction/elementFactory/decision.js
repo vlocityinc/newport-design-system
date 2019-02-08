@@ -21,8 +21,8 @@ const childReferenceKeys = {
 // For Opening Property editor or copying a decision
 export function createDecisionWithOutcomes(decision = {}) {
     const newDecision = baseCanvasElement(decision);
-    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomeReferences } = decision;
     let { outcomes } = decision;
+    const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomeReferences } = decision;
 
     if (outcomeReferences && outcomeReferences.length > 0) { // decision with outcome references
         // Decouple outcome from store.
@@ -41,23 +41,6 @@ export function createDecisionWithOutcomes(decision = {}) {
     });
 }
 
-/**
- * Calculates the connection properties such as maxConnections, connectorCount and availableConnections for edited or newly created decision element
- *
- * @param {Object} originalDecision - Original Decision element
- * @param {Object} newDecision - Decision element being added or modified
- * @param {Object[]} outcomes - All outcomes in the updated canvas element state (does not include deleted outcomes)
- * @param {Object[]} deletedOutcomeGuids - Guids of all the deleted outcomes
- * @returns {{maxConnections: Number, availableConnections: Object[], connectorCount: Number}}
- */
-export function getDecisionConnectionProperties(originalDecision, newDecision, outcomes = [], deletedOutcomeGuids = []) {
-    const newChildReferences = newDecision[childReferenceKeys.childReferencesKey];
-    const { connectorCount, availableConnections } = getConnectionProperties(originalDecision, newChildReferences, deletedOutcomeGuids, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
-    const maxConnections = outcomes.length + 1;
-
-    return { maxConnections, connectorCount, availableConnections };
-}
-
 export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {
     const newDecision = baseCanvasElement(decision);
     const { defaultConnectorLabel = LABELS.emptyDefaultOutcomeLabel, outcomes } = decision;
@@ -71,16 +54,36 @@ export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEdito
         newOutcomes = [...newOutcomes, newOutcome];
     }
 
+    const maxConnections = newOutcomes.length + 1;
     const deletedOutcomes = getDeletedOutcomesUsingStore(decision, newOutcomes);
+    const deletedOutcomeGuids = deletedOutcomes.map(outcome => outcome.guid);
+
+    let originalDecision = getElementByGuid(decision.guid);
+
+    if (!originalDecision) {
+        originalDecision = {
+            availableConnections: [{
+                type: CONNECTOR_TYPE.DEFAULT
+            }],
+            outcomeReferences: []
+        };
+    }
+
+    const { connectorCount, availableConnections } = getConnectionProperties(originalDecision, outcomeReferences, deletedOutcomeGuids, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
+
     Object.assign(newDecision, {
         defaultConnectorLabel,
         outcomeReferences,
-        elementType
+        elementType,
+        maxConnections,
+        connectorCount,
+        availableConnections
     });
+
     return {
-        decision: newDecision,
-        deletedOutcomes,
-        outcomes: newOutcomes,
+        canvasElement: newDecision,
+        deletedChildElementGuids: deletedOutcomeGuids,
+        childElements: newOutcomes,
         elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES
     };
 }

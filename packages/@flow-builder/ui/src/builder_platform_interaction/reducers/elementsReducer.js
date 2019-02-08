@@ -23,7 +23,6 @@ import {
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { getDecisionConnectionProperties, getWaitConnectionProperties } from "builder_platform_interaction/elementFactory";
 
 /**
  * Reducer for elements.
@@ -60,10 +59,9 @@ export default function elementsReducer(state = {}, action) {
             return _deselectCanvasElements(state);
         case ADD_DECISION_WITH_OUTCOMES:
         case MODIFY_DECISION_WITH_OUTCOMES:
-            return _addOrUpdateCanvasElementWithChildElements(state, action.payload.decision, action.payload.deletedOutcomes, action.payload.outcomes, getDecisionConnectionProperties);
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-            return _addOrUpdateCanvasElementWithChildElements(state, action.payload.wait, action.payload.deletedWaitEvents, action.payload.waitEvents, getWaitConnectionProperties);
+            return _addOrUpdateCanvasElementWithChildElements(state, action.payload.canvasElement, action.payload.deletedChildElementGuids, action.payload.childElements);
         case ADD_SCREEN_WITH_FIELDS:
         case MODIFY_SCREEN_WITH_FIELDS:
             return _addOrUpdateScreenWithScreenFields(state, action.payload.screen, action.payload.deletedFields, action.payload.fields);
@@ -77,27 +75,20 @@ export default function elementsReducer(state = {}, action) {
  *
  * @param {Object} state - current state of elements in the store
  * @param {Object} canvasElement - the canvas element being added/modified
- * @param {Object[]} deletedChildElements - All child elements being deleted. If deleted child elements have associated connectors, then
+ * @param {Object[]} deletedChildElementGuids - Guids of all child elements being deleted. If deleted child elements have associated connectors, then
  * the connectorCount will be decremented appropriately
  * @param {Object[]} childElements - All child elements in the updated canvas element state (does not include deleted child elements)
- * @param {Function} updateConnectionPropertiesFunction - Factory function associated with a given canvas element
  *
  * @return {Object} new state after reduction
  * @private
  */
-function _addOrUpdateCanvasElementWithChildElements(state, canvasElement, deletedChildElements, childElements = [], updateConnectionPropertiesFunction) {
+function _addOrUpdateCanvasElementWithChildElements(state, canvasElement, deletedChildElementGuids, childElements = []) {
     let newState = updateProperties(state);
     newState[canvasElement.guid] = updateProperties(newState[canvasElement.guid], canvasElement);
 
     for (const childElement of childElements) {
         newState[childElement.guid] = updateProperties(newState[childElement.guid], childElement);
     }
-
-    const deletedChildElementGuids = deletedChildElements.map(element => element.guid);
-
-    const {maxConnections, connectorCount, availableConnections} = updateConnectionPropertiesFunction(state[canvasElement.guid], newState[canvasElement.guid], childElements, deletedChildElementGuids);
-
-    newState[canvasElement.guid] = updateProperties(newState[canvasElement.guid], {maxConnections, connectorCount, availableConnections});
 
     newState = omit(newState, deletedChildElementGuids);
 

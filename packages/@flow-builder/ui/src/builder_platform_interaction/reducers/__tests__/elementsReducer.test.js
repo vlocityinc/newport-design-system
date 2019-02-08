@@ -251,9 +251,9 @@ describe('elements-reducer', () => {
             const newState = elementReducer(originalState, {
                 type: MODIFY_DECISION_WITH_OUTCOMES,
                 payload: {
-                    decision: updatedDecision,
-                    outcomes: [],
-                    deletedOutcomes: [],
+                    canvasElement: updatedDecision,
+                    childElements: [],
+                    deletedChildElementGuids: [],
 
                 }
             });
@@ -283,9 +283,9 @@ describe('elements-reducer', () => {
             const newState = elementReducer(originalState, {
                 type: MODIFY_DECISION_WITH_OUTCOMES,
                 payload: {
-                    decision: newDecision,
-                    outcomes: [newOutcome],
-                    deletedOutcomes: [],
+                    canvasElement: newDecision,
+                    childElements: [newOutcome],
+                    deletedChildElementGuids: [],
                 }
             });
 
@@ -293,45 +293,6 @@ describe('elements-reducer', () => {
 
             expect(addedDecision.guid).toEqual(newDecision.guid);
             expect(addedDecision.label).toEqual(newDecision.label);
-
-            const expectedAvailableConnections = [
-                {type: CONNECTOR_TYPE.REGULAR, childReference: newOutcome.guid},
-                {type: CONNECTOR_TYPE.DEFAULT}];
-            expect(addedDecision.availableConnections).toHaveLength(2);
-            expect(addedDecision.availableConnections).toContainEqual(expectedAvailableConnections[0]);
-            expect(addedDecision.availableConnections).toContainEqual(expectedAvailableConnections[1]);
-            expect(addedDecision.connectorCount).toEqual(0);
-            expect(addedDecision.maxConnections).toEqual(2);
-        });
-
-        it('shallow copies existing availableConnections to a new array', () => {
-            const updatedDecision = {
-                guid: 'decision1',
-                label: 'newLabel',
-                outcomeReferences: [
-                    {outcomeReference: 'outcome1'},
-                    {outcomeReference: 'outcome2'},
-                ],
-            };
-
-            const newOutcome = {
-                guid: 'outcome2',
-                label: 'outcome2Label'
-            };
-
-            const newState = elementReducer(originalState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: {
-                    decision: updatedDecision,
-                    outcomes: [outcome, newOutcome],
-                    deletedOutcomes: [],
-                }
-            });
-
-            const decisionAfterUpdate = newState[updatedDecision.guid];
-
-            expect(decisionAfterUpdate.availableConnections).toHaveLength(3);
-            expect(decisionAfterUpdate.availableConnections).not.toBe(decision.availableConnections);
         });
 
         it('updates outcomes', () => {
@@ -343,9 +304,9 @@ describe('elements-reducer', () => {
             const newState = elementReducer(originalState, {
                 type: MODIFY_DECISION_WITH_OUTCOMES,
                 payload: {
-                    decision,
-                    outcomes: [updatedOutcome],
-                    deletedOutcomes: [],
+                    canvasElement: decision,
+                    childElements: [updatedOutcome],
+                    deletedChildElementGuids: [],
 
                 }
             });
@@ -376,103 +337,29 @@ describe('elements-reducer', () => {
             const newState = elementReducer(originalState, {
                 type: MODIFY_DECISION_WITH_OUTCOMES,
                 payload: {
-                    decision: updatedDecision,
-                    outcomes: [outcome, outcome2],
-                    deletedOutcomes: [],
+                    canvasElement: updatedDecision,
+                    childElements: [outcome, outcome2],
+                    deletedChildElementGuids: [],
 
                 }
             });
 
             const newOutcome = newState[outcome2.guid];
-            const newDecision = newState[decision.guid];
-
             expect(newOutcome).toEqual(outcome2);
-            expect(newDecision.maxConnections).toEqual(3);
-            expect(newDecision.availableConnections).toHaveLength(3);
         });
 
-        describe('deleted outcomes', () => {
-            it('are deleted', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        decision,
-                        outcomes: [],
-                        deletedOutcomes: [outcome],
+        it('deleted outcomes are deleted', () => {
+            const newState = elementReducer(originalState, {
+                type: MODIFY_DECISION_WITH_OUTCOMES,
+                payload: {
+                    canvasElement: decision,
+                    childElements: [],
+                    deletedChildElementGuids: [outcome.guid],
 
-                    }
-                });
-
-                expect(newState[outcome.guid]).toBeUndefined();
+                }
             });
 
-            it('updates decision maxConnections', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        decision,
-                        outcomes: [{}],
-                        deletedOutcomes: [outcome],
-                    }
-                });
-
-                expect(newState[decision.guid].maxConnections).toBe(2);
-            });
-
-            it('without connector does not change connectorCount', () => {
-                const updatedDecision = {
-                    guid: 'decision1',
-                    label: 'newLabel',
-                    outcomeReferences: [{outcomeReference: 'outcome2'}]
-                };
-
-                const newOutcome = {
-                    guid: 'outcome2',
-                    label: 'outcome2Label'
-                };
-
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        decision: updatedDecision,
-                        outcomes: [newOutcome],
-                        deletedOutcomes: [outcome],
-
-                    }
-                });
-
-                expect(newState[decision.guid].connectorCount).toBe(decision.connectorCount);
-            });
-
-            it('with connector decrements connectorCount', () => {
-                decision.availableConnections = [{
-                    type: CONNECTOR_TYPE.DEFAULT
-                }];
-                decision.connectorCount = 1;
-
-                const updatedDecision = {
-                    guid: 'decision1',
-                    label: 'newLabel',
-                    outcomeReferences: [{outcomeReference: 'outcome2'}]
-                };
-
-                const newOutcome = {
-                    guid: 'outcome2',
-                    label: 'outcome2Label'
-                };
-
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: {
-                        decision: updatedDecision,
-                        outcomes: [newOutcome],
-                        deletedOutcomes: [outcome],
-
-                    }
-                });
-
-                expect(newState[decision.guid].connectorCount).toBe(decision.connectorCount - 1);
-            });
+            expect(newState[outcome.guid]).toBeUndefined();
         });
     });
 
@@ -516,37 +403,6 @@ describe('elements-reducer', () => {
             };
         });
 
-        it('shallow copies existing availableConnections to a new array', () => {
-            const updatedWait = {
-                guid: 'waitGuid',
-                label: 'newLabel',
-                waitEventReferences: [
-                    {waitEventReference: 'waitEventReference1'},
-                    {waitEventReference: 'waitEventReference2'},
-                    {waitEventReference: 'waitEventReference3'}
-                ],
-            };
-
-            const newWaitEvent = {
-                guid: 'waitEventReference3',
-                label: 'waitEvent3Label'
-            };
-
-            const newState = elementReducer(originalState, {
-                type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                payload: {
-                    wait: updatedWait,
-                    waitEvents: [event1, event2, newWaitEvent],
-                    deletedWaitEvents: [],
-                }
-            });
-
-            const waitAfterUpdate = newState[updatedWait.guid];
-
-            expect(waitAfterUpdate.availableConnections).toHaveLength(3);
-            expect(waitAfterUpdate.availableConnections).not.toBe(wait.availableConnections);
-        });
-
         describe('deleted event', () => {
             beforeEach(() => {
                 // event1 will be deleted; the new wait node passed as argument to the reducer will looks this:
@@ -561,54 +417,13 @@ describe('elements-reducer', () => {
                 const newState = elementReducer(originalState, {
                     type: MODIFY_WAIT_WITH_WAIT_EVENTS,
                     payload: {
-                        wait,
-                        waitEvents: [],
-                        deletedWaitEvents: [event1],
+                        canvasElement: wait,
+                        childElements: [],
+                        deletedChildElementGuids: [event1.guid],
                     }
                 });
 
                 expect(newState[event1.guid]).toBeUndefined();
-            });
-
-            it('updates wait maxConnections', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: {
-                        wait,
-                        waitEvents: [event2],
-                        deletedWaitEvents: [event1],
-                    }
-                });
-
-                expect(newState[wait.guid].maxConnections).toBe(3);
-            });
-
-            it('without connector does not change connectorCount', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: {
-                        wait,
-                        waitEvents: [event2],
-                        deletedWaitEvents: [event1],
-                    }
-                });
-
-                expect(newState[wait.guid].connectorCount).toBe(wait.connectorCount);
-            });
-
-            it('with connector decrements connectorCount', () => {
-                wait.waitEventReferences = [{waitEventReference: 'waitEventReference1'}];
-
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: {
-                        wait,
-                        waitEvents: [event1],
-                        deletedWaitEvents: [event2],
-                    }
-                });
-
-                expect(newState[wait.guid].connectorCount).toBe(wait.connectorCount - 1);
             });
         });
     });

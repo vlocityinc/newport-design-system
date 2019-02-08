@@ -193,34 +193,6 @@ export function createWaitWithWaitEvents(wait = {}) {
 }
 
 /**
- * Calculates the connection properties such as maxConnections, connectorCount and availableConnections for edited or newly created wait element
- *
- * @param {Object} originalWait - Original Wait element
- * @param {Object} newWait - Wait element being added or modified
- * @param {Object[]} waitEvents - All wait events in the updated canvas element state (does not include deleted wait events)
- * @param {Object[]} deletedWaitEventGuids - Guids of all the deleted wait events
- * @returns {{maxConnections: Number, availableConnections: Object[], connectorCount: Number}}
- */
-export function getWaitConnectionProperties(originalWait, newWait, waitEvents = [], deletedWaitEventGuids = []) {
-    const newChildReferences = newWait[childReferenceKeys.childReferencesKey];
-    const connectionProperties = getConnectionProperties(originalWait, newChildReferences, deletedWaitEventGuids, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
-    let { connectorCount } = connectionProperties;
-    const { availableConnections, addFaultConnectionForWaitElement } = connectionProperties;
-
-    const maxConnections = waitEvents.length + 2;
-
-    // If addFaultConnectionForWaitElement is false, it means that the Fault Connector has already been established and
-    // the connector count needs to be incremented
-    if (addFaultConnectionForWaitElement) {
-        availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
-    } else {
-        connectorCount += 1;
-    }
-
-    return { maxConnections, connectorCount, availableConnections };
-}
-
-/**
  * Creates a waitEvent with defaults if needed
  * @param {waitEvent} waitEvent - waitEvent
  * @return {waitEvent}
@@ -329,16 +301,49 @@ export function createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(
         waitEventReferences = updateWaitEventReferences(waitEventReferences, newWaitEvent);
         newWaitEvents = [...newWaitEvents, newWaitEvent];
     }
+
+    const maxConnections = newWaitEvents.length + 2;
     const deletedWaitEvents = getDeletedWaitEventsUsingStore(wait, newWaitEvents);
+    const deletedWaitEventGuids = deletedWaitEvents.map(waitEvent => waitEvent.guid);
+
+    let originalWait = getElementByGuid(wait.guid);
+
+    if (!originalWait) {
+        originalWait = {
+            availableConnections: [{
+                type: CONNECTOR_TYPE.DEFAULT
+            }, {
+                type: CONNECTOR_TYPE.FAULT
+            }],
+            waitEventReferences: []
+        };
+    }
+
+    const connectionProperties = getConnectionProperties(originalWait, waitEventReferences, deletedWaitEventGuids, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
+    let { connectorCount } = connectionProperties;
+    const { availableConnections, addFaultConnectionForWaitElement } = connectionProperties;
+
+    // If addFaultConnectionForWaitElement is false, it means that the Fault Connector has already been established and
+    // the connector count needs to be incremented
+    if (addFaultConnectionForWaitElement) {
+        availableConnections.push({ type: CONNECTOR_TYPE.FAULT });
+    } else {
+        connectorCount += 1;
+    }
+
     Object.assign(newWait, {
         waitEventReferences,
         elementType,
-        defaultConnectorLabel
+        defaultConnectorLabel,
+        maxConnections,
+        connectorCount,
+        availableConnections
     });
+
     return {
-        wait: newWait,
-        deletedWaitEvents,
-        waitEvents: newWaitEvents,
+        canvasElement: newWait,
+        deletedChildElementGuids: deletedWaitEventGuids,
+        childElements: newWaitEvents,
         elementType: ELEMENT_TYPE.WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS
     };
 }

@@ -64,7 +64,7 @@ describe('canvas-elements-reducer', () => {
         const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {
             type: ADD_DECISION_WITH_OUTCOMES,
             payload: {
-                decision: { guid }
+                canvasElement: { guid }
             }
         });
         expect(newCanvasElementState).not.toBe(oldCanvasElementsState[0]);
@@ -79,7 +79,7 @@ describe('canvas-elements-reducer', () => {
         const newCanvasElementState = canvasElementsReducer(oldCanvasElementsState, {
             type: ADD_WAIT_WITH_WAIT_EVENTS,
             payload: {
-                wait: { guid }
+                canvasElement: { guid }
             }
         });
         expect(newCanvasElementState).not.toBe(oldCanvasElementsState[0]);

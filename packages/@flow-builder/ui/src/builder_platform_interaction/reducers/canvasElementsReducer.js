@@ -20,9 +20,8 @@ export default function canvasElementsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.canvasElements];
         case ADD_DECISION_WITH_OUTCOMES:
-            return addItem(state, action.payload.decision.guid);
         case ADD_WAIT_WITH_WAIT_EVENTS:
-            return addItem(state, action.payload.wait.guid);
+            return addItem(state, action.payload.canvasElement.guid);
         case ADD_START_ELEMENT:
         case ADD_CANVAS_ELEMENT:
             return addItem(state, action.payload.guid);

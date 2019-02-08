@@ -18,14 +18,15 @@ import {
     isWaitTimeEventType,
     getParametersPropertyName
 } from "../wait";
+import { getConnectionProperties } from "../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil";
 
 const newWaitGuid = 'newWait';
 const existingWaitGuid = 'existingWait';
 const existingWait = {
     guid: existingWaitGuid,
     waitEventReferences: [
-        { waitReference: 'existingWaitEvent1'},
-        { waitReference: 'existingWaitEvent1'}
+        { waitEventReference: 'existingWaitEvent1'},
+        { waitEventReference: 'existingWaitEvent2'}
     ]
 };
 
@@ -63,7 +64,6 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
     };
 });
 
-const foundElementGuidPrefix = 'found';
 getElementByGuid.mockImplementation((guid) => {
     if (guid === newWaitGuid) {
         return null;
@@ -76,7 +76,7 @@ getElementByGuid.mockImplementation((guid) => {
     }
 
     return {
-        guid: foundElementGuidPrefix + guid
+        guid
     };
 });
 
@@ -113,6 +113,27 @@ jest.mock('../outputParameter', () => {
     return {
         createOutputParameter: jest.fn().mockImplementation(element => Object.assign({}, element)).mockName('createOutputParameter'),
         createOutputParameterMetadataObject: jest.fn().mockImplementation(element => Object.assign({}, element)).mockName('createOutputParameterMetadataObject')
+    };
+});
+
+jest.mock('../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil');
+getConnectionProperties.mockImplementation((originalWait) => {
+    if (originalWait.hasOwnProperty('availableConnections')) {
+        return {
+            connectorCount: 1,
+            availableConnections: [{
+                type: CONNECTOR_TYPE.DEFAULT
+            }],
+            addFaultConnectionForWaitElement: false
+        };
+    }
+
+    return {
+        connectorCount: 1,
+        availableConnections: [{
+            type: CONNECTOR_TYPE.DEFAULT
+        }],
+        addFaultConnectionForWaitElement: true
     };
 });
 
@@ -153,9 +174,9 @@ describe('wait', () => {
                 });
 
                 expect(wait.waitEvents).toHaveLength(3);
-                expect(wait.waitEvents[0].guid).toEqual(foundElementGuidPrefix + waitEventReferences[0].waitEventReference);
-                expect(wait.waitEvents[1].guid).toEqual(foundElementGuidPrefix + waitEventReferences[1].waitEventReference);
-                expect(wait.waitEvents[2].guid).toEqual(foundElementGuidPrefix + waitEventReferences[2].waitEventReference);
+                expect(wait.waitEvents[0].guid).toEqual(waitEventReferences[0].waitEventReference);
+                expect(wait.waitEvents[1].guid).toEqual(waitEventReferences[1].waitEventReference);
+                expect(wait.waitEvents[2].guid).toEqual(waitEventReferences[2].waitEventReference);
             });
         });
 
@@ -330,7 +351,7 @@ describe('wait', () => {
         it('wait element type is WAIT', () => {
             const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
-            expect(result.wait.elementType).toEqual(ELEMENT_TYPE.WAIT);
+            expect(result.canvasElement.elementType).toEqual(ELEMENT_TYPE.WAIT);
         });
 
 
@@ -341,71 +362,109 @@ describe('wait', () => {
                 waitFromPropertyEditor.defaultConnectorLabel = defaultConnectorLabel;
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
-                expect(result.wait.defaultConnectorLabel).toEqual(defaultConnectorLabel);
+                expect(result.canvasElement.defaultConnectorLabel).toEqual(defaultConnectorLabel);
+            });
+        });
+
+        describe('connection properties of a decision', () => {
+            it('wait does not include FAULT in availableConnections when addFaultConnectionForWaitElement is falsy', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+                expect(result.canvasElement.availableConnections).toHaveLength(1);
+                expect(result.canvasElement.availableConnections[0]).toEqual({type: CONNECTOR_TYPE.DEFAULT});
+            });
+
+            it('wait has the right connectorCount when addFaultConnectionForWaitElement is falsy', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+                expect(result.canvasElement.connectorCount).toEqual(2);
+            });
+
+            it('wait includes FAULT in availableConnections when addFaultConnectionForWaitElement is truthy', () => {
+                waitFromPropertyEditor.guid = existingWaitGuid;
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+                expect(result.canvasElement.availableConnections).toHaveLength(2);
+                expect(result.canvasElement.availableConnections[0]).toEqual({type: CONNECTOR_TYPE.DEFAULT});
+                expect(result.canvasElement.availableConnections[1]).toEqual({type: CONNECTOR_TYPE.FAULT});
+            });
+
+            it('wait has the right connectorCount when addFaultConnectionForWaitElement is truthy', () => {
+                waitFromPropertyEditor.guid = existingWaitGuid;
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+                expect(result.canvasElement.connectorCount).toEqual(1);
+            });
+
+            it('wait has the right maxConnections', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+                expect(result.canvasElement.maxConnections).toEqual(3);
             });
         });
 
         describe('new/modified waitEvents', () => {
-            it('wait includes waitEvent references for all waitEvents present', () => {
-                const waitEvents = [
+            let waitEvents;
+
+            beforeEach(() => {
+                waitEvents = [
                     { guid: 'a'},
                     { guid: 'b'},
                     { guid: 'c'}
                 ];
 
                 waitFromPropertyEditor.waitEvents = waitEvents;
-
-                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-
-                expect(result.wait.waitEventReferences).toHaveLength(3);
-                expect(result.wait.waitEventReferences[0].waitEventReference).toEqual(waitEvents[0].guid);
-                expect(result.wait.waitEventReferences[1].waitEventReference).toEqual(waitEvents[1].guid);
-                expect(result.wait.waitEventReferences[2].waitEventReference).toEqual(waitEvents[2].guid);
             });
-            it('includes waitEvents for all waitEvents present', () => {
-                const waitEvents = [
-                    { guid: 'a'},
-                    { guid: 'b'},
-                    { guid: 'c'}
-                ];
 
-                waitFromPropertyEditor.waitEvents = waitEvents;
-
+            it('wait includes waitEvent references for all waitEvents present', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
-                expect(result.waitEvents).toHaveLength(3);
-                expect(result.waitEvents[0].guid).toEqual(waitEvents[0].guid);
-                expect(result.waitEvents[1].guid).toEqual(waitEvents[1].guid);
-                expect(result.waitEvents[2].guid).toEqual(waitEvents[2].guid);
+                expect(result.canvasElement.waitEventReferences).toHaveLength(3);
+                expect(result.canvasElement.waitEventReferences[0].waitEventReference).toEqual(waitEvents[0].guid);
+                expect(result.canvasElement.waitEventReferences[1].waitEventReference).toEqual(waitEvents[1].guid);
+                expect(result.canvasElement.waitEventReferences[2].waitEventReference).toEqual(waitEvents[2].guid);
+            });
+
+            it('includes waitEvents for all waitEvents present', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+
+                expect(result.childElements).toHaveLength(3);
+                expect(result.childElements[0].guid).toEqual(waitEvents[0].guid);
+                expect(result.childElements[1].guid).toEqual(waitEvents[1].guid);
+                expect(result.childElements[2].guid).toEqual(waitEvents[2].guid);
+            });
+
+            it('has the right maxConnections', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+
+                expect(result.canvasElement.maxConnections).toEqual(5);
             });
         });
+
         describe('deleted waitEvents', () => {
-            it('wait does not include waitEvent references for deleted waitEvents', () => {
+            beforeEach(() => {
                 waitFromPropertyEditor = {
                     guid: existingWaitGuid,
                     waitEvents: [{
                         guid: 'waitEvent1'
                     }]
                 };
-
-                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
-
-                expect(result.wait.waitEventReferences).toHaveLength(1);
-                expect(result.wait.waitEventReferences[0].waitEventReference).toEqual(waitFromPropertyEditor.waitEvents[0].guid);
             });
-            it('includes all deleted waitEvents', () => {
-                waitFromPropertyEditor = {
-                    guid: existingWaitGuid,
-                    waitEvents: [{
-                        guid: 'waitEvent1'
-                    }]
-                };
 
+            it('wait does not include waitEvent references for deleted waitEvents', () => {
                 const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
 
-                expect(result.deletedWaitEvents).toHaveLength(2);
-                expect(result.deletedWaitEvents[0].guid).toEqual(foundElementGuidPrefix + existingWait.waitEventReferences[0].waitEventReference);
-                expect(result.deletedWaitEvents[1].guid).toEqual(foundElementGuidPrefix + existingWait.waitEventReferences[1].waitEventReference);
+                expect(result.canvasElement.waitEventReferences).toHaveLength(1);
+                expect(result.canvasElement.waitEventReferences[0].waitEventReference).toEqual(waitFromPropertyEditor.waitEvents[0].guid);
+            });
+
+            it('includes all deleted waitEvents', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+
+                expect(result.deletedChildElementGuids).toHaveLength(2);
+                expect(result.deletedChildElementGuids[0]).toEqual(existingWait.waitEventReferences[0].waitEventReference);
+                expect(result.deletedChildElementGuids[1]).toEqual(existingWait.waitEventReferences[1].waitEventReference);
+            });
+
+            it('has the right maxConnections', () => {
+                const result = createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor(waitFromPropertyEditor);
+
+                expect(result.canvasElement.maxConnections).toEqual(3);
             });
         });
     });
@@ -540,8 +599,8 @@ describe('wait', () => {
 
                 expect(wait.waitEvents).toHaveLength(3);
                 expect(wait.waitEvents[0].guid).toEqual(existingWaitEventGuid);
-                expect(wait.waitEvents[1].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[1].waitEventReference);
-                expect(wait.waitEvents[2].guid).toEqual(foundElementGuidPrefix + waitFromStore.waitEventReferences[2].waitEventReference);
+                expect(wait.waitEvents[1].guid).toEqual(waitFromStore.waitEventReferences[1].waitEventReference);
+                expect(wait.waitEvents[2].guid).toEqual(waitFromStore.waitEventReferences[2].waitEventReference);
             });
 
             describe('conditions', () => {

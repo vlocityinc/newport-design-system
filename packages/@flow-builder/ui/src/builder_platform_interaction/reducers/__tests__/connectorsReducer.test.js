@@ -61,9 +61,9 @@ describe('connectors-reducer', () => {
     describe('MODIFY_DECISION_WITH_OUTCOMES', () => {
         it('with no deleted connectors does nothing', () => {
             const payloadWithNoDeletedComponents = {
-                decision: {},
-                outcomes: [{}],
-                deletedOutcomes: [],
+                canvasElement: {},
+                childElements: [{}],
+                deletedChildElementGuids: [],
             };
 
             expect(reducer(connectorsState, {
@@ -75,11 +75,11 @@ describe('connectors-reducer', () => {
         describe('with modified outcome label', () => {
             it('with no connections does nothing', () => {
                 const payloadWithModifiedOutcomeButNoConnection = {
-                    decision: {},
-                    outcomes: [{
+                    canvasElement: {},
+                    childElements: [{
                         guid: 'outcomeWithNoConnection'
                     }],
-                    deletedOutcomes: [{}],
+                    deletedChildElementGuids: [],
                 };
 
                 expect(reducer(connectorsState, {
@@ -92,12 +92,12 @@ describe('connectors-reducer', () => {
                 const newLabel = 'new label!';
 
                 const payloadWithModifiedOutcomeWithConnection = {
-                    decision: {},
-                    outcomes: [{
+                    canvasElement: {},
+                    childElements: [{
                         guid: 'childGuid1',
                         label: newLabel
                     }],
-                    deletedOutcomes: [],
+                    deletedChildElementGuids: [],
                 };
 
                 const updatedConnectors = reducer(connectorsState, {
@@ -112,9 +112,9 @@ describe('connectors-reducer', () => {
         describe('with deleted outcome', () => {
             it('with no connections does nothing', () => {
                 const payloadWithDeletedOutcomeButNoConnection = {
-                    decision: {},
-                    outcomes: [{}],
-                    deletedOutcomes: [{}],
+                    canvasElement: {},
+                    childElements: [{}],
+                    deletedChildElementGuids: [],
                 };
 
                 expect(reducer(connectorsState, {
@@ -125,11 +125,9 @@ describe('connectors-reducer', () => {
 
             it('with connections deletes the connection', () => {
                 const payloadWithDeletedOutcomeWithConnection = {
-                    decision: {},
-                    outcomes: [{}],
-                    deletedOutcomes: [{
-                        guid: 'childGuid1'
-                    }],
+                    canvasElement: {},
+                    childElements: [{}],
+                    deletedChildElementGuids: ['childGuid1'],
                 };
 
                 expect(reducer(connectorsState, {
@@ -144,11 +142,11 @@ describe('connectors-reducer', () => {
         describe('with modified wait event label', () => {
             it('with no connections does nothing', () => {
                 const payloadWithModifiedWaitEventButNoConnection = {
-                    wait: {},
-                    waitEvents: [{
+                    canvasElement: {},
+                    childElements: [{
                         guid: 'waitEventWithNoConnection'
                     }],
-                    deletedWaitEvents: [{}],
+                    deletedChildElementGuids: [],
                 };
 
                 expect(reducer(connectorsState, {
@@ -161,12 +159,12 @@ describe('connectors-reducer', () => {
                 const newLabel = 'new label!';
 
                 const payloadWithModifiedWaitEventButNoConnection = {
-                    wait: {},
-                    waitEvents: [{
+                    canvasElement: {},
+                    childElements: [{
                         guid: 'childGuid1',
                         label: newLabel
                     }],
-                    deletedWaitEvents: [],
+                    deletedChildElementGuids: [],
                 };
 
                 const updatedConnectors = reducer(connectorsState, {
@@ -181,9 +179,9 @@ describe('connectors-reducer', () => {
         describe('with deleted wait event', () => {
             it('with no connections does nothing', () => {
                 const payloadWithDeletedWaitEventButNoConnection = {
-                    wait: {},
-                    waitEvents: [{}],
-                    deletedWaitEvents: [{}],
+                    canvasElement: {},
+                    childElements: [{}],
+                    deletedChildElementGuids: [],
                 };
 
                 expect(reducer(connectorsState, {
@@ -194,11 +192,9 @@ describe('connectors-reducer', () => {
 
             it('with connections deletes the connection', () => {
                 const payloadWithDeletedWaitEventWithConnection = {
-                    wait: {},
-                    waitEvents: [{}],
-                    deletedWaitEvents: [{
-                        guid: 'childGuid1'
-                    }],
+                    canvasElement: {},
+                    childElements: [{}],
+                    deletedChildElementGuids: ['childGuid1'],
                 };
 
                 expect(reducer(connectorsState, {
