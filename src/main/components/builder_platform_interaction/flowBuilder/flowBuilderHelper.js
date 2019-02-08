@@ -11,7 +11,7 @@
 
     getContextCallback : function(response) {
         if (response.error) {
-            // TODO: handle error case
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else {
             // The root is builder_platform_interaction:flowBuilder.
             var cmp = $A.getRoot();

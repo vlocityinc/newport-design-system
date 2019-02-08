@@ -189,7 +189,7 @@ export default class Editor extends LightningElement {
      */
     getFlowCallback = ({data, error}) => {
         if (error) {
-            // TODO: handle error case
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
             this.setOriginalFlowValues();
@@ -283,7 +283,7 @@ export default class Editor extends LightningElement {
      */
     saveFlowCallback = ({data, error}) => {
         if (error) {
-            // TODO: handle error case
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else if (data.isSuccess) {
             this.currentFlowId = data.flowId;
             storeInstance.dispatch(updatePropertiesAfterSaving({

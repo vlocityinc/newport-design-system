@@ -3,7 +3,6 @@
  */
 const eventName = 'waiteventdeleteparameter';
 
-// TODO: Add name parameter and make index optional.  This will be needed for output parameters
 export class WaitEventDeleteParameterEvent {
     constructor(name = null, parentGUID, isInputParameter, index = null) {
         return new CustomEvent(eventName, {

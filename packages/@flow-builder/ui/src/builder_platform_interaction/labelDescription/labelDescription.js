@@ -156,7 +156,6 @@ export default class LabelDescription extends LightningElement {
     updateStateAndDispatch(value, prop) {
         if (this.state[prop].value !== value) {
             const event = new PropertyChangedEvent(
-                // TODO get property name from constant source
                 prop,
                 value);
             this.dispatchEvent(event);

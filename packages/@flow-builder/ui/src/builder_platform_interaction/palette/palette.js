@@ -152,9 +152,6 @@ export default class Palette extends LightningElement {
                 return;
             }
 
-            // TODO: The setDragImage function is not supported in IE11, we'll need
-            // to create our own polyfill since the Raptor team doesn't plan on
-            // creating one in the near future.
             const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
             let dragElement = paletteItem.dragImage;
             if (!dragElement) {

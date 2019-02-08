@@ -11,7 +11,7 @@ import {
 } from "builder_platform_interaction/events";
 
 const addAssignmentItem = (state) => {
-    // TODO this should come from some assignment item factory like propertyEditorDataMutation that is shared with the translation layer
+    // TODO this should come from the assignment element factory W-5825956
     const emptyAssignmentItem = {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
@@ -20,7 +20,6 @@ const addAssignmentItem = (state) => {
         rowIndex: generateGuid(),
     };
 
-    // TODO do validation for if we should not add in case the length is upto certain limit
     const path = ['assignmentItems', state.assignmentItems.length];
     return set(state, path, emptyAssignmentItem);
 };

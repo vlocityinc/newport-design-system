@@ -230,7 +230,6 @@ export const REFERENCE_FIELDS = new Set([
  * These would also need to be replaced
  */
 export const TEMPLATE_FIELDS = new Set([
-    // TODO fill out more values and confirm that all FEROV stringValue fields allow this behaviour
     'stringValue', // field of a ferov
     'expression',  // represents body of a formula
     'text',        // represents body of a text template

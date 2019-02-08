@@ -1,7 +1,5 @@
 import { isUndefinedOrNull } from "builder_platform_interaction/commonUtils";
 
-// TODO: pass blacklist config form editor Idea is blackListFields being passed per elementType, this config should probably come from builder-utils
-
 const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
 
 /**

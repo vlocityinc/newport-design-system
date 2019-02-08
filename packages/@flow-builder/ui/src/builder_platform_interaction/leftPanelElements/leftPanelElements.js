@@ -26,7 +26,7 @@ export default class LeftPanelElements extends LightningElement {
      */
     getElementsLeftPalette = ({data, error}) => {
         if (error) {
-            // TODO: handle error case
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else {
             logPerfMarkStart(leftPanelElements);
             this.leftPanelElementsList = getElementSections(data);

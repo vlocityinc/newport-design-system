@@ -457,7 +457,6 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.RECORD_DELETE]: {
-        // TODO: recordEditor is only a place holder now.
         descriptor: 'builder_platform_interaction:recordDeleteEditor',
         nodeConfig: {
             iconName: 'standard:record_delete',

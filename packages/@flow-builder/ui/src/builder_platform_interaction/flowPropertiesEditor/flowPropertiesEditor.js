@@ -149,7 +149,6 @@ export default class FlowPropertiesEditor extends LightningElement {
      * @return {string}
      */
     get lastModifiedText() {
-        // TODO: user is currently an id.  We need to get the user name.  will happen as part of this story
         return format(LABELS.lastModifiedText, this.flowProperties.lastModifiedBy.value, normalizeDateTime(this.flowProperties.lastModifiedDate.value, true));
     }
 

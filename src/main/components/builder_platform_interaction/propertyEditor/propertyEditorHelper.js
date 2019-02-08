@@ -6,8 +6,7 @@
                 if (status === 'SUCCESS') {
                     var body = cmp.find('body-content');
                     body && body.set('v.body', newCmp); // setting the newly created assignment editor here in body
-                } else if (status === 'ERROR') {
-                    // TODO: handle it more elegantly using a generic user friendly error message popup instead of a stack trace.
+                } else if (status === 'ERROR') {                    
                     throw new Error('Error creating the property editor: ' + errorMessage);
                 }              
             });

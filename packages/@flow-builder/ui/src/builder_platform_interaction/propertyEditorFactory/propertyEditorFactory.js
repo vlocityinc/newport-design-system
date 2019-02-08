@@ -44,7 +44,7 @@ export function getElementForStore(element) {
     if (!elementType) {
         throw new Error('ElementType is not defined for creation of resource element');
     }
-    // TODO: REMOVE THIS DEEP COPY ASAP
+    // TODO: REMOVE THIS DEEP COPY ASAP W-5501173
     const elementAfterDehydrateAndUnwrap = dehydrate(deepCopy(element));
     const { factory } = getConfigForElementType(elementType);
     const { propertyEditor, closePropertyEditor } = factory;
