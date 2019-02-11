@@ -23,7 +23,7 @@ describe('Rich text display field', () => {
         displayWrapperCmp = createComponentForTest({
             value: {value: displayValue, error: null},
             title: titleValue,
-            typeName: 'DisplayRichText'
+            typeName: 'DisplayText'
         });
     });
     it('Value should be displayed', () => {
@@ -33,22 +33,3 @@ describe('Rich text display field', () => {
         });
     });
 });
-
-describe('Text display field', () => {
-    let displayWrapperCmp;
-    const displayValue = 'Happy Trails';
-    beforeEach(() => {
-        displayWrapperCmp = createComponentForTest({
-            value: {value: displayValue, error: null},
-            title: titleValue,
-            typeName: 'DisplayText'
-        });
-    });
-    it('Value shoudld be displayed ', () => {
-        return Promise.resolve().then(() => {
-            const disp = getShadowRoot(displayWrapperCmp).querySelector(SELECTORS.BASIC);
-            expect(disp.value).toEqual(displayValue);
-        });
-    });
-});
-

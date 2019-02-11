@@ -9,10 +9,6 @@ export default class ScreenDisplayTextField extends LightningElement {
     @api typeName;
     @track _value;
 
-    get isDisplayRichTextType() {
-        return this.typeName === 'DisplayRichText';
-    }
-
     @api
     get value() {
         return this._value && this._value.value ? this._value.value : getPlaceHolderLabel(this.typeName);

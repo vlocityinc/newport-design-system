@@ -35,7 +35,6 @@ import fieldTypeLabelMultiSelectCheckboxes from "@salesforce/label/FlowBuilderSc
 import fieldTypeLabelMultiSelectPicklist from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelMultiSelectPicklist";
 import fieldTypeLabelPicklist from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelPicklist";
 import fieldTypeLabelDisplayText from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayText";
-import fieldTypeLabelDisplayRichText from "@salesforce/label/FlowBuilderScreenEditor.fieldTypeLabelDisplayRichText";
 import addChoice from '@salesforce/label/FlowBuilderScreenEditor.addChoice';
 import choices from '@salesforce/label/FlowBuilderScreenEditor.choices';
 import buttonHelpTextAltText from "@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText";
@@ -117,7 +116,6 @@ export const LABELS = {
     fieldTypeLabelMultiSelectPicklist,
     fieldTypeLabelPicklist,
     fieldTypeLabelDisplayText,
-    fieldTypeLabelDisplayRichText,
     fieldValidation,
     choices,
     buttonHelpTextAltText,

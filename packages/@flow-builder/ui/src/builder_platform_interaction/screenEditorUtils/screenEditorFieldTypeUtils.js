@@ -121,18 +121,6 @@ const screenFieldTypes = [
         type: 'String'
     },
 ];
-/*
- *  The display rich text component will be added in the future:
- *  {
-        name: 'DisplayRichText',
-        fieldType: 'DisplayText',
-        dataType: undefined,
-        label: LABELS.fieldTypeLabelDisplayRichText,
-        icon: 'standard:type_tool',
-        category: LABELS.fieldCategoryDisplay,
-        type: 'String'
-    }
- */
 
 /**
  * Returns a Promise that will be resolved once the extension field types have been retrieved.

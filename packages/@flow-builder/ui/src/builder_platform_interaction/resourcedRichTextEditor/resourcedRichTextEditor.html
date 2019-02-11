@@ -1,0 +1,22 @@
+<template>
+    <div class='property-input slds-form-element'>
+        <label for={name} class='slds-form-element__label'>
+            <abbr if:true={isRequired} title={labels.inputRequiredTitle} class='slds-required'>*</abbr>
+            {label}
+        </label>
+        <lightning-helptext if:true={helpText} class='slds-form-element' content={helpText}></lightning-helptext>
+        
+
+        <lightning-input-rich-text formats={formats}
+                                   value={state.value}
+                                   variant='bottom-toolbar'
+                                   onchange={handleChangeEvent}
+                                   onblur={handleBlurEvent}>
+        </lightning-input-rich-text>
+
+        <div if:true={state.error} class='slds-has-error'>
+            <div role='alert' class='slds-form-element__help'>{state.error}</div>
+        </div>
+    </div>
+
+</template>

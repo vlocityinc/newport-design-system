@@ -46,8 +46,8 @@
                             value={propertyValue}
                             onchange={handleEvent}>
         </lightning-combobox>
-
-        <builder_platform_interaction-resourced-textarea if:true={isLongString}
+ 
+         <builder_platform_interaction-resourced-textarea if:true={isLongString}
                                                          class='property-input'
                                                          help-text={helpText}
                                                          label={label}
@@ -57,15 +57,16 @@
                                                          onblur={handleEvent}
                                                          onchange={handleEvent}>
         </builder_platform_interaction-resourced-textarea>
-        
-        <lightning-input-rich-text if:true={isRichString}
-                                   class='property-input'
-                                   formats={formats}
-                                   label={label}
-                                   name={name}
-                                   value={propertyValue}
-                                   onblur={handleEvent}
-                                   onchange={handleEvent}>
-        </lightning-input-rich-text>
+ 
+        <builder_platform_interaction-resourced-rich-text-editor if:true={isRichString}
+                                                       class='property-input'
+                                                       help-text={helpText}
+                                                       label={label}
+                                                       required={required}
+                                                       value={value}
+                                                       onblur={handleEvent}
+                                                       onchange={handleEvent}>
+        </builder_platform_interaction-resourced-rich-text-editor>
+    
     </div>
 </template>

@@ -9,9 +9,6 @@ import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker"
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-// QUILL supported formats
-const RTE_FORMATS = ['abbr', 'address', 'align', 'alt', 'background', 'bdo', 'big', 'blockquote', 'bold', 'cite', 'clean', 'code', 'code-block', 'color', 'data-fileid', 'del', 'dfn', 'direction', 'divider', 'dl', 'dd', 'dt', 'font', 'header', 'image', 'indent', 'ins', 'italic', 'kbd', 'link', 'list', 'q', 'samp', 'script', 'size', 'small', 'strike', 'sup', 'table', 'tt', 'underline', 'var'];
-
 /*
  * A property editor
  */
@@ -36,7 +33,6 @@ export default class ScreenPropertyField extends LightningElement {
 
     currentError;
     labels = LABELS;
-    formats = RTE_FORMATS;
     rules = [];
 
     constructor() {
@@ -197,8 +193,10 @@ export default class ScreenPropertyField extends LightningElement {
         const input = this.input;
         if (this.allowsResources) {
             return input.value && input.value.hasOwnProperty('value') ? input.value.value : input.value;
-        } else if (this.isLongString || this.isRichString) {
+        } else if (this.isLongString) {
             return input.value.value;
+        } else if (this.isRichString) {
+            return input.value;
         } else if (this.isBoolean) {
             return input.checked;
         } else if (this.isString || this.isNumber || this.isList) {
@@ -226,7 +224,7 @@ export default class ScreenPropertyField extends LightningElement {
 
         // If this is a change event, we don't want to always handle it, because it can
         // be too noisy.
-        if (event.type === 'change' && !this.isBoolean && !this.isList && !this.isLongString) {
+        if (event.type === 'change' && !this.isBoolean && !this.isList && !this.isLongString && !this.isRichString) {
             return;
         }
 
@@ -238,6 +236,9 @@ export default class ScreenPropertyField extends LightningElement {
         } else if (this.isList && event.detail.value) { // And it contains a ferov from a static list
             newGuid = event.detail.value;
         } else if (this.isLongString && event.detail.value) {
+            newValue = event.detail.value;
+            ferovDataType = FEROV_DATA_TYPE.STRING;
+        } else if (this.isRichString && event.detail && event.detail.value) {
             newValue = event.detail.value;
             ferovDataType = FEROV_DATA_TYPE.STRING;
         } else {
