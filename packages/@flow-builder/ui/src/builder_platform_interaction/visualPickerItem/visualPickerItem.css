@@ -11,9 +11,15 @@
     padding: var(--lwc-spacingXSmall);
 }
 
+.slds-visual-picker input:not(:checked) ~ label .slds-visual-picker__figure:not(:hover) {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+  border: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
+}
+
 /*truncate the text to 2 lines*/
 .slds-text-title {
-    max-height: calc(var(--lwc-lineHeightHeading)rem*2 - var(--lwc-spacingXSmall));
+    line-height: var(--lwc-lineHeightHeading)rem;
+    max-height: calc(var(--lwc-lineHeightHeading)rem*2);
     overflow: hidden;
     position: relative;
 }
