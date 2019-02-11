@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from './resourcedRichTextEditorLabels';
+import { convertHTMLToQuillHTML } from './richTextConverter';
 
 // all formats except 'image' and 'video'
 const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'strike', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean'];
@@ -20,7 +21,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     };
     labels = LABELS;
     hydrated = false;
-    firstChangeEvent = false;
+    isHTMLSanitized = false;
 
     get isRequired() {
         return booleanAttributeValue(this, 'required');
@@ -47,11 +48,11 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     handleChangeEvent(event) {
         event.stopPropagation();
-        const value = event.detail.value;
-        if (!this.firstChangeEvent) {
+        let value = event.detail.value;
+        if (!this.isHTMLSanitized) {
             // when inputRichText is activated we get a change event
-            // TODO : convert to html that quill can understand (value = ...)
-            this.firstChangeEvent = true;
+            value = convertHTMLToQuillHTML(this.state.value);
+            this.isHTMLSanitized = true;
         }
         const errors = this.validateMergeFields(value);
         const error = errors.length > 0 ? errors[0].message : null;
