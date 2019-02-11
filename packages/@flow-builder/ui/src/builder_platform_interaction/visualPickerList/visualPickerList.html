@@ -1,0 +1,13 @@
+<template>
+    <div class="slds-grid slds-grid_vertical slds-p-around_medium">
+        <legend if:true={title} class="slds-form-element__legend slds-form-element__label slds-m-bottom_small">{title}</legend>
+        <template for:each={itemsPerRow} for:item="row">
+            <div key={row.rowIndex} class="slds-col slds-grid slds-m-bottom_medium">
+                <template for:each={row.items} for:item="item">
+                    <builder_platform_interaction-visual-picker-item class='slds-col slds-size_large slds-col slds-size_large slds-m-right_medium' key={item.itemId} item-id={item.itemId} label={item.label} icon-name={item.iconName} description={item.description} is-selected={item.isSelected} onvisualpickeritemchanged={handleItemChanged}>
+                    </builder_platform_interaction-visual-picker-item>
+                </template>
+            </div>
+        </template>
+    </div>
+</template>
