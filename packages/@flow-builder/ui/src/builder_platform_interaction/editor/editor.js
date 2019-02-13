@@ -1,18 +1,16 @@
 import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { canvasSelector, getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, deleteElement, updatePropertiesAfterSaving, selectOnCanvas } from 'builder_platform_interaction/actions';
+import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
+import { updateFlow, updateProperties, addElement, updateElement, updatePropertiesAfterSaving, selectOnCanvas } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { setEntities, fetchFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
-import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './editorLabels';
 import { setResourceTypes, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
@@ -21,6 +19,7 @@ import { mutateFlowResourceToComboboxShape, getFlowSystemVariableComboboxItem, g
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { getElementsToBeDeleted } from './editorUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -48,13 +47,7 @@ export default class Editor extends LightningElement {
     originalFlowInterviewLabel;
 
     @track
-    appState = {
-        canvas: {
-            nodes: [],
-            connectors: []
-        },
-        properties: {}
-    };
+    properties = {}
 
     @track
     flowErrorsAndWarnings = {
@@ -169,16 +162,7 @@ export default class Editor extends LightningElement {
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
 
-        const nodes = canvasSelector(currentState);
-        const connectors = currentState.connectors;
-        const properties = currentState.properties;
-        this.appState = {
-            canvas : {
-                nodes,
-                connectors
-            },
-            properties
-        };
+        this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
     };
 
@@ -256,9 +240,9 @@ export default class Editor extends LightningElement {
      * save a new version, having changed any of these values, and the save fails, then we can revert back to the original values.
      */
     setOriginalFlowValues()  {
-        this.originalFlowLabel = this.appState.properties.label;
-        this.originalFlowDescription = this.appState.properties.description;
-        this.originalFlowInterviewLabel = this.appState.properties.interviewLabel;
+        this.originalFlowLabel = this.properties.label;
+        this.originalFlowDescription = this.properties.description;
+        this.originalFlowInterviewLabel = this.properties.interviewLabel;
     }
 
     /**
@@ -395,7 +379,7 @@ export default class Editor extends LightningElement {
      * It is called when state of store is changed
      */
     showWarningIfUnsavedChanges = () => {
-        if (this.appState.properties.hasUnsavedChanges) {
+        if (this.properties.hasUnsavedChanges) {
             window.addEventListener('beforeunload', this.beforeUnloadCallback);
         } else {
             window.removeEventListener('beforeunload', this.beforeUnloadCallback);
@@ -563,107 +547,13 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Helper method to determine if the connector is an associated connector or not
-     *
-     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
-     * @param {Object} connector - A single connector object
-     * @return {boolean} returns boolean based on if the connector is associated with any canvas element that is being deleted or not
-     */
-    isAssociatedConnector = (selectedElementGUIDs, connector) => {
-        return (selectedElementGUIDs.indexOf(connector.target) !== -1 || selectedElementGUIDs.indexOf(connector.source) !== -1);
-    };
-
-    /**
-     * Helper method to delete the selected elements
-     *
-     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
-     * @param {String[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
-     * @param {String} elementType - Type of the element being deleted
-     */
-    doDelete = (selectedElementGUIDs, connectorsToDelete, elementType) => {
-        const selectedElementsLength  = selectedElementGUIDs.length;
-        for (let i = 0; i < selectedElementsLength; i++) {
-            const selectedGUID = selectedElementGUIDs[i];
-            lib.removeNodeFromLib(selectedGUID);
-        }
-
-        const payload = {
-            selectedElementGUIDs,
-            connectorsToDelete,
-            elementType
-        };
-        storeInstance.dispatch(deleteElement(payload));
-    };
-
-    /**
-     * Helper method to delete the selected elements or invoke delete alert modal
-     *
-     * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
-     * @param {String[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
-     * @param {String} elementType - Type of the element being deleted
-     */
-    doDeleteOrInvokeAlert = (selectedElementGUIDs, connectorsToDelete, elementType) => {
-        const currentState = storeInstance.getCurrentState();
-        const storeElements = currentState.elements;
-
-        const usedByElements = usedBy(selectedElementGUIDs, storeElements);
-
-        if (!usedByElements || usedByElements.length === 0) {
-            // Deleting the elements that are not being referenced anywhere else
-            this.doDelete(selectedElementGUIDs, connectorsToDelete, elementType);
-        } else {
-            // Handling cases when the element/elements being deleted are being referenced somewhere in the flow
-            invokeUsedByAlertModal(usedByElements, selectedElementGUIDs, elementType, storeElements);
-        }
-    };
-
-    /**
      * Handles the element delete event
      *
      * @param {object} event - multi delete event coming from canvas.js
      */
     handleElementDelete = (event) => {
         if (event && event.detail) {
-            const selectedElementGUIDs = [];
-            const connectorsToDelete = [];
-            let elementType;
-
-            if (!event.detail.selectedElementGUID) {
-                // Adds all the selected nodes to the selectedElementGUIDs array
-                const nodesLength = this.appState.canvas.nodes.length;
-                for (let i = 0; i < nodesLength; i++) {
-                    const canvasElement = this.appState.canvas.nodes[i];
-                    if (canvasElement.config.isSelected) {
-                        selectedElementGUIDs.push(canvasElement.guid);
-                    }
-                }
-
-                // Adds all the selected and associated connectors to the connectorsToDelete array
-                const connectorsLength = this.appState.canvas.connectors.length;
-                for (let i = 0; i < connectorsLength; i++) {
-                    const connector = this.appState.canvas.connectors[i];
-                    if (connector.config.isSelected) {
-                        connectorsToDelete.push(connector);
-                    } else if (this.isAssociatedConnector(selectedElementGUIDs, connector)) {
-                        connectorsToDelete.push(connector);
-                    }
-                }
-            } else {
-                const selectedGUID = event.detail.selectedElementGUID[0];
-                elementType = event.detail.selectedElementType;
-                selectedElementGUIDs.push(selectedGUID);
-
-                // Adds all the associated connectors to the connectorsToDelete array
-                const connectorsLength = this.appState.canvas.connectors.length;
-                for (let i = 0; i < connectorsLength; i++) {
-                    const connector = this.appState.canvas.connectors[i];
-                    if (this.isAssociatedConnector(selectedElementGUIDs, connector)) {
-                        connectorsToDelete.push(connector);
-                    }
-                }
-            }
-
-            this.doDeleteOrInvokeAlert(selectedElementGUIDs, connectorsToDelete, elementType);
+            getElementsToBeDeleted(storeInstance, event.detail);
         }
     };
 
@@ -742,11 +632,12 @@ export default class Editor extends LightningElement {
     };
 
     renderedCallback() {
+        const currentState = storeInstance.getCurrentState();
         if (!this.isFlowServerCallInProgress && this.spinners.showFlowMetadataSpinner) {
             this.spinners.showFlowMetadataSpinner = false;
             logPerfTransactionEnd(EDITOR, {
-                numOfNodes: this.appState.canvas.nodes.length,
-                numOfConnectors: this.appState.canvas.connectors.length
+                numOfNodes: currentState.canvasElements.length,
+                numOfConnectors: currentState.connectors.length
             });
 
             if (this.flowId) {
