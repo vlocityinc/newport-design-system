@@ -22,6 +22,9 @@ export const SELECT_ON_CANVAS = 'SELECT_ON_CANVAS';
 export const TOGGLE_ON_CANVAS = 'TOGGLE_ON_CANVAS';
 export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
+export const HIGHLIGHT_ON_CANVAS = 'HIGHLIGHT_ON_CANVAS';
+export const UNHIGHLIGHT_ON_CANVAS = 'UNHIGHLIGHT_ON_CANVAS';
+
 export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
 export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
 
@@ -233,3 +236,19 @@ export const toggleOnCanvas = (payload) => createAction(TOGGLE_ON_CANVAS, payloa
  * @returns {Object} action new action based on type and payload
  */
 export const deselectOnCanvas = () => createAction(DESELECT_ON_CANVAS);
+
+/**
+ * Action for setting the isHighlighted property of a canvas element to true
+ *
+ * @param {Object} payload - contains GUID of the element to be toggled
+ * @returns {Object} action new action based on type and payload
+ */
+export const highlightOnCanvas = (payload) => createAction(HIGHLIGHT_ON_CANVAS, payload);
+
+/**
+ * Action for setting the isHighlighted property of a canvas element to false
+ *
+ * @param {Object} payload - contains GUID of the element to be toggled
+ * @returns {Object} action new action based on type and payload
+ */
+export const unhighlightOnCanvas = (payload) => createAction(UNHIGHLIGHT_ON_CANVAS, payload);

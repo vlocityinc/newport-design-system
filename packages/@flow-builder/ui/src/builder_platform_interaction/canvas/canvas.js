@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from "lwc";
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
-import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues } from "./zoomPanUtils";
+import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues, getDistanceBetweenViewportCenterAndElement } from "./zoomPanUtils";
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
 import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from "builder_platform_interaction/events";
 import { KEYS } from "./keyConstants";
@@ -377,20 +377,20 @@ export default class Canvas extends LightningElement {
      *
      * @param {Object} event drag over event
      */
-    handleDragOver(event) {
+    handleDragOver = (event) => {
         event.preventDefault();
         // NOTE: For security reasons, we don't have access to data in the dataTransfer object in
         // the drag over event. This prevents things like dom elements from other namespaces from
         // being able to see data they're not supposed to see.
         event.dataTransfer.dropEffect = 'copy';
-    }
+    };
 
     /**
      * Handler for when a draggable element is dropped on the canvas.
      *
      * @param {Object} event drop event
      */
-    handleDrop(event) {
+    handleDrop = (event) => {
         event.preventDefault();
         const elementType = event.dataTransfer.getData('text');
         if (!isCanvasElement(elementType)) {
@@ -402,7 +402,282 @@ export default class Canvas extends LightningElement {
 
         const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
         this.dispatchEvent(addElementEvent);
-    }
+    };
+
+    /**
+     * Helper function to set the id on the canvas element container.
+     *
+     * @param {Object} canvasElementContainer - Container of the canvas element
+     * @param {String} canvasElementGuid - Guid of the canvas element
+     * @private
+     */
+    _setIdOnCanvasElementContainer = (canvasElementContainer, canvasElementGuid) => {
+        if (!canvasElementContainer) {
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
+        }
+
+        if (!canvasElementGuid) {
+            throw new Error('canvasElementGuid is not defined. It must be defined.');
+        }
+
+        if (!canvasElementContainer.getAttribute('id')) {
+            canvasElementContainer.setAttribute('id', canvasElementGuid);
+        }
+    };
+
+    /**
+     * Helper function to set the canvas element as draggable using jsPlumb.
+     *
+     * @param {Object} canvasElementContainerTemplate - Template of the canvas element
+     * @param {Object} canvasElementContainer - Container of the canvas element
+     * @param {String} elementType - Type of the canvas element
+     * @private
+     */
+    _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementContainer, elementType) => {
+        if (!canvasElementContainerTemplate) {
+            throw new Error('canvasElementContainerTemplate is not defined. It must be defined.');
+        }
+
+        if (!canvasElementContainer) {
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
+        }
+
+        if (!elementType) {
+            throw new Error('elementType is not defined. It must be defined.');
+        }
+
+        if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
+            lib.setDraggable(canvasElementContainer, {
+                start: canvasElementContainerTemplate.dragStart,
+                stop: canvasElementContainerTemplate.dragStop,
+                drag: canvasElementContainerTemplate.drag
+            });
+        }
+    };
+
+    /**
+     * Helper function to set the canvas element as a target using jsPlumb.
+     *
+     * @param {Object} canvasElementContainer - Container of the canvas element
+     * @param {String} elementType - Type of the canvas element
+     * @private
+     */
+    _setElementAsTarget = (canvasElementContainer, elementType) => {
+        if (!canvasElementContainer) {
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
+        }
+
+        if (!elementType) {
+            throw new Error('elementType is not defined. It must be defined.');
+        }
+
+        if (elementType !== ELEMENT_TYPE.START_ELEMENT && !lib.isTarget(canvasElementContainer)) {
+            lib.makeTarget(canvasElementContainer);
+        }
+    };
+
+    /**
+     * Helper function to set the canvas element as a source using jsPlumb.
+     *
+     * @param {Object} canvasElementContainer - Container of the canvas element
+     * @private
+     */
+    _setElementAsSource = (canvasElementContainer) => {
+        if (!canvasElementContainer) {
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
+        }
+
+        if (!lib.isSource(canvasElementContainer)) {
+            lib.makeSource(canvasElementContainer);
+        }
+    };
+
+    /**
+     * Helper function to update the drag selection based on the isSelected and addToDragSelection config.
+     *
+     * @param {Object} canvasElementContainer - Container of the canvas element
+     * @param {Object} canvasElementConfig - Canvas element's config
+     * @private
+     */
+    _updateDragSelection = (canvasElementContainer, canvasElementConfig = {}) => {
+        if (!canvasElementContainer) {
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
+        }
+
+        if (canvasElementConfig.isSelected || canvasElementConfig.addToDragSelection) {
+            lib.addToDragSelection(canvasElementContainer);
+        } else {
+            lib.removeFromDragSelection(canvasElementContainer);
+        }
+    };
+
+    /**
+     * Helper function to update the innerCanvas offsets (on a given scale) and the centerOffsets (on scale 1).
+     *
+     * @param {Number} innerCanvasOffsetLeft - New offsetLeft of the innerCanvas
+     * @param {Number} innerCanvasOffsetTop - New offsetLeft of the innerCanvas
+     * @private
+     */
+    _panElementToView = (innerCanvasOffsetLeft = 0, innerCanvasOffsetTop = 0) => {
+        this.innerCanvasArea.style.left = innerCanvasOffsetLeft + 'px';
+        this.innerCanvasArea.style.top = innerCanvasOffsetTop + 'px';
+
+        this.centerOffsetX = -(innerCanvasOffsetLeft / this.currentScale);
+        this.centerOffsetY = -(innerCanvasOffsetTop / this.currentScale);
+    };
+
+    /**
+     * Helper function to bring the element into the viewport if it's highlighted and not already present in the viewport.
+     *
+     * @param {String} canvasElementGuid - Guid of the element that needs to be searched and highlighted
+     * @param {Object} canvasElementConfig - Canvas element's config
+     * @private
+     */
+    _panElementToViewIfNeeded = (canvasElementGuid = '', canvasElementConfig = {}) => {
+        if (canvasElementConfig.isHighlighted) {
+            const searchedElementArray = this.nodes.filter(node => node.guid === canvasElementGuid);
+
+            if (searchedElementArray && searchedElementArray.length === 1) {
+                const searchedElement = searchedElementArray[0];
+                const EDGE_SPACING = 50;
+
+                this.viewportWidth = this.canvasArea.clientWidth;
+                this.viewportHeight = this.canvasArea.clientHeight;
+                this.viewportCenterX = this.viewportWidth / 2;
+                this.viewportCenterY = this.viewportHeight / 2;
+
+                // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
+                const { newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop } = getDistanceBetweenViewportCenterAndElement(this.viewportCenterX, this.viewportCenterY, searchedElement.locationX, searchedElement.locationY, this.currentScale);
+
+                // Calculate the absoluteDistance between the center of the viewport and new offset of the innerCanvas (calculated above)
+                const absoluteDistanceX = Math.abs(this.innerCanvasArea.offsetLeft - newInnerCanvasOffsetLeft);
+                const absoluteDistanceY = Math.abs(this.innerCanvasArea.offsetTop - newInnerCanvasOffsetTop);
+
+                // If the absoluteDistance is more that the center of the viewport then that would mean that the searched
+                // canvas element lies outside the current viewport. In this case, we need to update our offsets to the newly
+                // calculated ones and bring the searched canvas element into the center of the viewport
+                if (absoluteDistanceX > (this.viewportCenterX - EDGE_SPACING) || absoluteDistanceY > (this.viewportCenterY - EDGE_SPACING)) {
+                    this._panElementToView(newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop);
+                }
+            }
+        }
+    };
+
+    /**
+     * Helper function to set the id and jsPlumb properties on the canvas elements. Also updates the drag selection and
+     * pans the element into view if needed.
+     *
+     * @param {Object[]} canvasElements - Array of Canvas Elements present in the store
+     * @private
+     */
+    _setupCanvasElements = (canvasElements) => {
+        const canvasElementsLength = canvasElements && canvasElements.length;
+        for (let canvasElementIndex = 0; canvasElementIndex < canvasElementsLength; canvasElementIndex++) {
+            const canvasElementContainerTemplate = canvasElements[canvasElementIndex];
+            const canvasElementContainer = canvasElementContainerTemplate && canvasElementContainerTemplate.shadowRoot && canvasElementContainerTemplate.shadowRoot.firstChild;
+
+            const canvasElementGuid = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.guid;
+            this._setIdOnCanvasElementContainer(canvasElementContainer, canvasElementGuid);
+
+            const elementType = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.elementType;
+            this._setElementAsDraggable(canvasElementContainerTemplate, canvasElementContainer, elementType);
+            this._setElementAsTarget(canvasElementContainer, elementType);
+            this._setElementAsSource(canvasElementContainer);
+
+            const canvasElementConfig = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.config;
+            this._updateDragSelection(canvasElementContainer, canvasElementConfig);
+            this._panElementToViewIfNeeded(canvasElementGuid, canvasElementConfig);
+        }
+    };
+
+    /**
+     * Helper function to set up a jsPlumb Connection.
+     *
+     * @param {Object} connectorTemplate - Connector's Template object
+     * @param {Object} connector - Object containing the connector data
+     * @returns {Object} jsPlumbConnector - Newly setup jsPlumb connection
+     * @private
+     */
+    _setJsPlumbConnection = (connectorTemplate, connector) => {
+        if (!connectorTemplate) {
+            throw new Error('connectorTemplate is not defined. It must be defined.');
+        }
+
+        if (!connector) {
+            throw new Error('connector is not defined. It must be defined.');
+        }
+
+        const jsPlumbConnector = lib.setExistingConnections(connector.source, connector.target, connector.label, connector.guid, connector.type);
+        connectorTemplate.setJsPlumbConnector(jsPlumbConnector);
+        return jsPlumbConnector;
+    };
+
+    /**
+     * Helper function to update the styling of the connector based on it's selected state.
+     *
+     * @param {Object} connector - Object containing the connector data
+     * @param {Object} jsPlumbConnector - Connector Object provided by jsPlumb
+     * @private
+     */
+    _updateConnectorStyling = (connector, jsPlumbConnector) => {
+        if (!connector) {
+            throw new Error('connector is not defined. It must be defined.');
+        }
+
+        if (!jsPlumbConnector) {
+            throw new Error('jsPlumbConnector is not defined. It must be defined.');
+        }
+
+        if (connector.config.isSelected) {
+            lib.selectConnector(jsPlumbConnector, connector.type);
+        } else {
+            lib.deselectConnector(jsPlumbConnector, connector.type);
+        }
+    };
+
+    /**
+     * Helper function to set up the connector label.
+     *
+     * @param {Object} connector - Object containing the connector data
+     * @param {Object} jsPlumbConnector - Connector Object provided by jsPlumb
+     * @private
+     */
+    _setConnectorLabel = (connector, jsPlumbConnector) => {
+        if (!connector) {
+            throw new Error('connector is not defined. It must be defined.');
+        }
+
+        if (!jsPlumbConnector) {
+            throw new Error('jsPlumbConnector is not defined. It must be defined.');
+        }
+
+        if (jsPlumbConnector.getLabel() !== connector.label) {
+            jsPlumbConnector.setLabel(connector.label);
+        }
+    };
+
+    /**
+     * Helper function to set the jsPlumb properties on the connectors along with updating the styling of the connectors.
+     *
+     * @param {Object[]} connectors - Array of connectors present in the store
+     * @private
+     */
+    _setupConnectors = (connectors) => {
+        const connectorsLength = connectors && connectors.length;
+        for (let connectorIndex = 0; connectorIndex < connectorsLength; connectorIndex++) {
+            const connectorTemplate = connectors[connectorIndex];
+            const connector = connectorTemplate && connectorTemplate.connector;
+
+            let jsPlumbConnector = connectorTemplate && connectorTemplate.getJsPlumbConnector && connectorTemplate.getJsPlumbConnector();
+
+            if (!jsPlumbConnector) {
+                jsPlumbConnector = this._setJsPlumbConnection(connectorTemplate, connector);
+            } else {
+                this._updateConnectorStyling(connector, jsPlumbConnector);
+                this._setConnectorLabel(connector, jsPlumbConnector);
+            }
+        }
+    };
 
     renderedCallback() {
         if (!lib.getContainer()) {
@@ -412,61 +687,12 @@ export default class Canvas extends LightningElement {
         }
         const canvasElements = this.template.querySelectorAll('builder_platform_interaction-node');
         const connectors = this.template.querySelectorAll('builder_platform_interaction-connector');
-        const canvasElementsLength = canvasElements.length;
-        const connectorsLength = connectors.length;
+
         lib.setSuspendDrawing(true);
-        for (let canvasElementIndex = 0; canvasElementIndex < canvasElementsLength; canvasElementIndex++) {
-            const canvasElementContainerTemplate = canvasElements[canvasElementIndex];
-            const dragStart = canvasElementContainerTemplate.dragStart;
-            const dragStop = canvasElementContainerTemplate.dragStop;
-            const drag = canvasElementContainerTemplate.drag;
-            const canvasElementContainer = canvasElementContainerTemplate.shadowRoot.firstChild;
-            if (!canvasElementContainer.getAttribute('id')) {
-                canvasElementContainer.setAttribute('id', canvasElementContainerTemplate.node.guid);
-            }
-            const isSelected = canvasElementContainerTemplate.node.config.isSelected;
-            const addToDragSelection = canvasElementContainerTemplate.node.config.addToDragSelection;
-            const elementType = canvasElementContainerTemplate.node.elementType;
 
-            if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
-                lib.setDraggable(canvasElementContainer, {
-                    start : dragStart,
-                    stop: dragStop,
-                    drag
-                });
-                if (!lib.isTarget(canvasElementContainer)) {
-                    lib.makeTarget(canvasElementContainer);
-                }
-            }
+        this._setupCanvasElements(canvasElements);
+        this._setupConnectors(connectors);
 
-            if (!lib.isSource(canvasElementContainer)) {
-                lib.makeSource(canvasElementContainer);
-            }
-            // All nodes can potentially support infinite outgoing connectors, but whether potential anchor points
-            // are present is determined by hasAvailableConnections
-
-            if (isSelected || addToDragSelection) {
-                lib.addToDragSelection(canvasElementContainer);
-            } else {
-                lib.removeFromDragSelection(canvasElementContainer);
-            }
-        }
-        for (let connectorIndex = 0; connectorIndex < connectorsLength; connectorIndex++) {
-            const connector = connectors[connectorIndex].connector;
-            let jsPlumbConnector = connectors[connectorIndex].getJsPlumbConnector();
-            if (!jsPlumbConnector) {
-                jsPlumbConnector = lib.setExistingConnections(connector.source, connector.target, connector.label, connector.guid, connector.type);
-                connectors[connectorIndex].setJsPlumbConnector(jsPlumbConnector);
-            } else if (connector.config.isSelected) {
-                lib.selectConnector(jsPlumbConnector, connector.type);
-            } else if (!connector.config.isSelected) {
-                lib.deselectConnector(jsPlumbConnector, connector.type);
-            }
-
-            if (jsPlumbConnector && jsPlumbConnector.getLabel() !== connector.label) {
-                jsPlumbConnector.setLabel(connector.label);
-            }
-        }
         lib.setSuspendDrawing(false, true);
         logPerfMarkEnd(canvas, {numOfNodes: this.nodes && this.nodes.length});
     }

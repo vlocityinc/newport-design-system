@@ -19,21 +19,24 @@ describe('Canvas', () => {
         {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             config: {
-                isSelected: false
+                isSelected: false,
+                isHighlighted: false
             },
             guid: 'node1'
         },
         {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             config: {
-                isSelected: true
+                isSelected: true,
+                isHighlighted: false
             },
             guid: 'node2'
         },
         {
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             config: {
-                isSelected: false
+                isSelected: false,
+                isHighlighted: false
             },
             guid: 'node3'
         }
@@ -41,13 +44,15 @@ describe('Canvas', () => {
     const defaultConnectors = [
         {
             config: {
-                isSelected: false
+                isSelected: false,
+                isHighlighted: false
             },
             guid: 'connector1'
         },
         {
             config: {
-                isSelected: true
+                isSelected: true,
+                isHighlighted: false
             },
             guid: 'connector2'
         },

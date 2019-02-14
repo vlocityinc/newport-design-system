@@ -1,7 +1,7 @@
 import { LightningElement, track } from "lwc";
 import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable, shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal } from './canvasContainerUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { deselectOnCanvas, updateElement } from 'builder_platform_interaction/actions';
+import { deselectOnCanvas, updateElement, unhighlightOnCanvas } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 
@@ -82,6 +82,21 @@ export default class CanvasContainer extends LightningElement {
      */
     handleElementDeselection = () => {
         storeInstance.dispatch(deselectOnCanvas());
+    };
+
+    /**
+     * Handles the UnhighlightCanvasElementEvent and dispatches an action to the store to set the
+     * isHighlighted state of the canvas element to false.
+     *
+     * @param {Object} event - unhighlightCanvasElementEvent coming from the canvas
+     */
+    handleUnhighlightOnCanvas = (event) => {
+        if (event && event.detail && event.detail.elementGuid) {
+            const payload = {
+                guid: event.detail.elementGuid
+            };
+            storeInstance.dispatch(unhighlightOnCanvas(payload));
+        }
     };
 
     handleAddConnector = (event) => {

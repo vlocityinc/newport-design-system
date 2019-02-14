@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, updatePropertiesAfterSaving, selectOnCanvas } from 'builder_platform_interaction/actions';
+import { updateFlow, updateProperties, addElement, updateElement, updatePropertiesAfterSaving, selectOnCanvas, highlightOnCanvas } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -558,12 +558,17 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Highlights the element on the canvas
-     * @param {object} event locator icon clicked event coming from left-panel
+     * Handles the locator icon clicked event and dispatches an action to the store to set the isHighlighted state of
+     * the canvas element to true.
+     *
+     * @param {object} event - locator icon clicked event coming from left-panel
      */
     handleHighlightOnCanvas(event) {
         if (event && event.detail && event.detail.elementGuid) {
-            // TODO: Add code for highlighting the element (W-5772529)
+            const payload = {
+                guid: event.detail.elementGuid
+            };
+            storeInstance.dispatch(highlightOnCanvas(payload));
         }
     }
 

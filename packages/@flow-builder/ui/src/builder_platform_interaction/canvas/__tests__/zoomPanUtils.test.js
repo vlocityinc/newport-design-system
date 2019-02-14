@@ -1,4 +1,4 @@
-import { getScaleAndDeltaValues, getOffsetValues } from "../zoomPanUtils";
+import { getScaleAndDeltaValues, getOffsetValues, getDistanceBetweenViewportCenterAndElement } from "../zoomPanUtils";
 import { ZOOM_ACTION } from "builder_platform_interaction/events";
 
 describe('Zoom Pan Utils', () => {
@@ -45,5 +45,29 @@ describe('Zoom Pan Utils', () => {
         expect(
             getOffsetValues({scaledCenterOffsetX: -10, scaledCenterOffsetY: -10, mouseDownX: 20, mouseDownY: 20, mouseMoveX: 40, mouseMoveY: 40})
         ).toEqual({offsetLeft: 10, offsetTop: 10});
+    });
+
+    it('Gets the distance between the element and the viewport center when the element is to the right of the center', () => {
+        expect(
+            getDistanceBetweenViewportCenterAndElement(viewportAndOffsetConfig.viewportCenterX, viewportAndOffsetConfig.viewportCenterY, 300, 250, 0.4)
+        ).toEqual({newInnerCanvasOffsetLeft: -20, newInnerCanvasOffsetTop: 0});
+    });
+
+    it('Gets the distance between the element and the viewport center when the element is to the left of the center', () => {
+        expect(
+            getDistanceBetweenViewportCenterAndElement(viewportAndOffsetConfig.viewportCenterX, viewportAndOffsetConfig.viewportCenterY, 200, 250, 0.4)
+        ).toEqual({newInnerCanvasOffsetLeft: 20, newInnerCanvasOffsetTop: 0});
+    });
+
+    it('Gets the distance between the element and the viewport center when the element is to the bottom of the center', () => {
+        expect(
+            getDistanceBetweenViewportCenterAndElement(viewportAndOffsetConfig.viewportCenterX, viewportAndOffsetConfig.viewportCenterY, 250, 300, 0.4)
+        ).toEqual({newInnerCanvasOffsetLeft: 0, newInnerCanvasOffsetTop: -20});
+    });
+
+    it('Gets the distance between the element and the viewport center when the element is to the top of the center', () => {
+        expect(
+            getDistanceBetweenViewportCenterAndElement(viewportAndOffsetConfig.viewportCenterX, viewportAndOffsetConfig.viewportCenterY, 250, 200, 0.4)
+        ).toEqual({newInnerCanvasOffsetLeft: 0, newInnerCanvasOffsetTop: 20});
     });
 });

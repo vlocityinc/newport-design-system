@@ -18,8 +18,7 @@ export function createStartElement() {
     const newStartElement = baseCanvasElement({
         label: LABELS.startElementLabel,
         locationX: START_ELEMENT_LOCATION.x,
-        locationY: START_ELEMENT_LOCATION.y,
-        config: { isSelected: false }
+        locationY: START_ELEMENT_LOCATION.y
     });
 
     Object.assign(newStartElement,

@@ -11,6 +11,8 @@ import {
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
+    HIGHLIGHT_ON_CANVAS,
+    UNHIGHLIGHT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
     ADD_WAIT_WITH_WAIT_EVENTS,
@@ -57,6 +59,10 @@ export default function elementsReducer(state = {}, action) {
             return _toggleCanvasElement(state, action.payload.guid);
         case DESELECT_ON_CANVAS:
             return _deselectCanvasElements(state);
+        case HIGHLIGHT_ON_CANVAS:
+            return _highlightCanvasElement(state, action.payload.guid);
+        case UNHIGHLIGHT_ON_CANVAS:
+            return _unhighlightCanvasElement(state, action.payload.guid);
         case ADD_DECISION_WITH_OUTCOMES:
         case MODIFY_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
@@ -267,14 +273,16 @@ function _selectCanvasElement(elements, selectedGUID) {
                 if (!element.config.isSelected) {
                     newState[guid] = updateProperties(element, {
                         config: {
-                            isSelected: true
+                            isSelected: true,
+                            isHighlighted: false
                         }
                     });
                 }
             } else if (element.config.isSelected) {
                 newState[guid] = updateProperties(element, {
                     config: {
-                        isSelected: false
+                        isSelected: false,
+                        isHighlighted: false
                     }
                 });
             }
@@ -299,7 +307,8 @@ function _toggleCanvasElement(elements, selectedGUID) {
         newState = updateProperties(elements);
         newState[selectedGUID] = updateProperties(newState[selectedGUID], {
             config: {
-                isSelected: !element.config.isSelected
+                isSelected: !element.config.isSelected,
+                isHighlighted: false
             }
         });
     }
@@ -322,13 +331,58 @@ function _deselectCanvasElements(elements) {
             if (element.config.isSelected) {
                 newState[guid] = updateProperties(element, {
                     config: {
-                        isSelected: false
+                        isSelected: false,
+                        isHighlighted: false
                     }
                 });
             }
         }
         return guid;
     });
+    return newState;
+}
+
+/**
+ * Sets the isHighlighted property of the searched element to true (if it already wasn't).
+ *
+ * @param {Object} elements - current state of elements in the store
+ * @param {String} elementGuid - GUID of the canvas element to be highlighted
+ * @returns {Object} new state of elements after reduction
+ * @private
+ */
+function _highlightCanvasElement(elements, elementGuid) {
+    const newState = updateProperties(elements);
+    const element = newState[elementGuid];
+    if (element && element.isCanvasElement && element.config && !element.config.isHighlighted) {
+        newState[elementGuid] = updateProperties(element, {
+            config: {
+                isSelected: element.config.isSelected,
+                isHighlighted: true
+            }
+        });
+    }
+    return newState;
+}
+
+/**
+ * Sets the isHighlighted property of the searched element to false (if it already wasn't).
+ *
+ * @param {Object} elements - current state of elements in the store
+ * @param {String} elementGuid - GUID of the canvas element to be unhighlighted
+ * @returns {Object} new state of elements after reduction
+ * @private
+ */
+function _unhighlightCanvasElement(elements, elementGuid) {
+    const newState = updateProperties(elements);
+    const element = newState[elementGuid];
+    if (element && element.isCanvasElement && element.config && element.config.isHighlighted) {
+        newState[elementGuid] = updateProperties(element, {
+            config: {
+                isSelected: element.config.isSelected,
+                isHighlighted: false
+            }
+        });
+    }
     return newState;
 }
 

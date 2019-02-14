@@ -1,7 +1,7 @@
 import { LightningElement, api } from "lwc";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from "builder_platform_interaction/events";
+import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent, UnhighlightCanvasElementEvent } from "builder_platform_interaction/events";
 import { LABELS } from "./nodeLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import startElement from "./startElement.html";
@@ -21,6 +21,8 @@ export default class Node extends LightningElement {
         config: {}
     };
 
+    _hasTransitionEndListener = false;
+
     get nodeLocation() {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
     }
@@ -35,6 +37,11 @@ export default class Node extends LightningElement {
         if (this.node.config.isSelected) {
             classes = `${classes} selected`;
         }
+
+        if (this.node.config.isHighlighted) {
+            classes = `${classes} highlighted`;
+        }
+
         return classes;
     }
 
@@ -223,10 +230,30 @@ export default class Node extends LightningElement {
         this.dispatchEvent(dragNodeEvent);
     };
 
+    /**
+     * Handles the transition end event and dispatches the UnhighlightCanvasElementEvent if the element is
+     * currently highlighted.
+     */
+    handleTransitionEndAndUnhighlight = () => {
+        const nodeConfig = this.node && this.node.config;
+        if (nodeConfig && nodeConfig.isHighlighted) {
+            const unhighlightCanvasElementEvent = new UnhighlightCanvasElementEvent(this.node.guid);
+            this.dispatchEvent(unhighlightCanvasElementEvent);
+        }
+    };
+
     render() {
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
             return startElement;
         }
         return nodeElement;
+    }
+
+    renderedCallback() {
+        const icon = this.template.querySelector('.icon');
+        if (icon && !this._hasTransitionEndListener) {
+            icon.addEventListener('transitionend', this.handleTransitionEndAndUnhighlight);
+            this._hasTransitionEndListener = true;
+        }
     }
 }

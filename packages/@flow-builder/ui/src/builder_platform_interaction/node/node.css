@@ -35,6 +35,16 @@
     transform: scale(1.0909);
 }
 
+.icon-section.highlighted .icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px var(--lwc-colorBorderSuccess), 0 0 0 3px var(--lwc-colorBorderSuccess), 0 0 6px 3px var(--lwc-colorBorderSuccess);
+    transition: transform 2s ease-in, box-shadow 2s ease-in;
+}
+
+.decision-icon-section.highlighted .rotate-icon .icon {
+    transform: scale(1.0909);
+}
+
 .decision-icon-section {
     width: 4rem;
     height: 2.75rem;

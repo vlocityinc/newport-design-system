@@ -122,3 +122,22 @@ export function getOffsetValues({ scaledCenterOffsetX, scaledCenterOffsetY, mous
     }
     return offsetConfig;
 }
+
+/**
+ * Gets the distance between two given points on the canvas on a given scale. In our case we use it to get the distance
+ * the center of the viewport and the location of a given element. This would help in determining the new offsets of our
+ * innerCanvas.
+ *
+ * @param {Number} viewportCenterX - x-coordinate of the target location
+ * @param {Number} viewportCenterY - y-coordinate of the target location
+ * @param {Number} elementLocationX - x-coordinate of the source location
+ * @param {Number} elementLocationY - y-coordinate of the source location
+ * @param {Number} currentScale - scale of the innerCanvas
+ * @returns {{newInnerCanvasOffsetLeft: number, newInnerCanvasOffsetTop: number}} - The new offsets for the innerCanvas
+ */
+export function getDistanceBetweenViewportCenterAndElement(viewportCenterX, viewportCenterY, elementLocationX, elementLocationY, currentScale) {
+    const newInnerCanvasOffsetLeft = (viewportCenterX - elementLocationX) * currentScale;
+    const newInnerCanvasOffsetTop = (viewportCenterY - elementLocationY) * currentScale;
+
+    return {newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop};
+}

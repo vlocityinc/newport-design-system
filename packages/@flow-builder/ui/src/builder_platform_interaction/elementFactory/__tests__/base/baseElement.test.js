@@ -24,7 +24,8 @@ const canvasElement = {
     connectorCount: 1,
     availableConnections: ['connector1', 'connector2'],
     config: {
-        isSelected: true
+        isSelected: true,
+        isHighlighted: false
     }
 };
 
@@ -97,7 +98,8 @@ describe('Base canvas element function', () => {
             connectorCount: 0,
             isCanvasElement: true,
             config: {
-                isSelected: false
+                isSelected: false,
+                isHighlighted: false
             }
         };
         const actualResult = baseCanvasElement();
@@ -113,7 +115,8 @@ describe('Base canvas element function', () => {
             connectorCount: 1,
             isCanvasElement: true,
             config: {
-                isSelected: true
+                isSelected: true,
+                isHighlighted: false
             }
         };
         const actualResult = baseCanvasElement(canvasElement);
@@ -129,7 +132,8 @@ describe('Base canvas element function', () => {
             connectorCount: 1,
             isCanvasElement: true,
             config: {
-                isSelected: true
+                isSelected: true,
+                isHighlighted: false
             }
         };
         const actualResult = baseCanvasElement(canvasElement);

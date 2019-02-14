@@ -14,7 +14,8 @@ describe('Start element', () => {
                 isCanvasElement: true,
                 connectorCount: 0,
                 config: {
-                    isSelected: false
+                    isSelected: false,
+                    isHighlighted: false
                 },
                 elementType: "START_ELEMENT",
                 maxConnections: 1

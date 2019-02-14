@@ -5,7 +5,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import {isTestMode} from 'builder_platform_interaction/contextLib';
 
 const ELEMENT_TYPE = 'ASSIGNMENT';
-const createComponentUnderTest = (isSelected) => {
+const createComponentUnderTest = (isSelected, isHighlighted) => {
     const el = createElement('builder_platform_interaction-node', {
         is: Node
     });
@@ -16,7 +16,7 @@ const createComponentUnderTest = (isSelected) => {
         elementType : ELEMENT_TYPE,
         label : 'First Node',
         description : 'My first test node',
-        config: {isSelected}
+        config: {isSelected, isHighlighted}
     };
     document.body.appendChild(el);
     return el;
@@ -25,6 +25,7 @@ const createComponentUnderTest = (isSelected) => {
 const selectors = {
     nodeContainer: '.node-container',
     iconSelected: '.icon-section.selected',
+    iconHighlighted: '.icon-section.highlighted',
     icon: '.icon',
     trash: '.trash-can'
 };
@@ -44,7 +45,7 @@ const dblClick = (component) => {
 
 describe('node', () => {
     it('Checks if node is rendered correctly', () => {
-        const nodeComponent = createComponentUnderTest(false);
+        const nodeComponent = createComponentUnderTest(false, false);
             expect(nodeComponent.node.guid).toEqual('1');
             expect(nodeComponent.node.locationX).toEqual('20px');
             expect(nodeComponent.node.locationY).toEqual('40px');
@@ -52,10 +53,11 @@ describe('node', () => {
             expect(nodeComponent.node.label).toEqual('First Node');
             expect(nodeComponent.node.description).toEqual('My first test node');
             expect(nodeComponent.node.config.isSelected).toBeFalsy();
+        expect(nodeComponent.node.config.isHighlighted).toBeFalsy();
     });
 
     it('Checks if node selected event is dispatched when icon is clicked', () => {
-        const nodeComponent = createComponentUnderTest(false);
+        const nodeComponent = createComponentUnderTest(false, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
@@ -65,7 +67,7 @@ describe('node', () => {
     });
 
     it('Checks if node selected event is dispatched when selected icon is clicked', () => {
-        const nodeComponent = createComponentUnderTest(true);
+        const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
@@ -74,14 +76,18 @@ describe('node', () => {
         });
     });
 
-
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
         expect(getShadowRoot(nodeComponent).querySelector(selectors.iconSelected)).toBeTruthy();
     });
 
+    it('Checks if a highlighted node has the right styling', () => {
+        const nodeComponent = createComponentUnderTest(false, true);
+        expect(getShadowRoot(nodeComponent).querySelector(selectors.iconHighlighted)).toBeTruthy();
+    });
+
     it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {
-        const nodeComponent = createComponentUnderTest(false);
+        const nodeComponent = createComponentUnderTest(false, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(EditElementEvent.EVENT_NAME, callback);
@@ -96,7 +102,7 @@ describe('node', () => {
     });
 
     it('Checks if node delete event is dispatched when trash is clicked', () => {
-        const nodeComponent = createComponentUnderTest(true);
+        const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
