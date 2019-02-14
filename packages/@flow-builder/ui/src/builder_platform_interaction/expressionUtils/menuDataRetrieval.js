@@ -1,4 +1,4 @@
-import { isMatch, PARAM_PROPERTY, OBJECT_TYPE, getDataType } from "builder_platform_interaction/ruleLib";
+import { isMatch, PARAM_PROPERTY, SUBTYPE, getDataType } from "builder_platform_interaction/ruleLib";
 import {
     writableElementsSelector,
     readableElementsSelector,
@@ -115,7 +115,7 @@ export function isElementAllowed(allowedParamTypes, element, showSObjectsForFiel
     return !allowedParamTypes
         || isElementMatchForProperty(getDataType(element))
         || isElementMatchForProperty(element[PARAM_PROPERTY.ELEMENT_TYPE])
-        || isElementMatchForProperty(element[OBJECT_TYPE])
+        || isElementMatchForProperty(element[SUBTYPE])
         || (showSObjectsForFields && element.dataType === SObjectType && !element.isCollection);
 }
 

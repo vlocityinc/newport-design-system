@@ -106,6 +106,20 @@ export const booleanParam = {
     canBeElements:allElements,
 };
 
+export const sobjectParam = {
+    paramType: 'Data',
+    paramIndex: 1,
+    dataType: 'SObject',
+    collection: false,
+    canBeSobjectField: 'CanBe',
+    canBeSystemVariable: 'CanBe',
+    canBeElements: allElements,
+};
+
+export const accountParam = {
+    Account: [sobjectParam],
+};
+
 export const datetimeParamTypes = {
     Date: [dateParam],
     DateTime: [datetimeParam],

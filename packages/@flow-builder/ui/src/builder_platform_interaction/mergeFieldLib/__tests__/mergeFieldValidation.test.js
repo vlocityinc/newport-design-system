@@ -1,5 +1,5 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
-import { datetimeParamTypes, numberParamCanBeField } from 'mock/ruleService';
+import { datetimeParamTypes, numberParamCanBeField, accountParam } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -136,6 +136,10 @@ describe('Merge field validation', () => {
                     'message': 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField',
                     'startIndex': 2
                 }]);
+        });
+        it('Allows sobject which matches object type', () => {
+            const validationErrors = validateMergeField('{!accVar1}', { allowedParamTypes: accountParam });
+            expect(validationErrors).toEqual([]);
         });
     });
     describe('Global constants', () => {
