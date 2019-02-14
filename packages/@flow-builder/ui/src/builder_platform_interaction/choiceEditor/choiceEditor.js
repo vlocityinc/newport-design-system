@@ -180,12 +180,12 @@ export default class ChoiceEditor extends LightningElement {
     }
 
     /**
-     * Handles addition/updation of choiceText on focus out
-     * @param {object} event - Focus out event coming from lightning-input
+     * Handles addition/updation of choiceText on change event
+     * @param {object} event - change event coming from resourced rich text editor
      */
     handleChoiceLabelChanged(event) {
         event.stopPropagation();
-        const action = this.updateInputValue(event.target, CHOICE_FIELDS.CHOICE_TEXT);
+        const action = this.updateInputValue(event.detail, CHOICE_FIELDS.CHOICE_TEXT);
         this.choiceResource = choiceReducer(this.choiceResource, action);
     }
 
@@ -334,11 +334,7 @@ export default class ChoiceEditor extends LightningElement {
         // we might have to go through reducer to stuff the errors and call get errors method
         const event = { type: VALIDATE_ALL };
         this.choiceResource = choiceReducer(this.choiceResource, event);
-        const choiceLabelInput = this.template.querySelector('.choice-label');
         const promptTextInput = this.template.querySelector('.prompt-text');
-        if (this.choiceResource.choiceText && this.choiceResource.choiceText.error) {
-            this.setInputFieldErrorMessage(choiceLabelInput, this.choiceResource.choiceText.error);
-        }
         if (this.choiceResource.userInput && this.choiceResource.userInput.promptText && this.choiceResource.userInput.promptText.error) {
             this.setInputFieldErrorMessage(promptTextInput, this.choiceResource.userInput.promptText.error);
         }
@@ -346,11 +342,6 @@ export default class ChoiceEditor extends LightningElement {
     }
 
     renderedCallback() {
-        if (this.choiceResource.choiceText && this.choiceResource.choiceText.value !== null) {
-            const choiceLabelInput = this.template.querySelector('.choice-label');
-            this.setInputFieldErrorMessage(choiceLabelInput, this.choiceResource.choiceText.error);
-        }
-
         if (this.choiceResource.userInput && this.choiceResource.userInput.promptText && this.choiceResource.userInput.promptText.value !== null) {
             const promptTextInput = this.template.querySelector('.prompt-text');
             this.setInputFieldErrorMessage(promptTextInput, this.choiceResource.userInput.promptText.error);

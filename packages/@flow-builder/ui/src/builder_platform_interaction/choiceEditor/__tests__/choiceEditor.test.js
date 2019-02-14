@@ -15,13 +15,14 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('bui
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    CHOICE_TEXT: '.choice-label',
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
     INPUT_SELECTION_CHECKBOX: '.test-input-selection-checkbox',
     PROMPT_TEXT: '.prompt-text',
     REQUIRED_CHECKBOX: '.test-required-checkbox',
     VALIDATE_CHECKBOX: '.test-validate-checkbox',
-    VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor'
+    VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
+    RESOURCE_RICH_TEXT_EDITOR : 'builder_platform_interaction-resourced-rich-text-editor',
+    LIGHTNING_INPUT_RICH_TEXT : 'lightning-input-rich-text'
 };
 
 const setupComponentUnderTest = (choiceObject) => {
@@ -154,29 +155,53 @@ describe('choice-editor', () => {
         });
 
         it('When input is valid', () => {
-            const newValue = 'newValue';
-            const choiceTextLightningInput = getShadowRoot(choiceEditor).querySelector(SELECTORS.CHOICE_TEXT);
-            choiceTextLightningInput.mockUserInput(newValue);
-            choiceTextLightningInput.dispatchEvent(focusoutEvent);
+            const previousXMLSerializer = window.XMLSerializer;
+            try {
+                const newValue = 'newValue';
+                window.XMLSerializer = jest.fn(() => ({
+                    serializeToString: () =>  newValue
+                }));
+                const choiceTextResourcedRichText = getShadowRoot(choiceEditor).querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
+                const lightningInputRichText = getShadowRoot(choiceTextResourcedRichText).querySelector(SELECTORS.LIGHTNING_INPUT_RICH_TEXT);
+                lightningInputRichText.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: newValue
+                    }
+                }));
 
-            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                propertyName: 'choiceText',
-                value: newValue,
-                error: null
-            });
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'choiceText',
+                    value: newValue,
+                    error: null
+                });
+            } finally {
+                window.XMLSerializer = previousXMLSerializer;
+            }
         });
 
         it('When input is invalid', () => {
-            const newValue = '';
-            const choiceTextLightningInput = getShadowRoot(choiceEditor).querySelector(SELECTORS.CHOICE_TEXT);
-            choiceTextLightningInput.mockUserInput(newValue);
-            choiceTextLightningInput.dispatchEvent(focusoutEvent);
+            const previousXMLSerializer = window.XMLSerializer;
+            try {
+                const newValue = '';
+                window.XMLSerializer = jest.fn(() => ({
+                    serializeToString: () =>  ''
+                }));
+                const choiceTextResourcedRichText = getShadowRoot(choiceEditor).querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
+                const lightningInputRichText = getShadowRoot(choiceTextResourcedRichText).querySelector(SELECTORS.LIGHTNING_INPUT_RICH_TEXT);
+                lightningInputRichText.dispatchEvent(new CustomEvent('change', {
+                    detail: {
+                        value: newValue
+                    }
+                }));
 
-            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                propertyName: 'choiceText',
-                value: newValue,
-                error: LABELS.cannotBeBlank
-            });
+                expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+                    propertyName: 'choiceText',
+                    value: newValue,
+                    error: LABELS.cannotBeBlank
+                });
+            } finally {
+                window.XMLSerializer = previousXMLSerializer;
+            }
         });
     });
 

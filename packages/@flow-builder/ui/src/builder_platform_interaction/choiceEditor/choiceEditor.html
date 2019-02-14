@@ -10,13 +10,13 @@
                     onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-label-description>
 
-            <lightning-input label={labels.choiceTextInputLabel}
-                             value={choiceResource.choiceText.value}
-                             type="text"
-                             required
-                             onfocusout={handleChoiceLabelChanged}
-                             class="choice-label slds-col slds-size_1-of-2 slds-m-bottom_x-small">
-            </lightning-input>
+            <builder_platform_interaction-resourced-rich-text-editor
+                      label={labels.choiceTextInputLabel}
+                      required
+                      value={choiceResource.choiceText}
+                      onchange={handleChoiceLabelChanged}
+                      class="choice-label">
+            </builder_platform_interaction-resourced-rich-text-editor>
 
             <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
                 <!--Choice Data Type Picker -->

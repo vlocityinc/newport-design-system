@@ -13,8 +13,8 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('bui
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
-    TEXTAREA: 'textarea',
+    RESOURCED_RICH_TEXT_EDITOR: 'builder_platform_interaction-resourced-rich-text-editor',
+    LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text',
 };
 
 const setupComponentUnderTest = (props) => {
@@ -75,10 +75,10 @@ describe('text-template-editor', () => {
 
     it('has resourced-textarea showing the correct text template', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
-        const resourcedTextarea = getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_TEXTAREA);
-        expect(resourcedTextarea).toBeDefined();
-        const textarea = getShadowRoot(resourcedTextarea).querySelector(SELECTORS.TEXTAREA);
-        expect(textarea.value).toEqual(textTemplateResource.text.value);
+        const resourcedRichTextEditor = getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR);
+        expect(resourcedRichTextEditor).toBeDefined();
+        const lightningInputRichText = getShadowRoot(resourcedRichTextEditor).querySelector(SELECTORS.LIGHTNING_INPUT_RICH_TEXT);
+        expect(lightningInputRichText.value).toEqual(textTemplateResource.text.value);
     });
 
     it('handles the property changed event and updates the property from label-description', () => {
@@ -96,7 +96,7 @@ describe('text-template-editor', () => {
         const newTextTemplate = '<html> New text in template</html>';
         return Promise.resolve().then(() => {
             const event = new CustomEvent('change', {detail: {value: newTextTemplate, error: null}, cancelable: true, composed: true, bubbles: true});
-            getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_TEXTAREA).dispatchEvent(event);
+            getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
             expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
             expect(createAction.mock.calls[0][1]).toEqual({
                 propertyName: 'text',
