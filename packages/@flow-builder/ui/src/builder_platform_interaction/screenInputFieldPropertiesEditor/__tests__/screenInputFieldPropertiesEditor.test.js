@@ -17,7 +17,7 @@ const SELECTORS = {
     REQUIRED_CHECKBOX: 'builder_platform_interaction-screen-property-field[name="isRequired"]',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultValue"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
-    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
+    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-rich-text-editor',
     VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
 };

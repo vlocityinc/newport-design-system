@@ -113,11 +113,11 @@ describe('screen-properties-editor for new screen', () => {
             expect(allowNext.value).toBeTruthy();
         });
     });
-    it('Pause text is a text area and empty by default', () => {
+    it('Pause text is a rich text editor and empty by default', () => {
         return Promise.resolve().then(() => {
             const pausedText = query(screenPropEditor, SELECTORS.PAUSED_TEXT);
             expect(pausedText).not.toBeNull();
-            expect(pausedText.type).toBe('long_string');
+            expect(pausedText.type).toBe('rich_string');
             expect(pausedText.value).toBe('');
         });
     });
@@ -128,11 +128,11 @@ describe('screen-properties-editor for new screen', () => {
             expect(pausedText.helpText).not.toBeNull();
         });
     });
-    it('Help text is a text area and empty by default', () => {
+    it('Help text is a rich text editor and empty by default', () => {
         return Promise.resolve().then(() => {
             const helpText = query(screenPropEditor, SELECTORS.HELP_TEXT);
             expect(helpText).not.toBeNull();
-            expect(helpText.type).toBe('long_string');
+            expect(helpText.type).toBe('rich_string');
             expect(helpText.value).toBe('');
         });
     });
@@ -196,7 +196,7 @@ describe('screen-properties-editor for existing screen', () => {
         return Promise.resolve().then(() => {
             const helpText = query(screenPropEditor, SELECTORS.HELP_TEXT);
             expect(helpText).not.toBeNull();
-            expect(helpText.type).toBe('long_string');
+            expect(helpText.type).toBe('rich_string');
             expect(helpText.value.value).toBe(testScreen.helpText.value);
         });
     });

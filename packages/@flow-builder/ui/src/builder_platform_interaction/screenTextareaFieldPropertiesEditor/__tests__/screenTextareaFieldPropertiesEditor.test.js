@@ -15,7 +15,7 @@ const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     DEFAULT_VALUE_FIELD: 'builder_platform_interaction-screen-property-field[type="long_string"]',
     HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
-    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
+    VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-rich-text-editor.errorMessage',
     VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
 };

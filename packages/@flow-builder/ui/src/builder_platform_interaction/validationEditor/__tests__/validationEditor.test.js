@@ -11,7 +11,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 const SELECTORS = {
-    ERROR_MESSAGE: 'builder_platform_interaction-resourced-textarea[name="errorMessage"]',
+    ERROR_MESSAGE: 'builder_platform_interaction-resourced-rich-text-editor',
     FORMULA_EXPRESSION: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
 };
 

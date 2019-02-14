@@ -33,13 +33,13 @@
                                                                     value={screen.allowPause} help-text={labels.allowPauseButtonTooltip}>
                 </builder_platform_interaction-screen-property-field>
 
-                <builder_platform_interaction-screen-property-field if:true={screen.allowPause} name='pausedText' label={labels.pauseConfirmationMessage} type='long_string'
+                <builder_platform_interaction-screen-property-field if:true={screen.allowPause} name='pausedText' label={labels.pauseConfirmationMessage} type='rich_string'
                                                                     value={screen.pausedText} help-text={labels.pauseConfirmationMessageTooltip}>
                 </builder_platform_interaction-screen-property-field>
             </lightning-accordion-section>
 
             <lightning-accordion-section name='helpText' label={labels.helpTextForAccordion}>
-                <builder_platform_interaction-screen-property-field name='helpText' label='{labels.helpSectionHeader}' type='long_string' value={screen.helpText} hide-top-padding>
+                <builder_platform_interaction-screen-property-field name='helpText' label='{labels.helpSectionHeader}' type='rich_string' value={screen.helpText} hide-top-padding>
                 </builder_platform_interaction-screen-property-field>
             </lightning-accordion-section>
         </lightning-accordion>

@@ -238,7 +238,7 @@ export default class ScreenPropertyField extends LightningElement {
         } else if (this.isLongString && event.detail.value) {
             newValue = event.detail.value;
             ferovDataType = FEROV_DATA_TYPE.STRING;
-        } else if (this.isRichString && event.detail && event.detail.value) {
+        } else if (this.isRichString && event.detail && event.detail.value != null) {
             newValue = event.detail.value;
             ferovDataType = FEROV_DATA_TYPE.STRING;
         } else {

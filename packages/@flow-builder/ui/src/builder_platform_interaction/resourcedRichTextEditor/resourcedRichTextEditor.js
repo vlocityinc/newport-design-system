@@ -14,6 +14,11 @@ export default class ResourcedRichTextEditor extends LightningElement {
     @api label;
     @api helpText;
     @api required =  false;
+    @api showGlobalVariables = false;
+
+    // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
+    // in the call to invokePropertyEditor in editor.js
+    @api hideNewResource = false;
 
     @track state = {
         value : '',

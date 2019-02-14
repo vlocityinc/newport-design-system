@@ -1,14 +1,12 @@
 <template>
     <div class='slds-form-element'>
-        <builder_platform_interaction-resourced-textarea class='property-input errorMessage'                                         
-                                                            name='errorMessage'
+        <builder_platform_interaction-resourced-rich-text-editor class='property-input errorMessage'                                         
                                                             label={labels.errorMessage}
                                                             value={element.errorMessage}
                                                             required={required}
                                                             hide-new-resource={hideNewResource}
-                                                            onblur={handleValueChanged}
-                                                            onchange={handleValueChanged}>
-        </builder_platform_interaction-resourced-textarea>
+                                                            onchange={handleErrorMessageValueChanged}>
+        </builder_platform_interaction-resourced-rich-text-editor>
             
         <p class='slds-p-top_small'></p>
         <!-- TODO: W-5183123 - change this to formula-editor component -->
@@ -19,8 +17,8 @@
                                                         required={required}
                                                         show-global-variables
                                                         hide-new-resource={hideNewResource}
-                                                        onblur={handleValueChanged}
-                                                        onchange={handleValueChanged}>
+                                                        onblur={handleFormulaExpressionValueChanged}
+                                                        onchange={handleFormulaExpressionValueChanged}>
         </builder_platform_interaction-resourced-textarea>
     </div>
 </template>
