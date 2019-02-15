@@ -181,8 +181,8 @@ ul.nds-dropdown-list {
       max-width: 55rem;
       width: 90%;
       .nds-modal__content {
-        min-height: 27rem;
-        height: 27rem;
+        border-radius: 0;
+    	height: 78vh;
       }
       .nds-modal__header {
         border-bottom: unset;
