@@ -1,7 +1,10 @@
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
-import { deleteElement } from 'builder_platform_interaction/actions';
+import { deleteElement, updatePropertiesAfterSaving, updateProperties } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
+import { SaveType } from 'builder_platform_interaction/saveType';
+import { SaveFlowEvent } from 'builder_platform_interaction/events';
+import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 
 /**
  * Helper method to delete the selected elements
@@ -111,4 +114,111 @@ export const getElementsToBeDeleted = (storeInstance, { selectedElementGuid, sel
         connectorsToDelete = connectorsToBeDeleted(canvasElementGuidsToDelete, connectors);
     }
     doDeleteOrInvokeAlert(storeInstance, canvasElementGuidsToDelete, connectorsToDelete, elementType);
+};
+
+/**
+ * This function is used to figure save type which is used to figure out if a modal should be displayed or not while saving a flow
+ * @param {String} eventType There are 2 save event type: save and save as
+ * @param {String} flowId It will be undefined if it is a brand new flow
+ * @param {Boolean} canOnlySaveAsNewDefinition It is needed to handle use case for flow template. They can only be saved as new flow
+ */
+export const getSaveType = (eventType, flowId, canOnlySaveAsNewDefinition) => {
+    if (!eventType) {
+        throw new Error('Event type for saving a flow is not defined');
+    }
+    if (eventType === SaveFlowEvent.Type.SAVE && flowId) {
+        return SaveType.UPDATE;
+    }
+    if (eventType === SaveFlowEvent.Type.SAVE) {
+        return SaveType.CREATE;
+    }
+    if (eventType === SaveFlowEvent.Type.SAVE_AS && canOnlySaveAsNewDefinition) {
+        return SaveType.NEW_DEFINITION;
+    }
+    return SaveType.NEW_VERSION;
+};
+
+export const updateStoreAfterSaveFlowIsSuccessful = (storeInstance, {versionNumber, status, lastModifiedDate, lastModifiedBy}) => {
+    if (!storeInstance) {
+        throw new Error('Store instance is not defined');
+    }
+    storeInstance.dispatch(updatePropertiesAfterSaving({
+        versionNumber,
+        status,
+        lastModifiedDate,
+        isLightningFlowBuilder: true,
+        lastModifiedBy,
+        canOnlySaveAsNewDefinition: false
+    }));
+};
+
+export const updateStoreAfterSaveAsNewFlowIsFailed = (storeInstance) => {
+    if (!storeInstance) {
+        throw new Error('Store instance is not defined');
+    }
+    storeInstance.dispatch(updateProperties({
+        versionNumber: null,
+        status: null,
+        lastModifiedDate: null,
+        isLightningFlowBuilder: true,
+        lastModifiedBy: null,
+        canOnlySaveAsNewDefinition: false
+    }));
+};
+
+export const updateStoreAfterSaveAsNewVersionIsFailed = (storeInstance, label, description, interviewLabel) => {
+    if (!storeInstance) {
+        throw new Error('Store instance is not defined');
+    }
+    storeInstance.dispatch(updateProperties({
+        label,
+        description,
+        interviewLabel
+    }));
+};
+
+export const updateUrl = (flowId) => {
+    let urlParams = '';
+    if (flowId) {
+        urlParams += '?flowId=' + flowId;
+    }
+    window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + urlParams);
+};
+
+export const setFlowErrorsAndWarnings = ({errors = {}, warnings = {}}) => {
+    return {
+        errors,
+        warnings
+    };
+};
+
+/**
+ * It return another function which will have closure on store instance. The returned function will be executed when user clicks okay on flow property editor.
+ * @param {Object} storeInstance Instance of client side store
+ */
+export const flowPropertiesCallback = (storeInstance) => (flowProperties) => {
+    if (!storeInstance) {
+        throw new Error('Store instance is not defined');
+    }
+    const properties = getElementForStore(flowProperties);
+    storeInstance.dispatch(updateProperties(properties));
+};
+
+/**
+ * It return another function which will be called when a user clicks okay on save as modal
+ * @param {Object} storeInstance instance of the client side store
+ * @param {Function} saveFlowFn function which make server call to save the flow
+ */
+export const saveAsFlowCallback = (storeInstance, saveFlowFn) => (flowProperties) => {
+    if (!storeInstance) {
+        throw new Error('Store instance is not defined');
+    }
+    if (!saveFlowFn) {
+        throw new Error('Save flow function is not defined');
+    }
+    const { saveType } = flowProperties;
+    flowPropertiesCallback(storeInstance)(flowProperties);
+    if (saveType !== SaveType.UPDATE) {
+        saveFlowFn(saveType);
+    }
 };

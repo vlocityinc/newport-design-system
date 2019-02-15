@@ -43,7 +43,7 @@ export function createFlowProperties(flowProperties = {}) {
     } = flowProperties.metadata || flowProperties;
 
     let { isLightningFlowBuilder = true, isCreatedOutsideLfb = false, canOnlySaveAsNewDefinition = false } = flowProperties;
-    canOnlySaveAsNewDefinition |= manageableState === 'installed';
+    canOnlySaveAsNewDefinition = canOnlySaveAsNewDefinition || manageableState === 'installed';
 
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases

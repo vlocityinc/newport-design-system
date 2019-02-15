@@ -2,8 +2,8 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, updatePropertiesAfterSaving, selectOnCanvas, undo, redo, highlightOnCanvas,
-        UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
+import { updateFlow, addElement, updateElement, selectOnCanvas, undo, redo, highlightOnCanvas,
+    UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -14,14 +14,14 @@ import { setEntities, fetchFieldsForEntity, setEventTypes } from 'builder_platfo
 import { LABELS } from './editorLabels';
 import { setResourceTypes, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
-import { SaveFlowEvent, EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
+import { EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { mutateFlowResourceToComboboxShape, getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
-import { getElementsToBeDeleted } from './editorUtils';
+import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl, updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings, flowPropertiesCallback, saveAsFlowCallback } from './editorUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -283,49 +283,28 @@ export default class Editor extends LightningElement {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else if (data.isSuccess) {
             this.currentFlowId = data.flowId;
-            storeInstance.dispatch(updatePropertiesAfterSaving({
-                versionNumber: data.versionNumber,
-                status: data.status,
-                lastModifiedDate: data.lastModifiedDate,
-                isLightningFlowBuilder: true,
-                lastModifiedBy: data.lastModifiedBy,
-                canOnlySaveAsNewDefinition: false
-            }));
-            window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + '?flowId=' + this.currentFlowId);
+            updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
+            updateUrl(this.currentFlowId);
             this.setOriginalFlowValues();
-        } else {
-            this.saveStatus = null;
+        } else if (!data.isSuccess && this.saveType === SaveType.NEW_DEFINITION) {
             // If the save failed and saveType === SaveType.NEW_DEFINITION, then clear the flowId from the url
             // and reset some of the flow properties as if this is a net new flow
-            if (this.saveType === SaveType.NEW_DEFINITION) {
-                this.currentFlowId = undefined;
-                storeInstance.dispatch(updateProperties({
-                    versionNumber: null,
-                    status: null,
-                    lastModifiedDate: null,
-                    isLightningFlowBuilder: true,
-                    lastModifiedBy: null,
-                    canOnlySaveAsNewDefinition: false
-                }));
-                window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0]);
-            } else if (this.saveType === SaveType.NEW_VERSION) {
-                storeInstance.dispatch(updateProperties({
-                    label: this.originalFlowLabel,
-                    description: this.originalFlowDescription,
-                    interviewLabel: this.originalFlowInterviewLabel
-                }));
-            }
+            this.currentFlowId = undefined;
+            updateStoreAfterSaveAsNewFlowIsFailed(storeInstance);
+            updateUrl();
+        } else if (!data.isSuccess && this.saveType === SaveType.NEW_VERSION) {
+            updateStoreAfterSaveAsNewVersionIsFailed(storeInstance, this.originalFlowLabel, this.originalFlowDescription, this.originalFlowInterviewLabel);
         }
 
-        if (this.flowId) {
+        if (this.currentFlowId) {
             this.hasNotBeenSaved = false;
             this.saveStatus = LABELS.savedStatus;
+        } else {
+            this.hasNotBeenSaved = true;
+            this.saveStatus = null;
         }
         this.disableSave = false;
-        this.flowErrorsAndWarnings = {
-            errors: (data && data.errors) || {},
-            warnings: (data && data.warnings) || {}
-        };
+        this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
     };
 
     /**
@@ -409,7 +388,7 @@ export default class Editor extends LightningElement {
         // Pop flow properties editor and do the following on callback.
         const node = getElementForPropertyEditor(storeInstance.getCurrentState().properties);
         node.saveType = SaveType.UPDATE;
-        const nodeUpdate = this.flowPropertiesCallback;
+        const nodeUpdate = flowPropertiesCallback(storeInstance);
         const newResourceCallback = this.newResourceCallback;
         this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
     };
@@ -454,29 +433,19 @@ export default class Editor extends LightningElement {
      * @param {object} event when save or save as buttons are clicked
      */
     handleSaveFlow = (event) => {
-        const mode = event.detail.type;
-
-        if (mode === SaveFlowEvent.Type.SAVE && this.currentFlowId) {
-            // We're updating a flow when the save button was pressed and we have a flow id.
-            this.saveFlow(SaveType.UPDATE);
-        } else {
-            // Pop flow properties editor and do the following on callback.
-            const node = getElementForPropertyEditor(storeInstance.getCurrentState().properties);
-            let saveType;
-            if (mode === SaveFlowEvent.Type.SAVE) {
-                saveType = SaveType.CREATE;
-            } else if (mode === SaveFlowEvent.Type.SAVE_AS) {
-                if (node.canOnlySaveAsNewDefinition) {
-                    saveType = SaveType.NEW_DEFINITION;
-                } else {
-                    saveType = SaveType.NEW_VERSION;
-                }
+        if (event && event.detail && event.detail.type) {
+            const eventType = event.detail.type;
+            let flowProperties = storeInstance.getCurrentState().properties;
+            const saveType = getSaveType(eventType, this.currentFlowId, flowProperties.canOnlySaveAsNewDefinition);
+            if (saveType === SaveType.UPDATE) {
+                this.saveFlow(SaveType.UPDATE);
+            } else {
+                flowProperties = getElementForPropertyEditor(flowProperties);
+                flowProperties.saveType = saveType;
+                const nodeUpdate = saveAsFlowCallback(storeInstance, this.saveFlow);
+                const newResourceCallback = this.newResourceCallback;
+                this.queueOpenPropertyEditor({ mode: eventType, node: flowProperties, nodeUpdate, newResourceCallback });
             }
-            node.saveType = saveType;
-
-            const nodeUpdate = this.flowPropertiesCallback;
-            const newResourceCallback = this.newResourceCallback;
-            this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
         }
     };
 
@@ -491,24 +460,6 @@ export default class Editor extends LightningElement {
             const params = {id: this.flowId};
             // Keeping this as fetch because we want to go to the server
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallbackAndDiff, params);
-        }
-    };
-
-    /**
-     * Callback which gets executed after clicking done on the Flow Properties Editor
-     *
-     * @param {Object} flowProperties - An object containing all values for the various flow properties
-     * that the user specified on the Flow Properties Editor
-     */
-    flowPropertiesCallback = (flowProperties) => {
-        // Get the save type  before it gets removed by the mutation below.
-        // TODO: We may not need to do this depending on how the save type selector is implemented.
-        const saveType = flowProperties.saveType;
-        const properties = getElementForStore(flowProperties);
-
-        storeInstance.dispatch(updateProperties(properties));
-        if (saveType !== SaveType.UPDATE) {
-            this.saveFlow(saveType);
         }
     };
 
@@ -596,7 +547,7 @@ export default class Editor extends LightningElement {
      *
      * @param {object} event - locator icon clicked event coming from left-panel
      */
-    handleHighlightOnCanvas(event) {
+    handleHighlightOnCanvas = (event) => {
         if (event && event.detail && event.detail.elementGuid) {
             const payload = {
                 guid: event.detail.elementGuid
@@ -610,7 +561,7 @@ export default class Editor extends LightningElement {
      * the save flow action with the correct save type: create or update.
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
      */
-    saveFlow(saveType) {
+    saveFlow = (saveType) => {
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
 
         const params = {
