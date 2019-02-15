@@ -81,7 +81,7 @@ export default class CanvasContainer extends LightningElement {
      * Handles the canvas mouse up event and dispatches an action to deselect all selected nodes and connectors.
      */
     handleElementDeselection = () => {
-        storeInstance.dispatch(deselectOnCanvas());
+        storeInstance.dispatch(deselectOnCanvas);
     };
 
     /**

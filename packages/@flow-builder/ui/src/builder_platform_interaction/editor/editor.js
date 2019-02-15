@@ -2,11 +2,13 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, updateProperties, addElement, updateElement, updatePropertiesAfterSaving, selectOnCanvas, highlightOnCanvas } from 'builder_platform_interaction/actions';
+import { updateFlow, updateProperties, addElement, updateElement, updatePropertiesAfterSaving, selectOnCanvas, undo, redo, highlightOnCanvas,
+        UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
+import { undoRedo,  isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { setEntities, fetchFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
@@ -67,13 +69,23 @@ export default class Editor extends LightningElement {
     @track saveType;
     @track retrievedHeaderUrls = false;
 
+    @track isUndoDisabled = true;
+    @track isRedoDisabled = true;
+
     propertyEditorBlockerCalls = [];
 
     constructor() {
         super();
         // Initialising store
         logPerfTransactionStart(EDITOR);
-        storeInstance = Store.getStore(reducer);
+        const blacklistedActionsForUndoRedoLib = [
+            INIT,
+            UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
+            TOGGLE_ON_CANVAS, // Called for multi selection
+            SELECT_ON_CANVAS,
+            DESELECT_ON_CANVAS,
+        ];
+        storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib}));
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
 
         // TODO: Move these server calls after getting the Flow
@@ -161,7 +173,8 @@ export default class Editor extends LightningElement {
      */
     mapAppStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
-
+        this.isUndoDisabled = !isUndoAvailable();
+        this.isRedoDisabled = !isRedoAvailable();
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
     };
@@ -400,6 +413,26 @@ export default class Editor extends LightningElement {
         const newResourceCallback = this.newResourceCallback;
         this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
     };
+
+    /**
+     * Handles the undo event fired by toolbar.
+     * Dispatches a Store Undo Action if undo is available.
+     */
+    handleUndo = () => {
+        if (!this.isUndoDisabled) {
+            storeInstance.dispatch(undo);
+        }
+    }
+
+    /**
+     * Handles the redo event fired by toolbar.
+     * Dispatches a Store Redo Action if redo is available.
+     */
+    handleRedo = () => {
+        if (!this.isRedoDisabled) {
+            storeInstance.dispatch(redo);
+        }
+    }
 
     /**
      * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.

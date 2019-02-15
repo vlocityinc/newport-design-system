@@ -3,14 +3,14 @@
         <!--Left Hand Side -->
         <!--TODO: Uncomment sections as we work on them-->
         <!--Undo/Redo-->
-        <!--<div class="slds-builder-toolbar__item-group">-->
-            <!--<div class="slds-button-group" role="group">-->
-                <!--<lightning-button-icon variant="border-filled" icon-name="utility:undo" title="Undo" alternative-text="Undo">-->
-                <!--</lightning-button-icon>-->
-                <!--<lightning-button-icon variant="border-filled" icon-name="utility:redo" title="Redo" alternative-text="Redo">-->
-                <!--</lightning-button-icon>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="slds-builder-toolbar__item-group">
+            <div class="slds-button-group" role="group">
+                <lightning-button-icon variant="border-filled" icon-name="utility:undo" disabled={isUndoDisabled} onclick={handleUndo} title={labels.undoTitle} alternative-text={labels.undoTitle}>
+                </lightning-button-icon>
+                <lightning-button-icon variant="border-filled" icon-name="utility:redo" disabled={isRedoDisabled} onclick={handleRedo} title={labels.redoTitle} alternative-text={labels.undoTitle}>
+                </lightning-button-icon>
+            </div>
+        </div>
         <!--Cut/Copy/Paste-->
         <!--<div class="slds-builder-toolbar__item-group">-->
             <!--<div class="slds-button-group" role="group">-->
@@ -28,7 +28,7 @@
             <!--</lightning-button-icon-stateful>-->
         <!--</div>-->
         <!--Flow Properties-->
-        <div class="slds-builder-toolbar__item-group">
+        <div class="slds-builder-toolbar__item-group slds-m-left_xx-small">
             <lightning-button-icon variant="border-filled" 
                 icon-name="utility:settings"
                 alternative-text={labels.flowPropertiesTitle}

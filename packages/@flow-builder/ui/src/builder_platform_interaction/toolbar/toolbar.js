@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent } from 'builder_platform_interaction/events';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent, UndoEvent, RedoEvent } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from "builder_platform_interaction/contextLib";
 import { LABELS } from './toolbarLabels';
@@ -24,6 +24,8 @@ export default class Toolbar extends LightningElement {
     @api canOnlySaveAsNewDefinition;
     @api hasUnsavedChanges;
     @api flowErrorsAndWarnings;
+    @api isUndoDisabled;
+    @api isRedoDisabled;
 
     labels = LABELS;
 
@@ -49,6 +51,17 @@ export default class Toolbar extends LightningElement {
         return orgHasFlowBuilderDebug();
     }
 
+    handleUndo(event) {
+        event.preventDefault();
+        const undoEvent = new UndoEvent();
+        this.dispatchEvent(undoEvent);
+    }
+
+    handleRedo(event) {
+        event.preventDefault();
+        const redoEvent = new RedoEvent();
+        this.dispatchEvent(redoEvent);
+    }
     handleEditFlowProperties(event) {
         event.preventDefault();
         if (!this.isEditFlowPropertiesDisabled) {

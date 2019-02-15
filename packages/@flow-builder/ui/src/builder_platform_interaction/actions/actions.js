@@ -1,5 +1,6 @@
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { UNDO, REDO } from "builder_platform_interaction/undoRedoLib";
 
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 
@@ -74,6 +75,16 @@ export const createAction = (type, payload = {}) => ({type, payload});
  * @returns {Object} action new action based on type and payload
  */
 export const updateFlow = (payload) => createAction(UPDATE_FLOW, payload);
+
+/**
+ * @returns {Object} Undo Action without any payload.
+ */
+export const undo = createAction(UNDO);
+
+/**
+ * @returns {Object} Redo Action without any payload.
+ */
+export const redo = createAction(REDO);
 
 /**
  * Action for updating flow properties in the store.
@@ -235,7 +246,7 @@ export const toggleOnCanvas = (payload) => createAction(TOGGLE_ON_CANVAS, payloa
  *
  * @returns {Object} action new action based on type and payload
  */
-export const deselectOnCanvas = () => createAction(DESELECT_ON_CANVAS);
+export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true

@@ -24,6 +24,8 @@ export { TogglePanModeEvent } from "./canvasEvents/zoomPanelEvent/panEvent";
 export { ClickToZoomEvent } from "./canvasEvents/zoomPanelEvent/zoomEvent";
 export { UnhighlightCanvasElementEvent } from "./canvasEvents/unhighlightCanvasElement.js";
 export { EditFlowPropertiesEvent } from "./toolbarEvents/editFlowPropertiesEvent";
+export { UndoEvent } from "./toolbarEvents/undoEvent";
+export { RedoEvent } from "./toolbarEvents/redoEvent";
 export { RunFlowEvent } from "./toolbarEvents/runFlowEvent";
 export { DebugFlowEvent } from "./toolbarEvents/debugFlowEvent";
 export { SaveFlowEvent } from "./toolbarEvents/saveFlowEvent";
