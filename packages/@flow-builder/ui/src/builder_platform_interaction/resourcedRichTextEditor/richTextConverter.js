@@ -14,7 +14,8 @@ export function convertHTMLToQuillHTML(htmlText) {
             processNode(node, document);
         });
 
-        return new XMLSerializer().serializeToString(document);
+        const convertedString = new XMLSerializer().serializeToString(document.documentElement.querySelector('body'));
+        return convertedString.replace(/<\/?body[^>]*>/ig, '');
     }
     return htmlText;
 }
