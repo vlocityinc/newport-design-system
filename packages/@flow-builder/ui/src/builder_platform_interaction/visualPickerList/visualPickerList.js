@@ -40,7 +40,7 @@ export default class VisualPickerList extends LightningElement {
      */
     set numberOfColumns(value) {
         this._numberOfColumns = parseInt(value, 10);
-        if (isNaN(this._numberOfColumns)) {
+        if (isNaN(this._numberOfColumns) || this._numberOfColumns <= 0) {
             this._numberOfColumns = NUMBER_OF_COLUMNS_DEFAULT_VALUE;
         }
     }

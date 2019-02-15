@@ -73,18 +73,18 @@ describe('visual-picker-list', () => {
         expect(visualPickerItems).toHaveLength(ITEMS.length);
     });
 
-    it("should have the first item which is selected", () => {
+    it('should have the first item which is selected', () => {
         const firstItem = getVisualPickerItems(visualPickerCmp)[0];
         expect(firstItem.itemId).toEqual(ITEMS[0].itemId);
         expect(firstItem.isSelected).toBe(true);
     });
 
-    it("should have 2 rows", () => {
+    it('should have 2 rows', () => {
         const rows = getRows(visualPickerCmp);
         expect(rows).toHaveLength(2);
     });
 
-    it("shows 2 items for each row", () => {
+    it('shows 2 items for each row', () => {
         const rows = getRows(visualPickerCmp);
         rows.forEach(row => {
             const itemsPerRow = getItemsPerRow(row);
@@ -92,7 +92,7 @@ describe('visual-picker-list', () => {
         });
     });
 
-    it("should fire VisualPickerListChangedEvent when selecting another item", async () => {
+    it('should fire VisualPickerListChangedEvent when selecting another item', async () => {
         const eventCallback = jest.fn();
         visualPickerCmp.addEventListener(VisualPickerListChangedEvent.EVENT_NAME, eventCallback);
         const visualPickerItem = getVisualPickerItems(visualPickerCmp)[1];
@@ -104,7 +104,7 @@ describe('visual-picker-list', () => {
         expect(eventCallback.mock.calls[0][0].detail).toEqual({items:[{id: ITEMS[0].itemId, isSelected: false}, {id: visualPickerItem.itemId, isSelected: true}]});
     });
 
-    it("allows multiple selections when selecting another item", async () => {
+    it('allows multiple selections when selecting another item', async () => {
         visualPickerCmp = createComponentForTest({items: ITEMS, allowMultipleSelection: true});
         const eventCallback = jest.fn();
         visualPickerCmp.addEventListener(VisualPickerListChangedEvent.EVENT_NAME, eventCallback);
@@ -115,5 +115,11 @@ describe('visual-picker-list', () => {
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail).toEqual({items:[{id: visualPickerItems[1].itemId, isSelected: true}]});
+    });
+
+    it('should use default number of columns (2) if numberOfColumns is negative', () => {
+        visualPickerCmp = createComponentForTest({items: ITEMS, numberOfColumns: -1});
+        const rows = getRows(visualPickerCmp);
+        expect(rows).toHaveLength(2);
     });
 });
