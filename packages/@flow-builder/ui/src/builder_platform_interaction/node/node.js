@@ -21,8 +21,6 @@ export default class Node extends LightningElement {
         config: {}
     };
 
-    _hasTransitionEndListener = false;
-
     get nodeLocation() {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
     }
@@ -247,13 +245,5 @@ export default class Node extends LightningElement {
             return startElement;
         }
         return nodeElement;
-    }
-
-    renderedCallback() {
-        const icon = this.template.querySelector('.icon');
-        if (icon && !this._hasTransitionEndListener) {
-            icon.addEventListener('transitionend', this.handleTransitionEndAndUnhighlight);
-            this._hasTransitionEndListener = true;
-        }
     }
 }

@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from "lwc";
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
-import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues, getDistanceBetweenViewportCenterAndElement } from "./zoomPanUtils";
+import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues, getDistanceBetweenViewportCenterAndElement, isElementInViewport } from "./zoomPanUtils";
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
 import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from "builder_platform_interaction/events";
 import { KEYS } from "./keyConstants";
@@ -34,12 +34,6 @@ export default class Canvas extends LightningElement {
     innerCanvasArea;
 
     isMouseDown = false;
-
-    // Viewport variables used for zooming
-    viewportWidth = 0;
-    viewportHeight = 0;
-    viewportCenterX = 0;
-    viewportCenterY = 0;
 
     // Scaling variable used for zooming
     currentScale = 1.0;
@@ -116,16 +110,11 @@ export default class Canvas extends LightningElement {
      * @param {String} action - Zoom action coming from handle key down or handle zoom
      */
     canvasZoom = (action) => {
-        this.viewportWidth = this.canvasArea.clientWidth;
-        this.viewportHeight = this.canvasArea.clientHeight;
-        this.viewportCenterX = this.viewportWidth / 2;
-        this.viewportCenterY = this.viewportHeight / 2;
-
         const viewportAndOffsetConfig = {
-            viewportWidth: this.viewportWidth,
-            viewportHeight: this.viewportHeight,
-            viewportCenterX: this.viewportCenterX,
-            viewportCenterY: this.viewportCenterY,
+            viewportWidth: this.canvasArea.clientWidth,
+            viewportHeight: this.canvasArea.clientHeight,
+            viewportCenterX: this.canvasArea.clientWidth / 2,
+            viewportCenterY: this.canvasArea.clientHeight / 2,
             centerOffsetX: this.centerOffsetX,
             centerOffsetY: this.centerOffsetY
         };
@@ -539,24 +528,25 @@ export default class Canvas extends LightningElement {
 
             if (searchedElementArray && searchedElementArray.length === 1) {
                 const searchedElement = searchedElementArray[0];
-                const EDGE_SPACING = 50;
 
-                this.viewportWidth = this.canvasArea.clientWidth;
-                this.viewportHeight = this.canvasArea.clientHeight;
-                this.viewportCenterX = this.viewportWidth / 2;
-                this.viewportCenterY = this.viewportHeight / 2;
+                const viewportCenterX = this.canvasArea.clientWidth / 2;
+                const viewportCenterY = this.canvasArea.clientHeight / 2;
 
                 // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
-                const { newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop } = getDistanceBetweenViewportCenterAndElement(this.viewportCenterX, this.viewportCenterY, searchedElement.locationX, searchedElement.locationY, this.currentScale);
+                const { newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop } = getDistanceBetweenViewportCenterAndElement(viewportCenterX, viewportCenterY, searchedElement.locationX, searchedElement.locationY, this.currentScale);
 
-                // Calculate the absoluteDistance between the center of the viewport and new offset of the innerCanvas (calculated above)
-                const absoluteDistanceX = Math.abs(this.innerCanvasArea.offsetLeft - newInnerCanvasOffsetLeft);
-                const absoluteDistanceY = Math.abs(this.innerCanvasArea.offsetTop - newInnerCanvasOffsetTop);
+                const panToViewConfig = {
+                    currentInnerCanvasOffsetLeft: this.innerCanvasArea.offsetLeft,
+                    currentInnerCanvasOffsetTop: this.innerCanvasArea.offsetTop,
+                    newInnerCanvasOffsetLeft,
+                    newInnerCanvasOffsetTop,
+                    viewportCenterX,
+                    viewportCenterY
+                };
 
-                // If the absoluteDistance is more that the center of the viewport then that would mean that the searched
-                // canvas element lies outside the current viewport. In this case, we need to update our offsets to the newly
-                // calculated ones and bring the searched canvas element into the center of the viewport
-                if (absoluteDistanceX > (this.viewportCenterX - EDGE_SPACING) || absoluteDistanceY > (this.viewportCenterY - EDGE_SPACING)) {
+                // In the element is current not in the viewport, we need to update our offsets to the newly calculated
+                // ones and bring the searched canvas element into the center of the viewport
+                if (!isElementInViewport(panToViewConfig)) {
                     this._panElementToView(newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop);
                 }
             }
@@ -567,13 +557,13 @@ export default class Canvas extends LightningElement {
      * Helper function to set the id and jsPlumb properties on the canvas elements. Also updates the drag selection and
      * pans the element into view if needed.
      *
-     * @param {Object[]} canvasElements - Array of Canvas Elements present in the store
+     * @param {Object[]} canvasElementTemplates - Array of Canvas Element Templates
      * @private
      */
-    _setupCanvasElements = (canvasElements) => {
-        const canvasElementsLength = canvasElements && canvasElements.length;
-        for (let canvasElementIndex = 0; canvasElementIndex < canvasElementsLength; canvasElementIndex++) {
-            const canvasElementContainerTemplate = canvasElements[canvasElementIndex];
+    _setupCanvasElements = (canvasElementTemplates) => {
+        const canvasElementTemplatesLength = canvasElementTemplates && canvasElementTemplates.length;
+        for (let index = 0; index < canvasElementTemplatesLength; index++) {
+            const canvasElementContainerTemplate = canvasElementTemplates[index];
             const canvasElementContainer = canvasElementContainerTemplate && canvasElementContainerTemplate.shadowRoot && canvasElementContainerTemplate.shadowRoot.firstChild;
 
             const canvasElementGuid = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.guid;
@@ -659,13 +649,13 @@ export default class Canvas extends LightningElement {
     /**
      * Helper function to set the jsPlumb properties on the connectors along with updating the styling of the connectors.
      *
-     * @param {Object[]} connectors - Array of connectors present in the store
+     * @param {Object[]} connectorTemplates - Array of connector templates
      * @private
      */
-    _setupConnectors = (connectors) => {
-        const connectorsLength = connectors && connectors.length;
-        for (let connectorIndex = 0; connectorIndex < connectorsLength; connectorIndex++) {
-            const connectorTemplate = connectors[connectorIndex];
+    _setupConnectors = (connectorTemplates) => {
+        const connectorTemplatesLength = connectorTemplates && connectorTemplates.length;
+        for (let index = 0; index < connectorTemplatesLength; index++) {
+            const connectorTemplate = connectorTemplates[index];
             const connector = connectorTemplate && connectorTemplate.connector;
 
             let jsPlumbConnector = connectorTemplate && connectorTemplate.getJsPlumbConnector && connectorTemplate.getJsPlumbConnector();

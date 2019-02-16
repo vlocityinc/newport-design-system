@@ -141,3 +141,33 @@ export function getDistanceBetweenViewportCenterAndElement(viewportCenterX, view
 
     return {newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop};
 }
+
+/**
+ * An object containing the current and new offset values along with the viewport center location
+ *
+ * @typedef {Object} panToViewConfig
+ * @property {Number} currentInnerCanvasOffsetLeft - Current left offset of the inner canvas
+ * @property {Number} currentInnerCanvasOffsetTop - Current top offset of the inner canvas
+ * @property {Number} newInnerCanvasOffsetLeft - New left offset of the inner canvas to bring the element to the center of the viewport
+ * @property {Number} newInnerCanvasOffsetTop - New top offset of the inner canvas to bring the element to the center of the viewport
+ * @property {Number} viewportCenterX - x-coordinate of the center of the viewport
+ * @property {Number} viewportCenterY - y-coordinate of the center of the viewport
+ */
+
+/**
+ * Figures out if the element is currently in the viewport or not
+ *
+ * @param {Object} panToViewConfig - Contains the current and new offset values along with the viewport center location
+ * @returns {Boolean} True if element is in the current viewport, false otherwise
+ */
+export function isElementInViewport({ currentInnerCanvasOffsetLeft, currentInnerCanvasOffsetTop, newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop, viewportCenterX, viewportCenterY }) {
+    const EDGE_SPACING = 50;
+
+    // Calculate the absoluteDistance between the current offset and the new offset of the innerCanvas
+    const absoluteDistanceX = Math.abs(currentInnerCanvasOffsetLeft - newInnerCanvasOffsetLeft);
+    const absoluteDistanceY = Math.abs(currentInnerCanvasOffsetTop - newInnerCanvasOffsetTop);
+
+    // If the absoluteDistance is less than the center of the viewport in either directions then that would mean that the searched
+    // canvas element lies within the current viewport.
+    return (absoluteDistanceX <= (viewportCenterX - EDGE_SPACING) && absoluteDistanceY <= (viewportCenterY - EDGE_SPACING));
+}
