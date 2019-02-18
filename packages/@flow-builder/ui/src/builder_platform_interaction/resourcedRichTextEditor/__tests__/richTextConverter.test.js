@@ -23,7 +23,9 @@ const unknownHtmlTag = "<edfdsf style=\"text-align: justify;\"></edfdsf>";
 const unknownHtmlTagConverted = "";
 
 describe('Convert richText', () => {
+    let previousXMLSerializer;
     beforeAll(() => {
+        previousXMLSerializer = window.XMLSerializer;
         window.XMLSerializer = jest.fn(() => ({
             // eslint-disable-next-line lwc/no-inner-html
             serializeToString: (xmlDoc) =>  xmlDoc.outerHTML
@@ -31,7 +33,7 @@ describe('Convert richText', () => {
     });
 
     afterAll(() => {
-        window.XMLSerializer = jest.fn();
+        window.XMLSerializer = previousXMLSerializer;
     });
     it('Returns correctly convert richText', () => {
         const result = convertHTMLToQuillHTML(originalText);

@@ -75,17 +75,30 @@ describe('Rich Text Editor', () => {
             const inputRichTextElement = getInputRichTextElement(richTextEditor);
             richTextEditor.addEventListener('change', eventCallback);
 
-            // When we click on the lightning-input-rich-text, a change event is fired
+            // When we click on a non-empty lightning-input-rich-text, a change event is fired
             fireChangeEvent(inputRichTextElement, htmlText);
 
             // Then
             expectValueChangedEventWithValue(`<converted>${htmlText}</converted>`, null);
         });
+        it('Should fire change event on change when html text is empty', () => {
+            const htmlText = '';
+            richTextEditor = createComponentUnderTest({value: htmlText});
+            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            richTextEditor.addEventListener('change', eventCallback);
+
+            // When we click on an empty lightning-input-rich-text, no change event is fired
+            // A change event is fired when we modify text
+            fireChangeEvent(inputRichTextElement, 'a');
+
+            // Then
+            expectValueChangedEventWithValue('a', null);
+        });
         it('Should fire change event on change', () => {
             // Given
-            richTextEditor = createComponentUnderTest({value: ''});
+            richTextEditor = createComponentUnderTest({value: '<p>hello</p>'});
             const inputRichTextElement = getInputRichTextElement(richTextEditor);
-            fireChangeEvent(inputRichTextElement, '');
+            fireChangeEvent(inputRichTextElement, '<p>hello</p>');
             richTextEditor.addEventListener('change', eventCallback);
             validateTextWithMergeFields.mockReturnValue([]);
 

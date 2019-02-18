@@ -56,7 +56,10 @@ export default class ResourcedRichTextEditor extends LightningElement {
         let value = event.detail.value;
         if (!this.isHTMLSanitized) {
             // when inputRichText is activated we get a change event
-            value = convertHTMLToQuillHTML(this.state.value);
+            if (this.state.value !== '') {
+                // except if html text is empty
+                value = convertHTMLToQuillHTML(this.state.value);
+            }
             this.isHTMLSanitized = true;
         }
         const errors = this.validateMergeFields(value);
