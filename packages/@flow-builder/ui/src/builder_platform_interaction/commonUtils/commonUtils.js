@@ -132,3 +132,5 @@ export const escapeForRegExp = (value) => {
 export function isReference(value) {
     return typeof value === 'string' && value.startsWith('{!') && value.endsWith('}');
 }
+
+export const APP_EXCHANGE_LINK = 'https://appexchange.salesforce.com/appxStore?type=Flow';
