@@ -9,19 +9,17 @@ import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interacti
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { undoRedo,  isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
-import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import { setEntities, fetchFieldsForEntity, setEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
-import { setResourceTypes, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 import { EditElementEvent, NewResourceEvent } from 'builder_platform_interaction/events';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { mutateFlowResourceToComboboxShape, getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
+import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
-import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
-import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl, updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings, flowPropertiesCallback, saveAsFlowCallback } from './editorUtils';
+import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl, updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings, flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor } from './editorUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -87,48 +85,16 @@ export default class Editor extends LightningElement {
         ];
         storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib}));
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
-
-        // TODO: Move these server calls after getting the Flow
-        // added catch so that error are ignored in Chrome (fetchOnce already displays an error message)
-        const setRulesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_RULES).then(data => setRules(data));
-        setRulesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setRulesPromise);
-
-        const setOperatorsPromise = fetchOnce(SERVER_ACTION_TYPE.GET_OPERATORS).then(data => setOperators(data));
-        setOperatorsPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setOperatorsPromise);
-
-        logPerfTransactionStart(SERVER_ACTION_TYPE.GET_ENTITIES);
-        const setEntitiesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_ENTITIES, { crudType: 'ALL' }, {background: true}).then(data => {
-            logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_ENTITIES);
-            logPerfTransactionStart('setEntities');
-            setEntities(data);
+        logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
+        const getPeripheralDataForPropertyEditor = fetchOnce(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR, {
+            crudType: 'ALL',
+            flowProcessType: 'Flow'
+        }).then(data => {
+            logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
+            setPeripheralDataForPropertyEditor(data);
         });
-        setEntitiesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setEntitiesPromise);
-
-        const setHeaderUrlsPromise = fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
-        setHeaderUrlsPromise.catch(() => {});
-
-        const setResourceTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_RESOURCE_TYPES).then(data => setResourceTypes(data));
-        setResourceTypesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setResourceTypesPromise);
-
-        const setEventTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_EVENT_TYPES, { background: true }).then(data => setEventTypes(data));
-        setEventTypesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setEventTypesPromise);
-
-        const setAllGlobalVariablesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES, { flowProcessType: 'Flow' }).then(data => this.getAllGlobalVariablesCallback(data));
-        setAllGlobalVariablesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setAllGlobalVariablesPromise);
-
-        const setSystemVariablesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES, { flowProcessType: 'Flow' }).then(data => this.getSystemVariablesCallback(data));
-        setSystemVariablesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(setSystemVariablesPromise);
-
-        const getProcessTypesPromise = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES).then(data => setProcessTypes(data));
-        getProcessTypesPromise.catch(() => {});
-        this.propertyEditorBlockerCalls.push(getProcessTypesPromise);
+        this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
+        fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
     }
 
     @api
@@ -319,20 +285,6 @@ export default class Editor extends LightningElement {
         this.helpUrl = data.helpUrl;
         this.runDebugUrl = data.runDebugUrl;
         this.retrievedHeaderUrls = true;
-    };
-
-    getAllGlobalVariablesCallback = (data) => {
-        setGlobalVariables(data);
-        getGlobalVariableTypeComboboxItems().forEach(item => {
-            addToParentElementCache(item.displayText, item);
-        });
-    };
-
-    getSystemVariablesCallback = (data) => {
-        const item = getFlowSystemVariableComboboxItem();
-        // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
-        addToParentElementCache(item.displayText, item);
-        setSystemVariables(data);
     };
 
     /**

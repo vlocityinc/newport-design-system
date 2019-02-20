@@ -1,5 +1,4 @@
 import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 const allEntities = [];
 const queryableEntities = [];
@@ -40,7 +39,6 @@ export const setEntities = (entities = null) => {
             }
         });
     }
-    logPerfTransactionEnd('setEntities');
 };
 
 /**

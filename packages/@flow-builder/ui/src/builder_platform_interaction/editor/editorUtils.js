@@ -5,6 +5,12 @@ import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
+import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
+import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
+import { setEntities, setEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
+import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 
 /**
  * Helper method to delete the selected elements
@@ -221,4 +227,29 @@ export const saveAsFlowCallback = (storeInstance, saveFlowFn) => (flowProperties
     if (saveType !== SaveType.UPDATE) {
         saveFlowFn(saveType);
     }
+};
+
+const setGlobalVariableAndUpdateCache = (globalVariables) => {
+    setGlobalVariables(globalVariables);
+    getGlobalVariableTypeComboboxItems().forEach(item => {
+        addToParentElementCache(item.displayText, item);
+    });
+};
+
+const setSystemVariableAndUpdateCache = (systemVariables) => {
+    const item = getFlowSystemVariableComboboxItem();
+    // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
+    addToParentElementCache(item.displayText, item);
+    setSystemVariables(systemVariables);
+};
+
+export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, processTypes, globalVariables, systemVariables, entities}) => {
+    setRules(rules);
+    setOperators(operators);
+    setResourceTypes(resourceTypes);
+    setEventTypes(eventTypes);
+    setProcessTypes(processTypes);
+    setGlobalVariableAndUpdateCache(globalVariables);
+    setSystemVariableAndUpdateCache(systemVariables);
+    setEntities(entities);
 };
