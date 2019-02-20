@@ -17,9 +17,9 @@
                     onreorderlist={handleReorderOutcomes}
                     hide-footer=true>
                 <div slot="header" class="slds-grid">
-                    <span class="outcomeListHeader">{labels.outcomeListHeader}
-                        <lightning-helptext class="slds-p-left_xx-small" content={labels.outcomeListHelptext}></lightning-helptext></span>
-                    <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-left_xx-small slds-p-right_xx-small"  onclick={handleAddOutcome} title={labels.addOutcomeButtonLabel} alternative-text={labels.addOutcomeButtonLabel}></lightning-button-icon>
+                    <span class="outcomeListHeader">{labels.outcomeListHeader}</span>
+                    <lightning-helptext class="slds-p-top_xx-small slds-p-left_xx-small" content={labels.outcomeListHelptext}></lightning-helptext>
+                    <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-horizontal_xx-small"  onclick={handleAddOutcome} title={labels.addOutcomeButtonLabel} alternative-text={labels.addOutcomeButtonLabel}></lightning-button-icon>
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
             <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
