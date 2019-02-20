@@ -1,23 +1,7 @@
 <template>
-        <div class="slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
-            <lightning-combobox label={labels.actionTypeLabel} 
-                                options={state.typeOptions} 
-                                value={state.selectedElementType} 
-                                onchange={handleElementTypeChanged}
-                                dropdown-alignment="auto"
-                                class="slds-col slds-size_1-of-3 types">
-            </lightning-combobox>
-            <builder_platform_interaction-combobox label={actionComboLabel} 
-                                                   menu-data={state.filteredActionMenuData} 
-                                                   oncomboboxstatechanged={handleActionChanged}
-                                                   onitemselected={handleActionChanged}
-                                                   onfiltermatches={handleFilterMatches}
-                                                   value={actionComboValue}
-                                                   placeholder={actionComboPlaceholder}
-                                                   class="slds-col slds-size_2-of-3"
-                                                   disabled={actionComboDisabled}
-                                                   error-message={errorMessage}
-                                                   show-activity-indicator={state.spinnerActive}>
-             </builder_platform_interaction-combobox>
-         </div>
+    <builder_platform_interaction-combobox menu-data={state.filteredActionMenuData}
+        oncomboboxstatechanged={handleActionChanged} onitemselected={handleActionChanged}
+        onfiltermatches={handleFilterMatches} value={actionComboValue} placeholder={actionComboPlaceholder}
+        disabled={actionComboDisabled} error-message={errorMessage} show-activity-indicator={state.spinnerActive}>
+    </builder_platform_interaction-combobox>
 </template>

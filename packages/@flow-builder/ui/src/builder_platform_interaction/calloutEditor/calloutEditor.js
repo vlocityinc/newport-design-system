@@ -20,18 +20,37 @@ export default class CalloutEditor extends LightningElement {
 
     @track hasActions = {};
 
+    @track selectedFilterBy = LABELS.filterByCategoryOption;
+    @track showLeftPanel = true;
+    @track categoryOptions = [];
+    @track selectedCategory = '';
+
     labels = LABELS;
 
     location = {};
 
     connectedCallback() {
         this.updatePropertyEditorTitle();
+        this.setCategoryOptions();
     }
 
     updatePropertyEditorTitle() {
         const title = this.labels.newActionPropertyEditorTitle;
         const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
         this.dispatchEvent(setPropertyEditorTitleEvent);
+    }
+
+    get filterByOptions() {
+        return [
+            {
+                label: LABELS.filterByCategoryOption,
+                value: LABELS.filterByCategoryOption,
+            },
+            {
+                label: LABELS.filterByTypeOption,
+                value: LABELS.filterByTypeOption,
+            },
+        ];
     }
 
     @api
@@ -43,6 +62,7 @@ export default class CalloutEditor extends LightningElement {
         this.calloutNode = newValue || {};
         this.location.locationX = this.calloutNode.locationX;
         this.location.locationY = this.calloutNode.locationY;
+        this.showLeftPanel = this.calloutNode.elementType !== ELEMENT_TYPE.SUBFLOW;
         this.updateSelectedAction();
     }
 
@@ -70,7 +90,7 @@ export default class CalloutEditor extends LightningElement {
 
     updateSelectedAction() {
         let newSelectedAction = {
-            elementType :  this.node.elementType,
+            elementType: this.node.elementType,
         };
         if (this.node.elementType === ELEMENT_TYPE.APEX_PLUGIN_CALL) {
             const apexClass = getValueFromHydratedItem(this.node.apexClass);
@@ -105,6 +125,24 @@ export default class CalloutEditor extends LightningElement {
         }
     }
 
+    setCategoryOptions() {
+        if (this.selectedFilterBy === LABELS.filterByTypeOption) {
+            const getTypeOption = (elementType) => {
+                return {
+                    label: this.labels[elementType].TYPE_OPTION_LABEL,
+                    name: elementType
+                };
+            };
+            const typeOptions = [getTypeOption(ELEMENT_TYPE.ACTION_CALL)];
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
+            typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
+            this.categoryOptions = typeOptions;
+        } else {
+            this.categoryOptions = [];
+        }
+    }
+
     handleActionSelected(event) {
         event.stopPropagation();
         this.selectedAction = event.detail.value;
@@ -112,18 +150,34 @@ export default class CalloutEditor extends LightningElement {
     }
 
     handleCannotRetrieveParameters(event) {
-       event.stopPropagation();
-       // reset selected action
-       this.selectedAction = { elementType : this.selectedAction.elementType };
-   }
+        event.stopPropagation();
+        // reset selected action
+        this.selectedAction = { elementType: this.selectedAction.elementType };
+    }
 
-   handleCannotRetrieveActions(event) {
-       event.stopPropagation();
-       const closePropertyEditorEvent = new ClosePropertyEditorEvent();
-       this.dispatchEvent(closePropertyEditorEvent);
-   }
+    handleCannotRetrieveActions(event) {
+        event.stopPropagation();
+        const closePropertyEditorEvent = new ClosePropertyEditorEvent();
+        this.dispatchEvent(closePropertyEditorEvent);
+    }
 
     handleActionsLoaded(event) {
-        this.hasActions = { value : !(event.detail.number === 0)}; // only set it when the event explicitly says it has 0
-   }
+        this.hasActions = { value: !(event.detail.number === 0) }; // only set it when the event explicitly says it has 0
+    }
+
+    handleFilterByChange(event) {
+        this.selectedFilterBy = event.detail.value;
+        this.setCategoryOptions();
+    }
+
+    handleCategorySelect(event) {
+        this.selectedCategory = event.detail.name;
+        if (this.selectedFilterBy === LABELS.filterByTypeOption) {
+            this.selectedAction = { elementType: this.selectedCategory };
+        }
+        // TODO
+        // if(this.selectedFilterBy === 'category'){
+
+        // }
+    }
 }
