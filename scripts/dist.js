@@ -71,14 +71,7 @@ async.series(
       const packageJSON = JSON.parse(
         fs.readFileSync(distPath('package.json')).toString()
       );
-      packageJSON.name = '@vlocity-inc/newport-design-system';
-      _.set(
-        packageJSON,
-        ['nds', 'dependencies'],
-        Immutable.fromJS(packageJSON.devDependencies)
-          .filter((v, k) => /^@salesforce-ux/.test(k))
-          .toJS()
-      );
+      packageJSON.name = '@vlocity/newport-design-system';
       delete packageJSON.scripts;
       delete packageJSON.dependencies;
       delete packageJSON.devDependencies;
