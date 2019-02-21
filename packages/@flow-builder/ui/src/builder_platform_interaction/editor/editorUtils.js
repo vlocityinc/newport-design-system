@@ -103,8 +103,8 @@ const doDeleteOrInvokeAlert = (storeInstance, selectedElementGUIDs, connectorsTo
  * @param {Object} storeInstance instance of the store
  * @param {Object} containing selected Element GUID and type
  */
-export const getElementsToBeDeleted = (storeInstance, { selectedElementGuid, selectedElementType }) => {
-    const isMultiElementDelete = !selectedElementGuid;
+export const getElementsToBeDeleted = (storeInstance, { selectedElementGUID, selectedElementType }) => {
+    const isMultiElementDelete = !selectedElementGUID;
     let canvasElementGuidsToDelete = [];
     let connectorsToDelete = [];
     const currentState = storeInstance.getCurrentState();
@@ -116,7 +116,7 @@ export const getElementsToBeDeleted = (storeInstance, { selectedElementGuid, sel
         canvasElementGuidsToDelete = selectedCanvasElementGuids(canvasElements);
         connectorsToDelete = connectorsToBeDeleted(canvasElementGuidsToDelete, connectors, true);
     } else {
-        canvasElementGuidsToDelete = [...selectedElementGuid];
+        canvasElementGuidsToDelete = [...selectedElementGUID];
         connectorsToDelete = connectorsToBeDeleted(canvasElementGuidsToDelete, connectors);
     }
     doDeleteOrInvokeAlert(storeInstance, canvasElementGuidsToDelete, connectorsToDelete, elementType);
