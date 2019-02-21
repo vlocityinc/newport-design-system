@@ -1,1 +1,1 @@
-export { getElementByGuid, getElementByDevName } from './storeQuery';
+export { getElementByGuid, getElementByDevName, isDevNameInStore, isOrderNumberInStore, getDuplicateDevNameElements } from './storeQuery';

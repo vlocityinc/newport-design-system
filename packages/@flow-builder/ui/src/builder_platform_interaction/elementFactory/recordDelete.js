@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, baseCanvasElementsArrayToMap, createAvailableConnection } from './base/baseElement';
+import { baseCanvasElement, baseCanvasElementsArrayToMap, duplicateCanvasElement, createAvailableConnection } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
@@ -30,6 +30,13 @@ export function createRecordDelete(recordDelete = {}) {
         elementType : ELEMENT_TYPE.RECORD_DELETE,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
+}
+
+export function createDuplicateRecordDelete(recordDelete, newGuid) {
+    const newRecordDelete = createRecordDelete(recordDelete);
+    const duplicateRecordDelete = duplicateCanvasElement(newRecordDelete, newGuid);
+
+    return duplicateRecordDelete;
 }
 
 export function createRecordDeleteWithConnectors(recordDelete) {

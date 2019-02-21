@@ -1,5 +1,6 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createActionCall } from './actionCall';
+import {  duplicateCanvasElement } from "./base/baseElement";
 
 const elementType = ELEMENT_TYPE.APEX_CALL;
 
@@ -10,4 +11,11 @@ const elementType = ELEMENT_TYPE.APEX_CALL;
  */
 export function createApexCall(apexCall = {}) {
     return  createActionCall(apexCall, elementType);
+}
+
+export function createDuplicateApexCall(apexCall, newGuid) {
+    const newApexCall = createApexCall(apexCall);
+    const duplicateApexCall = duplicateCanvasElement(newApexCall, newGuid);
+
+    return duplicateApexCall;
 }

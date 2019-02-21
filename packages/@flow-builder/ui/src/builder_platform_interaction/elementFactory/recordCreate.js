@@ -4,6 +4,7 @@ import {
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    duplicateCanvasElement,
     createAvailableConnection
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
@@ -65,6 +66,13 @@ export function createRecordCreate(recordCreate = {}) {
     }
 
     return recordCreateObject;
+}
+
+export function createDuplicateRecordCreate(recordCreate, newGuid) {
+    const newRecordCreate = createRecordCreate(recordCreate);
+    const duplicateRecordCreate = duplicateCanvasElement(newRecordCreate, newGuid);
+
+    return duplicateRecordCreate;
 }
 
 export function createRecordCreateWithConnectors(recordCreate) {

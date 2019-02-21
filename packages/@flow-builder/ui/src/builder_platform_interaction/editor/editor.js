@@ -1,8 +1,8 @@
 import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
+import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, addElement, updateElement, selectOnCanvas, undo, redo, highlightOnCanvas,
+import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, highlightOnCanvas,
     UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -20,6 +20,7 @@ import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl, updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings, flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor } from './editorUtils';
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
 let unsubscribeStore;
 let storeInstance;
@@ -328,7 +329,57 @@ export default class Editor extends LightningElement {
         } else {
             window.removeEventListener('beforeunload', this.beforeUnloadCallback);
         }
-    }
+    };
+
+    setupChildElementGuidMap = (canvasElement = {}) => {
+        const elementConfig = getConfigForElementType(canvasElement.elementType);
+        const childReferenceKey = elementConfig && elementConfig.childReferenceKey;
+
+        const childElementGuidMap = {};
+        const childReferenceArray = canvasElement[childReferenceKey.plural];
+
+        for (let i = 0; i < childReferenceArray.length; i++) {
+            const childReferenceObject = childReferenceArray[i];
+            childElementGuidMap[childReferenceObject[childReferenceKey.singular]] = generateGuid();
+        }
+
+        return childElementGuidMap;
+    };
+
+    handleDuplicate = () => {
+        const canvasElementGuidMap = {};
+        let childElementGuidMap = {};
+        const connectorsToDuplicate = [];
+
+        const currentState = storeInstance.getCurrentState();
+        const nodesLength = currentState.canvasElements.length;
+        for (let i = 0; i < nodesLength; i++) {
+            const canvasElementGuid = currentState.canvasElements[i];
+            const canvasElement = currentState.elements[canvasElementGuid];
+            if (canvasElement.config && canvasElement.config.isSelected) {
+                canvasElementGuidMap[canvasElement.guid] = generateGuid();
+
+                if (canvasElement.elementType === ELEMENT_TYPE.SCREEN || canvasElement.elementType === ELEMENT_TYPE.DECISION || canvasElement.elementType === ELEMENT_TYPE.WAIT) {
+                    childElementGuidMap = this.setupChildElementGuidMap(canvasElement);
+                }
+            }
+        }
+
+        const connectorsLength = currentState.connectors.length;
+        for (let i = 0; i < connectorsLength; i++) {
+            const connector = currentState.connectors[i];
+            if (connector.config.isSelected && canvasElementGuidMap.hasOwnProperty(connector.source) && canvasElementGuidMap.hasOwnProperty(connector.target)) {
+                connectorsToDuplicate.push(connector);
+            }
+        }
+
+        const payload = {
+            canvasElementGuidMap,
+            childElementGuidMap,
+            connectorsToDuplicate
+        };
+        storeInstance.dispatch(doDuplicate(payload));
+    };
 
     /**
      * Handles the edit flow properies event fired by the toolbar. Opens the flow properties property editor with

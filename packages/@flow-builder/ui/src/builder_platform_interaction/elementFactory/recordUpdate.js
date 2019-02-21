@@ -2,6 +2,7 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowM
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    duplicateCanvasElement,
     createAvailableConnection
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
@@ -62,6 +63,13 @@ export function createRecordUpdate(recordUpdate = {}) {
     });
 
     return recordUpdateObject;
+}
+
+export function createDuplicateRecordUpdate(recordUpdate, newGuid) {
+    const newRecordUpdate = createRecordUpdate(recordUpdate);
+    const duplicateRecordUpdate = duplicateCanvasElement(newRecordUpdate, newGuid);
+
+    return duplicateRecordUpdate;
 }
 
 export function createRecordUpdateWithConnectors(recordUpdate = {}) {

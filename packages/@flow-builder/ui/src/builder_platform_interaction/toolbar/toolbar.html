@@ -12,16 +12,15 @@
             </div>
         </div>
         <!--Cut/Copy/Paste-->
-        <!--<div class="slds-builder-toolbar__item-group">-->
-            <!--<div class="slds-button-group" role="group">-->
-                <!--<lightning-button-icon variant="border-filled" icon-name="utility:cut" title="Cut" alternative-text="Cut">-->
-                <!--</lightning-button-icon>-->
-                <!--<lightning-button-icon variant="border-filled" icon-name="utility:copy" title="Copy" alternative-text="Copy">-->
-                <!--</lightning-button-icon>-->
-                <!--<lightning-button-icon variant="border-filled" icon-name="utility:paste" title="Paste" alternative-text="Paste">-->
-                <!--</lightning-button-icon>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="slds-builder-toolbar__item-group">
+            <lightning-button-icon
+                    variant="border-filled"
+                    icon-name="utility:paste"
+                    title="Duplicate"
+                    alternative-text="Duplicate"
+                    onclick={handleDuplicateButtonClick}>
+            </lightning-button-icon>
+        </div>
         <!--Toggle Left Panel-->
         <!--<div class="slds-builder-toolbar__item-group">-->
             <!--<lightning-button-icon-stateful variant="border-filled" icon-name="utility:toggle_panel_left" title="Toggle Left Panel" alternative-text="Toggle Left Panel">-->

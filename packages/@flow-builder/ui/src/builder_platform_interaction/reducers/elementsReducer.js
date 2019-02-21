@@ -1,5 +1,6 @@
 import {
     UPDATE_FLOW,
+    DO_DUPLICATE,
     ADD_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT,
     DELETE_ELEMENT,
@@ -25,6 +26,7 @@ import {
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
 /**
  * Reducer for elements.
@@ -37,6 +39,8 @@ export default function elementsReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
             return deepCopy(action.payload.elements);
+        case DO_DUPLICATE:
+            return _duplicateElement(state, action.payload.canvasElementGuidMap, action.payload.childElementGuidMap, action.payload.connectorsToDuplicate);
         case ADD_CANVAS_ELEMENT:
         case ADD_START_ELEMENT:
         case ADD_RESOURCE:
@@ -74,6 +78,54 @@ export default function elementsReducer(state = {}, action) {
         default:
             return state;
     }
+}
+
+function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap = {}, connectorsToDuplicate = []) {
+    let newState = Object.assign({}, state);
+
+    const elementGuidsToDuplicate = Object.keys(canvasElementGuidMap);
+    for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
+        const selectedElement = newState[elementGuidsToDuplicate[i]];
+        if (selectedElement && selectedElement.config && selectedElement.config.isSelected) {
+            newState[selectedElement.guid] = Object.assign({}, selectedElement, {
+                config: {
+                    isSelected: false
+                }
+            });
+        }
+
+        const elementConfig = getConfigForElementType(selectedElement.elementType);
+        const duplicateElementGuid = canvasElementGuidMap[selectedElement.guid];
+        const { duplicatedElement, duplicatedChildElements = {} } = elementConfig && elementConfig.factory && elementConfig.factory.duplicateElement && elementConfig.factory.duplicateElement(selectedElement, duplicateElementGuid, childElementGuidMap);
+
+        newState[duplicatedElement.guid] = duplicatedElement;
+        newState = {...newState, ...duplicatedChildElements};
+    }
+
+    for (let i = 0; i < connectorsToDuplicate.length; i++) {
+        const originalConnector = connectorsToDuplicate[i];
+
+        const duplicateSourceGuid = canvasElementGuidMap[originalConnector.source];
+        const duplicateSourceElement = newState[duplicateSourceGuid];
+
+        const childSourceGUID = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
+        const duplicateConnectorType = originalConnector.type;
+
+        if (duplicateSourceElement.availableConnections) {
+            if (childSourceGUID) {
+                // Also update the label of the connector to the new childSource (outcome or waitEvent) label.
+                duplicateSourceElement.availableConnections = duplicateSourceElement.availableConnections.filter(availableConnector => (availableConnector.childReference !==  childSourceGUID));
+            } else {
+                duplicateSourceElement.availableConnections = duplicateSourceElement.availableConnections.filter(availableConnector => (availableConnector.type !==  duplicateConnectorType));
+            }
+        }
+
+        newState[duplicateSourceGuid] = Object.assign({}, duplicateSourceElement, {
+            connectorCount: duplicateSourceElement.connectorCount + 1,
+        });
+    }
+
+    return newState;
 }
 
 /**

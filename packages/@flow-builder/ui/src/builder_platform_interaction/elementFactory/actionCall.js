@@ -6,7 +6,8 @@ import {
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
-    createAvailableConnection
+    createAvailableConnection,
+    duplicateCanvasElement
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -45,6 +46,13 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     });
 
     return actionCallObject;
+}
+
+export function createDuplicateActionCall(actionCall, newGuid) {
+    const newActionCall = createActionCall(actionCall);
+    const duplicateActionCall = duplicateCanvasElement(newActionCall, newGuid);
+
+    return duplicateActionCall;
 }
 
 export function createActionCallWithConnectors(actionCall, elementType) {

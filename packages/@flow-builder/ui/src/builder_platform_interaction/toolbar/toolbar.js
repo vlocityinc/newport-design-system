@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent, UndoEvent, RedoEvent } from 'builder_platform_interaction/events';
+import { EditFlowPropertiesEvent, RunFlowEvent, DebugFlowEvent, SaveFlowEvent, DiffFlowEvent, UndoEvent, RedoEvent, DuplicateEvent } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from "builder_platform_interaction/contextLib";
 import { LABELS } from './toolbarLabels';
@@ -62,6 +62,12 @@ export default class Toolbar extends LightningElement {
         const redoEvent = new RedoEvent();
         this.dispatchEvent(redoEvent);
     }
+    handleDuplicateButtonClick(event) {
+        event.preventDefault();
+        const duplicateEvent = new DuplicateEvent();
+        this.dispatchEvent(duplicateEvent);
+    }
+
     handleEditFlowProperties(event) {
         event.preventDefault();
         if (!this.isEditFlowPropertiesDisabled) {

@@ -5,7 +5,8 @@ import {
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
-    createAvailableConnection
+    createAvailableConnection,
+    duplicateCanvasElement
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
@@ -43,6 +44,13 @@ export function createApexPlugin(apexPlugin = {}) {
     });
 
     return apexPluginObject;
+}
+
+export function createDuplicateApexPlugin(apexPlugin, newGuid) {
+    const newApexPlugin = createApexPlugin(apexPlugin);
+    const duplicateApexPlugin = duplicateCanvasElement(newApexPlugin, newGuid);
+
+    return duplicateApexPlugin;
 }
 
 export function createApexPluginWithConnectors(apexPlugin) {

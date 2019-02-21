@@ -36,3 +36,46 @@ export const getElementByDevName = (devName, caseSensitive = false) => {
     }
     return undefined;
 };
+
+/**
+ * Common function to return duplicate dev name elements
+ * @param {Object[]} elements
+ * @param {string} nameToBeTested
+ * @param {string[]} listOfGuidsToSkip
+ * @returns {Object[]} matchingElements Object list
+ */
+export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listOfGuidsToSkip = []) => {
+    return elements && Object.values(elements).filter(element =>
+        !listOfGuidsToSkip.includes(element.guid)
+        && nameToBeTested !== '' // no need to run the validation in case of empty string
+        && (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase()));
+};
+
+/**
+ * Checks the uniqueness of the devName string amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
+ * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ * @param {string} nameToBeTested - for uniqueness in store
+ * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
+ * @returns {boolean}
+ */
+export const isDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
+    const currentState = Store.getStore().getCurrentState();
+    const elements = currentState.elements;
+    const matches = getDuplicateDevNameElements(elements, nameToBeTested, listOfGuidsToSkip) || [];
+    return matches.length > 0;
+};
+
+/**
+ * Checks the uniqueness of the order number amongst the elements present in the store, ignoring the list of guids passed as blacklist to avoid checking against uniqueness.
+ * This listOfGuids might be helpful in the future when an element like decision/screen wants to pass a list of outcome guids and checks for uniqueness internally for those guids, since it has the latest data for those guids
+ * @param {number} orderNumberToBeTested - for uniqueness in store
+ * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
+ * @returns {boolean}
+ */
+export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = []) => {
+    const currentState = Store.getStore().getCurrentState();
+    const elements = currentState.elements;
+    const matches = Object.values(elements).filter(element =>
+        !listOfGuidsToSkip.includes(element.guid) && (element.stageOrder) === orderNumberToBeTested);
+    return matches.length > 0;
+};

@@ -7,6 +7,8 @@ export const UPDATE_FLOW = 'UPDATE_FLOW';
 export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
 export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
 
+export const DO_DUPLICATE = 'DO_DUPLICATE';
+
 export const ADD_CANVAS_ELEMENT = 'ADD_CANVAS_ELEMENT';
 export const UPDATE_CANVAS_ELEMENT = 'UPDATE_CANVAS_ELEMENT';
 
@@ -101,6 +103,8 @@ export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, pay
  * @returns {Object} action new action based on type and payload
  */
 export const updatePropertiesAfterSaving = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
+
+export const doDuplicate = (payload) => createAction(DO_DUPLICATE, payload);
 
 /**
  * Action for adding a new element in the store.

@@ -4,6 +4,7 @@ import {
 } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
+    duplicateCanvasElement,
     baseCanvasElementsArrayToMap
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
@@ -39,6 +40,13 @@ export function createLoop(loop = {}) {
         availableConnections,
         elementType
     });
+}
+
+export function createDuplicateLoop(loop, newGuid) {
+    const newLoop = createLoop(loop);
+    const duplicateLoop = duplicateCanvasElement(newLoop, newGuid);
+
+    return duplicateLoop;
 }
 
 export function createLoopWithConnectors(loop) {

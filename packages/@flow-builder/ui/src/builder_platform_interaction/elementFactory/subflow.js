@@ -5,6 +5,7 @@ import {
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    duplicateCanvasElement,
     createAvailableConnection
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
@@ -39,6 +40,13 @@ export function createSubflow(subflow = {}) {
     });
 
     return subflowObject;
+}
+
+export function createDuplicateSubflow(subflow, newGuid) {
+    const newSubflow = createSubflow(subflow);
+    const duplicateSubflow = duplicateCanvasElement(newSubflow, newGuid);
+
+    return duplicateSubflow;
 }
 
 export function createSubflowWithConnectors(subflow) {

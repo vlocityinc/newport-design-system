@@ -4,6 +4,7 @@ import {
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
+    duplicateCanvasElement,
     createAvailableConnection
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
@@ -116,6 +117,13 @@ export function createRecordLookup(recordLookup = {}) {
         elementType,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
+}
+
+export function createDuplicateRecordLookup(recordLookup, newGuid) {
+    const newRecordLookup = createRecordLookup(recordLookup);
+    const duplicateRecordLookup = duplicateCanvasElement(newRecordLookup, newGuid);
+
+    return duplicateRecordLookup;
 }
 
 export function createRecordLookupWithConnectors(recordLookup) {

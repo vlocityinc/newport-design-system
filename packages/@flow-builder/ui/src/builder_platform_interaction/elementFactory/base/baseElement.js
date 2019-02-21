@@ -1,8 +1,11 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
+import { isDevNameInStore } from "builder_platform_interaction/storeUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
 import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
+
+export const DUPLICATE_ELEMENT_XY_OFFSET = 50;
 
 export function baseResource(resource = {}) {
     const newResource = baseElement(resource);
@@ -38,11 +41,25 @@ export function baseCanvasElement(canvasElement = {}) {
 }
 
 /**
- * @typedef {Object} Condition
- * @property {String} leftValueReference - lhs reference
- * @property {String} operator - the operator
- * @property {String} rightValue - rhs value
+ * Base function to duplicate canvas elements
+ * @param {Object} canvasElement - canvas element to be duplicated
+ * @param {string} newGuid - new guid for the duplicate element
+ * @returns {Object} duplicated element with a new unique name and guid
  */
+export function duplicateCanvasElement(canvasElement, newGuid) {
+    const { name, locationX, locationY, maxConnections, elementType } = canvasElement;
+    const duplicatedElement =  Object.assign({}, canvasElement, {
+        guid: newGuid,
+        name: getUniqueDuplicateElementName(name),
+        locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+        locationY: locationY + DUPLICATE_ELEMENT_XY_OFFSET,
+        connectorCount: 0,
+        maxConnections,
+        elementType
+    });
+
+    return { duplicatedElement };
+}
 
 /**
  * Create a new condition for property editor use
@@ -120,4 +137,12 @@ export function baseElement(element = {}) {
         guid,
         name
     });
+}
+
+function getUniqueDuplicateElementName(name) {
+    if (!isDevNameInStore(name)) {
+        return name;
+    }
+
+    return getUniqueDuplicateElementName(name + '_0');
 }

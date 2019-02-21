@@ -662,6 +662,9 @@ export default class Canvas extends LightningElement {
 
             if (!jsPlumbConnector) {
                 jsPlumbConnector = this._setJsPlumbConnection(connectorTemplate, connector);
+                if (connector.config && connector.config.isSelected) {
+                    lib.selectConnector(jsPlumbConnector, connector.type);
+                }
             } else {
                 this._updateConnectorStyling(connector, jsPlumbConnector);
                 this._setConnectorLabel(connector, jsPlumbConnector);

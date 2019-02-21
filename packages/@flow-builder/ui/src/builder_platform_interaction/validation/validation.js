@@ -1,5 +1,6 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { updateProperties, set, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
+import { getDuplicateDevNameElements } from "builder_platform_interaction/storeUtils";
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
@@ -36,7 +37,7 @@ export class Validation {
      * @returns {string|null} errorString or null
      */
     validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
-        const matches = ValidationRules.getDuplicateDevNameElements(guidToNameList, devNameToBeValidated, [guidToBeValidated]);
+        const matches = getDuplicateDevNameElements(guidToNameList, devNameToBeValidated, [guidToBeValidated]);
         return matches && matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
     };
     /**

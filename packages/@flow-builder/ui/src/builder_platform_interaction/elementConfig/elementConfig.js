@@ -5,22 +5,31 @@ import { LABELS } from "./elementConfigLabels";
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
 import {
     createActionCall,
+    createDuplicateActionCall,
     createApexPlugin,
+    createDuplicateApexPlugin,
     createAssignment,
+    createDuplicateAssignment,
     createChoice,
     createConstant,
     createFlowProperties,
     createFormula,
     createLoop,
+    createDuplicateLoop,
     createDecisionWithOutcomes,
     createWaitWithWaitEvents,
     createVariable,
     createTextTemplate,
     createRecordCreate,
+    createDuplicateRecordCreate,
     createRecordUpdate,
+    createDuplicateRecordUpdate,
     createRecordLookup,
+    createDuplicateRecordLookup,
     createRecordDelete,
+    createDuplicateRecordDelete,
     createSubflow,
+    createDuplicateSubflow,
     createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
     createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
     createStage,
@@ -29,7 +38,9 @@ import {
     createRecordChoiceSet,
     createStartElement,
     createApexCall,
+    createDuplicateApexCall,
     createEmailAlert,
+    createDuplicateEmailAlert,
     createOutcome,
     createWaitEvent,
     createWaitMetadataObject,
@@ -150,6 +161,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: false,
         factory: {
             propertyEditor: createSubflow,
+            duplicateElement: createDuplicateSubflow,
             uiToFlow: createSubflowMetadataObject,
             flowToUi: createSubflowWithConnectors
         }
@@ -181,6 +193,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createActionCall,
+            duplicateElement: createDuplicateActionCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
         }
@@ -208,6 +221,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexPlugin,
+            duplicateElement: createDuplicateApexPlugin,
             uiToFlow: createApexPluginMetadataObject,
             flowToUi: createApexPluginWithConnectors
         }
@@ -236,6 +250,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createApexCall,
+            duplicateElement: createDuplicateApexCall,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
         }
@@ -264,6 +279,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createEmailAlert,
+            duplicateElement: createDuplicateEmailAlert,
             uiToFlow: createActionCallMetadataObject,
             flowToUi: createActionCallForStore
         }
@@ -286,6 +302,7 @@ export const elementTypeToConfigMap = {
         bodyCssClass: 'slds-p-around_none',
         factory: {
             propertyEditor: createAssignment,
+            duplicateElement: createDuplicateAssignment,
             uiToFlow: createAssignmentMetadataObject,
             flowToUi: createAssignmentWithConnectors
         }
@@ -304,6 +321,10 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.screenSingularLabel,
             plural: LABELS.screenPluralLabel
+        },
+        childReferenceKey: {
+            singular: 'fieldReference',
+            plural: 'fieldReferences'
         },
         canvasElement: true,
         nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
@@ -334,6 +355,10 @@ export const elementTypeToConfigMap = {
             connectorPickerBodyText: LABELS.decisionConnectorPickerBodyText,
             comboBoxLabel: LABELS.decisionConnectorPickerComboBoxLabel
         },
+        childReferenceKey: {
+            singular: 'outcomeReference',
+            plural: 'outcomeReferences'
+        },
         canvasElement: true,
         canHaveDefaultConnector: true,
         factory: {
@@ -359,6 +384,10 @@ export const elementTypeToConfigMap = {
             connectorPickerHeaderSuffix: LABELS.waitConnectorPickerHeaderSuffix,
             connectorPickerBodyText: LABELS.waitConnectorPickerBodyText,
             comboBoxLabel: LABELS.waitConnectorPickerComboBoxLabel
+        },
+        childReferenceKey: {
+            singular: 'waitEventReference',
+            plural: 'waitEventReferences'
         },
         canvasElement: true,
         canHaveDefaultConnector: true,
@@ -406,6 +435,7 @@ export const elementTypeToConfigMap = {
         canvasElement: true,
         factory: {
             propertyEditor: createLoop,
+            duplicateElement: createDuplicateLoop,
             uiToFlow: createLoopMetadataObject,
             flowToUi: createLoopWithConnectors
         }
@@ -429,6 +459,7 @@ export const elementTypeToConfigMap = {
         nonHydratableProperties: ['numberRecordsToStore'],
         factory: {
             propertyEditor: createRecordCreate,
+            duplicateElement: createDuplicateRecordCreate,
             uiToFlow: createRecordCreateMetadataObject,
             flowToUi: createRecordCreateWithConnectors
         }
@@ -452,6 +483,7 @@ export const elementTypeToConfigMap = {
         nonHydratableProperties: ['numberRecordsToStore', 'filterType', 'sortOrder', 'assignNullValuesIfNoRecordsFound'],
         factory: {
             propertyEditor: createRecordLookup,
+            duplicateElement: createDuplicateRecordLookup,
             uiToFlow: createRecordLookupMetadataObject,
             flowToUi: createRecordLookupWithConnectors
         }
@@ -474,6 +506,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createRecordDelete,
+            duplicateElement: createDuplicateRecordDelete,
             uiToFlow: createRecordDeleteMetadataObject,
             flowToUi: createRecordDeleteWithConnectors
         }
@@ -496,6 +529,7 @@ export const elementTypeToConfigMap = {
         canHaveFaultConnector: true,
         factory: {
             propertyEditor: createRecordUpdate,
+            duplicateElement: createDuplicateRecordUpdate,
             uiToFlow: createRecordUpdateMetadataObject,
             flowToUi: createRecordUpdateWithConnectors
         }

@@ -23,6 +23,7 @@ export { CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from "./canvasEvents/canvasEven
 export { TogglePanModeEvent } from "./canvasEvents/zoomPanelEvent/panEvent";
 export { ClickToZoomEvent } from "./canvasEvents/zoomPanelEvent/zoomEvent";
 export { UnhighlightCanvasElementEvent } from "./canvasEvents/unhighlightCanvasElement.js";
+export { DuplicateEvent } from "./toolbarEvents/duplicateEvent";
 export { EditFlowPropertiesEvent } from "./toolbarEvents/editFlowPropertiesEvent";
 export { UndoEvent } from "./toolbarEvents/undoEvent";
 export { RedoEvent } from "./toolbarEvents/redoEvent";

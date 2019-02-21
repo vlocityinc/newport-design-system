@@ -1,5 +1,6 @@
 import {
     UPDATE_FLOW,
+    DO_DUPLICATE,
     ADD_CANVAS_ELEMENT,
     ADD_WAIT_WITH_WAIT_EVENTS,
     DELETE_ELEMENT,
@@ -19,6 +20,8 @@ import { addItem } from "builder_platform_interaction/dataMutationLib";
 export default function canvasElementsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.canvasElements];
+        case DO_DUPLICATE:
+            return [...state, ...Object.values(action.payload.canvasElementGuidMap)];
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
             return addItem(state, action.payload.canvasElement.guid);

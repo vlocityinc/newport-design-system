@@ -1,5 +1,6 @@
 import {
     UPDATE_FLOW,
+    DO_DUPLICATE,
     DELETE_ELEMENT,
     ADD_CONNECTOR,
     SELECT_ON_CANVAS,
@@ -10,6 +11,7 @@ import {
 } from "builder_platform_interaction/actions";
 import { addItem, updateProperties, replaceItem} from "builder_platform_interaction/dataMutationLib";
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 /**
  * Reducer for connectors.
@@ -21,6 +23,7 @@ import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
         case UPDATE_FLOW: return [...action.payload.connectors];
+        case DO_DUPLICATE:return _duplicateConnector(state, action.payload.canvasElementGuidMap, action.payload.childElementGuidMap, action.payload.connectorsToDuplicate);
         case DELETE_ELEMENT: return _deleteConnectors(state, action.payload.connectorsToDelete);
         case ADD_CONNECTOR: return addItem(state, action.payload);
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
@@ -36,6 +39,34 @@ export default function connectorsReducer(state = [], action) {
             );
         default: return state;
     }
+}
+
+function _duplicateConnector(connectors, canvasElementGuidMap = {}, childElementMap = {}, connectorsToDuplicate = []) {
+    let newState = connectors.map((connector) => {
+        if (connector.config && connector.config.isSelected) {
+            return Object.assign({}, connector, {
+                config: {
+                    isSelected: false
+                }
+            });
+        }
+        return connector;
+    });
+
+    for (let i = 0; i < connectorsToDuplicate.length; i++) {
+        const originalConnector = connectorsToDuplicate[i];
+
+        const duplicateConnector = Object.assign({}, originalConnector, {
+            guid: generateGuid(),
+            source: canvasElementGuidMap[originalConnector.source],
+            target: canvasElementGuidMap[originalConnector.target],
+            childSource: originalConnector.childSource && childElementMap[originalConnector.childSource]
+        });
+
+        newState = addItem(newState, duplicateConnector);
+    }
+
+    return newState;
 }
 
 /**

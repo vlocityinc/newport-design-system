@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { baseCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
+import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
 import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from "./base/baseList";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createFEROV, createFEROVMetadataObject } from './ferov';
@@ -25,6 +25,13 @@ export function createAssignment(assignment = {}) {
     });
 
     return assignmentObject;
+}
+
+export function createDuplicateAssignment(assignment = {}, newGuid) {
+    const newAssignment = createAssignment(assignment);
+    const duplicateAssignment = duplicateCanvasElement(newAssignment, newGuid);
+
+    return duplicateAssignment;
 }
 
 export function createAssignmentWithConnectors(assignment = {}) {
