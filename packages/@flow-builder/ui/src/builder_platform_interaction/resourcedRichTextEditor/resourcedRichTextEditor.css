@@ -1,0 +1,10 @@
+.container {
+    border: var(--lwc-borderWidthThin) solid var(--lwc-colorGray5);
+    border-radius: var(--lwc-borderRadiusMedium);
+    background: var(--lwc-colorGray2);
+    padding: 0;
+}
+
+.has-error {
+    border: var(--lwc-borderWidthThick) solid var(--lwc-colorBorderError);
+}

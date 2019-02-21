@@ -6,13 +6,14 @@
         </label>
         <lightning-helptext if:true={helpText} class='slds-form-element' content={helpText}></lightning-helptext>
         
-
-        <lightning-input-rich-text formats={formats}
+        <div class={classList}>
+            <lightning-input-rich-text formats={formats}
                                    value={state.value}
                                    variant='bottom-toolbar'
                                    onchange={handleChangeEvent}
                                    onblur={handleBlurEvent}>
-        </lightning-input-rich-text>
+            </lightning-input-rich-text>
+        </div>
 
         <div if:true={state.error} class='slds-has-error'>
             <div role='alert' class='slds-form-element__help'>{state.error}</div>

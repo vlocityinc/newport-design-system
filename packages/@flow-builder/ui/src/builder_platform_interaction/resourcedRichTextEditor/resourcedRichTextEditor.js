@@ -51,6 +51,10 @@ export default class ResourcedRichTextEditor extends LightningElement {
         }
     }
 
+    get classList() {
+        return  'container' + (this.state.error ? ' has-error' : '');
+    }
+
     handleChangeEvent(event) {
         event.stopPropagation();
         let value = event.detail.value;
