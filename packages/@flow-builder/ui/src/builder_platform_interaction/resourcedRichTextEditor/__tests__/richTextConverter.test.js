@@ -2,24 +2,22 @@ import {
     convertHTMLToQuillHTML
 } from '../richTextConverter';
 
-const originalText = "<TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Times New Roman\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">1</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">2</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">3</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">Bonjour</FONT></LI></TEXTFORMAT><DIV ALIGN=\"JUSTIFY\"><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\"><B>Bonjour En Gras</B></FONT></DIV><DIV ALIGN=\"JUSTIFY\"><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">Et de 2</FONT></DIV><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\"></FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">A</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">B</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><LI><FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\"><B><I><U>C</U></I></B></FONT></LI></TEXTFORMAT>";
-const convertedText = "<ul><li><span style=\"font-size: 12px; font-family: Times New Roman; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">1</span></li><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">2</span></li><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">3</span></li><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">Bonjour</span></li></ul><div style=\"text-align: justify;\"><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\"><b>Bonjour En Gras</b></span></div><div style=\"text-align: justify;\"><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">Et de 2</span></div><ul><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\"></span></li><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">A</span></li><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">B</span></li><li><span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\"><b><i><u>C</u></i></b></span></li></ul>";
+const originalText = '<TEXTFORMAT LEADING="2"><LI><FONT FACE="Times New Roman" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">1</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">2</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">3</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Bonjour</FONT></LI></TEXTFORMAT><DIV ALIGN="JUSTIFY"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>Bonjour En Gras</B></FONT></DIV><DIV ALIGN="JUSTIFY"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Et de 2</FONT></DIV><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"></FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">A</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">B</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B><I><U>C</U></I></B></FONT></LI></TEXTFORMAT>';
+const convertedText = '<ul><li><span style="font-size: 12px; font-family: serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">1</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">2</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">3</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">Bonjour</span></li></ul><div style="text-align: justify;"><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"><b>Bonjour En Gras</b></span></div><div style="text-align: justify;"><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">Et de 2</span></div><ul><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"></span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">A</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">B</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"><b><i><u>C</u></i></b></span></li></ul>';
 
+const liWithoutUL = '<TEXTFORMAT LEADING="2"><li><span style="">1</span></li></TEXTFORMAT><TEXTFORMAT LEADING="2"><li><span style="">2</span></li></TEXTFORMAT>';
+const liWithULConverted  = '<ul><li><span style="">1</span></li><li><span style="">2</span></li></ul>';
 
-const liWithoutUL = "<TEXTFORMAT LEADING=\"2\"><li><span style=\"\">1</span></li></TEXTFORMAT><TEXTFORMAT LEADING=\"2\"><li><span style=\"\">2</span></li></TEXTFORMAT>";
-const liWithULConverted  = "<ul><li><span style=\"\">1</span></li><li><span style=\"\">2</span></li></ul>";
+const textWithFontTag = '<FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">1</FONT>';
+const textfontTagConverted = '<span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">1</span>';
 
+const divTag = '<DIV ALIGN="JUSTIFY"><B>Bold Hello</B></DIV>';
+const divTagConverted = '<div style="text-align: justify;"><b>Bold Hello</b></div>';
 
-const textWithFontTag = "<FONT FACE=\"Arial\" STYLE=\"font-size:12px\" COLOR=\"#000000\" LETTERSPACING=\"0\" KERNING=\"0\">1</FONT>";
-const textfontTagConverted = "<span style=\"font-size: 12px; font-family: Arial; color: rgb(0, 0, 0);\" letterspacing=\"0\" kerning=\"0\">1</span>";
+const invalidHtmlTag = '<p>This is a paragraph';
+const invalidHtmlTagConverted = '<p>This is a paragraph</p>';
 
-const divTag = "<DIV ALIGN=\"JUSTIFY\"><B>Bold Hello</B></DIV>";
-const divTagConverted = "<div style=\"text-align: justify;\"><b>Bold Hello</b></div>";
-
-const invalidHtmlTag = "<p>This is a paragraph";
-const invalidHtmlTagConverted = "<p>This is a paragraph</p>";
-
-const unknownHtmlTag = "<edfdsf style=\"text-align: justify;\"></edfdsf>";
+const unknownHtmlTag = '<edfdsf style="text-align: justify;"></edfdsf>';
 const unknownHtmlTagConverted = "";
 
 describe('Convert richText', () => {
@@ -47,17 +45,28 @@ describe('Convert richText', () => {
         const result = convertHTMLToQuillHTML(liWithoutUL);
         expect(result).toBe(liWithULConverted);
     });
-    it('replace font tag by span tag', () => {
-        const result = convertHTMLToQuillHTML(textWithFontTag);
-        expect(result).toBe(textfontTagConverted);
-    });
-    it('should remove FACE attribute', () => {
-        const result = convertHTMLToQuillHTML(textWithFontTag);
-        expect(result).not.toContain('FACE');
-    });
-    it('should remove COLOR attribute', () => {
-        const result = convertHTMLToQuillHTML(textWithFontTag);
-        expect(result).not.toContain('COLOR');
+    describe('font tag', () => {
+        it('should replace font tag by span tag', () => {
+            const result = convertHTMLToQuillHTML(textWithFontTag);
+            expect(result).toBe(textfontTagConverted);
+        });
+        it('should convert font name to a font name supported by lightning-input-rich-text when possible', () => {
+            expect(convertHTMLToQuillHTML('<FONT FACE="Arial">hello</FONT>')).toBe('<span style="font-family: sans-serif;">hello</span>');
+        });
+        it('should keep the font name when there is no corresponding font name supported by lightning-input-rich-text', () => {
+            expect(convertHTMLToQuillHTML('<FONT FACE="Courier New">hello</FONT>')).toBe('<span style="font-family: Courier New;">hello</span>');
+        });
+        it('should not set a font-family when font is the default one', () => {
+            expect(convertHTMLToQuillHTML('<FONT FACE="Salesforce Sans">hello</FONT>')).toBe('<span>hello</span>');
+        });
+        it('should remove FACE attribute', () => {
+            const result = convertHTMLToQuillHTML(textWithFontTag);
+            expect(result.toUpperCase()).not.toContain('FACE=');
+        });
+        it('should remove COLOR attribute', () => {
+            const result = convertHTMLToQuillHTML(textWithFontTag);
+            expect(result.toUpperCase()).not.toContain('COLOR=');
+        });
     });
     it('should convert ALIGN attribute to style in a DIV', () => {
         const result = convertHTMLToQuillHTML(divTag);

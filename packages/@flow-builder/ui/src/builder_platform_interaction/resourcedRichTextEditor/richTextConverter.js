@@ -1,10 +1,12 @@
-const FONT_ATTRIBUTE_MAPPING = {
-    'FACE': 'font-family',
-    'COLOR': 'color',
-};
+import quillLib from 'lightning/quillLib';
 
-/*
+const INPUT_RICH_TEXT_FONTS = quillLib.inputRichTextLibrary.FONT_LIST.map(item => ({ fontName : item.label.toUpperCase(), value : item.value }));
+
+/**
  * This function converts HTML edited in Cloud Flow Designer (either in the flash rich text editor or in a textarea) to HTML that lightning-input-rich-text (which is using Quill) can understand.
+ *
+ * @param {string} htmlText html text we want to convert
+ * @returns {string} converted html
  */
 export function convertHTMLToQuillHTML(htmlText) {
     if (htmlText) {
@@ -20,6 +22,11 @@ export function convertHTMLToQuillHTML(htmlText) {
     return htmlText;
 }
 
+/*
+ * Process the given node
+ *
+ * @param {HtmlElement} node
+ */
 function processNode(node) {
     let newNode;
     const nodeName = node.nodeName;
@@ -47,6 +54,9 @@ function processNode(node) {
 
 /*
  * Align is deprecated on DIV, this function transforms it to style attribute.
+ *
+ * @param {HtmlElement} node the div node
+ * @returns {HtmlElement} the processed div node
  */
 function processDivNode(node) {
     const alignment = node.getAttribute('ALIGN');
@@ -58,7 +68,11 @@ function processDivNode(node) {
 }
 
 /*
- * The source HTML contains li tags without ul parents. To be valid we need to add the parent to the li tag.
+ * When source HTML comes from the CFD RTE, it can contain li tags without ul parents.
+ * We add a parent ul to li tags so that Quill can correctly convert them using matchers.
+ *
+ * @param {HtmlElement} node the li node
+ * @returns {HtmlElement} node once processed
  */
 function processLiNode(node) {
     if (node.parentNode.nodeName !== 'UL') {
@@ -82,6 +96,9 @@ function processUlNode(node) {
 /*
  * font tag is deprecated. This function converts it to CSS.
  * See Document : https://docs.google.com/document/d/1wdQSznex5PsRnHuzheKz06tZuojBmdJbTNEMdgCqVoY/edit#
+ *
+ * @param {HtmlElement} node the font node
+ * @returns {HtmlElement} the corresponding span node
  */
 function processFontNode(node) {
     const renamedNode = renameNode(node, 'span');
@@ -91,10 +108,14 @@ function processFontNode(node) {
 
     for (const attribute of attributes) {
         const attrNameUpperCase = attribute.name.toUpperCase();
-        const newAttribute = FONT_ATTRIBUTE_MAPPING[attrNameUpperCase];
-        if (newAttribute) {
-            renamedNode.style[newAttribute] = attribute.value;
-
+        if (attrNameUpperCase === 'FACE') {
+            const font = convertToSupportedFontFamily(attribute.value);
+            if (font) {
+                renamedNode.style.fontFamily = font;
+            }
+            attributesToRemove.push(attribute.name);
+        } else if (attrNameUpperCase === 'COLOR') {
+            renamedNode.style.color = attribute.value;
             attributesToRemove.push(attribute.name);
         }
     }
@@ -107,7 +128,28 @@ function processFontNode(node) {
 }
 
 /*
+ * Convert the fontName to one of the font supported by inputRichText if possible
+ *
+ * @param {string} fontName the font name to convert
+ * @returns {string|undefined} the font name to use or undefined if it is the default font
+ */
+function convertToSupportedFontFamily(fontName) {
+    const fontNameUppercase = fontName.toUpperCase();
+    const elementFound = INPUT_RICH_TEXT_FONTS.find(element => element.fontName === fontNameUppercase);
+    if (elementFound) {
+        if (elementFound.value === 'default') {
+            return undefined;
+        }
+        return elementFound.value;
+    }
+    return fontName;
+}
+
+/*
  * This function removes unsupported tag but keeps its children.
+ *
+ * @param {HtmlElement} node the node to process
+ * @returns {HtmlElement} the parent node
  */
 function processUnsupportedNode(node) {
     const parentNode = node.parentNode;
@@ -145,8 +187,8 @@ function createElement(tagName) {
 /*
  * Feature test HTML element support
  *
- * @param {String} node
- * @return {Boolean}
+ * @param {HtmlElement} node
+ * @return {boolean}
  */
 function isElementSupported(node) {
     return !(node instanceof HTMLUnknownElement);
