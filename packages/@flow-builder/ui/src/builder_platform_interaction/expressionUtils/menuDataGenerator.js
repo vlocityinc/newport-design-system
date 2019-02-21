@@ -11,6 +11,7 @@ import { isComplexType } from "builder_platform_interaction/dataTypeLib";
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
+const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
 const ICON_TYPE = 'utility';
 const RIGHT_ICON_NAME = 'utility:chevronright';
 const ICON_SIZE = 'xx-small';
@@ -115,10 +116,11 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
 
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
-
     const label = field.label || apiName;
+    const subText = parent.dataType === FLOW_DATA_TYPE.APEX.value ? field.dataType : label;
+
     formattedField.text = apiName;
-    formattedField.subText = (showSubText) ? label : '';
+    formattedField.subText = (showSubText) ? subText : '';
     formattedField.value = (parent) ? (parent.value + '.' + apiName) : apiName;
     formattedField.displayText = (showAsFieldReference && parent) ?
         (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + apiName + '}') : apiName;
@@ -178,6 +180,22 @@ export const mutateEntitiesToComboboxShape = (entities) => {
             undefined,
             SOBJECT_TYPE,
             entity.apiName,
+        );
+    });
+};
+
+export const mutateApexClassesToComboboxShape = (classes) => {
+    return classes.map(clazz => {
+        return createMenuItem(
+            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+            clazz.name,
+            undefined,
+            clazz.name,
+            undefined,
+            clazz.name,
+            undefined,
+            APEX_TYPE,
+            clazz.name,
         );
     });
 };

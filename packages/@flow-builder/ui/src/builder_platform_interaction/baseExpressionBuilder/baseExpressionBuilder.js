@@ -622,7 +622,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             }
             // get fields if preFetchedFields is empty or of the wrong sobject
             if (parentMenuItem && (!this.state[preFetchedFields] || preFetchedFieldsSubtype !== parentMenuItem.subtype)) {
-                getSecondLevelItems(config, parentMenuItem.subtype, setFieldMenuData);
+                getSecondLevelItems(config, parentMenuItem, setFieldMenuData);
             } else {
                 setFieldMenuData();
             }

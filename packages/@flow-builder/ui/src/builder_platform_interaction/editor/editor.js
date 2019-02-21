@@ -21,6 +21,7 @@ import { getElementForPropertyEditor, getElementForStore } from 'builder_platfor
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl, updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings, flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor } from './editorUtils';
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 
 let unsubscribeStore;
 let storeInstance;
@@ -610,7 +611,7 @@ export default class Editor extends LightningElement {
             if (node.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
                 this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(node.subtype).catch(() => {}));
             } else if (node.dataType === FLOW_DATA_TYPE.APEX.value) {
-                // TODO: W-5776232 hook up controller to load apex types & properties
+                cachePropertiesForClass(node.subtype);
             }
         }
     }

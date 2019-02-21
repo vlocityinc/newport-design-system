@@ -11,6 +11,7 @@ import { setEntities, setEventTypes } from 'builder_platform_interaction/sobject
 import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import { setApexClasses } from "builder_platform_interaction/apexTypeLib";
 
 /**
  * Helper method to delete the selected elements
@@ -243,7 +244,7 @@ const setSystemVariableAndUpdateCache = (systemVariables) => {
     setSystemVariables(systemVariables);
 };
 
-export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, processTypes, globalVariables, systemVariables, entities}) => {
+export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, processTypes, globalVariables, systemVariables, entities, apexTypes}) => {
     setRules(rules);
     setOperators(operators);
     setResourceTypes(resourceTypes);
@@ -252,4 +253,5 @@ export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTy
     setGlobalVariableAndUpdateCache(globalVariables);
     setSystemVariableAndUpdateCache(systemVariables);
     setEntities(entities);
+    setApexClasses(apexTypes);
 };

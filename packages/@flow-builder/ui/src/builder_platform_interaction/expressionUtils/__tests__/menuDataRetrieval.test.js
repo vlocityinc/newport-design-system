@@ -380,14 +380,14 @@ describe('Menu data retrieval', () => {
             it('calls the callback with all system variables when shouldBeWritable is false', () => {
                 const callback = jest.fn();
                 const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
-                getSecondLevelItems(mockConfig, SYSTEM_VARIABLE_PREFIX, callback);
+                getSecondLevelItems(mockConfig, {subtype: SYSTEM_VARIABLE_PREFIX}, callback);
                 expect(callback).toHaveBeenCalledWith(mockSystemVariables);
             });
 
             it('calls the callback with only writeable variables when shouldBeWritable is true', () => {
                 const callback = jest.fn();
                 const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: true };
-                getSecondLevelItems(mockConfig, SYSTEM_VARIABLE_PREFIX, callback);
+                getSecondLevelItems(mockConfig, {subtype: SYSTEM_VARIABLE_PREFIX}, callback);
                 const filteredSystemVariables = callback.mock.calls[0][0];
                 expect(Object.keys(filteredSystemVariables)).toHaveLength(1);
                 expect(Object.values(filteredSystemVariables)[0].apiName).toEqual('CurrentRecord');

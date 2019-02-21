@@ -17,11 +17,13 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
     mutateEventTypesToComboboxShape,
+    mutateApexClassesToComboboxShape,
     getSystemAndGlobalVariableMenuData,
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
+import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -396,8 +398,9 @@ export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, f
     return [];
 }
 
-export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {
+export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
     const shouldBeWritable = elementConfig && getFilterInformation(elementConfig).isWritable;
+    const { dataType, subtype } = topLevelItem;
 
     const filterWritable = (items) => {
         const writableItems = {};
@@ -411,13 +414,15 @@ export function getSecondLevelItems(elementConfig, topLevelItemType, callback) {
         return writableItems;
     };
 
-    if (topLevelItemType === SYSTEM_VARIABLE_PREFIX) {
+    if (subtype === SYSTEM_VARIABLE_PREFIX) {
         const systemVariables = getSystemVariables();
         callback(shouldBeWritable ? filterWritable(systemVariables) : systemVariables);
-    } else if (getGlobalVariables(topLevelItemType)) {
-        callback(getGlobalVariables(topLevelItemType));
+    } else if (getGlobalVariables(subtype)) {
+        callback(getGlobalVariables(subtype));
+    } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+        callback(sobjectLib.getFieldsForEntity(subtype));
     } else {
-        callback(sobjectLib.getFieldsForEntity(topLevelItemType));
+        callback(apexTypeLib.getPropertiesForClass(subtype));
     }
 }
 
@@ -477,8 +482,5 @@ export const getEventTypesMenuData = () => {
 };
 
 export const getApexClassMenuData = () => {
-    // TODO: W-5776232 hook up controller to load apex types & properties
-    return mutateEntitiesToComboboxShape([{
-        'apiName': 'SampleClass',
-    }]);
+    return mutateApexClassesToComboboxShape(apexTypeLib.getApexClasses());
 };
