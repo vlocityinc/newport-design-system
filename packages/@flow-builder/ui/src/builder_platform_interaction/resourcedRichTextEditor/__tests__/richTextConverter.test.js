@@ -20,6 +20,12 @@ const invalidHtmlTagConverted = '<p>This is a paragraph</p>';
 const unknownHtmlTag = '<edfdsf style="text-align: justify;"></edfdsf>';
 const unknownHtmlTagConverted = "";
 
+const htmlWithTextareaNewLines = 'line 1\r\nline 2\r\nline 3\r\nLine 4\r\nEnd';
+const htmlWithTextareaNewLinesConverted = "<p style=\"white-space: pre;\">line 1\nline 2\nline 3\nLine 4\nEnd</p>";
+
+const htmlWithTextareaNewLinesWithExistingP = '<p>line 1\r\nline 2\r\nline 3\r\nLine 4\r\nEnd</p>';
+const htmlWithTextareaNewLinesWithExistingPConverted = "<p style=\"white-space: pre;\">line 1\nline 2\nline 3\nLine 4\nEnd</p>";
+
 describe('Convert richText', () => {
     let previousXMLSerializer;
     beforeAll(() => {
@@ -79,5 +85,15 @@ describe('Convert richText', () => {
     it('should remove invalid html tag', () => {
         const result = convertHTMLToQuillHTML(invalidHtmlTag);
         expect(result).toBe(invalidHtmlTagConverted);
+    });
+    describe('textArea', () => {
+        it('should replace line breaks by a p tag with style', () => {
+            const result = convertHTMLToQuillHTML(htmlWithTextareaNewLines);
+            expect(result).toBe(htmlWithTextareaNewLinesConverted);
+        });
+        it('should add the style if the parent node id p', () => {
+            const result = convertHTMLToQuillHTML(htmlWithTextareaNewLinesWithExistingP);
+            expect(result).toBe(htmlWithTextareaNewLinesWithExistingPConverted);
+        });
     });
 });

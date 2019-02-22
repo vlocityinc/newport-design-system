@@ -39,6 +39,8 @@ function processNode(node) {
         newNode = processUlNode(node);
     } else if (nodeName === 'LI') {
         newNode = processLiNode(node);
+    } else if (nodeName === '#text') {
+        newNode = processTextNode(node);
     } else if (!isElementSupported(node)) {
         newNode = processUnsupportedNode(node);
     } else {
@@ -63,6 +65,26 @@ function processDivNode(node) {
     if (alignment) {
         node.removeAttribute('ALIGN');
         node.style.textAlign = alignment.toLowerCase();
+    }
+    return node;
+}
+
+/*
+ * Creates a paragraph with style="whiteSpace:pre" and insert the text to take into account the line breaks.
+ *
+ * @param {HtmlElement} node the div node
+ * @returns {HtmlElement} the processed div node
+ */
+function processTextNode(node) {
+    if (node.textContent && node.textContent.match(/\r?\n/g) && node.parentNode.nodeName.toLowerCase() !== 'p') {
+        const pNode = createElement('p');
+        const textNode = document.createTextNode(node.textContent);
+        pNode.style.whiteSpace = "pre";
+        pNode.appendChild(textNode);
+        node.parentNode.replaceChild(pNode, node);
+        return pNode.nextElementSibling;
+    } else if (node.textContent && node.textContent.match(/\r?\n/g) && node.parentNode.nodeName.toLowerCase() === 'p') {
+        node.parentNode.style.whiteSpace = "pre";
     }
     return node;
 }
