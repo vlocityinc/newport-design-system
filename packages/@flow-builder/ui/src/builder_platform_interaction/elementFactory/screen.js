@@ -1,6 +1,7 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
+    duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
@@ -10,6 +11,11 @@ import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
+
+const childReferenceKeys = {
+    childReferencesKey: 'fieldReferences',
+    childReferenceKey: 'fieldReference'
+};
 
 /**
  * Called when opening a property editor or copying a screen element
@@ -34,6 +40,15 @@ export function createScreenWithFields(screen = {}) {
         maxConnections,
         elementType
     });
+}
+
+export function createDuplicateScreen(screen, newGuid, childElementGuidMap) {
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences } = duplicateCanvasElementWithChildElements(screen, newGuid, childElementGuidMap, createScreenField, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
+
+    const updatedDuplicatedElement = Object.assign(duplicatedElement, {
+        [childReferenceKeys.childReferencesKey]: updatedChildReferences
+    });
+    return { duplicatedElement: updatedDuplicatedElement, duplicatedChildElements };
 }
 
 /**

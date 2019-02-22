@@ -31,7 +31,9 @@ import {
     createSubflow,
     createDuplicateSubflow,
     createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+    createDuplicateDecision,
     createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
+    createDuplicateWait,
     createStage,
     createStep,
     createPicklistChoiceSet,
@@ -87,6 +89,7 @@ import {
     createActionCallForStore,
     dynamicChoiceSetForStore,
     createScreenWithFields,
+    createDuplicateScreen,
     createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
     createScreenWithFieldReferences,
     createScreenField
@@ -332,6 +335,7 @@ export const elementTypeToConfigMap = {
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createScreenWithFields,
+            duplicateElement: createDuplicateScreen,
             closePropertyEditor: createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
             uiToFlow: createScreenMetadataObject,
             flowToUi: createScreenWithFieldReferences
@@ -364,6 +368,7 @@ export const elementTypeToConfigMap = {
         factory: {
             propertyEditor: createDecisionWithOutcomes,
             closePropertyEditor: createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
+            duplicateElement: createDuplicateDecision,
             uiToFlow: createDecisionMetadataObject,
             flowToUi: createDecisionWithOutcomeReferences
         }
@@ -394,6 +399,7 @@ export const elementTypeToConfigMap = {
         factory: {
             propertyEditor: createWaitWithWaitEvents,
             closePropertyEditor: createWaitWithWaitEventReferencesWhenUpdatingFromPropertyEditor,
+            duplicateElement: createDuplicateWait,
             uiToFlow: createWaitMetadataObject,
             flowToUi: createWaitWithWaitEventReferences
         }

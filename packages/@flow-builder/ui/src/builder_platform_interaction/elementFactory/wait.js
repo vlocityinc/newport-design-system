@@ -8,6 +8,7 @@ import {
 } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
+    duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap,
     baseChildElement,
     createCondition
@@ -190,6 +191,23 @@ export function createWaitWithWaitEvents(wait = {}) {
         maxConnections,
         elementType
     });
+}
+
+export function createDuplicateWait(wait, newGuid, childElementGuidMap) {
+    const defaultAvailableConnections = [{
+        type: CONNECTOR_TYPE.DEFAULT
+    }, {
+        type: CONNECTOR_TYPE.FAULT
+    }];
+
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(wait, newGuid, childElementGuidMap, createWaitEvent, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey, defaultAvailableConnections);
+
+    const updatedDuplicatedElement = Object.assign(duplicatedElement, {
+        [childReferenceKeys.childReferencesKey]: updatedChildReferences,
+        availableConnections,
+        defaultConnectorLabel: wait.defaultConnectorLabel || LABELS.emptyDefaultWaitPathLabel,
+    });
+    return { duplicatedElement: updatedDuplicatedElement, duplicatedChildElements };
 }
 
 /**

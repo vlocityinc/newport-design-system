@@ -12,6 +12,9 @@ import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder
 import { getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { setApexClasses } from "builder_platform_interaction/apexTypeLib";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
 /**
  * Helper method to delete the selected elements
@@ -254,4 +257,152 @@ export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTy
     setSystemVariableAndUpdateCache(systemVariables);
     setEntities(entities);
     setApexClasses(apexTypes);
+};
+
+/**
+ * Checks if the canvas element needs to be duplicated or not. We only need to duplicate canvas elements (excluding Step)
+ * that are selected.
+ *
+ * @param {Object} canvasElement - canvas element being duplicated
+ * @returns {Boolean} Returns true if the canvas element should be duplicated
+ */
+const shouldDuplicateElement = (canvasElement) => {
+    if (!canvasElement) {
+        throw new Error('canvasElement is not defined');
+    }
+
+    return (canvasElement.guid && canvasElement.elementType && canvasElement.elementType !== ELEMENT_TYPE.STEP
+        && canvasElement.config && canvasElement.config.isSelected);
+};
+
+/**
+ * Checks if the canvas element being duplicated can have any child elements associated with it or not. Only Decision,
+ * Screen and wait (Pause) element can have child elements.
+ *
+ * @param {Object} canvasElement - canvas element being duplicated
+ * @returns {Boolean} - Returns true if canvas element is Decision, Screen or Wait
+ */
+const hasChildElements = (canvasElement) => {
+    if (!canvasElement) {
+        throw new Error('canvasElement is not defined');
+    }
+
+    return (canvasElement.elementType && (canvasElement.elementType === ELEMENT_TYPE.SCREEN
+        || canvasElement.elementType === ELEMENT_TYPE.DECISION || canvasElement.elementType === ELEMENT_TYPE.WAIT));
+};
+
+/**
+ * Iterates over the childReferences array present in the canvas element and uses it to create childElementGuidMap.
+ *
+ * @param {Object} canvasElement - canvas element being duplicated
+ * @returns {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ */
+const setupChildElementGuidMap = (canvasElement) => {
+    if (!canvasElement) {
+        throw new Error('canvasElement is not defined');
+    }
+
+    const elementConfig = canvasElement.elementType && getConfigForElementType(canvasElement.elementType);
+    const childReferenceKey = elementConfig && elementConfig.childReferenceKey;
+
+    const childElementGuidMap = {};
+    const childReferenceArray = childReferenceKey && childReferenceKey.plural && canvasElement[childReferenceKey.plural];
+
+    if (childReferenceArray && childReferenceKey.singular) {
+        for (let i = 0; i < childReferenceArray.length; i++) {
+            const childReferenceObject = childReferenceArray[i];
+            childElementGuidMap[childReferenceObject[childReferenceKey.singular]] = generateGuid();
+        }
+    }
+
+    return childElementGuidMap;
+};
+
+/**
+ * Creates two maps containing canvasElementGuid -> duplicateCanvasElementGuid and childElementGuid -> duplicateChildElementGuid.
+ *
+ * @param {String[]} canvasElementsInStore - Current state of canvas elements in store
+ * @param {Object} elementsInStore - Current state of elements in store
+ * @returns {{canvasElementGuidMap, childElementGuidMap}} - Contains a map of canvasElementGuid -> duplicateCanvasElementGuid
+ * and childElementGuid -> duplicateChildElementGuid
+ */
+export const getDuplicateElementGuidMaps = (canvasElementsInStore, elementsInStore) => {
+    if (!canvasElementsInStore) {
+        throw new Error('canvasElementsInStore is not defined');
+    }
+
+    if (!elementsInStore) {
+        throw new Error('elementsInStore is not defined');
+    }
+
+    const canvasElementGuidMap = {};
+    let childElementGuidMap = {};
+
+    const nodesLength = canvasElementsInStore.length;
+    for (let i = 0; i < nodesLength; i++) {
+        const canvasElementGuid = canvasElementsInStore[i];
+        const canvasElement = elementsInStore[canvasElementGuid];
+        if (shouldDuplicateElement(canvasElement)) {
+            canvasElementGuidMap[canvasElement.guid] = generateGuid();
+
+            if (hasChildElements) {
+                childElementGuidMap = {...childElementGuidMap, ...setupChildElementGuidMap(canvasElement)};
+            }
+        }
+    }
+
+    return { canvasElementGuidMap, childElementGuidMap };
+};
+
+/**
+ * Checks if the connector is both selected and associated with a selected source and a selected target.
+ *
+ * @param {Object} connector - Connector object as present in the store
+ * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as \
+ * the guid for the duplicate element
+ * @returns {Boolean} Returns true is the connector is selected and both it's source guid and target guid are present in canvasElementGuidMap
+ */
+const isConnectorSelectedAndAssociated = (connector, canvasElementGuidMap) => {
+    if (!connector) {
+        throw new Error('connector is not defined');
+    }
+
+    if (!canvasElementGuidMap) {
+        throw new Error('canvasElementGuidMap is not defined');
+    }
+
+    return (connector.config && connector.config.isSelected && canvasElementGuidMap.hasOwnProperty(connector.source)
+        && canvasElementGuidMap.hasOwnProperty(connector.target));
+};
+
+/**
+ * Iterates over the connectors in store and pushes all selected connectors that are also associated with selected elements
+ * that neeed to be duplicated into the connectorsToDuplicate array.
+ *
+ * @param {Object[]} connectorsInStore - Current state of connectors in store
+ * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as \
+ * the guid for the duplicate element
+ * @returns {Object[]} connectorsToDuplicate - Array containing connectors that need to be duplicated
+ */
+export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap) => {
+    if (!connectorsInStore) {
+        throw new Error('connectorsInStore is not defined');
+    }
+
+    if (!canvasElementGuidMap) {
+        throw new Error('canvasElementGuidMap is not defined');
+    }
+
+    const connectorsToDuplicate = [];
+
+    const connectorsLength = connectorsInStore.length;
+    for (let i = 0; i < connectorsLength; i++) {
+        const connector = connectorsInStore[i];
+        if (isConnectorSelectedAndAssociated(connector, canvasElementGuidMap)) {
+            connectorsToDuplicate.push(connector);
+        }
+    }
+
+    return connectorsToDuplicate;
 };

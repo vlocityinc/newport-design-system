@@ -1,6 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
-import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, highlightOnCanvas,
     UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
@@ -19,8 +19,10 @@ import { addToParentElementCache } from 'builder_platform_interaction/comboboxCa
 import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
 import { getElementForPropertyEditor, getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
-import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl, updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings, flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor } from './editorUtils';
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl,
+    updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings,
+    flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, getDuplicateElementGuidMaps,
+    getConnectorToDuplicate } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 
 let unsubscribeStore;
@@ -49,7 +51,7 @@ export default class Editor extends LightningElement {
     originalFlowInterviewLabel;
 
     @track
-    properties = {}
+    properties = {};
 
     @track
     flowErrorsAndWarnings = {
@@ -332,54 +334,24 @@ export default class Editor extends LightningElement {
         }
     };
 
-    setupChildElementGuidMap = (canvasElement = {}) => {
-        const elementConfig = getConfigForElementType(canvasElement.elementType);
-        const childReferenceKey = elementConfig && elementConfig.childReferenceKey;
-
-        const childElementGuidMap = {};
-        const childReferenceArray = canvasElement[childReferenceKey.plural];
-
-        for (let i = 0; i < childReferenceArray.length; i++) {
-            const childReferenceObject = childReferenceArray[i];
-            childElementGuidMap[childReferenceObject[childReferenceKey.singular]] = generateGuid();
-        }
-
-        return childElementGuidMap;
-    };
-
+    /**
+     * Handles the duplicate event fired from the Toolbar and dispatches a duplication action only if there's something
+     * that can be duplicated
+     */
     handleDuplicate = () => {
-        const canvasElementGuidMap = {};
-        let childElementGuidMap = {};
-        const connectorsToDuplicate = [];
-
         const currentState = storeInstance.getCurrentState();
-        const nodesLength = currentState.canvasElements.length;
-        for (let i = 0; i < nodesLength; i++) {
-            const canvasElementGuid = currentState.canvasElements[i];
-            const canvasElement = currentState.elements[canvasElementGuid];
-            if (canvasElement.config && canvasElement.config.isSelected) {
-                canvasElementGuidMap[canvasElement.guid] = generateGuid();
+        const { canvasElementGuidMap, childElementGuidMap } = getDuplicateElementGuidMaps(currentState.canvasElements, currentState.elements);
 
-                if (canvasElement.elementType === ELEMENT_TYPE.SCREEN || canvasElement.elementType === ELEMENT_TYPE.DECISION || canvasElement.elementType === ELEMENT_TYPE.WAIT) {
-                    childElementGuidMap = this.setupChildElementGuidMap(canvasElement);
-                }
-            }
+        if (canvasElementGuidMap && Object.keys(canvasElementGuidMap).length > 0) {
+            const connectorsToDuplicate = getConnectorToDuplicate(currentState.connectors, canvasElementGuidMap);
+
+            const payload = {
+                canvasElementGuidMap,
+                childElementGuidMap,
+                connectorsToDuplicate
+            };
+            storeInstance.dispatch(doDuplicate(payload));
         }
-
-        const connectorsLength = currentState.connectors.length;
-        for (let i = 0; i < connectorsLength; i++) {
-            const connector = currentState.connectors[i];
-            if (connector.config.isSelected && canvasElementGuidMap.hasOwnProperty(connector.source) && canvasElementGuidMap.hasOwnProperty(connector.target)) {
-                connectorsToDuplicate.push(connector);
-            }
-        }
-
-        const payload = {
-            canvasElementGuidMap,
-            childElementGuidMap,
-            connectorsToDuplicate
-        };
-        storeInstance.dispatch(doDuplicate(payload));
     };
 
     /**
@@ -405,7 +377,7 @@ export default class Editor extends LightningElement {
         if (!this.isUndoDisabled) {
             storeInstance.dispatch(undo);
         }
-    }
+    };
 
     /**
      * Handles the redo event fired by toolbar.
@@ -415,7 +387,7 @@ export default class Editor extends LightningElement {
         if (!this.isRedoDisabled) {
             storeInstance.dispatch(redo);
         }
-    }
+    };
 
     /**
      * Handles the run flow event fired by the toolbar. Opens and runs the flow in a different tab.
@@ -558,7 +530,7 @@ export default class Editor extends LightningElement {
             };
             storeInstance.dispatch(highlightOnCanvas(payload));
         }
-    }
+    };
 
     /**
      * Translates the client side model to the format expected by the server and then invokes
@@ -579,7 +551,7 @@ export default class Editor extends LightningElement {
         this.saveStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
-    }
+    };
 
     /**
      * Method for talking to validation library and store for updating the node collection/flow data.
@@ -590,7 +562,7 @@ export default class Editor extends LightningElement {
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(updateElement(nodeForStore));
-    }
+    };
 
     deMutateAndAddNodeCollection = (node) => {
         // TODO: This looks almost exactly like deMutateAndUpdateNodeCollection. Maybe we should

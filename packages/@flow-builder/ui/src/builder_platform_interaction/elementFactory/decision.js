@@ -1,9 +1,10 @@
 import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
+    duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
-    createCondition,
+    createCondition
 } from "./base/baseElement";
 import { getConnectionProperties } from "./commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil";
 import {baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject } from "./base/baseMetadata";
@@ -39,6 +40,21 @@ export function createDecisionWithOutcomes(decision = {}) {
         defaultConnectorLabel,
         elementType
     });
+}
+
+export function createDuplicateDecision(decision, newGuid, childElementGuidMap) {
+    const defaultAvailableConnections = [{
+       type: CONNECTOR_TYPE.DEFAULT
+    }];
+
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(decision, newGuid, childElementGuidMap, createOutcome, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey, defaultAvailableConnections);
+
+    const updatedDuplicatedElement = Object.assign(duplicatedElement, {
+        [childReferenceKeys.childReferencesKey]: updatedChildReferences,
+        availableConnections,
+        defaultConnectorLabel: decision.defaultConnectorLabel || LABELS.emptyDefaultOutcomeLabel
+    });
+    return { duplicatedElement: updatedDuplicatedElement, duplicatedChildElements };
 }
 
 export function createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor(decision) {

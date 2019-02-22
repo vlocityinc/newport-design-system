@@ -1,6 +1,6 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { isDevNameInStore } from "builder_platform_interaction/storeUtils";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { isDevNameInStore, getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
 import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
@@ -53,12 +53,72 @@ export function duplicateCanvasElement(canvasElement, newGuid) {
         name: getUniqueDuplicateElementName(name),
         locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
         locationY: locationY + DUPLICATE_ELEMENT_XY_OFFSET,
+        config: {isSelected: true, isHighlighted: false},
         connectorCount: 0,
         maxConnections,
         elementType
     });
 
     return { duplicatedElement };
+}
+
+/**
+ * Helper function to create duplicated child elements
+ *
+ * @param {Object} childReference - Object containing the guid of the child element (eg: {outcomeReference: 'outcome1'})
+ * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
+ * @param {Function} createChildElement - Function to create the duplicate child element
+ * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
+ * @returns {Object} Returns the duplicated child element with the updated guid and name
+ * @private
+ */
+function _createDuplicateChildElement(childReference, childElementGuidMap, createChildElement, childReferenceKey) {
+    const duplicatedChildElement = createChildElement(getElementByGuid(childReference[childReferenceKey]));
+    return Object.assign(duplicatedChildElement, {
+        guid: childElementGuidMap[childReference[childReferenceKey]],
+        name: getUniqueDuplicateElementName(duplicatedChildElement.name)
+    });
+}
+
+/**
+ * Base function to create duplicate canvas elements that contain child elements (such as : Decision, Screen and Wait)
+ *
+ * @param {Object} canvasElement - Canvas element that needs to be duplicated
+ * @param {String} newGuid - Guid for the duplicated canvas element
+ * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
+ * @param {Function} createChildElement - Function to create the duplicate child element
+ * @param {String} childReferencesKey - Key to access the object containing child references (eg: outcomeReferences)
+ * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
+ * @param {Object[]} defaultAvailableConnections - Default Available Connections associated with a canvas element
+ * @returns {Object} Returns the object containing the duplicated canvas element, duplicated child elements, updated child
+ * references and available connections
+ */
+export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, childElementGuidMap, createChildElement, childReferencesKey, childReferenceKey, defaultAvailableConnections = []) {
+    const { duplicatedElement } = duplicateCanvasElement(canvasElement, newGuid);
+    const childReferences = canvasElement[childReferencesKey];
+
+    const additionalAvailableConnections = [];
+    const duplicatedChildElements = {};
+
+    // Iterating over existing child references to create duplicate child elements and updating available connections.
+    // Also using the duplicated guids to create the updated childReferences for the duplicated element
+    const updatedChildReferences = childReferences.map(childReference => {
+        const duplicatedChildElement = _createDuplicateChildElement(childReference, childElementGuidMap, createChildElement, childReferenceKey);
+
+        duplicatedChildElements[duplicatedChildElement.guid] = duplicatedChildElement;
+
+        additionalAvailableConnections.push({
+            type: CONNECTOR_TYPE.REGULAR,
+            childReference: duplicatedChildElement.guid
+        });
+
+        return {
+            [childReferenceKey]: duplicatedChildElement.guid
+        };
+    });
+
+    const availableConnections = [...defaultAvailableConnections, ...additionalAvailableConnections];
+    return { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections };
 }
 
 /**
