@@ -4,6 +4,7 @@ import {
     filterFieldsForChosenElement,
     getStoreElements,
 } from '../menuDataRetrieval';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 const paramTypes = ['paramType'];
@@ -12,6 +13,7 @@ let resourcePicker;
 
 const objectName = 'Account';
 const parentItem = {
+    dataType: FLOW_DATA_TYPE.SOBJECT.value,
     subtype: objectName,
 };
 

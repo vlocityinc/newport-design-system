@@ -1,6 +1,8 @@
-import { mutateFlowResourceToComboboxShape, mutatePicklistValue } from '../menuDataGenerator';
+import { mutateFlowResourceToComboboxShape, mutatePicklistValue, mutateFieldToComboboxShape } from '../menuDataGenerator';
 import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementCategory } from 'builder_platform_interaction/elementConfig';
+import { mockAccountFields } from 'mock/serverEntityData';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     return {
@@ -17,6 +19,23 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
         getElementCategory: jest.fn().mockReturnValue('').mockName('getElementCategory'),
     };
 });
+
+const parentSObjectItem = {
+    dataType: FLOW_DATA_TYPE.SOBJECT.value,
+    subtype: 'Account',
+    displayText: 'recordVar',
+};
+
+const parentApexItem = {
+    dataType: FLOW_DATA_TYPE.APEX.value,
+    subtype: 'ApexClass',
+    displayText: 'apexVar',
+};
+
+const apexProperty = {
+    apiName: 'ApexProperty',
+    dataType: FLOW_DATA_TYPE.STRING.value,
+};
 
 describe('menuDataGenerator', () => {
     describe('mutateFlowResourceToComboboxShape', () => {
@@ -72,6 +91,17 @@ describe('menuDataGenerator', () => {
             const picklistValue = {value: val};
             const mutatedValue = mutatePicklistValue(picklistValue);
             expect(mutatedValue).toEqual(expectedMutatedValue);
+        });
+    });
+    describe('mutateFieldToComboboxShape', () => {
+        it('should use label for subtext for sobject fields', () => {
+            const mockField = mockAccountFields.AccountSource;
+            const mutatedField = mutateFieldToComboboxShape(mockField, parentSObjectItem, true, true);
+            expect(mutatedField.subText).toEqual(mockField.label);
+        });
+        it('should use dataType for subtext for apex properties', () => {
+            const mutatedProperty = mutateFieldToComboboxShape(apexProperty, parentApexItem, true, true);
+            expect(mutatedProperty.subText).toEqual(apexProperty.dataType);
         });
     });
 });

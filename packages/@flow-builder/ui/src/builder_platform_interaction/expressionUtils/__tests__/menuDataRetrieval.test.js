@@ -11,9 +11,10 @@ import { LABELS } from '../expressionUtilsLabels';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 import { platformEvent1ApiName, platformEvent1Label } from 'mock/eventTypesData';
-import { getEventTypes } from 'builder_platform_interaction/sobjectLib';
+import { getEventTypes, getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
 import { getSystemVariables } from '../../systemLib/systemLib';
+import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -53,10 +54,30 @@ const sampleBooleanParamTypes = {
     Boolean : [booleanParam],
 };
 
+const parentSObjectItem = {
+    dataType: FLOW_DATA_TYPE.SOBJECT.value,
+    subtype: 'Account',
+    displayText: 'recordVar',
+};
+
+const parentApexItem = {
+    dataType: FLOW_DATA_TYPE.APEX.value,
+    subtype: 'ApexClass',
+    displayText: 'apexVar',
+};
+
+jest.mock('builder_platform_interaction/apexTypeLib', () => {
+    return {
+        getPropertiesForClass: jest.fn(),
+    };
+});
+
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
-            callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
+            if (callback) {
+                callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
+            }
         }),
         getAllEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData').mockEntities;
@@ -368,15 +389,15 @@ describe('Menu data retrieval', () => {
     describe('getSecondLevelItems', () => {
         let mockSystemVariables;
 
-        beforeEach(() => {
-            const sysVar = [
-                { devName: 'CurrentDate', isAssignable: false },
-                { devName: 'CurrentRecord', isAssignable: true },
-            ];
-            setSystemVariables(JSON.stringify(sysVar));
-            mockSystemVariables = getSystemVariables();
-        });
         describe('system variables', () => {
+            beforeEach(() => {
+                const sysVar = [
+                    { devName: 'CurrentDate', isAssignable: false },
+                    { devName: 'CurrentRecord', isAssignable: true },
+                ];
+                setSystemVariables(JSON.stringify(sysVar));
+                mockSystemVariables = getSystemVariables();
+            });
             it('calls the callback with all system variables when shouldBeWritable is false', () => {
                 const callback = jest.fn();
                 const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
@@ -392,6 +413,16 @@ describe('Menu data retrieval', () => {
                 expect(Object.keys(filteredSystemVariables)).toHaveLength(1);
                 expect(Object.values(filteredSystemVariables)[0].apiName).toEqual('CurrentRecord');
             });
+        });
+        it('should fetch fields for sobject variables', () => {
+            const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
+            getSecondLevelItems(mockConfig, parentSObjectItem, jest.fn());
+            expect(getFieldsForEntity).toHaveBeenCalledTimes(1);
+        });
+        it('should fetch properties for apex variables', () => {
+            const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
+            getSecondLevelItems(mockConfig, parentApexItem, jest.fn());
+            expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
         });
     });
     // TODO: write tests for gettings category once we switch to using labels

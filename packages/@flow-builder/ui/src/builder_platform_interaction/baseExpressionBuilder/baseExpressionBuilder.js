@@ -793,7 +793,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             // This shape is needed for checking preFetchedFields & mutating to combobox field shape
             {
                 objectType: this.objectType,
-                value: this.objectType
+                value: this.objectType,
+                dataType: FLOW_DATA_TYPE.SOBJECT.value,
             }
             : this.lhsValue.parent;
     }
