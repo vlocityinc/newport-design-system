@@ -26,7 +26,6 @@ export const TOGGLE_ON_CANVAS = 'TOGGLE_ON_CANVAS';
 export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
 export const HIGHLIGHT_ON_CANVAS = 'HIGHLIGHT_ON_CANVAS';
-export const UNHIGHLIGHT_ON_CANVAS = 'UNHIGHLIGHT_ON_CANVAS';
 
 export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
 export const MODIFY_DECISION_WITH_OUTCOMES = 'MODIFY_DECISION_WITH_OUTCOMES';
@@ -104,6 +103,12 @@ export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, pay
  */
 export const updatePropertiesAfterSaving = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
 
+/**
+ * Action for duplicating canvas elements and connectors.
+ *
+ * @param {Object} payload - contains canvasElementGuidMap, childElementGuidMap, connectorsToDuplicate
+ * @returns {Object} action - new action based on type and payload
+ */
 export const doDuplicate = (payload) => createAction(DO_DUPLICATE, payload);
 
 /**
@@ -259,11 +264,3 @@ export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
  * @returns {Object} action new action based on type and payload
  */
 export const highlightOnCanvas = (payload) => createAction(HIGHLIGHT_ON_CANVAS, payload);
-
-/**
- * Action for setting the isHighlighted property of a canvas element to false
- *
- * @param {Object} payload - contains GUID of the element to be toggled
- * @returns {Object} action new action based on type and payload
- */
-export const unhighlightOnCanvas = (payload) => createAction(UNHIGHLIGHT_ON_CANVAS, payload);

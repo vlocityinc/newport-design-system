@@ -13,7 +13,6 @@ import {
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
     HIGHLIGHT_ON_CANVAS,
-    UNHIGHLIGHT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
     ADD_WAIT_WITH_WAIT_EVENTS,
@@ -23,7 +22,6 @@ import {
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT
 } from "builder_platform_interaction/actions";
-import { deepCopy } from "builder_platform_interaction/storeLib";
 import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
@@ -38,7 +36,7 @@ import { getConfigForElementType } from "builder_platform_interaction/elementCon
 export default function elementsReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
-            return deepCopy(action.payload.elements);
+            return {...action.payload.elements};
         case DO_DUPLICATE:
             return _duplicateElement(state, action.payload.canvasElementGuidMap, action.payload.childElementGuidMap, action.payload.connectorsToDuplicate);
         case ADD_CANVAS_ELEMENT:
@@ -65,8 +63,6 @@ export default function elementsReducer(state = {}, action) {
             return _deselectCanvasElements(state);
         case HIGHLIGHT_ON_CANVAS:
             return _highlightCanvasElement(state, action.payload.guid);
-        case UNHIGHLIGHT_ON_CANVAS:
-            return _unhighlightCanvasElement(state, action.payload.guid);
         case ADD_DECISION_WITH_OUTCOMES:
         case MODIFY_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
@@ -80,6 +76,18 @@ export default function elementsReducer(state = {}, action) {
     }
 }
 
+/**
+ * Helper function to duplicate the selected canvas elements and any associated child elements.
+ *
+ * @param {Object} state - current state of elements in the store
+ * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as
+ * the guid for the duplicate element
+ * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @param {Object[]} connectorsToDuplicate - Array containing connectors that need to be duplicated
+ * @return {Object} new state after reduction
+ * @private
+ */
 function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap = {}, connectorsToDuplicate = []) {
     let newState = Object.assign({}, state);
 
@@ -89,7 +97,8 @@ function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap
         if (selectedElement && selectedElement.config && selectedElement.config.isSelected) {
             newState[selectedElement.guid] = Object.assign({}, selectedElement, {
                 config: {
-                    isSelected: false
+                    isSelected: false,
+                    isHighlighted: selectedElement.config.isHighlighted
                 }
             });
         }
@@ -309,7 +318,8 @@ function _updateElementOnAddConnection(elements, connector) {
 
 /**
  * Helper function to select a canvas element. Iterates over all the canvas elements and sets the isSelected property for
- * the selected canvas element to true. Also sets the isSelected property for all other canvas elements to false.
+ * the selected canvas element to true (Doesn't affect it's isHighlighted state). Also sets the isSelected and
+ * isHighlighted property for all other selected/highlighted canvas elements to false.
  *
  * @param {Object} elements - current state of elements in the store
  * @param {String} selectedGUID - GUID of the canvas element to be selected
@@ -320,17 +330,17 @@ function _selectCanvasElement(elements, selectedGUID) {
     const newState = updateProperties(elements);
     Object.keys(elements).map(guid => {
         const element = newState[guid];
-        if (element.isCanvasElement) {
+        if (element && element.isCanvasElement && element.config) {
             if (guid === selectedGUID) {
                 if (!element.config.isSelected) {
                     newState[guid] = updateProperties(element, {
                         config: {
                             isSelected: true,
-                            isHighlighted: false
+                            isHighlighted: element.config.isHighlighted
                         }
                     });
                 }
-            } else if (element.config.isSelected) {
+            } else if (element.config.isSelected || element.config.isHighlighted) {
                 newState[guid] = updateProperties(element, {
                     config: {
                         isSelected: false,
@@ -345,7 +355,7 @@ function _selectCanvasElement(elements, selectedGUID) {
 }
 
 /**
- * Helper function to toggle the isSelected state of a canvas element.
+ * Helper function to toggle the isSelected state of a canvas element. This doesn't affect the isHighlighted state.
  *
  * @param {Object} elements - current state of elements in the store
  * @param {String} selectedGUID - GUID of the canvas element to be toggled
@@ -360,7 +370,7 @@ function _toggleCanvasElement(elements, selectedGUID) {
         newState[selectedGUID] = updateProperties(newState[selectedGUID], {
             config: {
                 isSelected: !element.config.isSelected,
-                isHighlighted: false
+                isHighlighted: element.config.isHighlighted
             }
         });
     }
@@ -368,8 +378,8 @@ function _toggleCanvasElement(elements, selectedGUID) {
 }
 
 /**
- * Helper function to deselect all the selected canvas elements. Iterates over all the canvas elements and sets the
- * isSelected property of all the currently selected canvas elements to false.
+ * Iterates over all the canvas elements and sets the isSelected and isHighlighted property of all the currently
+ * selected/highlighted canvas elements to false.
  *
  * @param {Object} elements - current state of elements in the store
  * @return {Object} new state of elements after reduction
@@ -379,15 +389,13 @@ function _deselectCanvasElements(elements) {
     const newState = updateProperties(elements);
     Object.keys(elements).map(guid => {
         const element = newState[guid];
-        if (element.isCanvasElement) {
-            if (element.config.isSelected) {
-                newState[guid] = updateProperties(element, {
-                    config: {
-                        isSelected: false,
-                        isHighlighted: false
-                    }
-                });
-            }
+        if (element && element.isCanvasElement && element.config && (element.config.isSelected || element.config.isHighlighted)) {
+            newState[guid] = updateProperties(element, {
+                config: {
+                    isSelected: false,
+                    isHighlighted: false
+                }
+            });
         }
         return guid;
     });
@@ -395,7 +403,8 @@ function _deselectCanvasElements(elements) {
 }
 
 /**
- * Sets the isHighlighted property of the searched element to true (if it already wasn't).
+ * Sets the isHighlighted property of the searched element to true (if it already wasn't). Also sets the isHighlighted
+ * property of any other highlighted canvas element to false. This doesn't affect the isSelected property of any element.
  *
  * @param {Object} elements - current state of elements in the store
  * @param {String} elementGuid - GUID of the canvas element to be highlighted
@@ -404,37 +413,29 @@ function _deselectCanvasElements(elements) {
  */
 function _highlightCanvasElement(elements, elementGuid) {
     const newState = updateProperties(elements);
-    const element = newState[elementGuid];
-    if (element && element.isCanvasElement && element.config && !element.config.isHighlighted) {
-        newState[elementGuid] = updateProperties(element, {
-            config: {
-                isSelected: element.config.isSelected,
-                isHighlighted: true
+    Object.keys(elements).map(guid => {
+        const element = newState[guid];
+        if (element && element.isCanvasElement && element.config) {
+            if (guid === elementGuid) {
+                if (!element.config.isHighlighted) {
+                    newState[guid] = updateProperties(element, {
+                        config: {
+                            isSelected: element.config.isSelected,
+                            isHighlighted: true
+                        }
+                    });
+                }
+            } else if (element.config.isHighlighted) {
+                newState[guid] = updateProperties(element, {
+                    config: {
+                        isSelected: element.config.isSelected,
+                        isHighlighted: false
+                    }
+                });
             }
-        });
-    }
-    return newState;
-}
-
-/**
- * Sets the isHighlighted property of the searched element to false (if it already wasn't).
- *
- * @param {Object} elements - current state of elements in the store
- * @param {String} elementGuid - GUID of the canvas element to be unhighlighted
- * @returns {Object} new state of elements after reduction
- * @private
- */
-function _unhighlightCanvasElement(elements, elementGuid) {
-    const newState = updateProperties(elements);
-    const element = newState[elementGuid];
-    if (element && element.isCanvasElement && element.config && element.config.isHighlighted) {
-        newState[elementGuid] = updateProperties(element, {
-            config: {
-                isSelected: element.config.isSelected,
-                isHighlighted: false
-            }
-        });
-    }
+        }
+        return guid;
+    });
     return newState;
 }
 

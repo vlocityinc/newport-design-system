@@ -1,6 +1,6 @@
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
-import { deleteElement, updatePropertiesAfterSaving, updateProperties } from 'builder_platform_interaction/actions';
+import { deleteElement, updatePropertiesAfterSaving, updateProperties, highlightOnCanvas } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
@@ -359,7 +359,7 @@ export const getDuplicateElementGuidMaps = (canvasElementsInStore, elementsInSto
  * Checks if the connector is both selected and associated with a selected source and a selected target.
  *
  * @param {Object} connector - Connector object as present in the store
- * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as \
+ * @param {Object} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as
  * the guid for the duplicate element
  * @returns {Boolean} Returns true is the connector is selected and both it's source guid and target guid are present in canvasElementGuidMap
  */
@@ -405,4 +405,45 @@ export const getConnectorToDuplicate = (connectorsInStore, canvasElementGuidMap)
     }
 
     return connectorsToDuplicate;
+};
+
+/**
+ * Checks if the element is already highlighted or not
+ *
+ * @param {Object} canvasElementToHighlight - canvas element that is being highlighted
+ * @return {Boolean} Returns true if the canvas element is currently highlighted
+ */
+const isCanvasElementHighlighted = (canvasElementToHighlight) => {
+    if (!canvasElementToHighlight) {
+        throw new Error('canvasElementToHighlight is not defined');
+    }
+
+    return canvasElementToHighlight.config && canvasElementToHighlight.config.isHighlighted;
+};
+
+/**
+ * Dispatches the highlightOnCanvas action if the searched element is already not highlighted
+ *
+ * @param {Object} storeInstance - Instance of client side store
+ * @param {String} elementGuid - Guid of the canvas element that needs to be highlighted
+ */
+export const highlightCanvasElement = (storeInstance, elementGuid) => {
+    if (!storeInstance) {
+        throw new Error('Store instance is not defined');
+    }
+
+    if (!elementGuid) {
+        throw new Error('elementGuid is not defined');
+    }
+
+    const currentStoreState = storeInstance.getCurrentState();
+    const storeElements = currentStoreState && currentStoreState.elements;
+
+    const canvasElementToHighlight = storeElements && storeElements[elementGuid];
+    if (!isCanvasElementHighlighted(canvasElementToHighlight)) {
+        const payload = {
+            guid: elementGuid
+        };
+        storeInstance.dispatch(highlightOnCanvas(payload));
+    }
 };

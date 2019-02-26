@@ -42,6 +42,15 @@ export function createDecisionWithOutcomes(decision = {}) {
     });
 }
 
+/**
+ * Function to create the duplicate Decision element
+ *
+ * @param {Object} decision - Decision element being copied
+ * @param {String} newGuid - Guid for the new duplicated decision element
+ * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ */
 export function createDuplicateDecision(decision, newGuid, childElementGuidMap) {
     const defaultAvailableConnections = [{
        type: CONNECTOR_TYPE.DEFAULT

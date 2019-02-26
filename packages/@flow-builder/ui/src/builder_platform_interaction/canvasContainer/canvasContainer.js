@@ -1,7 +1,7 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement, api, track } from "lwc";
 import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable, shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal } from './canvasContainerUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { deselectOnCanvas, updateElement, unhighlightOnCanvas } from 'builder_platform_interaction/actions';
+import { deselectOnCanvas, updateElement } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 
@@ -25,6 +25,18 @@ export default class CanvasContainer extends LightningElement {
     get shouldCreateCanvas() {
         return !isEmptyArray(this.nodes);
     }
+
+    /**
+     * Calls the panElementToViewIfNeeded public function living in the canvas
+     *
+     * @param {String} canvasElementGuid - guid of the canvas element that needs to be highlighted
+     */
+    @api panElementToView = (canvasElementGuid = '') => {
+        const canvas = this.template.querySelector('builder_platform_interaction-canvas');
+        if (canvas && canvas.panElementToViewIfNeeded) {
+            canvas.panElementToViewIfNeeded(canvasElementGuid);
+        }
+    };
 
     /** handler functions */
 
@@ -82,21 +94,6 @@ export default class CanvasContainer extends LightningElement {
      */
     handleElementDeselection = () => {
         storeInstance.dispatch(deselectOnCanvas);
-    };
-
-    /**
-     * Handles the UnhighlightCanvasElementEvent and dispatches an action to the store to set the
-     * isHighlighted state of the canvas element to false.
-     *
-     * @param {Object} event - unhighlightCanvasElementEvent coming from the canvas
-     */
-    handleUnhighlightOnCanvas = (event) => {
-        if (event && event.detail && event.detail.elementGuid) {
-            const payload = {
-                guid: event.detail.elementGuid
-            };
-            storeInstance.dispatch(unhighlightOnCanvas(payload));
-        }
     };
 
     handleAddConnector = (event) => {

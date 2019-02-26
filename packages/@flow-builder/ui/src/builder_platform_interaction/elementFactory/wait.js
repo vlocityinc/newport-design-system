@@ -160,7 +160,7 @@ export const createWaitEventOutputParameters = (eventType, outputParameters = []
  * @typedef waitInPropertyEditor - A wait object in the shape used by the property editor, containing waitEvents
  * @property {waitEvent[]} waitEvent - array of waitEvents
  * @property {int} maxConnections = max number of connections,
- * @property {connection[]} availableConnections - connwections available for the wait,
+ * @property {connection[]} availableConnections - connections available for the wait,
  * @property {module:flowMetadata.ELEMENT_TYPE.WAIT} elementType - WAIT
  */
 
@@ -193,6 +193,15 @@ export function createWaitWithWaitEvents(wait = {}) {
     });
 }
 
+/**
+ * Function to create the duplicate Wait element
+ *
+ * @param {Object} wait - Wait element being copied
+ * @param {String} newGuid - Guid for the new duplicated decision element
+ * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ */
 export function createDuplicateWait(wait, newGuid, childElementGuidMap) {
     const defaultAvailableConnections = [{
         type: CONNECTOR_TYPE.DEFAULT

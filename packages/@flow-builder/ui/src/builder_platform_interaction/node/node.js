@@ -1,13 +1,12 @@
 import { LightningElement, api } from "lwc";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent, UnhighlightCanvasElementEvent } from "builder_platform_interaction/events";
+import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from "builder_platform_interaction/events";
 import { LABELS } from "./nodeLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import startElement from "./startElement.html";
 import nodeElement from "./node.html";
 import { isTestMode } from "builder_platform_interaction/contextLib";
-
 
 /**
  * Node component for flow builder.
@@ -226,18 +225,6 @@ export default class Node extends LightningElement {
             }
         });
         this.dispatchEvent(dragNodeEvent);
-    };
-
-    /**
-     * Handles the transition end event and dispatches the UnhighlightCanvasElementEvent if the element is
-     * currently highlighted.
-     */
-    handleTransitionEndAndUnhighlight = () => {
-        const nodeConfig = this.node && this.node.config;
-        if (nodeConfig && nodeConfig.isHighlighted) {
-            const unhighlightCanvasElementEvent = new UnhighlightCanvasElementEvent(this.node.guid);
-            this.dispatchEvent(unhighlightCanvasElementEvent);
-        }
     };
 
     render() {

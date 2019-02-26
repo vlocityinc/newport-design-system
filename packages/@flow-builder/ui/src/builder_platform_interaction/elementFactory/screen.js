@@ -42,6 +42,15 @@ export function createScreenWithFields(screen = {}) {
     });
 }
 
+/**
+ * Function to create the duplicate Screen element
+ *
+ * @param {Object} screen - Screen element being copied
+ * @param {String} newGuid - Guid for the new duplicated decision element
+ * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
+ */
 export function createDuplicateScreen(screen, newGuid, childElementGuidMap) {
     const { duplicatedElement, duplicatedChildElements, updatedChildReferences } = duplicateCanvasElementWithChildElements(screen, newGuid, childElementGuidMap, createScreenField, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
 

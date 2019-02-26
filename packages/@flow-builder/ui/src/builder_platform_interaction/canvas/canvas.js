@@ -394,6 +394,55 @@ export default class Canvas extends LightningElement {
     };
 
     /**
+     * Helper function to update the innerCanvas offsets (on a given scale) and the centerOffsets (on scale 1).
+     *
+     * @param {Number} innerCanvasOffsetLeft - New offsetLeft of the innerCanvas
+     * @param {Number} innerCanvasOffsetTop - New offsetLeft of the innerCanvas
+     * @private
+     */
+    _panElementToView = (innerCanvasOffsetLeft = 0, innerCanvasOffsetTop = 0) => {
+        this.innerCanvasArea.style.left = innerCanvasOffsetLeft + 'px';
+        this.innerCanvasArea.style.top = innerCanvasOffsetTop + 'px';
+
+        this.centerOffsetX = -(innerCanvasOffsetLeft / this.currentScale);
+        this.centerOffsetY = -(innerCanvasOffsetTop / this.currentScale);
+    };
+
+    /**
+     * Public function to bring the element into the viewport if it's not already present in the viewport.
+     *
+     * @param {String} canvasElementGuid - Guid of the element that needs to be searched and highlighted
+     */
+    @api panElementToViewIfNeeded = (canvasElementGuid = '') => {
+        const searchedElementArray = this.nodes.filter(node => node.guid === canvasElementGuid);
+
+        if (searchedElementArray && searchedElementArray.length === 1) {
+            const searchedElement = searchedElementArray[0];
+
+            const viewportCenterX = this.canvasArea.clientWidth / 2;
+            const viewportCenterY = this.canvasArea.clientHeight / 2;
+
+            // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
+            const { newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop } = getDistanceBetweenViewportCenterAndElement(viewportCenterX, viewportCenterY, searchedElement.locationX, searchedElement.locationY, this.currentScale);
+
+            const panToViewConfig = {
+                currentInnerCanvasOffsetLeft: this.innerCanvasArea.offsetLeft,
+                currentInnerCanvasOffsetTop: this.innerCanvasArea.offsetTop,
+                newInnerCanvasOffsetLeft,
+                newInnerCanvasOffsetTop,
+                viewportCenterX,
+                viewportCenterY
+            };
+
+            // In the element is current not in the viewport, we need to update our offsets to the newly calculated
+            // ones and bring the searched canvas element into the center of the viewport
+            if (!isElementInViewport(panToViewConfig)) {
+                this._panElementToView(newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop);
+            }
+        }
+    };
+
+    /**
      * Helper function to set the id on the canvas element container.
      *
      * @param {Object} canvasElementContainer - Container of the canvas element
@@ -501,59 +550,6 @@ export default class Canvas extends LightningElement {
     };
 
     /**
-     * Helper function to update the innerCanvas offsets (on a given scale) and the centerOffsets (on scale 1).
-     *
-     * @param {Number} innerCanvasOffsetLeft - New offsetLeft of the innerCanvas
-     * @param {Number} innerCanvasOffsetTop - New offsetLeft of the innerCanvas
-     * @private
-     */
-    _panElementToView = (innerCanvasOffsetLeft = 0, innerCanvasOffsetTop = 0) => {
-        this.innerCanvasArea.style.left = innerCanvasOffsetLeft + 'px';
-        this.innerCanvasArea.style.top = innerCanvasOffsetTop + 'px';
-
-        this.centerOffsetX = -(innerCanvasOffsetLeft / this.currentScale);
-        this.centerOffsetY = -(innerCanvasOffsetTop / this.currentScale);
-    };
-
-    /**
-     * Helper function to bring the element into the viewport if it's highlighted and not already present in the viewport.
-     *
-     * @param {String} canvasElementGuid - Guid of the element that needs to be searched and highlighted
-     * @param {Object} canvasElementConfig - Canvas element's config
-     * @private
-     */
-    _panElementToViewIfNeeded = (canvasElementGuid = '', canvasElementConfig = {}) => {
-        if (canvasElementConfig.isHighlighted) {
-            const searchedElementArray = this.nodes.filter(node => node.guid === canvasElementGuid);
-
-            if (searchedElementArray && searchedElementArray.length === 1) {
-                const searchedElement = searchedElementArray[0];
-
-                const viewportCenterX = this.canvasArea.clientWidth / 2;
-                const viewportCenterY = this.canvasArea.clientHeight / 2;
-
-                // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
-                const { newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop } = getDistanceBetweenViewportCenterAndElement(viewportCenterX, viewportCenterY, searchedElement.locationX, searchedElement.locationY, this.currentScale);
-
-                const panToViewConfig = {
-                    currentInnerCanvasOffsetLeft: this.innerCanvasArea.offsetLeft,
-                    currentInnerCanvasOffsetTop: this.innerCanvasArea.offsetTop,
-                    newInnerCanvasOffsetLeft,
-                    newInnerCanvasOffsetTop,
-                    viewportCenterX,
-                    viewportCenterY
-                };
-
-                // In the element is current not in the viewport, we need to update our offsets to the newly calculated
-                // ones and bring the searched canvas element into the center of the viewport
-                if (!isElementInViewport(panToViewConfig)) {
-                    this._panElementToView(newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop);
-                }
-            }
-        }
-    };
-
-    /**
      * Helper function to set the id and jsPlumb properties on the canvas elements. Also updates the drag selection and
      * pans the element into view if needed.
      *
@@ -576,7 +572,6 @@ export default class Canvas extends LightningElement {
 
             const canvasElementConfig = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.config;
             this._updateDragSelection(canvasElementContainer, canvasElementConfig);
-            this._panElementToViewIfNeeded(canvasElementGuid, canvasElementConfig);
         }
     };
 

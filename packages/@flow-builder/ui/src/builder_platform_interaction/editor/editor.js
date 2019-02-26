@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, highlightOnCanvas,
+import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo,
     UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -22,7 +22,7 @@ import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl,
     updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings,
     flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, getDuplicateElementGuidMaps,
-    getConnectorToDuplicate } from './editorUtils';
+    getConnectorToDuplicate, highlightCanvasElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 
 let unsubscribeStore;
@@ -518,17 +518,23 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Handles the locator icon clicked event and dispatches an action to the store to set the isHighlighted state of
-     * the canvas element to true.
+     * Handles the locator icon clicked event, pans the element into the viewport and dispatches an action to the store
+     * to set the isHighlighted state of the canvas element to true.
      *
      * @param {object} event - locator icon clicked event coming from left-panel
      */
     handleHighlightOnCanvas = (event) => {
         if (event && event.detail && event.detail.elementGuid) {
-            const payload = {
-                guid: event.detail.elementGuid
-            };
-            storeInstance.dispatch(highlightOnCanvas(payload));
+            const elementGuid = event.detail.elementGuid;
+
+            // Panning the canvas element into the viewport if needed
+            const canvasContainer = this.template.querySelector('builder_platform_interaction-canvas-container');
+            if (canvasContainer && canvasContainer.panElementToView) {
+                canvasContainer.panElementToView(elementGuid);
+            }
+
+            // Highlighting the canvas element
+            highlightCanvasElement(storeInstance, elementGuid);
         }
     };
 
