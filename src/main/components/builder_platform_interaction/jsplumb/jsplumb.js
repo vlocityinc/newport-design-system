@@ -8,6 +8,7 @@ function lib(){
      * 3) Line 6493 & 6511 - CL 15923035
      * 4) Line 6584 & 6586 - CL 15923035
      * 5) Line 1437 & 6534 - CL 16825093
+     * 6) Line 5114 - CL 1751084 - Expose unmanage function on instance (For complete deletion of nodeId data on instance)
      */
     /**
      * jsBezier
@@ -5110,7 +5111,7 @@ function lib(){
                 return managedElements[id];
             };
 
-            var _unmanage = function(id) {
+            var _unmanage = _currentInstance.unmanage = function(id) {
                 if (managedElements[id]) {
                     delete managedElements[id];
                     _currentInstance.fire("unmanageElement", id);

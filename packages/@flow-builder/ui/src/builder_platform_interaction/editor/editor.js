@@ -3,7 +3,7 @@ import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from '
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo,
-    UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, SELECT_ON_CANVAS, DESELECT_ON_CANVAS } from 'builder_platform_interaction/actions';
+    UPDATE_PROPERTIES_AFTER_SAVING } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -83,9 +83,6 @@ export default class Editor extends LightningElement {
         const blacklistedActionsForUndoRedoLib = [
             INIT,
             UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
-            TOGGLE_ON_CANVAS, // Called for multi selection
-            SELECT_ON_CANVAS,
-            DESELECT_ON_CANVAS,
         ];
         storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib}));
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);

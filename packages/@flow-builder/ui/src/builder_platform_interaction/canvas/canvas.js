@@ -682,6 +682,7 @@ export default class Canvas extends LightningElement {
         this._setupConnectors(connectors);
 
         lib.setSuspendDrawing(false, true);
+        lib.repaintEverything(); // This repaint is needed otherwise sometimes the connector is not updated while doing undo/redo.
         logPerfMarkEnd(canvas, {numOfNodes: this.nodes && this.nodes.length});
     }
 }

@@ -312,6 +312,12 @@ class DrawingLib {
     };
 
     /**
+     * Reapaints everything on jsplumb canvas after recalculating the position of all nodes, endpoints and connectors.
+     */
+    repaintEverything = () => {
+        instance.repaintEverything();
+    }
+    /**
      * Removes the node from jsPlumb's instance but not from the dom.
      * @param {String} nodeId - The node id
      */
@@ -323,8 +329,10 @@ class DrawingLib {
             instance.unmakeSource(nodeId);
             delete instance.sourceEndpointDefinitions[nodeId];
             instance.unmakeTarget(nodeId);
+            delete instance.targetEndpointDefinitions[nodeId];
             instance.destroyDraggable(nodeId);
             instance.destroyDroppable(nodeId);
+            instance.unmanage(nodeId);
         }
     };
 

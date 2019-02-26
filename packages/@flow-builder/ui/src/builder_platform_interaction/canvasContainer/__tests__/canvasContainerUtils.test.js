@@ -1,4 +1,5 @@
-import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, shouldCreateStartConnection, hasOneAvailableConnection, shouldOpenConnectorSelectionModal, addConnection, getSourceAndTargetElement, createConnectorWhenOneConnectionAvailable, openConnectorSelectionModal } from '../canvasContainerUtils';
+import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, shouldCreateStartConnection, hasOneAvailableConnection, shouldOpenConnectorSelectionModal, addConnection, getSourceAndTargetElement, createConnectorWhenOneConnectionAvailable, openConnectorSelectionModal, calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from '../canvasContainerUtils';
+jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
@@ -66,6 +67,7 @@ jest.mock('builder_platform_interaction/connectorUtils', () => {
 });
 
 const { invokePropertyEditor } = require('builder_platform_interaction/builderUtils');
+const { drawingLibInstance } = require('builder_platform_interaction/drawingLib');
 
 describe('Canvas container utils test', () => {
     describe('isEmptyArray function', () => {
@@ -427,6 +429,33 @@ describe('Canvas container utils test', () => {
             };
             openConnectorSelectionModal(storeInstance, sourceGuid, targetGuid);
             expect(invokePropertyEditor.mock.calls).toHaveLength(1);
+        });
+    });
+    describe('calculateDeletedNodeIdsAndCleanUpDrawingLibInstance function', () => {
+        it('should not call the removeNodeFromLib in the init phase when existing nodes list is empty', () => {
+            const existingNodesList = [];
+            const updatedNodesList = [{guid: 'guid1'}];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            expect(drawingLibInstance.removeNodeFromLib).not.toHaveBeenCalled();
+        });
+        it('should not call the removeNodeFromLib when new elements are added', () => {
+            const existingNodesList = [{guid:'guid1'}];
+            const updatedNodesList = [{guid: 'guid1'}, {guid: 'guid2'}];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            expect(drawingLibInstance.removeNodeFromLib).not.toHaveBeenCalled();
+        });
+        it('deleting a single canvas element - calls the drawing libs removeNodeFromLib fn once', () => {
+            const existingNodesList = [{guid: 'guid1'}, {guid: 'guid2'}];
+            const updatedNodesList = [{guid:'guid1'}];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(1);
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledWith('guid2');
+        });
+        it('deleting n canvas elements - calls the drawing libs removeNodeFromLib fn n times', () => {
+            const existingNodesList = [{guid: 'guid1'}, {guid: 'guid2'}];
+            const updatedNodesList = [];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(2);
         });
     });
 });

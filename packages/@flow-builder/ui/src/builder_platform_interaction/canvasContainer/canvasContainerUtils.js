@@ -3,6 +3,7 @@ import { selectOnCanvas, toggleOnCanvas, addConnector } from 'builder_platform_i
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { invokePropertyEditor, PROPERTY_EDITOR } from 'builder_platform_interaction/builderUtils';
 import { sortConnectorPickerComboboxOptions, getLabelAndValueForConnectorPickerOptions, createNewConnector } from 'builder_platform_interaction/connectorUtils';
+import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 
 /** Private functions */
 
@@ -199,6 +200,23 @@ export const openConnectorSelectionModal = (storeInstance, sourceGuid, targetGui
             comboboxOptions = sortConnectorPickerComboboxOptions(sourceElement, comboboxOptions);
             const nodeUpdate = addConnection(storeInstance, sourceGuid, targetGuid);
             invokePropertyEditor(PROPERTY_EDITOR, {mode, nodeUpdate, comboboxOptions, sourceElementType, targetElementLabel});
+        }
+    }
+};
+/**
+ * Calculates the deleted NodeIds by comparing existingNodesList and updatedNodesList.
+ * Sends them drawing lib Instance for calling cleanup methods on the ids.
+ * @param {Object[]} existingNodesList existing array of node objects from canvas container internal state
+ * @param {Object[]} updatedNodesList updated array of node objects from store
+ */
+export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (existingNodesList, updatedNodesList) => {
+    if (existingNodesList !== 0 && updatedNodesList.length < existingNodesList.length) {
+        const existingNodeIds = existingNodesList.map((node) => node.guid);
+        const updatedNodeIds = updatedNodesList.map((node) => node.guid);
+        const nodeIdsToBeDeleted = existingNodeIds.filter((guid) => !updatedNodeIds.includes(guid));
+        for (let i = 0; i < nodeIdsToBeDeleted.length; i++) {
+            const nodeToBeDeleted = nodeIdsToBeDeleted[i];
+            lib.removeNodeFromLib(nodeToBeDeleted);
         }
     }
 };

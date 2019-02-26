@@ -1,5 +1,4 @@
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
-import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { deleteElement, updatePropertiesAfterSaving, updateProperties, highlightOnCanvas } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
@@ -15,32 +14,6 @@ import { setApexClasses } from "builder_platform_interaction/apexTypeLib";
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-
-/**
- * Helper method to delete the selected elements
- *
- * @param {Object} storeInstance instance of the store
- * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
- * @param {String[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
- * @param {String} elementType - Type of the element being deleted
- */
-const doDelete = (storeInstance, selectedElementGUIDs, connectorsToDelete, elementType) => {
-    if (!storeInstance) {
-        throw new Error('Store instance is not defined');
-    }
-    const selectedElementsLength  = selectedElementGUIDs.length;
-    for (let i = 0; i < selectedElementsLength; i++) {
-        const selectedGUID = selectedElementGUIDs[i];
-        lib.removeNodeFromLib(selectedGUID);
-    }
-
-    const payload = {
-        selectedElementGUIDs,
-        connectorsToDelete,
-        elementType
-    };
-    storeInstance.dispatch(deleteElement(payload));
-};
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -95,7 +68,7 @@ const doDeleteOrInvokeAlert = (storeInstance, selectedElementGUIDs, connectorsTo
 
     if (!usedByElements || usedByElements.length === 0) {
         // Deleting the elements that are not being referenced anywhere else
-        doDelete(storeInstance, selectedElementGUIDs, connectorsToDelete, elementType);
+        storeInstance.dispatch(deleteElement({selectedElementGUIDs, connectorsToDelete, elementType}));
     } else {
         // Handling cases when the element/elements being deleted are being referenced somewhere in the flow
         invokeUsedByAlertModal(usedByElements, selectedElementGUIDs, elementType, storeElements);

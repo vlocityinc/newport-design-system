@@ -1,9 +1,9 @@
 import { LightningElement, api, track } from "lwc";
-import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable, shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal } from './canvasContainerUtils';
+import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable,
+    shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal, calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from './canvasContainerUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { deselectOnCanvas, updateElement } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-
 
 /** Private singleton variables */
 let storeInstance;
@@ -121,7 +121,9 @@ export default class CanvasContainer extends LightningElement {
     /** Private functions */
     mapCanvasStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
-        this.nodes = getNodesFromStore(currentState);
+        const updatedNodesListFromStore = getNodesFromStore(currentState);
+        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(this.nodes, updatedNodesListFromStore);
+        this.nodes = updatedNodesListFromStore;
         this.connectors = getConnectorsFromStore(currentState);
     }
 }
