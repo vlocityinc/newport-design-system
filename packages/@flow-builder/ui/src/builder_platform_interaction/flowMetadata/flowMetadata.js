@@ -1,6 +1,24 @@
 export const FLOW_PROCESS_TYPE = {
+    ACTION_CADENCE_FLOW : 'ActionCadenceFlow',
+    ACTION_PLAN : 'ActionPlan',
+    APPOINTMENTS : 'Appointments',
     AUTO_LAUNCHED_FLOW : 'AutoLaunchedFlow',
-    FLOW : 'Flow'
+    CHECKOUT_FLOW : 'CheckoutFlow',
+    CONTACT_REQUEST_FLOW : 'ContactRequestFlow',
+    CUSTOM_EVENT : 'CustomEvent',
+    FIELD_SERVICE_MOBILE : 'FieldServiceMobile',
+    FIELD_SERVICE_WEB : 'FieldServiceWeb',
+    FLOW : 'Flow',
+    FORM : 'Form',
+    INVOCABLE_PROCESS : 'InvocableProcess',
+    LOGIN_FLOW : 'LoginFlow',
+    JOURNEY_BUILDER_INTEGRATION : 'JourneyBuilderIntegration',
+    MANAGED_CONTENT_FLOW : 'ManagedContentFlow',
+    ORCHESTRATION_FLOW : 'OrchestrationFlow',
+    SURVEY : 'Survey',
+    TRANSACTION_SECURITY_FLOW : 'TransactionSecurityFlow',
+    USER_PROVISIONING_FLOW : 'UserProvisioningFlow',
+    WORKFLOW : 'Workflow'
 };
 
 export const ELEMENT_TYPE = {

@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`process-types-vertical-navigation UI rendering (snapshot) label and truncation (via CSS) 1`] = `
+<builder_platform_interaction-process-types-vertical-navigation>
+  #shadow-root(open)
+    <div
+      aria-hidden="false"
+      class="navigation-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical"
+    >
+      <div
+        class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow"
+      >
+        <lightning-vertical-navigation>
+          #shadow-root(open)
+            <slot />
+          <lightning-vertical-navigation-item-icon
+            class="slds-truncate"
+            title="FlowBuilderProcessTypesVerticalNavigation.all"
+          >
+            #shadow-root(open)
+              <a
+                class="slds-nav-vertical__action"
+                style="display:inline-block;"
+              >
+                FlowBuilderProcessTypesVerticalNavigation.all
+              </a>
+          </lightning-vertical-navigation-item-icon>
+          <lightning-vertical-navigation-item-icon
+            class="slds-truncate"
+            title="Autolaunched Flow"
+          >
+            #shadow-root(open)
+              <a
+                class="slds-nav-vertical__action"
+                style="display:inline-block;"
+              >
+                Autolaunched Flow
+              </a>
+          </lightning-vertical-navigation-item-icon>
+          <lightning-vertical-navigation-item-icon
+            class="slds-truncate"
+            title="Screen Flow"
+          >
+            #shadow-root(open)
+              <a
+                class="slds-nav-vertical__action"
+                style="display:inline-block;"
+              >
+                Screen Flow
+              </a>
+          </lightning-vertical-navigation-item-icon>
+          <lightning-vertical-navigation-overflow>
+            #shadow-root(open)
+              <slot />
+            <div
+              class="slds-p-left_small"
+            >
+              <lightning-vertical-navigation-item-icon
+                class="slds-truncate"
+                title="Checkout Flow"
+              >
+                #shadow-root(open)
+                  <a
+                    class="slds-nav-vertical__action"
+                    style="display:inline-block;"
+                  >
+                    Checkout Flow
+                  </a>
+              </lightning-vertical-navigation-item-icon>
+              <lightning-vertical-navigation-item-icon
+                class="slds-truncate"
+                title="Contact Request Flow"
+              >
+                #shadow-root(open)
+                  <a
+                    class="slds-nav-vertical__action"
+                    style="display:inline-block;"
+                  >
+                    Contact Request Flow
+                  </a>
+              </lightning-vertical-navigation-item-icon>
+              <lightning-vertical-navigation-item-icon
+                class="slds-truncate"
+                title="Embedded Appointment Management Flow"
+              >
+                #shadow-root(open)
+                  <a
+                    class="slds-nav-vertical__action"
+                    style="display:inline-block;"
+                  >
+                    Embedded Appointment Management Flow
+                  </a>
+              </lightning-vertical-navigation-item-icon>
+              <lightning-vertical-navigation-item-icon
+                class="slds-truncate"
+                title="Field Service Mobile Flow"
+              >
+                #shadow-root(open)
+                  <a
+                    class="slds-nav-vertical__action"
+                    style="display:inline-block;"
+                  >
+                    Field Service Mobile Flow
+                  </a>
+              </lightning-vertical-navigation-item-icon>
+              <lightning-vertical-navigation-item-icon
+                class="slds-truncate"
+                title="User Provisioning Flow"
+              >
+                #shadow-root(open)
+                  <a
+                    class="slds-nav-vertical__action"
+                    style="display:inline-block;"
+                  >
+                    User Provisioning Flow
+                  </a>
+              </lightning-vertical-navigation-item-icon>
+              <lightning-vertical-navigation-item-icon
+                class="slds-truncate"
+                title="Well no icon yet"
+              >
+                #shadow-root(open)
+                  <a
+                    class="slds-nav-vertical__action"
+                    style="display:inline-block;"
+                  >
+                    Well no icon yet
+                  </a>
+              </lightning-vertical-navigation-item-icon>
+            </div>
+          </lightning-vertical-navigation-overflow>
+        </lightning-vertical-navigation>
+      </div>
+    </div>
+</builder_platform_interaction-process-types-vertical-navigation>
+`;

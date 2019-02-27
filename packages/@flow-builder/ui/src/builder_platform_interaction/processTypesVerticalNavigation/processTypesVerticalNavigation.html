@@ -1,0 +1,30 @@
+<template>
+    <div class='navigation-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical' aria-hidden='false'>
+        <div class='slds-scrollable_y slds-grid slds-grid_vertical slds-grow'>
+            <lightning-vertical-navigation selected-item={selectedProcessType} onselect={handleSelectProcessType}>
+                <!-- Featured process types section -->
+                <template for:each={featuredProcessTypes} for:item="featuredProcessType">
+                    <lightning-vertical-navigation-item-icon class='slds-truncate' key={featuredProcessType.name}
+                        label={featuredProcessType.label}
+                        title={featuredProcessType.label}
+                        name={featuredProcessType.name}
+                        icon-name={featuredProcessType.icon}>
+                    </lightning-vertical-navigation-item-icon>
+                </template>               
+                <!-- Other process types section -->      
+                <lightning-vertical-navigation-overflow if:true={hasOtherProcessTypes} >
+                    <div class="slds-p-left_small">
+                        <template for:each={otherProcessTypes} for:item="otherProcessType">
+                            <lightning-vertical-navigation-item-icon class='slds-truncate' key={otherProcessType.name}
+                                label={otherProcessType.label}
+                                title={otherProcessType.label}
+                                name={otherProcessType.name}
+                                icon-name={otherProcessType.icon}>
+                            </lightning-vertical-navigation-item-icon>
+                        </template>
+                    </div>
+                </lightning-vertical-navigation-overflow>
+            </lightning-vertical-navigation>
+        </div>  
+    </div>
+</template>
