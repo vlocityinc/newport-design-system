@@ -1,5 +1,5 @@
 import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData,
-    getEventTypesMenuData, getSecondLevelItems } from '../menuDataRetrieval';
+    getEventTypesMenuData, getSecondLevelItems } from '../menuDataRetrieval.js';
 import { numberParamCanBeField, stringParam, booleanParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -73,6 +73,7 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
             if (callback) {
@@ -83,9 +84,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             return require.requireActual('mock/serverEntityData').mockEntities;
         }),
         getEventTypes: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/eventTypesData').mockEventTypes;
+            return require('mock/eventTypesData').mockEventTypes;
         }),
-        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
+        ENTITY_TYPE: sobjectLib.ENTITY_TYPE,
     };
 });
 
@@ -332,7 +333,7 @@ describe('Menu data retrieval', () => {
     describe('entities menu data', () => {
         it('uses api name for null label', () => {
             getAllEntities.mockImplementationOnce(() => {
-                return require.requireActual('mock/serverEntityData').mockEntitiesWithNoLabel;
+                return require('mock/serverEntityData').mockEntitiesWithNoLabel;
             });
             const entityApiName = 'AcceptedEventRelation';
             const entitiesMenuData = getEntitiesMenuData();

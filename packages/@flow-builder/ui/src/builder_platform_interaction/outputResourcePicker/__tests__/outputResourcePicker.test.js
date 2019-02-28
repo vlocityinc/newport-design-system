@@ -31,9 +31,10 @@ const parentItem = {
 };
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
         getOutputRules: jest.fn().mockReturnValue(['rule1']).mockName('getOutputRules'),
         getRHSTypes: jest.fn().mockReturnValue({paramType:'Data', dataType:'Currency', collection:false}).mockName('getRHSTypes'),
         elementToParam: jest.fn(),
@@ -52,7 +53,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/serverEntityData').mockAccountFields;
+            return require('mock/serverEntityData').mockAccountFields;
         }),
     };
 });

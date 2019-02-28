@@ -9,7 +9,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 data: mockEventTypeAllParameters[eventTypeApiName],
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
     };
 });
 

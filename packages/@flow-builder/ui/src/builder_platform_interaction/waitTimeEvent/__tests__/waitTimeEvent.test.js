@@ -42,10 +42,11 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
         getRulesForElementType: jest.fn().mockImplementation(() => ['foo']).mockName('getRulesForElementType'),
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
-        RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
+        RULE_TYPES: actual.RULE_TYPES,
     };
 });
 

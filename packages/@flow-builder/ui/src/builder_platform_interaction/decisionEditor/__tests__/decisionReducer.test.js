@@ -14,7 +14,7 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         checkExpressionForDeletedElem: jest.fn(),
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
+        EXPRESSION_PROPERTY_TYPE: require.requireActual('../../expressionUtils/expressionUtils.js').EXPRESSION_PROPERTY_TYPE,
     };
 });
 

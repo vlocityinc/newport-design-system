@@ -18,10 +18,11 @@ jest.mock('builder_platform_interaction/storeLib', () => require('builder_platfo
 jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
 
 jest.mock('builder_platform_interaction/commonUtils', () => {
+    const actual = require.requireActual('../../commonUtils/commonUtils.js');
     return {
-        addCurlyBraces: require.requireActual('builder_platform_interaction/commonUtils').addCurlyBraces,
-        removeCurlyBraces: require.requireActual('builder_platform_interaction/commonUtils').removeCurlyBraces,
-        isObject: require.requireActual('builder_platform_interaction/commonUtils').isObject,
+        addCurlyBraces: actual.addCurlyBraces,
+        removeCurlyBraces: actual.removeCurlyBraces,
+        isObject: actual.isObject,
         format: jest.fn(),
     };
 });
@@ -41,7 +42,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
             if (callback) {
-                callback(require.requireActual('mock/serverEntityData').mockAccountFieldWithPicklist);
+                callback(require('mock/serverEntityData').mockAccountFieldWithPicklist);
             }
         }),
     };
@@ -49,7 +50,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     return {
-        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
+        getDataType: require.requireActual('../../ruleLib/ruleLib.js').getDataType,
         elementToParam: jest.fn(),
     };
 });

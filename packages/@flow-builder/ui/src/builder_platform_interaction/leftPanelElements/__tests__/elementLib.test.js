@@ -1,7 +1,7 @@
 import { getElementSections } from "../elementLib";
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/storeLib');
+    const actual = require.requireActual('../../storeLib/storeLib.js');
     return {
         deepCopy: actual.deepCopy,
         generateGuid: jest.fn().mockImplementation(() => {

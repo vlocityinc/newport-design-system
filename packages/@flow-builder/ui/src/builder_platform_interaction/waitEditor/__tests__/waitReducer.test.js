@@ -310,7 +310,7 @@ describe('wait-reducer', () => {
             it('invoke the UsedBy alert modal', () => {
                 const deleteWaitEventEvent = new DeleteWaitEventEvent(initState.waitEvents[0].guid);
 
-                const usedByLib = require.requireActual('builder_platform_interaction/usedByLib');
+                const usedByLib = require.requireActual('../../usedByLib/usedByLib.js');
                 // An element is found which uses the outcome
                 usedByLib.usedByStoreAndElementState = jest.fn().mockReturnValue([{guid: 'someElement'}]);
                 usedByLib.invokeUsedByAlertModal = jest.fn();

@@ -1,4 +1,4 @@
-const mockSystemLib = require.requireActual('builder_platform_interaction/systemLib');
+const mockSystemLib = require('builder_platform_interaction/systemLib');
 import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';

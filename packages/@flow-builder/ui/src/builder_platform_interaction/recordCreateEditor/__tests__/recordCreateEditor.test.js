@@ -28,16 +28,17 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
         fetchOnce: () => {
             return Promise.resolve(JSON.stringify(mockAccountFields));
         },
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = require.requireActual('../../expressionUtils/expressionUtils.js');
     return {
         getResourceByUniqueIdentifier: jest.fn(),
-        getEntitiesMenuData: require.requireActual('builder_platform_interaction/expressionUtils').getEntitiesMenuData,
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
-        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
+        getEntitiesMenuData: actual.getEntitiesMenuData,
+        EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
+        getSecondLevelItems: actual.getSecondLevelItems,
     };
 });
 

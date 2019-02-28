@@ -46,28 +46,29 @@ jest.mock('builder_platform_interaction/comboboxCache', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => Promise.resolve());
     return mockSobjectLib;
 });
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = require.requireActual('../../dataMutationLib/dataMutationLib.js');
     return {
         getErrorsFromHydratedElement: jest.fn(),
-        getValueFromHydratedItem: require.requireActual('builder_platform_interaction/dataMutationLib').getValueFromHydratedItem,
-        GUID_SUFFIX: require.requireActual('builder_platform_interaction/dataMutationLib').GUID_SUFFIX,
-        FEROV_DATA_TYPE_PROPERTY: require.requireActual('builder_platform_interaction/elementFactory').FEROV_DATA_TYPE_PROPERTY,
-        pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
-        dehydrate: require.requireActual('builder_platform_interaction/dataMutationLib').dehydrate,
-        sanitizeGuid: require.requireActual('builder_platform_interaction/dataMutationLib').sanitizeGuid,
+        getValueFromHydratedItem: actual.getValueFromHydratedItem,
+        GUID_SUFFIX: actual.GUID_SUFFIX,
+        FEROV_DATA_TYPE_PROPERTY: require.requireActual('../../elementFactory/elementFactory.js').FEROV_DATA_TYPE_PROPERTY,
+        pick: actual.pick,
+        dehydrate: actual.dehydrate,
+        sanitizeGuid: actual.sanitizeGuid,
     };
 });
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION,
+        PROPERTY_EDITOR_ACTION: require.requireActual('../../actions/actions.js').PROPERTY_EDITOR_ACTION,
     };
 });
 
@@ -79,28 +80,30 @@ jest.mock('../variableConstantReducer', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
         getRHSTypes: jest.fn(),
-        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
-        RULE_TYPES: require.requireActual('builder_platform_interaction/ruleLib').RULE_TYPES,
+        getDataType: actual.getDataType,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
+        RULE_TYPES: actual.RULE_TYPES,
         getRulesForElementType: jest.fn().mockReturnValue([]),
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = require.requireActual('../../expressionUtils/expressionUtils.js');
     return {
         filterMatches: jest.fn(),
         getResourceByUniqueIdentifier: jest.fn(),
         getFerovDataTypeForValidId: jest.fn(),
         getElementsForMenuData: jest.fn(),
         getEntitiesMenuData: jest.fn().mockReturnValue(['full menu data']),
-        RESOURCE_PICKER_MODE: require.requireActual('builder_platform_interaction/expressionUtils').RESOURCE_PICKER_MODE,
-        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
-        getItemOrDisplayText: require.requireActual('builder_platform_interaction/expressionUtils').getItemOrDisplayText,
-        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
-        getFerovInfoAndErrorFromEvent: require.requireActual('builder_platform_interaction/expressionUtils').getFerovInfoAndErrorFromEvent,
+        RESOURCE_PICKER_MODE: actual.RESOURCE_PICKER_MODE,
+        mutateFlowResourceToComboboxShape: actual.mutateFlowResourceToComboboxShape,
+        getItemOrDisplayText: actual.getItemOrDisplayText,
+        getSecondLevelItems: actual.getSecondLevelItems,
+        getFerovInfoAndErrorFromEvent: actual.getFerovInfoAndErrorFromEvent,
     };
 });
 

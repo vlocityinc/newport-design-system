@@ -10,10 +10,11 @@ import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeF
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
-        elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
-        isMatch: require.requireActual('builder_platform_interaction/ruleLib').isMatch,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        elementToParam: actual.elementToParam,
+        isMatch: actual.isMatch,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
     };
 });
 
@@ -31,7 +32,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                 data: JSON.stringify(mockAccountFields),
             });
         }),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
     };
 });
 

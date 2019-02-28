@@ -110,9 +110,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve(mockAccountFields)),
         getUpdateableEntities: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/serverEntityData').mockEntities;
+            return require('mock/serverEntityData').mockEntities;
         }),
-        ENTITY_TYPE: require.requireActual('builder_platform_interaction/sobjectLib').ENTITY_TYPE,
+        ENTITY_TYPE: require.requireActual('../../sobjectLib/sobjectLib.js').ENTITY_TYPE,
     };
 });
 

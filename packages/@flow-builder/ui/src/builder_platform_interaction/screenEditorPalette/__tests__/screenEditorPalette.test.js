@@ -40,7 +40,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
                 }];
         },
         getAllCachedExtensionTypes: () => {
-            const componentInstanceFieldType = require.requireActual('builder_platform_interaction/screenEditorUtils').COMPONENT_INSTANCE;
+            const componentInstanceFieldType = require.requireActual('../../screenEditorUtils/screenEditorUtils.js').COMPONENT_INSTANCE;
             return [
                 {
                     name: 'flowruntime:fileUpload',

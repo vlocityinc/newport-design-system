@@ -7,7 +7,7 @@ import { resolveRenderCycles} from '../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
-    const originalCreateSelector = require.requireActual('builder_platform_interaction/storeLib').createSelector;
+    const originalCreateSelector = require.requireActual('../../storeLib/storeLib.js').createSelector;
     const partialStoreLibMock = Object.assign({}, mockStoreLib);
     partialStoreLibMock.createSelector = originalCreateSelector;
 
@@ -22,7 +22,7 @@ jest.mock('builder_platform_interaction/loggingUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const ruleLib = require.requireActual('builder_platform_interaction/ruleLib');
+    const ruleLib = require.requireActual('../../ruleLib/ruleLib.js');
     return Object.assign({}, ruleLib);
 });
 

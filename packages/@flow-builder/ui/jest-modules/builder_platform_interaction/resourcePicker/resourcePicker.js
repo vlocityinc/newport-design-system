@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-const elementPropertyEditorSelector = require.requireActual('builder_platform_interaction/selectors').elementPropertyEditorSelector; 
+const elementPropertyEditorSelector = require('builder_platform_interaction/selectors').elementPropertyEditorSelector; 
 
 export default class ResourcePicker extends LightningElement {
     @api

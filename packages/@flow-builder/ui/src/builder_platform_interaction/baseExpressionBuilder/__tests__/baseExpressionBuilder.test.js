@@ -95,37 +95,39 @@ function getLightningCombobox(expressionBuilder) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
         getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
             return ['Assign', 'Add'];
         }),
         getRHSTypes: jest.fn(),
-        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
+        getDataType: actual.getDataType,
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
-        elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
+        elementToParam: actual.elementToParam,
         isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = require.requireActual('../../expressionUtils/expressionUtils.js');
     return {
-        getStoreElements: require.requireActual('builder_platform_interaction/expressionUtils').getStoreElements,
+        getStoreElements: actual.getStoreElements,
         getElementsForMenuData: jest.fn().mockReturnValue([]),
         filterAndMutateMenuData: jest.fn().mockReturnValue([]),
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
-        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction/expressionUtils').getResourceByUniqueIdentifier,
+        EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
+        getResourceByUniqueIdentifier: actual.getResourceByUniqueIdentifier,
         isElementAllowed: jest.fn().mockImplementation(() => false),
-        sanitizeGuid: require.requireActual('builder_platform_interaction/dataMutationLib').sanitizeGuid,
-        filterFieldsForChosenElement: require.requireActual('builder_platform_interaction/expressionUtils').filterFieldsForChosenElement,
-        OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').OPERATOR_DISPLAY_OPTION,
-        getFerovDataTypeForValidId: require.requireActual('builder_platform_interaction/expressionUtils').getFerovDataTypeForValidId,
-        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFieldToComboboxShape,
-        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').LHS_DISPLAY_OPTION,
-        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
+        sanitizeGuid: require.requireActual('../../dataMutationLib/dataMutationLib.js').sanitizeGuid,
+        filterFieldsForChosenElement: actual.filterFieldsForChosenElement,
+        OPERATOR_DISPLAY_OPTION: actual.OPERATOR_DISPLAY_OPTION,
+        getFerovDataTypeForValidId: actual.getFerovDataTypeForValidId,
+        mutateFlowResourceToComboboxShape: actual.mutateFlowResourceToComboboxShape,
+        mutateFieldToComboboxShape: actual.mutateFieldToComboboxShape,
+        LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
+        getSecondLevelItems: actual.getSecondLevelItems,
     };
 });
 

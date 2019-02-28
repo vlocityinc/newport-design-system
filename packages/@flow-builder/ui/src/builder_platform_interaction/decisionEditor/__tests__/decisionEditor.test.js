@@ -33,12 +33,13 @@ jest.mock('../decisionReducer', () => {
 });
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = require.requireActual('../../dataMutationLib/dataMutationLib.js');
     return {
-        pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
+        pick: actual.pick,
         getErrorsFromHydratedElement: jest.fn(() => {
             return ['some error'];
         }),
-        updateProperties: require.requireActual('builder_platform_interaction/dataMutationLib').updateProperties,
+        updateProperties: actual.updateProperties,
     };
 });
 

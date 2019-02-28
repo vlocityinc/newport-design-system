@@ -8,7 +8,7 @@ import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestU
 jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 const defaultNode = {
@@ -79,7 +79,7 @@ let mockActionParametersPromise = Promise.resolve(mockActionParameters);
 let mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,

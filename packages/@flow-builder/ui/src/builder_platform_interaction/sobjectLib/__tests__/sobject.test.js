@@ -5,7 +5,7 @@ import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntitie
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetchOnce : jest.fn().mockImplementation(() => Promise.resolve(JSON.stringify(mockAccountFields))),
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
     };
 });
 

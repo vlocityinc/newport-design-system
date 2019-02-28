@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-const baseResourcePicker = require.requireActual('builder_platform_interaction/baseResourcePicker').default;
+const baseResourcePicker = require('builder_platform_interaction/baseResourcePicker').default;
 
 export default class BaseResourcePicker extends LightningElement {
     static SELECTOR = 'builder_platform_interaction-base-resource-picker';

@@ -5,12 +5,13 @@ import { mockAccountFields } from 'mock/serverEntityData';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
+    const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
     return {
         getDataTypeLabel: jest.fn().mockName('getDataTypeLabel'),
         getDataTypeIcons: jest.fn().mockName('getDataTypeIcons'),
-        FLOW_DATA_TYPE: require.requireActual('builder_platform_interaction/dataTypeLib').FLOW_DATA_TYPE,
-        FEROV_DATA_TYPE: require.requireActual('builder_platform_interaction/dataTypeLib').FEROV_DATA_TYPE,
-        isComplexType: require.requireActual('builder_platform_interaction/dataTypeLib').isComplexType,
+        FLOW_DATA_TYPE: actual.FLOW_DATA_TYPE,
+        FEROV_DATA_TYPE: actual.FEROV_DATA_TYPE,
+        isComplexType: actual.isComplexType,
     };
 });
 

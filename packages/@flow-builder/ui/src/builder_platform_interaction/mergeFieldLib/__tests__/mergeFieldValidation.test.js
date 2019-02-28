@@ -35,7 +35,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/serverEntityData').mockAccountFields;
+            return require('mock/serverEntityData').mockAccountFields;
         }),
     };
 });

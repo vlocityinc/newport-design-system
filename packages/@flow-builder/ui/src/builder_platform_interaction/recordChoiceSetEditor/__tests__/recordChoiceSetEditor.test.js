@@ -44,7 +44,7 @@ const setupComponentUnderTest = (recordChoiceObject) => {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION,
+        PROPERTY_EDITOR_ACTION: require.requireActual('../../actions/actions.js').PROPERTY_EDITOR_ACTION,
     };
 });
 // helps remove dependency of the editor tests on the reducer functionality
@@ -56,7 +56,7 @@ jest.mock('../recordChoiceSetReducer', () => {
 
 const mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;

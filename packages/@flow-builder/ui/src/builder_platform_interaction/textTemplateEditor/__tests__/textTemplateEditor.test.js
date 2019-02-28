@@ -27,17 +27,18 @@ const setupComponentUnderTest = (props) => {
 };
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
+    const actual = require.requireActual('../../dataMutationLib/dataMutationLib.js');
     return {
-        pick: require.requireActual('builder_platform_interaction/dataMutationLib').pick,
+        pick: actual.pick,
         getErrorsFromHydratedElement: jest.fn(),
-        getValueFromHydratedItem: require.requireActual('builder_platform_interaction/dataMutationLib').getValueFromHydratedItem
+        getValueFromHydratedItem: actual.getValueFromHydratedItem
     };
 });
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('builder_platform_interaction/actions').PROPERTY_EDITOR_ACTION,
+        PROPERTY_EDITOR_ACTION: require.requireActual('../../actions/actions.js').PROPERTY_EDITOR_ACTION,
     };
 });
 

@@ -7,7 +7,7 @@ import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestU
 
 jest.mock('builder_platform_interaction/baseCalloutEditor', () => require('builder_platform_interaction_mocks/baseCalloutEditor'));
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
 commonUtils.format = jest.fn().mockImplementation((formatString, ...args) => formatString + '(' + args.toString() + ')');
 
 const defaultNode = {
@@ -77,7 +77,7 @@ let mockApexPluginParametersPromise = Promise.resolve(mockApexPluginParameters);
 let mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,

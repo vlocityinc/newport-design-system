@@ -61,19 +61,20 @@ function getBaseExpressionBuilder(fieldToFerovWrapper) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
-        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
-        elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
+        getDataType: actual.getDataType,
+        elementToParam: actual.elementToParam,
         getRHSTypes: jest.fn(),
         isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
     };
 });
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
     };
 });
 
