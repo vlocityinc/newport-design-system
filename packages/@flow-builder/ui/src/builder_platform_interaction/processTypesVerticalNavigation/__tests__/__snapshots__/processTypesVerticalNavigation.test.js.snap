@@ -22,6 +22,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                 class="slds-nav-vertical__action"
                 style="display:inline-block;"
               >
+                <lightning-icon>
+                  #shadow-root(open)
+                </lightning-icon>
                 FlowBuilderProcessTypesVerticalNavigation.all
               </a>
           </lightning-vertical-navigation-item-icon>
@@ -34,6 +37,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                 class="slds-nav-vertical__action"
                 style="display:inline-block;"
               >
+                <lightning-icon>
+                  #shadow-root(open)
+                </lightning-icon>
                 Autolaunched Flow
               </a>
           </lightning-vertical-navigation-item-icon>
@@ -46,6 +52,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                 class="slds-nav-vertical__action"
                 style="display:inline-block;"
               >
+                <lightning-icon>
+                  #shadow-root(open)
+                </lightning-icon>
                 Screen Flow
               </a>
           </lightning-vertical-navigation-item-icon>
@@ -64,6 +73,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                     class="slds-nav-vertical__action"
                     style="display:inline-block;"
                   >
+                    <lightning-icon>
+                      #shadow-root(open)
+                    </lightning-icon>
                     Checkout Flow
                   </a>
               </lightning-vertical-navigation-item-icon>
@@ -76,6 +88,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                     class="slds-nav-vertical__action"
                     style="display:inline-block;"
                   >
+                    <lightning-icon>
+                      #shadow-root(open)
+                    </lightning-icon>
                     Contact Request Flow
                   </a>
               </lightning-vertical-navigation-item-icon>
@@ -88,6 +103,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                     class="slds-nav-vertical__action"
                     style="display:inline-block;"
                   >
+                    <lightning-icon>
+                      #shadow-root(open)
+                    </lightning-icon>
                     Embedded Appointment Management Flow
                   </a>
               </lightning-vertical-navigation-item-icon>
@@ -100,6 +118,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                     class="slds-nav-vertical__action"
                     style="display:inline-block;"
                   >
+                    <lightning-icon>
+                      #shadow-root(open)
+                    </lightning-icon>
                     Field Service Mobile Flow
                   </a>
               </lightning-vertical-navigation-item-icon>
@@ -112,6 +133,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                     class="slds-nav-vertical__action"
                     style="display:inline-block;"
                   >
+                    <lightning-icon>
+                      #shadow-root(open)
+                    </lightning-icon>
                     User Provisioning Flow
                   </a>
               </lightning-vertical-navigation-item-icon>
@@ -124,6 +148,9 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                     class="slds-nav-vertical__action"
                     style="display:inline-block;"
                   >
+                    <lightning-icon>
+                      #shadow-root(open)
+                    </lightning-icon>
                     Well no icon yet
                   </a>
               </lightning-vertical-navigation-item-icon>

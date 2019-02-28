@@ -75,6 +75,15 @@ describe('process-types-vertical-navigation', () => {
                     return processType.name;
                 }).join(''));
             });
+
+            test('process types icon name', () => {
+                const processTypesVerticalNavigationItemIcons = getAllVerticalNavigationItemIcons(processTypesVerticalNavigation);
+                const joinedProcessTypesIconNames = Array.from(processTypesVerticalNavigationItemIcons).map(itemIcon => {
+                    return getShadowRoot(itemIcon).querySelector("lightning-icon").iconName;
+                }).join('');
+                const expectedJoinedIconNames = `${PROCESS_TYPE_DEFAULT_ICON}utility:magicwandutility:desktoputility:cartutility:contact_requestutility:insert_tag_fieldutility:phone_portraitutility:user${PROCESS_TYPE_DEFAULT_ICON}`;
+                expect(joinedProcessTypesIconNames).toBe(expectedJoinedIconNames);
+            });
         });
 
         describe('Events', () => {
