@@ -55,6 +55,8 @@ import emptyDefaultOutcomeLabel from "@salesforce/label/FlowBuilderDecisionEdito
 import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyDefaultWaitPathLabel';
 import sObjectVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel";
 import sObjectCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectCollectionVariablePluralLabel";
+import apexVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel";
+import apexCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexCollectionVariablePluralLabel";
 import collectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel";
 import choiceSingularLabel from "@salesforce/label/FlowBuilderElementConfig.choiceSingularLabel";
 import choicePluralLabel from "@salesforce/label/FlowBuilderElementConfig.choicePluralLabel";
@@ -124,6 +126,8 @@ export const LABELS = {
     emptyDefaultWaitPathLabel,
     sObjectVariablePluralLabel,
     sObjectCollectionVariablePluralLabel,
+    apexVariablePluralLabel,
+    apexCollectionVariablePluralLabel,
     collectionVariablePluralLabel,
     choiceSingularLabel,
     choicePluralLabel,

@@ -1,6 +1,6 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
 import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FLOW_DATA_TYPE, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import { COMBOBOX_NEW_RESOURCE_VALUE } from "builder_platform_interaction/expressionUtils";
 import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringBySeparator, isReference } from "builder_platform_interaction/commonUtils";
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
@@ -160,7 +160,7 @@ export default class Combobox extends LightningElement {
 
     @api
     get literalsAllowed() {
-        return this._isLiteralAllowed && ![FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.BOOLEAN.value].includes(this._dataType);
+        return this._isLiteralAllowed && !(isComplexType(this._dataType) || this._dataType === FLOW_DATA_TYPE.BOOLEAN.value);
     }
 
     /**

@@ -10,7 +10,7 @@ import {
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { Store } from "builder_platform_interaction/storeLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
-import { FLOW_DATA_TYPE, getResourceTypes } from "builder_platform_interaction/dataTypeLib";
+import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import {
     mutateFieldToComboboxShape,
     mutateFlowResourceToComboboxShape,
@@ -26,8 +26,6 @@ import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, ge
 import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
-
-const SObjectType = FLOW_DATA_TYPE.SOBJECT.value;
 
 const isPicklistFieldAllowed = (allowedTypes) => {
     // we need a param to represent picklist values so we can check if they are allowed based on the given param types
@@ -109,7 +107,7 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @param {boolean} showSObjectsForFields   true if fields are allowed here - sobjects should be shown so that users can drill down to fields
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(allowedParamTypes, element, showSObjectsForFields = false) {
+export function isElementAllowed(allowedParamTypes, element, showComplexObjectsForFields = false) {
     const isElementMatchForProperty = (property) => {
         return (allowedParamTypes.hasOwnProperty(property) && elementMatchesRule(allowedParamTypes[property], element));
     };
@@ -118,7 +116,7 @@ export function isElementAllowed(allowedParamTypes, element, showSObjectsForFiel
         || isElementMatchForProperty(getDataType(element))
         || isElementMatchForProperty(element[PARAM_PROPERTY.ELEMENT_TYPE])
         || isElementMatchForProperty(element[SUBTYPE])
-        || (showSObjectsForFields && element.dataType === SObjectType && !element.isCollection);
+        || (showComplexObjectsForFields && (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) && isComplexType(element.dataType) && !element.isCollection);
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -321,11 +319,9 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
 
-    // the rules can block sobject fields by setting a flag on allowedParamTypes even if disableHasNext is false
-    const sobjectFieldsAllowed = !disableHasNext && (!allowedParamTypes || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]);
 
     const menuData = menuDataElements
-        .filter(element => isElementAllowed(allowedParamTypes, element, sobjectFieldsAllowed))
+        .filter(element => isElementAllowed(allowedParamTypes, element, !disableHasNext))
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {

@@ -1,12 +1,13 @@
 import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FLOW_DATA_TYPE, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { LABELS } from "./mergeFieldValidationLabels";
 import { GLOBAL_CONSTANT_PREFIX, getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { format, splitStringBySeparator } from "builder_platform_interaction/commonUtils";
 import { isElementAllowed } from "builder_platform_interaction/expressionUtils";
 import { elementToParam, getDataType } from "builder_platform_interaction/ruleLib";
+import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -144,7 +145,7 @@ export class MergeFieldsValidation {
             return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
         if (mergeFieldReferenceValue.indexOf('.') !== -1) {
-            return this._validateSObjectVariableFieldMergeField(mergeFieldReferenceValue, index);
+            return this._validateApexOrSObjectVariableFieldMergeField(mergeFieldReferenceValue, index);
         }
         return this._validateElementMergeField(mergeFieldReferenceValue, index);
     }
@@ -234,12 +235,13 @@ export class MergeFieldsValidation {
         };
     }
 
-    _validateSObjectVariableFieldMergeField(mergeFieldReferenceValue, index) {
+    _validateApexOrSObjectVariableFieldMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
         const variableName = parts[0];
         const fieldName = parts[1];
         const element = getElementByDevName(variableName);
+
         if (!element) {
             const validationErrorLabel = format(LABELS.unknownResource, variableName);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex);
@@ -250,12 +252,13 @@ export class MergeFieldsValidation {
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, validationErrorLabel, index, endIndex);
             return [validationError];
         }
-        if (element.dataType !== FLOW_DATA_TYPE.SOBJECT.value || (!this.allowCollectionVariables && element.isCollection)) {
+        if (!isComplexType(element.dataType) || (!this.allowCollectionVariables && element.isCollection)) {
             const validationErrorLabel = format(LABELS.resourceCannotBeUsedAsMergeField, mergeFieldReferenceValue);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE, validationErrorLabel, index, endIndex);
             return [validationError];
         }
-        const field = this._getFieldForEntity(element.subtype, fieldName);
+
+        const field = this._getFieldForEntity(element.dataType, element.subtype, fieldName);
         let errors = [];
         if (!field) {
             const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.subtype);
@@ -266,9 +269,10 @@ export class MergeFieldsValidation {
         return errors;
     }
 
-    _getFieldForEntity(entityName, fieldName) {
+    _getFieldForEntity(dataType, entityName, fieldName) {
         fieldName = fieldName.toLowerCase();
-        const fields = sobjectLib.getFieldsForEntity(entityName);
+        const fetchFieldsFn = dataType === FLOW_DATA_TYPE.SOBJECT.value ? sobjectLib.getFieldsForEntity : getPropertiesForClass;
+        const fields = fetchFieldsFn(entityName);
         for (const apiName in fields) {
             if (fields.hasOwnProperty(apiName)) {
                 if (fieldName === apiName.toLowerCase()) {

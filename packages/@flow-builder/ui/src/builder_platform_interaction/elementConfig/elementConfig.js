@@ -1,5 +1,5 @@
 import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FLOW_DATA_TYPE, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from "./elementConfigLabels";
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
@@ -807,16 +807,19 @@ export function isChildElement(elementType) {
  */
 export function getElementCategory(elementType, dataType, isCollection) {
     let categoryLabel;
-    if (dataType !== SOBJECT_TYPE && !isCollection) {
-        const config = getConfigForElementType(elementType);
-        if (config && config.labels && config.labels.plural) {
-            categoryLabel = config.labels.plural;
+    if (!isComplexType(dataType)) {
+        if (!isCollection) {
+            const config = getConfigForElementType(elementType);
+            if (config && config.labels && config.labels.plural) {
+                categoryLabel = config.labels.plural;
+            }
+        } else {
+            categoryLabel = LABELS.collectionVariablePluralLabel;
         }
+    } else if (isCollection) {
+        categoryLabel = dataType === SOBJECT_TYPE ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.apexCollectionVariablePluralLabel;
     } else {
-        categoryLabel = (dataType === SOBJECT_TYPE) ? (isCollection ? LABELS.sObjectCollectionVariablePluralLabel
-            : LABELS.sObjectVariablePluralLabel)
-            : LABELS.collectionVariablePluralLabel;
+        categoryLabel =  dataType === SOBJECT_TYPE ? LABELS.sObjectVariablePluralLabel : LABELS.apexVariablePluralLabel;
     }
-
     return categoryLabel;
 }

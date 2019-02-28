@@ -2,6 +2,7 @@ import { getValueFromHydratedItem } from "builder_platform_interaction/dataMutat
 import { isUndefinedOrNull, isUndefined } from "builder_platform_interaction/commonUtils";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY, CONSTRAINT } from './rules';
 import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { isComplexType } from "builder_platform_interaction/dataTypeLib";
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
@@ -161,11 +162,14 @@ export const isMatch = (ruleParam, element) => {
         || ((elementParam[ELEMENT_TYPE] ? !elementTypeNotAllowedForDataParam(ruleParam, UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementParam[ELEMENT_TYPE]]) : true)
         && propertyAllowed(ruleParam, SOBJECT_FIELD_REQUIREMENT, elementParam[IS_SOBJECT_FIELD]) && propertyAllowed(ruleParam, SYSTEM_VARIABLE_REQUIREMENT, elementParam[IS_SYSTEM_VARIABLE]));
 
-    const propertiesToCompare = [DATA_TYPE, ELEMENT_TYPE, IS_COLLECTION];
+    const propertiesToCompare = [DATA_TYPE, IS_COLLECTION];
     let i = 0;
     while (matches && i < propertiesToCompare.length) {
         matches = propertyMatches(ruleParam, elementParam, propertiesToCompare[i]);
         i++;
+    }
+    if (matches && ruleParam[MUST_BE_ELEMENTS] && ruleParam[MUST_BE_ELEMENTS].length) {
+        matches = ruleParam[MUST_BE_ELEMENTS].includes(elementParam[ELEMENT_TYPE]);
     }
     return matches;
 };
@@ -323,7 +327,7 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
         (operator === rule[OPERATOR] && isMatch(rule[LEFT], lhsElement))) {
             rule[RHS_PARAMS].forEach((rhsParam) => {
                 let type = getDataTypeOrElementType(rhsParam);
-                if (type === 'SObject') {
+                if (isComplexType(type)) {
                     // if element is an sObject, we want to track by object type because sObject type must match exactly
                     type = lhsElement.subtype;
                 }

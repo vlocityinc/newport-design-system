@@ -1,4 +1,4 @@
-let apexClasses = {};
+let apexClasses = [];
 const apexFieldsForClass = {};
 
 /**
@@ -9,7 +9,6 @@ const apexFieldsForClass = {};
 const mutateProperty = (property) => {
     return {
         apiName: property.name,
-        isCollection: property.isCollection,
         dataType: property.type,
     };
 };
@@ -45,21 +44,19 @@ export const getApexClasses = () => {
  * @param {String} name     name of the apex class
  */
 export const cachePropertiesForClass = (name) => {
-    let durableId = name;
-    let parentId;
-    const complexName = durableId.split('.');
-    if (complexName.length > 1) {
-        parentId = complexName[0];
-        durableId = complexName[1];
+    if (apexFieldsForClass[name]) {
+        return;
     }
+
     const apexClass = apexClasses.find(clazz => {
-        return parentId === clazz.parentId && clazz.durableId === durableId;
+        return clazz.durableId === name;
     });
-    apexFieldsForClass[name] = [];
-    if (apexClass.properties) {
-        apexFieldsForClass[name].push(...apexClass.properties.records.map(prop => mutateProperty(prop)));
+    apexFieldsForClass[name] = {};
+    if (apexClass && apexClass.properties) {
+        apexClass.properties.records.forEach((prop) => {
+            apexFieldsForClass[name][prop.name] = mutateProperty(prop);
+        });
     }
-    return apexFieldsForClass[name];
 };
 
 export const getPropertiesForClass = (clazz) => {

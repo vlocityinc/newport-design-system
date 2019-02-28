@@ -2,6 +2,7 @@ import { generateGuid } from "builder_platform_interaction/storeLib";
 import { getFlowDataType } from "builder_platform_interaction/dataTypeLib";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { MERGE_WARNING_TYPE } from './mergeWarningType';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**
  * Get as a map. Key is the variable name, value has properties parameter,
@@ -61,8 +62,8 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
     for (const [name, { parameter, paramAssigments }] of Object.entries(allParameters)) {
         let parameterItem = {name};
         if (parameter) {
-            const {isRequired, maxOccurs, dataType, label, sobjectType} = parameter;
-            parameterItem = {name, isRequired, maxOccurs, label, dataType: getFlowDataType(dataType), objectType: sobjectType};
+            const {isRequired, maxOccurs, dataType, label, sobjectType, apexClass} = parameter;
+            parameterItem = {name, isRequired, maxOccurs, label, dataType: dataType ? getFlowDataType(dataType) : FLOW_DATA_TYPE.APEX.value, subtype: sobjectType || apexClass};
         }
         if (paramAssigments.length > 0) {
             paramAssigments.forEach(nodeParameter => {

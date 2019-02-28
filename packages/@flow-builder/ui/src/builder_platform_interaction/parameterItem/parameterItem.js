@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { getDataTypeIcons, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { getDataTypeIcons, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import { getFerovInfoAndErrorFromEvent } from "builder_platform_interaction/expressionUtils";
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -64,7 +64,8 @@ export default class ParameterItem extends LightningElement {
      * @property {String|Object} [label]   parameter label (may be hydrated)
      * @property {String|Object} dataType     the flow data type, see FLOW_DATA_TYPE (may be hydrated)
      * @property {Number} [maxOccurs]   the maximum occurrences
-     * @property {String} [objectType] the api name of sobject if dataType is FLOW_DATA_TYPE.SOBJECT (may be hydrated)
+     * @property {String} [subtype] the api name of sobject if dataType is FLOW_DATA_TYPE.SOBJECT (may be hydrated),
+     *                              or the apex class name if dataType is FLOW_DATA_TYPE.APEX
      * @property {Object} [value]    parameter's value (must be hydrated)
      * @property {String} [valueDataType]   parameter's value data type
      * @property {String} [iconName] parameter's icon name, if we wish to use a custom icon rather than lookup icon by data type
@@ -179,8 +180,7 @@ export default class ParameterItem extends LightningElement {
         return {
             [PARAM_PROPERTY.DATA_TYPE]: this.getDataType(),
             [PARAM_PROPERTY.IS_COLLECTION]: this.isCollection,
-            [PARAM_PROPERTY.ELEMENT_TYPE]: this.elementType,
-            objectType: getValueFromHydratedItem(this.state.parameterItem.objectType),
+            subtype: getValueFromHydratedItem(this.state.parameterItem.subtype),
         };
     }
 
@@ -189,7 +189,7 @@ export default class ParameterItem extends LightningElement {
     }
 
     get enableFieldDrilldown() {
-        return this.getDataType() !== FLOW_DATA_TYPE.SOBJECT.value;
+        return !isComplexType(this.getDataType());
     }
 
     getDataType() {
