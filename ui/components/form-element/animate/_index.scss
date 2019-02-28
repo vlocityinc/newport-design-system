@@ -141,7 +141,7 @@ input[placeholder]::placeholder {
 	position: absolute;
 }
 
-.nds-input__tooltip .nds-form-element__control-help.helptext-focus {
+.nds-input__tooltip .nds-form-element__control-help.nds-helptext-focus {
 	visibility: visible;
 	opacity: 1;
 }
