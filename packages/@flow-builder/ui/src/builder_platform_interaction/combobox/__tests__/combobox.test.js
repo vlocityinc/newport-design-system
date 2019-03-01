@@ -25,6 +25,17 @@ const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox',
 };
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
+    return mockStoreLib;
+});
+
+jest.mock('builder_platform_interaction/selectors', () => {
+    return {
+        apexVariablesSelector: jest.fn(() => []),
+    };
+});
+
 jest.mock('builder_platform_interaction/systemLib', () => {
     const emptyString = '$GlobalConstant.EmptyString';
     const booleanTrue = '$GlobalConstant.True';

@@ -4,6 +4,17 @@ import { comboboxInitialConfig } from "mock/comboboxData";
 const accountVar = comboboxInitialConfig.menuData[1].items[0];
 const contactVar = comboboxInitialConfig.menuData[1].items[1];
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
+    return mockStoreLib;
+});
+
+jest.mock('builder_platform_interaction/selectors', () => {
+    return {
+        apexVariablesSelector: jest.fn(() => []),
+    };
+});
+
 describe('combobox cache tests', () => {
     it('adding an item to the cache and reading it back works properly', () => {
         addToParentElementCache(accountVar.displayText, accountVar);

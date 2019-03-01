@@ -6,4 +6,5 @@ export { readableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,
+    apexVariablesSelector,
 } from "./menuDataSelector";
