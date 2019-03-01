@@ -1,5 +1,5 @@
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
-import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
 
@@ -43,4 +43,8 @@ export const getProcessTypesWithIcons = (unfilteredProcessTypes, processTypesMap
         const {name, label, iconName = processTypesMap.get(name) || PROCESS_TYPE_DEFAULT_ICON} = processType;
         return {name, label, iconName};
     });
+};
+
+export const getProcessTypeIcon = (processType) => {
+    return PROCESS_TYPES_ICONS.FEATURED.get(processType) || PROCESS_TYPES_ICONS.OTHERS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
 };

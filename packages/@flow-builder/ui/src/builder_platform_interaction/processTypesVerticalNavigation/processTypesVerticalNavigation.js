@@ -1,6 +1,6 @@
 import { LightningElement, api} from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
-import { ALL_PROCESS_TYPE, getProcessTypesWithIcons, PROCESS_TYPES_ICONS } from './processTypesVerticalNavigationUtil';
+import { ALL_PROCESS_TYPE, getProcessTypesWithIcons, PROCESS_TYPES_ICONS } from 'builder_platform_interaction/processTypeLib';
 
 const SELECTORS = {
     VERTICAL_NAVIGATION_OVERFLOW: 'lightning-vertical-navigation-overflow',

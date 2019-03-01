@@ -69,3 +69,4 @@ export { SetPropertyEditorTitleEvent } from './setPropertyEditorTitleEvent';
 export { VisualPickerItemChangedEvent } from './visualPickerItemChangedEvent';
 export { VisualPickerListChangedEvent } from './visualPickerListChangedEvent';
 export { ProcessTypeSelectedEvent } from './processTypeSelectedEvent';
+export { TemplateChangedEvent } from './templateChangedEvent';

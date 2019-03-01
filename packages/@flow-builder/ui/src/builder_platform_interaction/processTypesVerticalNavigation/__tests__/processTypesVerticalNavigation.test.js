@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
-import { ALL_PROCESS_TYPE, PROCESS_TYPES_ICONS, PROCESS_TYPE_DEFAULT_ICON} from '../processTypesVerticalNavigationUtil';
+import { ALL_PROCESS_TYPE, PROCESS_TYPES_ICONS, PROCESS_TYPE_DEFAULT_ICON} from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import { MOCK_PROCESS_TYPES, MOCK_ALL_PROCESS_TYPES } from "mock/processTypesData";

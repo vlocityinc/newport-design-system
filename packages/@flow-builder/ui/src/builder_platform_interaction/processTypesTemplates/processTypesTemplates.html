@@ -1,0 +1,21 @@
+<template>
+    <div class='slds-p-around_x-small'>
+        <!--Featured section-->
+        <div class='featured slds-template__container'>
+            <builder_platform_interaction-visual-picker-list items={state.processTypesTiles} title={labels.featured} onvisualpickerlistchanged={handleProcessTypeTileChanged}>
+            </builder_platform_interaction-visual-picker-list>
+        </div>
+        <!--Templates section-->
+        <div class='templates slds-template__container'>
+            <lightning-spinner if:true={displaySpinner} size='medium' variant='brand' class='spinner'></lightning-spinner>
+            <!--List of templates-->
+            <builder_platform_interaction-visual-picker-list if:false={hasNoTemplates} items={state.templates} title={labels.templates} onvisualpickerlistchanged={handleTemplateChanged}>
+            </builder_platform_interaction-visual-picker-list>
+            <!--Get Templates tile if there is no template-->
+            <div if:true={hasNoTemplates} class='slds-p-left_medium'>
+                <legend class="slds-form-element__legend slds-form-element__label slds-m-bottom_small slds-text-title_caps">{labels.templates}</legend>
+                <builder_platform_interaction-get-templates-tile></builder_platform_interaction-get-templates-tile>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,4 +1,4 @@
-import {getProcessTypesWithIcons, PROCESS_TYPE_DEFAULT_ICON, PROCESS_TYPES_ICONS} from "../processTypesVerticalNavigationUtil";
+import {getProcessTypesWithIcons, PROCESS_TYPE_DEFAULT_ICON, PROCESS_TYPES_ICONS} from "../processTypeUtils";
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { MOCK_ALL_PROCESS_TYPES } from "mock/processTypesData";
 
@@ -6,7 +6,7 @@ const getProcessTypesWithIconsWithProcessTypes = getProcessTypesWithIcons.bind(n
 const getFeaturedProcessTypesWithIconsWithProcessTypes = getProcessTypesWithIconsWithProcessTypes.bind(null, PROCESS_TYPES_ICONS.FEATURED);
 const getOtherProcessTypesWithIconsWithProcessTypes = getProcessTypesWithIconsWithProcessTypes.bind(null, PROCESS_TYPES_ICONS.OTHERS);
 
-describe('processTypesVerticalNavigationUtil', () => {
+describe('processTypesUtils', () => {
     test('No filtering: all process types returned', () => {
         const actualResult = getFeaturedProcessTypesWithIconsWithProcessTypes();
         expect(actualResult).toHaveLength(MOCK_ALL_PROCESS_TYPES.length);

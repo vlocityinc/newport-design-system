@@ -26,7 +26,8 @@ export const SERVER_ACTION_TYPE = {
     GET_FLOW_INPUT_OUTPUT_VARIABLES: 'getFlowInputOutputVariables',
     GET_EVENT_TYPES: 'getEventTypes',
     GET_EVENT_TYPE_PARAMETERS: 'getParametersForEventType',
-    GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR: 'getPeripheralDataForPropertyEditor'
+    GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR: 'getPeripheralDataForPropertyEditor',
+    GET_TEMPLATES: 'getTemplates'
 };
 
 const actionConfig = {
@@ -55,7 +56,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: 'c.getFlowInputOutputVariables',
     [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: 'c.getEventTypes',
     [SERVER_ACTION_TYPE.GET_EVENT_TYPE_PARAMETERS]: 'c.getParametersForEventType',
-    [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: 'c.getPeripheralDataForPropertyEditor'
+    [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: 'c.getPeripheralDataForPropertyEditor',
+    [SERVER_ACTION_TYPE.GET_TEMPLATES]: 'c.getTemplates'
 };
 
 let auraFetch;
@@ -111,6 +113,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: (params) => params.entityApiName,
     [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: (params) => params.flowName,
     [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: () => SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR,
+    [SERVER_ACTION_TYPE.GET_TEMPLATES]: (params) => params.processTypes,
 };
 
 const fetchOnceCache = { };
