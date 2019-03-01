@@ -12,13 +12,12 @@ const createComponentUnderTest = () => {
 };
 
 const selectors = {
-    lightningCombobox: 'lightning-combobox',
     lightningGroupedCombobox: 'lightning-grouped-combobox',
     lightningInteractionCombobox: 'builder_platform_interaction-combobox'
 };
 
 const mockError = [{
-    message:"Event fired" // 'This is the message currently returned when an error occurs ...'
+    message: "Event fired" // 'This is the message currently returned when an error occurs ...'
 }];
 
 let mockActionsPromise = Promise.resolve(mockActions);
@@ -26,11 +25,11 @@ let mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
 let mockSubflowsPromise = Promise.resolve(mockSubflows);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
+    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce : (serverActionType) => {
+        fetchOnce: (serverActionType) => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
                     return mockActionsPromise;
@@ -47,7 +46,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 describe('Action selector', () => {
     let actionSelectorComponent;
-    const lightningCombobox = () => getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningCombobox);
     const interactionCombobox = () => getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningInteractionCombobox);
     const groupedCombobox = () => getShadowRoot(interactionCombobox()).querySelector(selectors.lightningGroupedCombobox);
     afterEach(() => {
@@ -55,19 +53,9 @@ describe('Action selector', () => {
         mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
         mockSubflowsPromise = Promise.resolve(mockSubflows);
     });
-    it('displays all action types', () => {
-        actionSelectorComponent = createComponentUnderTest();
-        expect(lightningCombobox().options.map(option => option.label)).toEqual(
-            ['FlowBuilderActionSelector.actionTypeOption', 'FlowBuilderActionSelector.apexTypeOption',
-                'FlowBuilderActionSelector.apexPluginTypeOption', 'FlowBuilderActionSelector.emailAlertTypeOption',
-                'FlowBuilderActionSelector.subflowTypeOption']);
-    });
     describe('By default', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
-        });
-        test('"Action" should be the selected Action type', () => {
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
         test('Combobox should contain all ACTION_CALL items : standard actions, quick actions and local actions', () => {
             const standardActionText = 'Post to Chatter';
@@ -78,50 +66,13 @@ describe('Action selector', () => {
         test('Combobox placeholder should be : Find an Action...', () => {
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.actionComboboxPlaceholder');
         });
-        test('Combobox Label should be : Referenced Action', () => {
-            expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.actionComboboxLabel');
-        });
     });
-    describe('When user selects an action type', () => {
-        let valueChangedEventCallback;
-        const expectValueChangedEventCallbackCalledWithElementType = (elementType, error = null) => {
-            expect(valueChangedEventCallback).toHaveBeenCalled();
-            expect(valueChangedEventCallback.mock.calls[0][0].detail).toEqual({error, value : {elementType}});
-        };
-        beforeEach(() => {
-            actionSelectorComponent = createComponentUnderTest();
-            valueChangedEventCallback = jest.fn();
-            document.addEventListener(ValueChangedEvent.EVENT_NAME, valueChangedEventCallback);
-        });
-        afterEach(() => {
-            document.removeEventListener(ValueChangedEvent.EVENT_NAME, valueChangedEventCallback);
-        });
-        it('should fire ValueChangedEvent with APEX_CALL when apex call is selected', async () => {
-            lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_CALL}}));
-            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_CALL);
-        });
-        it('should fire ValueChangedEvent with ACTION_CALL when action call is selected', async () => {
-            lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.ACTION_CALL}}));
-            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.ACTION_CALL);
-        });
-        it('should fire ValueChangedEvent with APEX_PLUGIN_CALL when apex plugin call is selected', async () => {
-            lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_PLUGIN_CALL}}));
-            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL);
-        });
-        it('should fire ValueChangedEvent with EMAIL_ALERT when email alert call is selected', async () => {
-            lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.EMAIL_ALERT}}));
-            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.EMAIL_ALERT);
-        });
-        it('should fire ValueChangedEvent with SUBFLOW when subflow is selected', async () => {
-            lightningCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.SUBFLOW}}));
-            expectValueChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.SUBFLOW);
-        });
-    });
+
     describe('When action list is resolved', () => {
         let actionsChangedEventCallback;
         const expectActionsChangedEventCallbackCalledWithElementType = (elementType, numberActions) => {
             expect(actionsChangedEventCallback).toHaveBeenCalled();
-            expect(actionsChangedEventCallback.mock.calls[1][0].detail).toEqual({value : {elementType}, number: numberActions});
+            expect(actionsChangedEventCallback.mock.calls[1][0].detail).toEqual({ value: { elementType }, number: numberActions });
         };
         beforeEach(() => {
             mockApexPluginsPromise = Promise.resolve([]);
@@ -134,8 +85,8 @@ describe('Action selector', () => {
         });
         it('should fire ActionsChangedEvent when actions are updated', async () => {
             const expectedNumber = 0;
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL };
-            interactionCombobox().dispatchEvent(new CustomEvent('change', {detail: {value: ELEMENT_TYPE.APEX_PLUGIN_CALL, number: expectedNumber}}));
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
+            interactionCombobox().dispatchEvent(new CustomEvent('change', { detail: { value: ELEMENT_TYPE.APEX_PLUGIN_CALL, number: expectedNumber } }));
             expectActionsChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL, expectedNumber);
         });
     });
@@ -145,39 +96,30 @@ describe('Action selector', () => {
             actionSelectorComponent.selectedAction = {};
         });
         it('should update the items of the second combobox', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
             expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
         });
         it('should update the Action combobox placeholder', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.apexComboboxPlaceholder');
-        });
-        it('should update the combobox label', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
-            await Promise.resolve();
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
-            expect(groupedCombobox().label).toBe('FlowBuilderActionSelector.apexComboboxLabel');
         });
         it('should display no value for the Action combobox', async () => {
             actionSelectorComponent.selectedAction = {
-                actionName : 'emailSimple',
-                actionType : 'emailSimple',
-                elementType : ELEMENT_TYPE.ACTION_CALL
+                actionName: 'emailSimple',
+                actionType: 'emailSimple',
+                elementType: ELEMENT_TYPE.ACTION_CALL
             };
             await Promise.resolve();
             expect(interactionCombobox().value.displayText).toBe('Send Email');
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             await Promise.resolve();
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_CALL);
             expect(interactionCombobox().value).toBe('');
         });
         it('api should return the selected element', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_CALL };
-            expect(actionSelectorComponent.selectedAction).toEqual({ elementType : ELEMENT_TYPE.APEX_CALL });
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
+            expect(actionSelectorComponent.selectedAction).toEqual({ elementType: ELEMENT_TYPE.APEX_CALL });
         });
     });
     describe('When there are no actions for a given action type', () => {
@@ -186,9 +128,8 @@ describe('Action selector', () => {
             actionSelectorComponent = createComponentUnderTest();
         });
         it('the second combobox should be disabled', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL };
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
             await Promise.resolve();
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.APEX_PLUGIN_CALL);
             expect(interactionCombobox().disabled).toBe(true);
         });
     });
@@ -205,7 +146,7 @@ describe('Action selector', () => {
     });
     describe('When the user selects or type something in the second combobox', () => {
         const dispatchActionChangeEvent = async (actionDurableId, displayText = null, error = null) => {
-            const item = actionDurableId ? { value : actionDurableId } : null;
+            const item = actionDurableId ? { value: actionDurableId } : null;
             interactionCombobox().dispatchEvent(new ComboboxStateChangedEvent(item, displayText, error));
             await Promise.resolve();
         };
@@ -263,18 +204,18 @@ describe('Action selector', () => {
         it('should fire ValueChangedEvent with just the elementType and an error when user types text that does not match an action', () => {
             dispatchActionChangeEvent(null, 'not an existing action');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderCombobox.genericErrorMessage", value : {'elementType': 'ACTION_CALL'}});
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderCombobox.genericErrorMessage", value: { 'elementType': 'ACTION_CALL' } });
         });
         it('should fire ValueChangedEvent with just the elementType and an error when user focus out with no action selected', () => {
             dispatchActionChangeEvent(null, '');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderValidation.cannotBeBlank", value : {'elementType': 'ACTION_CALL'}});
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderValidation.cannotBeBlank", value: { 'elementType': 'ACTION_CALL' } });
         });
         it('should remove errors after they are corrected', () => {
             // set an error
             dispatchActionChangeEvent(null, '');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error : "FlowBuilderValidation.cannotBeBlank", value : {'elementType': 'ACTION_CALL'}});
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderValidation.cannotBeBlank", value: { 'elementType': 'ACTION_CALL' } });
             // fiddle with the event listener to get it to rest
             document.removeEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             eventCallback = jest.fn();
@@ -288,13 +229,10 @@ describe('Action selector', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
             actionSelectorComponent.selectedAction = {
-                actionName : 'emailSimple',
-                actionType : 'emailSimple',
-                elementType : ELEMENT_TYPE.ACTION_CALL
+                actionName: 'emailSimple',
+                actionType: 'emailSimple',
+                elementType: ELEMENT_TYPE.ACTION_CALL
             };
-        });
-        it('should display the corresponding type label in the type combobox', () => {
-            expect(lightningCombobox().value).toBe(ELEMENT_TYPE.ACTION_CALL);
         });
         it('should display the corresponding action label in the Action combobox', () => {
             expect(interactionCombobox().value.displayText).toBe('Send Email');
@@ -318,14 +256,14 @@ describe('Action selector', () => {
             });
         });
         it('should be "{Unique Name}" for subflows', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.SUBFLOW };
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.SUBFLOW };
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('mynamespace__LFB_Sample_Huge_Flow');
                 expect(item.subText).toBe('mynamespace__LFB_Sample_Huge_Flow');
             });
         });
         it('should be "{Unique Name}" for apex plugins', async () => {
-            actionSelectorComponent.selectedAction = { elementType : ELEMENT_TYPE.APEX_PLUGIN_CALL };
+            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
                 expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');

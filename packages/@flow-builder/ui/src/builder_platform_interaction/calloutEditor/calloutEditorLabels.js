@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 import filterByTitle from '@salesforce/label/FlowBuilderActionSelector.filterByTitle';
 import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
-import filterByTypeOption from '@salesforce/label/label/FlowBuilderActionSelector.filterByTypeOption';
+import filterByTypeOption from '@salesforce/label/FlowBuilderActionSelector.filterByTypeOption';
 import actionTypeOption from "@salesforce/label/FlowBuilderActionSelector.actionTypeOption";
 import actionComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.actionComboboxLabel";
 import actionComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.actionComboboxPlaceholder";
