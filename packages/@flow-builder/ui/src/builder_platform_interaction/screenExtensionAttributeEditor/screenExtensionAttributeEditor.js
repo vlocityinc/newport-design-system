@@ -32,15 +32,15 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
     get resourcePickerConfig() {
         const collection = this.descriptor.maxOccurs > 1;
         const config = {
-            allowLiterals: this.isInput && !collection && this.descriptor.dataType && this.descriptor.dataType.toLowerCase() !== 'sobject',
+            allowLiterals: this.isInput && !collection && this.descriptor.dataType && !['sobject', 'apex'].includes(this.descriptor.dataType.toLowerCase()),
             collection,
             elementConfig: null,
             hideGlobalConstants: this.isOutput,
             hideNewResource: false
         };
 
-        if (this.descriptor.objectType) {
-            config.objectType = this.descriptor.objectType;
+        if (this.descriptor.subtype) {
+            config.subtype = this.descriptor.subtype;
         }
 
         return config;

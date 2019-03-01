@@ -105,8 +105,8 @@ export default class ScreenPropertyField extends LightningElement {
                 collection: this.resourcePickerConfig.collection
             };
 
-            if (this.resourcePickerConfig.objectType) {
-                param.objectType = this.resourcePickerConfig.objectType;
+            if (this.resourcePickerConfig.subtype) {
+                param.subtype = this.resourcePickerConfig.subtype;
             }
 
             if (this.resourcePickerConfig.elementType) {

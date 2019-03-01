@@ -1,6 +1,6 @@
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
+import { getDataTypeIcons, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
@@ -58,8 +58,8 @@ function createDescription(name, data) {
     for (const param of data) {
         const newParam = {
             apiName: param.apiName,
-            dataType: param.dataType,
-            objectType: param.objectType,
+            dataType: param.dataType || FLOW_DATA_TYPE.APEX.value, // LC parameters that accept apex classes have no data type set
+            subtype: param.objectType || param.apexClass,
             description: param.description,
             hasDefaultValue: param.hasDefaultValue,
             isRequired: param.isRequired,
