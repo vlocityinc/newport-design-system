@@ -2,10 +2,10 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import { getApexClassMenuData, getEntitiesMenuData, getEventTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { ComboboxStateChangedEvent, ItemSelectedEvent } from 'builder_platform_interaction/events';
-import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker/';
 import EntityResourcePicker from '../entityResourcePicker';
 
-jest.mock('builder_platform_interaction/baseResourcePicker', () => require('builder_platform_interaction_mocks/baseResourcePicker'));
+jest.mock('builder_platform_interaction/baseResourcePicker', () => require('../../../../jest-modules/builder_platform_interaction/baseResourcePicker/baseResourcePicker.js'));
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-entity-resource-picker', {

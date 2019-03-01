@@ -14,7 +14,6 @@ import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-fer-to-ferov-expression-builder', { is: FerToFerovExpressionBuilder });
@@ -79,38 +78,40 @@ function getBaseExpressionBuilder(ferToFerovWrapper) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
         getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
             return ['Assign', 'Add'];
         }),
         getRHSTypes: jest.fn(),
-        getDataType: require.requireActual('builder_platform_interaction/ruleLib').getDataType,
+        getDataType: actual.getDataType,
         transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
-        elementToParam: require.requireActual('builder_platform_interaction/ruleLib').elementToParam,
+        elementToParam: actual.elementToParam,
         isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
+    const actual = require.requireActual('../../expressionUtils/expressionUtils.js');
     return {
         getElementsForMenuData: jest.fn().mockReturnValue([]),
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('builder_platform_interaction/expressionUtils').EXPRESSION_PROPERTY_TYPE,
-        getResourceByUniqueIdentifier: require.requireActual('builder_platform_interaction/expressionUtils').getResourceByUniqueIdentifier,
-        isElementAllowed: require.requireActual('builder_platform_interaction/expressionUtils').isElementAllowed,
-        sanitizeGuid: require.requireActual('builder_platform_interaction/dataMutationLib').sanitizeGuid,
-        filterFieldsForChosenElement: require.requireActual('builder_platform_interaction/expressionUtils').filterFieldsForChosenElement,
-        OPERATOR_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').OPERATOR_DISPLAY_OPTION,
-        getFerovDataTypeForValidId: require.requireActual('builder_platform_interaction/expressionUtils').getFerovDataTypeForValidId,
-        mutateFlowResourceToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: require.requireActual('builder_platform_interaction/expressionUtils').mutateFieldToComboboxShape,
-        validateExpressionShape: require.requireActual('builder_platform_interaction/expressionUtils').validateExpressionShape,
-        LHS_DISPLAY_OPTION: require.requireActual('builder_platform_interaction/expressionUtils').LHS_DISPLAY_OPTION,
-        populateLhsStateForField: require.requireActual('builder_platform_interaction/expressionUtils').populateLhsStateForField,
-        populateRhsState: require.requireActual('builder_platform_interaction/expressionUtils').populateRhsState,
-        getSecondLevelItems: require.requireActual('builder_platform_interaction/expressionUtils').getSecondLevelItems,
+        EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
+        getResourceByUniqueIdentifier: actual.getResourceByUniqueIdentifier,
+        isElementAllowed: actual.isElementAllowed,
+        sanitizeGuid: require.requireActual('../../dataMutationLib/dataMutationLib.js').sanitizeGuid,
+        filterFieldsForChosenElement: actual.filterFieldsForChosenElement,
+        OPERATOR_DISPLAY_OPTION: actual.OPERATOR_DISPLAY_OPTION,
+        getFerovDataTypeForValidId: actual.getFerovDataTypeForValidId,
+        mutateFlowResourceToComboboxShape: actual.mutateFlowResourceToComboboxShape,
+        mutateFieldToComboboxShape: actual.mutateFieldToComboboxShape,
+        validateExpressionShape: actual.validateExpressionShape,
+        LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
+        populateLhsStateForField: actual.populateLhsStateForField,
+        populateRhsState: actual.populateRhsState,
+        getSecondLevelItems: actual.getSecondLevelItems,
         getStoreElements: jest.fn(),
         filterAndMutateMenuData: jest.fn(),
     };
@@ -119,7 +120,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        SERVER_ACTION_TYPE: require.requireActual('builder_platform_interaction/serverDataLib').SERVER_ACTION_TYPE,
+        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
     };
 });
 

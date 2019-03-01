@@ -40,10 +40,11 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         dataType: 'Currency',
         collection: false,
     };
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
         mockParam,
-        RULE_OPERATOR: require.requireActual('builder_platform_interaction/ruleLib').RULE_OPERATOR,
-        PARAM_PROPERTY: require.requireActual('builder_platform_interaction/ruleLib').PARAM_PROPERTY,
+        RULE_OPERATOR: actual.RULE_OPERATOR,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
         getRHSTypes: jest.fn().mockReturnValue(mockParam).mockName('getRHSTypes')
     };
 });
@@ -52,7 +53,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getMenuData'),
         normalizeFEROV: jest.fn().mockImplementation((rhsId) => {
-            return require.requireActual('builder_platform_interaction/expressionUtils').normalizeFEROV(rhsId);
+            return require.requireActual('../../expressionUtils/expressionUtils.js').normalizeFEROV(rhsId);
         }),
     };
 });
