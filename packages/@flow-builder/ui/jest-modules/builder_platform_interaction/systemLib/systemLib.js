@@ -12,7 +12,7 @@ const removeCurlyBraces = (id) => {
     return id;
 };
 
-const systemVariables = [
+export const systemVariables = [
     {
         devName: 'CurrentDateTime',
         dataType: 'DateTime',

@@ -7,16 +7,14 @@ import {
     EXPRESSION_PROPERTY_TYPE,
 } from '../resourceUtils';
 import * as store from "mock/storeData";
-import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, SYSTEM_VARIABLE_PREFIX } from "builder_platform_interaction/systemLib";
 import { addCurlyBraces, format } from "builder_platform_interaction/commonUtils";
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { mutateFieldToComboboxShape } from '../menuDataGenerator';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-
+import { setSystemVariables, systemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
+import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, SYSTEM_VARIABLE_PREFIX } from '../../systemLib/systemLib';
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-jest.mock('builder_platform_interaction/systemLib', () => require('builder_platform_interaction_mocks/systemLib'));
-
 jest.mock('builder_platform_interaction/commonUtils', () => {
     const actual = require.requireActual('../../commonUtils/commonUtils.js');
     return {
@@ -189,6 +187,7 @@ describe('getFerovInfoAndErrorFromEvent', () => {
         expect(error).toBeUndefined();
     });
     it('treats system variables as elements and gives them a reference data type', () => {
+        setSystemVariables(JSON.stringify(systemVariables));
         const mockMenuItem = {
             value: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime',
             displayText: '{!' + SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime}',
