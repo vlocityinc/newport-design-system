@@ -10,6 +10,7 @@ const mutateProperty = (property) => {
     return {
         apiName: property.name,
         dataType: property.type,
+        subtype: property.objectType || property.apexClass,
     };
 };
 
