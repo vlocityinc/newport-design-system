@@ -24,8 +24,9 @@ mockSystemLib.setSystemVariables(JSON.stringify(systemVariables));
 
 export const GLOBAL_CONSTANT_PREFIX = mockSystemLib.GLOBAL_CONSTANT_PREFIX;
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
+export const SYSTEM_VARIABLE_BROWSER_PREFIX = '$Browser';
 
-export const GLOBAL_CONSTANTS = mockSystemLib.GLOBAL_CONSTANTS
+export const GLOBAL_CONSTANTS = mockSystemLib.GLOBAL_CONSTANTS;
 
 export const GLOBAL_CONSTANT_OBJECTS = {
     [GLOBAL_CONSTANTS.BOOLEAN_TRUE] : {
