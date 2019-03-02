@@ -1,6 +1,6 @@
 import { GLOBAL_CONSTANT_OBJECTS, GLOBAL_CONSTANT_PREFIX } from "./globalConstants";
 import { removeCurlyBraces } from "builder_platform_interaction/commonUtils";
-import { getSystemVariables, SYSTEM_VARIABLE_PREFIX } from "./systemVariables";
+import { getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX } from "./systemVariables";
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -14,7 +14,7 @@ export const isGlobalConstantOrSystemVariableId = (id) => {
         return false;
     }
     const prefix = removeCurlyBraces(id).split('.')[0];
-    return [GLOBAL_CONSTANT_PREFIX, SYSTEM_VARIABLE_PREFIX].indexOf(prefix) >= 0;
+    return [GLOBAL_CONSTANT_PREFIX, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX].indexOf(prefix) >= 0;
 };
 
 /**
@@ -29,6 +29,6 @@ export const getGlobalConstantOrSystemVariable = (id) => {
 };
 
 export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "./globalConstants";
-export { setSystemVariables, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLES } from './systemVariables';
+export { setSystemVariables, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX, SYSTEM_VARIABLES } from './systemVariables';
 export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlobalVariable } from './globalVariables';
 export { setProcessTypes, getProcessTypes } from './processTypes';

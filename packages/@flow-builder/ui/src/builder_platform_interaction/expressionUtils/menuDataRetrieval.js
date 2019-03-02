@@ -22,7 +22,7 @@ import {
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
-import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
 import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
@@ -117,6 +117,10 @@ export function isElementAllowed(allowedParamTypes, element, showComplexObjectsF
         || isElementMatchForProperty(element[PARAM_PROPERTY.ELEMENT_TYPE])
         || isElementMatchForProperty(element[SUBTYPE])
         || (showComplexObjectsForFields && (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) && isComplexType(element.dataType) && !element.isCollection);
+}
+
+export function isSameCategory(chosenElement, element) {
+    return chosenElement.subtype.indexOf(element.subtype) !== -1;
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -387,7 +391,7 @@ export const getEntitiesMenuData = (entityType) => {
  */
 export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields, showAsFieldReference, showSubText) {
     if (fields) {
-        return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
+        return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element) && isSameCategory(chosenElement, element)).map((element) => {
             return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
         });
     }
@@ -410,7 +414,7 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
         return writableItems;
     };
 
-    if (subtype === SYSTEM_VARIABLE_PREFIX) {
+    if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_BROWSER_PREFIX) {
         const systemVariables = getSystemVariables();
         callback(shouldBeWritable ? filterWritable(systemVariables) : systemVariables);
     } else if (getGlobalVariables(subtype)) {

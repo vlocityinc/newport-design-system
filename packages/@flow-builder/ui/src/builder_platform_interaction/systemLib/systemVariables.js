@@ -1,6 +1,7 @@
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
+export const SYSTEM_VARIABLE_BROWSER_PREFIX = '$Browser';
 
 export const SYSTEM_VARIABLES = {
     CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime',
@@ -15,7 +16,7 @@ let systemVariables = {};
  *            data raw variable data from the server
  */
 const convertData = (data) => data.reduce((acc, obj) => {
-    const name = `${SYSTEM_VARIABLE_PREFIX}.${obj.devName}`;
+    const name = `$${obj.category}.${obj.devName}`;
     const variable = Object.assign(obj, {
         category: systemVariableCategory,
         apiName: obj.devName,
@@ -25,7 +26,7 @@ const convertData = (data) => data.reduce((acc, obj) => {
         name,
         readOnly: !obj.isAssignable,
         isSystemVariable: true,
-        subtype: SYSTEM_VARIABLE_PREFIX,
+        subtype: `${obj.category}`,
     });
     delete variable.devName;
 
