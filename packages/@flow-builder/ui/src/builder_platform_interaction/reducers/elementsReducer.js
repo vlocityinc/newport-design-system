@@ -22,6 +22,7 @@ import {
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT
 } from "builder_platform_interaction/actions";
+import { isDevNameInStore } from "builder_platform_interaction/storeUtils";
 import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
@@ -92,8 +93,13 @@ function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap
     let newState = Object.assign({}, state);
 
     const elementGuidsToDuplicate = Object.keys(canvasElementGuidMap);
+    const childElementGuidsToDuplicate = Object.keys(childElementGuidMap);
+    const blacklistNames = [];
+    const childElementNameMap = _getDuplicateChildElementNameMap(newState, childElementGuidsToDuplicate, blacklistNames);
+
     for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
         const selectedElement = newState[elementGuidsToDuplicate[i]];
+        // Deselect each element to be duplicated (since the duplicated elements will now be selected)
         if (selectedElement && selectedElement.config && selectedElement.config.isSelected) {
             newState[selectedElement.guid] = Object.assign({}, selectedElement, {
                 config: {
@@ -103,36 +109,21 @@ function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap
             });
         }
 
-        const elementConfig = getConfigForElementType(selectedElement.elementType);
+        // Figure out a unique name for the element to be duplicated
         const duplicateElementGuid = canvasElementGuidMap[selectedElement.guid];
-        const { duplicatedElement, duplicatedChildElements = {} } = elementConfig && elementConfig.factory && elementConfig.factory.duplicateElement && elementConfig.factory.duplicateElement(selectedElement, duplicateElementGuid, childElementGuidMap);
+        const duplicateElementName = _getUniqueDuplicateElementName(selectedElement.name, blacklistNames);
+        blacklistNames.push(duplicateElementName);
+
+        const elementConfig = getConfigForElementType(selectedElement.elementType);
+        const { duplicatedElement, duplicatedChildElements = {} } = elementConfig && elementConfig.factory && elementConfig.factory.duplicateElement
+                                                                    && elementConfig.factory.duplicateElement(selectedElement, duplicateElementGuid, duplicateElementName, childElementGuidMap, childElementNameMap);
 
         newState[duplicatedElement.guid] = duplicatedElement;
         newState = {...newState, ...duplicatedChildElements};
     }
 
-    for (let i = 0; i < connectorsToDuplicate.length; i++) {
-        const originalConnector = connectorsToDuplicate[i];
-
-        const duplicateSourceGuid = canvasElementGuidMap[originalConnector.source];
-        const duplicateSourceElement = newState[duplicateSourceGuid];
-
-        const childSourceGUID = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
-        const duplicateConnectorType = originalConnector.type;
-
-        if (duplicateSourceElement.availableConnections) {
-            if (childSourceGUID) {
-                // Also update the label of the connector to the new childSource (outcome or waitEvent) label.
-                duplicateSourceElement.availableConnections = duplicateSourceElement.availableConnections.filter(availableConnector => (availableConnector.childReference !==  childSourceGUID));
-            } else {
-                duplicateSourceElement.availableConnections = duplicateSourceElement.availableConnections.filter(availableConnector => (availableConnector.type !==  duplicateConnectorType));
-            }
-        }
-
-        newState[duplicateSourceGuid] = Object.assign({}, duplicateSourceElement, {
-            connectorCount: duplicateSourceElement.connectorCount + 1,
-        });
-    }
+    // Update the available connections and connector count on each duplicated element based on what connectors were also duplicated
+    _updateAvailableConnectionsAndConnectorCount(newState, connectorsToDuplicate, canvasElementGuidMap, childElementGuidMap);
 
     return newState;
 }
@@ -296,23 +287,16 @@ function _updateElementOnAddConnection(elements, connector) {
     const newState = updateProperties(elements);
     const sourceGuid = connector.source;
     const sourceElement = updateProperties(newState[sourceGuid]);
-    const connectorType = connector.type;
-    const childSourceGUID = connector.childSource;
 
-    if (sourceElement.availableConnections) {
-        // Removes the newly added connection from availableConnections
-        if (childSourceGUID) {
-            sourceElement.availableConnections =
-                sourceElement.availableConnections.filter(availableConnector => (availableConnector.childReference !==  childSourceGUID));
-        } else {
-            sourceElement.availableConnections =
-                sourceElement.availableConnections.filter(availableConnector => (availableConnector.type !==  connectorType));
-        }
-    }
+    // Filters out the available connections on the source element for the given connector
+    const childSourceGUID = connector.childSource;
+    const connectorType = connector.type;
+    _filterAvailableConnections(sourceElement, childSourceGUID, connectorType);
 
     // Increments the connector count
     sourceElement.connectorCount++;
     newState[connector.source] = sourceElement;
+
     return newState;
 }
 
@@ -466,4 +450,84 @@ function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields
     newState[screen.guid] = updateProperties(newState[screen.guid]);
     newState = omit(newState, deletedFieldGuids);
     return newState;
+}
+
+/**
+ * Helper function to get unique dev name that is not in the store or in the passed in blacklist
+ *
+ * @param {String} name - existing dev name to make unique
+ * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
+ *
+ * @return {String} new unique dev name
+ */
+function _getUniqueDuplicateElementName(name, blacklistNames = []) {
+    if (isDevNameInStore(name) || blacklistNames.includes(name)) {
+        return _getUniqueDuplicateElementName(name + '_0', blacklistNames);
+    }
+
+    return name;
+}
+
+/**
+ * Helper function to get unique dev names for child elements
+ *
+ * @param {Object} state - store state
+ * @param {Object} childElementGuidsToDuplicate - list of guids of the child elements to duplicate
+ * @param {String[]} blacklistNames - blacklisted list of names to check against in addition to store
+ *
+ * @return {Object} Map of child element dev names to duplicated child element dev names
+ */
+function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, blacklistNames = []) {
+    const childElementNameMap = {};
+    for (let i = 0; i < childElementGuidsToDuplicate.length; i++) {
+        const childElement = state[childElementGuidsToDuplicate[i]];
+        const duplicateChildElementName = _getUniqueDuplicateElementName(childElement.name, blacklistNames);
+        childElementNameMap[childElement.name] = duplicateChildElementName;
+        blacklistNames.push(duplicateChildElementName);
+    }
+
+    return childElementNameMap;
+}
+
+/**
+ * Helper function to update available connections and connector count for duplicated elements
+ *
+ * @param {Object} state - store state
+ * @param {Object[]} connectorsToDuplicate - list of connector objects to duplicate
+ * @param {Object} canvasElementGuidMap - Map of canvas element guids to duplicated canvas element guids
+ * @param {Object} childElementGuidMap - Map of child element guids to duplicated child element guids
+ */
+function _updateAvailableConnectionsAndConnectorCount(state, connectorsToDuplicate, canvasElementGuidMap, childElementGuidMap) {
+    for (let i = 0; i < connectorsToDuplicate.length; i++) {
+        const originalConnector = connectorsToDuplicate[i];
+
+        const duplicateSourceGuid = canvasElementGuidMap[originalConnector.source];
+        const duplicateSourceElement = state[duplicateSourceGuid];
+
+        const childSourceGUID = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
+        const duplicateConnectorType = originalConnector.type;
+        _filterAvailableConnections(duplicateSourceElement, childSourceGUID, duplicateConnectorType);
+
+        state[duplicateSourceGuid] = Object.assign({}, duplicateSourceElement, {
+            connectorCount: duplicateSourceElement.connectorCount + 1,
+        });
+    }
+}
+
+/**
+ * Helper function to filter available connections on an element based on connector type or child source guid
+ *
+ * @param {Object} element - canvas element for which available connections are to be filtered
+ * @param {String} childSourceGUID - child source guid (eg. outcome guid) to filter available connections on
+ * @param {String} connectorType - connector type to filter available connections on
+ */
+function _filterAvailableConnections(element, childSourceGUID, connectorType) {
+    // Filter out an available connection if the child reference matches the child source element guid passed in OR if the connector type matches the connector type passed in
+    if (element.availableConnections) {
+        if (childSourceGUID) {
+            element.availableConnections = element.availableConnections.filter(availableConnector => (availableConnector.childReference !==  childSourceGUID));
+        } else {
+            element.availableConnections = element.availableConnections.filter(availableConnector => (availableConnector.type !==  connectorType));
+        }
+    }
 }

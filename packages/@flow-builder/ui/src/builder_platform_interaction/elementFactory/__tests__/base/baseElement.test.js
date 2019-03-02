@@ -1,13 +1,26 @@
 import {
     baseResource,
     baseCanvasElement,
+    duplicateCanvasElement,
+    duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
     createCondition
 } from "../../base/baseElement";
-import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import {FLOW_DATA_TYPE} from "../../../dataTypeLib/dataTypeLib";
 import * as baseList from '../../base/baseList';
+
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getElementByGuid: jest.fn().mockImplementation(() => {
+            return {
+                guid: 'originalChildElement',
+                name: 'childElement1'
+            };
+        })
+    };
+});
 
 const createListRowItemSpy = jest.spyOn(baseList, 'createListRowItem');
 
@@ -138,6 +151,157 @@ describe('Base canvas element function', () => {
         };
         const actualResult = baseCanvasElement(canvasElement);
         expect(actualResult).toMatchObject(expectedResult);
+    });
+});
+
+describe('Duplicate Base Canvas Element Function', () => {
+    const originalCanvasElement = {
+        guid: 'originalElement',
+        name: 'Assignment1',
+        locationX: 10,
+        locationY: 20,
+        maxConnections: 1,
+        elementType: ELEMENT_TYPE.ASSIGNMENT
+    };
+
+    const duplicatedCanvasElement = {
+        guid: 'duplicateElement',
+        name: 'Assignment1_0',
+        locationX: 60,
+        locationY: 70,
+        config: {isSelected: true, isHighlighted: false},
+        connectorCount: 0,
+        maxConnections: 1,
+        elementType: ELEMENT_TYPE.ASSIGNMENT
+    };
+
+    const { duplicatedElement } = duplicateCanvasElement(originalCanvasElement, 'duplicateElement', 'Assignment1_0');
+
+    it('The duplicated element should contain updated properties', () => {
+        expect(duplicatedElement).toEqual(duplicatedCanvasElement);
+    });
+});
+
+describe('Duplicate Canvas Element With Child Elements Function', () => {
+    const childElementGuidMap = {
+        'originalChildElement': 'duplicateChildElement'
+    };
+
+    const childElementNameMap = {
+        'childElement1': 'childElement1_0'
+    };
+
+    const createChildElement = function (originalChildElement) {
+        return originalChildElement;
+    };
+
+    describe('When child elements are present', () => {
+        const originalCanvasElement = {
+            guid: 'originalElement',
+            name: 'Decision1',
+            locationX: 10,
+            locationY: 20,
+            maxConnections: 2,
+            elementType: ELEMENT_TYPE.DECISION,
+            outcomeReferences: [{
+                outcomeReference: 'originalChildElement'
+            }]
+        };
+
+        const defaultAvailableConnections = [{
+            type: CONNECTOR_TYPE.DEFAULT
+        }];
+
+        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(originalCanvasElement, 'duplicateElement',
+            'Decision1_0', childElementGuidMap, childElementNameMap, createChildElement, 'outcomeReferences',
+            'outcomeReference', defaultAvailableConnections);
+
+        it('The duplicated element should have updated properties', () => {
+            const newElement = {
+                guid: 'duplicateElement',
+                name: 'Decision1_0',
+                locationX: 60,
+                locationY: 70,
+                config: {isSelected: true, isHighlighted: false},
+                connectorCount: 0,
+                maxConnections: 2,
+                elementType: ELEMENT_TYPE.DECISION,
+                outcomeReferences: [{
+                    outcomeReference: 'originalChildElement'
+                }]
+            };
+
+            expect(duplicatedElement).toEqual(newElement);
+        });
+
+        it('The duplicated child elements should have the duplicated child element', () => {
+            expect(duplicatedChildElements).toEqual({
+                duplicateChildElement: {
+                    guid: 'duplicateChildElement',
+                    name: 'childElement1_0'
+                }
+            });
+        });
+
+        it('updatedChildReferences should be an array containing the updated Child References', () => {
+            expect(updatedChildReferences).toEqual([{
+                outcomeReference: 'duplicateChildElement'
+            }]);
+        });
+
+        it('availableConenctions should have both default and child referenced available connections', () => {
+            expect(availableConnections).toEqual([{
+                type: CONNECTOR_TYPE.DEFAULT
+            }, {
+                type: CONNECTOR_TYPE.REGULAR,
+                childReference: 'duplicateChildElement'
+            }]);
+        });
+    });
+
+    describe('When child elements are not present', () => {
+        const originalCanvasElement = {
+            guid: 'originalElement',
+            name: 'Screen1',
+            locationX: 10,
+            locationY: 20,
+            maxConnections: 1,
+            elementType: ELEMENT_TYPE.SCREEN,
+            fieldReferences: []
+        };
+
+        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
+            duplicateCanvasElementWithChildElements(originalCanvasElement, 'duplicateElement', 'Screen1_0',
+                childElementGuidMap, childElementNameMap, createChildElement, 'fieldReferences',
+                'fieldReference');
+
+        it('The duplicated element should have updated properties', () => {
+            const newElement = {
+                guid: 'duplicateElement',
+                name: 'Screen1_0',
+                locationX: 60,
+                locationY: 70,
+                config: {isSelected: true, isHighlighted: false},
+                connectorCount: 0,
+                maxConnections: 1,
+                elementType: ELEMENT_TYPE.SCREEN,
+                fieldReferences: []
+            };
+
+            expect(duplicatedElement).toEqual(newElement);
+        });
+
+        it('The duplicated child elements should be an empty object', () => {
+            expect(duplicatedChildElements).toEqual({});
+        });
+
+        it('updatedChildReferences should be an empty array', () => {
+            expect(updatedChildReferences).toEqual([]);
+        });
+
+        it('availableConenctions should be an empty array', () => {
+            expect(availableConnections).toEqual([]);
+        });
     });
 });
 

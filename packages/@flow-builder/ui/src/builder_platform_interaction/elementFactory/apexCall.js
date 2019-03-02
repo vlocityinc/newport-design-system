@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { createActionCall } from './actionCall';
+import { createActionCall, getDefaultAvailableConnections } from './actionCall';
 import {  duplicateCanvasElement } from "./base/baseElement";
 
 const elementType = ELEMENT_TYPE.APEX_CALL;
@@ -13,9 +13,10 @@ export function createApexCall(apexCall = {}) {
     return  createActionCall(apexCall, elementType);
 }
 
-export function createDuplicateApexCall(apexCall, newGuid) {
+export function createDuplicateApexCall(apexCall, newGuid, newName) {
     const newApexCall = createApexCall(apexCall);
-    const duplicateApexCall = duplicateCanvasElement(newApexCall, newGuid);
+    Object.assign(newApexCall, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateApexCall = duplicateCanvasElement(newApexCall, newGuid, newName);
 
     return duplicateApexCall;
 }

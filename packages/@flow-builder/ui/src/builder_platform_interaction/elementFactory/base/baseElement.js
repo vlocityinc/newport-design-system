@@ -1,5 +1,5 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { isDevNameInStore, getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
@@ -44,13 +44,14 @@ export function baseCanvasElement(canvasElement = {}) {
  * Base function to duplicate canvas elements
  * @param {Object} canvasElement - canvas element to be duplicated
  * @param {string} newGuid - new guid for the duplicate element
+ * @param {string} newName - new name for the duplicate element
  * @returns {Object} duplicated element with a new unique name and guid
  */
-export function duplicateCanvasElement(canvasElement, newGuid) {
-    const { name, locationX, locationY, maxConnections, elementType } = canvasElement;
+export function duplicateCanvasElement(canvasElement, newGuid, newName) {
+    const { locationX, locationY, maxConnections, elementType } = canvasElement;
     const duplicatedElement =  Object.assign({}, canvasElement, {
         guid: newGuid,
-        name: getUniqueDuplicateElementName(name),
+        name: newName,
         locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
         locationY: locationY + DUPLICATE_ELEMENT_XY_OFFSET,
         config: {isSelected: true, isHighlighted: false},
@@ -67,16 +68,18 @@ export function duplicateCanvasElement(canvasElement, newGuid) {
  *
  * @param {Object} childReference - Object containing the guid of the child element (eg: {outcomeReference: 'outcome1'})
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
+ * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
  * @param {Function} createChildElement - Function to create the duplicate child element
  * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
  * @returns {Object} Returns the duplicated child element with the updated guid and name
  * @private
  */
-function _createDuplicateChildElement(childReference, childElementGuidMap, createChildElement, childReferenceKey) {
-    const duplicatedChildElement = createChildElement(getElementByGuid(childReference[childReferenceKey]));
+function _createDuplicateChildElement(childReference, childElementGuidMap, childElementNameMap, createChildElement, childReferenceKey) {
+    const childElement = getElementByGuid(childReference[childReferenceKey]);
+    const duplicatedChildElement = createChildElement(childElement);
     return Object.assign(duplicatedChildElement, {
         guid: childElementGuidMap[childReference[childReferenceKey]],
-        name: getUniqueDuplicateElementName(duplicatedChildElement.name)
+        name: childElementNameMap[childElement.name]
     });
 }
 
@@ -85,7 +88,9 @@ function _createDuplicateChildElement(childReference, childElementGuidMap, creat
  *
  * @param {Object} canvasElement - Canvas element that needs to be duplicated
  * @param {String} newGuid - Guid for the duplicated canvas element
+ * @param {String} newName - Name for the duplicated canvas element
  * @param {Object} childElementGuidMap - Map of child element guids to new guids for the duplicated child elements
+ * @param {Object} childElementNameMap - Map of child element names to new names for the duplicated child elements
  * @param {Function} createChildElement - Function to create the duplicate child element
  * @param {String} childReferencesKey - Key to access the object containing child references (eg: outcomeReferences)
  * @param {String} childReferenceKey - Key to access the guid for the child element (eg: outcomeReference)
@@ -93,8 +98,8 @@ function _createDuplicateChildElement(childReference, childElementGuidMap, creat
  * @returns {Object} Returns the object containing the duplicated canvas element, duplicated child elements, updated child
  * references and available connections
  */
-export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, childElementGuidMap, createChildElement, childReferencesKey, childReferenceKey, defaultAvailableConnections = []) {
-    const { duplicatedElement } = duplicateCanvasElement(canvasElement, newGuid);
+export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, newName, childElementGuidMap, childElementNameMap, createChildElement, childReferencesKey, childReferenceKey, defaultAvailableConnections = []) {
+    const { duplicatedElement } = duplicateCanvasElement(canvasElement, newGuid, newName);
     const childReferences = canvasElement[childReferencesKey];
 
     const additionalAvailableConnections = [];
@@ -103,7 +108,7 @@ export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, 
     // Iterating over existing child references to create duplicate child elements and updating available connections.
     // Also using the duplicated guids to create the updated childReferences for the duplicated element
     const updatedChildReferences = childReferences.map(childReference => {
-        const duplicatedChildElement = _createDuplicateChildElement(childReference, childElementGuidMap, createChildElement, childReferenceKey);
+        const duplicatedChildElement = _createDuplicateChildElement(childReference, childElementGuidMap, childElementNameMap, createChildElement, childReferenceKey);
 
         duplicatedChildElements[duplicatedChildElement.guid] = duplicatedChildElement;
 
@@ -197,12 +202,4 @@ export function baseElement(element = {}) {
         guid,
         name
     });
-}
-
-function getUniqueDuplicateElementName(name) {
-    if (!isDevNameInStore(name)) {
-        return name;
-    }
-
-    return getUniqueDuplicateElementName(name + '_0');
 }

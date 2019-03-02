@@ -42,9 +42,10 @@ export function createLoop(loop = {}) {
     });
 }
 
-export function createDuplicateLoop(loop, newGuid) {
+export function createDuplicateLoop(loop, newGuid, newName) {
     const newLoop = createLoop(loop);
-    const duplicateLoop = duplicateCanvasElement(newLoop, newGuid);
+    Object.assign(newLoop, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateLoop = duplicateCanvasElement(newLoop, newGuid, newName);
 
     return duplicateLoop;
 }

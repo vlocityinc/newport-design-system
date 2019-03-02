@@ -197,19 +197,22 @@ export function createWaitWithWaitEvents(wait = {}) {
  * Function to create the duplicate Wait element
  *
  * @param {Object} wait - Wait element being copied
- * @param {String} newGuid - Guid for the new duplicated decision element
+ * @param {String} newGuid - Guid for the new duplicated wait element
+ * @param {String} newName - Name for the new duplicated wait element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateWait(wait, newGuid, childElementGuidMap) {
+export function createDuplicateWait(wait, newGuid, newName, childElementGuidMap, childElementNameMap) {
     const defaultAvailableConnections = [{
         type: CONNECTOR_TYPE.DEFAULT
     }, {
         type: CONNECTOR_TYPE.FAULT
     }];
 
-    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(wait, newGuid, childElementGuidMap, createWaitEvent, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey, defaultAvailableConnections);
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(wait, newGuid, newName, childElementGuidMap, childElementNameMap, createWaitEvent, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey, defaultAvailableConnections);
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         [childReferenceKeys.childReferencesKey]: updatedChildReferences,

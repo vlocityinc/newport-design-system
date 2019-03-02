@@ -10,13 +10,14 @@ import { LABELS } from "./elementFactoryLabels";
  * @param {String} target           guid of the target canvas element
  * @param {String} label            (optional) label of the connector if one exists (ex. on default connectors)
  * @param {String} type             type of the connector (ex. fault or default)
+ * @param {Boolean} isSelected      specify whether the connector is in a selected state
  *
  * @returns {Object} connector       connector object
  */
-export const createConnector = (source, childSource, target, label, type) => {
+export const createConnector = (source, childSource, target, label, type, isSelected = false) => {
     const guid = generateGuid();
     const config = {
-        isSelected: false
+        isSelected
     };
 
     const connector = Object.assign(

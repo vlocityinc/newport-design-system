@@ -9,14 +9,14 @@
             <lightning-button-icon variant="border-filled" icon-name="utility:redo" disabled={isRedoDisabled} onclick={handleRedo} title={labels.redoTitle} alternative-text={labels.undoTitle}>
             </lightning-button-icon>
         </lightning-button-group>
-        <!--Cut/Copy/Paste-->
+        <!--Duplicate(Copy/Paste)-->
         <lightning-button-icon
                 variant="border-filled"
                 icon-name="utility:copy"
                 title={labels.duplicateTitle}
                 alternative-text={labels.duplicateTitle}
                 onclick={handleDuplicateButtonClick}
-                class="slds-builder-toolbar__item-group">
+                class="slds-builder-toolbar__item-group test-toolbar-duplicate">
         </lightning-button-icon>
         <!--Toggle Left Panel-->
         <!--<div class="slds-builder-toolbar__item-group">-->

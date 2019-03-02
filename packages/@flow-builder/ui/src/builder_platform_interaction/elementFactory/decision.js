@@ -47,16 +47,19 @@ export function createDecisionWithOutcomes(decision = {}) {
  *
  * @param {Object} decision - Decision element being copied
  * @param {String} newGuid - Guid for the new duplicated decision element
+ * @param {String} newGuid - Name for the new duplicated decision element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for
  * the duplicated child elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateDecision(decision, newGuid, childElementGuidMap) {
+export function createDuplicateDecision(decision, newGuid, newName, childElementGuidMap, childElementNameMap) {
     const defaultAvailableConnections = [{
        type: CONNECTOR_TYPE.DEFAULT
     }];
 
-    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(decision, newGuid, childElementGuidMap, createOutcome, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey, defaultAvailableConnections);
+    const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(decision, newGuid, newName, childElementGuidMap, childElementNameMap, createOutcome, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey, defaultAvailableConnections);
 
     const updatedDuplicatedElement = Object.assign(duplicatedElement, {
         [childReferenceKeys.childReferencesKey]: updatedChildReferences,

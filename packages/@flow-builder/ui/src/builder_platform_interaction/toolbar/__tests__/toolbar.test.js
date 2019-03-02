@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { EditFlowPropertiesEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { EditFlowPropertiesEvent, SaveFlowEvent, DuplicateEvent } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { getShadowRoot } from 'lwc-test-utils';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
@@ -21,7 +21,8 @@ const selectors = {
     editflowproperties: '.test-toolbar-editflowproperties',
     saveas: '.test-toolbar-saveas',
     save: '.test-toolbar-save',
-    lastSave: '.test-toolbar-last-saved'
+    lastSave: '.test-toolbar-last-saved',
+    duplicate: '.test-toolbar-duplicate'
 };
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
@@ -80,6 +81,17 @@ describe('toolbar', () => {
             getShadowRoot(toolbarComponent).querySelector(selectors.saveas).click();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS);
+        });
+    });
+
+    it('fires duplicate event when duplicate element button is clicked', () => {
+        const toolbarComponent = createComponentUnderTest();
+
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener(DuplicateEvent.EVENT_NAME, eventCallback);
+            getShadowRoot(toolbarComponent).querySelector(selectors.duplicate).click();
+            expect(eventCallback).toHaveBeenCalled();
         });
     });
 

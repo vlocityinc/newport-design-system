@@ -17,7 +17,7 @@ import { removeFromAvailableConnections } from 'builder_platform_interaction/con
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const maxConnections = 2;
-const getDefaultAvailableConnections = () => [
+export const getDefaultAvailableConnections = () => [
     {
         type: CONNECTOR_TYPE.REGULAR
     },
@@ -48,9 +48,10 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
     return actionCallObject;
 }
 
-export function createDuplicateActionCall(actionCall, newGuid) {
+export function createDuplicateActionCall(actionCall, newGuid, newName) {
     const newActionCall = createActionCall(actionCall);
-    const duplicateActionCall = duplicateCanvasElement(newActionCall, newGuid);
+    Object.assign(newActionCall, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateActionCall = duplicateCanvasElement(newActionCall, newGuid, newName);
 
     return duplicateActionCall;
 }

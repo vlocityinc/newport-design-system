@@ -1,40 +1,28 @@
-import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
-    duplicateCanvasElement,
-    createAvailableConnection
+    duplicateCanvasElement
 } from "./base/baseElement";
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
 import { createConnectorObjects } from './connector';
-import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
 
 const elementType = ELEMENT_TYPE.SUBFLOW;
 const maxConnections = 1;
-const getDefaultAvailableConnections = () => [
-    {
-        type: CONNECTOR_TYPE.REGULAR
-    }
-];
 
 export function createSubflow(subflow = {}) {
     const newSubflow = baseCanvasElement(subflow);
     const { flowName = '' } = subflow;
-    let { inputAssignments = [], outputAssignments = [], availableConnections = getDefaultAvailableConnections() } = subflow;
+    let { inputAssignments = [], outputAssignments = [] } = subflow;
     inputAssignments = inputAssignments.map(inputParameter => createInputParameter(inputParameter));
     outputAssignments = outputAssignments.map(outputParameter => createOutputParameter(outputParameter));
-    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
     const subflowObject = Object.assign(newSubflow, {
         flowName,
         inputAssignments,
         outputAssignments,
-        availableConnections,
         maxConnections,
         elementType,
     });
@@ -42,9 +30,9 @@ export function createSubflow(subflow = {}) {
     return subflowObject;
 }
 
-export function createDuplicateSubflow(subflow, newGuid) {
+export function createDuplicateSubflow(subflow, newGuid, newName) {
     const newSubflow = createSubflow(subflow);
-    const duplicateSubflow = duplicateCanvasElement(newSubflow, newGuid);
+    const duplicateSubflow = duplicateCanvasElement(newSubflow, newGuid, newName);
 
     return duplicateSubflow;
 }
@@ -56,12 +44,10 @@ export function createSubflowWithConnectors(subflow) {
         subflow,
         newSubflow.guid
     );
-    const defaultAvailableConnections = getDefaultAvailableConnections();
-    const availableConnections = removeFromAvailableConnections(defaultAvailableConnections, connectors);
+
     const connectorCount = connectors ? connectors.length : 0;
 
     const subflowObject = Object.assign(newSubflow, {
-        availableConnections,
         connectorCount
     });
 

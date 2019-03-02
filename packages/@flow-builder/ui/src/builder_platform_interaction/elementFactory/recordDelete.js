@@ -32,9 +32,10 @@ export function createRecordDelete(recordDelete = {}) {
     });
 }
 
-export function createDuplicateRecordDelete(recordDelete, newGuid) {
+export function createDuplicateRecordDelete(recordDelete, newGuid, newName) {
     const newRecordDelete = createRecordDelete(recordDelete);
-    const duplicateRecordDelete = duplicateCanvasElement(newRecordDelete, newGuid);
+    Object.assign(newRecordDelete, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateRecordDelete = duplicateCanvasElement(newRecordDelete, newGuid, newName);
 
     return duplicateRecordDelete;
 }

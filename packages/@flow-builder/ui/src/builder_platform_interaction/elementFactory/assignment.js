@@ -27,9 +27,9 @@ export function createAssignment(assignment = {}) {
     return assignmentObject;
 }
 
-export function createDuplicateAssignment(assignment = {}, newGuid) {
+export function createDuplicateAssignment(assignment = {}, newGuid, newName) {
     const newAssignment = createAssignment(assignment);
-    const duplicateAssignment = duplicateCanvasElement(newAssignment, newGuid);
+    const duplicateAssignment = duplicateCanvasElement(newAssignment, newGuid, newName);
 
     return duplicateAssignment;
 }

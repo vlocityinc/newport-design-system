@@ -52,11 +52,6 @@ const subflowInStore = {
     "locationY": 190,
     "isCanvasElement": true,
     "connectorCount": 0,
-    "availableConnections": [
-      {
-        "type": "REGULAR"
-      }
-    ],
     "config": {
       "isSelected": false
     },

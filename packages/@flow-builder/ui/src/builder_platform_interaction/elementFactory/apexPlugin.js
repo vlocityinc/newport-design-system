@@ -46,9 +46,10 @@ export function createApexPlugin(apexPlugin = {}) {
     return apexPluginObject;
 }
 
-export function createDuplicateApexPlugin(apexPlugin, newGuid) {
+export function createDuplicateApexPlugin(apexPlugin, newGuid, newName) {
     const newApexPlugin = createApexPlugin(apexPlugin);
-    const duplicateApexPlugin = duplicateCanvasElement(newApexPlugin, newGuid);
+    Object.assign(newApexPlugin, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateApexPlugin = duplicateCanvasElement(newApexPlugin, newGuid, newName);
 
     return duplicateApexPlugin;
 }

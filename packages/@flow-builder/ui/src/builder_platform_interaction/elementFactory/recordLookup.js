@@ -119,9 +119,10 @@ export function createRecordLookup(recordLookup = {}) {
     });
 }
 
-export function createDuplicateRecordLookup(recordLookup, newGuid) {
+export function createDuplicateRecordLookup(recordLookup, newGuid, newName) {
     const newRecordLookup = createRecordLookup(recordLookup);
-    const duplicateRecordLookup = duplicateCanvasElement(newRecordLookup, newGuid);
+    Object.assign(newRecordLookup, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateRecordLookup = duplicateCanvasElement(newRecordLookup, newGuid, newName);
 
     return duplicateRecordLookup;
 }

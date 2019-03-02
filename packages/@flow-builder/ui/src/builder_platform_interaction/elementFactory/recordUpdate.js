@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -10,19 +10,11 @@ import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { createRecordFilters, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment  } from './base/baseRecordElement';
+import { createRecordFilters, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections  } from './base/baseRecordElement';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
-const getDefaultAvailableConnections = () => [
-    {
-        type: CONNECTOR_TYPE.REGULAR
-    },
-    {
-        type: CONNECTOR_TYPE.FAULT
-    }
-];
 
 /*
  * return the selected way to store the variables.
@@ -65,9 +57,10 @@ export function createRecordUpdate(recordUpdate = {}) {
     return recordUpdateObject;
 }
 
-export function createDuplicateRecordUpdate(recordUpdate, newGuid) {
+export function createDuplicateRecordUpdate(recordUpdate, newGuid, newName) {
     const newRecordUpdate = createRecordUpdate(recordUpdate);
-    const duplicateRecordUpdate = duplicateCanvasElement(newRecordUpdate, newGuid);
+    Object.assign(newRecordUpdate, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateRecordUpdate = duplicateCanvasElement(newRecordUpdate, newGuid, newName);
 
     return duplicateRecordUpdate;
 }

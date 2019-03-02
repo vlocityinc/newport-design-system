@@ -1,6 +1,7 @@
 import elementReducer from "../elementsReducer";
 import {
     UPDATE_FLOW,
+    DO_DUPLICATE,
     DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
     UPDATE_CANVAS_ELEMENT,
@@ -14,6 +15,8 @@ import {
     MODIFY_SCREEN_WITH_FIELDS
 } from "builder_platform_interaction/actions";
 import { CONNECTOR_TYPE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const newElements = {
     guid2: {
@@ -207,6 +210,46 @@ describe('elements-reducer', () => {
         const newElementState = elementReducer(oldProperties, {type: ADD_CONNECTOR,
             payload : connector});
         expect(newElementState).toEqual(newProperties);
+    });
+
+    describe('Duplicate Element', () => {
+        let assignment;
+        let originalState;
+
+        beforeEach(() => {
+            assignment = {
+                guid: 'originalAssignmentId',
+                label: 'test Original Assignment',
+                name: 'test Original Assignment',
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
+                config: {
+                    isSelected: true
+                }
+            };
+
+            originalState = {
+                [assignment.guid]: assignment
+            };
+        });
+
+        it('duplicates canvas element with no child elements', () => {
+            const duplicateAssignmentGuid = 'duplicateAssignmentId';
+            const canvasElementGuidMap = {
+                [assignment.guid]: duplicateAssignmentGuid
+            };
+            const newState = elementReducer(originalState, {
+                type: DO_DUPLICATE,
+                payload: {
+                    canvasElementGuidMap
+                }
+            });
+
+            const originalElement = newState[assignment.guid];
+            const duplicateElement = newState[duplicateAssignmentGuid];
+            expect(duplicateElement).not.toBe(originalElement);
+            expect(duplicateElement.guid).toEqual(duplicateAssignmentGuid);
+            expect(originalElement.config.isSelected).toEqual(false);
+        });
     });
 
     describe('MODIFY_DECISION_WITH_OUTCOMES', () => {

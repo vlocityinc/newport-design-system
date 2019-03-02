@@ -68,9 +68,10 @@ export function createRecordCreate(recordCreate = {}) {
     return recordCreateObject;
 }
 
-export function createDuplicateRecordCreate(recordCreate, newGuid) {
+export function createDuplicateRecordCreate(recordCreate, newGuid, newName) {
     const newRecordCreate = createRecordCreate(recordCreate);
-    const duplicateRecordCreate = duplicateCanvasElement(newRecordCreate, newGuid);
+    Object.assign(newRecordCreate, { availableConnections: getDefaultAvailableConnections() });
+    const duplicateRecordCreate = duplicateCanvasElement(newRecordCreate, newGuid, newName);
 
     return duplicateRecordCreate;
 }

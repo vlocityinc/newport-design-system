@@ -11,7 +11,7 @@ import {
 } from "builder_platform_interaction/actions";
 import { addItem, updateProperties, replaceItem} from "builder_platform_interaction/dataMutationLib";
 import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { createConnector } from "builder_platform_interaction/elementFactory";
 
 /**
  * Reducer for connectors.
@@ -41,8 +41,22 @@ export default function connectorsReducer(state = [], action) {
     }
 }
 
-function _duplicateConnector(connectors, canvasElementGuidMap = {}, childElementMap = {}, connectorsToDuplicate = []) {
+/**
+ * Helper function to duplicate connectors.
+ *
+ * @param {Object[]} connectors - current state of connectors in the store
+ * @param {Object[]} canvasElementGuidMap - Map of selected canvas elements guids to a newly generated guid that will be used as
+ * the guid for the duplicate element
+ * @param {Object[]} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
+ * the duplicated child elements
+ * @param {Object[]} connectorsToDuplicate - connectors selected for duplication
+ *
+ * @return {Object[]} new state of connectors after reduction
+ * @private
+ */
+function _duplicateConnector(connectors, canvasElementGuidMap = {}, childElementGuidMap = {}, connectorsToDuplicate = []) {
     let newState = connectors.map((connector) => {
+        // Deselect each connector to be duplicated (since the duplicated connectors will now be selected)
         if (connector.config && connector.config.isSelected) {
             return Object.assign({}, connector, {
                 config: {
@@ -55,13 +69,12 @@ function _duplicateConnector(connectors, canvasElementGuidMap = {}, childElement
 
     for (let i = 0; i < connectorsToDuplicate.length; i++) {
         const originalConnector = connectorsToDuplicate[i];
+        const source = canvasElementGuidMap[originalConnector.source];
+        const target = canvasElementGuidMap[originalConnector.target];
+        const childSource = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
+        const { label, type } = originalConnector;
 
-        const duplicateConnector = Object.assign({}, originalConnector, {
-            guid: generateGuid(),
-            source: canvasElementGuidMap[originalConnector.source],
-            target: canvasElementGuidMap[originalConnector.target],
-            childSource: originalConnector.childSource && childElementMap[originalConnector.childSource]
-        });
+        const duplicateConnector = createConnector(source, childSource, target, label, type, true);
 
         newState = addItem(newState, duplicateConnector);
     }
