@@ -25,7 +25,7 @@ let mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
 let mockSubflowsPromise = Promise.resolve(mockSubflows);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/serverDataLib');
+    const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
