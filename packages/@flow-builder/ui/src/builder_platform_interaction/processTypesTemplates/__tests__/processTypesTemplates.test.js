@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 jest.mock('builder_platform_interaction/systemLib', () => {
     return {
         getProcessTypes: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/processTypesData').MOCK_ALL_PROCESS_TYPES;
+            return require('mock/processTypesData').MOCK_ALL_PROCESS_TYPES;
         }),
     };
 });
