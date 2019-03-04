@@ -1,4 +1,5 @@
 import {
+    isTextAreaField,
     isChoiceField,
     isExtensionField,
     getLocalExtensionFieldType,
@@ -52,8 +53,17 @@ export function createScreenField(screenField = {}) {
 
     let defaultValueFerovObject;
     if (!defaultValueDataType) {
+        // Temporary workaround to fix W-5886211
+        // Todo: Update this as a part of W-5902485
+        let updatedDefaultValue = defaultValue;
+        if (isTextAreaField(screenField) && defaultValue && defaultValue.elementReference) {
+            updatedDefaultValue = {
+                stringValue: `{!${defaultValue.elementReference}}`
+            };
+        }
+
         defaultValueFerovObject = createFEROV(
-            defaultValue,
+            updatedDefaultValue,
             DEFAULT_VALUE_PROPERTY,
             DEFAULT_VALUE_DATA_TYPE_PROPERTY
         );
