@@ -17,6 +17,7 @@ export const systemVariables = [
         devName: 'CurrentDateTime',
         dataType: 'DateTime',
         isAssignable: false,
+        category: 'Flow'
     }
 ];
 

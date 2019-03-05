@@ -1,5 +1,5 @@
 import { hydrateWithErrors, dehydrate, getErrorsFromHydratedElement, getValueFromHydratedItem, getErrorFromHydratedItem } from '../elementDataMutation';
-import {deepCopy} from "builder_platform_interaction/storeLib";
+import {deepCopy, isPlainObject} from "builder_platform_interaction/storeLib";
 
 /** Mock data objects - Start **/
 const testObj = {
@@ -75,12 +75,16 @@ function expectFieldToHaveValueAndErrorProperty(field) {
 }
 
 /**
+ * Check if the given field is not hydrated
  * @param {Object} field - field object to be tested
  */
-function expectCleanFieldWithNoErrors(field) {
-    expect(field).not.toHaveProperty('value');
-    expect(field).not.toHaveProperty('error');
+function expectNotToBeHydrated(field) {
+    if (isPlainObject(field)) {
+        expect(field).not.toHaveProperty('value');
+        expect(field).not.toHaveProperty('error');
+    }
 }
+
 /** Helper Functions - End **/
 
 describe('hydrateWithErrors function', () => {
@@ -111,7 +115,7 @@ describe('hydrateWithErrors function', () => {
         };
         Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
             it(`${fieldKey} should not have the error or value property on itself`, () => {
-                expectCleanFieldWithNoErrors(fieldValue);
+                expectNotToBeHydrated(fieldValue);
             });
         });
     });
@@ -141,7 +145,7 @@ describe('hydrateWithErrors function', () => {
         };
         Object.entries(fieldsNotToBeHydrated).forEach(([fieldKey, fieldValue]) => {
             it(`${fieldKey} should not have the error or value property on itself`, () => {
-                expectCleanFieldWithNoErrors(fieldValue);
+                expectNotToBeHydrated(fieldValue);
             });
         });
     });
@@ -159,7 +163,7 @@ describe('dehydrate function', () => {
     };
     Object.entries(fieldsToBeTestedForDeHydration).forEach(([fieldKey, fieldValue]) => {
         it(`${fieldKey} should not have the error or value property on itself`, () => {
-            expectCleanFieldWithNoErrors(fieldValue);
+            expectNotToBeHydrated(fieldValue);
         });
     });
 });
