@@ -119,8 +119,9 @@ export function isElementAllowed(allowedParamTypes, element, showComplexObjectsF
         || (showComplexObjectsForFields && (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) && isComplexType(element.dataType) && !element.isCollection);
 }
 
+// element.subtype === undefined means chosenElement not a global variable (i.e. $Flow.CurrentStage, $Browser.FormFactor)
 export function isSameCategory(chosenElement, element) {
-    return chosenElement.subtype.indexOf(element.subtype) !== -1;
+    return element.subtype === undefined || chosenElement.subtype.indexOf(element.subtype) !== -1;
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
