@@ -1,13 +1,14 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
     createDecisionWithOutcomes,
+    createDuplicateDecision,
     createOutcome,
     createDecisionWithOutcomeReferencesWhenUpdatingFromPropertyEditor,
     createDecisionWithOutcomeReferences, createDecisionMetadataObject
 } from '../decision';
 import { ELEMENT_TYPE, CONNECTOR_TYPE, CONDITION_LOGIC} from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from "../elementFactoryLabels";
-import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
+import { baseCanvasElement, duplicateCanvasElementWithChildElements, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject } from '../base/baseMetadata';
 import { getConnectionProperties } from "../commonFactoryUtils/decisionAndWaitConnectionPropertiesUtil";
 
@@ -43,6 +44,26 @@ jest.mock('../base/baseElement');
 baseCanvasElement.mockImplementation((element) => {
     return Object.assign({}, element);
 }).mockName('baseCanvasElementMock');
+duplicateCanvasElementWithChildElements.mockImplementation(() => {
+    const duplicatedElement = {};
+    const duplicatedChildElements = {
+        'duplicatedOutcomeGuid': {
+            guid: 'duplicatedOutcomeGuid',
+            name: 'duplicatedOutcomeName'
+        }
+    };
+    const updatedChildReferences = [{
+        'outcomeReference' : 'duplicatedOutcomeGuid'
+    }];
+    const availableConnections = [{
+        type: CONNECTOR_TYPE.REGULAR,
+        childReference: 'duplicatedOutcomeGuid'
+    }, {
+        type: CONNECTOR_TYPE.DEFAULT
+    }];
+
+    return { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections };
+}).mockName('duplicateCanvasElementWithChildElementsMock');
 baseChildElement.mockImplementation((outcome) => {
     return Object.assign({}, outcome);
 }).mockName('baseChildElementMock');
@@ -127,6 +148,35 @@ describe('decision', () => {
                 expect(decision.outcomes[0].guid).toEqual(outcomeReferences[0].outcomeReference);
                 expect(decision.outcomes[1].guid).toEqual(outcomeReferences[1].outcomeReference);
                 expect(decision.outcomes[2].guid).toEqual(outcomeReferences[2].outcomeReference);
+            });
+        });
+    });
+
+    describe('createDuplicateDecision function', () => {
+        const { duplicatedElement, duplicatedChildElements } = createDuplicateDecision({}, 'duplicatedGuid', 'duplicatedName', {}, {});
+
+        it('duplicatedElement has updated outcomeReferences', () => {
+            expect(duplicatedElement.outcomeReferences).toEqual([{
+                'outcomeReference': 'duplicatedOutcomeGuid'
+            }]);
+        });
+        it('duplicatedElement has updated availableConnections', () => {
+            expect(duplicatedElement.availableConnections).toEqual([{
+                type: CONNECTOR_TYPE.REGULAR,
+                childReference: 'duplicatedOutcomeGuid'
+            }, {
+                type: CONNECTOR_TYPE.DEFAULT
+            }]);
+        });
+        it('duplicatedElement has updated defaultConnectorLabel', () => {
+            expect(duplicatedElement.defaultConnectorLabel).toEqual(LABELS.emptyDefaultOutcomeLabel);
+        });
+        it('returns correct duplicatedChildElements', () => {
+            expect(duplicatedChildElements).toEqual({
+                'duplicatedOutcomeGuid': {
+                    guid: 'duplicatedOutcomeGuid',
+                    name: 'duplicatedOutcomeName'
+                }
             });
         });
     });

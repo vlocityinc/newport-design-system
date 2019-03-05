@@ -1,5 +1,5 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { createWaitEvent, createWaitWithWaitEvents } from '../wait';
+import { createWaitEvent, createDuplicateWait, createWaitWithWaitEvents } from '../wait';
 import { createInputParameter, createInputParameterMetadataObject } from '../inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from '../outputParameter';
 import { baseCanvasElement, baseChildElement, createCondition } from "../base/baseElement";
@@ -85,6 +85,28 @@ jest.mock('../base/baseElement', () => {
         baseCanvasElement: jest.fn((element) => {
             return Object.assign({}, element);
         }).mockName('baseCanvasElementMock'),
+        duplicateCanvasElementWithChildElements: jest.fn(() => {
+            const duplicatedElement = {};
+            const duplicatedChildElements = {
+                'duplicatedWaitEventGuid': {
+                    guid: 'duplicatedWaitEventGuid',
+                    name: 'duplicatedWaitEventName'
+                }
+            };
+            const updatedChildReferences = [{
+                'waitEventReference' : 'duplicatedWaitEventGuid'
+            }];
+            const availableConnections = [{
+                type: 'REGULAR',
+                childReference: 'duplicatedWaitEventGuid'
+            }, {
+                type: 'DEFAULT'
+            }, {
+                type: 'FAULT'
+            }];
+
+            return { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections };
+        }).mockName('duplicateCanvasElementWithChildElementsMock'),
         baseChildElement: jest.fn((waitEvent) => {
             return Object.assign({}, waitEvent);
         }).mockName('baseChildElementMock'),
@@ -184,6 +206,37 @@ describe('wait', () => {
             const newWait = createWaitWithWaitEvents();
             it('have a maximum of 2 default connections when no wait events are present', () => {
                 expect(newWait.maxConnections).toEqual(2);
+            });
+        });
+    });
+
+    describe('createDuplicateWait function', () => {
+        const { duplicatedElement, duplicatedChildElements } = createDuplicateWait({}, 'duplicatedGuid', 'duplicatedName', {}, {});
+
+        it('duplicatedElement has updated waitEventReferences', () => {
+            expect(duplicatedElement.waitEventReferences).toEqual([{
+                'waitEventReference': 'duplicatedWaitEventGuid'
+            }]);
+        });
+        it('duplicatedElement has updated availableConnections', () => {
+            expect(duplicatedElement.availableConnections).toEqual([{
+                type: CONNECTOR_TYPE.REGULAR,
+                childReference: 'duplicatedWaitEventGuid'
+            }, {
+                type: CONNECTOR_TYPE.DEFAULT
+            }, {
+                type: CONNECTOR_TYPE.FAULT
+            }]);
+        });
+        it('duplicatedElement has updated defaultConnectorLabel', () => {
+            expect(duplicatedElement.defaultConnectorLabel).toEqual(LABELS.emptyDefaultWaitPathLabel);
+        });
+        it('returns correct duplicatedChildElements', () => {
+            expect(duplicatedChildElements).toEqual({
+                'duplicatedWaitEventGuid': {
+                    guid: 'duplicatedWaitEventGuid',
+                    name: 'duplicatedWaitEventName'
+                }
             });
         });
     });

@@ -1,5 +1,5 @@
-import { createApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
-import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
+import { createApexPlugin, createDuplicateApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
@@ -188,6 +188,65 @@ describe('apexPlugin', () => {
             });
         });
     });
+
+    describe('createDuplicateApexPluginCall function', () => {
+        const originalApexCall = {
+            guid: 'originalGuid',
+            name: 'originalName',
+            label: 'label',
+            elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL,
+            locationX: 100,
+            locationY: 100,
+            config: {
+                isSelectd: true,
+                isHighlighted: false
+            },
+            connectorCount: 1,
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ]
+        };
+        const { duplicatedElement } = createDuplicateApexPlugin(originalApexCall, 'duplicatedGuid', 'duplicatedName');
+
+        it('has the new guid', () => {
+            expect(duplicatedElement.guid).toEqual('duplicatedGuid');
+        });
+        it('has the new name', () => {
+            expect(duplicatedElement.name).toEqual('duplicatedName');
+        });
+        it('has the updated locationX', () => {
+            expect(duplicatedElement.locationX).toEqual(originalApexCall.locationX + 50);
+        });
+        it('has the updated locationY', () => {
+            expect(duplicatedElement.locationY).toEqual(originalApexCall.locationY + 50);
+        });
+        it('has isSelected set to true', () => {
+            expect(duplicatedElement.config.isSelected).toBeTruthy();
+        });
+        it('has isHighlighted set to false', () => {
+            expect(duplicatedElement.config.isHighlighted).toBeFalsy();
+        });
+        it('has connectorCount set to 0', () => {
+            expect(duplicatedElement.connectorCount).toEqual(0);
+        });
+        it('has maxConnections set to 2', () => {
+            expect(duplicatedElement.maxConnections).toEqual(2);
+        });
+        it('has the right elementType', () => {
+            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.APEX_PLUGIN_CALL);
+        });
+        it('has default availableConnections', () => {
+            expect(duplicatedElement.availableConnections).toEqual([{
+                type: CONNECTOR_TYPE.REGULAR
+            }, {
+                type: CONNECTOR_TYPE.FAULT
+            }]);
+        });
+    });
+
     describe('createApexPluginMetadataObject function', () => {
         let apexPluginMetaDataObject;
         describe('when store apexPlugin is passed', () => {

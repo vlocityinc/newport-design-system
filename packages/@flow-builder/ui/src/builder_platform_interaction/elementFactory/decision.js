@@ -47,7 +47,7 @@ export function createDecisionWithOutcomes(decision = {}) {
  *
  * @param {Object} decision - Decision element being copied
  * @param {String} newGuid - Guid for the new duplicated decision element
- * @param {String} newGuid - Name for the new duplicated decision element
+ * @param {String} newName - Name for the new duplicated decision element
  * @param {Object} childElementGuidMap - Map of child element guids to newly generated guids that will be used for
  * the duplicated child elements
  * @param {Object} childElementNameMap - Map of child element names to newly generated unique names that will be used for

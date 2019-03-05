@@ -1,7 +1,8 @@
-import { createRecordLookup, createRecordLookupMetadataObject, createQueriedField} from '../recordLookup';
+import { createRecordLookup, createDuplicateRecordLookup, createRecordLookupMetadataObject, createQueriedField} from '../recordLookup';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -224,6 +225,65 @@ describe('recordLookup', () => {
         expect(actualResult).toMatchObject(uiModelResult);
     });
    });
+
+    describe('createDuplicateRecordLookup function', () => {
+        const originalRecordLookup = {
+            guid: 'originalGuid',
+            name: 'originalName',
+            label: 'label',
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
+            locationX: 100,
+            locationY: 100,
+            config: {
+                isSelectd: true,
+                isHighlighted: false
+            },
+            connectorCount: 1,
+            maxConnections: 2,
+            availableConnections: [
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ]
+        };
+        const { duplicatedElement } = createDuplicateRecordLookup(originalRecordLookup, 'duplicatedGuid', 'duplicatedName');
+
+        it('has the new guid', () => {
+            expect(duplicatedElement.guid).toEqual('duplicatedGuid');
+        });
+        it('has the new name', () => {
+            expect(duplicatedElement.name).toEqual('duplicatedName');
+        });
+        it('has the updated locationX', () => {
+            expect(duplicatedElement.locationX).toEqual(originalRecordLookup.locationX + 50);
+        });
+        it('has the updated locationY', () => {
+            expect(duplicatedElement.locationY).toEqual(originalRecordLookup.locationY + 50);
+        });
+        it('has isSelected set to true', () => {
+            expect(duplicatedElement.config.isSelected).toBeTruthy();
+        });
+        it('has isHighlighted set to false', () => {
+            expect(duplicatedElement.config.isHighlighted).toBeFalsy();
+        });
+        it('has connectorCount set to 0', () => {
+            expect(duplicatedElement.connectorCount).toEqual(0);
+        });
+        it('has maxConnections set to 2', () => {
+            expect(duplicatedElement.maxConnections).toEqual(2);
+        });
+        it('has the right elementType', () => {
+            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.RECORD_LOOKUP);
+        });
+        it('has default availableConnections', () => {
+            expect(duplicatedElement.availableConnections).toEqual([{
+                type: CONNECTOR_TYPE.REGULAR
+            }, {
+                type: CONNECTOR_TYPE.FAULT
+            }]);
+        });
+    });
+
    describe('recordLookup flow metadata => UI model', () => {
      describe('recordLookup function using sObject', () => {
         it('returns a new record update object with same value and the numberRecordsToStore calculated from the inputReference', () => {

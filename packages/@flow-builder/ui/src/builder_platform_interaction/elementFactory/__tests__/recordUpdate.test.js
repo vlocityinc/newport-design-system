@@ -1,9 +1,10 @@
-import { createRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
+import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
 import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 expect.extend(deepFindMatchers);
 
@@ -159,6 +160,65 @@ describe('recordUpdate Mutation', () => {
         });
     });
 });
+
+describe('createDuplicateRecordUpdate function', () => {
+    const originalRecordUpdate = {
+        guid: 'originalGuid',
+        name: 'originalName',
+        label: 'label',
+        elementType: ELEMENT_TYPE.RECORD_UPDATE,
+        locationX: 100,
+        locationY: 100,
+        config: {
+            isSelectd: true,
+            isHighlighted: false
+        },
+        connectorCount: 1,
+        maxConnections: 2,
+        availableConnections: [
+            {
+                type: CONNECTOR_TYPE.FAULT
+            }
+        ]
+    };
+    const { duplicatedElement } = createDuplicateRecordUpdate(originalRecordUpdate, 'duplicatedGuid', 'duplicatedName');
+
+    it('has the new guid', () => {
+        expect(duplicatedElement.guid).toEqual('duplicatedGuid');
+    });
+    it('has the new name', () => {
+        expect(duplicatedElement.name).toEqual('duplicatedName');
+    });
+    it('has the updated locationX', () => {
+        expect(duplicatedElement.locationX).toEqual(originalRecordUpdate.locationX + 50);
+    });
+    it('has the updated locationY', () => {
+        expect(duplicatedElement.locationY).toEqual(originalRecordUpdate.locationY + 50);
+    });
+    it('has isSelected set to true', () => {
+        expect(duplicatedElement.config.isSelected).toBeTruthy();
+    });
+    it('has isHighlighted set to false', () => {
+        expect(duplicatedElement.config.isHighlighted).toBeFalsy();
+    });
+    it('has connectorCount set to 0', () => {
+        expect(duplicatedElement.connectorCount).toEqual(0);
+    });
+    it('has maxConnections set to 2', () => {
+        expect(duplicatedElement.maxConnections).toEqual(2);
+    });
+    it('has the right elementType', () => {
+        expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.RECORD_UPDATE);
+    });
+    it('has default availableConnections', () => {
+        expect(duplicatedElement.availableConnections).toEqual([{
+            type: CONNECTOR_TYPE.REGULAR
+        }, {
+            type: CONNECTOR_TYPE.FAULT
+        }]);
+    });
+});
+
 describe('recordUpdate Demutation', () => {
     describe('recordUpdate function using sObject', () => {
         it('demutate record update using sObject', () => {

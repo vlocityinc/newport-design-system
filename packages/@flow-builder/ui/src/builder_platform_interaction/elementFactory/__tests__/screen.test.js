@@ -1,15 +1,15 @@
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import {
-    createScreenWithFields, createScreenElement,
+    createScreenWithFields, createDuplicateScreen, createScreenElement,
     createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
-    createScreenWithFieldReferences, createScreenMetadataObject,
+    createScreenWithFieldReferences, createScreenMetadataObject
 } from '../screen';
 import {
     createScreenField,
     createScreenFieldMetadataObject
 } from '../screenField';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { baseCanvasElement, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
+import { baseCanvasElement, duplicateCanvasElementWithChildElements, baseChildElement, baseCanvasElementsArrayToMap } from '../base/baseElement';
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject } from '../base/baseMetadata';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -45,6 +45,20 @@ jest.mock('../base/baseElement');
 baseCanvasElement.mockImplementation((element) => {
     return Object.assign({}, element);
 }).mockName('baseCanvasElementMock');
+duplicateCanvasElementWithChildElements.mockImplementation(() => {
+    const duplicatedElement = {};
+    const duplicatedChildElements = {
+        'duplicatedFieldGuid': {
+            guid: 'duplicatedFieldGuid',
+            name: 'duplicatedFieldName'
+        }
+    };
+    const updatedChildReferences = [{
+        'fieldReference' : 'duplicatedFieldGuid'
+    }];
+
+    return { duplicatedElement, duplicatedChildElements, updatedChildReferences };
+}).mockName('duplicateCanvasElementWithChildElementsMock');
 baseChildElement.mockImplementation((field) => {
     return Object.assign({}, field);
 }).mockName('baseChildElementMock');
@@ -92,6 +106,25 @@ describe('screen', () => {
             });
         });
     });
+
+    describe('createDuplicateScreen function', () => {
+        const { duplicatedElement, duplicatedChildElements } = createDuplicateScreen({}, 'duplicatedGuid', 'duplicatedName', {}, {});
+
+        it('duplicatedElement has updated fieldReferences', () => {
+            expect(duplicatedElement.fieldReferences).toEqual([{
+                'fieldReference': 'duplicatedFieldGuid'
+            }]);
+        });
+        it('returns correct duplicatedChildElements', () => {
+            expect(duplicatedChildElements).toEqual({
+                'duplicatedFieldGuid': {
+                    guid: 'duplicatedFieldGuid',
+                    name: 'duplicatedFieldName'
+                }
+            });
+        });
+    });
+
     describe('createScreenMetadataObject', () => {
         let screenFromStore;
 

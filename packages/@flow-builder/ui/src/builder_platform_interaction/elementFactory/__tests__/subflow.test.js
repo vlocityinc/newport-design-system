@@ -1,5 +1,5 @@
-import { createSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
-import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
+import { createSubflow, createDuplicateSubflow, createSubflowMetadataObject, createSubflowWithConnectors } from '../subflow';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 
@@ -203,6 +203,52 @@ describe('subflow', () => {
             it('has no common mutable object with subflow metadata passed as parameter', () => {
                 expect(subflow).toHaveNoCommonMutableObjectWith(subflowMetadata);
             });
+        });
+    });
+
+    describe('createDuplicateSubflow function', () => {
+        const originalSubflow = {
+            guid: 'originalGuid',
+            name: 'originalName',
+            label: 'label',
+            elementType: ELEMENT_TYPE.SUBFLOW,
+            locationX: 100,
+            locationY: 100,
+            config: {
+                isSelectd: true,
+                isHighlighted: false
+            },
+            connectorCount: 1,
+            maxConnections: 1
+        };
+        const { duplicatedElement } = createDuplicateSubflow(originalSubflow, 'duplicatedGuid', 'duplicatedName');
+
+        it('has the new guid', () => {
+            expect(duplicatedElement.guid).toEqual('duplicatedGuid');
+        });
+        it('has the new name', () => {
+            expect(duplicatedElement.name).toEqual('duplicatedName');
+        });
+        it('has the updated locationX', () => {
+            expect(duplicatedElement.locationX).toEqual(originalSubflow.locationX + 50);
+        });
+        it('has the updated locationY', () => {
+            expect(duplicatedElement.locationY).toEqual(originalSubflow.locationY + 50);
+        });
+        it('has isSelected set to true', () => {
+            expect(duplicatedElement.config.isSelected).toBeTruthy();
+        });
+        it('has isHighlighted set to false', () => {
+            expect(duplicatedElement.config.isHighlighted).toBeFalsy();
+        });
+        it('has connectorCount set to 0', () => {
+            expect(duplicatedElement.connectorCount).toEqual(0);
+        });
+        it('has maxConnections set to 1', () => {
+            expect(duplicatedElement.maxConnections).toEqual(1);
+        });
+        it('has the right elementType', () => {
+            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.SUBFLOW);
         });
     });
 });
