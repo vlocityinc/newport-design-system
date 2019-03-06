@@ -15,6 +15,7 @@ import { getEventTypes, getFieldsForEntity } from 'builder_platform_interaction/
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
 import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { systemVariables } from 'mock/systemGlobalVars';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -392,11 +393,7 @@ describe('Menu data retrieval', () => {
 
         describe('system variables', () => {
             beforeEach(() => {
-                const sysVar = [
-                    { devName: 'CurrentDate', isAssignable: false },
-                    { devName: 'CurrentRecord', isAssignable: true },
-                ];
-                setSystemVariables(JSON.stringify(sysVar));
+                setSystemVariables(systemVariables);
                 mockSystemVariables = getSystemVariables();
             });
             it('calls the callback with all system variables when shouldBeWritable is false', () => {
@@ -411,8 +408,10 @@ describe('Menu data retrieval', () => {
                 const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: true };
                 getSecondLevelItems(mockConfig, {subtype: SYSTEM_VARIABLE_PREFIX}, callback);
                 const filteredSystemVariables = callback.mock.calls[0][0];
-                expect(Object.keys(filteredSystemVariables)).toHaveLength(1);
-                expect(Object.values(filteredSystemVariables)[0].apiName).toEqual('CurrentRecord');
+                expect(Object.keys(filteredSystemVariables)).toHaveLength(3);
+                expect(Object.keys(filteredSystemVariables)).toContain("$Flow.CurrentStage");
+                expect(Object.keys(filteredSystemVariables)).toContain("$Flow.ActiveStages");
+                expect(Object.keys(filteredSystemVariables)).toContain("$Flow.CurrentRecord");
             });
         });
         it('should fetch fields for sobject variables', () => {

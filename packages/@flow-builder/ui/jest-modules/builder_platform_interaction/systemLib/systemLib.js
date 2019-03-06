@@ -4,6 +4,7 @@ import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
 import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
+import { systemVariables } from 'mock/systemGlobalVars';
 
 const removeCurlyBraces = (id) => {
     if (typeof id === 'string' && id.startsWith('{!') && id.endsWith('}')) {
@@ -11,15 +12,6 @@ const removeCurlyBraces = (id) => {
     }
     return id;
 };
-
-export const systemVariables = [
-    {
-        devName: 'CurrentDateTime',
-        dataType: 'DateTime',
-        isAssignable: false,
-        category: 'Flow'
-    }
-];
 
 mockSystemLib.setSystemVariables(JSON.stringify(systemVariables));
 

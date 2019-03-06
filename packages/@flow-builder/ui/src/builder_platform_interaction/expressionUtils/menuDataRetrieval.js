@@ -119,11 +119,6 @@ export function isElementAllowed(allowedParamTypes, element, showComplexObjectsF
         || (showComplexObjectsForFields && (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) && isComplexType(element.dataType) && !element.isCollection);
 }
 
-// element.subtype === undefined means chosenElement not a global variable (i.e. $Flow.CurrentStage, $Browser.FormFactor)
-export function isSameCategory(chosenElement, element) {
-    return element.subtype === undefined || chosenElement.subtype.indexOf(element.subtype) !== -1;
-}
-
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 
 /**
@@ -392,7 +387,7 @@ export const getEntitiesMenuData = (entityType) => {
  */
 export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields, showAsFieldReference, showSubText) {
     if (fields) {
-        return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element) && isSameCategory(chosenElement, element)).map((element) => {
+        return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
             return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
         });
     }
@@ -416,7 +411,7 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
     };
 
     if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_BROWSER_PREFIX) {
-        const systemVariables = getSystemVariables();
+        const systemVariables = getSystemVariables(subtype);
         callback(shouldBeWritable ? filterWritable(systemVariables) : systemVariables);
     } else if (getGlobalVariables(subtype)) {
         callback(getGlobalVariables(subtype));

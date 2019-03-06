@@ -53,6 +53,15 @@ export const setSystemVariables = (data) => {
  *
  * @returns {Object} system variables usable in menus
  */
-export const getSystemVariables = () => {
+export const getSystemVariables = (category) => {
+    if (category) {
+        const categoryVariables = {};
+        Object.keys(systemVariables).forEach(key => {
+            if (key.startsWith(category)) {
+                categoryVariables[key] = systemVariables[key];
+            }
+        });
+        return categoryVariables;
+    }
     return systemVariables;
 };
