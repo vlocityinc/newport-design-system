@@ -2,7 +2,7 @@ import { LightningElement, api, track } from "lwc";
 import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable,
     shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal, calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from './canvasContainerUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { deselectOnCanvas, updateElement } from 'builder_platform_interaction/actions';
+import { deselectOnCanvas, updateCanvasElementLocation } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /** Private singleton variables */
@@ -85,7 +85,7 @@ export default class CanvasContainer extends LightningElement {
                 locationX: event.detail.locationX,
                 locationY: event.detail.locationY
             };
-            storeInstance.dispatch(updateElement(payload));
+            storeInstance.dispatch(updateCanvasElementLocation(payload));
         }
     };
 

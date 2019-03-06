@@ -10,6 +10,8 @@ const initialStoreState = {
     canvasElements: [],
     variables: []
 };
+const MOCK_GROUPED_ACTION = 'mockGroupedAction';
+const MOCK_GROUPED_ACTION2 = 'mockGroupedAction2';
 
 const storeStateWithOneMockElement = {
     elements: {'guid1': {
@@ -30,9 +32,13 @@ const mockReducerFn = jest.fn().mockImplementation(x => x);
 
 describe('UndoRedo Library Function', () => {
     const blacklistedActions = [INIT];
+    const groupedActions = [MOCK_GROUPED_ACTION, MOCK_GROUPED_ACTION2];
     const mockInitAction = {type: INIT};
     const mockRedoAction = {type: REDO};
     const mockUndoAction = {type: UNDO};
+    const mockGroupedAction = {type: MOCK_GROUPED_ACTION};
+    const mockGroupedAction2 = {type: MOCK_GROUPED_ACTION2};
+
     const mockTestAction = {type: "test"};
 
     let undoRedo, isUndoAvailable, isRedoAvailable, undoRedoFnWithMockReducer;
@@ -41,7 +47,7 @@ describe('UndoRedo Library Function', () => {
         undoRedo = require('../undoRedoLib').undoRedo;
         isUndoAvailable = require('../undoRedoLib').isUndoAvailable;
         isRedoAvailable = require('../undoRedoLib').isRedoAvailable;
-        undoRedoFnWithMockReducer = undoRedo(mockReducerFn, {blacklistedActions});
+        undoRedoFnWithMockReducer = undoRedo(mockReducerFn, {blacklistedActions, groupedActions});
     });
 
     describe('UndoRedo function - Switch case - Default', () => {
@@ -52,6 +58,26 @@ describe('UndoRedo Library Function', () => {
         it('Expect the return state from undo redo to be same as initialStateStore', () => {
             const result = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
             expect(result).toEqual(initialStoreState);
+        });
+        it('Expect No state is added to past until all the consecutive actions are the same groupedAction', () => {
+            const stateAfterInit = undoRedoFnWithMockReducer(initialStoreState, mockInitAction); // Init action does not create a past state.
+            const stateAfterOneGroupedAction = undoRedoFnWithMockReducer(stateAfterInit, mockGroupedAction);
+            undoRedoFnWithMockReducer(stateAfterOneGroupedAction, mockGroupedAction);
+            expect(isUndoAvailable()).toBe(false);
+        });
+        it('Expect one state is added to past when a different grouped action is fired', () => {
+            const stateAfterInit = undoRedoFnWithMockReducer(initialStoreState, mockInitAction); // Init action does not create a past state.
+            const stateAfterOneGroupedAction = undoRedoFnWithMockReducer(stateAfterInit, mockGroupedAction);
+            const stateAfterSecondGroupedAction = undoRedoFnWithMockReducer(stateAfterOneGroupedAction, mockGroupedAction);
+            undoRedoFnWithMockReducer(stateAfterSecondGroupedAction, mockGroupedAction2);
+            expect(isUndoAvailable()).toBe(true);
+        });
+        it('Expect one state is added to past when a non-grouped action is fired after a series of grouped actions', () => {
+            const stateAfterInit = undoRedoFnWithMockReducer(initialStoreState, mockInitAction); // Init action does not create a past state.
+            const stateAfterOneGroupedAction = undoRedoFnWithMockReducer(stateAfterInit, mockGroupedAction);
+            const stateAfterSecondGroupedAction = undoRedoFnWithMockReducer(stateAfterOneGroupedAction, mockGroupedAction);
+            undoRedoFnWithMockReducer(stateAfterSecondGroupedAction, mockTestAction);
+            expect(isUndoAvailable()).toBe(true);
         });
     });
     describe('UndoRedo function - Switch Case - Undo', () => {

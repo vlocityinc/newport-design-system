@@ -3,7 +3,7 @@ import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from '
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo,
-    UPDATE_PROPERTIES_AFTER_SAVING } from 'builder_platform_interaction/actions';
+    UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -84,7 +84,12 @@ export default class Editor extends LightningElement {
             INIT,
             UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
         ];
-        storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib}));
+        const groupedActions = [
+            TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
+            DESELECT_ON_CANVAS, // is dispatched when user clicks on the blank space in canvas.
+            UPDATE_CANVAS_ELEMENT_LOCATION, // is dispatched when elements are moved on canvas.
+        ];
+        storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib, groupedActions}));
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
         const getPeripheralDataForPropertyEditor = fetchOnce(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR, {

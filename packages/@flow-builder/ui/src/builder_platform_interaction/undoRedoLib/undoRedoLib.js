@@ -6,7 +6,7 @@
 let past =  [];
 let present;
 let future = [];
-
+let lastAction; // Used in grouping the multiple actions into one state
 /**
  * Undo Function
  *  - Adds the present state object to the future state array.
@@ -72,10 +72,10 @@ export const isRedoAvailable = () => {
 /**
  * Higher order function to be used on top of reducer function in the app.
  * @param {*} reducer - reducer function for the app. Combined Reducer in case of flow builder
- * @param {Object} config - Config object containing blacklistedActions array
+ * @param {Object} config - Config object containing blacklistedActions array & groupedActions array
  * @returns {Object} Reduced state object
  */
-export const undoRedo = (reducer, {blacklistedActions = []}) => (state = {}, action) => {
+export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}) => (state = {}, action) => {
     switch (action.type) {
         case UNDO: {
             ({past, present, future} = undo(past, present, future));
@@ -90,12 +90,16 @@ export const undoRedo = (reducer, {blacklistedActions = []}) => (state = {}, act
             if (blacklistedActions.includes(action.type)) {
                 return newState;
             }
-            // Do not ever put undefined in the past state. This would result in undo state corruption.
-            if (present) {
-                past = [...past, present];
+
+            if (groupedActions.includes(action.type) && (lastAction === action.type)) {
+                present = newState;
+            } else {
+                // Do not ever put undefined in the past state. Else it would result in undo state corruption.
+                past = present ? [...past, present] : past;
+                present = newState;
+                future = [];
             }
-            present = newState;
-            future = [];
+            lastAction = action.type;
         }
     }
     return present;

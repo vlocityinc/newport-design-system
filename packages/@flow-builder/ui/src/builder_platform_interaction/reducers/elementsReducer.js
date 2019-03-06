@@ -20,7 +20,8 @@ import {
     UPDATE_RECORD_LOOKUP,
     ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS,
-    ADD_START_ELEMENT
+    ADD_START_ELEMENT,
+    UPDATE_CANVAS_ELEMENT_LOCATION,
 } from "builder_platform_interaction/actions";
 import { isDevNameInStore } from "builder_platform_interaction/storeUtils";
 import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
@@ -44,6 +45,7 @@ export default function elementsReducer(state = {}, action) {
         case ADD_START_ELEMENT:
         case ADD_RESOURCE:
         case UPDATE_CANVAS_ELEMENT:
+        case UPDATE_CANVAS_ELEMENT_LOCATION:
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(state, action.payload.guid, action.payload);
         case UPDATE_VARIABLE_CONSTANT:

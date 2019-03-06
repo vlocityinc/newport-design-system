@@ -11,6 +11,7 @@ export const DO_DUPLICATE = 'DO_DUPLICATE';
 
 export const ADD_CANVAS_ELEMENT = 'ADD_CANVAS_ELEMENT';
 export const UPDATE_CANVAS_ELEMENT = 'UPDATE_CANVAS_ELEMENT';
+export const UPDATE_CANVAS_ELEMENT_LOCATION = 'UPDATE_CANVAS_ELEMENT_LOCATION';
 
 export const DELETE_ELEMENT = 'DELETE_ELEMENT';
 
@@ -264,3 +265,11 @@ export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
  * @returns {Object} action new action based on type and payload
  */
 export const highlightOnCanvas = (payload) => createAction(HIGHLIGHT_ON_CANVAS, payload);
+
+/**
+ * Action for updating the location of canvas element. This is needed in additon to updateElement
+ * because we are grouping this action in undoRedo lib to achieve multi move into one undo state.
+ * @param {Object} payload - contains guid & position coordinates for the canvas element.
+ * @returns {Object} action - updateCanvasElementLocation action
+ */
+export const updateCanvasElementLocation = (payload) => createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
