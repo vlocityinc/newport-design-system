@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ChoiceEditor from '../choiceEditor';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { choiceReducer } from '../choiceReducer';
@@ -39,6 +38,16 @@ const focusoutEvent = new FocusEvent('focusout', {
     'composed' : true,
     'cancelable': true
 });
+
+const blurEvent = new FocusEvent('blur', {
+    'bubbles'   : true,
+    'composed' : true,
+    'cancelable': true
+});
+
+function getShadowRoot(editor) {
+    return editor.shadowRoot;
+}
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
@@ -148,7 +157,7 @@ describe('choice-editor', () => {
         });
     });
 
-    describe('Handles focus out for Choice Text input field', () => {
+    describe('Handles on change for Choice Text input field', () => {
         let choiceEditor;
         beforeEach(() => {
             choiceEditor = setupComponentUnderTest(defaultChoiceObject);
@@ -162,8 +171,7 @@ describe('choice-editor', () => {
                     serializeToString: () =>  newValue
                 }));
                 const choiceTextResourcedRichText = getShadowRoot(choiceEditor).querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
-                const lightningInputRichText = getShadowRoot(choiceTextResourcedRichText).querySelector(SELECTORS.LIGHTNING_INPUT_RICH_TEXT);
-                lightningInputRichText.dispatchEvent(new CustomEvent('change', {
+                choiceTextResourcedRichText.dispatchEvent(new CustomEvent('change', {
                     detail: {
                         value: newValue
                     }
@@ -418,6 +426,57 @@ describe('choice-editor', () => {
                     value: newValue,
                     error: LABELS.cannotBeBlank
                 });
+            });
+        });
+
+        describe('Handles on blur for Prompt Text input field', () => {
+            it('When input contains a p tag at the beginning', () => {
+                const choiceObject = {
+                    choiceText: {value :'<p>my value</p>', error: null },
+                    dataType: 'String',
+                    description: 'Desc',
+                    elementType: 'CHOICE',
+                    guid: 'guid_1',
+                    isShowInputSelected: true,
+                    isValidateSelected: false,
+                    name: 'choice1',
+                    storedValue: 'storedValue',
+                    userInput: {
+                        promptText: 'promptText',
+                        isRequired: true,
+                        validationRule: undefined
+                    }
+                };
+                choiceEditor = setupComponentUnderTest(choiceObject);
+                const choiceTextResourcedRichText = getShadowRoot(choiceEditor).querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
+
+                choiceTextResourcedRichText.dispatchEvent(blurEvent);
+
+                expect(choiceEditor.getNode().choiceText.value).toBe('my value');
+            });
+            it('When input contains a p tag in the middle', () => {
+                const choiceObject = {
+                    choiceText: {value :'my <p>value</p>', error: null },
+                    dataType: 'String',
+                    description: 'Desc',
+                    elementType: 'CHOICE',
+                    guid: 'guid_1',
+                    isShowInputSelected: true,
+                    isValidateSelected: false,
+                    name: 'choice1',
+                    storedValue: 'storedValue',
+                    userInput: {
+                        promptText: 'promptText',
+                        isRequired: true,
+                        validationRule: undefined
+                    }
+                };
+                choiceEditor = setupComponentUnderTest(choiceObject);
+                const choiceTextResourcedRichText = getShadowRoot(choiceEditor).querySelector(SELECTORS.RESOURCE_RICH_TEXT_EDITOR);
+
+                choiceTextResourcedRichText.dispatchEvent(blurEvent);
+
+                expect(choiceEditor.getNode().choiceText.value).toBe('my <p>value</p>');
             });
         });
 

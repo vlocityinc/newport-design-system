@@ -166,12 +166,12 @@ export default class ChoiceEditor extends LightningElement {
     updateInputValue(inputElement, propertyName, error = null) {
         let newLabel = inputElement.value;
         newLabel = (newLabel || '').trim();
+
         if (newLabel !== inputElement.value) {
             // if whitespace was removed we need to update the input
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newLabel;
         }
-
         if (!newLabel && !error) {
             error = LABELS.cannotBeBlank;
         }
@@ -187,6 +187,19 @@ export default class ChoiceEditor extends LightningElement {
         event.stopPropagation();
         const action = this.updateInputValue(event.detail, CHOICE_FIELDS.CHOICE_TEXT);
         this.choiceResource = choiceReducer(this.choiceResource, action);
+    }
+
+    /**
+     * Handles choiceText on blur event.
+     * The resourced rich text editor is adding a p tag in the beginning of the text, for the choice editor we need to remove this p tag.
+     * @param {object} event - change event coming from resourced rich text editor
+     */
+    handleChoiceLabelBlur(event) {
+        event.stopPropagation();
+        // if the value start with <p> tag we should remove it W-5886583
+        if (this.choiceResource.choiceText.value && this.choiceResource.choiceText.value.match(/^<p>/i)) {
+            this.choiceResource.choiceText.value = this.choiceResource.choiceText.value.replace('<p>', '').replace('</p>', '');
+        }
     }
 
     /**
