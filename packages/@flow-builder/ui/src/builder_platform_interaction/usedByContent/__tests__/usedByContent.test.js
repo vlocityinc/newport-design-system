@@ -15,7 +15,7 @@ const selectors = {
     usedBySectionHeaderTitle: '.test-list-header-title',
     usedBySectionItems: '.test-list-section-items',
     usedBySectionItem: '.test-list-section-item',
-    usedByStandardIcon: 'builder_platform_interaction-element-icon'
+    usedByContentItem: 'builder_platform_interaction-used-by-content-item'
 };
 
 describe('Used-By-Content component', () => {
@@ -69,8 +69,8 @@ describe('Used-By-Content component', () => {
             }];
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
             return Promise.resolve().then(() => {
-                const usedBySectionItemStandardIcon = getShadowRoot(usedByContentComponent).querySelector(selectors.usedByStandardIcon);
-                expect(usedBySectionItemStandardIcon).not.toBeNull();
+                const usedBySectionItemContentItem = getShadowRoot(usedByContentComponent).querySelector(selectors.usedByContentItem);
+                expect(usedBySectionItemContentItem).not.toBeNull();
             });
         });
     });

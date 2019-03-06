@@ -4,16 +4,9 @@
         <ul if:true={listSectionItems} class='slds-has-block-links test-list-section-items'>
             <template for:each={listSectionItems} for:item='listItem'>
                 <li key={listItem.guid} class='slds-p-vertical_x-small test-list-section-item'>
-                    <div class="slds-grid slds-grid_vertical-align-center">
-                        <builder_platform_interaction-element-icon
-                                if:true={listItem.iconName}
-                                icon-name={listItem.iconName}
-                                icon-size='small'
-                                title={listItem.name}
-                                alternative-text={listItem.name}>
-                        </builder_platform_interaction-element-icon>
-                        <span class="test-list-item-name">{listItem.name}</span>
-                    </div>
+                    <builder_platform_interaction-used-by-content-item list-item={listItem}
+                                                                       show-locator-icon={isResourceDetails}>
+                    </builder_platform_interaction-used-by-content-item>
                 </li>
             </template>
         </ul>
