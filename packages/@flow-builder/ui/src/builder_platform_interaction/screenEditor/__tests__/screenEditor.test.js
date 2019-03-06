@@ -24,7 +24,25 @@ import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    };
+    const getStore = function () {
+        return {
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
 
 const CANVAS_ELEMENT_NAME = 'builder_platform_interaction-screen-editor-canvas';
 const EDITOR_CONTAINER_ELEMENT_NAME = 'builder_platform_interaction-screen-properties-editor-container';
@@ -47,7 +65,9 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             }
             // getElementByGuid returns undefined if no element can be found, this is by design
             return undefined;
-        }
+        },
+        getDuplicateDevNameElements: jest.fn(),
+        isDevNameInStore: jest.fn()
     };
 });
 

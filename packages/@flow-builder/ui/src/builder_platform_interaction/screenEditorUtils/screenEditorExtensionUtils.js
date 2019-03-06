@@ -7,6 +7,7 @@ const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
+let flowProcessTypeCache;
 let _retriever; // Retrieves extensions list and notifies all callbacks that registered while the operation was taking place
 
 export const EXTENSION_TYPE_SOURCE = {LOCAL:'local', SERVER: 'server'};
@@ -108,11 +109,11 @@ function transformDefaultValue(value) {
  * @param {Boolean} refreshCache - Refresh the cached list, if any. (data will be retrieved form the server)
  * @param {Function} callback - The callback to execute to notify, fn(data, error)
  */
-export function listExtensions(refreshCache, callback) {
+export function listExtensions(flowProcessType, refreshCache, callback) {
     if (!refreshCache && extensionCache.length) {
         callback(extensionCache.slice(0), null);
     } else {
-        const retriever = getListExtensionsRetriever();
+        const retriever = getListExtensionsRetriever(flowProcessType);
         retriever.callbacks.push(callback);
         retriever.retrieve();
     }
@@ -121,7 +122,7 @@ export function listExtensions(refreshCache, callback) {
 /*
  * Returns an object that will retrieve the extensions list and have an array of callbacks to be notified when the call returns from the server
  */
-function getListExtensionsRetriever() {
+function getListExtensionsRetriever(flowProcessType) {
     if (!_retriever) {
         let started = false;
         _retriever = {
@@ -130,6 +131,7 @@ function getListExtensionsRetriever() {
                 if (!started) {
                     started = true;
                     const cbs = this.callbacks;
+                    extensionCache = [];
                     fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, ({data, error}) => {
                         _retriever.callbacks = [];
                         _retriever = null;
@@ -139,6 +141,7 @@ function getListExtensionsRetriever() {
                                 callback(null, error);
                             }
                         } else {
+                            flowProcessTypeCache = flowProcessType;
                             for (const extension of data) {
                                 extensionCache.push(freeze({
                                     name: extension.qualifiedApiName,
@@ -156,6 +159,8 @@ function getListExtensionsRetriever() {
                                 callback(extensionCache.slice(0), null); // clone the array
                             }
                         }
+                    }, {
+                        flowProcessType
                     });
                 }
             }
@@ -171,6 +176,10 @@ function getListExtensionsRetriever() {
  */
 export function getAllCachedExtensionTypes() {
     return extensionCache;
+}
+
+export function getCachedFlowProcessType() {
+    return flowProcessTypeCache;
 }
 
 /**

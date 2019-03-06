@@ -7,6 +7,7 @@ import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -90,7 +91,8 @@ export default class ScreenEditor extends LightningElement {
     processPaletteExtensions() {
         // Get all screen field types
         this.screenFieldTypes = getAllScreenFieldTypes();
-        getExtensionFieldTypes().then(data => {
+        const { processType: flowProcessType } = Store.getStore().getCurrentState().properties;
+        getExtensionFieldTypes(flowProcessType).then(data => {
             const rawScreen = unwrap(this.screen);
             this.extensionTypes = data;
             // Force rerender of the canvas.
