@@ -7,12 +7,13 @@ import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
-const { DATA_TYPE, IS_COLLECTION, ELEMENT_TYPE, CANNOT_BE_ELEMENTS,
+const { DATA_TYPE, IS_COLLECTION, CANNOT_BE_ELEMENTS,
     MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
 const IS_SOBJECT_FIELD = 'isSObjectField';
 const IS_SYSTEM_VARIABLE = 'isSystemVariable';
+const ELEMENT_TYPE = 'elementType';
 
 let operatorsInstance = {};
 
@@ -60,8 +61,8 @@ export const getDataType = (element) => {
  * @param {param} param        the param we are extracting the value from
  * @returns {String}            the value at the given property
  */
-const getDataTypeOrElementType = (param) => {
-    return param[DATA_TYPE] ? param[DATA_TYPE] : param[ELEMENT_TYPE];
+const getDataTypeOrElementTypes = (param) => {
+    return param[DATA_TYPE] ? [param[DATA_TYPE]] : [...param[MUST_BE_ELEMENTS]];
 };
 
 /**
@@ -200,14 +201,16 @@ const ruleAllowedInElementEditor = (rule, elementType) => {
  * @param {param} param   Param to be stringified and added to the map
  * @param {String} type   dataTypeLib.FLOW_DATA_TYPE, flowMetadata.ELEMENT_TYPE, or sObject api name
  */
-const addParamToTypeMap = (map, param, type) => {
-    if (!type) {
-        type = getDataTypeOrElementType(param);
+const addParamToTypeMap = (map, param, types) => {
+    if (!types) {
+        types = getDataTypeOrElementTypes(param);
     }
-    if (!map.hasOwnProperty(type)) {
-        map[type] = new Set();
-    }
-    map[type].add(JSON.stringify(param));
+    types.forEach(type => {
+        if (!map.hasOwnProperty(type)) {
+            map[type] = new Set();
+        }
+        map[type].add(JSON.stringify(param));
+    });
 };
 
 /**
@@ -326,12 +329,12 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
         if (ruleAllowedInElementEditor(rule, elementType) &&
         (operator === rule[OPERATOR] && isMatch(rule[LEFT], lhsElement))) {
             rule[RHS_PARAMS].forEach((rhsParam) => {
-                let type = getDataTypeOrElementType(rhsParam);
-                if (isComplexType(type)) {
+                let type = getDataTypeOrElementTypes(rhsParam);
+                if (isComplexType(type[0])) {
                     // if element is an sObject, we want to track by object type because sObject type must match exactly
                     type = lhsElement.subtype;
                 }
-                addParamToTypeMap(paramTypeMap, rhsParam, type);
+                addParamToTypeMap(paramTypeMap, rhsParam, [type]);
             });
         }
     });

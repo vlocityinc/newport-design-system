@@ -636,22 +636,22 @@ describe('base expression builder', () => {
         const multipleRHSTypes = {
             String: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'String',
             }],
             Number: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'Number',
             }],
             Currency: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'Currency',
             }],
             Date: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'Date',
             }],
         };
@@ -659,12 +659,12 @@ describe('base expression builder', () => {
         const numberAndCurrencyTypes = {
             Number: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'Number',
             }],
             Currency: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'Currency',
             }],
         };
@@ -672,7 +672,7 @@ describe('base expression builder', () => {
         const booleanRHSType = {
             Boolean: [{
                 paramType: 'Data',
-                canBeElements: [ELEMENT_TYPE.VARIABLE],
+                mustBeElements: [ELEMENT_TYPE.VARIABLE],
                 dataType: 'Boolean',
             }],
         };

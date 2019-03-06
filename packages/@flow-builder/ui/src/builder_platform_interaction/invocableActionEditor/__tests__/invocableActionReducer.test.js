@@ -86,7 +86,7 @@ describe('invocable-action-reducer', () => {
                 newState = invocableActionReducer(originalState, event);
         });
         it('should merge input parameters', () => {
-            expect(newState.inputParameters).toHaveLength(5);
+            expect(newState.inputParameters).toHaveLength(6);
         });
         it('should merge output parameters', () => {
             expect(newState.outputParameters).toHaveLength(2);

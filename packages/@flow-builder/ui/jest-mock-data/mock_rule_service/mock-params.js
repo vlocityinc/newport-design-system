@@ -9,76 +9,61 @@ const allElements = ['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIE
 
 export const dateParam = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Date',
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const datetimeParam = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'DateTime',
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const dateCollectionParam = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Date',
     collection:true,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const stringParam = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'String',
     collection:false,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const numberParamMustBeField = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Number',
     collection:false,
     canBeSobjectField:'MustBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 export const numberParamCannotBeField = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Number',
     collection:false,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const numberParamCanBeField = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Number',
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const stageCollectionParam = {
     paramType:'Element',
-    paramIndex:1,
     elementType:'STAGE',
     collection:true,
     canBeSobjectField:'CannotBe',
@@ -88,7 +73,6 @@ export const stageCollectionParam = {
 
 export const stageParam = {
     paramType:'Element',
-    paramIndex:1,
     elementType:'STAGE',
     collection:false,
     canBeSobjectField:'CannotBe',
@@ -98,26 +82,34 @@ export const stageParam = {
 
 export const booleanParam = {
     paramType:'Data',
-    paramIndex:1,
     dataType:'Boolean',
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements:allElements,
 };
 
 export const sobjectParam = {
     paramType: 'Data',
-    paramIndex: 1,
     dataType: 'SObject',
     collection: false,
     canBeSobjectField: 'CanBe',
     canBeSystemVariable: 'CanBe',
-    canBeElements: allElements,
+};
+
+export const apexParam = {
+    paramType: 'Data',
+    dataType: 'Apex',
+    collection: false,
+    canBeSobjectField: 'CannotBe',
+    canBeSystemVariable: 'CannotBe',
 };
 
 export const accountParam = {
     Account: [sobjectParam],
+};
+
+export const apexClassParam = {
+    apexClass: [apexParam],
 };
 
 export const datetimeParamTypes = {
@@ -128,16 +120,13 @@ export const datetimeParamTypes = {
 // these params deal with hypothetical situations that we account for but don't exist right now
 export const dateParamMissingCollection = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
-    canBeElements: allElements,
 };
 
 export const dateParamMustBeElements = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
@@ -146,7 +135,6 @@ export const dateParamMustBeElements = {
 
 export const dateParamCannotBeElements = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
@@ -155,7 +143,6 @@ export const dateParamCannotBeElements = {
 
 export const dateParamNoElementsList = {
     paramType:'Data',
-    paramIndex:1,
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',

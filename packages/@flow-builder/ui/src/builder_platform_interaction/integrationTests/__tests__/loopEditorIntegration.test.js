@@ -11,6 +11,7 @@ import {
     accountSObjectVariableDevName,
     accountSObjectVariableGuid,
     caseSObjectCollectionVariableDevName,
+    apexSampleCollectionVariableDevName,
 } from "mock/storeData";
 import { resolveRenderCycles} from '../resolveRenderCycles';
 
@@ -405,16 +406,20 @@ describe('Loop Editor', () => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
                 colVariableLightningCombobox.click();
                 return resolveRenderCycles(() => {
-                    expect(colVariableLightningCombobox.items).toHaveLength(3);
-                    expect(colVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL');
+                    expect(colVariableLightningCombobox.items).toHaveLength(4);
+                    expect(colVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL');
+                    // There is 1 apex variable with 'isCollection: true' in the mock-store data
+                    expect(colVariableLightningCombobox.items[1].items).toHaveLength(1);
+                    expect(colVariableLightningCombobox.items[1].items[0].text).toBe(apexSampleCollectionVariableDevName);
+                    expect(colVariableLightningCombobox.items[2].label).toBe('FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL');
                     // There are 3 non-sObject variables with 'isCollection: true' in the mock-store data
-                    expect(colVariableLightningCombobox.items[1].items).toHaveLength(3);
-                    expect(colVariableLightningCombobox.items[1].items[0].text).toBe(stringCollectionVariable1DevName);
-                    expect(colVariableLightningCombobox.items[2].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONVARIABLEPLURALLABEL');
+                    expect(colVariableLightningCombobox.items[2].items).toHaveLength(3);
+                    expect(colVariableLightningCombobox.items[2].items[0].text).toBe(stringCollectionVariable1DevName);
+                    expect(colVariableLightningCombobox.items[3].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONVARIABLEPLURALLABEL');
                     // There are 2 sObject collection variables in the mock-store data
-                    expect(colVariableLightningCombobox.items[2].items).toHaveLength(2);
-                    expect(colVariableLightningCombobox.items[2].items[0].text).toBe(accountSObjectCollectionVariableDevName);
-                    expect(colVariableLightningCombobox.items[2].items[0].subText).toBe('Account');
+                    expect(colVariableLightningCombobox.items[3].items).toHaveLength(2);
+                    expect(colVariableLightningCombobox.items[3].items[0].text).toBe(accountSObjectCollectionVariableDevName);
+                    expect(colVariableLightningCombobox.items[3].items[0].subText).toBe('Account');
                 });
             });
         });

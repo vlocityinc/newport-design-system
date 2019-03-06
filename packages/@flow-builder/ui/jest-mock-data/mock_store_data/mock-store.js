@@ -20,7 +20,8 @@ export const caseSObjectCollectionVariableGuid = 'guid17';
 export const stringConstantGuid = 'guid18';
 export const textTemplateGuid = 'guid19';
 export const waitEventGuid = 'guid20';
-const apexSampleVariableGuid = 'guid21';
+export const apexSampleVariableGuid = 'guid21';
+export const apexSampleCollectionVariableGuid = 'guid22';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -43,7 +44,8 @@ export const decisionDevName = "decision1";
 export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
 export const textTemplateDevName = 'textTemplate1';
 export const waitEventDevName = "waitEvent1";
-const apexSampleVariableDevName = 'apexVariable1';
+export const apexSampleVariableDevName = 'apexVariable1';
+export const apexSampleCollectionVariableDevName = 'apexCollectionVariable1';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -343,6 +345,18 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: apexSampleVariableDevName,
+        subtype: apexClass,
+    },
+    [apexSampleCollectionVariableGuid]: {
+        dataType: apexDataType,
+        description: '',
+        elementType: variable,
+        guid: apexSampleCollectionVariableGuid,
+        isCanvasElement: false,
+        isCollection: true,
+        isInput: false,
+        isOutput: false,
+        name: apexSampleCollectionVariableDevName,
         subtype: apexClass,
     },
 };

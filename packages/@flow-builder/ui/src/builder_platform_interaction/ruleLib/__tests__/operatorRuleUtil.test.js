@@ -266,7 +266,7 @@ describe('Operator Rule Util', () => {
 
         it('should return all the rhsTypes for the comparison rules, excluding appropriately', () => {
             const rhsTypes = getRHSTypes(ELEMENT_TYPE.DECISION, elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
-            const expectedDateTime = mockRules[6][RHS_PARAMS][0];
+            const expectedDateTime = mockRules[4][RHS_PARAMS][0];
             expect(rhsTypes).toMatchObject({
                 'DateTime': [expectedDateTime],
             });
@@ -343,4 +343,7 @@ describe('Operator Rule Util', () => {
             expect(isRequired).toEqual(true);
         });
     });
+
+    // no element param any more
+// if it's an apex type, store by apex class name in allowedParamType map
 });

@@ -2,9 +2,12 @@ import {
     elementTypeToConfigMap,
     getConfigForElementType,
     isCanvasElement,
-    isChildElement
+    isChildElement,
+    getElementCategory,
 } from "../elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { LABELS } from "../elementConfigLabels";
 
 function verifyConfig(elementType, config) {
     let expectedConfig = elementTypeToConfigMap[elementType];
@@ -56,6 +59,27 @@ describe('element-config', () => {
 
         it('returns false for a top level element', () => {
             expect(isChildElement(ELEMENT_TYPE.ASSIGNMENT)).toEqual(false);
+        });
+    });
+
+    describe('assigns menu item category', () => {
+        it('for elements', () => {
+            expect(getElementCategory(ELEMENT_TYPE.ASSIGNMENT)).toEqual(LABELS.assignmentPluralLabel);
+        });
+        it('for collections', () => {
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.NUMBER, true)).toEqual(LABELS.collectionVariablePluralLabel);
+        });
+        it('for sobjects', () => {
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, false)).toEqual(LABELS.sObjectVariablePluralLabel);
+        });
+        it('for sobject collections', () => {
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, true)).toEqual(LABELS.sObjectCollectionVariablePluralLabel);
+        });
+        it('for apex variables', () => {
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, false)).toEqual(LABELS.apexVariablePluralLabel);
+        });
+        it('for apex variable collections', () => {
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, true)).toEqual(LABELS.apexCollectionVariablePluralLabel);
         });
     });
 });

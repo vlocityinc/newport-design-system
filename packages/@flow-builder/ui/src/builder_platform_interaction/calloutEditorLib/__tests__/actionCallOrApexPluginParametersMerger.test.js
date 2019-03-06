@@ -29,7 +29,19 @@ const nodeInputParameters = [
             error: null
           },
           valueDataType: 'String',
-      }
+      },
+        {
+            rowIndex: mockGuid,
+            name: {
+                value: 'apexClassParam',
+                error: null
+            },
+            value: {
+                value: '578b0f58-zfe1-4ddb-9d7e-fdfe6ab5703f',
+                error: null
+            },
+            valueDataType: 'String',
+        },
     ];
 
 const nodeOutputParameters = [
@@ -82,6 +94,7 @@ const mergedInputs = [
         maxOccurs: 1,
         name: 'communityId',
         rowIndex: mockGuid,
+        subtype: undefined,
     },
     {
         dataType: 'String',
@@ -95,6 +108,7 @@ const mergedInputs = [
           error: null
         },
         valueDataType: 'reference',
+        subtype: undefined,
     },
     {
         dataType: 'String',
@@ -108,6 +122,7 @@ const mergedInputs = [
           error: null
         },
         valueDataType: 'String',
+        subtype: undefined,
     },
     {
         dataType: 'SObject',
@@ -126,6 +141,20 @@ const mergedInputs = [
         name: 'accountList',
         subtype: 'Account',
         rowIndex: mockGuid,
+    },
+    {
+        dataType: 'Apex',
+        isRequired: false,
+        label: 'Apex Class Param',
+        maxOccurs: 1,
+        name: 'apexClassParam',
+        subtype: 'ApexClass',
+        rowIndex: mockGuid,
+        value: {
+            value: '578b0f58-zfe1-4ddb-9d7e-fdfe6ab5703f',
+            error: null
+        },
+        valueDataType: 'String',
     },
 ];
 

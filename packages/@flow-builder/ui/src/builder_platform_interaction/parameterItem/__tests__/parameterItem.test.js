@@ -489,22 +489,27 @@ describe('parameter-item', () => {
             expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).toBeNull();
         });
     });
-    describe('when data type is SObject', () => {
-        it('disable field drilldown for input', () => {
-            const item = createMockParameterItem(false, FLOW_DATA_TYPE.SOBJECT.value, undefined, undefined, 'Account');
+    describe('when data type is SObject or Apex', () => {
+        const testDisableDrilldown = (dataType, isInput) => {
+            const item = createMockParameterItem(false, dataType, undefined, undefined, 'Account');
             const parameterItemCmp = createComponentForTest({
                 item,
-                isInput : true
+                isInput,
             });
-            expect(getFerovResourcePickerElement(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
+            const compRetrievalFn = isInput ? getFerovResourcePickerElement : getOutputResourcePickerElement;
+            expect(compRetrievalFn(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
+        };
+        it('disable field drilldown for sobject input', () => {
+            testDisableDrilldown(FLOW_DATA_TYPE.SOBJECT.value, true);
         });
-        it('disable field drilldown for output', () => {
-            const item = createMockParameterItem(false, FLOW_DATA_TYPE.SOBJECT.value, undefined, undefined, 'Account');
-            const parameterItemCmp = createComponentForTest({
-                item,
-                isInput : false
-            });
-            expect(getOutputResourcePickerElement(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
+        it('disable field drilldown for sobject output', () => {
+            testDisableDrilldown(FLOW_DATA_TYPE.SOBJECT.value, false);
+        });
+        it('disable field drilldown for apex input', () => {
+            testDisableDrilldown(FLOW_DATA_TYPE.APEX.value, true);
+        });
+        it('disable field drilldown for apex output', () => {
+            testDisableDrilldown(FLOW_DATA_TYPE.APEX.value, false);
         });
     });
 });

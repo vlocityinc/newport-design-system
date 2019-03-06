@@ -17,7 +17,6 @@
  * the below properties are only used if the paramType is 'data'
  * @param {String[]} mustBeElements    this param can only be used to describe an element included in this list
  * @param {String[]} cannotBeElements  this param cannot be used to describe elements in this list
- * @param {String[]} canBeElements     this param can be used to describe elements in this list
  */
 
 /**
@@ -73,13 +72,10 @@ export const RULE_PROPERTY = {
 export const PARAM_PROPERTY = {
     PARAM_TYPE: 'paramType',
     PARAM_TYPE_ELEMENT: 'Element',
-    PARAM_INDEX: 'paramIndex',
     DATA_TYPE: 'dataType',
     IS_COLLECTION: 'collection',
     CAN_BE_FIELD: 'canBeField',
     CAN_BE_SYS_VAR: 'canBeSysVar',
-    ELEMENT_TYPE: 'elementType',
-    CAN_BE_ELEMENTS: 'canBeElements',
     CANNOT_BE_ELEMENTS: 'cannotBeElements',
     MUST_BE_ELEMENTS: 'mustBeElements',
     SOBJECT_FIELD_REQUIREMENT: 'canBeSobjectField',

@@ -55,10 +55,9 @@ const mockSingleAssignmentRule =
     '               "paramType":"Data",' +
     '               "paramIndex":1,' +
     '               "dataType":"String",' +
-    '               "elementType":null,' +
     '               "collection":false,' +
     '               "canBeSobjectField":"CanBe",' +
-    '               "canBeElements":["VARIABLE"]' +
+    '               "mustBeElements":["VARIABLE"]' +
     '           }],' +
     '       "includeElems":null,' +
     '       "excludeElems":null' +

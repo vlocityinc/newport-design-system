@@ -1068,6 +1068,12 @@ describe('Combobox Tests', () => {
                 { value: 'literal', error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: 'literal', isLiteralsAllowed: true, error: VALIDATION_ERROR_MESSAGE.GENERIC },
             ],
+            Apex :   [
+                { value: '{!StartDateVar}', error: null },
+                { value: '{! test}', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: 'literal', error: VALIDATION_ERROR_MESSAGE.GENERIC },
+                { value: 'literal', isLiteralsAllowed: true, error: VALIDATION_ERROR_MESSAGE.GENERIC },
+            ],
             Boolean : [
                 { value: 'true', error: VALIDATION_ERROR_MESSAGE.GENERIC },
                 { value: 'true', isLiteralsAllowed: true, error: VALIDATION_ERROR_MESSAGE.GENERIC },

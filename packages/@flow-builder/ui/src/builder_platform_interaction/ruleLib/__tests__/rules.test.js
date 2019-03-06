@@ -12,14 +12,12 @@ const mockRulesFromServiceAssignmentAndComparison =
     '       "comparisonOperator":{"value":"Equal"},' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -33,14 +31,12 @@ const mockRulesFromServiceAssignmentAndComparison =
     '       "comparisonOperator":null,' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -56,14 +52,12 @@ const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
     '       "comparisonOperator":{"value":"Equal"},' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -77,14 +71,12 @@ const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
     '       "comparisonOperator":null,' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -98,14 +90,12 @@ const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
     '       "comparisonOperator":{"value":"Equal"},' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -121,14 +111,12 @@ const mockRulesFromServiceOnlyAssignment =
     '       "comparisonOperator":null,' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -142,14 +130,12 @@ const mockRulesFromServiceOnlyAssignment =
     '       "comparisonOperator":null,' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"String"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -165,21 +151,18 @@ const mockSingleAssignmentRule =
     '       "comparisonOperator":null,' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"Number"},' +
     '               "elementType":null,' +
     '               "collection":false' +
     '           },' +
     '           {' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"Date"},' +
     '               "elementType":null,' +
     '               "collection":false' +
@@ -194,21 +177,18 @@ const mockSingleAssignmentRuleWithExcludeElems =
     '       "comparisonOperator":null,' +
     '       "left":{' +
     '           "paramType":"Data",' +
-    '           "paramIndex":1,' +
     '           "dataType":{"value":"String"},' +
     '           "elementType":null,' +
     '           "collection":false' +
     '           },' +
     '       "rhsParams":[{' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"Number"},' +
     '               "elementType":null,' +
     '               "collection":false' +
     '           },' +
     '           {' +
     '               "paramType":"Data",' +
-    '               "paramIndex":1,' +
     '               "dataType":{"value":"Date"},' +
     '               "elementType":null,' +
     '               "collection":false' +

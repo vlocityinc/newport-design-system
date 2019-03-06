@@ -1,8 +1,12 @@
 import { setApexClasses, cachePropertiesForClass, getPropertiesForClass } from '../apexTypeLib';
 
+const string = "String";
+const sobject = "SObject";
 const className = "ApexClass";
+const sobjectType = "Account";
 const property1 = "property1";
 const property2 = "property2";
+const property3 = "property3";
 const sampleApexClass = [{
       "durableId" : className,
       "innerTypes" : {
@@ -33,7 +37,7 @@ const sampleApexClass = [{
               "isCollection" : false,
               "name" : property1,
               "parentId" : className,
-              "type" : "String"
+              "type" : string
           },
           {
               "fieldsToNull" : [],
@@ -41,8 +45,17 @@ const sampleApexClass = [{
               "isCollection" : false,
               "name" : property2,
               "parentId" : className,
-              "type" : "String"
-          }
+              "type" : sobject,
+              "objectType": sobjectType,
+          },
+          {
+              "fieldsToNull" : [],
+              "id" : "000000000000000AAC",
+              "isCollection" : true,
+              "name" : property3,
+              "parentId" : className,
+              "type" : string
+          },
           ],
           "size" : 1,
           "totalSize" : 1
@@ -53,18 +66,28 @@ describe('apex type lib', () => {
     beforeEach(() => {
         setApexClasses(sampleApexClass);
     });
-    it('caches properties when given a class name', () => {
+    it('caches non-collection properties when given a class name', () => {
         cachePropertiesForClass(className);
         const properties = getPropertiesForClass(className);
         expect(Object.keys(properties)).toHaveLength(2);
     });
-    it('caches properties with api name, collection, & data type', () => {
+    it('caches primitive properties with api name and data type', () => {
         cachePropertiesForClass(className);
         const expectedProperty = {
             "apiName": property1,
-            "dataType": "String",
+            "dataType": string,
         };
         const actualProperty = getPropertiesForClass(className)[property1];
+        expect(actualProperty).toMatchObject(expectedProperty);
+    });
+    it('caches complex properties with subtype', () => {
+        cachePropertiesForClass(className);
+        const expectedProperty = {
+            "apiName": property2,
+            "dataType": sobject,
+            "subtype": sobjectType,
+        };
+        const actualProperty = getPropertiesForClass(className)[property2];
         expect(actualProperty).toMatchObject(expectedProperty);
     });
 });

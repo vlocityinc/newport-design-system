@@ -186,13 +186,18 @@ describe('Menu data retrieval', () => {
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
         selectorsMock.writableElementsSelector.mockClear();
     });
-    it('should include sobjects non-collection var when fields are allowed', () => {
-        selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.accountSObjectVariableGuid], store.elements[store.accountSObjectCollectionVariableGuid]]);
+    it('should include sobject & apex non-collection vars when fields are allowed', () => {
+        selectorsMock.writableElementsSelector.mockReturnValue([
+            store.elements[store.accountSObjectVariableGuid],
+            store.elements[store.accountSObjectCollectionVariableGuid],
+            store.elements[store.apexSampleVariableGuid],
+            store.elements[store.apexSampleCollectionVariableGuid],
+        ]);
         const primitivesWithObjects = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         }, sampleNumberParamTypes, false, true, false);
-        expect(primitivesWithObjects).toHaveLength(1);
+        expect(primitivesWithObjects).toHaveLength(2);
         const primitivesNoObjects = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true

@@ -1,5 +1,5 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
-import { datetimeParamTypes, numberParamCanBeField, accountParam } from 'mock/ruleService';
+import { datetimeParamTypes, numberParamCanBeField, accountParam, apexClassParam } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -139,6 +139,10 @@ describe('Merge field validation', () => {
         });
         it('Allows sobject which matches object type', () => {
             const validationErrors = validateMergeField('{!accVar1}', { allowedParamTypes: accountParam });
+            expect(validationErrors).toEqual([]);
+        });
+        it('Allows apex which matches class type', () => {
+            const validationErrors = validateMergeField('{!apexVariable1}', { allowedParamTypes: apexClassParam });
             expect(validationErrors).toEqual([]);
         });
     });

@@ -64,7 +64,18 @@ export const mockActionParameters = [
         sobjectType: null,
         name: 'feedItemId',
         description: 'The ID of the new Chatter feed item.'
-    }
+    },
+    {
+        dataType: null,
+        isInput: true,
+        isOutput: false,
+        isRequired: false,
+        label: 'Apex Class Param',
+        maxOccurs: 1,
+        apexClass: 'ApexClass',
+        name: 'apexClassParam',
+        description: 'A param of type apex.'
+    },
 ];
 
 export const mockAllTypesActionParameters = [
