@@ -51,6 +51,14 @@ export default class ResourcedRichTextEditor extends LightningElement {
         }
     }
 
+    get inputRichTextValue() {
+        // Replacing new line with <br /> tag as done at runtime (see _createOutput in factory.js)
+        if (this.state.value != null) {
+            return this.state.value.replace(/\n/g, '<br />');
+        }
+        return this.state.value;
+    }
+
     get classList() {
         return  'container' + (this.state.error ? ' has-error' : '');
     }

@@ -9,17 +9,29 @@ const INPUT_RICH_TEXT_FONTS = quillLib.inputRichTextLibrary.FONT_LIST.map(item =
  * @returns {string} converted html
  */
 export function convertHTMLToQuillHTML(htmlText) {
-    if (htmlText) {
-        const document = new DOMParser().parseFromString(htmlText, 'text/html');
-
-        document.childNodes.forEach(node => {
-            processNode(node, document);
-        });
-
-        const convertedString = new XMLSerializer().serializeToString(document.documentElement.querySelector('body'));
-        return convertedString.replace(/<\/?body[^>]*>/ig, '');
+    if (!htmlText) {
+        return htmlText;
     }
-    return htmlText;
+    // If we don't add a surrounding div, leading spaces are removed
+    const document = new DOMParser().parseFromString('<div>' + htmlText + '</div>', 'text/html');
+
+    document.childNodes.forEach(node => {
+        processNode(node, document);
+    });
+    return serializeToString(document);
+}
+
+function serializeToString(document) {
+    let nodeToSerialize = document.documentElement.querySelector('div');
+    if (nodeToSerialize.attributes.length === 0 && nodeToSerialize.childNodes.length === 0) {
+        // no html elements
+        return '';
+    }
+    if (nodeToSerialize.attributes.length === 0 && nodeToSerialize.childNodes.length === 1) {
+            nodeToSerialize = nodeToSerialize.childNodes[0];
+    }
+    const convertedString = new XMLSerializer().serializeToString(nodeToSerialize);
+    return convertedString;
 }
 
 /*
@@ -70,21 +82,14 @@ function processDivNode(node) {
 }
 
 /*
- * Creates a paragraph with style="whiteSpace:pre" and insert the text to take into account the line breaks.
+ * We want to keep whitespaces : add style="whiteSpace:pre" to parent node
  *
  * @param {HtmlElement} node the div node
  * @returns {HtmlElement} the processed div node
  */
 function processTextNode(node) {
-    if (node.textContent && node.textContent.match(/\r?\n/g) && node.parentNode.nodeName.toLowerCase() !== 'p') {
-        const pNode = createElement('p');
-        const textNode = document.createTextNode(node.textContent);
-        pNode.style.whiteSpace = "pre";
-        pNode.appendChild(textNode);
-        node.parentNode.replaceChild(pNode, node);
-        return pNode.nextElementSibling;
-    } else if (node.textContent && node.textContent.match(/\r?\n/g) && node.parentNode.nodeName.toLowerCase() === 'p') {
-        node.parentNode.style.whiteSpace = "pre";
+    if (node.textContent && node.textContent.match(/(\n)|([ \t]{2,})/g)) {
+        node.parentNode.style.whiteSpace = 'pre';
     }
     return node;
 }
@@ -203,7 +208,7 @@ function insertAfter(newNode, referenceNode) {
 }
 
 function createElement(tagName) {
-    return document.createElementNS("http://www.w3.org/1999/xhtml", tagName);
+    return document.createElementNS('http://www.w3.org/1999/xhtml', tagName);
 }
 
 /*

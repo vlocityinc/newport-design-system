@@ -3,7 +3,7 @@ import {
 } from '../richTextConverter';
 
 const originalText = '<TEXTFORMAT LEADING="2"><LI><FONT FACE="Times New Roman" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">1</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">2</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">3</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Bonjour</FONT></LI></TEXTFORMAT><DIV ALIGN="JUSTIFY"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>Bonjour En Gras</B></FONT></DIV><DIV ALIGN="JUSTIFY"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Et de 2</FONT></DIV><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"></FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">A</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">B</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B><I><U>C</U></I></B></FONT></LI></TEXTFORMAT>';
-const convertedText = '<ul><li><span style="font-size: 12px; font-family: serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">1</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">2</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">3</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">Bonjour</span></li></ul><div style="text-align: justify;"><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"><b>Bonjour En Gras</b></span></div><div style="text-align: justify;"><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">Et de 2</span></div><ul><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"></span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">A</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">B</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"><b><i><u>C</u></i></b></span></li></ul>';
+const convertedText = '<div><ul><li><span style="font-size: 12px; font-family: serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">1</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">2</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">3</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">Bonjour</span></li></ul><div style="text-align: justify;"><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"><b>Bonjour En Gras</b></span></div><div style="text-align: justify;"><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">Et de 2</span></div><ul><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"></span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">A</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0">B</span></li><li><span style="font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);" letterspacing="0" kerning="0"><b><i><u>C</u></i></b></span></li></ul></div>';
 
 const liWithoutUL = '<TEXTFORMAT LEADING="2"><li><span style="">1</span></li></TEXTFORMAT><TEXTFORMAT LEADING="2"><li><span style="">2</span></li></TEXTFORMAT>';
 const liWithULConverted  = '<ul><li><span style="">1</span></li><li><span style="">2</span></li></ul>';
@@ -20,11 +20,17 @@ const invalidHtmlTagConverted = '<p>This is a paragraph</p>';
 const unknownHtmlTag = '<edfdsf style="text-align: justify;"></edfdsf>';
 const unknownHtmlTagConverted = "";
 
-const htmlWithTextareaNewLines = 'line 1\r\nline 2\r\nline 3\r\nLine 4\r\nEnd';
-const htmlWithTextareaNewLinesConverted = "<p style=\"white-space: pre;\">line 1\nline 2\nline 3\nLine 4\nEnd</p>";
+const htmlWithTextWithNewLines = 'line 1\r\nline 2\r\nline 3\r\nLine 4\r\nEnd';
+const htmlWithTextWithNewLinesConverted = '<div style="white-space: pre;">line 1\nline 2\nline 3\nLine 4\nEnd</div>';
 
-const htmlWithTextareaNewLinesWithExistingP = '<p>line 1\r\nline 2\r\nline 3\r\nLine 4\r\nEnd</p>';
-const htmlWithTextareaNewLinesWithExistingPConverted = "<p style=\"white-space: pre;\">line 1\nline 2\nline 3\nLine 4\nEnd</p>";
+const htmlWithTextWithNewLinesWithExistingP = '<p>line 1\r\nline 2\r\nline 3\r\nLine 4\r\nEnd</p>';
+const htmlWithTextWithNewLinesWithExistingPConverted = '<p style="white-space: pre;">line 1\nline 2\nline 3\nLine 4\nEnd</p>';
+
+const textWithHorizontalWhitespaces = 'first column    second column  ';
+const textWithHorizontalWhitespacesConverted = '<div style="white-space: pre;">first column    second column  </div>';
+
+const textWithSpacesAtBothEnds = '       there are some spaces before and after     ';
+const textWithSpacesAtBothEndsConverted = '<div style="white-space: pre;">       there are some spaces before and after     </div>';
 
 describe('Convert richText', () => {
     let previousXMLSerializer;
@@ -86,14 +92,22 @@ describe('Convert richText', () => {
         const result = convertHTMLToQuillHTML(invalidHtmlTag);
         expect(result).toBe(invalidHtmlTagConverted);
     });
-    describe('textArea', () => {
-        it('should replace line breaks by a p tag with style', () => {
-            const result = convertHTMLToQuillHTML(htmlWithTextareaNewLines);
-            expect(result).toBe(htmlWithTextareaNewLinesConverted);
+    describe('white spaces', () => {
+        it('should add "white-space: pre" to style when there are line breaks', () => {
+            const result = convertHTMLToQuillHTML(htmlWithTextWithNewLines);
+            expect(result).toBe(htmlWithTextWithNewLinesConverted);
         });
-        it('should add the style if the parent node id p', () => {
-            const result = convertHTMLToQuillHTML(htmlWithTextareaNewLinesWithExistingP);
-            expect(result).toBe(htmlWithTextareaNewLinesWithExistingPConverted);
+        it('should add "white-space: pre" to style if the parent node is p', () => {
+            const result = convertHTMLToQuillHTML(htmlWithTextWithNewLinesWithExistingP);
+            expect(result).toBe(htmlWithTextWithNewLinesWithExistingPConverted);
+        });
+        it('should add "white-space: pre" to style when there are consecutive horizontal whitespaces', () => {
+            const result = convertHTMLToQuillHTML(textWithHorizontalWhitespaces);
+            expect(result).toBe(textWithHorizontalWhitespacesConverted);
+        });
+        it('should preserve spaces at both ends of the string', () => {
+            const result = convertHTMLToQuillHTML(textWithSpacesAtBothEnds);
+            expect(result).toBe(textWithSpacesAtBothEndsConverted);
         });
     });
 });

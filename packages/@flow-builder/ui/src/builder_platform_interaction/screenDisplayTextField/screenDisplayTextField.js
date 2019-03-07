@@ -11,7 +11,11 @@ export default class ScreenDisplayTextField extends LightningElement {
 
     @api
     get value() {
-        return this._value && this._value.value ? this._value.value : getPlaceHolderLabel(this.typeName);
+        if (this._value && this._value.value) {
+            // Replacing new line with <br /> tag as done at runtime (see _createOutput in factory.js)
+            return this._value.value.replace(/\n/g, '<br />');
+        }
+        return getPlaceHolderLabel(this.typeName);
     }
 
     set value(newVal) {
