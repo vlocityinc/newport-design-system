@@ -188,14 +188,14 @@ export const mutateApexClassesToComboboxShape = (classes) => {
     return classes.map(clazz => {
         return createMenuItem(
             COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-            clazz.name,
+            clazz.durableId,
             undefined,
-            clazz.name,
+            clazz.durableId,
             undefined,
-            clazz.name,
+            clazz.durableId,
             undefined,
             APEX_TYPE,
-            clazz.name,
+            clazz.durableId,
         );
     });
 };
