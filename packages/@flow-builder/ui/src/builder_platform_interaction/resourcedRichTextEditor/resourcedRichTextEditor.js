@@ -4,11 +4,11 @@ import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeF
 import { LABELS } from './resourcedRichTextEditorLabels';
 import { convertHTMLToQuillHTML } from './richTextConverter';
 
-// all formats except 'image' and 'video'
-const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'strike', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean'];
+// all formats except 'video'
+const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'strike', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean', 'image'];
 
 /**
- * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'image' and 'video'.
+ * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'video'.
  */
 export default class ResourcedRichTextEditor extends LightningElement {
     @api label;
