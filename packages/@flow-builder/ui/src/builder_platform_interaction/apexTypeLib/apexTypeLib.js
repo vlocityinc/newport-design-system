@@ -55,9 +55,7 @@ export const cachePropertiesForClass = (name) => {
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
         apexClass.properties.records.forEach((prop) => {
-            if (!prop.isCollection) {
-                apexFieldsForClass[name][prop.name] = mutateProperty(prop);
-            }
+            apexFieldsForClass[name][prop.name] = mutateProperty(prop);
         });
     }
 };

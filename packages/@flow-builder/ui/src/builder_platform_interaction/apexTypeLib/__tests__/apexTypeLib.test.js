@@ -6,7 +6,6 @@ const className = "ApexClass";
 const sobjectType = "Account";
 const property1 = "property1";
 const property2 = "property2";
-const property3 = "property3";
 const sampleApexClass = [{
       "durableId" : className,
       "innerTypes" : {
@@ -48,14 +47,6 @@ const sampleApexClass = [{
               "type" : sobject,
               "objectType": sobjectType,
           },
-          {
-              "fieldsToNull" : [],
-              "id" : "000000000000000AAC",
-              "isCollection" : true,
-              "name" : property3,
-              "parentId" : className,
-              "type" : string
-          },
           ],
           "size" : 1,
           "totalSize" : 1
@@ -66,7 +57,7 @@ describe('apex type lib', () => {
     beforeEach(() => {
         setApexClasses(sampleApexClass);
     });
-    it('caches non-collection properties when given a class name', () => {
+    it('caches properties when given a class name', () => {
         cachePropertiesForClass(className);
         const properties = getPropertiesForClass(className);
         expect(Object.keys(properties)).toHaveLength(2);
