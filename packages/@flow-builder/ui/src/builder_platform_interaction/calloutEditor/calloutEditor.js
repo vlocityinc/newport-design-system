@@ -1,7 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
+import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { ClosePropertyEditorEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
 const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
@@ -23,15 +24,29 @@ export default class CalloutEditor extends LightningElement {
     @track selectedFilterBy = LABELS.filterByCategoryOption;
     @track showLeftPanel = true;
     @track categoryOptions = [];
-    @track selectedCategory = '';
+    @track selectedCategory = LABELS.allInvocableActions;
+
+    @api flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
     labels = LABELS;
 
     location = {};
+    invocableActions = [];
+    invocableActionsFetched = false;
 
     connectedCallback() {
-        this.updatePropertyEditorTitle();
-        this.setCategoryOptions();
+        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
+            flowProcessType : this.flowProcessType
+        }).then((invocableActions) => {
+            this.invocableActionsFetched = true;
+            this.invocableActions = invocableActions;
+
+            // Set options
+            this.setCategoryOptions();
+            this.updatePropertyEditorTitle();
+        }).catch(() => {
+            this.invocableActionsFetched = true;
+        });
     }
 
     updatePropertyEditorTitle() {
@@ -133,13 +148,25 @@ export default class CalloutEditor extends LightningElement {
                     name: elementType
                 };
             };
+
             const typeOptions = [getTypeOption(ELEMENT_TYPE.ACTION_CALL)];
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
             this.categoryOptions = typeOptions;
         } else {
-            this.categoryOptions = [];
+            const duplicateCategories = new Set();
+            this.categoryOptions = this.invocableActions
+                .reduce((result, action) => {
+                    if (action.category && !duplicateCategories.has(action.category)) {
+                        duplicateCategories.add(action.category);
+                        result.push({ label: action.category, name: action.category });
+                    }
+                    return result;
+                }, []);
+
+        this.categoryOptions.push({ label: LABELS.unCategorizedInvocableActions, name: LABELS.unCategorizedInvocableActions});
+        this.categoryOptions.unshift({ label: LABELS.allInvocableActions, name: LABELS.allInvocableActions});
         }
     }
 
@@ -172,12 +199,9 @@ export default class CalloutEditor extends LightningElement {
 
     handleCategorySelect(event) {
         this.selectedCategory = event.detail.name;
+
         if (this.selectedFilterBy === LABELS.filterByTypeOption) {
             this.selectedAction = { elementType: this.selectedCategory };
         }
-        // TODO
-        // if(this.selectedFilterBy === 'category'){
-
-        // }
     }
 }

@@ -4,6 +4,7 @@ import ActionSelector from "../actionSelector";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from "builder_platform_interaction/events";
 import { mockActions, mockApexPlugins, mockSubflows } from "mock/calloutData";
+import { LABELS } from "../actionSelectorLabels";
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-action-selector', { is: ActionSelector });
@@ -56,6 +57,8 @@ describe('Action selector', () => {
     describe('By default', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
+            actionSelectorComponent.invocableActionsFetched = true;
         });
         test('Combobox should contain all ACTION_CALL items : standard actions, quick actions and local actions', () => {
             const standardActionText = 'Post to Chatter';
@@ -85,7 +88,8 @@ describe('Action selector', () => {
         });
         it('should fire ActionsChangedEvent when actions are updated', async () => {
             const expectedNumber = 0;
-            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
+            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_PLUGIN_CALL;
             interactionCombobox().dispatchEvent(new CustomEvent('change', { detail: { value: ELEMENT_TYPE.APEX_PLUGIN_CALL, number: expectedNumber } }));
             expectActionsChangedEventCallbackCalledWithElementType(ELEMENT_TYPE.APEX_PLUGIN_CALL, expectedNumber);
         });
@@ -93,10 +97,12 @@ describe('Action selector', () => {
     describe('When action type changes', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
             actionSelectorComponent.selectedAction = {};
         });
         it('should update the items of the second combobox', async () => {
-            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
+            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_CALL;
             await Promise.resolve();
             expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
         });
@@ -157,6 +163,7 @@ describe('Action selector', () => {
         };
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
             eventCallback = jest.fn();
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
         });
@@ -228,6 +235,7 @@ describe('Action selector', () => {
     describe('When action changes', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
             actionSelectorComponent.selectedAction = {
                 actionName: 'emailSimple',
                 actionType: 'emailSimple',
@@ -242,6 +250,8 @@ describe('Action selector', () => {
         const groupedComboboxItemWithValue = value => groupedCombobox().items.find(option => option.value === value);
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
+            actionSelectorComponent.invocableActions = mockActions;
+            actionSelectorComponent.invocableActionsFetched = true;
         });
         it('should be "{UniqueName}" for global quick actions', () => {
             return Promise.resolve().then(() => {
@@ -263,7 +273,8 @@ describe('Action selector', () => {
             });
         });
         it('should be "{Unique Name}" for apex plugins', async () => {
-            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
+            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_PLUGIN_CALL;
             return Promise.resolve().then(() => {
                 const item = groupedComboboxItemWithValue('mynamespace__lookUpAccountPlugin');
                 expect(item.subText).toBe('mynamespace__lookUpAccountPlugin');

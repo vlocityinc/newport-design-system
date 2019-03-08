@@ -16,12 +16,16 @@ import apexComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector
 import emailAlertTypeOption from "@salesforce/label/FlowBuilderActionSelector.emailAlertTypeOption";
 import emailAlertComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxLabel";
 import emailAlertComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxPlaceholder";
+import allInvocableActions from "@salesforce/label/FlowBuilderActionSelector.allInvocableActions";
+import unCategorizedInvocableActions from "@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions";
 
 export const LABELS = {
     filterByTitle,
     filterByCategoryOption,
     filterByTypeOption,
     newActionPropertyEditorTitle,
+    allInvocableActions,
+    unCategorizedInvocableActions,
     [ELEMENT_TYPE.ACTION_CALL]: {
         TYPE_OPTION_LABEL: actionTypeOption,
         ACTION_COMBO_LABEL: actionComboboxLabel,

@@ -18,10 +18,18 @@ import subflowTypeOption from "@salesforce/label/FlowBuilderActionSelector.subfl
 import subflowComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.subflowComboboxLabel";
 import subflowComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.subflowComboboxPlaceholder";
 import globalQuickActionSubTextPrefix from "@salesforce/label/FlowBuilderActionSelector.globalQuickActionSubTextPrefix";
+import allInvocableActions from "@salesforce/label/FlowBuilderActionSelector.allInvocableActions";
+import unCategorizedInvocableActions from "@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions";
+import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
+import filterByTypeOption from '@salesforce/label/FlowBuilderActionSelector.filterByTypeOption';
 
 export const LABELS = {
     actionTypeLabel,
     globalQuickActionSubTextPrefix,
+    allInvocableActions,
+    unCategorizedInvocableActions,
+    filterByCategoryOption,
+    filterByTypeOption,
     [ELEMENT_TYPE.ACTION_CALL] : {
         TYPE_OPTION_LABEL : actionTypeOption,
         ACTION_COMBO_LABEL : actionComboboxLabel,

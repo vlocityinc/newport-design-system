@@ -22,13 +22,15 @@ export default class ActionSelector extends LightningElement {
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
-    invocableActions = [];
-    invocableActionsFetched = false;
     apexPlugins = [];
     apexPluginsFetched = false;
     subflows = [];
     subflowsFetched = false;
     connected = false;
+    _invocableActions = [];
+    _invocableActionsFetched = false;
+    _selectedCategory = LABELS.allInvocableActions;
+    _selectedFilterBy =  LABELS.filterByCategoryOption;
 
     fullActionMenuData = [];
 
@@ -58,21 +60,6 @@ export default class ActionSelector extends LightningElement {
         }).catch(() => {
             if (this.connected) {
                 this.subflowsFetched = true;
-                this.updateComboboxes();
-                this.dispatchCannotRetrieveActionsEvent();
-            }
-        });
-        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-            flowProcessType : this.flowProcessType
-        }).then((invocableActions) => {
-            if (this.connected) {
-                this.invocableActionsFetched = true;
-                this.invocableActions = invocableActions;
-                this.updateComboboxes();
-            }
-        }).catch(() => {
-            if (this.connected) {
-                this.invocableActionsFetched = true;
                 this.updateComboboxes();
                 this.dispatchCannotRetrieveActionsEvent();
             }
@@ -153,6 +140,7 @@ export default class ActionSelector extends LightningElement {
         } else {
             this.state.selectedActionValue = newValue.actionType && newValue.actionName ? newValue.actionType + '-' + newValue.actionName : null;
         }
+
         this.updateActionCombo();
     }
 
@@ -184,7 +172,7 @@ export default class ActionSelector extends LightningElement {
                     });
                 }
             } else {
-                const actionFound = this.invocableActions.find(action => action.durableId === actionValue);
+                const actionFound = this._invocableActions.find(action => action.durableId === actionValue);
                 if (actionFound) {
                     selectedAction = Object.assign(selectedAction, {
                         actionName : actionFound.name,
@@ -203,6 +191,47 @@ export default class ActionSelector extends LightningElement {
 
     set errorMessage(value) {
         this.state.errorMessage = value;
+    }
+
+    @api
+    get invocableActions() {
+        return this._invocableActions;
+    }
+
+
+    set invocableActions(value) {
+        this._invocableActions = value;
+    }
+
+    @api
+    get invocableActionsFetched() {
+        return this._invocableActionsFetched;
+    }
+
+    set invocableActionsFetched(value) {
+        this._invocableActionsFetched = value;
+        this.updateComboboxes();
+    }
+
+    @api
+    get selectedCategory() {
+        return this._selectedCategory;
+    }
+
+    set selectedCategory(value) {
+        this._selectedCategory = value;
+        this.updateActionCombo();
+    }
+
+    @api
+    get selectedFilterBy() {
+        return this._selectedFilterBy;
+    }
+
+    set selectedFilterBy(value) {
+        this._selectedFilterBy = value;
+        this._selectedCategory = (value === this.labels.filterByTypeOption) ? ELEMENT_TYPE.ACTION_CALL : this.labels.allInvocableActions;
+        this.updateActionCombo();
     }
 
     get actionComboDisabled() {
@@ -227,41 +256,78 @@ export default class ActionSelector extends LightningElement {
     }
 
     updateComboboxes() {
-        if (this.apexPluginsFetched && this.invocableActionsFetched && this.subflowsFetched) {
+        if (this.apexPluginsFetched && this._invocableActionsFetched && this.subflowsFetched) {
             this.updateTypeCombo();
             this.updateActionCombo();
             this.state.spinnerActive = false;
         }
     }
 
-    updateActionCombo() {
-        let items;
-        const selectedElementType = this.state.selectedElementType;
-        switch (selectedElementType) {
-            case ELEMENT_TYPE.ACTION_CALL:
-                items = this.invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION || action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
-                break;
-            case ELEMENT_TYPE.APEX_CALL:
-                items = this.invocableActions.filter(action => action.type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
-                break;
-            case ELEMENT_TYPE.EMAIL_ALERT:
-                items = this.invocableActions.filter(action => action.type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
-                break;
-            case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-                items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
-                break;
-            case ELEMENT_TYPE.SUBFLOW:
-                items = this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
-                break;
-            default:
-                items = [];
+    getActionElements(selectedElementType, selectedFilterBy, selectedCategory) {
+        // If selected element type is flows, we return flows actions
+        if (selectedElementType === ELEMENT_TYPE.SUBFLOW) {
+            return this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
         }
-        this.state.actionComboLabel = LABELS[selectedElementType].ACTION_COMBO_LABEL;
-        this.state.actionPlaceholder = LABELS[selectedElementType].ACTION_COMBO_PLACEHOLDER;
+
+        // If element type is not SUBFLOW, it should be ACTION_CALL
+        let items = [];
+
+        if (selectedFilterBy === this.labels.filterByCategoryOption) {
+            if (selectedCategory === this.labels.allInvocableActions || selectedCategory == null) {
+                items = this._invocableActions.map(action => this.getComboItemFromInvocableAction(action));
+            } else if (selectedCategory != null && selectedCategory.toLowerCase() === this.labels.unCategorizedInvocableActions.toLowerCase()) {
+                items = this._invocableActions
+                    .filter((action) => action.category == null || action.category.toLowerCase() === selectedCategory.toLowerCase())
+                    .map(action => this.getComboItemFromInvocableAction(action));
+            } else {
+                items =  this._invocableActions
+                    .filter((action) => action.category != null && action.category.toLowerCase() === selectedCategory.toLowerCase())
+                    .map(action => this.getComboItemFromInvocableAction(action));
+            }
+
+            this.state.actionComboLabel = this._selectedCategory;
+            this.state.actionPlaceholder = "Search " + this._selectedCategory + " actions...";
+            return  items;
+        }
+
+        const category = selectedCategory.toUpperCase();
+            switch (category) {
+                case ELEMENT_TYPE.ACTION_CALL:
+                    items =  this._invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION || action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
+                    break;
+                case ELEMENT_TYPE.APEX_CALL:
+                    items =  this._invocableActions.filter(action => action.type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
+                    break;
+                case ELEMENT_TYPE.EMAIL_ALERT:
+                    items =  this._invocableActions.filter(action => action.type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
+                    break;
+                case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+                    items =  this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
+                    break;
+                case ELEMENT_TYPE.SUBFLOW:
+                    items =  this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
+                    break;
+                default:
+                    items = [];
+            }
+
+            this.state.actionComboLabel = this.labels[category].ACTION_COMBO_LABEL;
+            this.state.actionPlaceholder = this.labels[category].ACTION_COMBO_PLACEHOLDER;
+            return items;
+    }
+
+
+    updateActionCombo() {
+        const selectedFilterBy = this._selectedFilterBy;
+        const selectedCategory = this._selectedCategory;
+        const selectedElementType = this.state.selectedElementType;
+
+        const items = this.getActionElements(selectedElementType, selectedFilterBy, selectedCategory);
+
         this.fullActionMenuData = items;
         this.state.filteredActionMenuData = this.state.selectedActionValue ? filterMatches(this.state.selectedActionValue, this.fullActionMenuData, false) : this.fullActionMenuData;
         // dispatch event up so that other cmps know to render 'no available actions of this type'
-        const newSelectedAction = this.getSelectedActionFrom(selectedElementType, null);
+        const newSelectedAction = this.getSelectedActionFrom(selectedCategory, null);
         const valueChangedEvent = new ActionsLoadedEvent(newSelectedAction, this.fullActionMenuData.length);
         this.dispatchEvent(valueChangedEvent);
     }

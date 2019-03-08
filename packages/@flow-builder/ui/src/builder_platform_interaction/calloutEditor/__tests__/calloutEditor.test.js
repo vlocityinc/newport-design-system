@@ -4,6 +4,18 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { mockActions } from "mock/calloutData";
+
+jest.mock('builder_platform_interaction/serverDataLib', () => {
+    const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
+    const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
+    return {
+        SERVER_ACTION_TYPE,
+        fetchOnce: () => {
+            return Promise.resolve(mockActions);
+        }
+    };
+});
 
 jest.mock('builder_platform_interaction/calloutEditorContainer', () => require('builder_platform_interaction_mocks/calloutEditorContainer'));
 
@@ -20,6 +32,7 @@ const selectors = {
     CONTAINER: 'builder_platform_interaction-callout-editor-container',
     ACTION_SELECTOR: 'builder_platform_interaction-action-selector',
     FILTER_BY_COMBO: 'lightning-combobox',
+    ACTION_CATEGORIES: 'lightning-vertical-navigation'
 };
 
 const mockSelectedAction = {
@@ -49,7 +62,7 @@ const dispatchValueChangeEvent = (component, value, error = null) => {
 };
 
 const dispatchSelectedActionChangeEvent = (component, actionName, actionType) =>
-    dispatchValueChangeEvent(component, { actionName, actionType, elementType: ELEMENT_TYPE.ACTION_CALL });
+    dispatchValueChangeEvent(component, {  actionName, actionType, elementType: ELEMENT_TYPE.ACTION_CALL });
 
 const dispatchSelectedApexChangeEvent = (component, apexClass) =>
     dispatchValueChangeEvent(component, { apexClass, elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL });
@@ -65,6 +78,9 @@ const getContainer = (calloutEditor) => getShadowRoot(calloutEditor).querySelect
 
 const filterByCombobox = (calloutEditor) =>
     getShadowRoot(calloutEditor).querySelector(selectors.FILTER_BY_COMBO);
+
+const actionCategories = (calloutEditor) =>
+    getShadowRoot(calloutEditor).querySelector(selectors.ACTION_CATEGORIES);
 
 describe('callout-editor', () => {
     let calloutEditor;
@@ -118,8 +134,12 @@ describe('callout-editor', () => {
     it('has an action-selector component', () => {
         expect(getActionSelector(calloutEditor)).not.toBeNull();
     });
+    it('has a action categories navigation list', () => {
+        expect(actionCategories(calloutEditor)).not.toBeNull();
+    });
     it('reset the selected action if an error occurs while retrieving parameters', async () => {
         const actionSelector = getActionSelector(calloutEditor);
+        actionSelector.selectedFilterBy = 'FlowBuilderActionSelector.filterByTypeOption';
         dispatchSelectedActionChangeEvent(actionSelector, mockSelectedAction.actionName, mockSelectedAction.actionType);
         await Promise.resolve();
         const container = getContainer(calloutEditor);

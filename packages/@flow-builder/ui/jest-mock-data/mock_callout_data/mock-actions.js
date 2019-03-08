@@ -5,7 +5,8 @@ export const mockActions = [
         "description": "Given a list of Account IDs, return a list of Account names.",
         "label": "Action Test",
         "type": "apex",
-        "durableId": "apex-mynamespace__ActionTest"
+        "durableId": "apex-mynamespace__ActionTest",
+        "category" : "Sales"
       },
       {
         "isStandard": true,
@@ -13,7 +14,8 @@ export const mockActions = [
         "description": "Activates a session-based permission set for the running user.",
         "label": "Activate Session-Based Permission Set",
         "type": "activateSessionPermSet",
-        "durableId": "activateSessionPermSet-activateSessionPermSet"
+        "durableId": "activateSessionPermSet-activateSessionPermSet",
+        "category" : "System"
       },
       {
         "isStandard": false,
@@ -21,7 +23,8 @@ export const mockActions = [
         "description": null,
         "label": "Add Member",
         "type": "quickAction",
-        "durableId": "quickAction-CollaborationGroup.mynamespace__NewGroupMember"
+        "durableId": "quickAction-CollaborationGroup.mynamespace__NewGroupMember",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -29,7 +32,8 @@ export const mockActions = [
         "description": null,
         "label": "Add Record",
         "type": "quickAction",
-        "durableId": "quickAction-CollaborationGroup.mynamespace__NewGroupRecord"
+        "durableId": "quickAction-CollaborationGroup.mynamespace__NewGroupRecord",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -37,7 +41,8 @@ export const mockActions = [
         "description": null,
         "label": "Change Date",
         "type": "quickAction",
-        "durableId": "quickAction-Task.mynamespace__Defer"
+        "durableId": "quickAction-Task.mynamespace__Defer",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -45,7 +50,8 @@ export const mockActions = [
         "description": null,
         "label": "Change Priority",
         "type": "quickAction",
-        "durableId": "quickAction-Task.mynamespace__UpdatePriority"
+        "durableId": "quickAction-Task.mynamespace__UpdatePriority",
+        "category": null
       },
       {
         "isStandard": false,
@@ -53,7 +59,8 @@ export const mockActions = [
         "description": null,
         "label": "Change Status",
         "type": "quickAction",
-        "durableId": "quickAction-Task.mynamespace__UpdateStatus"
+        "durableId": "quickAction-Task.mynamespace__UpdateStatus",
+        "category" : "Service"
       },
       {
         "isStandard": true,
@@ -61,7 +68,8 @@ export const mockActions = [
         "description": "Choose Price Book",
         "label": "Choose Price Book",
         "type": "choosePricebook",
-        "durableId": "choosePricebook-choosePricebook"
+        "durableId": "choosePricebook-choosePricebook",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -69,7 +77,8 @@ export const mockActions = [
         "description": null,
         "label": "Create New Task",
         "type": "quickAction",
-        "durableId": "quickAction-FeedItem.mynamespace__NewTaskFromFeedItem"
+        "durableId": "quickAction-FeedItem.mynamespace__NewTaskFromFeedItem",
+        "category" : "Service"
       },
       {
         "isStandard": true,
@@ -77,7 +86,8 @@ export const mockActions = [
         "description": "Deactivate a session-based permission set for the running user.",
         "label": "Deactivate Session-Based Permission Set",
         "type": "deactivateSessionPermSet",
-        "durableId": "deactivateSessionPermSet-deactivateSessionPermSet"
+        "durableId": "deactivateSessionPermSet-deactivateSessionPermSet",
+        "category" : "System"
       },
       {
         "isStandard": false,
@@ -85,7 +95,8 @@ export const mockActions = [
         "description": null,
         "label": "Edit Comments",
         "type": "quickAction",
-        "durableId": "quickAction-Task.mynamespace__EditDescription"
+        "durableId": "quickAction-Task.mynamespace__EditDescription",
+        "category" : null
       },
       {
         "isStandard": true,
@@ -93,7 +104,8 @@ export const mockActions = [
         "description": "Enable Folder Support for the specified a Content Workspace (Library)",
         "label": "Enable Folder Support for a Content Workspace (Library)",
         "type": "contentWorkspaceEnableFolders",
-        "durableId": "contentWorkspaceEnableFolders-contentWorkspaceEnableFolders"
+        "durableId": "contentWorkspaceEnableFolders-contentWorkspaceEnableFolders",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -101,7 +113,8 @@ export const mockActions = [
         "description": null,
         "label": "Log a Call",
         "type": "quickAction",
-        "durableId": "quickAction-Case.mynamespace__LogACall"
+        "durableId": "quickAction-Case.mynamespace__LogACall",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -109,7 +122,8 @@ export const mockActions = [
         "description": null,
         "label": "Log a Call",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__LogACall"
+        "durableId": "quickAction-mynamespace__LogACall",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -117,7 +131,8 @@ export const mockActions = [
         "description": "My Email Alert",
         "label": "My Email Alert",
         "type": "emailAlert",
-        "durableId": "emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert"
+        "durableId": "emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -125,7 +140,8 @@ export const mockActions = [
         "description": null,
         "label": "New Account",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewAccount"
+        "durableId": "quickAction-mynamespace__NewAccount",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -133,7 +149,8 @@ export const mockActions = [
         "description": null,
         "label": "New Case",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewCase"
+        "durableId": "quickAction-mynamespace__NewCase",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -141,7 +158,8 @@ export const mockActions = [
         "description": null,
         "label": "New Child Case",
         "type": "quickAction",
-        "durableId": "quickAction-Case.mynamespace__NewChildCase"
+        "durableId": "quickAction-Case.mynamespace__NewChildCase",
+        "category" : "Service"
       },
       {
         "isStandard": false,
@@ -149,7 +167,8 @@ export const mockActions = [
         "description": null,
         "label": "New Contact",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewContact"
+        "durableId": "quickAction-mynamespace__NewContact",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -157,7 +176,8 @@ export const mockActions = [
         "description": null,
         "label": "New Event",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewEvent"
+        "durableId": "quickAction-mynamespace__NewEvent",
+        "category" : null
       },
       {
         "isStandard": false,
@@ -165,7 +185,8 @@ export const mockActions = [
         "description": null,
         "label": "New Group",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewGroup"
+        "durableId": "quickAction-mynamespace__NewGroup",
+        "category" : null
       },
       {
         "isStandard": false,
@@ -173,7 +194,8 @@ export const mockActions = [
         "description": null,
         "label": "New Lead",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewLead"
+        "durableId": "quickAction-mynamespace__NewLead",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -181,7 +203,8 @@ export const mockActions = [
         "description": null,
         "label": "New Note",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewNote"
+        "durableId": "quickAction-mynamespace__NewNote",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -189,7 +212,8 @@ export const mockActions = [
         "description": null,
         "label": "New Opportunity",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewOpportunity"
+        "durableId": "quickAction-mynamespace__NewOpportunity",
+        "category" : "Sales"
       },
       {
         "isStandard": false,
@@ -197,7 +221,8 @@ export const mockActions = [
         "description": null,
         "label": "New Task",
         "type": "quickAction",
-        "durableId": "quickAction-mynamespace__NewTask"
+        "durableId": "quickAction-mynamespace__NewTask",
+        "category" : null
       },
       {
         "isStandard": true,
@@ -205,7 +230,8 @@ export const mockActions = [
         "description": "Post to the feed for a specific record, user, or Chatter group.",
         "label": "Post to Chatter",
         "type": "chatterPost",
-        "durableId": "chatterPost-chatterPost"
+        "durableId": "chatterPost-chatterPost",
+        "category" : "System"
       },
       {
         "isStandard": true,
@@ -213,7 +239,8 @@ export const mockActions = [
         "description": "Refresh scale cache asynchronously",
         "label": "Refresh scale cache asynchronously",
         "type": "scaleCacheAsyncRefresh",
-        "durableId": "scaleCacheAsyncRefresh-scaleCacheAsyncRefresh"
+        "durableId": "scaleCacheAsyncRefresh-scaleCacheAsyncRefresh",
+        "category" : "System"
       },
       {
         "isStandard": true,
@@ -221,7 +248,8 @@ export const mockActions = [
         "description": "Send an email where you specify the subject, body, and recipients.",
         "label": "Send Email",
         "type": "emailSimple",
-        "durableId": "emailSimple-emailSimple"
+        "durableId": "emailSimple-emailSimple",
+        "category" : "Service"
       },
       {
         "isStandard": true,
@@ -229,7 +257,8 @@ export const mockActions = [
         "description": "Submit a Salesforce record for approval.",
         "label": "Submit for Approval",
         "type": "submit",
-        "durableId": "submit-submit"
+        "durableId": "submit-submit",
+        "category" : "Approvals"
       },
       {
         "isStandard": false,
@@ -237,6 +266,7 @@ export const mockActions = [
         "description": "A Lightning Component Bundle",
         "label": "successLocalAction",
         "type": "component",
-        "durableId": "component-mynamespace:successLocalAction"
+        "durableId": "component-mynamespace:successLocalAction",
+        "category" : null
       }
     ];
