@@ -2,214 +2,51 @@ import elementReducer from "../elementsReducer";
 import {
     UPDATE_FLOW,
     DO_DUPLICATE,
-    DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
-    UPDATE_CANVAS_ELEMENT,
-    ADD_CONNECTOR,
+    ADD_START_ELEMENT,
     ADD_RESOURCE,
+    UPDATE_CANVAS_ELEMENT,
+    UPDATE_CANVAS_ELEMENT_LOCATION,
     UPDATE_RESOURCE,
-    DELETE_RESOURCE,
     UPDATE_VARIABLE_CONSTANT,
+    DELETE_ELEMENT,
+    ADD_CONNECTOR,
+    DELETE_RESOURCE,
+    SELECT_ON_CANVAS,
+    TOGGLE_ON_CANVAS,
+    DESELECT_ON_CANVAS,
+    HIGHLIGHT_ON_CANVAS,
+    ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
+    ADD_WAIT_WITH_WAIT_EVENTS,
     MODIFY_WAIT_WITH_WAIT_EVENTS,
+    ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS
 } from "builder_platform_interaction/actions";
-import { CONNECTOR_TYPE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
-const newElements = {
-    guid2: {
-        org: 'salesforce'
-    }
-};
-
-const oldElements = {
-    guid1: {  name: 'ass1',
-        label: 'assignment 1',
-        description: 'desc 1',
-        guid: 'guid1' }
-};
-
 describe('elements-reducer', () => {
-    it('with state set to undefined & action type set to empty should return an empty object', () => {
-        expect(elementReducer(undefined, {})).toEqual({});
-    });
-
-    it('with state set to defined & action type set to empty should return an current element state', () => {
-        const newElementState = elementReducer(oldElements, {});
-        expect(newElementState).toEqual(oldElements);
-    });
-
-    it('with state set to defined & action type set to UPDATE_FLOW should return the new element state with the new elements', () => {
-        const newElementState = elementReducer(oldElements, {type: UPDATE_FLOW, payload: {elements: newElements }});
-        expect(newElementState).toEqual(newElements);
-    });
-
-    it('with state set to defined & action type set to DELETE_RESOURCE should return the new element state with the excluded properties', () => {
-        const omitProps = 'description';
-        const oldProperties = {
-            name: 'ass1',
-            label: 'assignment 1',
-            description: 'desc 1',
-            guid: 'guid_1'
+    function getElement(guid, name) {
+        const element = {
+            guid,
+            name
         };
-        const newElementState = elementReducer(oldProperties, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [omitProps] }});
-        expect(newElementState).not.toHaveProperty('description');
-        expect(newElementState).toHaveProperty('name');
-        expect(newElementState).toHaveProperty('label');
-    });
+        return element;
+    }
 
-    it('with state set to undefined & action type set to DELETE_VARIABLE should return an empty object', () => {
-        const propToOmit = 'description';
-        const newElementState = elementReducer(undefined, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [propToOmit] }});
-        expect(newElementState).toEqual({});
-    });
+    describe('Update Flow', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
 
-    it('with state set to defined & action type set to ADD_VARIABLE should return the new element state with the added property', () => {
-        const newElementState = elementReducer(oldElements, {type: ADD_RESOURCE, payload: {guid: 'guid2', name: 'ass-3' }});
-        expect(newElementState).toHaveProperty('guid2');
-    });
-
-    it('with state set to undefined & action type set to ADD_VARIABLE should return the new element state with the added property', () => {
-        const newElementState = elementReducer(undefined, {type: ADD_RESOURCE, payload: {guid: 'guid2', name: 'ass-3' }});
-        expect(newElementState).toHaveProperty('guid2');
-    });
-
-    it('with state set to defined & action type set to UPDATE_VARIABLE_CONSTANT should return the new element state with the updated property', () => {
-        const updatedElements = {
-            guid1: {
-                name: 'ass-3',
-                label: 'assignment 1',
-                description: 'desc 1',
-                guid: 'guid1'
-            }
-        };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_RESOURCE, payload: {guid: 'guid1', name: 'ass-3' }});
-        expect(newElementState).toEqual(updatedElements);
-    });
-
-    it('with state set to defined & action type set to UPDATE_VARIABLE_CONSTANT should return the new element state with the new element', () => {
-        const updatedElements = {
-            guid1: {
-                name: 'other ass',
-                label: 'assignment 2',
-                guid: 'guid1'
-            }
-        };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_VARIABLE_CONSTANT, payload: updatedElements.guid1});
-        expect(newElementState).toEqual(updatedElements);
-    });
-
-
-    it('with state set to defined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
-        const newElementState = elementReducer(oldElements, {type: ADD_CANVAS_ELEMENT, payload: {guid: 'guid2', name: 'ass-3' }});
-        expect(newElementState).toHaveProperty('guid2');
-        expect(newElementState.guid2).toHaveProperty('name');
-        expect(newElementState.guid2.name).toEqual('ass-3');
-    });
-
-    it('with state set to undefined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
-        const newElementState = elementReducer(undefined, {type: ADD_CANVAS_ELEMENT, payload: {guid: 'guid2', name: 'ass-3' }});
-        expect(newElementState).toHaveProperty('guid2');
-        expect(newElementState.guid2).toHaveProperty('name');
-        expect(newElementState.guid2.name).toEqual('ass-3');
-    });
-
-    it('with state set to defined & action type is UPDATE_CANVAS_ELEMENT should update the existing element', () => {
-        const newElementState = elementReducer(oldElements, {type: UPDATE_CANVAS_ELEMENT, payload: {guid: 'guid1', name: 'ass-3' }});
-        expect(newElementState).toHaveProperty('guid1');
-        expect(newElementState.guid1).toHaveProperty('name');
-        expect(newElementState.guid1.name).toEqual('ass-3');
-    });
-
-    it('with state set to undefined & action type is UPDATE_CANVAS_ELEMENT should update the elements', () => {
-        const updatedElements = {
-            guid1: {  name: 'ass-3',
-                label: 'assignment 1',
-                description: 'desc 1',
-                guid: 'guid1' }
-        };
-        const newElementState = elementReducer(oldElements, {type: UPDATE_CANVAS_ELEMENT, payload: {guid: 'guid1', name: 'ass-3' }});
-        expect(newElementState).toEqual(updatedElements);
-    });
-
-    it('with state set to defined & action type is DELETE_ELEMENT should delete the property from the element object ', () => {
-        const omitProps = ['guid_1'];
-        const connector = {
-            source: 'guid_2',
-            type: 'DEFAULT',
-        };
-        const oldProperties = {
-            'guid_1' : {
-                name: 'ass1',
-                label: 'assignment 1',
-                description: 'desc 1',
-                guid: 'guid_1'
-            },
-            'guid_2' : {
-                name: 'des2',
-                label: 'decision 2',
-                description: 'desc 2',
-                guid: 'guid_2',
-                connectorCount: 1,
-                availableConnections: []
-            }
-        };
-        const newProperties = {
-            'guid_2' : {
-                name: 'des2',
-                label: 'decision 2',
-                description: 'desc 2',
-                guid: 'guid_2',
-                connectorCount: 0,
-                availableConnections: [{
-                    childReference: undefined,
-                    type: 'DEFAULT'
-                }]
-            }
-        };
-
-        const newElementState = elementReducer(oldProperties, {type: DELETE_ELEMENT,
-            payload : { selectedElementGUIDs: omitProps, connectorsToDelete:  [connector]}});
-        expect(newElementState).toEqual(newProperties);
-    });
-
-    it('with state set to defined & action type is ADD_CONNECTOR should increment connectorCount and remove the connector from availableConnections', () => {
-        const connector = {
-            source: 'guid_1',
-            type: 'REGULAR',
-            childSource: 'outcome_1'
-        };
-        const oldProperties = {
-            'guid_1' : {
-                name: 'des1',
-                label: 'decision 1',
-                description: 'desc 1',
-                guid: 'guid_1',
-                outcomeReferences: ['outcome_1'],
-                connectorCount: 0,
-                availableConnections: [{
-                    type: 'REGULAR',
-                    childReference: 'outcome_1'
-                }]
-            }
-        };
-        const newProperties = {
-            'guid_1' : {
-                name: 'des1',
-                label: 'decision 1',
-                description: 'desc 1',
-                guid: 'guid_1',
-                outcomeReferences: ['outcome_1'],
-                connectorCount: 1,
-                availableConnections: []
-            }
-        };
-
-        const newElementState = elementReducer(oldProperties, {type: ADD_CONNECTOR,
-            payload : connector});
-        expect(newElementState).toEqual(newProperties);
+        it('with state set to defined & action type set to UPDATE_FLOW should return the new element state with the new elements', () => {
+            const oldElements = {guid1: getElement('guid1', 'ass1')};
+            const newElements = {guid2: getElement('guid2', 'ass2')};
+            const newElementState = elementReducer(oldElements, {type: UPDATE_FLOW, payload: {elements: newElements }});
+            expect(newElementState).toEqual(newElements);
+        });
     });
 
     describe('Duplicate Element', () => {
@@ -252,438 +89,1047 @@ describe('elements-reducer', () => {
         });
     });
 
-    describe('MODIFY_DECISION_WITH_OUTCOMES', () => {
-        let decision;
-        let outcome;
-        let originalState;
-
-        beforeEach(() => {
-            decision = {
-                guid: 'decision1',
-                label: 'origLabel',
-                connectorCount: 0,
-                maxConnections: 2,
-                outcomeReferences: [{outcomeReference: 'outcome1'}],
-                availableConnections: [
-                    {
-                        childReference: 'outcome1',
-                        type: CONNECTOR_TYPE.REGULAR
-                    }, {
-                        type: CONNECTOR_TYPE.DEFAULT
-                    }
-                ]
-            };
-
-            outcome = {
-                guid: 'outcome1',
-                label: 'outcomeLabel'
-            };
-
-            originalState = {
-                [decision.guid]: decision,
-                [outcome.guid]: outcome
-            };
+    describe('Add Canvas Element', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
         });
 
-        it('updates the decision element', () => {
-            const updatedDecision = {
-                guid: decision.guid,
-                label: 'newLabel'
+        const oldElements = {guid1: getElement('guid1', 'ass1')};
+        const addedElements = {guid2: getElement('guid2', 'ass2')};
+        const payload = getElement('guid2', 'ass2');
+
+        it('with state set to undefined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
+            const newElementState = elementReducer(undefined, {type: ADD_CANVAS_ELEMENT, payload});
+            expect(newElementState).toEqual(addedElements);
+        });
+
+        it('with state set to defined & action type is ADD_CANVAS_ELEMENT should add the new element', () => {
+            const newElementState = elementReducer(oldElements, {type: ADD_CANVAS_ELEMENT, payload});
+            expect(newElementState).toEqual({...oldElements, ...addedElements});
+        });
+    });
+
+    describe('Add Start Element', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        const oldElements = {guid1: getElement('guid1', 'ass1')};
+        const addedElements = {guid2: getElement('guid2', 'ass2')};
+        const payload = getElement('guid2', 'ass2');
+
+        it('with state set to undefined & action type is ADD_START_ELEMENT should add the new element', () => {
+            const newElementState = elementReducer(undefined, {type: ADD_START_ELEMENT, payload});
+            expect(newElementState).toEqual(addedElements);
+        });
+
+        it('with state set to defined & action type is ADD_START_ELEMENT should add the new element', () => {
+            const newElementState = elementReducer(oldElements, {type: ADD_START_ELEMENT, payload});
+            expect(newElementState).toEqual({...oldElements, ...addedElements});
+        });
+    });
+
+    describe('Add Resource', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        const oldElements = {guid1: getElement('guid1', 'ass1')};
+        const addedElements = {guid2: getElement('guid2', 'ass2')};
+        const payload = getElement('guid2', 'ass2');
+
+        it('with state set to undefined & action type is ADD_RESOURCE should add the new element', () => {
+            const newElementState = elementReducer(undefined, {type: ADD_RESOURCE, payload});
+            expect(newElementState).toEqual(addedElements);
+        });
+
+        it('with state set to defined & action type is ADD_RESOURCE should add the new element', () => {
+            const newElementState = elementReducer(oldElements, {type: ADD_RESOURCE, payload});
+            expect(newElementState).toEqual({...oldElements, ...addedElements});
+        });
+    });
+
+    describe('Update Canavas Element', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        const oldElements = {guid1: getElement('guid1', 'ass1')};
+        const updatedElements = {guid1: getElement('guid1', 'ass2')};
+        const payload = getElement('guid1', 'ass2');
+
+        it('with state set to undefined & action type is UPDATE_CANVAS_ELEMENT should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(undefined, {type: UPDATE_CANVAS_ELEMENT, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('with state set to defined & action type is UPDATE_CANVAS_ELEMENT should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(oldElements, {type: UPDATE_CANVAS_ELEMENT, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+    });
+
+    describe('Update Canavas Element Location', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        const oldElements = {
+            guid1: {
+                name: 'ass1',
+                locationX: 1,
+                locationY: 1,
+                guid: 'guid1'
+            }
+        };
+        const updatedElements = {
+            guid1: {
+                name: 'ass1',
+                locationX: 2,
+                locationY: 2,
+                guid: 'guid1'
+            }
+        };
+
+        const payload = {
+            name: 'ass1',
+            locationX: 2,
+            locationY: 2,
+            guid: 'guid1'
+        };
+        it('with state set to undefined & action type is UPDATE_CANVAS_ELEMENT_LOCATION should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(undefined, {type: UPDATE_CANVAS_ELEMENT_LOCATION, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('with state set to defined & action type is UPDATE_CANVAS_ELEMENT_LOCATION should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(oldElements, {type: UPDATE_CANVAS_ELEMENT_LOCATION, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+    });
+
+    describe('Update Resource', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        const oldElements = {guid1: getElement('guid1', 'ass1')};
+        const updatedElements = {guid1: getElement('guid1', 'ass2')};
+        const payload = getElement('guid1', 'ass2');
+
+        it('with state set to undefined & action type is UPDATE_RESOURCE should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(undefined, {type: UPDATE_RESOURCE, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('with state set to defined & action type is UPDATE_RESOURCE should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(oldElements, {type: UPDATE_RESOURCE, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+    });
+
+    describe('Update Variable or Constant', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        const oldElements = {
+            guid1: {
+                name: 'ass1',
+                elementType: "VARIABLE",
+                guid: 'guid1'
+            }
+        };
+        const updatedElements = {
+            guid1: {
+                name: 'ass2',
+                elementType: "VARIABLE",
+                guid: 'guid1'
+            }
+        };
+
+        const payload = {
+            name: 'ass2',
+            elementType: "VARIABLE",
+            guid: 'guid1'
+        };
+        it('with state set to undefined & action type set to UPDATE_VARIABLE_CONSTANT should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(undefined, {type: UPDATE_RESOURCE, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('with state set to defined & action type set to UPDATE_VARIABLE_CONSTANT should return the new element state with the updated property', () => {
+            const newElementState = elementReducer(oldElements, {type: UPDATE_VARIABLE_CONSTANT, payload});
+            expect(newElementState).toEqual(updatedElements);
+        });
+    });
+
+    describe('Delete Element', () => {
+        it('with state set to undefined & action type is DELETE_ELEMENT should return empty state', () => {
+            const newElementState = elementReducer(undefined, {type: DELETE_ELEMENT, payload : { selectedElementGUIDs: [], connectorsToDelete: []}});
+            expect(newElementState).toEqual({});
+        });
+
+        it('with state set to defined & action type is DELETE_ELEMENT should delete the property from the element object', () => {
+            const omitProps = ['guid1'];
+            const connector = {
+                source: 'guid2',
+                type: 'DEFAULT',
+            };
+            const oldProperties = {
+                'guid1' : {
+                    name: 'ass1',
+                    label: 'assignment 1',
+                    description: 'desc 1',
+                    guid: 'guid1'
+                },
+                'guid2' : {
+                    name: 'des2',
+                    label: 'decision 2',
+                    description: 'desc 2',
+                    guid: 'guid2',
+                    connectorCount: 1,
+                    availableConnections: []
+                }
+            };
+            const newProperties = {
+                'guid2' : {
+                    name: 'des2',
+                    label: 'decision 2',
+                    description: 'desc 2',
+                    guid: 'guid2',
+                    connectorCount: 0,
+                    availableConnections: [{
+                        childReference: undefined,
+                        type: 'DEFAULT'
+                    }]
+                }
             };
 
-            const newState = elementReducer(originalState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: {
-                    canvasElement: updatedDecision,
-                    childElements: [],
-                    deletedChildElementGuids: [],
+            const payload = {
+                selectedElementGUIDs: omitProps,
+                connectorsToDelete: [connector]
+            };
+            const newElementState = elementReducer(oldProperties, {type: DELETE_ELEMENT, payload});
+            expect(newElementState).toEqual(newProperties);
+        });
+    });
 
+    describe('Add Connector', () => {
+        it('with state set to defined & action type is ADD_CONNECTOR should increment connectorCount and remove the connector from availableConnections', () => {
+            const connector = {
+                source: 'guid1',
+                type: 'REGULAR',
+                childSource: 'outcome1'
+            };
+            const oldProperties = {
+                'guid1' : {
+                    name: 'des1',
+                    label: 'decision 1',
+                    description: 'desc 1',
+                    guid: 'guid1',
+                    outcomeReferences: ['outcome1'],
+                    connectorCount: 0,
+                    availableConnections: [{
+                        type: 'REGULAR',
+                        childReference: 'outcome1'
+                    }]
                 }
+            };
+            const newProperties = {
+                'guid1' : {
+                    name: 'des1',
+                    label: 'decision 1',
+                    description: 'desc 1',
+                    guid: 'guid1',
+                    outcomeReferences: ['outcome1'],
+                    connectorCount: 1,
+                    availableConnections: []
+                }
+            };
+
+            const newElementState = elementReducer(oldProperties, {type: ADD_CONNECTOR, payload: connector});
+            expect(newElementState).toEqual(newProperties);
+        });
+    });
+
+    describe('Delete Resource', () => {
+        it('with state set to undefined & action type set to DELETE_RESOURCE should return an empty object', () => {
+            const propToOmit = 'description';
+            const newElementState = elementReducer(undefined, {type: DELETE_RESOURCE, payload: {selectedElementGUIDs: [propToOmit] }});
+            expect(newElementState).toEqual({});
+        });
+
+        it('with state set to defined & action type set to DELETE_RESOURCE should return the new element state with the excluded properties', () => {
+            const omitProps = 'description';
+            const oldProperties = {
+                name: 'ass1',
+                label: 'assignment 1',
+                description: 'desc 1',
+                guid: 'guid1'
+            };
+            const newProperties = {
+                name: 'ass1',
+                label: 'assignment 1',
+                guid: 'guid1'
+            };
+
+            const payload = {selectedElementGUIDs: [omitProps]};
+            const newElementState = elementReducer(oldProperties, {type: DELETE_RESOURCE, payload});
+            expect(newElementState).toEqual(newProperties);
+        });
+    });
+
+    function getElementWithConfigProp(guid, isCanvasElement, isSelected, isHighlighted) {
+        const element = {
+            guid,
+            isCanvasElement,
+            config: {
+                isSelected,
+                isHighlighted
+            }
+        };
+        return element;
+    }
+    describe('Select on Canvas Elements', () => {
+        it('With state set to undefined & action type is SELECT_ON_CANVAS should return the copy of original state', () => {
+            const updatedElements = {};
+            const newElementState = elementReducer(undefined, {type: SELECT_ON_CANVAS, payload: {guid: 'guid1' }});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        describe('Canvas element that has been clicked upon', () => {
+            it('Clicking on a canvas element that is neither selected nor highlighted, Canvas element should get selected and should stay unhighlighted.', () => {
+                const oldElement = {selectedGUID: getElementWithConfigProp('selectedGUID', true, false, false)};
+                const updatedElements = {selectedGUID: getElementWithConfigProp('selectedGUID', true, true, false)};
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
             });
 
-            const newDecision = newState[decision.guid];
+            it('Clicking on a canvas element that is not selected but is highlighted, Canvas element should get selected and should stay highlighted.', () => {
+                const oldElement = {selectedGUID: getElementWithConfigProp('selectedGUID', true, false, true)};
+                const updatedElements = {selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true)};
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
 
-            expect(newDecision).not.toBe(decision);
+            it('Clicking on a canvas element that is selected but is not highlighted, Canvas element should stay selected and unhighlighted.', () => {
+                const oldElement = {selectedGUID: getElementWithConfigProp('selectedGUID', true, true, false)};
+                const updatedElements = {selectedGUID: getElementWithConfigProp('selectedGUID', true, true, false)};
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
 
-            expect(newDecision.guid).toEqual(updatedDecision.guid);
-            expect(newDecision.label).toEqual(updatedDecision.label);
+            it('Clicking on a canvas element that is selected and highlighted, Canvas element should stay selected and highlighted.', () => {
+                const oldElement = {selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true)};
+                const updatedElements = {selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true)};
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
         });
 
-        it('adds a new decision element', () => {
-            const newDecision = {
-                guid: 'newDecisionGuid',
-                label: 'newLabel',
+        describe('Other canvas elements that have not been clicked upon', () => {
+            it('When the other canvas element is neither selected nor highlighted, the other canvas element should stay deselected and unhighlighted.', () => {
+                const oldElement = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const updatedElements = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the other canvas element is seletced but not highlighted, the other canvas element should get deselected and stay unhighlighted.', () => {
+                const oldElement = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, true, false)
+                };
+                const updatedElements = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the other canvas element is not selected but is highlighted, the other canvas element should get unhighlighted and stay deselected.', () => {
+                const oldElement = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, true)
+                };
+                const updatedElements = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the other canvas element is both selected and highlighted, the other canvas element should get both deselected and unhighlighted.', () => {
+                const oldElement = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, true, true)
+                };
+                const updatedElements = {
+                    selectedGUID: getElementWithConfigProp('selectedGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+        });
+    });
+
+    describe('Toggle on Canvas Elements', () => {
+        it('With state set to undefined & action type is TOGGLE_ON_CANVAS should return the copy of original state', () => {
+            const updatedElements = {};
+            const newElementState = elementReducer(undefined, {type: TOGGLE_ON_CANVAS, payload: {guid: 'guid1' }});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        describe('Toggling selected canvas element', () => {
+            it('When the canvas element is selected and unhighlighted, the canvas element gets deselected and stays unhighlighted.', () => {
+                const oldElement = {toggledGUID: getElementWithConfigProp('toggledGUID', true, true, false)};
+                const updatedElements = {toggledGUID: getElementWithConfigProp('toggledGUID', true, false, false)};
+                const newElementState = elementReducer(oldElement, {type: TOGGLE_ON_CANVAS, payload: {guid: 'toggledGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the canvas element is selected and highlighted, the canvas element gets deselected and stays highlighted.', () => {
+                const oldElement = {toggledGUID: getElementWithConfigProp('toggledGUID', true, true, true)};
+                const updatedElements = {toggledGUID: getElementWithConfigProp('toggledGUID', true, false, true)};
+                const newElementState = elementReducer(oldElement, {type: TOGGLE_ON_CANVAS, payload: {guid: 'toggledGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+        });
+
+        describe('Toggling deselected canvas element', () => {
+            it('When the canvas element is deselected and unhighlighted, the canvas element gets selected and stays unhighlighted.', () => {
+                const oldElement = {toggledGUID: getElementWithConfigProp('toggledGUID', true, false, false)};
+                const updatedElements = {toggledGUID: getElementWithConfigProp('toggledGUID', true, true, false)};
+                const newElementState = elementReducer(oldElement, {type: TOGGLE_ON_CANVAS, payload: {guid: 'toggledGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the canvas element is deselected and highlighted, The canvas element gets selected and stays highlighted.', () => {
+                const oldElement = {toggledGUID: getElementWithConfigProp('toggledGUID', true, false, true)};
+                const updatedElements = {toggledGUID: getElementWithConfigProp('toggledGUID', true, true, true)};
+                const newElementState = elementReducer(oldElement, {type: TOGGLE_ON_CANVAS, payload: {guid: 'toggledGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+        });
+    });
+
+    describe('Deselect on Canvas Elements', () => {
+        it('With state set to undefined & action type is DESELECT_ON_CANVAS should return the copy of original state', () => {
+            const updatedElements = {};
+            const newElementState = elementReducer(undefined, {type: DESELECT_ON_CANVAS, payload: {guid: 'guid1' }});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('Clicking on the white space with multiple canvas elements, all canvas elements should get deselected and unhighlighted.', () => {
+            const oldElement = {
+                deselectGUID: getElementWithConfigProp('deselectGUID', true, false, true),
+                guid2: getElementWithConfigProp('guid2', true, true, false),
+                guid3: getElementWithConfigProp('guid3', true, false, false),
+                guid4: getElementWithConfigProp('guid4', true, true, true)
+            };
+            const updatedElements = {
+                deselectGUID: getElementWithConfigProp('deselectGUID', true, false, false),
+                guid2: getElementWithConfigProp('guid2', true, false, false),
+                guid3: getElementWithConfigProp('guid3', true, false, false),
+                guid4: getElementWithConfigProp('guid4', true, false, false)
+            };
+            const newElementState = elementReducer(oldElement, {type: DESELECT_ON_CANVAS});
+            expect(newElementState).toEqual(updatedElements);
+        });
+    });
+
+    describe('Highlight on Canvas Elements', () => {
+        it('With state set to undefined & action type is HIGHLIGHT_ON_CANVAS should return the copy of original state', () => {
+            const updatedElements = {};
+            const newElementState = elementReducer(undefined, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'guid1' }});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        describe('Canvas element that has been searched', () => {
+            it('Searching a canvas element that is neither selected nor highlighted, canvas element should stay deselected and get highlighted.', () => {
+                const oldElement = {highlightGUID: getElementWithConfigProp('highlightGUID', true, false, false)};
+                const updatedElements = {highlightGUID: getElementWithConfigProp('highlightGUID', true, false, true)};
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('Searching a canvas element that is not selected but is highlighted, canvas element should stay deselected and highlighted.', () => {
+                const oldElement = {highlightGUID: getElementWithConfigProp('highlightGUID', true, false, true)};
+                const updatedElements = {highlightGUID: getElementWithConfigProp('highlightGUID', true, false, true)};
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('Searching a canvas element that is selected but is not highlighted, canvas element should stay selected and get highlighted.', () => {
+                const oldElement = {highlightGUID: getElementWithConfigProp('highlightGUID', true, true, false)};
+                const updatedElements = {highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true)};
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('Searching a canvas element that is selected and highlighted, canvas element should stay selected and stay highlighted.', () => {
+                const oldElement = {highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true)};
+                const updatedElements = {highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true)};
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+        });
+
+        describe('Other canvas elements that have not been searched', () => {
+            it('When the other canvas element is neither selected nor highlighted, the other canvas element should stay deselected and unhighlighted.', () => {
+                const oldElement = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const updatedElements = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the other canvas element is seletced but not highlighted, The other canvas element should stay selected and stay unhighlighted.', () => {
+                const oldElement = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, true, false)
+                };
+                const updatedElements = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, true, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the other canvas element is not selected but is highlighted, the other canvas element should stay deselected and get unhighlighted.', () => {
+                const oldElement = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, true)
+                };
+                const updatedElements = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, false, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+
+            it('When the other canvas element is both selected and highlighted, the other canvas element should stay selected and get unhighlighted.', () => {
+                const oldElement = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, true, true)
+                };
+                const updatedElements = {
+                    highlightGUID: getElementWithConfigProp('highlightGUID', true, true, true),
+                    guid2: getElementWithConfigProp('guid2', true, true, false)
+                };
+                const newElementState = elementReducer(oldElement, {type: HIGHLIGHT_ON_CANVAS, payload: {guid: 'highlightGUID' }});
+                expect(newElementState).toEqual(updatedElements);
+            });
+        });
+    });
+
+    describe('Add Decision with Outcomes', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'DECISION',
+                name: 'decison1'
+            }
+        };
+        const newElements = {
+            guid2: {
+                guid: 'guid2',
+                elementType: "DECISION",
+                name: 'decision2',
                 outcomeReferences: [{
-                    outcomeReference: 'outcome2'
+                    outcomeReference: 'guid3'
                 }]
-            };
+            },
+            guid3: {
+                guid: 'guid3',
+                name: 'outcome1',
+                elementType: 'OUTCOME'
+            }
+        };
 
-            const newOutcome = {
-                guid: 'outcome2',
-                label: 'outcome2Label'
-            };
-
-            const newState = elementReducer(originalState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: {
-                    canvasElement: newDecision,
-                    childElements: [newOutcome],
-                    deletedChildElementGuids: [],
-                }
-            });
-
-            const addedDecision = newState[newDecision.guid];
-
-            expect(addedDecision.guid).toEqual(newDecision.guid);
-            expect(addedDecision.label).toEqual(newDecision.label);
+        const payload = {
+            canvasElement: {
+                guid: 'guid2',
+                elementType: "DECISION",
+                name: 'decision2',
+                outcomeReferences: [{
+                    outcomeReference: 'guid3'
+                }]
+            },
+            deletedChildElementGuids: [],
+            childElements: [{
+                guid: 'guid3',
+                name: 'outcome1',
+                elementType: 'OUTCOME'
+            }]
+        };
+        it('with state set to undefined & action type set to ADD_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: ADD_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
         });
 
-        it('updates outcomes', () => {
-            const updatedOutcome = {
-                guid: outcome.guid,
-                label: 'new outcome label'
-            };
-
-            const newState = elementReducer(originalState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: {
-                    canvasElement: decision,
-                    childElements: [updatedOutcome],
-                    deletedChildElementGuids: [],
-
-                }
-            });
-
-            const newOutcome = newState[outcome.guid];
-
-            expect(newOutcome).not.toBe(outcome);
-
-            expect(newOutcome.guid).toEqual(updatedOutcome.guid);
-            expect(newOutcome.label).toEqual(updatedOutcome.label);
-        });
-
-        it('adds outcomes', () => {
-            const updatedDecision = {
-                guid: 'decision1',
-                label: 'newLabel',
-                outcomeReferences: [
-                    {outcomeReference: 'outcome1'},
-                    {outcomeReference: 'newO'},
-                ],
-            };
-
-            const outcome2 = {
-                guid: 'newO',
-                label: 'new outcome label'
-            };
-
-            const newState = elementReducer(originalState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: {
-                    canvasElement: updatedDecision,
-                    childElements: [outcome, outcome2],
-                    deletedChildElementGuids: [],
-
-                }
-            });
-
-            const newOutcome = newState[outcome2.guid];
-            expect(newOutcome).toEqual(outcome2);
-        });
-
-        it('deleted outcomes are deleted', () => {
-            const newState = elementReducer(originalState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: {
-                    canvasElement: decision,
-                    childElements: [],
-                    deletedChildElementGuids: [outcome.guid],
-
-                }
-            });
-
-            expect(newState[outcome.guid]).toBeUndefined();
+        it('with state set to defined & action type set to ADD_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: ADD_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual({...oldElements, ...newElements});
         });
     });
 
-    describe('MODIFY_WAIT_WITH_EVENTS', () => {
-        let wait;
-        let event1, event2;
-        let originalState;
+    describe('Update Decision with Outcomes', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'DECISION',
+                name: 'decison1',
+                outcomeReferences: [{
+                    outcomeReference: 'guid2'
+                }]
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "OUTCOME",
+                name: 'outcome2'
+            }
+        };
+        const newElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'DECISION',
+                name: 'decision2',
+                outcomeReferences: [{
+                    outcomeReference: 'guid2'
+                }]
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "OUTCOME",
+                name: 'outcome3'
+            }
+        };
 
-        beforeEach(() => {
-            wait = {
-                guid: 'waitGuid',
-                label: 'test wait element',
-                connectorCount: 2,
-                maxConnections: 4,
-                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}],
-                availableConnections: [
-                    {
-                        childReference: 'waitEventReference1',
-                        type: CONNECTOR_TYPE.REGULAR
-                    },
-                    {
-                        type: CONNECTOR_TYPE.FAULT
-                    }
-                ]
-            };
-
-            event1 = {
-                guid: 'waitEventReference1',
-                label: 'event1 label'
-            };
-
-            event2 = {
-                    guid: 'waitEventReference2',
-                    label: 'event2 label'
-                };
-
-            originalState = {
-                [wait.guid]: wait,
-                [event1.guid]: event1,
-                [event2.guid]: event2
-            };
+        const payload = {
+            canvasElement: {
+                guid: 'guid1',
+                elementType: "DECISION",
+                name: 'decision2',
+                outcomeReferences: [{
+                    outcomeReference: 'guid2'
+                }]
+            },
+            deletedChildElementGuids: [],
+            childElements: [{
+                guid: 'guid2',
+                elementType: "OUTCOME",
+                name: 'outcome3'
+            }]
+        };
+        it('with state set to undefined & action type set to MODIFY_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: MODIFY_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
         });
 
-        describe('deleted event', () => {
-            beforeEach(() => {
-                // event1 will be deleted; the new wait node passed as argument to the reducer will looks this:
-                wait = {
-                    guid: 'waitGuid',
-                    label: 'test wait element',
-                    connectorCount: 2,
-                    waitEventReferences: [{waitEventReference: 'waitEventReference2'}]
-                };
-            });
-            it('is deleted', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: {
-                        canvasElement: wait,
-                        childElements: [],
-                        deletedChildElementGuids: [event1.guid],
-                    }
-                });
-
-                expect(newState[event1.guid]).toBeUndefined();
-            });
+        it('with state set to defined & action type set to MODIFY_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: MODIFY_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
         });
     });
 
-    describe('delete wait', () => {
-        let wait;
-        let event1, event2;
-        let originalState;
+    describe('Delete Decision with Outcomes', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'DECISION',
+                name: 'decison1',
+                outcomeReferences: [{
+                    outcomeReference: 'guid4'
+                }]
+            }
+        };
+        const newElements = {
+            guid2: {
+                guid: 'guid2',
+                elementType: "DECISION",
+                name: 'decision2',
+                outcomeReferences: [{
+                    outcomeReference: 'guid3'
+                }]
+            },
+            guid3: {
+                guid: 'guid3',
+                name: 'outcome1',
+                elementType: 'OUTCOME'
+            }
+        };
 
-        beforeEach(() => {
-            wait = {
-                elementType: ELEMENT_TYPE.WAIT,
-                guid: 'waitGuid',
-                label: 'test wait element',
-                waitEventReferences: [{waitEventReference: 'waitEventReference1'}, {waitEventReference: 'waitEventReference2'}],
-            };
-
-            event1 = {
-                guid: 'waitEventReference1',
-                label: 'event1 label'
-            };
-
-            event2 = {
-                    guid: 'waitEventReference2',
-                    label: 'event2 label'
-                };
-
-            originalState = {
-                [wait.guid]: wait,
-                [event1.guid]: event1,
-                [event2.guid]: event2
-            };
+        const payload = {
+            canvasElement: {
+                guid: 'guid2',
+                elementType: "DECISION",
+                name: 'decision2',
+                outcomeReferences: [{
+                    outcomeReference: 'guid3'
+                }]
+            },
+            deletedChildElementGuids: ['guid1'],
+            childElements: [{
+                guid: 'guid3',
+                name: 'outcome1',
+                elementType: 'OUTCOME'
+            }]
+        };
+        it('with state set to undefined & action type set to MODIFY_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: MODIFY_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
         });
 
-        it('deletes the wait from the given state', () => {
-            const newState = elementReducer(originalState, {
-                type: DELETE_ELEMENT,
-                payload: { selectedElementGUIDs: [wait.guid], connectorsToDelete: []},
-            });
-            expect(newState).not.toHaveProperty(wait.guid);
-        });
-
-        it('deletes any wait events in the wait element', () => {
-            const newState = elementReducer(originalState, {
-                type: DELETE_ELEMENT,
-                payload: { selectedElementGUIDs: [wait.guid], connectorsToDelete: []},
-            });
-            expect(newState).not.toHaveProperty(event1.guid);
-            expect(newState).not.toHaveProperty(event2.guid);
+        it('with state set to defined & action type set to MODIFY_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: MODIFY_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
         });
     });
 
-    describe('MODIFY_SCREEN_WITH_FIELDS', () => {
-        let screen;
-        let field;
-        let originalState;
+    describe('Add Wait with Wait Events', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'WAIT',
+                name: 'wait1'
+            }
+        };
+        const newElements = {
+            guid2: {
+                guid: 'guid2',
+                elementType: "WAIT",
+                name: 'wait2',
+                waitEventReferences: [{
+                    waitEventReference: 'guid3'
+                }]
+            },
+            guid3: {
+                guid: 'guid3',
+                name: 'waitEvent1',
+                elementType: 'WAIT_EVENT'
+            }
+        };
 
-        beforeEach(() => {
-            screen = {
-                guid: 'screen1',
-                label: 'origLabel',
-                connectorCount: 1,
-                maxConnections: 1,
-                fieldReferences: [{fieldReference: 'field1'}]
-            };
-
-            field = {
-                guid: 'field1',
-                label: 'fieldLabel1'
-            };
-
-            originalState = {
-                [screen.guid]: screen,
-                [field.guid]: field
-            };
+        const payload = {
+            canvasElement: {
+                guid: 'guid2',
+                elementType: "WAIT",
+                name: 'wait2',
+                waitEventReferences: [{
+                    waitEventReference: 'guid3'
+                }]
+            },
+            deletedChildElementGuids: [],
+            childElements: [{
+                guid: 'guid3',
+                name: 'waitEvent1',
+                elementType: "WAIT_EVENT"
+            }]
+        };
+        it('with state set to undefined & action type set to ADD_WAIT_WITH_WAIT_EVENTS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: ADD_WAIT_WITH_WAIT_EVENTS, payload});
+            expect(newElementState).toEqual(newElements);
         });
 
-        it('updates the screen element', () => {
-            const updatedScreen = {
-                guid: screen.guid,
-                label: 'newLabel'
-            };
+        it('with state set to defined & action type set to ADD_WAIT_WITH_WAIT_EVENTS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: ADD_WAIT_WITH_WAIT_EVENTS, payload});
+            expect(newElementState).toEqual({...oldElements, ...newElements});
+        });
+    });
 
-            const newState = elementReducer(originalState, {
-                type: MODIFY_SCREEN_WITH_FIELDS,
-                payload: {
-                    screen: updatedScreen,
-                    fields: [],
-                    deletedFields: [],
+    describe('Update Wait with Wait Events', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'WAIT',
+                name: 'wait1',
+                waitEventReferences: [{
+                    waitEventReference: 'guid3'
+                }]
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "WAIT_EVENT",
+                name: 'waitEvent2'
+            }
+        };
+        const newElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'WAIT',
+                name: 'wait2',
+                waitEventReferences: [{
+                    waitEventReference: 'guid2'
+                }]
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "WAIT_EVENT",
+                name: 'waitEvent3'
+            }
+        };
 
+        const payload = {
+            canvasElement: {
+                guid: 'guid1',
+                elementType: "WAIT",
+                name: 'wait2',
+                waitEventReferences: [{
+                    waitEventReference: 'guid2'
+                }]
+            },
+            deletedChildElementGuids: [],
+            childElements: [{
+                guid: 'guid2',
+                elementType: "WAIT_EVENT",
+                name: 'waitEvent3'
+            }]
+        };
+        it('with state set to undefined & action type set to MODIFY_WAIT_WITH_WAIT_EVENTS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: MODIFY_WAIT_WITH_WAIT_EVENTS, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+
+        it('with state set to defined & action type set to MODIFY_WAIT_WITH_WAIT_EVENTS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: MODIFY_WAIT_WITH_WAIT_EVENTS, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Delete Wait with Wait Event', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: 'WAIT',
+                name: 'wait1',
+                waitEventReferences: [{
+                    waitEventReference: 'guid4'
+                }]
+            }
+        };
+        const newElements = {
+            guid2: {
+                guid: 'guid2',
+                elementType: "WAIT",
+                name: 'wait2',
+                waitEventReferences: [{
+                    waitEventReference: 'guid3'
+                }]
+            },
+            guid3: {
+                guid: 'guid3',
+                name: 'waitEvent1',
+                elementType: 'WAIT_EVENT'
+            }
+        };
+
+        const payload = {
+            canvasElement: {
+                guid: 'guid2',
+                elementType: "WAIT",
+                name: 'wait2',
+                waitEventReferences: [{
+                    waitEventReference: 'guid3'
+                }]
+            },
+            deletedChildElementGuids: ['guid1'],
+            childElements: [{
+                guid: 'guid3',
+                name: 'waitEvent1',
+                elementType: 'WAIT_EVENT'
+            }]
+        };
+        it('with state set to undefined & action type set to MODIFY_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: MODIFY_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+
+        it('with state set to defined & action type set to MODIFY_DECISION_WITH_OUTCOMES should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: MODIFY_DECISION_WITH_OUTCOMES, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Add Screen with Fields', () => {
+        const oldElements = {};
+        const newElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen1',
+                fieldReferences: ['guid2']
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "SCREEN_FIELD",
+                name: 'screenField'
+            }
+        };
+
+        const payload = {
+            screen: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen1',
+                fieldReferences: ['guid2']
+            },
+            deletedFields: [],
+            fields: [
+                {
+                    guid: 'guid2',
+                    elementType: "SCREEN_FIELD",
+                    name: 'screenField'
                 }
-            });
-
-            const newScreen = newState[screen.guid];
-
-            expect(newScreen).not.toBe(screen);
-            expect(newScreen.guid).toEqual(updatedScreen.guid);
-            expect(newScreen.label).toEqual(updatedScreen.label);
+            ]
+        };
+        it('with state set to undefined & action type set to ADD_SCREEN_WITH_FIELDS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: ADD_SCREEN_WITH_FIELDS, payload});
+            expect(newElementState).toEqual(newElements);
         });
 
-        it('adds a new screen element', () => {
-            const newScreen = {
-                guid: 'newScreenGuid',
-                label: 'newLabel',
-                connectorCount: 0,
-                maxConnections: 1
-            };
-            const newField = {
-                guid: 'field2',
-                label: 'field2Label'
-            };
-            const newState = elementReducer(originalState, {
-                type: MODIFY_SCREEN_WITH_FIELDS,
-                payload: {
-                    screen: newScreen,
-                    fields: [newField],
-                    deletedFields: [],
+        it('with state set to defined & action type set to ADD_SCREEN_WITH_FIELDS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: ADD_SCREEN_WITH_FIELDS, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Update Screen with Fields', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen1',
+                fieldReferences: ['guid2']
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "SCREEN_FIELD",
+                name: 'screenField1'
+            }
+        };
+        const newElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen2',
+                fieldReferences: ['guid2']
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "SCREEN_FIELD",
+                name: 'screenField2'
+            }
+        };
+
+        const payload = {
+            screen: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen2',
+                fieldReferences: ['guid2']
+            },
+            deletedFields: [],
+            fields: [
+                {
+                    guid: 'guid2',
+                    elementType: "SCREEN_FIELD",
+                    name: 'screenField2'
                 }
-            });
-            const addedScreen = newState[newScreen.guid];
-
-            expect(addedScreen.guid).toEqual(newScreen.guid);
-            expect(addedScreen.label).toEqual(newScreen.label);
-            expect(addedScreen.connectorCount).toEqual(0);
-            expect(addedScreen.maxConnections).toEqual(1);
+            ]
+        };
+        it('with state set to undefined & action type set to MODIFY_SCREEN_WITH_FIELDS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: MODIFY_SCREEN_WITH_FIELDS, payload});
+            expect(newElementState).toEqual(newElements);
         });
 
-        it('updates screen fields', () => {
-            const updatedField = {
-                guid: field.guid,
-                label: 'new field label'
+        it('with state set to defined & action type set to MODIFY_SCREEN_WITH_FIELDS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: MODIFY_SCREEN_WITH_FIELDS, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Delete Fields in Screen', () => {
+        const oldElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen1',
+                fieldReferences: ['guid2']
+            },
+            guid2: {
+                guid: 'guid2',
+                elementType: "SCREEN_FIELD",
+                name: 'screenField'
+            }
+        };
+        const newElements = {
+            guid1: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen1',
+                fieldReferences: []
+            }
+        };
+
+        const payload = {
+            screen: {
+                guid: 'guid1',
+                elementType: "SCREEN",
+                name: 'screen1',
+                fieldReferences: []
+            },
+            deletedFields: [
+                {
+                    guid: 'guid2',
+                    elementType: "SCREEN_FIELD",
+                    name: 'screenField'
+                }
+            ],
+            fields: []
+        };
+        it('with state set to undefined & action type set to MODIFY_SCREEN_WITH_FIELDS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(undefined, {type: MODIFY_SCREEN_WITH_FIELDS, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+
+        it('with state set to defined & action type set to MODIFY_SCREEN_WITH_FIELDS should return the new element state with the updated state', () => {
+            const newElementState = elementReducer(oldElements, {type: MODIFY_SCREEN_WITH_FIELDS, payload});
+            expect(newElementState).toEqual(newElements);
+        });
+    });
+
+    describe('Default', () => {
+        it('with state set to undefined & action type set to empty should return an empty object', () => {
+            expect(elementReducer(undefined, {})).toEqual({});
+        });
+
+        it('with state set to defined & action type set to empty should return an original element state', () => {
+            const oldElements = {
+                guid1: {
+                    guid: 'guid1'
+                }
             };
 
-            const newState = elementReducer(originalState, {
-                type: MODIFY_SCREEN_WITH_FIELDS,
-                payload: {
-                    screen,
-                    fields: [updatedField],
-                    deletedFields: [],
-
-                }
-            });
-
-            const newField = newState[field.guid];
-
-            expect(newField).not.toBe(field);
-
-            expect(newField.guid).toEqual(updatedField.guid);
-            expect(newField.label).toEqual(updatedField.label);
-        });
-
-        it('adds screen fields', () => {
-            const field2 = {
-                guid: 'newO',
-                label: 'new field label'
-            };
-
-            const newState = elementReducer(originalState, {
-                type: MODIFY_SCREEN_WITH_FIELDS,
-                payload: {
-                    screen,
-                    fields: [field, field2],
-                    deletedFields: [],
-
-                }
-            });
-
-            const newField = newState[field2.guid];
-            const newScreen = newState[screen.guid];
-
-            expect(newField).toEqual(field2);
-            expect(newScreen.maxConnections).toEqual(1);
-        });
-
-        describe('deleted screen fields', () => {
-            it('are deleted', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_SCREEN_WITH_FIELDS,
-                    payload: {
-                        screen,
-                        fields: [],
-                        deletedFields: [field],
-
-                    }
-                });
-
-                expect(newState[field.guid]).toBeUndefined();
-            });
-
-            it('updates screen maxConnections', () => {
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_SCREEN_WITH_FIELDS,
-                    payload: {
-                        screen,
-                        fields: [{}],
-                        deletedFields: [field],
-                    }
-                });
-
-                expect(newState[screen.guid].maxConnections).toBe(1);
-            });
-
-            it('without connector does not change connectorCount', () => {
-                screen.availableConnections = [{childReference: field.guid}];
-
-                const newState = elementReducer(originalState, {
-                    type: MODIFY_SCREEN_WITH_FIELDS,
-                    payload: {
-                        screen,
-                        fields: [],
-                        deletedFields: [field],
-
-                    }
-                });
-
-                expect(newState[screen.guid].connectorCount).toBe(screen.connectorCount);
-            });
+            const newElementState = elementReducer(oldElements, {});
+            expect(newElementState).toEqual(oldElements);
         });
     });
 });
