@@ -1,6 +1,7 @@
 import canvasElementsReducer from "../canvasElementsReducer";
 import {
     UPDATE_FLOW,
+    DO_DUPLICATE,
     DELETE_ELEMENT,
     ADD_CANVAS_ELEMENT,
     ADD_DECISION_WITH_OUTCOMES,
@@ -29,6 +30,16 @@ describe('canvas-elements-reducer', () => {
 
     it('with state undefined & action type set to UPDATE_FLOW should return the array of canvas elements', () => {
         expect(canvasElementsReducer(undefined, {type: UPDATE_FLOW, payload: {canvasElements: []}})).toEqual([]);
+    });
+
+    it('with state set to defined & action type set to DO_DUPLICATE should return the array of canvas elements with duplicate element added', () => {
+        expect(canvasElementsReducer(oldCanvasElementsState, {
+            type: DO_DUPLICATE,
+            payload: { canvasElementGuidMap: {
+                1: 7,
+                2: 8
+            }}
+        })).toHaveLength(oldCanvasElementsState.length + 2);
     });
 
     it('with state set to defined & action type set to ADD_CANVAS_ELEMENT should return the array with the new canvas element added', () => {

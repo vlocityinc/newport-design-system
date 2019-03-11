@@ -5,7 +5,7 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { createFEROV } from "../ferov";
 import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
 
-export const DUPLICATE_ELEMENT_XY_OFFSET = 50;
+export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
 export function baseResource(resource = {}) {
     const newResource = baseElement(resource);

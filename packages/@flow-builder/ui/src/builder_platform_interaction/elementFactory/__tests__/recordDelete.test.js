@@ -2,6 +2,7 @@ import { createRecordDelete, createDuplicateRecordDelete, createRecordDeleteMeta
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -192,10 +193,10 @@ describe('createDuplicateRecordDelete function', () => {
         expect(duplicatedElement.name).toEqual('duplicatedName');
     });
     it('has the updated locationX', () => {
-        expect(duplicatedElement.locationX).toEqual(originalRecordDelete.locationX + 50);
+        expect(duplicatedElement.locationX).toEqual(originalRecordDelete.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has the updated locationY', () => {
-        expect(duplicatedElement.locationY).toEqual(originalRecordDelete.locationY + 50);
+        expect(duplicatedElement.locationY).toEqual(originalRecordDelete.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has isSelected set to true', () => {
         expect(duplicatedElement.config.isSelected).toBeTruthy();

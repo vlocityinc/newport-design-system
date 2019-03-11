@@ -3,6 +3,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -255,10 +256,10 @@ describe('recordLookup', () => {
             expect(duplicatedElement.name).toEqual('duplicatedName');
         });
         it('has the updated locationX', () => {
-            expect(duplicatedElement.locationX).toEqual(originalRecordLookup.locationX + 50);
+            expect(duplicatedElement.locationX).toEqual(originalRecordLookup.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has the updated locationY', () => {
-            expect(duplicatedElement.locationY).toEqual(originalRecordLookup.locationY + 50);
+            expect(duplicatedElement.locationY).toEqual(originalRecordLookup.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has isSelected set to true', () => {
             expect(duplicatedElement.config.isSelected).toBeTruthy();

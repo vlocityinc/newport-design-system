@@ -4,10 +4,12 @@ import {
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
+    DO_DUPLICATE,
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS
 } from "builder_platform_interaction/actions";
+import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const connectorsState = [{
     guid: 'c1',
@@ -168,6 +170,61 @@ describe('connectors-reducer', () => {
                 type: DELETE_ELEMENT,
                 payload
             })).toEqual(newConnectorStateAfterConnectorDeletion);
+        });
+    });
+
+    describe('DO_DUPLICATE', () => {
+        it('duplicates a connector', () => {
+            const elementGuid = '123';
+            const childElementGuid = '456';
+            const duplicateElementGuid = '789';
+            const duplicateChildElementGuid = '012';
+            const targetElementGuid = '777';
+            const duplicateTargetElementGuid = '42';
+
+            const canvasElementGuidMap = {
+                [elementGuid]: duplicateElementGuid,
+                [targetElementGuid]: duplicateTargetElementGuid
+            };
+            const childElementGuidMap = {
+                [childElementGuid]: duplicateChildElementGuid
+            };
+            const connectors = [{
+                label: 'foo',
+                source: elementGuid,
+                childSource: childElementGuid,
+                target: targetElementGuid,
+                type: CONNECTOR_TYPE.REGULAR,
+                config: {
+                    isSelected: true
+                }
+            }];
+
+            const payload = {
+                canvasElementGuidMap,
+                childElementGuidMap,
+                connectorsToDuplicate: connectors
+            };
+
+            const newConnectorsState = reducer(connectors, {
+                type: DO_DUPLICATE,
+                payload
+            });
+
+            const expectedOriginalConnector = connectors[0];
+            expectedOriginalConnector.config.isSelected = false;
+            const expectedDuplicateConnector = {
+                label: 'foo',
+                source: duplicateElementGuid,
+                childSource: duplicateChildElementGuid,
+                target: duplicateTargetElementGuid,
+                type: CONNECTOR_TYPE.REGULAR,
+                config: {
+                    isSelected: true
+                }
+            };
+            expect(newConnectorsState).toContainEqual(expect.objectContaining(expectedOriginalConnector));
+            expect(newConnectorsState).toContainEqual(expect.objectContaining(expectedDuplicateConnector));
         });
     });
 

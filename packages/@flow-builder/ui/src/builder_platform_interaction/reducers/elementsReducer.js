@@ -98,6 +98,7 @@ function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap
     const childElementGuidsToDuplicate = Object.keys(childElementGuidMap);
     const blacklistNames = [];
     const childElementNameMap = _getDuplicateChildElementNameMap(newState, childElementGuidsToDuplicate, blacklistNames);
+    blacklistNames.push(Object.values(childElementNameMap));
 
     for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
         const selectedElement = newState[elementGuidsToDuplicate[i]];

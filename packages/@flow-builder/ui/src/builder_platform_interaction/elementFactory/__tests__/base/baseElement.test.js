@@ -5,7 +5,8 @@ import {
     duplicateCanvasElementWithChildElements,
     baseChildElement,
     baseCanvasElementsArrayToMap,
-    createCondition
+    createCondition,
+    DUPLICATE_ELEMENT_XY_OFFSET
 } from "../../base/baseElement";
 import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import {FLOW_DATA_TYPE} from "../../../dataTypeLib/dataTypeLib";
@@ -167,8 +168,8 @@ describe('Duplicate Base Canvas Element Function', () => {
     const duplicatedCanvasElement = {
         guid: 'duplicateElement',
         name: 'Assignment1_0',
-        locationX: 60,
-        locationY: 70,
+        locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+        locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
         config: {isSelected: true, isHighlighted: false},
         connectorCount: 0,
         maxConnections: 1,
@@ -220,8 +221,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Decision1_0',
-                locationX: 60,
-                locationY: 70,
+                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
                 config: {isSelected: true, isHighlighted: false},
                 connectorCount: 0,
                 maxConnections: 2,
@@ -279,8 +280,8 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Screen1_0',
-                locationX: 60,
-                locationY: 70,
+                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
                 config: {isSelected: true, isHighlighted: false},
                 connectorCount: 0,
                 maxConnections: 1,

@@ -2,6 +2,7 @@ import { createSubflow, createDuplicateSubflow, createSubflowMetadataObject, cre
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { deepCopy } from "builder_platform_interaction/storeLib";
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -230,10 +231,10 @@ describe('subflow', () => {
             expect(duplicatedElement.name).toEqual('duplicatedName');
         });
         it('has the updated locationX', () => {
-            expect(duplicatedElement.locationX).toEqual(originalSubflow.locationX + 50);
+            expect(duplicatedElement.locationX).toEqual(originalSubflow.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has the updated locationY', () => {
-            expect(duplicatedElement.locationY).toEqual(originalSubflow.locationY + 50);
+            expect(duplicatedElement.locationY).toEqual(originalSubflow.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
         });
         it('has isSelected set to true', () => {
             expect(duplicatedElement.config.isSelected).toBeTruthy();

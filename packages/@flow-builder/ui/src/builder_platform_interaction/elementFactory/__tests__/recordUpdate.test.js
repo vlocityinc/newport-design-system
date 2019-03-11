@@ -5,6 +5,7 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 expect.extend(deepFindMatchers);
 
@@ -190,10 +191,10 @@ describe('createDuplicateRecordUpdate function', () => {
         expect(duplicatedElement.name).toEqual('duplicatedName');
     });
     it('has the updated locationX', () => {
-        expect(duplicatedElement.locationX).toEqual(originalRecordUpdate.locationX + 50);
+        expect(duplicatedElement.locationX).toEqual(originalRecordUpdate.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has the updated locationY', () => {
-        expect(duplicatedElement.locationY).toEqual(originalRecordUpdate.locationY + 50);
+        expect(duplicatedElement.locationY).toEqual(originalRecordUpdate.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has isSelected set to true', () => {
         expect(duplicatedElement.config.isSelected).toBeTruthy();

@@ -4,6 +4,7 @@ import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowM
 import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -205,10 +206,10 @@ describe('createDuplicateRecordCreate function', () => {
         expect(duplicatedElement.name).toEqual('duplicatedName');
     });
     it('has the updated locationX', () => {
-        expect(duplicatedElement.locationX).toEqual(originalRecordCreate.locationX + 50);
+        expect(duplicatedElement.locationX).toEqual(originalRecordCreate.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has the updated locationY', () => {
-        expect(duplicatedElement.locationY).toEqual(originalRecordCreate.locationY + 50);
+        expect(duplicatedElement.locationY).toEqual(originalRecordCreate.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
     });
     it('has isSelected set to true', () => {
         expect(duplicatedElement.config.isSelected).toBeTruthy();
