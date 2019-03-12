@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
 const async = require('async');
@@ -9,18 +8,15 @@ const autoprefixer = require('autoprefixer');
 const gulp = require('gulp');
 const gulpinsert = require('gulp-insert');
 const gulprename = require('gulp-rename');
-const Immutable = require('immutable');
 const postcss = require('gulp-postcss');
 const rimraf = require('rimraf');
 const sass = require('gulp-sass');
 const minifycss = require('gulp-minify-css');
 const ui = require('./ui');
-const webpack = require('webpack');
 const { createLibrary } = require('./compile/bundle');
 
 const packageJSON = require('../package.json');
 const paths = require('./helpers/paths');
-const releaseNotes = require('./npm/release-notes');
 
 const NDS_VERSION = packageJSON.version;
 const DISPLAY_NAME = 'Vlocity Newport Design System';
