@@ -1,5 +1,5 @@
 import { mutateFlowResourceToComboboxShape } from "builder_platform_interaction/expressionUtils";
-import { apexVariablesSelector } from "builder_platform_interaction/selectors";
+import { apexScalarVariablesSelector } from "builder_platform_interaction/selectors";
 import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
@@ -29,7 +29,7 @@ export const addToParentElementCache = (key, value) => {
  */
 export const getElementFromParentElementCache = (key) => {
     if (!parentElementCache[key] && !apexClassesCached) {
-        apexVariablesSelector(Store.getStore().getCurrentState()).forEach(el => {
+        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach(el => {
             const menuItem = mutateFlowResourceToComboboxShape(el);
             parentElementCache[menuItem.displayText] = menuItem;
         });

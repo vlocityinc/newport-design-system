@@ -6,5 +6,5 @@ export { readableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,
-    apexVariablesSelector,
+    apexScalarVariablesSelector,
 } from "./menuDataSelector";

@@ -32,7 +32,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        apexVariablesSelector: jest.fn(() => []),
+        apexScalarVariablesSelector: jest.fn(() => []),
     };
 });
 

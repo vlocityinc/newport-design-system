@@ -102,4 +102,4 @@ export const choiceSelector = (dataType) => {
 export const writableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType === ELEMENT_TYPE.VARIABLE));
 export const readableElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType !== ELEMENT_TYPE.START_ELEMENT));
 export const collectionElementsSelector = createSelector([elementsSelector], getFilteredElements(element => element.isCollection));
-export const apexVariablesSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType === ELEMENT_TYPE.VARIABLE && element.dataType === FLOW_DATA_TYPE.APEX.value));
+export const apexScalarVariablesSelector = createSelector([elementsSelector], getFilteredElements(element => element.elementType === ELEMENT_TYPE.VARIABLE && element.dataType === FLOW_DATA_TYPE.APEX.value && !element.isCollection));
