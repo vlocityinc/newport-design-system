@@ -197,6 +197,7 @@ export function describeExtension(name, refreshCache, callback) {
     if (name) {
         if (!refreshCache && extensionDescriptionCache[name] !== undefined) {
             callback(cloneDescription(extensionDescriptionCache[name]), null);
+            return;
         }
 
         fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS, ({data, error}) => {
