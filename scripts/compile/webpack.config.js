@@ -20,8 +20,8 @@ module.exports = I.fromJS({
             loader: 'babel-loader',
             options: {
               babelrc: false,
-              presets: ['es2015', 'react'],
-              plugins: ['transform-object-rest-spread']
+              presets: ['es2015', '@babel/preset-react'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread']
             }
           }
         ]
