@@ -53,8 +53,9 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     get inputRichTextValue() {
         // Replacing new line with <br /> tag as done at runtime (see _createOutput in factory.js)
-        if (this.state.value != null) {
-            return this.state.value.replace(/\n/g, '<br />');
+        // if html is sanitized, this has already been done
+        if (this.state.value != null && !this.isHTMLSanitized) {
+            return this.replaceNewLinesWithBrTags(this.state.value);
         }
         return this.state.value;
     }
@@ -63,14 +64,21 @@ export default class ResourcedRichTextEditor extends LightningElement {
         return  'container' + (this.state.error ? ' has-error' : '');
     }
 
+    // Replace new line with <br /> tag as done at runtime (see _createOutput in factory.js)
+    replaceNewLinesWithBrTags(value) {
+        return value.replace(/\n/g, '<br />');
+    }
+
     handleChangeEvent(event) {
         event.stopPropagation();
         let value = event.detail.value;
         if (!this.isHTMLSanitized) {
             // when inputRichText is activated we get a change event
+            // except if html text is empty
             if (this.state.value !== '') {
-                // except if html text is empty
-                value = convertHTMLToQuillHTML(this.state.value);
+                // we replace new line with <br /> tag as done at runtime
+                value = this.replaceNewLinesWithBrTags(this.state.value);
+                value = convertHTMLToQuillHTML(value);
             }
             this.isHTMLSanitized = true;
         }

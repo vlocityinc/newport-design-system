@@ -56,6 +56,15 @@ describe('Rich Text Editor', () => {
             expect(abbrElement).toBeNull();
         });
     });
+    describe('before Rich Text Editor activation', () => {
+        it('replaces new lines with <br />, as is done at runtime', () => {
+            const htmlText = 'first line\nsecond line';
+            richTextEditor = createComponentUnderTest({value: htmlText});
+            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            expect(inputRichTextElement.value).toBe('first line<br />second line');
+            expect(richTextEditor.value).toBe(htmlText);
+        });
+    });
     describe('events', () => {
         let eventCallback;
         const expectValueChangedEventWithValue = (value, error = null) => {
@@ -68,18 +77,33 @@ describe('Rich Text Editor', () => {
         beforeEach(() => {
             eventCallback = jest.fn();
         });
-        it('Should convert the html to quill html on first change event', () => {
-            // Given
-            const htmlText = '<li>first</li><li>second</li>';
-            richTextEditor = createComponentUnderTest({value: htmlText});
-            const inputRichTextElement = getInputRichTextElement(richTextEditor);
-            richTextEditor.addEventListener('change', eventCallback);
+        describe('when Rich Text Editor is activated', () => {
+            it('replaces new lines with <br />, as is done at runtime on first change event', () => {
+                // Given
+                const htmlText = 'first line\nsecond line';
+                richTextEditor = createComponentUnderTest({value: htmlText});
+                const inputRichTextElement = getInputRichTextElement(richTextEditor);
+                richTextEditor.addEventListener('change', eventCallback);
 
-            // When we click on a non-empty lightning-input-rich-text, a change event is fired
-            fireChangeEvent(inputRichTextElement, htmlText);
+                // When we click on a non-empty lightning-input-rich-text, a change event is fired
+                fireChangeEvent(inputRichTextElement, htmlText);
 
-            // Then
-            expectValueChangedEventWithValue(`<converted>${htmlText}</converted>`, null);
+                // Then
+                expectValueChangedEventWithValue(`<converted>first line<br />second line</converted>`, null);
+            });
+            it('Should convert the html to quill html on first change event', () => {
+                // Given
+                const htmlText = '<li>first</li><li>second</li>';
+                richTextEditor = createComponentUnderTest({value: htmlText});
+                const inputRichTextElement = getInputRichTextElement(richTextEditor);
+                richTextEditor.addEventListener('change', eventCallback);
+
+                // When we click on a non-empty lightning-input-rich-text, a change event is fired
+                fireChangeEvent(inputRichTextElement, htmlText);
+
+                // Then
+                expectValueChangedEventWithValue(`<converted>${htmlText}</converted>`, null);
+            });
         });
         it('Should fire change event on change when html text is empty', () => {
             const htmlText = '';
