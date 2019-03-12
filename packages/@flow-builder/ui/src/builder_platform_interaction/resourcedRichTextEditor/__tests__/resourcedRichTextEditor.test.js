@@ -105,8 +105,21 @@ describe('Rich Text Editor', () => {
                 expectValueChangedEventWithValue(`<converted>${htmlText}</converted>`, null);
             });
         });
-        it('Should fire change event on change when html text is empty', () => {
+        it('Should fire change event on change when value is empty', () => {
             const htmlText = '';
+            richTextEditor = createComponentUnderTest({value: htmlText});
+            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            richTextEditor.addEventListener('change', eventCallback);
+
+            // When we click on an empty lightning-input-rich-text, no change event is fired
+            // A change event is fired when we modify text
+            fireChangeEvent(inputRichTextElement, 'a');
+
+            // Then
+            expectValueChangedEventWithValue('a', null);
+        });
+        it('Should fire change event on change when value is null', () => {
+            const htmlText = null;
             richTextEditor = createComponentUnderTest({value: htmlText});
             const inputRichTextElement = getInputRichTextElement(richTextEditor);
             richTextEditor.addEventListener('change', eventCallback);

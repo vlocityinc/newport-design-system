@@ -75,7 +75,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
         if (!this.isHTMLSanitized) {
             // when inputRichText is activated we get a change event
             // except if html text is empty
-            if (this.state.value !== '') {
+            if (this.state.value != null && this.state.value !== '') {
                 // we replace new line with <br /> tag as done at runtime
                 value = this.replaceNewLinesWithBrTags(this.state.value);
                 value = convertHTMLToQuillHTML(value);
