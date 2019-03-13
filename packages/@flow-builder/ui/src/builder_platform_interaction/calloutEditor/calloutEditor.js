@@ -36,7 +36,7 @@ export default class CalloutEditor extends LightningElement {
 
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-            flowProcessType : this.flowProcessType
+            flowProcessType: this.flowProcessType
         }).then((invocableActions) => {
             this.invocableActionsFetched = true;
             this.invocableActions = invocableActions;
@@ -165,8 +165,8 @@ export default class CalloutEditor extends LightningElement {
                     return result;
                 }, []);
 
-        this.categoryOptions.push({ label: LABELS.unCategorizedInvocableActions, name: LABELS.unCategorizedInvocableActions});
-        this.categoryOptions.unshift({ label: LABELS.allInvocableActions, name: LABELS.allInvocableActions});
+            this.categoryOptions.push({ label: LABELS.unCategorizedInvocableActions, name: LABELS.unCategorizedInvocableActions });
+            this.categoryOptions.unshift({ label: LABELS.allInvocableActions, name: LABELS.allInvocableActions });
         }
     }
 
@@ -202,6 +202,8 @@ export default class CalloutEditor extends LightningElement {
 
         if (this.selectedFilterBy === LABELS.filterByTypeOption) {
             this.selectedAction = { elementType: this.selectedCategory };
+        } else {
+            this.selectedAction = { elementType: ELEMENT_TYPE.ACTION_CALL };
         }
     }
 }
