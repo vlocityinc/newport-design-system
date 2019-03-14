@@ -20,4 +20,6 @@ export default class LightningInputRichText extends LightningElement {
             value: textEntered
         });
     }
+
+    @api insertTextAtCursor = jest.fn();
 }

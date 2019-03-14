@@ -3,6 +3,8 @@ import RichTextEditor from "../resourcedRichTextEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
+jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+
 const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-resourced-rich-text-editor', {
         is: RichTextEditor
@@ -11,6 +13,11 @@ const createComponentUnderTest = (props) => {
     document.body.appendChild(el);
     return el;
 };
+
+const focusoutEvent = new FocusEvent('focusout', {
+    'bubbles'   : true,
+    'cancelable': true,
+});
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
@@ -27,7 +34,8 @@ jest.mock('../richTextConverter', () => {
 const selectors = {
     label: 'label',
     abbr: 'abbr',
-    inputRichText: 'lightning-input-rich-text'
+    inputRichText: 'lightning-input-rich-text',
+    ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker'
 };
 
 const getLabelElement = (richTextEditor) => {
@@ -36,6 +44,10 @@ const getLabelElement = (richTextEditor) => {
 
 const getInputRichTextElement = (richTextEditor) => {
     return getShadowRoot(richTextEditor).querySelector(selectors.inputRichText);
+};
+
+const getResourcePicker = (richTextEditor) => {
+    return getShadowRoot(richTextEditor).querySelector(selectors.ferovResourcePicker);
 };
 
 describe('Rich Text Editor', () => {
@@ -162,6 +174,29 @@ describe('Rich Text Editor', () => {
 
             // Then
             expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
+        });
+    });
+    describe('Resource picker', () => {
+        let inputRichTextElement;
+        let resourcePicker;
+        beforeEach(() => {
+            richTextEditor = createComponentUnderTest({value: 'the existing text'});
+            inputRichTextElement = getInputRichTextElement(richTextEditor);
+            resourcePicker = getResourcePicker(richTextEditor);
+        });
+        it('Should insert corresponding merge field in the text when an item is selected', () => {
+            const itemSelectedEvent = new CustomEvent('itemselected', {detail: {item: {displayText: '{$Flow.CurrentDate}'}}});
+            resourcePicker.dispatchEvent(itemSelectedEvent);
+            return Promise.resolve().then(() => {
+                expect(inputRichTextElement.insertTextAtCursor).toHaveBeenCalledWith('{$Flow.CurrentDate}');
+            });
+        });
+        it('Should reset value on focusout', () => {
+            resourcePicker.value = "";
+            resourcePicker.dispatchEvent(focusoutEvent);
+            return Promise.resolve().then(() => {
+                expect(resourcePicker.value).toBeNull();
+            });
         });
     });
 });

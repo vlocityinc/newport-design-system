@@ -13,6 +13,17 @@
                                    onchange={handleChangeEvent}
                                    onblur={handleBlurEvent}>
             </lightning-input-rich-text>
+            <div class='slds-p-around_x-small slds-p-bottom_xx-small'> 
+                <builder_platform_interaction-ferov-resource-picker combobox-config={resourceComboBoxConfig}
+                                                                    element-config={elementConfig}
+                                                                    hide-global-constants
+                                                                    show-global-variables={showGlobalVariables}
+                                                                    hide-new-resource={hideNewResource}
+                                                                    onfocusout={handleResourcePickerFocusout}
+                                                                    onitemselected={handleResourcePickerSelection}
+                                                                    >
+                </builder_platform_interaction-ferov-resource-picker>
+            </div> 
         </div>
 
         <div if:true={state.error} class='slds-has-error'>

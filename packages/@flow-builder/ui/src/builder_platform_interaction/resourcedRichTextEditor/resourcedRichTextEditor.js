@@ -3,9 +3,17 @@ import { booleanAttributeValue } from 'builder_platform_interaction/screenEditor
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from './resourcedRichTextEditorLabels';
 import { convertHTMLToQuillHTML } from './richTextConverter';
+import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
+import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 // all formats except 'video'
 const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'strike', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean', 'image'];
+
+const SELECTORS = {
+    INPUT_RICH_TEXT: 'lightning-input-rich-text',
+    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
+};
 
 /**
  * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'video'.
@@ -27,6 +35,22 @@ export default class ResourcedRichTextEditor extends LightningElement {
     labels = LABELS;
     hydrated = false;
     isHTMLSanitized = false;
+
+    resourceComboBoxConfig = BaseResourcePicker.getComboboxConfig(
+            LABELS.resourcePickerTitle, // Label
+            LABELS.resourcePickerPlaceholder, // Placeholder
+            null, // errorMessage
+            false, // literalsAllowed
+            false, // required
+            false, // disabled
+            'String', // type
+            true, // enableFieldDrilldown
+            LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN, // variant
+        );
+
+    elementConfig = {
+            elementType: ELEMENT_TYPE.SCREEN,
+        };
 
     get isRequired() {
         return booleanAttributeValue(this, 'required');
@@ -61,7 +85,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     get classList() {
-        return  'container' + (this.state.error ? ' has-error' : '');
+        return  'container slds-grid slds-grid_vertical' + (this.state.error ? ' has-error' : '');
     }
 
     // Replace new line with <br /> tag as done at runtime (see _createOutput in factory.js)
@@ -100,5 +124,23 @@ export default class ResourcedRichTextEditor extends LightningElement {
     fireChangeEvent(value, error) {
         const event = new CustomEvent('change', {detail: {value, error}, cancelable: true, composed: true, bubbles: true});
         this.dispatchEvent(event);
+    }
+
+    handleResourcePickerFocusout() {
+        Promise.resolve().then(() => {
+            const ferovResourcePicker = this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            ferovResourcePicker.value = null;
+            ferovResourcePicker.errorMessage = null;
+        });
+    }
+
+    handleResourcePickerSelection(event) {
+        event.stopPropagation();
+        const text = event.detail.item.displayText;
+        if (text) {
+            const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
+            inputRichText.insertTextAtCursor(text);
+            inputRichText.focus();
+        }
     }
 }
