@@ -6,7 +6,7 @@
                      Item Order
                  </slot>
         </div>
-        <div class="slds-vertical-tabs__nav slds-size_full" role="tablist" aria-orientation="vertical">
+        <div class="slds-vertical-tabs__nav slds-size_full slds-scrollable_y navigation-content" role="tablist" aria-orientation="vertical">
             <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
                 <builder_platform_interaction-reorderable-vertical-navigation-item
                     has-front-icon={item.isDraggable}
