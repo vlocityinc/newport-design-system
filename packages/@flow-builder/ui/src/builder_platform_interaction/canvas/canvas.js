@@ -21,6 +21,10 @@ const SELECTORS = {
     INNER_CANVAS: '.inner-canvas'
 };
 
+const CURSOR_STYLE_GRAB = 'grab';
+const CURSOR_STYLE_GRABBING = 'grabbing';
+const CURSOR_STYLE_DEFAULT = 'default';
+
 export default class Canvas extends LightningElement {
     @api nodes = [];
     @api connectors = [];
@@ -58,6 +62,19 @@ export default class Canvas extends LightningElement {
         }
         return false;
     }
+
+    updateCursorStyling = (cursorStyle = CURSOR_STYLE_DEFAULT) => {
+        if (cursorStyle === CURSOR_STYLE_GRAB) {
+            this.canvasArea.classList.remove('grabbing');
+            this.canvasArea.classList.add('grab');
+        } else if (cursorStyle === CURSOR_STYLE_GRABBING) {
+            this.canvasArea.classList.remove('grab');
+            this.canvasArea.classList.add('grabbing');
+        } else {
+            this.canvasArea.classList.remove('grab');
+            this.canvasArea.classList.remove('grabbing');
+        }
+    };
 
     constructor() {
         super();
@@ -175,12 +192,12 @@ export default class Canvas extends LightningElement {
             // Enabling pan mode
             this.isPanModeOn = true;
             if (!this.isMouseDown) {
-                this.canvasArea.style.cursor = '-webkit-grab';
+                this.updateCursorStyling(CURSOR_STYLE_GRAB);
             }
         } else if (action === PAN_ACTION.PAN_OFF) {
             // Disabling pan mode
             this.isPanModeOn = false;
-            this.canvasArea.style.cursor = 'default';
+            this.updateCursorStyling();
         }
     };
 
@@ -205,7 +222,7 @@ export default class Canvas extends LightningElement {
         // Checks if mouse is down while entering the overlay
         if (event.buttons === 1 || event.buttons === 3) {
             this.isMouseDown = true;
-            this.canvasArea.style.cursor = '-webkit-grabbing';
+            this.updateCursorStyling(CURSOR_STYLE_GRABBING);
 
             // Calculating mouse coordinates on mouse enter
             this.mouseDownX = event.clientX - this.canvasArea.offsetLeft;
@@ -215,7 +232,7 @@ export default class Canvas extends LightningElement {
             this.scaledCenterOffsetX = this.innerCanvasArea.offsetLeft;
             this.scaledCenterOffsetY = this.innerCanvasArea.offsetTop;
         } else {
-            this.canvasArea.style.cursor = '-webkit-grab';
+            this.updateCursorStyling(CURSOR_STYLE_GRAB);
         }
     };
 
@@ -229,7 +246,7 @@ export default class Canvas extends LightningElement {
         if (this.isMouseDown) {
             this.isMouseDown = false;
         }
-        this.canvasArea.style.cursor = 'default';
+        this.updateCursorStyling();
     };
 
     /**
@@ -239,7 +256,7 @@ export default class Canvas extends LightningElement {
     handleOverlayMouseDown = (event) => {
         event.stopPropagation();
         this.isMouseDown = true;
-        this.canvasArea.style.cursor = '-webkit-grabbing';
+        this.updateCursorStyling(CURSOR_STYLE_GRABBING);
 
         // Calculating mouse coordinates on mouse down
         this.mouseDownX = event.clientX - this.canvasArea.offsetLeft;
@@ -292,7 +309,7 @@ export default class Canvas extends LightningElement {
     handleOverlayMouseUp = (event) => {
         event.stopPropagation();
         this.isMouseDown = false;
-        this.canvasArea.style.cursor = '-webkit-grab';
+        this.updateCursorStyling(CURSOR_STYLE_GRAB);
     };
 
     /**

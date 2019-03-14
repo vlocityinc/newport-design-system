@@ -12,6 +12,18 @@
     z-index: 404;
 }
 
+.canvas.grab {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.canvas.grabbing {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
 .canvas .inner-canvas {
     height: 100%;
     width: 100%;

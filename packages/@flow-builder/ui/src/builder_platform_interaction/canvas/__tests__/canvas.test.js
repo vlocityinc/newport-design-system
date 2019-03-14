@@ -209,7 +209,7 @@ describe('Canvas', () => {
                     key: KEYS.SPACE
                 });
                 canvasDiv.dispatchEvent(spaceEvent);
-                expect(canvasDiv.style.cursor).toEqual('-webkit-grab');
+                expect(canvasDiv.classList.contains('grab')).toBeTruthy();
             });
         });
     });
@@ -229,7 +229,8 @@ describe('Canvas', () => {
                     key: KEYS.SPACE
                 });
                 canvasDiv.dispatchEvent(spaceKeyUpEvent);
-                expect(canvasDiv.style.cursor).toEqual('default');
+                expect(canvasDiv.classList.contains('grab')).toBeFalsy();
+                expect(canvasDiv.classList.contains('grabbing')).toBeFalsy();
             });
         });
     });
