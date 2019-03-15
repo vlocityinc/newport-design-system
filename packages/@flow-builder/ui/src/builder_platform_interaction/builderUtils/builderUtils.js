@@ -5,6 +5,7 @@ import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourc
 import { LABELS } from './builderUtilsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isObject } from 'builder_platform_interaction/commonUtils';
+import { clearExpressions } from "builder_platform_interaction/expressionValidator";
 
 /**
  * @constant state of callback result
@@ -159,6 +160,7 @@ const closeActionCallback = (panel) => {
     if (statusIconCmp && statusIconCmp.getPanelInstance()) {
         statusIconCmp.closePanelInstance();
     }
+    clearExpressions();
     panel.close();
 };
 

@@ -397,6 +397,15 @@ export default class Combobox extends LightningElement {
      */
     @api separator = '.';
 
+    /**
+     * Run validation on this combobox again
+     */
+    @api
+    validate() {
+        this.doValidation();
+        return this._errorMessage;
+    }
+
     /* ***************** */
     /* Private Variables */
     /* ***************** */

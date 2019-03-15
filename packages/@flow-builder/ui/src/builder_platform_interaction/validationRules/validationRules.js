@@ -4,6 +4,7 @@ import { isDevNameInStore, isOrderNumberInStore } from "builder_platform_interac
 import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS as labels} from "./validationRulesLabels";
+import { validateLHS, validateRHS } from "builder_platform_interaction/expressionValidator";
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -193,6 +194,27 @@ export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
         return null;
     };
 };
+
+/**
+ * Run validation on LHS of an expression
+ * @param {String} rowIndex the index(guid) of the expression
+ */
+export const lhsShouldBeValid = (rowIndex) => {
+    return function () {
+        return validateLHS(rowIndex);
+    };
+};
+
+/**
+ * Run validation on RHS of an expression
+ * @param {String} rowIndex the index(guid) of the expression
+ */
+export const rhsShouldBeValid = (rowIndex) => {
+    return function () {
+        return validateRHS(rowIndex);
+    };
+};
+
 /**
  * Validates 3 part expression builder to make sure LHS and operator are not blank
  *
@@ -205,7 +227,82 @@ export const validateExpressionWith3Properties = () => {
         };
 
         if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
             rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
+        }
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [rhsShouldBeValid(expression.rowIndex)];
+        }
+
+        return rules;
+    };
+};
+
+/**
+ * Validates 3 part expression builders but requires the RHS to not be empty
+ * @returns {string|null} errorString or null
+ */
+export const validateExpressionWith3PropertiesWithNoEmptyRHS = () => {
+    return (expression) => {
+        const rules = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
+        };
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
+            rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
+        }
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [shouldNotBeBlank, rhsShouldBeValid(expression.rowIndex)];
+        }
+
+        return rules;
+    };
+};
+
+
+/**
+ * Validates 2 part expression builders
+ * @returns {string|null} errorString or null
+ */
+export const validateExpressionWith2Properties = () => {
+    return (expression) => {
+        const rules = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
+        };
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
+        }
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [rhsShouldBeValid(expression.rowIndex)];
+        }
+
+        return rules;
+    };
+};
+
+/**
+ * Validates 2 part expression builders but requires the RHS to not be empty
+ * @returns {string|null} errorString or null
+ */
+export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
+    return (expression) => {
+        const rules = {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank],
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: []
+        };
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [shouldNotBeBlank];
+        }
+
+        if (expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].push(rhsShouldBeValid(expression.rowIndex));
         }
 
         return rules;

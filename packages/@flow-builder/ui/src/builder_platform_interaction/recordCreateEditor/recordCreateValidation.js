@@ -1,22 +1,14 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation } from "builder_platform_interaction/validation";
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 
 
 /**
- * Validate the assignment item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
+ * Validate the assignment item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateAssignments = () => {
-    return () => {
-        const rules = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
-        };
-        return rules;
-    };
-};
+const validateAssignments = () => ValidationRules.validateExpressionWith2Properties();
 
 /**
  * Validate the inputReference item.

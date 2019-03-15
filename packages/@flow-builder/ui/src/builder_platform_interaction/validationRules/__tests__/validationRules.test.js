@@ -195,7 +195,10 @@ describe('validateExpressionWith3Properties', () => {
                 [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {},
                 [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
             });
-        expect(rulesObject).toMatchObject({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
+        // rules.lhsShouldBeValid comes in as an anonymous function here
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([rules.shouldNotBeBlank]);
     });
     it('should not contain RHS rule if LHS, operator, and RHS are all populated', () => {
         const rulesObject = rules.validateExpressionWith3Properties()(
@@ -204,7 +207,12 @@ describe('validateExpressionWith3Properties', () => {
                 [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: 'populated'},
                 [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: 'populated'}
             });
-        expect(rulesObject).toEqual({[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [rules.shouldNotBeBlank], [EXPRESSION_PROPERTY_TYPE.OPERATOR]: [rules.shouldNotBeBlank]});
+        // rules.lhsShouldBeValid comes in as an anonymous function here
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([rules.shouldNotBeBlank]);
+        // rules.rhsShouldBeValid comes in as an anonymous function here
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(1);
     });
 });
 

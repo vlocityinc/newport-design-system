@@ -1,6 +1,5 @@
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { Validation } from 'builder_platform_interaction/validation';
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 
 /**
  * validates against possible blank, empty or undefined value
@@ -12,23 +11,9 @@ const validateAgainstBlankNullOrUndefined = () => {
 
 /**
  * Validates the record filter item.
- * Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  * @returns {function} the function to be called with each filter item to return the array of rules.
  */
-const validateFilters = () => {
-    return (filter) => {
-        const rules = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
-        };
-        if (filter[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [ValidationRules.shouldNotBeBlank];
-            if (filter[EXPRESSION_PROPERTY_TYPE.OPERATOR].value) {
-                rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [ValidationRules.shouldNotBeBlank];
-            }
-        }
-        return rules;
-    };
-};
+const validateFilters = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 export const recordDeleteValidation = new Validation();
 

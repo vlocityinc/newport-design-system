@@ -25,6 +25,7 @@ import {
 } from "builder_platform_interaction/ruleLib";
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { isObject, isUndefined } from "builder_platform_interaction/commonUtils";
+import { saveExpression } from "builder_platform_interaction/expressionValidator";
 import { Store } from 'builder_platform_interaction/storeLib';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 
@@ -120,6 +121,19 @@ export default class BaseExpressionBuilder extends LightningElement {
     @api
     operatorIconName = '';
 
+    /**
+     * The rowIndex(guid) associated with this specific expression
+     */
+    set rowIndex(index) {
+        this._rowIndex = index;
+        // need rowIndex before this
+        saveExpression(this);
+    }
+
+    @api
+    get rowIndex() {
+        return this._rowIndex;
+    }
 
     /**
      * @param {String[]} fields  fields that will populate the LHS menu data

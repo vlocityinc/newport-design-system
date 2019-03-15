@@ -3,6 +3,8 @@ import {decisionValidation} from "../decisionValidation";
 import { LABELS } from "../../validationRules/validationRulesLabels";
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
+jest.mock('builder_platform_interaction/expressionValidator', () => require('builder_platform_interaction_mocks/expressionValidator'));
+
 describe('Additional Decision Validations', () => {
     describe('when props set to conditionLogic', () => {
         it('and when valid string is passed should return - null', () => {

@@ -1,27 +1,13 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation } from "builder_platform_interaction/validation";
 import { SORT_ORDER, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { WAY_TO_STORE_FIELDS, NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateFilter = () => {
-    return (filter) => {
-        const rules = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
-        };
-        if (filter[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [ValidationRules.shouldNotBeBlank];
-            if (filter[EXPRESSION_PROPERTY_TYPE.OPERATOR].value) {
-                rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [ValidationRules.shouldNotBeBlank];
-            }
-        }
-        return rules;
-    };
-};
+const validateFilter = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 /**
  * Validate the assignments item.
@@ -29,15 +15,7 @@ const validateFilter = () => {
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
 const validateAssignments = () => {
-    return (assignment) => {
-        const rules = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [ValidationRules.shouldNotBeBlank]
-        };
-        if (assignment[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-           rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [ValidationRules.shouldNotBeBlank];
-        }
-        return rules;
-    };
+    return ValidationRules.validateExpressionWith2PropertiesWithNoEmptyRHS();
 };
 
 /**
