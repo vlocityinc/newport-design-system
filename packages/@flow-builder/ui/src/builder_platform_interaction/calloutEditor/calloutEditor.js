@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE, FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, ACTION_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
@@ -153,6 +153,9 @@ export default class CalloutEditor extends LightningElement {
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
             typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
+            if (this.invocableActions.some(action => action.type === ACTION_TYPE.EXTERNAL_SERVICE)) {
+                typeOptions.push(getTypeOption(ELEMENT_TYPE.EXTERNAL_SERVICE));
+            }
             this.categoryOptions = typeOptions;
         } else {
             const duplicateCategories = new Set();

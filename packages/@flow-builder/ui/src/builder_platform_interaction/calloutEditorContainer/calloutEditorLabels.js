@@ -22,54 +22,64 @@ import noActionBodyRegularEmail from '@salesforce/label/FlowBuilderCalloutEditor
 
 export const LABELS = {
 
-    [ELEMENT_TYPE.SUBFLOW] : {
-        HEAD : {
-            true :     selectActionHeadingMedium,
-            false :    noActionHeadingMediumFlow,
+    [ELEMENT_TYPE.SUBFLOW]: {
+        HEAD: {
+            true: selectActionHeadingMedium,
+            false: noActionHeadingMediumFlow,
         },
-        BODY : {
-            true :     selectActionBodyRegularFlow,
-            false :    noActionBodyRegularFlow,
+        BODY: {
+            true: selectActionBodyRegularFlow,
+            false: noActionBodyRegularFlow,
         }
     },
-    [ELEMENT_TYPE.ACTION_CALL] : {
-        HEAD : {
-            true :     selectActionHeadingMedium,
-            false :    noActionHeadingMediumCore,
+    [ELEMENT_TYPE.ACTION_CALL]: {
+        HEAD: {
+            true: selectActionHeadingMedium,
+            false: noActionHeadingMediumCore,
         },
-        BODY : {
-            true :     selectActionBodyRegularCore,
-            false :    noActionBodyRegularCore,
+        BODY: {
+            true: selectActionBodyRegularCore,
+            false: noActionBodyRegularCore,
         }
     },
-    [ELEMENT_TYPE.APEX_CALL] : {
-        HEAD : {
-            true :     selectActionHeadingMedium,
-            false :    noActionHeadingMediumApex,
+    [ELEMENT_TYPE.APEX_CALL]: {
+        HEAD: {
+            true: selectActionHeadingMedium,
+            false: noActionHeadingMediumApex,
         },
-        BODY : {
-            true :     selectActionBodyRegularApex,
-            false :    noActionBodyRegularApex,
+        BODY: {
+            true: selectActionBodyRegularApex,
+            false: noActionBodyRegularApex,
         }
     },
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL] : {
-        HEAD : {
-            true :     selectActionHeadingMedium,
-            false :    noActionHeadingMediumLegacyApex,
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
+        HEAD: {
+            true: selectActionHeadingMedium,
+            false: noActionHeadingMediumLegacyApex,
         },
-        BODY : {
-            true :     selectActionBodyRegularLegacyApex,
-            false :    noActionBodyRegularLegacyApex,
+        BODY: {
+            true: selectActionBodyRegularLegacyApex,
+            false: noActionBodyRegularLegacyApex,
         }
     },
-    [ELEMENT_TYPE.EMAIL_ALERT] : {
-        HEAD : {
-            true :     selectActionHeadingMedium,
-            false :     noActionHeadingMediumEmail,
+    [ELEMENT_TYPE.EMAIL_ALERT]: {
+        HEAD: {
+            true: selectActionHeadingMedium,
+            false: noActionHeadingMediumEmail,
         },
-        BODY : {
-            true :     selectActionBodyRegularEmail,
-            false :    noActionBodyRegularEmail,
+        BODY: {
+            true: selectActionBodyRegularEmail,
+            false: noActionBodyRegularEmail,
+        }
+    },
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
+        HEAD: {
+            true: selectActionHeadingMedium,
+            false: noActionHeadingMediumCore,
+        },
+        BODY: {
+            true: selectActionBodyRegularCore,
+            false: noActionBodyRegularCore,
         }
     },
 };

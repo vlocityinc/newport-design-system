@@ -1,27 +1,28 @@
 export const FLOW_PROCESS_TYPE = {
-    ACTION_CADENCE_FLOW : 'ActionCadenceFlow',
-    ACTION_PLAN : 'ActionPlan',
-    APPOINTMENTS : 'Appointments',
-    AUTO_LAUNCHED_FLOW : 'AutoLaunchedFlow',
-    CHECKOUT_FLOW : 'CheckoutFlow',
-    CONTACT_REQUEST_FLOW : 'ContactRequestFlow',
-    CUSTOM_EVENT : 'CustomEvent',
-    FIELD_SERVICE_MOBILE : 'FieldServiceMobile',
-    FIELD_SERVICE_WEB : 'FieldServiceWeb',
-    FLOW : 'Flow',
-    FORM : 'Form',
-    INVOCABLE_PROCESS : 'InvocableProcess',
-    LOGIN_FLOW : 'LoginFlow',
-    JOURNEY_BUILDER_INTEGRATION : 'JourneyBuilderIntegration',
-    MANAGED_CONTENT_FLOW : 'ManagedContentFlow',
-    ORCHESTRATION_FLOW : 'OrchestrationFlow',
-    SURVEY : 'Survey',
-    TRANSACTION_SECURITY_FLOW : 'TransactionSecurityFlow',
-    USER_PROVISIONING_FLOW : 'UserProvisioningFlow',
-    WORKFLOW : 'Workflow'
+    ACTION_CADENCE_FLOW: 'ActionCadenceFlow',
+    ACTION_PLAN: 'ActionPlan',
+    APPOINTMENTS: 'Appointments',
+    AUTO_LAUNCHED_FLOW: 'AutoLaunchedFlow',
+    CHECKOUT_FLOW: 'CheckoutFlow',
+    CONTACT_REQUEST_FLOW: 'ContactRequestFlow',
+    CUSTOM_EVENT: 'CustomEvent',
+    FIELD_SERVICE_MOBILE: 'FieldServiceMobile',
+    FIELD_SERVICE_WEB: 'FieldServiceWeb',
+    FLOW: 'Flow',
+    FORM: 'Form',
+    INVOCABLE_PROCESS: 'InvocableProcess',
+    LOGIN_FLOW: 'LoginFlow',
+    JOURNEY_BUILDER_INTEGRATION: 'JourneyBuilderIntegration',
+    MANAGED_CONTENT_FLOW: 'ManagedContentFlow',
+    ORCHESTRATION_FLOW: 'OrchestrationFlow',
+    SURVEY: 'Survey',
+    TRANSACTION_SECURITY_FLOW: 'TransactionSecurityFlow',
+    USER_PROVISIONING_FLOW: 'UserProvisioningFlow',
+    WORKFLOW: 'Workflow'
 };
 
 export const ELEMENT_TYPE = {
+    EXTERNAL_SERVICE: 'EXTERNAL_SERVICE',
     ACTION_CALL: 'ACTION_CALL',
     ASSIGNMENT: 'ASSIGNMENT',
     VARIABLE: 'VARIABLE',
@@ -53,7 +54,7 @@ export const ELEMENT_TYPE = {
     FLOW_PROPERTIES: 'FLOW_PROPERTIES',
     SCREEN_FIELD: 'SCREEN_FIELD',
     SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS: 'SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS',
-    DEFAULT: 'defaultElement'
+    DEFAULT: 'defaultElement',
 };
 
 export const CONNECTOR_TYPE = {
@@ -77,7 +78,8 @@ export const ACTION_TYPE = {
     EMAIL_ALERT: 'emailAlert',
     QUICK_ACTION: 'quickAction',
     FLOW: 'flow',
-    COMPONENT: 'component'
+    COMPONENT: 'component',
+    EXTERNAL_SERVICE: 'externalService'
 };
 
 export const METADATA_KEY = {
@@ -145,9 +147,9 @@ export const CONDITION_LOGIC = {
 
 // Property names in wait event
 export const WAIT_EVENT_FIELDS = {
-    EVENT_TYPE : 'eventType',
-    INPUT_PARAMETERS : 'inputParameters',
-    OUTPUT_PARAMETERS : 'outputParameters',
+    EVENT_TYPE: 'eventType',
+    INPUT_PARAMETERS: 'inputParameters',
+    OUTPUT_PARAMETERS: 'outputParameters',
 };
 
 /**

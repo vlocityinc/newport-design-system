@@ -1,6 +1,6 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
 import { ValueChangedEvent, CannotRetrieveActionsEvent, ActionsLoadedEvent } from "builder_platform_interaction/events";
-import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
+import { ACTION_TYPE, FLOW_PROCESS_TYPE, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
 import { LABELS } from "./actionSelectorLabels";
@@ -11,13 +11,13 @@ export default class ActionSelector extends LightningElement {
     labels = LABELS;
     @track
     state = {
-        selectedElementType : ELEMENT_TYPE.ACTION_CALL,
-        selectedActionValue : null,
-        filteredActionMenuData : [],
-        spinnerActive : true,
-        actionComboLabel : '',
-        actionPlaceholder : '',
-        errorMessage : null
+        selectedElementType: ELEMENT_TYPE.ACTION_CALL,
+        selectedActionValue: null,
+        filteredActionMenuData: [],
+        spinnerActive: true,
+        actionComboLabel: '',
+        actionPlaceholder: '',
+        errorMessage: null
     };
     @api
     flowProcessType = FLOW_PROCESS_TYPE.FLOW;
@@ -30,7 +30,7 @@ export default class ActionSelector extends LightningElement {
     _invocableActions = [];
     _invocableActionsFetched = false;
     _selectedCategory = LABELS.allInvocableActions;
-    _selectedFilterBy =  LABELS.filterByCategoryOption;
+    _selectedFilterBy = LABELS.filterByCategoryOption;
 
     fullActionMenuData = [];
 
@@ -50,7 +50,7 @@ export default class ActionSelector extends LightningElement {
             }
         });
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
-            flowProcessType : this.flowProcessType
+            flowProcessType: this.flowProcessType
         }).then((subflows) => {
             if (this.connected) {
                 this.subflowsFetched = true;
@@ -64,7 +64,6 @@ export default class ActionSelector extends LightningElement {
                 this.dispatchCannotRetrieveActionsEvent();
             }
         });
-        this.updateTypeCombo();
         this.updateActionCombo();
     }
 
@@ -161,22 +160,22 @@ export default class ActionSelector extends LightningElement {
                 const apexPluginFound = this.apexPlugins.find(apexPlugin => apexPlugin.apexClass === actionValue);
                 if (apexPluginFound) {
                     selectedAction = Object.assign(selectedAction, {
-                        apexClass : apexPluginFound.apexClass
+                        apexClass: apexPluginFound.apexClass
                     });
                 }
             } else if (elementType === ELEMENT_TYPE.SUBFLOW) {
                 const subflowFound = this.subflows.find(subflow => subflow.fullName === actionValue);
                 if (subflowFound) {
                     selectedAction = Object.assign(selectedAction, {
-                        flowName : subflowFound.fullName,
+                        flowName: subflowFound.fullName,
                     });
                 }
             } else {
                 const actionFound = this._invocableActions.find(action => action.durableId === actionValue);
                 if (actionFound) {
                     selectedAction = Object.assign(selectedAction, {
-                        actionName : actionFound.name,
-                        actionType : actionFound.type,
+                        actionName: actionFound.name,
+                        actionType: actionFound.type,
                     });
                 }
             }
@@ -257,7 +256,6 @@ export default class ActionSelector extends LightningElement {
 
     updateComboboxes() {
         if (this.apexPluginsFetched && this._invocableActionsFetched && this.subflowsFetched) {
-            this.updateTypeCombo();
             this.updateActionCombo();
             this.state.spinnerActive = false;
         }
@@ -280,40 +278,43 @@ export default class ActionSelector extends LightningElement {
                     .filter((action) => action.category == null || action.category.toLowerCase() === selectedCategory.toLowerCase())
                     .map(action => this.getComboItemFromInvocableAction(action));
             } else {
-                items =  this._invocableActions
+                items = this._invocableActions
                     .filter((action) => action.category != null && action.category.toLowerCase() === selectedCategory.toLowerCase())
                     .map(action => this.getComboItemFromInvocableAction(action));
             }
 
             this.state.actionComboLabel = this._selectedCategory;
             this.state.actionPlaceholder = "Search " + this._selectedCategory + " actions...";
-            return  items;
+            return items;
         }
 
-        const category = selectedCategory.toUpperCase();
-            switch (category) {
-                case ELEMENT_TYPE.ACTION_CALL:
-                    items =  this._invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION || action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
-                    break;
-                case ELEMENT_TYPE.APEX_CALL:
-                    items =  this._invocableActions.filter(action => action.type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
-                    break;
-                case ELEMENT_TYPE.EMAIL_ALERT:
-                    items =  this._invocableActions.filter(action => action.type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
-                    break;
-                case ELEMENT_TYPE.APEX_PLUGIN_CALL:
-                    items =  this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
-                    break;
-                case ELEMENT_TYPE.SUBFLOW:
-                    items =  this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
-                    break;
-                default:
-                    items = [];
-            }
+        const type = selectedCategory.toUpperCase();
+        switch (type) {
+            case ELEMENT_TYPE.ACTION_CALL:
+                items = this._invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION || action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));
+                break;
+            case ELEMENT_TYPE.APEX_CALL:
+                items = this._invocableActions.filter(action => action.type === ACTION_TYPE.APEX).map(action => this.getComboItemFromInvocableAction(action));
+                break;
+            case ELEMENT_TYPE.EMAIL_ALERT:
+                items = this._invocableActions.filter(action => action.type === ACTION_TYPE.EMAIL_ALERT).map(action => this.getComboItemFromInvocableAction(action));
+                break;
+            case ELEMENT_TYPE.APEX_PLUGIN_CALL:
+                items = this.apexPlugins.map(apexPlugin => this.getComboItemFromApexPlugin(apexPlugin));
+                break;
+            case ELEMENT_TYPE.SUBFLOW:
+                items = this.subflows.map(subflow => this.getComboItemFromSubflow(subflow));
+                break;
+            case ELEMENT_TYPE.EXTERNAL_SERVICE:
+                items = this._invocableActions.filter(action => action.type === ACTION_TYPE.EXTERNAL_SERVICE).map(action => this.getComboItemFromInvocableAction(action));
+                break;
+            default:
+                items = [];
+        }
 
-            this.state.actionComboLabel = this.labels[category].ACTION_COMBO_LABEL;
-            this.state.actionPlaceholder = this.labels[category].ACTION_COMBO_PLACEHOLDER;
-            return items;
+        this.state.actionComboLabel = this.labels[type].ACTION_COMBO_LABEL;
+        this.state.actionPlaceholder = this.labels[type].ACTION_COMBO_PLACEHOLDER;
+        return items;
     }
 
 
@@ -332,21 +333,6 @@ export default class ActionSelector extends LightningElement {
         this.dispatchEvent(valueChangedEvent);
     }
 
-    updateTypeCombo() {
-        const getTypeOption = (elementType) => {
-            return  {
-                label : LABELS[elementType].TYPE_OPTION_LABEL,
-                value : elementType
-            };
-        };
-        const typeOptions = [getTypeOption(ELEMENT_TYPE.ACTION_CALL)];
-        typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_CALL));
-        typeOptions.push(getTypeOption(ELEMENT_TYPE.APEX_PLUGIN_CALL));
-        typeOptions.push(getTypeOption(ELEMENT_TYPE.EMAIL_ALERT));
-        typeOptions.push(getTypeOption(ELEMENT_TYPE.SUBFLOW));
-        this.state.typeOptions = typeOptions;
-    }
-
     handleElementTypeChanged(event) {
         event.stopPropagation();
         const selectedElementType = event.detail.value;
@@ -357,8 +343,8 @@ export default class ActionSelector extends LightningElement {
 
     getComboItemFromInvocableAction(action) {
         return {
-            type : 'option-card',
-            text : action.label,
+            type: 'option-card',
+            text: action.label,
             value: action.durableId,
             displayText: action.label,
             subText: action.durableId
@@ -367,21 +353,21 @@ export default class ActionSelector extends LightningElement {
 
     getComboItemFromApexPlugin(apexPlugin) {
         return {
-            type : 'option-card',
-            text : apexPlugin.name,
+            type: 'option-card',
+            text: apexPlugin.name,
             value: apexPlugin.apexClass,
             displayText: apexPlugin.name,
-            subText : apexPlugin.apexClass
+            subText: apexPlugin.apexClass
         };
     }
 
     getComboItemFromSubflow(subflow) {
         return {
-            type : 'option-card',
-            text : subflow.masterLabel,
+            type: 'option-card',
+            text: subflow.masterLabel,
             value: subflow.fullName,
             displayText: subflow.masterLabel,
-            subText : subflow.fullName
+            subText: subflow.fullName
         };
     }
 

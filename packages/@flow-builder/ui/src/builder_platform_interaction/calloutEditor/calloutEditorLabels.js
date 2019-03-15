@@ -18,6 +18,9 @@ import emailAlertComboboxLabel from "@salesforce/label/FlowBuilderActionSelector
 import emailAlertComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxPlaceholder";
 import allInvocableActions from "@salesforce/label/FlowBuilderActionSelector.allInvocableActions";
 import unCategorizedInvocableActions from "@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions";
+import externalServiceTypeOption from "@salesforce/label/FlowBuilderActionSelector.externalServiceTypeOption";
+import externalServiceComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxLabel";
+import externalServiceComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder";
 
 export const LABELS = {
     filterByTitle,
@@ -46,4 +49,9 @@ export const LABELS = {
         ACTION_COMBO_LABEL: emailAlertComboboxLabel,
         ACTION_COMBO_PLACEHOLDER: emailAlertComboboxPlaceholder
     },
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
+        TYPE_OPTION_LABEL: externalServiceTypeOption,
+        ACTION_COMBO_LABEL: externalServiceComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: externalServiceComboboxPlaceholder
+    }
 };

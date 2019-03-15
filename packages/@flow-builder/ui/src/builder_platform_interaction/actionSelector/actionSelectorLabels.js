@@ -22,6 +22,9 @@ import allInvocableActions from "@salesforce/label/FlowBuilderActionSelector.all
 import unCategorizedInvocableActions from "@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions";
 import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
 import filterByTypeOption from '@salesforce/label/FlowBuilderActionSelector.filterByTypeOption';
+import externalServiceTypeOption from "@salesforce/label/FlowBuilderActionSelector.externalServiceTypeOption";
+import externalServiceComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxLabel";
+import externalServiceComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder";
 
 export const LABELS = {
     actionTypeLabel,
@@ -54,5 +57,10 @@ export const LABELS = {
         TYPE_OPTION_LABEL : subflowTypeOption,
         ACTION_COMBO_LABEL : subflowComboboxLabel,
         ACTION_COMBO_PLACEHOLDER : subflowComboboxPlaceholder
+    },
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
+        TYPE_OPTION_LABEL: externalServiceTypeOption,
+        ACTION_COMBO_LABEL: externalServiceComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: externalServiceComboboxPlaceholder
     }
 };

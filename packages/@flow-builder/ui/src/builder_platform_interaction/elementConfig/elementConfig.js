@@ -201,6 +201,35 @@ export const elementTypeToConfigMap = {
             flowToUi: createActionCallForStore
         }
     },
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
+        descriptor: {
+            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+        },
+        nodeConfig: {
+            iconName: 'standard:custom_notification',
+            utilityIconName: 'utility:fallback',
+            dragImageSrc: ICONS_LARGE.ACTION_CALL,
+            iconBackgroundColor: 'navy',
+            maxConnections: 2
+        },
+        modalSize: MODAL_SIZE.MEDIUM,
+        metadataKey: METADATA_KEY.ACTION_CALLS,
+        metadataFilter : element => element.actionType === ACTION_TYPE.EXTERNAL_SERVICE,
+        labels: {
+            singular: LABELS.actionSingularLabel,
+            plural: LABELS.actionPluralLabel
+        },
+        canvasElement: true,
+        nonHydratableProperties: ['valueDataType'],
+        canHaveFaultConnector: true,
+        factory: {
+            propertyEditor: createActionCall,
+            duplicateElement: createDuplicateActionCall,
+            uiToFlow: createActionCallMetadataObject,
+            flowToUi: createActionCallForStore
+        }
+    },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         descriptor: {
             [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:apexPluginEditor',

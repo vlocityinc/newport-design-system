@@ -84,6 +84,7 @@ export default class CalloutEditorContainer extends LightningElement {
     isInitialState()  {
         const elementType = this.node.elementType;
         switch (elementType) {
+            case ELEMENT_TYPE.EXTERNAL_SERVICE:
             case ELEMENT_TYPE.ACTION_CALL:
             case ELEMENT_TYPE.EMAIL_ALERT:
             case ELEMENT_TYPE.APEX_CALL:
@@ -137,6 +138,7 @@ export default class CalloutEditorContainer extends LightningElement {
             return noActionTemplate;
         }
         switch (elementType) {
+            case ELEMENT_TYPE.EXTERNAL_SERVICE:
             case ELEMENT_TYPE.ACTION_CALL:
             case ELEMENT_TYPE.EMAIL_ALERT:
             case ELEMENT_TYPE.APEX_CALL:
