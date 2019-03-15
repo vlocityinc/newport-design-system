@@ -1,4 +1,4 @@
-import { UPDATE_FLOW, UPDATE_PROPERTIES, UPDATE_PROPERTIES_AFTER_SAVING, ADD_START_ELEMENT, SELECT_ON_CANVAS, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS } from "builder_platform_interaction/actions";
+import { UPDATE_FLOW, UPDATE_PROPERTIES, UPDATE_PROPERTIES_AFTER_SAVE_FAILED, UPDATE_PROPERTIES_AFTER_SAVING, ADD_START_ELEMENT, SELECT_ON_CANVAS, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS } from "builder_platform_interaction/actions";
 import { createFlowProperties } from "builder_platform_interaction/elementFactory";
 /**
  * Reducer for properties
@@ -18,6 +18,11 @@ export default function flowPropertiesReducer(state = flowProperties, action) {
         // This action is dispatch when after flow properties are updated
         // In first case, hasUnsavedChanges is set to true.
         case UPDATE_PROPERTIES: return Object.assign({}, state, action.payload, {
+            hasUnsavedChanges: true
+        });
+        // This action is dispatched after flow save call is failed
+        // hasUnsavedChanges is set to true, so that the user can press save button again.
+        case UPDATE_PROPERTIES_AFTER_SAVE_FAILED: return Object.assign({}, state, action.payload, {
             hasUnsavedChanges: true
         });
         // This action is dispatched after flow is saved

@@ -1,10 +1,11 @@
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { UNDO, REDO } from "builder_platform_interaction/undoRedoLib";
+import { UNDO, REDO, CLEAR_UNDO_REDO } from "builder_platform_interaction/undoRedoLib";
 
 export const UPDATE_FLOW = 'UPDATE_FLOW';
 
 export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
+export const UPDATE_PROPERTIES_AFTER_SAVE_FAILED = 'UPDATE_PROPERTIES_AFTER_SAVE_FAILED';
 export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
 
 export const DO_DUPLICATE = 'DO_DUPLICATE';
@@ -89,6 +90,12 @@ export const undo = createAction(UNDO);
 export const redo = createAction(REDO);
 
 /**
+ * @returns {Object} Clear Undo Redo Action
+ * To be used for clear undo redo stack. Please talk to the Process UI Design time team before using this.
+ */
+export const clearUndoRedo = createAction(CLEAR_UNDO_REDO);
+
+/**
  * Action for updating flow properties in the store.
  *
  * @param {Object} payload - contains new flow information
@@ -96,6 +103,14 @@ export const redo = createAction(REDO);
  */
 export const updateProperties = (payload) => createAction(UPDATE_PROPERTIES, payload);
 
+/**
+ * Action for updating flow properties in the store, when the save flow call is failed.
+ *
+ * @param {Object} payload - contains new flow information
+ * @returns {Object} action new action based on type and payload
+ */
+
+export const updatePropertiesAfterSaveFailed = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVE_FAILED, payload);
 /**
  * Action for updating flow properties in the store after saving a flow.
  *

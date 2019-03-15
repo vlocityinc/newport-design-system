@@ -1,7 +1,8 @@
 import {
     UNDO,
     REDO,
-    INIT
+    INIT,
+    CLEAR_UNDO_REDO,
 } from '../undoRedoLib';
 
 const initialStoreState = {
@@ -36,6 +37,7 @@ describe('UndoRedo Library Function', () => {
     const mockInitAction = {type: INIT};
     const mockRedoAction = {type: REDO};
     const mockUndoAction = {type: UNDO};
+    const mockClearUndoRedoAction = {type: CLEAR_UNDO_REDO};
     const mockGroupedAction = {type: MOCK_GROUPED_ACTION};
     const mockGroupedAction2 = {type: MOCK_GROUPED_ACTION2};
 
@@ -115,6 +117,19 @@ describe('UndoRedo Library Function', () => {
             expect(isUndoAvailable()).toBe(true);
         });
     });
+
+    describe('UndoRedo function - Switch case - Clear Undo Redo', () => {
+        it('makes undo and redo unavailable by clearing the past and future array', () => {
+            const stateAfterInit = undoRedoFnWithMockReducer(initialStoreState, mockInitAction);
+            undoRedoFnWithMockReducer(stateAfterInit, mockTestAction);
+            const stateAfterSecondAction = undoRedoFnWithMockReducer(storeStateWithOneMockElement, mockTestAction);
+            const stateAfterUndoAction = undoRedoFnWithMockReducer(stateAfterSecondAction, mockUndoAction);
+            undoRedoFnWithMockReducer(stateAfterUndoAction, mockClearUndoRedoAction);
+            expect(isRedoAvailable()).toBe(false);
+            expect(isUndoAvailable()).toBe(false);
+        });
+    });
+
     describe('isUndoAvailable function', () => {
         it('return false when past length is less than 1', () => {
             undoRedoFnWithMockReducer(initialStoreState, mockInitAction);

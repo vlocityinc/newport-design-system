@@ -2,13 +2,13 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo,
-    UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION } from 'builder_platform_interaction/actions';
+import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo,
+    UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION, UPDATE_PROPERTIES_AFTER_SAVE_FAILED } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { undoRedo,  isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
+import { undoRedo, isUndoAvailable, isRedoAvailable, INIT } from 'builder_platform_interaction/undoRedoLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -83,6 +83,7 @@ export default class Editor extends LightningElement {
         const blacklistedActionsForUndoRedoLib = [
             INIT,
             UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
+            UPDATE_PROPERTIES_AFTER_SAVE_FAILED, // Called after save callback returns with errors from server
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -541,6 +542,14 @@ export default class Editor extends LightningElement {
     };
 
     /**
+     * Private method to call clear undo redo stack and make the undo redo buttons disabled
+     */
+    clearUndoRedoStack() {
+        storeInstance.dispatch(clearUndoRedo);
+        this.isUndoDisabled = true;
+        this.isRedoDisabled = true;
+    }
+    /**
      * Translates the client side model to the format expected by the server and then invokes
      * the save flow action with the correct save type: create or update.
      * @param {string} saveType the save type (saveDraft, createNewFlow, etc) to use when saving the flow
@@ -552,7 +561,7 @@ export default class Editor extends LightningElement {
             flow,
             saveType
         };
-
+        this.clearUndoRedoStack();
         // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;

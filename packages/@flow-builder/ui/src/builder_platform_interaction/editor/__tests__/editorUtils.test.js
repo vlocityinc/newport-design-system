@@ -66,6 +66,12 @@ jest.mock('builder_platform_interaction/actions', () => {
                 payload
             };
         }),
+        updatePropertiesAfterSaveFailed: jest.fn().mockImplementation((payload) => {
+            return {
+                type: 'updatePropertiesAfterSaveFailed',
+                payload
+            };
+        }),
         updateProperties: jest.fn().mockImplementation((payload) => {
             return {
                 type: 'updateProperties',
@@ -411,7 +417,7 @@ describe('Editor Utils Test', () => {
             };
 
             expect(dispatch).toHaveBeenCalledWith({
-                type: 'updateProperties',
+                type: 'updatePropertiesAfterSaveFailed',
                 payload
             });
         });
@@ -516,20 +522,7 @@ describe('Editor Utils Test', () => {
            }).toThrow('Save flow function is not defined');
         });
 
-        it('saveFlowFn is not called when save type is "UPDATE"', () => {
-            const dispatch = jest.fn();
-            const storeInstance = {
-                dispatch
-            };
-            const flowProperties = {
-                saveType: SaveType.UPDATE
-            };
-            const mocksaveFlowFn = jest.fn(saveType => saveType);
-            saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
-            expect(mocksaveFlowFn.mock.calls).toHaveLength(0);
-        });
-
-        it('saveFlowFn is called when save type is not "UPDATE', () => {
+        it('saveFlowFn is called with appropriate save type', () => {
             const dispatch = jest.fn();
             const storeInstance = {
                 dispatch

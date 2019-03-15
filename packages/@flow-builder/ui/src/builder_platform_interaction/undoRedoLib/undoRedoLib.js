@@ -54,6 +54,7 @@ const redo = (pastStates, presentState, futureStates) => {
 export const UNDO = 'UNDO';
 export const REDO = 'REDO';
 export const INIT = 'INIT';
+export const CLEAR_UNDO_REDO = 'CLEAR_UNDO_REDO';
 
 /**
  * @returns {Boolean} True if past array contains any state objects, false otherwise
@@ -77,6 +78,11 @@ export const isRedoAvailable = () => {
  */
 export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}) => (state = {}, action) => {
     switch (action.type) {
+        case CLEAR_UNDO_REDO: {
+            past = [];
+            future = [];
+            break;
+        }
         case UNDO: {
             ({past, present, future} = undo(past, present, future));
             break;

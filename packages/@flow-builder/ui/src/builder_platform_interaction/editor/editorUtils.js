@@ -1,5 +1,5 @@
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
-import { deleteElement, updatePropertiesAfterSaving, updateProperties, highlightOnCanvas } from 'builder_platform_interaction/actions';
+import { deleteElement, updatePropertiesAfterSaving, updateProperties, updatePropertiesAfterSaveFailed, highlightOnCanvas } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
@@ -139,7 +139,7 @@ export const updateStoreAfterSaveAsNewFlowIsFailed = (storeInstance) => {
     if (!storeInstance) {
         throw new Error('Store instance is not defined');
     }
-    storeInstance.dispatch(updateProperties({
+    storeInstance.dispatch(updatePropertiesAfterSaveFailed({
         versionNumber: null,
         status: null,
         lastModifiedDate: null,
@@ -201,9 +201,7 @@ export const saveAsFlowCallback = (storeInstance, saveFlowFn) => (flowProperties
     }
     const { saveType } = flowProperties;
     flowPropertiesCallback(storeInstance)(flowProperties);
-    if (saveType !== SaveType.UPDATE) {
-        saveFlowFn(saveType);
-    }
+    saveFlowFn(saveType);
 };
 
 const setGlobalVariableAndUpdateCache = (globalVariables) => {
