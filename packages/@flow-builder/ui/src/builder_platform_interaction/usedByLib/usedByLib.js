@@ -270,7 +270,7 @@ function createUsedByElement({element, elementGuidsReferenced}) {
     const guid = element.guid;
     const label = element.label;
     const name = element.name;
-    const isChildElement = (elementConfig && elementConfig.isChildElement) || false;
+    const isCanvasElement = (elementConfig && elementConfig.canvasElement) || false;
     let iconName;
     if (elementConfig && elementConfig.nodeConfig && elementConfig.nodeConfig.iconName) {
         iconName = elementConfig.nodeConfig.iconName;
@@ -282,6 +282,6 @@ function createUsedByElement({element, elementGuidsReferenced}) {
         name,
         elementGuidsReferenced,
         iconName,
-        isChildElement
+        isCanvasElement
     };
 }

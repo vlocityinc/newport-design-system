@@ -6,8 +6,8 @@ export default class UsedByContentItem extends LightningElement {
     @api listItem;
     @api showLocatorIcon = false;
 
-    get showLocatorIconForNonChildElements() {
-        return (this.showLocatorIcon && !this.listItem.isChildElement);
+    get showLocatorIconForCanvasElements() {
+        return (this.showLocatorIcon && this.listItem.isCanvasElement);
     }
 
     get labels() {

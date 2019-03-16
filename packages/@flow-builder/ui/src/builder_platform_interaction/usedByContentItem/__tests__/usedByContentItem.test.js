@@ -70,15 +70,14 @@ describe('Used-By-Content-Item component', () => {
     });
 
     describe('showLocatorIconForNonChildElements', () => {
-        it('when showLocatorIcon is true and isChildElement is true, should be hidden', () => {
+        it('when showLocatorIcon is true and isCanvasElement is false, should be hidden', () => {
             const expectedResult = {
-                'guid': 'FORMULA_1',
-                'name': 'Formula_1',
+                'guid': 'OUTCOME_1',
+                'name': 'Outcome_1',
                 'elementGuidsReferenced': [
                     'OUTCOME_3'
                 ],
-                isChildElement: true,
-                iconName: 'standard:formula'
+                iconName: 'standard:outcome'
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
@@ -86,14 +85,13 @@ describe('Used-By-Content-Item component', () => {
                 expect(usedBySectionLocatorIcon).toBeNull();
             });
         });
-        it('when showLocatorIcon is false and isChildElement is true, should be hidden', () => {
+        it('when showLocatorIcon is false and isCanvasElement is false, should be hidden', () => {
             const expectedResult = {
                 'guid': 'FORMULA_1',
                 'name': 'Formula_1',
                 'elementGuidsReferenced': [
                     'OUTCOME_3'
                 ],
-                isChildElement: true,
                 iconName: 'standard:formula'
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, false);
@@ -102,15 +100,15 @@ describe('Used-By-Content-Item component', () => {
                 expect(usedBySectionLocatorIcon).toBeNull();
             });
         });
-        it('when showLocatorIcon is false and isChildElement is false, should be hidden', () => {
+        it('when showLocatorIcon is false and isCanvasElement is true, should be hidden', () => {
             const expectedResult = {
-                'guid': 'FORMULA_1',
-                'name': 'Formula_1',
+                'guid': 'ASSIGNMENT_1',
+                'name': 'Assignment_1',
                 'elementGuidsReferenced': [
                     'OUTCOME_3'
                 ],
-                isChildElement: false,
-                iconName: 'standard:formula'
+                isCanvasElement: true,
+                iconName: 'standard:assignment'
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, false);
             return Promise.resolve().then(() => {
@@ -118,15 +116,15 @@ describe('Used-By-Content-Item component', () => {
                 expect(usedBySectionLocatorIcon).toBeNull();
             });
         });
-        it('when showLocatorIcon is true and isChildElement is false, should be shown', () => {
+        it('when showLocatorIcon is true and isCanvasElement is true, should be shown', () => {
             const expectedResult = {
-                'guid': 'FORMULA_1',
-                'name': 'Formula_1',
+                'guid': 'ASSIGNMENT_1',
+                'name': 'ASSIGNMENT_1',
                 'elementGuidsReferenced': [
                     'OUTCOME_3'
                 ],
-                isChildElement: false,
-                iconName: 'standard:formula'
+                isCanvasElement: true,
+                iconName: 'standard:assignment'
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
