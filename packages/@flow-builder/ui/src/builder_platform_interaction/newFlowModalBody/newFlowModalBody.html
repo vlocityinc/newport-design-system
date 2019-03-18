@@ -1,0 +1,16 @@
+<template>
+    <!-- should be replaced by stencil placeholder: W-5921905 -->
+    <div class='slds-grid' if:false={state.processTypesFetched}>
+        <lightning-spinner size='medium' variant='brand' class='spinner'></lightning-spinner>
+    </div>
+    <div class='slds-grid' if:true={state.processTypesFetched}>
+        <div class='slds-size_small slds-grow-none slds-shrink-none'>        
+            <builder_platform_interaction-process-types-vertical-navigation process-types={processTypes} selected-process-type={selectedProcessType} onprocesstypeselected={handleSelectProcessType}>
+            </builder_platform_interaction-process-types-vertical-navigation >
+        </div>
+        <div class='canvas-container slds-grow slds-shrink slds-scrollable_x'>
+            <builder_platform_interaction-process-types-templates process-type={selectedProcessType} ontemplatechanged={handleSelectTemplate}>
+            </builder_platform_interaction-process-types-templates >
+        </div>
+    </div>   
+</template>

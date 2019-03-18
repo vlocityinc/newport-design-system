@@ -48,6 +48,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:modalBody" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalFooter" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:statusIconSummary" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:newFlowModalBody" type="MODULE" />
 
    <!-- Events -->
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
