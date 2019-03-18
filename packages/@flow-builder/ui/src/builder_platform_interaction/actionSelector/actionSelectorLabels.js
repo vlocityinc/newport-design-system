@@ -25,38 +25,40 @@ import filterByTypeOption from '@salesforce/label/FlowBuilderActionSelector.filt
 import externalServiceTypeOption from "@salesforce/label/FlowBuilderActionSelector.externalServiceTypeOption";
 import externalServiceComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxLabel";
 import externalServiceComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder";
+import loading from '@salesforce/label/FlowBuilderActionSelector.loading';
 
 export const LABELS = {
+    loading,
     actionTypeLabel,
     globalQuickActionSubTextPrefix,
     allInvocableActions,
     unCategorizedInvocableActions,
     filterByCategoryOption,
     filterByTypeOption,
-    [ELEMENT_TYPE.ACTION_CALL] : {
-        TYPE_OPTION_LABEL : actionTypeOption,
-        ACTION_COMBO_LABEL : actionComboboxLabel,
-        ACTION_COMBO_PLACEHOLDER : actionComboboxPlaceholder
+    [ELEMENT_TYPE.ACTION_CALL]: {
+        TYPE_OPTION_LABEL: actionTypeOption,
+        ACTION_COMBO_LABEL: actionComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: actionComboboxPlaceholder
     },
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL] : {
-        TYPE_OPTION_LABEL : apexPluginTypeOption,
-        ACTION_COMBO_LABEL : apexPluginComboboxLabel,
-        ACTION_COMBO_PLACEHOLDER : apexPluginComboboxPlaceholder
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
+        TYPE_OPTION_LABEL: apexPluginTypeOption,
+        ACTION_COMBO_LABEL: apexPluginComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: apexPluginComboboxPlaceholder
     },
-    [ELEMENT_TYPE.APEX_CALL] : {
-        TYPE_OPTION_LABEL : apexTypeOption,
-        ACTION_COMBO_LABEL : apexComboboxLabel,
-        ACTION_COMBO_PLACEHOLDER : apexComboboxPlaceholder
+    [ELEMENT_TYPE.APEX_CALL]: {
+        TYPE_OPTION_LABEL: apexTypeOption,
+        ACTION_COMBO_LABEL: apexComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: apexComboboxPlaceholder
     },
-    [ELEMENT_TYPE.EMAIL_ALERT] : {
-        TYPE_OPTION_LABEL : emailAlertTypeOption,
-        ACTION_COMBO_LABEL : emailAlertComboboxLabel,
-        ACTION_COMBO_PLACEHOLDER : emailAlertComboboxPlaceholder
+    [ELEMENT_TYPE.EMAIL_ALERT]: {
+        TYPE_OPTION_LABEL: emailAlertTypeOption,
+        ACTION_COMBO_LABEL: emailAlertComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: emailAlertComboboxPlaceholder
     },
-    [ELEMENT_TYPE.SUBFLOW] : {
-        TYPE_OPTION_LABEL : subflowTypeOption,
-        ACTION_COMBO_LABEL : subflowComboboxLabel,
-        ACTION_COMBO_PLACEHOLDER : subflowComboboxPlaceholder
+    [ELEMENT_TYPE.SUBFLOW]: {
+        TYPE_OPTION_LABEL: subflowTypeOption,
+        ACTION_COMBO_LABEL: subflowComboboxLabel,
+        ACTION_COMBO_PLACEHOLDER: subflowComboboxPlaceholder
     },
     [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
         TYPE_OPTION_LABEL: externalServiceTypeOption,

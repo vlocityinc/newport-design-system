@@ -1,11 +1,15 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
+import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
+
 import selectActionHeadingMedium from '@salesforce/label/FlowBuilderCalloutEditor.selectActionHeadingMedium';
 import selectActionBodyRegularFlow from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularFlow';
 import selectActionBodyRegularCore from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularCore';
 import selectActionBodyRegularApex from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularApex';
 import selectActionBodyRegularLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularLegacyApex';
 import selectActionBodyRegularEmail from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularEmail';
+import selectActionBodyRegularExternalService from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegularExternalService';
+import selectActionBodyRegular from '@salesforce/label/FlowBuilderCalloutEditor.selectActionBodyRegular';
 
 import noActionHeadingMediumFlow from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumFlow';
 import noActionHeadingMediumCore from '@salesforce/label/FlowBuilderCalloutEditor.noActionHeadingMediumCore';
@@ -19,9 +23,13 @@ import noActionBodyRegularApex from '@salesforce/label/FlowBuilderCalloutEditor.
 import noActionBodyRegularLegacyApex from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularLegacyApex';
 import noActionBodyRegularEmail from '@salesforce/label/FlowBuilderCalloutEditor.noActionBodyRegularEmail';
 
+import actionsLoading from '@salesforce/label/FlowBuilderCalloutEditor.actionsLoading';
 
 export const LABELS = {
-
+    actionsLoading,
+    selectActionBodyRegular,
+    selectActionHeadingMedium,
+    filterByCategoryOption,
     [ELEMENT_TYPE.SUBFLOW]: {
         HEAD: {
             true: selectActionHeadingMedium,
@@ -72,14 +80,15 @@ export const LABELS = {
             false: noActionBodyRegularEmail,
         }
     },
+    // no external service actions case is filtered out in code
     [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: noActionHeadingMediumCore,
+            false: '',
         },
         BODY: {
-            true: selectActionBodyRegularCore,
-            false: noActionBodyRegularCore,
+            true: selectActionBodyRegularExternalService,
+            false: '',
         }
     },
 };

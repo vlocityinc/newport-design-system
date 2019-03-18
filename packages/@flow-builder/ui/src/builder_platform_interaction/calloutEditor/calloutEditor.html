@@ -3,8 +3,8 @@
         <template if:true={showLeftPanel}>
             <div class='slds-panel slds-size_small slds-panel_docked-left slds-is-open' aria-hidden='false'>
                 <div class='slds-shrink-none slds-grid_vertical-align-end slds-p-horizontal_small slds-p-top_small'>
-                    <lightning-combobox label={labels.filterByTitle} onchange={handleFilterByChange} value={selectedFilterBy}
-                        options={filterByOptions} dropdown-alignment="auto">
+                    <lightning-combobox label={labels.filterByTitle} onchange={handleFilterByChange}
+                        value={selectedFilterBy} options={filterByOptions} dropdown-alignment="auto">
                     </lightning-combobox>
                 </div>
                 <div class='slds-scrollable_y slds-grid slds-grid_vertical slds-grow slds-m-top_medium'>
@@ -30,7 +30,8 @@
             </div>
             <builder_platform_interaction-callout-editor-container class="slds-p-top_small" location={location}
                 selected-action={selectedAction} oncannotretrievecalloutparameters={handleCannotRetrieveParameters}
-                has-actions={hasActions}>
+                has-actions={hasActions} filter-by={selectedFilterBy}
+                invocable-actions-fetched={invocableActionsFetched}>
             </builder_platform_interaction-callout-editor-container>
         </div>
     </div>

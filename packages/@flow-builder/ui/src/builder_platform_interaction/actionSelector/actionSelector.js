@@ -242,7 +242,7 @@ export default class ActionSelector extends LightningElement {
     }
 
     get actionComboPlaceholder() {
-        return LABELS[this.state.selectedElementType].ACTION_COMBO_PLACEHOLDER;
+        return this.state.spinnerActive ? this.labels.loading : this.state.actionPlaceholder;
     }
 
     get actionComboValue() {

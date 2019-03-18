@@ -66,8 +66,8 @@ describe('Action selector', () => {
             const localActionText = 'successLocalAction';
             expect(groupedCombobox().items.map(item => item.text)).toEqual(expect.arrayContaining([standardActionText, quickActionText, localActionText]));
         });
-        test('Combobox placeholder should be : Find an Action...', () => {
-            expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.actionComboboxPlaceholder');
+        test('Combobox placeholder should be : Search All actions...', () => {
+            expect(groupedCombobox().placeholder).toBe('Search FlowBuilderActionSelector.allInvocableActions actions...');
         });
     });
 
@@ -98,6 +98,7 @@ describe('Action selector', () => {
         beforeEach(() => {
             actionSelectorComponent = createComponentUnderTest();
             actionSelectorComponent.invocableActions = mockActions;
+            actionSelectorComponent.invocableActionsFetched = true;
             actionSelectorComponent.selectedAction = {};
         });
         it('should update the items of the second combobox', async () => {
@@ -107,7 +108,8 @@ describe('Action selector', () => {
             expect(groupedCombobox().items.map(item => item.text)).toEqual(['Action Test']);
         });
         it('should update the Action combobox placeholder', async () => {
-            actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
+            actionSelectorComponent.selectedFilterBy = LABELS.filterByTypeOption;
+            actionSelectorComponent.selectedCategory = ELEMENT_TYPE.APEX_CALL;
             await Promise.resolve();
             expect(groupedCombobox().placeholder).toBe('FlowBuilderActionSelector.apexComboboxPlaceholder');
         });

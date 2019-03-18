@@ -14,8 +14,8 @@ export default class CalloutEditorContainer extends LightningElement {
 
     @track
     state = {
-        noActionBodyRegular : '',
-        noActionHeadingMedium : '',
+        noActionBodyRegular: '',
+        noActionHeadingMedium: '',
     };
 
     /**
@@ -23,6 +23,9 @@ export default class CalloutEditorContainer extends LightningElement {
      * @type {Object}
      */
     _selectedAction = null;
+
+    _filterBy = '';
+    _invocableActionsFetched = false;
 
     /**
      * The node that represents initial state of the currently selected editor
@@ -45,7 +48,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     @api
     get location() {
-        return {locationX: this.node.locationX, locationY: this.node.locationY};
+        return { locationX: this.node.locationX, locationY: this.node.locationY };
     }
 
     set location(newValue) {
@@ -54,6 +57,23 @@ export default class CalloutEditorContainer extends LightningElement {
         this.node.locationY = _location.locationY;
     }
 
+    @api
+    get filterBy() {
+        return this._filterBy;
+    }
+
+    set filterBy(value) {
+        this._filterBy = value;
+    }
+
+    @api
+    get invocableActionsFetched() {
+        return this._invocableActionsFetched;
+    }
+
+    set invocableActionsFetched(value) {
+        this._invocableActionsFetched = value;
+    }
     /**
      * Sets the selected action
      * This will create a flow element of the corresponding element type
@@ -68,9 +88,9 @@ export default class CalloutEditorContainer extends LightningElement {
 
         // go through the needed steps to create a flow element and get it ready to be used by property editor
         const elementType = this._selectedAction.elementType;
-        let node = getElementForPropertyEditor({elementType});
+        let node = getElementForPropertyEditor({ elementType });
         // assign values from _selectedAction to node
-        node = Object.assign({}, node, {locationX: this.node.locationX, locationY: this.node.locationY}, this._selectedAction);
+        node = Object.assign({}, node, { locationX: this.node.locationX, locationY: this.node.locationY }, this._selectedAction);
         const editorNode = this.getNode();
         if (editorNode) {
             node.name = editorNode.name;
@@ -81,7 +101,7 @@ export default class CalloutEditorContainer extends LightningElement {
         this.node = node;
     }
 
-    isInitialState()  {
+    isInitialState() {
         const elementType = this.node.elementType;
         switch (elementType) {
             case ELEMENT_TYPE.EXTERNAL_SERVICE:
@@ -169,7 +189,16 @@ export default class CalloutEditorContainer extends LightningElement {
             this.state.noActionBodyRegular = '';
         }
 
-        this.state.noActionHeadingMedium = this.labels[elementType].HEAD[this._hasActions];
-        this.state.noActionBodyRegular = this.labels[elementType].BODY[this._hasActions];
+        if (this._invocableActionsFetched) {
+            if (this._filterBy === this.labels.filterByCategoryOption) {
+                this.state.noActionHeadingMedium = this.labels.selectActionHeadingMedium;
+                this.state.noActionBodyRegular = this.labels.selectActionBodyRegular;
+            } else {
+                this.state.noActionHeadingMedium = this.labels[elementType].HEAD[this._hasActions];
+                this.state.noActionBodyRegular = this.labels[elementType].BODY[this._hasActions];
+            }
+        } else {
+            this.state.noActionHeadingMedium = this.labels.actionsLoading;
+        }
     }
 }
