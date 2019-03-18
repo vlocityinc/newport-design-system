@@ -418,6 +418,8 @@ export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPro
                 header: newComponents[0],
                 body: newComponents[1],
                 footer: newComponents[2],
+                bodyClass: data.bodyClass || '',
+                flavor: data.flavor || '',
                 closeAction: (modal) => {
                     if (data.closeCallback) {
                         data.closeCallback();
@@ -427,8 +429,14 @@ export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPro
             },
             onCreate: (modal) => {
                 const modalFooter = modal.get('v.footer')[0];
-                modalFooter.set('v.closeModalCallback', modal.close);
-            }
+                if (data.closeModalCallback) {
+                    modalFooter.set('v.closeModalCallback', () => {
+                        data.closeModalCallback(modal);
+                    });
+                } else {
+                    modalFooter.set('v.closeModalCallback', modal.close);
+                }
+            },
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
     }).catch(errorMessage => {
@@ -455,6 +463,7 @@ export const invokeModal = (data) => {
     invokeModalWithComponents(data, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
 };
 
+
 /**
  * Invokes the internal data modal and creates the alert/confirmation modal inside it.
  * This should only be used when displaying internal only data.
@@ -475,6 +484,39 @@ export const invokeModalInternalData = (data) => {
     invokeModalWithComponents(data, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
 };
 
+
+/**
+ * @typedef {Object} NewFlowModalProperties
+ *
+ * @property {String} bodyClass
+ * @property {String} flavor
+ */
+/**
+ * Invokes the new flow modal.
+ * @param {NewFlowModalProperties} modalProperties
+ * @param {Function} closeFlowModalAction the callback to execute when clicking the exit icon
+ * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
+ */
+export const invokeNewFlowModal = (modalProperties, closeFlowModalAction, createFlowFromTemplateCallback) => {
+    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader",
+        {
+            headerTitle: LABELS.headerTitle
+        }
+    );
+    const modalBodyPromise = createComponentPromise("builder_platform_interaction:newFlowModalBody");
+    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter",
+        {
+            buttons: {
+                buttonOne: {
+                    buttonLabel: LABELS.createButtonLabel,
+                    buttonVariant: 'brand',
+                }
+            },
+        }
+    );
+
+    invokeModalWithComponents({bodyClass: modalProperties.bodyClass, flavor: modalProperties.flavor, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback}, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+};
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -536,3 +578,4 @@ export function hideHover(hoverId) {
         hoverPanel.requestClose();
     }
 }
+

@@ -6,6 +6,8 @@ import newResourceEditorTitle from '@salesforce/label/FlowBuilderResourceEditor.
 import createFlowTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.createFlowTitle';
 import saveFlowAsTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveFlowAsTitle';
 import saveButtonLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveButtonLabel';
+import createButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.createButtonLabel';
+import headerTitle from '@salesforce/label/FlowBuilderNewFlowModal.headerTitle';
 
 export const LABELS = {
     newElementHeaderPrefix,
@@ -15,5 +17,7 @@ export const LABELS = {
     newResourceEditorTitle,
     createFlowTitle,
     saveFlowAsTitle,
-    saveButtonLabel
+    saveButtonLabel,
+    createButtonLabel,
+    headerTitle,
 };
