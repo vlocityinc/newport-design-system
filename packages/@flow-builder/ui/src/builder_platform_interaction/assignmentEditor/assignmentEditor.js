@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { assignmentReducer } from "./assignmentReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
+import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import { LABELS } from "./assignmentEditorLabels";
 
 /**
@@ -18,6 +18,7 @@ export default class AssignmentEditor extends LightningElement {
     @track assignmentElement;
 
     labels = LABELS;
+    defaultOperator = RULE_OPERATOR.ASSIGN;
 
     get elementType() {
         return ELEMENT_TYPE.ASSIGNMENT;

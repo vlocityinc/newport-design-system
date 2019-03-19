@@ -27,6 +27,7 @@ function createComponentForTest(props) {
 }
 
 const numberVariable = elements[numberVariableGuid];
+const stringVariable = elements[stringVariableGuid];
 
 function createDefaultFerToFerovComponentForTest(hideOperator = false, rhsIsFer = false) {
     const expressionBuilder = createComponentForTest({
@@ -87,7 +88,7 @@ const CBreturnItem = {
 };
 
 function getComboboxElements(expressionBuilder) {
-    return getShadowRoot(expressionBuilder).querySelectorAll("builder_platform_interaction-combobox");
+    return expressionBuilder.shadowRoot.querySelectorAll("builder_platform_interaction-combobox");
 }
 
 function getLightningCombobox(expressionBuilder) {
@@ -165,6 +166,9 @@ describe('base expression builder', () => {
     });
 
     describe('basic set up', () => {
+        beforeEach(() => {
+            rulesMock.transformOperatorsForCombobox.mockClear();
+        });
         it('should set lhs menu data based on container element', () => {
             const expressionBuilder = createComponentForTest({
                 rules: [],
@@ -205,6 +209,29 @@ describe('base expression builder', () => {
                 // make sure operator combobox is not present
                 expect(getShadowRoot(expressionBuilder).querySelector('lightning-combobox')).toBeNull();
             });
+        });
+        it('should pass the default operator if the operator value is not set', () => {
+            const defaultOperator = 'someDefaultValue';
+            const expressionBuilder = createComponentForTest({
+                defaultOperator,
+            });
+            const operatorCombobox = expressionBuilder.shadowRoot.querySelector('lightning-combobox');
+
+            expect(operatorCombobox.value).toEqual(defaultOperator);
+        });
+        it('should pass the default operator as a menu option when the operator value is not set', () => {
+            rulesMock.transformOperatorsForCombobox.mockImplementation((values) => {
+                return values.map(value => ({label: 'some label', value}));
+            });
+
+            const defaultOperator = 'someDefaultValue';
+            const expressionBuilder = createComponentForTest({
+                defaultOperator,
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+            });
+            const operatorCombobox = expressionBuilder.shadowRoot.querySelector('lightning-combobox');
+
+            expect(operatorCombobox.options).toEqual([{label: expect.anything(), value: defaultOperator}]);
         });
     });
 
@@ -487,6 +514,110 @@ describe('base expression builder', () => {
                 expect(operatorCombobox.value).toEqual(rulesMock.RULE_OPERATOR.ASSIGN);
             });
         });
+        it('should reset to default operator when LHS value is cleared', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const defaultOperator = 'Assign';
+            expressionBuilder.defaultOperator = defaultOperator;
+
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+            const item = {
+                value: '',
+                displayText: '',
+            };
+            const comboboxChangeEvent = new ComboboxStateChangedEvent(item);
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            lhsCombobox.dispatchEvent(comboboxChangeEvent);
+
+            return Promise.resolve().then(() => {
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value).toEqual('');
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR].value).toEqual(defaultOperator);
+            });
+        });
+
+        it('should reset to default operator when LHS value is changed, the operator is invalid, and the default operator is valid', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const defaultOperator = 'Assign';
+            expressionBuilder.defaultOperator = defaultOperator;
+            expressionBuilder.operatorValue = 'SomeRandomOperator';
+
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+            const item = expressionUtilsMock.mutateFlowResourceToComboboxShape(stringVariable);
+            const comboboxChangeEvent = new ComboboxStateChangedEvent(item);
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            lhsCombobox.dispatchEvent(comboboxChangeEvent);
+
+            return Promise.resolve().then(() => {
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value).toEqual(item.value);
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR].value).toEqual(defaultOperator);
+            });
+        });
+
+        it('should clear the operator when LHS value is changed and the default operator is invalid', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const defaultOperator = 'SomeBadOperator';
+            expressionBuilder.operatorValue = 'SomeRandomOperator';
+            expressionBuilder.defaultOperator = defaultOperator;
+
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+            const item = expressionUtilsMock.mutateFlowResourceToComboboxShape(stringVariable);
+            const comboboxChangeEvent = new ComboboxStateChangedEvent(item);
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            lhsCombobox.dispatchEvent(comboboxChangeEvent);
+
+            return Promise.resolve().then(() => {
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value).toEqual(item.value);
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR].value).toEqual('');
+            });
+        });
+
+        it('should reset to default operator when LHS value is changed and the operator is not valid', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const defaultOperator = 'Assign';
+            expressionBuilder.defaultOperator = defaultOperator;
+            expressionBuilder.operatorValue = 'SomeRandomOperator';
+
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+            const item = expressionUtilsMock.mutateFlowResourceToComboboxShape(stringVariable);
+            const comboboxChangeEvent = new ComboboxStateChangedEvent(item);
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            lhsCombobox.dispatchEvent(comboboxChangeEvent);
+            return Promise.resolve().then(() => {
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value).toEqual(item.value);
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR].value).toEqual(defaultOperator);
+            });
+        });
+
+        it('should not reset the operator when LHS value is changed and the operator is still valid', () => {
+            const expressionBuilder = createDefaultFerToFerovComponentForTest();
+            const defaultOperator = 'Assign';
+            expressionBuilder.defaultOperator = defaultOperator;
+
+            const eventCallback = jest.fn();
+            expressionBuilder.addEventListener(RowContentsChangedEvent.EVENT_NAME, eventCallback);
+
+            const item = expressionUtilsMock.mutateFlowResourceToComboboxShape(stringVariable);
+            const comboboxChangeEvent = new ComboboxStateChangedEvent(item);
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            lhsCombobox.dispatchEvent(comboboxChangeEvent);
+
+            return Promise.resolve().then(() => {
+                const actualUpdates = eventCallback.mock.calls[0][0].detail.newValue;
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value).toEqual(item.value);
+                expect(actualUpdates[expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR].value).toEqual(expressionBuilder.operatorValue);
+            });
+        });
     });
     describe('building expression for picklist values', () => {
         const accountVariable = expressionUtilsMock.mutateFlowResourceToComboboxShape(elements[accountSObjectVariableGuid]);
@@ -567,10 +698,10 @@ describe('base expression builder', () => {
     describe('building expression for system variable', () => {
         it('should know system variables are "reference"', () => {
             setSystemVariables(systemVariables);
-            const stringVariable = elements[stringVariableGuid];
+            const strVariable = elements[stringVariableGuid];
             const expressionBuilder = createComponentForTest({
-                lhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(stringVariable),
-                lhsParam: rulesMock.elementToParam(stringVariable),
+                lhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(strVariable),
+                lhsParam: rulesMock.elementToParam(strVariable),
                 lhsIsField: false,
                 lhsFields: null,
                 lhsActivePicklistValues: null,

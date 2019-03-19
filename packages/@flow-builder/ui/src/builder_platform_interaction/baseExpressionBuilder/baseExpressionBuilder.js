@@ -219,6 +219,16 @@ export default class BaseExpressionBuilder extends LightningElement {
     operatorLabel;
 
     /**
+     * The default operator to display when the expression is empty or when
+     * reset to the default state
+     * @type {String}
+     * @default ''
+     * @memberof BaseExpressionBuilder
+     */
+    @api
+    defaultOperator = '';
+
+    /**
      * @param {String} value  operator value for the expression
      */
     set operatorValue(value) {
@@ -391,16 +401,26 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
+     * The operator of the expression. Uses the operatorValue if one exists,
+     * otherwise it uses the defaultOperator
+     * @readonly
+     * @memberof BaseExpressionBuilder
+     */
+    get operator() {
+        return this.operatorValue || this.defaultOperator;
+    }
+
+    /**
      * Sets operator menu data if all the necessary attributes have been initialized
      */
     get operatorMenuData() {
-        if (this.areAllDefined([this.containerElement, this.lhsParam]) && !this._operatorMenuData) {
+        if (this.areAllDefined([this.containerElement]) && !this._operatorMenuData) {
             let operators = [];
             if (this.lhsParam) {
                 operators = getOperators(this.containerElement, this.lhsParam, this._rules);
-            } else if (this.operatorValue) {
+            } else if (this.operator) {
                 // we want to display the current operator
-                operators = [this.operatorValue];
+                operators = [this.operator];
             }
             this._operatorMenuData = transformOperatorsForCombobox(operators);
         }
@@ -714,10 +734,19 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
         expressionUpdates[LHS] = {value: newValue, error: newError};
 
-        // clear operator if necessary
-        if (this.operatorValue && !(newLhsParam && getOperators(this.containerElement, newLhsParam, this._rules).includes(this.operatorValue))) {
-            expressionUpdates[OPERATOR] = CLEARED_PROPERTY;
-        }
+        const operators = getOperators(this.containerElement, newLhsParam, this._rules);
+        const isOperatorValid = newLhsParam && operators.includes(this.operatorValue);
+        const isDefaultOperatorValid = newLhsParam ? operators.includes(this.defaultOperator) : true;
+
+        // reset to the default operator if a valid one exists, otherwise clear the operator
+        const backupOperatorValue = isDefaultOperatorValid ? this.defaultOperator : CLEAR_VALUE;
+        // use the current operator if valid, otherwise reset to the default/cleared value
+        const newOperatorValue = isOperatorValid ? this.operatorValue : backupOperatorValue;
+
+        expressionUpdates[OPERATOR] = {
+            value: newOperatorValue,
+            error: CLEAR_ERROR,
+        };
 
         // clear or update rhs & rhs data type if necessary
         this.resetRhsProperties(expressionUpdates, newLhsParam, this.operatorForRules());

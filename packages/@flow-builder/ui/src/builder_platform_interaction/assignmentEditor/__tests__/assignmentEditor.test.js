@@ -3,6 +3,7 @@ import AssignmentEditor from "../assignmentEditor";
 import { PropertyChangedEvent, AddListItemEvent, DeleteListItemEvent, UpdateListItemEvent} from "builder_platform_interaction/events";
 import {deepCopy} from "builder_platform_interaction/storeLib";
 import { getShadowRoot } from 'lwc-test-utils';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -114,6 +115,17 @@ describe('assignment-editor', () => {
         return Promise.resolve().then(() => {
             const ferToFerov = getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-fer-to-ferov-expression-builder');
             expect(ferToFerov.lhsMustBeWritable).toEqual(true);
+        });
+    });
+
+    it('sets the default operator to Assign', () => {
+        const assignmentEditor = createComponentForTest();
+        const node = deepCopy(testObj);
+        node.assignmentItems = deepCopy(size1);
+        assignmentEditor.node = node;
+        return Promise.resolve().then(() => {
+            const ferToFerov = assignmentEditor.shadowRoot.querySelector('builder_platform_interaction-fer-to-ferov-expression-builder');
+            expect(ferToFerov.defaultOperator).toEqual(RULE_OPERATOR.ASSIGN);
         });
     });
 });
