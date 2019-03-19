@@ -104,6 +104,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getItemOrDisplayText: actual.getItemOrDisplayText,
         getSecondLevelItems: actual.getSecondLevelItems,
         getFerovInfoAndErrorFromEvent: actual.getFerovInfoAndErrorFromEvent,
+        getApexClassMenuData: actual.getApexClassMenuData,
     };
 });
 
@@ -547,6 +548,17 @@ describe('variable-constant-editor', () => {
             return Promise.resolve().then(() => {
                 expect(createAction.mock.calls[0][1].propertyName).toEqual('subtype');
                 expect(variableConstantReducer.mock.calls[0][0]).toEqual(variableEditor.node);
+            });
+        });
+    });
+
+    describe('apex class picker', () => {
+        it('should show help icon', () => {
+            const apexVariable = deepCopy(mockStoreData.elements[mockStoreData.apexSampleVariableGuid]);
+            const variableEditor = setupComponentUnderTest(apexVariable);
+            return Promise.resolve().then(() => {
+                const entityResourcePicker = getShadowRoot(variableEditor).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+                expect(entityResourcePicker.comboboxConfig.fieldLevelHelp).not.toBeNull();
             });
         });
     });

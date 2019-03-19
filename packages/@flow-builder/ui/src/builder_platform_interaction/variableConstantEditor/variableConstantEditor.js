@@ -59,6 +59,10 @@ const complexTypeConfig = {
     },
 };
 
+const fieldLevelHelp = {
+    [FLOW_DATA_TYPE.APEX.value]: LABELS.apexInfoBubble,
+};
+
 /**
  * Variable/constant property editor for Flow Builder
  *
@@ -235,7 +239,7 @@ export default class VariableConstantEditor extends LightningElement {
             false,
             false,
             this.dataType,
-            this.isVariable // enableFieldDrilldown
+            this.isVariable, // enableFieldDrilldown
         );
     }
 
@@ -268,6 +272,9 @@ export default class VariableConstantEditor extends LightningElement {
             true,
             this.isFieldDisabled,
             this.dataType,
+            false, // enable field drilldown
+            undefined, // variant
+            fieldLevelHelp[this.dataType],
         );
     }
 

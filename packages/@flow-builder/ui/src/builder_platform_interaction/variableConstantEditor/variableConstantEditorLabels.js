@@ -8,6 +8,7 @@ import sObjectPickerLabel from '@salesforce/label/FlowBuilderVariableConstantEdi
 import sObjectPickerPlaceholder from '@salesforce/label/FlowBuilderVariableConstantEditor.sObjectPickerPlaceholder';
 import apexPickerLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.apexPickerLabel';
 import apexPickerPlaceholder from '@salesforce/label/FlowBuilderVariableConstantEditor.apexPickerPlaceholder';
+import apexInfoBubble from '@salesforce/label/FlowBuilderVariableConstantEditor.apexInfoBubble';
 import subtypeCannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import externalAccessSectionLabel from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessSectionLabel';
 import externalAccessHelpText from '@salesforce/label/FlowBuilderVariableConstantEditor.externalAccessHelpText';
@@ -25,6 +26,7 @@ export const LABELS = {
     subtypeCannotBeBlank,
     apexPickerLabel,
     apexPickerPlaceholder,
+    apexInfoBubble,
     externalAccessSectionLabel,
     externalAccessHelpText,
     externalAccessInput,
