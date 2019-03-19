@@ -1,10 +1,10 @@
 <aura:component controller="serviceComponent://ui.interaction.builder.components.controllers.FlowBuilderController" description="This container is responsible for rendering raptor components and get data from java controller">
     <!-- Imports -->
-    <aura:import library="builder_platform_interaction:storeLib" property="storeLib" />
-    <aura:import library="builder_platform_interaction:reducers" property="reducers" />
-    <aura:import library="builder_platform_interaction:actions" property="actions" />
-    <aura:import library="builder_platform_interaction:translatorLib" property="translatorLib" />
-    <aura:import library="builder_platform_interaction:ruleLib" property="ruleLib" />
+    <builder_platform_interaction:storeLib aura:id="storeLib" />
+    <builder_platform_interaction:reducers aura:id="reducers" />
+    <builder_platform_interaction:actions aura:id="actions" />
+    <builder_platform_interaction:translatorLib aura:id="translatorLib" />
+    <builder_platform_interaction:ruleLib aura:id="ruleLib" />
     <!-- Importing jsplumb as an aura lib. This attaches jsplumb in window scope, but one should only use the instance created in drawing-lib from the canvas component -->
     <aura:import library="builder_platform_interaction:jsplumb" property="lib" />
 
