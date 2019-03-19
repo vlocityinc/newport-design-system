@@ -6,6 +6,7 @@ import { AddElementEvent, EditElementEvent, SObjectReferenceChangedEvent } from 
 import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import { mockAccountFields } from "mock/serverEntityData";
 import { RecordStoreOptionChangedEvent, AddRecordFilterEvent, DeleteRecordFilterEvent, UpdateRecordFilterEvent} from "builder_platform_interaction/events";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -26,7 +27,7 @@ const MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d', SELECTORS = {
 
 const defaultRecordDeleteElement = () => ({
         description : { value: '', error: null },
-        elementType : 'RECORD_DELETE',
+        elementType : ELEMENT_TYPE.RECORD_DELETE,
         guid : MOCK_GUID,
         isCanvasElement : true,
         label : { value: '', error: null },
@@ -38,7 +39,7 @@ const defaultRecordDeleteElement = () => ({
 
 const recordDeleteElementWithSObject = () => ({
         description : {value: '', error: null},
-        elementType : 'RECORD_DELETE',
+        elementType : ELEMENT_TYPE.RECORD_DELETE,
         guid : MOCK_GUID,
         isCanvasElement : true,
         label : {value: 'record delete editor with sobject', error: null},
@@ -52,7 +53,7 @@ const recordDeleteElementWithSObject = () => ({
 
 const recordDeleteElementWithFields = () => ({
         description : {value: '', error: null},
-        elementType : 'RECORD_DELETE',
+        elementType : ELEMENT_TYPE.RECORD_DELETE,
         guid : MOCK_GUID,
         isCanvasElement : true,
         label : {value: 'record delete editor with fields', error: null},

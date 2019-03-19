@@ -2,6 +2,7 @@ import { createElement } from 'lwc';
 import { recordUpdateValidation, getRules } from "../recordUpdateValidation";
 import RecordUpdateEditor from "../recordUpdateEditor";
 import * as storeMockedData from "mock/storeData";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from "builder_platform_interaction/validationRules";
 import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
@@ -21,7 +22,7 @@ function createComponentForTest(node) {
 
 const recordUpdateElementWithValidSObject = {
     description : {value: '', error: null},
-    elementType : 'RECORD_UPDATE',
+    elementType : ELEMENT_TYPE.RECORD_UPDATE,
     guid : 'RECORDUPDATE_1',
     isCanvasElement : true,
     label : {value: 'testRecord', error: null},
@@ -36,7 +37,7 @@ const recordUpdateElementWithValidSObject = {
 const recordUpdateUsingFieldsTemplate = () => {
     return {
         description : {value: '', error: null},
-        elementType : 'RECORD_UPDATE',
+        elementType : ELEMENT_TYPE.RECORD_UPDATE,
         guid : 'RECORDUPDATE_2',
         isCanvasElement : true,
         label : {value: 'testRecordFields', error: null},

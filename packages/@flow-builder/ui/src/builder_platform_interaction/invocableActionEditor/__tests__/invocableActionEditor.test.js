@@ -4,6 +4,7 @@ import InvocableActionEditor from "../invocableActionEditor";
 import { mockActionParameters, mockActions } from "mock/calloutData";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -15,7 +16,7 @@ const defaultNode = {
         actionName: {value: 'chatterPost', error: null},
         actionType: {value: 'chatterPost', error: null},
         description : {value: 'This is a description', error: null},
-        elementType : 'ACTION_CALL',
+        elementType : ELEMENT_TYPE.ACTION_CALL,
         guid : '66b95c2c-468d-466b-baaf-5ad964be585e',
         isCanvasElemen : true,
         label : {value: 'Post to Chatter', error: null},

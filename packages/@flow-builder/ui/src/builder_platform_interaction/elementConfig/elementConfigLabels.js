@@ -68,6 +68,32 @@ import picklistChoiceSetSingularLabel from "@salesforce/label/FlowBuilderElement
 import picklistChoiceSetPluralLabel from "@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel";
 import screenFieldSingularLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel";
 import screenFieldPluralLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel";
+import flowUserInterfaceComponentsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowUserInterfaceComponentsLabel";
+import flowControlLogicLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowControlLogicLabel";
+import flowControlDataOperationsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowControlDataOperationsLabel";
+import flowControlFlowComponentsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowControlFlowComponentsLabel";
+import screenComponentLabel from "@salesforce/label/FlowBuilderLeftPanelElements.screenComponentLabel";
+import assignmentLogicLabel from "@salesforce/label/FlowBuilderLeftPanelElements.assignmentLogicLabel";
+import decisionLogicLabel from "@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicLabel";
+import waitLogicLabel from "@salesforce/label/FlowBuilderLeftPanelElements.waitLogicLabel";
+import loopLogicLabel from "@salesforce/label/FlowBuilderLeftPanelElements.loopLogicLabel";
+import createDataOperationLabel from "@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationLabel";
+import updateDataOperationLabel from "@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationLabel";
+import lookupDataOperationLabel from "@salesforce/label/FlowBuilderLeftPanelElements.lookupDataOperationLabel";
+import deleteDataOperationLabel from "@salesforce/label/FlowBuilderLeftPanelElements.deleteDataOperationLabel";
+import actionFlowComponentLabel from "@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentLabel";
+import subflowFlowComponentLabel from "@salesforce/label/FlowBuilderLeftPanelElements.subflowFlowComponentLabel";
+import decisionLogicDescription from "@salesforce/label/FlowBuilderLeftPanelElements.decisionLogicDescription";
+import waitLogicDescription from "@salesforce/label/FlowBuilderLeftPanelElements.waitLogicDescription";
+import assignmentLogicDescription from "@salesforce/label/FlowBuilderLeftPanelElements.assignmentLogicDescription";
+import loopLogicDescription from "@salesforce/label/FlowBuilderLeftPanelElements.loopLogicDescription";
+import createDataOperationDescription from "@salesforce/label/FlowBuilderLeftPanelElements.createDataOperationDescription";
+import updateDataOperationDescription from "@salesforce/label/FlowBuilderLeftPanelElements.updateDataOperationDescription";
+import lookupDataOperationDescription from "@salesforce/label/FlowBuilderLeftPanelElements.lookupDataOperationDescription";
+import deleteDataOperationDescription from "@salesforce/label/FlowBuilderLeftPanelElements.deleteDataOperationDescription";
+import actionFlowComponentDescription from "@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentDescription";
+import subflowFlowComponentDescription from "@salesforce/label/FlowBuilderLeftPanelElements.subflowFlowComponentDescription";
+import screenComponentDescription from "@salesforce/label/FlowBuilderLeftPanelElements.screenComponentDescription";
 
 export const LABELS = {
     subflowSingularLabel,
@@ -138,5 +164,31 @@ export const LABELS = {
     picklistChoiceSetSingularLabel,
     picklistChoiceSetPluralLabel,
     screenFieldSingularLabel,
-    screenFieldPluralLabel
+    screenFieldPluralLabel,
+    flowControlLogicLabel,
+    flowUserInterfaceComponentsLabel,
+    flowControlDataOperationsLabel,
+    flowControlFlowComponentsLabel,
+    screenComponentLabel,
+    assignmentLogicLabel,
+    decisionLogicLabel,
+    waitLogicLabel,
+    loopLogicLabel,
+    createDataOperationLabel,
+    updateDataOperationLabel,
+    lookupDataOperationLabel,
+    deleteDataOperationLabel,
+    actionFlowComponentLabel,
+    subflowFlowComponentLabel,
+    decisionLogicDescription,
+    waitLogicDescription,
+    assignmentLogicDescription,
+    loopLogicDescription,
+    createDataOperationDescription,
+    updateDataOperationDescription,
+    lookupDataOperationDescription,
+    deleteDataOperationDescription,
+    actionFlowComponentDescription,
+    subflowFlowComponentDescription,
+    screenComponentDescription
 };

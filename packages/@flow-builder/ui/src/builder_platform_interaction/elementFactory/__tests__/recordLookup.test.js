@@ -23,7 +23,7 @@ const recordLookupSObjectStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_LOOKUP",
+    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
     filterType: "all",
     filters: [{
         leftHandSide: "Account.BillingCity",
@@ -59,7 +59,7 @@ const recordLookupSObjectCollectionStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_LOOKUP",
+    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
     filterType: "all",
     filters: [],
     guid: MOCK_GUID,
@@ -123,7 +123,7 @@ const recordLoookupFieldsStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_LOOKUP",
+    elementType: ELEMENT_TYPE.RECORD_LOOKUP,
     filterType: "all",
     filters: [{
         leftHandSide: "Account.BillingCity",
@@ -219,7 +219,7 @@ describe('recordLookup', () => {
         const uiModelResult = {
             name: '',
             description: '',
-            elementType: 'RECORD_LOOKUP',
+            elementType: ELEMENT_TYPE.RECORD_LOOKUP,
             numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
         };
         const actualResult = createRecordLookup();

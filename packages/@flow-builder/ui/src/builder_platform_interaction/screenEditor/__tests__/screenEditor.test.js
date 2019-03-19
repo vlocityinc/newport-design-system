@@ -22,6 +22,7 @@ import {
 import { getShadowRoot } from 'lwc-test-utils';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -56,7 +57,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
                 const name = values[1];
                 return {
                     dataType: type,
-                    elementType: "VARIABLE",
+                    elementType: 'VARIABLE',
                     guid,
                     isCanvasElement:false,
                     isCollection:false,
@@ -99,7 +100,7 @@ describe('Event handling on editor', () => {
     beforeEach(() => {
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;
-        screen.elementType = "SCREEN";
+        screen.elementType = ELEMENT_TYPE.SCREEN;
         screenEditorElement = createComponentUnderTest({node:screen});
 
         expect(screen.fields).toHaveLength(8);
@@ -207,7 +208,7 @@ describe('Screen field property editor events', () => {
     beforeEach(() => {
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;
-        screen.elementType = "SCREEN";
+        screen.elementType = ELEMENT_TYPE.SCREEN;
         screen.fields = [];
         const field = createTestScreenField('Screenfield1', 'DisplayText', origDisplayText);
         screen.fields.push(field);

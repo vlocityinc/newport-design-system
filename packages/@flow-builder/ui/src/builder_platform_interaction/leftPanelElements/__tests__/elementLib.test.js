@@ -1,4 +1,5 @@
 import { getElementSections } from "../elementLib";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const actual = require.requireActual('../../storeLib/storeLib.js');
@@ -12,57 +13,40 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 const ELEMENTS = [
     {
-        "description":"Collect information from or display information to the flow user.",
-        "section":"User Interaction",
-        "label":"Screen",
-        "elementType":"SCREEN"
+        "elementType": ELEMENT_TYPE.SCREEN
     },
     {
-        "description":"Set variable values.",
-        "section":"Logic",
-        "label":"Assignment",
-        "elementType":"ASSIGNMENT"
+        "elementType": ELEMENT_TYPE.ASSIGNMENT
     },
     {
-        "description":"Create paths for the flow to take based on conditions you set.",
-        "section":"Logic",
-        "label":"Decision",
-        "elementType":"DECISION"
+        "elementType": ELEMENT_TYPE.DECISION
     }
 ];
 
 const SECTIONS = [
     {
         "_children": [{
-            "description": "Collect information from or display information to the flow user.",
-            "label": "Screen",
-            "elementType": "SCREEN",
+            "elementType": ELEMENT_TYPE.SCREEN,
             "guid": "testGUID",
             "iconName": "standard:screen",
             "dragImageSrc": "/flow/icons/large/screen.png"
         }],
-        "guid": "testGUID",
-        "label": "User Interaction"
+        "guid": "testGUID"
     },
     {
         "_children": [{
-            "description": "Set variable values.",
-            "label": "Assignment",
-            "elementType": "ASSIGNMENT",
+            "elementType": ELEMENT_TYPE.ASSIGNMENT,
             "guid": "testGUID",
             "iconName": "standard:assignment",
             "dragImageSrc": "/flow/icons/large/assignment.png"
         },
         {
-            "description": "Create paths for the flow to take based on conditions you set.",
-            "label": "Decision",
-            "elementType": "DECISION",
+            "elementType": ELEMENT_TYPE.DECISION,
             "guid": "testGUID",
             "iconName": "standard:decision",
             "dragImageSrc": "/flow/icons/large/decision.png"
         }],
-        "guid": "testGUID",
-        "label": "Logic"
+        "guid": "testGUID"
     }
 ];
 
@@ -83,7 +67,7 @@ describe('element-lib', () => {
 
     describe('When elements are available', () => {
         it('returns the expect sections list', () => {
-            expect(getElementSections(ELEMENTS)).toEqual(SECTIONS);
+            expect(getElementSections(ELEMENTS)).toMatchObject(SECTIONS);
         });
     });
 });

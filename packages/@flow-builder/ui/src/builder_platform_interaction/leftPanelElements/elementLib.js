@@ -1,5 +1,5 @@
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { deepCopy, generateGuid } from "builder_platform_interaction/storeLib";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 /**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
@@ -11,19 +11,26 @@ import { deepCopy, generateGuid } from "builder_platform_interaction/storeLib";
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
-const mutateElements = (elements) => elements.reduce((acc, element) => {
-    if (!acc[element.section]) {
-        acc[element.section] = [];
-    }
+const mutateElements = (elements) => elements.reduce((acc, { elementType }) => {
+    const { nodeConfig, labels } = getConfigForElementType(elementType);
+    const { iconName, dragImageSrc, iconBackgroundColor, section, description } = nodeConfig;
+    const { leftPanel: label } = labels;
 
-    const nodeConfig = getConfigForElementType(element.elementType).nodeConfig;
-    const item = deepCopy(element);
-    item.guid = generateGuid();
-    item.iconName = nodeConfig.iconName;
-    item.dragImageSrc = nodeConfig.dragImageSrc;
-    item.iconBackgroundColor = nodeConfig.iconBackgroundColor;
-    delete item.section;
-    acc[element.section].push(item);
+    if (section) {
+        if (!acc[section]) {
+            acc[section] = [];
+        }
+        const item = {
+            guid: generateGuid(),
+            iconName,
+            dragImageSrc,
+            iconBackgroundColor,
+            label,
+            description,
+            elementType
+        };
+        acc[section].push(item);
+    }
     return acc;
 }, {});
 

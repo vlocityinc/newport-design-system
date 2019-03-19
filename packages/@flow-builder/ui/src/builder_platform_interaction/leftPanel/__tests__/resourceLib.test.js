@@ -3,6 +3,7 @@ import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
 import { resourceFilter } from "builder_platform_interaction/filterLib";
 import { labelComparator, nameComparator } from "builder_platform_interaction/sortLib";
 import { getResourceSections } from "../resourceLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 /**
  * A sample store state retrieved using JSON stringify.
@@ -58,8 +59,8 @@ const STATE_NON_EMPTY = {
             "locationY": 109,
             "name": "Assignment_One",
             "processMetadataValues": [],
-            "elementType": "ASSIGNMENT",
-            "guid": "ASSIGNMENT_1",
+            "elementType": ELEMENT_TYPE.ASSIGNMENT,
+            "guid": "Assignment_1",
             "isCanvasElement": true,
             "config": {
                 "isSelected": false
@@ -78,8 +79,8 @@ const STATE_NON_EMPTY = {
             "locationY": 306,
             "name": "Assignment_Two",
             "processMetadataValues": [],
-            "elementType": "ASSIGNMENT",
-            "guid": "ASSIGNMENT_2",
+            "elementType": ELEMENT_TYPE.ASSIGNMENT,
+            "guid": "Assignment_2",
             "isCanvasElement": true,
             "config": {
                 "isSelected": false
@@ -112,8 +113,8 @@ const STATE_NON_EMPTY = {
             "locationY": 109,
             "name": "Decision_One",
             "processMetadataValues": [],
-            "elementType": "DECISION",
-            "guid": "DECISION_3",
+            "elementType": ELEMENT_TYPE.DECISION,
+            "guid": "Decision_3",
             "isCanvasElement": true,
             "config": {
                 "isSelected": false

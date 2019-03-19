@@ -288,7 +288,7 @@ export default class ActionSelector extends LightningElement {
             return items;
         }
 
-        const type = selectedCategory.toUpperCase();
+        const type = selectedCategory;
         switch (type) {
             case ELEMENT_TYPE.ACTION_CALL:
                 items = this._invocableActions.filter(action => action.isStandard || action.type === ACTION_TYPE.QUICK_ACTION || action.type === ACTION_TYPE.COMPONENT).map(action => this.getComboItemFromInvocableAction(action));

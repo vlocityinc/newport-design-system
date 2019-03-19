@@ -5,6 +5,7 @@ import * as storeMockedData from "mock/storeData";
 import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { mockAccountFields } from "mock/serverEntityData";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -37,7 +38,7 @@ const selectors = {
 const defaultRecordUpdateElement = () => {
     return {
         description : { value: '', error: null },
-        elementType : 'RECORD_UPDATE',
+        elementType : ELEMENT_TYPE.RECORD_UPDATE,
         guid : 'RECORDUPDATE_1',
         isCanvasElement : true,
         label : { value: '', error: null },
@@ -54,7 +55,7 @@ const defaultRecordUpdateElement = () => {
 const recordUpdateElementWithSObject = () => {
     return {
         description : {value: '', error: null},
-        elementType : 'RECORD_UPDATE',
+        elementType : ELEMENT_TYPE.RECORD_UPDATE,
         guid : 'RECORDUPDATE_1',
         isCanvasElement : true,
         label : {value: 'testRecord', error: null},
@@ -70,7 +71,7 @@ const recordUpdateElementWithSObject = () => {
 const recordUpdateElementWithFields = () => {
     return {
         description : {value: '', error: null},
-        elementType : 'RECORD_UPDATE',
+        elementType : ELEMENT_TYPE.RECORD_UPDATE,
         guid : 'RECORDUPDATE_2',
         isCanvasElement : true,
         label : {value: 'testRecordFields', error: null},

@@ -143,7 +143,7 @@ function createScreen(name, fieldsProducer, config = {}) {
     if (includeNonMDValues) {
         screen.locationX = 450;
         screen.locationY = 450;
-        screen.elementType = 'SCREEN';
+        screen.elementType = ELEMENT_TYPE.SCREEN;
         screen.isCanvasElement = true;
         screen.config = {isSelected:true};
         screen.connectorCount = 0;

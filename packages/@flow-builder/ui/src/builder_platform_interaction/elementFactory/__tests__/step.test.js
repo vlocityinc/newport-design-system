@@ -1,7 +1,8 @@
 import { createStep, createStepWithConnectorsForStore, createStepMetadataObject } from '../step';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const defaultStepElement = {
-    elementType: 'STEP',
+    elementType: ELEMENT_TYPE.STEP,
     description: '',
     name: '',
     guid: 'testGUID',
@@ -17,7 +18,7 @@ const defaultStepElement = {
 };
 
 const stepElementForStore = {
-    elementType: 'STEP',
+    elementType: ELEMENT_TYPE.STEP,
     description:'mock description for step element',
     name: 'mock name for step element',
     guid: 'testGUID',
@@ -47,7 +48,7 @@ const stepElement = {
     config: {
         isSelected: true
     },
-    elementType: 'STEP'
+    elementType: ELEMENT_TYPE.STEP
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => {

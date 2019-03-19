@@ -1,4 +1,5 @@
 import { usedBy, usedByStoreAndElementState } from "builder_platform_interaction/usedByLib";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -10,7 +11,7 @@ const elements = {
             {waitEventReference: 'WAIT_EVENT_4'},
         ],
         guid: 'WAIT_1',
-        elementType: 'WAIT',
+        elementType: ELEMENT_TYPE.WAIT,
     },
     WAIT_EVENT_1: {
         conditions: [
@@ -96,7 +97,7 @@ const elements = {
             'type': 'DEFAULT'
         }],
         'guid': 'DECISION_1',
-        'elementType': 'DECISION'
+        'elementType': ELEMENT_TYPE.DECISION
     },
     'OUTCOME_1': {
         'conditions': [
@@ -195,7 +196,7 @@ const elements = {
             'fieldReference': 'FIELD_3'
         }],
         'guid': 'SCREEN_1',
-        'elementType': 'SCREEN'
+        'elementType': ELEMENT_TYPE.SCREEN
     },
     'FIELD_1': {
         'label': 'FIELD 1',

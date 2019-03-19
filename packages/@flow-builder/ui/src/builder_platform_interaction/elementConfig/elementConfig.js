@@ -149,15 +149,18 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:flow',
             utilityIconName: 'utility:flow',
-            dragImageSrc: ICONS_LARGE.SUBFLOW,
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.SUBFLOW],
             iconBackgroundColor: 'navy',
-            maxConnections: 2
+            maxConnections: 2,
+            section: LABELS.flowControlFlowComponentsLabel,
+            description: LABELS.subflowFlowComponentDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.SUBFLOWS,
         labels: {
             singular: LABELS.subflowSingularLabel,
-            plural: LABELS.subflowPluralLabel
+            plural: LABELS.subflowPluralLabel,
+            leftPanel: LABELS.subflowFlowComponentLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -177,9 +180,11 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
-            dragImageSrc: ICONS_LARGE.ACTION_CALL,
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ACTION_CALL],
             iconBackgroundColor: 'navy',
-            maxConnections: 2
+            maxConnections: 2,
+            section: LABELS.flowControlFlowComponentsLabel,
+            description: LABELS.actionFlowComponentDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
@@ -189,7 +194,8 @@ export const elementTypeToConfigMap = {
                                     element.actionType !== ACTION_TYPE.FLOW,
         labels: {
             singular: LABELS.actionSingularLabel,
-            plural: LABELS.actionPluralLabel
+            plural: LABELS.actionPluralLabel,
+            leftPanel: LABELS.actionFlowComponentLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -238,7 +244,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:apex_plugin',
             utilityIconName: 'utility:apex_plugin',
-            dragImageSrc: ICONS_LARGE.APEX_PLUGIN_CALL,
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.APEX_PLUGIN_CALL],
             iconBackgroundColor: 'navy',
             maxConnections: 2
         },
@@ -266,7 +272,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:apex',
             utilityIconName: 'utility:apex',
-            dragImageSrc: ICONS_LARGE.APEX_CALL,
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.APEX_CALL],
             iconBackgroundColor: 'navy',
             maxConnections: 1
         },
@@ -295,7 +301,7 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:email',
             utilityIconName: 'utility:email',
-            dragImageSrc: ICONS_LARGE.EMAIL_ALERT,
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.EMAIL_ALERT],
             iconBackgroundColor: 'navy',
             maxConnections: 1
         },
@@ -321,14 +327,17 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:assignment',
             utilityIconName: 'utility:assignment',
-            dragImageSrc: ICONS_LARGE.ASSIGNMENT,
-            maxConnections: 1
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ASSIGNMENT],
+            maxConnections: 1,
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.assignmentLogicDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ASSIGNMENTS,
         labels: {
             singular: LABELS.assignmentSingularLabel,
-            plural: LABELS.assignmentPluralLabel
+            plural: LABELS.assignmentPluralLabel,
+            leftPanel: LABELS.assignmentLogicLabel
         },
         canvasElement: true,
         bodyCssClass: 'slds-p-around_none',
@@ -345,14 +354,17 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:screen',
             utilityIconName: 'utility:screen',
-            dragImageSrc: ICONS_LARGE.SCREEN,
-            maxConnections: 1
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.SCREEN],
+            maxConnections: 1,
+            section: LABELS.flowUserInterfaceComponentsLabel,
+            description: LABELS.screenComponentDescription
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.SCREENS,
         labels: {
             singular: LABELS.screenSingularLabel,
-            plural: LABELS.screenPluralLabel
+            plural: LABELS.screenPluralLabel,
+            leftPanel: LABELS.screenComponentLabel
         },
         childReferenceKey: {
             singular: 'fieldReference',
@@ -376,8 +388,10 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:decision',
             utilityIconName: 'utility:signpost',
-            dragImageSrc: ICONS_LARGE.DECISION,
-            maxConnections: 1
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.DECISION],
+            maxConnections: 1,
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.decisionLogicDescription
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.DECISIONS,
@@ -386,7 +400,8 @@ export const elementTypeToConfigMap = {
             plural: LABELS.decisionPluralLabel,
             connectorPickerHeaderSuffix: LABELS.decisionConnectorPickerHeaderSuffix,
             connectorPickerBodyText: LABELS.decisionConnectorPickerBodyText,
-            comboBoxLabel: LABELS.decisionConnectorPickerComboBoxLabel
+            comboBoxLabel: LABELS.decisionConnectorPickerComboBoxLabel,
+            leftPanel: LABELS.decisionLogicLabel
         },
         childReferenceKey: {
             singular: 'outcomeReference',
@@ -408,7 +423,9 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:waits',
             utilityIconName: 'utility:waits',
-            dragImageSrc: ICONS_LARGE.WAIT
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.WAIT],
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.waitLogicDescription
         },
         modalSize: MODAL_SIZE.LARGE,
         metadataKey: METADATA_KEY.WAITS,
@@ -417,7 +434,8 @@ export const elementTypeToConfigMap = {
             plural: LABELS.waitPluralLabel,
             connectorPickerHeaderSuffix: LABELS.waitConnectorPickerHeaderSuffix,
             connectorPickerBodyText: LABELS.waitConnectorPickerBodyText,
-            comboBoxLabel: LABELS.waitConnectorPickerComboBoxLabel
+            comboBoxLabel: LABELS.waitConnectorPickerComboBoxLabel,
+            leftPanel: LABELS.waitLogicLabel
         },
         childReferenceKey: {
             singular: 'waitEventReference',
@@ -455,8 +473,10 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:loop',
             utilityIconName: 'utility:loop',
-            dragImageSrc: ICONS_LARGE.LOOP,
-            maxConnections: 2
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.LOOP],
+            maxConnections: 2,
+            section: LABELS.flowControlLogicLabel,
+            description: LABELS.loopLogicDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.LOOPS,
@@ -465,7 +485,8 @@ export const elementTypeToConfigMap = {
             plural: LABELS.loopPluralLabel,
             connectorPickerHeaderSuffix: LABELS.loopConnectorPickerHeaderSuffix,
             connectorPickerBodyText: LABELS.loopConnectorPickerBodyText,
-            comboBoxLabel: LABELS.loopConnectorPickerComboBoxLabel
+            comboBoxLabel: LABELS.loopConnectorPickerComboBoxLabel,
+            leftPanel: LABELS.loopLogicLabel
         },
         canvasElement: true,
         factory: {
@@ -480,14 +501,17 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_create',
             utilityIconName: 'utility:record_create',
-            dragImageSrc: ICONS_LARGE.RECORD_CREATE,
-            maxConnections: 2
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.RECORD_CREATE],
+            maxConnections: 2,
+            section: LABELS.flowControlDataOperationsLabel,
+            description: LABELS.createDataOperationDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_CREATES,
         labels: {
             singular: LABELS.recordCreateSingularLabel,
-            plural: LABELS.recordCreatePluralLabel
+            plural: LABELS.recordCreatePluralLabel,
+            leftPanel: LABELS.createDataOperationLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -504,14 +528,17 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_lookup',
             utilityIconName: 'utility:record_lookup',
-            dragImageSrc: ICONS_LARGE.RECORD_LOOKUP,
-            maxConnections: 2
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.RECORD_LOOKUP],
+            maxConnections: 2,
+            section: LABELS.flowControlDataOperationsLabel,
+            description: LABELS.lookupDataOperationDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_LOOKUPS,
         labels: {
             singular: LABELS.recordLookupSingularLabel,
-            plural: LABELS.recordLookupPluralLabel
+            plural: LABELS.recordLookupPluralLabel,
+            leftPanel: LABELS.lookupDataOperationLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -528,14 +555,17 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_delete',
             utilityIconName: 'utility:record_delete',
-            dragImageSrc: ICONS_LARGE.RECORD_DELETE,
-            maxConnections: 2
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.RECORD_DELETE],
+            maxConnections: 2,
+            section: LABELS.flowControlDataOperationsLabel,
+            description: LABELS.deleteDataOperationDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_DELETES,
         labels: {
             singular: LABELS.recordDeleteSingularLabel,
-            plural: LABELS.recordDeletePluralLabel
+            plural: LABELS.recordDeletePluralLabel,
+            leftPanel: LABELS.deleteDataOperationLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -551,14 +581,17 @@ export const elementTypeToConfigMap = {
         nodeConfig: {
             iconName: 'standard:record_update',
             utilityIconName: 'utility:record_update',
-            dragImageSrc: ICONS_LARGE.RECORD_UPDATE,
-            maxConnections: 2
+            dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.RECORD_UPDATE],
+            maxConnections: 2,
+            section: LABELS.flowControlDataOperationsLabel,
+            description: LABELS.updateDataOperationDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.RECORD_UPDATES,
         labels: {
             singular: LABELS.recordUpdateSingularLabel,
-            plural: LABELS.recordUpdatePluralLabel
+            plural: LABELS.recordUpdatePluralLabel,
+            leftPanel: LABELS.updateDataOperationLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,

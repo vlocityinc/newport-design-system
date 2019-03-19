@@ -3,8 +3,8 @@ import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from "builder_plat
 import Node from "builder_platform_interaction/node";
 import { getShadowRoot } from 'lwc-test-utils';
 import {isTestMode} from 'builder_platform_interaction/contextLib';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
-const ELEMENT_TYPE = 'ASSIGNMENT';
 const createComponentUnderTest = (isSelected, isHighlighted) => {
     const el = createElement('builder_platform_interaction-node', {
         is: Node
@@ -13,7 +13,7 @@ const createComponentUnderTest = (isSelected, isHighlighted) => {
         guid: '1',
         locationX : '20px',
         locationY : '40px',
-        elementType : ELEMENT_TYPE,
+        elementType : ELEMENT_TYPE.ASSIGNMENT,
         label : 'First Node',
         description : 'My first test node',
         config: {isSelected, isHighlighted}
@@ -49,7 +49,7 @@ describe('node', () => {
             expect(nodeComponent.node.guid).toEqual('1');
             expect(nodeComponent.node.locationX).toEqual('20px');
             expect(nodeComponent.node.locationY).toEqual('40px');
-            expect(nodeComponent.node.elementType).toEqual(ELEMENT_TYPE);
+            expect(nodeComponent.node.elementType).toEqual(ELEMENT_TYPE.ASSIGNMENT);
             expect(nodeComponent.node.label).toEqual('First Node');
             expect(nodeComponent.node.description).toEqual('My first test node');
             expect(nodeComponent.node.config.isSelected).toBeFalsy();
@@ -112,7 +112,7 @@ describe('node', () => {
     });
 
     describe('parent div class', () => {
-        const testModeSpecificClassName = `test-node-${ELEMENT_TYPE.toLowerCase()}`;
+        const testModeSpecificClassName = `test-node-${ELEMENT_TYPE.ASSIGNMENT.toLowerCase()}`;
         let parentDiv;
         it('in test mode  (test class added for parent div)', () => {
             isTestMode.mockReturnValue(true);

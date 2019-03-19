@@ -1,4 +1,5 @@
 import {getPropertyEditorConfig} from "../builderUtils";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 const EDIT_MODE = 'editelement',
     ADD_MODE = 'addelement';
@@ -60,7 +61,7 @@ const getAttributes = mode => ({
               type: "FAULT"
             }
           ],
-          elementType: "RECORD_DELETE",
+          elementType: ELEMENT_TYPE.RECORD_DELETE,
           dataType: {
             value: "Boolean",
             error: null

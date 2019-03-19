@@ -1,5 +1,5 @@
 import { generateGuid } from "builder_platform_interaction/storeLib";
-import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS } from "./elementFactoryLabels";
 
 /**
@@ -129,7 +129,7 @@ export const createConnectorMetadataObjects = (connectors, hasMultipleRegularCon
     let connectorMetadata;
 
     // TODO: Need to refactor the logic on changing datatype based on the elementType for Steps.( W-5478126 )
-    if (elementType === 'STEP') {
+    if (elementType === ELEMENT_TYPE.STEP) {
         connectorMetadata = [];
         hasMultipleRegularConnectors = true;
     } else {

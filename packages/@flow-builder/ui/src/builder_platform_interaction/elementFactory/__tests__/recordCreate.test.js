@@ -38,7 +38,7 @@ const flowRecordCreateFieldsStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_CREATE",
+    elementType: ELEMENT_TYPE.RECORD_CREATE,
     guid: MOCK_GUID,
     inputAssignments: [{
         leftHandSide: "Account.BillingCity",
@@ -78,7 +78,7 @@ const flowRecordCreateSObjectStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_CREATE",
+    elementType: ELEMENT_TYPE.RECORD_CREATE,
     guid: MOCK_GUID,
     inputReference: "mySObjectVar",
     isCanvasElement: true,
@@ -169,7 +169,7 @@ describe('recordCreate new element from left panel', () => {
             const uiModelResult = {
                 name: '',
                 description: '',
-                elementType: 'RECORD_CREATE',
+                elementType: ELEMENT_TYPE.RECORD_CREATE,
                 numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
             };
             const actualResult = createRecordCreate();

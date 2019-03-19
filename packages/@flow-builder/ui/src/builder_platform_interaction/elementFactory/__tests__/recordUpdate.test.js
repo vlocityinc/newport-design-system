@@ -25,7 +25,7 @@ const recordUpdateUsingFieldsTemplate = () => {
 const mutatedRecordUpdateUsingSobject = {
     name: 'RecordUpdate1',
     description: '',
-    elementType: 'RECORD_UPDATE',
+    elementType: ELEMENT_TYPE.RECORD_UPDATE,
     inputReference: 'myObject',
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
 };
@@ -34,7 +34,7 @@ const mutatedRecordUpdateWithFieldsTemplate = () => {
     return { name: 'RecordUpdate1',
     description: '',
     object: 'myObject',
-    elementType: 'RECORD_UPDATE',
+    elementType: ELEMENT_TYPE.RECORD_UPDATE,
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.ALL_RECORDS};
 };
 
@@ -100,7 +100,7 @@ describe('recordUpdate Mutation', () => {
             const mutatedResult = {
                 name: '',
                 description: '',
-                elementType: 'RECORD_UPDATE',
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
                 numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
             };
             const actualResult = createRecordUpdate();

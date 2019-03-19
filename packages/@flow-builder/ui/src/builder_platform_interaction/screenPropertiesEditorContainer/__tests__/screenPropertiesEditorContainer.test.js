@@ -3,6 +3,7 @@ import ScreenEditorPropertiesEditorContainer from "../screenPropertiesEditorCont
 import { getAllScreenFieldTypes } from "builder_platform_interaction/screenEditorUtils";
 import { query } from "builder_platform_interaction/builderTestUtils";
 import { getShadowRoot } from 'lwc-test-utils';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
@@ -29,7 +30,7 @@ const errorIconSelector = 'lightning-button-icon[iconName="utility:error"]';
 describe('screen-properties-editor-container', () => {
     it('displays the screen properties header by default', () => {
         const screenPropertiesEditorContainerElement = createComponentUnderTest({
-            node: {elementType: 'SCREEN'}
+            node: {elementType: ELEMENT_TYPE.SCREEN}
         });
         return Promise.resolve().then(() => {
             const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);

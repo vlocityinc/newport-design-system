@@ -21,7 +21,7 @@ const expectedRecordDeleteWhenNoArgumentsPassed = () => ({
      connectorCount: 0,
      dataType: "Boolean",
      description: "",
-     elementType: "RECORD_DELETE",
+     elementType: ELEMENT_TYPE.RECORD_DELETE,
      filters: [],
      guid: MOCK_GUID,
      inputReference: "",
@@ -48,7 +48,7 @@ const recordDeleteSObjectStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_DELETE",
+    elementType: ELEMENT_TYPE.RECORD_DELETE,
     filters: [{
         leftHandSide: "",
         operator: "",
@@ -80,7 +80,7 @@ const recordDeleteFieldsStore = () => ({
     connectorCount: 0,
     dataType: "Boolean",
     description: "",
-    elementType: "RECORD_DELETE",
+    elementType: ELEMENT_TYPE.RECORD_DELETE,
     filters: [{
         leftHandSide: "Account.BillingCity",
         operator: "EqualTo",

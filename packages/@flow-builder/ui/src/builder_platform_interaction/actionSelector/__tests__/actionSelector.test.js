@@ -174,31 +174,31 @@ describe('Action selector', () => {
         });
         it('should fire ValueChangedEvent with action name and action type when a standard invocable action is selected', () => {
             dispatchActionChangeEvent('emailSimple-emailSimple');
-            expectEventCallbackCalledWithValue({ actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': 'ACTION_CALL' });
+            expectEventCallbackCalledWithValue({ actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': ELEMENT_TYPE.ACTION_CALL });
         });
         it('should fire ValueChangedEvent with action name and action type when quick action is selected', () => {
             dispatchActionChangeEvent('quickAction-CollaborationGroup.mynamespace__NewGroupMember');
-            expectEventCallbackCalledWithValue({ actionName: 'CollaborationGroup.mynamespace__NewGroupMember', actionType: 'quickAction', 'elementType': 'ACTION_CALL' });
+            expectEventCallbackCalledWithValue({ actionName: 'CollaborationGroup.mynamespace__NewGroupMember', actionType: 'quickAction', 'elementType': ELEMENT_TYPE.ACTION_CALL });
         });
         it('should fire ValueChangedEvent with action name and action type when an apex action is selected', () => {
             actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_CALL };
             dispatchActionChangeEvent('apex-mynamespace__ActionTest');
-            expectEventCallbackCalledWithValue({ actionName: 'mynamespace__ActionTest', actionType: 'apex', 'elementType': 'APEX_CALL' });
+            expectEventCallbackCalledWithValue({ actionName: 'mynamespace__ActionTest', actionType: 'apex', 'elementType': ELEMENT_TYPE.APEX_CALL });
         });
         it('should fire ValueChangedEvent with action name and action type when an apex plugin is selected', () => {
             actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL };
             dispatchActionChangeEvent('mynamespace__lookUpAccountPlugin');
-            expectEventCallbackCalledWithValue({ apexClass: 'mynamespace__lookUpAccountPlugin', 'elementType': 'APEX_PLUGIN_CALL' });
+            expectEventCallbackCalledWithValue({ apexClass: 'mynamespace__lookUpAccountPlugin', 'elementType': ELEMENT_TYPE.APEX_PLUGIN_CALL });
         });
         it('should fire ValueChangedEvent with action name and action type when an email alert is selected', () => {
             actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.EMAIL_ALERT };
             dispatchActionChangeEvent('emailAlert-mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert');
-            expectEventCallbackCalledWithValue({ actionName: 'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert', actionType: 'emailAlert', 'elementType': 'EMAIL_ALERT' });
+            expectEventCallbackCalledWithValue({ actionName: 'mynamespace__img_src_http_foo_bar_foo_jpg__c.mynamespace__My_Email_Alert', actionType: 'emailAlert', 'elementType': ELEMENT_TYPE.EMAIL_ALERT });
         });
         it('should fire ValueChangedEvent with flowName when a subflow is selected', () => {
             actionSelectorComponent.selectedAction = { elementType: ELEMENT_TYPE.SUBFLOW };
             dispatchActionChangeEvent('mynamespace__LFB_Sample_01');
-            expectEventCallbackCalledWithValue({ flowName: 'mynamespace__LFB_Sample_01', 'elementType': 'SUBFLOW' });
+            expectEventCallbackCalledWithValue({ flowName: 'mynamespace__LFB_Sample_01', 'elementType': ELEMENT_TYPE.SUBFLOW });
         });
         it('should not fire ValueChangedEvent if this was already the selected action', async () => {
             actionSelectorComponent.selectedAction = {
@@ -213,25 +213,25 @@ describe('Action selector', () => {
         it('should fire ValueChangedEvent with just the elementType and an error when user types text that does not match an action', () => {
             dispatchActionChangeEvent(null, 'not an existing action');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderCombobox.genericErrorMessage", value: { 'elementType': 'ACTION_CALL' } });
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderCombobox.genericErrorMessage", value: { 'elementType': ELEMENT_TYPE.ACTION_CALL } });
         });
         it('should fire ValueChangedEvent with just the elementType and an error when user focus out with no action selected', () => {
             dispatchActionChangeEvent(null, '');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderValidation.cannotBeBlank", value: { 'elementType': 'ACTION_CALL' } });
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderValidation.cannotBeBlank", value: { 'elementType': ELEMENT_TYPE.ACTION_CALL } });
         });
         it('should remove errors after they are corrected', () => {
             // set an error
             dispatchActionChangeEvent(null, '');
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderValidation.cannotBeBlank", value: { 'elementType': 'ACTION_CALL' } });
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({ error: "FlowBuilderValidation.cannotBeBlank", value: { 'elementType': ELEMENT_TYPE.ACTION_CALL } });
             // fiddle with the event listener to get it to rest
             document.removeEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             eventCallback = jest.fn();
             document.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
             // now remove it
             dispatchActionChangeEvent('emailSimple-emailSimple');
-            expectEventCallbackCalledWithValue({ actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': 'ACTION_CALL' });
+            expectEventCallbackCalledWithValue({ actionName: 'emailSimple', actionType: 'emailSimple', 'elementType': ELEMENT_TYPE.ACTION_CALL });
         });
     });
     describe('When action changes', () => {
