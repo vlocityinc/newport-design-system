@@ -7,7 +7,7 @@ import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEdi
 import BaseResourcePicker from "../baseResourcePicker";
 
 const setupComponentUnderTest = (props) => {
-    const element = createElement('builder_platform_interaction-resource-picker', {
+    const element = createElement('builder_platform_interaction-base-resource-picker', {
         is: BaseResourcePicker,
     });
     Object.assign(element, props);
