@@ -7,12 +7,6 @@
         <lightning-helptext if:true={helpText} class='slds-form-element' content={helpText}></lightning-helptext>
         
         <div class={classList}>
-            <lightning-input-rich-text formats={formats}
-                                   value={inputRichTextValue}
-                                   variant='bottom-toolbar'
-                                   onchange={handleChangeEvent}
-                                   onblur={handleBlurEvent}>
-            </lightning-input-rich-text>
             <div class='slds-p-around_x-small slds-p-bottom_xx-small'> 
                 <builder_platform_interaction-ferov-resource-picker combobox-config={resourceComboBoxConfig}
                                                                     element-config={elementConfig}
@@ -23,9 +17,14 @@
                                                                     onitemselected={handleResourcePickerSelection}
                                                                     >
                 </builder_platform_interaction-ferov-resource-picker>
-            </div> 
+            </div>
+            <lightning-input-rich-text formats={formats}
+                                   value={inputRichTextValue}
+                                   variant='bottom-toolbar'
+                                   onchange={handleChangeEvent}
+                                   onblur={handleBlurEvent}>
+            </lightning-input-rich-text>
         </div>
-
         <div if:true={state.error} class='slds-has-error'>
             <div role='alert' class='slds-form-element__help'>{state.error}</div>
         </div>
