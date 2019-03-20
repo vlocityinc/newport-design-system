@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo,
+import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo, updateProperties,
     UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION, UPDATE_PROPERTIES_AFTER_SAVE_FAILED } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
@@ -633,4 +633,25 @@ export default class Editor extends LightningElement {
     disconnectedCallback() {
         unsubscribeStore();
     }
+
+    createFlowFromTemplate = (versionIdOrEnum) => {
+        fetch(SERVER_ACTION_TYPE.GET_TEMPLATE_DATA, this.getTemplateDataCallback, {id: versionIdOrEnum}, {background: true});
+    };
+
+    getTemplateDataCallback = ({data, error}) => {
+        if (error) {
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
+        } else {
+            this.getFlowCallback({data, error});
+            storeInstance.dispatch(updateProperties({
+                versionNumber: null,
+                status: null,
+                isLightningFlowBuilder: true,
+                isTemplate: false,
+                lastModifiedDate: null,
+                lastModifiedBy: null,
+                name: "",
+            }));
+        }
+    };
 }

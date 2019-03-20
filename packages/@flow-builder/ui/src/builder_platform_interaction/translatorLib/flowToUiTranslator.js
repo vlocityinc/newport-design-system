@@ -6,16 +6,16 @@ import { elementTypeToConfigMap } from "builder_platform_interaction/elementConf
 /**
  * Translate flow tooling object into UI data model
  *
- * @param {Object} flow Flow tooling object
+ * @param {Object} flow Flow tooling object or Metadata flow object
  * @returns {Object} UI representation of the Flow in a normalized shape
  */
 export function translateFlowToUIModel(flow) {
     // Construct flow properties object
     const properties = createFlowProperties(flow);
     // Create start element
-    const { elements, connectors }  = createStartElementWithConnectors(flow.metadata.startElementReference);
+    const { elements, connectors }  = createStartElementWithConnectors(flow.startElementReference || flow.metadata.startElementReference);
     // Create elements, connectors and location translation config from flow Metadata
-    const storeDataAndConfig = createElementsUsingFlowMetadata(flow.metadata);
+    const storeDataAndConfig = createElementsUsingFlowMetadata(flow.metadata || flow);
 
     let {
         storeElements = {},
