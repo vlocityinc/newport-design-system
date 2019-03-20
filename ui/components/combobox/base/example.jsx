@@ -549,5 +549,21 @@ export let states = [
         </ComboboxContainer>
       </div>
     )
+  },
+  {
+    id: 'has-error',
+    label: 'hasError',
+    element: (
+      <div className="demo-only" style={{ height: '10rem' }}>
+        <ComboboxContainer
+          formClassName="nds-has-error"
+          isOpen
+          autocomplete
+          inputIcon="right"
+          inputIconRightSymbol="search"
+          listbox={<ListboxDropdown />}
+        />
+      </div>
+    )
   }
 ];
