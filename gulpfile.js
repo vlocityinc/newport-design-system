@@ -11,7 +11,7 @@ const runSequence = require('run-sequence');
 const paths = require('./scripts/helpers/paths');
 
 require('./scripts/gulp/accessibility');
-require('./scripts/gulp/generate-examples');
+require('./scripts/gulp/icons');
 require('./scripts/gulp/generate-tokens-components');
 require('./scripts/gulp/lint');
 require('./scripts/gulp/styles');
@@ -31,10 +31,5 @@ gulp.task('clean', () =>
 );
 
 gulp.task('build', callback => {
-  runSequence(
-    'clean',
-    ['generate:tokens:all', 'generate:examples'],
-    'styles',
-    callback
-  );
+  runSequence('clean', 'generate:tokens:all', 'styles', 'icons', callback);
 });
