@@ -81,6 +81,7 @@ export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}
         case CLEAR_UNDO_REDO: {
             past = [];
             future = [];
+            lastAction = undefined;
             break;
         }
         case UNDO: {
@@ -93,10 +94,19 @@ export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}
         }
         default: {
             const newState = reducer(state, action);
+
+            // Memoization
+            if (newState === state) {
+                lastAction = action.type;
+                return newState;
+            }
+
+            // Blacklisted Actions
             if (blacklistedActions.includes(action.type)) {
                 return newState;
             }
 
+            // Grouped Actions
             if (groupedActions.includes(action.type) && (lastAction === action.type)) {
                 present = newState;
             } else {

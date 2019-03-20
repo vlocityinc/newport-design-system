@@ -315,6 +315,7 @@ function _updateElementOnAddConnection(elements, connector) {
  */
 function _selectCanvasElement(elements, selectedGUID) {
     const newState = updateProperties(elements);
+    let hasStateChanged = false;
     Object.keys(elements).map(guid => {
         const element = newState[guid];
         if (element && element.isCanvasElement && element.config) {
@@ -326,6 +327,7 @@ function _selectCanvasElement(elements, selectedGUID) {
                             isHighlighted: element.config.isHighlighted
                         }
                     });
+                    hasStateChanged = true;
                 }
             } else if (element.config.isSelected || element.config.isHighlighted) {
                 newState[guid] = updateProperties(element, {
@@ -334,11 +336,12 @@ function _selectCanvasElement(elements, selectedGUID) {
                         isHighlighted: false
                     }
                 });
+                hasStateChanged = true;
             }
         }
         return guid;
     });
-    return newState;
+    return hasStateChanged ? newState : elements;
 }
 
 /**
@@ -350,10 +353,9 @@ function _selectCanvasElement(elements, selectedGUID) {
  * @private
  */
 function _toggleCanvasElement(elements, selectedGUID) {
-    let newState = elements;
+    const newState = updateProperties(elements);
     const element = elements[selectedGUID];
     if (element) {
-        newState = updateProperties(elements);
         newState[selectedGUID] = updateProperties(newState[selectedGUID], {
             config: {
                 isSelected: !element.config.isSelected,
@@ -374,6 +376,7 @@ function _toggleCanvasElement(elements, selectedGUID) {
  */
 function _deselectCanvasElements(elements) {
     const newState = updateProperties(elements);
+    let hasStateChanged = false;
     Object.keys(elements).map(guid => {
         const element = newState[guid];
         if (element && element.isCanvasElement && element.config && (element.config.isSelected || element.config.isHighlighted)) {
@@ -383,10 +386,11 @@ function _deselectCanvasElements(elements) {
                     isHighlighted: false
                 }
             });
+            hasStateChanged = true;
         }
         return guid;
     });
-    return newState;
+    return hasStateChanged ? newState : elements;
 }
 
 /**

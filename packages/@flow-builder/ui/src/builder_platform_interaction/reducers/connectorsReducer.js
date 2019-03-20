@@ -159,9 +159,11 @@ function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElemen
  * @private
  */
 function _selectConnector(connectors, selectedGUID) {
-    return connectors.map((connector) => {
+    let hasStateChanged = false;
+    const newState = connectors.map((connector) => {
         if (connector.guid === selectedGUID) {
             if (!connector.config.isSelected) {
+                hasStateChanged = true;
                 return updateProperties(connector, {
                     config: {
                         isSelected: true
@@ -169,6 +171,7 @@ function _selectConnector(connectors, selectedGUID) {
                 });
             }
         } else if (connector.config.isSelected) {
+            hasStateChanged = true;
             return updateProperties(connector, {
                 config: {
                     isSelected: false
@@ -177,6 +180,8 @@ function _selectConnector(connectors, selectedGUID) {
         }
         return connector;
     });
+
+    return hasStateChanged ? newState : connectors;
 }
 
 /**
@@ -209,8 +214,10 @@ function _toggleConnector(connectors, selectedGUID) {
  * @private
  */
 function _deselectConnectors(connectors) {
-    return connectors.map((connector) => {
+    let hasStateChanged = false;
+    const newState = connectors.map((connector) => {
         if (connector.config.isSelected) {
+            hasStateChanged = true;
             return updateProperties(connector, {
                 config: {
                     isSelected: false
@@ -219,4 +226,6 @@ function _deselectConnectors(connectors) {
         }
         return connector;
     });
+
+    return hasStateChanged ? newState : connectors;
 }
