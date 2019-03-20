@@ -428,10 +428,13 @@ export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPro
                 bodyClass: data.bodyClass || '',
                 flavor: data.flavor || '',
                 closeAction: (modal) => {
+                    let skipCloseAction = false;
                     if (data.closeCallback) {
-                        data.closeCallback();
+                        skipCloseAction = data.closeCallback();
                     }
-                    modal.close();
+                    if (!skipCloseAction) {
+                        modal.close();
+                    }
                 }
             },
             onCreate: (modal) => {

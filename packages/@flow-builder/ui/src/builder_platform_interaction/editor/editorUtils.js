@@ -7,7 +7,7 @@ import { getElementForStore } from 'builder_platform_interaction/propertyEditorF
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
 import { setEntities, setEventTypes } from 'builder_platform_interaction/sobjectLib';
-import { setGlobalVariables, setSystemVariables, setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import { getFlowSystemVariableComboboxItem, getGlobalVariableTypeComboboxItems } from 'builder_platform_interaction/expressionUtils';
 import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { setApexClasses } from "builder_platform_interaction/apexTypeLib";
@@ -218,12 +218,11 @@ const setSystemVariableAndUpdateCache = (systemVariables) => {
     setSystemVariables(systemVariables);
 };
 
-export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, processTypes, globalVariables, systemVariables, entities, apexTypes}) => {
+export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, globalVariables, systemVariables, entities, apexTypes}) => {
     setRules(rules);
     setOperators(operators);
     setResourceTypes(resourceTypes);
     setEventTypes(eventTypes);
-    setProcessTypes(processTypes);
     setGlobalVariableAndUpdateCache(globalVariables);
     setSystemVariableAndUpdateCache(systemVariables);
     setEntities(entities);

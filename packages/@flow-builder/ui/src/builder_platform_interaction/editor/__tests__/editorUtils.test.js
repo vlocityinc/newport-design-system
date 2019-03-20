@@ -540,7 +540,7 @@ describe('Editor Utils Test', () => {
         const { setRules, setOperators } = require('builder_platform_interaction/ruleLib');
         const { setResourceTypes } = require('builder_platform_interaction/dataTypeLib');
         const { setEntities, setEventTypes } = require('builder_platform_interaction/sobjectLib');
-        const { setGlobalVariables, setSystemVariables, setProcessTypes } = require('builder_platform_interaction/systemLib');
+        const { setGlobalVariables, setSystemVariables } = require('builder_platform_interaction/systemLib');
         const { setApexClasses } = require("builder_platform_interaction/apexTypeLib");
 
         const rules = [{
@@ -549,7 +549,6 @@ describe('Editor Utils Test', () => {
         const operators = {};
         const resourceTypes = {};
         const eventTypes = {};
-        const processTypes = {};
         const globalVariables = {};
         const systemVariables = [{
             devName: 'CurrentDate'
@@ -565,7 +564,6 @@ describe('Editor Utils Test', () => {
                 operators,
                 resourceTypes,
                 eventTypes,
-                processTypes,
                 globalVariables,
                 systemVariables,
                 entities,
@@ -587,10 +585,6 @@ describe('Editor Utils Test', () => {
 
         it('setEventTypes has been called', () => {
             expect(setEventTypes).toHaveBeenCalled();
-        });
-
-        it('setProcessTypes has been called', () => {
-            expect(setProcessTypes).toHaveBeenCalled();
         });
 
         it('setGlobalVariables has been called', () => {

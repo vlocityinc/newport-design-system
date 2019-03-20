@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData } from 'builder_platform_interaction/builderUtils';
+import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData, invokeNewFlowModal} from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo, updateProperties,
@@ -24,6 +24,8 @@ import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessf
     flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, getDuplicateElementGuidMaps,
     getConnectorToDuplicate, highlightCanvasElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
+import { getProcessTypes, setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
 
 let unsubscribeStore;
 let storeInstance;
@@ -75,6 +77,7 @@ export default class Editor extends LightningElement {
     @track isRedoDisabled = true;
 
     propertyEditorBlockerCalls = [];
+    peripheralDataFetched = false;
 
     constructor() {
         super();
@@ -92,15 +95,6 @@ export default class Editor extends LightningElement {
         ];
         storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib, groupedActions}));
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
-        logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
-        const getPeripheralDataForPropertyEditor = fetchOnce(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR, {
-            crudType: 'ALL',
-            flowProcessType: 'Flow'
-        }).then(data => {
-            logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
-            setPeripheralDataForPropertyEditor(data);
-        });
-        this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
         fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
     }
 
@@ -120,12 +114,7 @@ export default class Editor extends LightningElement {
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
-            // Create start element
-            const startElement = getElementForStore({
-                elementType: ELEMENT_TYPE.START_ELEMENT
-            });
-            storeInstance.dispatch(addElement(startElement));
-            this.disableSave = false;
+            invokeNewFlowModal({bodyClass: 'slds-p-around_none', flavor: MODAL_SIZE.LARGE}, this.closeFlowModalCallback, this.createFlowFromTemplateCallback);
         }
     }
 
@@ -150,6 +139,25 @@ export default class Editor extends LightningElement {
         this.isRedoDisabled = !isRedoAvailable();
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
+        if (!this.peripheralDataFetched && this.properties.processType) {
+            logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_BY_PROCESS_TYPE);
+            const getPeripheralDataForPropertyEditor = fetchOnce(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR, {
+                crudType: 'ALL',
+                flowProcessType: this.properties.processType,
+            }).then(data => {
+                logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
+                setPeripheralDataForPropertyEditor(data);
+                this.peripheralDataFetched = true;
+            });
+            this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
+        }
+        // should fetch process types here if they aren't fetched
+        if (!getProcessTypes()) {
+            const getProcessTypesCall = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}).then(data => {
+                setProcessTypes(data);
+            });
+            this.propertyEditorBlockerCalls.push(getProcessTypesCall);
+        }
     };
 
     /**
@@ -652,6 +660,60 @@ export default class Editor extends LightningElement {
                 lastModifiedBy: null,
                 name: "",
             }));
+            storeInstance.dispatch(clearUndoRedo);
         }
+    };
+
+    // Create start element
+    createStartElement() {
+        const startElement = getElementForStore({
+            elementType: ELEMENT_TYPE.START_ELEMENT
+        });
+        storeInstance.dispatch(addElement(startElement));
+    }
+
+    /**
+     * Callback passed when user clicks on Exit icon
+     */
+    closeFlowModalCallback = () => {
+        if (this.backUrl) {
+            window.top.location = this.backUrl;
+            return false;
+        }
+        // skip exit
+        return true;
+    };
+
+    /**
+     * Callback passed when user clicks on Create button
+     */
+    createFlowFromTemplateCallback = (panel) => {
+        const templatesModalBody = panel.get('v.body')[0];
+        if (templatesModalBody && templatesModalBody.isValid()) {
+            const selectedTemplate = templatesModalBody.get('v.selectedTemplate');
+            const isProcessType = templatesModalBody.get('v.isProcessType');
+            // create the flow from the template
+            if (!isProcessType) {
+                this.createFlowFromTemplate(selectedTemplate);
+                this.isFlowServerCallInProgress = true;
+                this.spinners.showFlowMetadataSpinner = true;
+            } else {
+                // create the empty flow for the selected process type
+                this.spinners.showFlowMetadataSpinner = true;
+                this.createFlowFromProcessType(selectedTemplate);
+                this.spinners.showFlowMetadataSpinner = false;
+            }
+        }
+        panel.close();
+    };
+
+    /**
+     * Create the blank flow from the process type
+     */
+    createFlowFromProcessType = (processType) => {
+        storeInstance.dispatch(updateFlow({properties: {processType}, canvasElements: [], connectors: [], elements: {}}));
+        this.createStartElement();
+        this.disableSave = false;
+        storeInstance.dispatch(clearUndoRedo);
     };
 }

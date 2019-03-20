@@ -35,6 +35,7 @@ export default class ProcessTypesTemplates extends LightningElement {
      */
     set processType(newValue) {
         this._processType = newValue || '';
+        this.selectedTemplate = '';
         this.fetchTemplates();
         this.getProcessTypesTiles();
     }
