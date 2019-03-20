@@ -41,5 +41,10 @@ export let examples = [
         423 Credits Available
       </Badge>
     )
+  },
+  {
+    id: 'brand',
+    label: 'Brand',
+    element: <Badge className="nds-badge_brand">Badge Label</Badge>
   }
 ];

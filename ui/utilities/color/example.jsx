@@ -47,9 +47,24 @@ export let examples = [
                   display: 'inline-block'
                 }}
               />
-              <p className="nds-p-left_small">.nds-color__text_gray-{key}</p>
+              <p className={`nds-color__text_gray-${key} nds-p-left_small`}>
+                .nds-color__text_gray-{key}
+              </p>
             </div>
           ))}
+          <div className="nds-grid nds-grid_vertical-align-center">
+            <div
+              className="nds-color-text-secondary"
+              style={{
+                height: '3rem',
+                width: '3rem',
+                display: 'inline-block'
+              }}
+            />
+            <p className="nds-color-text-secondary nds-p-left_small">
+              .nds-color-text-secondary
+            </p>
+          </div>
         </div>
 
         <h2 className="nds-text-heading_large nds-m-bottom_medium">
