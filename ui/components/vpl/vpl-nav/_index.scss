@@ -2,8 +2,12 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
-* @name vpl
-*
+* @summary Initializes a Newport VPL styled subnav
+
+* @name vpl-nav
+* @selector .nds-subnav__wrapper
+* @restrict div
+* @variant
 */
 
 .nds-subnav__wrapper {
@@ -14,6 +18,7 @@
   .nds-subnav__active {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     height: 100%;
     border-right: 0.0625rem solid rgba($color-black-primary, 0.1);
     border-left: 0;
@@ -60,6 +65,7 @@
   img {
     pointer-events: none;
     height: 3.75rem;
+    margin: 0 auto;
   }
   .nds-subnav__overview-card {
     animation: ndsOpacityAnimation 0.55s forwards;

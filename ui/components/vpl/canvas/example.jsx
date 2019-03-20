@@ -2,17 +2,14 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 import React from 'react';
-import SvgIcon from '../../../shared/svg-icon';
 import classNames from 'classnames';
 
 /// ////////////////////////////////////////
 // Partial(s)
 /// ////////////////////////////////////////
 
-export let Canvas = props => (
-  <div className={classNames('nds-canvas', props.className)}>
-    {props.children}
-  </div>
+export let NdsCanvas = props => (
+  <div className="nds-canvas">{props.children}</div>
 );
 
 export let CanvasBody = props => (
@@ -36,31 +33,9 @@ export let CanvasTitle = props => (
 /// ////////////////////////////////////////
 
 export default (
-  <Canvas>
+  <NdsCanvas>
     <CanvasBody />
-  </Canvas>
+  </NdsCanvas>
 );
 
-export let states = [
-  {
-    id: 'border',
-    label: 'Border',
-    element: (
-      <Canvas>
-        <CanvasBody />
-      </Canvas>
-    )
-  }
-];
-
-export let examples = [
-  {
-    id: 'related-list-table',
-    label: 'With data-table',
-    element: (
-      <Canvas>
-        <CanvasBody />
-      </Canvas>
-    )
-  }
-];
+export let states = [];

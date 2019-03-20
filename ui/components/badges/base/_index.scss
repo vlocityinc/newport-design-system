@@ -56,3 +56,16 @@
   text-transform: none;
   letter-spacing: normal;
 }
+
+/**
+ * @summary Brand badge
+ *
+ * @name brand
+ * @selector .nds-badge_brand
+ * @restrict .nds-badge
+ */
+.nds-badge_brand {
+  border: $border-width-thin solid $color-brand;
+  background-color: $color-brand;
+  color: #ffffff;
+}

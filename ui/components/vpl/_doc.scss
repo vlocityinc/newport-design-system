@@ -2,16 +2,12 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * To initialize a canvas, apply the `.nds-canvas` class to a containing `<div>`.
+ * @summary VPL (Vlocity Process Library) includes a number of Newport themed components for our process library.
  *
- * @summary Canvas are used to apply a container around a related grouping of information.
+ * The templates for these components can be downloaded from the Vlocity Process Library in the support center.
  *
  * @base
  * @name vpl
- * @selector .nds-canvas
- * @category structure
- * @type data-display, layout
- * @role presentation
+ * @selector .nds-canvas, .nds-subnav__wrapper
  * @support dev-ready
- * @layout responsive
  */

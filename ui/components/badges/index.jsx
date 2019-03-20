@@ -16,3 +16,7 @@ export const InverseBadge = props => (
 export const LightBadge = props => (
   <Badge className="nds-badge_lightest">{props.children}</Badge>
 );
+
+export const BrandBadge = props => (
+  <Badge className="nds-badge_brand">{props.children}</Badge>
+);

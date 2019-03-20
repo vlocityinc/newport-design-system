@@ -2,6 +2,16 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
+ * @summary Text color utility class for secondary text
+ *
+ * @selector .nds-color-text-secondary
+ * @modifier
+ */
+ .nds-color-text-secondary {
+  color: $color-text-secondary !important;
+}
+
+/**
  * @summary Text color utility class for Palette Gray #1
  *
  * @selector .nds-color__text_gray-1
