@@ -12,6 +12,7 @@
  */
 .nds-input {
   @include form-states;
+  box-shadow: none;
   display: inline-block;
   padding: 0;
   line-height: $height-input;
@@ -308,6 +309,5 @@
           width: 50%;
           max-width: 50%;
       }
-    }      
+    }
 }
-
