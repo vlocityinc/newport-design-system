@@ -8,8 +8,10 @@ import saveFlowAsTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.s
 import saveButtonLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveButtonLabel';
 import createButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.createButtonLabel';
 import headerTitle from '@salesforce/label/FlowBuilderNewFlowModal.headerTitle';
+import newActionPropertyEditorTitle from "@salesforce/label/FlowBuilderCalloutEditor.newActionPropertyEditorTitle";
 
 export const LABELS = {
+    newActionPropertyEditorTitle,
     newElementHeaderPrefix,
     existingElementHeaderPrefix,
     connectorPickerHeaderPrefix,

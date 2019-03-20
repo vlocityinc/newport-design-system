@@ -87,6 +87,13 @@ const getTitleForModalHeader = (mode, elementType) => {
             label = elementConfig.labels.singular;
             break;
         case AddElementEvent.EVENT_NAME:
+            if (elementType === ELEMENT_TYPE.ACTION_CALL) {
+                label = LABELS.newActionPropertyEditorTitle;
+            } else {
+                titlePrefix = LABELS.newElementHeaderPrefix;
+                label = elementConfig.labels.singular;
+            }
+            break;
         case AddNonCanvasElementEvent.EVENT_NAME:
             titlePrefix = LABELS.newElementHeaderPrefix;
             label = elementConfig.labels.singular;
