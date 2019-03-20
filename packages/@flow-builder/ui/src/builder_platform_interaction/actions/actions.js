@@ -7,6 +7,8 @@ export const UPDATE_FLOW = 'UPDATE_FLOW';
 export const UPDATE_PROPERTIES = 'UPDATE_PROPERTIES';
 export const UPDATE_PROPERTIES_AFTER_SAVE_FAILED = 'UPDATE_PROPERTIES_AFTER_SAVE_FAILED';
 export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
+export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE = 'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE';
+export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE = 'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE';
 
 export const DO_DUPLICATE = 'DO_DUPLICATE';
 
@@ -118,6 +120,21 @@ export const updatePropertiesAfterSaveFailed = (payload) => createAction(UPDATE_
  * @returns {Object} action new action based on type and payload
  */
 export const updatePropertiesAfterSaving = (payload) => createAction(UPDATE_PROPERTIES_AFTER_SAVING, payload);
+/**
+ * Action for updating flow properties in the store after creating a flow from template.
+ *
+ * @param {Object} payload - contains new flow information
+ * @returns {Object} action new action based on type and payload
+ */
+export const updatePropertiesAfterCreatingFlowFromTemplate = (payload) => createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE, payload);
+
+/**
+ * Action for updating flow properties in the store after creating a flow.
+ *
+ * @param {Object} payload - contains new flow information
+ * @returns {Object} action new action based on type and payload
+ */
+export const updatePropertiesAfterCreatingFlowFromProcessType = (payload) => createAction(UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, payload);
 
 /**
  * Action for duplicating canvas elements and connectors.

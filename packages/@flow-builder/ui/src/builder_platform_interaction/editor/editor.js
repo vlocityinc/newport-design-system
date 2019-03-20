@@ -2,8 +2,8 @@ import { LightningElement, track, api } from 'lwc';
 import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData, invokeNewFlowModal} from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
-import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo, updateProperties,
-    UPDATE_PROPERTIES_AFTER_SAVING, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION, UPDATE_PROPERTIES_AFTER_SAVE_FAILED } from 'builder_platform_interaction/actions';
+import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo, updatePropertiesAfterCreatingFlowFromTemplate, updatePropertiesAfterCreatingFlowFromProcessType,
+    UPDATE_PROPERTIES_AFTER_SAVING, UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE, UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION, UPDATE_PROPERTIES_AFTER_SAVE_FAILED } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -22,10 +22,9 @@ import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl,
     updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings,
     flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, getDuplicateElementGuidMaps,
-    getConnectorToDuplicate, highlightCanvasElement } from './editorUtils';
+    getConnectorToDuplicate, highlightCanvasElement, getSelectedTemplateAndClosePanel, closeModalAndNavigateTo, createStartElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 import { getProcessTypes, setProcessTypes } from 'builder_platform_interaction/systemLib';
-import { MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
 
 let unsubscribeStore;
 let storeInstance;
@@ -77,7 +76,6 @@ export default class Editor extends LightningElement {
     @track isRedoDisabled = true;
 
     propertyEditorBlockerCalls = [];
-    peripheralDataFetched = false;
 
     constructor() {
         super();
@@ -87,6 +85,8 @@ export default class Editor extends LightningElement {
             INIT,
             UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
             UPDATE_PROPERTIES_AFTER_SAVE_FAILED, // Called after save callback returns with errors from server
+            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
+            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -114,7 +114,7 @@ export default class Editor extends LightningElement {
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
-            invokeNewFlowModal({bodyClass: 'slds-p-around_none', flavor: MODAL_SIZE.LARGE}, this.closeFlowModalCallback, this.createFlowFromTemplateCallback);
+            invokeNewFlowModal(closeModalAndNavigateTo(this.backUrl), this.createFlowFromTemplateCallback);
         }
     }
 
@@ -137,9 +137,7 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
-        this.properties = currentState.properties;
-        this.showWarningIfUnsavedChanges();
-        if (!this.peripheralDataFetched && this.properties.processType) {
+        if (currentState.properties.processType && currentState.properties.processType !== this.properties.processType) {
             logPerfTransactionStart(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_BY_PROCESS_TYPE);
             const getPeripheralDataForPropertyEditor = fetchOnce(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR, {
                 crudType: 'ALL',
@@ -151,6 +149,8 @@ export default class Editor extends LightningElement {
             });
             this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
         }
+        this.properties = currentState.properties;
+        this.showWarningIfUnsavedChanges();
         // should fetch process types here if they aren't fetched
         if (!getProcessTypes()) {
             const getProcessTypesCall = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}).then(data => {
@@ -651,69 +651,41 @@ export default class Editor extends LightningElement {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else {
             this.getFlowCallback({data, error});
-            storeInstance.dispatch(updateProperties({
+            storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromTemplate({
                 versionNumber: null,
                 status: null,
                 isLightningFlowBuilder: true,
                 isTemplate: false,
                 lastModifiedDate: null,
                 lastModifiedBy: null,
-                name: "",
-            }));
-            storeInstance.dispatch(clearUndoRedo);
+                name: ""}));
         }
-    };
-
-    // Create start element
-    createStartElement() {
-        const startElement = getElementForStore({
-            elementType: ELEMENT_TYPE.START_ELEMENT
-        });
-        storeInstance.dispatch(addElement(startElement));
-    }
-
-    /**
-     * Callback passed when user clicks on Exit icon
-     */
-    closeFlowModalCallback = () => {
-        if (this.backUrl) {
-            window.top.location = this.backUrl;
-            return false;
-        }
-        // skip exit
-        return true;
     };
 
     /**
      * Callback passed when user clicks on Create button
      */
     createFlowFromTemplateCallback = (panel) => {
-        const templatesModalBody = panel.get('v.body')[0];
-        if (templatesModalBody && templatesModalBody.isValid()) {
-            const selectedTemplate = templatesModalBody.get('v.selectedTemplate');
-            const isProcessType = templatesModalBody.get('v.isProcessType');
+        const selectedTemplate = getSelectedTemplateAndClosePanel(panel);
+        if (selectedTemplate.templateId) {
             // create the flow from the template
-            if (!isProcessType) {
-                this.createFlowFromTemplate(selectedTemplate);
-                this.isFlowServerCallInProgress = true;
-                this.spinners.showFlowMetadataSpinner = true;
-            } else {
-                // create the empty flow for the selected process type
-                this.spinners.showFlowMetadataSpinner = true;
-                this.createFlowFromProcessType(selectedTemplate);
-                this.spinners.showFlowMetadataSpinner = false;
-            }
+            this.createFlowFromTemplate(selectedTemplate.templateId);
+            this.isFlowServerCallInProgress = true;
+            this.spinners.showFlowMetadataSpinner = true;
+        } else if (selectedTemplate.processType) {
+            // create the empty flow for the selected process type
+            this.spinners.showFlowMetadataSpinner = true;
+            this.createFlowFromProcessType(selectedTemplate.processType);
+            this.spinners.showFlowMetadataSpinner = false;
         }
-        panel.close();
     };
 
     /**
      * Create the blank flow from the process type
      */
     createFlowFromProcessType = (processType) => {
-        storeInstance.dispatch(updateFlow({properties: {processType}, canvasElements: [], connectors: [], elements: {}}));
-        this.createStartElement();
+        storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType({processType}));
+        createStartElement(storeInstance);
         this.disableSave = false;
-        storeInstance.dispatch(clearUndoRedo);
     };
 }

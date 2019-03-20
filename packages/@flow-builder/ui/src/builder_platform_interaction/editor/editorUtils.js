@@ -1,5 +1,5 @@
 import { usedBy, invokeUsedByAlertModal } from 'builder_platform_interaction/usedByLib';
-import { deleteElement, updatePropertiesAfterSaving, updateProperties, updatePropertiesAfterSaveFailed, highlightOnCanvas } from 'builder_platform_interaction/actions';
+import { deleteElement, updatePropertiesAfterSaving, updateProperties, updatePropertiesAfterSaveFailed, highlightOnCanvas, addElement } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
@@ -417,3 +417,49 @@ export const highlightCanvasElement = (storeInstance, elementGuid) => {
         storeInstance.dispatch(highlightOnCanvas(payload));
     }
 };
+
+/**
+*
+* Create start element
+*
+* @param {object} storeInstance store instancce
+*/
+export function createStartElement(storeInstance) {
+   const startElement = getElementForStore({
+       elementType: ELEMENT_TYPE.START_ELEMENT
+   });
+   storeInstance.dispatch(addElement(startElement));
+}
+
+/**
+* Close modal and navigate the parent window to the specific url
+* @param {String} navigateUrl url to navigate to
+* @return true if you want to skip the close modal
+*/
+export function closeModalAndNavigateTo(navigateUrl) {
+   if (navigateUrl) {
+       window.top.location = navigateUrl;
+       return false;
+   }
+   // skip exit
+   return true;
+}
+
+/**
+* @typedef {Object} SelectedTemplate
+*
+* @property {String} [templateId]
+* @property {String} [processType]
+*/
+/**
+* Get the selected template and close the panel
+* @return {SelectedTemplate} selectedTemplate
+*/
+export function getSelectedTemplateAndClosePanel(panel) {
+   const templatesModalBody = panel.get('v.body')[0];
+   const isProcessType = templatesModalBody.get('v.isProcessType');
+   const processTypeOrTemplateId = templatesModalBody.get('v.selectedTemplate');
+   panel.close();
+   const processTypeOrTemplateProp = isProcessType ? 'processType' : 'templateId';
+   return {[processTypeOrTemplateProp]: processTypeOrTemplateId};
+}

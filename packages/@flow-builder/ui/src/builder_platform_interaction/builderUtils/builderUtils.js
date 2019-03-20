@@ -5,7 +5,7 @@ import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourc
 import { LABELS } from './builderUtilsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isObject } from 'builder_platform_interaction/commonUtils';
-import { clearExpressions } from "builder_platform_interaction/expressionValidator";
+import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 
 /**
  * @constant state of callback result
@@ -507,7 +507,7 @@ export const invokeModalInternalData = (data) => {
  * @param {Function} closeFlowModalAction the callback to execute when clicking the exit icon
  * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
  */
-export const invokeNewFlowModal = (modalProperties, closeFlowModalAction, createFlowFromTemplateCallback) => {
+export const invokeNewFlowModal = (closeFlowModalAction, createFlowFromTemplateCallback) => {
     const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader",
         {
             headerTitle: LABELS.headerTitle
@@ -525,7 +525,7 @@ export const invokeNewFlowModal = (modalProperties, closeFlowModalAction, create
         }
     );
 
-    invokeModalWithComponents({bodyClass: modalProperties.bodyClass, flavor: modalProperties.flavor, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback}, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+    invokeModalWithComponents({bodyClass: 'slds-p-around_none', flavor: MODAL_SIZE.LARGE, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback}, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
 };
 
 /**
@@ -588,4 +588,3 @@ export function hideHover(hoverId) {
         hoverPanel.requestClose();
     }
 }
-
