@@ -57,8 +57,6 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.state.selectedProcessType = event.detail.name;
-        // reset selected template and isProcessType
-        this.updateSelectedTemplate(false, '');
     }
 
     /**
