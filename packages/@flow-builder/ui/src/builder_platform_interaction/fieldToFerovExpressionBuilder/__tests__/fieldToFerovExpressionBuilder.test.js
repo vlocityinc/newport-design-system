@@ -15,6 +15,7 @@ import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, setSystemVariables, getSyste
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { systemVariables } from "mock/systemGlobalVars";
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -68,6 +69,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         isCollectionRequired: jest.fn().mockReturnValue(false).mockName('isCollectionRequired'),
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
+        transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
     };
 });
 // Mocking out the fetch function to return Account fields
@@ -120,6 +122,19 @@ describe('field-to-ferov-expression-builder', () => {
                 expect(expressionBuilder[placeholders[i]]).toBeDefined();
             });
         }
+    });
+    describe('default operator', () => {
+        it('passes default operator to the base expression builder', () => {
+            const defaultOperator = 'someDefaultOperator';
+            const expressionBuilder = createComponentForTest({
+                defaultOperator,
+                containerElement: ELEMENT_TYPE.RECORD_LOOKUP,
+                expression: createMockPopulatedFieldExpression(),
+            });
+            const baseExpressionBuilder = getBaseExpressionBuilder(expressionBuilder);
+
+            expect(baseExpressionBuilder.defaultOperator).toEqual(defaultOperator);
+        });
     });
     describe('parsing LHS', () => {
         it('should handle field on LHS', () => {

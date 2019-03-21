@@ -3,7 +3,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { LABELS, CRITERIA_RECORDS_LABELS, WARNING_LABELS, NO_CRITERIA_LABELS } from "./recordFilterLabels";
 import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { format } from "builder_platform_interaction/commonUtils";
-import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
+import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -12,6 +12,7 @@ import {
 } from "builder_platform_interaction/events";
 
 export default class RecordFilter extends LightningElement {
+    defaultOperator = RULE_OPERATOR.EQUAL_TO;
     labels = LABELS;
 
     @track

@@ -3,6 +3,7 @@ import { mockAccountFields } from "mock/serverEntityData";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 import {
     AddRecordFilterEvent,
@@ -249,6 +250,9 @@ describe('record-filter', () => {
             it('All filter items should be displayed', () => {
                 expect(getExpressionBuilders(element)).toHaveLength(3);
             });
+            it('passes EqualTo as the default operator', () => {
+                expect(getExpressionBuilders(element)[0].defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
+            });
         });
         describe('For record update', () => {
             let element;
@@ -264,6 +268,9 @@ describe('record-filter', () => {
             it('All filter items should be displayed', () => {
                 expect(getExpressionBuilders(element)).toHaveLength(3);
             });
+            it('passes EqualTo as the default operator', () => {
+                expect(getExpressionBuilders(element)[0].defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
+            });
         });
         describe('For record delete', () => {
             let element;
@@ -278,6 +285,9 @@ describe('record-filter', () => {
             });
             it('All filter items should be displayed', () => {
                 expect(getExpressionBuilders(element)).toHaveLength(3);
+            });
+            it('passes EqualTo as the default operator', () => {
+                expect(getExpressionBuilders(element)[0].defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
             });
         });
     });

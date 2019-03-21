@@ -39,6 +39,9 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
     @api
     operatorPlaceholder;
 
+    @api
+    defaultOperator;
+
     /**
      * True if operator combobox should be hidden
      */

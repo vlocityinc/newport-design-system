@@ -14,6 +14,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     operatorPlaceholder;
 
     @api
+    defaultOperator;
+
+    @api
     rhsLabel;
 
     @api
