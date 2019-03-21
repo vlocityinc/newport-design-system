@@ -16,13 +16,12 @@ import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
-export function createScreenField(screenField = {}) {
+export function createScreenField(screenField = {}, isNewField = false) {
     const newScreenField = baseElement(screenField);
     const {
         fieldText = '',
         extensionName,
         fieldType,
-        isNewField = false, // Client side only for purposes of editing new field only attributes.
         dataType,
         helpText = '',
         defaultValue,
@@ -126,7 +125,6 @@ export function createEmptyScreenFieldOfType(typeName) {
             dataType: type.dataType,
             extensionName: type.name,
             fieldType: type.fieldType,
-            isNewField: true, // used to enable various functionality for newly created fields only
             scale: '0', // Store as string for validation purposes.
             inputParameters: [],
             outputParameters: [],
@@ -141,7 +139,7 @@ export function createEmptyScreenFieldOfType(typeName) {
         newScreenField.choiceReferences = [''];
     }
 
-    return createScreenField(newScreenField);
+    return createScreenField(newScreenField, true);
 }
 
 export function createScreenFieldMetadataObject(screenField) {
