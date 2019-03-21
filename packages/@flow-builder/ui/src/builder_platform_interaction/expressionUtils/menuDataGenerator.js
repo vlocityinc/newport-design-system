@@ -98,7 +98,18 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
 };
 
 /**
- * Makes copy of server data fields of parent objects(SObjects, Globa/System Variables) with fields as needed by combobox
+ * Determines whether to show the dataType as the subtext or not
+ *
+ * @param {Object} [parent] Parent object if field is a second level item
+ * @return {boolean} True if dataType should be the subtext
+ */
+const shouldShowDataTypeAsSubText = (parent) => (
+    parent && (parent.dataType === FLOW_DATA_TYPE.APEX.value || parent.text === SYSTEM_VARIABLE_PREFIX
+        || parent.text === SYSTEM_VARIABLE_BROWSER_PREFIX)
+);
+
+/**
+ * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
  *
  * @param {Object} field Field to be copied
  * @param {Object} [parent] Parent object if field is a second level item
@@ -117,12 +128,12 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
     const label = field.label || apiName;
-    const subText = parent && parent.dataType === FLOW_DATA_TYPE.APEX.value ? field.dataType : label;
+    const subText = shouldShowDataTypeAsSubText(parent) ? field.dataType : label;
 
     formattedField.text = apiName;
     formattedField.subText = (showSubText) ? subText : '';
     formattedField.value = (parent) ? (parent.value + '.' + apiName) : apiName;
-    formattedField.displayText = (showAsFieldReference && parent) ?
+    formattedField.displayText = (showAsFieldReference && parent && parent.displayText) ?
         (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + apiName + '}') : apiName;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     formattedField.iconName = getDataTypeIcons(field.dataType, ICON_TYPE);

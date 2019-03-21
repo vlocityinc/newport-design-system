@@ -3,6 +3,7 @@ import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction
 import { getElementCategory } from 'builder_platform_interaction/elementConfig';
 import { mockAccountFields } from 'mock/serverEntityData';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX } from "builder_platform_interaction/systemLib";
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
@@ -20,23 +21,6 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
         getElementCategory: jest.fn().mockReturnValue('').mockName('getElementCategory'),
     };
 });
-
-const parentSObjectItem = {
-    dataType: FLOW_DATA_TYPE.SOBJECT.value,
-    subtype: 'Account',
-    displayText: 'recordVar',
-};
-
-const parentApexItem = {
-    dataType: FLOW_DATA_TYPE.APEX.value,
-    subtype: 'ApexClass',
-    displayText: 'apexVar',
-};
-
-const apexProperty = {
-    apiName: 'ApexProperty',
-    dataType: FLOW_DATA_TYPE.STRING.value,
-};
 
 describe('menuDataGenerator', () => {
     describe('mutateFlowResourceToComboboxShape', () => {
@@ -95,6 +79,40 @@ describe('menuDataGenerator', () => {
         });
     });
     describe('mutateFieldToComboboxShape', () => {
+        const parentSObjectItem = {
+            dataType: FLOW_DATA_TYPE.SOBJECT.value,
+            subtype: 'Account',
+            displayText: 'recordVar',
+        };
+
+        const parentApexItem = {
+            dataType: FLOW_DATA_TYPE.APEX.value,
+            subtype: 'ApexClass',
+            displayText: 'apexVar',
+        };
+
+        const apexProperty = {
+            apiName: 'ApexProperty',
+            dataType: FLOW_DATA_TYPE.STRING.value,
+        };
+
+        const parentFlowVariableItem = {
+            text: SYSTEM_VARIABLE_PREFIX,
+            displayText: `{!${SYSTEM_VARIABLE_PREFIX}}`
+        };
+
+        const flowVariable = {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+        };
+
+        const parentBrowserVariableItem = {
+            text: SYSTEM_VARIABLE_BROWSER_PREFIX,
+            displayText: `{!${SYSTEM_VARIABLE_BROWSER_PREFIX}}`
+        };
+
+        const browserVariable = {
+            dataType: FLOW_DATA_TYPE.STRING.value,
+        };
         it('should use label for subtext for sobject fields', () => {
             const mockField = mockAccountFields.AccountSource;
             const mutatedField = mutateFieldToComboboxShape(mockField, parentSObjectItem, true, true);
@@ -103,6 +121,14 @@ describe('menuDataGenerator', () => {
         it('should use dataType for subtext for apex properties', () => {
             const mutatedProperty = mutateFieldToComboboxShape(apexProperty, parentApexItem, true, true);
             expect(mutatedProperty.subText).toEqual(apexProperty.dataType);
+        });
+        it('should use dataType for subtext for $Flow variables', () => {
+            const mutatedProperty = mutateFieldToComboboxShape(flowVariable, parentFlowVariableItem, true, true);
+            expect(mutatedProperty.subText).toEqual(flowVariable.dataType);
+        });
+        it('should use dataType for subtext for $Browser variables', () => {
+            const mutatedProperty = mutateFieldToComboboxShape(browserVariable, parentBrowserVariableItem, true, true);
+            expect(mutatedProperty.subText).toEqual(browserVariable.dataType);
         });
     });
 });
