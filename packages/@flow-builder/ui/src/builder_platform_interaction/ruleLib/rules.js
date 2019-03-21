@@ -80,6 +80,7 @@ export const PARAM_PROPERTY = {
     MUST_BE_ELEMENTS: 'mustBeElements',
     SOBJECT_FIELD_REQUIREMENT: 'canBeSobjectField',
     SYSTEM_VARIABLE_REQUIREMENT: 'canBeSystemVariable',
+    ELEMENT_TYPE: 'elementType',
 };
 
 export const CONSTRAINT = {
