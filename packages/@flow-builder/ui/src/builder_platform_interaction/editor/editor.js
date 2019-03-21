@@ -114,7 +114,7 @@ export default class Editor extends LightningElement {
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
-            invokeNewFlowModal(closeModalAndNavigateTo(this.backUrl), this.createFlowFromTemplateCallback);
+            invokeNewFlowModal(this.closeFlowModalCallback, this.createFlowFromTemplateCallback);
         }
     }
 
@@ -663,7 +663,14 @@ export default class Editor extends LightningElement {
     };
 
     /**
-     * Callback passed when user clicks on Create button
+     * Callback passed when user clicks on Exit icon from new flow modal
+     */
+    closeFlowModalCallback = () => {
+        return closeModalAndNavigateTo(this.backUrl);
+    };
+
+    /**
+     * Callback passed when user clicks on Create button from new flow modal
      */
     createFlowFromTemplateCallback = (panel) => {
         const selectedTemplate = getSelectedTemplateAndClosePanel(panel);

@@ -424,26 +424,26 @@ export const highlightCanvasElement = (storeInstance, elementGuid) => {
 *
 * @param {object} storeInstance store instancce
 */
-export function createStartElement(storeInstance) {
+export const createStartElement = (storeInstance) => {
    const startElement = getElementForStore({
        elementType: ELEMENT_TYPE.START_ELEMENT
    });
    storeInstance.dispatch(addElement(startElement));
-}
+};
 
 /**
 * Close modal and navigate the parent window to the specific url
 * @param {String} navigateUrl url to navigate to
 * @return true if you want to skip the close modal
 */
-export function closeModalAndNavigateTo(navigateUrl) {
+export const closeModalAndNavigateTo = (navigateUrl) => {
    if (navigateUrl) {
        window.top.location = navigateUrl;
        return false;
    }
    // skip exit
    return true;
-}
+};
 
 /**
 * @typedef {Object} SelectedTemplate
@@ -455,11 +455,11 @@ export function closeModalAndNavigateTo(navigateUrl) {
 * Get the selected template and close the panel
 * @return {SelectedTemplate} selectedTemplate
 */
-export function getSelectedTemplateAndClosePanel(panel) {
+export const getSelectedTemplateAndClosePanel = (panel) => {
    const templatesModalBody = panel.get('v.body')[0];
    const isProcessType = templatesModalBody.get('v.isProcessType');
    const processTypeOrTemplateId = templatesModalBody.get('v.selectedTemplate');
    panel.close();
    const processTypeOrTemplateProp = isProcessType ? 'processType' : 'templateId';
    return {[processTypeOrTemplateProp]: processTypeOrTemplateId};
-}
+};
