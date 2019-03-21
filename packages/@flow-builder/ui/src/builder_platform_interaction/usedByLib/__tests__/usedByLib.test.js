@@ -162,24 +162,24 @@ const elements = {
     'FORMULA_1': {
         'expression': '{!VARIABLE_1.fieldName} is a variable with following elements jfkdjkfjdkjf: {!OUTCOME_3} {!WAIT_EVENT_3}',
         'name': 'Formula_1',
-        'elementType': 'FORMULA',
+        'elementType': ELEMENT_TYPE.FORMULA,
         'guid': 'FORMULA_1',
         'isCanvasElement': false
     },
     'VARIABLE_1': {
-        'elementType': 'VARIABLE',
+        'elementType': ELEMENT_TYPE.VARIABLE,
         'guid': 'VARIABLE_1',
         'isCanvasElement': false,
         'name': 'VARIABLE 1'
     },
     'VARIABLE_2': {
-        'elementType': 'VARIABLE',
+        'elementType': ELEMENT_TYPE.VARIABLE,
         'guid': 'VARIABLE_2',
         'isCanvasElement': false,
         'name': 'VARIABLE 2'
     },
     'VARIABLE_3': {
-        'elementType': 'VARIABLE',
+        'elementType': ELEMENT_TYPE.VARIABLE,
         'guid': 'VARIABLE_3',
         'isCanvasElement': false,
         'name': 'VARIABLE 3'

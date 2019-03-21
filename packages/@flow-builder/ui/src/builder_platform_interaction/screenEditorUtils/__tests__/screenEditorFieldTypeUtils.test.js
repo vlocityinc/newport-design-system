@@ -2,6 +2,7 @@ import {
     getScreenFieldTypeByName, getAllScreenFieldTypes, getFieldChoiceData
 } from 'builder_platform_interaction/screenEditorUtils';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('../screenEditorExtensionUtils', () => {
     const componentInstanceFieldType = require.requireActual('../screenEditorExtensionUtils').COMPONENT_INSTANCE;
@@ -43,15 +44,15 @@ getElementByGuid.mockImplementation((guid) => {
     switch (guid) {
         case choice1Guid:
             element.picklistField = 'Industry';
-            element.elementType = 'PICKLIST_CHOICE_SET';
+            element.elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
             break;
         case choice2Guid:
             element.displayField = 'Choice';
-            element.elementType = 'RECORD_CHOICE_SET';
+            element.elementType = ELEMENT_TYPE.RECORD_CHOICE_SET;
             break;
         case choice3Guid:
             element.choiceText = 'Choice';
-            element.elementType = 'CHOICE';
+            element.elementType = ELEMENT_TYPE.CHOICE;
             break;
         default:
     }

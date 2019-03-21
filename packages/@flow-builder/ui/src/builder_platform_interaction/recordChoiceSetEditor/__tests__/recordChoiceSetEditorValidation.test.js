@@ -1,5 +1,6 @@
 import { createElement } from 'lwc';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     recordChoiceSetValidation,
     getRules
@@ -19,7 +20,7 @@ const setupComponentUnderTest = (recordChoiceSetObject) => {
 };
 describe('Record Choice Set Validation', () => {
     const recordChoiceObjectWithoutObject = {
-        elementType: 'RECORD_CHOICE_SET',
+        elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         guid: 'guid_1',
         name: {
             value: 'recordChoice1',
@@ -43,7 +44,7 @@ describe('Record Choice Set Validation', () => {
         },
     };
     const recordChoiceObject = {
-        elementType: 'RECORD_CHOICE_SET',
+        elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         guid: 'guid_1',
         name: {
             value: 'recordChoice1',

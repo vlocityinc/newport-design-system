@@ -1,5 +1,6 @@
 import { getSObjectOrSObjectCollectionByEntityElements, byTypeWritableElementsSelector } from "../menuDataSelector";
 import * as storeLib from 'builder_platform_interaction/storeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -7,7 +8,7 @@ const elementsInStore = {
     'guid1':{
         dataType: 'SObject',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid1',
         isCanvasElement: false,
         isCollection: false,
@@ -19,7 +20,7 @@ const elementsInStore = {
     'guid2': {
         dataType: 'SObject',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid2',
         isCanvasElement: false,
         isCollection: false,
@@ -31,7 +32,7 @@ const elementsInStore = {
     'guid3': {
         dataType: 'SObject',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid3',
         isCanvasElement: false,
         isCollection: false,
@@ -43,7 +44,7 @@ const elementsInStore = {
     'guid4': {
         dataType: 'SObject',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid4',
         isCanvasElement: false,
         isCollection: false,
@@ -55,7 +56,7 @@ const elementsInStore = {
     'guid5': {
         dataType: 'SObject',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid5',
         isCanvasElement: false,
         isCollection: true,
@@ -67,7 +68,7 @@ const elementsInStore = {
     'guid6': {
         dataType: 'SObject',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid6',
         isCanvasElement: false,
         isCollection: true,
@@ -79,7 +80,7 @@ const elementsInStore = {
     'guid7': {
         dataType: 'Text',
         description: '',
-        elementType: 'TEXT_TEMPLATE',
+        elementType: ELEMENT_TYPE.TEXT_TEMPLATE,
         guid: 'guid7',
         isCanvasElement: false,
         isCollection: false,
@@ -90,7 +91,7 @@ const elementsInStore = {
     'guid8': {
         dataType: 'Text',
         description: '',
-        elementType: 'VARIABLE',
+        elementType: ELEMENT_TYPE.VARIABLE,
         guid: 'guid8',
         isCanvasElement: false,
         isCollection: false,

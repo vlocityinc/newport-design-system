@@ -621,13 +621,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
         nodeConfig: {
             iconName: 'standard:variable',
-            utilityIconName: 'utility:variable'
+            utilityIconName: 'utility:variable',
+            value: 'variable',
+            description: LABELS.variableDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.VARIABLES,
         labels: {
             singular: LABELS.variableSingularLabel,
-            plural: LABELS.variablePluralLabel
+            plural: LABELS.variablePluralLabel,
+            menuData: LABELS.variableLabel
         },
         canvasElement: false,
         factory: {
@@ -640,13 +643,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:choiceEditor',
         nodeConfig: {
             iconName: 'standard:choice',
-            utilityIconName: 'utility:choice'
+            utilityIconName: 'utility:choice',
+            value: 'choice',
+            description: LABELS.choiceDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.CHOICES,
         labels: {
             singular: LABELS.choiceSingularLabel,
-            plural: LABELS.choicePluralLabel
+            plural: LABELS.choicePluralLabel,
+            menuData: LABELS.choiceLabel
         },
         canvasElement: false,
         factory: {
@@ -659,12 +665,15 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:recordChoiceSetEditor',
         nodeConfig: {
             iconName: 'standard:dynamic_record_choice',
-            utilityIconName: 'utility:dynamic_record_choice'
+            utilityIconName: 'utility:dynamic_record_choice',
+            value: 'dynamicRecordChoice',
+            description: LABELS.dynamicRecordChoiceDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         labels: {
             singular: LABELS.recordChoiceSetSingularLabel,
-            plural: LABELS.recordChoiceSetPluralLabel
+            plural: LABELS.recordChoiceSetPluralLabel,
+            menuData: LABELS.dynamicRecordChoiceLabel
         },
         canvasElement: false,
         metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
@@ -678,12 +687,15 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:picklistChoiceSetEditor',
         nodeConfig: {
             iconName: 'standard:picklist_choice',
-            utilityIconName: 'utility:picklist_choice'
+            utilityIconName: 'utility:picklist_choice',
+            value: 'picklistChoice',
+            description: LABELS.picklistChoiceDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         labels: {
             singular: LABELS.picklistChoiceSetSingularLabel,
-            plural: LABELS.picklistChoiceSetPluralLabel
+            plural: LABELS.picklistChoiceSetPluralLabel,
+            menuData: LABELS.picklistChoiceLabel
         },
         canvasElement: false,
         metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
@@ -697,13 +709,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:variableConstantEditor',
         nodeConfig: {
             iconName: 'standard:constant',
-            utilityIconName: 'utility:constant'
+            utilityIconName: 'utility:constant',
+            value: 'constant',
+            description: LABELS.constantDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.CONSTANTS,
         labels: {
             singular: LABELS.constantSingularLabel,
-            plural: LABELS.constantPluralLabel
+            plural: LABELS.constantPluralLabel,
+            menuData: LABELS.constantLabel
         },
         canvasElement: false,
         factory: {
@@ -716,13 +731,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:formulaEditor',
         nodeConfig: {
             iconName: 'standard:formula',
-            utilityIconName: 'utility:formula'
+            utilityIconName: 'utility:formula',
+            value: 'formula',
+            description: LABELS.formulaDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.FORMULAS,
         labels: {
             singular: LABELS.formulaSingularLabel,
-            plural: LABELS.formulaPluralLabel
+            plural: LABELS.formulaPluralLabel,
+            menuData: LABELS.formulaLabel
         },
         canvasElement: false,
         factory: {
@@ -735,13 +753,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:textTemplateEditor',
         nodeConfig: {
             iconName: 'standard:text_template',
-            utilityIconName: 'utility:text_template'
+            utilityIconName: 'utility:text_template',
+            value: 'textTemplate',
+            description: LABELS.textTemplateDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.TEXT_TEMPLATES,
         labels: {
             singular: LABELS.textTemplateSingularLabel,
-            plural: LABELS.textTemplatePluralLabel
+            plural: LABELS.textTemplatePluralLabel,
+            menuData: LABELS.textTemplateLabel
         },
         canvasElement: false,
         factory: {
@@ -754,13 +775,16 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:stageEditor',
         nodeConfig: {
             iconName: 'standard:stage',
-            utilityIconName: 'utility:stage'
+            utilityIconName: 'utility:stage',
+            value: 'stage',
+            description: LABELS.stageDesc
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.STAGES,
         labels: {
             singular: LABELS.stageSingularLabel,
-            plural: LABELS.stagePluralLabel
+            plural: LABELS.stagePluralLabel,
+            menuData: LABELS.stageLabel
         },
         canvasElement: false,
         factory: {

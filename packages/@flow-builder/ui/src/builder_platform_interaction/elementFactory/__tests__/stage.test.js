@@ -1,4 +1,5 @@
 import { createStage, createStageForStore, createStageMetadataObject } from '../stage';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {
@@ -9,7 +10,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 });
 
 const defaultStageElement = {
-    elementType: 'STAGE',
+    elementType: ELEMENT_TYPE.STAGE,
     description: '',
     name: '',
     guid: 'testGUID',
@@ -18,7 +19,7 @@ const defaultStageElement = {
     isActive: false
 };
 const stageElementForStore = {
-    elementType: 'STAGE',
+    elementType: ELEMENT_TYPE.STAGE,
     description: 'mock description for stage element',
     name: 'mock name for stage element',
     guid: 'testGUID',

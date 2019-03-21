@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     PropertyChangedEvent,
     ValueChangedEvent,
@@ -70,7 +71,7 @@ function getComboboxStateChangedEvent() {
 }
 describe('record-choice-set-editor', () => {
     const recordChoiceObject = {
-        elementType: 'RECORD_CHOICE_SET',
+        elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         guid: 'guid_1',
         name: {
             value: 'recordChoice1',
@@ -116,7 +117,7 @@ describe('record-choice-set-editor', () => {
     };
 
     const recordChoiceObjectWithoutObjectField = {
-        elementType: 'RECORD_CHOICE_SET',
+        elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         guid: 'guid_1',
         name: {
             value: 'recordChoice1',

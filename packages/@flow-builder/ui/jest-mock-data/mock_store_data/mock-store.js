@@ -1,4 +1,5 @@
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const numberVariableGuid = 'guid1';
 export const accountSObjectVariableGuid = 'guid2';
@@ -54,21 +55,22 @@ export const currencyDataType = 'Currency';
 const dateDataType = 'Date';
 const apexDataType = 'Apex';
 
-const choiceElementType = 'CHOICE';
-const stageElementType = 'STAGE';
+const choiceElementType = ELEMENT_TYPE.CHOICE;
+const stageElementType = ELEMENT_TYPE.STAGE;
 
 const apexClass = 'apexClass';
 export const account = 'Account';
 export const caseObjectType = 'Case';
 export const choiceLabel = 'Choice 1';
-export const variable = 'VARIABLE';
-export const constant = 'CONSTANT';
-export const assignment = 'ASSIGNMENT';
-export const actionCall = 'ACTION_CALL';
-export const outcome = 'OUTCOME';
-export const formula = 'FORMULA';
-export const textTemplate = 'TEXT_TEMPLATE';
-export const waitEvent = 'WAIT_EVENT';
+export const variable = ELEMENT_TYPE.VARIABLE;
+export const constant = ELEMENT_TYPE.CONSTANT;
+export const assignment = ELEMENT_TYPE.ASSIGNMENT;
+export const actionCall = ELEMENT_TYPE.ACTION_CALL;
+export const outcome = ELEMENT_TYPE.OUTCOME;
+export const formula = ELEMENT_TYPE.FORMULA;
+export const textTemplate = ELEMENT_TYPE.TEXT_TEMPLATE;
+export const waitEvent = ELEMENT_TYPE.WAIT_EVENT;
+export const decision = ELEMENT_TYPE.DECISION;
 
 export const elements = {
     [numberVariableGuid]: {
@@ -282,7 +284,7 @@ export const elements = {
         locationY: 413,
         name: decisionDevName,
         processMetadataValues: [],
-        elementType: "DECISION",
+        elementType: decision,
         guid: decisionGuid,
         isCanvasElement: true,
         config: {isSelected: false},

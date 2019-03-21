@@ -24,6 +24,7 @@ import {
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
 import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
+import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
 
@@ -443,10 +444,13 @@ export function getElementByDevName(elements = {}, devName) {
 export const getResourceTypesMenuData = () => {
     const resourceTypes = getResourceTypes();
     // TODO : include the description prop when TD-0051525 is completed and we can add subtext
-    return resourceTypes.map(resourceObject => {
+    return resourceTypes.map(({ name }) => {
+        const { nodeConfig, labels } = getConfigForElementType(name);
+        const { value } = nodeConfig;
+        const { menuData: label } = labels;
         return {
-            value: resourceObject.value,
-            label: resourceObject.label,
+            value,
+            label
         };
     });
 };

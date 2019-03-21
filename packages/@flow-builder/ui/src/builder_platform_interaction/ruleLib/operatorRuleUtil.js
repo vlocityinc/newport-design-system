@@ -170,7 +170,7 @@ export const isMatch = (ruleParam, element) => {
         i++;
     }
     if (matches && ruleParam[MUST_BE_ELEMENTS] && ruleParam[MUST_BE_ELEMENTS].length) {
-        matches = ruleParam[MUST_BE_ELEMENTS].includes(elementParam[ELEMENT_TYPE]);
+        matches = ruleParam[MUST_BE_ELEMENTS].includes(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementParam[ELEMENT_TYPE]]);
     }
     return matches;
 };

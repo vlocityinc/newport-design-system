@@ -94,6 +94,24 @@ import deleteDataOperationDescription from "@salesforce/label/FlowBuilderLeftPan
 import actionFlowComponentDescription from "@salesforce/label/FlowBuilderLeftPanelElements.actionFlowComponentDescription";
 import subflowFlowComponentDescription from "@salesforce/label/FlowBuilderLeftPanelElements.subflowFlowComponentDescription";
 import screenComponentDescription from "@salesforce/label/FlowBuilderLeftPanelElements.screenComponentDescription";
+import resourceTypeLabel from "@salesforce/label/FlowBuilderNewResource.resourceTypeLabel";
+import resourceTypePlaceholderLabel from "@salesforce/label/FlowBuilderNewResource.resourceTypePlaceholderLabel";
+import variableLabel from "@salesforce/label/FlowBuilderNewResource.variableLabel";
+import variableDesc from "@salesforce/label/FlowBuilderNewResource.variableDesc";
+import constantLabel from "@salesforce/label/FlowBuilderNewResource.constantLabel";
+import constantDesc from "@salesforce/label/FlowBuilderNewResource.constantDesc";
+import formulaLabel from "@salesforce/label/FlowBuilderNewResource.formulaLabel";
+import formulaDesc from "@salesforce/label/FlowBuilderNewResource.formulaDesc";
+import textTemplateLabel from "@salesforce/label/FlowBuilderNewResource.textTemplateLabel";
+import textTemplateDesc from "@salesforce/label/FlowBuilderNewResource.textTemplateDesc";
+import choiceLabel from "@salesforce/label/FlowBuilderNewResource.choiceLabel";
+import choiceDesc from "@salesforce/label/FlowBuilderNewResource.choiceDesc";
+import dynamicRecordChoiceLabel from "@salesforce/label/FlowBuilderNewResource.dynamicRecordChoiceLabel";
+import dynamicRecordChoiceDesc from "@salesforce/label/FlowBuilderNewResource.dynamicRecordChoiceDesc";
+import picklistChoiceLabel from "@salesforce/label/FlowBuilderNewResource.picklistChoiceLabel";
+import picklistChoiceDesc from "@salesforce/label/FlowBuilderNewResource.picklistChoiceDesc";
+import stageLabel from "@salesforce/label/FlowBuilderNewResource.stageLabel";
+import stageDesc from "@salesforce/label/FlowBuilderNewResource.stageDesc";
 
 export const LABELS = {
     subflowSingularLabel,
@@ -190,5 +208,23 @@ export const LABELS = {
     deleteDataOperationDescription,
     actionFlowComponentDescription,
     subflowFlowComponentDescription,
-    screenComponentDescription
+    screenComponentDescription,
+    resourceTypeLabel,
+    resourceTypePlaceholderLabel,
+    variableLabel,
+    variableDesc,
+    constantLabel,
+    constantDesc,
+    formulaLabel,
+    formulaDesc,
+    textTemplateLabel,
+    textTemplateDesc,
+    choiceLabel,
+    choiceDesc,
+    dynamicRecordChoiceLabel,
+    dynamicRecordChoiceDesc,
+    picklistChoiceLabel,
+    picklistChoiceDesc,
+    stageLabel,
+    stageDesc
 };

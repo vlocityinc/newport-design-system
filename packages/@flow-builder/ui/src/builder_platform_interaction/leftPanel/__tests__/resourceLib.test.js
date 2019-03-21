@@ -136,8 +136,8 @@ const STATE_NON_EMPTY = {
             "name": "VariableOne",
             "processMetadataValues": [],
             "scale": 0,
-            "elementType": "VARIABLE",
-            "guid": "VARIABLE_5",
+            "elementType": ELEMENT_TYPE.VARIABLE,
+            "guid": "Variable_5",
             "isCanvasElement": false
         },
         "VARIABLE_6": {
@@ -148,8 +148,8 @@ const STATE_NON_EMPTY = {
             "name": "VariableTwo",
             "processMetadataValues": [],
             "scale": 0,
-            "elementType": "VARIABLE",
-            "guid": "VARIABLE_6",
+            "elementType": ELEMENT_TYPE.VARIABLE,
+            "guid": "Variable_6",
             "isCanvasElement": false
         },
         "FORMULA_7": {
@@ -158,8 +158,8 @@ const STATE_NON_EMPTY = {
             "name": "FormulaOne",
             "processMetadataValues": [],
             "scale": 0,
-            "elementType": "FORMULA",
-            "guid": "FORMULA_7",
+            "elementType": ELEMENT_TYPE.FORMULA,
+            "guid": "Formula_7",
             "isCanvasElement": false
         }
     },
@@ -227,7 +227,7 @@ function verifyItem(item) {
     expect(item.guid).toMatch(new RegExp('^' + item.elementType + '_'));
     expect(item).toHaveProperty('label');
 
-    if ((item.elementType === 'VARIABLE' || item.elementType === 'FORMULA') && item.dataType) {
+    if ((item.elementType === ELEMENT_TYPE.VARIABLE || item.elementType === ELEMENT_TYPE.FORMULA) && item.dataType) {
         const iconName = getDataTypeIcons(item.dataType, 'utility');
         expect(item.iconName).toMatch(iconName);
     }

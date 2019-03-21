@@ -1,4 +1,5 @@
 import { createFormula, createFormulaForStore, createFormulaMetadataObject } from '../formula';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const formulaMetadata = {
     dataType: 'String',
@@ -13,7 +14,7 @@ const formula = {
     expression: 'Hello {!guid}',
     dataType: 'String',
     scale: 0,
-    elementType: 'FORMULA'
+    elementType: ELEMENT_TYPE.FORMULA
 };
 
 describe('Formula:', () => {
@@ -25,7 +26,7 @@ describe('Formula:', () => {
                 expression: '',
                 dataType: null,
                 scale: 2,
-                elementType: 'FORMULA'
+                elementType: ELEMENT_TYPE.FORMULA
             };
             const actualResult = createFormula();
             expect(actualResult).toMatchObject(expectedResult);

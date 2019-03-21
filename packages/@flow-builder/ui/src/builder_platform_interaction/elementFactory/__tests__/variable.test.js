@@ -1,11 +1,12 @@
 import { createVariable, createVariableForStore, createVariableMetadataObject } from '../variable';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const storeVariableWithDefaultValueAsString = {
     name: 'Var1',
     description: 'This is description',
-    elementType: 'VARIABLE',
+    elementType: ELEMENT_TYPE.VARIABLE,
     isCollection: false,
     isInput: false,
     isOutput: false,
@@ -19,7 +20,7 @@ const storeVariableWithDefaultValueAsString = {
 const storeVariableWithDefaultValueAsReference = {
     name: 'Var2',
     description: 'This is description',
-    elementType: 'VARIABLE',
+    elementType: ELEMENT_TYPE.VARIABLE,
     isCollection: false,
     isInput: false,
     isOutput: false,
@@ -62,7 +63,7 @@ describe('Variable:', () => {
             const expectedResult = {
                 name: '',
                 description: '',
-                elementType: 'VARIABLE',
+                elementType: ELEMENT_TYPE.VARIABLE,
                 isCollection: false,
                 isInput: false,
                 isOutput: false,

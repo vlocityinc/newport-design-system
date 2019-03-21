@@ -13,22 +13,23 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
+    const ELEMENT_TYPE = require('builder_platform_interaction/flowMetadata');
     return {
         getElementByGuid(guid) {
             let elementType;
             if (guid.includes('RCS')) {
-                elementType = 'RECORD_CHOICE_SET';
+                elementType = ELEMENT_TYPE.RECORD_CHOICE_SET;
             } else if (guid.includes('PICKLIST')) {
-                elementType = 'PICKLIST_CHOICE_SET';
+                elementType = ELEMENT_TYPE.PICKLIST_CHOICE_SET;
             } else {
-                elementType = 'CHOICE';
+                elementType = ELEMENT_TYPE.CHOICE;
             }
-                return {
-                    name: guid,
-                    choiceText: 'choice text ' + guid,
-                    guid,
-                    elementType
-                };
+            return {
+                name: guid,
+                choiceText: 'choice text ' + guid,
+                guid,
+                elementType
+            };
         }
     };
 });

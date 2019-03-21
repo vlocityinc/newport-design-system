@@ -5,6 +5,7 @@ import {
     createChoiceForStore,
     createChoiceMetadataObject
 } from '../choice.js';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {
@@ -72,7 +73,7 @@ const choiceElementWithUserInputAndNoValidationRule = {
 };
 
 const defaultChoiceElement = {
-    elementType: 'CHOICE',
+    elementType: ELEMENT_TYPE.CHOICE,
     description: '',
     name: '',
     choiceText: null,
@@ -86,7 +87,7 @@ const defaultChoiceElement = {
 };
 
 const choiceElementForStore = {
-    elementType: 'CHOICE',
+    elementType: ELEMENT_TYPE.CHOICE,
     description:'',
     name: 'mock name for choice element',
     choiceText: 'mock choice text',
@@ -143,7 +144,7 @@ describe('createChoice function', () => {
 
     describe('with no userInput object passed', () => {
         const expectedResult = {
-            elementType: 'CHOICE',
+            elementType: ELEMENT_TYPE.CHOICE,
             name: 'mock name for choice element',
             choiceText: 'mock choice text',
             guid: 'testGUID',
@@ -167,7 +168,7 @@ describe('createChoice function', () => {
     });
     describe('with userInput object containing validationRule object is passed', () => {
         const expectedResult = {
-            elementType: 'CHOICE',
+            elementType: ELEMENT_TYPE.CHOICE,
             name: 'mock name for choice element',
             choiceText: 'mock choice text',
             guid: 'testGUID',
@@ -191,7 +192,7 @@ describe('createChoice function', () => {
     });
     describe('with userInput object without validationRule object is passed', () => {
         const expectedResult = {
-            elementType: 'CHOICE',
+            elementType: ELEMENT_TYPE.CHOICE,
             name: 'mock name for choice element',
             choiceText: 'mock choice text',
             guid: 'testGUID',

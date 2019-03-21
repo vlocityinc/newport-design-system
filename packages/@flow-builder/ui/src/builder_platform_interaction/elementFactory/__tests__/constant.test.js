@@ -1,11 +1,12 @@
 import { createConstant, createConstantForStore, createConstantMetadataObject } from '../constant';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const constantWithDefaultValueAsString = {
     name: "const1",
     description: "This is description",
-    elementType: "CONSTANT",
+    elementType: ELEMENT_TYPE.CONSTANT,
     dataType: "String",
     defaultValue: "Hello {!var_guid}",
     defaultValueDataType: "String"
@@ -14,7 +15,7 @@ const constantWithDefaultValueAsString = {
 const constantWithDefaultValueAsReference = {
     name: "const1",
     description: "This is description",
-    elementType: "CONSTANT",
+    elementType: ELEMENT_TYPE.CONSTANT,
     dataType: "String",
     defaultValue: "var_guid",
     defaultValueDataType: "reference"
@@ -44,7 +45,7 @@ describe('Constant:', () => {
             const expectedResult = {
                 name: '',
                 description: '',
-                elementType: 'CONSTANT',
+                elementType: ELEMENT_TYPE.CONSTANT,
                 dataType: null,
                 defaultValue: null,
                 defaultValueDataType: null
