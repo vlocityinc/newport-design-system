@@ -3,7 +3,7 @@ import { LABELS } from "./waitEventLabels";
 import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import {
     DeleteWaitEventEvent,
     WaitEventPropertyChangedEvent,
@@ -12,6 +12,7 @@ import {
 
 export default class WaitEvent extends LightningElement {
     labels = LABELS;
+    defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
     conditionLogicOptions = [
         {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.alwaysWaitLabel},

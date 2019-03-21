@@ -5,6 +5,8 @@ import {
 } from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "../outcomeLabels";
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder'));
 
@@ -37,12 +39,21 @@ const selectors = {
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeOutcome',
+    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder',
 };
+
+jest.mock('builder_platform_interaction/conditionListUtils', () => {
+    return {
+        getConditionsWithPrefixes: jest.fn().mockName('getConditionsWithPrefixes'),
+        showDeleteCondition: jest.fn().mockName('showDeleteCondition'),
+    };
+});
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-outcome', {
         is: Outcome
     });
+
     document.body.appendChild(el);
 
     el.showDelete = true;
@@ -108,27 +119,60 @@ describe('Outcome', () => {
         });
     });
 
-    // TODO: Determine how to test 'grandchildren' which are passed in to slots.  This is not currently
-    // supported by jsdom. See outstanding PR: https://github.com/jsdom/jsdom/pull/2347/files
-    //
-    // it('expression builder type should be fer-to-ferov if no fields present', () => {
-    //     const element = createComponentUnderTest(listWithThreeConditionals);
-    //
-    //     return Promise.resolve().then(() => {
-    //         const ebs = getShadowRoot(element).querySelectorAll(selectors.ferToFerov);
-    //         expect(ebs).toHaveLength(3);
-    //     });
-    // });
-    // describe('condition list', () => {
-    //     it('has one conditional row per conditional', () => {
-    //         const element = createComponentUnderTest(listWithThreeConditionals);
-    //
-    //         return Promise.resolve().then(() => {
-    //             const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
-    //
-    //             expect(rowsArray).toHaveLength(3);
-    //         });
-    //     });
+    describe('condition list', () => {
+        it('expression builder type should be fer-to-ferov', () => {
+            const element = createComponentUnderTest();
+            getConditionsWithPrefixes.mockReturnValueOnce([
+                {
+                    prefix: 'foo',
+                    condition: { rowIndex: 'bar' },
+                },
+            ]);
+            element.outcome = outcomeWithOneConditional;
+
+            return Promise.resolve().then(() => {
+                const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
+                expect(expressionBuilder).not.toBeNull();
+            });
+        });
+        it('has one conditional row per conditional', () => {
+            const element = createComponentUnderTest();
+            getConditionsWithPrefixes.mockReturnValue([
+                {
+                    prefix: 'foo',
+                    condition: { rowIndex: 'bar' },
+                },
+                {
+                    prefix: 'fizz',
+                    condition: { rowIndex: 'buzz' },
+                },
+                {
+                    prefix: 'dunder',
+                    condition: { rowIndex: 'mifflin' },
+                },
+            ]);
+            element.outcome = outcomeWithThreeConditionals;
+
+            return Promise.resolve().then(() => {
+                const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+                expect(rowsArray).toHaveLength(3);
+            });
+        });
+        it('passes EqualTo as the default operator', () => {
+            const element = createComponentUnderTest();
+            getConditionsWithPrefixes.mockReturnValueOnce([
+                {
+                    prefix: 'foo',
+                    condition: { rowIndex: 'bar' },
+                },
+            ]);
+            element.outcome = outcomeWithOneConditional;
+            return Promise.resolve().then(() => {
+                const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
+                expect(expressionBuilder.defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
+            });
+        });
+    });
     // describe('prefix', () => {
     // it('show-prefix is always true', () => {
     //     const element = createComponentUnderTest(listWithThreeConditionals);

@@ -11,6 +11,7 @@ import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "../waitEventLabels";
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
 jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
@@ -56,6 +57,7 @@ const selectors = {
     removeButton: 'lightning-button.removeWaitEvent',
     waitResumeConditions: 'builder_platform_interaction-wait-resume-conditions',
     tab: 'lightning-tab',
+    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder',
 };
 
 const createComponentUnderTest = (waitEvent) => {
@@ -236,6 +238,16 @@ describe('Wait Event', () => {
             return Promise.resolve().then(() => {
                 expect(tabs[0].showErrorIndicator).toEqual(false);
             });
+        });
+
+        it('sets the default operator to EqualTo', () => {
+            getConditionsWithPrefixes.mockReturnValueOnce([{
+                prefix: 'foo',
+                condition: { rowIndex: 'bar' },
+            }]);
+            waitEvent = createComponentUnderTest(waitEventWithOneConditional);
+            const ferToFerovExpressionBuilder = waitEvent.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
+            expect(ferToFerovExpressionBuilder.defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
         });
     });
 

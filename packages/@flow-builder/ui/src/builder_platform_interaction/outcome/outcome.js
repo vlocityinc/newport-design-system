@@ -4,7 +4,7 @@ import {
     DeleteOutcomeEvent
 } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
 import { LABELS } from "./outcomeLabels";
 
 const SELECTORS = {
@@ -19,6 +19,7 @@ export default class Outcome extends LightningElement {
     @track element = {};
 
     labels = LABELS;
+    defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
     @api get outcome() {
         return this.element;
