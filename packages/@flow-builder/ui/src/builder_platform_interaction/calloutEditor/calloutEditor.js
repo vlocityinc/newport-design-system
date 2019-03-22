@@ -1,10 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE, FLOW_PROCESS_TYPE, ACTION_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE, ACTION_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { ClosePropertyEditorEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
+import { Store } from 'builder_platform_interaction/storeLib';
+
 const CONTAINER_SELECTOR = 'builder_platform_interaction-callout-editor-container';
 
 export default class CalloutEditor extends LightningElement {
@@ -25,8 +27,6 @@ export default class CalloutEditor extends LightningElement {
     @track showLeftPanel = true;
     @track categoryOptions = [];
     @track selectedCategory = LABELS.allInvocableActions;
-
-    @api flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
     labels = LABELS;
 
@@ -66,6 +66,10 @@ export default class CalloutEditor extends LightningElement {
                 value: LABELS.filterByTypeOption,
             },
         ];
+    }
+
+    get flowProcessType() {
+        return Store.getStore().getCurrentState().properties.processType;
     }
 
     @api

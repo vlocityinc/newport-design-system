@@ -41,6 +41,26 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    };
+    const getStore = function () {
+        return {
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
+
 const subflowNode = {
     "guid": "024b2345-97d2-4e67-952b-6cd326a54570",
     "name": {

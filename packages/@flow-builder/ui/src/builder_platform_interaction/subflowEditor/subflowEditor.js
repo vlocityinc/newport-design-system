@@ -5,9 +5,9 @@ import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_
 import { format } from 'builder_platform_interaction/commonUtils';
 import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from "./subflowReducer";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -24,9 +24,6 @@ export default class SubflowEditor extends LightningElement {
     // true if we are creating a new subflow element, false if editing an existing subflow element
     @api
     isNewMode = false;
-
-    @api
-    flowProcessType = FLOW_PROCESS_TYPE.FLOW;
 
     connectedCallback() {
         this.connected = true;
@@ -76,8 +73,9 @@ export default class SubflowEditor extends LightningElement {
         this.subflowDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const options = {disableErrorModal : true};
+        const { processType: flowProcessType } = Store.getStore().getCurrentState().properties;
         fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
-            flowProcessType : this.flowProcessType
+            flowProcessType
         }, options).then((subflows) => {
             if (this.connected) {
                 this.subflowDescriptor = subflows.find(f => f.fullName === flowName);

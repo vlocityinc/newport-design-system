@@ -97,6 +97,26 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    };
+    const getStore = function () {
+        return {
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
+
 const getBaseCalloutEditor = (actionEditor) => {
     return getShadowRoot(actionEditor).querySelector(selectors.baseCalloutEditor);
 };

@@ -1,13 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
-import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { invocableActionReducer } from './invocableActionReducer';
 import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export default class InvocableActionEditor extends LightningElement {
     /**
@@ -105,8 +105,9 @@ export default class InvocableActionEditor extends LightningElement {
         this.invocableActionDescriptor = undefined;
         const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
         const options = {disableErrorModal : true};
+        const { processType: flowProcessType } = Store.getStore().getCurrentState().properties;
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-            flowProcessType : FLOW_PROCESS_TYPE.FLOW
+            flowProcessType
         }, options).then((invocableActions) => {
             if (this.connected) {
                 this.invocableActionDescriptor = invocableActions.find(action => action.name === actionParams.actionName && action.type === actionParams.actionType);
