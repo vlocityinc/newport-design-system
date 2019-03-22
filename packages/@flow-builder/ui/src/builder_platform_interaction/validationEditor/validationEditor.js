@@ -18,36 +18,38 @@ export default class ValidationEditor extends LightningElement {
             event.stopPropagation();
             const formulaDisplayedValue = {value: event.detail.value, error: event.detail.error};
             const errorDisplayedValue = this.template.querySelector('.property-input.errorMessage').value;
-            this.handleFormulaExpressionbOrErrorMessageChanged(formulaDisplayedValue, errorDisplayedValue);
+            this.handleFormulaExpressionOrErrorMessageChanged(formulaDisplayedValue, errorDisplayedValue);
         }
-    }
+    };
 
     handleErrorMessageValueChanged = (event) => {
         if (event && event.detail) {
             event.stopPropagation();
             const formulaDisplayedValue = this.template.querySelector('.property-input.formulaExpression').value;
             const errorDisplayedValue = {value: event.detail.value, error: event.detail.error};
-            this.handleFormulaExpressionbOrErrorMessageChanged(formulaDisplayedValue, errorDisplayedValue);
+            this.handleFormulaExpressionOrErrorMessageChanged(formulaDisplayedValue, errorDisplayedValue);
         }
-    }
+    };
 
-    handleFormulaExpressionbOrErrorMessageChanged = (formulaDisplayedValue, errorDisplayedValue) => {
-            const hasFormula = formulaDisplayedValue.value && formulaDisplayedValue.value.length > 0;
-            const hasError = errorDisplayedValue.value && errorDisplayedValue.value.length > 0;
-            let formulaError = null, errorError = null;
+    handleFormulaExpressionOrErrorMessageChanged = (formulaExpression, errorMessage) => {
+            const ifFormulaExpressionHasValue = formulaExpression.value && formulaExpression.value.length > 0;
+            const ifErrorMessageHasValue = errorMessage.value && errorMessage.value.length > 0;
+            let errorOnFormulaExpression = formulaExpression.error,
+                errorOnErrorMessage = errorMessage.error;
 
-            if (hasFormula ^ hasError) { // Validate conditional requiredness
-                if (hasFormula) {
-                    errorError = LABELS.cannotBeBlank;
-                } else {
-                    formulaError = LABELS.cannotBeBlank;
-                }
+            if (!ifFormulaExpressionHasValue && !ifErrorMessageHasValue) {
+                errorOnFormulaExpression = null;
+                errorOnErrorMessage = null;
+            } else if (ifFormulaExpressionHasValue && !ifErrorMessageHasValue) {
+                errorOnErrorMessage = LABELS.cannotBeBlank;
+            } else if (!ifFormulaExpressionHasValue && ifErrorMessageHasValue) {
+                errorOnFormulaExpression = LABELS.cannotBeBlank;
             }
 
-            // TODO fire only if it really changed
+            // TODO fire only if it really changed (W-5780103)
             this.dispatchEvent(new ValidationRuleChangedEvent({
-                formulaExpression: {value: formulaDisplayedValue.value, error: formulaDisplayedValue.error || formulaError},
-                errorMessage: {value: errorDisplayedValue.value, error: errorDisplayedValue.error || errorError}
+                formulaExpression: {value: formulaExpression.value, error: errorOnFormulaExpression},
+                errorMessage: {value: errorMessage.value, error: errorOnErrorMessage}
             }));
-    }
+    };
 }
