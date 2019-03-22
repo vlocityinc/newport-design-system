@@ -13,7 +13,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
-    const ELEMENT_TYPE = require('builder_platform_interaction/flowMetadata');
+    const { ELEMENT_TYPE } = require('builder_platform_interaction/flowMetadata');
     return {
         getElementByGuid(guid) {
             let elementType;
