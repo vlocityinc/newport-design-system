@@ -8,7 +8,7 @@
             <div class="flow-resource-list">
                 <lightning-tabset>
                     <lightning-tab value="left-panel-tabitem-elements" label={labels.elementTabText} class="slds-p-around_none">
-                        <builder_platform_interaction-left-panel-elements onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
+                        <builder_platform_interaction-left-panel-elements elements={elements} onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
                     </lightning-tab>
                     <lightning-tab value="left-panel-tabitem-resources" label={labels.resourceTabText} class="slds-p-around_none">
                         <div class="slds-p-horizontal_small slds-p-top_small">

@@ -1,9 +1,5 @@
-import { LightningElement, track } from 'lwc';
-import { logPerfMarkStart, logPerfMarkEnd } from "builder_platform_interaction/loggingUtils";
-import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import { LightningElement, track, api } from 'lwc';
 import { getElementSections } from "./elementLib";
-
-const leftPanelElements = 'leftPanelElements';
 
 export default class LeftPanelElements extends LightningElement {
     /**
@@ -11,32 +7,13 @@ export default class LeftPanelElements extends LightningElement {
      */
     @track leftPanelElementsList = [];
 
-    constructor() {
-        super();
-        fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.getElementsLeftPalette);
+    @api
+    get elements() {
+        return this.leftPanelElementsList;
     }
 
-    /**
-     * Callback which gets executed after getting elements for left panel
-     * palette
-     *
-     * @param {Object}
-     *            has error property if there is error fetching the data else
-     *            has data property
-     */
-    getElementsLeftPalette = ({data, error}) => {
-        if (error) {
-            // Handle error case here if something is needed beyond our automatic generic error modal popup
-        } else {
-            logPerfMarkStart(leftPanelElements);
-            this.leftPanelElementsList = getElementSections(data);
-        }
-    };
-
-    renderedCallback() {
-        if (this.leftPanelElementsList && this.leftPanelElementsList.length > 0) {
-            logPerfMarkEnd(leftPanelElements);
-        }
+    set elements(elementsData) {
+        this.leftPanelElementsList = getElementSections(elementsData);
     }
 }
 

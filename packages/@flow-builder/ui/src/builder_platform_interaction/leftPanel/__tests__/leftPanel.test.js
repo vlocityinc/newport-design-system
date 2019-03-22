@@ -1,14 +1,45 @@
 import { createElement } from 'lwc';
 import { EditElementEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from "builder_platform_interaction/events";
 import LeftPanel from "builder_platform_interaction/leftPanel";
-
 import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
-
 import { getShadowRoot } from 'lwc-test-utils';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
-
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {
+                'guid1' : {
+                    guid: 'guid1',
+                    dataType: "String",
+                    defaultValue: null,
+                    defaultValueDataType: null,
+                    description: "",
+                    elementType: "VARIABLE",
+                    isCollection: false,
+                    isInput: false,
+                    isOutput: false,
+                    name: "var_chocolate"
+                }
+            },
+            canvasElements: [],
+            connectors:[]
+        };
+    };
+    const getStore = function () {
+        return {
+            subscribe: () => jest.fn(),
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-left-panel', { is: LeftPanel });
     document.body.appendChild(el);

@@ -8,21 +8,21 @@ import { nameComparator } from "builder_platform_interaction/sortLib";
 import { LABELS } from "./leftPanelLabels";
 import { getResourceSections } from "./resourceLib";
 import { usedBy } from "builder_platform_interaction/usedByLib";
+import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 
 let storeInstance;
 let unsubscribeStore;
 
 export default class LeftPanel extends LightningElement {
     @track showResourceDetailsPanel = false;
-
     @track resourceDetails;
-
     @track canvasElements = [];
-
     @track nonCanvasElements = [];
+    @track elements = {};
 
     labels = LABELS;
     searchString;
+    processType;
 
     constructor() {
         super();
@@ -30,14 +30,35 @@ export default class LeftPanel extends LightningElement {
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
     }
 
+     /**
+     * Callback which gets executed after getting elements for left panel
+     * palette
+     *
+     * @param {Object}
+     *            has error property if there is error fetching the data else
+     *            has data property
+     */
+    setElements = ({data, error}) => {
+        if (error) {
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
+        } else {
+            this.elements = data;
+        }
+    };
+
     mapAppStateToStore = () => {
-        const currentState = storeInstance.getCurrentState();
-        this.canvasElements = getResourceSections(currentState.elements, resourceFilter(true, this.searchString), nameComparator);
-        this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(false, this.searchString), nameComparator);
+        const {properties = {}, elements = {}} = storeInstance.getCurrentState();
+        const { processType: flowProcessType } = properties;
+        this.canvasElements = getResourceSections(elements, resourceFilter(true, this.searchString), nameComparator);
+        this.nonCanvasElements = getResourceSections(elements, resourceFilter(false, this.searchString), nameComparator);
         if (this.showResourceDetailsPanel) {
             const iconName = this.resourceDetails.ICON_NAME;
-            const currentElementState = currentState.elements[this.resourceDetails.GUID];
+            const currentElementState = elements[this.resourceDetails.GUID];
             this.retrieveResourceDetailsFromStore(currentElementState, iconName);
+        }
+        if (this.processType !== flowProcessType) {
+            this.processType = flowProcessType;
+            fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.setElements, {flowProcessType});
         }
     };
 
