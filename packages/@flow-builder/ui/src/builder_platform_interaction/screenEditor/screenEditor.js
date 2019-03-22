@@ -67,6 +67,10 @@ export default class ScreenEditor extends LightningElement {
         return this.selectedNode;
     }
 
+    get flowLabel() {
+        return Store.getStore().getCurrentState().properties.label;
+    }
+
     /**
      * Retrieves the description for all extension screen fields and adds all required input parameters that are not present to those fields
      * (this should never happen as this would mean the flow is invalid, but it is a good check)

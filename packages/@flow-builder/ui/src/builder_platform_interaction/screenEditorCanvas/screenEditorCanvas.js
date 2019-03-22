@@ -9,6 +9,7 @@ const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
  * The screen editor canvas, support for adding, deleting, editing and rearranging fields (incomplete)
  */
 export default class ScreenEditorCanvas extends LightningElement {
+    @api flowLabel;
     @api screen;
     @api selectedItemGuid;
     labels = LABELS;
@@ -27,7 +28,7 @@ export default class ScreenEditorCanvas extends LightningElement {
     }
 
     get screenTitle() {
-        return this.screen && this.screen.label.value ? this.screen.label.value : '[' + LABELS.screenTitlePlaceHolder + ']';
+        return this.flowLabel || `[${LABELS.screenTitlePlaceHolder}]`;
     }
 
     get hasHelpText() {
