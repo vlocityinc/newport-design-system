@@ -43,6 +43,7 @@ const hoverPanels = {};
 
 // component name used when calling invokePropertyEditor
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
+const RESOURCE_EDITOR = 'builder_platform_interaction:resourceEditor';
 
 /**
  * @param {string} cmpName component name descriptor
@@ -157,6 +158,13 @@ const getNewResourceConfig = (attributes) => {
     return newResourceConfig;
 };
 
+const clearExpressionValidator = (panel) => {
+    const panelBody = panel.get('v.body')[0];
+    if (panelBody && panelBody.get('v.bodyComponent') && panelBody.get('v.bodyComponent').desc !== RESOURCE_EDITOR) {
+        clearExpressions();
+    }
+};
+
 /**
  * Callback that executes just before closing any property editor modal
  * @param {Object} panel : panel Instance of status icon
@@ -167,7 +175,7 @@ const closeActionCallback = (panel) => {
     if (statusIconCmp && statusIconCmp.getPanelInstance()) {
         statusIconCmp.closePanelInstance();
     }
-    clearExpressions();
+    clearExpressionValidator(panel);
     panel.close();
 };
 
