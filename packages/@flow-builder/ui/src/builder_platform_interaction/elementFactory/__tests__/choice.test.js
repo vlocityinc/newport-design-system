@@ -1,5 +1,4 @@
 import {
-    createValidationRuleForUserInput,
     createUserInputForChoice,
     createChoice,
     createChoiceForStore,
@@ -18,10 +17,6 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 const validationRule = {
     errorMessage: 'mock error message value',
     formulaExpression: 'mock formula'
-};
-const defaultValidationRule = {
-    errorMessage: '',
-    formulaExpression: ''
 };
 
 const userInput = {
@@ -99,24 +94,6 @@ const choiceElementForStore = {
     isValidateSelected: true,
     userInput
 };
-
-describe('createValidationRuleForUserInput function', () => {
-    it('returns a new validation rule object with default values when no arguments are passed', () => {
-        const actualResult = createValidationRuleForUserInput();
-        expect(actualResult).toMatchObject(defaultValidationRule);
-    });
-
-    describe('when existing validation rule object is passed', () => {
-        it('returns a new validation rule object with the same value', () => {
-            const actualResult = createValidationRuleForUserInput(validationRule);
-            expect(actualResult).toMatchObject(validationRule);
-        });
-        it('returns a new validation rule object', () => {
-            const actualResult = createValidationRuleForUserInput(validationRule);
-            expect(actualResult).not.toBe(validationRule);
-        });
-    });
-});
 
 describe('createUserInputForChoice function', () => {
     it('returns a new userInput object with default values when no arguments are passed', () => {

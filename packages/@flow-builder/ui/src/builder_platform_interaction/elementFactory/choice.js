@@ -2,33 +2,17 @@ import { baseElementsArrayToMap, baseResource } from "./base/baseElement";
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from "./ferov";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseResourceMetadataObject } from "./base/baseMetadata";
+import { createValidationRuleObject } from "./base/baseValidationInput";
 
 const elementType = ELEMENT_TYPE.CHOICE;
 const STORED_VALUE_PROPERTY = 'storedValue';
 export const STORED_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(STORED_VALUE_PROPERTY);
 
 /**
- * @typedef {Object} validationRule
- * @property {string} errorMessage error message a string/metadata field that can contain references to devNames/guids
- * @property {string} formulaExpression formula expression is a string/metadata field that can contain references to devNames/guids
- */
-/**
- * Factory function to create validation rule object that is used the user input object
- * @param {validationRule} validationRule
- * @returns {validaitonRule} validationRule object for userInput object
- */
-export function createValidationRuleForUserInput(validationRule = {}) {
-    const { errorMessage = '', formulaExpression = '' } = validationRule;
-    return {
-        errorMessage,
-        formulaExpression
-    };
-}
-/**
  * @typedef {Object} userInput
  * @param {boolean} isRequired used in required checkbox for input label settings
  * @param {string} promptText used as input label
- * @param {validaitonRule} validaitonRule object containing formula expression and its related error message
+ * @param {validationRule} validationRule object containing formula expression and its related error message
  */
 /**
  * Factory function to create userInput Object that is used inside the choice element object
@@ -39,7 +23,7 @@ export function createUserInputForChoice(userInput = {}) {
     const { isRequired = false, promptText = null } = userInput;
     let validationRule;
     if (userInput.validationRule) {
-        validationRule = createValidationRuleForUserInput(userInput.validationRule);
+        validationRule = createValidationRuleObject(userInput.validationRule);
     }
     return {
         isRequired,

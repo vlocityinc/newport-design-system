@@ -13,6 +13,7 @@ import { baseElement } from "./base/baseElement";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./variable";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { createValidationRuleObject } from "./base/baseValidationInput";
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -77,7 +78,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
     }
 
     if (validationRule && validationRule.formulaExpression) {
-        validationRule = Object.assign({}, validationRule);
+        validationRule = createValidationRuleObject(validationRule);
     } else {
         validationRule = {formulaExpression: null, errorMessage: null};
     }
@@ -191,8 +192,8 @@ export function createScreenFieldMetadataObject(screenField) {
         mdScreenField.extensionName = extensionName;
     }
 
-    if (validationRule.formulaExpression) {
-        mdScreenField.validationRule = validationRule;
+    if (validationRule && validationRule.formulaExpression) {
+        mdScreenField.validationRule = createValidationRuleObject(validationRule);
     }
 
     if (isChoiceField(screenField)) {
