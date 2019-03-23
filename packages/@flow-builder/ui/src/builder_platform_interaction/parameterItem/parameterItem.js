@@ -1,5 +1,5 @@
 import { LightningElement, track, api } from 'lwc';
-import { getDataTypeIcons, isComplexType } from "builder_platform_interaction/dataTypeLib";
+import { getDataTypeIcons, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { getFerovInfoAndErrorFromEvent } from "builder_platform_interaction/expressionUtils";
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { getErrorFromHydratedItem, getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
@@ -189,7 +189,9 @@ export default class ParameterItem extends LightningElement {
     }
 
     get enableFieldDrilldown() {
-        return !isComplexType(this.getDataType());
+        // sobjects can not have apex objects or other sobjects as their fields, so only show them if they themselves match the parameter type
+        // i.e. if the parameter type is "Account" no need to show any other type of sobject because their fields would never match Account
+        return this.getDataType !== FLOW_DATA_TYPE.SOBJECT.value;
     }
 
     getDataType() {
