@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import RichTextEditor from "../resourcedRichTextEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -31,48 +30,45 @@ jest.mock('../richTextConverter', () => {
     };
 });
 
-const selectors = {
-    label: 'label',
-    abbr: 'abbr',
-    inputRichText: 'lightning-input-rich-text',
-    ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker'
+const SELECTORS = {
+    SPAN_LABEL: 'span.slds-form-element__label',
+    ABBR: 'abbr',
+    DIV_PARENT_INPUT_RICH_TEXT_FEROV_PICKER: '.container.slds-grid.slds-grid_vertical',
+    INPUT_RICH_TEXT: 'lightning-input-rich-text',
+    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-const getLabelElement = (richTextEditor) => {
-    return getShadowRoot(richTextEditor).querySelector(selectors.label);
-};
-
-const getInputRichTextElement = (richTextEditor) => {
-    return getShadowRoot(richTextEditor).querySelector(selectors.inputRichText);
-};
-
-const getResourcePicker = (richTextEditor) => {
-    return getShadowRoot(richTextEditor).querySelector(selectors.ferovResourcePicker);
-};
+const getChildElement = ({shadowRoot : richTextEditorShadowRoot}, selector) => richTextEditorShadowRoot.querySelector(selector);
 
 describe('Rich Text Editor', () => {
     let richTextEditor;
     describe('label', () => {
         it('should have an asterisk when required', () => {
             richTextEditor = createComponentUnderTest({required: true, label : 'Help Text'});
-            const labelElement = getLabelElement(richTextEditor);
-            expect(labelElement.textContent).toMatch('Help Text');
-            const abbrElement = labelElement.querySelector(selectors.abbr);
+            const spanLabelElement = getChildElement(richTextEditor, SELECTORS.SPAN_LABEL);
+            expect(spanLabelElement.textContent).toMatch('Help Text');
+            const abbrElement = spanLabelElement.querySelector(SELECTORS.ABBR);
             expect(abbrElement.textContent).toBe('*');
         });
         it('should not have an asterisk when not required', () => {
             richTextEditor = createComponentUnderTest({required: false, label : 'Help Text'});
-            const labelElement = getLabelElement(richTextEditor);
-            expect(labelElement.textContent).toMatch('Help Text');
-            const abbrElement = labelElement.querySelector(selectors.abbr);
+            const spanLabelElement = getChildElement(richTextEditor, SELECTORS.SPAN_LABEL);
+            expect(spanLabelElement.textContent).toMatch('Help Text');
+            const abbrElement = spanLabelElement.querySelector(SELECTORS.ABBR);
             expect(abbrElement).toBeNull();
+        });
+        it("accessibility (ariaLabelledBy attribute reflecting label id on parent div of ferov resources picker and input rich text)", () => {
+            richTextEditor = createComponentUnderTest({required: true, label : 'Help Text'});
+            const labelElementIdAttribute = getChildElement(richTextEditor, SELECTORS.SPAN_LABEL).id;
+            const divParentInputRichTextFerovPicker = getChildElement(richTextEditor, SELECTORS.DIV_PARENT_INPUT_RICH_TEXT_FEROV_PICKER);
+            expect(divParentInputRichTextFerovPicker.ariaLabelledBy).toBe(labelElementIdAttribute);
         });
     });
     describe('before Rich Text Editor activation', () => {
         it('replaces new lines with <br />, as is done at runtime', () => {
             const htmlText = 'first line\nsecond line';
             richTextEditor = createComponentUnderTest({value: htmlText});
-            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
             expect(inputRichTextElement.value).toBe('first line<br />second line');
             expect(richTextEditor.value).toBe(htmlText);
         });
@@ -94,7 +90,7 @@ describe('Rich Text Editor', () => {
                 // Given
                 const htmlText = 'first line\nsecond line';
                 richTextEditor = createComponentUnderTest({value: htmlText});
-                const inputRichTextElement = getInputRichTextElement(richTextEditor);
+                const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
                 richTextEditor.addEventListener('change', eventCallback);
 
                 // When we click on a non-empty lightning-input-rich-text, a change event is fired
@@ -107,7 +103,7 @@ describe('Rich Text Editor', () => {
                 // Given
                 const htmlText = '<li>first</li><li>second</li>';
                 richTextEditor = createComponentUnderTest({value: htmlText});
-                const inputRichTextElement = getInputRichTextElement(richTextEditor);
+                const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
                 richTextEditor.addEventListener('change', eventCallback);
 
                 // When we click on a non-empty lightning-input-rich-text, a change event is fired
@@ -120,7 +116,7 @@ describe('Rich Text Editor', () => {
         it('Should fire change event on change when value is empty', () => {
             const htmlText = '';
             richTextEditor = createComponentUnderTest({value: htmlText});
-            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
             richTextEditor.addEventListener('change', eventCallback);
 
             // When we click on an empty lightning-input-rich-text, no change event is fired
@@ -133,7 +129,7 @@ describe('Rich Text Editor', () => {
         it('Should fire change event on change when value is null', () => {
             const htmlText = null;
             richTextEditor = createComponentUnderTest({value: htmlText});
-            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
             richTextEditor.addEventListener('change', eventCallback);
 
             // When we click on an empty lightning-input-rich-text, no change event is fired
@@ -146,7 +142,7 @@ describe('Rich Text Editor', () => {
         it('Should fire change event on change', () => {
             // Given
             richTextEditor = createComponentUnderTest({value: '<p>hello</p>'});
-            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
             fireChangeEvent(inputRichTextElement, '<p>hello</p>');
             richTextEditor.addEventListener('change', eventCallback);
             validateTextWithMergeFields.mockReturnValue([]);
@@ -160,7 +156,7 @@ describe('Rich Text Editor', () => {
         it('Should fire change event on change with validation errors', () => {
             // Given
             richTextEditor = createComponentUnderTest({value: ''});
-            const inputRichTextElement = getInputRichTextElement(richTextEditor);
+            const inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
             fireChangeEvent(inputRichTextElement, '');
             richTextEditor.addEventListener('change', eventCallback);
             const validationError = {
@@ -181,8 +177,8 @@ describe('Rich Text Editor', () => {
         let resourcePicker;
         beforeEach(() => {
             richTextEditor = createComponentUnderTest({value: 'the existing text'});
-            inputRichTextElement = getInputRichTextElement(richTextEditor);
-            resourcePicker = getResourcePicker(richTextEditor);
+            inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
+            resourcePicker = getChildElement(richTextEditor, SELECTORS.FEROV_RESOURCE_PICKER);
         });
         it('Should insert corresponding merge field in the text when an item is selected', () => {
             const itemSelectedEvent = new CustomEvent('itemselected', {detail: {item: {displayText: '{$Flow.CurrentDate}'}}});
