@@ -6,6 +6,7 @@ import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newRes
 import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
+    const { ELEMENT_TYPE } = require('builder_platform_interaction/flowMetadata');
     const getCurrentState = function () {
         return {
             properties: {
@@ -18,7 +19,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
                     defaultValue: null,
                     defaultValueDataType: null,
                     description: "",
-                    elementType: "VARIABLE",
+                    elementType: ELEMENT_TYPE.VARIABLE,
                     isCollection: false,
                     isInput: false,
                     isOutput: false,
