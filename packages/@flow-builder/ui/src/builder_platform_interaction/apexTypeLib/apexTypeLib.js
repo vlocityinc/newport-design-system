@@ -11,6 +11,7 @@ const mutateProperty = (property) => {
         apiName: property.name,
         dataType: property.type,
         subtype: property.objectType || property.apexClass,
+        isCollection: property.isCollection,
     };
 };
 
