@@ -87,25 +87,26 @@ export default class ProcessTypesTemplates extends LightningElement {
     }
 
     /**
-     * @typedef {Object} FlowDefinitionDescriptor
+     * @typedef {Object} FlowDeVersionDescriptor
      *
-     * @property {String} definitionId
-     * @property {String} activeVersionId
-     * @property {String} latestVersionId
-     * @property {String} description
-     * @property {String} processType
-     * @property {String} masterLabel
+     * @property {String} EnumOrID
+     * @property {String} ProcessType
+     * @property {String} Status
+     * @property {String} IsTemplate
+     * @property {String} VersionNumber
+     * @property {String} Description
+     * @property {String} Label
      */
 
     /**
-     * @param data an array of FlowDefinitionDescriptor
+     * @param data an array of FlowVersionDescriptor
      * @return (Template[]) an array of Template
      */
     mapToTemplates(data) {
-        return data.map(flowDef => {
-            const itemId = flowDef.activeVersionId || flowDef.latestVersionId;
+        return data.map(flowVer => {
+            const itemId = flowVer.EnumOrID;
             const isSelected = (itemId === this.selectedTemplate);
-            return {itemId, label: flowDef.masterLabel, iconName: getProcessTypeIcon(flowDef.processType), description: flowDef.description, isSelected};
+            return {itemId, label: flowVer.Label, iconName: getProcessTypeIcon(flowVer.ProcessType), description: flowVer.Description, isSelected};
         });
     }
 

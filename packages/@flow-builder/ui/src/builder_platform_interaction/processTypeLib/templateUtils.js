@@ -7,10 +7,10 @@ let allTemplates = {};
 
 const groupByProcessType = (templates) => {
     return templates.reduce((templatesByProcessType, template) => {
-      if (!templatesByProcessType[template.processType]) {
-          templatesByProcessType[template.processType] = [];
+      if (!templatesByProcessType[template.ProcessType]) {
+          templatesByProcessType[template.ProcessType] = [];
       }
-      templatesByProcessType[template.processType].push(template);
+      templatesByProcessType[template.ProcessType].push(template);
       return templatesByProcessType;
     }, {});
 };

@@ -3,32 +3,9 @@ import { getShadowRoot } from 'lwc-test-utils';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
 import { TemplateChangedEvent } from 'builder_platform_interaction/events';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 
-const autoTemplate = {
-    masterLabel: 'Autolaunched template',
-    activeVersionId: '301xx000003Gblb',
-    latestVersionId: null,
-    processType: 'AutoLaunchedFlow',
-    description: 'This is an autolaunched template',
-};
-const screenTemplate1 = {
-    masterLabel: 'Screen template',
-    activeVersionId: '301xx000005Abdh',
-    latestVersionId: null,
-    processType: 'Flow',
-    description: 'This is a screen template',
-};
-const screenTemplate2 = {
-    masterLabel: 'Screen template 2',
-    activeVersionId: null,
-    latestVersionId: '301xx000008jhgn',
-    processType: 'Flow',
-    description: 'This is a screen template 2',
-};
-
-const mockTemplates = [autoTemplate, screenTemplate1, screenTemplate2];
-
-const mockTemplatesPromise = Promise.resolve(mockTemplates);
+const mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
@@ -110,9 +87,9 @@ describe('process-type-templates', () => {
     it('shows 3 templates: two screens and one autolaunched', () => {
         const templates = getTemplates(processTypeTemplates, SELECTORS.TEMPLATES_SECTION);
         expect(templates).toHaveLength(3);
-        expect(templates).toEqual([{"description": autoTemplate.description, "iconName": "utility:magicwand", "isSelected": false, "itemId": autoTemplate.activeVersionId, "label": autoTemplate.masterLabel},
-            {"description": screenTemplate1.description, "iconName": "utility:desktop", "isSelected": false, "itemId": screenTemplate1.activeVersionId, "label": screenTemplate1.masterLabel},
-            {"description": screenTemplate2.description, "iconName": "utility:desktop", "isSelected": false, "itemId": screenTemplate2.latestVersionId, "label": screenTemplate2.masterLabel}]);
+        expect(templates).toEqual([{"description": MOCK_AUTO_TEMPLATE.Description, "iconName": "utility:magicwand", "isSelected": false, "itemId": MOCK_AUTO_TEMPLATE.EnumOrID, "label": MOCK_AUTO_TEMPLATE.Label},
+            {"description": MOCK_SCREEN_TEMPLATE_1.Description, "iconName": "utility:desktop", "isSelected": false, "itemId": MOCK_SCREEN_TEMPLATE_1.EnumOrID, "label": MOCK_SCREEN_TEMPLATE_1.Label},
+            {"description": MOCK_SCREEN_TEMPLATE_2.Description, "iconName": "utility:desktop", "isSelected": false, "itemId": MOCK_SCREEN_TEMPLATE_2.EnumOrID, "label": MOCK_SCREEN_TEMPLATE_2.Label}]);
     });
 
     it('selects template should uncheck the process type tile', async () => {
