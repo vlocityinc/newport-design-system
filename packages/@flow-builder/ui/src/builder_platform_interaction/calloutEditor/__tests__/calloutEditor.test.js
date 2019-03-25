@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import CalloutEditor from "../calloutEditor";
 import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { mockActions } from "mock/calloutData";
 import { LABELS } from "../calloutEditorLabels";
@@ -83,7 +83,7 @@ const dispatchValueChangeEvent = (component, value, error = null) => {
 };
 
 const dispatchSelectedActionChangeEvent = (component, actionName, actionType) =>
-    dispatchValueChangeEvent(component, {  actionName, actionType, elementType: ELEMENT_TYPE.ACTION_CALL });
+    dispatchValueChangeEvent(component, { actionName, actionType, elementType: ELEMENT_TYPE.ACTION_CALL });
 
 const dispatchSelectedApexChangeEvent = (component, apexClass) =>
     dispatchValueChangeEvent(component, { apexClass, elementType: ELEMENT_TYPE.APEX_PLUGIN_CALL });
@@ -144,13 +144,6 @@ describe('callout-editor', () => {
             getActionSelector(calloutEditor).dispatchEvent(changeEvent);
             await Promise.resolve();
             expect(getContainer(calloutEditor).hasActions).toEqual({ value: true });
-        });
-        it('should dispatch a SetPropertyEditorTitleEvent', async () => {
-            const eventCallback = jest.fn();
-            document.addEventListener(SetPropertyEditorTitleEvent.EVENT_NAME, eventCallback);
-            calloutEditor = setupComponentUnderTest();
-            await untilNoFailure(() => expect(eventCallback).toHaveBeenCalled());
-            expect(eventCallback.mock.calls[0][0].detail.title).toBe('FlowBuilderCalloutEditor.newActionPropertyEditorTitle');
         });
     });
     it('has an action-selector component', () => {

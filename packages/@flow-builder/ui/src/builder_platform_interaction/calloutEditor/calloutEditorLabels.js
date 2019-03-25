@@ -1,4 +1,3 @@
-import newActionPropertyEditorTitle from "@salesforce/label/FlowBuilderCalloutEditor.newActionPropertyEditorTitle";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 import filterByTitle from '@salesforce/label/FlowBuilderActionSelector.filterByTitle';
@@ -26,7 +25,6 @@ export const LABELS = {
     filterByTitle,
     filterByCategoryOption,
     filterByTypeOption,
-    newActionPropertyEditorTitle,
     allInvocableActions,
     unCategorizedInvocableActions,
     [ELEMENT_TYPE.ACTION_CALL]: {

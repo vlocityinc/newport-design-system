@@ -3,7 +3,7 @@ import { ELEMENT_TYPE, ACTION_TYPE } from "builder_platform_interaction/flowMeta
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { shouldNotBeNullOrUndefined } from 'builder_platform_interaction/validationRules';
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { ClosePropertyEditorEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
 import { Store } from 'builder_platform_interaction/storeLib';
 
@@ -27,12 +27,11 @@ export default class CalloutEditor extends LightningElement {
     @track showLeftPanel = true;
     @track categoryOptions = [];
     @track selectedCategory = LABELS.allInvocableActions;
+    @track invocableActions = [];
+    @track invocableActionsFetched = false;
 
     labels = LABELS;
-
     location = {};
-    invocableActions = [];
-    invocableActionsFetched = false;
 
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
@@ -43,16 +42,9 @@ export default class CalloutEditor extends LightningElement {
 
             // Set options
             this.setCategoryOptions();
-            this.updatePropertyEditorTitle();
         }).catch(() => {
             this.invocableActionsFetched = true;
         });
-    }
-
-    updatePropertyEditorTitle() {
-        const title = this.labels.newActionPropertyEditorTitle;
-        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
-        this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 
     get filterByOptions() {
@@ -117,6 +109,7 @@ export default class CalloutEditor extends LightningElement {
                 newSelectedAction = Object.assign(newSelectedAction, { apexClass });
             }
         } else if (this.node.elementType === ELEMENT_TYPE.SUBFLOW) {
+            this.selectedFilterBy = this.labels.filterByTypeOption;
             const flowName = getValueFromHydratedItem(this.node.flowName);
             if (flowName) {
                 newSelectedAction = Object.assign(newSelectedAction, { flowName });

@@ -88,12 +88,8 @@ const getTitleForModalHeader = (mode, elementType) => {
             label = elementConfig.labels.singular;
             break;
         case AddElementEvent.EVENT_NAME:
-            if (elementType === ELEMENT_TYPE.ACTION_CALL) {
-                label = LABELS.newActionPropertyEditorTitle;
-            } else {
-                titlePrefix = LABELS.newElementHeaderPrefix;
-                label = elementConfig.labels.singular;
-            }
+            titlePrefix = LABELS.newElementHeaderPrefix;
+            label = elementConfig.labels.singular;
             break;
         case AddNonCanvasElementEvent.EVENT_NAME:
             titlePrefix = LABELS.newElementHeaderPrefix;
@@ -257,9 +253,9 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         titleForModal = getTitleForModalHeader(mode, elementType),
         labelForOkButton = getLabelForOkButton(mode),
         desc = getPropertyEditorDescriptor(mode, elementConfig);
-        if (!desc) {
-            throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
-        }
+    if (!desc) {
+        throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
+    }
 
     const attr = {
         nodeUpdate,
@@ -310,10 +306,10 @@ const getEditorConfig = (mode, attributes) => {
  */
 const doInvoke = (cmpName, attr, panelConfig) => {
     const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
-    const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", {titleForModal: panelConfig.titleForModal});
+    const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", { titleForModal: panelConfig.titleForModal });
     let propertyEditorFooterPromise;
     if (panelConfig.labelForOkButton) {
-        propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter", {labelForOkButton: panelConfig.labelForOkButton});
+        propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter", { labelForOkButton: panelConfig.labelForOkButton });
     } else {
         propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
     }
@@ -321,7 +317,7 @@ const doInvoke = (cmpName, attr, panelConfig) => {
         const createPanelEventAttributes = {
             panelType: MODAL,
             visible: true,
-            panelConfig : {
+            panelConfig: {
                 body: newComponents[0],
                 flavor: panelConfig.flavor,
                 bodyClass: panelConfig.bodyClass,
@@ -358,7 +354,7 @@ export function invokePropertyEditor(cmpName, attributes) {
 
     const mode = attributes.mode;
 
-    const {attr, panelConfig} = getEditorConfig(mode, attributes);
+    const { attr, panelConfig } = getEditorConfig(mode, attributes);
 
     doInvoke(cmpName, attr, panelConfig);
 }
@@ -397,7 +393,7 @@ export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
         const createPanelEventAttributes = {
             panelType: PANEL,
             visible: true,
-            panelConfig : {
+            panelConfig: {
                 body: newComponent,
                 direction: panelAttributes.direction,
                 showPointer: true,
@@ -429,7 +425,7 @@ export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPro
         const createPanelEventAttributes = {
             panelType: MODAL,
             visible: true,
-            panelConfig : {
+            panelConfig: {
                 header: newComponents[0],
                 body: newComponents[1],
                 footer: newComponents[2],
@@ -533,7 +529,7 @@ export const invokeNewFlowModal = (closeFlowModalAction, createFlowFromTemplateC
         }
     );
 
-    invokeModalWithComponents({bodyClass: 'slds-p-around_none', flavor: MODAL_SIZE.LARGE, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback}, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+    invokeModalWithComponents({ bodyClass: 'slds-p-around_none', flavor: MODAL_SIZE.LARGE, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback }, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
 };
 
 /**
