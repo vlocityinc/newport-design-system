@@ -5,6 +5,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { CannotRetrieveCalloutParametersEvent, ActionsLoadedEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { mockActions } from "mock/calloutData";
+import { LABELS } from "../calloutEditorLabels";
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
@@ -15,6 +16,26 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             return Promise.resolve(mockActions);
         }
     };
+});
+
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    };
+    const getStore = function () {
+        return {
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
 });
 
 jest.mock('builder_platform_interaction/calloutEditorContainer', () => require('builder_platform_interaction_mocks/calloutEditorContainer'));
@@ -86,6 +107,7 @@ describe('callout-editor', () => {
     let calloutEditor;
     beforeEach(() => {
         calloutEditor = setupComponentUnderTest();
+        calloutEditor.filterBy = LABELS.filterByCategoryOption;
     });
     describe('filter by combo', () => {
         it('displays all filter options', () => {

@@ -3,7 +3,26 @@ import { getShadowRoot } from 'lwc-test-utils';
 import CalloutEditorContainer from "../calloutEditorContainer";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    };
+    const getStore = function () {
+        return {
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
+
 
 const setupComponentUnderTest = (props) => {
     const element = createElement('builder_platform_interaction-callout-editor-container', {
