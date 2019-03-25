@@ -2,7 +2,6 @@ import ScreenPalette from "builder_platform_interaction/screenEditorPalette";
 import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
 import { getShadowRoot } from 'lwc-test-utils';
-import { APP_EXCHANGE_LINK } from "builder_platform_interaction/commonUtils";
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
@@ -116,13 +115,5 @@ describe('Screen Editor Palette', () => {
 
         expect(dragStartEvent.dataTransfer.getData('text')).toBe('LargeTextArea');
         expect(dragStartEvent.dataTransfer.effectAllowed).toBe('copy');
-    });
-});
-
-describe('AppExchange link', () => {
-    it('points to https://appexchange.salesforce.com/appxStore?type=Flow', () => {
-        const element = createComponentForTest();
-        const link = getShadowRoot(element).querySelector('a.app-exchange-button');
-        expect(link.href).toEqual(APP_EXCHANGE_LINK);
     });
 });
