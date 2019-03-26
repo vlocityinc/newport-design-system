@@ -60,7 +60,7 @@ Generate the Lightning Design System into the `.dist` directory.
 
 ### `gulp styles`
 
-Compile Sass to CSS into `.assets/styles`.
+Compile Sass to CSS into `.dist/assets/styles`.
 
 ### `gulp clean`
 
