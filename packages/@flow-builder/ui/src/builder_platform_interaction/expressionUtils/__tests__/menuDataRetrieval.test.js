@@ -1,6 +1,6 @@
 import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData,
     getEventTypesMenuData, getSecondLevelItems } from '../menuDataRetrieval.js';
-import { numberParamCanBeField, stringParam, booleanParam } from 'mock/ruleService';
+import { numberParamCanBeField, stringParam, booleanParam, stageParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
@@ -53,6 +53,10 @@ const sampleStringParamTypes = {
 
 const sampleBooleanParamTypes = {
     Boolean : [booleanParam],
+};
+
+const sampleStageParamTypes = {
+    STAGE : [stageParam],
 };
 
 const parentSObjectItem = {
@@ -360,7 +364,7 @@ describe('Menu data retrieval', () => {
     });
 
     describe('Filter and mutate menu data', () => {
-        it('filters using allowed param and returns in format combobox expects', () => {
+        it('filters using data type param and returns in format combobox expects', () => {
             const menuData = filterAndMutateMenuData([store.elements[store.numberVariableGuid], store.elements[store.dateVariableGuid]], sampleNumberParamTypes);
             expect(menuData).toHaveLength(1);
             expect(menuData[0].items).toHaveLength(1);
@@ -369,6 +373,13 @@ describe('Menu data retrieval', () => {
             expect(element.text).toBe(store.numberVariableDevName);
             expect(element.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
             expect(element.displayText).toBe(addCurlyBraces(store.numberVariableDevName));
+        });
+        it('filters using element type', () => {
+            const menuData = filterAndMutateMenuData([store.elements[store.stageGuid], store.elements[store.dateVariableGuid]], sampleStageParamTypes);
+            expect(menuData).toHaveLength(1);
+            expect(menuData[0].items).toHaveLength(1);
+            const element = menuData[0].items[0];
+            expect(element.value).toBe(store.stageGuid);
         });
     });
 
