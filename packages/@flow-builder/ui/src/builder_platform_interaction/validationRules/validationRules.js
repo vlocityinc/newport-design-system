@@ -4,7 +4,7 @@ import { isDevNameInStore, isOrderNumberInStore } from "builder_platform_interac
 import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS as labels} from "./validationRulesLabels";
-import { validateLHS, validateRHS } from "builder_platform_interaction/expressionValidator";
+import { validateLHS, validateRHS, validatePicker } from "builder_platform_interaction/expressionValidator";
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -212,6 +212,16 @@ export const lhsShouldBeValid = (rowIndex) => {
 export const rhsShouldBeValid = (rowIndex) => {
     return function () {
         return validateRHS(rowIndex);
+    };
+};
+
+/**
+ * Run validation on a resource picker
+ * @param {String} rowIndex the index(guid) of the picker
+ */
+export const validateResourcePicker = (rowIndex) => {
+    return function () {
+        return validatePicker(rowIndex);
     };
 };
 

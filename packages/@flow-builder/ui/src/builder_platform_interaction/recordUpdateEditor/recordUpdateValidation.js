@@ -12,8 +12,8 @@ const validateAssignments = () => ValidationRules.validateExpressionWith2Propert
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateInputReference = () => {
-    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined];
+const validateInputReference = (inputReferenceIndex) => {
+    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.validateResourcePicker(inputReferenceIndex)];
 };
 
 /**
@@ -36,7 +36,7 @@ export const getRules = (nodeElement) => {
     if (nodeElement.numberRecordsToStore.value === NUMBER_RECORDS_TO_STORE.FIRST_RECORD) {
         overrideRules.inputReference = validateInputReference();
     } else if (nodeElement.inputAssignments) {
-        overrideRules.object = validateInputReference();
+        overrideRules.object = validateInputReference(nodeElement.inputReferenceIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.inputAssignments = validateAssignments();
             // validate filters if filter type is ALL

@@ -22,8 +22,8 @@ const validateAssignments = () => {
  * Validate the outputReference item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateOutputReference = () => {
-    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined];
+const validateOutputReference = (outputReferenceIndex) => {
+    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.validateResourcePicker(outputReferenceIndex)];
 };
 
 /**
@@ -59,7 +59,7 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
  * @return {Object} the overridden rules
  */
-export const getRules = ({filterType, sortOrder, object, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, queriedFields}) => {
+export const getRules = ({filterType, sortOrder, object, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, outputReferenceIndex, queriedFields}) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules};
     // validate filters if filter type is ALL
     if (filterType === RECORD_FILTER_CRITERIA.ALL) {
@@ -76,7 +76,7 @@ export const getRules = ({filterType, sortOrder, object, wayToStoreFields, numbe
         } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {
             overriddenRules.outputAssignments = validateAssignments();
         } else if (wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE) {
-            overriddenRules.outputReference = validateOutputReference();
+            overriddenRules.outputReference = validateOutputReference(outputReferenceIndex);
             if (outputReference && outputReference.value && queriedFields.length > 2) {
                 overriddenRules.queriedFields = validateQueriedField();
             }

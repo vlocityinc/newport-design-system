@@ -35,6 +35,7 @@ const setupComponentUnderTest = (props) => {
         is: VariableConstantEditor,
     });
     element.node = props;
+    element.node.defaultValueIndex = {value: 'guid', error: null};
     document.body.appendChild(element);
     return element;
 };

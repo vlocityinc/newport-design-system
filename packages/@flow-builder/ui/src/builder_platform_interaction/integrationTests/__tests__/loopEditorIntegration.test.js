@@ -87,7 +87,9 @@ beforeEach(() => {
         name : {value: TEST_LOOP_DEV_NAME, error: null},
         description : {value: 'test loop description', error: null},
         collectionReference: {value: stringCollectionVariable1Guid, error: null},
+        collectionReferenceIndex: {value: 'guid', error: null},
         assignNextValueToReference: {value: stringVariableGuid, error: null},
+        assignNextValueToReferenceIndex: {value: 'guid2', error: null},
         iterationOrder: {value:'Asc', error: null },
         elementType : 'LOOP',
         guid : 'LOOP_1'
@@ -97,7 +99,9 @@ beforeEach(() => {
         name : {value: '', error: null},
         description : {value: '', error: null},
         collectionReference: {value: null, error: null},
+        collectionReferenceIndex: {value: 'guid', error: null},
         assignNextValueToReference: {value: null, error: null},
+        assignNextValueToReferenceIndex: {value: 'guid2', error: null},
         config: {isSelected: false},
         elementType : 'LOOP',
         guid : 'LOOP_2'
@@ -298,7 +302,9 @@ describe('Loop Editor', () => {
                 name : {value: TEST_LOOP_DEV_NAME, error: null},
                 description : {value: 'test loop description', error: null},
                 collectionReference: {value: accountSObjectCollectionVariableGuid, error: null},
+                collectionReferenceIndex: {value: 'guid', error: null},
                 assignNextValueToReference: {value: accountSObjectVariableGuid, error: null},
+                assignNextValueToReferenceIndex: {value: 'guid', error: null},
                 iterationOrder: {value:'Asc', error: null },
                 elementType : 'LOOP',
                 guid : 'LOOP_3'

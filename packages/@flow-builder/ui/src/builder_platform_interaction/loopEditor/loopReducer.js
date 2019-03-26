@@ -1,6 +1,6 @@
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { PropertyChangedEvent, LoopCollectionChangedEvent } from "builder_platform_interaction/events";
-import { loopValidation } from "./loopValidation";
+import { getRules, loopValidation } from "./loopValidation";
 import { updateProperties } from "builder_platform_interaction/dataMutationLib";
 
 const LOOP_PROPERTIES = {
@@ -55,7 +55,7 @@ export const loopReducer = (state, event) => {
         case LoopCollectionChangedEvent.EVENT_NAME:
             return loopCollectionChangedEvent(state, event);
         case VALIDATE_ALL: {
-            return loopValidation.validateAll(state);
+            return loopValidation.validateAll(state, getRules(state));
         }
         default: return state;
     }

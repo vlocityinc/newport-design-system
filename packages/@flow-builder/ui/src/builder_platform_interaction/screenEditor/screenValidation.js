@@ -42,10 +42,11 @@ const addCommonRules = (rules) => {
     addDefaultRules(rules);
 };
 
-const addCommonFieldRules = (rules) => {
+const addCommonFieldRules = (rules, {defaultValueIndex}) => {
     // Common rules
     addRules('defaultValue', rules, [
-        ValidationRules.maximumCharactersLimit(255)
+        ValidationRules.maximumCharactersLimit(255),
+        ValidationRules.validateResourcePicker(defaultValueIndex)
     ]);
 
     addRules('errorMessage', rules, [
@@ -275,7 +276,7 @@ export const getRulesForField = (field, newValueIsReference = false) => {
     const rules = {};
 
     addCommonRules(rules);
-    addCommonFieldRules(rules);
+    addCommonFieldRules(rules, field);
 
     if (isExtensionField(field)) {
         getRulesForExtensionField(field, rules);

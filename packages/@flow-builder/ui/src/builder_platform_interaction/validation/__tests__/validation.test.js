@@ -132,7 +132,7 @@ describe('validateAll method', () => {
             label: {value:'testValueWithNoErrors', error: null}
         };
         const validation = new Validation();
-        expect(validation.validateAll(testObj)).toBe(testObj);
+        expect(validation.validateAll(testObj)).toEqual(testObj);
     });
 
     it('returns the object with errors when rules fail at various level of properties', () => {

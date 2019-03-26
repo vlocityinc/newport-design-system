@@ -29,6 +29,7 @@
                     placeholder={labels.sObjectVariablePlaceholder}
                     element-type={state.recordUpdateElement.elementType}
                     value={inputReference}
+                    row-index={state.recordUpdateElement.inputReferenceIndex.value}
                     error-message={state.recordUpdateElement.inputReference.error}
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}>
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>

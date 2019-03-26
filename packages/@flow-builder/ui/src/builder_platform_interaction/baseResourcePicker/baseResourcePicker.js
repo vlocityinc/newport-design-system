@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
+import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -74,6 +75,21 @@ export default class BaseResourcePicker extends LightningElement {
     @api
     get errorMessage() {
         return this._customValidity;
+    }
+
+    /**
+     * A unique id for this resource picker(guid)
+     * Required if you want validation on done
+     * @param {String} rowIndex - the guid
+     */
+    set rowIndex(rowIndex) {
+        this._rowIndex = rowIndex;
+        saveResourcePicker(this);
+    }
+
+    @api
+    get rowIndex() {
+        return this._rowIndex;
     }
 
     /**

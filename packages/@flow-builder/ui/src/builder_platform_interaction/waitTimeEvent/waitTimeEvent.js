@@ -208,6 +208,10 @@ export default class WaitTimeEvent extends LightningElement {
         return this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
     }
 
+    get absoluteBaseTimeIndex() {
+        return this.getResumeTimeParameterIndex(WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME);
+    }
+
     get absoluteBaseTimeComboboxConfig() {
         return BaseResourcePicker.getComboboxConfig(
             this.labels.baseTimeLabel,
@@ -243,6 +247,10 @@ export default class WaitTimeEvent extends LightningElement {
 
     get recordIdValue() {
         return this.getResumeTimeParameterValue(WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID);
+    }
+
+    get recordIdIndex() {
+        return this.getResumeTimeParameterIndex(WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID);
     }
 
     get recordIdErrorMessage() {
@@ -366,6 +374,11 @@ export default class WaitTimeEvent extends LightningElement {
     getResumeTimeParameterValue(paramName) {
         const param = this.resumeTimeParametersMap.get(paramName);
         return param ? getValueFromHydratedItem(param.value) : null;
+    }
+
+    getResumeTimeParameterIndex(paramName) {
+        const param = this.resumeTimeParametersMap.get(paramName);
+        return param ? param.rowIndex : null;
     }
 
     getResumeTimeParameterError(paramName) {

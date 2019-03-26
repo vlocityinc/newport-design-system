@@ -47,6 +47,10 @@ describe('Choice Validation', () => {
             value: 'storedValue',
             error: null
         },
+        storedValueIndex: {
+            value: 'guid',
+            error: null
+        },
         userInput: {
             promptText: {
                 value: '',

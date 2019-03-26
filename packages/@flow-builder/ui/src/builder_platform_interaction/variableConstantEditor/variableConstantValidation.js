@@ -39,6 +39,7 @@ class VariableConstantValidation extends Validation {
      */
     validateAll(variableConstantResource, overrideRules) {
         this.finalizedRules.subtype = [validateVariableObjectType(isComplexType(getValueFromHydratedItem(variableConstantResource.dataType)))];
+        this.finalizedRules.defaultValue = [ValidationRules.validateResourcePicker(variableConstantResource.defaultValueIndex)];
         return super.validateAll(variableConstantResource, overrideRules);
     }
 }

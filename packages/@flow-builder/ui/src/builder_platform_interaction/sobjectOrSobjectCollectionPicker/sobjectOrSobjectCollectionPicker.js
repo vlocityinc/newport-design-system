@@ -37,6 +37,13 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     @api
     placeholder;
 
+    /**
+     * Unique guid for the picker
+     * @type {String}
+     */
+    @api
+    rowIndex;
+
     element = undefined;
 
     /**

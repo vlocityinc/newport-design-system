@@ -25,5 +25,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api showGlobalVariables;
 
+    @api rowIndex;
+
     @api setCustomValidity = jest.fn();
 }

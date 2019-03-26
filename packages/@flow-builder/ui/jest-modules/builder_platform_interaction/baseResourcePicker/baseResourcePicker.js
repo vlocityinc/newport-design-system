@@ -1,4 +1,5 @@
 import { LightningElement, api } from 'lwc';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 const baseResourcePicker = require('builder_platform_interaction/baseResourcePicker').default;
 
 export default class BaseResourcePicker extends LightningElement {
@@ -11,6 +12,9 @@ export default class BaseResourcePicker extends LightningElement {
 
     @api
     errorMessage;
+
+    @api
+    rowIndex = generateGuid();
 
     @api
     setMenuData(newMenuData) {

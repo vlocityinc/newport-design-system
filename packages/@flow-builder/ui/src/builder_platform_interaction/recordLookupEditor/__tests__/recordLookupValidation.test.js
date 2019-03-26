@@ -32,6 +32,7 @@ const recordLookupElementWithValidSObject = () => ({
     label : { value: 'testRecord', error: null },
     name : { value: 'testRecord', error: null },
     outputReference : { value: 'AccountSObjectVar', error: null},
+    outputReferenceIndex : { value: 'guid', error: null},
     sortField : { value:'Name', error:null},
     sortOrder : SORT_ORDER.ASC,
     assignNullValuesIfNoRecordsFound : false,

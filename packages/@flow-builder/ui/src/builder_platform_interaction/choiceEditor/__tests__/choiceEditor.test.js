@@ -83,6 +83,10 @@ describe('choice-editor', () => {
         isValidateSelected: false,
         name: 'choice1',
         storedValue: 'storedValue',
+        storedValueIndex: {
+            value: 'guid',
+            error: null
+        },
         userInput: undefined
     };
 
@@ -96,6 +100,10 @@ describe('choice-editor', () => {
         isValidateSelected: false,
         name: 'choice1',
         storedValue: 'storedValue',
+        storedValueIndex: {
+            value: 'guid',
+            error: null
+        },
         userInput: {
             promptText: 'promptText',
             isRequired: true,
@@ -113,6 +121,10 @@ describe('choice-editor', () => {
         isValidateSelected: true,
         name: 'choice1',
         storedValue: 'storedValue',
+        storedValueIndex: {
+            value: 'guid',
+            error: null
+        },
         userInput: {
             promptText: 'promptText',
             isRequired: true,
@@ -441,6 +453,10 @@ describe('choice-editor', () => {
                     isValidateSelected: false,
                     name: 'choice1',
                     storedValue: 'storedValue',
+                    storedValueIndex: {
+                        value: 'guid',
+                        error: null
+                    },
                     userInput: {
                         promptText: 'promptText',
                         isRequired: true,
@@ -465,6 +481,10 @@ describe('choice-editor', () => {
                     isValidateSelected: false,
                     name: 'choice1',
                     storedValue: 'storedValue',
+                    storedValueIndex: {
+                        value: 'guid',
+                        error: null
+                    },
                     userInput: {
                         promptText: 'promptText',
                         isRequired: true,

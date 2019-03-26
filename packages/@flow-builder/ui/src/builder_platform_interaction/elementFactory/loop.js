@@ -10,6 +10,7 @@ import {
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const elementType = ELEMENT_TYPE.LOOP;
 const maxConnections = 2;
@@ -27,14 +28,18 @@ export function createLoop(loop = {}) {
     const newLoop = baseCanvasElement(loop);
     const {
         assignNextValueToReference = null,
+        assignNextValueToReferenceIndex = generateGuid(),
         collectionReference = null,
+        collectionReferenceIndex = generateGuid(),
         iterationOrder = ITERATION_ORDER_ASCENDING,
         availableConnections = getDefaultAvailableConnections()
     } = loop;
 
     return Object.assign(newLoop, {
         assignNextValueToReference,
+        assignNextValueToReferenceIndex,
         collectionReference,
+        collectionReferenceIndex,
         iterationOrder,
         maxConnections,
         availableConnections,

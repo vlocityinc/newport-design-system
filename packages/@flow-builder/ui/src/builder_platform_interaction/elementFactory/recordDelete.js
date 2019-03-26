@@ -5,6 +5,7 @@ import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getDefaultAvailableConnections, createRecordFilters, createFilterMetadataObject }  from "./base/baseRecordElement";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const MAX_CONNECTIONS = 2;
 
@@ -18,11 +19,12 @@ const getAvailableConnections = recordDelete => {
 
 export function createRecordDelete(recordDelete = {}) {
     const newRecordDelete = baseCanvasElement(recordDelete);
-    const { inputReference = '', object = '', filters } = recordDelete;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', filters } = recordDelete;
     const availableConnections = getAvailableConnections(recordDelete);
 
     return Object.assign(newRecordDelete, {
         inputReference,
+        inputReferenceIndex,
         object,
         filters : createRecordFilters(filters, object, []),
         maxConnections : MAX_CONNECTIONS,

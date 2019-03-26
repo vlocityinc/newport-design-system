@@ -27,6 +27,7 @@ export const getRules = (nodeElement, {isSObjectMode}) => {
     // case where an sObject has been selected
     if (isSObjectMode) {
         overrideRules.inputReference = validateAgainstBlankNullOrUndefined();
+        overrideRules.inputReference.push(ValidationRules.validateResourcePicker(nodeElement.inputReferenceIndex));
     } else {
         overrideRules.object = validateAgainstBlankNullOrUndefined();
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {

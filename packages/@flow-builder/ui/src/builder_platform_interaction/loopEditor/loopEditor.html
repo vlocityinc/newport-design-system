@@ -15,6 +15,7 @@
                     class = "test-loop-collection"
                     value={collectionVariable}
                     error-message={loopElement.collectionReference.error}
+                    row-index={loopElement.collectionReferenceIndex.value}
                     combobox-config={collectionVariableComboboxConfig}
                     property-editor-element-type={loopElement.elementType}
                     element-config={collectionVariableElementConfig}
@@ -51,6 +52,7 @@
                 class = "test-loop-variable"
                 value={loopVariable}
                 error-message={loopElement.assignNextValueToReference.error}
+                row-index={loopElement.assignNextValueToReferenceIndex.value}
                 combobox-config={loopVariableComboboxConfig}
                 property-editor-element-type={loopElement.elementType}
                 element-config={loopVariableElementConfig}

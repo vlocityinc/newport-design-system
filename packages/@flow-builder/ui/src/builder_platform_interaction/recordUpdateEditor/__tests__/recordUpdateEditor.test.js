@@ -45,6 +45,7 @@ const defaultRecordUpdateElement = () => {
         name : { value: '', error: null },
         numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
         inputReference : { value: '', error: null},
+        inputReferenceIndex: { value: 'guid', error: null},
         object: { value: '', error: null},
         filters: [],
         inputAssignments: []
@@ -64,6 +65,7 @@ const recordUpdateElementWithSObject = () => {
         name : {value: 'testRecord', error: null},
         numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
         inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
+        inputReferenceIndex: { value: 'guid', error: null},
         object : {value: null, error: null},
     };
 };
@@ -79,6 +81,7 @@ const recordUpdateElementWithFields = () => {
         locationY : 227,
         name : {value: 'testRecordFields', error: null},
         numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
+        inputReferenceIndex: { value: 'guid', error: null},
         inputAssignments : [{
             leftHandSide: {value: "Account.BillingCountry", error: null},
             rightHandSide: {value: "myCountry", error: null},

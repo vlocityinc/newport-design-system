@@ -14,8 +14,8 @@ const validateAssignments = () => ValidationRules.validateExpressionWith2Propert
  * Validate the inputReference item.
  * @return {function} the function to be called with each filter item to return the array of rules.
  */
-const validateInputReference = () => {
-    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined];
+const validateInputReference = (inputReferenceIndex) => {
+    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.validateResourcePicker(inputReferenceIndex)];
 };
 
 export const recordCreateValidation = new Validation();
@@ -29,7 +29,7 @@ export const recordCreateValidation = new Validation();
  * @param {string} wayToStoreFields can be sObjectVariable or separateVariables
  * @return {Object} the overridden rules
  */
-export const getRules = ({numberRecordsToStore, object, inputAssignments}, wayToStoreFields) => {
+export const getRules = ({numberRecordsToStore, object, inputAssignments, inputReferenceIndex}, wayToStoreFields) => {
     const overriddenRules = Object.assign({}, recordCreateValidation.finalizedRules);
     // case where a sObject has been selected
     if (getValueFromHydratedItem(numberRecordsToStore) ===  NUMBER_RECORDS_TO_STORE.FIRST_RECORD && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
@@ -40,7 +40,7 @@ export const getRules = ({numberRecordsToStore, object, inputAssignments}, wayTo
             }
         }
     } else {
-        overriddenRules.inputReference = validateInputReference();
+        overriddenRules.inputReference = validateInputReference(inputReferenceIndex);
     }
 
     return overriddenRules;

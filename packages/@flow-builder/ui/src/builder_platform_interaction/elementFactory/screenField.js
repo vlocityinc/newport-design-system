@@ -14,6 +14,7 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./variable";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createValidationRuleObject } from "./base/baseValidationInput";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -27,6 +28,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         helpText = '',
         defaultValue,
         defaultValueDataType,
+        defaultValueIndex = generateGuid(),
         defaultSelectedChoiceReference
     } = screenField;
     let {
@@ -94,6 +96,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             dataType,
             defaultValue,
             defaultValueDataType,
+            defaultValueIndex,
             validationRule,
             extensionName,
             fieldType,

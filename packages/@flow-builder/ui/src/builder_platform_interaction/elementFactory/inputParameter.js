@@ -1,11 +1,12 @@
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
 import { createParameterListRowItem } from './base/baseList';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 export const VALUE_PROPERTY_NAME = 'value';
 export const VALUE_DATA_TYPE_PROPERTY_NAME = getDataTypeKey(VALUE_PROPERTY_NAME);
 
 export function createInputParameter(inputParameter = {}) {
-    const { rowIndex, name, value, valueDataType } = inputParameter;
+    const { rowIndex, name, value, valueDataType, valueIndex = generateGuid() } = inputParameter;
 
     let valueFerov;
     if (!valueDataType) {
@@ -15,7 +16,8 @@ export function createInputParameter(inputParameter = {}) {
         rowIndex,
         name,
         value,
-        valueDataType
+        valueDataType,
+        valueIndex
     }, valueFerov);
     return createParameterListRowItem(newInputParameter);
 }

@@ -3,6 +3,7 @@ import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { baseResource, baseElementsArrayToMap } from "./base/baseElement";
 import { baseResourceMetadataObject } from "./base/baseMetadata";
 import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const elementType = ELEMENT_TYPE.VARIABLE;
 export const DEFAULT_VALUE_PROPERTY = 'defaultValue';
@@ -25,7 +26,7 @@ export function createVariable(variable = {}) {
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
     }
-    const { defaultValue = null, defaultValueDataType = null } = valueFerov || variable;
+    const { defaultValue = null, defaultValueDataType = null, defaultValueIndex = generateGuid() } = valueFerov || variable;
     Object.assign(newVariable, {
         elementType,
         isCollection,
@@ -36,6 +37,7 @@ export function createVariable(variable = {}) {
         scale,
         defaultValue,
         defaultValueDataType,
+        defaultValueIndex
     });
     return newVariable;
 }

@@ -40,7 +40,7 @@ const absoluteTimeRules = () => {
             const ipRules = {};
 
             if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME) {
-                ipRules.value = [ValidationRules.shouldNotBeBlank];
+                ipRules.value = [ValidationRules.shouldNotBeBlank, ValidationRules.validateResourcePicker(inputParameter.rowIndex)];
             } else if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
                 ipRules.value = [shouldBeHoursDaysOrBlank];
             }
@@ -56,13 +56,16 @@ const directTimeRules = () => {
             const requiredParameterNames = [
                 WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT,
                 WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
-                WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID,
             ];
 
             const ipRules = {};
 
             if (requiredParameterNames.includes(inputParameter.name.value)) {
                 ipRules.value = [ValidationRules.shouldNotBeBlank];
+            }
+
+            if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID) {
+                ipRules.value = [ValidationRules.shouldNotBeBlank, ValidationRules.validateResourcePicker(inputParameter.rowIndex)];
             }
 
             if (inputParameter.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {

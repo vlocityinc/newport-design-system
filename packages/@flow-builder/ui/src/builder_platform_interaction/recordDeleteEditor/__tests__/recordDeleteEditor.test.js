@@ -33,6 +33,7 @@ const defaultRecordDeleteElement = () => ({
         label : { value: '', error: null },
         name : { value: '', error: null },
         inputReference : { value: '', error: null},
+        inputReferenceIndex : { value: 'guid', error: null},
         object: { value: '', error: null},
         filters: []
 });
@@ -47,6 +48,7 @@ const recordDeleteElementWithSObject = () => ({
         locationY : 227,
         name : {value: 'record_delete_editor_with_sobject', error: null},
         inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
+        inputReferenceIndex : { value: 'guid', error: null},
         filters: [],
         object : {value: '', error: null}
 });
@@ -62,6 +64,7 @@ const recordDeleteElementWithFields = () => ({
         name : {value: 'record_delete_editor_with_fields', error: null},
         filters: [],
         inputReference : {value: '', error: null},
+        inputReferenceIndex : { value: 'guid', error: null},
         object : {value: 'account', error: null}
 });
 

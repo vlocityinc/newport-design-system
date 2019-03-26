@@ -12,6 +12,7 @@ import { NUMBER_RECORDS_TO_STORE,
     RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { createRecordFilters, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections  } from './base/baseRecordElement';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
@@ -26,7 +27,7 @@ function getNumberRecordsToStore(inputReference, object) {
 
 export function createRecordUpdate(recordUpdate = {}) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
-    const { inputReference = '', object = '' } = recordUpdate;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '' } = recordUpdate;
     let { filters, inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordUpdate;
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
@@ -43,6 +44,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     const recordUpdateObject = Object.assign(newRecordUpdate, {
         inputReference,
+        inputReferenceIndex,
         maxConnections,
         availableConnections,
         elementType,

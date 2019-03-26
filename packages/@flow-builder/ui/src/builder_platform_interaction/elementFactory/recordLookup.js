@@ -54,6 +54,7 @@ export function createRecordLookup(recordLookup = {}) {
     const {
         object = '',
         outputReference,
+        outputReferenceIndex = generateGuid(),
         assignNullValuesIfNoRecordsFound = false,
         sortOrder = SORT_ORDER.NOT_SORTED,
         sortField = ''
@@ -84,6 +85,7 @@ export function createRecordLookup(recordLookup = {}) {
             availableConnections,
             elementType,
             outputReference,
+            outputReferenceIndex,
             dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         });
     }

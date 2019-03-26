@@ -28,6 +28,7 @@ export default class ScreenPropertyField extends LightningElement {
     @api disabled = false;
     @api listIndex;
     @api listChoices;
+    @api rowIndex;
 
     @api hideTopPadding = false;
 

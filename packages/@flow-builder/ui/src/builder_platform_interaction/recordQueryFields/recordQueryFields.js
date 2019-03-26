@@ -31,6 +31,13 @@ export default class RecordQueryFields extends LightningElement {
     resourceDisplayText;
 
     /**
+     * Unique guid for the output reference picker
+     * @type {String}
+     */
+    @api
+    outputReferenceIndex;
+
+    /**
      * @param {String} entityName the selected entity name (from select object combobox)
      */
     set recordEntityName(entityName) {

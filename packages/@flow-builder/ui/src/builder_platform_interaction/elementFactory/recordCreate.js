@@ -16,13 +16,14 @@ import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEdit
 import { getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections, createEmptyAssignmentMetadata }  from "./base/baseRecordElement";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
 
 export function createRecordCreate(recordCreate = {}) {
     const newRecordCreate = baseCanvasElement(recordCreate);
-    const { inputReference = '', object = '', assignRecordIdToReference = '' } = recordCreate;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', assignRecordIdToReference = '' } = recordCreate;
     let { inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordCreate;
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
@@ -37,6 +38,7 @@ export function createRecordCreate(recordCreate = {}) {
             inputAssignments,
             numberRecordsToStore,
             inputReference,
+            inputReferenceIndex,
             availableConnections,
             maxConnections,
             elementType,
@@ -58,6 +60,7 @@ export function createRecordCreate(recordCreate = {}) {
             object,
             numberRecordsToStore,
             inputReference,
+            inputReferenceIndex,
             availableConnections,
             maxConnections,
             elementType,

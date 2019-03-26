@@ -1,7 +1,7 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { choiceValidation } from './choiceValidation';
+import { getRules, choiceValidation } from './choiceValidation';
 
 const dataTypeChanged = (state, action) => {
     const value = action.payload.value;
@@ -34,7 +34,7 @@ export const choiceReducer = (choice, action) => {
         case PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE:
             return dataTypeChanged(choice, action);
         case VALIDATE_ALL:
-            return choiceValidation.validateAll(choice);
+            return choiceValidation.validateAll(choice, getRules(choice));
         default: return choice;
     }
 };

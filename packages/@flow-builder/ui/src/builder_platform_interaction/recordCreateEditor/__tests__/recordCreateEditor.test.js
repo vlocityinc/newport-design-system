@@ -61,6 +61,7 @@ const recordCreateElementWithSObject = {
     locationY : 227,
     name : {value: 'testRecord', error: null},
     inputReference : {value: store.accountSObjectVariableGuid, error: null},
+    inputReferenceIndex : {value: 'guid', error: null},
     inputAssignments : [],
     numberRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
     object : {value: '', error: null}
@@ -76,6 +77,7 @@ const recordCreateElementWithSObjectCollection = {
     locationY : 227,
     name : {value: 'testRecord', error: null},
     inputReference : {value: store.accountSObjectCollectionVariableGuid, error: null},
+    inputReferenceIndex : {value: 'guid', error: null},
     inputAssignments : [],
     numberRecordsToStore : NUMBER_RECORDS_TO_STORE.ALL_RECORDS,
     object : {value: '', error: null}
@@ -91,6 +93,7 @@ const recordCreateElementWithFields = () => ({
     locationY : 227,
     name : {value: 'testRecordFields', error: null},
     inputReference : {value: '', error: null},
+    inputReferenceIndex : {value: 'guid', error: null},
     numberRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
     inputAssignments : [{
         leftHandSide: {value: "Account.BillingCountry", error: null},

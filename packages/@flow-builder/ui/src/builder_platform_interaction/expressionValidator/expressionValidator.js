@@ -1,5 +1,6 @@
-// This gets initialized whenever a property editor is created and cleared on close.
+// These gets initialized whenever a property editor is created and cleared on close.
 let expressions = {};
+let resourcePickers = {};
 
 /**
  * Save the expression to be accessed later
@@ -7,6 +8,33 @@ let expressions = {};
  */
 export const saveExpression = (expression) => {
     expressions[expression.rowIndex] = expression;
+};
+
+/**
+ * Save the resource picker to be accessed later
+ * @param {BaseResourcePicker} resourcePicker the resourcePicker to be saved
+ */
+export const saveResourcePicker = (resourcePicker) => {
+    const index = resourcePicker.rowIndex;
+    if (index) {
+        resourcePickers[index.value ? index.value : index] = resourcePicker;
+    }
+};
+
+/**
+ * Validate the picker
+ * @param {String} rowIndex The index(guid) associated with the picker
+ * @returns {String} the error message or null
+ */
+export const validatePicker = (rowIndex) => {
+    if (rowIndex) {
+        const index = rowIndex.value ? rowIndex.value : rowIndex;
+        if (resourcePickers[index]) {
+            const combobox = resourcePickers[index].template.querySelector('builder_platform_interaction-combobox');
+            return combobox.validate();
+        }
+    }
+    return null;
 };
 
 /**
@@ -34,4 +62,5 @@ export const validateRHS = (rowIndex) => {
  */
 export const clearExpressions = () => {
     expressions = {};
+    resourcePickers = {};
 };
