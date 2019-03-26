@@ -42,4 +42,5 @@ export default class LightningInput extends LightningElement {
 
     @api setCustomValidity = jest.fn();
     @api showHelpMessageIfInvalid = jest.fn();
+    @api validity = {};
 }

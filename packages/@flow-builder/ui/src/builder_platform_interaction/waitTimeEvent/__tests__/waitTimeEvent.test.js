@@ -244,11 +244,84 @@ describe('waitTimeEvent', () => {
             window.removeEventListener(UpdateParameterItemEvent.EVENT_NAME, updateParameterSpy);
         });
 
+        describe('direct record time custom validity', () => {
+            let value;
+            beforeEach(() => {
+                value = {
+                    value: 'someValue',
+                    error: 'someError',
+                };
+            });
+            it('does not set an error on initial render', () => {
+                waitTimeEvent = createComponentUnderTest(props);
+                return Promise.resolve().then(() => {
+                    const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                    expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
+                });
+            });
+            it('sets an error if one is present on record name field', () => {
+                value.error = 'someError';
+                waitTimeEvent.resumeTimeParameters = [{
+                    name: directRecordSalesforceObject,
+                    value,
+                }];
+
+                return Promise.resolve().then(() => {
+                    const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                    expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith(value.error);
+                });
+            });
+
+            it('sets an error if one is present on record date field', () => {
+                value.error = 'someError';
+
+                waitTimeEvent.resumeTimeParameters = [{
+                    name: directRecordBaseTime,
+                    value,
+                }];
+
+                return Promise.resolve().then(() => {
+                    const dateField = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+                    expect(dateField.setCustomValidity).toHaveBeenCalledWith(value.error);
+                });
+            });
+
+            it('is set to an empty string if no error present and element was previously in error state', () => {
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                salesforceObject.validity = { customError: true };
+                value.error = null;
+
+                waitTimeEvent.resumeTimeParameters = [{
+                    name: directRecordSalesforceObject,
+                    value,
+                }];
+
+                return Promise.resolve().then(() => {
+                    expect(salesforceObject.setCustomValidity).toHaveBeenCalledWith('');
+                });
+            });
+
+            it('does not set an error if one is not present and element was previously in valid state', () => {
+                const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+                salesforceObject.validity = { customError: false };
+                value.error = null;
+
+                waitTimeEvent.resumeTimeParameters = [{
+                    name: directRecordSalesforceObject,
+                    value,
+                }];
+
+                return Promise.resolve().then(() => {
+                    expect(salesforceObject.setCustomValidity).not.toHaveBeenCalled();
+                });
+            });
+        });
+
         it('fires UpdateParameterItemEvent on salesforceObject focus out', () => {
             const focusOut = new CustomEvent('focusout');
 
-            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
-            offsetUnit.dispatchEvent(focusOut);
+            const salesforceObject = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
+            salesforceObject.dispatchEvent(focusOut);
 
             return Promise.resolve().then(() => {
                 expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
@@ -264,8 +337,8 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on basetime focus out', () => {
             const focusOut = new CustomEvent('focusout');
 
-            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
-            offsetUnit.dispatchEvent(focusOut);
+            const baseTime = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
+            baseTime.dispatchEvent(focusOut);
 
             return Promise.resolve().then(() => {
                 expect(updateParameterSpy.mock.calls[0][0].type).toEqual(UpdateParameterItemEvent.EVENT_NAME);
@@ -284,7 +357,7 @@ describe('waitTimeEvent', () => {
             const mockItem = { value: 'newRecordId', displayText: 'newRecordId' };
             const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
 
-            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             picker.dispatchEvent(comboboxStateChanged);
 
             return Promise.resolve().then(() => {

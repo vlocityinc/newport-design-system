@@ -78,18 +78,7 @@ export default class WaitTimeEvent extends LightningElement {
         this.resumeTimeParametersArray = resumeTimeParameters;
         if (resumeTimeParameters) {
             this.resumeTimeParametersMap = inputParameterArrayToMap(resumeTimeParameters);
-
-            const salesforceObjectInput = this.template.querySelector(SELECTORS.SALESFORCE_OBJECT_INPUT);
-            this.setInputErrorMessage(salesforceObjectInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT));
-
-            const directBaseTimeInput = this.template.querySelector(SELECTORS.DIRECT_RECORD_BASE_TIME_INPUT);
-            this.setInputErrorMessage(directBaseTimeInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME));
-
-            const offsetNumberInput = this.template.querySelector(SELECTORS.OFFSET_NUMBER);
-            this.setInputErrorMessage(offsetNumberInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER));
-
-            const offsetUnitInput = this.template.querySelector(SELECTORS.OFFSET_UNIT);
-            this.setInputErrorMessage(offsetUnitInput, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT));
+            this.shouldSetResumeTimeErrors = true;
         }
     }
 
@@ -387,17 +376,17 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     /** Sets the CustomValidity if there is a valid error message.
-     * @param {Object} element - the input component
+     * @param {String} selector - the selector of the input component
      * @param {Object} error - the error
      */
-    setInputErrorMessage(element, error) {
+    setInputErrorMessage(selector, error) {
+        const element = this.template.querySelector(selector);
         if (element) {
-            if (error) {
-                element.setCustomValidity(error);
-            } else {
-                element.setCustomValidity('');
+            const shouldReportValidity = error || element.validity.customError;
+            if (shouldReportValidity) {
+                element.setCustomValidity(error || '');
+                element.showHelpMessageIfInvalid();
             }
-            element.showHelpMessageIfInvalid();
         }
     }
 
@@ -410,6 +399,14 @@ export default class WaitTimeEvent extends LightningElement {
         if (this.absoluteBaseTime && (this.absoluteBaseTime !== '' || this.absoluteBaseTimeErrorMessage)) {
             const absoluteBaseTimeInput = this.template.querySelector(SELECTORS.ABSOLUTE_BASE_TIME_INPUT);
             absoluteBaseTimeInput.setCustomValidity(this.absoluteBaseTimeErrorMessage || '');
+        }
+        if (this.shouldSetResumeTimeErrors) {
+            this.setInputErrorMessage(SELECTORS.SALESFORCE_OBJECT_INPUT, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.SALESFORCE_OBJECT));
+            this.setInputErrorMessage(SELECTORS.DIRECT_RECORD_BASE_TIME_INPUT, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME));
+            this.setInputErrorMessage(SELECTORS.OFFSET_NUMBER, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER));
+            this.setInputErrorMessage(SELECTORS.OFFSET_UNIT, this.getResumeTimeParameterError(WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT));
+
+            this.shouldSetResumeTimeErrors = false;
         }
     }
 }
