@@ -8,6 +8,7 @@ import {
     choiceSelector,
 } from "builder_platform_interaction/selectors";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { Store } from "builder_platform_interaction/storeLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
 import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from "builder_platform_interaction/dataTypeLib";
@@ -115,7 +116,7 @@ export function isElementAllowed(allowedParamTypes, element, showComplexObjectsF
 
     return !allowedParamTypes
         || isElementMatchForProperty(getDataType(element))
-        || isElementMatchForProperty(element[PARAM_PROPERTY.ELEMENT_TYPE])
+        || isElementMatchForProperty(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]])
         || isElementMatchForProperty(element[SUBTYPE])
         || (showComplexObjectsForFields && (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) && isComplexType(element.dataType) && !element.isCollection);
 }

@@ -49,6 +49,7 @@
  *      ...
  *  }
  */
+import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 let rulesInstance = {};
 let outputRules = [];
@@ -236,8 +237,9 @@ export const getOutputRules = () => {
 
 export const getRulesForElementType = (ruleType, elementType) => {
     let rules = rulesInstance[ruleType];
-    if (rulesInstance[elementType] && rulesInstance[elementType][ruleType]) {
-        rules = rules.concat(rulesInstance[elementType][ruleType]);
+    const ruleElementType = UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementType] || elementType;
+    if (rulesInstance[ruleElementType] && rulesInstance[ruleElementType][ruleType]) {
+        rules = rules.concat(rulesInstance[ruleElementType][ruleType]);
     }
     return rules;
 };
