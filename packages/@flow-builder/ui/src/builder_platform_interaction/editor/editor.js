@@ -22,9 +22,10 @@ import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl,
     updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings,
     flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, getDuplicateElementGuidMaps,
-    getConnectorToDuplicate, highlightCanvasElement, getSelectedTemplateAndClosePanel, closeModalAndNavigateTo, createStartElement } from './editorUtils';
+    getConnectorToDuplicate, highlightCanvasElement, getSelectedTemplate, setErrorMessage, closeModalAndNavigateTo, createStartElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 import { getProcessTypes, setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { FETCH_FLOW_MODAL_DATA_ERROR_TYPE } from 'builder_platform_interaction/newFlowModalUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -642,13 +643,25 @@ export default class Editor extends LightningElement {
         unsubscribeStore();
     }
 
-    createFlowFromTemplate = (versionIdOrEnum) => {
-        fetch(SERVER_ACTION_TYPE.GET_TEMPLATE_DATA, this.getTemplateDataCallback, {id: versionIdOrEnum}, {background: true});
+    /**
+     * Create the flow from selected template
+     * @param versionIdOrEnum the selected template id
+     * @param modal the flow modal
+     */
+    createFlowFromTemplate = (versionIdOrEnum, modal) => {
+        fetch(SERVER_ACTION_TYPE.GET_TEMPLATE_DATA, this.getTemplateDataCallback(modal), {id: versionIdOrEnum}, {disableErrorModal: true});
     };
 
-    getTemplateDataCallback = ({data, error}) => {
+    /**
+     * Callback to be called when getting the template data
+     * @param modal the flow modal
+     */
+    getTemplateDataCallback = (modal) => ({data, error}) => {
         if (error) {
-            // Handle error case here if something is needed beyond our automatic generic error modal popup
+            // update error message to show in flow modal
+            this.isFlowServerCallInProgress = false;
+            this.spinners.showFlowMetadataSpinner = false;
+            setErrorMessage(modal, FETCH_FLOW_MODAL_DATA_ERROR_TYPE.TEMPLATE_DATA_ERROR, error[0].message);
         } else {
             this.getFlowCallback({data, error});
             storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromTemplate({
@@ -659,6 +672,7 @@ export default class Editor extends LightningElement {
                 lastModifiedDate: null,
                 lastModifiedBy: null,
                 name: ""}));
+            modal.close();
         }
     };
 
@@ -671,24 +685,29 @@ export default class Editor extends LightningElement {
 
     /**
      * Callback passed when user clicks on Create button from new flow modal
+     * @param modal the flow modal
      */
-    createFlowFromTemplateCallback = (panel) => {
-        const selectedTemplate = getSelectedTemplateAndClosePanel(panel);
+    createFlowFromTemplateCallback = (modal) => {
+        const selectedTemplate = getSelectedTemplate(modal);
         if (selectedTemplate.templateId) {
             // create the flow from the template
-            this.createFlowFromTemplate(selectedTemplate.templateId);
+            this.createFlowFromTemplate(selectedTemplate.templateId, modal);
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
-        } else if (selectedTemplate.processType) {
-            // create the empty flow for the selected process type
-            this.spinners.showFlowMetadataSpinner = true;
-            this.createFlowFromProcessType(selectedTemplate.processType);
-            this.spinners.showFlowMetadataSpinner = false;
+        } else {
+            if (selectedTemplate.processType) {
+                // create the empty flow for the selected process type
+                this.spinners.showFlowMetadataSpinner = true;
+                this.createFlowFromProcessType(selectedTemplate.processType);
+                this.spinners.showFlowMetadataSpinner = false;
+            }
+            modal.close();
         }
     };
 
     /**
      * Create the blank flow from the process type
+     * @param processType the selected process type
      */
     createFlowFromProcessType = (processType) => {
         storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromProcessType({processType}));

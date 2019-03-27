@@ -14,6 +14,7 @@ import { setApexClasses } from "builder_platform_interaction/apexTypeLib";
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { getFullErrorMessage } from 'builder_platform_interaction/newFlowModalUtils';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -452,14 +453,25 @@ export const closeModalAndNavigateTo = (navigateUrl) => {
 * @property {String} [processType]
 */
 /**
-* Get the selected template and close the panel
+* Get the selected template
+* @param modal the flow modal
 * @return {SelectedTemplate} selectedTemplate
 */
-export const getSelectedTemplateAndClosePanel = (panel) => {
-   const templatesModalBody = panel.get('v.body')[0];
+export const getSelectedTemplate = (modal) => {
+   const templatesModalBody = modal.get('v.body')[0];
    const isProcessType = templatesModalBody.get('v.isProcessType');
    const processTypeOrTemplateId = templatesModalBody.get('v.selectedTemplate');
-   panel.close();
    const processTypeOrTemplateProp = isProcessType ? 'processType' : 'templateId';
    return {[processTypeOrTemplateProp]: processTypeOrTemplateId};
 };
+
+/**
+* Set the error message in the flow modal
+* @param modal the flow modal
+* @param message the error message
+* @param type the error message type
+*/
+export const setErrorMessage = (modal, type, message) => {
+    const templatesModalBody = modal.get('v.body')[0];
+    templatesModalBody.set('v.errorMessage', getFullErrorMessage({type, message}));
+ };

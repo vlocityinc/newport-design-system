@@ -12,6 +12,7 @@ export default class NewFlowModalBody extends LightningElement {
             // true if the featured (process type) is selected
             isProcessType: false,
             processTypesFetched: false,
+            errorMessage: '',
     };
 
     processTypes = [];
@@ -26,6 +27,9 @@ export default class NewFlowModalBody extends LightningElement {
         });
     }
 
+    set isProcessType(value) {
+        this.state.isProcessType = value || false;
+    }
     /**
      * @returns true if the selected template is the process type (in featured section)
      */
@@ -34,6 +38,9 @@ export default class NewFlowModalBody extends LightningElement {
         return this.state.isProcessType;
     }
 
+    set selectedTemplate(value) {
+        this.state.selectedTemplate = value || '';
+    }
     /**
      * @returns the selected template
      */
@@ -42,6 +49,9 @@ export default class NewFlowModalBody extends LightningElement {
         return this.state.selectedTemplate;
     }
 
+    set selectedProcessType(value) {
+        this.state.selectedProcessType = value || ALL_PROCESS_TYPE.name;
+    }
     /**
      * @returns the selected process type
      */
@@ -51,12 +61,27 @@ export default class NewFlowModalBody extends LightningElement {
     }
 
     /**
+     * set the error message
+     *
+     * @param {String} value the error message
+     */
+    set errorMessage(value) {
+        this.state.errorMessage = value || '';
+    }
+
+    @api
+    get errorMessage() {
+        return this.state.errorMessage;
+    }
+
+    /**
      * Handler for process type selection
      * @param {Object} event - selected process type event
      */
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.state.selectedProcessType = event.detail.name;
+        this.resetErrorTypeAndMessage();
     }
 
     /**
@@ -66,10 +91,19 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectTemplate(event) {
         event.stopPropagation();
         this.updateSelectedTemplate(event.detail.isProcessType, event.detail.id);
+        this.resetErrorTypeAndMessage();
     }
 
     updateSelectedTemplate(isProcessType, selectedTemplate) {
         this.state.selectedTemplate = selectedTemplate;
         this.state.isProcessType = isProcessType;
+    }
+
+    handleCloseErrorMessage() {
+        this.resetErrorTypeAndMessage();
+    }
+
+    resetErrorTypeAndMessage() {
+        this.state.errorMessage = '';
     }
 }
