@@ -27,7 +27,7 @@ import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SY
 import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
-const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
+const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT, } = PARAM_PROPERTY;
 
 const isPicklistFieldAllowed = (allowedTypes) => {
     // we need a param to represent picklist values so we can check if they are allowed based on the given param types
@@ -118,7 +118,10 @@ export function isElementAllowed(allowedParamTypes, element, showComplexObjectsF
         || isElementMatchForProperty(getDataType(element))
         || isElementMatchForProperty(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]])
         || isElementMatchForProperty(element[SUBTYPE])
-        || (showComplexObjectsForFields && (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) && isComplexType(element.dataType) && !element.isCollection);
+        || (showComplexObjectsForFields &&
+            (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT])
+            && isComplexType(element.dataType)
+            && !element.isCollection);
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';

@@ -13,6 +13,7 @@ export const dateParam = {
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const datetimeParam = {
@@ -21,6 +22,7 @@ export const datetimeParam = {
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const dateCollectionParam = {
@@ -29,6 +31,7 @@ export const dateCollectionParam = {
     collection:true,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const stringParam = {
@@ -37,6 +40,7 @@ export const stringParam = {
     collection:false,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const numberParamMustBeField = {
@@ -45,6 +49,7 @@ export const numberParamMustBeField = {
     collection:false,
     canBeSobjectField:'MustBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 export const numberParamCannotBeField = {
     paramType:'Data',
@@ -52,6 +57,7 @@ export const numberParamCannotBeField = {
     collection:false,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const numberParamCanBeField = {
@@ -60,6 +66,7 @@ export const numberParamCanBeField = {
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const stageCollectionParam = {
@@ -68,6 +75,7 @@ export const stageCollectionParam = {
     collection:true,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
     cannotBeElements: allElements,
 };
 
@@ -77,6 +85,7 @@ export const stageParam = {
     collection:false,
     canBeSobjectField:'CannotBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
     cannotBeElements: allElements,
 };
 
@@ -86,6 +95,7 @@ export const booleanParam = {
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const sobjectParam = {
@@ -94,6 +104,7 @@ export const sobjectParam = {
     collection: false,
     canBeSobjectField: 'CanBe',
     canBeSystemVariable: 'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const apexParam = {
@@ -102,6 +113,7 @@ export const apexParam = {
     collection: false,
     canBeSobjectField: 'CannotBe',
     canBeSystemVariable: 'CannotBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const accountParam = {
@@ -123,6 +135,7 @@ export const dateParamMissingCollection = {
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };
 
 export const dateParamMustBeElements = {
@@ -130,6 +143,7 @@ export const dateParamMustBeElements = {
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
     mustBeElements: allElements,
 };
 
@@ -138,6 +152,7 @@ export const dateParamCannotBeElements = {
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
     cannotBeElements: allElements,
 };
 
@@ -146,4 +161,5 @@ export const dateParamNoElementsList = {
     dataType: 'Date',
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CanBe',
 };

@@ -6,12 +6,13 @@ const apexFieldsForClass = {};
  * @param {Object} property  inner property descriptor
  * @return {Object}          object with properties named like sobject field properties
  */
-const mutateProperty = (property) => {
+const mutateProperty = (apexClassName, property) => {
     return {
         apiName: property.name,
         dataType: property.type,
         subtype: property.objectType || property.apexClass,
         isCollection: property.isCollection,
+        apexClass: apexClassName,
     };
 };
 
@@ -56,7 +57,7 @@ export const cachePropertiesForClass = (name) => {
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
         apexClass.properties.records.forEach((prop) => {
-            apexFieldsForClass[name][prop.name] = mutateProperty(prop);
+            apexFieldsForClass[name][prop.name] = mutateProperty(name, prop);
         });
     }
 };

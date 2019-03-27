@@ -81,6 +81,7 @@ export const PARAM_PROPERTY = {
     MUST_BE_ELEMENTS: 'mustBeElements',
     SOBJECT_FIELD_REQUIREMENT: 'canBeSobjectField',
     SYSTEM_VARIABLE_REQUIREMENT: 'canBeSystemVariable',
+    APEX_PROPERTY_REQUIREMENT: 'canBeApexProperty',
     ELEMENT_TYPE: 'elementType',
 };
 

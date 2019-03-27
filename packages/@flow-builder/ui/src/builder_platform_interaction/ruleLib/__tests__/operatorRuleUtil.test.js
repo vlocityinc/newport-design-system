@@ -19,7 +19,7 @@ const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
-const { IS_COLLECTION, SYSTEM_VARIABLE_REQUIREMENT, SOBJECT_FIELD_REQUIREMENT } = PARAM_PROPERTY;
+const { IS_COLLECTION, SYSTEM_VARIABLE_REQUIREMENT, SOBJECT_FIELD_REQUIREMENT, APEX_PROPERTY_REQUIREMENT } = PARAM_PROPERTY;
 const mockAccountField = {
     "sobjectName":"Account",
     "dataType":"Number",
@@ -138,7 +138,7 @@ describe('Operator Rule Util', () => {
 
         it('should remove duplicates from list of left hand side types', () => {
             const rules = getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, COMPARISON);
-            expect(Object.keys(rules)).toHaveLength(3); // 1 for the dataType, 2 for canBeSobjectField & canBeSystemVariable
+            expect(Object.keys(rules)).toHaveLength(4); // 1 for the dataType, 3 for canBeSobjectField, canBeSystemVariable, canBeApexProperty
         });
 
         it('does not throw an error when given an undefined rule type', () => {
@@ -234,23 +234,25 @@ describe('Operator Rule Util', () => {
 
         it('should return an object with data type to param type mapping', () => {
             const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[dateVariableGuid], ASSIGNMENT_OPERATOR, mockRules, ASSIGNMENT);
-            expect(Object.keys(rhsTypes)).toHaveLength(4);
+            expect(Object.keys(rhsTypes)).toHaveLength(5);
             expect(rhsTypes).toMatchObject({
                 'Date': expect.any(Array),
                 'DateTime': expect.any(Array),
                 [SOBJECT_FIELD_REQUIREMENT]: true,
                 [SYSTEM_VARIABLE_REQUIREMENT]: true,
+                [APEX_PROPERTY_REQUIREMENT]: true,
             });
         });
         it('should return an object with data type to param type mapping for all rules that match', () => {
             const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[stageGuid], EQUALS_OPERATOR, mockRules, COMPARISON);
-            expect(Object.keys(rhsTypes)).toHaveLength(4);
+            expect(Object.keys(rhsTypes)).toHaveLength(5);
             // the Stage param & DateTime param come from two different rules that match the LHS & operator pair
             expect(rhsTypes).toMatchObject({
                 'STAGE': expect.any(Array),
                 'DateTime': expect.any(Array),
                 [SOBJECT_FIELD_REQUIREMENT]: false,
                 [SYSTEM_VARIABLE_REQUIREMENT]: true,
+                [APEX_PROPERTY_REQUIREMENT]: true,
             });
         });
 

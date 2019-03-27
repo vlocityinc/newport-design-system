@@ -8,6 +8,7 @@ export const mockRules =
             collection:false,
             canBeSobjectField:'CanBe',
             canBeSystemVariable:'CanBe',
+            canBeApexProperty:'CanBe',
             cannotBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD']
         },
         operator:'Assign',
@@ -18,6 +19,7 @@ export const mockRules =
                 collection:false,
                 canBeSobjectField:'CanBe',
                 canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             },
             {
                 paramType:'Data',
@@ -25,6 +27,7 @@ export const mockRules =
                 collection:false,
                 canBeSobjectField:'CanBe',
                 canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ],
     },
@@ -36,6 +39,7 @@ export const mockRules =
             collection:false,
             canBeSobjectField:'CanBe',
             canBeSystemVariable:'CanBe',
+            canBeApexProperty:'CanBe',
             canBeElements:['VARIABLE'],
             cannotBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD']
         },
@@ -47,6 +51,7 @@ export const mockRules =
                 collection:false,
                 canBeSobjectField:'CanBe',
                 canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             },
             {
                 paramType:'Data',
@@ -54,6 +59,7 @@ export const mockRules =
                 collection:false,
                 canBeSobjectField:'CanBe',
                 canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
                 canBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
             }
         ],
@@ -66,7 +72,8 @@ export const mockRules =
             mustBeElements:['STAGE'],
             collection:true,
             canBeSobjectField:'CannotBe',
-            canBeSystemVariable:'MustBe'
+            canBeSystemVariable:'MustBe',
+            canBeApexProperty:'CanBe',
         },
         operator:'Equals',
         rhsParams:[
@@ -75,7 +82,8 @@ export const mockRules =
                 mustBeElements:['STAGE'],
                 collection:false,
                 canBeSobjectField:'CannotBe',
-                canBeSystemVariable:'CanBe'
+                canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ]
     },
@@ -86,7 +94,8 @@ export const mockRules =
             mustBeElements:['STAGE'],
             collection:false,
             canBeSobjectField:'CannotBe',
-            canBeSystemVariable:'MustBe'
+            canBeSystemVariable:'MustBe',
+            canBeApexProperty:'CanBe',
         },
         operator:'Equals',
         rhsParams:[
@@ -95,7 +104,8 @@ export const mockRules =
                 mustBeElements:['STAGE'],
                 collection:false,
                 canBeSobjectField:'CannotBe',
-                canBeSystemVariable:'CanBe'
+                canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ],
         excludeElems:['DECISION']
@@ -109,7 +119,8 @@ export const mockRules =
             mustBeElements:['STAGE'],
             collection:false,
             canBeSobjectField:'CannotBe',
-            canBeSystemVariable:'MustBe'
+            canBeSystemVariable:'MustBe',
+            canBeApexProperty:'CanBe',
         },
         operator:'Equals',
         rhsParams:[
@@ -118,7 +129,8 @@ export const mockRules =
                 dataType:'DateTime',
                 collection:false,
                 canBeSobjectField:'CannotBe',
-                canBeSystemVariable:'CanBe'
+                canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ]
     },
@@ -129,7 +141,8 @@ export const mockRules =
             dataType: 'SObject',
             collection:false,
             canBeSobjectField:'CannotBe',
-            canBeSystemVariable:'CanBe'
+            canBeSystemVariable:'CanBe',
+            canBeApexProperty:'CanBe',
         },
         operator:'Assign',
         rhsParams:[
@@ -138,7 +151,8 @@ export const mockRules =
                 dataType: 'SObject',
                 collection:false,
                 canBeSobjectField:'CannotBe',
-                canBeSystemVariable:'CanBe'
+                canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ]
     },
@@ -149,7 +163,8 @@ export const mockRules =
             mustBeElements:['STAGE'],
             collection:false,
             canBeSobjectField:'CannotBe',
-            canBeSystemVariable:'MustBe'
+            canBeSystemVariable:'MustBe',
+            canBeApexProperty:'CanBe',
         },
         operator:'Equals',
         rhsParams:[
@@ -158,7 +173,8 @@ export const mockRules =
                 mustBeElements:['STAGE'],
                 collection:false,
                 canBeSobjectField:'CannotBe',
-                canBeSystemVariable:'CanBe'
+                canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ],
     },
@@ -169,7 +185,8 @@ export const mockRules =
             collection:true,
             mustBeElements:['STAGE'],
             canBeSobjectField:'CannotBe',
-            canBeSystemVariable:'MustBe'
+            canBeSystemVariable:'MustBe',
+            canBeApexProperty:'CanBe',
         },
         operator:'Equals',
         rhsParams:[
@@ -178,7 +195,8 @@ export const mockRules =
                 dataType: 'DateTime',
                 collection:true,
                 canBeSobjectField:'CannotBe',
-                canBeSystemVariable:'CanBe'
+                canBeSystemVariable:'CanBe',
+                canBeApexProperty:'CanBe',
             }
         ],
     },
@@ -193,639 +211,130 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":["STAGE"],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
+                "null":false,
+                "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -834,54 +343,55 @@ export const mockAllRules = [
         "validationType":null,
         "left":{
             "paramType":"Data",
-            "dataType":"String",
+            "dataType":"Date",
             "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        }],
-        "includeElems":null,
-        "excludeElems":["SUBFLOW"]
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -892,24 +402,53 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -920,24 +459,53 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -948,24 +516,53 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -976,24 +573,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -1004,878 +619,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Assign"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":["STAGE"],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":["STAGE"],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CannotBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Element",
-                "dataType":null,
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":["STAGE"],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"SObject",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -1885,34 +664,43 @@ export const mockAllRules = [
         "left":{
             "paramType":"Data",
             "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"Add"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
             "canBeSobjectField":"CannotBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CannotBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"Apex",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -1923,51 +711,130 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"Add"
+            "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Picklist",
+                "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
+                "null":false,
+                "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -1978,51 +845,312 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":true
+            "null":false,
+            "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"Add"
+            "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
-                "dataType":"Multipicklist",
+                "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"MustBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":true
-            }],
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CannotBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"MustBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2033,33 +1161,88 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":false
+            "null":false,
+            "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"Subtract"
+            "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Currency",
+                "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
                 "collection":false
-            }],
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2070,33 +1253,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":false
+            "null":false,
+            "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"Subtract"
+            "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Currency",
+                "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2107,33 +1299,248 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":false
+            "null":false,
+            "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"Subtract"
+            "value":"Assign"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
                 "collection":false
-            }],
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2144,87 +1551,2526 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Stage",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Stage",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Stage",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"MustBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Assign"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Stage",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Stage",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"MustBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":["STAGE"],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":["STAGE"],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Add"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Subtract"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Subtract"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"Subtract"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"AddItem"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2235,24 +4081,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2263,42 +4127,64 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":["STAGE"],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2309,24 +4195,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2337,24 +4241,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2365,24 +4287,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2393,24 +4333,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2421,42 +4379,64 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2467,485 +4447,64 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAfterFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAfterFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAfterFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":["STAGE"],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CannotBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveAll"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2956,33 +4515,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"RemoveAll"
+            "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"SObject",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -2993,33 +4561,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"RemoveAll"
+            "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"Apex",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -3030,42 +4607,735 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"MustBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"RemoveAll"
+            "value":"RemoveAfterFirst"
         },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":["STAGE"],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveAll"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"MustBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -3076,878 +5346,171 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":["STAGE"],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemovePosition"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":["STAGE"],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveBeforeFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"AddAtStart"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":["STAGE"],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"AddAtStart"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CannotBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"AddAtStart"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"AddAtStart"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"AddAtStart"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":["STAGE"],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemovePosition"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemovePosition"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemovePosition"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemovePosition"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -3958,33 +5521,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"AddAtStart"
+            "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Currency",
+                "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -3995,51 +5556,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"AddAtStart"
+            "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Picklist",
+                "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4050,51 +5591,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"AddAtStart"
+            "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Picklist",
+                "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4105,33 +5626,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"AddAtStart"
+            "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"SObject",
+                "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4142,33 +5661,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"AddAtStart"
+            "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
-                "dataType":"Apex",
+                "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":true
-            }],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4179,42 +5696,1296 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"MustBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
-            "value":"AddAtStart"
+            "value":"RemovePosition"
         },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
         },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":["STAGE"],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveBeforeFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Boolean",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"String",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":["STAGE"],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"AddAtStart"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"MustBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4225,24 +6996,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4253,339 +7042,522 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":["STAGE"],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveFirst"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"assignment",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
-        "comparisonOperator":null,
-        "assignmentOperator":{
-            "value":"RemoveFirst"
-        },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Picklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Multipicklist",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"SObject",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Apex",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":null,
+                "dataType":null,
+                "canBeSobjectField":null,
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":null,
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":true,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"assignment",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
+            "canBeSystemVariable":"MustBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":true
+        },
+        "comparisonOperator":null,
+        "assignmentOperator":{
+            "value":"RemoveFirst"
+        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4596,24 +7568,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4624,24 +7603,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":["STAGE"],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4652,24 +7638,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4680,24 +7673,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4708,24 +7708,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4736,24 +7743,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4764,24 +7778,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4792,24 +7813,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4820,24 +7848,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4848,24 +7883,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4876,24 +7918,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"MustBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"RemoveUncommon"
         },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"MustBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -4904,114 +7953,141 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":null,
         "assignmentOperator":{
             "value":"AssignCount"
         },
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"MustBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":true
-        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"MustBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":true
+            },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"SObject",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"Apex",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
             },
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"CannotBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5022,96 +8098,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5122,33 +8221,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5159,33 +8267,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5196,33 +8313,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5233,33 +8359,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5270,24 +8405,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5298,24 +8440,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5326,24 +8475,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CannotBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CannotBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5354,87 +8510,108 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5445,224 +8622,108 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"EqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"EqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5673,24 +8734,200 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"EqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["TEXTTEMPLATE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"EqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["TEXTTEMPLATE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["ACTIONCALL"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5701,24 +8938,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["APEXPLUGIN"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5729,24 +8973,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDCREATE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5757,24 +9008,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDDELETE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5785,24 +9043,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDQUERY"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5813,24 +9078,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDUPDATE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5841,33 +9113,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CannotBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"MustBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5878,24 +9159,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5906,24 +9194,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5934,24 +9229,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5962,24 +9264,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -5990,24 +9299,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6018,24 +9334,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6046,24 +9369,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6074,24 +9404,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6102,24 +9439,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6130,24 +9474,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"MustBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"EqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6158,96 +9509,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6258,33 +9632,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6295,33 +9678,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6332,33 +9724,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6369,33 +9770,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6406,24 +9816,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6434,24 +9851,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6462,24 +9886,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CannotBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CannotBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6490,87 +9921,108 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6581,224 +10033,108 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"NotEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"NotEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"String",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6809,24 +10145,200 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["STAGE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"NotEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["TEXTTEMPLATE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"NotEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["TEXTTEMPLATE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["ACTIONCALL"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6837,24 +10349,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["APEXPLUGIN"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6865,24 +10384,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDCREATE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6893,24 +10419,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDDELETE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6921,24 +10454,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDQUERY"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6949,24 +10489,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDUPDATE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -6977,33 +10524,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CannotBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
                 "canBeSystemVariable":"MustBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":true
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7014,24 +10570,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7042,24 +10605,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7070,24 +10640,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7098,24 +10675,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7126,24 +10710,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7154,24 +10745,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Picklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7182,24 +10780,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Multipicklist",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7210,24 +10815,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7238,24 +10850,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7266,716 +10885,890 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"MustBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"NotEqualTo"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CannotBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":true
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"GreaterThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThan"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Date",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"DateTime",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Number",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Data",
+            "dataType":"Currency",
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":[],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"LessThanOrEqualTo"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":true
-        }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"GreaterThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThan"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"LessThanOrEqualTo"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Number",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"StartsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -7986,96 +11779,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"StartsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -8086,96 +11902,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"StartsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -8186,278 +12025,343 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["CHOICE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"StartsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["CHOICELOOKUP"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"StartsWith"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"StartsWith"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["CHOICELOOKUP"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"StartsWith"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["TEXTTEMPLATE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"StartsWith"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["TEXTTEMPLATE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -8468,96 +12372,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -8568,96 +12495,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -8668,96 +12618,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -8768,278 +12741,343 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["CHOICE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["CHOICELOOKUP"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"Contains"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"Contains"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["CHOICELOOKUP"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"Contains"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["TEXTTEMPLATE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"Contains"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["TEXTTEMPLATE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9050,96 +13088,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EndsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9150,96 +13211,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EndsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9250,96 +13334,119 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EndsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9350,278 +13457,108 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["CHOICE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EndsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["CHOICELOOKUP"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"EndsWith"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
-            {
-                "paramType":"Data",
-                "dataType":"Currency",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Date",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"DateTime",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Number",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Boolean",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Picklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            },
-            {
-                "paramType":"Data",
-                "dataType":"Multipicklist",
-                "canBeSobjectField":"CanBe",
-                "canBeSystemVariable":"CanBe",
-                "cannotBeElements":[],
-                "mustBeElements":[],
-                "collection":false
-            }],
-        "includeElems":null,
-        "excludeElems":null
-    },
-    {
-        "ruleType":"comparison",
-        "validationType":null,
-        "left":{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
-        "comparisonOperator":{
-            "value":"EndsWith"
-        },
-        "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["TEXTTEMPLATE"],
-            "collection":false
-        },
+        "rhsParams":[
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Currency",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Date",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"DateTime",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Boolean",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9632,33 +13569,277 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["CHOICELOOKUP"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"EndsWith"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
+            "canBeSystemVariable":"CanBe",
+            "cannotBeElements":[],
+            "mustBeElements":["TEXTTEMPLATE"],
+            "null":false,
+            "collection":false
+        },
+        "comparisonOperator":{
+            "value":"EndsWith"
+        },
+        "assignmentOperator":null,
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["TEXTTEMPLATE"],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Number",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Picklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
+            {
+                "paramType":"Data",
+                "dataType":"Multipicklist",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
+        "includeElems":null,
+        "excludeElems":null
+    },
+    {
+        "ruleType":"comparison",
+        "validationType":null,
+        "left":{
+            "paramType":"Element",
+            "dataType":null,
+            "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"StartsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9669,33 +13850,42 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"EndsWith"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9706,24 +13896,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9734,33 +13931,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9771,24 +13977,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Date",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Date",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9799,24 +14012,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"DateTime",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"DateTime",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9827,51 +14047,64 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9882,33 +14115,42 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Currency",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Currency",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Number",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9919,51 +14161,64 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -9974,24 +14229,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"SObject",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"SObject",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10002,24 +14264,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Apex",
-            "canBeSobjectField":"CannotBe",
-            "canBeSystemVariable":"CannotBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Apex",
+                "canBeSobjectField":"CannotBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CannotBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10030,33 +14299,42 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"MustBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Element",
-            "dataType":null,
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":["STAGE"],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Element",
+                "dataType":null,
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":["STAGE"],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"String",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10067,51 +14345,64 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CannotBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"Contains"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"String",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        },
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"String",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            },
             {
                 "paramType":"Data",
                 "dataType":"Multipicklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Data",
                 "dataType":"Picklist",
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":[],
+                "null":false,
                 "collection":false
             },
             {
                 "paramType":"Element",
                 "dataType":null,
                 "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
                 "canBeSystemVariable":"CanBe",
                 "cannotBeElements":[],
                 "mustBeElements":["STAGE"],
+                "null":false,
                 "collection":false
-            }],
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10122,24 +14413,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10150,24 +14448,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10178,24 +14483,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10206,24 +14518,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10234,24 +14553,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10262,24 +14588,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10290,24 +14623,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10318,24 +14658,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10346,24 +14693,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10374,24 +14728,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10402,25 +14763,32 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":["CONSTANT",
                 "CHOICELOOKUP"],
             "mustBeElements":[],
+            "null":false,
             "collection":true
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10431,24 +14799,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10459,24 +14834,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10487,24 +14869,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10515,24 +14904,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10543,24 +14939,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10571,24 +14974,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10599,24 +15009,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10627,24 +15044,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10655,24 +15079,31 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Apex",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10683,24 +15114,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["STAGE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10711,25 +15149,32 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CannotBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":["CONSTANT",
                 "CHOICELOOKUP"],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10740,25 +15185,32 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["CONSTANT",
                 "CHOICELOOKUP"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"IsNull"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":null
     },
@@ -10769,24 +15221,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["ASSIGNMENT"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10797,24 +15256,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["APEXPLUGIN"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10825,24 +15291,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["DECISION"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10853,24 +15326,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDCREATE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10881,24 +15361,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDQUERY"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10909,24 +15396,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDUPDATE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10937,24 +15431,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["RECORDDELETE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10965,24 +15466,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["SUBFLOW"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -10993,24 +15501,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["STEP"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -11021,24 +15536,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["SCREEN"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -11049,24 +15571,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["LOOP"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -11077,24 +15606,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["ACTIONCALL"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -11105,24 +15641,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["WAIT"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasVisited"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -11133,29 +15676,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"String",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11163,29 +15712,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Date",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11193,29 +15748,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"DateTime",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11223,29 +15784,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Number",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11253,29 +15820,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Currency",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11283,29 +15856,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Boolean",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11313,29 +15892,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"SObject",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11343,29 +15928,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Picklist",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11373,29 +15964,35 @@ export const mockAllRules = [
             "paramType":"Data",
             "dataType":"Multipicklist",
             "canBeSobjectField":"MustBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":[],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSet"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":null,
         "excludeElems":["RECORDDELETE",
             "RECORDQUERY",
-            "RECORDUPDATE"]
-    },
+            "RECORDUPDATE"]},
     {
         "ruleType":"comparison",
         "validationType":null,
@@ -11403,24 +16000,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["CHOICE"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSelected"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     },
@@ -11431,24 +16035,31 @@ export const mockAllRules = [
             "paramType":"Element",
             "dataType":null,
             "canBeSobjectField":"CanBe",
+            "canBeApexProperty":"CanBe",
             "canBeSystemVariable":"CanBe",
             "cannotBeElements":[],
             "mustBeElements":["CHOICELOOKUP"],
+            "null":false,
             "collection":false
         },
         "comparisonOperator":{
             "value":"WasSelected"
         },
         "assignmentOperator":null,
-        "rhsParams":[{
-            "paramType":"Data",
-            "dataType":"Boolean",
-            "canBeSobjectField":"CanBe",
-            "canBeSystemVariable":"CanBe",
-            "cannotBeElements":[],
-            "mustBeElements":[],
-            "collection":false
-        }],
+        "rhsParams":[
+            {
+                "paramType":"Data",
+                "dataType":"Boolean",
+                "canBeSobjectField":"CanBe",
+                "canBeApexProperty":"CanBe",
+                "canBeSystemVariable":"CanBe",
+                "cannotBeElements":[],
+                "mustBeElements":[],
+                "null":false,
+                "collection":false
+            }
+        ]
+        ,
         "includeElems":["DECISION"],
         "excludeElems":null
     }

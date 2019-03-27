@@ -8,11 +8,12 @@ import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { RULE_TYPE, LEFT, OPERATOR, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 const { DATA_TYPE, IS_COLLECTION, CANNOT_BE_ELEMENTS,
-    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT } = PARAM_PROPERTY;
+    MUST_BE_ELEMENTS, PARAM_TYPE_ELEMENT, PARAM_TYPE, SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT, APEX_PROPERTY_REQUIREMENT } = PARAM_PROPERTY;
 const { CAN_BE, CANNOT_BE, MUST_BE } = CONSTRAINT;
 
 const IS_SOBJECT_FIELD = 'isSObjectField';
 const IS_SYSTEM_VARIABLE = 'isSystemVariable';
+const IS_APEX_PROPERTY = 'isApexProperty';
 const ELEMENT_TYPE = 'elementType';
 
 let operatorsInstance = {};
@@ -105,15 +106,17 @@ export const elementToParam = (element) => {
     }
     // if it has sobjectName set, it's a field. Or, if this element has already been param-ified, we can just check how this field was initially set
     const isSobjectField = !!element[IS_SOBJECT_FIELD] || !!element.sobjectName;
+    const isApexProperty = !!element[IS_APEX_PROPERTY] || !!element.apexClass;
 
     return {
         [SUBTYPE]: element.subtype,
         [DATA_TYPE]: getDataType(element),
 
 
+        [IS_APEX_PROPERTY]: isApexProperty,
         [IS_SOBJECT_FIELD]: isSobjectField,
         // if it's a field, it doesn't have an elementType
-        [ELEMENT_TYPE]: isSobjectField ? undefined : getValueFromHydratedItem(element.elementType),
+        [ELEMENT_TYPE]: (isSobjectField || isApexProperty) ? undefined : getValueFromHydratedItem(element.elementType),
 
         // the param in the rules service has 'collection' but flow elements have 'isCollection'. In some scenarios,
         // an element goes through this function twice, and on the first pass it will have 'isCollection' but on the second
@@ -161,7 +164,9 @@ export const isMatch = (ruleParam, element) => {
        if all of the above is ok, make sure that the rule param's sObjectField requirement is respected */
     let matches = ruleParam[PARAM_TYPE] === PARAM_TYPE_ELEMENT
         || ((elementParam[ELEMENT_TYPE] ? !elementTypeNotAllowedForDataParam(ruleParam, UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[elementParam[ELEMENT_TYPE]]) : true)
-        && propertyAllowed(ruleParam, SOBJECT_FIELD_REQUIREMENT, elementParam[IS_SOBJECT_FIELD]) && propertyAllowed(ruleParam, SYSTEM_VARIABLE_REQUIREMENT, elementParam[IS_SYSTEM_VARIABLE]));
+            && propertyAllowed(ruleParam, SOBJECT_FIELD_REQUIREMENT, elementParam[IS_SOBJECT_FIELD])
+            && propertyAllowed(ruleParam, SYSTEM_VARIABLE_REQUIREMENT, elementParam[IS_SYSTEM_VARIABLE])
+            && propertyAllowed(ruleParam, APEX_PROPERTY_REQUIREMENT, elementParam[IS_APEX_PROPERTY]));
 
     const propertiesToCompare = [DATA_TYPE, IS_COLLECTION];
     let i = 0;
@@ -220,16 +225,19 @@ const addParamToTypeMap = (map, param, types) => {
 const convertToAllowedParamMap = (stringifiedParamTypeMap) => {
     let canBeSystemVariable = false;
     let canBeSObjectField = false;
+    let canBeApexProperty = false;
     Object.keys(stringifiedParamTypeMap).forEach((key) => {
         stringifiedParamTypeMap[key] = Array.from(stringifiedParamTypeMap[key]).map((serializedValue) => {
             const param = JSON.parse(serializedValue);
             canBeSObjectField = canBeSObjectField || specialCaseAllowed(param, SOBJECT_FIELD_REQUIREMENT);
             canBeSystemVariable = canBeSystemVariable || specialCaseAllowed(param, SYSTEM_VARIABLE_REQUIREMENT);
+            canBeApexProperty = canBeApexProperty || specialCaseAllowed(param, APEX_PROPERTY_REQUIREMENT);
             return param;
         });
     });
     stringifiedParamTypeMap[SOBJECT_FIELD_REQUIREMENT] = canBeSObjectField;
     stringifiedParamTypeMap[SYSTEM_VARIABLE_REQUIREMENT] = canBeSystemVariable;
+    stringifiedParamTypeMap[APEX_PROPERTY_REQUIREMENT] = canBeApexProperty;
 };
 
 /**
