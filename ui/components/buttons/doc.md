@@ -1,4 +1,4 @@
-### Buttons
+# Buttons
 
 Buttons are used to invoke an event
 

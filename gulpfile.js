@@ -10,7 +10,6 @@ const runSequence = require('run-sequence');
 
 const paths = require('./scripts/helpers/paths');
 
-require('./scripts/gulp/accessibility');
 require('./scripts/gulp/icons');
 require('./scripts/gulp/generate-tokens-components');
 require('./scripts/gulp/lint');
