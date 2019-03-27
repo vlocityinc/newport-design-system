@@ -2,7 +2,12 @@ import { storiesOf } from '@storybook/html';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 import base from 'paths.macro';
 import notes from './doc.md';
-import { withExample } from '../../../scripts/storybook/with-example.js';
+import scss from './base/_index.scss';
+import {
+  withExample,
+  withDocs,
+  commentToHTML
+} from '../../../scripts/storybook';
 
 const label = 'Theme';
 const options = {
@@ -16,75 +21,50 @@ const defaultValue = 'neutral';
 
 storiesOf(`${base.replace('/ui/', '')}`, module)
   .addDecorator(withKnobs)
-  .add(
-    'Simple',
-    () => {
-      const value = radios(label, options, defaultValue);
-      const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
-      return withExample(`<button class="${classes}">Button</button>`);
-    },
-    {
-      notes
-    }
-  )
-  .addDecorator(withKnobs)
-  .add(
-    'Disabled',
-    () => {
-      const value = radios(label, options, defaultValue);
-      const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
-      return withExample(`<button disabled class="${classes}">Button</button>`);
-    },
-    {
-      notes
-    }
-  )
-  .add(
-    'With left icon',
-    () => {
-      const value = radios(label, options, defaultValue);
-      const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
-      return withExample(`<button class="${classes}">
+  .addDecorator(withDocs(notes))
+  .addDecorator(commentToHTML(scss))
+  .add('Simple', () => {
+    const value = radios(label, options, defaultValue);
+    const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
+    return withExample(`<button class="${classes}">Button</button>`);
+  })
+  .add('Disabled', () => {
+    const value = radios(label, options, defaultValue);
+    const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
+    return withExample(`<button disabled class="${classes}">Button</button>`);
+  })
+  .add('With left icon', () => {
+    const value = radios(label, options, defaultValue);
+    const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
+    return withExample(`<button class="${classes}">
       <svg class="nds-button__icon nds-button__icon_left" aria-hidden="true">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons/utility-sprite/svg/symbols.svg#download" />
       </svg>
       Button With Left Icon
     </button>`);
-    },
-    {
-      notes
-    }
-  )
-  .add(
-    'With right icon',
-    () => {
-      const value = radios(label, options, defaultValue);
-      const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
-      return withExample(`<button class="${classes}">
+  })
+  .add('With right icon', () => {
+    const value = radios(label, options, defaultValue);
+    const classes = 'nds-button ' + (value ? 'nds-button_' + value : '');
+    return withExample(`<button class="${classes}">
       Button With Right Icon
       <svg class="nds-button__icon nds-button__icon_right" aria-hidden="true">
         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="assets/icons/utility-sprite/svg/symbols.svg#download" />
       </svg>
     </button>`);
-    },
-    {
-      notes
-    }
-  )
-  .add(
-    'Stateful',
-    () => {
-      const label = 'State';
-      const options = {
-        'nds-not-selected': 'nds-not-selected',
-        'nds-is-selected-clicked': 'nds-is-selected-clicked',
-        'nds-is-selected': 'nds-is-selected'
-      };
-      const defaultValue = 'nds-not-selected';
+  })
+  .add('Stateful', () => {
+    const label = 'State';
+    const options = {
+      'nds-not-selected': 'nds-not-selected',
+      'nds-is-selected-clicked': 'nds-is-selected-clicked',
+      'nds-is-selected': 'nds-is-selected'
+    };
+    const defaultValue = 'nds-not-selected';
 
-      const value = radios(label, options, defaultValue);
+    const value = radios(label, options, defaultValue);
 
-      return withExample(`<button
+    return withExample(`<button
         class='nds-button nds-button_neutral nds-button_stateful ${value}'
         aria-live="assertive">
         <span class="nds-text-not-selected">
@@ -106,8 +86,4 @@ storiesOf(`${base.replace('/ui/', '')}`, module)
           Unfollow
         </span>
       </button>`);
-    },
-    {
-      notes
-    }
-  );
+  });
