@@ -9,7 +9,8 @@ const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR: 'a.slds-nav-vertical__action',
 };
 // Specific style to truncate label
-const TRUNCATED_LABEL_STYLE = "display:inline-block;";
+const TRUNCATE_DISPLAY_STYLE = "display:inline-block;";
+const TRUNCATE_SLDS_CSS_CLASS = "slds-truncate";
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
@@ -88,7 +89,7 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
 
     /**
      * Truncate process type label if needed via CSS
-     * {@link ProcessTypesVerticalNavigation#TRUNCATED_LABEL_STYLE}
+     * {@link ProcessTypesVerticalNavigation#TRUNCATE_DISPLAY_STYLE}, {@link ProcessTypesVerticalNavigation#TRUNCATE_SLDS_CSS_CLASS}
      */
     truncateLabels() {
         const verticalActions = this.template.querySelectorAll(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON);
@@ -96,7 +97,8 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
             verticalActions.forEach(verticalAction => {
                 const anchor = verticalAction.shadowRoot.querySelector(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR);
                 if (anchor) {
-                    anchor.setAttribute("style", TRUNCATED_LABEL_STYLE);
+                    anchor.setAttribute("style", TRUNCATE_DISPLAY_STYLE);
+                    anchor.className += ` ${TRUNCATE_SLDS_CSS_CLASS}`;
                 }
             });
         }

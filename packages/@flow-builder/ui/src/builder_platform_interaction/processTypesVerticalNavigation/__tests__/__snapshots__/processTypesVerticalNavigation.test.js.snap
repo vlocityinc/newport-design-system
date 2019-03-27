@@ -14,12 +14,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
           #shadow-root(open)
             <slot />
           <lightning-vertical-navigation-item-icon
-            class="slds-truncate"
             title="FlowBuilderProcessTypesVerticalNavigation.all"
           >
             #shadow-root(open)
               <a
-                class="slds-nav-vertical__action"
+                class="slds-nav-vertical__action slds-truncate"
                 style="display:inline-block;"
               >
                 <lightning-icon>
@@ -29,12 +28,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
               </a>
           </lightning-vertical-navigation-item-icon>
           <lightning-vertical-navigation-item-icon
-            class="slds-truncate"
             title="Autolaunched Flow"
           >
             #shadow-root(open)
               <a
-                class="slds-nav-vertical__action"
+                class="slds-nav-vertical__action slds-truncate"
                 style="display:inline-block;"
               >
                 <lightning-icon>
@@ -44,12 +42,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
               </a>
           </lightning-vertical-navigation-item-icon>
           <lightning-vertical-navigation-item-icon
-            class="slds-truncate"
             title="Screen Flow"
           >
             #shadow-root(open)
               <a
-                class="slds-nav-vertical__action"
+                class="slds-nav-vertical__action slds-truncate"
                 style="display:inline-block;"
               >
                 <lightning-icon>
@@ -65,12 +62,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
               class="slds-p-left_small"
             >
               <lightning-vertical-navigation-item-icon
-                class="slds-truncate"
                 title="Checkout Flow"
               >
                 #shadow-root(open)
                   <a
-                    class="slds-nav-vertical__action"
+                    class="slds-nav-vertical__action slds-truncate"
                     style="display:inline-block;"
                   >
                     <lightning-icon>
@@ -80,12 +76,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                   </a>
               </lightning-vertical-navigation-item-icon>
               <lightning-vertical-navigation-item-icon
-                class="slds-truncate"
                 title="Contact Request Flow"
               >
                 #shadow-root(open)
                   <a
-                    class="slds-nav-vertical__action"
+                    class="slds-nav-vertical__action slds-truncate"
                     style="display:inline-block;"
                   >
                     <lightning-icon>
@@ -95,12 +90,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                   </a>
               </lightning-vertical-navigation-item-icon>
               <lightning-vertical-navigation-item-icon
-                class="slds-truncate"
                 title="Embedded Appointment Management Flow"
               >
                 #shadow-root(open)
                   <a
-                    class="slds-nav-vertical__action"
+                    class="slds-nav-vertical__action slds-truncate"
                     style="display:inline-block;"
                   >
                     <lightning-icon>
@@ -110,12 +104,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                   </a>
               </lightning-vertical-navigation-item-icon>
               <lightning-vertical-navigation-item-icon
-                class="slds-truncate"
                 title="Field Service Mobile Flow"
               >
                 #shadow-root(open)
                   <a
-                    class="slds-nav-vertical__action"
+                    class="slds-nav-vertical__action slds-truncate"
                     style="display:inline-block;"
                   >
                     <lightning-icon>
@@ -125,12 +118,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                   </a>
               </lightning-vertical-navigation-item-icon>
               <lightning-vertical-navigation-item-icon
-                class="slds-truncate"
                 title="User Provisioning Flow"
               >
                 #shadow-root(open)
                   <a
-                    class="slds-nav-vertical__action"
+                    class="slds-nav-vertical__action slds-truncate"
                     style="display:inline-block;"
                   >
                     <lightning-icon>
@@ -140,12 +132,11 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
                   </a>
               </lightning-vertical-navigation-item-icon>
               <lightning-vertical-navigation-item-icon
-                class="slds-truncate"
                 title="Well no icon yet"
               >
                 #shadow-root(open)
                   <a
-                    class="slds-nav-vertical__action"
+                    class="slds-nav-vertical__action slds-truncate"
                     style="display:inline-block;"
                   >
                     <lightning-icon>

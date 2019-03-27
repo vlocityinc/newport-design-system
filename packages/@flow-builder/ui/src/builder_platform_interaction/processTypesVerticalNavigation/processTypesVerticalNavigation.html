@@ -4,7 +4,7 @@
             <lightning-vertical-navigation selected-item={selectedProcessType} onselect={handleSelectProcessType}>
                 <!-- Featured process types section -->
                 <template for:each={featuredProcessTypes} for:item="featuredProcessType">
-                    <lightning-vertical-navigation-item-icon class='slds-truncate' key={featuredProcessType.name}
+                    <lightning-vertical-navigation-item-icon key={featuredProcessType.name}
                         label={featuredProcessType.label}
                         title={featuredProcessType.label}
                         name={featuredProcessType.name}
@@ -15,7 +15,7 @@
                 <lightning-vertical-navigation-overflow if:true={hasOtherProcessTypes} >
                     <div class="slds-p-left_small">
                         <template for:each={otherProcessTypes} for:item="otherProcessType">
-                            <lightning-vertical-navigation-item-icon class='slds-truncate' key={otherProcessType.name}
+                            <lightning-vertical-navigation-item-icon key={otherProcessType.name}
                                 label={otherProcessType.label}
                                 title={otherProcessType.label}
                                 name={otherProcessType.name}
