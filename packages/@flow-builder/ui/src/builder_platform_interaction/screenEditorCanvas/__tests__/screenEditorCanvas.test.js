@@ -25,7 +25,8 @@ const selectors = {
     draggingRegion: '.screen-editor-canvas-dragging-region',
     highlightElementSlot: 'div[slot="screen-element"]',
     screenFieldCard: 'builder_platform_interaction-screen-field-card',
-    screenFieldCardBody: 'p.slds-text-heading_small'
+    screenFieldCardBody: 'p.slds-text-heading_small',
+    screenCanvasHeader: 'span.slds-card__header-link'
 };
 
 describe('help icon', () => {
@@ -73,6 +74,36 @@ describe('screen canvas', () => {
             const cardBody = getShadowRoot(screenFieldCard).querySelector(selectors.screenFieldCardBody);
             expect(cardBody).not.toBeNull();
             expect(cardBody.textContent).toEqual('FlowBuilderScreenEditor.invalidScreen');
+        });
+    });
+
+    it('displays flow label when screen has no error and flow label is defined', () => {
+        const screen = createTestScreen('Screen 1', null);
+        const flowLabel = 'Flow Label';
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {},
+            flowLabel
+        });
+
+        return Promise.resolve().then(() => {
+            const headerHighlight = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.highlightElementSlot);
+            const screenCanvasHeader = headerHighlight.querySelector(selectors.screenCanvasHeader);
+            expect(screenCanvasHeader.textContent).toEqual(flowLabel);
+        });
+    });
+
+    it('displays default string when screen has no error and flow label is not defined', () => {
+        const screen = createTestScreen('Screen 1', null);
+        const screenEditorCanvasElement = createComponentUnderTest({
+            screen,
+            labels: {},
+        });
+
+        return Promise.resolve().then(() => {
+            const headerHighlight = getShadowRoot(screenEditorCanvasElement).querySelector(selectors.highlightElementSlot);
+            const screenCanvasHeader = headerHighlight.querySelector(selectors.screenCanvasHeader);
+            expect(screenCanvasHeader.textContent).toEqual('[FlowBuilderScreenEditor.screenTitlePlaceHolder]');
         });
     });
 });
