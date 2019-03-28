@@ -36,6 +36,7 @@ const setupComponentUnderTest = (props) => {
     });
     element.node = props;
     element.node.defaultValueIndex = {value: 'guid', error: null};
+    element.node.subtypeIndex = {value: 'guid', error: null};
     document.body.appendChild(element);
     return element;
 };

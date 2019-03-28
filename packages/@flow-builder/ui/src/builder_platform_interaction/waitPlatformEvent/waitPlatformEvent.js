@@ -85,6 +85,13 @@ export default class WaitPlatformEvent extends LightningElement {
     }
 
     /**
+     * The guid associated with the event type entity resource picker
+     * @type {String}
+     */
+    @api
+    eventTypeIndex;
+
+    /**
      * Object of input filter parameters
      * @type {Map}
      */

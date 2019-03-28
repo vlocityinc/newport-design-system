@@ -33,6 +33,7 @@ const recordCreateElementWithValidSObject = {
     numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
     inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
     object : {value: '', error: null},
+    objectIndex: {value: 'guid', error: null},
     assignRecordIdToReference: {value: '', error: null},
 };
 
@@ -48,6 +49,7 @@ const recordCreateElementWithValidSObjectCollection = {
     numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
     inputReference : {value: storeMockedData.accountSObjectCollectionVariableGuid, error: null},
     object : {value: '', error: null},
+    objectIndex: {value: 'guid', error: null},
     assignRecordIdToReference: {value: '', error: null},
 };
 
@@ -71,6 +73,7 @@ const recordCreateUsingFieldsTemplate = () => ({
         rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d1d"}
     ],
     object : {value: 'account', error: null},
+    objectIndex: {value: 'guid', error: null},
     assignRecordIdToReference: {value: 'varToStoreId', error: null},
 });
 

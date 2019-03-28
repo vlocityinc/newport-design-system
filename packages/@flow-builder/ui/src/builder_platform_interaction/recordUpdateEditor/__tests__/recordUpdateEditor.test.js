@@ -47,6 +47,7 @@ const defaultRecordUpdateElement = () => {
         inputReference : { value: '', error: null},
         inputReferenceIndex: { value: 'guid', error: null},
         object: { value: '', error: null},
+        objectIndex: {value: 'guid', error: null},
         filters: [],
         inputAssignments: []
 
@@ -67,6 +68,7 @@ const recordUpdateElementWithSObject = () => {
         inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
         inputReferenceIndex: { value: 'guid', error: null},
         object : {value: null, error: null},
+        objectIndex: {value: 'guid', error: null}
     };
 };
 
@@ -91,6 +93,7 @@ const recordUpdateElementWithFields = () => {
         filters: [],
         filterType: {value: "all", error: null},
         object : {value: 'account', error: null},
+        objectIndex: {value: 'guid', error: null}
     };
 };
 

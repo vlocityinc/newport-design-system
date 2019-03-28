@@ -27,7 +27,7 @@ function getNumberRecordsToStore(inputReference, object) {
 
 export function createRecordUpdate(recordUpdate = {}) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
-    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '' } = recordUpdate;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid() } = recordUpdate;
     let { filters, inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordUpdate;
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
@@ -53,6 +53,7 @@ export function createRecordUpdate(recordUpdate = {}) {
         filters,
         filterType,
         object,
+        objectIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 

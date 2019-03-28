@@ -21,7 +21,7 @@ const subtypeProperties = {
  */
 export function createVariable(variable = {}) {
     const newVariable = baseResource(variable);
-    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, apexClass = null, subtype = null, scale = 2, value} = variable;
+    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, apexClass = null, subtype = null, subtypeIndex = generateGuid(), scale = 2, value} = variable;
     let valueFerov;
     if (value) {
         valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
@@ -34,6 +34,7 @@ export function createVariable(variable = {}) {
         isOutput,
         dataType,
         subtype: objectType || apexClass || subtype,
+        subtypeIndex,
         scale,
         defaultValue,
         defaultValueDataType,

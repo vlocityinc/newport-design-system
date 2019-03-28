@@ -21,6 +21,7 @@ import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { baseCanvasElementMetadataObject, baseChildElementMetadataObject, createConditionMetadataObject} from "./base/baseMetadata";
 import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from "./elementFactoryLabels";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const elementType = ELEMENT_TYPE.WAIT;
 const MAX_CONNECTIONS_DEFAULT = 2;
@@ -229,7 +230,7 @@ export function createDuplicateWait(wait, newGuid, newName, childElementGuidMap,
  */
 export function createWaitEvent(waitEvent = {}) {
     const newWaitEvent = baseChildElement(waitEvent, ELEMENT_TYPE.WAIT_EVENT);
-    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME } = waitEvent;
+    const { eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME, eventTypeIndex = generateGuid() } = waitEvent;
     let {
         conditions = [],
         conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
@@ -251,6 +252,7 @@ export function createWaitEvent(waitEvent = {}) {
         conditions,
         conditionLogic,
         eventType,
+        eventTypeIndex,
         inputParameters,
         outputParameters,
     });

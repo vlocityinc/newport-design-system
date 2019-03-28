@@ -34,6 +34,13 @@ const conditionRule = {
     conditions: ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.WAIT})
 };
 
+// TODO: This will work properly when this story (W-5568291) is completed
+const outputParameterRules = (outputParameter) => {
+    const opRules = {};
+    opRules.value = [ValidationRules.validateResourcePicker(outputParameter.rowIndex)];
+    return opRules;
+};
+
 const absoluteTimeRules = () => {
     return {
         inputParameters: (inputParameter) => {
@@ -46,7 +53,8 @@ const absoluteTimeRules = () => {
             }
 
             return ipRules;
-        }
+        },
+        outputParameters: outputParameterRules
     };
 };
 
@@ -73,18 +81,20 @@ const directTimeRules = () => {
             }
 
             return ipRules;
-        }
+        },
+        outputParameters: outputParameterRules
     };
 };
 
-const platformEventParametersRule = () => {
+const platformEventParametersRule = (eventTypeIndex) => {
     return {
-        eventType: [ValidationRules.shouldNotBeBlank],
+        eventType: [ValidationRules.shouldNotBeBlank, ValidationRules.validateResourcePicker(eventTypeIndex)],
         inputParameters: () => {
             return {
                 name: [ValidationRules.shouldNotBeBlank]
             };
-        }
+        },
+        outputParameters: outputParameterRules
     };
 };
 
@@ -113,7 +123,7 @@ class WaitValidation extends Validation {
                 rules = Object.assign(rules, directTimeRules());
             } else {
                 // Platform events
-                rules = Object.assign(rules, platformEventParametersRule());
+                rules = Object.assign(rules, platformEventParametersRule(waitEvent.eventTypeIndex));
             }
 
             return rules;

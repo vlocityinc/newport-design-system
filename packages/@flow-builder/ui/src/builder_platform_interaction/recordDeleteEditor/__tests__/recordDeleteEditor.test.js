@@ -35,6 +35,7 @@ const defaultRecordDeleteElement = () => ({
         inputReference : { value: '', error: null},
         inputReferenceIndex : { value: 'guid', error: null},
         object: { value: '', error: null},
+        objectIndex: {value: 'guid', error: null},
         filters: []
 });
 
@@ -50,7 +51,8 @@ const recordDeleteElementWithSObject = () => ({
         inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
         inputReferenceIndex : { value: 'guid', error: null},
         filters: [],
-        object : {value: '', error: null}
+        object : {value: '', error: null},
+        objectIndex: {value: 'guid', error: null}
 });
 
 const recordDeleteElementWithFields = () => ({
@@ -65,7 +67,8 @@ const recordDeleteElementWithFields = () => ({
         filters: [],
         inputReference : {value: '', error: null},
         inputReferenceIndex : { value: 'guid', error: null},
-        object : {value: 'account', error: null}
+        object : {value: 'account', error: null},
+        objectIndex: {value: 'guid', error: null}
 });
 
 const filterElement = {

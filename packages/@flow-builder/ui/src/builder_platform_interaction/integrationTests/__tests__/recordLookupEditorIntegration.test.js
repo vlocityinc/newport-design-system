@@ -90,6 +90,7 @@ const getResourceGroupedCombobox = (editor) => {
 const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     node.outputReferenceIndex = {value: 'guid', error: null};
+    node.objectIndex = {value: 'guid', error: null};
     Object.assign(el, {node, mode});
     document.body.appendChild(el);
     return el;

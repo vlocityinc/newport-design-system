@@ -1,6 +1,7 @@
 import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from "./base/dynamicChoiceSet";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { baseElementsArrayToMap } from "./base/baseElement";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 /**
  * Picklist choice set factory function
@@ -11,11 +12,13 @@ export const createPicklistChoiceSet = (element = {}) => {
     const picklistChoiceSetElement = createDynamicChoiceSet(element);
     const {
         picklistObject = null,
+        picklistObjectIndex = generateGuid(),
         picklistField
     } = element;
     Object.assign(picklistChoiceSetElement, {
         elementType: ELEMENT_TYPE.PICKLIST_CHOICE_SET,
         picklistObject,
+        picklistObjectIndex,
         picklistField
     });
     return picklistChoiceSetElement;

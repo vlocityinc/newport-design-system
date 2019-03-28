@@ -53,6 +53,7 @@ export function createRecordLookup(recordLookup = {}) {
         numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD } = recordLookup;
     const {
         object = '',
+        objectIndex = generateGuid(),
         outputReference,
         outputReferenceIndex = generateGuid(),
         assignNullValuesIfNoRecordsFound = false,
@@ -73,6 +74,7 @@ export function createRecordLookup(recordLookup = {}) {
 
         return Object.assign(newRecordLookup, {
             object,
+            objectIndex,
             outputAssignments,
             numberRecordsToStore,
             assignNullValuesIfNoRecordsFound,

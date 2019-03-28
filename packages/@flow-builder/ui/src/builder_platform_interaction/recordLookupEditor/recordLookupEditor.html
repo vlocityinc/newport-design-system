@@ -13,6 +13,7 @@
             <builder_platform_interaction-entity-resource-picker
                     combobox-config={entityComboboxConfig}
                     value={state.recordLookupElement.object.value}
+                    row-index={state.recordLookupElement.objectIndex.value}
                     crud-filter-type={crudFilterType}
                     oncomboboxstatechanged={handleResourceChanged}
                     onitemselected={handleResourceChanged}>

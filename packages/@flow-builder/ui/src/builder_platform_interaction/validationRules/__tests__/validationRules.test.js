@@ -6,8 +6,10 @@ import { LABELS } from "../validationRulesLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { validatePicker } from "builder_platform_interaction/expressionValidator";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/expressionValidator', () => require('builder_platform_interaction_mocks/expressionValidator'));
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const actual = require.requireActual('../../ruleLib/ruleLib.js');
@@ -214,6 +216,49 @@ describe('validateExpressionWith3Properties', () => {
         // rules.rhsShouldBeValid comes in as an anonymous function here
         expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(1);
     });
+});
+
+describe('validateExpressionWith3PropertiesWithNoEmptyRHS', () => {
+    const rulesObject = rules.validateExpressionWith3PropertiesWithNoEmptyRHS()(
+        {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'populated'},
+            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {value: 'populated'},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {}
+        });
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.OPERATOR]).toEqual([rules.shouldNotBeBlank]);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(2);
+    expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+});
+
+describe('validateExpressionWith2Properties', () => {
+    const rulesObject = rules.validateExpressionWith2Properties()(
+        {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'populated'},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: 'populated'}
+        });
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(1);
+});
+
+describe('validateExpressionWith2PropertiesWithNoEmptyRHS', () => {
+    const rulesObject = rules.validateExpressionWith2PropertiesWithNoEmptyRHS()(
+        {
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'populated'},
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {value: 'populated'}
+        });
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toHaveLength(2);
+        expect(rulesObject[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]).toContain(rules.shouldNotBeBlank);
+});
+
+describe('validateResourcePicker', () => {
+    const error = 'error';
+    validatePicker.mockReturnValueOnce('error');
+    expect(rules.validateResourcePicker('guid')()).toEqual(error);
 });
 
 describe('isUniqueDevNameInStore method', () => {

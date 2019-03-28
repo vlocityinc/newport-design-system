@@ -59,8 +59,9 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
  * @return {Object} the overridden rules
  */
-export const getRules = ({filterType, sortOrder, object, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, outputReferenceIndex, queriedFields}) => {
+export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, outputReferenceIndex, queriedFields}) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules};
+    overriddenRules.object.push(ValidationRules.validateResourcePicker(objectIndex));
     // validate filters if filter type is ALL
     if (filterType === RECORD_FILTER_CRITERIA.ALL) {
         overriddenRules.filters = validateFilter();

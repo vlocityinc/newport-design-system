@@ -28,6 +28,7 @@ jest.mock('../base/baseElement', () => {
 const mockDefaultValuesForPicklistChoiceSet = {
     elementType: ELEMENT_TYPE.PICKLIST_CHOICE_SET,
     picklistObject: null,
+    picklistObjectIndex: 'guid',
     picklistField: undefined
 };
 const paramElementForPicklistChoiceSet = {
@@ -37,16 +38,20 @@ const paramElementForPicklistChoiceSet = {
 const mockPicklistChoiceSetResult = {
     elementType: ELEMENT_TYPE.PICKLIST_CHOICE_SET,
     picklistObject: 'mockObject',
+    picklistObjectIndex: 'guid',
     picklistField: 'mockField'
 };
+
 describe('createPicklistChoiceSet', () => {
     it('with empty param produces default value object', () => {
         const result = createPicklistChoiceSet();
+        result.picklistObjectIndex = 'guid';
         expect(result).toMatchObject(mockDefaultValuesForPicklistChoiceSet);
     });
     describe('with a valid element', () => {
         const result = createPicklistChoiceSet(paramElementForPicklistChoiceSet);
         it('result object matches the mockPicklistChoiceSetResult object', () => {
+            result.picklistObjectIndex = 'guid';
             expect(result).toMatchObject(mockPicklistChoiceSetResult);
         });
     });

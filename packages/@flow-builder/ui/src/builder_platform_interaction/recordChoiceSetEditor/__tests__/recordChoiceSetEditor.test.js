@@ -85,6 +85,10 @@ describe('record-choice-set-editor', () => {
             value: 'Account',
             error: null
         },
+        objectIndex: {
+            value: 'guid',
+            error: null
+        },
         dataType: {
             value: 'Text',
             error: null
@@ -130,7 +134,11 @@ describe('record-choice-set-editor', () => {
         object: {
             value: null,
             error: null
-        }
+        },
+        objectIndex: {
+            value: 'guid',
+            error: null
+        },
     };
     describe('Label description component', () => {
         let recordChoiceEditor;

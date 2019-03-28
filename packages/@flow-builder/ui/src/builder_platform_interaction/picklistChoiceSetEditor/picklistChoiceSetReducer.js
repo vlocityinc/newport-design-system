@@ -1,5 +1,5 @@
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { picklistChoiceSetValidation } from './picklistChoiceSetValidation';
+import { picklistChoiceSetValidation, getRules } from './picklistChoiceSetValidation';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 export const picklistChoiceSetReducer = (picklistChoice, action) => {
@@ -21,7 +21,7 @@ export const picklistChoiceSetReducer = (picklistChoice, action) => {
             return Object.assign({}, picklistChoice, {[action.payload.propertyName]: propertyValue});
         }
         case VALIDATE_ALL:
-            return picklistChoiceSetValidation.validateAll(picklistChoice);
+            return picklistChoiceSetValidation.validateAll(picklistChoice, getRules(picklistChoice));
         default: return picklistChoice;
     }
 };

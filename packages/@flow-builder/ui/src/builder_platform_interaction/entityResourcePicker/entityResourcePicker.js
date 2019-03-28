@@ -108,6 +108,14 @@ export default class EntityResourcePicker extends LightningElement {
     comboboxConfig;
 
     /**
+     * A unique id for this resource picker(guid)
+     * Required if you want validation on done
+     * @type {String}
+     */
+    @api
+    rowIndex;
+
+    /**
      * The combobox item that represents the value selected
      * @param {module:base-resource-picker.item|String} itemOrDisplayText the new item
      */

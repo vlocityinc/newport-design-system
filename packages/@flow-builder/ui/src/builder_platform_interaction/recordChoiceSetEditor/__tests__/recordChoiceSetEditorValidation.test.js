@@ -34,6 +34,10 @@ describe('Record Choice Set Validation', () => {
             value: null,
             error: null
         },
+        objectIndex: {
+            value: 'guid',
+            error: null
+        },
         filterType: {
             value: 'none',
             error: null
@@ -56,6 +60,10 @@ describe('Record Choice Set Validation', () => {
         },
         object: {
             value: 'Account',
+            error: null
+        },
+        objectIndex: {
+            value: 'guid',
             error: null
         },
         dataType: {

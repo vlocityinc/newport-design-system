@@ -15,3 +15,14 @@ export const additionalRules = {
 };
 
 export const picklistChoiceSetValidation = new Validation(additionalRules);
+
+/**
+ * Get finalized rules for validation
+ * @param {Object} choice get the storedValueIndex from the choice
+ * @returns {Object} the overridden rules
+ */
+export const getRules = ({picklistObjectIndex}) => {
+    const overrideRules = Object.assign({}, picklistChoiceSetValidation.finalizedRules);
+    overrideRules.picklistObject.push(ValidationRules.validateResourcePicker(picklistObjectIndex));
+    return overrideRules;
+};

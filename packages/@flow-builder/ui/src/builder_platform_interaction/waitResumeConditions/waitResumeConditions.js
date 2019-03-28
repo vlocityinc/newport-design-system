@@ -34,6 +34,13 @@ export default class WaitResumeConditions extends LightningElement {
     waitEventGuid;
 
     /**
+     * The guid associated with the event type entity resource picker
+     * @type {String}
+     */
+    @api
+    eventTypeIndex;
+
+    /**
      * The event type
      * @type {String}
      */

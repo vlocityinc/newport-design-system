@@ -4,6 +4,7 @@ import { baseElementsArrayToMap } from "./base/baseElement";
 import { createOutputAssignment, createOutputAssignmentMetadataObject } from "./base/outputAssignments";
 import { createFilterMetadataObject, createFilter } from "./base/baseRecordElement";
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { generateGuid } from "builder_platform_interaction/storeLib";
 /**
  * Record choice set factory function
  * @param {Object} element - record choice set element
@@ -13,6 +14,7 @@ export const createRecordChoiceSet = (element = {}) => {
     const recordChoiceSetElement = createDynamicChoiceSet(element);
     const {
         object = null,
+        objectIndex = generateGuid(),
         sortField = null,
         outputAssignments = [],
     } = element;
@@ -31,6 +33,7 @@ export const createRecordChoiceSet = (element = {}) => {
     Object.assign(recordChoiceSetElement, {
         elementType: ELEMENT_TYPE.RECORD_CHOICE_SET,
         object,
+        objectIndex,
         sortField,
         filterType,
         filters,

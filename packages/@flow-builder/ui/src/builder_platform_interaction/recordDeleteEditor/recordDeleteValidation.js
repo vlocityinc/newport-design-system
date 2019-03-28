@@ -5,8 +5,8 @@ import { Validation } from 'builder_platform_interaction/validation';
  * validates against possible blank, empty or undefined value
  * @returns {Array} corresponding array of validation rules
  */
-const validateAgainstBlankNullOrUndefined = () => {
-    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined];
+const validateAgainstBlankNullOrUndefined = (index) => {
+    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.validateResourcePicker(index)];
 };
 
 /**
@@ -26,10 +26,9 @@ export const getRules = (nodeElement, {isSObjectMode}) => {
     const overrideRules = {...recordDeleteValidation.finalizedRules};
     // case where an sObject has been selected
     if (isSObjectMode) {
-        overrideRules.inputReference = validateAgainstBlankNullOrUndefined();
-        overrideRules.inputReference.push(ValidationRules.validateResourcePicker(nodeElement.inputReferenceIndex));
+        overrideRules.inputReference = validateAgainstBlankNullOrUndefined(nodeElement.inputReferenceIndex);
     } else {
-        overrideRules.object = validateAgainstBlankNullOrUndefined();
+        overrideRules.object = validateAgainstBlankNullOrUndefined(nodeElement.objectIndex);
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.filters = validateFilters();
         }

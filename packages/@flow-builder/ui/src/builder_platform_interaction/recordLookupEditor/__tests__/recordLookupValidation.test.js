@@ -40,6 +40,7 @@ const recordLookupElementWithValidSObject = () => ({
         {field: {value: 'Id', error: null}, rowIndex: '72cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
         {field: {value: 'BillingAddress', error: null}, rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
     object: { value: 'Account', error: null},
+    objectIndex: {value: 'guid', error: null},
     filterType: RECORD_FILTER_CRITERIA.ALL,
     filters: [{
         leftHandSide: {value: "Account.BillingAddress", error: null},
@@ -66,6 +67,7 @@ const recordLookupElementWithValidSObject = () => ({
         {field: {value: 'Id', error: null}, rowIndex: '72cb7e19-9f98-4b59-9fdd-a276f216ddcf'},
         {field: {value: 'BillingAddress', error: null}, rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'}],
     object: { value: 'Account', error: null},
+    objectIndex: {value: 'guid', error: null},
     filterType: RECORD_FILTER_CRITERIA.ALL,
     filters: [{
         leftHandSide: {value: "Account.BillingAddress", error: null},

@@ -19,13 +19,14 @@ const getAvailableConnections = recordDelete => {
 
 export function createRecordDelete(recordDelete = {}) {
     const newRecordDelete = baseCanvasElement(recordDelete);
-    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', filters } = recordDelete;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), filters } = recordDelete;
     const availableConnections = getAvailableConnections(recordDelete);
 
     return Object.assign(newRecordDelete, {
         inputReference,
         inputReferenceIndex,
         object,
+        objectIndex,
         filters : createRecordFilters(filters, object, []),
         maxConnections : MAX_CONNECTIONS,
         availableConnections,

@@ -23,7 +23,7 @@ const maxConnections = 2;
 
 export function createRecordCreate(recordCreate = {}) {
     const newRecordCreate = baseCanvasElement(recordCreate);
-    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', assignRecordIdToReference = '' } = recordCreate;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), assignRecordIdToReference = '' } = recordCreate;
     let { inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordCreate;
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
@@ -35,6 +35,7 @@ export function createRecordCreate(recordCreate = {}) {
 
         recordCreateObject = Object.assign(newRecordCreate, {
             object,
+            objectIndex,
             inputAssignments,
             numberRecordsToStore,
             inputReference,
@@ -58,6 +59,7 @@ export function createRecordCreate(recordCreate = {}) {
 
         recordCreateObject = Object.assign(newRecordCreate, {
             object,
+            objectIndex,
             numberRecordsToStore,
             inputReference,
             inputReferenceIndex,

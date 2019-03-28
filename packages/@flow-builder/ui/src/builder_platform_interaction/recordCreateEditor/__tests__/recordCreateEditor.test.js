@@ -64,7 +64,8 @@ const recordCreateElementWithSObject = {
     inputReferenceIndex : {value: 'guid', error: null},
     inputAssignments : [],
     numberRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-    object : {value: '', error: null}
+    object : {value: '', error: null},
+    objectIndex: {value: 'guid', error: null},
 };
 
 const recordCreateElementWithSObjectCollection = {
@@ -80,7 +81,8 @@ const recordCreateElementWithSObjectCollection = {
     inputReferenceIndex : {value: 'guid', error: null},
     inputAssignments : [],
     numberRecordsToStore : NUMBER_RECORDS_TO_STORE.ALL_RECORDS,
-    object : {value: '', error: null}
+    object : {value: '', error: null},
+    objectIndex: {value: 'guid', error: null},
 };
 
 const recordCreateElementWithFields = () => ({
@@ -102,6 +104,7 @@ const recordCreateElementWithFields = () => ({
         rightHandSideGuid: {value: "myCountry", error: null},
         rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d1d"}],
     object : {value: 'Account', error: null},
+    objectIndex: {value: 'guid', error: null},
     assignRecordIdToReference: {value: '', error: null},
 });
 

@@ -31,7 +31,8 @@ const recordUpdateElementWithValidSObject = {
     name : {value: 'testRecord', error: null},
     numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
     inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
-    object : {value: '', error: null}
+    object : {value: '', error: null},
+    objectIndex: {value: 'guid', error: null}
 };
 
 const recordUpdateUsingFieldsTemplate = () => {
@@ -60,7 +61,8 @@ const recordUpdateUsingFieldsTemplate = () => {
             rowIndex: "RECORDUPDATEFILTERITEM_1"
         }],
         filterType: {value: "all", error: null},
-        object : {value: 'account', error: null}
+        object : {value: 'account', error: null},
+        objectIndex: {value: 'guid', error: null}
     };
 };
 

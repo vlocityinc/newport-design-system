@@ -34,6 +34,10 @@ describe('Picklist Choice Set Validation', () => {
             value: null,
             error: null
         },
+        picklistObjectIndex: {
+            value: 'guid',
+            error: null
+        },
         dataType: {
             value: null,
             error: null

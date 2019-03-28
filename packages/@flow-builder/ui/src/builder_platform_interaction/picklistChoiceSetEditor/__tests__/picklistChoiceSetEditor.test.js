@@ -71,6 +71,10 @@ describe('picklist-choice-set-editor', () => {
             value: 'Account',
             error: null
         },
+        picklistObjectIndex: {
+            value: 'guid',
+            error: null
+        },
         dataType: {
             value: 'Picklist',
             error: null

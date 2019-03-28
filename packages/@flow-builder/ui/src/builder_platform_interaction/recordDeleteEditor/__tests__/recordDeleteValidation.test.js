@@ -19,7 +19,8 @@ const recordDeleteElementWithValidSObject = {
         locationY : 227,
         name : {value: 'record_delete_validation_with_sobject', error: null},
         [INPUT_REFERENCE_PROPERTY_NAME] : {value: storeMockedData.accountSObjectVariableGuid, error: null},
-        [OBJECT_PROPERTY_NAME] : {value: '', error: null}
+        [OBJECT_PROPERTY_NAME] : {value: '', error: null},
+        objectIndex: {value: 'guid', error: null}
 }, recordDeleteElementWithValidFields = () => ({
         description : {value: '', error: null},
         elementType : 'RECORD_DELETE',
@@ -36,7 +37,8 @@ const recordDeleteElementWithValidSObject = {
             rightHandSideDataType: {value: "String", error: null},
             rowIndex: MOCK_GUID
         }],
-        [OBJECT_PROPERTY_NAME] : {value: 'account', error: null}
+        [OBJECT_PROPERTY_NAME] : {value: 'account', error: null},
+        objectIndex: {value: 'guid', error: null}
 });
 
 const validate = (node, event = {}) => {

@@ -53,6 +53,7 @@ const validateOutputAssignments = () => {
 export const recordChoiceSetValidation = new Validation(additionalRules);
 export const getRules = (recordChoice, showSecondSection) => {
     const overrideRules = Object.assign({}, recordChoiceSetValidation.finalizedRules);
+    overrideRules.object.push(ValidationRules.validateResourcePicker(recordChoice.objectIndex));
     if (recordChoice.filterType && recordChoice.filterType.value === RECORD_FILTER_CRITERIA.ALL) {
         overrideRules.filters = validateFilter();
     }
