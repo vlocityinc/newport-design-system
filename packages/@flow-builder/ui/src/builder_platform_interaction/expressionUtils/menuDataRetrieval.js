@@ -23,7 +23,7 @@ import {
     COMBOBOX_ITEM_DISPLAY_TYPE,
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
-import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
+import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
 import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 
@@ -415,7 +415,7 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
         return writableItems;
     };
 
-    if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_BROWSER_PREFIX) {
+    if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
         const systemVariables = getSystemVariables(subtype);
         callback(shouldBeWritable ? filterWritable(systemVariables) : systemVariables);
     } else if (getGlobalVariables(subtype)) {

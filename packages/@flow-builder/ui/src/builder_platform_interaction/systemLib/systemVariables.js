@@ -1,7 +1,7 @@
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
 
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
-export const SYSTEM_VARIABLE_BROWSER_PREFIX = '$Browser';
+export const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client';
 
 export const SYSTEM_VARIABLES = {
     CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime',

@@ -3,7 +3,7 @@ import {
     getDataTypeLabel,
     getDataTypeIcons,
 } from "builder_platform_interaction/dataTypeLib";
-import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
+import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from "builder_platform_interaction/ruleLib";
@@ -105,7 +105,7 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  */
 const shouldShowDataTypeAsSubText = (parent) => (
     parent && (parent.dataType === FLOW_DATA_TYPE.APEX.value || parent.text === SYSTEM_VARIABLE_PREFIX
-        || parent.text === SYSTEM_VARIABLE_BROWSER_PREFIX)
+        || parent.text === SYSTEM_VARIABLE_CLIENT_PREFIX)
 );
 
 /**
@@ -291,12 +291,12 @@ export const getFlowSystemVariableComboboxItem = () => {
 };
 
 /**
- * The combobox item representing the System Variable ($Browser) category.
+ * The combobox item representing the System Variable ($Client) category.
  *
- * @return {MenuDataItem[]} menu data for $Browser
+ * @return {MenuDataItem[]} menu data for $Client
  */
-export const getFlowSystemBrowserVariableComboboxItem = () => {
-    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_BROWSER_PREFIX);
+export const getFlowSystemClientVariableComboboxItem = () => {
+    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_CLIENT_PREFIX);
 };
 
 /**
@@ -310,7 +310,7 @@ export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlob
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());
-        categories.push(getFlowSystemBrowserVariableComboboxItem());
+        categories.push(getFlowSystemClientVariableComboboxItem());
     }
     if (showGlobalVariables) {
         categories.push(...getGlobalVariableTypeComboboxItems());

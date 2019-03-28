@@ -15,7 +15,7 @@ const MERGE_FIELD_END_CHARS = '}';
 const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+)\}/g;
 
 const SYSTEM_VARIABLE_PREFIX = '$Flow.';
-const SYSTEM_VARIABLE_BROWSER_PREFIX = '$Browser.';
+const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client.';
 
 const VALIDATION_ERROR_TYPE = {
     INVALID_MERGEFIELD : 'notAValidMergeField',
@@ -131,15 +131,15 @@ export class MergeFieldsValidation {
         return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_PREFIX);
     }
 
-    _isSystemVariableBrowserMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_BROWSER_PREFIX);
+    _isSystemVariableClientMergeField(mergeFieldReferenceValue) {
+        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_CLIENT_PREFIX);
     }
 
     _isGlobalVariableMergeField(mergeFieldReferenceValue) {
         return mergeFieldReferenceValue.startsWith('$')
             && !this._isGlobalConstantMergeField(mergeFieldReferenceValue)
             && !this._isSystemVariableMergeField(mergeFieldReferenceValue)
-            && !this._isSystemVariableBrowserMergeField(mergeFieldReferenceValue);
+            && !this._isSystemVariableClientMergeField(mergeFieldReferenceValue);
     }
 
     _validateMergeFieldReferenceValue(mergeFieldReferenceValue, index) {
@@ -152,7 +152,7 @@ export class MergeFieldsValidation {
         if (this._isSystemVariableMergeField(mergeFieldReferenceValue)) {
             return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
-        if (this._isSystemVariableBrowserMergeField(mergeFieldReferenceValue)) {
+        if (this._isSystemVariableClientMergeField(mergeFieldReferenceValue)) {
             return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
         if (mergeFieldReferenceValue.indexOf('.') !== -1) {

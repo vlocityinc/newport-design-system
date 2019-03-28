@@ -3,7 +3,7 @@ import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction
 import { getElementCategory } from 'builder_platform_interaction/elementConfig';
 import { mockAccountFields } from 'mock/serverEntityData';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_BROWSER_PREFIX } from "builder_platform_interaction/systemLib";
+import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX } from "builder_platform_interaction/systemLib";
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
@@ -105,12 +105,12 @@ describe('menuDataGenerator', () => {
             dataType: FLOW_DATA_TYPE.STRING.value,
         };
 
-        const parentBrowserVariableItem = {
-            text: SYSTEM_VARIABLE_BROWSER_PREFIX,
-            displayText: `{!${SYSTEM_VARIABLE_BROWSER_PREFIX}}`
+        const parentClientVariableItem = {
+            text: SYSTEM_VARIABLE_CLIENT_PREFIX,
+            displayText: `{!${SYSTEM_VARIABLE_CLIENT_PREFIX}}`
         };
 
-        const browserVariable = {
+        const clientVariable = {
             dataType: FLOW_DATA_TYPE.STRING.value,
         };
         it('should use label for subtext for sobject fields', () => {
@@ -126,9 +126,9 @@ describe('menuDataGenerator', () => {
             const mutatedProperty = mutateFieldToComboboxShape(flowVariable, parentFlowVariableItem, true, true);
             expect(mutatedProperty.subText).toEqual(flowVariable.dataType);
         });
-        it('should use dataType for subtext for $Browser variables', () => {
-            const mutatedProperty = mutateFieldToComboboxShape(browserVariable, parentBrowserVariableItem, true, true);
-            expect(mutatedProperty.subText).toEqual(browserVariable.dataType);
+        it('should use dataType for subtext for $Client variables', () => {
+            const mutatedProperty = mutateFieldToComboboxShape(clientVariable, parentClientVariableItem, true, true);
+            expect(mutatedProperty.subText).toEqual(clientVariable.dataType);
         });
     });
 });
