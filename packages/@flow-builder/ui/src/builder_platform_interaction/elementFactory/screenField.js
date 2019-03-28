@@ -2,6 +2,7 @@ import {
     isTextAreaField,
     isChoiceField,
     isExtensionField,
+    isPicklistField,
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
     getScreenFieldType
@@ -41,6 +42,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         outputParameters,
         choiceReferences = []
     } = screenField;
+
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
         type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
@@ -51,6 +53,11 @@ export function createScreenField(screenField = {}, isNewField = false) {
         type = getScreenFieldType(screenField);
         inputParameters = [];
         outputParameters = [];
+        // Picklist fields are always required at runtime since they always default to one of the options and there's no way to select a null or empty value option
+        // To reflect this behavior in the builder, we default isRequired to true and make the checkbox disabled in the screen field property editor
+        if (isPicklistField(screenField)) {
+            isRequired = true;
+        }
     }
 
     let defaultValueFerovObject;
