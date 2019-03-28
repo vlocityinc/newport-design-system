@@ -15,13 +15,17 @@ const groupByProcessType = (templates) => {
     }, {});
 };
 
-export const getProcessTypeTile = (processType, isSelected) => {
-    let processTypeTile = LABELS[processType];
-    if (!processTypeTile) {
-        const processTypeLabel = getProcessTypes().find(type => type.name === processType).label;
-        processTypeTile = {title: format(LABELS.newProcessTypeTitle, processTypeLabel), description: format(LABELS.newProcessTypeDescription, processTypeLabel)};
+export const getProcessTypeTile = (processTypeName, isSelected) => {
+    const processType = getProcessTypes().find(type => type.name === processTypeName);
+    if (!processType) {
+        throw new Error("Can not find process type: " + processTypeName);
     }
-    return {itemId: processType, label: processTypeTile.title, iconName: getProcessTypeIcon(processType), description: processTypeTile.description, isSelected};
+    const label = processType.label;
+    let description = LABELS[processTypeName];
+    if (!description) {
+        description = format(LABELS.newProcessTypeDescription, label);
+    }
+    return {itemId: processTypeName, label, iconName: getProcessTypeIcon(processTypeName), description, isSelected};
 };
 
 export const cacheTemplates = (processType, templates) => {

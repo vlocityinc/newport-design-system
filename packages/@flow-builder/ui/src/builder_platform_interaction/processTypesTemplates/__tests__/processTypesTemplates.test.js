@@ -2,8 +2,10 @@ import { createElement } from 'lwc';
 import { getShadowRoot } from 'lwc-test-utils';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
 import { TemplateChangedEvent } from 'builder_platform_interaction/events';
+import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
+import { MOCK_ALL_PROCESS_TYPES } from "mock/processTypesData";
 
 const mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
@@ -70,6 +72,7 @@ const getCheckbox = (visualPickerItem) => {
 const getChangedEvent = () => {
     return new Event('change');
 };
+const getProcessType = (processTypeName) => MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);
 
 describe('process-type-templates', () => {
     let processTypeTemplates;
@@ -80,8 +83,8 @@ describe('process-type-templates', () => {
     it('shows 2 process type tiles: one screen and one autolaunched', () => {
         const processTypeTiles = getTemplates(processTypeTemplates, SELECTORS.FEATURED_SECTION);
         expect(processTypeTiles).toHaveLength(2);
-        expect(processTypeTiles).toEqual([{"description": "FlowBuilderProcessTypeTemplates.newFlowDescription", "iconName": "utility:desktop", "isSelected": true, "itemId": "Flow", "label": "FlowBuilderProcessTypeTemplates.newFlowTitle"},
-            {"description": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription", "iconName": "utility:magicwand", "isSelected": false, "itemId": "AutoLaunchedFlow", "label": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowTitle"}]);
+        expect(processTypeTiles).toEqual([{"description": "FlowBuilderProcessTypeTemplates.newFlowDescription", "iconName": "utility:desktop", "isSelected": true, "itemId": FLOW_PROCESS_TYPE.FLOW, "label": getProcessType(FLOW_PROCESS_TYPE.FLOW).label},
+            {"description": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription", "iconName": "utility:magicwand", "isSelected": false, "itemId": FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, "label": getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label}]);
     });
 
     it('shows 3 templates: two screens and one autolaunched', () => {

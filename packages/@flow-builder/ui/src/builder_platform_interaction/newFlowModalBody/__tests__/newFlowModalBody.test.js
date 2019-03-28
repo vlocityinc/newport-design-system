@@ -65,6 +65,8 @@ const getErrorMessage = (modalBody) => {
     return getShadowRoot(modalBody).querySelector(SELECTORS.ERROR_MESSAGE);
 };
 
+const getProcessType = (processTypeName) => MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);
+
 describe('new-flow-modal-body', () => {
     describe('process types navigation', () => {
         let newFlowModalBody;
@@ -89,7 +91,7 @@ describe('new-flow-modal-body', () => {
             const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
             expect(processTypesTemplates.processType).toEqual(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
             const processTypeTiles = getTemplates(processTypesTemplates, SELECTORS.FEATURED_SECTION);
-            expect(processTypeTiles.items).toEqual([{"description": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription", "iconName": "utility:magicwand", "isSelected": true, "itemId": "AutoLaunchedFlow", "label": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowTitle"}]);
+            expect(processTypeTiles.items).toEqual([{"description": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription", "iconName": "utility:magicwand", "isSelected": true, "itemId": FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, "label": getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label}]);
             const templates = getTemplates(processTypesTemplates, SELECTORS.TEMPLATES_SECTION);
             expect(templates.items).toEqual([{"description": MOCK_AUTO_TEMPLATE.Description, "iconName": "utility:magicwand", "isSelected": false, "itemId": MOCK_AUTO_TEMPLATE.EnumOrID, "label": MOCK_AUTO_TEMPLATE.Label}]);
         });
@@ -109,8 +111,8 @@ describe('new-flow-modal-body', () => {
         it('shows 2 process type tiles: one screen and one autolaunched', () => {
             const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
             const processTypeTiles = getTemplates(processTypesTemplates, SELECTORS.FEATURED_SECTION);
-            expect(processTypeTiles.items).toEqual([{"description": "FlowBuilderProcessTypeTemplates.newFlowDescription", "iconName": "utility:desktop", "isSelected": true, "itemId": "Flow", "label": "FlowBuilderProcessTypeTemplates.newFlowTitle"},
-                {"description": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription", "iconName": "utility:magicwand", "isSelected": false, "itemId": "AutoLaunchedFlow", "label": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowTitle"}]);
+            expect(processTypeTiles.items).toEqual([{"description": "FlowBuilderProcessTypeTemplates.newFlowDescription", "iconName": "utility:desktop", "isSelected": true, "itemId": FLOW_PROCESS_TYPE.FLOW, "label": getProcessType(FLOW_PROCESS_TYPE.FLOW).label},
+                {"description": "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription", "iconName": "utility:magicwand", "isSelected": false, "itemId": FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, "label": getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label}]);
         });
 
         it('shows 3 templates: two screens and one autolaunched', () => {
