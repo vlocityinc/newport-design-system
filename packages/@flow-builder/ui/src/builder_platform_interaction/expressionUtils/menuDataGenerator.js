@@ -128,7 +128,7 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
     const label = field.label || apiName;
-    const subText = shouldShowDataTypeAsSubText(parent) ? field.dataType : label;
+    const subText = shouldShowDataTypeAsSubText(parent) ? getDataTypeLabel(field.dataType) : label;
 
     formattedField.text = apiName;
     formattedField.subText = (showSubText) ? subText : '';
