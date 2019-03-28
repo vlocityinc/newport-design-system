@@ -116,7 +116,7 @@ export function isElementAllowed(allowedParamTypes, element, showComplexObjectsF
 
     return !allowedParamTypes
         || isElementMatchForProperty(getDataType(element))
-        || isElementMatchForProperty(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]])
+        || isElementMatchForProperty(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]] || element[PARAM_PROPERTY.ELEMENT_TYPE])
         || isElementMatchForProperty(element[SUBTYPE])
         || (showComplexObjectsForFields &&
             (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT])

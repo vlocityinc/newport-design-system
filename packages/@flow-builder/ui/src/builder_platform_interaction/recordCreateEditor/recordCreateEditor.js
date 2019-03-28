@@ -3,6 +3,7 @@ import { recordCreateReducer } from "./recordCreateReducer";
 import { LABELS } from "./recordCreateEditorLabels";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { PARAM_PROPERTY } from "builder_platform_interaction/ruleLib";
@@ -13,6 +14,7 @@ import { PropertyChangedEvent } from "builder_platform_interaction/events";
 
 export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;
+    propertyEditorElementType = ELEMENT_TYPE.RECORD_CREATE;
 
     /**
      * Internal state for the editor
@@ -168,7 +170,6 @@ export default class RecordCreateEditor extends LightningElement {
         return {
             [PARAM_PROPERTY.DATA_TYPE]: FLOW_DATA_TYPE.STRING.value,
             [PARAM_PROPERTY.IS_COLLECTION]: false,
-            [PARAM_PROPERTY.ELEMENT_TYPE]: this.state.recordCreateElement.elementType,
         };
     }
 
