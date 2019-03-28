@@ -1,5 +1,22 @@
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { generateGuid } from "builder_platform_interaction/storeLib";
+import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+
+/**
+ * Sort element types from service side based on the custom ordering list
+ * @param {Array} unsortedElementTypes unsorted element type list
+ *
+ * @returns {Array} sorted element type list based on custom ordering
+ */
+function sortElementTypes(unsortedElementTypes = []) {
+    const elementOrderedList = [ELEMENT_TYPE.SCREEN, ELEMENT_TYPE.ASSIGNMENT, ELEMENT_TYPE.DECISION, ELEMENT_TYPE.WAIT, ELEMENT_TYPE.LOOP,
+        ELEMENT_TYPE.RECORD_CREATE, ELEMENT_TYPE.RECORD_UPDATE, ELEMENT_TYPE.RECORD_LOOKUP, ELEMENT_TYPE.RECORD_DELETE, ELEMENT_TYPE.ACTION_CALL,
+        ELEMENT_TYPE.SUBFLOW, ELEMENT_TYPE.APEX_PLUGIN_CALL];
+    return [...unsortedElementTypes].sort((firstElementType, secondElementType) => {
+        // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
+        return elementOrderedList.indexOf(firstElementType.elementType) - elementOrderedList.indexOf(secondElementType.elementType);
+    });
+}
 
 /**
  * Transforms elements into a form that is usable by lightning-tree-grid. These
@@ -47,6 +64,7 @@ export const getElementSections = (elements) => {
         return [];
     }
 
+    elements = sortElementTypes(elements);
     const elementMap = mutateElements(elements);
     const elementSections = Object.keys(elementMap).reduce((acc, name) => {
         const section = {};
@@ -59,3 +77,4 @@ export const getElementSections = (elements) => {
 
     return elementSections;
 };
+

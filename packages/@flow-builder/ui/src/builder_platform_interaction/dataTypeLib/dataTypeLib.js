@@ -1,5 +1,6 @@
 import { LABELS as SCREEN_LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
 import { LABELS as DATA_TYPE_LABELS } from "./dataTypeLibLabels";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Array of objects representing flow data types
@@ -146,6 +147,21 @@ export const INPUT_FIELD_DATA_TYPE = {
 };
 
 /**
+ * Sort resource types from service side based on the custom ordering list
+ * @param {Array} unsortedResourceTypes unsorted resource type list
+ *
+ * @returns {Array} sorted resource type list based on custom ordering
+ */
+function sortResourceTypes(unsortedResourceTypes = []) {
+    const resourceOrderedList = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.TEXT_TEMPLATE,
+        ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.STAGE];
+    return [...unsortedResourceTypes].sort((firstResourceType, secondResourceType) => {
+        // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
+        return resourceOrderedList.indexOf(firstResourceType.name) - resourceOrderedList.indexOf(secondResourceType.name);
+    });
+}
+
+/**
  * Tries to return the right FLOW_DATA_TYPE for the provided dataType name, looking both in all flow data types and all the mappings
  * @param {String} dataType - The data type name
  * @returns {Object} the flow data type.
@@ -236,7 +252,7 @@ export function getFlowDataType(dataType) {
  * @param {String} newResourceTypes - String object of all supported resource types.
  */
 export function setResourceTypes(newResourceTypes = []) {
-    resourceTypes = newResourceTypes;
+    resourceTypes = sortResourceTypes(newResourceTypes);
 }
 
 /**
