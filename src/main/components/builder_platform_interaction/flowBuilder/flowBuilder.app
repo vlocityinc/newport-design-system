@@ -1,6 +1,7 @@
 <aura:application extends="force:sldsDynamic" description="Lightning Flow Builder" access="accessCheck://Interaction.userCanEditDesigner" template="builder_platform_interaction:flowBuilderTemplate">
     <!--Attributes -->
     <aura:attribute name="flowId" type="String" default="" description="The id of the flow to load" />
+    <aura:attribute name="flowDefId" type="String" description="The id of the flow definition associated with the flow we are loading" />
 
     <aura:attribute name="ready" type="Boolean" access="private" description="Flag used to render the editor." />
 
@@ -13,7 +14,7 @@
     <builder_platform_interaction:imageLib aura:id="imageLib"></builder_platform_interaction:imageLib>
 
     <aura:if isTrue="{!v.ready}">
-        <builder_platform_interaction:container flowId="{!v.flowId}"></builder_platform_interaction:container>
+        <builder_platform_interaction:container flowId="{!v.flowId}" flowDefId="{!v.flowDefId}"></builder_platform_interaction:container>
     </aura:if>
 
     <!-- panel manager component with custom css -->

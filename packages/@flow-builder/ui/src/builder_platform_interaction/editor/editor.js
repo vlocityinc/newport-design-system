@@ -45,6 +45,7 @@ const EDITOR = 'EDITOR';
  */
 export default class Editor extends LightningElement {
     currentFlowId;
+    currentFlowDefId;
     runDebugUrl;
     isFlowServerCallInProgress = false;
 
@@ -117,6 +118,15 @@ export default class Editor extends LightningElement {
         } else {
             invokeNewFlowModal(this.closeFlowModalCallback, this.createFlowFromTemplateCallback);
         }
+    }
+
+    @api
+    get flowDefId() {
+        return this.currentFlowDefId;
+    }
+
+    set flowDefId(flowDefId) {
+        this.currentFlowDefId = flowDefId;
     }
 
     get showSpinner() {
@@ -297,10 +307,32 @@ export default class Editor extends LightningElement {
         if (window.location.search.indexOf('isFromAloha=true') >= 0) {
             isFromAloha = true;
         }
-        this.backUrl = isFromAloha ? data.flowUrl : data.lightningFlowUrl;
+        this.backUrl = isFromAloha ? this.buildBackUrlForAloha(data.flowUrl) : this.buildBackUrlForLightning(data.lightningFlowUrl);
         this.helpUrl = data.helpUrl;
         this.runDebugUrl = data.runDebugUrl;
         this.retrievedHeaderUrls = true;
+    };
+
+    /**
+     * Helper method to construct the detail page back url for Aloha
+     * @param {String} url - base url which we build on to construct the url for the detail page
+     */
+    buildBackUrlForAloha = (url) => {
+        if (this.currentFlowDefId) {
+            url = '/' + this.currentFlowDefId;
+        }
+        return url;
+    };
+
+    /**
+     * Helper method to construct the detail page back url for Lightning
+     * @param {String} url - base url which we build on to construct the url for the detail page
+     */
+    buildBackUrlForLightning = (url) => {
+        if (this.currentFlowDefId) {
+            url = url.split('/home')[0] + '/page?address=' + encodeURIComponent('/' + this.currentFlowDefId);
+        }
+        return url;
     };
 
     /**

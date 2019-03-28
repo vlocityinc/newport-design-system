@@ -10,6 +10,7 @@
 
     <!--Attributes-->
     <aura:attribute name="flowId" type="String" description="The id of the flow to load" />
+    <aura:attribute name="flowDefId" type="String" description="The id of the flow definition associated with the flow we are loading" />
 
     <!--Private Attributes-->
     <aura:attribute name="storeInstance" type="Object" description="This is instance of global store." />
@@ -54,6 +55,6 @@
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
    
     <div class="flow-builder-container">
-        <builder_platform_interaction:editor flowId="{!v.flowId}"/>
+        <builder_platform_interaction:editor flowId="{!v.flowId}" flowDefId="{!v.flowDefId}"/>
     </div>
 </aura:component>
