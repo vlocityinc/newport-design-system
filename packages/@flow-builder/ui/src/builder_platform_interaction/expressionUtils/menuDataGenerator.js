@@ -5,10 +5,11 @@ import {
 } from "builder_platform_interaction/dataTypeLib";
 import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from "builder_platform_interaction/ruleLib";
 import { isComplexType } from "builder_platform_interaction/dataTypeLib";
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
+import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
@@ -128,7 +129,15 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
     const label = field.label || apiName;
-    const subText = shouldShowDataTypeAsSubText(parent) ? getDataTypeLabel(field.dataType) : label;
+    let subText = label;
+     if (shouldShowDataTypeAsSubText(parent)) {
+         const dataTypeLabel = getDataTypeLabel(field.dataType);
+         if (field.isCollection && parent.dataType === FLOW_DATA_TYPE.APEX.value) {
+             subText = format(collectionDataType, dataTypeLabel);
+         } else {
+             subText = dataTypeLabel;
+         }
+     }
 
     formattedField.text = apiName;
     formattedField.subText = (showSubText) ? subText : '';
