@@ -1,5 +1,5 @@
 import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData,
-    getEventTypesMenuData, getSecondLevelItems } from '../menuDataRetrieval.js';
+    getEventTypesMenuData, getSecondLevelItems, getResourceTypesMenuData } from '../menuDataRetrieval.js';
 import { numberParamCanBeField, stringParam, booleanParam, stageParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -101,6 +101,21 @@ jest.mock('builder_platform_interaction/selectors', () => {
         writableElementsSelector: jest.fn(),
         sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
         readableElementsSelector: jest.fn(),
+    };
+});
+
+jest.mock('builder_platform_interaction/dataTypeLib', () => {
+    const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
+    const {ELEMENT_TYPE : elementType} = require('builder_platform_interaction/flowMetadata');
+    return  {
+        getDataTypeLabel: actual.getDataTypeLabel,
+        getDataTypeIcons: actual.getDataTypeIcons,
+        FLOW_DATA_TYPE: actual.FLOW_DATA_TYPE,
+        FEROV_DATA_TYPE: actual.FEROV_DATA_TYPE,
+        isComplexType: actual.isComplexType,
+        getResourceTypes: jest.fn().mockImplementation(() => {
+            return [{name: elementType.VARIABLE}, {name: elementType.CONSTANT}, {name: elementType.FORMULA}];
+        })
     };
 });
 
@@ -439,6 +454,19 @@ describe('Menu data retrieval', () => {
             const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
             getSecondLevelItems(mockConfig, parentApexItem, jest.fn());
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe('getResourceTypesMenuData', () => {
+        it('Get list of menu data based on the allowed resource types', () => {
+            const resourceTypesMenuData = getResourceTypesMenuData();
+            const expectedResourceTypes = [
+                {value: 'variable', label: 'FlowBuilderNewResource.variableLabel'},
+                {value: 'constant', label: 'FlowBuilderNewResource.constantLabel'},
+                {value: 'formula', label: 'FlowBuilderNewResource.formulaLabel'}
+            ];
+            expect(resourceTypesMenuData).toHaveLength(3);
+            expect(resourceTypesMenuData).toEqual(expectedResourceTypes);
         });
     });
     // TODO: write tests for gettings category once we switch to using labels

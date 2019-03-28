@@ -13,7 +13,6 @@ function sortElementTypes(unsortedElementTypes = []) {
         ELEMENT_TYPE.RECORD_CREATE, ELEMENT_TYPE.RECORD_UPDATE, ELEMENT_TYPE.RECORD_LOOKUP, ELEMENT_TYPE.RECORD_DELETE, ELEMENT_TYPE.ACTION_CALL,
         ELEMENT_TYPE.SUBFLOW, ELEMENT_TYPE.APEX_PLUGIN_CALL];
     return [...unsortedElementTypes].sort((firstElementType, secondElementType) => {
-        // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
         return elementOrderedList.indexOf(firstElementType.elementType) - elementOrderedList.indexOf(secondElementType.elementType);
     });
 }
