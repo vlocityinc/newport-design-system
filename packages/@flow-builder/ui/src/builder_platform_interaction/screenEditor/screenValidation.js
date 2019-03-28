@@ -109,7 +109,7 @@ const createTypeValidationRule = (/* type */) => {
  * @param {boolean} required - Requiredness
  * @returns {object} - The rules
  */
-const getExtensionParameterRules = (type, required) => {
+const getExtensionParameterRules = (type, required, rowIndex) => {
     const rules = [];
     if (required) {
         rules.push(ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined);
@@ -118,6 +118,8 @@ const getExtensionParameterRules = (type, required) => {
     if (type) {
         rules.push(createTypeValidationRule(type));
     }
+
+    rules.push(ValidationRules.validateResourcePicker(rowIndex));
 
     return rules;
 };
@@ -141,7 +143,7 @@ const getRulesForExtensionField = (field, rules) => {
             // here we have the attribute from the definition and the parameter from the field, let's make sure that the type and the requiredness match
             const type = attributeDescriptors[0].dataType;
             const required = attributeDescriptors[0].isRequired && !attributeDescriptors[0].hasDefaultValue;
-            return {value: getExtensionParameterRules(type, required)};
+            return {value: getExtensionParameterRules(type, required, param.rowIndex)};
         }
     };
 
@@ -154,7 +156,7 @@ const getRulesForExtensionField = (field, rules) => {
         } else {
             const type = attributeDescriptors[0].dataType;
             return {
-                value: [createTypeValidationRule(type)]
+                value: [createTypeValidationRule(type), ValidationRules.validateResourcePicker(param.rowIndex)]
             };
         }
     };

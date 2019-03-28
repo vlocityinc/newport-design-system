@@ -53,6 +53,7 @@
                                 </builder_platform_interaction-ferov-resource-picker>
                                 <builder_platform_interaction-output-resource-picker if:false={state.isInput} class={comboboxClass}
                                     value={parameterValue} combobox-config={parameterComboboxConfig}
+                                    row-index={state.parameterItem.rowIndex}
                                     element-param={elementParam} property-editor-element-type={elementType}
                                     error-message={errorMessage}
                                     oncomboboxstatechanged={handleUpdateParameter}>                                                                         

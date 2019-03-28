@@ -12,5 +12,7 @@ export default class OutputResourcePicker extends LightningElement {
     
     @api errorMessage;
 
+    @api rowIndex;
+
 }
 

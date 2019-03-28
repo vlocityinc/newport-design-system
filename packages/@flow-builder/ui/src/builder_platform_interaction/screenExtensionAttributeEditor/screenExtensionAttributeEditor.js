@@ -8,6 +8,7 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
     @api descriptor;
     @api attribute;
     @api attributeType;
+    @api rowIndex;
     @api index;
     @api attributeIndex = 0;
 

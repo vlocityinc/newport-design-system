@@ -11,6 +11,7 @@
 
                 <template for:each={inputParameters} for:item='param' for:index='index'>
                     <builder_platform_interaction-screen-extension-attribute-editor key={param.descriptor.apiName} 
+                                                                                    row-index={param.rowIndex}
                                                                                     index='-1' 
                                                                                     descriptor={param.descriptor} 
                                                                                     attribute={param.attribute} 
@@ -24,6 +25,7 @@
                 <lightning-accordion-section name='outputsSection' label={labels.extensionOutputsHeader}>
                     <template for:each={outputParameters} for:item='param' for:index='index'>
                         <builder_platform_interaction-screen-extension-attribute-editor key={param.key} 
+                                                                                        row-index={param.rowIndex}
                                                                                         index={index} 
                                                                                         descriptor={param.descriptor} 
                                                                                         attribute={param.attribute} 

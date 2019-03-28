@@ -23,7 +23,7 @@ const maxConnections = 2;
 
 export function createRecordCreate(recordCreate = {}) {
     const newRecordCreate = baseCanvasElement(recordCreate);
-    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), assignRecordIdToReference = '' } = recordCreate;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), assignRecordIdToReference = '', assignRecordIdToReferenceIndex = generateGuid() } = recordCreate;
     let { inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordCreate;
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
 
@@ -44,6 +44,7 @@ export function createRecordCreate(recordCreate = {}) {
             maxConnections,
             elementType,
             assignRecordIdToReference,
+            assignRecordIdToReferenceIndex,
             dataType: FLOW_DATA_TYPE.BOOLEAN.value,
 
         });
@@ -66,6 +67,7 @@ export function createRecordCreate(recordCreate = {}) {
             availableConnections,
             maxConnections,
             elementType,
+            assignRecordIdToReferenceIndex,
             dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         });
     }

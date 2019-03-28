@@ -14,6 +14,7 @@ import { isScreen,
          isRadioField,
          compareValues,
          EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
+import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const isHydrated = (value) => {
     return value && value.hasOwnProperty('value') && value.hasOwnProperty('error');
@@ -249,7 +250,8 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
         param = {
             name: paramName,
             processMetadataValues:[],
-            value: null
+            value: null,
+            rowIndex: generateGuid()
         };
 
         hydrateWithErrors(param, elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties);

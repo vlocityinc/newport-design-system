@@ -29,7 +29,7 @@ export const recordCreateValidation = new Validation();
  * @param {string} wayToStoreFields can be sObjectVariable or separateVariables
  * @return {Object} the overridden rules
  */
-export const getRules = ({numberRecordsToStore, object, objectIndex, inputAssignments, inputReferenceIndex}, wayToStoreFields) => {
+export const getRules = ({numberRecordsToStore, object, objectIndex, inputAssignments, inputReferenceIndex, assignRecordIdToReferenceIndex}, wayToStoreFields) => {
     const overriddenRules = Object.assign({}, recordCreateValidation.finalizedRules);
     // case where a sObject has been selected
     if (getValueFromHydratedItem(numberRecordsToStore) ===  NUMBER_RECORDS_TO_STORE.FIRST_RECORD && wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES) {
@@ -38,6 +38,7 @@ export const getRules = ({numberRecordsToStore, object, objectIndex, inputAssign
             if (inputAssignments.length > 1) {
                 overriddenRules.inputAssignments = validateAssignments();
             }
+            overriddenRules.assignRecordIdToReference = [ValidationRules.validateResourcePicker(assignRecordIdToReferenceIndex)];
         }
     } else {
         overriddenRules.inputReference = validateInputReference(inputReferenceIndex);
