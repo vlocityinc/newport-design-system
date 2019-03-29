@@ -10,8 +10,10 @@
 */
 
 .nds-table__custom {
+
   td {
     line-height: 2.8rem;
+
     .nds-text-heading_small {
       line-height: inherit;
     }
@@ -19,6 +21,7 @@
 }
 
 .nds-text-heading_small {
+
   &.nds-lineheight__custom {
     line-height: 2.8rem;
   }

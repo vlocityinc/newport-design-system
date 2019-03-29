@@ -1,13 +1,19 @@
 import parse from 'comment-parser';
+let id = 0;
 
 export function commentToHTML(scssFilePath) {
-  const commentAST = parse(scssFilePath);
-  const selectorTable = `
-  <h2 class="nds-text-heading_medium nds-m-vertical_large">Overview of CSS Classes</h2>
-  ${prettyPrintAST(commentAST)}`;
+  const newId = id++;
 
   return function(storyFn) {
-    return storyFn() + selectorTable;
+    requestAnimationFrame(() => {
+      const commentAST = parse(scssFilePath);
+      const selectorTable = `
+      <h2 class="nds-text-heading_medium nds-m-vertical_large">Overview of CSS Classes</h2>
+      ${prettyPrintAST(commentAST)}`;
+      const el = document.getElementById(`comments-${newId}`);
+      el.innerHTML = selectorTable;
+    });
+    return `${storyFn()}<article id="comments-${newId}">Loading...</article>`;
   };
 }
 
@@ -24,6 +30,10 @@ function prettyPrintAST(commentAST) {
     map[tag.tag] = tag;
     return map;
   }, {});
+
+  if (!tagMap.selector) {
+    return '';
+  }
 
   return `
   <table class="nds-table nds-table_bordered nds-table_fixed-layout nds-max-medium-table_tacked nds-no-row-hover nds-m-bottom_large">

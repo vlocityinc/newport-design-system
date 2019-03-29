@@ -1,6 +1,7 @@
 ng-form {
   display: inline-block;
   width: 100%;
+
   .ng-valid span.nds-required {
     color: $color-valid-control;
   }
@@ -20,6 +21,7 @@ section.nds-page-header {
 p[vlc-bind-html] {
   color: $color-light-blue-hue;
   word-break: normal;
+
   p {
     font-size: 0.9rem;
     color: $color-midnight-blue;
@@ -44,6 +46,7 @@ div.noUISlider[vlc-range-slider-generated] {
 }
 
 .noUi-horizontal {
+
   .noUi-handle-lower,
   .noUi-handle {
     .noUi-tooltip {
@@ -82,13 +85,16 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
   #{$left}: 39vw;
   border: 1px solid $color-border-error;
   font-size: 1rem;
+
   p {
     margin: 10px 0;
   }
+
   p:first-child {
     font-weight: 700;
     font-size: 1rem;
   }
+
   p:last-child button {
     text-transform: capitalize;
     border-radius: 0;
@@ -103,16 +109,19 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
     font-weight: 600;
     display: block;
   }
+
   .nds-form-element__control-help {
     color: $color-input-font-kashmiri-blue;
     font-size: .75rem;
     font-weight: 300;
   }
+
   .nds-form-element__control {
     .nds-select_container {
       position: relative;
       top: -.1rem;
     }
+
     .nds-select_container+label {
       position: relative;
       top: -3.5rem;
@@ -142,6 +151,7 @@ ul.nds-dropdown-list {
   width: 100%;
   border-radius: 0.25rem;
   box-shadow: 0px 15px 10px -15px $color-dropdown-shadow;
+
   li {
     background-color: $color-background-input;
     font-weight: 400;
@@ -149,6 +159,7 @@ ul.nds-dropdown-list {
     letter-spacing: 1px;
     color: $color-dropdown-text;
     cursor: pointer;
+
     &:hover {
       background-color: $color-dropdown-border;
     }
@@ -177,27 +188,33 @@ ul.nds-dropdown-list {
 .nds-modal_custom {
   .nds-modal {
     outline: none;
+
     .nds-modal__container {
       max-width: 55rem;
       width: 90%;
+
       .nds-modal__content {
         border-radius: 0;
-    	height: 78vh;
+        height: 78vh;
       }
+
       .nds-modal__header {
         border-bottom: unset;
         text-align: unset;
       }
+
       .nds-modal__footer {
         border-top: unset;
         padding-top: unset;
         padding-bottom: 1rem;
         background: $color-border-tab-active;
+
         .nds-button_neutral {
           padding-left: 3rem;
           padding-right: 3rem;
           height: 2.5rem;
         }
+
         .nds-editblock_expand-modal {
           display: inline-block;
           height: 14px;
@@ -257,6 +274,7 @@ div[msg='Success'] {
   .nds-icon_container_circle {
     border: 3px solid $color-success-msz;
     padding: .2rem;
+
     .nds-icon {
       fill: $color-success-msz;
     }
@@ -267,6 +285,7 @@ div[msg='Warning'] {
   .nds-icon_container_circle {
     border: 3px solid $color-warning-msz;
     padding: .2rem;
+
     .nds-icon {
       position: relative;
       top: -0.16rem;
@@ -279,6 +298,7 @@ div[msg='Requirement'] {
   .nds-icon_container_circle {
     border: 3px solid $color-requirement-msz;
     padding: .2rem;
+
     .nds-icon {
       fill: $color-requirement-msz;
     }
@@ -289,6 +309,7 @@ div[msg='Comment'] {
   .nds-icon_container_circle {
     border: 3px solid $color-comment-msz;
     padding: .2rem;
+
     .nds-icon {
       fill: $color-comment-msz;
     }
@@ -300,7 +321,9 @@ div[msg='Comment'] {
 span[vlc-slds-pop-over] {
   position: relative;
   white-space: normal;
-} //tooltips
+}
+
+//tooltips
 .nds-input.ng-pristine~small.helpText,
 .nds-input.ng-valid~small.helpText,
 .nds-textarea.ng-pristine~small.helpText,
@@ -327,8 +350,11 @@ span[vlc-slds-pop-over] {
   position: absolute;
   top: 0rem;
   pointer-events: none;
-} //just for rtl
+}
+
+//just for rtl
 .nds-nubbin--top-right {
+
   &:before,
   &:after {
     #{$left}: auto;
@@ -362,6 +388,7 @@ span[vlc-slds-pop-over] {
   letter-spacing: 1px;
   color: $color-dropdown-text;
   cursor: pointer;
+
   a {
     color: inherit;
   }
@@ -412,11 +439,13 @@ span[vlc-slds-pop-over] {
 
 .nds-progress__list-mobile {
   width: 100%;
+
   .nds-custom-step__progress {
     height: 0.25rem;
     position: relative;
     background: $color-gray-border-primary;
     width: 80%;
+
     span.nds-custom-step__progress-fill {
       background: $color-background-brand-primary;
       width: 50%;
@@ -443,6 +472,7 @@ button.nds-step__next-link[disabled] {
   span {
     color: $color-palette-cool-gray-5;
   }
+
   svg {
     fill: $color-palette-cool-gray-5;
   }
@@ -454,8 +484,10 @@ button.nds-step__next-link[disabled] {
 
 .nds-nonfocused_control {
   position: relative;
+
   .nds-is-absolute {
     display: none;
+
     .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
       #{$left}: calc(-50% + 12px);
       max-width: 30rem;
@@ -472,6 +504,7 @@ button.nds-step__next-link[disabled] {
       max-width: 30rem;
       white-space: nowrap;
       top: -1.6875rem;
+
       &::before,
       &::after {
         width: 1rem;
@@ -494,6 +527,7 @@ button.nds-step__next-link[disabled] {
   width: 1.2rem;
   height: 1.2rem;
   cursor: pointer;
+
   &:hover+.nds-is-absolute {
     display: block;
   }
@@ -502,9 +536,11 @@ button.nds-step__next-link[disabled] {
 .vlc-slds-filter__item {
   display: flex;
   margin: auto 0;
+
   &:first-child {
     margin-top: -15px;
   }
+
   .vlc-slds-select_filter-control,
   .vlc-slds-multiSelect-filter-control {
     border-bottom: 1px solid $color-border-botticelli;
@@ -602,6 +638,7 @@ button.nds-step__next-link[disabled] {
 }
 
 @media only screen and (min-width: 64em) {
+
   .nds-table_bordered:not(.nds-no-row-hover) tbody tr:hover>td:not(.nds-is-selected),
   .nds-table_bordered:not(.nds-no-row-hover) tbody tr:hover>th:not(.nds-is-selected),
   .nds-table_bordered:not(.nds-no-row-hover) tbody tr:focus>td:not(.nds-is-selected),
@@ -615,6 +652,7 @@ button.nds-step__next-link[disabled] {
 }
 
 @media only screen and (min-width: 64em) {
+
   .nds-table:not(.nds-no-row-hover) tbody tr:hover>td,
   .nds-table:not(.nds-no-row-hover) tbody tr:hover>th,
   .nds-table:not(.nds-no-row-hover) tbody tr:focus>td,
@@ -627,12 +665,15 @@ button.nds-step__next-link[disabled] {
   svg.nds-icon {
     fill: $color-light-blue-hue;
   }
+
   .nds-mob-conf__body {
     display: inline-block;
     margin-#{$left}: 0.5rem;
+
     .nds-form-element__label {
       color: $color-light-blue-hue;
       font-size: 0.8125rem;
+
       span.nds-ref-number {
         font-weight: 700;
       }
@@ -642,7 +683,7 @@ button.nds-step__next-link[disabled] {
 
 .nds-disclosure .nds-form-element__label,
 .nds-range .nds-form-element__label span {
-    font-size: 0.875rem;
+  font-size: 0.875rem;
 }
 
 form {

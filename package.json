@@ -8,10 +8,6 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@salesforce-ux/build-server-api": "2.0.2",
-    "@salesforce-ux/create-snap": "0.0.6",
-    "@salesforce-ux/design-system-markup": "2.0.2",
-    "@salesforce-ux/design-system-parser": "1.0.1",
     "@salesforce-ux/icons": "7.31.0",
     "@storybook/addon-a11y": "5.0.3",
     "@storybook/addon-info": "5.0.3",
@@ -120,7 +116,6 @@
     "strip-indent": "2.0.0",
     "stylelint": "7.10.1",
     "stylelint-config-slds": "1.0.7",
-    "stylestats": "7.0.1",
     "temp": "0.8.3",
     "theo": "5.0.0",
     "through2": "2.0.3",
@@ -131,6 +126,7 @@
     "vnu-jar": "17.9.0",
     "webpack": "4.0.0",
     "webpack-cli": "3.2.3",
+    "webpack-watch-files-plugin": "^1.0.2",
     "yaml-frontmatter-loader": "^0.1.0",
     "yargs": "8.0.1"
   },
@@ -149,22 +145,13 @@
   "scripts": {
     "build": "gulp build -v",
     "build-prod": "gulp build",
-    "build-server": "babel-node scripts/npm/build-server.js --verbose",
-    "build-travis": "babel-node scripts/npm/build-travis.js",
-    "dist": "babel-node scripts/dist.js",
+    "build-storybook": "build-storybook -c .storybook -o .out",
+    "dist": "node scripts/dist.js",
     "gulp": "gulp",
     "lint": "gulp lint",
     "start": "npm run build && npm run storybook",
-    "previewer": "babel-node scripts/previewer",
-    "previewer-dev": "export SLDS_PREVIEWER=development; babel-node scripts/previewer",
-    "stats": "gulp stylestats",
-    "test": "NODE_ENV=test; babel-node scripts/npm/test.js",
-    "test-mocha": "NODE_ENV=test; mocha --compilers js:babel-register --reporter min 'test/unit/**/*.js'",
-    "test-jest": "NODE_ENV=test; jest",
-    "travis": "node scripts/npm/build-travis.js",
     "precommit": "lint-staged",
-    "storybook": "start-storybook -s ./ -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -s ./ -p 6006"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -172,14 +159,10 @@
       "git add"
     ]
   },
-  "jest": {
-    "testRegex": "(/__tests__/.*(test|spec))\\.jsx?$",
-    "setupTestFrameworkScriptFile": "./jest.setup.js"
-  },
   "dependencies": {
+    "babel-eslint": "^10.0.1",
     "ci": "^1.0.0",
     "comment-parser": "^0.5.4",
-    "highlight.js": "^9.15.6",
-    "html": "^1.0.0"
+    "highlight.js": "^9.15.6"
   }
 }

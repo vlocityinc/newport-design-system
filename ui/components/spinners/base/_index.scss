@@ -27,6 +27,7 @@
 .nds-spinner_container.hide {
   display: none;
 }
+
 /* stylelint-enable selector-class-pattern */
 
 /**
@@ -39,34 +40,35 @@
  */
 
 .nds-spinner {
-    width: 4.5rem;
-    #{$left}: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    position: absolute;
-    svg circle {
-      fill: $color-background-spinner-dot;
-      r: 12.5%;
+  width: 4.5rem;
+  #{$left}: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 
-      &:nth-child(1) {
-        cx: 12.5%;
-      }
+  svg circle {
+    fill: $color-background-spinner-dot;
+    r: 12.5%;
 
-      &:nth-child(2) {
-        cx: 50%;
-      }
-
-      &:nth-child(3) {
-        cx: 87.5%;
-      }
+    &:nth-child(1) {
+      cx: 12.5%;
     }
+
+    &:nth-child(2) {
+      cx: 50%;
+    }
+
+    &:nth-child(3) {
+      cx: 87.5%;
+    }
+  }
 }
 
 
 @media only screen and (max-width: 30em) {
   .nds-spinner {
-      #{$left}: 40%;
-      top: 40%;
+    #{$left}: 40%;
+    top: 40%;
   }
 }
 
@@ -182,11 +184,10 @@
  * This is the loading message, specifically for the large spinner
  */
 
-.nds-spinner + .vlc-loading-message,
-.nds-spinner + .vlc-loading-message,
-{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,calc(-50% + 2.75rem));
+.nds-spinner+.vlc-loading-message,
+.nds-spinner+.vlc-loading-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 2.75rem));
 }

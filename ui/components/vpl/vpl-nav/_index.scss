@@ -12,9 +12,11 @@
 
 .nds-subnav__wrapper {
   position: relative;
+
   .nds-subnav__fullWidth {
     width: 100%;
   }
+
   .nds-subnav__active {
     display: flex;
     flex-direction: column;
@@ -27,33 +29,42 @@
     border-bottom: 0.0625rem solid $card_color_background;
     background: $card_color_background;
     color: $color-blue-text-secondary;
+
     &.nds-subnav__tabSelected {
       border-left: 0.0625rem solid rgba($color-black-primary, 0.1);
       background: $color-brand;
       border-bottom: 0;
       color: $color-border-tab-active;
+
       img {
         filter: brightness(5);
       }
+
       &:hover {
         border-bottom-color: transparent;
       }
     }
+
     &.nds-subnav__tabSelected {
+
       .nds-subnav__cardtop {
         vertical-align: middle;
         margin: auto;
       }
     }
+
     .nds-subnav__image {
       display: flex;
       justify-content: center;
     }
   }
+
   .nds-subnav__active {
+
     .nds-subnav__cardValues h2 {
       font-size: 0.625rem
     }
+
     .nds-subnav__cardValues h2:first-child {
       font-size: 1.125rem;
       overflow: hidden;
@@ -62,17 +73,20 @@
       height: 2.25rem;
     }
   }
+
   img {
     pointer-events: none;
     height: 3.75rem;
     margin: 0 auto;
   }
+
   .nds-subnav__overview-card {
     animation: ndsOpacityAnimation 0.55s forwards;
     max-width: 9.375rem;
     width: 5.625rem;
     max-height: 10.8125rem;
   }
+
   @keyframes ndsOpacityAnimation {
     0% {
       opacity: 0;
@@ -84,22 +98,27 @@
       opacity: 1;
     }
   }
+
   .cfp-hotkeys-container.fade {
     display: none !important
   }
+
   .fullWidth {
     width: 100%;
   }
+
   .nds-subnav__inner {
     background: $card_color_background;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     border-bottom: 1px solid rgba($color-black-primary, 0.1);
+
     .nds-subnav__theme:first-child {
       border-left: 1px solid rgba($color-black-primary, 0.1);
       text-decoration: none;
     }
   }
+
   .nds-subnav__theme {
     position: relative;
     width: 100%;
@@ -107,44 +126,55 @@
     height: 173px;
     text-decoration: none;
     min-width: 140px;
+
     &.active {
       border-left: 1px solid rgba($color-black-primary, 0.1);
       box-shadow: 0px 10px 0px 0px $color-brand;
       background: $color-brand;
+
       img {
         filter: brightness(255);
       }
+
       .nds-subnav-card__active {
         border-bottom: 0;
         color: $color-border-tab-active;
       }
     }
   }
+
   @media only screen and (max-width:767px) {
     .nds-subnav__inner {
       padding-left: 0.625rem !important;
       padding-right: 0.625rem !important;
     }
   }
+
   @media only screen and (max-width:767px) {
     .nds-subnav__theme {
       min-width: 100px;
       width: inherit;
       height: 84px;
     }
+
     .nds-subnav__active {
+
       .nds-subnav__hideSmall {
         display: none;
       }
+
       .nds-subnav__image {
         margin-bottom: 0.2rem;
+
         img {
           height: 32px;
         }
       }
+
       &:hover {
         border-bottom: 1px solid $card_color_background;
       }
+
       .nds-subnav__cardValues h2:first-child {
         font-size: 0.75rem;
         padding-bottom: 2px;
@@ -154,9 +184,11 @@
         height: 36px;
       }
     }
+
     .nds-subnav__tabSelected {
       box-shadow: none;
     }
+
     .nds-subnav__hidSmall {
       display: none;
     }

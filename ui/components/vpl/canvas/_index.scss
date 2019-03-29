@@ -14,11 +14,14 @@
 */
 
 .nds-canvas {
+
   &.nds-card__border {
     border: 0.0625rem solid rgba($color-black-primary, 0.05);
   }
+
   &__title {
     font-size: $font-size-xx-large;
+
     &:after {
       content: "";
       background: $color-brand;

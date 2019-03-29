@@ -12,8 +12,10 @@
  */
 
 .nds-tabs_default-vpl {
+
   .nds-tabs_default__item,
   .nds-tabs--default__item {
+
     &.nds-active,
     &.nds-is-active {
       color: $color-text-action-label-active;
@@ -55,7 +57,5 @@
         background-color: $color-brand;
       }
     }
-
-
   }
 }

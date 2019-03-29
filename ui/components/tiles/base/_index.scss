@@ -11,7 +11,7 @@
  */
 .nds-tile {
 
-  + .nds-tile {
+  +.nds-tile {
     margin-top: $spacing-x-small;
   }
 
@@ -51,14 +51,18 @@
 
 .nds-tile_brand {
   position: relative;
+
   @include border(around, $border-radius-medium);
+
   border-color: $color-brand;
   padding: $spacing-small;
 }
 
 .nds-tile_neutral {
   position: relative;
+
   @include border(around, $border-radius-medium);
+
   border-color: $color-border;
   padding: $spacing-small;
 }
