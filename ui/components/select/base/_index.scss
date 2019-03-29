@@ -23,6 +23,7 @@
   &[size] option {
     padding: $spacing-x-small;
   }
+
   &[multiple] option {
     padding: $spacing-x-small 0;
   }
@@ -74,7 +75,7 @@
     }
 
     &:before {
-      border-top: 8px solid white;
+      border-top: 8px solid #ffffff;
       bottom: calc((#{$line-height-button-small} / 2) - 1.5px);
       z-index: 1;
     }

@@ -5,8 +5,8 @@ ignoreFiles:
   - site/assets/styles/_vendor/**
 
 # Default rules based on
-# https://github.com/salesforce-ux/stylelint-config-nds
-extends: "stylelint-config-nds"
+# https://github.com/salesforce-ux/stylelint-config-slds
+extends: "stylelint-config-slds"
 
 # Overrides
 rules:

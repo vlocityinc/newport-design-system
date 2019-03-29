@@ -41,8 +41,8 @@
     }
 
 
-    + .nds-checkbox_button,
-    + .nds-checkbox--button {
+    +.nds-checkbox_button,
+    +.nds-checkbox--button {
       margin: 0;
       margin-#{$right}: 1.25rem;
       margin-bottom: 2.5rem;
@@ -57,21 +57,21 @@
 
     // Dealing with box shadows on specific n children
     // of the button group
-    &:first-child > .nds-checkbox_faux,
-    &:first-child > .nds-checkbox--faux,
-    &:first-child > .nds-checkbox_button__label,
-    &:first-child > .nds-checkbox--button__label {
+    &:first-child>.nds-checkbox_faux,
+    &:first-child>.nds-checkbox--faux,
+    &:first-child>.nds-checkbox_button__label,
+    &:first-child>.nds-checkbox--button__label {
       border: 1px solid $button-color-border-primary;
       border-radius: 0.25rem;
       width: 100%;
     }
 
-    &:last-child > .nds-checkbox_faux,
-    &:last-child > .nds-checkbox--faux,
-    .nds-button_last > .nds-checkbox_faux,
-    .nds-button--last > .nds-checkbox--faux,
-    &:last-child > .nds-checkbox_button__label,
-    &:last-child > .nds-checkbox--button__label {
+    &:last-child>.nds-checkbox_faux,
+    &:last-child>.nds-checkbox--faux,
+    .nds-button_last>.nds-checkbox_faux,
+    .nds-button--last>.nds-checkbox--faux,
+    &:last-child>.nds-checkbox_button__label,
+    &:last-child>.nds-checkbox--button__label {
       width: 100%;
       border-radius: 0.25rem;
     }
@@ -86,32 +86,33 @@
       padding: 0;
       position: absolute;
 
- 
-      &:checked + .nds-checkbox_faux,
-      &:checked + .nds-checkbox--faux,
-      &:checked ~ .nds-checkbox_faux,
-      &:checked ~ .nds-checkbox--faux,
-      &:checked + .nds-checkbox_button__label,
-      &:checked + .nds-checkbox--button__label {
+
+      &:checked+.nds-checkbox_faux,
+      &:checked+.nds-checkbox--faux,
+      &:checked~.nds-checkbox_faux,
+      &:checked~.nds-checkbox--faux,
+      &:checked+.nds-checkbox_button__label,
+      &:checked+.nds-checkbox--button__label {
         background-color: transparent;
         color: $color-text-button-brand;
-        width: 100%; 
+        width: 100%;
         border: 2px solid $color-brand;
+
         // Need something stronger when the input is checked
         &:hover,
         &:focus {
           background-color: transparent;
         }
       }
-  
+
       // Focus State
       // +/~ nds-checkbox--faux selector are for legacy support
-      &:focus + .nds-checkbox_faux,
-      &:focus + .nds-checkbox--faux,
-      &:focus ~ .nds-checkbox_faux,
-      &:focus ~ .nds-checkbox--faux,
-      &:focus + .nds-checkbox_button__label,
-      &:focus + .nds-checkbox--button__label {
+      &:focus+.nds-checkbox_faux,
+      &:focus+.nds-checkbox--faux,
+      &:focus~.nds-checkbox_faux,
+      &:focus~.nds-checkbox--faux,
+      &:focus+.nds-checkbox_button__label,
+      &:focus+.nds-checkbox--button__label {
         outline: 0;
         box-shadow: none;
         z-index: $z-index-default; // Raises box shadow above adjacent buttons
@@ -119,12 +120,12 @@
 
       // Disabled State
       // +/~ nds-checkbox--faux selector are for legacy support
-      &[disabled] + .nds-checkbox_faux,
-      &[disabled] + .nds-checkbox--faux,
-      &[disabled] ~ .nds-checkbox_faux,
-      &[disabled] ~ .nds-checkbox--faux,
-      &[disabled] + .nds-checkbox_button__label,
-      &[disabled] + .nds-checkbox--button__label {
+      &[disabled]+.nds-checkbox_faux,
+      &[disabled]+.nds-checkbox--faux,
+      &[disabled]~.nds-checkbox_faux,
+      &[disabled]~.nds-checkbox--faux,
+      &[disabled]+.nds-checkbox_button__label,
+      &[disabled]+.nds-checkbox--button__label {
         background-color: transparent;
         color: $color-text-button-default-disabled;
 
@@ -134,12 +135,12 @@
         }
       }
 
-      &[disabled]:checked + .nds-checkbox_faux,
-      &[disabled]:checked + .nds-checkbox--faux,
-      &[disabled]:checked ~ .nds-checkbox_faux,
-      &[disabled]:checked ~ .nds-checkbox--faux,
-      &[disabled]:checked + .nds-checkbox_button__label,
-      &[disabled]:checked + .nds-checkbox--button__label {
+      &[disabled]:checked+.nds-checkbox_faux,
+      &[disabled]:checked+.nds-checkbox--faux,
+      &[disabled]:checked~.nds-checkbox_faux,
+      &[disabled]:checked~.nds-checkbox--faux,
+      &[disabled]:checked+.nds-checkbox_button__label,
+      &[disabled]:checked+.nds-checkbox--button__label {
 
         &:hover,
         &:focus {
@@ -160,7 +161,7 @@
     letter-spacing: 1px;
     font-weight: 400;
     color: $color-background-brand-primary;
-    #{$left}:0;
+    #{$left}: 0;
     font-size: 0.875rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -213,23 +214,23 @@
     }
   }
 
-} 
+}
 
-fieldset.nds-form-element + .nds-has-error.nds-grid div:first-child small {
+fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
   margin-top: 0;
 }
 
 .nds-checkbox_custom-group .nds-button.nds-checkbox_button.nds-checkbox_aspect-ratio {
-    position: relative;
+  position: relative;
 
-    span.nds-checkbox_button__label {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
+  span.nds-checkbox_button__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
+}
 
 .nds-form-element__control.nds-vertical_checkbox {
   display: flex;

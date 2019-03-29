@@ -13,11 +13,11 @@
  * @support dev-ready
  */
 
- @media (min-width: 30em) and (max-width: 48em) {
-    .via-nds .nds-omniscript_stepform  {
-        width: 83.3333333%;
-        -ms-flex: 0 0 83.3333333%;
-        flex: 0 0 83.3333333%;
-        max-width: 83.3333333%;
-    }
+@media (min-width: 30em) and (max-width: 48em) {
+
+  .via-nds .nds-omniscript_stepform {
+    width: 83.3333333%;
+    flex: 0 0 83.3333333%;
+    max-width: 83.3333333%;
+  }
 }

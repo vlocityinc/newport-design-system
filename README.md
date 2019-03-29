@@ -1,6 +1,6 @@
 # Vlocity Newport Design System
 
-Welcome to the [Vlocity Newport Design System] brought to you by [Vlocity](https://vlocity.com).
+Welcome to the Vlocity Newport Design System brought to you by [Vlocity](https://vlocity.com).
 
 * Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel.
 * Based on the [Salesforce Lightning Design System](https://lightningdesignsystem.com).
@@ -12,8 +12,7 @@ Before getting started ensure you have
 1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
 2. Change into the `newport-design-system` folder using `cd newport-design-system`.
 3. Run `npm install`.
-4. Run `npm start` to launch the Previewer.
-5. Visit http://localhost:3003/local/preview
+4. Run `npm start` to launch the Storybook.
 
 Having trouble getting these steps to work on your machine? Follow the [troubleshooting](#troubleshooting) guide below.
 
@@ -42,14 +41,6 @@ Lint the code base for syntax and stylistic errors.
 ```bash
 # Lint indentation, Sass, JavaScript files
 gulp lint
-
-# Lint languages independently
-gulp lint:sass
-gulp lint:js
-gulp lint:js:test
-gulp lint:spaces
-gulp lint:html
-gulp lint:vnu (optional: --component "{trees_base_with*,trees_base_deep*}")
 ```
 
 ### Compilation

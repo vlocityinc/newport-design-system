@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+require('@babel/register');
 
 const fs = require('fs');
 const path = require('path');
@@ -12,9 +13,6 @@ const postcss = require('gulp-postcss');
 const rimraf = require('rimraf');
 const sass = require('gulp-sass');
 const minifycss = require('gulp-minify-css');
-const ui = require('./ui');
-const { createLibrary } = require('./compile/bundle');
-
 const packageJSON = require('../package.json');
 const paths = require('./helpers/paths');
 
@@ -51,14 +49,6 @@ async.series(
         .on('error', done)
         .on('finish', done);
     },
-
-    /**
-   * Make release notes
-   */
-    // done =>
-    //   releaseNotes({ isInternal: packageJSON.config.nds.internal })
-    //     .pipe(fs.createWriteStream(distPath("RELEASENOTES.md")))
-    //     .on("finish", () => done()),
 
     /**
    * Cleanup the package.json
@@ -385,14 +375,7 @@ async.series(
     },
     done => {
       rimraf(distPath('assets/icons/**/*.png'), done);
-    },
-
-    /**
-   * Add ui.json
-   */
-    done => ui.writeToDist().fork(done, () => done(null, null)),
-
-    done => createLibrary().fork(e => done(e), x => done(null, x))
+    }
   ],
   err => {
     if (err) throw err;
