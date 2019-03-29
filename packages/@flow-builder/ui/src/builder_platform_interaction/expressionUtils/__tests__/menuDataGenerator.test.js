@@ -113,22 +113,26 @@ describe('menuDataGenerator', () => {
         const clientVariable = {
             dataType: FLOW_DATA_TYPE.STRING.value,
         };
+
+        const testDataTypeSubText = (field, parent) => {
+            const label = field.dataType + 'Label';
+            getDataTypeLabel.mockReturnValueOnce(label);
+            const mutatedProperty = mutateFieldToComboboxShape(field, parent, true, true);
+            expect(mutatedProperty.subText).toEqual(label);
+        };
         it('should use label for subtext for sobject fields', () => {
             const mockField = mockAccountFields.AccountSource;
             const mutatedField = mutateFieldToComboboxShape(mockField, parentSObjectItem, true, true);
             expect(mutatedField.subText).toEqual(mockField.label);
         });
         it('should use dataType for subtext for apex properties', () => {
-            const mutatedProperty = mutateFieldToComboboxShape(apexProperty, parentApexItem, true, true);
-            expect(mutatedProperty.subText).toEqual(apexProperty.dataType);
+            testDataTypeSubText(apexProperty, parentApexItem);
         });
         it('should use dataType for subtext for $Flow variables', () => {
-            const mutatedProperty = mutateFieldToComboboxShape(flowVariable, parentFlowVariableItem, true, true);
-            expect(mutatedProperty.subText).toEqual(flowVariable.dataType);
+            testDataTypeSubText(flowVariable, parentFlowVariableItem);
         });
         it('should use dataType for subtext for $Client variables', () => {
-            const mutatedProperty = mutateFieldToComboboxShape(clientVariable, parentClientVariableItem, true, true);
-            expect(mutatedProperty.subText).toEqual(clientVariable.dataType);
+            testDataTypeSubText(clientVariable, parentClientVariableItem);
         });
     });
 });
