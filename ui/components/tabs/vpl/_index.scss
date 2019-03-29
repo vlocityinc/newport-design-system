@@ -1,0 +1,61 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ *
+ * @summary Initializes a vpl styled tablist
+ *
+ * @name vpl
+ * @selector .nds-tabs_default-vpl
+ * @restrict .nds-tabs_default
+ * @variant
+ */
+
+.nds-tabs_default-vpl {
+
+  .nds-tabs_default__item,
+  .nds-tabs--default__item {
+
+    &.nds-active,
+    &.nds-is-active {
+      color: $color-text-action-label-active;
+
+      &:after {
+        background-color: $color-brand;
+      }
+
+      .nds-tabs_default__link,
+      .nds-tabs--default__link {
+        font-weight: $tabs-font-weight;
+
+        &:hover {
+          color: $color-text-action-label-active;
+        }
+      }
+    }
+
+    &:hover {
+
+      &:after {
+        background-color: $color-brand;
+      }
+    }
+
+    /**
+    * @summary Focus state for a tab item
+    * @selector .nds-has-focus
+    * @restrict .nds-tabs_default__item
+    * @modifier
+    */
+    &:focus,
+    &.nds-has-focus {
+      outline: 0;
+      color: $color-text-tab-label-selected;
+
+      &:after {
+        height: ($border-width-thick + 1);
+        background-color: $color-brand;
+      }
+    }
+  }
+}

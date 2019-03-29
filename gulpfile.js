@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-require('babel-register');
+require('@babel/register');
 
 const del = require('del');
 const gulp = require('gulp');
@@ -10,8 +10,7 @@ const runSequence = require('run-sequence');
 
 const paths = require('./scripts/helpers/paths');
 
-require('./scripts/gulp/accessibility');
-require('./scripts/gulp/generate-examples');
+require('./scripts/gulp/icons');
 require('./scripts/gulp/generate-tokens-components');
 require('./scripts/gulp/lint');
 require('./scripts/gulp/styles');
@@ -31,10 +30,5 @@ gulp.task('clean', () =>
 );
 
 gulp.task('build', callback => {
-  runSequence(
-    'clean',
-    ['generate:tokens:all', 'generate:examples'],
-    'styles',
-    callback
-  );
+  runSequence('clean', 'generate:tokens:all', 'styles', 'icons', callback);
 });

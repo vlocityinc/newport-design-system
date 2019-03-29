@@ -2,26 +2,31 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /*
-* @name vpl
+* @name vpl-timeline
 * @selector .nds-activity-feed-timeline__card
 * @restrict .nds-canvas
 * @variant
 */
 
 .nds-activity-feed-timeline__card {
+
   .nds-activity-feed-card_item__date {
     display: block;
     width: 95px;
     font-size: 0.75rem;
     position: absolute;
   }
+
   .nds-activity-feed-timeline__label {
     margin-left: 125px;
   }
+
   ul {
+
     &.nds-hid__Line:before {
       display: none;
     }
+
     &:before {
       content: '';
       position: absolute;
@@ -31,7 +36,9 @@
       background: $color-brand;
       left: 96px;
     }
+
     li {
+
       .nds-activity-feed-timeline__circle {
         width: 18px;
         height: 18px;

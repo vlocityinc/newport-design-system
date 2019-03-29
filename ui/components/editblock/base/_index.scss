@@ -9,299 +9,302 @@
  * @selector .nds-edit-block
  * @restrict div
  * @variant
- */ 
+ */
 
 .nds-edit-block {
-    position: relative;
-    padding: 0;
+  position: relative;
+  padding: 0;
 }
 
 .nds-edit-block_gaction_btn {
-    svg {
-        cursor: pointer;
-    }
-    
-    .nds-popover_tooltip {
-        #{$left}: -.56rem;
-        top: 2.6rem;
-        white-space: nowrap;
-        display: none;
-     }
+  svg {
+    cursor: pointer;
+  }
+
+  .nds-popover_tooltip {
+    #{$left}: -.56rem;
+    top: 2.6rem;
+    white-space: nowrap;
+    display: none;
+  }
 }
-   
+
 .nds-edit-block_gaction_btn:hover .nds-popover_tooltip {
-    display: block;
+  display: block;
 }
 
 
 .nds-table_custom {
-    .nds-table {
-        table-layout: fixed;
-     }
+  .nds-table {
+    table-layout: fixed;
+  }
 
-    .nds-table_bordered {
-        border: 1px solid $color-border-input;
-        border-radius: 5px;
+  .nds-table_bordered {
+    border: 1px solid $color-border-input;
+    border-radius: 5px;
+  }
+
+  .nds-table thead th {
+    height: 2rem;
+    background-color: $color-border-tab-active;
+    color: $color-input-font-kashmiri-blue;
+    border-bottom: 1px solid $color-border-input;
+  }
+
+  .nds-table tr {
+    cursor: pointer;
+
+    .nds-required {
+      top: 0.6875rem;
+      font-size: 1rem;
     }
 
-    .nds-table thead th {
-        height: 2rem;
-        background-color: $color-border-tab-active;
-        color: $color-input-font-kashmiri-blue;
-        border-bottom: 1px solid $color-border-input;
+    td {
+      border-top: none;
     }
 
-    .nds-table tr {
-        cursor: pointer;
-
-        .nds-required {
-            top: 0.6875rem;
-            font-size: 1rem;
-        }
-
-        td {
-            border-top: none;
-        }
-
-        form div {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            width: calc(100% - 2rem);
-            color: $color-blue-text-secondary;
-         }
-         > td:first-child {
-            padding-#{$left}: 0.5rem;
-         }
+    form div {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      width: calc(100% - 2rem);
+      color: $color-blue-text-secondary;
     }
 
-    .nds-editblock_add-button {
-        box-shadow: unset !important;
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        color: $color-midnight-blue;
-        max-width: 50%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    >td:first-child {
+      padding-#{$left}: 0.5rem;
     }
+  }
 
-    .nds-table_custom-row-selected {
-        background: $color-background-wildsand;
-     }
+  .nds-editblock_add-button {
+    box-shadow: unset !important;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    color: $color-midnight-blue;
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nds-table_custom-row-selected {
+    background: $color-background-wildsand;
+  }
 }
 
 
 
 .nds-edit-block_shortcards {
-    height: 12.5rem;
-    border: 1px solid $color-border-input;
-    border-radius: 5px;
+  height: 12.5rem;
+  border: 1px solid $color-border-input;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+
+  form {
+    height: inherit;
     outline: none;
-    cursor: pointer;
 
-    form {
-        height: inherit;
-        outline: none;
-
-        .nds-edit-block_cards-action-container {
-            margin-#{$right}: 0.5rem;
-            margin-top: 0.5rem;
-            position: relative;
-        }
+    .nds-edit-block_cards-action-container {
+      margin-#{$right}: 0.5rem;
+      margin-top: 0.5rem;
+      position: relative;
     }
+  }
 
-    .nds-edit-block_shortcards-circle {
-        position: relative;
-        text-align: center;
+  .nds-edit-block_shortcards-circle {
+    position: relative;
+    text-align: center;
 
-        .nds-icon_container_circle {
-            position: relative;
-            border: 3px solid $color-background-brand-primary;
+    .nds-icon_container_circle {
+      position: relative;
+      border: 3px solid $color-background-brand-primary;
 
-            .nds-icon {
-                fill: $color-background-brand-primary;
-            }
-        }
+      .nds-icon {
+        fill: $color-background-brand-primary;
+      }
     }
+  }
 
-    .nds-edit-block_shortcards-controls-container {
-        position: relative;
-        text-align: center;
-        padding: 3px;
-        overflow: hidden;
+  .nds-edit-block_shortcards-controls-container {
+    position: relative;
+    text-align: center;
+    padding: 3px;
+    overflow: hidden;
 
-        div {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-bottom: 3px;
-        }
+    div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-bottom: 3px;
     }
+  }
 
-    .nds-edit-block_shortcards-add-icon {
-        position: relative;
-        text-align: center;
+  .nds-edit-block_shortcards-add-icon {
+    position: relative;
+    text-align: center;
 
-        span {
-            display: inline-block;
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    span {
+      display: inline-block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+  }
 
-    .nds-edit-block_cards-selected-icon {
-        top: -.6rem;
-        #{$left}: -.6rem;
-        visibility: hidden;
+  .nds-edit-block_cards-selected-icon {
+    top: -.6rem;
+    #{$left}: -.6rem;
+    visibility: hidden;
 
-        .nds-icon_container_circle {
-            padding: .5rem;
-            border-radius: 50%;
-            background: $color-background-brand-primary;
-        }
+    .nds-icon_container_circle {
+      padding: .5rem;
+      border-radius: 50%;
+      background: $color-background-brand-primary;
     }
+  }
 
-    .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
-        visibility: visible;
-    }
+  .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
+    visibility: visible;
+  }
 }
 
 .nds-edit-block_longcards {
-    height: 5rem;
-    border: 1px solid $color-border-input;
-    border-radius: 5px;
+  height: 5rem;
+  border: 1px solid $color-border-input;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+
+  form {
+    height: inherit;
     outline: none;
-    cursor: pointer;
+  }
 
-    form{
-        height: inherit;
-        outline: none;
+  .nds-edit-block_longcards-controls-container {
+    display: inline-block;
+    position: relative;
+    width: calc(100% - 12.1rem);
+    #{$left}: 5.5rem;
+    top: -3.8rem;
+    height: 3.7rem;
+    overflow: hidden;
+
+    div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+  }
 
-    .nds-edit-block_longcards-controls-container {
-        display: inline-block;
-        position: relative;
-        width: calc(100% - 12.1rem);
-        #{$left}: 5.5rem;
-        top: -3.8rem;
-        height: 3.7rem;
-        overflow: hidden;
+  .nds-edit-block_longcards-circle {
+    display: block;
+    width: 5rem;
+    height: inherit;
 
-        div {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    .nds-icon_container_circle {
+      border: 3px solid $color-background-brand-primary;
+      position: relative;
+      width: 3.4rem;
+      height: 3.4rem;
+      top: .7rem;
+      #{$left}: 1rem !important;
+
+      .nds-icon {
+        fill: $color-background-brand-primary;
+        width: 2rem;
+        height: 2rem;
+      }
     }
+  }
 
-    .nds-edit-block_longcards-circle {
-        display: block;
-        width: 5rem;
-        height: inherit;
+  .nds-edit-block_cards-action-container {
+    position: relative;
+    top: 1.5rem;
+    #{$left}: 1.2rem;
+  }
 
-        .nds-icon_container_circle {
-            border: 3px solid $color-background-brand-primary;
-            position: relative;
-            width: 3.4rem;
-            height: 3.4rem;
-            top: .7rem;
-            #{$left}: 1rem !important;
-
-            .nds-icon {
-                fill: $color-background-brand-primary;
-                width: 2rem;
-                height: 2rem;
-            }
-        }
+  .nds-edit-block_longcards-add-icon {
+    span {
+      width: 100%;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      position: relative;
+      padding: 0 0.4rem;
     }
+  }
 
-    .nds-edit-block_cards-action-container {
-        position: relative;
-        top: 1.5rem;
-        #{$left}: 1.2rem;
-    }
+  .nds-edit-block_cards-selected-icon {
+    top: -.8rem;
+    #{$left}: .8rem;
+    visibility: hidden;
 
-    .nds-edit-block_longcards-add-icon {
-        span {
-            width: 100%;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            position: relative;
-            padding: 0 0.4rem;
-        }
+    .nds-icon_container_circle {
+      padding: .5rem;
+      border-radius: 50%;
+      background: $color-background-brand-primary;
     }
+  }
 
-    .nds-edit-block_cards-selected-icon {
-        top: -.8rem;
-        #{$left}: .8rem;
-        visibility: hidden;
-        .nds-icon_container_circle {
-            padding: .5rem;
-            border-radius: 50%;
-            background: $color-background-brand-primary;
-        }
-    }
-
-    .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
-        visibility: visible;
-    }
+  .nds-edit-block_cards-selected-icon.nds-edit-block_cards-selected {
+    visibility: visible;
+  }
 }
 
 
 
 .nds-edit-block_cards-add-card {
-    .nds-icon_container_circle {
-        border: 3px solid $color-gray-border-primary !important;
-        #{$left}: unset !important;
+  .nds-icon_container_circle {
+    border: 3px solid $color-gray-border-primary !important;
+    #{$left}: unset !important;
 
-        .nds-icon {
-            fill: $color-gray-border-primary !important;
-        }
+    .nds-icon {
+      fill: $color-gray-border-primary !important;
     }
+  }
 }
 
 .nds-edit-block_cards-action-container {
-    .nds-required {
-        position: absolute;
-        top: 0.2rem;
-        #{$left}: -0.6rem;
-        font-size: 1rem;
-    }
+  .nds-required {
+    position: absolute;
+    top: 0.2rem;
+    #{$left}: -0.6rem;
+    font-size: 1rem;
+  }
 }
 
 .nds-editblock_action-button {
-    width: 2rem;
-    border: 1px solid $color-gray-border-primary;
-    box-shadow: unset !important;
-    background: inherit;
-    z-index: 1;
-    svg {
-        fill: $color-background-brand-primary;
-        width: 1rem;
-        height: 1rem;
-    }
+  width: 2rem;
+  border: 1px solid $color-gray-border-primary;
+  box-shadow: unset !important;
+  background: inherit;
+  z-index: 1;
+
+  svg {
+    fill: $color-background-brand-primary;
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .nds-edit-block_form-password {
-    width: 100%;
-    background: none;
-    border: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  width: 100%;
+  background: none;
+  border: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 48em) {
-    .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
-        overflow: visible;
-        position: relative;
-        height: 3rem;
-    }
+  .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
+    overflow: visible;
+    position: relative;
+    height: 3rem;
+  }
 }
 
 
@@ -311,132 +314,133 @@
 
 
 .nds-editblock_inline {
-    .nds-edit-block-edit__container {
-        border: 1px solid $color-border-input;
-        border-radius: 0.25rem;
-        padding: 2rem;
-        position: relative; 
-        width: 100%; 
-        z-index: 8888; 
-        background: $color-border-tab-active;
+  .nds-edit-block-edit__container {
+    border: 1px solid $color-border-input;
+    border-radius: 0.25rem;
+    padding: 2rem;
+    position: relative;
+    width: 100%;
+    z-index: 8888;
+    background: $color-border-tab-active;
 
-        svg.nds-editblock_close {
-            fill: $color-border-input;
-            top: 0;
-            #{$right}: 0;
-            position: absolute;
-            cursor: pointer;
-        }
-
-        .nds-custom_button {
-            background: $color-border-tab-active;
-            padding: 0.2rem 3.5rem;
-            color: $color-blue-text-primary;
-            border: 1px solid $color-border-input;
-            font-weight: 500;
-        }
+    svg.nds-editblock_close {
+      fill: $color-border-input;
+      top: 0;
+      #{$right}: 0;
+      position: absolute;
+      cursor: pointer;
     }
 
-    .nds-edit-block_longcards {
-        border: none;
-        height: auto;
+    .nds-custom_button {
+      background: $color-border-tab-active;
+      padding: 0.2rem 3.5rem;
+      color: $color-blue-text-primary;
+      border: 1px solid $color-border-input;
+      font-weight: 500;
+    }
+  }
 
-        .nds-edit-block_longcards-controls-container {
-            margin-#{$left}: 1rem;
-            line-height: 5rem;
-            width: 100%;
-            top: 0;
-            #{$left}: 0;
-            height: inherit;
+  .nds-edit-block_longcards {
+    border: none;
+    height: auto;
 
-            div {
-                float: $left;
-                margin-#{$left}: 1rem;
+    .nds-edit-block_longcards-controls-container {
+      margin-#{$left}: 1rem;
+      line-height: 5rem;
+      width: 100%;
+      top: 0;
+      #{$left}: 0;
+      height: inherit;
 
-                &:first-child {
-                    font-weight: 600;
-                }
-            }
+      div {
+        float: $left;
+        margin-#{$left}: 1rem;
+
+        &:first-child {
+          font-weight: 600;
         }
-
-        .nds-editblock_delete {
-            fill: $color-border-input;
-            display: inline-block;
-        }
-
-        & > div {
-            height: 5rem;
-            &:focus {
-                outline: none;
-            }
-        }
-
-        form {
-            border: 1px solid $color-border-input;
-            border-radius: 0.25rem;
-        }
-
-        .nds-edit-block_inline-action-container {
-            position: absolute;
-            top: 1.6rem;
-            #{$right}: 1.5rem;
-        }
+      }
     }
 
-    .nds-edit-block_card-height {
-        height: auto;
+    .nds-editblock_delete {
+      fill: $color-border-input;
+      display: inline-block;
     }
 
-    .nds-editblock_inline__edit-block {
-        position: relative;
-        z-index: 99;
-        margin-top: -5.1rem;
-        background-color: $color-border-tab-active;
+    &>div {
+      height: 5rem;
+
+      &:focus {
+        outline: none;
+      }
     }
 
-    .nds-cont-wrapper .nds-custom_button {
-        #{$left}: calc(50% - 70px);
+    form {
+      border: 1px solid $color-border-input;
+      border-radius: 0.25rem;
     }
 
-    .nds-cont-wrapper button.nds-custom_button:disabled,
-    .nds-cont-wrapper button.nds-custom_button[disabled] {
-            opacity: 0.5;
+    .nds-edit-block_inline-action-container {
+      position: absolute;
+      top: 1.6rem;
+      #{$right}: 1.5rem;
     }
+  }
 
+  .nds-edit-block_card-height {
+    height: auto;
+  }
+
+  .nds-editblock_inline__edit-block {
+    position: relative;
+    z-index: 99;
+    margin-top: -5.1rem;
+    background-color: $color-border-tab-active;
+  }
+
+  .nds-cont-wrapper .nds-custom_button {
+    #{$left}: calc(50% - 70px);
+  }
+
+  .nds-cont-wrapper button.nds-custom_button:disabled,
+  .nds-cont-wrapper button.nds-custom_button[disabled] {
+    opacity: 0.5;
+  }
+
+  .nds-edit-block_longcards-controls-container div {
+    max-width: 40%;
+  }
+
+  @media(max-width: (480/16)+em) {
     .nds-edit-block_longcards-controls-container div {
-        max-width: 40%;
+      max-width: 30%;
     }
+  }
 
-    @media(max-width: (480/16)+em) {
-        .nds-edit-block_longcards-controls-container div {
-            max-width: 30%;
-        }
+  .nds-edit-block_longcards-controls-container div span.nds-edit-block_txt-disp {
+    width: 100%;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    line-height: 1;
+
+    .nds-edit-block_currency-icon {
+      display: inline;
+      width: auto;
     }
-
-    .nds-edit-block_longcards-controls-container div span.nds-edit-block_txt-disp {
-        width: 100%;
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        line-height: 1;
-
-        .nds-edit-block_currency-icon {
-            display: inline;
-            width: auto;
-        }
-    }
+  }
 
 }
 
 .nds-edit-block_cards-add-card.nds-edit-block_longcards {
-    border: 1px solid $color-border-input;
+  border: 1px solid $color-border-input;
 }
 
 .nds-inline_new-top {
-    margin-top: -10.6rem;
+  margin-top: -10.6rem;
 }
 
 .nds-inline_edit-top {
-    margin-top: -5.15rem;
+  margin-top: -5.15rem;
 }

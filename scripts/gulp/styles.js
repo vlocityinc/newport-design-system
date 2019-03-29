@@ -10,60 +10,12 @@ const minifycss = require('gulp-minify-css');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const StyleStats = require('stylestats');
 const runSequence = require('run-sequence');
 
 const paths = require('../helpers/paths');
 
 const sign = x => (x < 0 ? '' : '+');
 const toKB = n => (n / 1024).toFixed(2);
-
-gulp.task('stylestats', ['styles'], done => {
-  const localFile = 'assets/styles/nds.rtl.css';
-  const remoteFile =
-    'https://www.lightningdesignsystem.com/assets/styles/nds.css';
-
-  const localStats = new StyleStats(localFile, '.stylestatsrc');
-  const remoteStats = new StyleStats(remoteFile, '.stylestatsrc');
-  const remote = {};
-
-  remoteStats.parse((error, result) => {
-    if (error) throw error;
-    remote.size = result.size;
-    remote.gzippedSize = result.gzippedSize;
-    remote.rules = result.rules;
-    remote.selectors = result.selectors;
-
-    localStats.parse((error, result) => {
-      const diff = {};
-
-      diff.size = result.size - remote.size;
-      diff.gzippedSize = result.gzippedSize - remote.gzippedSize;
-      diff.rules = result.rules - remote.rules;
-      diff.selectors = result.selectors - remote.selectors;
-
-      gutil.log(
-        gutil.colors.green(`nds.scss (minified):
-            ${toKB(result.size)}KB (${toKB(result.gzippedSize)}KB gzipped)`)
-      );
-
-      gutil.log(
-        gutil.colors.gray(
-          `That's ${sign(diff.size)}${toKB(diff.size)}KB (${sign(
-            diff.gzippedSize
-          )}${diff.gzippedSize.toKB()}KB gzipped) than the current public version.`
-        )
-      );
-
-      gutil.log(`Additional stats:
-            Rules: ${result.rules} (${sign(diff.rules)}${diff.rules})
-            Selectors: ${result.selectors} (${sign(
-        diff.selectors
-      )}${diff.selectors})`);
-      done(error, result);
-    });
-  });
-});
 
 gulp.task('styles:sass', [], () =>
   gulp

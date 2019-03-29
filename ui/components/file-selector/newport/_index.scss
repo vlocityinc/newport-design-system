@@ -12,139 +12,138 @@
  */
 
 .nds-file-custom-selector {
-	.nds-file-selector__dropzone {
-	    width: inherit;
-	    padding: 0;
-	    border: 1px solid $color-border-input;
-	    border-radius: .25rem;
-	    background-color: $card-color-background;
+  .nds-file-selector__dropzone {
+    width: inherit;
+    padding: 0;
+    border: 1px solid $color-border-input;
+    border-radius: .25rem;
+    background-color: $card-color-background;
 
-	    .nds-file-selector__input {
-			opacity: 0;
-			height: 2rem;
-			width: 100%;
-			&:focus {
-				outline: none;
-			}
-		}
+    .nds-file-selector__input {
+      opacity: 0;
+      height: 2rem;
+      width: 100%;
 
-		.nds-file-selector__body {
-			top: -1rem;
-			height: 0px;
-		}
+      &:focus {
+        outline: none;
+      }
+    }
 
-		.nds-file-icon {
-			padding: 2px !important;
-		}
-	}
+    .nds-file-selector__body {
+      top: -1rem;
+      height: 0px;
+    }
 
-	.nds-file-selector__body,
-	.nds-file-selector__button  {
-		width: 100%;
-	}
+    .nds-file-icon {
+      padding: 2px !important;
+    }
+  }
 
-	.nds-file-selector__body {
-		position: relative;
-		height: inherit;
+  .nds-file-selector__body,
+  .nds-file-selector__button {
+    width: 100%;
+  }
 
-		.nds-file-selector__button {
-			background-color: $card-color-background;
-			border: none;
-			color: $color-input-icon-blue-hue;
-			font-size: 0.75rem;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			text-align: #{$left};
-			display: inline-block;
-			pointer-events: none;
-		    width: 100%;
-		    padding-#{$right}: 3rem;
-		}
+  .nds-file-selector__body {
+    position: relative;
+    height: inherit;
 
-		span.nds-file-icon {
-			position: absolute;
-			#{$right}: 0.5rem;
-			padding: 0.3rem;
-			border-radius: 0.25rem;
-			border: 1px solid $color-border-input;
-			pointer-events: none;
+    .nds-file-selector__button {
+      background-color: $card-color-background;
+      border: none;
+      color: $color-input-icon-blue-hue;
+      font-size: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: #{$left};
+      display: inline-block;
+      pointer-events: none;
+      width: 100%;
+      padding-#{$right}: 3rem;
+    }
 
-			svg.nds-button__icon {
-				fill: $color-input-icon-blue-hue;
-				width: 1.2rem;
-				height: 1.2rem;
-			}
-		}
-	}
+    span.nds-file-icon {
+      position: absolute;
+      #{$right}: 0.5rem;
+      padding: 0.3rem;
+      border-radius: 0.25rem;
+      border: 1px solid $color-border-input;
+      pointer-events: none;
 
-	.nds-file-list {
-		margin: 0 0.5rem;
+      svg.nds-button__icon {
+        fill: $color-input-icon-blue-hue;
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+  }
 
-		li {
-			position: relative;
-			width: 100%;
-			height: 2.15rem;
-			margin: 0.5rem 0;
-			border: 1px solid $color-border-input;
-			background-color: white;
-			border-radius: 0.25rem;
-			
-		    .nds-button.nds-button_neutral {
-				border: none;
-				color: $color-text-highlight;
-				font-size: 0.75rem;
-				width: 85%;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
+  .nds-file-list {
+    margin: 0 0.5rem;
 
-				&:focus {
-					background: $color-border-tab-active;
-    				box-shadow: none;
-				}
-		    }
-		}
+    li {
+      position: relative;
+      width: 100%;
+      height: 2.15rem;
+      margin: 0.5rem 0;
+      border: 1px solid $color-border-input;
+      background-color: white;
+      border-radius: 0.25rem;
 
-		.nds-file-selector__button {
-			height: inherit;
-			max-height: 2rem;
-		}
+      .nds-button.nds-button_neutral {
+        border: none;
+        color: $color-text-highlight;
+        font-size: 0.75rem;
+        width: 85%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
-		span.nds-file-icon {
-			position: absolute;
-			#{$right}: 0.3rem;
-			padding: 0.4rem 0;
-			top: 0.27rem;
+        &:focus {
+          background: $color-border-tab-active;
+          box-shadow: none;
+        }
+      }
+    }
 
-			svg.nds-button__icon {
-				fill: $color-input-icon-blue-hue;
-				width: 1.2rem;
-				height: 1.2rem;
-			}
-		}
-	}
+    .nds-file-selector__button {
+      height: inherit;
+      max-height: 2rem;
+    }
+
+    span.nds-file-icon {
+      position: absolute;
+      #{$right}: 0.3rem;
+      padding: 0.4rem 0;
+      top: 0.27rem;
+
+      svg.nds-button__icon {
+        fill: $color-input-icon-blue-hue;
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+    }
+  }
 }
 
 .nds-file-custom-selector.nds-file-selector_files {
-	width: 100%
+  width: 100%
 }
 
-.nds-file-custom-selector.nds-file-selector_files + .nds-tooltip_container {
-	margin-top: 9px;
-    margin-#{$left}: 5px;
+.nds-file-custom-selector.nds-file-selector_files+.nds-tooltip_container {
+  margin-top: 9px;
+  margin-#{$left}: 5px;
 
-    .nds-nonfocused_control svg {
-		fill: $color-input-icon-blue-hue;
-		cursor: pointer;
-    }
+  .nds-nonfocused_control svg {
+    fill: $color-input-icon-blue-hue;
+    cursor: pointer;
+  }
 }
 
 /* for iPhone 5S issue */
 @media screen and (device-aspect-ratio: 40/71) {
-    .nds-file-custom-selector .nds-file-selector__body span.nds-file-icon {
-        top: -0.8125rem;
-    }
+  .nds-file-custom-selector .nds-file-selector__body span.nds-file-icon {
+    top: -0.8125rem;
+  }
 }
-
-

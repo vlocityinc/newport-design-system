@@ -261,3 +261,24 @@
     }
   }
 }
+
+
+/**
+ * @summary Creates large text
+ *
+ * @selector .nds-font-size-large
+ * @modifier
+ */
+.nds-font-size-large {
+  font-size: $font_size_heading_large;
+}
+
+/**
+ * @summary Creates extra large base
+ *
+ * @selector .nds-font-size-x-large
+ * @modifier
+ */
+.nds-font-size-x-large {
+  font-size: $font-size-x-large;
+}
