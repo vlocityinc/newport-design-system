@@ -3,15 +3,17 @@
 
 /**
 *
-* @name vpl
+* @name vpl-table
 * @selector .nds-table__custom
 * @restrict .nds-table
 * @variant
 */
 
 .nds-table__custom {
+
   td {
     line-height: 2.8rem;
+
     .nds-text-heading_small {
       line-height: inherit;
     }
@@ -19,6 +21,7 @@
 }
 
 .nds-text-heading_small {
+
   &.nds-lineheight__custom {
     line-height: 2.8rem;
   }

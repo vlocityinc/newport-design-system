@@ -8,113 +8,113 @@ $sliding-distance: 100; //this is in pixels
 //this line avoids the flicker
 //https://github.com/angular/angular.js/issues/14015
 .ng-hide.ng-hide-animate {
-    display: none ;
+  display: none;
 }
 
 //this is the order in which angular adds animation classes ,
 //safari only works if the animation is added to thefinal stage
 //which means after ng-hide-add-active is added to the dom
 .animate-if.ng-animate.ng-hide-animate.ng-hide-add.ng-hide.ng-hide-add-active {
-    //display:none !important;
-    display: block;
-    animation: $animation-duration ndsFadeOut ease;
-    max-height: $div-height;
-    overflow-y: hidden;
+  //display:none !important;
+  display: block;
+  animation: $animation-duration ndsFadeOut ease;
+  max-height: $div-height;
+  overflow-y: hidden;
 }
 
 /* when showing the picture */
 .animate-if.ng-hide-remove {
-    animation: $animation-duration ndsSlideInUp ease-in-out;
-    -moz-animation-name: ndsSlideInUp; //mode version does not work in mozilla
-    animation-fill-mode: forwards;
+  animation: $animation-duration ndsSlideInUp ease-in-out;
+  -moz-animation-name: ndsSlideInUp; //mode version does not work in mozilla
+  animation-fill-mode: forwards;
 }
 
 .animate-if.animate-ifMod.ng-hide-remove {
-    animation: $animation-duration ndsSlideInUpMod ease-in-out;
-    -moz-animation-name: ndsSlideInUpMod; //mode version does not work in mozilla
-    animation-fill-mode: forwards;
+  animation: $animation-duration ndsSlideInUpMod ease-in-out;
+  -moz-animation-name: ndsSlideInUpMod; //mode version does not work in mozilla
+  animation-fill-mode: forwards;
 }
 
 .animate-rev.ng-hide-add {
-    animation: $animation-duration_reverse  ndsSlideInDown ease;
-    display:block !important;
-    overflow-y: hidden;
+  animation: $animation-duration_reverse ndsSlideInDown ease;
+  display: block !important;
+  overflow-y: hidden;
 }
 
 .animate-rev.ng-hide-remove {
-    animation: $animation-duration_reverse  ndsFadeInFaster ease;
-    -moz-animation-name: ndsFadeInFaster; //mode version does not work in mozilla
-    max-height: $div-height;
-    animation-fill-mode: forwards;
+  animation: $animation-duration_reverse ndsFadeInFaster ease;
+  -moz-animation-name: ndsFadeInFaster; //mode version does not work in mozilla
+  max-height: $div-height;
+  animation-fill-mode: forwards;
 }
 
 @keyframes ndsFadeInFaster {
-    from {
-        opacity: 0.3;
-    }
+  from {
+    opacity: 0.3;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .fadeInFaster {
-    animation-name: ndsFadeInFaster;
+  animation-name: ndsFadeInFaster;
 }
 
 @keyframes ndsSlideInUpMod {
-    0% {
-        transform: translate3d(0, ($sliding-distance) + px, 0);
-    }
+  0% {
+    transform: translate3d(0, ($sliding-distance) + px, 0);
+  }
 
-    100% {
-        transform: translate3d(0, 0, 0);
-    }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .slideInUpMod {
-    animation-name: ndsSlideInUpMod;
+  animation-name: ndsSlideInUpMod;
 }
 
 @keyframes ndsSlideInUp {
-    0% {
-        transform: translate3d(0, 0, 0);
-    }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
 
-    100% {
-        transform: translate3d(0, (-$sliding-distance) + px, 0);
-    }
+  100% {
+    transform: translate3d(0, (-$sliding-distance) + px, 0);
+  }
 }
 
 
 @keyframes ndsSlideInDown {
-    from {
-        transform: translate3d(0, 0, 0);
-        opacity:0.8;
-    }
+  from {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.8;
+  }
 
-    to {
-        transform: translate3d(0, ($sliding-distance/2) + px, 0);
-        opacity:0.4;
-    }
+  to {
+    transform: translate3d(0, ($sliding-distance/2) + px, 0);
+    opacity: 0.4;
+  }
 }
 
 .slideInUp {
-    animation-name: ndsSlideInUp;
+  animation-name: ndsSlideInUp;
 }
 
 
 .slideInDown {
-    animation-name: ndsSlideInDown;
+  animation-name: ndsSlideInDown;
 }
 
 @-webkit-keyframes ndsFadeOut {
   from {
-      opacity: 1;
+    opacity: 1;
   }
 
   to {
-      opacity: 0;
+    opacity: 0;
   }
 }
 

@@ -1,0 +1,19 @@
+# Form Element
+
+An HTML form element contains a HTML label and element
+
+Error states alert the user when content in the form is invalid. The `.nds-has-error` class is placed on the `<div class="nds-form-element">`. Place the error message for the user in a `<span>` with the `.nds-form-element__help` class.
+
+The native form elements, `<input>`, `<textarea>`, `<select>`, `<input type='checkbox'>`, and `<input type='radio'>`, receive validation styling for `disabled`, `checked`, and `checked disabled`, if applicable.
+
+The read-only state is for form elements that can’t be modified. It is used for small, non-editable form fields that sit next to inputs and allows the size and height to align. It is not meant for large paragraphs of text.
+
+Because the read-only field state has no `<input>`, don’t use a `<label>` to provide better accessibility for screen readers and keyboard navigators. Instead, use a `<span>` with the `.nds-form-element__label` class. Instead of an `<input>`, use the `.nds-form-element__static` class inside the `.nds-form-element__control` wrapper.
+
+## Accessibility
+
+Every field requires an associated, non-empty `<label>` element. The label should have a `for` attribute that references the `id` of the field. For example, `<label for="emailAddress">Enter email address:</label>` and `<input id="emailAddress">`. This association ensures that assistive technology informs users what information to enter where.
+
+If the field is required, the `<input>` element should have the HTML attribute `required` or `required=""`. Similarily, if it is disabled, it should have the `disabled` or `disabled=""` attribute. Do not use true/false values inside the `required` or `disabled` because the mere presence of these attributes signifies the field is required or disabled.
+
+If the field is invalid and displays an error message, the `<input>` element should have an `aria-describedby` attribute that references the `id` of the error message. This configuration allows screen readers to read the associated error message when the invalid field is focused.

@@ -59,6 +59,7 @@
 
 // Modify toasts when in a narrow column
 .nds-region_narrow {
+
   // Modifying .nds-notify--toast when inside a region with the
   // class .nds-region--narrow
   .nds-notify_toast,
@@ -69,9 +70,10 @@
   }
 }
 
-@media(max-width:38em){
-    .nds-notify_toast,
-    .nds-notify--toast {
-        min-width:unset;
-    }
+@media(max-width:38em) {
+
+  .nds-notify_toast,
+  .nds-notify--toast {
+    min-width: unset;
+  }
 }

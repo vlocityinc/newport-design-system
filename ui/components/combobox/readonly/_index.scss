@@ -9,3 +9,7 @@
  * @restrict .nds-combobox_container input
  * @variant
  */
+
+.nds-has-error {
+  @include form-input-error('[role="combobox"] input[readonly]');
+}

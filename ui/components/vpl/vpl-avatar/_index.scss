@@ -4,20 +4,23 @@
 /*
 *
 *
-*@name avatar
+* @name vpl-avatar
 * @selector .nds-avatar__custom
 * @restrict .nds-avatar
 * @variant
 */
 
 .nds-avatar__profile {
+
   .nds-avatar__action {
     color: $color-blue-text-primary;
+
     &:first-child {
       border-left: 0 none;
     }
     border-left:2px solid rgba($color-black-primary, 0.10);
   }
+
   .nds-profile__image {
     border: 0.3rem solid $color_background_primary;
     border-radius: 100%;
@@ -25,16 +28,20 @@
     width: 8rem;
     height: 8rem;
     overflow: hidden;
+
     .nds-avatar__custom {
+
       &.nds-avatar_large {
         width: 8rem;
         height: 8rem;
+
         .nds-icon {
           width: 8rem;
           height: 8rem;
           fill: $color-blue-text-secondary;
         }
       }
+
       img {
         width: 100%;
       }
@@ -53,6 +60,7 @@
 */
 
 .nds-canvas__title-centered {
+
   &:after {
     bottom: -0.62rem;
     left: 0;

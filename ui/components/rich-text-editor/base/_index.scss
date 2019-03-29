@@ -45,7 +45,6 @@
   border-bottom: 0;
 }
 
-// Overrides for button-group-lists so that wrapping doesn't leave an unsightly margin on the left
 .nds-rich-text-editor .nds-button-group-list {
   margin-#{$right}: $spacing-xx-small;
   margin-bottom: $spacing-xx-small;

@@ -1,0 +1,35 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+* The base canvas is used primarily on desktop within a “wide” column
+* or “main content area”, which uses two-thirds of the viewport.
+*
+* @summary Initializes canvas
+*
+* @name canvas
+* @selector .nds-canvas
+* @restrict div
+* @variant
+*/
+
+.nds-canvas {
+
+  &.nds-card__border {
+    border: 0.0625rem solid rgba($color-black-primary, 0.05);
+  }
+
+  &__title {
+    font-size: $font-size-xx-large;
+
+    &:after {
+      content: "";
+      background: $color-brand;
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 3.125rem;
+      height: 0.1875rem;
+    }
+  }
+}
