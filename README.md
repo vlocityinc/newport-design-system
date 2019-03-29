@@ -57,21 +57,13 @@ Compile Sass to CSS into `.assets/styles`.
 
 Delete temporary build and local files.
 
-### Stats
-
-`npm run stats`: Useful stats about the project's deliverables.
-
-### Tests
-
-`npm test`: run all tests
-
 ## Troubleshooting
 
 ### npm and Node.js
 
 The Vlocity Newport Design System uses `npm` to manage dependencies. Please [install Node.js](https://nodejs.org), and try running `npm install` again.
 
-If Node.js is already installed, make sure you’re running v6 or up.
+If Node.js is already installed, make sure you’re running v8 or up.
 
 ### JavaScript and compilation issues
 
