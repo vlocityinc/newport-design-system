@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import FerToFerovExpressionBuilder from "builder_platform_interaction/ferToFerovExpressionBuilder";
-import { getShadowRoot } from 'lwc-test-utils';
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { setRules, getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
 import { mockAccountFields } from "mock/serverEntityData";
@@ -93,8 +92,8 @@ beforeEach(() => {
 const describeSkip = describe.skip;
 describeSkip('Expression Builder', () => {
     it('should populate rhs menu data when there is an sobject variable field reference in rhs', () => {
-        const baseExpressionBuilder = getShadowRoot(ferToFerovExpressionBuilder).querySelector(SELECTORS.BASE_EXPRESSION_BUILDER);
-        const rhsCombobox = getShadowRoot(baseExpressionBuilder).querySelectorAll(SELECTORS.COMBOBOX)[1];
+        const baseExpressionBuilder = ferToFerovExpressionBuilder.shadowRoot.querySelector(SELECTORS.BASE_EXPRESSION_BUILDER);
+        const rhsCombobox = baseExpressionBuilder.shadowRoot.querySelectorAll(SELECTORS.COMBOBOX)[1];
         expect(rhsCombobox.menuData.length).toBeGreaterThan(0);
         expect(rhsCombobox.menuData[0].value).toBe(store.accountSObjectVariableGuid + '.Description');
     });

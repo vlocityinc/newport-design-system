@@ -1,4 +1,3 @@
-import { getShadowRoot } from 'lwc-test-utils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
@@ -37,15 +36,15 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
 };
 
 export const getLabelDescriptionElement = (editor) => {
-    return getShadowRoot(editor).querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
+    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
 };
 
 export const getLabelDescriptionNameElement = (editor) => {
-    return getShadowRoot(getLabelDescriptionElement(editor)).querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
+    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
 };
 
 export const getLabelDescriptionLabelElement = (editor) => {
-    return getShadowRoot(getLabelDescriptionElement(editor)).querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
+    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
 };
 
 export const focusoutEvent = new FocusEvent('focusout', {
@@ -104,19 +103,19 @@ export const getGroupedComboboxItem = (groupedCombobox, itemText) => {
 };
 
 export const getFieldToFerovExpressionBuilders = (parentElement) => {
-    return getShadowRoot(parentElement).querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
+    return parentElement.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
 };
 
 export const getBaseExpressionBuilder = (parentElement) => {
-    return getShadowRoot(parentElement).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
+    return parentElement.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
 };
 
 export const getEntityResourcePicker = (editor) => {
-    return getShadowRoot(editor).querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
+    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
 export const getRadioGroup = (parentElement) => {
-    return getShadowRoot(parentElement).querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
+    return parentElement.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
 };
 
 export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
@@ -135,20 +134,20 @@ export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, 
 };
 
 export const getChildComponent = (parentComponent, childComponentSelector) => {
-    return getShadowRoot(parentComponent).querySelector(childComponentSelector);
+    return parentComponent.shadowRoot.querySelector(childComponentSelector);
 };
 
 export const getRecordVariablePickerChildGroupedComboboxComponent = parentPickerComponent => {
-    const ferovResourcePicker = getShadowRoot(parentPickerComponent).querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
-    const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = getShadowRoot(baseResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX);
-    return getShadowRoot(interactionCombobox).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const ferovResourcePicker = parentPickerComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
+    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX);
+    return interactionCombobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 export const getEntityResourcePickerChildGroupedComboboxComponent = parentPickerComponent => {
-    const resourcePicker = getShadowRoot(parentPickerComponent).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
-    return getShadowRoot(combobox).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const resourcePicker = parentPickerComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+    return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 export const changeComboboxValue = (combobox, newValue) => {

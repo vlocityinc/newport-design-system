@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import FieldPicker from '../fieldPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
@@ -23,7 +22,7 @@ describe('field-picker', () => {
     it('defaults requiredness to false', () => {
         const fieldPicker = setupComponentUnderTest();
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(fieldPicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.required).toBe(false);
         });
     });
@@ -32,7 +31,7 @@ describe('field-picker', () => {
             required: true,
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(fieldPicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.required).toBe(true);
         });
     });
@@ -42,7 +41,7 @@ describe('field-picker', () => {
             label,
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(fieldPicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.label).toBe(label);
         });
     });
@@ -52,7 +51,7 @@ describe('field-picker', () => {
             placeholder,
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(fieldPicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.comboboxConfig.placeholder).toBe(placeholder);
         });
     });
@@ -62,7 +61,7 @@ describe('field-picker', () => {
             errorMessage
         });
         return Promise.resolve().then(() => {
-            const baseResourcePicker = getShadowRoot(fieldPicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = fieldPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             expect(baseResourcePicker.errorMessage).toBe(errorMessage);
         });
     });

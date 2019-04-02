@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
 import FlowPropertiesEditor from '../flowPropertiesEditor';
-import { getShadowRoot } from 'lwc-test-utils';
 import { SaveType } from "builder_platform_interaction/saveType";
 import { LABELS } from "../flowPropertiesEditorLabels";
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
@@ -74,39 +73,39 @@ const selectors = {
 };
 
 const getLabelDescription = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.LABEL_DESCRIPTION);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
 };
 
 const getProcessType = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.FLOW_TYPE);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.FLOW_TYPE);
 };
 
 const getShowAdvancedButton = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.SHOW_ADVANCED);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.SHOW_ADVANCED);
 };
 
 const getHideAdvancedButton = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.HIDE_ADVANCED);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.HIDE_ADVANCED);
 };
 
 const getAdvancedProperties = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.ADVANCED_PROPERTIES);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.ADVANCED_PROPERTIES);
 };
 
 const getLastModifiedDetails = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.LAST_MODIFIED);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.LAST_MODIFIED);
 };
 
 const getResourceTextArea = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.RESOURCE_TEXT_AREA);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.RESOURCE_TEXT_AREA);
 };
 
 const getLastProcessType = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.LAST_PROCESS_TYPE);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.LAST_PROCESS_TYPE);
 };
 
 const getSaveAsToggle = (flowPropertiesEditor) => {
-    return getShadowRoot(flowPropertiesEditor).querySelector(selectors.SAVE_AS_TOGGLE);
+    return flowPropertiesEditor.shadowRoot.querySelector(selectors.SAVE_AS_TOGGLE);
 };
 
 const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) => {
@@ -310,17 +309,17 @@ describe('FlowPropertiesEditor', () => {
             it('is shown when save type is UPDATE', () => {
                 const component = createComponentUnderTest(defaultNode);
                 return Promise.resolve().then(() => {
-                    expect(getShadowRoot(component).querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                    expect(component.shadowRoot.querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
                 });
             });
 
             it('is shown when save type is NEW_VERSION', () => {
                 defaultNode.saveType = SaveType.NEW_VERSION;
                 const component = createComponentUnderTest(defaultNode);
-                const button = getShadowRoot(component).querySelector(selectors.SHOW_ADVANCED);
+                const button = component.shadowRoot.querySelector(selectors.SHOW_ADVANCED);
                 button.dispatchEvent(new CustomEvent('click'));
                 return Promise.resolve().then(() => {
-                    expect(getShadowRoot(component).querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                    expect(component.shadowRoot.querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
                 });
             });
         });

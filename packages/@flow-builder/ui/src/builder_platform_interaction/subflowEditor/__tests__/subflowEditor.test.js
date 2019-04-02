@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import SubflowEditor from "../subflowEditor";
 import { mockSubflows } from 'mock/calloutData';
 import { mockSubflowVariables} from 'mock/calloutData';
-import { getShadowRoot } from 'lwc-test-utils';
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
 import { untilNoFailure, ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -124,7 +123,7 @@ const selectors = {
     };
 
 const getBaseCalloutEditor = (subflowEditor) => {
-    return getShadowRoot(subflowEditor).querySelector(selectors.baseCalloutEditor);
+    return subflowEditor.shadowRoot.querySelector(selectors.baseCalloutEditor);
 };
 
 describe('subflow-editor', () => {

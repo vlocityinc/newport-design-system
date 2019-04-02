@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
 import { TemplateChangedEvent } from 'builder_platform_interaction/events';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -52,7 +51,7 @@ const SELECTORS = {
 };
 
 const getVisualPickerList = (processTypeTemplates, section) => {
-    const featuredSection = getShadowRoot(processTypeTemplates).querySelector(section);
+    const featuredSection = processTypeTemplates.shadowRoot.querySelector(section);
     return featuredSection.querySelector(SELECTORS.VISUAL_PICKER_LIST);
 };
 
@@ -62,11 +61,11 @@ const getTemplates = (processTypeTemplates, section) => {
 };
 
 const getVisualPickerItems = (visualPickerList) => {
-    return getShadowRoot(visualPickerList).querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
+    return visualPickerList.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
 };
 
 const getCheckbox = (visualPickerItem) => {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.CHECKBOX);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.CHECKBOX);
 };
 
 const getChangedEvent = () => {

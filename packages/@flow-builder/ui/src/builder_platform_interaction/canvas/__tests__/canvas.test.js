@@ -3,7 +3,6 @@ import Canvas from "builder_platform_interaction/canvas";
 import { KEYS } from "../keyConstants";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { DeleteElementEvent } from "builder_platform_interaction/events";
-import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
 
@@ -83,7 +82,7 @@ describe('Canvas', () => {
                     key: KEYS.BACKSPACE
                 });
 
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -99,7 +98,7 @@ describe('Canvas', () => {
                     key: KEYS.BACKSPACE
                 });
 
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback.mock.calls[0][0].detail).toEqual({});
@@ -107,7 +106,7 @@ describe('Canvas', () => {
 
             it('DeleteElementEvent is not fired if canvas is in pan mode', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
 
                 // Space key to toggle pan mode on
                 const spaceEvent = new KeyboardEvent('keydown', {
@@ -139,7 +138,7 @@ describe('Canvas', () => {
                     key: KEYS.DELETE
                 });
 
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -155,7 +154,7 @@ describe('Canvas', () => {
                     key: KEYS.DELETE
                 });
 
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
                 canvasDiv.dispatchEvent(backspaceEvent);
 
                 expect(eventCallback.mock.calls[0][0].detail).toEqual({});
@@ -163,7 +162,7 @@ describe('Canvas', () => {
 
             it('DeleteElementEvent is not fired if canvas is in pan mode', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
 
                 // Space key to toggle pan mode on
                 const spaceEvent = new KeyboardEvent('keydown', {
@@ -187,8 +186,8 @@ describe('Canvas', () => {
         describe('META KEY', () => {
             it('Canvas zooms out when meta key is pressed down along with "-" key', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
-                const innerCanvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.INNER_CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
+                const innerCanvasDiv = canvas.shadowRoot.querySelector(SELECTORS.INNER_CANVAS_DIV);
 
                 const negativeKeyEvent = new KeyboardEvent('keydown', {
                     metaKey: true,
@@ -203,7 +202,7 @@ describe('Canvas', () => {
         describe('SPACE KEY', () => {
             it('Toggles the pan mode on', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
 
                 const spaceEvent = new KeyboardEvent('keydown', {
                     key: KEYS.SPACE
@@ -218,7 +217,7 @@ describe('Canvas', () => {
         describe('SPACE KEY', () => {
             it('Toggles the pan mode off', () => {
                 const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = getShadowRoot(canvas).querySelector(SELECTORS.CANVAS_DIV);
+                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
 
                 const spaceKeyDownEvent = new KeyboardEvent('keydown', {
                     key: KEYS.SPACE

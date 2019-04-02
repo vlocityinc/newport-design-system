@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import ScreenPropertyField from "../screenPropertyField";
-import { getShadowRoot } from 'lwc-test-utils';
 import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
@@ -46,7 +45,7 @@ describe('screen-property-field', () => {
             type: 'long_string',
         });
         return Promise.resolve().then(() => {
-            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(TEXT_AREA_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(TEXT_AREA_SELECTOR);
             expect(elem).toBeDefined();
         });
     });
@@ -56,7 +55,7 @@ describe('screen-property-field', () => {
             type: 'rich_string',
         });
         return Promise.resolve().then(() => {
-            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(RICH_TEXT);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(RICH_TEXT);
             expect(elem).toBeDefined();
         });
     });
@@ -66,7 +65,7 @@ describe('screen-property-field', () => {
             type: 'number',
         });
         return Promise.resolve().then(() => {
-            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('number');
         });
@@ -77,7 +76,7 @@ describe('screen-property-field', () => {
             type: 'boolean',
         });
         return Promise.resolve().then(() => {
-            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('checkbox');
         });
@@ -88,7 +87,7 @@ describe('screen-property-field', () => {
             type: 'string',
         });
         return Promise.resolve().then(() => {
-            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.type).toBe('text');
         });
@@ -101,7 +100,7 @@ describe('screen-property-field', () => {
             helpText: helpValue
         });
         return Promise.resolve().then(() => {
-            const elem = getShadowRoot(screenPropertyFieldElement).querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
             expect(elem).toBeDefined();
             expect(elem.fieldLevelHelp).toBe(helpValue);
         });
@@ -129,7 +128,7 @@ describe('screen-property-field', () => {
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {
-            const picker = getShadowRoot(screenPropertyField).querySelector(FerovResourcePicker.SELECTOR);
+            const picker = screenPropertyField.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
             expect(picker.rules).toEqual(mockRules);
         });
     });

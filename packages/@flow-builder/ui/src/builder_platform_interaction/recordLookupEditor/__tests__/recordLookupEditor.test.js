@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import RecordLookupEditor from "../recordLookupEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import * as expressionUtilsMock from "builder_platform_interaction/expressionUtils";
 import * as store from "mock/storeData";
 import { SORT_ORDER, NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
@@ -177,31 +176,31 @@ const outputAssignmentElement = {
 };
 
 const getRecordStoreOption = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.recordStoreOption);
+    return recordLookupEditor.shadowRoot.querySelector(selectors.recordStoreOption);
 };
 
 const getEntityResourcePicker = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.entityResourcePicker);
+    return recordLookupEditor.shadowRoot.querySelector(selectors.entityResourcePicker);
 };
 
 const getRecordFilter = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.recordFilter);
+    return recordLookupEditor.shadowRoot.querySelector(selectors.recordFilter);
 };
 
 const getRecordSort = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.recordSort);
+    return recordLookupEditor.shadowRoot.querySelector(selectors.recordSort);
 };
 
 const getRecordQueryFields = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.recordQueryFields);
+    return recordLookupEditor.shadowRoot.querySelector(selectors.recordQueryFields);
 };
 
 const getsObjectOrSObjectCollectionPicker = (recordQueryFields) => {
-    return getShadowRoot(recordQueryFields).querySelector(selectors.sObjectOrSObjectCollectionPicker);
+    return recordQueryFields.shadowRoot.querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
 const getInputOutputAssignments = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(selectors.inputOutputAssignments);
+    return recordLookupEditor.shadowRoot.querySelector(selectors.inputOutputAssignments);
 };
 
 describe('record-lookup-editor', () => {

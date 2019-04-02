@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import UsedByContentItem from "../usedByContentItem";
-import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest(listItem, showLocatorIcon) {
     const el = createElement('builder_platform_interaction-used-by-content-item', { is: UsedByContentItem });
@@ -29,7 +28,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
-                const usedBySectionItemElementIcon = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionElementIcon);
+                const usedBySectionItemElementIcon = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionElementIcon);
                 expect(usedBySectionItemElementIcon).toBeNull();
             });
         });
@@ -44,7 +43,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
-                const usedBySectionItemElementIcon = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionElementIcon);
+                const usedBySectionItemElementIcon = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionElementIcon);
                 expect(usedBySectionItemElementIcon.classList).not.toBeNull();
             });
         });
@@ -63,7 +62,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
-                const usedBySectionItemName = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionItemName);
+                const usedBySectionItemName = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionItemName);
                 expect(usedBySectionItemName.classList).not.toBeNull();
             });
         });
@@ -81,7 +80,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
-                const usedBySectionLocatorIcon = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionLocatorIcon);
+                const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionLocatorIcon);
                 expect(usedBySectionLocatorIcon).toBeNull();
             });
         });
@@ -96,7 +95,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, false);
             return Promise.resolve().then(() => {
-                const usedBySectionLocatorIcon = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionLocatorIcon);
+                const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionLocatorIcon);
                 expect(usedBySectionLocatorIcon).toBeNull();
             });
         });
@@ -112,7 +111,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, false);
             return Promise.resolve().then(() => {
-                const usedBySectionLocatorIcon = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionLocatorIcon);
+                const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionLocatorIcon);
                 expect(usedBySectionLocatorIcon).toBeNull();
             });
         });
@@ -128,7 +127,7 @@ describe('Used-By-Content-Item component', () => {
             };
             const usedByContentItemComponent = createComponentForTest(expectedResult, true);
             return Promise.resolve().then(() => {
-                const usedBySectionLocatorIcon = getShadowRoot(usedByContentItemComponent).querySelector(selectors.usedBySectionLocatorIcon);
+                const usedBySectionLocatorIcon = usedByContentItemComponent.shadowRoot.querySelector(selectors.usedBySectionLocatorIcon);
                 expect(usedBySectionLocatorIcon.classList).not.toBeNull();
             });
         });

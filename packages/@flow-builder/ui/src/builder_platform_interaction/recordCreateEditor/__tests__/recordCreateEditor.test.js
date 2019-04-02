@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import RecordCreateEditor from "../recordCreateEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import * as expressionUtilsMock from "builder_platform_interaction/expressionUtils";
 import * as store from "mock/storeData";
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
@@ -117,23 +116,23 @@ const inputAssignmentElement = {
 };
 
 const getRecordStoreOption = (recordCreateEditor) => {
-    return getShadowRoot(recordCreateEditor).querySelector(selectors.recordStoreOption);
+    return recordCreateEditor.shadowRoot.querySelector(selectors.recordStoreOption);
 };
 
 const getSObjectOrSObjectCollectionPicker = (recordCreateEditor) => {
-    return getShadowRoot(recordCreateEditor).querySelector(selectors.sObjectOrSObjectCollectionPicker);
+    return recordCreateEditor.shadowRoot.querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
 const getEntityResourcePicker = (recordCreateEditor) => {
-    return getShadowRoot(recordCreateEditor).querySelector(selectors.entityResourcePicker);
+    return recordCreateEditor.shadowRoot.querySelector(selectors.entityResourcePicker);
 };
 
 const getInputOutputAssignments = (recordCreateEditor) => {
-    return getShadowRoot(recordCreateEditor).querySelector(selectors.inputOutputAssignments);
+    return recordCreateEditor.shadowRoot.querySelector(selectors.inputOutputAssignments);
 };
 
 const getAssignRecordIdToReference = (recordCreateEditor) => {
-    return getShadowRoot(recordCreateEditor).querySelector(selectors.outputResourcePicker);
+    return recordCreateEditor.shadowRoot.querySelector(selectors.outputResourcePicker);
 };
 
 describe('record-create-editor', () => {

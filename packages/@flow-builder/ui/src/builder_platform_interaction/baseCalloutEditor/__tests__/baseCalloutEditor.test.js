@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import BaseCalloutEditor from "../baseCalloutEditor";
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getShadowRoot } from 'lwc-test-utils';
 import { generateGuid } from "builder_platform_interaction/storeLib";
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -72,11 +71,11 @@ const selectors = {
 };
 
 const getLabelDescription = (baseCalloutEditor) => {
-    return getShadowRoot(baseCalloutEditor).querySelector(selectors.labelDescription);
+    return baseCalloutEditor.shadowRoot.querySelector(selectors.labelDescription);
 };
 
 const getParameterList = (baseCalloutEditor) => {
-    return getShadowRoot(baseCalloutEditor).querySelector(selectors.parameterList);
+    return baseCalloutEditor.shadowRoot.querySelector(selectors.parameterList);
 };
 
 function createComponentForTest({ labelDescriptionConfig = {}, subtitle = '', elementType = ELEMENT_TYPE.ACTION_CALL, parameterListConfig = {}} = {}) {

@@ -1,5 +1,4 @@
 import {createElement} from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import { mockAccountFields } from "mock/serverEntityData";
 import {
     ComboboxStateChangedEvent,
@@ -14,7 +13,7 @@ const selectors = {
 };
 
 const getFieldPicker = (recordFieldPickerRow) => {
-    return getShadowRoot(recordFieldPickerRow).querySelector(selectors.fieldPicker);
+    return recordFieldPickerRow.shadowRoot.querySelector(selectors.fieldPicker);
 };
 
 const createComponentUnderTest = ({ fieldIndex = 1, recordEntityName = 'Account', value = undefined, queriedFields = [] } = {}) => {

@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import DataTypePicker from "../dataTypePicker";
 import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from "builder_platform_interaction/dataTypeLib";
 import { ValueChangedEvent } from "builder_platform_interaction/events";
-import { getShadowRoot } from 'lwc-test-utils';
 
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-data-type-picker', { is: DataTypePicker });
@@ -17,22 +16,22 @@ describe('Data Type picker', () => {
     let collectionComponent;
     beforeEach(() => {
         dataTypePickerComponent = createComponentUnderTest();
-        dataTypeComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox');
-        scaleComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('.scale');
-        collectionComponent = () => getShadowRoot(dataTypePickerComponent).querySelector('.collection');
+        dataTypeComponent = () => dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox');
+        scaleComponent = () => dataTypePickerComponent.shadowRoot.querySelector('.scale');
+        collectionComponent = () => dataTypePickerComponent.shadowRoot.querySelector('.collection');
     });
 
     it('should only display given available data types', async () => {
         dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
         await Promise.resolve();
-        expect(getShadowRoot(dataTypePickerComponent).querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['FlowBuilderDataTypes.textDataTypeLabel', 'FlowBuilderDataTypes.numberDataTypeLabel']);
+        expect(dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['FlowBuilderDataTypes.textDataTypeLabel', 'FlowBuilderDataTypes.numberDataTypeLabel']);
     });
 
     it('should display the given error message', () => {
         const errorMessage = 'test error';
         dataTypePickerComponent.errorMessage = errorMessage;
         return Promise.resolve(() => {
-            const combobox = getShadowRoot(dataTypeComponent).querySelector('lightning-component');
+            const combobox = dataTypeComponent.shadowRoot.querySelector('lightning-component');
             expect(combobox.checkValidity()).toBeFalsy();
             expect(combobox.errorMessage).toEqual(errorMessage);
         });

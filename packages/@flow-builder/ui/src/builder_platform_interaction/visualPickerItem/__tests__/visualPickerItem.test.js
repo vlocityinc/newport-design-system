@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import VisualPickerItem from 'builder_platform_interaction/visualPickerItem';
 import { VisualPickerItemChangedEvent } from 'builder_platform_interaction/events';
 
@@ -29,23 +28,23 @@ const SELECTORS = {
 };
 
 function getTemplateIcon(visualPickerItem) {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.MEDIA_FIGURE).querySelector(SELECTORS.LIGHTNING_ICON);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.MEDIA_FIGURE).querySelector(SELECTORS.LIGHTNING_ICON);
 }
 
 function getTemplateLabel(visualPickerItem) {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.LABEL);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.LABEL);
 }
 
 function getTemplateDescription(visualPickerItem) {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.DESCRIPTION);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.DESCRIPTION);
 }
 
 function getCheckbox(visualPickerItem) {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.CHECKBOX);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.CHECKBOX);
 }
 
 function getCheckedText(visualPickerItem) {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.VISUAL_PICKER_TEXT);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.VISUAL_PICKER_TEXT);
 }
 
 describe('visual-picker-item', () => {

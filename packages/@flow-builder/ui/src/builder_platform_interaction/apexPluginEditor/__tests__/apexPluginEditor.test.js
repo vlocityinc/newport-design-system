@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ApexPluginEditor from "../apexPluginEditor";
 import { mockApexPluginParameters, mockApexPlugins } from "mock/calloutData";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
@@ -95,7 +94,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 const getBaseCalloutEditor = (apexPluginEditor) => {
-    return getShadowRoot(apexPluginEditor).querySelector(selectors.baseCalloutEditor);
+    return apexPluginEditor.shadowRoot.querySelector(selectors.baseCalloutEditor);
 };
 
 describe('Apex Plugin editor', () => {

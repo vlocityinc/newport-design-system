@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
 import { ALL_PROCESS_TYPE, PROCESS_TYPES_ICONS, PROCESS_TYPE_DEFAULT_ICON} from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -18,8 +17,8 @@ const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR : 'a',
 };
 
-const getAllVerticalNavigationItemIcons = processTypesVerticalNavigation => getShadowRoot(processTypesVerticalNavigation).querySelectorAll(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON);
-const getProcessTypeAnchor = processTypesVerticalNavigationItemIcon => getShadowRoot(processTypesVerticalNavigationItemIcon).querySelector(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR);
+const getAllVerticalNavigationItemIcons = processTypesVerticalNavigation => processTypesVerticalNavigation.shadowRoot.querySelectorAll(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON);
+const getProcessTypeAnchor = processTypesVerticalNavigationItemIcon => processTypesVerticalNavigationItemIcon.shadowRoot.querySelector(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR);
 
 describe('process-types-vertical-navigation', () => {
         let processTypesVerticalNavigation;
@@ -79,7 +78,7 @@ describe('process-types-vertical-navigation', () => {
             test('process types icon name', () => {
                 const processTypesVerticalNavigationItemIcons = getAllVerticalNavigationItemIcons(processTypesVerticalNavigation);
                 const joinedProcessTypesIconNames = Array.from(processTypesVerticalNavigationItemIcons).map(itemIcon => {
-                    return getShadowRoot(itemIcon).querySelector("lightning-icon").iconName;
+                    return itemIcon.shadowRoot.querySelector("lightning-icon").iconName;
                 }).join('');
                 const expectedJoinedIconNames = `${PROCESS_TYPE_DEFAULT_ICON}utility:magicwandutility:desktoputility:cartutility:contact_requestutility:insert_tag_fieldutility:phone_portraitutility:user${PROCESS_TYPE_DEFAULT_ICON}`;
                 expect(joinedProcessTypesIconNames).toBe(expectedJoinedIconNames);

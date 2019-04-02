@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import ScreenEditorPropertiesEditorContainer from "../screenPropertiesEditorContainer";
 import { getAllScreenFieldTypes } from "builder_platform_interaction/screenEditorUtils";
 import { query } from "builder_platform_interaction/builderTestUtils";
-import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -33,7 +32,7 @@ describe('screen-properties-editor-container', () => {
             node: {elementType: ELEMENT_TYPE.SCREEN}
         });
         return Promise.resolve().then(() => {
-            const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);
+            const header = screenPropertiesEditorContainerElement.shadowRoot.querySelector(headerSelector);
             expect(header.textContent).toBe('FlowBuilderScreenEditor.screenProperties');
         });
     });
@@ -42,7 +41,7 @@ describe('screen-properties-editor-container', () => {
             node: {type: getAllScreenFieldTypes()[0]}
         });
         return Promise.resolve().then(() => {
-            const header = getShadowRoot(screenPropertiesEditorContainerElement).querySelector(headerSelector);
+            const header = screenPropertiesEditorContainerElement.shadowRoot.querySelector(headerSelector);
             expect(header.textContent).toBe('FlowBuilderScreenEditor.fieldTypeLabelTextField');
         });
     });

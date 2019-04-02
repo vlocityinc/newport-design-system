@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { FilterMatchesEvent } from "builder_platform_interaction/events";
 import { filterMatches } from "builder_platform_interaction/expressionUtils";
@@ -57,7 +56,7 @@ describe('base-resource-picker', () => {
     it('contains one flow combobox', () => {
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig});
         return Promise.resolve().then(() => {
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             expect(flowCombobox).toBeDefined();
         });
     });
@@ -69,7 +68,7 @@ describe('base-resource-picker', () => {
 
             const baseResourcePicker = setupComponentUnderTest({comboboxConfig: comboboxConfigWithoutType, value: 123});
             return Promise.resolve().then(() => {
-                const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+                const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
                 expect(flowCombobox.label).toEqual(comboboxConfig.label);
                 expect(flowCombobox.placeholder).toEqual(comboboxConfig.placeholder);
                 expect(flowCombobox.literalsAllowed).toEqual(comboboxConfig.literalsAllowed);
@@ -80,7 +79,7 @@ describe('base-resource-picker', () => {
         it('config including type', () => {
             const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: 'test display text'});
             return Promise.resolve().then(() => {
-                const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+                const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
                 expect(flowCombobox.type).toEqual(comboboxConfig.type);
             });
         });
@@ -90,7 +89,7 @@ describe('base-resource-picker', () => {
         const defaultValue = {value:'testVal', displayText:'test val'};
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: defaultValue});
         return Promise.resolve().then(() => {
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             expect(flowCombobox.value).toEqual(defaultValue);
         });
     });
@@ -99,7 +98,7 @@ describe('base-resource-picker', () => {
         const defaultDisplayText = 'test display text';
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig, value: defaultDisplayText});
         return Promise.resolve().then(() => {
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             expect(flowCombobox.value).toEqual(defaultDisplayText);
         });
     });
@@ -108,7 +107,7 @@ describe('base-resource-picker', () => {
         const errorMessage = 'wrong';
         const baseResourcePicker = setupComponentUnderTest({comboboxConfig, errorMessage});
         return Promise.resolve().then(() => {
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             expect(flowCombobox.errorMessage).toEqual(errorMessage);
         });
     });
@@ -117,7 +116,7 @@ describe('base-resource-picker', () => {
         const allowedParamTypes = { foo: {value: 'foo'}};
         const baseResourcePicker = setupComponentUnderTest({allowedParamTypes});
         return Promise.resolve().then(() => {
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             expect(flowCombobox.allowedParamTypes).toEqual(allowedParamTypes);
         });
     });
@@ -127,7 +126,7 @@ describe('base-resource-picker', () => {
             const baseResourcePicker = setupComponentUnderTest({comboboxConfig, });
             const fullMenuData = ['full menu data'];
             baseResourcePicker.setMenuData(fullMenuData);
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', false));
             return Promise.resolve().then(() => {
                 expect(filterMatches).toHaveBeenCalledWith('someValue', fullMenuData, false);
@@ -137,7 +136,7 @@ describe('base-resource-picker', () => {
 
         it('passes the isMergeField property from filter matches event to filter matches util', () => {
             const baseResourcePicker = setupComponentUnderTest({comboboxConfig, });
-            const flowCombobox = getShadowRoot(baseResourcePicker).querySelector(selectors.COMBOBOX);
+            const flowCombobox = baseResourcePicker.shadowRoot.querySelector(selectors.COMBOBOX);
             const isMergeField = true;
             flowCombobox.dispatchEvent(new FilterMatchesEvent('someValue', isMergeField));
             return Promise.resolve().then(() => {

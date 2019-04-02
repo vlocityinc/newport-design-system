@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import UsedByContent from "../usedByContent";
-import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest(listSectionHeader, listSectionItems) {
     const el = createElement('builder_platform_interaction-used-by-content', { is: UsedByContent });
@@ -23,14 +22,14 @@ describe('Used-By-Content component', () => {
         it('when null or undefined should be hidden.', () => {
             const usedByContentComponent = createComponentForTest();
             return Promise.resolve().then(() => {
-                const usedBySectionHeader = getShadowRoot(usedByContentComponent).querySelector(selectors.usedBySectionHeader);
+                const usedBySectionHeader = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionHeader);
                 expect(usedBySectionHeader).toBeNull();
             });
         });
         it('when not null should be diplay the header content', () => {
             const usedByContentComponent = createComponentForTest('Section-Header');
             return Promise.resolve().then(() => {
-                const usedBySectionHeaderTitle = getShadowRoot(usedByContentComponent).querySelector(selectors.usedBySectionHeaderTitle);
+                const usedBySectionHeaderTitle = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionHeaderTitle);
                 expect(usedBySectionHeaderTitle.classList).not.toBeNull();
             });
         });
@@ -39,7 +38,7 @@ describe('Used-By-Content component', () => {
         it('when null or undefined should be hidden.', () => {
             const usedByContentComponent = createComponentForTest('Section Header');
             return Promise.resolve().then(() => {
-                const usedBySectionItems = getShadowRoot(usedByContentComponent).querySelector(selectors.usedBySectionItems);
+                const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionItems);
                 expect(usedBySectionItems).toBeNull();
             });
         });
@@ -54,7 +53,7 @@ describe('Used-By-Content component', () => {
             }];
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
             return Promise.resolve().then(() => {
-                const usedBySectionItems = getShadowRoot(usedByContentComponent).querySelector(selectors.usedBySectionItems);
+                const usedBySectionItems = usedByContentComponent.shadowRoot.querySelector(selectors.usedBySectionItems);
                 expect(usedBySectionItems.classList).not.toBeNull();
             });
         });
@@ -69,7 +68,7 @@ describe('Used-By-Content component', () => {
             }];
             const usedByContentComponent = createComponentForTest('Section-Header', expectedResult);
             return Promise.resolve().then(() => {
-                const usedBySectionItemContentItem = getShadowRoot(usedByContentComponent).querySelector(selectors.usedByContentItem);
+                const usedBySectionItemContentItem = usedByContentComponent.shadowRoot.querySelector(selectors.usedByContentItem);
                 expect(usedBySectionItemContentItem).not.toBeNull();
             });
         });

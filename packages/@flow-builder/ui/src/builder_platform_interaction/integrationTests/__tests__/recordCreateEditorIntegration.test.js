@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import RecordCreateEditor from "builder_platform_interaction/recordCreateEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import { resolveRenderCycles} from '../resolveRenderCycles';
 import { LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -45,39 +44,39 @@ const VALIDATION_ERROR_MESSAGES = {
 };
 
 const getSObjectOrSObjectCollectionPicker = (recordEditor) => {
-    return getShadowRoot(recordEditor).querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+    return recordEditor.shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 };
 
 const getRecordStoreOption = (recordEditor) => {
-    return getShadowRoot(recordEditor).querySelector(SELECTORS.RECORD_STORE_OPTION);
+    return recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
 };
 
 const getInputOutputAssignments = (recordEditor) => {
-    return getShadowRoot(recordEditor).querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+    return recordEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 };
 
 const getResourceGroupedCombobox = (editor) => {
     const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(editor);
-    const ferovResourcePicker = getShadowRoot(sObjectOrSObjectCollectionPicker).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-    const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = getShadowRoot(baseResourcePicker).querySelector(SELECTORS.INTERACTION_COMBOBOX);
-    return getShadowRoot(interactionCombobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const ferovResourcePicker = sObjectOrSObjectCollectionPicker.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 const getEntityResourcePickerComboboxElement = (entityResourcePicker) => {
-    const resourcePicker = getShadowRoot(entityResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const resourcePicker = entityResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+    const lightningGroupCombobox = combobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
 };
 
 const getExpressionBuilderComboboxElement = (expressionBuilder) => {
-    const interactionCombobox = getShadowRoot(expressionBuilder).querySelector(SELECTORS.INTERACTION_COMBOBOX);
-    return getShadowRoot(interactionCombobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const interactionCombobox = expressionBuilder.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 const getOutputResourcePicker = (recordEditor) => {
-    return getShadowRoot(recordEditor).querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
+    return recordEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
 };
 
 const createComponentForTest = (node, { mode = EditElementEvent.EVENT_NAME} = '') => {

@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ActionSelector from "../actionSelector";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { ValueChangedEvent, ComboboxStateChangedEvent, ActionsLoadedEvent } from "builder_platform_interaction/events";
@@ -47,8 +46,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 
 describe('Action selector', () => {
     let actionSelectorComponent;
-    const interactionCombobox = () => getShadowRoot(actionSelectorComponent).querySelector(selectors.lightningInteractionCombobox);
-    const groupedCombobox = () => getShadowRoot(interactionCombobox()).querySelector(selectors.lightningGroupedCombobox);
+    const interactionCombobox = () => actionSelectorComponent.shadowRoot.querySelector(selectors.lightningInteractionCombobox);
+    const groupedCombobox = () => interactionCombobox().shadowRoot.querySelector(selectors.lightningGroupedCombobox);
     afterEach(() => {
         mockActionsPromise = Promise.resolve(mockActions);
         mockApexPluginsPromise = Promise.resolve(mockApexPlugins);

@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import FerovResourcePicker from "../ferovResourcePicker";
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { ComboboxStateChangedEvent } from "builder_platform_interaction/events";
@@ -73,7 +72,7 @@ describe('ferov-resource-picker', () => {
         it('exists', () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 expect(baseResourcePicker).toBeDefined();
             });
         });
@@ -84,7 +83,7 @@ describe('ferov-resource-picker', () => {
             };
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
             });
         });
@@ -93,7 +92,7 @@ describe('ferov-resource-picker', () => {
             props.value = 'test display text';
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 expect(baseResourcePicker.value).toEqual(props.value);
             });
         });
@@ -103,7 +102,7 @@ describe('ferov-resource-picker', () => {
             normalizeFEROV.mockImplementationOnce(() => ({itemOrDisplayText: props.value}));
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 expect(baseResourcePicker.value).toEqual(props.value);
             });
         });
@@ -239,7 +238,7 @@ describe('ferov-resource-picker', () => {
         props.rules = mockRules;
         props.comboboxConfig.enableFieldDrilldown = true;
         const ferovPicker = setupComponentUnderTest(props);
-        const basePicker = getShadowRoot(ferovPicker).querySelector(BaseResourcePicker.SELECTOR);
+        const basePicker = ferovPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
 
         return Promise.resolve().then(() => {
             const populateParamTypesFn = getMenuData.mock.calls[0][2];
@@ -262,7 +261,7 @@ describe('ferov-resource-picker', () => {
         const mockRules = ['rule1'];
         props.rules = mockRules;
         const ferovPicker = setupComponentUnderTest(props);
-        const basePicker = getShadowRoot(ferovPicker).querySelector(BaseResourcePicker.SELECTOR);
+        const basePicker = ferovPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
 
         return Promise.resolve().then(() => {
             const populateParamTypesFn = getMenuData.mock.calls[0][2];
@@ -306,7 +305,7 @@ describe('ferov-resource-picker', () => {
         it('when combobox changes to valid item, item is stored', () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
                 return Promise.resolve().then(() => {
                     expect(ferovResourcePicker.value).toMatchObject(comboboxValue);
@@ -316,7 +315,7 @@ describe('ferov-resource-picker', () => {
         it('when combobox changes to valid literal, literal is stored', () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, displayText));
                 return Promise.resolve().then(() => {
                     expect(ferovResourcePicker.value).toEqual(displayText);
@@ -327,7 +326,7 @@ describe('ferov-resource-picker', () => {
             props.errorMessage = 'error';
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
                 baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
                 return Promise.resolve().then(() => {
                     expect(ferovResourcePicker.value).toEqual(displayText);

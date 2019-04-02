@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import FerToFerovExpressionBuilder from "../ferToFerovExpressionBuilder.js";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { numberVariableGuid, accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
@@ -74,7 +73,7 @@ function createMockPopulatedFieldExpression() {
 }
 
 function getBaseExpressionBuilder(ferToFerovWrapper) {
-    return getShadowRoot(ferToFerovWrapper).querySelector("builder_platform_interaction-base-expression-builder");
+    return ferToFerovWrapper.shadowRoot.querySelector("builder_platform_interaction-base-expression-builder");
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {

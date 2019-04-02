@@ -1,7 +1,6 @@
 import {createElement} from 'lwc';
 import { mockAccountFields, mockAccountExpectedFields } from "mock/recordData";
 import RecordSortResult from "builder_platform_interaction/recordSort";
-import { getShadowRoot } from 'lwc-test-utils';
 import { ComboboxStateChangedEvent } from "builder_platform_interaction/events";
 import { SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
 import { until } from 'builder_platform_interaction/builderTestUtils';
@@ -39,15 +38,15 @@ const selectors = {
 };
 
 const getSortOrderCombobox = (recordSortResultComponent) => {
-    return getShadowRoot(recordSortResultComponent).querySelector(selectors.lightningCombobox);
+    return recordSortResultComponent.shadowRoot.querySelector(selectors.lightningCombobox);
 };
 
 const getFilterCombobox = (recordSortResultComponent) => {
-    return getShadowRoot(recordSortResultComponent).querySelector(selectors.fieldPicker);
+    return recordSortResultComponent.shadowRoot.querySelector(selectors.fieldPicker);
 };
 
 const getFilterHelpText = (recordSortResultComponent) => {
-    return getShadowRoot(recordSortResultComponent).querySelector(selectors.filterHelpText);
+    return recordSortResultComponent.shadowRoot.querySelector(selectors.filterHelpText);
 };
 
 describe('recordSort', () => {

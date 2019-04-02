@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import { mockAccountFields } from "mock/serverEntityData";
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -54,11 +53,11 @@ const selectors = {
 };
 
 const getFieldList = (recordInputOutputAssignmentCmp) => {
-    return getShadowRoot(recordInputOutputAssignmentCmp).querySelector(selectors.fieldList);
+    return recordInputOutputAssignmentCmp.shadowRoot.querySelector(selectors.fieldList);
 };
 
 const getExpressionBuilders = (recordInputOutputAssignmentCmp) => {
-    return getShadowRoot(recordInputOutputAssignmentCmp).querySelectorAll(selectors.expressionBuilder);
+    return recordInputOutputAssignmentCmp.shadowRoot.querySelectorAll(selectors.expressionBuilder);
 };
 
 describe('record-input-output-assignment', () => {

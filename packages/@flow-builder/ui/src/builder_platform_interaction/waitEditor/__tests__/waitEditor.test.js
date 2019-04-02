@@ -9,7 +9,6 @@ import {
     WaitEventParameterChangedEvent,
     DeleteWaitEventEvent,
 } from 'builder_platform_interaction/events';
-import { getShadowRoot } from 'lwc-test-utils';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { waitReducer, } from '../waitReducer';
 
@@ -69,7 +68,7 @@ describe('wait-editor', () => {
     it('handles the property changed event and updates the property', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new PropertyChangedEvent('description', 'new desc', null);
-        getShadowRoot(waitElement).querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
+        waitElement.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
         });
@@ -78,7 +77,7 @@ describe('wait-editor', () => {
     it('handles AddConditionEvent from waitEvent', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new AddConditionEvent();
-        getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
+        waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
         });
@@ -87,7 +86,7 @@ describe('wait-editor', () => {
     it('handles UpdateConditionEvent from waitEvent', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new UpdateConditionEvent();
-        getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
+        waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
         });
@@ -96,7 +95,7 @@ describe('wait-editor', () => {
     it('handles DeleteConditionEvent from waitEvent', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new DeleteConditionEvent();
-        getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
+        waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
         });
@@ -105,7 +104,7 @@ describe('wait-editor', () => {
     it('handles WaitEventPropertyChangedEvent from waitEvent', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new WaitEventPropertyChangedEvent();
-        getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
+        waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
         });
@@ -114,7 +113,7 @@ describe('wait-editor', () => {
     it('handles WaitEventParameterChangedEvent from waitEvent', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         const event = new WaitEventParameterChangedEvent();
-        getShadowRoot(waitElement).querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
+        waitElement.shadowRoot.querySelector(selectors.WAIT_EVENT).dispatchEvent(event);
         return Promise.resolve().then(() => {
             expect(waitReducer).toHaveBeenCalledWith(waitElement.node, event);
         });
@@ -125,13 +124,13 @@ describe('default path', () => {
     it('handles DefaultPathChangedEvent and updates defaultConnectorLabel', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         // trigger showing of default path
-        const reorderableWaitEventNav = getShadowRoot(waitElement).querySelector(selectors.REORDERABLE_NAV);
+        const reorderableWaitEventNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
         reorderableWaitEventNav.dispatchEvent(new CustomEvent('itemselected', {
             detail: { itemId: DEFAULT_WAIT_EVENT_ID }
         }));
         return Promise.resolve().then(() => {
             const defaultPathChangedEvent = new PropertyChangedEvent('defaultConnectorLabel', 'new label', null);
-            getShadowRoot(waitElement).querySelector(selectors.DEFAULT_PATH).dispatchEvent(defaultPathChangedEvent);
+            waitElement.shadowRoot.querySelector(selectors.DEFAULT_PATH).dispatchEvent(defaultPathChangedEvent);
 
             const mockCallParams = waitReducer.mock.calls[0];
             const waitReducerEvent = mockCallParams[1];
@@ -152,7 +151,7 @@ describe('default path', () => {
     it('initial default path does not have an error', () => {
         const waitElement = createComponentForTest({node: noErrorState});
         return Promise.resolve().then(() => {
-            const reorderableWaitEventsNav = getShadowRoot(waitElement).querySelector(selectors.REORDERABLE_NAV);
+            const reorderableWaitEventsNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
             const menuItems = reorderableWaitEventsNav.menuItems;
             expect(menuItems[1].hasErrors).toBeFalsy();
         });
@@ -164,7 +163,7 @@ describe('default path', () => {
         };
         const waitElement = createComponentForTest({node: noErrorState});
         return Promise.resolve().then(() => {
-            const reorderableWaitEventsNav = getShadowRoot(waitElement).querySelector(selectors.REORDERABLE_NAV);
+            const reorderableWaitEventsNav = waitElement.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
             const menuItems = reorderableWaitEventsNav.menuItems;
             expect(menuItems[1].hasErrors).toBeTruthy();
         });
@@ -223,7 +222,7 @@ describe('handleDeleteWaitEvent', () => {
         waitReducer.mockReturnValueOnce(mockNewState);
         const deleteWaitEvent = new DeleteWaitEventEvent('waitEventGuid');
 
-        const waitEvent = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+        const waitEvent = waitEditor.shadowRoot.querySelector(selectors.WAIT_EVENT);
         waitEvent.dispatchEvent(deleteWaitEvent);
 
         expect(waitEditor.node).toEqual(mockNewState);
@@ -234,16 +233,16 @@ describe('handleDeleteWaitEvent', () => {
              waitReducer.mockReturnValueOnce(mockNewState);
              const deleteWaitEvent = new DeleteWaitEventEvent('waitEvent1');
 
-             const waitEvent = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             const waitEvent = waitEditor.shadowRoot.querySelector(selectors.WAIT_EVENT);
              waitEvent.dispatchEvent(deleteWaitEvent);
          }).then(() => {
-             const waitEvent = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             const waitEvent = waitEditor.shadowRoot.querySelector(selectors.WAIT_EVENT);
              expect(waitEvent.waitEvent).toEqual(mockNewState.waitEvents[0]);
          });
      });
 
      it('does not change the active wait event if the wait event was not deleted', () => {
-         const reorderableWaitEventNav = getShadowRoot(waitEditor).querySelector(selectors.REORDERABLE_NAV);
+         const reorderableWaitEventNav = waitEditor.shadowRoot.querySelector(selectors.REORDERABLE_NAV);
          reorderableWaitEventNav.dispatchEvent(new CustomEvent('itemselected', {
              detail: { itemId: 'waitEvent2' }
          }));
@@ -251,10 +250,10 @@ describe('handleDeleteWaitEvent', () => {
          return Promise.resolve().then(() => {
              const deleteWaitEventEvent = new DeleteWaitEventEvent('waitEvent1');
 
-             const waitEventElement = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             const waitEventElement = waitEditor.shadowRoot.querySelector(selectors.WAIT_EVENT);
              waitEventElement.dispatchEvent(deleteWaitEventEvent);
          }).then(() => {
-             const waitEventElement = getShadowRoot(waitEditor).querySelector(selectors.WAIT_EVENT);
+             const waitEventElement = waitEditor.shadowRoot.querySelector(selectors.WAIT_EVENT);
              expect(waitEventElement.waitEvent).toEqual(waitWithTwoWaitEvents.waitEvents[1]);
          });
      });

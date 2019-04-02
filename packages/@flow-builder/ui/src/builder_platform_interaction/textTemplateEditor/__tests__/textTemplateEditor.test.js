@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import TextTemplateEditor from '../textTemplateEditor';
 import { textTemplateReducer } from "../textTemplateReducer";
 import * as mockStoreData from 'mock/storeData';
@@ -67,7 +66,7 @@ describe('text-template-editor', () => {
 
     it('has label description component that shows only dev name and description', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
-        const labelDescription = getShadowRoot(textTemplateEditor).querySelector(SELECTORS.LABEL_DESCRIPTION);
+        const labelDescription = textTemplateEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         expect(labelDescription).toBeDefined();
         expect(labelDescription.description).toEqual(textTemplateResource.description);
         expect(labelDescription.devName).toEqual(textTemplateResource.name);
@@ -76,9 +75,9 @@ describe('text-template-editor', () => {
 
     it('has resourced-textarea showing the correct text template', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
-        const resourcedRichTextEditor = getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR);
+        const resourcedRichTextEditor = textTemplateEditor.shadowRoot.querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR);
         expect(resourcedRichTextEditor).toBeDefined();
-        const lightningInputRichText = getShadowRoot(resourcedRichTextEditor).querySelector(SELECTORS.LIGHTNING_INPUT_RICH_TEXT);
+        const lightningInputRichText = resourcedRichTextEditor.shadowRoot.querySelector(SELECTORS.LIGHTNING_INPUT_RICH_TEXT);
         expect(lightningInputRichText.value).toEqual(textTemplateResource.text.value);
     });
 
@@ -86,7 +85,7 @@ describe('text-template-editor', () => {
         const textTemplateEditor = setupComponentUnderTest(textTemplateResource);
         return Promise.resolve().then(() => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
-            getShadowRoot(textTemplateEditor).querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+            textTemplateEditor.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
             expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
             expect(textTemplateReducer.mock.calls[0][0]).toEqual(textTemplateEditor.node);
         });
@@ -97,7 +96,7 @@ describe('text-template-editor', () => {
         const newTextTemplate = '<html> New text in template</html>';
         return Promise.resolve().then(() => {
             const event = new CustomEvent('change', {detail: {value: newTextTemplate, error: null}, cancelable: true, composed: true, bubbles: true});
-            getShadowRoot(textTemplateEditor).querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
+            textTemplateEditor.shadowRoot.querySelector(SELECTORS.RESOURCED_RICH_TEXT_EDITOR).dispatchEvent(event);
             expect(createAction.mock.calls[0][0]).toEqual(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY);
             expect(createAction.mock.calls[0][1]).toEqual({
                 propertyName: 'text',

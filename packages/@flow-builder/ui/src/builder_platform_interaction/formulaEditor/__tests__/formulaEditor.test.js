@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import FormulaEditor from "../formulaEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import { createFormula } from "builder_platform_interaction/elementFactory";
 import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 
@@ -19,11 +18,11 @@ const selectors = {
 };
 
 const getDataTypePicker = (formulaEditor) => {
-    return getShadowRoot(formulaEditor).querySelector(selectors.dataTypePicker);
+    return formulaEditor.shadowRoot.querySelector(selectors.dataTypePicker);
 };
 
 const getFormulaTextArea = (formulaEditor) => {
-    return getShadowRoot(formulaEditor).querySelector(selectors.formulaTextArea);
+    return formulaEditor.shadowRoot.querySelector(selectors.formulaTextArea);
 };
 
 describe('formula-editor', () => {

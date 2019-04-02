@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import OutputResourcePicker from '../outputResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getMenuData, getResourceByUniqueIdentifier, mutateFieldToComboboxShape, mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
@@ -74,7 +73,7 @@ describe('output-resource-picker', () => {
         it('exists', () => {
             const outputResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(outputResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
                 expect(baseResourcePicker).toBeDefined();
             });
         });
@@ -87,7 +86,7 @@ describe('output-resource-picker', () => {
             };
             const outputResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(outputResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
                 expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
             });
         });
@@ -95,7 +94,7 @@ describe('output-resource-picker', () => {
             props.value = 'testValue';
             const outputResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = getShadowRoot(outputResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+                const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
                 expect(baseResourcePicker.value).toEqual(props.value);
             });
         });
@@ -109,7 +108,7 @@ describe('output-resource-picker', () => {
             outputResourcePicker = setupComponentUnderTest(props);
         });
         it('updates the value to the item if there is both item and display text', () => {
-            const baseResourcePicker = getShadowRoot(outputResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             const itemPayload = { value: 'foo' };
             baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(itemPayload, displayText));
             return Promise.resolve().then(() => {
@@ -117,7 +116,7 @@ describe('output-resource-picker', () => {
             });
         });
         it('updates the value to the item if there is no display text', () => {
-            const baseResourcePicker = getShadowRoot(outputResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             const itemPayload = { value: 'foo' };
             baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(itemPayload));
             return Promise.resolve().then(() => {
@@ -125,7 +124,7 @@ describe('output-resource-picker', () => {
             });
         });
         it('updates the value to the display text if there is no item', () => {
-            const baseResourcePicker = getShadowRoot(outputResourcePicker).querySelector(BaseResourcePicker.SELECTOR);
+            const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
             baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(undefined, displayText));
             return Promise.resolve().then(() => {
                 expect(baseResourcePicker.value).toEqual(displayText);

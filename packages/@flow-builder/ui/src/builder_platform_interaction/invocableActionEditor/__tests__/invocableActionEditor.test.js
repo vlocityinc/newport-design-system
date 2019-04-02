@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import InvocableActionEditor from "../invocableActionEditor";
 import { mockActionParameters, mockActions } from "mock/calloutData";
 import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
@@ -118,7 +117,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 });
 
 const getBaseCalloutEditor = (actionEditor) => {
-    return getShadowRoot(actionEditor).querySelector(selectors.baseCalloutEditor);
+    return actionEditor.shadowRoot.querySelector(selectors.baseCalloutEditor);
 };
 
 describe('Invocable Action editor', () => {

@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import ElementIcon from 'builder_platform_interaction/elementIcon';
-import { getShadowRoot } from 'lwc-test-utils';
 
 const ICON_NAMES =  {
     subflow: 'standard:flow',
@@ -20,11 +19,11 @@ const SELECTORS = {
 };
 
 function getContainer(elementIcon) {
-    return getShadowRoot(elementIcon).querySelector(SELECTORS.div);
+    return elementIcon.shadowRoot.querySelector(SELECTORS.div);
 }
 
 function getLightningIcon(elementIcon) {
-    return getShadowRoot(elementIcon).querySelector(SELECTORS.lightningIcon);
+    return elementIcon.shadowRoot.querySelector(SELECTORS.lightningIcon);
 }
 
 const createComponentForTest = ({  iconName, isDraggable, backgroundColor } = {}) => {

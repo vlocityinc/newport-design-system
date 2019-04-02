@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import ScreenInputFieldPropertiesEditor from "../screenInputFieldPropertiesEditor";
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
-import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
@@ -45,13 +44,13 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -85,7 +84,7 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -93,7 +92,7 @@ describe('screen-input-field-properties-editor for TextBox', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -111,13 +110,13 @@ describe('screen-input-field-properties-editor for Number', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -150,7 +149,7 @@ describe('screen-input-field-properties-editor for Number', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -158,7 +157,7 @@ describe('screen-input-field-properties-editor for Number', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -176,13 +175,13 @@ describe('screen-input-field-properties-editor for Date', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -215,7 +214,7 @@ describe('screen-input-field-properties-editor for Date', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -223,7 +222,7 @@ describe('screen-input-field-properties-editor for Date', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -241,13 +240,13 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -281,7 +280,7 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -289,7 +288,7 @@ describe('screen-input-field-properties-editor for DateTime', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -307,13 +306,13 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -345,7 +344,7 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -353,7 +352,7 @@ describe('screen-input-field-properties-editor for Checkbox', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -371,13 +370,13 @@ describe('screen-input-field-properties-editor for Currency', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -410,7 +409,7 @@ describe('screen-input-field-properties-editor for Currency', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -418,7 +417,7 @@ describe('screen-input-field-properties-editor for Currency', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -518,7 +517,7 @@ describe('screen-input-field-properties-editor with validationRule', () => {
 
     it('Validation rule error message is present and displayed', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
@@ -526,7 +525,7 @@ describe('screen-input-field-properties-editor with validationRule', () => {
     });
     it('Validation rule formula is present and displayed', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenInputFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenInputFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBe("{!Var1} == 'text'");

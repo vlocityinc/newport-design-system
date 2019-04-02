@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import ScreenDisplayField from "builder_platform_interaction/screenDisplayTextField";
-import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     RICH : 'lightning-formatted-rich-text',
@@ -19,14 +18,14 @@ describe('Rich text display field', () => {
     it('Value should be displayed', () => {
         displayWrapperCmp = createComponentForTest({value: {value: 'Poshe Text', error: null}});
         return Promise.resolve().then(() => {
-            const disp = getShadowRoot(displayWrapperCmp).querySelector(SELECTORS.RICH);
+            const disp = displayWrapperCmp.shadowRoot.querySelector(SELECTORS.RICH);
             expect(disp.value).toEqual('Poshe Text');
         });
     });
     it('should replace new lines with <br/>', () => {
         displayWrapperCmp = createComponentForTest({value: {value: 'first line\nsecond line', error: null}});
         return Promise.resolve().then(() => {
-            const disp = getShadowRoot(displayWrapperCmp).querySelector(SELECTORS.RICH);
+            const disp = displayWrapperCmp.shadowRoot.querySelector(SELECTORS.RICH);
             expect(disp.value).toEqual('first line<br />second line');
         });
     });

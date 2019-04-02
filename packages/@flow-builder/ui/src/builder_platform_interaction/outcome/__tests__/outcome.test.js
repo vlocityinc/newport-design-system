@@ -3,7 +3,6 @@ import Outcome from "builder_platform_interaction/outcome";
 import {
     DeleteOutcomeEvent
 } from "builder_platform_interaction/events";
-import { getShadowRoot } from 'lwc-test-utils';
 import { LABELS } from "../outcomeLabels";
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
@@ -68,7 +67,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const labelAndNameComponents = getShadowRoot(element).querySelectorAll(selectors.labelAndName);
+                const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
                 expect(labelAndNameComponents).toHaveLength(1);
                 expect(labelAndNameComponents[0].devName.value).toBe(outcomeWithOneConditional.name.value);
                 expect(labelAndNameComponents[0].label.value).toBe(outcomeWithOneConditional.label.value);
@@ -79,7 +78,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const removeButton = getShadowRoot(element).querySelectorAll(selectors.removeButton)[0];
+                const removeButton = element.shadowRoot.querySelectorAll(selectors.removeButton)[0];
 
                 expect(removeButton.label).toBe(LABELS.deleteOutcomeLabel);
                 expect(removeButton.title).toBe(LABELS.deleteOutcomeTitle);
@@ -91,7 +90,7 @@ describe('Outcome', () => {
             element.showDelete = false;
 
             return Promise.resolve().then(() => {
-                const removeButton = getShadowRoot(element).querySelector(selectors.removeButton);
+                const removeButton = element.shadowRoot.querySelector(selectors.removeButton);
 
                 expect(removeButton).toBeNull();
             });
@@ -107,7 +106,7 @@ describe('Outcome', () => {
                 const eventCallback = jest.fn();
                 element.addEventListener(DeleteOutcomeEvent.EVENT_NAME, eventCallback);
 
-                const removeButton = getShadowRoot(element).querySelector(selectors.button);
+                const removeButton = element.shadowRoot.querySelector(selectors.button);
                 removeButton.click();
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -154,7 +153,7 @@ describe('Outcome', () => {
             element.outcome = outcomeWithThreeConditionals;
 
             return Promise.resolve().then(() => {
-                const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+                const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
                 expect(rowsArray).toHaveLength(3);
             });
         });

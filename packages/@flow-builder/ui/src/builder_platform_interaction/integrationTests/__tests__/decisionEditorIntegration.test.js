@@ -1,6 +1,5 @@
 import { createElement, unwrap } from 'lwc';
 import DecisionEditor from "builder_platform_interaction/decisionEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import { ReorderListEvent } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 import { resolveRenderCycles} from '../resolveRenderCycles';
@@ -182,7 +181,7 @@ describeSkip('Decision Editor', () => {
         it('Adding name autofills dev name', () => {
             const decisionEditor = createComponentForTest(emptyDecision);
             return resolveRenderCycles(() => {
-                const labelInput = getShadowRoot(getShadowRoot(decisionEditor).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
+                const labelInput = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT).shadowRoot.querySelector(SELECTORS.LABEL);
                 labelInput.mockUserInput(NEW_DECISION_LABEL);
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -196,7 +195,7 @@ describeSkip('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
             return resolveRenderCycles(() => {
                 const newLabel = 'new label';
-                const labelInput = getShadowRoot(getShadowRoot(decisionEditor).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
+                const labelInput = decisionEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT).shadowRoot.querySelector(SELECTORS.LABEL);
                 labelInput.mockUserInput(newLabel);
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -212,7 +211,7 @@ describeSkip('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
             return resolveRenderCycles(() => {
                 // Initially we have 2 outcomes in left nav (one default) and 1 outcome detail page
-                const outcomeDetailPages = getShadowRoot(decisionEditor).querySelectorAll(SELECTORS.OUTCOME);
+                const outcomeDetailPages = decisionEditor.shadowRoot.querySelectorAll(SELECTORS.OUTCOME);
                 expect(outcomeDetailPages).toHaveLength(1);
                 const outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                 expect(outcomes).toHaveLength(2);
@@ -222,12 +221,12 @@ describeSkip('Decision Editor', () => {
         it('click on Add Outcome will create a new outcome', () => {
             const decisionEditor = createComponentForTest(decisionWithOneOutcome);
             return resolveRenderCycles(() => {
-                const addOutcomeElement = getShadowRoot(decisionEditor).querySelector(SELECTORS.ADD_BUTTON);
+                const addOutcomeElement = decisionEditor.shadowRoot.querySelector(SELECTORS.ADD_BUTTON);
                 addOutcomeElement.click();
                 return resolveRenderCycles(() => {
                     // After click we have 3 outcomes in left nav (one default)
                     // but still just 1 outcome detail page
-                    const outcomeDetailPages = getShadowRoot(decisionEditor).querySelectorAll(SELECTORS.OUTCOME);
+                    const outcomeDetailPages = decisionEditor.shadowRoot.querySelectorAll(SELECTORS.OUTCOME);
                     expect(outcomeDetailPages).toHaveLength(1);
                     const outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     expect(outcomes).toHaveLength(3);
@@ -239,7 +238,7 @@ describeSkip('Decision Editor', () => {
             const decisionEditor = createComponentForTest(decisionWithTwoOutcomes);
             return resolveRenderCycles(() => {
                 expect(decisionEditor.getNode().outcomes[0].guid).toBe(outcome1Guid);
-                const reorderableNav = getShadowRoot(decisionEditor).querySelector(SELECTORS.REORDERABLE_NAV);
+                const reorderableNav = decisionEditor.shadowRoot.querySelector(SELECTORS.REORDERABLE_NAV);
                 // fire event to switch order
                 reorderableNav.dispatchEvent(reorderListEvent);
                 return resolveRenderCycles(() => {
@@ -254,8 +253,8 @@ describeSkip('Decision Editor', () => {
             it('Adding name autofills dev name', () => {
                 const decisionEditor = createComponentForTest(emptyDecision);
                 return resolveRenderCycles(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const detailLabelInput = unwrap(getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const detailLabelInput = unwrap(outcomeDetailPage.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
                     detailLabelInput.mockUserInput(NEW_OUTCOME_LABEL);
                     detailLabelInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
@@ -269,8 +268,8 @@ describeSkip('Decision Editor', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return resolveRenderCycles(() => {
                     const newLabel = 'new outcome label';
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const detailLabelInput = unwrap(getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const detailLabelInput = unwrap(outcomeDetailPage.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
                     detailLabelInput.mockUserInput(newLabel);
                     detailLabelInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
@@ -285,13 +284,13 @@ describeSkip('Decision Editor', () => {
             it('add condition', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return resolveRenderCycles(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
-                    const list = getShadowRoot(conditionList).querySelector(SELECTORS.LIST);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const conditionList = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
+                    const list = conditionList.shadowRoot.querySelector(SELECTORS.LIST);
                     // Should only have 1 condition in the list
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(1);
 
-                    const button = getShadowRoot(list).querySelector(SELECTORS.LIGHTNING_BUTTON);
+                    const button = list.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON);
                     button.click();
                     // Should have 2 conditions
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(2);
@@ -301,12 +300,12 @@ describeSkip('Decision Editor', () => {
             it('delete is disabled for one condition', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return resolveRenderCycles(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const conditionList = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(1);
 
                     const row = conditionList.querySelector(SELECTORS.ROW);
-                    const button = getShadowRoot(row).querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
+                    const button = row.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
                     expect(button.disabled).toBeTruthy();
                 });
             });
@@ -316,12 +315,12 @@ describeSkip('Decision Editor', () => {
                 return resolveRenderCycles(() => {
                     const outcomeDetailPage = decisionEditor.querySelector(SELECTORS.OUTCOME);
                     const list = outcomeDetailPage.querySelector(SELECTORS.LIST);
-                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
-                    const addConditionButton = getShadowRoot(list).querySelector(SELECTORS.LIGHTNING_BUTTON);
+                    const conditionList = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
+                    const addConditionButton = list.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON);
                     addConditionButton.click();
                     expect(decisionEditor.getNode().outcomes[0].conditions).toHaveLength(2);
                     const row = conditionList.querySelector(SELECTORS.ROW);
-                    const deleteButton = getShadowRoot(row).querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
+                    const deleteButton = row.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON_ICON);
                     return resolveRenderCycles(() => {
                         expect(deleteButton.disabled).toBeFalsy();
 
@@ -339,10 +338,10 @@ describeSkip('Decision Editor', () => {
                 return resolveRenderCycles(() => {
                     expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe(CONDITION_LOGIC.AND);
 
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const conditionList = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                     const row = conditionList.querySelectorAll(SELECTORS.ROW);
-                    const legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
+                    const legendText = row[1].shadowRoot.querySelector(SELECTORS.LEGEND_TEXT).textContent;
                     expect(legendText).toBe(CONDITION_PREFIXES.AND);
                 });
             });
@@ -357,9 +356,9 @@ describeSkip('Decision Editor', () => {
                     conditionCombobox.dispatchEvent(cbChangeEvent);
                     return resolveRenderCycles(() => {
                         expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe(CONDITION_LOGIC.OR);
-                        const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                        const conditionList = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                         const row = conditionList.querySelectorAll(SELECTORS.ROW);
-                        const legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
+                        const legendText = row[1].shadowRoot.querySelector(SELECTORS.LEGEND_TEXT).textContent;
                         expect(legendText).toBe(CONDITION_PREFIXES.OR);
                     });
                 });
@@ -375,11 +374,11 @@ describeSkip('Decision Editor', () => {
                     conditionCombobox.dispatchEvent(cbChangeEvent);
                     return resolveRenderCycles(() => {
                         expect(decisionEditor.node.outcomes[0].conditionLogic.value).toBe('1 AND 2');
-                        const conditionList = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.CONDITION_LIST);
+                        const conditionList = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                         const row = conditionList.querySelectorAll(SELECTORS.ROW);
-                        let legendText = getShadowRoot(row[0]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
+                        let legendText = row[0].shadowRoot.querySelector(SELECTORS.LEGEND_TEXT).textContent;
                         expect(legendText).toBe('1');
-                        legendText = getShadowRoot(row[1]).querySelector(SELECTORS.LEGEND_TEXT).textContent;
+                        legendText = row[1].shadowRoot.querySelector(SELECTORS.LEGEND_TEXT).textContent;
                         expect(legendText).toBe('2');
                     });
                 });
@@ -393,7 +392,7 @@ describeSkip('Decision Editor', () => {
                     const outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     outcomes[2].querySelector('a').click();
                     return resolveRenderCycles(() => {
-                        const deleteOutcomeButton = getShadowRoot(decisionEditor).querySelector(SELECTORS.LIGHTNING_BUTTON);
+                        const deleteOutcomeButton = decisionEditor.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON);
                         expect(deleteOutcomeButton).toBeNull();
                     });
                 });
@@ -405,8 +404,8 @@ describeSkip('Decision Editor', () => {
                     const outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     outcomes[1].querySelector('a').click();
                     return resolveRenderCycles(() => {
-                        const labelDescription = getShadowRoot(decisionEditor).querySelector(SELECTORS.DEFAULT_OUTCOME);
-                        const defaultOutcomeLabelInput = getShadowRoot(labelDescription).querySelector(SELECTORS.LABEL);
+                        const labelDescription = decisionEditor.shadowRoot.querySelector(SELECTORS.DEFAULT_OUTCOME);
+                        const defaultOutcomeLabelInput = labelDescription.shadowRoot.querySelector(SELECTORS.LABEL);
                         const newDefaultOutcomeLabel = 'blah blah blah';
                         defaultOutcomeLabelInput.mockUserInput(newDefaultOutcomeLabel);
                         defaultOutcomeLabelInput.dispatchEvent(focusoutEvent);
@@ -422,8 +421,8 @@ describeSkip('Decision Editor', () => {
             it('delete outcome button is not present when only one outcome', () => {
                 const decisionEditor = createComponentForTest(decisionWithOneOutcome);
                 return resolveRenderCycles(() => {
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const deleteOutcomeButton = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIGHTNING_BUTTON);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const deleteOutcomeButton = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON);
                     expect(deleteOutcomeButton).toBeNull();
                 });
             });
@@ -433,8 +432,8 @@ describeSkip('Decision Editor', () => {
                 return resolveRenderCycles(() => {
                     let outcomes = decisionEditor.querySelectorAll(SELECTORS.VERTICAL_TAB_NAV_ITEM);
                     expect(outcomes).toHaveLength(3);
-                    const outcomeDetailPage = getShadowRoot(decisionEditor).querySelector(SELECTORS.OUTCOME);
-                    const deleteOutcomeButton = getShadowRoot(outcomeDetailPage).querySelector(SELECTORS.LIGHTNING_BUTTON);
+                    const outcomeDetailPage = decisionEditor.shadowRoot.querySelector(SELECTORS.OUTCOME);
+                    const deleteOutcomeButton = outcomeDetailPage.shadowRoot.querySelector(SELECTORS.LIGHTNING_BUTTON);
                     expect(deleteOutcomeButton).toBeDefined();
                     deleteOutcomeButton.click();
                     return resolveRenderCycles(() => {

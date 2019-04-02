@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import {
     WAIT_TIME_EVENT_TYPE,
     WAIT_EVENT_FIELDS,
@@ -92,7 +91,7 @@ describe('waitTimeEvent', () => {
         });
 
         it('has a date time picker when absolute time is selected', () => {
-            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             expect(picker.comboboxConfig.type).toEqual(FLOW_DATA_TYPE.DATE_TIME.value);
         });
 
@@ -109,7 +108,7 @@ describe('waitTimeEvent', () => {
                 }];
 
                 return Promise.resolve().then(() => {
-                    const absoluteBaseTimePicker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+                    const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
                     expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith(someError);
                 });
             });
@@ -124,26 +123,26 @@ describe('waitTimeEvent', () => {
                 }];
 
                 return Promise.resolve().then(() => {
-                    const absoluteBaseTimePicker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+                    const absoluteBaseTimePicker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
                     expect(absoluteBaseTimePicker.setCustomValidity).toHaveBeenCalledWith('');
                 });
             });
         });
 
         it('allows sobjects in menudata, so the user can select an sobject field', () => {
-            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             expect(picker.comboboxConfig.enableFieldDrilldown).toEqual(true);
         });
 
         it('loads the existing offset number and unit values', () => {
-            const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
+            const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
             expect(offsetNumber.value).toEqual(-3);
-            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
+            const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
             expect(offsetUnit.value).toEqual('Days');
         });
 
         it('dispatches UpdateWaitEventEventTypeEvent when event type changes', () => {
-            const radio = getShadowRoot(waitTimeEvent).querySelector(selectors.lightningRadioGroup);
+            const radio = waitTimeEvent.shadowRoot.querySelector(selectors.lightningRadioGroup);
             const mockPayload = { value: WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME };
             const changedEvent = new CustomEvent('change', { detail: mockPayload});
 
@@ -160,7 +159,7 @@ describe('waitTimeEvent', () => {
             const mockItem = { value: 'foo', displayText: 'foo bar' };
             const comboboxStateChanged = new ComboboxStateChangedEvent(mockItem);
 
-            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             picker.dispatchEvent(comboboxStateChanged);
 
             return Promise.resolve().then(() => {
@@ -174,7 +173,7 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on offset number focus out', () => {
             const focusOut = new CustomEvent('focusout');
 
-            const offsetNumber = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[0];
+            const offsetNumber = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[0];
             offsetNumber.reportValidity = jest.fn();
             offsetNumber.dispatchEvent(focusOut);
 
@@ -192,7 +191,7 @@ describe('waitTimeEvent', () => {
         it('fires UpdateParameterItemEvent on offset unit focus out', () => {
             const focusOut = new CustomEvent('focusout');
 
-            const offsetUnit = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.lightningInput)[1];
+            const offsetUnit = waitTimeEvent.shadowRoot.querySelectorAll(selectors.lightningInput)[1];
             offsetUnit.dispatchEvent(focusOut);
 
             return Promise.resolve().then(() => {
@@ -207,7 +206,7 @@ describe('waitTimeEvent', () => {
         });
 
         it('rules are given to the input parameters', () => {
-            const picker = getShadowRoot(waitTimeEvent).querySelector(selectors.picker);
+            const picker = waitTimeEvent.shadowRoot.querySelector(selectors.picker);
             expect(picker.rules).toEqual(['foo']);
         });
     });
@@ -386,8 +385,8 @@ describe('waitTimeEvent', () => {
                 eventType: mockEventType,
             };
             waitTimeEvent = createComponentUnderTest(props);
-            resumeTimeParam = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.parameterItem)[0];
-            eventDeliveryStatus = getShadowRoot(waitTimeEvent).querySelectorAll(selectors.parameterItem)[1];
+            resumeTimeParam = waitTimeEvent.shadowRoot.querySelectorAll(selectors.parameterItem)[0];
+            eventDeliveryStatus = waitTimeEvent.shadowRoot.querySelectorAll(selectors.parameterItem)[1];
         });
 
         it('has an optional resumeTime output parameter of type dateTime', () => {

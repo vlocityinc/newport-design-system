@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import RecordDeleteEditor from "../recordDeleteEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import * as storeMockedData from "mock/storeData";
 import { AddElementEvent, EditElementEvent, SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
@@ -89,10 +88,10 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-const getSObjectOrSObjectCollectionPicker = recordDeleteEditor => getShadowRoot(recordDeleteEditor).querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
-const getEntityResourcePicker = recordDeleteEditor => getShadowRoot(recordDeleteEditor).querySelector(SELECTORS.entityResourcePicker);
-const getRecordStoreOption = recordDeleteEditor => getShadowRoot(recordDeleteEditor).querySelector(SELECTORS.recordStoreOption);
-const getRecordFilter = recordDeleteEditor => getShadowRoot(recordDeleteEditor).querySelector(SELECTORS.recordFilter);
+const getSObjectOrSObjectCollectionPicker = recordDeleteEditor => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.sObjectOrSObjectCollectionPicker);
+const getEntityResourcePicker = recordDeleteEditor => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.entityResourcePicker);
+const getRecordStoreOption = recordDeleteEditor => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordStoreOption);
+const getRecordFilter = recordDeleteEditor => recordDeleteEditor.shadowRoot.querySelector(SELECTORS.recordFilter);
 
 describe('Record delete editor', () => {
     let recordDeleteEditor;

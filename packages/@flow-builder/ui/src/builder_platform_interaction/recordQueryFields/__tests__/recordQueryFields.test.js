@@ -1,5 +1,4 @@
 import {createElement} from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
     AddRecordLookupFieldEvent,
@@ -34,23 +33,23 @@ const selectors = {
 };
 
 const getSObjectPicker = (recordStoreFieldsComponent) => {
-    return getShadowRoot(recordStoreFieldsComponent).querySelector(selectors.sobjectPicker);
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.sobjectPicker);
 };
 
 const getFieldList = (recordStoreFieldsComponent) => {
-    return getShadowRoot(recordStoreFieldsComponent).querySelector(selectors.fieldsList);
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.fieldsList);
 };
 
 const getRecordFieldPickers = (recordStoreFieldsComponent) => {
-    return getShadowRoot(recordStoreFieldsComponent).querySelectorAll(selectors.recordFieldPicker);
+    return recordStoreFieldsComponent.shadowRoot.querySelectorAll(selectors.recordFieldPicker);
 };
 
 const getIdCombobox = (recordStoreFieldsComponent) => {
-    return getShadowRoot(recordStoreFieldsComponent).querySelector(selectors.idCombobox);
+    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.idCombobox);
 };
 
 const getFieldPicker = (recordFieldPicker) => {
-    return getShadowRoot(recordFieldPicker).querySelector(selectors.fieldPicker);
+    return recordFieldPicker.shadowRoot.querySelector(selectors.fieldPicker);
 };
 
 const createComponentUnderTest = (props) => {

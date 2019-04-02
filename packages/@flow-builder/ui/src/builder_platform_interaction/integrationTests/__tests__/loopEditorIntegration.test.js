@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import LoopEditor from "builder_platform_interaction/loopEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import {
     stringCollectionVariable1DevName,
     stringCollectionVariable1Guid,
@@ -116,18 +115,18 @@ const createComponentForTest = (node) => {
 };
 
 const getLoopVariableComboboxElement = (loop) => {
-    const loopVariable = getShadowRoot(loop).querySelector(SELECTORS.LOOP_VARIABLE);
-    const resourcePicker = getShadowRoot(loopVariable).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+    const loopVariable = loop.shadowRoot.querySelector(SELECTORS.LOOP_VARIABLE);
+    const resourcePicker = loopVariable.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+    const lightningGroupCombobox = combobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
     return lightningGroupCombobox;
 };
 
 const getCollectionVariableComboboxElement = (loop) => {
-    const collectionVariable = getShadowRoot(loop).querySelector(SELECTORS.COLLECTION_VARIABLE);
-    const resourcePicker = getShadowRoot(collectionVariable).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+    const collectionVariable = loop.shadowRoot.querySelector(SELECTORS.COLLECTION_VARIABLE);
+    const resourcePicker = collectionVariable.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+    const lightningGroupCombobox = combobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
     return lightningGroupCombobox;
 };
 
@@ -138,7 +137,7 @@ describe('Loop Editor', () => {
             const newLoopName = 'new loop name!';
             const loopElement = createComponentForTest(loopForTesting);
             return resolveRenderCycles(() => {
-                const labelInput = getShadowRoot(getShadowRoot(loopElement).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
+                const labelInput = loopElement.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT).shadowRoot.querySelector(SELECTORS.LABEL);
                 labelInput.mockUserInput(newLoopName);
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
@@ -153,7 +152,7 @@ describe('Loop Editor', () => {
             const newLoopAutopopulatedDevName = 'new_loop_name';
             const loopElement = createComponentForTest(emptyLoopForTesting);
             return resolveRenderCycles(() => {
-                const labelInput = getShadowRoot(getShadowRoot(loopElement).querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)).querySelector(SELECTORS.LABEL);
+                const labelInput = loopElement.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT).shadowRoot.querySelector(SELECTORS.LABEL);
                 labelInput.mockUserInput(newLoopName);
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {

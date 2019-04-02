@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import VisualPickerList from 'builder_platform_interaction/visualPickerList';
 import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
 
@@ -47,11 +46,11 @@ const SELECTORS = {
 };
 
 function getVisualPickerItems(visualPicker) {
-    return getShadowRoot(visualPicker).querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
+    return visualPicker.shadowRoot.querySelectorAll(SELECTORS.VISUAL_PICKER_ITEM);
 }
 
 function getRows(visualPicker) {
-    return getShadowRoot(visualPicker).querySelectorAll(SELECTORS.GRID);
+    return visualPicker.shadowRoot.querySelectorAll(SELECTORS.GRID);
 }
 
 function getItemsPerRow(row) {
@@ -59,7 +58,7 @@ function getItemsPerRow(row) {
 }
 
 function getCheckbox(visualPickerItem) {
-    return getShadowRoot(visualPickerItem).querySelector(SELECTORS.CHECKBOX);
+    return visualPickerItem.shadowRoot.querySelector(SELECTORS.CHECKBOX);
 }
 
 describe('visual-picker-list', () => {

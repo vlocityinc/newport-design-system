@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import AssignmentEditor from "../assignmentEditor";
 import { PropertyChangedEvent, AddListItemEvent, DeleteListItemEvent, UpdateListItemEvent} from "builder_platform_interaction/events";
 import {deepCopy} from "builder_platform_interaction/storeLib";
-import { getShadowRoot } from 'lwc-test-utils';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -53,7 +52,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
-            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
             expect(assignmentElement.node.description.value).toBe('new desc');
         });
     });
@@ -62,7 +61,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new AddListItemEvent(1);
-            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems).toHaveLength(2);
         });
     });
@@ -71,7 +70,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new DeleteListItemEvent(0);
-            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems).toHaveLength(0);
         });
     });
@@ -80,7 +79,7 @@ describe('assignment-editor', () => {
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
             const event = new UpdateListItemEvent(0, {'leftHandSide': {value: 'val', error: 'err'}});
-            getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-list').dispatchEvent(event);
+            assignmentElement.shadowRoot.querySelector('builder_platform_interaction-list').dispatchEvent(event);
             expect(assignmentElement.node.assignmentItems[0].leftHandSide.value).toBe('val');
         });
     });
@@ -90,7 +89,7 @@ describe('assignment-editor', () => {
         node.assignmentItems = deepCopy(size2);
         assignmentElement.node = node;
         return Promise.resolve().then(() => {
-            const rows = getShadowRoot(assignmentElement).querySelectorAll('builder_platform_interaction-row');
+            const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
                 expect(row.showDelete).toBe(true);
             });
@@ -102,7 +101,7 @@ describe('assignment-editor', () => {
         node.assignmentItems = deepCopy(size1);
         assignmentElement.node = node;
         return Promise.resolve().then(() => {
-            const rows = getShadowRoot(assignmentElement).querySelectorAll('builder_platform_interaction-row');
+            const rows = assignmentElement.shadowRoot.querySelectorAll('builder_platform_interaction-row');
             rows.forEach(row => {
                 expect(row.showDelete).toBe(false);
             });
@@ -113,7 +112,7 @@ describe('assignment-editor', () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);
         return Promise.resolve().then(() => {
-            const ferToFerov = getShadowRoot(assignmentElement).querySelector('builder_platform_interaction-fer-to-ferov-expression-builder');
+            const ferToFerov = assignmentElement.shadowRoot.querySelector('builder_platform_interaction-fer-to-ferov-expression-builder');
             expect(ferToFerov.lhsMustBeWritable).toEqual(true);
         });
     });

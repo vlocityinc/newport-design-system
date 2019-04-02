@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import FormulaEditor from 'builder_platform_interaction/formulaEditor';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -43,29 +42,29 @@ const VALIDATION_ERROR_MESSAGES = {
 };
 
 const getDataTypePickerElement = (editor) => {
-    return getShadowRoot(editor).querySelector(SELECTORS.DATA_TYPE_PICKER);
+    return editor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
 };
 
 const getDataTypeComboboxElement = (editor) => {
-    return getShadowRoot(getDataTypePickerElement(editor)).querySelector(SELECTORS.LIGHTNING_COMBOBOX);
+    return getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
 };
 
 const getResourcedTextArea = (editor) => {
-    return getShadowRoot(editor).querySelector(SELECTORS.RESOURCED_TEXTAREA);
+    return editor.shadowRoot.querySelector(SELECTORS.RESOURCED_TEXTAREA);
 };
 
 const getFormulaTextArea = (editor) => {
-    return getShadowRoot(getResourcedTextArea(editor)).querySelector(SELECTORS.TEXTAREA);
+    return getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
 };
 
 const getFerovResourcePicker  = (editor) => {
-    return getShadowRoot(getResourcedTextArea(editor)).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+    return getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 };
 
 const getResourceGroupedCombobox = (editor) => {
-    const baseResourcePicker = getShadowRoot(getFerovResourcePicker(editor)).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = getShadowRoot(baseResourcePicker).querySelector(SELECTORS.INTERACTION_COMBOBOX);
-    return getShadowRoot(interactionCombobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 describe('Formula Editor', () => {

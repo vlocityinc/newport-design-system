@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import BaseExpressionBuilder from "../baseExpressionBuilder.js";
 import { RowContentsChangedEvent, ComboboxStateChangedEvent } from "builder_platform_interaction/events";
 import { numberVariableGuid, numberVariableDevName, stringVariableGuid,
@@ -92,7 +91,7 @@ function getComboboxElements(expressionBuilder) {
 }
 
 function getLightningCombobox(expressionBuilder) {
-    return getShadowRoot(expressionBuilder).querySelector("lightning-combobox");
+    return expressionBuilder.shadowRoot.querySelector("lightning-combobox");
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
@@ -205,9 +204,9 @@ describe('base expression builder', () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest(true);
 
             return Promise.resolve().then(() => {
-                expect(getShadowRoot(expressionBuilder).querySelector('lightning-icon')).toBeDefined();
+                expect(expressionBuilder.shadowRoot.querySelector('lightning-icon')).toBeDefined();
                 // make sure operator combobox is not present
-                expect(getShadowRoot(expressionBuilder).querySelector('lightning-combobox')).toBeNull();
+                expect(expressionBuilder.shadowRoot.querySelector('lightning-combobox')).toBeNull();
             });
         });
         it('should pass the default operator if the operator value is not set', () => {

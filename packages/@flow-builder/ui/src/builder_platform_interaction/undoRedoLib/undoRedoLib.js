@@ -85,11 +85,11 @@ export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}
             break;
         }
         case UNDO: {
-            ({past, present, future} = undo(past, present, future));
+            (({past, present, future} = undo(past, present, future)));
             break;
         }
         case REDO : {
-            ({past, present, future} = redo(past, present, future));
+            (({past, present, future} = redo(past, present, future)));
             break;
         }
         default: {

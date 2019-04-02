@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ParameterItem from 'builder_platform_interaction/parameterItem';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -72,31 +71,31 @@ const selectors = {
 };
 
 function getFerovResourcePickerElement(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.ferovResourcePicker);
+    return parameterItem.shadowRoot.querySelector(selectors.ferovResourcePicker);
 }
 
 function getHiddenFerovResourcePickerElement(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.hiddenFerovResourcePickerElement);
+    return parameterItem.shadowRoot.querySelector(selectors.hiddenFerovResourcePickerElement);
 }
 
 function getOutputResourcePickerElement(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.outputResourcePicker);
+    return parameterItem.shadowRoot.querySelector(selectors.outputResourcePicker);
 }
 
 function getLightningInputToggle(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.toggle);
+    return parameterItem.shadowRoot.querySelector(selectors.toggle);
 }
 
 function getWarningIcon(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.warningIcon);
+    return parameterItem.shadowRoot.querySelector(selectors.warningIcon);
 }
 
 function getWarningBadge(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.warningBadge);
+    return parameterItem.shadowRoot.querySelector(selectors.warningBadge);
 }
 
 function getDeleteButton(parameterItem) {
-    return getShadowRoot(parameterItem).querySelector(selectors.deleteButton);
+    return parameterItem.shadowRoot.querySelector(selectors.deleteButton);
 }
 
 describe('parameter-item', () => {

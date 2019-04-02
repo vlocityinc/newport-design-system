@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ResourceEditorContainer from "../resourceEditorContainer";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getElementForPropertyEditor } from "builder_platform_interaction/propertyEditorFactory";
@@ -43,7 +42,7 @@ describe('resource-editor-container', () => {
 
     it('should create, mutate, and hydrate a flow element when resource is selected', () => {
         const container = setupComponentUnderTest({selectedResource});
-        const innerNode = getShadowRoot(container).querySelector(EDITOR_SELECTOR);
+        const innerNode = container.shadowRoot.querySelector(EDITOR_SELECTOR);
         innerNode.getNode.mockReturnValueOnce(mockNode);
         const retVal = container.getNode();
         expect(retVal).toEqual(mockNode);
@@ -52,7 +51,7 @@ describe('resource-editor-container', () => {
 
     it('should call validate on the inner element when resource is selected', () => {
         const container = setupComponentUnderTest({selectedResource});
-        const innerNode = getShadowRoot(container).querySelector(EDITOR_SELECTOR);
+        const innerNode = container.shadowRoot.querySelector(EDITOR_SELECTOR);
         const mockValidationResult = 'mock validation result';
         innerNode.validate.mockReturnValueOnce(mockValidationResult);
         const retVal = container.validate();

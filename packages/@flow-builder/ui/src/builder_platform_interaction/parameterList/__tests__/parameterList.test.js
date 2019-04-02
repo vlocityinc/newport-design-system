@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import ParameterList from "../parameterList";
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getShadowRoot } from 'lwc-test-utils';
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
@@ -87,23 +86,23 @@ const selectors = {
 };
 
 const getLightningTabs = (parameterList) => {
-    return getShadowRoot(parameterList).querySelectorAll(selectors.lightningTab);
+    return parameterList.shadowRoot.querySelectorAll(selectors.lightningTab);
 };
 
 const getInputParameterItems = (parameterList) => {
-    return getShadowRoot(parameterList).querySelector(selectors.inputTab).querySelectorAll(selectors.parameterItem);
+    return parameterList.shadowRoot.querySelector(selectors.inputTab).querySelectorAll(selectors.parameterItem);
 };
 
 const getOutputParameterItems = (parameterList) => {
-    return getShadowRoot(parameterList).querySelector(selectors.outputTab).querySelectorAll(selectors.parameterItem);
+    return parameterList.shadowRoot.querySelector(selectors.outputTab).querySelectorAll(selectors.parameterItem);
 };
 
 const getEmptyInputs = (parameterList) => {
-    return getShadowRoot(parameterList).querySelector(selectors.emptyInputs).querySelector(selectors.goneCamping);
+    return parameterList.shadowRoot.querySelector(selectors.emptyInputs).querySelector(selectors.goneCamping);
 };
 
 const getEmptyOutputs = (parameterList) => {
-    return getShadowRoot(parameterList).querySelector(selectors.emptyOutputs).querySelector(selectors.goneCamping);
+    return parameterList.shadowRoot.querySelector(selectors.emptyOutputs).querySelector(selectors.goneCamping);
 };
 
 function createComponentForTest({ elementType = ELEMENT_TYPE.ACTION_CALL, inputTabHeader = defaultInputTabHeader, outputTabHeader = defaultOutputTabHeader,

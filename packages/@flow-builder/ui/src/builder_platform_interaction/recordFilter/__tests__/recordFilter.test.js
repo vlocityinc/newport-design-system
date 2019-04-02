@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import { mockAccountFields } from "mock/serverEntityData";
-import { getShadowRoot } from 'lwc-test-utils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
@@ -76,23 +75,23 @@ const selectors = {
 };
 
 const getFilterRecordsCombobox = (recordLookupFilterCmp) => {
-    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.filterRecordsCombobox);
+    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.filterRecordsCombobox);
 };
 
 const getFilterList = (recordLookupFilterCmp) => {
-    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.filterList);
+    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.filterList);
 };
 
 const getExpressionBuilders = (recordLookupFilterCmp) => {
-    return getShadowRoot(recordLookupFilterCmp).querySelectorAll(selectors.expressionBuilder);
+    return recordLookupFilterCmp.shadowRoot.querySelectorAll(selectors.expressionBuilder);
 };
 
 const getWarningIcon = (recordLookupFilterCmp) => {
-    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.warningIcon);
+    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.warningIcon);
 };
 
 const getWarningMessage = (recordLookupFilterCmp) => {
-    return getShadowRoot(recordLookupFilterCmp).querySelector(selectors.warningMessage);
+    return recordLookupFilterCmp.shadowRoot.querySelector(selectors.warningMessage);
 };
 
 class FilterTypeChangeEvent extends CustomEvent {

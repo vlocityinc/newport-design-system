@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import Combobox from "builder_platform_interaction/combobox";
 import { comboboxInitialConfig, secondLevelMenuData } from "mock/comboboxData";
 import { FilterMatchesEvent, FetchMenuDataEvent, ComboboxStateChangedEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
@@ -99,7 +98,7 @@ const createCombobox = (props) => {
     }
 
     document.body.appendChild(combobox);
-    groupedCombobox = getShadowRoot(combobox).querySelector(SELECTORS.GROUPED_COMBOBOX);
+    groupedCombobox = combobox.shadowRoot.querySelector(SELECTORS.GROUPED_COMBOBOX);
 };
 
 describe('Combobox Tests', () => {

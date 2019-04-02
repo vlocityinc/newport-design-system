@@ -1,7 +1,6 @@
 import {createElement} from 'lwc';
 import LabelDescription from "builder_platform_interaction/labelDescription";
 import {PropertyChangedEvent} from "builder_platform_interaction/events";
-import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -32,9 +31,9 @@ describe('label-description', () => {
             labelDescription.layoutMode = 'vertical';
 
             return Promise.resolve().then(() => {
-                const containerDiv = getShadowRoot(labelDescription).querySelector(selectors.container);
-                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
-                const nameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const containerDiv = labelDescription.shadowRoot.querySelector(selectors.container);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
+                const nameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
                 expect(containerDiv.classList).toContain('slds-grid_vertical');
                 expect(labelLightningInput.classList).not.toContain('slds-size_1-of-2');
                 expect(nameLightningInput.classList).not.toContain('slds-size_1-of-2');
@@ -45,9 +44,9 @@ describe('label-description', () => {
             const labelDescription = createComponentUnderTest();
 
             return Promise.resolve().then(() => {
-                const containerDiv = getShadowRoot(labelDescription).querySelector(selectors.container);
-                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
-                const nameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const containerDiv = labelDescription.shadowRoot.querySelector(selectors.container);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
+                const nameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
                 expect(containerDiv.classList).not.toContain('slds-grid_vertical');
                 expect(labelLightningInput.classList).toContain('slds-size_1-of-2');
                 expect(nameLightningInput.classList).toContain('slds-size_1-of-2');
@@ -63,7 +62,7 @@ describe('label-description', () => {
             labelDescription.label.value = newValue;
 
             return Promise.resolve().then(() => {
-                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                 expect(labelLightningInput.value).toEqual(newValue);
             });
@@ -72,7 +71,7 @@ describe('label-description', () => {
             const labelDescription = createComponentUnderTest();
 
             return Promise.resolve().then(() => {
-                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                 expect(labelLightningInput.required).toBeTruthy();
             });
@@ -82,7 +81,7 @@ describe('label-description', () => {
             labelDescription.labelOptional = true;
 
             return Promise.resolve().then(() => {
-                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                 expect(labelLightningInput.required).toBeFalsy();
             });
@@ -95,7 +94,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -113,7 +112,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                    const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -132,7 +131,7 @@ describe('label-description', () => {
 
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -152,7 +151,7 @@ describe('label-description', () => {
             labelDescription.hideLabel = true;
 
             return Promise.resolve().then(() => {
-                const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                 expect(labelLightningInput).toBeNull();
             });
@@ -168,7 +167,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     expect(labelLightningInput.setCustomValidity).toHaveBeenCalledWith(errorMsg);
                     expect(labelLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
@@ -183,7 +182,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     expect(labelLightningInput.setCustomValidity).toHaveBeenCalledWith('');
                     expect(labelLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
@@ -198,7 +197,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -219,7 +218,7 @@ describe('label-description', () => {
                 labelDescription.hideDevName = true;
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -239,7 +238,7 @@ describe('label-description', () => {
                 labelDescription.disableDevName = true;
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -261,7 +260,7 @@ describe('label-description', () => {
             labelDescription.devName.value = newValue;
 
             return Promise.resolve().then(() => {
-                const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                 expect(devNameLightningInput.value).toEqual(newValue);
             });
@@ -272,7 +271,7 @@ describe('label-description', () => {
             const expectedDefaultLabel = 'FlowBuilderLabelDescription.uniqueNameLabel';
 
             return Promise.resolve().then(() => {
-                const devName = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const devName = labelDescription.shadowRoot.querySelector(selectors.devName);
                 expect(devName.label).toEqual(expectedDefaultLabel);
             });
         });
@@ -283,7 +282,7 @@ describe('label-description', () => {
             labelDescription.nameLabel = nameLabel;
 
             return Promise.resolve().then(() => {
-                const name = getShadowRoot(labelDescription).querySelector(selectors.label);
+                const name = labelDescription.shadowRoot.querySelector(selectors.label);
                 expect(name.label).toEqual(nameLabel);
             });
         });
@@ -294,7 +293,7 @@ describe('label-description', () => {
             labelDescription.devNameLabel = devNameLabel;
 
             return Promise.resolve().then(() => {
-                const devName = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const devName = labelDescription.shadowRoot.querySelector(selectors.devName);
                 expect(devName.label).toEqual(devNameLabel);
             });
         });
@@ -304,7 +303,7 @@ describe('label-description', () => {
             labelDescription.hideLabel = true;
 
             return Promise.resolve().then(() => {
-                const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
                 expect(devNameLightningInput.className).toBe('slds-col devName');
             });
         });
@@ -314,7 +313,7 @@ describe('label-description', () => {
             labelDescription.hideDevName = true;
 
             return Promise.resolve().then(() => {
-                const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                 expect(devNameLightningInput).toBeNull();
             });
@@ -327,7 +326,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                    const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -345,7 +344,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                    const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -363,7 +362,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                    const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -388,7 +387,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                    const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                     expect(devNameLightningInput.setCustomValidity).toHaveBeenCalledWith(errorMsg);
                     expect(devNameLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
@@ -403,7 +402,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
+                    const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
 
                     expect(devNameLightningInput.setCustomValidity).toHaveBeenCalledWith('');
                     expect(devNameLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
@@ -418,7 +417,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -441,7 +440,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -460,7 +459,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -481,7 +480,7 @@ describe('label-description', () => {
                 };
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -501,7 +500,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -520,7 +519,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -539,7 +538,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -559,7 +558,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -579,7 +578,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -601,7 +600,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -621,7 +620,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
+                    const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -644,7 +643,7 @@ describe('label-description', () => {
             labelDescription.description.value = newValue;
 
             return Promise.resolve().then(() => {
-                const descriptionLightningInput = getShadowRoot(labelDescription).querySelector(selectors.description);
+                const descriptionLightningInput = labelDescription.shadowRoot.querySelector(selectors.description);
 
                 expect(descriptionLightningInput.value).toEqual(newValue);
             });
@@ -657,7 +656,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const descriptionLightningInput = getShadowRoot(labelDescription).querySelector(selectors.description);
+                    const descriptionLightningInput = labelDescription.shadowRoot.querySelector(selectors.description);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -675,7 +674,7 @@ describe('label-description', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
-                    const descriptionLightningInput = getShadowRoot(labelDescription).querySelector(selectors.description);
+                    const descriptionLightningInput = labelDescription.shadowRoot.querySelector(selectors.description);
 
                     const eventCallback = jest.fn();
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
@@ -692,7 +691,7 @@ describe('label-description', () => {
             labelDescription.hideDescription = true;
 
             return Promise.resolve().then(() => {
-                const descriptionLightningInput = getShadowRoot(labelDescription).querySelector(selectors.description);
+                const descriptionLightningInput = labelDescription.shadowRoot.querySelector(selectors.description);
 
                 expect(descriptionLightningInput).toBeNull();
             });
@@ -739,9 +738,9 @@ describe('label-description', () => {
         labelDescription.disableDescription = true;
 
         return Promise.resolve().then(() => {
-            const labelLightningInput = getShadowRoot(labelDescription).querySelector(selectors.label);
-            const devNameLightningInput = getShadowRoot(labelDescription).querySelector(selectors.devName);
-            const descriptionLightningInput = getShadowRoot(labelDescription).querySelector(selectors.description);
+            const labelLightningInput = labelDescription.shadowRoot.querySelector(selectors.label);
+            const devNameLightningInput = labelDescription.shadowRoot.querySelector(selectors.devName);
+            const descriptionLightningInput = labelDescription.shadowRoot.querySelector(selectors.description);
             expect(labelLightningInput.disabled).toBeTruthy();
             expect(devNameLightningInput.disabled).toBeTruthy();
             expect(descriptionLightningInput.disabled).toBeTruthy();

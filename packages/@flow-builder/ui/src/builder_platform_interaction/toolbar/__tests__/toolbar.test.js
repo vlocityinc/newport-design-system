@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import { EditFlowPropertiesEvent, SaveFlowEvent, DuplicateEvent } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
-import { getShadowRoot } from 'lwc-test-utils';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { LABELS } from '../toolbarLabels';
 
@@ -38,7 +37,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(EditFlowPropertiesEvent.EVENT_NAME, eventCallback);
-            getShadowRoot(toolbarComponent).querySelector(selectors.editflowproperties).click();
+            toolbarComponent.shadowRoot.querySelector(selectors.editflowproperties).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -47,7 +46,7 @@ describe('toolbar', () => {
         const toolbarComponent = createComponentUnderTest();
 
         return Promise.resolve().then(() => {
-            const toolbarButtonGroup = getShadowRoot(toolbarComponent).querySelector('lightning-button-group');
+            const toolbarButtonGroup = toolbarComponent.shadowRoot.querySelector('lightning-button-group');
             expect(toolbarButtonGroup).not.toBeNull();
         });
     });
@@ -55,7 +54,7 @@ describe('toolbar', () => {
     it('Status Icons section should be present', () => {
         const toolbarComponent = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const toolbarStatusIcons = getShadowRoot(toolbarComponent).querySelector('builder_platform_interaction-toolbar-status-icons');
+            const toolbarStatusIcons = toolbarComponent.shadowRoot.querySelector('builder_platform_interaction-toolbar-status-icons');
             expect(toolbarStatusIcons).not.toBeNull();
         });
     });
@@ -66,7 +65,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-            getShadowRoot(toolbarComponent).querySelector(selectors.save).click();
+            toolbarComponent.shadowRoot.querySelector(selectors.save).click();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE);
         });
@@ -78,7 +77,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(SaveFlowEvent.EVENT_NAME, eventCallback);
-            getShadowRoot(toolbarComponent).querySelector(selectors.saveas).click();
+            toolbarComponent.shadowRoot.querySelector(selectors.saveas).click();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail.type).toBe(SaveFlowEvent.Type.SAVE_AS);
         });
@@ -90,7 +89,7 @@ describe('toolbar', () => {
         return Promise.resolve().then(() => {
             const eventCallback = jest.fn();
             toolbarComponent.addEventListener(DuplicateEvent.EVENT_NAME, eventCallback);
-            getShadowRoot(toolbarComponent).querySelector(selectors.duplicate).click();
+            toolbarComponent.shadowRoot.querySelector(selectors.duplicate).click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -101,8 +100,8 @@ describe('toolbar', () => {
         });
 
         return Promise.resolve().then(() => {
-            const lastSavedButton = getShadowRoot(toolbarComponent).querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = getShadowRoot(toolbarComponent).querySelector('lightning-relative-date-time');
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector('lightning-relative-date-time');
             expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
             expect(relativeDateTimeComponent).toBeNull();
         });
@@ -117,8 +116,8 @@ describe('toolbar', () => {
         });
 
         return Promise.resolve().then(() => {
-            const lastSavedButton = getShadowRoot(toolbarComponent).querySelector(selectors.lastSave);
-            const relativeDateTimeComponent = getShadowRoot(toolbarComponent).querySelector('lightning-relative-date-time');
+            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(selectors.lastSave);
+            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector('lightning-relative-date-time');
             expect(lastSavedButton.textContent.trim()).toEqual(LABELS.savedStatus);
             expect(relativeDateTimeComponent).not.toBeNull();
             expect(relativeDateTimeComponent.value).toEqual(currentDate);

@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import ResourcedTextarea from '../resourcedTextarea';
-import { getShadowRoot } from 'lwc-test-utils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -35,14 +34,14 @@ const selectors = {
 describe('Resourced text area label', () => {
     it('Should have the asterisk when required', () => {
         const element = createComponentUnderTest({required: true, label});
-        const fullLabel = getShadowRoot(element).querySelector(selectors.label);
+        const fullLabel = element.shadowRoot.querySelector(selectors.label);
         expect(fullLabel.textContent).toMatch(label);
         const asterisk = fullLabel.querySelector(selectors.abbr);
         expect(asterisk.textContent).toMatch('*');
     });
     it('Should not have the asterisk when not required', () => {
         const element = createComponentUnderTest({required: false, label});
-        const fullLabel = getShadowRoot(element).querySelector(selectors.label);
+        const fullLabel = element.shadowRoot.querySelector(selectors.label);
         expect(fullLabel.textContent).toMatch(label);
         const asterisk = fullLabel.querySelector(selectors.abbr);
         expect(asterisk).toBeFalsy();
@@ -51,9 +50,9 @@ describe('Resourced text area label', () => {
 
 function verifyItemInsertion(existingText, selectionStart, selectionEnd, expectedFinalText, expectedFinalCursorPosition) {
     const element = createComponentUnderTest({value: existingText});
-    const textarea = getShadowRoot(element).querySelector(selectors.textarea);
+    const textarea = element.shadowRoot.querySelector(selectors.textarea);
     textarea.setSelectionRange(selectionStart, selectionEnd);
-    const ferovResourcePicker = getShadowRoot(element).querySelector(selectors.ferovResourcePicker);
+    const ferovResourcePicker = element.shadowRoot.querySelector(selectors.ferovResourcePicker);
     const changeEventCallback = jest.fn();
     element.addEventListener(changeEventName, changeEventCallback);
     ferovResourcePicker.value = resourcePickerVal;
@@ -100,10 +99,10 @@ describe('Item selection from the resource picker', () => {
     it('Should not do anything if it has a next item', () => {
         const existingText = 'Sample Text';
         const element = createComponentUnderTest({value: existingText});
-        const textarea = getShadowRoot(element).querySelector(selectors.textarea);
+        const textarea = element.shadowRoot.querySelector(selectors.textarea);
         textarea.setSelectionRange(0, 0);
         const itemSelectedEvent2 = new CustomEvent('itemselected', {detail: {item: {hasNext: true}}});
-        const ferovResourcePicker = getShadowRoot(element).querySelector(selectors.ferovResourcePicker);
+        const ferovResourcePicker = element.shadowRoot.querySelector(selectors.ferovResourcePicker);
         const changeEventCallback = jest.fn();
         element.addEventListener(changeEventName, changeEventCallback);
         ferovResourcePicker.value = resourcePickerVal;
@@ -135,7 +134,7 @@ describe('Events from the textarea', () => {
         const resourcedTextarea = createComponentUnderTest({value: '1+1'});
         resourcedTextarea.addEventListener('change', eventCallback);
 
-        const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
         textarea.value = '2+2';
         textarea.dispatchEvent(new CustomEvent('blur'));
         expectValueChangedEventWithValue('2+2', null);
@@ -145,7 +144,7 @@ describe('Events from the textarea', () => {
         const resourcedTextarea = createComponentUnderTest();
         resourcedTextarea.addEventListener('change', eventCallback);
 
-        const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
         const valueWithWhiteSpace = 'my text       ';
         textarea.value = valueWithWhiteSpace;
         textarea.dispatchEvent(new CustomEvent('blur'));
@@ -164,7 +163,7 @@ describe('Events from the textarea', () => {
         };
         validateTextWithMergeFields.mockReturnValue([validationError]);
 
-        const textarea = getShadowRoot(resourcedTextarea).querySelector(selectors.textarea);
+        const textarea = resourcedTextarea.shadowRoot.querySelector(selectors.textarea);
         textarea.dispatchEvent(new CustomEvent('blur'));
         expectValueChangedEventWithValue('{!unknownMergeField}', validationError.message);
     });

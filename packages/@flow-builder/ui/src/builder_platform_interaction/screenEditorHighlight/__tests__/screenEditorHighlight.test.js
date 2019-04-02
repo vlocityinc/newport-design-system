@@ -3,7 +3,6 @@ import ScreenEditorHighlight from "builder_platform_interaction/screenEditorHigh
 import { SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
 import { DRAGGING_CLASS, CONTAINER_DIV_SELECTOR} from "builder_platform_interaction/screenEditorUtils";
 import { createTestScreenField } from "builder_platform_interaction/builderTestUtils";
-import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest(props) {
     const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
@@ -13,7 +12,7 @@ function createComponentForTest(props) {
 }
 
 function clickHighlight(highlight, callback) {
-    const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
+    const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
     highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
     hightlightDiv.click();
 }
@@ -59,7 +58,7 @@ describe('onDragStart', () => {
                     return this.data[type];
                 }
             };
-            const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
             hightlightDiv.dispatchEvent(dragStartEvent);
             expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
             expect(dragStartEvent.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
@@ -89,7 +88,7 @@ describe('onDragEnd', () => {
             };
             const dragEndEvent = new CustomEvent('dragend');
 
-            const hightlightDiv = getShadowRoot(highlight).querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
             hightlightDiv.dispatchEvent(dragStartEvent);
             hightlightDiv.dispatchEvent(dragEndEvent);
             expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);

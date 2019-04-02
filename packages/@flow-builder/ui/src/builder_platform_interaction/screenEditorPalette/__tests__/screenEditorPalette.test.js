@@ -1,7 +1,6 @@
 import ScreenPalette from "builder_platform_interaction/screenEditorPalette";
 import { createElement } from 'lwc';
 import { SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { getShadowRoot } from 'lwc-test-utils';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-screen-editor-palette', { is: ScreenPalette });
@@ -69,7 +68,7 @@ describe('Screen Editor Palette', () => {
         element = createComponentForTest();
         eventCallback = jest.fn();
         return Promise.resolve().then(() => {
-            basePalette = getShadowRoot(element).querySelector('builder_platform_interaction-palette');
+            basePalette = element.shadowRoot.querySelector('builder_platform_interaction-palette');
             guid = basePalette.data[3].key;
         });
     });

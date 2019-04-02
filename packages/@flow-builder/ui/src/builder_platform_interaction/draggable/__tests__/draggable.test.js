@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import Draggable from "builder_platform_interaction/draggable";
-import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     DRAGGABLE: 'div'
@@ -20,7 +19,7 @@ describe('Draggable component', () => {
     let draggableItem;
     beforeEach(() => {
         element = createComponentUnderTest();
-        draggableItem = getShadowRoot(element).querySelector(SELECTORS.DRAGGABLE);
+        draggableItem = element.shadowRoot.querySelector(SELECTORS.DRAGGABLE);
     });
     it('fires ReorderListEvent when item is dropped', () => {
         return Promise.resolve().then(() => {

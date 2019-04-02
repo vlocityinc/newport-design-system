@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import RecordUpdateEditor from "../recordUpdateEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import * as storeMockedData from "mock/storeData";
 import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
@@ -124,23 +123,23 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 const getSObjectOrSObjectCollectionPicker = (recordUpdateEditor) => {
-    return getShadowRoot(recordUpdateEditor).querySelector(selectors.sObjectOrSObjectCollectionPicker);
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.sObjectOrSObjectCollectionPicker);
 };
 
 const getEntityResourcePicker = (recordUpdateEditor) => {
-    return getShadowRoot(recordUpdateEditor).querySelector(selectors.entityResourcePicker);
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.entityResourcePicker);
 };
 
 const getRecordStoreOption = (recordUpdateEditor) => {
-    return getShadowRoot(recordUpdateEditor).querySelector(selectors.recordStoreOption);
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.recordStoreOption);
 };
 
 const getRecordFilter = (recordUpdateEditor) => {
-    return getShadowRoot(recordUpdateEditor).querySelector(selectors.recordFilter);
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.recordFilter);
 };
 
 const getInputOutputAssignments = (recordUpdateEditor) => {
-    return getShadowRoot(recordUpdateEditor).querySelector(selectors.inputOutputAssignments);
+    return recordUpdateEditor.shadowRoot.querySelector(selectors.inputOutputAssignments);
 };
 
 

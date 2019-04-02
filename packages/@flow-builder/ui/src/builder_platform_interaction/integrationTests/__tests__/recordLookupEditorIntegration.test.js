@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import RecordLookupEditor from "builder_platform_interaction/recordLookupEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import { resolveRenderCycles} from '../resolveRenderCycles';
 
 import { LIGHTNING_COMPONENTS_SELECTORS,
@@ -45,46 +44,46 @@ const SELECTORS = {
 };
 
 const getRecordQueryFieldElement = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
 };
 
 const getSObjectOrSObjectCollectionPicker = (recordLookupEditor) => {
-    return getShadowRoot(getRecordQueryFieldElement(recordLookupEditor)).querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+    return getRecordQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
 };
 
 const getRecordStoreOption = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(SELECTORS.RECORD_STORE_OPTION);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_STORE_OPTION);
 };
 
 const getRecordFilter = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(SELECTORS.RECORD_FILTER);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
 };
 
 const getRecordSort = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(SELECTORS.RECORD_SORT);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
 };
 
 const getInputOutputAssignments = (recordLookupEditor) => {
-    return getShadowRoot(recordLookupEditor).querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_INPUT_OUTPUT_ASSIGNMENTS);
 };
 
 const getAllRecordFieldPickerRows = (recordStoreFieldsComponent) => {
-    return getShadowRoot(recordStoreFieldsComponent).querySelectorAll(SELECTORS.RECORD_FIELD_PICKER_ROW);
+    return recordStoreFieldsComponent.shadowRoot.querySelectorAll(SELECTORS.RECORD_FIELD_PICKER_ROW);
 };
 
 const getEntityResourcePickerComboboxElement = (entityResourcePicker) => {
-    const resourcePicker = getShadowRoot(entityResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const resourcePicker = entityResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
+    const lightningGroupCombobox = combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
 };
 
 const getResourceGroupedCombobox = (editor) => {
     const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(editor);
-    const ferovResourcePicker = getShadowRoot(sObjectOrSObjectCollectionPicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
-    const baseResourcePicker = getShadowRoot(ferovResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = getShadowRoot(baseResourcePicker).querySelector(INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX);
-    return getShadowRoot(interactionCombobox).querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const ferovResourcePicker = sObjectOrSObjectCollectionPicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
+    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX);
+    return interactionCombobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {

@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import FieldToFerovExpressionBuilder from "../fieldToFerovExpressionBuilder.js";
 import { numberVariableGuid, accountSObjectVariableGuid, accountSObjectVariableDevName, elements } from "mock/storeData";
 import { elementToParam, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
@@ -57,7 +56,7 @@ function createMockPopulatedFieldExpression() {
 }
 
 function getBaseExpressionBuilder(fieldToFerovWrapper) {
-    return getShadowRoot(fieldToFerovWrapper).querySelector("builder_platform_interaction-base-expression-builder");
+    return fieldToFerovWrapper.shadowRoot.querySelector("builder_platform_interaction-base-expression-builder");
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {

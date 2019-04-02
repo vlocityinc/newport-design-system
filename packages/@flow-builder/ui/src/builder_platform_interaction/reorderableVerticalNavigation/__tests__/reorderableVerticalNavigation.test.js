@@ -1,5 +1,4 @@
 import {createElement} from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import ReorderableVerticalNavigation from "builder_platform_interaction/reorderableVerticalNavigation";
 
 const SELECTORS = {
@@ -42,7 +41,7 @@ describe('ReorderableVerticalNavigation', () => {
     it('is styled with vertical tabs', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const div = getShadowRoot(element).querySelectorAll(SELECTORS.DIV);
+            const div = element.shadowRoot.querySelectorAll(SELECTORS.DIV);
             expect(div).toHaveLength(4);
             expect(div[2].getAttribute('class')).toContain('slds-vertical-tabs__nav');
         });
@@ -51,7 +50,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const items = getShadowRoot(element).querySelectorAll(SELECTORS.ITEM);
+            const items = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
 
             expect(items).toHaveLength(2);
         });
@@ -60,7 +59,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const menuItems = getShadowRoot(element).querySelectorAll(SELECTORS.ITEM);
+            const menuItems = element.shadowRoot.querySelectorAll(SELECTORS.ITEM);
             expect(menuItems[0].isDraggable).toBeTruthy();
             expect(menuItems[1].isDraggable).toBeFalsy();
         });
@@ -69,7 +68,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const frontIcon = getShadowRoot(element).querySelectorAll(SELECTORS.FRONT_ICON);
+            const frontIcon = element.shadowRoot.querySelectorAll(SELECTORS.FRONT_ICON);
             expect(frontIcon).toHaveLength(1);
         });
     });
@@ -77,7 +76,7 @@ describe('ReorderableVerticalNavigation', () => {
         const element = createComponentUnderTest();
         element.menuItems = initialMenu;
         return Promise.resolve().then(() => {
-            const firstMenuItem = getShadowRoot(element).querySelector(SELECTORS.ITEM);
+            const firstMenuItem = element.shadowRoot.querySelector(SELECTORS.ITEM);
             const eventCallback = jest.fn();
             element.addEventListener('itemselected', eventCallback);
 

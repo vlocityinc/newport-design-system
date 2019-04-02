@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import PaletteItem from 'builder_platform_interaction/paletteItem';
-import { getShadowRoot } from 'lwc-test-utils';
 
 const ELEMENT_TYPE = 'myElementType';
 const GUID = 'myGuid';
@@ -33,7 +32,7 @@ describe('PaletteItem', () => {
         it('checks that there is no details button when detailsButton is false', () => {
             const paletteItem = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const rightChevron = getShadowRoot(paletteItem).querySelector(selectors.lightningButtonIcon);
+                const rightChevron = paletteItem.shadowRoot.querySelector(selectors.lightningButtonIcon);
                 expect(rightChevron).toBeNull();
             });
         });
@@ -45,7 +44,7 @@ describe('PaletteItem', () => {
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 paletteItem.addEventListener(PaletteItemClickedEvent.EVENT_NAME, eventCallback);
-                const link = getShadowRoot(paletteItem).querySelector(selectors.link);
+                const link = paletteItem.shadowRoot.querySelector(selectors.link);
                 link.click();
 
                 expect(eventCallback).toHaveBeenCalled();
@@ -63,7 +62,7 @@ describe('PaletteItem', () => {
         it('does not render elementIcon when the iconName is undefined', () => {
             const paletteItem = createComponentUnderTest(undefined);
             return Promise.resolve().then(() => {
-                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
                 expect(elementIcon).toBeNull();
             });
         });
@@ -71,7 +70,7 @@ describe('PaletteItem', () => {
         it('does not render elementIcon when the iconName is null', () => {
             const paletteItem = createComponentUnderTest(null);
             return Promise.resolve().then(() => {
-                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
                 expect(elementIcon).toBeNull();
             });
         });
@@ -79,7 +78,7 @@ describe('PaletteItem', () => {
         it('does not render elementIcon when the iconName is empty', () => {
             const paletteItem = createComponentUnderTest('');
             return Promise.resolve().then(() => {
-                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
                 expect(elementIcon).toBeNull();
             });
         });
@@ -87,7 +86,7 @@ describe('PaletteItem', () => {
         it('renders elementIcon when the iconName is non-empty', () => {
             const paletteItem = createComponentUnderTest('iconName');
             return Promise.resolve().then(() => {
-                const elementIcon = getShadowRoot(paletteItem).querySelector(selectors.elementIcon);
+                const elementIcon = paletteItem.shadowRoot.querySelector(selectors.elementIcon);
                 expect(elementIcon).not.toBeNull();
             });
         });

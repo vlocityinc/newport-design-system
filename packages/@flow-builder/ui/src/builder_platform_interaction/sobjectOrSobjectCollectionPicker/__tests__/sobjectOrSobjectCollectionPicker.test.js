@@ -1,5 +1,4 @@
 import {createElement} from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import {
@@ -22,7 +21,7 @@ const selectors = {
 };
 
 const getFerovResourcePicker = (sobjectPickerComponent) => {
-    return getShadowRoot(sobjectPickerComponent).querySelector(selectors.ferovResourcePicker);
+    return sobjectPickerComponent.shadowRoot.querySelector(selectors.ferovResourcePicker);
 };
 
 const createComponentUnderTest = (props) => {

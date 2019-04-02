@@ -45,24 +45,20 @@ const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
 };
 
-const getShadowRoot = (element) => {
-    return element.shadowRoot;
-};
-
 const getProcessTypesNavigation = (modalBody) => {
-    return getShadowRoot(modalBody).querySelector(SELECTORS.PROCESS_TYPES_NAVIGATION);
+    return modalBody.shadowRoot.querySelector(SELECTORS.PROCESS_TYPES_NAVIGATION);
 };
 
 const getProcessTypesTemplates = (modalBody) => {
-    return getShadowRoot(modalBody).querySelector(SELECTORS.PROCESS_TYPES_TEMPLATES);
+    return modalBody.shadowRoot.querySelector(SELECTORS.PROCESS_TYPES_TEMPLATES);
 };
 
 const getTemplates = (processTypeTemplates, section) => {
-    return getShadowRoot(processTypeTemplates).querySelector(section).querySelector(SELECTORS.VISUAL_PICKER_LIST);
+    return processTypeTemplates.shadowRoot.querySelector(section).querySelector(SELECTORS.VISUAL_PICKER_LIST);
 };
 
 const getErrorMessage = (modalBody) => {
-    return getShadowRoot(modalBody).querySelector(SELECTORS.ERROR_MESSAGE);
+    return modalBody.shadowRoot.querySelector(SELECTORS.ERROR_MESSAGE);
 };
 
 const getProcessType = (processTypeName) => MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);

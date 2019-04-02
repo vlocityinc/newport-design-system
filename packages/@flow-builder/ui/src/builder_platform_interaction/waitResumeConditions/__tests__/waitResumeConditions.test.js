@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import WaitResumeConditions from '../waitResumeConditions';
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -27,9 +26,9 @@ const resumeEventType = {
 };
 
 const verifyResumeEventType = (waitResumeConditions, shouldShowTimeEvent) => {
-    const lightningRadioGroup = getShadowRoot(waitResumeConditions).querySelector(selectors.lightningRadioGroup);
-    const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
-    const waitPlatformEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitPlatformEvent);
+    const lightningRadioGroup = waitResumeConditions.shadowRoot.querySelector(selectors.lightningRadioGroup);
+    const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
+    const waitPlatformEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitPlatformEvent);
     if (shouldShowTimeEvent) {
         expect(lightningRadioGroup.value).toBe(resumeEventType.timeEventType);
         expect(waitTimeEvent).toBeTruthy();
@@ -82,7 +81,7 @@ describe('waitResumeConditions', () => {
 
     describe('toggle between resume event types', () => {
         const dispatchChangeEvent = (waitResumeConditions, newType) => {
-            const lightningRadioGroup = getShadowRoot(waitResumeConditions).querySelector(selectors.lightningRadioGroup);
+            const lightningRadioGroup = waitResumeConditions.shadowRoot.querySelector(selectors.lightningRadioGroup);
             lightningRadioGroup.dispatchEvent(new CustomEvent('change', {detail: {value: newType}}));
         };
         it('sets the resume event type as platform event when switching to that', () => {
@@ -111,7 +110,7 @@ describe('waitResumeConditions', () => {
                     dispatchChangeEvent(waitResumeConditions, resumeEventType.timeEventType);
                     return Promise.resolve().then(() => {
                         verifyResumeEventType(waitResumeConditions, true);
-                        const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+                        const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
                         expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
                     });
                 });
@@ -129,7 +128,7 @@ describe('waitResumeConditions', () => {
                     dispatchChangeEvent(waitResumeConditions, resumeEventType.timeEventType);
                     return Promise.resolve().then(() => {
                         verifyResumeEventType(waitResumeConditions, true);
-                        const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+                        const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
                         expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
                         // TODO W-5395925: Update this test to check that the event gets fired
                         // expect(waitTimeEvent.resumeTimeParameters).toEqual([]);
@@ -155,25 +154,25 @@ describe('waitResumeConditions', () => {
         });
 
         it('passes eventType to the waitTimeEvent', () => {
-            const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+            const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
             expect(waitTimeEvent.eventType).toEqual(props.eventType);
         });
 
         it('passes resumeTimeParameters to waitTimeEvent', () => {
-            const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+            const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
             expect(waitTimeEvent.resumeTimeParameters).toEqual(props.resumeTimeParameters);
         });
 
         it('changing the event type is tracked', () => {
             waitResumeConditions.eventType = WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME;
             return Promise.resolve().then(() => {
-                const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+                const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
                 expect(waitTimeEvent.eventType).toEqual(WAIT_TIME_EVENT_TYPE.ABSOLUTE_TIME);
             });
         });
 
         it('passes outputParameters to waitTimeEvent', () => {
-            const waitTimeEvent = getShadowRoot(waitResumeConditions).querySelector(selectors.waitTimeEvent);
+            const waitTimeEvent = waitResumeConditions.shadowRoot.querySelector(selectors.waitTimeEvent);
             expect(waitTimeEvent.outputParameters).toEqual(props.outputParameters);
         });
     });

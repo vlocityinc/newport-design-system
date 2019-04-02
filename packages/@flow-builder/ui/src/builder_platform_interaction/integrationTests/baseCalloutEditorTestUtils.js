@@ -1,4 +1,3 @@
-import { getShadowRoot } from 'lwc-test-utils';
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByDevName } from "builder_platform_interaction/storeUtils";
 import {
@@ -19,63 +18,63 @@ const SELECTORS = {
 };
 
 export const getBaseCalloutElement = (actionEditor) => {
-    return getShadowRoot(actionEditor).querySelector(SELECTORS.BASE_CALLOUT_EDITOR);
+    return actionEditor.shadowRoot.querySelector(SELECTORS.BASE_CALLOUT_EDITOR);
 };
 
 const getParameterList = (actionEditor) => {
-    return getShadowRoot(getBaseCalloutElement(actionEditor)).querySelector(SELECTORS.PARAMETER_LIST);
+    return getBaseCalloutElement(actionEditor).shadowRoot.querySelector(SELECTORS.PARAMETER_LIST);
 };
 
 export const getInputParameterItems = (actionEditor) => {
-    return getShadowRoot(getParameterList(actionEditor)).querySelector(SELECTORS.INPUT_TAB).querySelectorAll(SELECTORS.PARAMETER_ITEM);
+    return getParameterList(actionEditor).shadowRoot.querySelector(SELECTORS.INPUT_TAB).querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
 export const getOutputParameterItems = (actionEditor) => {
-    return getShadowRoot(getParameterList(actionEditor)).querySelector(SELECTORS.OUTPUT_TAB).querySelectorAll(SELECTORS.PARAMETER_ITEM);
+    return getParameterList(actionEditor).shadowRoot.querySelector(SELECTORS.OUTPUT_TAB).querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
 const getFerovResourcePicker = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 };
 
 export const getInputParameterComboboxElement = (parameterItem) => {
-    const ferovResourcePicker = getShadowRoot(parameterItem).querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
-    const resourcePicker = getShadowRoot(ferovResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const ferovResourcePicker = parameterItem.shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+    const resourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+    const lightningGroupCombobox = combobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
 };
 
 export const getOutputParameterComboboxElement = (parameterItem) => {
-    const outputResourcePicker = getShadowRoot(parameterItem).querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
-    const resourcePicker = getShadowRoot(outputResourcePicker).querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = getShadowRoot(resourcePicker).querySelector(SELECTORS.COMBOBOX);
-    const lightningGroupCombobox = getShadowRoot(combobox).querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const outputResourcePicker = parameterItem.shadowRoot.querySelector(SELECTORS.OUTPUT_RESOURCE_PICKER);
+    const resourcePicker = outputResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const combobox = resourcePicker.shadowRoot.querySelector(SELECTORS.COMBOBOX);
+    const lightningGroupCombobox = combobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
     return lightningGroupCombobox;
 };
 
 export const getLightningInputToggle = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.LIGHTNING_TOGGLE);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.LIGHTNING_TOGGLE);
 };
 
 const getParameterLabel = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.PARAMETER_LABEL);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.PARAMETER_LABEL);
 };
 
 export const getParameterIcon = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.LIGHTNING_ICON);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.LIGHTNING_ICON);
 };
 
 export const getWarningIcon = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.WARNING_ICON);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.WARNING_ICON);
 };
 
 export const getWarningBadge = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.WARNING_BADGE);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.WARNING_BADGE);
 };
 
 export const getDeleteButton = (parameterItem) => {
-    return getShadowRoot(parameterItem).querySelector(SELECTORS.DELETE_BUTTON);
+    return parameterItem.shadowRoot.querySelector(SELECTORS.DELETE_BUTTON);
 };
 
 export const VALIDATION_ERROR_MESSAGES = {

@@ -1,6 +1,5 @@
 import {createElement} from 'lwc';
 import ReorderableVerticalNavigationItem from "builder_platform_interaction/reorderableVerticalNavigationItem";
-import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTORS = {
     DRAGGABLE: 'builder_platform_interaction-draggable',
@@ -22,8 +21,8 @@ describe('ReorderableVerticalNavigationItem', () => {
     it('does not have front or end icon by default', () => {
         const element = createComponentUnderTest();
         return Promise.resolve().then(() => {
-            const frontIcon = getShadowRoot(element).querySelectorAll(SELECTORS.FRONT_ICON);
-            const endIcon = getShadowRoot(element).querySelectorAll(SELECTORS.END_ICON);
+            const frontIcon = element.shadowRoot.querySelectorAll(SELECTORS.FRONT_ICON);
+            const endIcon = element.shadowRoot.querySelectorAll(SELECTORS.END_ICON);
 
             expect(frontIcon).toHaveLength(0);
             expect(endIcon).toHaveLength(0);
@@ -34,7 +33,7 @@ describe('ReorderableVerticalNavigationItem', () => {
         const element = createComponentUnderTest();
         element.label = testItemTitle;
         return Promise.resolve().then(() => {
-            const link = getShadowRoot(element).querySelectorAll(SELECTORS.LINK);
+            const link = element.shadowRoot.querySelectorAll(SELECTORS.LINK);
             expect(link).toHaveLength(1);
             expect(link[0].text).toContain(testItemTitle);
         });
@@ -44,7 +43,7 @@ describe('ReorderableVerticalNavigationItem', () => {
         const testNavItemId = '1';
         element.navItemId = testNavItemId;
         return Promise.resolve().then(() => {
-            const link = getShadowRoot(element).querySelector(SELECTORS.LINK);
+            const link = element.shadowRoot.querySelector(SELECTORS.LINK);
 
             const eventCallback = jest.fn();
             element.addEventListener('itemclicked', eventCallback);
@@ -57,10 +56,10 @@ describe('ReorderableVerticalNavigationItem', () => {
         const element = createComponentUnderTest();
         element.isDraggable = true;
         return Promise.resolve().then(() => {
-            const draggableElement = getShadowRoot(element).querySelector(SELECTORS.DRAGGABLE);
+            const draggableElement = element.shadowRoot.querySelector(SELECTORS.DRAGGABLE);
             draggableElement.handleDragStart = jest.fn();
 
-            const anchorElement = getShadowRoot(element).querySelector(SELECTORS.LINK);
+            const anchorElement = element.shadowRoot.querySelector(SELECTORS.LINK);
             const dragstartEvent = new CustomEvent('dragstart');
             anchorElement.dispatchEvent(dragstartEvent);
 
@@ -74,7 +73,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.isDraggable = true;
 
             return Promise.resolve().then(() => {
-                const draggables = getShadowRoot(element).querySelectorAll(SELECTORS.DRAGGABLE);
+                const draggables = element.shadowRoot.querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(1);
             });
         });
@@ -84,7 +83,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.isDraggable = false;
 
             return Promise.resolve().then(() => {
-                const draggables = getShadowRoot(element).querySelectorAll(SELECTORS.DRAGGABLE);
+                const draggables = element.shadowRoot.querySelectorAll(SELECTORS.DRAGGABLE);
                 expect(draggables).toHaveLength(0);
             });
         });
@@ -97,7 +96,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.activeId = 'item1';
 
             return Promise.resolve().then(() => {
-                const listItem = getShadowRoot(element).querySelector(SELECTORS.MAIN_DIV);
+                const listItem = element.shadowRoot.querySelector(SELECTORS.MAIN_DIV);
                 expect(listItem.getAttribute('class')).toContain('slds-is-active');
             });
         });
@@ -107,7 +106,7 @@ describe('ReorderableVerticalNavigationItem', () => {
             element.activeId = 'item2';
 
             return Promise.resolve().then(() => {
-                const listItem = getShadowRoot(element).querySelector(SELECTORS.MAIN_DIV);
+                const listItem = element.shadowRoot.querySelector(SELECTORS.MAIN_DIV);
                 expect(listItem.getAttribute('class')).not.toContain('slds-is-active');
             });
         });

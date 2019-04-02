@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import RecordChoiceSetEditor from '../recordChoiceSetEditor';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -145,7 +144,7 @@ describe('record-choice-set-editor', () => {
         let labelDescription;
         beforeEach(() => {
             recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-            labelDescription = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.LABEL_DESCRIPTION);
+            labelDescription = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         });
 
         it('Label-Description should be defined', () => {
@@ -162,7 +161,7 @@ describe('record-choice-set-editor', () => {
 
         it('Handles the property changed event and updates the property', () => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
-            getShadowRoot(recordChoiceEditor).querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+            recordChoiceEditor.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
             expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
                 propertyName: 'description',
                 value: 'new desc',
@@ -177,7 +176,7 @@ describe('record-choice-set-editor', () => {
         let entityResourcePicker;
         beforeEach(() => {
             recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-            entityResourcePicker = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            entityResourcePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
         });
 
         it('entity-resource-picker should be defined', () => {
@@ -263,7 +262,7 @@ describe('record-choice-set-editor', () => {
         let fieldPicker;
         beforeEach(() => {
             recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-            fieldPicker = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.FIELD_PICKER);
+            fieldPicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.FIELD_PICKER);
         });
 
         it('field-picker should be defined', () => {
@@ -282,7 +281,7 @@ describe('record-choice-set-editor', () => {
         describe('record-filter', () => {
             describe('without object field filled', () => {
                 recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                recordFilter = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.RECORD_FILTER);
+                recordFilter = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
                 it('record-filter is undefined', () => {
                     expect(recordFilter).toBeNull();
                 });
@@ -290,7 +289,7 @@ describe('record-choice-set-editor', () => {
             describe('with object field filled', () => {
                 beforeEach(() => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                    recordFilter = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.RECORD_FILTER);
+                    recordFilter = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_FILTER);
                 });
 
                 it('Filter section should be defined', () => {
@@ -313,7 +312,7 @@ describe('record-choice-set-editor', () => {
         describe('record-sort', () => {
             describe('without object field filled', () => {
                 recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                recordSort = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.RECORD_SORT);
+                recordSort = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
                 it('record-filter is undefined', () => {
                     expect(recordSort).toBeNull();
                 });
@@ -321,7 +320,7 @@ describe('record-choice-set-editor', () => {
             describe('with object field filled', () => {
                 beforeEach(() => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                    recordSort = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.RECORD_SORT);
+                    recordSort = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.RECORD_SORT);
                 });
 
                 it('Sort section should be defined', () => {
@@ -365,19 +364,19 @@ describe('record-choice-set-editor', () => {
         describe('choice-limit-input', () => {
             it('is null when the object is not defined', () => {
                 recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                const choiceLimit = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
+                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
                 expect(choiceLimit).toBeNull();
             });
 
             it('is defined when the object is defined', () => {
                 recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                const choiceLimit = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
+                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
                 expect(choiceLimit).not.toBeNull();
             });
 
             it('default value is empty string', () => {
                 recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                const choiceLimit = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
+                const choiceLimit = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.CHOICE_LIMIT_INPUT);
                 expect(choiceLimit.value).toBe('');
             });
         });
@@ -386,7 +385,7 @@ describe('record-choice-set-editor', () => {
             describe('displayField', () => {
                 describe('without object field filled', () => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                    displayField = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.DISPLAY_FIELD);
+                    displayField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
                     it('Display Field is undefined', () => {
                         expect(displayField).toBeNull();
                     });
@@ -395,7 +394,7 @@ describe('record-choice-set-editor', () => {
                 describe('with object field filled', () => {
                     beforeEach(() => {
                         recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                        displayField = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.DISPLAY_FIELD);
+                        displayField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DISPLAY_FIELD);
                     });
 
                     it('Display Field should be defined', () => {
@@ -417,7 +416,7 @@ describe('record-choice-set-editor', () => {
             describe('dataType', () => {
                 describe('without object field filled', () => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                    dataTypePicker = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.DATA_TYPE);
+                    dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
 
                     it('Data type Picker is undefined', () => {
                         expect(dataTypePicker).toBeNull();
@@ -427,7 +426,7 @@ describe('record-choice-set-editor', () => {
                 describe('with object field filled', () => {
                     beforeEach(() => {
                         recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                        dataTypePicker = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.DATA_TYPE);
+                        dataTypePicker = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE);
                     });
 
                     const dispatchValueChangedEvent = (payload) => {
@@ -440,7 +439,7 @@ describe('record-choice-set-editor', () => {
                     });
 
                     it('Datatype Picker should have five options', () => {
-                        const dataTypeCombobox = getShadowRoot(dataTypePicker).querySelector('lightning-combobox');
+                        const dataTypeCombobox = dataTypePicker.shadowRoot.querySelector('lightning-combobox');
                         expect(dataTypeCombobox.options).toHaveLength(5);
                     });
 
@@ -469,7 +468,7 @@ describe('record-choice-set-editor', () => {
             describe('valueField', () => {
                 describe('whithout object field filled', () => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                    valueField = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.VALUE_FIELD);
+                    valueField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.VALUE_FIELD);
                     it('Display Field is undefined', () => {
                         expect(valueField).toBeNull();
                     });
@@ -478,7 +477,7 @@ describe('record-choice-set-editor', () => {
                 describe('with object field filled', () => {
                     beforeEach(() => {
                         recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                        valueField = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.VALUE_FIELD);
+                        valueField = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.VALUE_FIELD);
                     });
 
                     it('Value Field should be defined', () => {
@@ -500,7 +499,7 @@ describe('record-choice-set-editor', () => {
             describe('outputAssignments', () => {
                 describe('whithout object field filled', () => {
                     recordChoiceEditor = setupComponentUnderTest(recordChoiceObjectWithoutObjectField);
-                    outputAssignment = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
+                    outputAssignment = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
                     it('Output Assignment is undefined', () => {
                         expect(outputAssignment).toBeNull();
                     });
@@ -509,7 +508,7 @@ describe('record-choice-set-editor', () => {
                 describe('with object field filled', () => {
                     beforeEach(() => {
                         recordChoiceEditor = setupComponentUnderTest(recordChoiceObject);
-                        outputAssignment = getShadowRoot(recordChoiceEditor).querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
+                        outputAssignment = recordChoiceEditor.shadowRoot.querySelector(SELECTORS.OUTPUT_ASSIGNMENTS);
                     });
 
                     it('Output Assignment should be defined', () => {

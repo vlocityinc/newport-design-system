@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from "builder_platform_interaction/events";
 import Node from "builder_platform_interaction/node";
-import { getShadowRoot } from 'lwc-test-utils';
 import {isTestMode} from 'builder_platform_interaction/contextLib';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
@@ -39,7 +38,7 @@ const dblClick = (component) => {
         'bubbles'   : true,
         'cancelable': true,
     });
-    const nodeIcon = getShadowRoot(component).querySelector(selectors.icon);
+    const nodeIcon = component.shadowRoot.querySelector(selectors.icon);
     nodeIcon.dispatchEvent(doubleClickEvent);
 };
 
@@ -61,7 +60,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
-            getShadowRoot(nodeComponent).querySelector(selectors.icon).click();
+            nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
     });
@@ -71,19 +70,19 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
-            getShadowRoot(nodeComponent).querySelector(selectors.icon).click();
+            nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
     });
 
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
-        expect(getShadowRoot(nodeComponent).querySelector(selectors.iconSelected)).toBeTruthy();
+        expect(nodeComponent.shadowRoot.querySelector(selectors.iconSelected)).toBeTruthy();
     });
 
     it('Checks if a highlighted node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(false, true);
-        expect(getShadowRoot(nodeComponent).querySelector(selectors.iconHighlighted)).toBeTruthy();
+        expect(nodeComponent.shadowRoot.querySelector(selectors.iconHighlighted)).toBeTruthy();
     });
 
     it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {
@@ -106,7 +105,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
-            getShadowRoot(nodeComponent).querySelector(selectors.trash).click();
+            nodeComponent.shadowRoot.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });
     });
@@ -117,13 +116,13 @@ describe('node', () => {
         it('in test mode  (test class added for parent div)', () => {
             isTestMode.mockReturnValue(true);
             const node = createComponentUnderTest();
-            parentDiv = getShadowRoot(node).querySelector('div');
+            parentDiv = node.shadowRoot.querySelector('div');
             expect(parentDiv.classList).toContain(testModeSpecificClassName);
         });
         it('NOT in test mode (no test class added for parent div)', () => {
             isTestMode.mockReturnValue(false);
             const node = createComponentUnderTest();
-            parentDiv = getShadowRoot(node).querySelector('div');
+            parentDiv = node.shadowRoot.querySelector('div');
             expect(parentDiv.classList).not.toContain(testModeSpecificClassName);
         });
     });

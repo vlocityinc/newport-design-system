@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import ScreenTextareaFieldPropertiesEditor from "../screenTextareaFieldPropertiesEditor";
 import { query, createTestScreenField, SCREEN_NO_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
-import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 
@@ -43,13 +42,13 @@ describe('screen-textarea-field-properties-editor', () => {
     });
     it('API Name field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenTextAreaFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe(fieldName);
         });
     });
     it('Label field should be filled in', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenTextAreaFieldPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe(fieldName);
         });
     });
@@ -68,7 +67,7 @@ describe('screen-textarea-field-properties-editor', () => {
     });
     it('Validation rule error message is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenTextAreaFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBeNull();
@@ -76,7 +75,7 @@ describe('screen-textarea-field-properties-editor', () => {
     });
     it('Validation rule formula is present but empty', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenTextAreaFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBeNull();
@@ -127,7 +126,7 @@ describe('screen-textarea-field-properties-editor with validationRule', () => {
 
     it('Validation rule error message is present and displayed', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenTextAreaFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationError = query(validationEditor, SELECTORS.VALIDATION_ERROR_MESSAGE);
             expect(renderedValidationError).not.toBeNull();
             expect(renderedValidationError.value.value).toBe("The value you entered doesn't meet the validation criteria for this input field.");
@@ -135,7 +134,7 @@ describe('screen-textarea-field-properties-editor with validationRule', () => {
     });
     it('Validation rule formula is present and displayed', () => {
         return Promise.resolve().then(() => {
-            const validationEditor = getShadowRoot(screenTextAreaFieldPropEditor).querySelector(SELECTORS.VALIDATION_EDITOR);
+            const validationEditor = screenTextAreaFieldPropEditor.shadowRoot.querySelector(SELECTORS.VALIDATION_EDITOR);
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBe("{!Var1} == 'text'");

@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import WaitPlatformEvent from '../waitPlatformEvent';
 import { CONDITION_LOGIC, ELEMENT_TYPE, WAIT_EVENT_FIELDS } from 'builder_platform_interaction/flowMetadata';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
@@ -103,7 +102,7 @@ describe('wait-platform-event', () => {
             expect(getInputParametersForEventType).toHaveBeenCalledWith(someEventType.value, expect.any(Function));
 
             return Promise.resolve().then(() => {
-                const filterExpressionBuilder = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
+                const filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
                 expect(filterExpressionBuilder.lhsFields).toEqual(filterFields);
             });
         });
@@ -114,7 +113,7 @@ describe('wait-platform-event', () => {
             const waitPlatformEventElement = setupComponentUnderTest({
                 eventType : platformEvent
             });
-            const entityResourcePicker = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            const entityResourcePicker = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
             entityResourcePicker.dispatchEvent(new ComboboxStateChangedEvent({value: 'foo1__e', displayText: 'foo1'}));
             expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.oldValue).toBe(platformEvent);
             expect(updateWaitEventTypeHandler.mock.calls[0][0].detail.value).toBe(platformEventUpdated);
@@ -138,7 +137,7 @@ describe('wait-platform-event', () => {
                 ]
             });
 
-            const conditionList = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.CONDITION_LIST);
+            const conditionList = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
             const filterLogicOptions = conditionList.conditionLogicOptions;
 
             expect(filterLogicOptions).toMatchObject([
@@ -155,7 +154,7 @@ describe('wait-platform-event', () => {
                     inputFilterParameters: []
                 });
 
-                const conditionList = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.CONDITION_LIST);
+                const conditionList = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                 const filterLogic = conditionList.conditionLogic;
 
                 expect(filterLogic).toEqual({ value: CONDITION_LOGIC.NO_CONDITIONS});
@@ -175,7 +174,7 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                const conditionList = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.CONDITION_LIST);
+                const conditionList = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.CONDITION_LIST);
                 const filterLogic = conditionList.conditionLogic;
 
                 expect(filterLogic).toEqual({ value: CONDITION_LOGIC.AND});
@@ -202,7 +201,7 @@ describe('wait-platform-event', () => {
                 ]
             });
 
-            const rows = getShadowRoot(waitPlatformEventElement).querySelectorAll(SELECTORS.ROW);
+            const rows = waitPlatformEventElement.shadowRoot.querySelectorAll(SELECTORS.ROW);
             expect(rows).toHaveLength(2);
         });
 
@@ -221,7 +220,7 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                const row = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ROW);
+                const row = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.ROW);
 
                 expect(row.showDelete).toBeFalsy();
             });
@@ -246,7 +245,7 @@ describe('wait-platform-event', () => {
                     ]
                 });
 
-                const row = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.ROW);
+                const row = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.ROW);
 
                 expect(row.showDelete).toBeTruthy();
             });
@@ -278,7 +277,7 @@ describe('wait-platform-event', () => {
                     inputFilterParameters: [inputFilterParameter]
                 });
 
-                const filterExpressionBuilder = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
+                const filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
                 const expression = filterExpressionBuilder.expression;
 
                 expect(expression).toMatchObject({
@@ -333,7 +332,7 @@ describe('wait-platform-event', () => {
                 window.addEventListener(WaitEventDeleteParameterEvent.EVENT_NAME, waitEventDeleteParameterSpy);
                 window.addEventListener(WaitEventParameterChangedEvent.EVENT_NAME, waitEventParameterChangedSpy);
 
-                filterExpressionBuilder = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
+                filterExpressionBuilder = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.FILTER_EXPRESSION_BUILDER);
             });
 
             afterEach(() => {
@@ -390,7 +389,7 @@ describe('wait-platform-event', () => {
                 outputParameters: { platformEventName : {value: platformEventName, displayText: 'foo' }}
             });
 
-            const parameterItem = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
+            const parameterItem = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.PARAMETER_ITEM);
 
             // output parameter item is not present initially
             expect(parameterItem).toBeNull();
@@ -406,7 +405,7 @@ describe('wait-platform-event', () => {
             // populate the event type and ensure that the parameterItem is now visible
             waitPlatformEventElement.eventType = { value: platformEventName, error: null };
             return Promise.resolve().then(() => {
-                const parameterItemUpdated = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
+                const parameterItemUpdated = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.PARAMETER_ITEM);
                 expect(parameterItemUpdated).not.toBeNull();
                 expect(parameterItemUpdated.elementType).toBe(ELEMENT_TYPE.WAIT);
                 expect(parameterItemUpdated.item).toEqual(expectedParameterItem);
@@ -425,7 +424,7 @@ describe('wait-platform-event', () => {
             // update the event type and the output parameter item should have the updated object type and name
             waitPlatformEventElement.eventType = { value: updatedPlatformEventName, error: null };
             return Promise.resolve().then(() => {
-                const parameterItemUpdated = getShadowRoot(waitPlatformEventElement).querySelector(SELECTORS.PARAMETER_ITEM);
+                const parameterItemUpdated = waitPlatformEventElement.shadowRoot.querySelector(SELECTORS.PARAMETER_ITEM);
                 expect(parameterItemUpdated).not.toBeNull();
                 expect(parameterItemUpdated.item.objectType).toEqual(updatedPlatformEventName);
                 expect(parameterItemUpdated.item.name).toEqual(updatedPlatformEventName);

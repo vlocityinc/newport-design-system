@@ -19,7 +19,6 @@ import {
     createScreenNodeSelectedEvent,
     createScreenElementDeselectedEvent
 } from 'builder_platform_interaction/events';
-import { getShadowRoot } from 'lwc-test-utils';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -109,7 +108,7 @@ describe('Event handling on editor', () => {
     it('add screen field event adds a field to the end by default', () => { // handleAddScreenField (onaddscreenfield)
         return Promise.resolve().then(() => {
             const length = screenEditorElement.node.fields.length;
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency'));
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
             expect(screenEditorElement.node.fields[length].guid).toBe(screenEditorElement.getSelectedNode().guid);
@@ -119,7 +118,7 @@ describe('Event handling on editor', () => {
     it('add screen field event can add a field to a specific position', () => {
         return Promise.resolve().then(() => {
             const length = screenEditorElement.node.fields.length;
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createAddScreenFieldEvent('Currency', 0));
             expect(screenEditorElement.node.fields).toHaveLength(length + 1);
             expect(screenEditorElement.node.fields[0].guid).toBe(screenEditorElement.getSelectedNode().guid);
@@ -128,7 +127,7 @@ describe('Event handling on editor', () => {
 
     it('delete screen field event invokes the delete confirmation modal with the right data', () => { // handleDeleteScreenElement - Field (onscreenelementdeleted)
         return Promise.resolve().then(() => {
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             canvas.dispatchEvent(createScreenElementDeletedEvent(screenEditorElement.node.fields[1]));
             expect(invokeModal.mock.calls[0][0].headerData.headerTitle).toBe(LABELS.deleteConfirmation);
             expect(invokeModal.mock.calls[0][0].bodyData.bodyTextOne).toBe(LABELS.deleteConsequence);
@@ -141,7 +140,7 @@ describe('Event handling on editor', () => {
     it('property change changes screen property', () => { // handlePropertyChanged (onpropertychanged)
         return Promise.resolve().then(() => {
             const newPausedText = {value:'screen-editor-test.js property change paused text', error: null};
-            const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
             editor.dispatchEvent(new PropertyChangedEvent('pausedText', newPausedText, null, null, screenEditorElement.node.pausedText));
             expect(screenEditorElement.node.pausedText.value).toBe(newPausedText.value);
             expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
@@ -150,7 +149,7 @@ describe('Event handling on editor', () => {
 
     it('select screen element sets the current node to the selected element', () => { // handleSelectScreenElement (onscreenelementselected)
         return Promise.resolve().then(() => {
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             const field = screenEditorElement.node.fields[3];
             canvas.dispatchEvent(createScreenElementSelectedEvent(field));
             expect(screenEditorElement.getSelectedNode().guid).toBe(field.guid);
@@ -159,7 +158,7 @@ describe('Event handling on editor', () => {
 
     it('deselect screen element sets the screen as the selected node', () => { // handleDeselectScreenElement - Canvas (onscreenelementdeselected)
         return Promise.resolve().then(() => {
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
 
             // Select field
             const field = screenEditorElement.node.fields[3];
@@ -174,7 +173,7 @@ describe('Event handling on editor', () => {
 
     it('selecting the screen in the properties editor container breadcrumbs header screen as the selected node', () => { // handleDeselectScreenElement - Property Editor Container (onscreennodeselected)
         return Promise.resolve().then(() => {
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
 
             // Select field
             const field = screenEditorElement.node.fields[3];
@@ -182,7 +181,7 @@ describe('Event handling on editor', () => {
             expect(screenEditorElement.getSelectedNode().guid).toBe(field.guid);
 
             // Select screen element in the editor container breadcrumbs
-            const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
             editor.dispatchEvent(createScreenNodeSelectedEvent(field));
             expect(screenEditorElement.getSelectedNode().guid).toBe(screenEditorElement.node.guid);
         });
@@ -190,7 +189,7 @@ describe('Event handling on editor', () => {
 
     it('rearranges fields', () => { // handleReorder (onreorderlist)
         return Promise.resolve().then(() => {
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
             const field1 = screenEditorElement.node.fields[3];
             const field2 = screenEditorElement.node.fields[5];
             canvas.dispatchEvent(new ReorderListEvent(field1.guid, field2.guid));
@@ -219,8 +218,8 @@ describe('Screen field property editor events', () => {
     });
     it('Value of DisplayText field changed', () => {
         return Promise.resolve().then(() => {
-            const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
 
             // Select the field to be changed.
             const field = screenEditorElement.node.fields[0];
@@ -233,8 +232,8 @@ describe('Screen field property editor events', () => {
     });
     it('Name of DisplayText field changed', () => {
         return Promise.resolve().then(() => {
-            const editor = getShadowRoot(screenEditorElement).querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
-            const canvas = getShadowRoot(screenEditorElement).querySelector(CANVAS_ELEMENT_NAME);
+            const editor = screenEditorElement.shadowRoot.querySelector(EDITOR_CONTAINER_ELEMENT_NAME);
+            const canvas = screenEditorElement.shadowRoot.querySelector(CANVAS_ELEMENT_NAME);
 
             // Select the field to be changed.
             const field = screenEditorElement.node.fields[0];

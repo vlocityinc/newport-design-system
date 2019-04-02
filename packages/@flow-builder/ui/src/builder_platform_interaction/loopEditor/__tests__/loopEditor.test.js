@@ -1,7 +1,6 @@
 import { createElement } from 'lwc';
 import LoopEditor from "../loopEditor";
 import {PropertyChangedEvent, ComboboxStateChangedEvent} from "builder_platform_interaction/events";
-import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
@@ -45,7 +44,7 @@ describe('loop-editor', () => {
         loopElement.node = noErrorState;
         Promise.resolve().then(() => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
-            getShadowRoot(loopElement).querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
+            loopElement.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {
             expect(loopElement.node.description.value).toBe('new desc');
@@ -58,7 +57,7 @@ describe('loop-editor', () => {
             const event = new ComboboxStateChangedEvent({
                 value : VARIABLE
             }, VARIABLE, null);
-            getShadowRoot(loopElement).querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER).dispatchEvent(event);
+            loopElement.shadowRoot.querySelector(selectors.LOOP_VARIABLE_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {
             expect(loopElement.node.assignNextValueToReference.value).toBe(VARIABLE);
@@ -72,7 +71,7 @@ describe('loop-editor', () => {
             const event = new ComboboxStateChangedEvent({
                 value: VARIABLE
             }, VARIABLE, IAMERRORED);
-            getShadowRoot(loopElement).querySelector(selectors.LOOP_COLLECTION_FEROV_RESOURCE_PICKER).dispatchEvent(event);
+            loopElement.shadowRoot.querySelector(selectors.LOOP_COLLECTION_FEROV_RESOURCE_PICKER).dispatchEvent(event);
         });
         return Promise.resolve().then(() => {
             expect(loopElement.node.collectionReference.value).toBe(VARIABLE);

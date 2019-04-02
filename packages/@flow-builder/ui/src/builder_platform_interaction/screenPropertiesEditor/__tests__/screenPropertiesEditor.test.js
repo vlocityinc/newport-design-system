@@ -9,7 +9,6 @@ import ScreenPropertiesEditor from "../screenPropertiesEditor";
 import { query } from "builder_platform_interaction/builderTestUtils";
 import { createTestScreen } from "../../builderTestUtils/screenEditorTestUtils";
 import { createScreenWithFields } from "builder_platform_interaction/elementFactory";
-import { getShadowRoot } from 'lwc-test-utils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
 jest.mock('builder_platform_interaction/selectors', () => {
@@ -50,19 +49,19 @@ describe('screen-properties-editor for new screen', () => {
     });
     it('API Name should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe("");
         });
     });
     it('Label should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.label.value).toBe("");
         });
     });
     it('Description should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.description.value).toBe("");
         });
     });
@@ -153,7 +152,7 @@ describe('screen-properties-editor for existing screen', () => {
     });
     it('API Name is populated', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = getShadowRoot(screenPropEditor).querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
             expect(nameAndLabelField.devName.value).toBe("screen1");
         });
     });

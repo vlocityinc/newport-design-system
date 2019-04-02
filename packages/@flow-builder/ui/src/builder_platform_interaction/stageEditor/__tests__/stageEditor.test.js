@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import StageEditor from "../stageEditor";
-import { getShadowRoot } from 'lwc-test-utils';
 import { createStage } from "builder_platform_interaction/elementFactory";
 import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
 import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
@@ -35,15 +34,15 @@ const selectors = {
 };
 
 const getLabelDescription = (stageEditor) => {
-    return getShadowRoot(stageEditor).querySelector(selectors.LABEL_DESCRIPTION);
+    return stageEditor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
 };
 
 const getStageOrder = (stageEditor) => {
-    return getShadowRoot(stageEditor).querySelector(selectors.STAGE_ORDER_INPUT);
+    return stageEditor.shadowRoot.querySelector(selectors.STAGE_ORDER_INPUT);
 };
 
 const getStageActiveByDefaultCheckBox = (stageEditor) => {
-    return getShadowRoot(stageEditor).querySelector(selectors.STAGE_ACTIVE_BY_DEFAULT_CHECKBOX);
+    return stageEditor.shadowRoot.querySelector(selectors.STAGE_ACTIVE_BY_DEFAULT_CHECKBOX);
 };
 
 describe('Stage-Editor', () => {

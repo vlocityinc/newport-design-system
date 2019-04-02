@@ -1,5 +1,4 @@
 import { createElement } from 'lwc';
-import { getShadowRoot } from 'lwc-test-utils';
 import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
@@ -94,7 +93,7 @@ describe('picklist-choice-set-editor', () => {
         let labelDescription;
         beforeEach(() => {
             picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            labelDescription = getShadowRoot(picklistChoiceEditor).querySelector(SELECTORS.LABEL_DESCRIPTION);
+            labelDescription = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
         });
 
         it('Label-Description should be defined', () => {
@@ -111,7 +110,7 @@ describe('picklist-choice-set-editor', () => {
 
         it('Handles the property changed event and updates the property', () => {
             const event = new PropertyChangedEvent('description', 'new desc', null);
-            getShadowRoot(picklistChoiceEditor).querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
+            picklistChoiceEditor.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
             expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
                 propertyName: 'description',
                 value: 'new desc',
@@ -126,7 +125,7 @@ describe('picklist-choice-set-editor', () => {
         let entityResourcePicker;
         beforeEach(() => {
             picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            entityResourcePicker = getShadowRoot(picklistChoiceEditor).querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            entityResourcePicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
         });
 
         it('entity-resource-picker should be defined', () => {
@@ -164,7 +163,7 @@ describe('picklist-choice-set-editor', () => {
         let dataTypePicker;
         beforeEach(() => {
             picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            dataTypePicker = getShadowRoot(picklistChoiceEditor).querySelector(SELECTORS.DATA_TYPE_PICKER);
+            dataTypePicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
         });
 
         const dispatchValueChangedEvent = (payload) => {
@@ -177,7 +176,7 @@ describe('picklist-choice-set-editor', () => {
         });
 
         it('data-type-picker should have two options', () => {
-            const dataTypeCombobox = getShadowRoot(dataTypePicker).querySelector('lightning-combobox');
+            const dataTypeCombobox = dataTypePicker.shadowRoot.querySelector('lightning-combobox');
             expect(dataTypeCombobox.options).toHaveLength(2);
         });
 
@@ -207,7 +206,7 @@ describe('picklist-choice-set-editor', () => {
         let fieldPicker;
         beforeEach(() => {
             picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            fieldPicker = getShadowRoot(picklistChoiceEditor).querySelector(SELECTORS.FIELD_PICKER);
+            fieldPicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.FIELD_PICKER);
         });
 
         it('fieldPicker should be defined', () => {
@@ -240,7 +239,7 @@ describe('picklist-choice-set-editor', () => {
         let sortOrderCombobox;
         beforeEach(() => {
             picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            sortOrderCombobox = getShadowRoot(picklistChoiceEditor).querySelector('lightning-combobox');
+            sortOrderCombobox = picklistChoiceEditor.shadowRoot.querySelector('lightning-combobox');
         });
 
         it('Sort Order Combobox should be defined', () => {

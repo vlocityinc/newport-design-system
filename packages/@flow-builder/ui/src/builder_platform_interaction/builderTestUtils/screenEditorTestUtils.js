@@ -4,7 +4,6 @@ import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib"
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { createScreenWithFields, createScreenField, createChoiceReference } from "builder_platform_interaction/elementFactory";
-import { getShadowRoot } from 'lwc-test-utils';
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
 
@@ -369,7 +368,7 @@ export function query(element, selector, returnList) {
  */
 export function find(element, childName, attributeName, attributeValue, operator, returnList = false) {
     const results = [];
-    for (const child of getShadowRoot(element).querySelectorAll(childName)) {
+    for (const child of element.shadowRoot.querySelectorAll(childName)) {
         if (!attributeName || (child[attributeName] && check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator]))) {
             if (!returnList) {
                 return child;
