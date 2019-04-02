@@ -1,0 +1,7 @@
+.slds-panel {
+    border-radius: 0;    
+}
+
+.navigation-content {
+    max-height: var(--lwc-sizeLarge);
+}
