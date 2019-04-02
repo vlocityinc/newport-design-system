@@ -179,6 +179,7 @@ export default class Editor extends LightningElement {
     getFlowCallback = ({data, error}) => {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
+            this.spinners.showFlowMetadataSpinner = false;
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
             this.setOriginalFlowValues();
