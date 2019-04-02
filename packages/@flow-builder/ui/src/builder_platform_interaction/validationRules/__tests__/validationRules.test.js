@@ -357,7 +357,7 @@ describe('RHS validation', () => {
     beforeAll(() => {
         getRHSTypes.mockReturnValue({
             String : [stringParam],
-            Number : [numberParamCanBeField],
+            Number : [numberParamCanBeAnything],
         });
     });
 

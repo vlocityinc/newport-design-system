@@ -115,7 +115,7 @@ describe('menuDataGenerator', () => {
         };
 
         const testDataTypeSubText = (field, parent) => {
-            const label = field.dataType + 'Label';
+            const label = `${field.dataType}Label`;
             getDataTypeLabel.mockReturnValueOnce(label);
             const mutatedProperty = mutateFieldToComboboxShape(field, parent, true, true);
             expect(mutatedProperty.subText).toEqual(label);

@@ -62,11 +62,12 @@ describe('apex type lib', () => {
         const properties = getPropertiesForClass(className);
         expect(Object.keys(properties)).toHaveLength(2);
     });
-    it('caches primitive properties with api name and data type', () => {
+    it("caches primitive properties with api name, data type, and parent's name", () => {
         cachePropertiesForClass(className);
         const expectedProperty = {
-            "apiName": property1,
-            "dataType": string,
+            apiName: property1,
+            dataType: string,
+            apexClass: className,
         };
         const actualProperty = getPropertiesForClass(className)[property1];
         expect(actualProperty).toMatchObject(expectedProperty);
@@ -74,9 +75,9 @@ describe('apex type lib', () => {
     it('caches complex properties with subtype', () => {
         cachePropertiesForClass(className);
         const expectedProperty = {
-            "apiName": property2,
-            "dataType": sobject,
-            "subtype": sobjectType,
+            apiName: property2,
+            dataType: sobject,
+            subtype: sobjectType,
         };
         const actualProperty = getPropertiesForClass(className)[property2];
         expect(actualProperty).toMatchObject(expectedProperty);

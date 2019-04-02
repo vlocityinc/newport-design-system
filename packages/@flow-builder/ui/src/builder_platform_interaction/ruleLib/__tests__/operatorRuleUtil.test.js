@@ -7,9 +7,22 @@ import {
     setOperators,
     isCollectionRequired,
 } from '../operatorRuleUtil';
-import { mockRules, dateParam, stageParam, stringParam, numberParamMustBeField, numberParamCannotBeField, numberParamCanBeField,
-    dateCollectionParam, dateParamMissingCollection, dateParamMustBeElements, dateParamCannotBeElements,
-    dateParamNoElementsList } from "mock/ruleService";
+import {
+    dateCollectionParam,
+    dateParam,
+    dateParamCannotBeElements,
+    dateParamMissingCollection,
+    dateParamMustBeElements,
+    dateParamNoElementsList,
+    mockRules,
+    numberParamCanBeAnything,
+    numberParamCannotBeField,
+    numberParamCannotBeProperty,
+    numberParamMustBeField,
+    numberParamMustBeProperty,
+    stageParam,
+    stringParam,
+} from "mock/ruleService";
 import { elements, dateVariableGuid, dateCollectionVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid,
     hydratedElements } from "mock/storeData";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY } from '../rules';
@@ -21,8 +34,12 @@ const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
 const { IS_COLLECTION, SYSTEM_VARIABLE_REQUIREMENT, SOBJECT_FIELD_REQUIREMENT, APEX_PROPERTY_REQUIREMENT } = PARAM_PROPERTY;
 const mockAccountField = {
-    "sobjectName":"Account",
-    "dataType":"Number",
+    sobjectName:"Account",
+    dataType:"Number",
+};
+const mockApexProperty = {
+    apexClass:"someApex",
+    dataType:"Number",
 };
 
 describe('Operator Rule Util', () => {
@@ -80,9 +97,19 @@ describe('Operator Rule Util', () => {
             expect(isEqual).toBeFalsy();
         });
         it('field should be allowed if operator param says canBe or mustBe sObjectField', () => {
-            let isEqual = isMatch(numberParamCanBeField, mockAccountField);
+            let isEqual = isMatch(numberParamCanBeAnything, mockAccountField);
             expect(isEqual).toBeTruthy();
             isEqual = isMatch(numberParamMustBeField, mockAccountField);
+            expect(isEqual).toBeTruthy();
+        });
+        it('property should not be allowed if operator param says cannotBe apexProperty', () => {
+            const isEqual = isMatch(numberParamCannotBeProperty, mockApexProperty);
+            expect(isEqual).toBeFalsy();
+        });
+        it('field should be allowed if operator param says canBe or mustBe apexProperty', () => {
+            let isEqual = isMatch(numberParamCanBeAnything, mockApexProperty);
+            expect(isEqual).toBeTruthy();
+            isEqual = isMatch(numberParamMustBeProperty, mockApexProperty);
             expect(isEqual).toBeTruthy();
         });
     });

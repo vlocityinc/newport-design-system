@@ -1,5 +1,5 @@
 import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from '../mergeFieldValidation';
-import { datetimeParamTypes, numberParamCanBeField, accountParam, apexClassParam } from 'mock/ruleService';
+import { datetimeParamTypes, numberParamCanBeAnything, accountParam, apexClassParam } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -172,7 +172,7 @@ describe('Merge field validation', () => {
                 }]);
         });
         it('Returns a validation error when it references a global variable with invalid data type', () => {
-            const validationErrors = validateMergeField('{!$Flow.CurrentDate}', { allowedParamTypes: numberParamCanBeField });
+            const validationErrors = validateMergeField('{!$Flow.CurrentDate}', { allowedParamTypes: numberParamCanBeAnything });
             expect(validationErrors).toEqual([
                 {
                     'endIndex': 18,

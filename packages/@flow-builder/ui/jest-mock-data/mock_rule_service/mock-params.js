@@ -51,6 +51,7 @@ export const numberParamMustBeField = {
     canBeSystemVariable:'CanBe',
     canBeApexProperty:'CanBe',
 };
+
 export const numberParamCannotBeField = {
     paramType:'Data',
     dataType: 'Number',
@@ -60,13 +61,31 @@ export const numberParamCannotBeField = {
     canBeApexProperty:'CanBe',
 };
 
-export const numberParamCanBeField = {
+export const numberParamCanBeAnything = {
     paramType:'Data',
     dataType: 'Number',
     collection:false,
     canBeSobjectField:'CanBe',
     canBeSystemVariable:'CanBe',
     canBeApexProperty:'CanBe',
+};
+
+export const numberParamCannotBeProperty = {
+    paramType:'Data',
+    dataType: 'Number',
+    collection:false,
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeApexProperty:'CannotBe',
+};
+
+export const numberParamMustBeProperty = {
+    paramType:'Data',
+    dataType: 'Number',
+    collection:false,
+    canBeSobjectField:'CanBe',
+    canBeSystemVariable:'CanBe',
+    canBeApexProperty:'MustBe',
 };
 
 export const stageCollectionParam = {

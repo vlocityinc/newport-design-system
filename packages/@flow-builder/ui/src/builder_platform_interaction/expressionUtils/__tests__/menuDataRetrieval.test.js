@@ -1,6 +1,6 @@
 import { getElementsForMenuData, getEntitiesMenuData, getStoreElements, filterAndMutateMenuData,
     getEventTypesMenuData, getSecondLevelItems, getResourceTypesMenuData } from '../menuDataRetrieval.js';
-import { numberParamCanBeField, stringParam, booleanParam, stageParam } from 'mock/ruleService';
+import { numberParamCanBeAnything, stringParam, booleanParam, stageParam } from 'mock/ruleService';
 import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
@@ -43,7 +43,7 @@ const sobjectCollectionVariable = LABELS.sObjectCollectionVariablePluralLabel.to
  */
 
 const sampleNumberParamTypes = {
-    Number : [numberParamCanBeField],
+    Number : [numberParamCanBeAnything],
     canBeSobjectField: true,
 };
 
