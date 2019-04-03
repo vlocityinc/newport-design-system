@@ -4,7 +4,6 @@ const path = require('path');
 const gulp = require('gulp');
 const { watchPaths } = require('../scripts/watch');
 require('../scripts/gulp/styles');
-const WatchFilesPlugin = require('webpack-watch-files-plugin').default;
 
 // Export a function. Accept the base config as the only param.
 module.exports = async ({ config, mode }) => {
@@ -19,13 +18,6 @@ module.exports = async ({ config, mode }) => {
     include: path.resolve(__dirname, '../')
   });
 
-  config.plugins.push(
-    new WatchFilesPlugin({
-      files: ['./assets/styles/*.css'],
-      verbose: false
-    })
-  );
-
   // Sass
   const sassWatcher = gulp.watch(
     watchPaths.sass,
@@ -36,7 +28,10 @@ module.exports = async ({ config, mode }) => {
     console.log(`File ${obj.path} was changed`);
   });
 
-  gulp.watch(watchPaths.tokens, ['styles:framework']);
+  const tokenWatcher = gulp.watch(watchPaths.tokens, ['styles']);
+  tokenWatcher.on('change', function(obj, stats) {
+    console.log(`File ${obj.path} was changed`);
+  });
 
   gulp.start('styles:framework');
 

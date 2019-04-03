@@ -19,9 +19,6 @@ export function withExample(string) {
       const dom = hljs.highlight('html', pretty).value;
       const el = document.getElementById(`sourcecode-${newId}`);
       el.innerHTML = dom;
-      document.getElementById(
-        'nds-stylesheet'
-      ).href = `assets/styles/index.css?${Date.now()}`;
     });
   });
 
