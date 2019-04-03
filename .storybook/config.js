@@ -4,6 +4,8 @@ import { withDesignTokens } from '../scripts/storybook/design-tokens';
 const req = require.context('../ui', true, /\.stories\.js$/);
 const reqDoc = require.context('../docs', true, /\.stories\.js$/);
 
+import '../assets/styles/index.css';
+
 function loadStories() {
   reqDoc.keys().forEach(filename => reqDoc(filename));
   req.keys().forEach(filename => req(filename));
