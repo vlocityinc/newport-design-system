@@ -32,7 +32,7 @@ const nubbinsOptions = generateOptions(
 );
 const nubbinsDefaultValue = ' nds-nubbin_left';
 
-storiesOf(`${base.replace('/ui/', '')}`, module)
+storiesOf(`${base}`, module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))

@@ -60,7 +60,7 @@ const nubbinsOptions = generateOptions(
 );
 const nubbinsDefaultValue = '';
 
-storiesOf(`${base.replace('/ui/', '')}`, module)
+storiesOf(`${base}`, module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
