@@ -8,7 +8,7 @@ import {
   commentToHTML
 } from '../../../scripts/storybook';
 
-storiesOf(`${base.replace('/ui/', '')}`, module)
+storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Assistive Text (examples)', () => {
