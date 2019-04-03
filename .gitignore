@@ -15,6 +15,7 @@
 !/.ndsrc.defaults.yml
 !/.stylestatsrc
 !/.travis.yml
+!/.storybook
 
 # Add a .gitkeep file in an empty
 # directory to check it in the repository

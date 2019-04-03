@@ -19,7 +19,7 @@ const options = {
 };
 const defaultValue = 'neutral';
 
-storiesOf(`${base.replace('/ui/', '')}`, module)
+storiesOf(`${base}`, module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
