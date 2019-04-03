@@ -127,7 +127,6 @@
     "vnu-jar": "17.9.0",
     "webpack": "4.0.0",
     "webpack-cli": "3.2.3",
-    "webpack-watch-files-plugin": "^1.0.2",
     "yaml-frontmatter-loader": "^0.1.0",
     "yargs": "8.0.1"
   },
