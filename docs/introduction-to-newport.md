@@ -8,6 +8,8 @@ Newport is our CSS framework that allows a customer to retheme all our Vlocity c
 
 The examples you see in this tool show the HTML needed to produce them. Many of the these HTML templates are used throughout the Vlocity product today, and hence retheming them in the tool here will also retheme the same templates in the orgs once the generated css is uploaded.
 
+![Set Sail with Newport Design System](/docs/set-sail-with-newport.png)
+
 ## Frequently Asked Questions
 
 ### How do I add javascript to Newport
