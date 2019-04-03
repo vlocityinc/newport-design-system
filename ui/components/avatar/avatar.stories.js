@@ -24,7 +24,7 @@ const shapes = {
   circle: ' nds-avatar_circle'
 };
 
-storiesOf(`${base.replace('/ui/', '')}`, module)
+storiesOf(`${base}`, module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))

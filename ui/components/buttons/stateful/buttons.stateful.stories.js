@@ -9,7 +9,7 @@ import {
   commentToHTML
 } from '..././../../scripts/storybook';
 
-storiesOf(`${base.replace('/ui/', '').replace('/stateful/', '')}`, module)
+storiesOf(`${base}`, module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))

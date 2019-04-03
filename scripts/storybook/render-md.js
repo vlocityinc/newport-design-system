@@ -13,6 +13,10 @@ function wrap(markdown) {
   return '<div class="nds-text-longform">' + markdown + '</div>';
 }
 
+export function renderAsMarkdown(storyFn) {
+  return wrap(renderMarkdown(storyFn()));
+}
+
 export function withDocs(markdown) {
   const renderedMd = renderMarkdown(markdown);
   const splitAt = renderedMd.indexOf('</p>');
