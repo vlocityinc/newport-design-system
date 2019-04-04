@@ -12,7 +12,8 @@ const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'it
 
 const SELECTORS = {
     INPUT_RICH_TEXT: 'lightning-input-rich-text',
-    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
+    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
+    INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON:'.slds-button.slds-button_icon-border-filled.ql-image'
 };
 
 /**
@@ -35,6 +36,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     labels = LABELS;
     hydrated = false;
     isHTMLSanitized = false;
+    initialized = false;
 
     resourceComboBoxConfig = BaseResourcePicker.getComboboxConfig(
             LABELS.resourcePickerTitle, // Label
@@ -85,7 +87,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     get classList() {
-        return  'container slds-grid slds-grid_vertical' + (this.state.error ? ' has-error' : '');
+        return 'container slds-grid slds-grid_vertical' + (this.state.error ? ' has-error' : '');
     }
 
     // Replace new line with <br /> tag as done at runtime (see _createOutput in factory.js)
@@ -143,4 +145,18 @@ export default class ResourcedRichTextEditor extends LightningElement {
             inputRichText.focus();
         }
     }
+
+    renderedCallback() {
+        if (!this.initialized) {
+             // Temp "BETA" tooltip addition for lighnting rich text input upload img button
+             const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
+             if (inputRichText.shadowRoot) {
+                const uploadImgBtn = inputRichText.shadowRoot.querySelector(SELECTORS.INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON);
+                if (uploadImgBtn) {
+                    uploadImgBtn.title = LABELS.richTextInputUploadImgBtnBetaTitle;
+                }
+             }
+             this.initialized = true;
+        }
+     }
 }
