@@ -108,6 +108,7 @@ export function createRecordLookup(recordLookup = {}) {
 
     return Object.assign(newRecordLookup, {
         object,
+        objectIndex,
         outputReference,
         numberRecordsToStore,
         assignNullValuesIfNoRecordsFound,
@@ -119,6 +120,7 @@ export function createRecordLookup(recordLookup = {}) {
         maxConnections,
         availableConnections,
         elementType,
+        outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     });
 }
