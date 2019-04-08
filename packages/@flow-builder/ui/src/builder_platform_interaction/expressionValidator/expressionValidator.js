@@ -43,8 +43,11 @@ export const validatePicker = (rowIndex) => {
  * @returns {String} the error message or null
  */
 export const validateLHS = (rowIndex) => {
-    const lhsCombobox = expressions[rowIndex].template.querySelector('.lhs');
-    return lhsCombobox.validate();
+    if (expressions[rowIndex]) {
+        const lhsCombobox = expressions[rowIndex].template.querySelector('.lhs');
+        return lhsCombobox.validate();
+    }
+    return null;
 };
 
 /**
@@ -53,8 +56,11 @@ export const validateLHS = (rowIndex) => {
  * @returns {String} the error message or null
  */
 export const validateRHS = (rowIndex) => {
-    const rhsCombobox = expressions[rowIndex].template.querySelector('.rhs');
-    return rhsCombobox.validate();
+    if (expressions[rowIndex]) {
+        const rhsCombobox = expressions[rowIndex].template.querySelector('.rhs');
+        return rhsCombobox.validate();
+    }
+    return null;
 };
 
 /**
