@@ -8,6 +8,8 @@ import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import * as store from "mock/storeData";
+import { getPropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -25,8 +27,9 @@ const expectedElementConfig = {
     shouldBeWritable: true
 };
 
-const parentItem = {
-    objectType: 'Account',
+const parentRecordVar = {
+    dataType: FLOW_DATA_TYPE.SOBJECT.value,
+    subtype: 'Account',
 };
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
@@ -51,9 +54,15 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn().mockImplementation(() => {
-            return require('mock/serverEntityData').mockAccountFields;
+        getFieldsForEntity: jest.fn().mockImplementation((objectType) => {
+            return objectType === 'Account' ? require('mock/serverEntityData').mockAccountFields : undefined;
         }),
+    };
+});
+
+jest.mock('builder_platform_interaction/apexTypeLib', () => {
+    return {
+        getPropertiesForClass: jest.fn().mockName('getPropertiesForClass'),
     };
 });
 
@@ -144,14 +153,14 @@ describe('output-resource-picker', () => {
     it('fetches the fields when requesting field menu data without field data', () => {
         props.value = {
             value: 'accVar.Name',
-            parent: parentItem
+            parent: parentRecordVar
         };
-        getResourceByUniqueIdentifier.mockReturnValueOnce(parentItem);
+        getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
         mutateFieldToComboboxShape.mockReturnValueOnce(props.value);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(expectedElementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                false, false, Store.getStore(), true, parentItem);
+                false, false, Store.getStore(), true, parentRecordVar);
         });
     });
 
@@ -216,7 +225,7 @@ describe('output-resource-picker', () => {
             props.value = {
                 value: 'someSobject.Name',
             };
-            getResourceByUniqueIdentifier.mockReturnValueOnce(parentItem);
+            getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
             getFieldsForEntity.mockReturnValueOnce({});
 
             setupComponentUnderTest(props);
@@ -231,7 +240,7 @@ describe('output-resource-picker', () => {
             props.value = {
                 value: 'someSobject.Name',
             };
-            getResourceByUniqueIdentifier.mockReturnValueOnce(parentItem);
+            getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
             getFieldsForEntity.mockReturnValueOnce({Description: 'some field value'});
 
             setupComponentUnderTest(props);
@@ -239,6 +248,74 @@ describe('output-resource-picker', () => {
             return Promise.resolve().then(() => {
                 expect(mutateFlowResourceToComboboxShape).not.toHaveBeenCalled();
                 expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
+            });
+        });
+
+        describe('normlizing valid fields', () => {
+            const fieldName = "Name";
+            let guid;
+            let storeElement;
+
+            const configureForGuid = (g) => {
+                guid = g;
+                props.value = {
+                    value: `${guid}.${fieldName}`,
+                };
+                storeElement = store.elements[guid];
+                getResourceByUniqueIdentifier.mockReturnValueOnce(storeElement);
+            };
+            it('sets sobject field isCollection to false', () => {
+                configureForGuid(store.accountSObjectVariableGuid);
+                mutateFieldToComboboxShape.mockImplementationOnce(({isCollection}) => {
+                    return {
+                        isCollection,
+                    };
+                });
+                const outputResourcePicker = setupComponentUnderTest(props);
+
+                return Promise.resolve().then(() => {
+                    expect(outputResourcePicker.value.isCollection).toEqual(false);
+                });
+            });
+            it('does not overwrite apex field isCollection values', () => {
+                configureForGuid(store.apexSampleVariableGuid);
+                getFieldsForEntity.mockReturnValueOnce(undefined);
+                mutateFieldToComboboxShape.mockImplementationOnce(({isCollection}) => {
+                    return {
+                        isCollection,
+                    };
+                });
+                getPropertiesForClass.mockReturnValueOnce({
+                    [fieldName]: {
+                        isCollection: true,
+                    },
+                });
+                const outputResourcePicker = setupComponentUnderTest(props);
+
+                return Promise.resolve().then(() => {
+                    expect(outputResourcePicker.value.isCollection).toEqual(true);
+                });
+            });
+            it('fetches property data when normalizing property on apex class', () => {
+                const output = "result";
+                configureForGuid(store.apexSampleVariableGuid);
+                getFieldsForEntity.mockReturnValueOnce(undefined);
+                mutateFieldToComboboxShape.mockReturnValueOnce(output);
+                getPropertiesForClass.mockImplementationOnce((className) => {
+                    if (className === storeElement.subtype) {
+                        return {
+                            [fieldName]: {
+                                apiName: "aName",
+                            },
+                        };
+                    }
+                    return undefined;
+                });
+                const outputResourcePicker = setupComponentUnderTest(props);
+
+                return Promise.resolve().then(() => {
+                    expect(outputResourcePicker.value).toEqual(output);
+                });
             });
         });
     });

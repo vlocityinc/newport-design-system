@@ -9,9 +9,10 @@ import {
     mutateFlowResourceToComboboxShape,
 } from './menuDataGenerator';
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { elementToParam } from "builder_platform_interaction/ruleLib";
-import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
+import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import { isObject, addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from "@salesforce/label/FlowBuilderValidation.removedResource";
@@ -120,6 +121,7 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
  * @returns {Item}               value in format displayable by combobox
  */
 export const normalizeFEROV = (identifier) => {
+    // TODO: W-5981876 consolidate this with outputResourcePicker.normalizeValue
     const rhs = { itemOrDisplayText: identifier };
     const flowElement = getResourceByUniqueIdentifier(identifier);
     if (flowElement) {
@@ -129,7 +131,8 @@ export const normalizeFEROV = (identifier) => {
         if (!fieldName) {
             rhs.itemOrDisplayText = item;
         } else {
-            const fields = sobjectLib.getFieldsForEntity(flowElement.subtype);
+            const retrieveFieldsFn = flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value ? sobjectLib.getFieldsForEntity : apexTypeLib.getPropertiesForClass;
+            const fields = retrieveFieldsFn(flowElement.subtype);
             const field = fields && fields[fieldName];
             if (field && fieldName.indexOf('.') === -1) {
                 rhs.itemOrDisplayText = mutateFieldToComboboxShape(field, item, true, true);

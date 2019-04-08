@@ -15,6 +15,8 @@ import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericEr
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
 import { systemVariables } from "mock/systemGlobalVars";
 import { GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS, SYSTEM_VARIABLE_PREFIX } from '../../systemLib/systemLib';
+import { getPropertiesForClass } from "builder_platform_interaction/apexTypeLib";
+
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 jest.mock('builder_platform_interaction/commonUtils', () => {
     const actual = require.requireActual('../../commonUtils/commonUtils.js');
@@ -25,7 +27,9 @@ jest.mock('builder_platform_interaction/commonUtils', () => {
         format: jest.fn(),
     };
 });
+const account = 'Account';
 const anError = 'an error';
+
 format.mockImplementation(() => {
     return anError;
 });
@@ -40,8 +44,9 @@ jest.mock('builder_platform_interaction/selectors', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation((entityName, callback) => {
+            const fields = entityName === 'Account' ? require('mock/serverEntityData').mockAccountFieldWithPicklist : undefined;
             if (callback) {
-                callback(require('mock/serverEntityData').mockAccountFieldWithPicklist);
+                callback(fields);
             }
         }),
     };
@@ -58,6 +63,12 @@ jest.mock('../menuDataGenerator', () => {
     return {
         mutateFlowResourceToComboboxShape: require.requireActual('../menuDataGenerator').mutateFlowResourceToComboboxShape,
         mutateFieldToComboboxShape: jest.fn(),
+    };
+});
+
+jest.mock('builder_platform_interaction/apexTypeLib', () => {
+    return {
+        getPropertiesForClass: jest.fn().mockName('getPropertiesForClass'),
     };
 });
 
@@ -80,19 +91,39 @@ describe('RHS normalize', () => {
         expect(normalizedRHS.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariableDevName + field));
     });
     it('should not throw an exception if the user does not have access to the SObject field in a merge field', () => {
-        getFieldsForEntity.mockReturnValueOnce(['Name1']);
+        getFieldsForEntity.mockImplementationOnce((entityName) => {
+            return entityName === account ? ['Name1'] : undefined;
+        });
         const field = ".Name";
         const normalizedRHS = normalizeFEROV(store.accountSObjectVariableGuid + field);
         expect(normalizedRHS.itemOrDisplayText).toBe(addCurlyBraces(store.accountSObjectVariableDevName + field));
+    });
+    it('should normalize Apex fields', () => {
+        const fieldName = "Name";
+        const output = "result";
+        const storeElement = store.elements[store.apexSampleVariableGuid];
+        mutateFieldToComboboxShape.mockReturnValueOnce(output);
+        getPropertiesForClass.mockImplementationOnce((className) => {
+            if (className === storeElement.subtype) {
+                return {
+                    [fieldName]: {
+                        apiName: store.apexSampleVariableDevName,
+                    },
+                };
+            }
+            return undefined;
+        });
+        const normalizedRHS = normalizeFEROV(`${store.apexSampleVariableGuid}.${fieldName}`);
+        expect(normalizedRHS.itemOrDisplayText).toBe(output);
     });
 });
 
 describe('populate LHS state for field', () => {
     it('should populate lhs state if user has access to the entity and field', () => {
         mutateFieldToComboboxShape.mockReturnValueOnce('formattedField');
-        const lhsState = populateLhsStateForField({'Name':{}}, 'Name', 'Account', true);
+        const lhsState = populateLhsStateForField({'Name':{}}, 'Name', account, true);
         expect(lhsState.value).toBe('formattedField');
-        expect(mutateFieldToComboboxShape).toHaveBeenCalledWith({}, 'Account',
+        expect(mutateFieldToComboboxShape).toHaveBeenCalledWith({}, account,
                 true, true);
     });
     it('should not throw an exception if the user does not have access to the SObject', () => {

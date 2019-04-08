@@ -15,7 +15,9 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
+import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import * as sobjectLib from "builder_platform_interaction/sobjectLib";
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 
 let storeInstance;
 
@@ -223,16 +225,17 @@ export default class OutputResourcePicker extends LightningElement {
      * @returns normalizedValue      value to pass to the combobox
      */
     normalizeValue = (identifier) => {
+        // TODO: W-5981876 consolidate this with resourceUtils.normalizeFerov
         let normalizedValue;
         const flowElement = getResourceByUniqueIdentifier(identifier);
         if (flowElement) {
             const fieldName = sanitizeGuid(identifier).fieldName;
             if (fieldName) {
-                const sobject = flowElement.subtype;
-                const fields =  sobjectLib.getFieldsForEntity(sobject);
+                const retrieveFieldsFn = flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value ? sobjectLib.getFieldsForEntity : apexTypeLib.getPropertiesForClass;
+                const fields = retrieveFieldsFn(flowElement.subtype);
                 const field = fields && fields[fieldName];
                 if (field) {
-                    field.isCollection = false;
+                    field.isCollection = !!field.isCollection;
                     const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
                     normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
                 }
