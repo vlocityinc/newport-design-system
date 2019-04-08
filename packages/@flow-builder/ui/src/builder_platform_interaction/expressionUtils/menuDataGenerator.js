@@ -3,7 +3,7 @@ import {
     getDataTypeLabel,
     getDataTypeIcons,
 } from "builder_platform_interaction/dataTypeLib";
-import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
+import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getSystemVariables, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
 import { getElementCategory } from "builder_platform_interaction/elementConfig";
 import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from "builder_platform_interaction/ruleLib";
@@ -319,7 +319,9 @@ export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlob
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());
-        categories.push(getFlowSystemClientVariableComboboxItem());
+        if (Object.keys(getSystemVariables(SYSTEM_VARIABLE_CLIENT_PREFIX)).length > 0) {
+            categories.push(getFlowSystemClientVariableComboboxItem());
+        }
     }
     if (showGlobalVariables) {
         categories.push(...getGlobalVariableTypeComboboxItems());
