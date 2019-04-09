@@ -211,6 +211,7 @@ function screenSelectors(shouldBeWritable, choices, dataType) {
 }
 
 const filterInformationProviderMap = {
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.ACTION_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.APEX_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
