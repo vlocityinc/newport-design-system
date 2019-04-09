@@ -25,11 +25,9 @@ export default class LeftPanelResources extends LightningElement {
     }
 
     renderedCallback() {
-        if (this.canvasElements && this.nonCanvasElements && (this.canvasElements.length > 0 || this.nonCanvasElements.length > 0)) {
-            logPerfTransactionEnd(leftPanelResources, {
-                canvasElementsCount: this.canvasElements.length,
-                nonCanvasElementsCount: this.nonCanvasElements.length
-            });
-        }
+        logPerfTransactionEnd(leftPanelResources, {
+            canvasElementsCount: this.canvasElements.length,
+            nonCanvasElementsCount: this.nonCanvasElements.length
+        });
     }
 }
