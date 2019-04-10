@@ -9,7 +9,7 @@
     cursor: pointer;
 }
 
-.node-container.jtk-drag-selected, .node-container.jtk-drag.jtk-dragged {
+.node-container.jtk-drag-selected, .node-container.jtk-drag.jtk-dragged, .node-container.highlighted-container {
     z-index: 400;
 }
 
@@ -110,11 +110,11 @@
     padding: 0 3px;
 }
 
-.highlighted + .text-container > div {
+.highlighted-container .text-container > div {
     background: transparent !important;
 }
 
-.highlighted + .text-container:after {
+.highlighted-container .text-container:after {
     content: '';
     position: absolute;
     transition: opacity .15s ease;

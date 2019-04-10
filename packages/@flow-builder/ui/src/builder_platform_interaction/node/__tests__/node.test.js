@@ -24,7 +24,7 @@ const createComponentUnderTest = (isSelected, isHighlighted) => {
 const selectors = {
     nodeContainer: '.node-container',
     iconSelected: '.icon-section.selected',
-    iconHighlighted: '.icon-section.highlighted',
+    highlightedContainer: '.node-container.highlighted-container',
     icon: '.icon',
     trash: '.trash-can'
 };
@@ -45,13 +45,13 @@ const dblClick = (component) => {
 describe('node', () => {
     it('Checks if node is rendered correctly', () => {
         const nodeComponent = createComponentUnderTest(false, false);
-            expect(nodeComponent.node.guid).toEqual('1');
-            expect(nodeComponent.node.locationX).toEqual('20px');
-            expect(nodeComponent.node.locationY).toEqual('40px');
-            expect(nodeComponent.node.elementType).toEqual(ELEMENT_TYPE.ASSIGNMENT);
-            expect(nodeComponent.node.label).toEqual('First Node');
-            expect(nodeComponent.node.description).toEqual('My first test node');
-            expect(nodeComponent.node.config.isSelected).toBeFalsy();
+        expect(nodeComponent.node.guid).toEqual('1');
+        expect(nodeComponent.node.locationX).toEqual('20px');
+        expect(nodeComponent.node.locationY).toEqual('40px');
+        expect(nodeComponent.node.elementType).toEqual(ELEMENT_TYPE.ASSIGNMENT);
+        expect(nodeComponent.node.label).toEqual('First Node');
+        expect(nodeComponent.node.description).toEqual('My first test node');
+        expect(nodeComponent.node.config.isSelected).toBeFalsy();
         expect(nodeComponent.node.config.isHighlighted).toBeFalsy();
     });
 
@@ -82,7 +82,7 @@ describe('node', () => {
 
     it('Checks if a highlighted node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(false, true);
-        expect(nodeComponent.shadowRoot.querySelector(selectors.iconHighlighted)).toBeTruthy();
+        expect(nodeComponent.shadowRoot.querySelector(selectors.highlightedContainer)).toBeTruthy();
     });
 
     it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {

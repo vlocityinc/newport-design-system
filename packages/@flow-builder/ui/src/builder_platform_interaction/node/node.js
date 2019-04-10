@@ -35,10 +35,6 @@ export default class Node extends LightningElement {
             classes = `${classes} selected`;
         }
 
-        if (this.node.config.isHighlighted) {
-            classes = `${classes} highlighted`;
-        }
-
         return classes;
     }
 
@@ -90,8 +86,17 @@ export default class Node extends LightningElement {
      * Build main parent template div class adding some "test mode only" value to it to ease up Selenium effort
      */
     get parentDivComputedClass() {
-        return 'element-container node-container slds-is-absolute slds-text-align_center' + (isTestMode() ?
-            ` test-node-${(this.node.elementType || '').toLowerCase()}` : '');
+        let classes = 'element-container node-container slds-is-absolute slds-text-align_center';
+
+        if (this.node.config.isHighlighted) {
+            classes = `${classes} highlighted-container`;
+        }
+
+        if (isTestMode()) {
+            classes = `${classes} test-node-${(this.node.elementType || '').toLowerCase()}`;
+        }
+
+        return classes;
     }
 
     isMultiSelect(event) {
