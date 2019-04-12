@@ -188,6 +188,20 @@ describe('label-description', () => {
                     expect(labelLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
                 });
             });
+
+            it('resets the error when changing the label with no error', () => {
+                const labelDescription = createComponentUnderTest();
+                labelDescription.label = {
+                    value: 'some new value',
+                    error: null,
+                };
+
+                return Promise.resolve().then(() => {
+                    const labelInput = labelDescription.shadowRoot.querySelector(selectors.label);
+
+                    expect(labelInput.setCustomValidity.mock.calls[0][0]).toEqual('');
+                });
+            });
         });
 
         describe('dev name population on label focus out', () => {
@@ -408,6 +422,20 @@ describe('label-description', () => {
                     expect(devNameLightningInput.showHelpMessageIfInvalid).toHaveBeenCalled();
                 });
             });
+
+            it('resets the error when changing the devName with no error', () => {
+                const labelDescription = createComponentUnderTest();
+                labelDescription.devName = {
+                    value: 'some new value',
+                    error: null,
+                };
+
+                return Promise.resolve().then(() => {
+                    const devNameInput = labelDescription.shadowRoot.querySelector(selectors.devName);
+
+                    expect(devNameInput.setCustomValidity.mock.calls[0][0]).toEqual('');
+                });
+            });
         });
 
         describe('value set from label update', () => {
@@ -446,13 +474,14 @@ describe('label-description', () => {
                     labelDescription.addEventListener(PropertyChangedEvent.EVENT_NAME, eventCallback);
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
+                    const call = eventCallback.mock.calls[0][0];
 
-                    expect(eventCallback.mock.calls).toHaveLength(1);
-                    expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {propertyName: 'name', value: newValue}});
+                    expect(call.detail.propertyName).toEqual('label');
+                    expect(call.detail.value).toEqual(newValue);
                 });
             });
 
-            it('does not occur when label was blank and remains blank after focusout', () => {
+            it('does occur when label was blank and remains blank after focusout', () => {
                 const labelDescription = createComponentUnderTest();
                 labelDescription.label = {
                     value: ''
@@ -466,7 +495,7 @@ describe('label-description', () => {
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
-                    expect(eventCallback).not.toHaveBeenCalled();
+                    expect(eventCallback).toHaveBeenCalled();
                 });
             });
 
@@ -670,7 +699,7 @@ describe('label-description', () => {
                 });
             });
 
-            it('does not fire propertyChanged event if unchanged', () => {
+            it('does fire propertyChanged event if unchanged', () => {
                 const labelDescription = createComponentUnderTest();
 
                 return Promise.resolve().then(() => {
@@ -681,7 +710,7 @@ describe('label-description', () => {
 
                     descriptionLightningInput.dispatchEvent(focusoutEvent);
 
-                    expect(eventCallback).not.toHaveBeenCalled();
+                    expect(eventCallback).toHaveBeenCalled();
                 });
             });
         });

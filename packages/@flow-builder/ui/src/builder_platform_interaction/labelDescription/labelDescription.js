@@ -102,9 +102,7 @@ export default class LabelDescription extends LightningElement {
     set label(label) {
         if (label) {
             this.state.label = label;
-
-            const labelInput = this.template.querySelector(SELECTORS.LABEL);
-            this.setInputErrorMessage(labelInput, this.state.label.error);
+            this._shouldSetLabelError = true;
         }
     }
 
@@ -112,9 +110,7 @@ export default class LabelDescription extends LightningElement {
     set devName(devName) {
         if (devName) {
             this.state.devName = devName;
-
-            const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
-            this.setInputErrorMessage(devNameInput, this.state.devName.error);
+            this._shouldSetDevNameError = true;
         }
     }
 
@@ -133,18 +129,40 @@ export default class LabelDescription extends LightningElement {
     }
 
     /**
+     * Reset the error of the input
+     * The lightning-input component does not provide an easy way to reset errors
+     * We need to remove requiredness (our only constraint) and report validity
+     * Then put the constraint back to its prevous state
+     * @param {String} selector of the lightning-input
+     * @param {String} error the current error of the element
+     * @param {Boolean} currentRequiredState of the lightning-input
+     * @memberof LabelDescription
+     */
+    resetError(element, error, currentRequiredState) {
+        if (element && !error) {
+            element.required = false;
+            element.setCustomValidity('');
+            element.showHelpMessageIfInvalid();
+            element.required = currentRequiredState;
+        }
+    }
+
+    /**
      * LWC hook after rendering every component we are setting all errors via setCustomValidity except initial rendering.
-     *
-     * TODO: revisit as part of W-5676962
      * **/
     renderedCallback() {
-        if (this.state.label.value !== '' || this.state.label.error) {
+        if (this._shouldSetLabelError) {
             const labelInput = this.template.querySelector(SELECTORS.LABEL);
+            this.resetError(labelInput, this.state.label.error, this.labelRequired);
             this.setInputErrorMessage(labelInput, this.state.label.error);
+            this._shouldSetLabelError = false;
         }
-        if (this.state.devName.value !== '' || this.state.devName.error) {
+
+        if (this._shouldSetDevNameError) {
             const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
+            this.resetError(devNameInput, this.state.devName.error, true);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);
+            this._shouldSetDevNameError = false;
         }
         // TODO setting Render Callback CustomValidity for Description: blocked by https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000002scNkIAI/view
     }
@@ -153,13 +171,12 @@ export default class LabelDescription extends LightningElement {
      * @param {String} value - the name entered by the user
      * @param {String} prop - the prop type
      */
-    updateStateAndDispatch(value, prop) {
-        if (this.state[prop].value !== value) {
-            const event = new PropertyChangedEvent(
-                prop,
-                value);
-            this.dispatchEvent(event);
-        }
+    updateStateAndDispatch(value, prop, error) {
+        const event = new PropertyChangedEvent(
+            prop,
+            value,
+            error);
+        this.dispatchEvent(event);
     }
 
     /** Fire off an event to update dev name and update internal state
@@ -183,12 +200,8 @@ export default class LabelDescription extends LightningElement {
      * @param {Object} error - the input component
      */
     setInputErrorMessage(element, error) {
-        if (element) {
-            if (error) {
-                element.setCustomValidity(error);
-            } else {
-                element.setCustomValidity('');
-            }
+        if (element && error) {
+            element.setCustomValidity(error);
             element.showHelpMessageIfInvalid();
         }
     }
@@ -233,8 +246,8 @@ export default class LabelDescription extends LightningElement {
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newLabel;
         }
-
-        this.updateStateAndDispatch(newLabel, 'label');
+        const error = inputElement.value === '' ? this.showErrorMessageIfBlank : null;
+        this.updateStateAndDispatch(newLabel, 'label', error);
 
         // Update devName if it is present, enabled, and blank
         if (newLabel !== '' && !this.hideDevName && !this.disableDevName && !this.state.devName.value) {
