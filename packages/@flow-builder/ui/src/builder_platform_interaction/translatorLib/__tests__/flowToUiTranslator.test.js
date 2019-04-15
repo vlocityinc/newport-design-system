@@ -1,4 +1,4 @@
-import { translateFlowToUIModel } from "../flowToUiTranslator";
+import { translateFlowToUIModel, getFlowStartElementReference} from "../flowToUiTranslator";
 
 const flowWithDummyElement = {
     metadata: {
@@ -113,6 +113,24 @@ describe('Flow to ui translator tests', () => {
                 const { canvasElements } = translateFlowToUIModel(flowWithDummyElement);
                 expect(canvasElements).toHaveLength(1);
             });
+        });
+    });
+    describe('"getFlowStartElementReference" function', () => {
+        const startElementReference = 'dummyElementName';
+        let flowStartElementReference;
+        it('returns "undefined" when no startElementReference property (neither at metadata level nor root level of flow)', () => {
+            flowStartElementReference = getFlowStartElementReference(flowWithDummyElement);
+            expect(flowStartElementReference).toBeUndefined();
+        });
+        it('returns flow "startElementReference" property when flow "startElementReference" property', () => {
+            const flowWithStartElementReference = { startElementReference};
+            flowStartElementReference = getFlowStartElementReference(flowWithStartElementReference);
+            expect(flowStartElementReference).toBe(startElementReference);
+        });
+        it('returns flow metadata "startElementReference" property when flow metadata "startElementReference" property ', () => {
+            const flowWithMetadataStartElementReference = { metadata : {startElementReference}};
+            flowStartElementReference = getFlowStartElementReference(flowWithMetadataStartElementReference);
+            expect(flowStartElementReference).toBe(startElementReference);
         });
     });
 });

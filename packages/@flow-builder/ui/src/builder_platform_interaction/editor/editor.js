@@ -177,15 +177,15 @@ export default class Editor extends LightningElement {
      * @param {Object} has error property if there is error fetching the data else has data property
      */
     getFlowCallback = ({data, error}) => {
+        this.isFlowServerCallInProgress = false;
+        this.spinners.showFlowMetadataSpinner = false;
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
-            this.spinners.showFlowMetadataSpinner = false;
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
             this.setOriginalFlowValues();
             this.loadFieldsForSobjectsInFlow();
         }
-        this.isFlowServerCallInProgress = false;
     };
 
     /**

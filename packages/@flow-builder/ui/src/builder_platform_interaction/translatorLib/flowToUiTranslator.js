@@ -3,6 +3,14 @@ import { ELEMENT_TYPE, METADATA_KEY } from "builder_platform_interaction/flowMet
 import { createStartElementWithConnectors, createFlowProperties } from "builder_platform_interaction/elementFactory";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 
+
+/**
+ * Get the flow startElementReference property if any
+ * @param {Object} flow current flow
+ * @returns {string} flow startElementReference property or undefined if none
+ */
+export const getFlowStartElementReference = flow => flow.startElementReference || (flow.metadata && flow.metadata.startElementReference) || undefined;
+
 /**
  * Translate flow tooling object into UI data model
  *
@@ -13,7 +21,7 @@ export function translateFlowToUIModel(flow) {
     // Construct flow properties object
     const properties = createFlowProperties(flow);
     // Create start element
-    const { elements, connectors }  = createStartElementWithConnectors(flow.startElementReference || flow.metadata.startElementReference);
+    const { elements, connectors } = createStartElementWithConnectors(getFlowStartElementReference(flow));
     // Create elements, connectors and location translation config from flow Metadata
     const storeDataAndConfig = createElementsUsingFlowMetadata(flow.metadata || flow);
 
