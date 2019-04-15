@@ -737,7 +737,7 @@ describe('label-description', () => {
         //         };
         //
         //         return Promise.resolve().then(() => {
-        //             const descriptionLightningTextArea = getShadowRoot(labelDescription).querySelector(selectors.description);
+        //             const descriptionLightningTextArea = labelDescription.shadowRoot.querySelector(selectors.description);
         //
         //             expect(descriptionLightningTextArea.setCustomValidity).toHaveBeenCalledWith(errorMsg);
         //             expect(descriptionLightningTextArea.showHelpMessageIfInvalid).toHaveBeenCalled();
@@ -752,7 +752,7 @@ describe('label-description', () => {
         //         };
         //
         //         return Promise.resolve().then(() => {
-        //             const descriptionLightningTextArea = getShadowRoot(labelDescription).querySelector(selectors.description);
+        //             const descriptionLightningTextArea = labelDescription.shadowRoot.querySelector(selectors.description);
         //
         //             expect(descriptionLightningTextArea.setCustomValidity).toHaveBeenCalledWith(null);
         //             expect(descriptionLightningTextArea.showHelpMessageIfInvalid).toHaveBeenCalled();

@@ -177,7 +177,7 @@ describe('Outcome', () => {
     //     const element = createComponentUnderTest(listWithThreeConditionals);
     //
     //     return Promise.resolve().then(() => {
-    //         const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+    //         const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
     //
     //         expect(rowsArray[0].showPrefix).toBeTruthy();
     //         expect(rowsArray[1].showPrefix).toBeTruthy();
@@ -188,7 +188,7 @@ describe('Outcome', () => {
     //         const element = createComponentUnderTest(listWithThreeConditionals);
     //
     //         return Promise.resolve().then(() => {
-    //             const rowsArray = getShadowRoot(element).querySelectorAll(selectors.row);
+    //             const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
     //
     //             expect(rowsArray[0].showPrefix).toBeTruthy();
     //             expect(rowsArray[1].showPrefix).toBeTruthy();
