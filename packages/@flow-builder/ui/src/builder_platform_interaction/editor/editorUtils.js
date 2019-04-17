@@ -169,7 +169,8 @@ export const updateUrl = (flowId) => {
     window.history.pushState(null, 'Flow Builder', window.location.href.split('?')[0] + urlParams);
 };
 
-export const setFlowErrorsAndWarnings = ({errors = {}, warnings = {}}) => {
+export const setFlowErrorsAndWarnings = (data) => {
+    const { errors = {}, warnings = {} } = data || {};
     return {
         errors,
         warnings

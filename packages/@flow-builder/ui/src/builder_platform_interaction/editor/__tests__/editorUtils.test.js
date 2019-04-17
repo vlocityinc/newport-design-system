@@ -461,6 +461,10 @@ describe('Editor Utils Test', () => {
     });
 
     describe('setFlowErrorsAndWarnings function', () => {
+        it('when undefined data object is passed', () => {
+            expect(setFlowErrorsAndWarnings()).toEqual({errors: {}, warnings: {}});
+        });
+
         it('when no errors and warnings are present', () => {
             expect(setFlowErrorsAndWarnings({})).toEqual({errors: {}, warnings: {}});
         });
