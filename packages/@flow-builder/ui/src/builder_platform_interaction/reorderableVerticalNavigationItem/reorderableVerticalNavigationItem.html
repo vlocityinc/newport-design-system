@@ -26,7 +26,7 @@
                 </template>
             </a>
         </builder_platform_interaction-draggable>
-        <builder_platform_interaction-draggable if:false={isDraggable} index={navItemId}  class="slds-grid slds-size_1-of-1">
+        <div if:false={isDraggable} class="slds-grid slds-size_1-of-1">
             <a class="slds-vertical-tabs__link slds-grid slds-hyphenate"
                href="javascript:void(0);"
                draggable={isDraggable}
@@ -51,6 +51,6 @@
                     </slot>
                 </template>
             </a>
-        </builder_platform_interaction-draggable>
+        </div>
     </div>
 </template>
