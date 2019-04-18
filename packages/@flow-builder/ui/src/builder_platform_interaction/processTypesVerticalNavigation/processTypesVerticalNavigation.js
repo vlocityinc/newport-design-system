@@ -9,8 +9,7 @@ const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR: 'a.slds-nav-vertical__action',
 };
 // Specific style to truncate label
-const TRUNCATE_DISPLAY_STYLE = "display:inline-block;";
-const TRUNCATE_SLDS_CSS_CLASS = "slds-truncate";
+const TRUNCATED_LABEL_STYLE = "display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;";
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
@@ -97,8 +96,7 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
             verticalActions.forEach(verticalAction => {
                 const anchor = verticalAction.shadowRoot.querySelector(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR);
                 if (anchor) {
-                    anchor.setAttribute("style", TRUNCATE_DISPLAY_STYLE);
-                    anchor.className += ` ${TRUNCATE_SLDS_CSS_CLASS}`;
+                    anchor.setAttribute("style", TRUNCATED_LABEL_STYLE);
                 }
             });
         }

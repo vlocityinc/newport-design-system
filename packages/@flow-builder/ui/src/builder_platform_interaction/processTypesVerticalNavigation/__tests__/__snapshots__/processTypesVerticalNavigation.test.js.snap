@@ -5,7 +5,7 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
   #shadow-root(open)
     <div
       aria-hidden="false"
-      class="navigation-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical"
+      class="navigation-container slds-size_small slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical"
     >
       <div
         class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow"
@@ -18,8 +18,8 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
           >
             #shadow-root(open)
               <a
-                class="slds-nav-vertical__action slds-truncate"
-                style="display:inline-block;"
+                class="slds-nav-vertical__action"
+                style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
               >
                 <lightning-icon>
                   #shadow-root(open)
@@ -32,8 +32,8 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
           >
             #shadow-root(open)
               <a
-                class="slds-nav-vertical__action slds-truncate"
-                style="display:inline-block;"
+                class="slds-nav-vertical__action"
+                style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
               >
                 <lightning-icon>
                   #shadow-root(open)
@@ -46,8 +46,8 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
           >
             #shadow-root(open)
               <a
-                class="slds-nav-vertical__action slds-truncate"
-                style="display:inline-block;"
+                class="slds-nav-vertical__action"
+                style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
               >
                 <lightning-icon>
                   #shadow-root(open)
@@ -58,94 +58,90 @@ exports[`process-types-vertical-navigation UI rendering (snapshot) label and tru
           <lightning-vertical-navigation-overflow>
             #shadow-root(open)
               <slot />
-            <div
-              class="slds-p-left_small"
+            <lightning-vertical-navigation-item-icon
+              title="Checkout Flow"
             >
-              <lightning-vertical-navigation-item-icon
-                title="Checkout Flow"
-              >
-                #shadow-root(open)
-                  <a
-                    class="slds-nav-vertical__action slds-truncate"
-                    style="display:inline-block;"
-                  >
-                    <lightning-icon>
-                      #shadow-root(open)
-                    </lightning-icon>
-                    Checkout Flow
-                  </a>
-              </lightning-vertical-navigation-item-icon>
-              <lightning-vertical-navigation-item-icon
-                title="Contact Request Flow"
-              >
-                #shadow-root(open)
-                  <a
-                    class="slds-nav-vertical__action slds-truncate"
-                    style="display:inline-block;"
-                  >
-                    <lightning-icon>
-                      #shadow-root(open)
-                    </lightning-icon>
-                    Contact Request Flow
-                  </a>
-              </lightning-vertical-navigation-item-icon>
-              <lightning-vertical-navigation-item-icon
-                title="Embedded Appointment Management Flow"
-              >
-                #shadow-root(open)
-                  <a
-                    class="slds-nav-vertical__action slds-truncate"
-                    style="display:inline-block;"
-                  >
-                    <lightning-icon>
-                      #shadow-root(open)
-                    </lightning-icon>
-                    Embedded Appointment Management Flow
-                  </a>
-              </lightning-vertical-navigation-item-icon>
-              <lightning-vertical-navigation-item-icon
-                title="Field Service Mobile Flow"
-              >
-                #shadow-root(open)
-                  <a
-                    class="slds-nav-vertical__action slds-truncate"
-                    style="display:inline-block;"
-                  >
-                    <lightning-icon>
-                      #shadow-root(open)
-                    </lightning-icon>
-                    Field Service Mobile Flow
-                  </a>
-              </lightning-vertical-navigation-item-icon>
-              <lightning-vertical-navigation-item-icon
-                title="User Provisioning Flow"
-              >
-                #shadow-root(open)
-                  <a
-                    class="slds-nav-vertical__action slds-truncate"
-                    style="display:inline-block;"
-                  >
-                    <lightning-icon>
-                      #shadow-root(open)
-                    </lightning-icon>
-                    User Provisioning Flow
-                  </a>
-              </lightning-vertical-navigation-item-icon>
-              <lightning-vertical-navigation-item-icon
-                title="Well no icon yet"
-              >
-                #shadow-root(open)
-                  <a
-                    class="slds-nav-vertical__action slds-truncate"
-                    style="display:inline-block;"
-                  >
-                    <lightning-icon>
-                      #shadow-root(open)
-                    </lightning-icon>
-                    Well no icon yet
-                  </a>
-              </lightning-vertical-navigation-item-icon>
-            </div>
+              #shadow-root(open)
+                <a
+                  class="slds-nav-vertical__action"
+                  style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
+                >
+                  <lightning-icon>
+                    #shadow-root(open)
+                  </lightning-icon>
+                  Checkout Flow
+                </a>
+            </lightning-vertical-navigation-item-icon>
+            <lightning-vertical-navigation-item-icon
+              title="Contact Request Flow"
+            >
+              #shadow-root(open)
+                <a
+                  class="slds-nav-vertical__action"
+                  style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
+                >
+                  <lightning-icon>
+                    #shadow-root(open)
+                  </lightning-icon>
+                  Contact Request Flow
+                </a>
+            </lightning-vertical-navigation-item-icon>
+            <lightning-vertical-navigation-item-icon
+              title="Embedded Appointment Management Flow"
+            >
+              #shadow-root(open)
+                <a
+                  class="slds-nav-vertical__action"
+                  style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
+                >
+                  <lightning-icon>
+                    #shadow-root(open)
+                  </lightning-icon>
+                  Embedded Appointment Management Flow
+                </a>
+            </lightning-vertical-navigation-item-icon>
+            <lightning-vertical-navigation-item-icon
+              title="Field Service Mobile Flow"
+            >
+              #shadow-root(open)
+                <a
+                  class="slds-nav-vertical__action"
+                  style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
+                >
+                  <lightning-icon>
+                    #shadow-root(open)
+                  </lightning-icon>
+                  Field Service Mobile Flow
+                </a>
+            </lightning-vertical-navigation-item-icon>
+            <lightning-vertical-navigation-item-icon
+              title="User Provisioning Flow"
+            >
+              #shadow-root(open)
+                <a
+                  class="slds-nav-vertical__action"
+                  style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
+                >
+                  <lightning-icon>
+                    #shadow-root(open)
+                  </lightning-icon>
+                  User Provisioning Flow
+                </a>
+            </lightning-vertical-navigation-item-icon>
+            <lightning-vertical-navigation-item-icon
+              title="Well no icon yet"
+            >
+              #shadow-root(open)
+                <a
+                  class="slds-nav-vertical__action"
+                  style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;"
+                >
+                  <lightning-icon>
+                    #shadow-root(open)
+                  </lightning-icon>
+                  Well no icon yet
+                </a>
+            </lightning-vertical-navigation-item-icon>
           </lightning-vertical-navigation-overflow>
         </lightning-vertical-navigation>
       </div>
