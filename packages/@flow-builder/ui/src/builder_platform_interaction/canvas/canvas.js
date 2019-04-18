@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from "lwc";
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
-import { SCALE_BOUNDS, getScaleAndDeltaValues, getOffsetValues, getDistanceBetweenViewportCenterAndElement, isElementInViewport } from "./zoomPanUtils";
+import { isMultiSelect, setupCanvasElements, setupConnectors } from "./canvasUtils";
+import { SCALE_BOUNDS, getScaleAndOffsetValuesOnZoom, getOffsetValuesOnPan, getDistanceBetweenViewportCenterAndElement, isElementInViewport } from "./zoomPanUtils";
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
-import { AddElementEvent, DeleteElementEvent, CANVAS_EVENT, ZOOM_ACTION, PAN_ACTION } from "builder_platform_interaction/events";
+import { AddElementEvent, DeleteElementEvent, CanvasMouseUpEvent, AddConnectionEvent, ConnectorSelectedEvent, ZOOM_ACTION, PAN_ACTION } from "builder_platform_interaction/events";
 import { KEYS } from "./keyConstants";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { logPerfMarkStart, logPerfMarkEnd } from "builder_platform_interaction/loggingUtils";
 
 /**
@@ -37,44 +37,18 @@ export default class Canvas extends LightningElement {
     canvasArea;
     innerCanvasArea;
 
-    isMouseDown = false;
-
     // Scaling variable used for zooming
     currentScale = 1.0;
 
+    // Variable to keep a track of when mouse is down on the overlay
+    isOverlayMouseDown = false;
+
     // Mouse position variables used for panning
-    mouseDownX = 0;
-    mouseDownY = 0;
-    mouseMoveX = 0;
-    mouseMoveY = 0;
+    overlayMouseDownPoint = [0, 0];
+    overlayMouseMovePoint = [0, 0];
 
-    // Offset positions of the inner canvas on a given scale
-    scaledCenterOffsetX = 0;
-    scaledCenterOffsetY = 0;
-
-    // Offset positions of the inner canvas on scale 1
-    centerOffsetX = 0;
-    centerOffsetY = 0;
-
-    isMultiSelect(event) {
-        if (event && event.shiftKey) {
-            return event.shiftKey;
-        }
-        return false;
-    }
-
-    updateCursorStyling = (cursorStyle = CURSOR_STYLE_DEFAULT) => {
-        if (cursorStyle === CURSOR_STYLE_GRAB) {
-            this.canvasArea.classList.remove('grabbing');
-            this.canvasArea.classList.add('grab');
-        } else if (cursorStyle === CURSOR_STYLE_GRABBING) {
-            this.canvasArea.classList.remove('grab');
-            this.canvasArea.classList.add('grabbing');
-        } else {
-            this.canvasArea.classList.remove('grab');
-            this.canvasArea.classList.remove('grabbing');
-        }
-    };
+    // Scaled offsetLeft and offsetTop values when mouse down happens for panning
+    scaledOffsetsOnPanStart = [0, 0];
 
     constructor() {
         super();
@@ -88,16 +62,7 @@ export default class Canvas extends LightningElement {
      * @param {object} connectorInfo - Contains all the information about the new connector
      */
     connectionAdded = (connectorInfo) => {
-        const addConnectionEvent = new CustomEvent(CANVAS_EVENT.ADD_CONNECTION,
-            {
-                bubbles: true,
-                composed: true,
-                detail: {
-                    sourceGuid: connectorInfo.sourceId,
-                    targetGuid: connectorInfo.targetId
-                }
-            }
-        );
+        const addConnectionEvent = new AddConnectionEvent(connectorInfo.sourceId, connectorInfo.targetId);
         this.dispatchEvent(addConnectionEvent);
     };
 
@@ -108,216 +73,14 @@ export default class Canvas extends LightningElement {
      */
     connectionClicked = (connection, event) => {
         event.stopPropagation();
-        const isMultiSelectKeyPressed = this.isMultiSelect(event);
-        const connectorSelectedEvent = new CustomEvent(CANVAS_EVENT.CONNECTOR_SELECTED, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                connectorGUID: connection.id,
-                isMultiSelectKeyPressed
-            }
-        });
-
+        const isMultiSelectKeyPressed = isMultiSelect(event);
+        const connectorSelectedEvent = new ConnectorSelectedEvent(connection.id, isMultiSelectKeyPressed);
         this.dispatchEvent(connectorSelectedEvent);
     };
 
-    /**
-     * Helper method to zoom the canvas.
-     * @param {String} action - Zoom action coming from handle key down or handle zoom
-     */
-    canvasZoom = (action) => {
-        const viewportAndOffsetConfig = {
-            viewportWidth: this.canvasArea.clientWidth,
-            viewportHeight: this.canvasArea.clientHeight,
-            viewportCenterX: this.canvasArea.clientWidth / 2,
-            viewportCenterY: this.canvasArea.clientHeight / 2,
-            centerOffsetX: this.centerOffsetX,
-            centerOffsetY: this.centerOffsetY
-        };
-
-        // Calculating scale and delta values. Delta values tell how much the inner canvas center should move from it's
-        // current location
-        const scaleAndDeltaConfig = getScaleAndDeltaValues(action, this.currentScale, viewportAndOffsetConfig, this.nodes);
-
-        if (scaleAndDeltaConfig.deltaX !== undefined && scaleAndDeltaConfig.deltaY !== undefined &&
-            scaleAndDeltaConfig.newScale !== undefined) {
-            // Calculating how much much the inner canvas needs to be away from the current viewport center.
-            // This value would only change when zooming to fit
-            const newOffsetX = this.centerOffsetX - scaleAndDeltaConfig.deltaX;
-            const newOffsetY = this.centerOffsetY - scaleAndDeltaConfig.deltaY;
-
-            // Updating the scale and left and top properties of the canvas
-            this.innerCanvasArea.style.transform = 'scale(' + scaleAndDeltaConfig.newScale + ')';
-            this.innerCanvasArea.style.left = -(newOffsetX * scaleAndDeltaConfig.newScale) + 'px';
-            this.innerCanvasArea.style.top = -(newOffsetY * scaleAndDeltaConfig.newScale) + 'px';
-
-            // Informing jsPlumb about the zoom level so that connectors are drawn on the new scale
-            lib.setZoom(scaleAndDeltaConfig.newScale);
-
-            this.centerOffsetX = newOffsetX;
-            this.centerOffsetY = newOffsetY;
-            this.currentScale = scaleAndDeltaConfig.newScale;
-
-            // Disabling and enabling zoom panel buttons based on the current scale.
-            // Note: We can't simply use this.currentScale <= 0.2 because 0.200000001 is treated by the browser as 0.2 at
-            // which point the button should be disabled. Removing the first condition would mean that on a scale of 0.2000001,
-            // the button won't get disabled unless the button is clicked again but clicking it again won't visually change
-            // anything on the screen
-            this.isZoomOutDisabled = (this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE);
-            this.isZoomToView = this.isZoomInDisabled = (this.innerCanvasArea.style.transform === 'scale(1)');
-
-            if ((this.isZoomOutDisabled || this.isZoomInDisabled || action === ZOOM_ACTION.ZOOM_TO_FIT || action === ZOOM_ACTION.ZOOM_TO_VIEW) && document.activeElement !== this.canvasArea) {
-                this.canvasArea.focus();
-            }
-        }
-    };
-
-    /**
-     * Method to handle zooming of the flow using the zoom panel.
-     * @param {object} event - click to zoom event coming from zoom-panel.js
-     */
-    handleZoom = (event) => {
-        if (event && event.detail.action) {
-            this.canvasZoom(event.detail.action);
-        }
-    };
-
-    /**
-     * Helper method to toggle the pan mode.
-     * @param {String} action - Pan action coming from handle key down or handleTogglePanMode
-     */
-    togglePan = (action) => {
-        if (action === PAN_ACTION.PAN_ON) {
-            // Enabling pan mode
-            this.isPanModeOn = true;
-            if (!this.isMouseDown) {
-                this.updateCursorStyling(CURSOR_STYLE_GRAB);
-            }
-        } else if (action === PAN_ACTION.PAN_OFF) {
-            // Disabling pan mode
-            this.isPanModeOn = false;
-            this.updateCursorStyling();
-        }
-    };
-
-    /**
-     * Method to toggle the pan mode when clicking the pan button in the zoom-panel
-     * @param {Object} event - toggle pan mode event coming from zoom-panel.js
-     */
-    handleTogglePanMode = (event) => {
-        if (event && event.detail.action) {
-            this.togglePan(event.detail.action);
-        }
-    };
-
-    /**
-     * Handling mouse enter event for overlay. If mouse is down while entering the overlay
-     * then we need to set the entering coordinates as the mouseDown coordinates and get the scaled inner canvas offsets
-     * so as to ensure that panning begins from the right spot.
-     * @param {object} event - mouse enter event
-     */
-    handleOverlayMouseEnter = (event) => {
-        event.preventDefault();
-        // Checks if mouse is down while entering the overlay
-        if (event.buttons === 1 || event.buttons === 3) {
-            this.isMouseDown = true;
-            this.updateCursorStyling(CURSOR_STYLE_GRABBING);
-
-            // Calculating mouse coordinates on mouse enter
-            this.mouseDownX = event.clientX - this.canvasArea.offsetLeft;
-            this.mouseDownY = event.clientY - this.canvasArea.offsetTop;
-
-            // Getting the scaled offset values of the inner canvas
-            this.scaledCenterOffsetX = this.innerCanvasArea.offsetLeft;
-            this.scaledCenterOffsetY = this.innerCanvasArea.offsetTop;
-        } else {
-            this.updateCursorStyling(CURSOR_STYLE_GRAB);
-        }
-    };
-
-    /**
-     * Handling mouse leave event for overlay. Setting isMouseDown to false so that
-     * panning doesn't continue when mouse enters the canvas again.
-     * @param {object} event - mouse leave event
-     */
-    handleOverlayMouseLeave = (event) => {
-        event.preventDefault();
-        if (this.isMouseDown) {
-            this.isMouseDown = false;
-        }
-        this.updateCursorStyling();
-    };
-
-    /**
-     * Handling mouse down event for overlay.
-     * @param {object} event - mouse down event
-     */
-    handleOverlayMouseDown = (event) => {
-        event.stopPropagation();
-        this.isMouseDown = true;
-        this.updateCursorStyling(CURSOR_STYLE_GRABBING);
-
-        // Calculating mouse coordinates on mouse down
-        this.mouseDownX = event.clientX - this.canvasArea.offsetLeft;
-        this.mouseDownY = event.clientY - this.canvasArea.offsetTop;
-
-        // Getting the scaled offset values of the inner canvas
-        this.scaledCenterOffsetX = this.innerCanvasArea.offsetLeft;
-        this.scaledCenterOffsetY = this.innerCanvasArea.offsetTop;
-    };
-
-    /**
-     * Handling mouse move event for overlay. If mouse is down while mouse move happens then we need to accordingly
-     * pan the canvas.
-     * @param {object} event - mouse move event
-     */
-    handleOverlayMouseMove = (event) => {
-        event.stopPropagation();
-        if (this.isMouseDown) {
-            // Calculating mouse coordinates on mouse move
-            this.mouseMoveX = event.clientX - this.canvasArea.offsetLeft;
-            this.mouseMoveY = event.clientY - this.canvasArea.offsetTop;
-
-            const panConfig = {
-                scaledCenterOffsetX: this.scaledCenterOffsetX,
-                scaledCenterOffsetY: this.scaledCenterOffsetY,
-                mouseDownX: this.mouseDownX,
-                mouseDownY: this.mouseDownY,
-                mouseMoveX: this.mouseMoveX,
-                mouseMoveY: this.mouseMoveY
-            };
-
-            // Getting the new offset values of the inner canvas
-            const offsetConfig = getOffsetValues(panConfig);
-
-            // Updating the left and top properties of the canvas. Also updating the center offset variables accordingly
-            if (offsetConfig.offsetLeft !== undefined && offsetConfig.offsetTop !== undefined) {
-                this.innerCanvasArea.style.left = offsetConfig.offsetLeft + 'px';
-                this.innerCanvasArea.style.top = offsetConfig.offsetTop + 'px';
-
-                this.centerOffsetX = -(offsetConfig.offsetLeft / this.currentScale);
-                this.centerOffsetY = -(offsetConfig.offsetTop / this.currentScale);
-            }
-        }
-    };
-
-    /**
-     * Handling mouse up event for overlay.
-     * @param {object} event - mouse up event
-     */
-    handleOverlayMouseUp = (event) => {
-        event.stopPropagation();
-        this.isMouseDown = false;
-        this.updateCursorStyling(CURSOR_STYLE_GRAB);
-    };
-
-    /**
-     * Handling right click event for overlay.
-     */
-    handleOverlayContextMenu = () => {
-        this.isMouseDown = false;
-    };
+    /* ********************** */
+    /*     Event handlers     */
+    /* ********************** */
 
     /**
      * Handling mouse up event for canvas. If mouse up happens directly on canvas/innerCanvas then marking the nodes
@@ -328,11 +91,7 @@ export default class Canvas extends LightningElement {
         event.preventDefault();
         this.canvasArea.focus();
         if (event.target && (event.target.classList.contains('canvas') || event.target.classList.contains('inner-canvas'))) {
-            const canvasMouseUpEvent = new CustomEvent(CANVAS_EVENT.CANVAS_MOUSEUP, {
-                bubbles: true,
-                composed: true,
-                cancelable: true
-            });
+            const canvasMouseUpEvent = new CanvasMouseUpEvent();
             this.dispatchEvent(canvasMouseUpEvent);
         }
     };
@@ -346,22 +105,22 @@ export default class Canvas extends LightningElement {
             event.preventDefault();
             const deleteEvent = new DeleteElementEvent();
             this.dispatchEvent(deleteEvent);
-        } else if ((event.metaKey || event.ctrlKey) && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)) {
+        } else if ((event.metaKey || event.ctrlKey) && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL) && !this.isOverlayMouseDown) {
             // Code block for zooming shortcuts
             event.preventDefault();
             if (event.key === KEYS.NEGATIVE) {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_OUT);
+                this._canvasZoom(ZOOM_ACTION.ZOOM_OUT);
             } else if (event.key === KEYS.ZERO) {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
+                this._canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
             } else if (event.key === KEYS.ONE) {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
+                this._canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
             } else if (event.key === KEYS.EQUAL) {
-                this.canvasZoom(ZOOM_ACTION.ZOOM_IN);
+                this._canvasZoom(ZOOM_ACTION.ZOOM_IN);
             }
         } else if (event.key === KEYS.SPACE && !this.isPanModeOn) {
             // Code block for enabling panning mode
             event.preventDefault();
-            this.togglePan(PAN_ACTION.PAN_ON);
+            this._togglePan(PAN_ACTION.PAN_ON);
         }
     };
 
@@ -373,8 +132,8 @@ export default class Canvas extends LightningElement {
         if (event.key === KEYS.SPACE && this.isPanModeOn) {
             // Code block for disabling panning mode
             event.preventDefault();
-            this.isMouseDown = false;
-            this.togglePan(PAN_ACTION.PAN_OFF);
+            this.isOverlayMouseDown = false;
+            this._togglePan(PAN_ACTION.PAN_OFF);
         }
     };
 
@@ -411,18 +170,225 @@ export default class Canvas extends LightningElement {
     };
 
     /**
-     * Helper function to update the innerCanvas offsets (on a given scale) and the centerOffsets (on scale 1).
-     *
-     * @param {Number} innerCanvasOffsetLeft - New offsetLeft of the innerCanvas
-     * @param {Number} innerCanvasOffsetTop - New offsetLeft of the innerCanvas
+     * Handling mouse enter event for overlay. If mouse is down while entering the overlay
+     * then we need to set the entering coordinates as the mouseDown coordinates and get the scaled inner canvas offsets
+     * so as to ensure that panning begins from the right spot.
+     * @param {object} event - mouse enter event
+     */
+    handleOverlayMouseEnter = (event) => {
+        event.preventDefault();
+        // Checks if mouse is down while entering the overlay
+        if (event.buttons === 1 || event.buttons === 3) {
+            this._handlePanStart(event);
+        } else {
+            this._updateCursorStyling(CURSOR_STYLE_GRAB);
+        }
+    };
+
+    /**
+     * Handling mouse leave event for overlay. Setting isOverlayMouseDown to false so that
+     * panning doesn't continue when mouse enters the canvas again.
+     * @param {object} event - mouse leave event
+     */
+    handleOverlayMouseLeave = (event) => {
+        event.preventDefault();
+        if (this.isOverlayMouseDown) {
+            this.isOverlayMouseDown = false;
+        }
+        this._updateCursorStyling();
+    };
+
+    /**
+     * Handling mouse down event for overlay.
+     * @param {object} event - mouse down event
+     */
+    handleOverlayMouseDown = (event) => {
+        event.stopPropagation();
+        this._handlePanStart(event);
+    };
+
+    /**
+     * Handling mouse move event for overlay. If mouse is down while mouse move happens then we need to accordingly
+     * pan the canvas.
+     * @param {object} event - mouse move event
+     */
+    handleOverlayMouseMove = (event) => {
+        event.stopPropagation();
+        if (this.isOverlayMouseDown) {
+            // Calculating mouse coordinates on mouse move
+            this.overlayMouseMovePoint = this._getMousePoint(event);
+
+            const panConfig = {
+                scaledOffsetsOnPanStart: this.scaledOffsetsOnPanStart,
+                mouseDownPoint: this.overlayMouseDownPoint,
+                mouseMovePoint: this.overlayMouseMovePoint
+            };
+
+            // Getting the new offset values of the innerCanvas
+            const { newScaledOffsetLeft, newScaledOffsetTop } = getOffsetValuesOnPan(panConfig);
+
+            // Updating the left and top offsets of the innerCanvas.
+            if (newScaledOffsetLeft !== undefined && newScaledOffsetTop !== undefined) {
+                this._updateInnerCanvasPosition(newScaledOffsetLeft, newScaledOffsetTop);
+            }
+        }
+    };
+
+    /**
+     * Handling mouse up event for overlay.
+     * @param {object} event - mouse up event
+     */
+    handleOverlayMouseUp = (event) => {
+        event.stopPropagation();
+        this.isOverlayMouseDown = false;
+        this._updateCursorStyling(CURSOR_STYLE_GRAB);
+    };
+
+    /**
+     * Handling right click event for overlay.
+     */
+    handleOverlayContextMenu = () => {
+        this.isOverlayMouseDown = false;
+    };
+
+    /**
+     * Method to toggle the pan mode when clicking the pan button in the zoom-panel.
+     * @param {Object} event - toggle pan mode event coming from zoom-panel.js
+     */
+    handleTogglePanMode = (event) => {
+        if (event && event.detail.action) {
+            this._togglePan(event.detail.action);
+        }
+    };
+
+    /**
+     * Method to handle zooming of the flow using the zoom panel.
+     * @param {object} event - click to zoom event coming from zoom-panel.js
+     */
+    handleZoom = (event) => {
+        if (event && event.detail.action) {
+            this._canvasZoom(event.detail.action);
+        }
+    };
+
+    /* ********************** */
+    /*     Helper Methods     */
+    /* ********************** */
+
+    /**
+     * Helper method to update the cursor styling.
+     * @param {String} cursorStyle - new cursor style
      * @private
      */
-    _panElementToView = (innerCanvasOffsetLeft = 0, innerCanvasOffsetTop = 0) => {
-        this.innerCanvasArea.style.left = innerCanvasOffsetLeft + 'px';
-        this.innerCanvasArea.style.top = innerCanvasOffsetTop + 'px';
+    _updateCursorStyling = (cursorStyle = CURSOR_STYLE_DEFAULT) => {
+        if (cursorStyle === CURSOR_STYLE_GRAB) {
+            this.canvasArea.classList.remove('grabbing');
+            this.canvasArea.classList.add('grab');
+        } else if (cursorStyle === CURSOR_STYLE_GRABBING) {
+            this.canvasArea.classList.remove('grab');
+            this.canvasArea.classList.add('grabbing');
+        } else {
+            this.canvasArea.classList.remove('grab');
+            this.canvasArea.classList.remove('grabbing');
+        }
+    };
 
-        this.centerOffsetX = -(innerCanvasOffsetLeft / this.currentScale);
-        this.centerOffsetY = -(innerCanvasOffsetTop / this.currentScale);
+    /**
+     * Helper method to get the location of the mouse pointer on the canvas.
+     * @param {Object} event - event coming from _handlePanStart and handleOverlayMouseMove
+     * @private
+     */
+    _getMousePoint = (event) => {
+        const mousePointX = event && event.clientX - this.canvasArea.offsetLeft;
+        const mousePointY = event && event.clientY - this.canvasArea.offsetTop;
+
+        return [mousePointX, mousePointY];
+    };
+
+    /**
+     * Helper method to updated the offsets of the innerCanvas.
+     * @param {Number} scaledOffsetLeft - left offset on a given scale
+     * @param {Number} scaledOffsetTop - top offset on a given scale
+     * @private
+     */
+    _updateInnerCanvasPosition = (scaledOffsetLeft = 0, scaledOffsetTop = 0) => {
+        this.innerCanvasArea.style.left = scaledOffsetLeft + 'px';
+        this.innerCanvasArea.style.top = scaledOffsetTop + 'px';
+    };
+
+    /**
+     * Helper method used for starting panning on canvas. It's called on mouse down on the overlay or when the user
+     * enters the overlay with the mouse down.
+     * @param event
+     * @private
+     */
+    _handlePanStart = (event) => {
+        this.isOverlayMouseDown = true;
+        this._updateCursorStyling(CURSOR_STYLE_GRABBING);
+
+        // Calculating mouse coordinates on mouse down
+        this.overlayMouseDownPoint = this._getMousePoint(event);
+
+        // Getting the scaled offset values of the inner canvas when mouse down happens
+        this.scaledOffsetsOnPanStart = [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop];
+    };
+
+    /**
+     * Helper method to zoom the canvas.
+     * @param {String} action - Zoom action coming from handleKeyDown or handleZoom
+     * @private
+     */
+    _canvasZoom = (action) => {
+        const viewportAndOffsetConfig = {
+            viewportDimensions: [this.canvasArea.clientWidth, this.canvasArea.clientHeight],
+            centerOffsets: [this.innerCanvasArea.offsetLeft / this.currentScale, this.innerCanvasArea.offsetTop / this.currentScale]
+        };
+
+        // Calculating new scale and offset values. Offset values tell how much the inner canvas needs to be away from the
+        // current viewport center on a given scale.
+        const { newScaledOffsetLeft, newScaledOffsetTop, newScale } = getScaleAndOffsetValuesOnZoom(action, this.currentScale, viewportAndOffsetConfig, this.nodes);
+
+        if (newScaledOffsetLeft !== undefined && newScaledOffsetTop !== undefined && newScale !== undefined) {
+            this.currentScale = newScale;
+
+            // Informing jsPlumb about the zoom level so that connectors are drawn on the new scale
+            lib.setZoom(newScale);
+
+            // Updating the scale and left and top properties of the canvas
+            this.innerCanvasArea.style.transform = `scale(${this.currentScale})`;
+            this._updateInnerCanvasPosition(newScaledOffsetLeft, newScaledOffsetTop);
+
+            // Disabling and enabling zoom panel buttons based on the current scale.
+            // Note: We can't simply use this.currentScale <= 0.2 because 0.200000001 is treated by the browser as 0.2 at
+            // which point the button should be disabled. Removing the first condition would mean that on a scale of 0.2000001,
+            // the button won't get disabled unless the button is clicked again but clicking it again won't visually change
+            // anything on the screen
+            this.isZoomOutDisabled = (this.innerCanvasArea.style.transform === 'scale(0.2)' || this.currentScale < SCALE_BOUNDS.MIN_SCALE);
+            this.isZoomToView = this.isZoomInDisabled = (this.innerCanvasArea.style.transform === 'scale(1)');
+
+            if ((this.isZoomOutDisabled || this.isZoomInDisabled || action === ZOOM_ACTION.ZOOM_TO_FIT || action === ZOOM_ACTION.ZOOM_TO_VIEW) && document.activeElement !== this.canvasArea) {
+                this.canvasArea.focus();
+            }
+        }
+    };
+
+    /**
+     * Helper method to toggle the pan mode.
+     * @param {String} action - Pan action coming from handleKeyDown or handleTogglePanMode
+     * @private
+     */
+    _togglePan = (action) => {
+        if (action === PAN_ACTION.PAN_ON) {
+            // Enabling pan mode
+            this.isPanModeOn = true;
+            if (!this.isOverlayMouseDown) {
+                this._updateCursorStyling(CURSOR_STYLE_GRAB);
+            }
+        } else if (action === PAN_ACTION.PAN_OFF) {
+            // Disabling pan mode
+            this.isPanModeOn = false;
+            this._updateCursorStyling();
+        }
     };
 
     /**
@@ -436,250 +402,21 @@ export default class Canvas extends LightningElement {
         if (searchedElementArray && searchedElementArray.length === 1) {
             const searchedElement = searchedElementArray[0];
 
-            const viewportCenterX = this.canvasArea.clientWidth / 2;
-            const viewportCenterY = this.canvasArea.clientHeight / 2;
+            const viewportCenterPoint = [this.canvasArea.clientWidth / 2, this.canvasArea.clientHeight / 2];
 
             // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
-            const { newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop } = getDistanceBetweenViewportCenterAndElement(viewportCenterX, viewportCenterY, searchedElement.locationX, searchedElement.locationY, this.currentScale);
+            const { newScaledOffsetLeft, newScaledOffsetTop } = getDistanceBetweenViewportCenterAndElement(viewportCenterPoint, searchedElement.locationX, searchedElement.locationY, this.currentScale);
 
             const panToViewConfig = {
-                currentInnerCanvasOffsetLeft: this.innerCanvasArea.offsetLeft,
-                currentInnerCanvasOffsetTop: this.innerCanvasArea.offsetTop,
-                newInnerCanvasOffsetLeft,
-                newInnerCanvasOffsetTop,
-                viewportCenterX,
-                viewportCenterY
+                originalScaledCenterOffsets: [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop],
+                newScaledCenterOffsets: [newScaledOffsetLeft, newScaledOffsetTop],
+                viewportCenterPoint
             };
 
             // In the element is current not in the viewport, we need to update our offsets to the newly calculated
             // ones and bring the searched canvas element into the center of the viewport
             if (!isElementInViewport(panToViewConfig)) {
-                this._panElementToView(newInnerCanvasOffsetLeft, newInnerCanvasOffsetTop);
-            }
-        }
-    };
-
-    /**
-     * Helper function to set the id on the canvas element container.
-     *
-     * @param {Object} canvasElementContainer - Container of the canvas element
-     * @param {String} canvasElementGuid - Guid of the canvas element
-     * @private
-     */
-    _setIdOnCanvasElementContainer = (canvasElementContainer, canvasElementGuid) => {
-        if (!canvasElementContainer) {
-            throw new Error('canvasElementContainer is not defined. It must be defined.');
-        }
-
-        if (!canvasElementGuid) {
-            throw new Error('canvasElementGuid is not defined. It must be defined.');
-        }
-
-        if (!canvasElementContainer.getAttribute('id')) {
-            canvasElementContainer.setAttribute('id', canvasElementGuid);
-        }
-    };
-
-    /**
-     * Helper function to set the canvas element as draggable using jsPlumb.
-     *
-     * @param {Object} canvasElementContainerTemplate - Template of the canvas element
-     * @param {Object} canvasElementContainer - Container of the canvas element
-     * @param {String} elementType - Type of the canvas element
-     * @private
-     */
-    _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementContainer, elementType) => {
-        if (!canvasElementContainerTemplate) {
-            throw new Error('canvasElementContainerTemplate is not defined. It must be defined.');
-        }
-
-        if (!canvasElementContainer) {
-            throw new Error('canvasElementContainer is not defined. It must be defined.');
-        }
-
-        if (!elementType) {
-            throw new Error('elementType is not defined. It must be defined.');
-        }
-
-        if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
-            lib.setDraggable(canvasElementContainer, {
-                start: canvasElementContainerTemplate.dragStart,
-                stop: canvasElementContainerTemplate.dragStop,
-                drag: canvasElementContainerTemplate.drag
-            });
-        }
-    };
-
-    /**
-     * Helper function to set the canvas element as a target using jsPlumb.
-     *
-     * @param {Object} canvasElementContainer - Container of the canvas element
-     * @param {String} elementType - Type of the canvas element
-     * @private
-     */
-    _setElementAsTarget = (canvasElementContainer, elementType) => {
-        if (!canvasElementContainer) {
-            throw new Error('canvasElementContainer is not defined. It must be defined.');
-        }
-
-        if (!elementType) {
-            throw new Error('elementType is not defined. It must be defined.');
-        }
-
-        if (elementType !== ELEMENT_TYPE.START_ELEMENT && !lib.isTarget(canvasElementContainer)) {
-            lib.makeTarget(canvasElementContainer);
-        }
-    };
-
-    /**
-     * Helper function to set the canvas element as a source using jsPlumb.
-     *
-     * @param {Object} canvasElementContainer - Container of the canvas element
-     * @private
-     */
-    _setElementAsSource = (canvasElementContainer) => {
-        if (!canvasElementContainer) {
-            throw new Error('canvasElementContainer is not defined. It must be defined.');
-        }
-
-        if (!lib.isSource(canvasElementContainer)) {
-            lib.makeSource(canvasElementContainer);
-        }
-    };
-
-    /**
-     * Helper function to update the drag selection based on the isSelected and addToDragSelection config.
-     *
-     * @param {Object} canvasElementContainer - Container of the canvas element
-     * @param {Object} canvasElementConfig - Canvas element's config
-     * @private
-     */
-    _updateDragSelection = (canvasElementContainer, canvasElementConfig = {}) => {
-        if (!canvasElementContainer) {
-            throw new Error('canvasElementContainer is not defined. It must be defined.');
-        }
-
-        if (canvasElementConfig.isSelected || canvasElementConfig.addToDragSelection) {
-            lib.addToDragSelection(canvasElementContainer);
-        } else {
-            lib.removeFromDragSelection(canvasElementContainer);
-        }
-    };
-
-    /**
-     * Helper function to set the id and jsPlumb properties on the canvas elements. Also updates the drag selection and
-     * pans the element into view if needed.
-     *
-     * @param {Object[]} canvasElementTemplates - Array of Canvas Element Templates
-     * @private
-     */
-    _setupCanvasElements = (canvasElementTemplates) => {
-        const canvasElementTemplatesLength = canvasElementTemplates && canvasElementTemplates.length;
-        for (let index = 0; index < canvasElementTemplatesLength; index++) {
-            const canvasElementContainerTemplate = canvasElementTemplates[index];
-            const canvasElementContainer = canvasElementContainerTemplate && canvasElementContainerTemplate.shadowRoot && canvasElementContainerTemplate.shadowRoot.firstChild;
-
-            const canvasElementGuid = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.guid;
-            this._setIdOnCanvasElementContainer(canvasElementContainer, canvasElementGuid);
-
-            const elementType = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.elementType;
-            this._setElementAsDraggable(canvasElementContainerTemplate, canvasElementContainer, elementType);
-            this._setElementAsTarget(canvasElementContainer, elementType);
-            this._setElementAsSource(canvasElementContainer);
-
-            const canvasElementConfig = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.config;
-            this._updateDragSelection(canvasElementContainer, canvasElementConfig);
-        }
-    };
-
-    /**
-     * Helper function to set up a jsPlumb Connection.
-     *
-     * @param {Object} connectorTemplate - Connector's Template object
-     * @param {Object} connector - Object containing the connector data
-     * @returns {Object} jsPlumbConnector - Newly setup jsPlumb connection
-     * @private
-     */
-    _setJsPlumbConnection = (connectorTemplate, connector) => {
-        if (!connectorTemplate) {
-            throw new Error('connectorTemplate is not defined. It must be defined.');
-        }
-
-        if (!connector) {
-            throw new Error('connector is not defined. It must be defined.');
-        }
-
-        const jsPlumbConnector = lib.setExistingConnections(connector.source, connector.target, connector.label, connector.guid, connector.type);
-        connectorTemplate.setJsPlumbConnector(jsPlumbConnector);
-        return jsPlumbConnector;
-    };
-
-    /**
-     * Helper function to update the styling of the connector based on it's selected state.
-     *
-     * @param {Object} connector - Object containing the connector data
-     * @param {Object} jsPlumbConnector - Connector Object provided by jsPlumb
-     * @private
-     */
-    _updateConnectorStyling = (connector, jsPlumbConnector) => {
-        if (!connector) {
-            throw new Error('connector is not defined. It must be defined.');
-        }
-
-        if (!jsPlumbConnector) {
-            throw new Error('jsPlumbConnector is not defined. It must be defined.');
-        }
-
-        if (connector.config.isSelected) {
-            lib.selectConnector(jsPlumbConnector, connector.type);
-        } else {
-            lib.deselectConnector(jsPlumbConnector, connector.type);
-        }
-    };
-
-    /**
-     * Helper function to set up the connector label.
-     *
-     * @param {Object} connector - Object containing the connector data
-     * @param {Object} jsPlumbConnector - Connector Object provided by jsPlumb
-     * @private
-     */
-    _setConnectorLabel = (connector, jsPlumbConnector) => {
-        if (!connector) {
-            throw new Error('connector is not defined. It must be defined.');
-        }
-
-        if (!jsPlumbConnector) {
-            throw new Error('jsPlumbConnector is not defined. It must be defined.');
-        }
-
-        if (jsPlumbConnector.getLabel() !== connector.label) {
-            jsPlumbConnector.setLabel(connector.label);
-        }
-    };
-
-    /**
-     * Helper function to set the jsPlumb properties on the connectors along with updating the styling of the connectors.
-     *
-     * @param {Object[]} connectorTemplates - Array of connector templates
-     * @private
-     */
-    _setupConnectors = (connectorTemplates) => {
-        const connectorTemplatesLength = connectorTemplates && connectorTemplates.length;
-        for (let index = 0; index < connectorTemplatesLength; index++) {
-            const connectorTemplate = connectorTemplates[index];
-            const connector = connectorTemplate && connectorTemplate.connector;
-
-            let jsPlumbConnector = connectorTemplate && connectorTemplate.getJsPlumbConnector && connectorTemplate.getJsPlumbConnector();
-
-            if (!jsPlumbConnector) {
-                jsPlumbConnector = this._setJsPlumbConnection(connectorTemplate, connector);
-                if (connector.config && connector.config.isSelected) {
-                    lib.selectConnector(jsPlumbConnector, connector.type);
-                }
-            } else {
-                this._updateConnectorStyling(connector, jsPlumbConnector);
-                this._setConnectorLabel(connector, jsPlumbConnector);
+                this._updateInnerCanvasPosition(newScaledOffsetLeft, newScaledOffsetTop);
             }
         }
     };
@@ -695,8 +432,8 @@ export default class Canvas extends LightningElement {
 
         lib.setSuspendDrawing(true);
 
-        this._setupCanvasElements(canvasElements);
-        this._setupConnectors(connectors);
+        setupCanvasElements(canvasElements);
+        setupConnectors(connectors);
 
         lib.setSuspendDrawing(false, true);
         lib.repaintEverything(); // This repaint is needed otherwise sometimes the connector is not updated while doing undo/redo.

@@ -1,11 +1,8 @@
 export const CANVAS_EVENT = {
-    CANVAS_MOUSEUP: 'canvasmouseup',
     DRAG_STOP: 'dragnodestop',
     DRAG_NODE: 'dragnode',
     NODE_SELECTED: 'nodeselected',
     NODE_MOUSE_DOWN: 'nodemousedown',
-    CONNECTOR_SELECTED: 'connectorselected',
-    ADD_CONNECTION: 'addconnection',
     ADD_NEW_RESOURCE: 'addnewresource'
 };
 

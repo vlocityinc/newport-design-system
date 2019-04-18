@@ -1,7 +1,7 @@
 // eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
-import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, CANVAS_EVENT, SaveFlowEvent } from 'builder_platform_interaction/events';
+import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, AddConnectionEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './builderUtilsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isObject } from 'builder_platform_interaction/commonUtils';
@@ -95,7 +95,7 @@ const getTitleForModalHeader = (mode, elementType) => {
             titlePrefix = LABELS.newElementHeaderPrefix;
             label = elementConfig.labels.singular;
             break;
-        case CANVAS_EVENT.ADD_CONNECTION:
+        case AddConnectionEvent.EVENT_NAME:
             if (elementType === ELEMENT_TYPE.LOOP) {
                 titlePrefix = LABELS.loopConnectorPickerHeaderPrefix;
             } else {
@@ -289,7 +289,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
  * @return {object} - contains the attr for the editor and panel config
  */
 const getEditorConfig = (mode, attributes) => {
-    if (mode === CANVAS_EVENT.ADD_CONNECTION) {
+    if (mode === AddConnectionEvent.EVENT_NAME) {
         return getConnectorPickerConfig(mode, attributes);
     }
     if (mode === NewResourceEvent.EVENT_NAME) {
