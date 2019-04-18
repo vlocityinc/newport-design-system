@@ -157,7 +157,7 @@ export default class Editor extends LightningElement {
                 logPerfTransactionEnd(SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR);
                 setPeripheralDataForPropertyEditor(data);
                 this.peripheralDataFetched = true;
-            });
+            }).catch(() => {});
             this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
         }
         this.properties = currentState.properties;
