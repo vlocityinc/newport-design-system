@@ -319,7 +319,7 @@ describe('Invocable Action Editor', () => {
                         return resolveRenderCycles(() => {
                             sObjectColParameterCombobox.dispatchEvent(blurEvent);
                             return resolveRenderCycles(() => {
-                                expect(sObjectColParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.GENERIC);
+                                expect(sObjectColParameterCombobox.validity).toEqual(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
                             });
                         });
                     });
