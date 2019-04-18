@@ -152,7 +152,7 @@ export const elementTypeToConfigMap = {
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.SUBFLOW],
             iconBackgroundColor: 'navy',
             maxConnections: 2,
-            section: LABELS.flowControlFlowComponentsLabel,
+            section: LABELS.flowInteractionComponentsLabel,
             description: LABELS.subflowFlowComponentDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -183,7 +183,7 @@ export const elementTypeToConfigMap = {
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ACTION_CALL],
             iconBackgroundColor: 'navy',
             maxConnections: 2,
-            section: LABELS.flowControlFlowComponentsLabel,
+            section: LABELS.flowInteractionComponentsLabel,
             description: LABELS.actionFlowComponentDescription
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -356,7 +356,7 @@ export const elementTypeToConfigMap = {
             utilityIconName: 'utility:screen',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.SCREEN],
             maxConnections: 1,
-            section: LABELS.flowUserInterfaceComponentsLabel,
+            section: LABELS.flowInteractionComponentsLabel,
             description: LABELS.screenComponentDescription
         },
         modalSize: MODAL_SIZE.LARGE,

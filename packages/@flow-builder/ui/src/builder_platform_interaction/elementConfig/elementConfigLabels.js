@@ -68,7 +68,7 @@ import picklistChoiceSetSingularLabel from "@salesforce/label/FlowBuilderElement
 import picklistChoiceSetPluralLabel from "@salesforce/label/FlowBuilderElementConfig.picklistChoiceSetPluralLabel";
 import screenFieldSingularLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel";
 import screenFieldPluralLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel";
-import flowUserInterfaceComponentsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowUserInterfaceComponentsLabel";
+import flowInteractionComponentsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowInteractionComponentsLabel";
 import flowControlLogicLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowControlLogicLabel";
 import flowControlDataOperationsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowControlDataOperationsLabel";
 import flowControlFlowComponentsLabel from "@salesforce/label/FlowBuilderLeftPanelElements.flowControlFlowComponentsLabel";
@@ -184,9 +184,9 @@ export const LABELS = {
     screenFieldSingularLabel,
     screenFieldPluralLabel,
     flowControlLogicLabel,
-    flowUserInterfaceComponentsLabel,
     flowControlDataOperationsLabel,
     flowControlFlowComponentsLabel,
+    flowInteractionComponentsLabel,
     screenComponentLabel,
     assignmentLogicLabel,
     decisionLogicLabel,

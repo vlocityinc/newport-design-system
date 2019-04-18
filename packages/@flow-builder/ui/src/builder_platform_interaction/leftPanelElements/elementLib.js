@@ -9,12 +9,9 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
  * @returns {Array} sorted element type list based on custom ordering
  */
 function sortElementTypes(unsortedElementTypes = []) {
-    const elementOrderedList = [ELEMENT_TYPE.SCREEN, ELEMENT_TYPE.ASSIGNMENT, ELEMENT_TYPE.DECISION, ELEMENT_TYPE.WAIT, ELEMENT_TYPE.LOOP,
-        ELEMENT_TYPE.RECORD_CREATE, ELEMENT_TYPE.RECORD_UPDATE, ELEMENT_TYPE.RECORD_LOOKUP, ELEMENT_TYPE.RECORD_DELETE, ELEMENT_TYPE.ACTION_CALL,
-        ELEMENT_TYPE.SUBFLOW, ELEMENT_TYPE.APEX_PLUGIN_CALL];
-    return [...unsortedElementTypes].sort((firstElementType, secondElementType) => {
-        return elementOrderedList.indexOf(firstElementType.elementType) - elementOrderedList.indexOf(secondElementType.elementType);
-    });
+    const elementOrderedList = [ELEMENT_TYPE.SCREEN,  ELEMENT_TYPE.ACTION_CALL, ELEMENT_TYPE.SUBFLOW, ELEMENT_TYPE.ASSIGNMENT, ELEMENT_TYPE.DECISION,
+        ELEMENT_TYPE.WAIT, ELEMENT_TYPE.LOOP, ELEMENT_TYPE.RECORD_CREATE, ELEMENT_TYPE.RECORD_UPDATE, ELEMENT_TYPE.RECORD_LOOKUP, ELEMENT_TYPE.RECORD_DELETE, ELEMENT_TYPE.APEX_PLUGIN_CALL];
+    return [...unsortedElementTypes].sort((firstElementType, secondElementType) => elementOrderedList.indexOf(firstElementType.elementType) - elementOrderedList.indexOf(secondElementType.elementType));
 }
 
 /**
