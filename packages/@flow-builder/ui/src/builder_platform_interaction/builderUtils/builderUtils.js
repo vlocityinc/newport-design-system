@@ -528,8 +528,7 @@ export const invokeNewFlowModal = (closeFlowModalAction, createFlowFromTemplateC
             },
         }
     );
-
-    invokeModalWithComponents({ bodyClass: 'slds-p-around_none', flavor: MODAL_SIZE.LARGE, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback }, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+    invokeModalWithComponents({ bodyClass: 'slds-p-around_none slds-is-relative', flavor: MODAL_SIZE.LARGE, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback }, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
 };
 
 /**
