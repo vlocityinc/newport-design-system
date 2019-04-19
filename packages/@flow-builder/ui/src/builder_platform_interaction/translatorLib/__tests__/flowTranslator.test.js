@@ -125,7 +125,7 @@ const ignoreIfNotInExpected = (paths) => (givenElement, expectedElement, key, gi
 };
 
 const stringifyExpectedNumberValue = (givenElement, expectedElement, key, givenValue, expectedValue) => {
-    if (expectedElement && key === 'numberValue' && typeof expectedValue == 'number') {
+    if (expectedElement && (key === 'numberValue' || key === 'limit') && typeof expectedValue == 'number') {
         expectedElement[key] = expectedValue.toString();
     }
 };

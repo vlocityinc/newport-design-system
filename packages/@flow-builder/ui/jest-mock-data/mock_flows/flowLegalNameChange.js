@@ -294,7 +294,7 @@ export const flowLegalNameChange = {
       {
         "dataType": "Picklist",
         "filters": [],
-        "limit": 0,
+        "limit": 5,
         "name": "Salutation",
         "outputAssignments": [],
         "picklistField": "Salutation",
@@ -1111,7 +1111,7 @@ export const flowLegalNameChange = {
             "fieldText": "Salutation",
             "fieldType": "DropdownBox",
             "inputParameters": [],
-            "isRequired": false,
+            "isRequired": true,
             "isVisible": false,
             "name": "New_Salutation",
             "outputParameters": [],
