@@ -23,6 +23,7 @@ const SELECTORS = {
 
 const CURSOR_STYLE_GRAB = 'grab';
 const CURSOR_STYLE_GRABBING = 'grabbing';
+const CURSOR_STYLE_CROSSHAIR = 'crosshair';
 const CURSOR_STYLE_DEFAULT = 'default';
 
 export default class Canvas extends LightningElement {
@@ -30,15 +31,23 @@ export default class Canvas extends LightningElement {
     @api connectors = [];
 
     @track isPanModeOn = false;
+    @track isMarqueeModeOn = false;
     @track isZoomOutDisabled = false;
     @track isZoomInDisabled = true;
     @track isZoomToView = true;
+    @track marqueeEndPoint = [0, 0];
 
     canvasArea;
     innerCanvasArea;
 
     // Scaling variable used for zooming
     currentScale = 1.0;
+
+    // Variable to keep a track of when mouse is down on the canvas and pan mode is turned off
+    shouldCreateMarqueeBox = false;
+
+    // Mouse position variables used for marquee selection
+    marqueeStartPoint = [0, 0];
 
     // Variable to keep a track of when mouse is down on the overlay
     isOverlayMouseDown = false;
@@ -83,12 +92,57 @@ export default class Canvas extends LightningElement {
     /* ********************** */
 
     /**
+     * Handling mouse enter event for canvas. If mouse enter happens from outside the canvas,
+     * only init the marquee box with current mouse position when mouse is down.
+     *
+     * @param {object} event - mouse enter event
+     */
+    handleCanvasMouseEnter = (event) => {
+         if (!this.isPanModeOn && (event.buttons === 1 || event.buttons === 3)) {
+             this._initMarqueeBox(event);
+         }
+    };
+
+    /**
+     * Handling mouse leave event for canvas. If mouse leave happens on canvas, clear the marquee box.
+     */
+    handleCanvasMouseLeave = () => {
+        if (this.isMarqueeModeOn) {
+            this._clearMarqueeBox();
+        }
+    };
+
+    /**
+     * Handling mouse down event for canvas. If mouse down happens on canvas then init marquee box with current mouse position.
+     *
+     * @param {object} event - mouse down event
+     */
+    handleCanvasMouseDown = (event) => {
+        if (!this.isPanModeOn) {
+            this._initMarqueeBox(event);
+        }
+    };
+
+    /**
+     * Handling mouse move event for canvas. If mouse move happens on canvas,
+     * only update marquee box end position with current mouse position when shouldCreateMarqueeBox.
+     *
+     * @param {object} event - mouse move event
+     */
+    handleCanvasMouseMove = (event) => {
+        if (this.shouldCreateMarqueeBox) {
+            this.marqueeEndPoint = this._getMousePoint(event);
+            this.isMarqueeModeOn = true;
+        }
+    };
+
+    /**
      * Handling mouse up event for canvas. If mouse up happens directly on canvas/innerCanvas then marking the nodes
-     * as unselected.
+     * as unselected, and clear the marquee box.
      * @param {object} event - mouse up event
      */
     handleCanvasMouseUp = (event) => {
-        event.preventDefault();
+        this._clearMarqueeBox();
         this.canvasArea.focus();
         if (event.target && (event.target.classList.contains('canvas') || event.target.classList.contains('inner-canvas'))) {
             const canvasMouseUpEvent = new CanvasMouseUpEvent();
@@ -105,7 +159,7 @@ export default class Canvas extends LightningElement {
             event.preventDefault();
             const deleteEvent = new DeleteElementEvent();
             this.dispatchEvent(deleteEvent);
-        } else if ((event.metaKey || event.ctrlKey) && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL) && !this.isOverlayMouseDown) {
+        } else if ((event.metaKey || event.ctrlKey) && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL) && !this.isOverlayMouseDown && !this.shouldCreateMarqueeBox) {
             // Code block for zooming shortcuts
             event.preventDefault();
             if (event.key === KEYS.NEGATIVE) {
@@ -117,7 +171,7 @@ export default class Canvas extends LightningElement {
             } else if (event.key === KEYS.EQUAL) {
                 this._canvasZoom(ZOOM_ACTION.ZOOM_IN);
             }
-        } else if (event.key === KEYS.SPACE && !this.isPanModeOn) {
+        } else if (event.key === KEYS.SPACE && !this.isPanModeOn && !this.shouldCreateMarqueeBox) {
             // Code block for enabling panning mode
             event.preventDefault();
             this._togglePan(PAN_ACTION.PAN_ON);
@@ -176,7 +230,7 @@ export default class Canvas extends LightningElement {
      * @param {object} event - mouse enter event
      */
     handleOverlayMouseEnter = (event) => {
-        event.preventDefault();
+        event.stopPropagation();
         // Checks if mouse is down while entering the overlay
         if (event.buttons === 1 || event.buttons === 3) {
             this._handlePanStart(event);
@@ -191,7 +245,7 @@ export default class Canvas extends LightningElement {
      * @param {object} event - mouse leave event
      */
     handleOverlayMouseLeave = (event) => {
-        event.preventDefault();
+        event.stopPropagation();
         if (this.isOverlayMouseDown) {
             this.isOverlayMouseDown = false;
         }
@@ -287,9 +341,12 @@ export default class Canvas extends LightningElement {
         } else if (cursorStyle === CURSOR_STYLE_GRABBING) {
             this.canvasArea.classList.remove('grab');
             this.canvasArea.classList.add('grabbing');
+        } else if (cursorStyle === CURSOR_STYLE_CROSSHAIR) {
+            this.canvasArea.classList.add('crosshair');
         } else {
             this.canvasArea.classList.remove('grab');
             this.canvasArea.classList.remove('grabbing');
+            this.canvasArea.classList.remove('crosshair');
         }
     };
 
@@ -306,6 +363,26 @@ export default class Canvas extends LightningElement {
     };
 
     /**
+     * Init marquee box in canvas - set shouldCreateMarqueeBox to true, update cursor to 'crosshair' and set new starting position
+     *
+     * @param event
+     */
+    _initMarqueeBox = (event) => {
+        this.shouldCreateMarqueeBox = true;
+        this._updateCursorStyling(CURSOR_STYLE_CROSSHAIR);
+        this.marqueeStartPoint = this._getMousePoint(event);
+    };
+
+    /**
+     * Clear marquee box in canvas - reset shouldCreateMarqueeBox and isMarqueeModeOn to false and update cursor to default
+     */
+    _clearMarqueeBox = () => {
+        this.shouldCreateMarqueeBox = false;
+        this.isMarqueeModeOn = false;
+        this._updateCursorStyling();
+    };
+
+    /**
      * Helper method to updated the offsets of the innerCanvas.
      * @param {Number} scaledOffsetLeft - left offset on a given scale
      * @param {Number} scaledOffsetTop - top offset on a given scale
@@ -314,23 +391,6 @@ export default class Canvas extends LightningElement {
     _updateInnerCanvasPosition = (scaledOffsetLeft = 0, scaledOffsetTop = 0) => {
         this.innerCanvasArea.style.left = scaledOffsetLeft + 'px';
         this.innerCanvasArea.style.top = scaledOffsetTop + 'px';
-    };
-
-    /**
-     * Helper method used for starting panning on canvas. It's called on mouse down on the overlay or when the user
-     * enters the overlay with the mouse down.
-     * @param event
-     * @private
-     */
-    _handlePanStart = (event) => {
-        this.isOverlayMouseDown = true;
-        this._updateCursorStyling(CURSOR_STYLE_GRABBING);
-
-        // Calculating mouse coordinates on mouse down
-        this.overlayMouseDownPoint = this._getMousePoint(event);
-
-        // Getting the scaled offset values of the inner canvas when mouse down happens
-        this.scaledOffsetsOnPanStart = [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop];
     };
 
     /**
@@ -389,6 +449,23 @@ export default class Canvas extends LightningElement {
             this.isPanModeOn = false;
             this._updateCursorStyling();
         }
+    };
+
+    /**
+     * Helper method used for starting panning on canvas. It's called on mouse down on the overlay or when the user
+     * enters the overlay with the mouse down.
+     * @param event
+     * @private
+     */
+    _handlePanStart = (event) => {
+        this.isOverlayMouseDown = true;
+        this._updateCursorStyling(CURSOR_STYLE_GRABBING);
+
+        // Calculating mouse coordinates on mouse down
+        this.overlayMouseDownPoint = this._getMousePoint(event);
+
+        // Getting the scaled offset values of the inner canvas when mouse down happens
+        this.scaledOffsetsOnPanStart = [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop];
     };
 
     /**

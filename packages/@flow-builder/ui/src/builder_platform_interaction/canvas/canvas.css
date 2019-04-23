@@ -24,6 +24,12 @@
     cursor: -webkit-grabbing;
 }
 
+.canvas.crosshair {
+    cursor: crosshair;
+    cursor: -moz-crosshair;
+    cursor: -webkit-crosshair;
+}
+
 .canvas .inner-canvas {
     height: 100%;
     width: 100%;

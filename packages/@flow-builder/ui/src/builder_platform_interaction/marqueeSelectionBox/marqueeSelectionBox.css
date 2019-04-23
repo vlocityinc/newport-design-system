@@ -1,0 +1,4 @@
+.selection-box {
+    border: 1px solid var(--lwc-colorBorderBrand);
+    z-index: 406;
+}
