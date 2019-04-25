@@ -27,6 +27,7 @@ export const SERVER_ACTION_TYPE = {
     GET_EVENT_TYPES: 'getEventTypes',
     GET_EVENT_TYPE_PARAMETERS: 'getParametersForEventType',
     GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR: 'getPeripheralDataForPropertyEditor',
+    GET_APEX_TYPES: 'getApexTypes',
     GET_TEMPLATES: 'getTemplates',
     GET_TEMPLATE_DATA: 'getTemplateData',
 };
@@ -58,6 +59,7 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: 'c.getEventTypes',
     [SERVER_ACTION_TYPE.GET_EVENT_TYPE_PARAMETERS]: 'c.getParametersForEventType',
     [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: 'c.getPeripheralDataForPropertyEditor',
+    [SERVER_ACTION_TYPE.GET_APEX_TYPES]: 'c.getApexTypes',
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: 'c.getTemplates',
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: 'c.getTemplateData',
 };
@@ -115,6 +117,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: (params) => params.entityApiName,
     [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: (params) => params.flowName,
     [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: (params) => params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_APEX_TYPES]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: (params) => params.processTypes,
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: (params) => params.versionIdOrEnum,
 };

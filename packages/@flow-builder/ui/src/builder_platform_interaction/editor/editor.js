@@ -21,7 +21,7 @@ import { getElementForPropertyEditor, getElementForStore } from 'builder_platfor
 import { diffFlow } from "builder_platform_interaction/metadataUtils";
 import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessful, updateUrl,
     updateStoreAfterSaveAsNewFlowIsFailed, updateStoreAfterSaveAsNewVersionIsFailed, setFlowErrorsAndWarnings,
-    flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, getDuplicateElementGuidMaps,
+    flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, setApexClassesForPropertyEditor, getDuplicateElementGuidMaps,
     getConnectorToDuplicate, highlightCanvasElement, getSelectedTemplate, setErrorMessage, closeModalAndNavigateTo, createStartElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 import { getProcessTypes, setProcessTypes } from 'builder_platform_interaction/systemLib';
@@ -159,6 +159,14 @@ export default class Editor extends LightningElement {
                 this.peripheralDataFetched = true;
             }).catch(() => {});
             this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
+            // fetching for apex type.
+            fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {
+                flowProcessType: currentState.properties.processType,
+            }).then(data => {
+                setApexClassesForPropertyEditor(data);
+                // this is used for indicating if the apex info is fetched.
+                this.apexInfoFetched = true;
+            });
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();

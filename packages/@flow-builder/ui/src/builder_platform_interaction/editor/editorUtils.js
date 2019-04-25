@@ -220,7 +220,7 @@ const setSystemVariableAndUpdateCache = (systemVariables) => {
     setSystemVariables(systemVariables);
 };
 
-export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, globalVariables, systemVariables, entities, apexTypes}) => {
+export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTypes, eventTypes, globalVariables, systemVariables, entities}) => {
     setRules(rules);
     setOperators(operators);
     setResourceTypes(resourceTypes);
@@ -228,6 +228,9 @@ export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTy
     setGlobalVariableAndUpdateCache(globalVariables);
     setSystemVariableAndUpdateCache(systemVariables);
     setEntities(entities);
+};
+
+export const setApexClassesForPropertyEditor = ({apexTypes}) => {
     setApexClasses(apexTypes);
 };
 
