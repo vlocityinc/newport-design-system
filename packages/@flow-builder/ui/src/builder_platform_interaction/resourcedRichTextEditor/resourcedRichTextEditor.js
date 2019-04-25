@@ -7,8 +7,8 @@ import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEdi
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
-// all formats except 'video'
-const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'strike', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean', 'image'];
+// all formats except 'strike' and 'video'
+const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean', 'image'];
 
 const SELECTORS = {
     INPUT_RICH_TEXT: 'lightning-input-rich-text',
