@@ -46,3 +46,10 @@ export const getTemplates = (processType) => {
 export const getAllTemplates = () => {
     return allTemplates;
 };
+
+/**
+ * Use to reset the cache in tests
+ */
+export const resetCacheTemplates = () => {
+    allTemplates = {};
+};

@@ -14,3 +14,46 @@ export const MOCK_PROCESS_TYPES = { FEATURED : [
 };
 
 export const MOCK_ALL_PROCESS_TYPES = [...MOCK_PROCESS_TYPES.FEATURED, ...MOCK_PROCESS_TYPES.OTHERS];
+
+export const MOCK_RAW_PROCESS_TYPES = [{
+        durableId:null,
+        enumOrId:null,
+        fullName:null,
+        isFlowManaged:null,
+        label:"Autolaunched Flow",
+        metadata:null,
+        name:"AutoLaunchedFlow",
+        id: null,
+        fieldsToNull: []
+    }, {
+        durableId:null,
+        enumOrId:null,
+        fullName:null,
+        isFlowManaged:null,
+        label:"Contact Request Flow",
+        metadata:null,
+        name:"ContactRequestFlow",
+        id: null,
+        fieldsToNull: []
+    }, {
+        durableId:null,
+        enumOrId:null,
+        fullName:null,
+        isFlowManaged:null,
+        label:"Screen Flow",
+        metadata:null,
+        name:"Flow",
+        id: null,
+        fieldsToNull: []
+    }, {
+        durableId:null,
+        enumOrId:null,
+        fullName:null,
+        isFlowManaged:null,
+        label:"User Provisioning Flow",
+        metadata:null,
+        name:"UserProvisioningFlow",
+        id: null,
+        fieldsToNull: []
+    }];
+
