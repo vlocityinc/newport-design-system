@@ -1,21 +1,45 @@
 /*set the icon's color to the parent's background color*/
 .slds-icon-utility-check  {
-    color: var(--lwc-colorBackgroundAlt);
-}
-
-.slds-media__body {
-    height: calc(var(--lwc-sizeXxSmall) - var(--lwc-spacingXSmall)*2);
+    color: white;
 }
 
 .slds-visual-picker_vertical .slds-visual-picker__figure {
-    padding: var(--lwc-spacingXSmall);
+    padding: 0.5rem;
 }
 
-.slds-visual-picker input:not(:checked) ~ label .slds-visual-picker__figure:not(:hover) {
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
-  border: var(--lwc-borderWidthThin) solid var(--lwc-colorBorder);
+.slds-media__body {
+    height: 5rem;
 }
 
-.slds-visual-picker__text-check {
-  top: 0.1rem;
+/*truncate the text to 3 lines*/
+.slds-text-title {
 }
+
+.text-content {
+/* Over flow hidden hides the text if it is more than N lines  */
+    line-height: 1.2em;
+    max-height: 3.6em; 
+    overflow: hidden;
+    position: relative;
+}
+
+ /* create the ... */
+    .text-content:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;;
+    }
+
+    /* hide ... if we have text, which is less than or equal to max lines */
+    .text-content:after {
+    /* points in the end */
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: white
+    }
+
