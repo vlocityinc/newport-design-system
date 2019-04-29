@@ -37,7 +37,7 @@ describe('Convert richText', () => {
     beforeAll(() => {
         previousXMLSerializer = window.XMLSerializer;
         window.XMLSerializer = jest.fn(() => ({
-            // eslint-disable-next-line lwc/no-inner-html
+            // eslint-disable-next-line @lwc/lwc/no-inner-html
             serializeToString: (xmlDoc) =>  xmlDoc.outerHTML
         }));
     });

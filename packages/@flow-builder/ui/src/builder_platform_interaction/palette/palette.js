@@ -14,7 +14,7 @@ export default class Palette extends LightningElement {
     @api showLocatorIcon;
 
     @api
-    // eslint-disable-next-line lwc/valid-api
+    // eslint-disable-next-line @lwc/lwc/valid-api
     get data() {
         return this.rows;
     }

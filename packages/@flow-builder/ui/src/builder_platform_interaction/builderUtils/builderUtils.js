@@ -1,4 +1,4 @@
-// eslint-disable-next-line lwc/no-compat-create, lwc/no-compat-dispatch
+// eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
 import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, AddConnectionEvent, SaveFlowEvent } from 'builder_platform_interaction/events';

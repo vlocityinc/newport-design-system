@@ -322,7 +322,7 @@ class DrawingLib {
      * @param {String} nodeId - The node id
      */
     removeNodeFromLib = (nodeId) => {
-        // eslint-disable-next-line lwc/no-document-query
+        // eslint-disable-next-line @lwc/lwc/no-document-query
         const canvasElementContainer = document.getElementById(nodeId);
         if (canvasElementContainer) {
             instance.removeFromDragSelection(canvasElementContainer);
