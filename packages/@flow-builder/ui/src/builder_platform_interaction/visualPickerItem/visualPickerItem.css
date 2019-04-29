@@ -1,6 +1,6 @@
 /*set the icon's color to the parent's background color*/
 .slds-icon-utility-check  {
-    color: white;
+    color: var(--lwc-colorBackgroundAlt);
 }
 
 .slds-visual-picker_vertical .slds-visual-picker__figure {
@@ -12,9 +12,6 @@
 }
 
 /*truncate the text to 3 lines*/
-.slds-text-title {
-}
-
 .text-content {
 /* Over flow hidden hides the text if it is more than N lines  */
     line-height: 1.2em;
@@ -24,15 +21,15 @@
 }
 
  /* create the ... */
-    .text-content:before {
+.text-content:before {
     content: '...';
     position: absolute;
     right: 0;
-    bottom: 0;;
-    }
+    bottom: 0;
+}
 
-    /* hide ... if we have text, which is less than or equal to max lines */
-    .text-content:after {
+/* hide ... if we have text, which is less than or equal to max lines */
+.text-content:after {
     /* points in the end */
     content: '';
     position: absolute;
@@ -40,6 +37,6 @@
     width: 1em;
     height: 1em;
     margin-top: 0.2em;
-    background: white
-    }
+    background: var(--lwc-colorBackgroundAlt);
+}
 
