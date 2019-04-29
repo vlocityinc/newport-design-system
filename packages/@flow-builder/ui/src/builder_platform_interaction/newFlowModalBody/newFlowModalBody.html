@@ -1,7 +1,7 @@
 <template>
     <!-- should be replaced by stencil placeholder: W-5921905 -->
     <div class='slds-grid' if:false={state.processTypesFetched}>
-        <lightning-spinner size='medium' variant='brand' class='spinner'></lightning-spinner>
+        <lightning-spinner size='medium' variant='brand' class='spinner' alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
     </div>
     <div class='slds-grid' if:true={state.processTypesFetched}>
         <div class='slds-size_small slds-grow-none slds-shrink-none'>        

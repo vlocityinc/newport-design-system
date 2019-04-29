@@ -2,8 +2,11 @@ import { LightningElement, api, track } from 'lwc';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 import { setProcessTypes, getProcessTypes } from 'builder_platform_interaction/systemLib';
+import { LABELS } from 'builder_platform_interaction/processTypeLib';
 
 export default class NewFlowModalBody extends LightningElement {
+    labels = LABELS;
+
     @track state = {
             // the selected process type in process type navigation tree
             selectedProcessType: ALL_PROCESS_TYPE.name,

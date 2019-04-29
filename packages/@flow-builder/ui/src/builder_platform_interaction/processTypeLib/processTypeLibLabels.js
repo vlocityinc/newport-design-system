@@ -9,11 +9,13 @@ import newFieldServiceMobileDescription from '@salesforce/label/FlowBuilderProce
 import newFieldServiceWebDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription';
 import newProcessTypeDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newProcessTypeDescription';
 import newContactRequestFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription';
+import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 
 export const LABELS = {
     featured,
     templates,
     newProcessTypeDescription,
+    spinnerAlternativeText,
     [FLOW_PROCESS_TYPE.FLOW] : newFlowDescription,
     [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW] : newAutolaunchedFlowDescription,
     [FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW] : newUserProvisioningFlowDescription,

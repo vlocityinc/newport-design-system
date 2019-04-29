@@ -7,7 +7,7 @@
         </div>
         <!--Templates section-->
         <div class='templates slds-template__container'>
-            <lightning-spinner if:true={displaySpinner} size='medium' variant='brand' class='spinner'></lightning-spinner>
+            <lightning-spinner if:true={displaySpinner} size='medium' variant='brand' class='spinner' alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
             <!--List of templates-->
             <builder_platform_interaction-visual-picker-list if:false={hasNoTemplates} items={state.templates} title={labels.templates} onvisualpickerlistchanged={handleTemplateChanged}>
             </builder_platform_interaction-visual-picker-list>
