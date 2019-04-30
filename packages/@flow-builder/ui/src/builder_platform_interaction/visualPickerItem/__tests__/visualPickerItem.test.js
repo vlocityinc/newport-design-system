@@ -22,7 +22,7 @@ const SELECTORS = {
     MEDIA_FIGURE: '.slds-media__figure ',
     VISUAL_PICKER_TEXT: '.slds-visual-picker input:checked ~ label .slds-visual-picker__text',
     LABEL: '.slds-media__body .slds-text-heading_small',
-    DESCRIPTION: '.slds-media__body .slds-text-title',
+    DESCRIPTION: '.slds-media__body .text-content',
     LIGHTNING_ICON: 'lightning-icon',
     CHECKBOX: 'input[type="checkbox"]',
 };
