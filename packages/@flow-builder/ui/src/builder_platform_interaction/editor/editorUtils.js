@@ -230,7 +230,7 @@ export const setPeripheralDataForPropertyEditor = ({rules, operators, resourceTy
     setEntities(entities);
 };
 
-export const setApexClassesForPropertyEditor = ({apexTypes}) => {
+export const setApexClassesForPropertyEditor = (apexTypes) => {
     setApexClasses(apexTypes);
 };
 

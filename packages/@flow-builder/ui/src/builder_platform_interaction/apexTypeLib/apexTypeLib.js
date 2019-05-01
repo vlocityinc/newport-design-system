@@ -47,10 +47,6 @@ export const getApexClasses = () => {
  * @param {String} name     name of the apex class
  */
 export const cachePropertiesForClass = (name) => {
-    if (apexFieldsForClass[name]) {
-        return;
-    }
-
     const apexClass = apexClasses.find(clazz => {
         return clazz.durableId === name;
     });
@@ -63,8 +59,6 @@ export const cachePropertiesForClass = (name) => {
 };
 
 export const getPropertiesForClass = (clazz) => {
-    if (apexFieldsForClass[clazz] === undefined) {
-        cachePropertiesForClass(clazz);
-    }
+    cachePropertiesForClass(clazz);
     return apexFieldsForClass[clazz];
 };

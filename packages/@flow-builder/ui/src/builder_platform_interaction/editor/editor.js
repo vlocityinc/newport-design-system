@@ -98,6 +98,7 @@ export default class Editor extends LightningElement {
         storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib, groupedActions}));
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data => this.getHeaderUrlsCallBack(data));
+        this.retrieveApexInfo();
     }
 
     @api
@@ -159,14 +160,6 @@ export default class Editor extends LightningElement {
                 this.peripheralDataFetched = true;
             }).catch(() => {});
             this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
-            // fetching for apex type.
-            fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {
-                flowProcessType: currentState.properties.processType,
-            }).then(data => {
-                setApexClassesForPropertyEditor(data);
-                // this is used for indicating if the apex info is fetched.
-                this.apexInfoFetched = true;
-            });
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
@@ -755,4 +748,12 @@ export default class Editor extends LightningElement {
         createStartElement(storeInstance);
         this.disableSave = false;
     };
+
+    retrieveApexInfo = () => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}).then(data => {
+            setApexClassesForPropertyEditor(data);
+            // this is used for indicating if the apex info is fetched.
+            this.apexInfoFetched = true;
+        });
+    }
 }
