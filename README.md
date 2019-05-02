@@ -47,7 +47,13 @@ gulp lint
 
 ### `npm run build && npm run dist`
 
-Generate the Lightning Design System into the `.dist` directory.
+Generate the Lightning Design System into the `.dist` directory and generate a zipped up version to be uploaded into Salesforce in the `dist` folder.
+
+If you also want to deploy it to an org then run it with the following env variables:
+
+```bash
+SF_USERNAME=myusername@email.com SF_PASSWORD=mypassword npm run dist
+```
 
 ### `gulp styles`
 

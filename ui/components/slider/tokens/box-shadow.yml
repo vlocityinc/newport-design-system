@@ -4,7 +4,10 @@ global:
   cssProperties:
   - box-shadow
 imports:
+- "../../../../design-tokens/vlocity-newport-skin/aliases/color.yml"
 - "../../../../design-tokens/force-base/aliases/color.yml"
 props:
   SLIDER_HANDLE_SHADOW:
     value: '{!BLACK_TRANSPARENT_16} 0 2px 3px'
+  SLIDER_HANDLE_SHADOW_FOCUS:
+    value: '0 0 3px {!NEWPORT_COLOR_BRAND_ORANGE}'
