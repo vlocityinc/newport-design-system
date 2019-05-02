@@ -17,12 +17,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+        0 - 100
       </span>
     </span>
   </label>
@@ -40,12 +35,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+        0 - 100
       </span>
     </span>
   </label>
@@ -63,12 +53,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -86,12 +71,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -109,12 +89,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -132,12 +107,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -155,12 +125,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -178,12 +143,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        400
-
+        0 - 400
       </span>
     </span>
   </label>
@@ -201,12 +161,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        400
-
+      0 - 400
       </span>
     </span>
   </label>
@@ -224,12 +179,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -247,12 +197,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -270,12 +215,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -293,12 +233,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>
@@ -316,12 +251,7 @@ storiesOf(`${base}`, module)
     <span class="nds-slider-label">
       <span class="nds-slider-label__label">Slider Label</span>
       <span class="nds-slider-label__range">
-        0
-
-        -
-
-        100
-
+      0 - 100
       </span>
     </span>
   </label>

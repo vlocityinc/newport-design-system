@@ -13,6 +13,8 @@ const postcss = require('gulp-postcss');
 const rimraf = require('rimraf');
 const sass = require('gulp-sass');
 const minifycss = require('gulp-minify-css');
+const zip = require('gulp-zip');
+const forceDeploy = require('gulp-jsforce-deploy');
 const packageJSON = require('../package.json');
 const paths = require('./helpers/paths');
 
@@ -33,13 +35,15 @@ const distPath = path.resolve.bind(path, paths.dist);
 async.series(
   [
     /**
-   * Clean the dist folder
-   */
+     * Clean the dist folder
+     */
     done => rimraf(distPath(), done),
 
+    done => rimraf('dist', done),
+
     /**
-   * Copy necessary root files to be included in the final module
-   */
+     * Copy necessary root files to be included in the final module
+     */
     done => {
       gulp
         .src(['./package.json', './README-dist.md', './RELEASENOTES*'], {
@@ -51,8 +55,8 @@ async.series(
     },
 
     /**
-   * Cleanup the package.json
-   */
+     * Cleanup the package.json
+     */
     done => {
       const packageJSON = JSON.parse(
         fs.readFileSync(distPath('package.json')).toString()
@@ -76,8 +80,8 @@ async.series(
     // //////////////////////////////////
 
     /**
-   * Move all the scss files to dist/scss
-   */
+     * Move all the scss files to dist/scss
+     */
     done => {
       gulp
         .src(['**/*.scss', '**/*.rtl.scss'], {
@@ -90,8 +94,8 @@ async.series(
     },
 
     /**
-   * Copy the Sass license
-   */
+     * Copy the Sass license
+     */
     done => {
       gulp
         .src('licenses/License-for-Sass.txt', {
@@ -107,8 +111,8 @@ async.series(
     // //////////////////////////////////
 
     /**
-   * Copy all the icons to assets/icons
-   */
+     * Copy all the icons to assets/icons
+     */
     done => {
       gulp
         .src(
@@ -123,8 +127,8 @@ async.series(
     },
 
     /**
-   * Copy the list to assets/icons
-   */
+     * Copy the list to assets/icons
+     */
     done => {
       gulp
         .src('@salesforce-ux/icons/dist/ui.icons.json', {
@@ -140,8 +144,8 @@ async.series(
     // //////////////////////////////////
 
     /**
-   * Copy all the fonts to assets/fonts
-   */
+     * Copy all the fonts to assets/fonts
+     */
     done => {
       gulp
         .src(['fonts/**/*', '!**/*.ttf'], {
@@ -153,8 +157,8 @@ async.series(
     },
 
     /**
-   * Copy font license
-   */
+     * Copy font license
+     */
     done => {
       gulp
         .src('licenses/License-for-font.txt', {
@@ -184,8 +188,8 @@ async.series(
     },
 
     /**
-   * Copy images license
-   */
+     * Copy images license
+     */
     done => {
       gulp
         .src('licenses/License-for-images.txt', {
@@ -201,8 +205,8 @@ async.series(
     // //////////////////////////////////
 
     /**
-   * Copy the swatches
-   */
+     * Copy the swatches
+     */
     done => {
       gulp
         .src('downloads/swatches/**', {
@@ -218,8 +222,8 @@ async.series(
     // //////////////////////////////////
 
     /**
-   * Move design tokens
-   */
+     * Move design tokens
+     */
     done => {
       gulp
         .src('**/*.*', {
@@ -232,8 +236,8 @@ async.series(
     },
 
     /**
-   * Move component design tokens
-   */
+     * Move component design tokens
+     */
     done => {
       gulp
         .src('components/**/tokens/**/*.yml', {
@@ -246,8 +250,8 @@ async.series(
     },
 
     /**
-   * Build design system and vf css from the scss files. The big one!
-   */
+     * Build design system and vf css from the scss files. The big one!
+     */
     done => {
       gulp
         .src([
@@ -262,7 +266,13 @@ async.series(
           })
         )
         .pipe(sass().on('error', sass.logError))
-        .pipe(postcss([autoprefixer({ remove: false })]))
+        .pipe(
+          postcss([
+            autoprefixer({
+              remove: false
+            })
+          ])
+        )
         .pipe(
           gulprename(function(path) {
             if (!/nds-fonts/.test(path.basename)) {
@@ -278,8 +288,8 @@ async.series(
         .on('finish', done);
     },
     /**
-   * Minify CSS
-   */
+     * Minify CSS
+     */
     done => {
       gulp
         .src(
@@ -287,7 +297,9 @@ async.series(
             distPath('assets/styles/*.css'),
             distPath('assets/styles/*.rtl.css')
           ],
-          { base: distPath() }
+          {
+            base: distPath()
+          }
         )
         .pipe(gulp.dest(distPath()))
         .on('error', done)
@@ -310,8 +322,8 @@ async.series(
     },
 
     /**
-   * Add version to relevant CSS and Sass files
-   */
+     * Add version to relevant CSS and Sass files
+     */
     done => {
       gulp
         .src(['**/*.css', '**/*.rtl.css', 'scss/index*'], {
@@ -336,8 +348,8 @@ async.series(
     },
 
     /**
-   * Add build date to README.txt
-   */
+     * Add build date to README.txt
+     */
     done => {
       gulp
         .src(distPath('README-dist.md'))
@@ -353,8 +365,8 @@ async.series(
     },
 
     /**
-   * Remove old README-dist
-   */
+     * Remove old README-dist
+     */
     done => {
       rimraf(distPath('README-dist.md'), done);
     },
@@ -375,6 +387,50 @@ async.series(
     },
     done => {
       rimraf(distPath('assets/icons/**/*.png'), done);
+    },
+    done => {
+      gulp
+        .src(distPath('**/*'))
+        .pipe(zip(MODULE_NAME + '.zip'))
+        .pipe(gulp.dest('dist'))
+        .on('error', done)
+        .on('finish', done);
+    },
+    done => {
+      if (process.env.SF_USERNAME && process.env.SF_PASSWORD) {
+        console.log(
+          'Have SF_USERNAME & SF_PASSWORD env variables set... Will deploy to org'
+        );
+        gulp
+          .src(MODULE_NAME + '.zip', {
+            cwd: 'dist',
+            base: 'dist'
+          })
+          .pipe(gulprename('newport.resource'))
+          .pipe(gulp.dest('scripts/sfdc/staticresources'))
+          .on('error', done)
+          .on('finish', done);
+      } else {
+        done();
+      }
+    },
+    done => {
+      if (process.env.SF_USERNAME && process.env.SF_PASSWORD) {
+        gulp
+          .src('./scripts/sfdc/**', {
+            base: './scripts',
+            cwd: '.'
+          })
+          .pipe(zip('pkg.zip'))
+          .pipe(
+            forceDeploy({
+              username: process.env.SF_USERNAME,
+              password: process.env.SF_PASSWORD
+            })
+          );
+      } else {
+        done();
+      }
     }
   ],
   err => {
