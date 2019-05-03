@@ -15,14 +15,17 @@ $dir: rtl;
 @import 'init';
 @import url(./nds-fonts.css);
 
-// Resets
-@import 'vendor/normalize';
-@include core($scoped: false, $globals: true);
+#{$reset-wrapping-selector} {
 
-// Framework
-@import 'touch/index';
-@import 'components/index';
-@import 'utilities/index';
+	// Resets
+	@import 'vendor/normalize';
+	@include core($scoped: false, $globals: true);
 
-// Print
-@import 'vendor/html5boilerplate-print';
+	// Framework
+	@import 'touch/index';
+	@import 'components/index';
+	@import 'utilities/index';
+
+	// Print
+	@import 'vendor/html5boilerplate-print';
+}
