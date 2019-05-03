@@ -1,0 +1,7 @@
+/* iframeresizer fixes for nds */
+.iframeresizer--child .via-nds .nds-knowledge-block {
+    position: absolute;
+    .nds-right_panel {
+        height: auto;
+    }
+}
