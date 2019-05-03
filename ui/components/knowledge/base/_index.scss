@@ -10,6 +10,13 @@
  * @required
  * @variant
  */
+.iframeresizer--child & .nds-knowledge-block {
+    position: absolute;
+    .nds-right_panel {
+        height: auto;
+    }
+}
+
 .nds-knowledge-block {
   position: fixed;
   top: 10.625rem;
