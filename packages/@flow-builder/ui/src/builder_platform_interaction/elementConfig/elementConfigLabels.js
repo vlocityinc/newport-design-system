@@ -15,19 +15,19 @@ import screenSingularLabel from "@salesforce/label/FlowBuilderElementConfig.scre
 import screenPluralLabel from "@salesforce/label/FlowBuilderElementConfig.screenPluralLabel";
 import decisionSingularLabel from "@salesforce/label/FlowBuilderElementConfig.decisionSingularLabel";
 import decisionPluralLabel from "@salesforce/label/FlowBuilderElementConfig.decisionPluralLabel";
-import decisionConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerHeaderSuffix";
+import decisionConnectorPickerHeader from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerHeader";
 import decisionConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerBodyText";
 import decisionConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.decisionConnectorPickerComboBoxLabel";
 import waitSingularLabel from "@salesforce/label/FlowBuilderElementConfig.waitSingularLabel";
 import waitPluralLabel from "@salesforce/label/FlowBuilderElementConfig.waitPluralLabel";
 import waitEventSingularLabel from "@salesforce/label/FlowBuilderElementConfig.waitEventSingularLabel";
 import waitEventPluralLabel from "@salesforce/label/FlowBuilderElementConfig.waitEventPluralLabel";
-import waitConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerHeaderSuffix";
+import waitConnectorPickerHeader from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerHeader";
 import waitConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerBodyText";
 import waitConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.waitConnectorPickerComboBoxLabel";
 import loopSingularLabel from "@salesforce/label/FlowBuilderElementConfig.loopSingularLabel";
 import loopPluralLabel from "@salesforce/label/FlowBuilderElementConfig.loopPluralLabel";
-import loopConnectorPickerHeaderSuffix from "@salesforce/label/FlowBuilderConnectorPicker.loopConnectorPickerHeaderSuffix";
+import loopConnectorPickerHeader from "@salesforce/label/FlowBuilderConnectorPicker.loopConnectorPickerHeader";
 import loopConnectorPickerBodyText from "@salesforce/label/FlowBuilderConnectorPicker.loopConnectorPickerBodyText";
 import loopConnectorPickerComboBoxLabel from "@salesforce/label/FlowBuilderConnectorPicker.loopConnectorPickerComboBoxLabel";
 import recordCreateSingularLabel from "@salesforce/label/FlowBuilderElementConfig.recordCreateSingularLabel";
@@ -112,6 +112,47 @@ import picklistChoiceLabel from "@salesforce/label/FlowBuilderNewResource.pickli
 import picklistChoiceDesc from "@salesforce/label/FlowBuilderNewResource.picklistChoiceDesc";
 import stageLabel from "@salesforce/label/FlowBuilderNewResource.stageLabel";
 import stageDesc from "@salesforce/label/FlowBuilderNewResource.stageDesc";
+import editScreenLabel from "@salesforce/label/FlowBuilderElementConfig.editScreenLabel";
+import editActionLabel from "@salesforce/label/FlowBuilderElementConfig.editActionLabel";
+import editSubflowLabel from "@salesforce/label/FlowBuilderElementConfig.editSubflowLabel";
+import editAssignmentLabel from "@salesforce/label/FlowBuilderElementConfig.editAssignmentLabel";
+import editDecisionLabel from "@salesforce/label/FlowBuilderElementConfig.editDecisionLabel";
+import editLoopLabel from "@salesforce/label/FlowBuilderElementConfig.editLoopLabel";
+import editRecordCreateLabel from "@salesforce/label/FlowBuilderElementConfig.editRecordCreateLabel";
+import editRecordDeleteLabel from "@salesforce/label/FlowBuilderElementConfig.editRecordDeleteLabel";
+import editRecordUpdateLabel from "@salesforce/label/FlowBuilderElementConfig.editRecordUpdateLabel";
+import editRecordLookupLabel from "@salesforce/label/FlowBuilderElementConfig.editRecordLookupLabel";
+import editEmailAlertLabel from "@salesforce/label/FlowBuilderElementConfig.editEmailAlertLabel";
+import editApexActionLabel from "@salesforce/label/FlowBuilderElementConfig.editApexActionLabel";
+import editApexActionPluginLabel from "@salesforce/label/FlowBuilderElementConfig.editApexActionPluginLabel";
+import editStageLabel from "@salesforce/label/FlowBuilderElementConfig.editStageLabel";
+import editWaitLabel from "@salesforce/label/FlowBuilderElementConfig.editWaitLabel";
+import editStepLabel from "@salesforce/label/FlowBuilderElementConfig.editStepLabel";
+import editFlowProperties from "@salesforce/label/FlowBuilderElementConfig.editFlowProperties";
+import editVariableLabel from "@salesforce/label/FlowBuilderElementConfig.editVariableLabel";
+import editConstantLabel from "@salesforce/label/FlowBuilderElementConfig.editConstantLabel";
+import editFormulaLabel from "@salesforce/label/FlowBuilderElementConfig.editFormulaLabel";
+import editTextTemplateLabel from "@salesforce/label/FlowBuilderElementConfig.editTextTemplateLabel";
+import editChoiceLabel from "@salesforce/label/FlowBuilderElementConfig.editChoiceLabel";
+import editRecordChoiceSetLabel from "@salesforce/label/FlowBuilderElementConfig.editRecordChoiceSetLabel";
+import editPicklistChoiceSetLabel from "@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel";
+import editStage from "@salesforce/label/FlowBuilderElementConfig.editStage";
+import newScreenLabel from "@salesforce/label/FlowBuilderElementConfig.newScreenLabel";
+import newActionLabel from "@salesforce/label/FlowBuilderElementConfig.newActionLabel";
+import newSubflowLabel from "@salesforce/label/FlowBuilderElementConfig.newSubflowLabel";
+import newAssignmentLabel from "@salesforce/label/FlowBuilderElementConfig.newAssignmentLabel";
+import newDecisionLabel from "@salesforce/label/FlowBuilderElementConfig.newDecisionLabel";
+import newLoopLabel from "@salesforce/label/FlowBuilderElementConfig.newLoopLabel";
+import newRecordCreateLabel from "@salesforce/label/FlowBuilderElementConfig.newRecordCreateLabel";
+import newRecordDeleteLabel from "@salesforce/label/FlowBuilderElementConfig.newRecordDeleteLabel";
+import newRecordUpdateLabel from "@salesforce/label/FlowBuilderElementConfig.newRecordUpdateLabel";
+import newRecordLookupLabel from "@salesforce/label/FlowBuilderElementConfig.newRecordLookupLabel";
+import newEmailAlertLabel from "@salesforce/label/FlowBuilderElementConfig.newEmailAlertLabel";
+import newApexActionLabel from "@salesforce/label/FlowBuilderElementConfig.newApexActionLabel";
+import newApexActionPluginLabel from "@salesforce/label/FlowBuilderElementConfig.newApexActionPluginLabel";
+import newStageLabel from "@salesforce/label/FlowBuilderElementConfig.newStageLabel";
+import newWaitLabel from "@salesforce/label/FlowBuilderElementConfig.newWaitLabel";
+import newStepLabel from "@salesforce/label/FlowBuilderElementConfig.newStepLabel";
 
 export const LABELS = {
     subflowSingularLabel,
@@ -130,19 +171,19 @@ export const LABELS = {
     screenPluralLabel,
     decisionSingularLabel,
     decisionPluralLabel,
-    decisionConnectorPickerHeaderSuffix,
+    decisionConnectorPickerHeader,
     decisionConnectorPickerBodyText,
     decisionConnectorPickerComboBoxLabel,
     waitSingularLabel,
     waitPluralLabel,
     waitEventSingularLabel,
     waitEventPluralLabel,
-    waitConnectorPickerHeaderSuffix,
+    waitConnectorPickerHeader,
     waitConnectorPickerBodyText,
     waitConnectorPickerComboBoxLabel,
     loopSingularLabel,
     loopPluralLabel,
-    loopConnectorPickerHeaderSuffix,
+    loopConnectorPickerHeader,
     loopConnectorPickerBodyText,
     loopConnectorPickerComboBoxLabel,
     recordCreateSingularLabel,
@@ -226,5 +267,46 @@ export const LABELS = {
     picklistChoiceLabel,
     picklistChoiceDesc,
     stageLabel,
-    stageDesc
+    stageDesc,
+    editScreenLabel,
+    editActionLabel,
+    editSubflowLabel,
+    editAssignmentLabel,
+    editDecisionLabel,
+    editLoopLabel,
+    editRecordCreateLabel,
+    editRecordDeleteLabel,
+    editRecordUpdateLabel,
+    editRecordLookupLabel,
+    editEmailAlertLabel,
+    editApexActionLabel,
+    editApexActionPluginLabel,
+    editStageLabel,
+    editWaitLabel,
+    editStepLabel,
+    editFlowProperties,
+    editVariableLabel,
+    editConstantLabel,
+    editFormulaLabel,
+    editTextTemplateLabel,
+    editChoiceLabel,
+    editRecordChoiceSetLabel,
+    editPicklistChoiceSetLabel,
+    editStage,
+    newScreenLabel,
+    newActionLabel,
+    newSubflowLabel,
+    newAssignmentLabel,
+    newDecisionLabel,
+    newLoopLabel,
+    newRecordCreateLabel,
+    newRecordDeleteLabel,
+    newRecordUpdateLabel,
+    newRecordLookupLabel,
+    newEmailAlertLabel,
+    newApexActionLabel,
+    newApexActionPluginLabel,
+    newStageLabel,
+    newWaitLabel,
+    newStepLabel
 };

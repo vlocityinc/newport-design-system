@@ -3,7 +3,6 @@ import { createComponent, dispatchGlobalEvent } from 'aura';
 import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
 import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, AddConnectionEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './builderUtilsLabels';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
 
@@ -84,24 +83,17 @@ const getTitleForModalHeader = (mode, elementType) => {
             label = LABELS.saveFlowAsTitle;
             break;
         case EditElementEvent.EVENT_NAME:
-            titlePrefix = LABELS.existingElementHeaderPrefix;
-            label = elementConfig.labels.singular;
+            label = elementConfig.labels.editModal;
             break;
         case AddElementEvent.EVENT_NAME:
-            titlePrefix = LABELS.newElementHeaderPrefix;
-            label = elementConfig.labels.singular;
+            label = elementConfig.labels.newModal;
             break;
         case AddNonCanvasElementEvent.EVENT_NAME:
             titlePrefix = LABELS.newElementHeaderPrefix;
             label = elementConfig.labels.singular;
             break;
         case AddConnectionEvent.EVENT_NAME:
-            if (elementType === ELEMENT_TYPE.LOOP) {
-                titlePrefix = LABELS.loopConnectorPickerHeaderPrefix;
-            } else {
-                titlePrefix = LABELS.connectorPickerHeaderPrefix;
-            }
-            label = elementConfig.labels.connectorPickerHeaderSuffix;
+            label = elementConfig.labels.connectorPickerHeader;
             break;
         default:
             label = elementConfig.labels.singular;

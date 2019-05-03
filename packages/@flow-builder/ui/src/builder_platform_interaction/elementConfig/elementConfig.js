@@ -121,7 +121,8 @@ export const elementTypeToConfigMap = {
             iconName: 'utility:settings'
         },
         labels: {
-            singular: LABELS.flowPropertiesSingularLabel
+            singular: LABELS.flowPropertiesSingularLabel,
+            editModal: LABELS.editFlowProperties
         },
         canvasElement: false,
         factory: {
@@ -160,7 +161,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.subflowSingularLabel,
             plural: LABELS.subflowPluralLabel,
-            leftPanel: LABELS.subflowFlowComponentLabel
+            leftPanel: LABELS.subflowFlowComponentLabel,
+            newModal: LABELS.newSubflowLabel,
+            editModal: LABELS.editSubflowLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -195,7 +198,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.actionSingularLabel,
             plural: LABELS.actionPluralLabel,
-            leftPanel: LABELS.actionFlowComponentLabel
+            leftPanel: LABELS.actionFlowComponentLabel,
+            newModal: LABELS.newActionLabel,
+            editModal: LABELS.editActionLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -224,7 +229,9 @@ export const elementTypeToConfigMap = {
         metadataFilter : element => element.actionType === ACTION_TYPE.EXTERNAL_SERVICE,
         labels: {
             singular: LABELS.actionSingularLabel,
-            plural: LABELS.actionPluralLabel
+            plural: LABELS.actionPluralLabel,
+            newModal: LABELS.newActionLabel,
+            editModal: LABELS.editActionLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -252,7 +259,10 @@ export const elementTypeToConfigMap = {
         metadataKey: METADATA_KEY.APEX_PLUGIN_CALLS,
         labels: {
             singular: LABELS.apexPluginSingularLabel,
-            plural: LABELS.apexPluginPluralLabel
+            plural: LABELS.apexPluginPluralLabel,
+            newModal: LABELS.newApexActionPluginLabel,
+            editModal: LABELS.editApexActionPluginLabel
+
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -281,7 +291,9 @@ export const elementTypeToConfigMap = {
         metadataFilter : element => element.actionType === ACTION_TYPE.APEX,
         labels: {
             singular: LABELS.apexSingularLabel,
-            plural: LABELS.apexPluralLabel
+            plural: LABELS.apexPluralLabel,
+            newModal: LABELS.newApexActionLabel,
+            editModal: LABELS.editApexActionLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -310,7 +322,9 @@ export const elementTypeToConfigMap = {
         metadataFilter : element => element.actionType === ACTION_TYPE.EMAIL_ALERT,
         labels: {
             singular: LABELS.emailAlertSingularLabel,
-            plural: LABELS.emailAlertPluralLabel
+            plural: LABELS.emailAlertPluralLabel,
+            newModal: LABELS.newEmailAlertLabel,
+            editModal: LABELS.editEmailAlertLabel
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -337,7 +351,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.assignmentSingularLabel,
             plural: LABELS.assignmentPluralLabel,
-            leftPanel: LABELS.assignmentLogicLabel
+            leftPanel: LABELS.assignmentLogicLabel,
+            newModal: LABELS.newAssignmentLabel,
+            editModal: LABELS.editAssignmentLabel
         },
         canvasElement: true,
         bodyCssClass: 'slds-p-around_none',
@@ -364,7 +380,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.screenSingularLabel,
             plural: LABELS.screenPluralLabel,
-            leftPanel: LABELS.screenComponentLabel
+            leftPanel: LABELS.screenComponentLabel,
+            newModal: LABELS.newScreenLabel,
+            editModal: LABELS.editScreenLabel
         },
         childReferenceKey: {
             singular: 'fieldReference',
@@ -398,10 +416,12 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.decisionSingularLabel,
             plural: LABELS.decisionPluralLabel,
-            connectorPickerHeaderSuffix: LABELS.decisionConnectorPickerHeaderSuffix,
+            connectorPickerHeader: LABELS.decisionConnectorPickerHeader,
             connectorPickerBodyText: LABELS.decisionConnectorPickerBodyText,
             comboBoxLabel: LABELS.decisionConnectorPickerComboBoxLabel,
-            leftPanel: LABELS.decisionLogicLabel
+            leftPanel: LABELS.decisionLogicLabel,
+            newModal: LABELS.newDecisionLabel,
+            editModal: LABELS.editDecisionLabel
         },
         childReferenceKey: {
             singular: 'outcomeReference',
@@ -432,10 +452,12 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.waitSingularLabel,
             plural: LABELS.waitPluralLabel,
-            connectorPickerHeaderSuffix: LABELS.waitConnectorPickerHeaderSuffix,
+            connectorPickerHeader: LABELS.waitConnectorPickerHeader,
             connectorPickerBodyText: LABELS.waitConnectorPickerBodyText,
             comboBoxLabel: LABELS.waitConnectorPickerComboBoxLabel,
-            leftPanel: LABELS.waitLogicLabel
+            leftPanel: LABELS.waitLogicLabel,
+            newModal: LABELS.newWaitLabel,
+            editModal: LABELS.editWaitLabel
         },
         childReferenceKey: {
             singular: 'waitEventReference',
@@ -483,10 +505,12 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.loopSingularLabel,
             plural: LABELS.loopPluralLabel,
-            connectorPickerHeaderSuffix: LABELS.loopConnectorPickerHeaderSuffix,
+            connectorPickerHeader: LABELS.loopConnectorPickerHeader,
             connectorPickerBodyText: LABELS.loopConnectorPickerBodyText,
             comboBoxLabel: LABELS.loopConnectorPickerComboBoxLabel,
-            leftPanel: LABELS.loopLogicLabel
+            leftPanel: LABELS.loopLogicLabel,
+            newModal: LABELS.newLoopLabel,
+            editModal: LABELS.editLoopLabel
         },
         canvasElement: true,
         factory: {
@@ -511,7 +535,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.recordCreateSingularLabel,
             plural: LABELS.recordCreatePluralLabel,
-            leftPanel: LABELS.createDataOperationLabel
+            leftPanel: LABELS.createDataOperationLabel,
+            newModal: LABELS.newRecordCreateLabel,
+            editModal: LABELS.editRecordCreateLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -538,7 +564,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.recordLookupSingularLabel,
             plural: LABELS.recordLookupPluralLabel,
-            leftPanel: LABELS.lookupDataOperationLabel
+            leftPanel: LABELS.lookupDataOperationLabel,
+            newModal: LABELS.newRecordLookupLabel,
+            editModal: LABELS.editRecordLookupLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -565,7 +593,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.recordDeleteSingularLabel,
             plural: LABELS.recordDeletePluralLabel,
-            leftPanel: LABELS.deleteDataOperationLabel
+            leftPanel: LABELS.deleteDataOperationLabel,
+            newModal: LABELS.newRecordDeleteLabel,
+            editModal: LABELS.editRecordDeleteLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -591,7 +621,9 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.recordUpdateSingularLabel,
             plural: LABELS.recordUpdatePluralLabel,
-            leftPanel: LABELS.updateDataOperationLabel
+            leftPanel: LABELS.updateDataOperationLabel,
+            newModal: LABELS.newRecordUpdateLabel,
+            editModal: LABELS.editRecordUpdateLabel
         },
         canvasElement: true,
         canHaveFaultConnector: true,
@@ -630,7 +662,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.variableSingularLabel,
             plural: LABELS.variablePluralLabel,
-            menuData: LABELS.variableLabel
+            menuData: LABELS.variableLabel,
+            editModal: LABELS.editVariableLabel
         },
         canvasElement: false,
         factory: {
@@ -652,7 +685,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.choiceSingularLabel,
             plural: LABELS.choicePluralLabel,
-            menuData: LABELS.choiceLabel
+            menuData: LABELS.choiceLabel,
+            editModal: LABELS.editChoiceLabel
         },
         canvasElement: false,
         factory: {
@@ -673,7 +707,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.recordChoiceSetSingularLabel,
             plural: LABELS.recordChoiceSetPluralLabel,
-            menuData: LABELS.dynamicRecordChoiceLabel
+            menuData: LABELS.dynamicRecordChoiceLabel,
+            editModal: LABELS.editRecordChoiceSetLabel
         },
         canvasElement: false,
         metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
@@ -695,7 +730,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.picklistChoiceSetSingularLabel,
             plural: LABELS.picklistChoiceSetPluralLabel,
-            menuData: LABELS.picklistChoiceLabel
+            menuData: LABELS.picklistChoiceLabel,
+            editModal: LABELS.editPicklistChoiceSetLabel
         },
         canvasElement: false,
         metadataKey: METADATA_KEY.DYNAMIC_CHOICE_SETS,
@@ -718,7 +754,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.constantSingularLabel,
             plural: LABELS.constantPluralLabel,
-            menuData: LABELS.constantLabel
+            menuData: LABELS.constantLabel,
+            editModal: LABELS.editConstantLabel
         },
         canvasElement: false,
         factory: {
@@ -740,7 +777,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.formulaSingularLabel,
             plural: LABELS.formulaPluralLabel,
-            menuData: LABELS.formulaLabel
+            menuData: LABELS.formulaLabel,
+            editModal: LABELS.editFormulaLabel
         },
         canvasElement: false,
         factory: {
@@ -762,7 +800,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.textTemplateSingularLabel,
             plural: LABELS.textTemplatePluralLabel,
-            menuData: LABELS.textTemplateLabel
+            menuData: LABELS.textTemplateLabel,
+            editModal: LABELS.editTextTemplateLabel
         },
         canvasElement: false,
         factory: {
@@ -784,7 +823,8 @@ export const elementTypeToConfigMap = {
         labels: {
             singular: LABELS.stageSingularLabel,
             plural: LABELS.stagePluralLabel,
-            menuData: LABELS.stageLabel
+            menuData: LABELS.stageLabel,
+            editModal: LABELS.editVariableLabel
         },
         canvasElement: false,
         factory: {
@@ -804,7 +844,9 @@ export const elementTypeToConfigMap = {
         metadataKey: METADATA_KEY.STEPS,
         labels: {
             singular: LABELS.stepSingularLabel,
-            plural: LABELS.stepPluralLabel
+            plural: LABELS.stepPluralLabel,
+            newModal: LABELS.newStepLabel,
+            editModal: LABELS.editStepLabel
         },
         canvasElement: true,
         bodyCssClass: 'slds-p-around_none',
