@@ -18,6 +18,10 @@
     max-height: 3.6em; 
     overflow: hidden;
     position: relative;
+    text-align: justify;
+    /* place for '...' */
+    margin-right: 1em;
+    padding-right: 1em;
 }
 
  /* create the ... */
