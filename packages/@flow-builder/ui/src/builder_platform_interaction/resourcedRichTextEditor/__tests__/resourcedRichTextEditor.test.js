@@ -35,7 +35,8 @@ const SELECTORS = {
     ABBR: 'abbr',
     DIV_PARENT_INPUT_RICH_TEXT_FEROV_PICKER: '.container.slds-grid.slds-grid_vertical',
     INPUT_RICH_TEXT: 'lightning-input-rich-text',
-    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker'
+    FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
+    RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea'
 };
 
 const getChildElement = ({shadowRoot : richTextEditorShadowRoot}, selector) => richTextEditorShadowRoot.querySelector(selector);
@@ -193,6 +194,22 @@ describe('Rich Text Editor', () => {
             return Promise.resolve().then(() => {
                 expect(resourcePicker.value).toBeNull();
             });
+        });
+    });
+    describe('Plain text mode', () => {
+        let inputRichTextElement;
+        let resourcePicker;
+        let inputPlainTextElement;
+        beforeEach(() => {
+            richTextEditor = createComponentUnderTest({value: 'the existing text', isPlainTextMode:true});
+            inputRichTextElement = getChildElement(richTextEditor, SELECTORS.INPUT_RICH_TEXT);
+            resourcePicker = getChildElement(richTextEditor, SELECTORS.FEROV_RESOURCE_PICKER);
+            inputPlainTextElement = getChildElement(richTextEditor, SELECTORS.RESOURCED_TEXTAREA);
+        });
+        it('Should display editor in plain text', () => {
+            expect(inputRichTextElement).toBeNull();
+            expect(resourcePicker).toBeNull();
+            expect(inputPlainTextElement).not.toBeNull();
         });
     });
 });

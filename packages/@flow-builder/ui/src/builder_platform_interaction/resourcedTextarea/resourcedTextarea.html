@@ -1,7 +1,7 @@
 <template>
     <lightning-spinner if:true={spinnerActive} variant='brand' alternative-text={spinnerAlternativeText}></lightning-spinner>
     <div class='property-input slds-form-element'>
-        <label for={name} class='slds-form-element__label'>
+        <label if:true={label} for={name} class='slds-form-element__label'>
             <abbr if:true={isRequired} title={labels.required} class='slds-required'>*</abbr>
             {label}
         </label>

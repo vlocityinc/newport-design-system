@@ -24,6 +24,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     @api helpText;
     @api required =  false;
     @api showGlobalVariables = false;
+    @api plainTextAvailable = false;
 
     // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
     // in the call to invokePropertyEditor in editor.js
@@ -31,8 +32,10 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     @track state = {
         value : '',
-        error : null
+        error : null,
+        isPlainTextMode : false
     };
+
     labels = LABELS;
     hydrated = false;
     isHTMLSanitized = false;
@@ -60,6 +63,22 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     get formats() {
         return RTE_FORMATS;
+    }
+
+    /**
+    * True if editor in plain text mode, false otherwise for rich text mode
+    * @type {boolean}
+    */
+    @api get isPlainTextMode() {
+        return this.state.isPlainTextMode;
+    }
+
+    /**
+    * Set editor plain text mode
+    * @param {boolean} val - true to switch in plain text, false to switch in rich text mode
+    */
+    set isPlainTextMode(val) {
+        this.state.isPlainTextMode = val;
     }
 
     @api get value() {
@@ -113,6 +132,15 @@ export default class ResourcedRichTextEditor extends LightningElement {
         this.fireChangeEvent(value, error);
     }
 
+    /**
+     * handle the toggle mode changed event
+     * @param {Object} event event fired from input toggle
+     */
+    handleTogglePlainTextChanged(event) {
+        event.stopPropagation();
+        this.isPlainTextMode = event.detail.checked;
+    }
+
     handleBlurEvent() {
         this.dispatchEvent(new CustomEvent('blur'));
     }
@@ -147,16 +175,20 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     renderedCallback() {
-        if (!this.initialized) {
-             // Temp "BETA" tooltip addition for lighnting rich text input upload img button
-             const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
-             if (inputRichText.shadowRoot) {
-                const uploadImgBtn = inputRichText.shadowRoot.querySelector(SELECTORS.INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON);
-                if (uploadImgBtn) {
-                    uploadImgBtn.title = LABELS.richTextInputUploadImgBtnBetaTitle;
+        if (!this.state.isPlainTextMode) {
+            if (!this.initialized) {
+                // Temp "BETA" tooltip addition for lightning rich text input upload img button
+                const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
+                if (inputRichText && inputRichText.shadowRoot) {
+                    const uploadImgBtn = inputRichText.shadowRoot.querySelector(SELECTORS.INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON);
+                    if (uploadImgBtn) {
+                        uploadImgBtn.title = LABELS.richTextInputUploadImgBtnBetaTitle;
+                    }
                 }
-             }
-             this.initialized = true;
+                this.initialized = true;
+            }
+        } else  {
+            this.initialized = false;
         }
      }
 }
