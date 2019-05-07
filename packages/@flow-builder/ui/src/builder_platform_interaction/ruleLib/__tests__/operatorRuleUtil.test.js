@@ -8,12 +8,14 @@ import {
     isCollectionRequired,
 } from '../operatorRuleUtil';
 import {
+    ASSIGN_COUNT,
     dateCollectionParam,
     dateParam,
     dateParamCannotBeElements,
     dateParamMissingCollection,
     dateParamMustBeElements,
     dateParamNoElementsList,
+    mockAssignCount,
     mockRules,
     numberParamCanBeAnything,
     numberParamCannotBeField,
@@ -24,15 +26,16 @@ import {
     stringParam,
 } from "mock/ruleService";
 import { elements, dateVariableGuid, dateCollectionVariableGuid, stageGuid, stringVariableGuid, accountSObjectVariableGuid,
-    hydratedElements } from "mock/storeData";
+    hydratedElements, numberVariableGuid } from "mock/storeData";
 import { RULE_TYPES, RULE_PROPERTY, PARAM_PROPERTY } from '../rules';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const ASSIGNMENT_OPERATOR = 'Assign';
 const EQUALS_OPERATOR = 'Equals';
 const { LEFT, RHS_PARAMS } = RULE_PROPERTY;
-const { IS_COLLECTION, SYSTEM_VARIABLE_REQUIREMENT, SOBJECT_FIELD_REQUIREMENT, APEX_PROPERTY_REQUIREMENT } = PARAM_PROPERTY;
+const { DATA_TYPE, IS_COLLECTION, SYSTEM_VARIABLE_REQUIREMENT, SOBJECT_FIELD_REQUIREMENT, APEX_PROPERTY_REQUIREMENT } = PARAM_PROPERTY;
 const mockAccountField = {
     sobjectName:"Account",
     dataType:"Number",
@@ -184,6 +187,13 @@ describe('Operator Rule Util', () => {
             expect(() => {
                 getLHSTypes(ELEMENT_TYPE.ASSIGNMENT, mockRules, 'invalidRuleType');
             }).toThrow();
+        });
+
+        it('should store RHS param under "sobject" if LHS does not have subtype', () => {
+            const rhsTypes = getRHSTypes(ELEMENT_TYPE.ASSIGNMENT, elements[numberVariableGuid], ASSIGN_COUNT, mockAssignCount);
+            expect(rhsTypes[FLOW_DATA_TYPE.SOBJECT.value]).toBeDefined();
+            expect(rhsTypes[FLOW_DATA_TYPE.SOBJECT.value]).toHaveLength(1);
+            expect(rhsTypes[FLOW_DATA_TYPE.SOBJECT.value][0][DATA_TYPE]).toEqual(FLOW_DATA_TYPE.SOBJECT.value);
         });
     });
 

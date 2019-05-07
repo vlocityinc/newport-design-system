@@ -338,8 +338,8 @@ export const getRHSTypes = (elementType, lhsElement, operator, rules, ruleType) 
         (operator === rule[OPERATOR] && isMatch(rule[LEFT], lhsElement))) {
             rule[RHS_PARAMS].forEach((rhsParam) => {
                 let type = getDataTypeOrElementTypes(rhsParam);
-                if (isComplexType(type[0])) {
-                    // if element is an sObject, we want to track by object type because sObject type must match exactly
+                if (isComplexType(lhsElement.dataType) && isComplexType(type[0])) {
+                    // if element is an sObject, we want to track by subtype because sObject/apex type must match exactly
                     type = lhsElement.subtype;
                 }
                 addParamToTypeMap(paramTypeMap, rhsParam, [type]);

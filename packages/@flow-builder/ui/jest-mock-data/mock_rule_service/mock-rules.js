@@ -1,3 +1,4 @@
+export const ASSIGN_COUNT = 'assignCount';
 export const mockRules =
 [
     {
@@ -201,6 +202,31 @@ export const mockRules =
         ],
     },
 ];
+
+export const mockAssignCount = [{
+    ruleType:'assignment',
+    left:{
+        paramType:'Data',
+        dataType:'Number',
+        collection:false,
+        null:false,
+        canBeSobjectField:'CanBe',
+        canBeSystemVariable:'CanBe',
+        canBeApexProperty:'CanBe',
+    },
+    operator:ASSIGN_COUNT,
+    rhsParams:[
+        {
+            paramType:'Data',
+            dataType:'SObject',
+            collection:true,
+            null:false,
+            canBeSobjectField:'CanBe',
+            canBeSystemVariable:'CanBe',
+            canBeApexProperty:'CanBe',
+        }
+    ],
+}];
 
 // all rules, as returned by FlowBuilderController
 export const mockAllRules = [
