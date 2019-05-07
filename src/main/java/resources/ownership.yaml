@@ -13,5 +13,5 @@ module:
   isTest: false
 
 ownership:
-- team: Process UI DesignTime
+- team: Automation Builder Core
 
