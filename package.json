@@ -1,7 +1,7 @@
 {
   "name": "newport-design-system",
   "description": "Vlocity Newport Design System",
-  "version": "104.0.0",
+  "version": "105.0.0",
   "author": "Vlocity",
   "devDependencies": {
     "@babel/core": "^7.3.4",
