@@ -30,34 +30,8 @@ p[vlc-bind-html] {
   }
 }
 
-div.noUISlider[vlc-range-slider-generated] {
-  margin: 0 0.9rem;
-}
-
 .vlc-typeahead-newopt-displaynone {
   display: none;
-}
-
-.noUi-horizontal {
-  .noUi-handle {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-}
-
-.noUi-horizontal {
-
-  .noUi-handle-lower,
-  .noUi-handle {
-    .noUi-tooltip {
-      top: 1rem;
-      font-size: 1rem;
-    }
-  }
-}
-
-div.noUISlider[vlc-range-slider] {
-  margin: 0 1rem;
 }
 
 .vlc-typeahead-gmap {
