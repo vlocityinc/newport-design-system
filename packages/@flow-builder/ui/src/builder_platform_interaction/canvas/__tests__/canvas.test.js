@@ -46,14 +46,18 @@ describe('Canvas', () => {
                 isSelected: false,
                 isHighlighted: false
             },
-            guid: 'connector1'
+            guid: 'connector1',
+            source: 'node1',
+            target: 'node2'
         },
         {
             config: {
                 isSelected: true,
                 isHighlighted: false
             },
-            guid: 'connector2'
+            guid: 'connector2',
+            source: 'node2',
+            target: 'node3'
         },
     ];
 

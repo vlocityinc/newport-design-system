@@ -115,10 +115,12 @@ const _updateDragSelection = (canvasElementContainer, canvasElementConfig = {}) 
  *
  * @param {Object} connectorTemplate - Connector's Template object
  * @param {Object} connector - Object containing the connector data
+ * @param {Object} sourceElementContainer - Container div of the source element
+ * @param {Object} targetElementContainer - Container div of the target element
  * @returns {Object} jsPlumbConnector - Newly setup jsPlumb connection
  * @private
  */
-const _setJsPlumbConnection = (connectorTemplate, connector) => {
+const _setJsPlumbConnection = (connectorTemplate, connector, sourceElementContainer, targetElementContainer) => {
     if (!connectorTemplate) {
         throw new Error('connectorTemplate is not defined. It must be defined.');
     }
@@ -127,7 +129,15 @@ const _setJsPlumbConnection = (connectorTemplate, connector) => {
         throw new Error('connector is not defined. It must be defined.');
     }
 
-    const jsPlumbConnector = lib.setExistingConnections(connector.source, connector.target, connector.label, connector.guid, connector.type);
+    if (!sourceElementContainer) {
+        throw new Error('sourceElementContainer is not defined. It must be defined.');
+    }
+
+    if (!targetElementContainer) {
+        throw new Error('sourceElementContainer is not defined. It must be defined.');
+    }
+
+    const jsPlumbConnector = lib.setExistingConnections(sourceElementContainer, targetElementContainer, connector.label, connector.guid, connector.type);
     connectorTemplate.setJsPlumbConnector(jsPlumbConnector);
     return jsPlumbConnector;
 };
@@ -194,14 +204,17 @@ export const isMultiSelect = (event) => {
  * pans the element into view if needed.
  *
  * @param {Object[]} canvasElementTemplates - Array of Canvas Element Templates
+ * @returns {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
  */
 export const setupCanvasElements = (canvasElementTemplates) => {
+    const canvasElementGuidToContainerMap = {};
     const canvasElementTemplatesLength = canvasElementTemplates && canvasElementTemplates.length;
     for (let index = 0; index < canvasElementTemplatesLength; index++) {
         const canvasElementContainerTemplate = canvasElementTemplates[index];
         const canvasElementContainer = canvasElementContainerTemplate && canvasElementContainerTemplate.shadowRoot && canvasElementContainerTemplate.shadowRoot.firstChild;
 
         const canvasElementGuid = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.guid;
+        canvasElementGuidToContainerMap[canvasElementGuid] = canvasElementContainer;
         _setIdOnCanvasElementContainer(canvasElementContainer, canvasElementGuid);
 
         const elementType = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.elementType;
@@ -212,14 +225,21 @@ export const setupCanvasElements = (canvasElementTemplates) => {
         const canvasElementConfig = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.config;
         _updateDragSelection(canvasElementContainer, canvasElementConfig);
     }
+
+    return canvasElementGuidToContainerMap;
 };
 
 /**
  * Helper function to set the jsPlumb properties on the connectors along with updating the styling of the connectors.
  *
  * @param {Object[]} connectorTemplates - Array of connector templates
+ * @param {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
  */
-export const setupConnectors = (connectorTemplates) => {
+export const setupConnectors = (connectorTemplates, canvasElementGuidToContainerMap) => {
+    if (!canvasElementGuidToContainerMap) {
+        throw new Error('canvasElementGuidToContainerMap is not defined. It must be defined.');
+    }
+
     const connectorTemplatesLength = connectorTemplates && connectorTemplates.length;
     for (let index = 0; index < connectorTemplatesLength; index++) {
         const connectorTemplate = connectorTemplates[index];
@@ -228,7 +248,9 @@ export const setupConnectors = (connectorTemplates) => {
         let jsPlumbConnector = connectorTemplate && connectorTemplate.getJsPlumbConnector && connectorTemplate.getJsPlumbConnector();
 
         if (!jsPlumbConnector) {
-            jsPlumbConnector = _setJsPlumbConnection(connectorTemplate, connector);
+            const sourceElementContainer = canvasElementGuidToContainerMap[connector.source];
+            const targetElementContainer = canvasElementGuidToContainerMap[connector.target];
+            jsPlumbConnector = _setJsPlumbConnection(connectorTemplate, connector, sourceElementContainer, targetElementContainer);
             if (connector.config && connector.config.isSelected) {
                 lib.selectConnector(jsPlumbConnector, connector.type);
             }

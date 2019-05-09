@@ -121,9 +121,10 @@ export default class CanvasContainer extends LightningElement {
     /** Private functions */
     mapCanvasStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
-        const updatedNodesListFromStore = getNodesFromStore(currentState);
-        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(this.nodes, updatedNodesListFromStore);
-        this.nodes = updatedNodesListFromStore;
+        const updatedCanvasElementsFromStore = getNodesFromStore(currentState);
+        const canvasTemplate = this.template.querySelector('builder_platform_interaction-canvas');
+        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(this.nodes, updatedCanvasElementsFromStore, canvasTemplate);
+        this.nodes = updatedCanvasElementsFromStore;
         this.connectors = getConnectorsFromStore(currentState);
     }
 }

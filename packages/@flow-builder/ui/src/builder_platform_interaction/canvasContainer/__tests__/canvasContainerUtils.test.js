@@ -433,28 +433,28 @@ describe('Canvas container utils test', () => {
     });
     describe('calculateDeletedNodeIdsAndCleanUpDrawingLibInstance function', () => {
         it('should not call the removeNodeFromLib in the init phase when existing nodes list is empty', () => {
-            const existingNodesList = [];
-            const updatedNodesList = [{guid: 'guid1'}];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            const existingCanvasElements = [];
+            const updatedCanvasElements = [{guid: 'guid1'}];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
             expect(drawingLibInstance.removeNodeFromLib).not.toHaveBeenCalled();
         });
         it('should not call the removeNodeFromLib when new elements are added', () => {
-            const existingNodesList = [{guid:'guid1'}];
-            const updatedNodesList = [{guid: 'guid1'}, {guid: 'guid2'}];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            const existingCanvasElements = [{guid:'guid1'}];
+            const updatedCanvasElements = [{guid: 'guid1'}, {guid: 'guid2'}];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
             expect(drawingLibInstance.removeNodeFromLib).not.toHaveBeenCalled();
         });
         it('deleting a single canvas element - calls the drawing libs removeNodeFromLib fn once', () => {
-            const existingNodesList = [{guid: 'guid1'}, {guid: 'guid2'}];
-            const updatedNodesList = [{guid:'guid1'}];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            const existingCanvasElements = [{guid: 'guid1'}, {guid: 'guid2'}];
+            const updatedCanvasElements = [{guid:'guid1'}];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
             expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(1);
-            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledWith('guid2');
+            expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledWith('guid2', undefined);
         });
         it('deleting n canvas elements - calls the drawing libs removeNodeFromLib fn n times', () => {
-            const existingNodesList = [{guid: 'guid1'}, {guid: 'guid2'}];
-            const updatedNodesList = [];
-            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingNodesList, updatedNodesList);
+            const existingCanvasElements = [{guid: 'guid1'}, {guid: 'guid2'}];
+            const updatedCanvasElements = [];
+            calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(existingCanvasElements, updatedCanvasElements, {});
             expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(2);
         });
     });

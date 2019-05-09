@@ -180,15 +180,15 @@ class DrawingLib {
     /**
      * Sets all the existing connections while loading the flow in the canvas. If a connection is already set
      * then it doesn't do anything.
-     * @param {String} sourceGuid - ID of the source node
-     * @param {String} targetGuid - ID of the target node
+     * @param {Object} sourceContainer - ID of the source node
+     * @param {Object} targetContainer - ID of the target node
      * @param {String} label - The label to display for the connector
      * @param {String} connectorGuid - ID of the connector
      * @param {String} connectorType - Type of connector
      * @return {Object} connection - jsPlumb's connector instance
      */
-    setExistingConnections = (sourceGuid, targetGuid, label, connectorGuid, connectorType) => {
-        const connectionInstance = {source: sourceGuid, target: targetGuid, detachable: false};
+    setExistingConnections = (sourceContainer, targetContainer, label, connectorGuid, connectorType) => {
+        const connectionInstance = {source: sourceContainer, target: targetContainer, detachable: false};
 
         if (connectionDecorator) {
             connectionDecorator(connectionInstance, connectorType);
@@ -312,28 +312,23 @@ class DrawingLib {
     };
 
     /**
-     * Reapaints everything on jsplumb canvas after recalculating the position of all nodes, endpoints and connectors.
-     */
-    repaintEverything = () => {
-        instance.repaintEverything();
-    }
-    /**
      * Removes the node from jsPlumb's instance but not from the dom.
      * @param {String} nodeId - The node id
+     * @param {Object} canvasElementContainer - Parent (Container) div of the canvas element
      */
-    removeNodeFromLib = (nodeId) => {
-        // eslint-disable-next-line @lwc/lwc/no-document-query
-        const canvasElementContainer = document.getElementById(nodeId);
-        if (canvasElementContainer) {
-            instance.removeFromDragSelection(canvasElementContainer);
-            instance.unmakeSource(nodeId);
-            delete instance.sourceEndpointDefinitions[nodeId];
-            instance.unmakeTarget(nodeId);
-            delete instance.targetEndpointDefinitions[nodeId];
-            instance.destroyDraggable(nodeId);
-            instance.destroyDroppable(nodeId);
-            instance.unmanage(nodeId);
+    removeNodeFromLib = (nodeId, canvasElementContainer) => {
+        if (!canvasElementContainer) {
+            throw new Error('canvasElementContainer is not defined. It must be defined.');
         }
+
+        instance.removeFromDragSelection(canvasElementContainer);
+        instance.unmakeSource(canvasElementContainer);
+        delete instance.sourceEndpointDefinitions[nodeId];
+        instance.unmakeTarget(canvasElementContainer);
+        delete instance.targetEndpointDefinitions[nodeId];
+        instance.destroyDraggable(canvasElementContainer);
+        instance.destroyDroppable(canvasElementContainer);
+        instance.unmanage(nodeId);
     };
 
     /**
@@ -342,7 +337,14 @@ class DrawingLib {
      */
     removeConnectorFromLib = (connector) => {
         instance.deleteConnection(connector);
-    }
+    };
+
+    /**
+     * Reapaints everything on jsplumb canvas after recalculating the position of all nodes, endpoints and connectors.
+     */
+    repaintEverything = () => {
+        instance.repaintEverything();
+    };
 }
 
 export { CONNECTOR_OVERLAY };

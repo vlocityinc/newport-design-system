@@ -9,6 +9,7 @@ function lib(){
      * 4) Line 6584 & 6586 - CL 15923035
      * 5) Line 1437 & 6534 - CL 16825093
      * 6) Line 5114 - CL 1751084 - Expose unmanage function on instance (For complete deletion of nodeId data on instance)
+     * 7) Line 5662 - CL 18048675 - To avoid usage of document.getElementById when adding endpoint on mouseDown
      */
     /**
      * jsBezier
@@ -5658,7 +5659,7 @@ function lib(){
                                 tempEndpointParams.scope = def.def.scope;
                             }
 
-                            ep = this.addEndpoint(elid, tempEndpointParams);
+                            ep = elInfo.el ? this.addEndpoint(elInfo.el, tempEndpointParams) : this.addEndpoint(elid, tempEndpointParams);
                             endpointAddedButNoDragYet = true;
                             ep.setDeleteOnEmpty(true);
 

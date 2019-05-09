@@ -40,6 +40,8 @@ export default class Canvas extends LightningElement {
     canvasArea;
     innerCanvasArea;
 
+    canvasElementGuidToContainerMap = {};
+
     // Scaling variable used for zooming
     currentScale = 1.0;
 
@@ -469,6 +471,16 @@ export default class Canvas extends LightningElement {
     };
 
     /**
+     * Public function to access the canvas element container. This is used in deletion of elements
+     *
+     * @param {String} guid - Guid of the canvas element for which we need the container
+     * @returns {Object} Returns the canvasElementContainer associated with a given guid
+     */
+    @api getCanvasElementContainer(guid) {
+        return this.canvasElementGuidToContainerMap[guid];
+    }
+
+    /**
      * Public function to bring the element into the viewport if it's not already present in the viewport.
      *
      * @param {String} canvasElementGuid - Guid of the element that needs to be searched and highlighted
@@ -509,8 +521,8 @@ export default class Canvas extends LightningElement {
 
         lib.setSuspendDrawing(true);
 
-        setupCanvasElements(canvasElements);
-        setupConnectors(connectors);
+        this.canvasElementGuidToContainerMap = setupCanvasElements(canvasElements);
+        setupConnectors(connectors, this.canvasElementGuidToContainerMap);
 
         lib.setSuspendDrawing(false, true);
         lib.repaintEverything(); // This repaint is needed otherwise sometimes the connector is not updated while doing undo/redo.

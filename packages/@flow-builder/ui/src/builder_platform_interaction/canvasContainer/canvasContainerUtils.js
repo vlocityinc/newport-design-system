@@ -125,7 +125,7 @@ export const shouldOpenConnectorSelectionModal = (storeInstance, sourceGuid) => 
 /**
  * Dispatches add connection action with the new connector
  *
- * @param {Object} elements - Current state of elements in the store
+ * @param {Object} storeInstance instance of the client side model
  * @param {String} sourceGuid - Contains the source guid
  * @param {String} targetGuid - Contains the target guid
  * @return {Function} - Creates the connector object based on the selected or remaining availableConnection value
@@ -175,6 +175,7 @@ export const createConnectorWhenOneConnectionAvailable = (storeInstance, sourceG
  * @param {Object} storeInstance instance of the client side model
  * @param {String} sourceGuid Guid of the source element
  * @param {String} targetGuid Guid of the target element
+ * @param {String} mode Mode for invoking property editor
  */
 export const openConnectorSelectionModal = (storeInstance, sourceGuid, targetGuid, mode) => {
     if (!storeInstance) {
@@ -203,20 +204,23 @@ export const openConnectorSelectionModal = (storeInstance, sourceGuid, targetGui
         }
     }
 };
+
 /**
- * Calculates the deleted NodeIds by comparing existingNodesList and updatedNodesList.
+ * Calculates the deleted canvas element guids by comparing existingCanvasElements and updatedCanvasElements.
  * Sends them drawing lib Instance for calling cleanup methods on the ids.
- * @param {Object[]} existingNodesList existing array of node objects from canvas container internal state
- * @param {Object[]} updatedNodesList updated array of node objects from store
+ * @param {Object[]} existingCanvasElements existing array of node objects from canvas container internal state
+ * @param {Object[]} updatedCanvasElements updated array of node objects from store
+ * @param {Object} canvasTemplate template of the canvas
  */
-export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (existingNodesList, updatedNodesList) => {
-    if (existingNodesList !== 0 && updatedNodesList.length < existingNodesList.length) {
-        const existingNodeIds = existingNodesList.map((node) => node.guid);
-        const updatedNodeIds = updatedNodesList.map((node) => node.guid);
-        const nodeIdsToBeDeleted = existingNodeIds.filter((guid) => !updatedNodeIds.includes(guid));
-        for (let i = 0; i < nodeIdsToBeDeleted.length; i++) {
-            const nodeToBeDeleted = nodeIdsToBeDeleted[i];
-            lib.removeNodeFromLib(nodeToBeDeleted);
+export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (existingCanvasElements, updatedCanvasElements, canvasTemplate) => {
+    if (existingCanvasElements !== 0 && updatedCanvasElements.length < existingCanvasElements.length) {
+        const existingCanvasElementGuids = existingCanvasElements.map((node) => node.guid);
+        const updatedCanvasElementGuids = updatedCanvasElements.map((node) => node.guid);
+        const canvasElementGuidsToBeDeleted = existingCanvasElementGuids.filter((guid) => !updatedCanvasElementGuids.includes(guid));
+        for (let i = 0; i < canvasElementGuidsToBeDeleted.length; i++) {
+            const canvasElementGuid = canvasElementGuidsToBeDeleted[i];
+            const canvasElementContainer = canvasTemplate && canvasTemplate.getCanvasElementContainer && canvasTemplate.getCanvasElementContainer(canvasElementGuid);
+            lib.removeNodeFromLib(canvasElementGuid, canvasElementContainer);
         }
     }
 };
