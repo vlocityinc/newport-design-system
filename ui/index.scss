@@ -12,17 +12,19 @@
 @import 'init';
 @import url(./nds-fonts.css);
 
+// Resets
+@import 'vendor/normalize';
+@include core($scoped: false, $globals: true);
+
+// Framework
+@import 'touch/index';
+@import 'components/index';
+@import 'utilities/index';
+
+// Print
+@import 'vendor/html5boilerplate-print';
+
+// super-scope hack
 #{$reset-wrapping-selector} {
-
-	// Resets
-	@import 'vendor/normalize';
-	@include core($scoped: false, $globals: true);
-
-	// Framework
-	@import 'touch/index';
-	@import 'components/index';
-	@import 'utilities/index';
-
-	// Print
-	@import 'vendor/html5boilerplate-print';
+	@import 'super-scope';
 }

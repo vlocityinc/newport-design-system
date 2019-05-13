@@ -1,0 +1,18 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+ * @summary knowledge block fixes
+ *
+ * @name base
+ * @selector .nds-knowledge-block
+ * @restrict div
+ * @required
+ * @variant
+ */
+.iframeresizer--child & .nds-knowledge-block {
+    position: absolute;
+    .nds-right_panel {
+        height: auto;
+    }
+}
