@@ -16,14 +16,14 @@ storiesOf(`${base}`, module)
   <legend class="nds-form-element__legend nds-form-element__label">Radio Group Label</legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_button-group">
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="male" value="on">
         <label class="nds-radio_button__label" for="male">
           <span class="nds-radio_faux">Male</span>
           <div class="nds-radio-overlay"></div>
         </label>
       </span>
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="female" value="on">
         <label class="nds-radio_button__label" for="female">
           <span class="nds-radio_faux">Female</span>
@@ -39,14 +39,14 @@ storiesOf(`${base}`, module)
   <legend class="nds-form-element__legend nds-form-element__label">Radio Group Label</legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_button-group">
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="male" value="on">
         <label class="nds-radio_button__label" for="male">
           <span class="nds-radio_faux">Male</span>
           <div class="nds-radio-overlay"></div>
         </label>
       </span>
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="female" value="on">
         <label class="nds-radio_button__label" for="female">
           <span class="nds-radio_faux">Female</span>
@@ -66,14 +66,14 @@ storiesOf(`${base}`, module)
   </legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_button-group">
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="male" value="on">
         <label class="nds-radio_button__label" for="male">
           <span class="nds-radio_faux">Male</span>
           <div class="nds-radio-overlay"></div>
         </label>
       </span>
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="female" value="on">
         <label class="nds-radio_button__label" for="female">
           <span class="nds-radio_faux">Female</span>
@@ -93,14 +93,14 @@ storiesOf(`${base}`, module)
   </legend>
   <div class="nds-form-element__control">
     <div class="nds-radio_button-group">
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="male" aria-describedby="error_01" value="on">
         <label class="nds-radio_button__label" for="male">
           <span class="nds-radio_faux">Male</span>
           <div class="nds-radio-overlay"></div>
         </label>
       </span>
-      <span class="nds-button nds-radio_button nds-size--6-of-12">
+      <span class="nds-button nds-radio_button">
         <input type="radio" name="radio" id="female" aria-describedby="error_01" value="on">
         <label class="nds-radio_button__label" for="female">
           <span class="nds-radio_faux">Female</span>
