@@ -10,11 +10,20 @@
  * @required
  * @variant
  */
-.iframeresizer--child & .nds-knowledge-block {
-    position: absolute;
-    .nds-right_panel {
-        height: auto;
-    }
+ @if & {
+  .iframeresizer--child & .nds-knowledge-block {
+      position: absolute;
+      .nds-right_panel {
+          height: auto;
+      }
+  }
+} @else {
+  .iframeresizer--child .nds-knowledge-block {
+      position: absolute;
+      .nds-right_panel {
+          height: auto;
+      }
+  }
 }
 
 .nds-knowledge-block {

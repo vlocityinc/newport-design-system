@@ -60,12 +60,3 @@ $grid-columns: (1, 2, 3, 4, 5, 6, 7, 8, 12) !default;
 ///
 /// @type String
 $reset-wrapping-class: '.via-nds' !default;
-
-/// Reset wrapping class
-/// Wraps a version of normalize
-///
-/// @example scss
-///  #{$reset-wrapping-class} .foo { ... } // outputs .nds .foo { ... }
-///
-/// @type String
-$reset-wrapping-selector: 'body > *' !default;
