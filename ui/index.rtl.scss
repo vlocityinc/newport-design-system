@@ -15,7 +15,6 @@ $dir: rtl;
 @import 'init';
 @import url(./nds-fonts.css);
 
-
 // Resets
 @import 'vendor/normalize';
 @include core($scoped: false, $globals: true);
