@@ -27,7 +27,8 @@ export const PROCESS_TYPES_ICONS = {FEATURED : new Map([
     [FLOW_PROCESS_TYPE.SURVEY, 'utility:survey'],
     [FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW, 'utility:user'],
     [FLOW_PROCESS_TYPE.TRANSACTION_SECURITY_FLOW, 'utility:inspector_panel'],
-    [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause']
+    [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause'],
+    [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:events']
 ])};
 
 export const getProcessTypesWithIcons = (unfilteredProcessTypes, processTypesMap, filtering, postFiltering) => {
