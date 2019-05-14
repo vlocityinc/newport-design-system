@@ -703,17 +703,15 @@ storiesOf(`${base}`, module)
                             <fieldset class="nds-form-element">
                               <legend class="nds-form-element__legend nds-form-element__label nds-form-element__control-help">
                                 <span class="ng-binding">Radio7</span>
-                                <div class="nds-tooltip_container ng-scope">
+                                <a class="nds-tooltip_container ng-scope" vlc-slds-tool-tip="test" nubbin-direction="auto top-left" ng-show="true" tabindex="0" aria-hidden="false">
                                   <div class="nds-nonfocused_control nds-inline-help-text ng-scope">
-                                    <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'info'" viewBox="0 0 52 52" alt="info">
-                                      <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
+                                    <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" sprite="'utility'" icon="'info'" size="'small'" viewBox="0 0 52 52" alt="info">
+                                        <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
                                     </svg>
-                                    <div class="nds-is-absolute">
-                                      <div class="nds-popover nds-popover_tooltip nds-nubbin_bottom-right" role="tooltip">
-                                        <div class="nds-popover__body ng-binding">This is a Radio picklist</div>
-                                      </div>
-                                    </div>
                                   </div>
+                                </a>
+                                <div class="nds-popover nds-nubbin--bottom-left nds-popover_tooltip vlc-slds--tooltip nds-is-absolute" role="tooltip" style="display: block; visibility: visible; min-width: 85px; top: -50px; left: 38px;">
+                                    <div class="nds-popover__body ng-binding">This is a Radio picklist</div>
                                 </div>
                                 <div class="nds-control-action__container">
                                   <svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium nds-button__icon nds-button__icon_medium " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'add'" role="button" aria-disabled="false"
@@ -751,17 +749,15 @@ storiesOf(`${base}`, module)
                               <label class="nds-form-element__label">
                               <span class="nds-slider-label">
                                   <span class="nds-slider-label__label ng-binding">Range1</span>
-                                  <div class="nds-tooltip_container ng-scope">
+                                  <a class="nds-tooltip_container ng-scope" vlc-slds-tool-tip="test" nubbin-direction="auto top-left" ng-show="true" tabindex="0" aria-hidden="false">
                                     <div class="nds-nonfocused_control nds-inline-help-text ng-scope">
-                                      <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'info'" viewBox="0 0 52 52" alt="info">
-                                        <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
+                                      <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" sprite="'utility'" icon="'info'" size="'small'" viewBox="0 0 52 52" alt="info">
+                                          <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
                                       </svg>
-                                      <div class="nds-is-absolute">
-                                        <div class="nds-popover nds-popover_tooltip nds-nubbin_bottom-right" role="tooltip">
-                                          <div class="nds-popover__body ng-binding">This is a Range slider</div>
-                                        </div>
-                                      </div>
                                     </div>
+                                  </a>
+                                  <div class="nds-popover nds-nubbin--bottom-left nds-popover_tooltip vlc-slds--tooltip nds-is-absolute" role="tooltip" style="display: block; visibility: visible; min-width: 85px; top: -50px; left: 38px;">
+                                      <div class="nds-popover__body ng-binding">This is a Range slider</div>
                                   </div>
                                   <div class="nds-control-action__container">
                                     <svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium nds-button__icon nds-button__icon_medium " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'add'" role="button" aria-disabled="false"
