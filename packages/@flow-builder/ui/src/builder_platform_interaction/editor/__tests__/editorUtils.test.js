@@ -545,7 +545,6 @@ describe('Editor Utils Test', () => {
         const { setResourceTypes } = require('builder_platform_interaction/dataTypeLib');
         const { setEntities, setEventTypes } = require('builder_platform_interaction/sobjectLib');
         const { setGlobalVariables, setSystemVariables } = require('builder_platform_interaction/systemLib');
-        const { setApexClasses } = require("builder_platform_interaction/apexTypeLib");
 
         const rules = [{
             ruleType: 'assignment'
@@ -560,7 +559,6 @@ describe('Editor Utils Test', () => {
         const entities = [{
             fields: null
         }];
-        const apexTypes = {};
 
         beforeEach(() => {
             setPeripheralDataForPropertyEditor({
@@ -570,8 +568,7 @@ describe('Editor Utils Test', () => {
                 eventTypes,
                 globalVariables,
                 systemVariables,
-                entities,
-                apexTypes
+                entities
             });
         });
 
@@ -601,10 +598,6 @@ describe('Editor Utils Test', () => {
 
         it('setEntities has been called', () => {
             expect(setEntities).toHaveBeenCalled();
-        });
-
-        it('setApexClasses has been called', () => {
-            expect(setApexClasses).toHaveBeenCalled();
         });
     });
 

@@ -750,7 +750,7 @@ export default class Editor extends LightningElement {
     };
 
     retrieveApexInfo = () => {
-        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}).then(data => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_APEX_TYPES, {}, {background: true}).then(data => {
             setApexClassesForPropertyEditor(data);
             // this is used for indicating if the apex info is fetched.
             this.apexInfoFetched = true;
