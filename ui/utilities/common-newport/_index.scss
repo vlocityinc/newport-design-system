@@ -120,8 +120,6 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
     .nds-select_container {
       position: relative;
       top: -.1rem;
-
-
     }
 
     .nds-select_container+label {
