@@ -101,6 +101,39 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
       top: -3.5rem;
     }
   }
+
+  .nds-form-element__control a[vlc-slds-tool-tip],
+  .nds-select-wrapper a[vlc-slds-tool-tip],
+  .nds-form--multi-input__container a[vlc-slds-tool-tip] {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            line-height: 1rem;
+            text-align: center;
+
+            & + .vlc-slds--tooltip,
+            & + .vlc-slds_tooltip {
+                display: none;
+            }
+
+            &:hover + .vlc-slds--tooltip,
+            &:hover + .vlc-slds_tooltip {
+                display: block;
+            }
+
+            @media screen and (max-width: 50em) {
+                width: 1.5rem;
+                height: 1.5rem;
+                line-height: 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .nds-form--multi-input__container a[vlc-slds-tool-tip],
+        .nds-select-wrapper a[vlc-slds-tool-tip],
+        .nds-typeahead-block-container a[vlc-slds-tool-tip] {
+          height: 2rem;
+        }
 }
 
 .nds-control-action__container {
