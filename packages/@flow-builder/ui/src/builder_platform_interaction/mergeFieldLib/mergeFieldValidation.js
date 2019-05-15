@@ -156,7 +156,7 @@ export class MergeFieldsValidation {
             return this._validateSystemVariable(mergeFieldReferenceValue, index);
         }
         if (mergeFieldReferenceValue.indexOf('.') !== -1) {
-            return this._validateApexOrSObjectVariableFieldMergeField(mergeFieldReferenceValue, index);
+            return this._validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index);
         }
         return this._validateElementMergeField(mergeFieldReferenceValue, index);
     }
@@ -225,19 +225,10 @@ export class MergeFieldsValidation {
 
     _getElementType(element) {
         let dataType = getDataType(element) || null;
-        let isCollection = false;
-        let subtype;
-        const elementType = element.elementType;
-
-        switch (elementType) {
-            case ELEMENT_TYPE.VARIABLE:
-                isCollection = element.isCollection;
-                subtype = element.subtype;
-                break;
-            case ELEMENT_TYPE.STAGE:
-                dataType = FLOW_DATA_TYPE.STRING.value;
-                break;
-            // no default
+        const isCollection = element.isCollection || false;
+        const subtype = element.subtype;
+        if (element.elementType === ELEMENT_TYPE.STAGE) {
+            dataType = FLOW_DATA_TYPE.STRING.value;
         }
         return {
             dataType,
@@ -246,19 +237,19 @@ export class MergeFieldsValidation {
         };
     }
 
-    _validateApexOrSObjectVariableFieldMergeField(mergeFieldReferenceValue, index) {
+    _validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
-        const variableName = parts[0];
+        const elementName = parts[0];
         const fieldName = parts[1];
-        const element = getElementByDevName(variableName);
+        const element = getElementByDevName(elementName);
 
         if (!element) {
-            const validationErrorLabel = format(LABELS.unknownResource, variableName);
+            const validationErrorLabel = format(LABELS.unknownResource, elementName);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD, validationErrorLabel, index, endIndex);
             return [validationError];
         }
-        if (element.elementType !== ELEMENT_TYPE.VARIABLE) {
+        if (!element.dataType) {
             const validationErrorLabel = format(LABELS.notAValidMergeField, MERGE_FIELD_START_CHARS + mergeFieldReferenceValue + MERGE_FIELD_END_CHARS);
             const validationError = this._validationError(VALIDATION_ERROR_TYPE.INVALID_MERGEFIELD, validationErrorLabel, index, endIndex);
             return [validationError];
@@ -269,7 +260,7 @@ export class MergeFieldsValidation {
             return [validationError];
         }
 
-        const field = this._getFieldForEntity(element.dataType, element.subtype, fieldName);
+        const field = this._getFieldForComplexType(element.dataType, element.subtype, fieldName);
         let errors = [];
         if (!field) {
             const validationErrorLabel = format(LABELS.unknownRecordField, fieldName, element.subtype);
@@ -280,7 +271,7 @@ export class MergeFieldsValidation {
         return errors;
     }
 
-    _getFieldForEntity(dataType, entityName, fieldName) {
+    _getFieldForComplexType(dataType, entityName, fieldName) {
         fieldName = fieldName.toLowerCase();
         const fetchFieldsFn = dataType === FLOW_DATA_TYPE.SOBJECT.value ? sobjectLib.getFieldsForEntity : getPropertiesForClass;
         const fields = fetchFieldsFn(entityName);

@@ -23,6 +23,9 @@ export const textTemplateGuid = 'guid19';
 export const waitEventGuid = 'guid20';
 export const apexSampleVariableGuid = 'guid21';
 export const apexSampleCollectionVariableGuid = 'guid22';
+export const lookupRecordAutomaticOutputGuid = 'guid23';
+export const lookupRecordOutputReferenceGuid = 'guid24';
+export const lookupRecordCollectionAutomaticOutputGuid = 'guid25';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -47,6 +50,9 @@ export const textTemplateDevName = 'textTemplate1';
 export const waitEventDevName = "waitEvent1";
 export const apexSampleVariableDevName = 'apexVariable1';
 export const apexSampleCollectionVariableDevName = 'apexCollectionVariable1';
+export const lookupRecordAutomaticOutputDevName = 'lookupRecord1';
+export const lookupRecordOutputReferenceDevName = 'lookupRecord2';
+export const lookupRecordCollectionAutomaticOutputDevName = 'lookupRecord3';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -360,6 +366,80 @@ export const elements = {
         isOutput: false,
         name: apexSampleCollectionVariableDevName,
         subtype: apexClass,
+    },
+    [lookupRecordAutomaticOutputGuid]: {
+        guid: lookupRecordAutomaticOutputGuid,
+        name: lookupRecordAutomaticOutputDevName,
+        description: '',
+        label: lookupRecordAutomaticOutputDevName,
+        locationX: 226,
+        locationY: 232,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {isSelected: false, isHighlighted: false},
+        object: "Account",
+        numberRecordsToStore: "firstRecord",
+        filterType: "none",
+        filters: [],
+        queriedFields: [],
+        sortOrder: "NotSorted",
+        sortField: "",
+        maxConnections: 2,
+        availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
+        elementType: "RecordQuery",
+        outputHandled: true,
+        dataType: FLOW_DATA_TYPE.SOBJECT.value,
+        subtype: "Account",
+        isCollection: false
+    },
+    [lookupRecordOutputReferenceGuid]: {
+        guid: lookupRecordOutputReferenceGuid,
+        name: lookupRecordOutputReferenceDevName,
+        description: '',
+        label: lookupRecordOutputReferenceDevName,
+        locationX: 226,
+        locationY: 232,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {isSelected: false, isHighlighted: false},
+        object: "Account",
+        numberRecordsToStore: "firstRecord",
+        filterType: "none",
+        filters: [],
+        queriedFields: [],
+        sortOrder: "NotSorted",
+        sortField: "",
+        maxConnections: 2,
+        availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
+        elementType: "RecordQuery",
+        outputReference: accountSObjectVariableDevName,
+        outputHandled: false,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+    },
+    [lookupRecordCollectionAutomaticOutputGuid]: {
+        guid: lookupRecordCollectionAutomaticOutputGuid,
+        name: lookupRecordCollectionAutomaticOutputDevName,
+        description: '',
+        label: lookupRecordCollectionAutomaticOutputDevName,
+        locationX: 226,
+        locationY: 232,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {isSelected: false, isHighlighted: false},
+        object: "Account",
+        numberRecordsToStore: "allRecords",
+        filterType: "none",
+        filters: [],
+        queriedFields: [],
+        sortOrder: "NotSorted",
+        sortField: "",
+        maxConnections: 2,
+        availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
+        elementType: "RecordQuery",
+        outputHandled: true,
+        dataType: FLOW_DATA_TYPE.SOBJECT.value,
+        subtype: "Account",
+        isCollection: true
     },
 };
 

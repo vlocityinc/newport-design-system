@@ -207,13 +207,13 @@ describe('Merge field validation', () => {
                     'startIndex': 2
                 }]);
         });
-        it('Returns a validation error when it references a property of a canvas element', () => {
+        it('Returns a validation error when it references a property of a canvas element that has not a complex type', () => {
             const validationErrors = validateMergeField('{!actionCall1.property}');
             expect(validationErrors).toEqual([
                 {
                     'endIndex': 21,
-                    'errorType': 'notAValidMergeField',
-                    'message': 'FlowBuilderMergeFieldValidation.notAValidMergeField',
+                    'errorType': 'wrongDataType',
+                    'message': 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField',
                     'startIndex': 2
                 }]);
         });
@@ -236,6 +236,40 @@ describe('Merge field validation', () => {
         it('Returns no validation error when it references a choice', () => {
             const validationErrors = validateMergeField('{!numberChoice}');
             expect(validationErrors).toEqual([]);
+        });
+    });
+    describe('Lookup element', () => {
+        describe('Automatic output handling mode', () => {
+            it('Returns no validation error when it references an existing field', () => {
+                const validationErrors = validateMergeField('{!lookupRecord1.Name}');
+                expect(validationErrors).toEqual([]);
+            });
+            it('Returns a validation error when it references a non existing field', () => {
+                const validationErrors = validateMergeField('{!lookupRecord1.UnknownField}');
+                expect(validationErrors).toEqual([
+                    {
+                        'endIndex': 27,
+                        'errorType': 'unknownMergeField',
+                        'message': 'FlowBuilderMergeFieldValidation.unknownRecordField',
+                        'startIndex': 2
+                    }]);
+            });
+        });
+        describe('Not in automatic output handling mode', () => {
+            it('Returns a validation error when it references a field', () => {
+                const validationErrors = validateMergeField('{!lookupRecord2.Name}');
+                expect(validationErrors).toEqual([
+                    {
+                        'endIndex': 19,
+                        'errorType': 'wrongDataType',
+                        'message': 'FlowBuilderMergeFieldValidation.resourceCannotBeUsedAsMergeField',
+                        'startIndex': 2
+                    }]);
+            });
+            it('Returns no validation error when it references the element', () => {
+                const validationErrors = validateMergeField('{!lookupRecord2}');
+                expect(validationErrors).toEqual([]);
+            });
         });
     });
 });
