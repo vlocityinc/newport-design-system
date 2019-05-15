@@ -380,6 +380,12 @@ export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
         throw new Error("Component Name or Attributes can't be undefined");
     }
 
+    const {direction,
+           referenceElement,
+           createPanel,
+           destroyPanel,
+           closeOnClickOut} = panelAttributes;
+
     const statusIconSummaryPromise = createComponentPromise(cmpName, cmpAttributes);
     Promise.resolve(statusIconSummaryPromise).then((newComponent) => {
         const createPanelEventAttributes = {
@@ -387,16 +393,16 @@ export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
             visible: true,
             panelConfig: {
                 body: newComponent,
-                direction: panelAttributes.direction,
+                direction,
                 showPointer: true,
-                referenceElementSelector: panelAttributes.referenceSelector,
+                referenceElement,
                 closeAction: () => {
-                    panelAttributes.destroyPanel();
+                    destroyPanel();
                 },
-                closeOnClickOut: panelAttributes.closeOnClickOut == null ? false : panelAttributes.closeOnClickOut
+                closeOnClickOut: closeOnClickOut == null ? false : closeOnClickOut
             },
             onCreate: (panel) => {
-                panelAttributes.createPanel(panel, newComponent.getElement());
+                createPanel(panel, newComponent.getElement());
             }
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);

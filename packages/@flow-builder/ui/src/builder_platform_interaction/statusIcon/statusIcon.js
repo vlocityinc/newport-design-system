@@ -185,10 +185,10 @@ export default class StatusIcon extends LightningElement {
         const showTotalCounts = this.showTotalCounts;
         const showSections = this.showSections;
         const direction = this.direction;
-        const referenceSelector = dotPrefixForClass + this.classForIcon + ' lightning-button-icon';
+        const referenceElement = this.template.querySelector(dotPrefixForClass + this.classForIcon);
         const createPanel = this.onCreatePanel;
         const destroyPanel = this.onDestroyPanel;
         const closeOnClickOut = this.closeOnClickOut;
-        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections }, { direction, referenceSelector, createPanel, destroyPanel, closeOnClickOut });
+        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections }, { direction, referenceElement, createPanel, destroyPanel, closeOnClickOut });
     }
 }
