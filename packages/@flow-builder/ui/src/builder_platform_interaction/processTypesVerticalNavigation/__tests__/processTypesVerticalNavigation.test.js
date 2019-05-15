@@ -12,6 +12,13 @@ const createComponentUnderTest = (processTypes = MOCK_ALL_PROCESS_TYPES) => {
     return el;
 };
 
+const createComponentUnderTestWithFeaturedTypesOnly = (processTypes = MOCK_PROCESS_TYPES.FEATURED) => {
+    const el = createElement('builder_platform_interaction-process-types-vertical-navigation', { is: ProcessTypesVerticalNavigation });
+    Object.assign(el, {processTypes});
+    document.body.appendChild(el);
+    return el;
+};
+
 const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON: 'lightning-vertical-navigation-item-icon',
     VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR : 'a',
@@ -98,3 +105,36 @@ describe('process-types-vertical-navigation', () => {
             });
     });
 });
+
+describe('process-types-vertical-navigation only with featured types', () => {
+    let processTypesVerticalNavigation;
+    beforeEach(() => {
+        processTypesVerticalNavigation = createComponentUnderTestWithFeaturedTypesOnly();
+    });
+
+    describe('Process types details', () => {
+        test('by default "all" entry selected', () => {
+            expect(processTypesVerticalNavigation.selectedProcessType).toBe(ALL_PROCESS_TYPE.name);
+        });
+
+        test('number of "featured" process types', () => {
+            expect(processTypesVerticalNavigation.featuredProcessTypes).toHaveLength(MOCK_PROCESS_TYPES.FEATURED.length + 1); // 'ALL' entry included
+        });
+
+        test('number of "other" process types', () => {
+            expect(processTypesVerticalNavigation.otherProcessTypes).toHaveLength(0);
+        });
+
+        test('"All" entry in first place (among featured process types) (API)', () => {
+            expect(processTypesVerticalNavigation.featuredProcessTypes[0]).toMatchObject({name:ALL_PROCESS_TYPE.name});
+        });
+
+        test('details of "featured" process types ("all" included) (API)', () => {
+            expect(processTypesVerticalNavigation.featuredProcessTypes).toEqual(expect.arrayContaining([
+                expect.objectContaining({ label: 'FlowBuilderProcessTypesVerticalNavigation.all', name: ALL_PROCESS_TYPE.name, iconName: PROCESS_TYPES_ICONS.FEATURED.get(ALL_PROCESS_TYPE.name)}),
+                expect.objectContaining({ label: 'Autolaunched Flow', name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, iconName: PROCESS_TYPES_ICONS.FEATURED.get(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)}),
+                expect.objectContaining({ label: 'Screen Flow', name: FLOW_PROCESS_TYPE.FLOW, iconName: PROCESS_TYPES_ICONS.FEATURED.get(FLOW_PROCESS_TYPE.FLOW)})]));
+        });
+    });
+});
+

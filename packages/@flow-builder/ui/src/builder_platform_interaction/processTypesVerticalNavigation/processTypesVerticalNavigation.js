@@ -108,7 +108,9 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
      */
     renderedCallback() {
         if (!this._isInitialized) {
-            this.expandOtherSection();
+            if (this.hasOtherProcessTypes) {
+                this.expandOtherSection();
+            }
             this.truncateLabels();
             this._isInitialized = true;
         }
