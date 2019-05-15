@@ -1,6 +1,7 @@
 import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 
 const allEntities = [];
+const allEntitiesMap = {};
 const queryableEntities = [];
 const createableEntities = [];
 const deletableEntities = [];
@@ -25,6 +26,7 @@ export const setEntities = (entities = null) => {
     if (unfilteredEntities) {
         unfilteredEntities.forEach((entity) => {
             allEntities.push(entity);
+            allEntitiesMap[entity.apiName] = entity;
             if (entity.queryable) {
                 queryableEntities.push(entity);
             }
@@ -48,6 +50,14 @@ export const setEntities = (entities = null) => {
 export const getAllEntities = () => {
     return allEntities;
 };
+
+/**
+ * Return the SObject description
+ *
+ * @param {string} apiName the api name of the entity
+ * @return {Object} the entity description
+ */
+export const getEntity = (apiName) => allEntitiesMap[apiName];
 
 /**
  * Returns only queryable SObjects

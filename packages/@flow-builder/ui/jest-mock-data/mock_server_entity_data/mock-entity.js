@@ -5,6 +5,8 @@ export const mockEntities = [
         "queryable":true,
         "updateable":false,
         "createable":false,
+        "entityLabel": "Accepted Event Relation",
+        "entityLabelPlural": "Accepted Event Relations",
     },
     {
         "apiName":"Account",
@@ -12,6 +14,8 @@ export const mockEntities = [
         "queryable":true,
         "updateable":false,
         "createable":false,
+        "entityLabel": "Account",
+        "entityLabelPlural": "Accounts",        
     },
     {
         "apiName":"Contact",
@@ -19,6 +23,8 @@ export const mockEntities = [
         "queryable":false,
         "updateable":true,
         "createable":false,
+        "entityLabel": "Contact",
+        "entityLabelPlural": "Contacts",        
     },
     {
         "apiName":"Case",
@@ -26,6 +32,8 @@ export const mockEntities = [
         "queryable":true,
         "updateable":false,
         "createable":true,
+        "entityLabel": "Case",
+        "entityLabelPlural": "Cases",        
     },
     {
         "apiName":"Contract",
@@ -33,6 +41,8 @@ export const mockEntities = [
         "queryable":false,
         "updateable":true,
         "createable":false,
+        "entityLabel": "Contract",
+        "entityLabelPlural": "Contracts",        
     },
 ];
 

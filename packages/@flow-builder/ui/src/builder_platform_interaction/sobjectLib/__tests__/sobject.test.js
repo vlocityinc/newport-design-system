@@ -1,5 +1,5 @@
 import { mockEntities, mockAccountFields } from "mock/serverEntityData";
-import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity, fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
+import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity, fetchFieldsForEntity, getEntity } from "builder_platform_interaction/sobjectLib";
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -54,6 +54,15 @@ describe('SObject Lib Tests', () => {
             expect(updateableEntities[0].apiName).toEqual('Contact');
             expect(updateableEntities[1].apiName).toEqual('Contract');
         });
+        it('Get existing entity description', () => {
+           const entity = getEntity('Account');
+           expect(entity).toBeDefined();
+           expect(entity.apiName).toEqual('Account');
+        });
+        it('Get unexisting entity description', () => {
+            const entity = getEntity('UnknownEntity');
+            expect(entity).toBeUndefined();
+         });
     });
 
     describe('fetchFieldsForEntity', () => {

@@ -10,6 +10,7 @@ import { getDataType } from "builder_platform_interaction/ruleLib";
 import { isComplexType } from "builder_platform_interaction/dataTypeLib";
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
+import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
@@ -166,7 +167,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const resourceDataType = getDataType(resource);
     const elementCategory = getElementCategory(resource.elementType, resourceDataType, resource.isCollection);
 
-    newElement.text = resource.name;
+    newElement.text = getResourceLabel(resource);
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.subtype, resourceLabel);
     newElement.value = resource.guid;
     newElement.displayText = addCurlyBraces(resource.name);
