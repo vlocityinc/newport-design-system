@@ -1,6 +1,6 @@
 <template>
     <div class='zoom-panel slds-is-fixed slds-p-around_large'>
-        <lightning-button-icon-stateful variant='border-filled' selected={isPanModeOn} icon-name='utility:move' id='moveButton' title={labels.panTitle} alternative-text={labels.panTitle} class='slds-p-right_xx-small' onclick={togglePanMode}></lightning-button-icon-stateful>
+        <lightning-button-icon-stateful variant='border-filled' selected={isMarqueeModeOn} icon-name='utility:drag' id='dragButton' title={labels.marqueeTitle} alternative-text={labels.marqueeTitle} class='slds-p-right_xx-small' onclick={handleToggleMarqueeOn}></lightning-button-icon-stateful>
 
         <lightning-button-group>
             <lightning-button-icon variant='border-filled' disabled={isZoomOutDisabled} icon-name='utility:dash' id='zoomOutButton' title={labels.zoomOutTitle} alternative-text={labels.zoomOutTitle} onclick={handleZoomOutClick}></lightning-button-icon>

@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { TogglePanModeEvent, ClickToZoomEvent, ZOOM_ACTION, PAN_ACTION } from "builder_platform_interaction/events";
+import { ToggleMarqueeOnEvent, ClickToZoomEvent, ZOOM_ACTION } from "builder_platform_interaction/events";
 import { LABELS } from "./zoomPanelLabels";
 
 /**
@@ -10,7 +10,7 @@ import { LABELS } from "./zoomPanelLabels";
  * @since 214
  */
 export default class ZoomPanel extends LightningElement {
-    @api isPanModeOn;
+    @api isMarqueeModeOn;
     @api isZoomOutDisabled;
     @api isZoomToView;
     @api isZoomInDisabled;
@@ -20,20 +20,11 @@ export default class ZoomPanel extends LightningElement {
     }
 
     /**
-     * Handles click on the pan button and fires toggle pan mode event.
+     * Handles click on the drag button and fires toggle marquee mode event.
      */
-    togglePanMode = () => {
-        let action;
-        if (this.isPanModeOn) {
-            action = PAN_ACTION.PAN_OFF;
-        } else {
-            action = PAN_ACTION.PAN_ON;
-        }
-
-        if (action) {
-            const togglePanModeEvent = new TogglePanModeEvent(action);
-            this.dispatchEvent(togglePanModeEvent);
-        }
+    handleToggleMarqueeOn = () => {
+        const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
+        this.dispatchEvent(toggleMarqueeOnEvent);
     };
 
     /**

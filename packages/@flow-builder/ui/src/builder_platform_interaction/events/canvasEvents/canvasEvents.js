@@ -13,7 +13,7 @@ export const ZOOM_ACTION = {
     ZOOM_IN: 'zoomIn'
 };
 
-export const PAN_ACTION = {
-    PAN_ON: 'panOn',
-    PAN_OFF: 'panOff'
+export const MARQUEE_ACTION = {
+    MARQUEE_ON: 'marqueeOn',
+    MARQUEE_OFF: 'marqueeOff'
 };

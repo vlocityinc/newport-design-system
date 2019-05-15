@@ -1,15 +1,19 @@
 ﻿<template>
-    <div class='canvas slds-is-relative' id='canvas' tabindex='0' onmouseenter={handleCanvasMouseEnter} onmouseleave={handleCanvasMouseLeave} 
-             onmousedown={handleCanvasMouseDown} onmousemove={handleCanvasMouseMove} onmouseup={handleCanvasMouseUp} onkeydown={handleKeyDown}
-             onkeyup={handleKeyUp} ondragover={handleDragOver} ondrop={handleDrop}>
+    <div class='canvas grab slds-is-relative' id='canvas' tabindex='0' onmouseenter={handleCanvasMouseEnter} onmouseleave={handleCanvasMouseLeave}
+         onmousedown={handleCanvasMouseDown} onmousemove={handleCanvasMouseMove} onmouseup={handleCanvasMouseUp} oncontextmenu={handleCanvasContextMenu}
+         onkeydown={handleKeyDown} ondragover={handleDragOver} ondrop={handleDrop}>
 
         <!--Overlay-->
-        <div if:true={isPanModeOn} class='overlay slds-is-absolute' id='overlay' onmouseenter={handleOverlayMouseEnter} onmouseleave={handleOverlayMouseLeave}
+        <div if:true={isMarqueeModeOn} class='overlay slds-is-absolute' id='overlay' onmouseenter={handleOverlayMouseEnter} onmouseleave={handleOverlayMouseLeave}
              onmousedown={handleOverlayMouseDown} onmousemove={handleOverlayMouseMove} onmouseup={handleOverlayMouseUp} oncontextmenu={handleOverlayContextMenu}>
-        </div>
 
-        <!--Marquee-->
-        <builder_platform_interaction-marquee-selection-box if:true={isMarqueeModeOn} id='marquee' marquee-start-point={marqueeStartPoint} marquee-end-point={marqueeEndPoint}></builder_platform_interaction-marquee-selection-box>
+            <!--Marquee-->
+            <builder_platform_interaction-marquee-selection-box if:true={isMarqueeInProgress}
+                                                                id='marquee'
+                                                                marquee-start-point={marqueeStartPoint}
+                                                                marquee-end-point={marqueeEndPoint}>
+            </builder_platform_interaction-marquee-selection-box>
+        </div>
 
         <!--Inner Canvas-->
         <div class='inner-canvas slds-is-relative' id='innerCanvas'>
@@ -25,6 +29,6 @@
         </div>
 
         <!--Zoom Panel-->
-        <builder_platform_interaction-zoom-panel is-pan-mode-on={isPanModeOn} is-zoom-out-disabled={isZoomOutDisabled} is-zoom-to-view={isZoomToView} is-zoom-in-disabled={isZoomInDisabled} ontogglepanmode={handleTogglePanMode} onclicktozoom={handleZoom}></builder_platform_interaction-zoom-panel>
+        <builder_platform_interaction-zoom-panel is-marquee-mode-on={isMarqueeModeOn} is-zoom-out-disabled={isZoomOutDisabled} is-zoom-to-view={isZoomToView} is-zoom-in-disabled={isZoomInDisabled} ontogglemarqueeon={handleMarqueeOn} onclicktozoom={handleZoom}></builder_platform_interaction-zoom-panel>
     </div>
 </template>

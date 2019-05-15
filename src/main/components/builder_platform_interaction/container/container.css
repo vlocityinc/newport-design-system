@@ -77,4 +77,5 @@
     background-color: t(colorBackgroundAlt2);
     transition: box-shadow 0.1s ease, background-color 0.25s ease-out;
     z-index: 402;
+    cursor: default;
 }

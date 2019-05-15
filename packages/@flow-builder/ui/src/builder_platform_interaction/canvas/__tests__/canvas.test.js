@@ -107,28 +107,6 @@ describe('Canvas', () => {
 
                 expect(eventCallback.mock.calls[0][0].detail).toEqual({});
             });
-
-            it('DeleteElementEvent is not fired if canvas is in pan mode', () => {
-                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
-
-                // Space key to toggle pan mode on
-                const spaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.SPACE
-                });
-                canvasDiv.dispatchEvent(spaceEvent);
-
-                const eventCallback = jest.fn();
-                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
-
-                const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.BACKSPACE
-                });
-
-                canvasDiv.dispatchEvent(backspaceEvent);
-
-                expect(eventCallback).not.toHaveBeenCalled();
-            });
         });
 
         describe('DELETE KEY', () => {
@@ -163,28 +141,6 @@ describe('Canvas', () => {
 
                 expect(eventCallback.mock.calls[0][0].detail).toEqual({});
             });
-
-            it('DeleteElementEvent is not fired if canvas is in pan mode', () => {
-                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
-
-                // Space key to toggle pan mode on
-                const spaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.SPACE
-                });
-                canvasDiv.dispatchEvent(spaceEvent);
-
-                const eventCallback = jest.fn();
-                canvas.addEventListener(DeleteElementEvent.EVENT_NAME, eventCallback);
-
-                const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.DELETE
-                });
-
-                canvasDiv.dispatchEvent(backspaceEvent);
-
-                expect(eventCallback).not.toHaveBeenCalled();
-            });
         });
 
         describe('META KEY', () => {
@@ -200,40 +156,6 @@ describe('Canvas', () => {
 
                 canvasDiv.dispatchEvent(negativeKeyEvent);
                 expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
-            });
-        });
-
-        describe('SPACE KEY', () => {
-            it('Toggles the pan mode on', () => {
-                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
-
-                const spaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.SPACE
-                });
-                canvasDiv.dispatchEvent(spaceEvent);
-                expect(canvasDiv.classList.contains('grab')).toBeTruthy();
-            });
-        });
-    });
-
-    describe('handleKeyUp', () => {
-        describe('SPACE KEY', () => {
-            it('Toggles the pan mode off', () => {
-                const canvas = createComponentForTest(defaultNodes, defaultConnectors);
-                const canvasDiv = canvas.shadowRoot.querySelector(SELECTORS.CANVAS_DIV);
-
-                const spaceKeyDownEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.SPACE
-                });
-                canvasDiv.dispatchEvent(spaceKeyDownEvent);
-
-                const spaceKeyUpEvent = new KeyboardEvent('keyup', {
-                    key: KEYS.SPACE
-                });
-                canvasDiv.dispatchEvent(spaceKeyUpEvent);
-                expect(canvasDiv.classList.contains('grab')).toBeFalsy();
-                expect(canvasDiv.classList.contains('grabbing')).toBeFalsy();
             });
         });
     });
