@@ -945,9 +945,9 @@ export function getElementCategory(elementType, dataType, isCollection) {
             categoryLabel = LABELS.collectionVariablePluralLabel;
         }
     } else if (isCollection) {
-        categoryLabel = dataType === SOBJECT_TYPE ? LABELS.sObjectCollectionVariablePluralLabel : LABELS.apexCollectionVariablePluralLabel;
+        categoryLabel = dataType === SOBJECT_TYPE ? LABELS.sObjectCollectionPluralLabel : LABELS.apexCollectionVariablePluralLabel;
     } else {
-        categoryLabel =  dataType === SOBJECT_TYPE ? LABELS.sObjectVariablePluralLabel : LABELS.apexVariablePluralLabel;
+        categoryLabel =  dataType === SOBJECT_TYPE ? LABELS.sObjectPluralLabel : LABELS.apexVariablePluralLabel;
     }
     return categoryLabel;
 }

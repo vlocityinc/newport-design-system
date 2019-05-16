@@ -70,10 +70,10 @@ describe('element-config', () => {
             expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.NUMBER, true)).toEqual(LABELS.collectionVariablePluralLabel);
         });
         it('for sobjects', () => {
-            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, false)).toEqual(LABELS.sObjectVariablePluralLabel);
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, false)).toEqual(LABELS.sObjectPluralLabel);
         });
         it('for sobject collections', () => {
-            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, true)).toEqual(LABELS.sObjectCollectionVariablePluralLabel);
+            expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, true)).toEqual(LABELS.sObjectCollectionPluralLabel);
         });
         it('for apex variables', () => {
             expect(getElementCategory(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, false)).toEqual(LABELS.apexVariablePluralLabel);

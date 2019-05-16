@@ -53,8 +53,8 @@ import stageSingularLabel from "@salesforce/label/FlowBuilderElementConfig.stage
 import stagePluralLabel from "@salesforce/label/FlowBuilderElementConfig.stagePluralLabel";
 import emptyDefaultOutcomeLabel from "@salesforce/label/FlowBuilderDecisionEditor.emptyDefaultOutcomeLabel";
 import emptyDefaultWaitPathLabel from '@salesforce/label/FlowBuilderWaitEditor.emptyDefaultWaitPathLabel';
-import sObjectVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectVariablePluralLabel";
-import sObjectCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectCollectionVariablePluralLabel";
+import sObjectPluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel";
+import sObjectCollectionPluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectCollectionPluralLabel";
 import apexVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel";
 import apexCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexCollectionVariablePluralLabel";
 import collectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.collectionVariablePluralLabel";
@@ -209,8 +209,8 @@ export const LABELS = {
     stagePluralLabel,
     emptyDefaultOutcomeLabel,
     emptyDefaultWaitPathLabel,
-    sObjectVariablePluralLabel,
-    sObjectCollectionVariablePluralLabel,
+    sObjectPluralLabel,
+    sObjectCollectionPluralLabel,
     apexVariablePluralLabel,
     apexCollectionVariablePluralLabel,
     collectionVariablePluralLabel,

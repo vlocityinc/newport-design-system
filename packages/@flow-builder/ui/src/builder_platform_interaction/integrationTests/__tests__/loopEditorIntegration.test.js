@@ -9,8 +9,10 @@ import {
     accountSObjectCollectionVariableGuid,
     accountSObjectVariableDevName,
     accountSObjectVariableGuid,
+    lookupRecordAutomaticOutputGuid,
     caseSObjectCollectionVariableDevName,
     apexSampleCollectionVariableDevName,
+    lookupRecordAutomaticOutputDevName
 } from "mock/storeData";
 import { resolveRenderCycles} from '../resolveRenderCycles';
 
@@ -283,14 +285,26 @@ describe('Loop Editor', () => {
                     return resolveRenderCycles(() => {
                         // loop variable should only show variables with dataType of String
                         expect(loopVariableLightningCombobox.items).toHaveLength(2);
-                        expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTVARIABLEPLURALLABEL');
-                        expect(loopVariableLightningCombobox.items[1].items).toHaveLength(1);
-                        expect(loopVariableLightningCombobox.items[1].items[0].dataType).toBe('SObject');
-                        expect(loopVariableLightningCombobox.items[1].items[0].subtype).toBe('Account');
-                        expect(loopVariableLightningCombobox.items[1].items[0].text).toBe(accountSObjectVariableDevName);
-                        expect(loopVariableLightningCombobox.items[1].items[0].subText).toBe('Account');
-                        expect(loopVariableLightningCombobox.items[1].items[0].displayText).toBe('{!' + accountSObjectVariableDevName + '}');
-                        expect(loopVariableLightningCombobox.items[1].items[0].value).toBe(accountSObjectVariableGuid);
+                        expect(loopVariableLightningCombobox.items[1].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
+                        expect(loopVariableLightningCombobox.items[1].items).toHaveLength(2);
+                        expect(loopVariableLightningCombobox.items[1].items[0]).toMatchObject(
+                                {
+                                    dataType : 'SObject',
+                                    subtype : 'Account',
+                                    text : accountSObjectVariableDevName,
+                                    subText : 'Account',
+                                    displayText : `{!${accountSObjectVariableDevName}}`,
+                                    value : accountSObjectVariableGuid
+                                });
+                        expect(loopVariableLightningCombobox.items[1].items[1]).toMatchObject(
+                                {
+                                    dataType : 'SObject',
+                                    subtype : 'Account',
+                                    text : lookupRecordAutomaticOutputDevName,
+                                    subText : 'Account',
+                                    displayText : `{!${lookupRecordAutomaticOutputDevName}}`,
+                                    value : lookupRecordAutomaticOutputGuid
+                                });
                     });
                 });
             });
@@ -405,7 +419,7 @@ describe('Loop Editor', () => {
                 expect(colVariableLightningCombobox.validity).toBeFalsy();
             });
         });
-        it('shows only collection variables in dropdown', () => {
+        it('shows only collections in dropdown', () => {
             const loopElement = createComponentForTest(emptyLoopForTesting);
             return resolveRenderCycles(() => {
                 const colVariableLightningCombobox = getCollectionVariableComboboxElement(loopElement);
@@ -420,9 +434,9 @@ describe('Loop Editor', () => {
                     // There are 3 non-sObject variables with 'isCollection: true' in the mock-store data
                     expect(colVariableLightningCombobox.items[2].items).toHaveLength(3);
                     expect(colVariableLightningCombobox.items[2].items[0].text).toBe(stringCollectionVariable1DevName);
-                    expect(colVariableLightningCombobox.items[3].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONVARIABLEPLURALLABEL');
-                    // There are 2 sObject collection variables in the mock-store data
-                    expect(colVariableLightningCombobox.items[3].items).toHaveLength(2);
+                    expect(colVariableLightningCombobox.items[3].label).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL');
+                    // There are 2 sObject collection variables and 1 lookupRecord in automatic output handling mode in the mock-store data
+                    expect(colVariableLightningCombobox.items[3].items).toHaveLength(3);
                     expect(colVariableLightningCombobox.items[3].items[0].text).toBe(accountSObjectCollectionVariableDevName);
                     expect(colVariableLightningCombobox.items[3].items[0].subText).toBe('Account');
                 });

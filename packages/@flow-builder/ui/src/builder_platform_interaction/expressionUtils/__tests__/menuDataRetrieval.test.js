@@ -20,8 +20,8 @@ import { systemVariables } from 'mock/systemGlobalVars';
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
-const sobjectVariable = LABELS.sObjectVariablePluralLabel.toUpperCase();
-const sobjectCollectionVariable = LABELS.sObjectCollectionVariablePluralLabel.toUpperCase();
+const sobjectVariable = LABELS.sObjectPluralLabel.toUpperCase();
+const sobjectCollectionVariable = LABELS.sObjectCollectionPluralLabel.toUpperCase();
 
 /*
     Desired format output from getStoreElements

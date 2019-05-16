@@ -155,7 +155,7 @@ describe('Formula Editor', () => {
         });
         describe('Resource picker', () => {
             const GROUP_LABELS = {
-                RECORD_VARIABLES : 'FLOWBUILDERELEMENTCONFIG.SOBJECTVARIABLEPLURALLABEL',
+                RECORD_VARIABLES : 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
                 GLOBAL_VARIABLES : 'FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory',
             };
             it('contains "New Resource"', () => {
