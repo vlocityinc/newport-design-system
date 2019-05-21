@@ -6,7 +6,6 @@ import {
     DeleteRecordLookupFieldEvent
 } from "builder_platform_interaction/events";
 import RecordQueryFields from "builder_platform_interaction/recordQueryFields";
-import { sObjectOrSObjectCollectionByEntitySelector }  from "builder_platform_interaction/selectors";
 import { mockAccountFields } from "mock/serverEntityData";
 import * as store from "mock/storeData";
 
@@ -25,15 +24,10 @@ const queried2Fields = [
 ];
 
 const selectors = {
-    sobjectPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
     fieldsList: 'builder_platform_interaction-list',
     recordFieldPicker: 'builder_platform_interaction-record-field-picker-row',
     idCombobox: 'builder_platform_interaction-combobox',
     fieldPicker: 'builder_platform_interaction-field-picker',
-};
-
-const getSObjectPicker = (recordStoreFieldsComponent) => {
-    return recordStoreFieldsComponent.shadowRoot.querySelector(selectors.sobjectPicker);
 };
 
 const getFieldList = (recordStoreFieldsComponent) => {
@@ -61,12 +55,6 @@ const createComponentUnderTest = (props) => {
     return el;
 };
 
-jest.mock('builder_platform_interaction/selectors', () => {
-    return {
-        sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
-    };
-});
-
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         fetchFieldsForEntity: jest.fn().mockResolvedValue(() => {
@@ -81,20 +69,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 describe('record-store-fields', () => {
-    sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(jest.fn().mockReturnValue([store.elements[store.accountSObjectVariableGuid]]));
-    describe('sobject resource picker and fields', () => {
+    describe('fields', () => {
         let recordQueryFields;
-
-        it('contains an sObject resource picker', () => {
-            recordQueryFields = createComponentUnderTest();
-            expect(getSObjectPicker(recordQueryFields)).not.toBeNull();
-        });
-
-        it('do not show fields list if outputReference is not set', () => {
-            recordQueryFields = createComponentUnderTest();
-            expect(getFieldList(recordQueryFields)).toBeNull();
-        });
-
         it('show disable ID combobox', () => {
             recordQueryFields = createComponentUnderTest({outputReference: store.accountSObjectVariableGuid});
             const idCombobox = getIdCombobox(recordQueryFields);

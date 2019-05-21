@@ -10,6 +10,7 @@ import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataM
 import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { format } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_AUTOMATIC_OUTPUT_HANDLING, getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -21,6 +22,8 @@ export default class RecordLookupEditor extends LightningElement {
     state = {
         recordLookupElement: {},
         fields: {},
+        processTypeAutomaticOutPutHandlingSupport : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED,
+        processType : '',
     }
 
     /**
@@ -53,6 +56,19 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
+    @api
+    get processType() {
+        return this.state.processType;
+    }
+
+    set processType(newValue) {
+        this.state.processType = newValue;
+        this.state.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(newValue);
+    }
+
+    /**
      * Used to know if we are dealing with an editor in edit mode or addition mode.
      */
     @api
@@ -63,7 +79,15 @@ export default class RecordLookupEditor extends LightningElement {
     set mode(newValue) {
         this._mode = newValue;
         this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement,
-                {wayToStoreFields: this.hasOutputReference ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES});
+                {wayToStoreFields: this.initialWayToStoreFields});
+    }
+
+    get initialWayToStoreFields() {
+        if (this.isAdvancedMode) {
+            return this.hasOutputReference ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
+        }
+
+        return WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
     }
 
     /**
@@ -139,6 +163,13 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
+     * return {Boolean} true if the node is using output assignment
+     */
+    get hasOutputAssignmentValue() {
+        return (this.state.recordLookupElement.outputAssignments && this.state.recordLookupElement.outputAssignments.length > 0 && !this.isInAddElementMode);
+    }
+
+    /**
      * @returns {string} the output reference error message
      */
     get outputReferenceErrorMessage() {
@@ -192,6 +223,51 @@ export default class RecordLookupEditor extends LightningElement {
      */
     get assignmentTitle() {
         return format(this.labels.lookupAssignmentTitleFormat, this.resourceDisplayText);
+    }
+
+    /**
+     * @return {Boolean} true : the user chooses to use the Advanced Options
+     */
+    get isAdvancedMode() {
+        return !this.state.recordLookupElement.outputHandled;
+    }
+
+    /**
+     *
+     */
+    get displayWayToStoreFields() {
+        return this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+    }
+
+    /**
+     * @return {Boolean} true : the process type supports the automatic output handling
+     */
+    get isAutomaticOutputHandlingSupported() {
+        return this.state.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
+    }
+
+    get recordStoreOptions() {
+        return [{
+            label : this.labels.firstRecordLabel,
+            value : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+        }, {
+            label : this.labels.allRecordsLabel,
+            value : NUMBER_RECORDS_TO_STORE.ALL_RECORDS,
+        }];
+    }
+
+    get wayToStoreFieldsOptions() {
+        return [{
+            label : this.labels.togetherInsObjectVariable,
+            value : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+        }, {
+            label : this.labels.separateVariable,
+            value : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
+        }];
+    }
+
+    get assignNullValuesIfNoRecordsFound() {
+        return this.state.recordLookupElement.assignNullValuesIfNoRecordsFound;
     }
 
     /**
@@ -285,6 +361,37 @@ export default class RecordLookupEditor extends LightningElement {
     handleRecordInputOutputAssignmentsChanged(event) {
         event.stopPropagation();
         this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
+    }
+
+    /**
+     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * @param {Object} event - event
+     */
+    handleAdvancedOptionsSelectionChange(event) {
+        event.stopPropagation();
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
+    }
+
+    /**
+     * Handle number of record changed
+     * @param {Object} event - event
+     */
+    handleNumberRecordsToStoreChange(event) {
+        event.stopPropagation();
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
+    }
+
+    handleWayToStoreFieldsChange(event) {
+        event.stopPropagation();
+        const wayToStoreFields = event.detail.value;
+        if (this.wayToStoreFieldsValue !== wayToStoreFields) {
+            this.updateProperty('wayToStoreFields', wayToStoreFields, null, true);
+        }
+    }
+
+    handleAssignNullValuesIfNoRecordsFoundChange(event) {
+        event.stopPropagation();
+        this.updateProperty('assignNullValuesIfNoRecordsFound', event.detail.checked, null, true);
     }
 
     /**

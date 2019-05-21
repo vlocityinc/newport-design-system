@@ -526,7 +526,8 @@ export default class Editor extends LightningElement {
             });
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
-            this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback });
+            const processType = this.properties.processType;
+            this.queueOpenPropertyEditor({ mode, node, nodeUpdate, newResourceCallback, processType });
         }
     };
 
@@ -543,7 +544,8 @@ export default class Editor extends LightningElement {
             const node = getElementForPropertyEditor(storeInstance.getCurrentState().elements[guid]);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
-            this.queueOpenPropertyEditor({ mode, nodeUpdate, node, newResourceCallback });
+            const processType = this.properties.processType;
+            this.queueOpenPropertyEditor({ mode, nodeUpdate, node, newResourceCallback, processType });
             if (node && node.isCanvasElement) {
                 storeInstance.dispatch(selectOnCanvas({
                     guid

@@ -12,6 +12,15 @@ export default class RecordInputOutputAssignments extends LightningElement {
     labels = LABELS;
 
     @api
+    titleCss = 'slds-text-heading_small slds-p-around_small';
+
+    @api
+    topDivCss = 'slds-m-bottom_small slds-border_top';
+
+    @api
+    listCss = 'slds-p-horizontal_small';
+
+    @api
     inputOutputAssignmentsItems = [];
 
     @track
@@ -40,6 +49,7 @@ export default class RecordInputOutputAssignments extends LightningElement {
 
     @api
     hideNewResource = false;
+
     /**
      * @param {String} entityName - the selected record object
      */

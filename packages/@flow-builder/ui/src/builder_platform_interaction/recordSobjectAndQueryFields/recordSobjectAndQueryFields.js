@@ -1,13 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./recordQueryFieldsLabels";
-import {
-    AddRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent,
-    UpdateRecordLookupFieldEvent,
-} from "builder_platform_interaction/events";
+import { LABELS } from "./recordSobjectAndQueryFieldsLabels";
 import { format } from "builder_platform_interaction/commonUtils";
 
-export default class RecordQueryFields extends LightningElement {
+export default class RecordSobjectAndQueryFields extends LightningElement {
     labels = LABELS;
 
     @track
@@ -41,7 +36,7 @@ export default class RecordQueryFields extends LightningElement {
      * @type {Boolean} true means the component is use in the advanced option panel.
      */
     @api
-    isDisplayedInAutomaticOutputAdvancedMode = false;
+    isDisplayedInAutomaticOutputAdvancedMode;
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -91,6 +86,18 @@ export default class RecordQueryFields extends LightningElement {
         return this.state.queriedFields;
     }
 
+    get topDivCss() {
+        return this.isDisplayedInAutomaticOutputAdvancedMode ? "" : "slds-m-bottom_small slds-border_top";
+    }
+
+    get sObjectTypeSelectionDivCss() {
+        return this.isDisplayedInAutomaticOutputAdvancedMode ? "slds-form-element slds-size_1-of-2 slds-m-bottom_small" : "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+    }
+
+    get titleCss() {
+        return this.isDisplayedInAutomaticOutputAdvancedMode ? "slds-text-heading_x-small slds-p-top_small " : "slds-text-heading_small slds-p-around_small";
+    }
+
     get sObjectVariablePickerTitle() {
         return !this.state.isCollection ? format(this.labels.selectVariableToStore, this.resourceDisplayText) : format(this.labels.selectVariableToStoreRecords, this.resourceDisplayText);
     }
@@ -118,39 +125,5 @@ export default class RecordQueryFields extends LightningElement {
      */
     get idComboboxValue() {
         return {type : 'option-inline', text: 'ID', value: 'Id', displayText: 'ID'};
-    }
-
-    get topDivCss() {
-        return this.isDisplayedInAutomaticOutputAdvancedMode ? "slds-form-element slds-size_1-of-2 slds-m-bottom_small" : "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
-    }
-
-    /**
-     * handle event when adding the new field
-     * @param {Object} event the add field event
-     */
-    handleAddField(event) {
-        event.stopPropagation();
-        const addFieldEvent = new AddRecordLookupFieldEvent();
-        this.dispatchEvent(addFieldEvent);
-    }
-
-    /**
-     * handle event when updating the field
-     * @param {Object} event the update field event
-     */
-    handleUpdateField(event) {
-        event.stopPropagation();
-        const updateFieldEvent = new UpdateRecordLookupFieldEvent(event.detail.index, event.detail.value, event.detail.error);
-        this.dispatchEvent(updateFieldEvent);
-    }
-
-    /**
-     * handle event when deleting the field
-     * @param {Object} event the delete field event
-     */
-    handleDeleteField(event) {
-        event.stopPropagation();
-        const deleteFieldEvent = new DeleteRecordLookupFieldEvent(event.detail.index);
-        this.dispatchEvent(deleteFieldEvent);
     }
 }

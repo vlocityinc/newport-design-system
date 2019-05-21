@@ -244,7 +244,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         elementConfig = getConfigForElementType(elementType),
         titleForModal = getTitleForModalHeader(mode, elementType),
         labelForOkButton = getLabelForOkButton(mode),
-        desc = getPropertyEditorDescriptor(mode, elementConfig);
+        desc = getPropertyEditorDescriptor(mode, elementConfig),
+        processType = attributes.processType;
     if (!desc) {
         throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
     }
@@ -256,7 +257,8 @@ export const getPropertyEditorConfig = (mode, attributes) => {
             desc,
             attr: {
                 node,
-                mode
+                processType,
+                mode,
             }
         }
     };

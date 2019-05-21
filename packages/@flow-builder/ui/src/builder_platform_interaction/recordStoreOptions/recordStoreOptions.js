@@ -16,6 +16,9 @@ export default class RecordStoreFieldsSelection extends LightningElement {
         wayToStoreFields : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
         assignNullValuesIfNoRecordsFound : false,
         resourceDisplayText : '',
+        isAutomaticOutputEnabled : true,
+        displayNumberRecordsToStore : true,
+        displayWayToStoreFields : true,
     };
 
     @api
@@ -65,6 +68,30 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     @api
     get assignNullValuesIfNoRecordsFound() {
         return this.state.assignNullValuesIfNoRecordsFound;
+    }
+
+    /**
+     * @param {Boolean} value - true : NumberRecordsToStore radio button group should be displayed.
+     */
+    @api
+    get displayNumberRecordsToStore() {
+        return this.state.displayNumberRecordsToStore;
+    }
+
+    set displayNumberRecordsToStore(value) {
+        this.state.displayNumberRecordsToStore = value;
+    }
+
+    /**
+     * @param {Boolean} value - true : WayToStoreFields radio button group should be displayed.
+     */
+    @api
+    get displayWayToStoreFields() {
+        return this.state.displayWayToStoreFields;
+    }
+
+    set displayWayToStoreFields(value) {
+        this.state.displayWayToStoreFields = value;
     }
 
     /**

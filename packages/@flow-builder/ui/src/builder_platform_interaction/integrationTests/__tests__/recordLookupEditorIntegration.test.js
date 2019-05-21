@@ -31,8 +31,10 @@ import { mockAllRules } from "mock/ruleService";
 import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import { globalVariableTypes, globalVariables, systemVariables } from 'mock/systemGlobalVars';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from "builder_platform_interaction/processTypeLib";
 
 const SELECTORS = {
+    RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT: 'builder_platform_interaction-record-sobject-and-query-fields',
     RECORD_QUERY_FIELDS_COMPONENT: 'builder_platform_interaction-record-query-fields',
     RECORD_FIELD_PICKER_ROW: 'builder_platform_interaction-record-field-picker-row',
     RECORD_FIELD_PICKER: 'builder_platform_interaction-field-picker',
@@ -43,12 +45,16 @@ const SELECTORS = {
     SOBJECT_OR_SOBJECT_COLLECTION_PICKER: 'builder_platform_interaction-sobject-or-sobject-collection-picker'
 };
 
-const getRecordQueryFieldElement = (recordLookupEditor) => {
-    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
+const getRecordSobjectAndQueryFieldElement = (recordLookupEditor) => {
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT);
 };
 
 const getSObjectOrSObjectCollectionPicker = (recordLookupEditor) => {
-    return getRecordQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+    return getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER);
+};
+
+const getSobjectAndFieldsElement = (recordLookupEditor) => {
+    return getRecordSobjectAndQueryFieldElement(recordLookupEditor).shadowRoot.querySelector(SELECTORS.RECORD_QUERY_FIELDS_COMPONENT);
 };
 
 const getRecordStoreOption = (recordLookupEditor) => {
@@ -86,11 +92,12 @@ const getResourceGroupedCombobox = (editor) => {
     return interactionCombobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
-const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
+const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME, flowOutputHandling = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED) => {
     const el = createElement('builder_platform_interaction-record-lookup-editor', { is: RecordLookupEditor });
     node.outputReferenceIndex = {value: 'guid', error: null};
     node.objectIndex = {value: 'guid', error: null};
-    Object.assign(el, {node, mode});
+    // Assign needs to be in this order as "mode" is using the flowOutputHandling
+    Object.assign(el, {node, flowOutputHandling, mode});
     document.body.appendChild(el);
     return el;
 };
@@ -206,7 +213,7 @@ describe('Record Lookup Editor', () => {
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 changeComboboxValue(comboboxElement, '');
                 return resolveRenderCycles(() => {
-                    expect(getRecordQueryFieldElement(recordLookupElement)).toBeNull();
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
                     expect(getRecordStoreOption(recordLookupElement)).toBeNull();
                     expect(getRecordFilter(recordLookupElement)).toBeNull();
                     expect(getRecordSort(recordLookupElement)).toBeNull();
@@ -218,7 +225,7 @@ describe('Record Lookup Editor', () => {
                 const comboboxElement = getEntityResourcePickerComboboxElement(entityResourcePicker);
                 changeComboboxValue(comboboxElement, 'invalidValue');
                 return resolveRenderCycles(() => {
-                    expect(getRecordQueryFieldElement(recordLookupElement)).toBeNull();
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
                     expect(getRecordStoreOption(recordLookupElement)).toBeNull();
                     expect(getRecordFilter(recordLookupElement)).toBeNull();
                     expect(getRecordSort(recordLookupElement)).toBeNull();
@@ -231,14 +238,14 @@ describe('Record Lookup Editor', () => {
                 changeComboboxValue(comboboxElement, 'Case');
                 return resolveRenderCycles(() => {
                     expect(recordLookupElement.node.object.error).toBeNull();
-                    expect(getRecordQueryFieldElement(recordLookupElement)).not.toBeNull();
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).not.toBeNull();
                     expect(getRecordStoreOption(recordLookupElement)).not.toBeNull();
                     expect(getRecordFilter(recordLookupElement)).not.toBeNull();
                     expect(getRecordSort(recordLookupElement)).not.toBeNull();
                 });
             });
             it('Queried fields should be correctly displayed', () => {
-                const queryFieldElement = getRecordQueryFieldElement(recordLookupElement);
+                const queryFieldElement = getSobjectAndFieldsElement(recordLookupElement);
                 const recordFieldPickerRow = getAllRecordFieldPickerRows(queryFieldElement);
                 expect(recordFieldPickerRow).toHaveLength(2);
                 expect(recordFieldPickerRow[0].value).toBe('Id');
@@ -353,7 +360,7 @@ describe('Record Lookup Editor', () => {
                 comboboxElement.dispatchEvent(textInputEvent(''));
                 comboboxElement.dispatchEvent(blurEvent);
                 return resolveRenderCycles(() => {
-                    expect(getRecordQueryFieldElement(recordLookupElement)).toBeNull();
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
                     expect(getRecordStoreOption(recordLookupElement)).toBeNull();
                     expect(getRecordFilter(recordLookupElement)).toBeNull();
                     expect(getRecordSort(recordLookupElement)).toBeNull();
@@ -366,7 +373,7 @@ describe('Record Lookup Editor', () => {
                 comboboxElement.dispatchEvent(textInputEvent('invalidValue'));
                 comboboxElement.dispatchEvent(blurEvent);
                 return resolveRenderCycles(() => {
-                    expect(getRecordQueryFieldElement(recordLookupElement)).toBeNull();
+                    expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).toBeNull();
                     expect(getRecordStoreOption(recordLookupElement)).toBeNull();
                     expect(getRecordFilter(recordLookupElement)).toBeNull();
                     expect(getRecordSort(recordLookupElement)).toBeNull();
@@ -381,7 +388,7 @@ describe('Record Lookup Editor', () => {
                 return resolveRenderCycles(() => {
                     return resolveRenderCycles(() => {
                         expect(recordLookupElement.node.object.error).toBeNull();
-                        expect(getRecordQueryFieldElement(recordLookupElement)).not.toBeNull();
+                        expect(getRecordSobjectAndQueryFieldElement(recordLookupElement)).not.toBeNull();
                         expect(getRecordStoreOption(recordLookupElement)).not.toBeNull();
                         expect(getRecordFilter(recordLookupElement)).not.toBeNull();
                         expect(getRecordSort(recordLookupElement)).not.toBeNull();

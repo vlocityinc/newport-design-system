@@ -1,5 +1,6 @@
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 
 export const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
 
@@ -31,6 +32,12 @@ export const PROCESS_TYPES_ICONS = {FEATURED : new Map([
     [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:events']
 ])};
 
+export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
+        SUPPORTED : 'Supported',
+        UNSUPPORTED : 'Unsupported',
+        REQUIRED : 'Required'
+};
+
 export const getProcessTypesWithIcons = (unfilteredProcessTypes, processTypesMap, filtering, postFiltering) => {
     let filteredProcessTypes =  unfilteredProcessTypes;
     if (filtering) {
@@ -48,4 +55,24 @@ export const getProcessTypesWithIcons = (unfilteredProcessTypes, processTypesMap
 
 export const getProcessTypeIcon = (processType) => {
     return PROCESS_TYPES_ICONS.FEATURED.get(processType) || PROCESS_TYPES_ICONS.OTHERS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
+};
+
+/**
+ * this function returns one of the value of the  FLOW_AUTOMATIC_OUTPUT_HANDLING enum.
+ * Supported - The processType supports Automatic output handling and Advanced Options
+ * Unsupported - The processType does not support Automatic output handling
+ * Required - The ProcessType only supports Automatic output handling
+ *
+ * @params {String} processType
+ * @return {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
+ */
+export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
+    const processTypeName = getProcessTypes().find(type => type.name === processType);
+    if (!processTypeName) {
+        throw new Error("Can not find process type: " + processTypeName);
+    }
+    if (processType.automaticOutputHandling) {
+        return processType.automaticOutputHandling;
+    }
+    return FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED; // TODO: this should be removed when automaticOutputHandling will be returned by the server. (W-6136932)
 };

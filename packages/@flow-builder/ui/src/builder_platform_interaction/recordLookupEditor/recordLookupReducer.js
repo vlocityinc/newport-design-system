@@ -1,6 +1,7 @@
 import { updateProperties, set, deleteItem, hydrateWithErrors, replaceItem } from "builder_platform_interaction/dataMutationLib";
 import { PropertyChangedEvent, AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent, AddRecordLookupFieldEvent, UpdateRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent, AddRecordFieldAssignmentEvent, DeleteRecordFieldAssignmentEvent, UpdateRecordFieldAssignmentEvent } from "builder_platform_interaction/events";
+    DeleteRecordLookupFieldEvent, AddRecordFieldAssignmentEvent, DeleteRecordFieldAssignmentEvent, UpdateRecordFieldAssignmentEvent,
+    NumberRecordToStoreChangedEvent, UseAdvancedOptionsSelectionChangedEvent } from "builder_platform_interaction/events";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
@@ -22,7 +23,8 @@ const PROPS = {
         wayToStoreFields: 'wayToStoreFields',
         sortOrder: 'sortOrder',
         sortField: 'sortField',
-        outputReference: 'outputReference'
+        outputReference: 'outputReference',
+        outputHandled : 'outputHandled'
    };
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP].nonHydratableProperties, PROPS.wayToStoreFields]);
@@ -129,6 +131,14 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
     return resetQueriedFields(state);
 };
 
+const recordStoreOptionChanged = (state, {numberRecordsToStore}) => {
+    if (state.numberRecordsToStore !== numberRecordsToStore) {
+        state = updateProperties(state, {[PROPS.numberRecordsToStore]: numberRecordsToStore});
+        state = updateProperties(state, {[PROPS.outputReference]: {value:'', error:null}});
+    }
+    return state;
+};
+
 /**
  * Reset current element state's sortOrder and sortField properties
  * @param {Object} state - current element's state
@@ -150,6 +160,14 @@ const resetOutputAssignmentsOutputReferenceAndQueriedfields = state => {
     state = resetOutputAssignments(state);
     // reset outputReference and queried fields
     return updateOutputReferenceAndQueriedFields(state, '', null);
+};
+
+/**
+ * Update the property outputHandled and reset all others.
+ */
+const useAdvancedOptionsSelectionChanged = (state, {useAdvancedOptions}) => {
+    state = updateProperties(state, {[PROPS.outputHandled]: !useAdvancedOptions});
+    return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
 };
 
 /**
@@ -229,7 +247,7 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
             // reset outputReference and queried fields
             state = updateOutputReferenceAndQueriedFields(state, '', null);
             state = resetOutputAssignments(state);
-        } else if (propertyName === PROPS.assignNullValuesIfNoRecordsFound) {
+        } else if (propertyName === PROPS.assignNullValuesIfNoRecordsFound || propertyName === PROPS.outputHandled) {
             state = updateProperties(state, {[propertyName]: value});
         }
     }
@@ -262,6 +280,10 @@ export const recordLookupReducer = (state, event) => {
             return deleteRecordFieldAssignment(state, event);
         case UpdateRecordFieldAssignmentEvent.EVENT_NAME:
             return updateRecordFieldAssignment(state, event);
+        case NumberRecordToStoreChangedEvent.EVENT_NAME:
+            return recordStoreOptionChanged(state, event.detail);
+        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+            return useAdvancedOptionsSelectionChanged(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL:

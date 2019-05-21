@@ -45,46 +45,141 @@
             sort-field-error={state.recordLookupElement.sortField.error}
             onchange={handleRecordSortChanged}>
         </builder_platform_interaction-record-sort>
+
+        <!-- Automatic output is not supported -->
+        <div if:false={isAutomaticOutputHandlingSupported}>
+            <!-- Record Store Fields Selection section -->
+            <builder_platform_interaction-record-store-options
+                element-type={elementType}
+                resource-display-text={resourceDisplayText}
+                number-of-records-to-store={numberRecordsToStoreValue}
+                way-to-store-fields={wayToStoreFieldsValue}
+                assign-null-values-if-no-records-found={state.recordLookupElement.assignNullValuesIfNoRecordsFound}
+                display-way-to-store-fields={displayWayToStoreFields}
+                onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
+            </builder_platform_interaction-record-store-options>
+    
+            <!-- SObject or SObject collection section -->
+            <builder_platform_interaction-record-sobject-and-query-fields
+                if:true={isSObjectMode}
+                is-collection={isCollection}
+                record-entity-name={recordEntityName}
+                resource-display-text={resourceDisplayText}
+                element-type={elementType}
+                queried-fields={state.recordLookupElement.queriedFields}
+                output-reference={outputReferenceValue}
+                output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
+                sobject-variable-error-message={outputReferenceErrorMessage}
+                onsobjectreferencechanged={handleSObjectReferenceChanged}
+                onaddrecordlookupfield={handlePropertyOrListItemChanged}
+                onupdaterecordlookupfield={handlePropertyOrListItemChanged}
+                ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
+            </builder_platform_interaction-record-sobject-and-query-fields>
+            
+            <builder_platform_interaction-record-input-output-assignments 
+                if:false={isSObjectMode} 
+                input-output-assignments-items={state.recordLookupElement.outputAssignments}
+                resource-display-text={resourceDisplayText}
+                record-entity-name={recordEntityName}
+                record-fields={recordFields}
+                element-type={elementType}
+                is-output
+                title={assignmentTitle}
+                rhs-label={labels.filterRhsLabel}
+                onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+                onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+            </builder_platform_interaction-record-input-output-assignments>
+        </div>
+
+        <!-- Automatic output is supported -->
+        <div if:true={isAutomaticOutputHandlingSupported}>
+            <builder_platform_interaction-record-number-record-to-store
+                label={numberRecordsToStoreLabel}
+                record-store-options={recordStoreOptions}
+                number-records-to-store-value={numberRecordsToStoreValue}
+                onnumberrecordtostorechanged={handleNumberRecordsToStoreChange}>
+            </builder_platform_interaction-record-number-record-to-store>
+
+            <!-- Selection list of fields -->
+            <builder_platform_interaction-record-query-fields
+                if:false={isAdvancedMode}
+                record-entity-name={recordEntityName}
+                resource-display-text={resourceDisplayText}
+                element-type={elementType}
+                queried-fields={state.recordLookupElement.queriedFields}
+                onaddrecordlookupfield={handlePropertyOrListItemChanged}
+                onupdaterecordlookupfield={handlePropertyOrListItemChanged}
+                ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
+            </builder_platform_interaction-record-query-fields> 
+        
+            <!-- Advance Option selection checkbox -->
+            <builder_platform_interaction-record-use-advanced-options-checkbox
+                is-advanced-mode={isAdvancedMode}
+                onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}>
+            </builder_platform_interaction-record-use-advanced-options-checkbox>
+            
+            <div if:true={isAdvancedMode} class="slds-p-left_xx-large">
+                <builder_platform_interaction-rich-label 
+                    label={labels.storeFieldsSelectionLabel}
+                    args={resourceDisplayText} 
+                    class="slds-text-body_regular">
+                </builder_platform_interaction-rich-label>
                 
-        <!-- Record Store Fields Selection section -->
-        <builder_platform_interaction-record-store-options
-            element-type={elementType}
-            resource-display-text={resourceDisplayText}
-            number-of-records-to-store={numberRecordsToStoreValue}
-            way-to-store-fields={wayToStoreFieldsValue}
-            assign-null-values-if-no-records-found={state.recordLookupElement.assignNullValuesIfNoRecordsFound}
-            onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
-        </builder_platform_interaction-record-store-options>
-        
-        <!-- SObject or SObject collection section -->
-        <builder_platform_interaction-record-query-fields if:true={isSObjectMode} 
-            is-collection={isCollection}
-            record-entity-name={recordEntityName}
-            resource-display-text={resourceDisplayText}
-            element-type={elementType}
-            queried-fields={state.recordLookupElement.queriedFields}
-            output-reference={outputReferenceValue}
-            output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
-            sobject-variable-error-message={outputReferenceErrorMessage}
-            onsobjectreferencechanged={handleSObjectReferenceChanged}
-            onaddrecordlookupfield={handlePropertyOrListItemChanged}
-            onupdaterecordlookupfield={handlePropertyOrListItemChanged}
-            ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
-        </builder_platform_interaction-record-query-fields>
-        
-        <builder_platform_interaction-record-input-output-assignments 
-            if:false={isSObjectMode} 
-            input-output-assignments-items={state.recordLookupElement.outputAssignments}
-            resource-display-text={resourceDisplayText}
-            record-entity-name={recordEntityName}
-            record-fields={recordFields}
-            element-type={elementType}
-            is-output
-            title={assignmentTitle}
-            rhs-label={labels.filterRhsLabel}
-            onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-            onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-            ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
-        </builder_platform_interaction-record-input-output-assignments>
+                 <lightning-radio-group
+                    if:true={displayWayToStoreFields}
+                    name="wayToStoreFieldsRadioGroup"
+                    label={labels.wayToStoreRecordLabel} 
+                    options={wayToStoreFieldsOptions}
+                    value={wayToStoreFieldsValue}
+                    onchange={handleWayToStoreFieldsChange}
+                    class="slds-m-top_x-small">
+                </lightning-radio-group>
+
+                <!-- SObject or SObject collection section -->
+                <builder_platform_interaction-record-sobject-and-query-fields
+                    if:true={isSObjectMode}
+                    is-collection={isCollection}
+                    is-displayed-in-automatic-output-advanced-mode=true
+                    record-entity-name={recordEntityName}
+                    resource-display-text={resourceDisplayText}
+                    element-type={elementType}
+                    queried-fields={state.recordLookupElement.queriedFields}
+                    output-reference={outputReferenceValue}
+                    output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
+                    sobject-variable-error-message={outputReferenceErrorMessage}
+                    onsobjectreferencechanged={handleSObjectReferenceChanged}
+                    onaddrecordlookupfield={handlePropertyOrListItemChanged}
+                    onupdaterecordlookupfield={handlePropertyOrListItemChanged}
+                    ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
+                </builder_platform_interaction-record-sobject-and-query-fields>
+                
+                <builder_platform_interaction-record-input-output-assignments 
+                    if:false={isSObjectMode}
+                    input-output-assignments-items={state.recordLookupElement.outputAssignments}
+                    resource-display-text={resourceDisplayText}
+                    record-entity-name={recordEntityName}
+                    record-fields={recordFields}
+                    element-type={elementType}
+                    is-output
+                    title={assignmentTitle}
+                    rhs-label={labels.filterRhsLabel}
+                    title-css="slds-text-heading_x-small slds-p-top_small"
+                    list-css="slds-m-bottom_small"
+                    top-div-css="slds-m-bottom_small"
+                    onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+                    onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+                    ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+                </builder_platform_interaction-record-input-output-assignments>
+                <lightning-input
+                    name="assignNullIfNoRecordFoundCheckbox" 
+                    class='property-input slds-m-top_x-small slds-m-bottom_x-small' 
+                    type='checkbox' 
+                    label={labels.assignNullValuesIfNoRecordsFoundLabel}
+                    checked={assignNullValuesIfNoRecordsFound} 
+                    onchange={handleAssignNullValuesIfNoRecordsFoundChange}>
+                </lightning-input>
+            </div>
+        </div>
     </div>
 </template> 
