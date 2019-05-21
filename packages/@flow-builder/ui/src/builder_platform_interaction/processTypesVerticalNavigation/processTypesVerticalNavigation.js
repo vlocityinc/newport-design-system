@@ -2,15 +2,6 @@ import { LightningElement, api} from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import { ALL_PROCESS_TYPE, getProcessTypesWithIcons, PROCESS_TYPES_ICONS } from 'builder_platform_interaction/processTypeLib';
 
-const SELECTORS = {
-    VERTICAL_NAVIGATION_OVERFLOW: 'lightning-vertical-navigation-overflow',
-    VERTICAL_NAVIGATION_OVERFLOW_BUTTON : '.slds-nav-vertical__action_overflow',
-    VERTICAL_NAVIGATION_ITEM_ICON : 'lightning-vertical-navigation-item-icon',
-    VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR: 'a.slds-nav-vertical__action',
-};
-// Specific style to truncate label
-const TRUNCATED_LABEL_STYLE = "display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;border:none;";
-
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
      * All unfiltered process types
@@ -74,45 +65,5 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.dispatchEvent(new ProcessTypeSelectedEvent(event.detail.name));
-    }
-
-    /**
-     * Expand "other" process types section
-     */
-    expandOtherSection() {
-        const toggleButtonOverFlow = this.template.querySelector(SELECTORS.VERTICAL_NAVIGATION_OVERFLOW).shadowRoot.querySelector(SELECTORS.VERTICAL_NAVIGATION_OVERFLOW_BUTTON);
-        if (toggleButtonOverFlow) {
-            toggleButtonOverFlow.dispatchEvent(new Event('click'));
-        }
-    }
-
-    /**
-     * Truncate process type label if needed via CSS
-     * {@link ProcessTypesVerticalNavigation#TRUNCATE_DISPLAY_STYLE}, {@link ProcessTypesVerticalNavigation#TRUNCATE_SLDS_CSS_CLASS}
-     */
-    truncateLabels() {
-        const verticalActions = this.template.querySelectorAll(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON);
-        if (verticalActions) {
-            verticalActions.forEach(verticalAction => {
-                const anchor = verticalAction.shadowRoot.querySelector(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR);
-                if (anchor) {
-                    anchor.setAttribute("style", TRUNCATED_LABEL_STYLE);
-                }
-            });
-        }
-    }
-
-    /**
-     * Used to expand "other" process types section and truncate process type label if needed via CSS
-     * {@link ProcessTypesVerticalNavigation#TRUNCATED_LABEL_STYLE}
-     */
-    renderedCallback() {
-        if (!this._isInitialized) {
-            if (this.hasOtherProcessTypes) {
-                this.expandOtherSection();
-            }
-            this.truncateLabels();
-            this._isInitialized = true;
-        }
     }
 }

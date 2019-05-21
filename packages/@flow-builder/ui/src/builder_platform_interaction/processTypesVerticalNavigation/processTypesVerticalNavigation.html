@@ -6,7 +6,6 @@
                 <template for:each={featuredProcessTypes} for:item="featuredProcessType">
                     <lightning-vertical-navigation-item-icon key={featuredProcessType.name}
                         label={featuredProcessType.label}
-                        title={featuredProcessType.label}
                         name={featuredProcessType.name}
                         icon-name={featuredProcessType.iconName}>
                     </lightning-vertical-navigation-item-icon>
@@ -16,7 +15,6 @@
                     <template for:each={otherProcessTypes} for:item="otherProcessType">
                         <lightning-vertical-navigation-item-icon key={otherProcessType.name}
                             label={otherProcessType.label}
-                            title={otherProcessType.label}
                             name={otherProcessType.name}
                             icon-name={otherProcessType.iconName}>
                         </lightning-vertical-navigation-item-icon>

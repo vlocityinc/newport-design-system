@@ -12,12 +12,7 @@ const createComponentUnderTest = (processTypes = MOCK_ALL_PROCESS_TYPES) => {
     return el;
 };
 
-const createComponentUnderTestWithFeaturedTypesOnly = (processTypes = MOCK_PROCESS_TYPES.FEATURED) => {
-    const el = createElement('builder_platform_interaction-process-types-vertical-navigation', { is: ProcessTypesVerticalNavigation });
-    Object.assign(el, {processTypes});
-    document.body.appendChild(el);
-    return el;
-};
+const createComponentUnderTestWithFeaturedTypesOnly = createComponentUnderTest.bind(null, MOCK_PROCESS_TYPES.FEATURED);
 
 const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON: 'lightning-vertical-navigation-item-icon',
@@ -27,16 +22,10 @@ const SELECTORS = {
 const getAllVerticalNavigationItemIcons = processTypesVerticalNavigation => processTypesVerticalNavigation.shadowRoot.querySelectorAll(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON);
 const getProcessTypeAnchor = processTypesVerticalNavigationItemIcon => processTypesVerticalNavigationItemIcon.shadowRoot.querySelector(SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR);
 
-describe('process-types-vertical-navigation', () => {
+describe('process-types-vertical-navigation ', () => {
         let processTypesVerticalNavigation;
         beforeEach(() => {
             processTypesVerticalNavigation = createComponentUnderTest();
-        });
-
-        describe('UI rendering (snapshot)', () => {
-            test('label and truncation (via CSS)', () => {
-                expect(processTypesVerticalNavigation).toMatchSnapshot();
-            });
         });
         describe('Process types details', () => {
             test('by default "all" entry selected', () => {
