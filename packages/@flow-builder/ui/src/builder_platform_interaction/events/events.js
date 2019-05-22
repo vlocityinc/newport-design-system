@@ -23,6 +23,7 @@ export { CanvasMouseUpEvent } from "./canvasEvents/canvasMouseUpEvent";
 export { AddConnectionEvent } from "./canvasEvents/addConnectionEvent";
 export { ConnectorSelectedEvent } from "./canvasEvents/connectorSelectedEvent";
 export { ToggleMarqueeOnEvent } from "./canvasEvents/zoomPanelEvent/toggleMarqueeOnEvent";
+export { MarqueeSelectEvent } from "./canvasEvents/marqueeSelectEvent";
 export { ClickToZoomEvent } from "./canvasEvents/zoomPanelEvent/zoomEvent";
 export { DuplicateEvent } from "./toolbarEvents/duplicateEvent";
 export { EditFlowPropertiesEvent } from "./toolbarEvents/editFlowPropertiesEvent";

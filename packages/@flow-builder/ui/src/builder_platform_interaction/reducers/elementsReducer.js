@@ -12,6 +12,7 @@ import {
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
+    MARQUEE_SELECT_ON_CANVAS,
     HIGHLIGHT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
@@ -35,6 +36,7 @@ import { getConfigForElementType } from "builder_platform_interaction/elementCon
  * @param {Object} action - with type and payload
  * @return {Object} new state after reduction
  */
+/* eslint-disable-next-line complexity */
 export default function elementsReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
@@ -64,6 +66,8 @@ export default function elementsReducer(state = {}, action) {
             return _toggleCanvasElement(state, action.payload.guid);
         case DESELECT_ON_CANVAS:
             return _deselectCanvasElements(state);
+        case MARQUEE_SELECT_ON_CANVAS:
+            return _marqueeSelect(state, action.payload.canvasElementGuidsToSelect, action.payload.canvasElementGuidsToDeselect);
         case HIGHLIGHT_ON_CANVAS:
             return _highlightCanvasElement(state, action.payload.guid);
         case ADD_DECISION_WITH_OUTCOMES:
@@ -341,6 +345,42 @@ function _selectCanvasElement(elements, selectedGUID) {
         }
         return guid;
     });
+    return hasStateChanged ? newState : elements;
+}
+
+/**
+ * Helper function to marquee select canvas elements. Iterates over the guidsToSelect/guidsToDeselect array
+ * and sets the isSelected property of the canvas element to true/false repectively, and set isHighlighted state to false in both case.
+ *
+ * @param {Object} elements - current state of elements in the store
+ * @param {String[]} guidsToSelect - Array of canvas elements to be selected
+ * @param {String[]} guidsToDeselect - Array of canvas elements to be deselected
+ */
+function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
+    const newState = updateProperties(elements);
+    let hasStateChanged = false;
+    guidsToSelect.map(guid => {
+        newState[guid] = updateProperties(newState[guid], {
+            config: {
+                isSelected: true,
+                isHighlighted: false
+            }
+        });
+        hasStateChanged = true;
+        return guid;
+    });
+
+    guidsToDeselect.map(guid => {
+        newState[guid] = updateProperties(newState[guid], {
+            config: {
+                isSelected: false,
+                isHighlighted: false
+            }
+        });
+        hasStateChanged = true;
+        return guid;
+    });
+
     return hasStateChanged ? newState : elements;
 }
 

@@ -1,9 +1,9 @@
 import { LightningElement, api, track } from "lwc";
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
-import { isMultiSelect, setupCanvasElements, setupConnectors } from "./canvasUtils";
+import { isMultiSelect, canDelete, canZoom, setupCanvasElements, setupConnectors, checkMarqueeSelection } from "./canvasUtils";
 import { SCALE_BOUNDS, getScaleAndOffsetValuesOnZoom, getOffsetValuesOnPan, getDistanceBetweenViewportCenterAndElement, isElementInViewport } from "./zoomPanUtils";
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
-import { AddElementEvent, DeleteElementEvent, CanvasMouseUpEvent, AddConnectionEvent, ConnectorSelectedEvent, ZOOM_ACTION, MARQUEE_ACTION } from "builder_platform_interaction/events";
+import { AddElementEvent, DeleteElementEvent, CanvasMouseUpEvent, AddConnectionEvent, ConnectorSelectedEvent, MarqueeSelectEvent, ZOOM_ACTION, MARQUEE_ACTION } from "builder_platform_interaction/events";
 import { KEYS } from "./keyConstants";
 import { logPerfMarkStart, logPerfMarkEnd } from "builder_platform_interaction/loggingUtils";
 
@@ -62,6 +62,9 @@ export default class Canvas extends LightningElement {
 
     // Mouse position variables used for marquee selection
     marqueeStartPoint = [0, 0];
+
+    // Set to keep track the current selected nodes for marquee selection
+    currentSelectedCanvasElementGuids = new Set();
 
     constructor() {
         super();
@@ -186,13 +189,13 @@ export default class Canvas extends LightningElement {
      * @param {object} event - key down event
      */
     handleKeyDown = (event) => {
-        if ((event.key === KEYS.BACKSPACE || event.key === KEYS.DELETE) && !this.isCanvasMouseDown && !this.isMarqueeModeOn) {
+        if (canDelete(event, this.isCanvasMouseDown, this.isMarqueeModeOn)) {
             // Code block for deletion of selected canvas elements and connectors. This should not happen when mouse is
             // down on the canvas or the marquee mode is turned on
             event.preventDefault();
             const deleteEvent = new DeleteElementEvent();
             this.dispatchEvent(deleteEvent);
-        } else if ((event.metaKey || event.ctrlKey) && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL) && !this.isCanvasMouseDown && !this.isMarqueeInProgress) {
+        } else if (canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)) {
             // Code block for zooming shortcuts. This should not happen when mouse is down on the canvas or the marquee
             // is in progress
             event.preventDefault();
@@ -274,6 +277,7 @@ export default class Canvas extends LightningElement {
     handleOverlayMouseDown = (event) => {
         event.stopPropagation();
         this._initMarqueeBox(event);
+        this.currentSelectedCanvasElementGuids.clear();
     };
 
     /**
@@ -286,6 +290,12 @@ export default class Canvas extends LightningElement {
         if (this.isOverlayMouseDown) {
             this.marqueeEndPoint = this._getMousePoint(event);
             this.isMarqueeInProgress = true;
+            // Check the marquee selection elements and update their selected state if in the list
+            const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect } = checkMarqueeSelection(this.nodes, this.connectors, this.currentSelectedCanvasElementGuids, this.marqueeStartPoint, this.marqueeEndPoint);
+            if (canvasElementGuidsToSelect.length !== 0 || canvasElementGuidsToDeselect.length !== 0 || connectorGuidsToSelect.length !== 0 || connectorGuidsToDeselect.length !== 0) {
+                const marqueeSelectEvent = new MarqueeSelectEvent(canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect);
+                this.dispatchEvent(marqueeSelectEvent);
+            }
         }
     };
 

@@ -15,6 +15,7 @@ import {
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
+    MARQUEE_SELECT_ON_CANVAS,
     HIGHLIGHT_ON_CANVAS,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
@@ -93,15 +94,25 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-describe('elements-reducer', () => {
-    function getElement(guid, name) {
-        const element = {
-            guid,
-            name
-        };
-        return element;
-    }
+const getElement = (guid, name) => {
+    return {
+        guid,
+        name
+    };
+};
 
+const getElementWithConfigProp = (guid, isCanvasElement, isSelected, isHighlighted) => {
+    return {
+        guid,
+        isCanvasElement,
+        config: {
+            isSelected,
+            isHighlighted
+        }
+    };
+};
+
+describe('elements-reducer', () => {
     describe('Update Flow', () => {
         it('with state set to undefined & action type set to empty should return an empty object', () => {
             expect(elementReducer(undefined, {})).toEqual({});
@@ -575,17 +586,6 @@ describe('elements-reducer', () => {
         });
     });
 
-    function getElementWithConfigProp(guid, isCanvasElement, isSelected, isHighlighted) {
-        const element = {
-            guid,
-            isCanvasElement,
-            config: {
-                isSelected,
-                isHighlighted
-            }
-        };
-        return element;
-    }
     describe('Select on Canvas Elements', () => {
         it('With state set to undefined & action type is SELECT_ON_CANVAS should return the copy of original state', () => {
             const updatedElements = {};
@@ -739,6 +739,67 @@ describe('elements-reducer', () => {
                 guid4: getElementWithConfigProp('guid4', true, false, false)
             };
             const newElementState = elementReducer(oldElement, {type: DESELECT_ON_CANVAS});
+            expect(newElementState).toEqual(updatedElements);
+        });
+    });
+
+    describe('Marquee Select on Canvas Elements', () => {
+        it('With state set to undefined & action type is MARQUEE_SELECT_ON_CANVAS should return the copy of original state', () => {
+            const updatedElements = {};
+            const newElementState = elementReducer(undefined, {type: MARQUEE_SELECT_ON_CANVAS, payload: {canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: []}});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('When list of canvas elements to be selected and none to be deselected, should select the canvas elements in guidsToSelect list', () => {
+            const guidsToSelect = ['guid1', 'guid2'];
+            const guidsToDeselect = [];
+            const oldElement = {
+                guid1: getElementWithConfigProp('guid1', true, false, false),
+                guid2: getElementWithConfigProp('guid2', true, false, true),
+                guid3: getElementWithConfigProp('guid3', true, false, false)
+            };
+            const updatedElements = {
+                guid1: getElementWithConfigProp('guid1', true, true, false),
+                guid2: getElementWithConfigProp('guid2', true, true, false),
+                guid3: getElementWithConfigProp('guid3', true, false, false)
+            };
+            const newElementState = elementReducer(oldElement, {type: MARQUEE_SELECT_ON_CANVAS, payload: {canvasElementGuidsToSelect: guidsToSelect, canvasElementGuidsToDeselect: guidsToDeselect}});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('When list of canvas elements to be deselected and none to be selected, should deslect the canvas elements in guidsToDeselect list', () => {
+            const guidsToSelect = [];
+            const guidsToDeselect = ['guid1', 'guid2'];
+            const oldElement = {
+                guid1: getElementWithConfigProp('guid1', true, true, false),
+                guid2: getElementWithConfigProp('guid2', true, true, true),
+                guid3: getElementWithConfigProp('guid3', true, false, false)
+            };
+            const updatedElements = {
+                guid1: getElementWithConfigProp('guid1', true, false, false),
+                guid2: getElementWithConfigProp('guid2', true, false, false),
+                guid3: getElementWithConfigProp('guid3', true, false, false)
+            };
+            const newElementState = elementReducer(oldElement, {type: MARQUEE_SELECT_ON_CANVAS, payload: {canvasElementGuidsToSelect: guidsToSelect, canvasElementGuidsToDeselect: guidsToDeselect}});
+            expect(newElementState).toEqual(updatedElements);
+        });
+
+        it('When list of canvas elements to be selected and deselected, should select the canvas element in guidsToSelect list and deselect the elements in guidsToDeselect list', () => {
+            const guidsToSelect = ['guid1', 'guid2'];
+            const guidsToDeselect = ['guid3', 'guid4'];
+            const oldElement = {
+                guid1: getElementWithConfigProp('guid1', true, false, false),
+                guid2: getElementWithConfigProp('guid2', true, false, true),
+                guid3: getElementWithConfigProp('guid3', true, true, false),
+                guid4: getElementWithConfigProp('guid4', true, true, true),
+            };
+            const updatedElements = {
+                guid1: getElementWithConfigProp('guid1', true, true, false),
+                guid2: getElementWithConfigProp('guid2', true, true, false),
+                guid3: getElementWithConfigProp('guid3', true, false, false),
+                guid4: getElementWithConfigProp('guid4', true, false, false),
+            };
+            const newElementState = elementReducer(oldElement, {type: MARQUEE_SELECT_ON_CANVAS, payload: {canvasElementGuidsToSelect: guidsToSelect, canvasElementGuidsToDeselect: guidsToDeselect}});
             expect(newElementState).toEqual(updatedElements);
         });
     });

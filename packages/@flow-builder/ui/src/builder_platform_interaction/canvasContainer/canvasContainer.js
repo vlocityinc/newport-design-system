@@ -2,7 +2,7 @@ import { LightningElement, api, track } from "lwc";
 import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable,
     shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal, calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from './canvasContainerUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { deselectOnCanvas, updateCanvasElementLocation } from 'builder_platform_interaction/actions';
+import { deselectOnCanvas, marqueeSelectOnCanvas, updateCanvasElementLocation } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /** Private singleton variables */
@@ -73,7 +73,7 @@ export default class CanvasContainer extends LightningElement {
     };
 
     /**
-     * Handles the drag node stop event and dispatches  an action to update the location of the node.
+     * Handles the drag node stop event and dispatches an action to update the location of the node.
      *
      * @param {object} event - node stop event coming from node.js
      */
@@ -117,6 +117,23 @@ export default class CanvasContainer extends LightningElement {
             }
         }
     };
+
+    /**
+     * Handles the marquee select event and dispatches an action to update the selection state of the canvas elements && connectors.
+     *
+     * @param {object} event - marquee select event coming from canvas.js
+     */
+    handleMarqueeSelection = (event) => {
+        if (event && event.detail) {
+            const payload = {
+                canvasElementGuidsToSelect: event.detail.canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect: event.detail.canvasElementGuidsToDeselect,
+                connectorGuidsToSelect: event.detail.connectorGuidsToSelect,
+                connectorGuidsToDeselect: event.detail.connectorGuidsToDeselect
+            };
+            storeInstance.dispatch(marqueeSelectOnCanvas(payload));
+        }
+    }
 
     /** Private functions */
     mapCanvasStateToStore = () => {

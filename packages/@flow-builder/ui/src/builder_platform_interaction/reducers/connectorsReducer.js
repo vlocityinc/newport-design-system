@@ -6,6 +6,7 @@ import {
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
+    MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS
 } from "builder_platform_interaction/actions";
@@ -29,6 +30,7 @@ export default function connectorsReducer(state = [], action) {
         case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
         case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
         case DESELECT_ON_CANVAS: return _deselectConnectors(state);
+        case MARQUEE_SELECT_ON_CANVAS: return _marqueeSelect(state, action.payload.connectorGuidsToSelect, action.payload.connectorGuidsToDeselect);
         case MODIFY_DECISION_WITH_OUTCOMES:
         case MODIFY_WAIT_WITH_WAIT_EVENTS: return _deleteAndUpdateConnectorsForChildElements(
                 state,
@@ -217,6 +219,38 @@ function _deselectConnectors(connectors) {
     let hasStateChanged = false;
     const newState = connectors.map((connector) => {
         if (connector.config.isSelected) {
+            hasStateChanged = true;
+            return updateProperties(connector, {
+                config: {
+                    isSelected: false
+                }
+            });
+        }
+        return connector;
+    });
+
+    return hasStateChanged ? newState : connectors;
+}
+
+/**
+ * Helper function to marquee select connectors. Iterates over the guidsToSelect/guidsToDeselect array
+ * and sets the isSelected property of the connector to true/false.
+ *
+ * @param {Object[]} connectors - current state of connectors in the store
+ * @param {String[]} guidsToSelect - Array of connector guids to be selected
+ * @param {String[]} guidsToDeselect - Array of connector guids to be deselected
+ */
+function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
+    let hasStateChanged = false;
+    const newState = connectors.map((connector) => {
+        if (guidsToSelect.includes(connector.guid)) {
+            hasStateChanged = true;
+            return updateProperties(connector, {
+                config: {
+                    isSelected: true
+                }
+            });
+        } else if (guidsToDeselect.includes(connector.guid)) {
             hasStateChanged = true;
             return updateProperties(connector, {
                 config: {

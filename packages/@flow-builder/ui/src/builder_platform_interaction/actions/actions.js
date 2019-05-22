@@ -29,6 +29,8 @@ export const SELECT_ON_CANVAS = 'SELECT_ON_CANVAS';
 export const TOGGLE_ON_CANVAS = 'TOGGLE_ON_CANVAS';
 export const DESELECT_ON_CANVAS = 'DESELECT_ON_CANVAS';
 
+export const MARQUEE_SELECT_ON_CANVAS = 'MARQUEE_SELECT_ON_CANVAS';
+
 export const HIGHLIGHT_ON_CANVAS = 'HIGHLIGHT_ON_CANVAS';
 
 export const ADD_DECISION_WITH_OUTCOMES = 'ADD_DECISION_WITH_OUTCOMES';
@@ -289,6 +291,13 @@ export const toggleOnCanvas = (payload) => createAction(TOGGLE_ON_CANVAS, payloa
  * @returns {Object} action new action based on type and payload
  */
 export const deselectOnCanvas = createAction(DESELECT_ON_CANVAS);
+
+/**
+ * Action for marquee select the canvas elements and connectors.
+ * @param {Object} payload - contains arrays with the canvas elements and connectors to be selected/deselected
+ * @returns {Object} action new action based on type and payload
+ */
+export const marqueeSelectOnCanvas = (payload) => createAction(MARQUEE_SELECT_ON_CANVAS, payload);
 
 /**
  * Action for setting the isHighlighted property of a canvas element to true

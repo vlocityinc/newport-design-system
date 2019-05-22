@@ -1,5 +1,9 @@
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
+import { isElementOverlapWithBox } from './marqueeSelectionLib';
+import { KEYS } from "./keyConstants";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+
+const NODE_LENGTH = 48;
 
 /**
  * Helper function to set the id on the canvas element container.
@@ -187,16 +191,88 @@ const _setConnectorLabel = (connector, jsPlumbConnector) => {
 };
 
 /**
+ * Helper function to check if canvas elements need to be selected/deselected and update the current selection list accordingly,
+ * the node would be selected when it is overlapping with the marquee box.
+ *
+ * @param {Object[]} canvasElements - Array of canvas elements
+ * @param {String[]} currentSelectedCanvasElementGuids - Array of current selected canvas elements
+ * @param {Integer[]} boxStartPos - marquee box start position
+ * @param {Integer[]} boxEndPos - marquee box end position
+ * @param {String[]} canvasElementGuidsToSelect - Array of canvas element guids to be selected
+ * @param {String[]} canvasElementGuidsToDeselect - Array of canvas element guids to be deselected
+ */
+const _getCanvasElementGuidsToSelectAndDeselect = (canvasElements, currentSelectedCanvasElementGuids, boxStartPos, boxEndPos, canvasElementGuidsToSelect = [], canvasElementGuidsToDeselect = []) => {
+    canvasElements.forEach(({ locationX, locationY, config, guid, elementType }) => {
+        const isCanvasElementOverlapped = isElementOverlapWithBox([locationX, locationY], [locationX + NODE_LENGTH, locationY + NODE_LENGTH], boxStartPos, boxEndPos);
+        const isCanvasElementSelected = config && config.isSelected;
+        if (!isCanvasElementSelected && isCanvasElementOverlapped) {
+            // Todo: Without this check will throw exception when marquee select 'START_ELEMENT' and duplicate, can remove it once the refactoring of element config happens
+            if (elementType !== 'START_ELEMENT') {
+                canvasElementGuidsToSelect.push(guid);
+            }
+            currentSelectedCanvasElementGuids.add(guid);
+        } else if (isCanvasElementSelected && !isCanvasElementOverlapped) {
+            canvasElementGuidsToDeselect.push(guid);
+            currentSelectedCanvasElementGuids.delete(guid);
+        }
+    });
+    return { canvasElementGuidsToSelect, canvasElementGuidsToDeselect };
+};
+
+/**
+ * Helper function to check if connectors need to be selected/deselected,
+ * the connector would only be selected when both the source and targe nodes are selected.
+ *
+ * @param {Object[]} connectors - Array of connectors
+ * @param {String[]} currentSelectedCanvasElementGuids - Array of current selected canvas elements
+ * @param {String[]} connectorGuidsToSelect - Array of connector guids to be selected
+ * @param {String[]} connectorGuidsToDeselect - Array of connector guids to be deselected
+ */
+const _getConnectorGuidsToSelectAndDeselect = (connectors, currentSelectedCanvasElementGuids, connectorGuidsToSelect = [], connectorGuidsToDeselect = []) => {
+    connectors.forEach(({ source, target, config, guid }) => {
+        const isSourceSeleted = currentSelectedCanvasElementGuids.has(source);
+        const isTargetSelected = currentSelectedCanvasElementGuids.has(target);
+        const isConnectorSelected = config && config.isSelected;
+        if ((!isConnectorSelected && (isSourceSeleted && isTargetSelected))) {
+            connectorGuidsToSelect.push(guid);
+        } else if (isConnectorSelected && (!isSourceSeleted || !isTargetSelected)) {
+            connectorGuidsToDeselect.push(guid);
+        }
+    });
+    return { connectorGuidsToSelect, connectorGuidsToDeselect };
+};
+
+/**
  * Checks if the user is trying to multi-select, i.e. checks if the shift key is pressed during the event or not.
  *
  * @param {Object} event - Any event that needs to be checked for multi-selection
  * @returns {boolean}  Returns true if shift key is down during the event
  */
 export const isMultiSelect = (event) => {
-    if (event && event.shiftKey) {
-        return event.shiftKey;
-    }
-    return false;
+    return event && event.shiftKey;
+};
+
+/**
+ * Checks if the user is trying to delete, i.e. checks if the delete shortcut is used during the event or not.
+ *
+ * @param {Object} event - Any event that needs to be checked for deletion
+ * @returns {boolean}  Returns true if deletion shortcut is used during the event
+ */
+export const canDelete = (event, isCanvasMouseDown, isMarqueeModeOn) => {
+    return event && (event.key === KEYS.BACKSPACE || event.key === KEYS.DELETE)
+                 && !isCanvasMouseDown && !isMarqueeModeOn;
+};
+
+/**
+ * Checks if the user is trying to zoom, i.e. checks if the zooming shortcut is used during the event or not.
+ *
+ * @param {Object} event - Any event that needs to be checked for zooming
+ * @returns {boolean}  Returns true if zooming shortcut is used during the event
+ */
+export const canZoom = (event, isCanvasMouseDown, isMarqueeModeOn) => {
+    return event && (event.metaKey || event.ctrlKey)
+                 && (event.key === KEYS.NEGATIVE || event.key === KEYS.ZERO || event.key === KEYS.ONE || event.key === KEYS.EQUAL)
+                 && !isCanvasMouseDown && !isMarqueeModeOn;
 };
 
 /**
@@ -259,4 +335,29 @@ export const setupConnectors = (connectorTemplates, canvasElementGuidToContainer
             _setConnectorLabel(connector, jsPlumbConnector);
         }
     }
+};
+
+/**
+ * Helper function to check elements (nodes && connectors) selection/deselection when starting the marquee
+ *
+ * @param {Object[]} canvasElements - Array of canvas elements
+ * @param {Object[]} connectors - Array of connectors
+ * @param {String[]} currentSelectedCanvasElementGuids - Array of current selected canvas element guids
+ * @param {Integer[]} boxStartPos - marquee box start position
+ * @param {Integer[]} boxEndPos - marquee box end position
+ * @returns {Object} - Object of arrays containing the node && connector guids that needed to be selected && deselected
+ */
+export const checkMarqueeSelection = (canvasElements, connectors, currentSelectedCanvasElementGuids, boxStartPos, boxEndPos) => {
+    if (!canvasElements) {
+        throw new Error('canvasElements is not defined. It must be defined.');
+    }
+
+    if (!connectors) {
+        throw new Error('connectors is not defined. It must be defined.');
+    }
+
+    const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect } = _getCanvasElementGuidsToSelectAndDeselect(canvasElements, currentSelectedCanvasElementGuids, boxStartPos, boxEndPos);
+    const { connectorGuidsToSelect, connectorGuidsToDeselect } = _getConnectorGuidsToSelectAndDeselect(connectors, currentSelectedCanvasElementGuids);
+
+    return { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect };
 };
