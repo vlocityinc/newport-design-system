@@ -89,10 +89,12 @@ const selectors = {
     lightningRadioGroup: 'lightning-radio-group',
     recordFilter: 'builder_platform_interaction-record-filter',
     recordQueryFields: 'builder_platform_interaction-record-query-fields',
+    recordNumberOfRecordToStore: 'builder_platform_interaction-record-number-record-to-store',
     recordSobjectAndQueryFields: 'builder_platform_interaction-record-sobject-and-query-fields',
     recordSort: 'builder_platform_interaction-record-sort',
     recordStoreOption: 'builder_platform_interaction-record-store-options',
     sObjectOrSObjectCollectionPicker: 'builder_platform_interaction-sobject-or-sobject-collection-picker',
+    useAdvancedOptionsCheckboxComponent : 'builder_platform_interaction-record-use-advanced-options-checkbox',
 };
 
 const filterElement = {
@@ -270,11 +272,13 @@ const getInputOutputAssignments = (recordLookupEditor) => {
 };
 
 const getAdvancedOptionCheckbox = (recordLookupEditor) => {
-    return recordLookupEditor.shadowRoot.querySelector(selectors.lightningInput);
+    const useAdvancedOptionComponent = recordLookupEditor.shadowRoot.querySelector(selectors.useAdvancedOptionsCheckboxComponent);
+    return useAdvancedOptionComponent.shadowRoot.querySelector(selectors.lightningInput);
 };
 
 const getAutomaticRecordStoreOptionsRadioGroup = (recordLookupEditor) => {
-    return recordLookupEditor.shadowRoot.querySelector(selectors.lightningRadioGroup);
+    const numberRecordToStoreComponent = recordLookupEditor.shadowRoot.querySelector(selectors.recordNumberOfRecordToStore);
+    return numberRecordToStoreComponent.shadowRoot.querySelector(selectors.lightningRadioGroup);
 };
 
 const getAutomaticQueryFields = (recordLookupEditor) => {
@@ -282,7 +286,7 @@ const getAutomaticQueryFields = (recordLookupEditor) => {
 };
 
 const getAutomaticWayToStoreFields = (recordLookupEditor) => {
-    return recordLookupEditor.shadowRoot.querySelectorAll(selectors.lightningRadioGroup)[1];
+    return recordLookupEditor.shadowRoot.querySelector(selectors.lightningRadioGroup);
 };
 
 const getAllInteractionRows = (component) => {
@@ -664,7 +668,7 @@ describe('record-lookup-editor', () => {
                         return Promise.resolve().then(() => {
                             expect(recordLookupEditor.node.outputHandled).toBe(true);
                             const wayToStoreFields = getAutomaticWayToStoreFields(recordLookupEditor);
-                            expect(wayToStoreFields).not.toBeDefined();
+                            expect(wayToStoreFields).toBeNull();
                         });
                     });
                 });
