@@ -1,5 +1,6 @@
 <template>
-    <div class={topDivCss}>
+    <div class={globalCss}>	
+	    <h3 class={titleCss}>{selectFieldsLabel}</h3>
         <!-- show ID as a disabled input to inform users that they will get it anyway. -->
         <builder_platform_interaction-combobox label={labels.field} menu-data={idMenuData} value={idComboboxValue} disabled>
         </builder_platform_interaction-combobox>

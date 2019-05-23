@@ -32,11 +32,23 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     @api
     outputReferenceIndex;
 
-    /**
-     * @type {Boolean} true means the component is use in the advanced option panel.
-     */
     @api
-    isDisplayedInAutomaticOutputAdvancedMode;
+    sObjectVariablePickerGlobalCss = "slds-m-bottom_small slds-border_top";
+
+    @api
+    sObjectVariablePickerTitleCss = "slds-text-heading_small slds-p-around_small";
+
+    @api
+    sObjectVariablePickerDivCss = "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+
+    @api
+    queryFieldsGlobalCss = "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+
+    @api
+    queryFieldsTitleCss = "slds-text-heading_small slds-p-top_small";
+
+    @api
+    queryFieldsSeparationDivCss = "slds-m-bottom_small slds-border_top"
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -84,18 +96,6 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     @api
     get queriedFields() {
         return this.state.queriedFields;
-    }
-
-    get topDivCss() {
-        return this.isDisplayedInAutomaticOutputAdvancedMode ? "" : "slds-m-bottom_small slds-border_top";
-    }
-
-    get sObjectTypeSelectionDivCss() {
-        return this.isDisplayedInAutomaticOutputAdvancedMode ? "slds-form-element slds-size_1-of-2 slds-m-bottom_small" : "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
-    }
-
-    get titleCss() {
-        return this.isDisplayedInAutomaticOutputAdvancedMode ? "slds-text-heading_x-small slds-p-top_small " : "slds-text-heading_small slds-p-around_small";
     }
 
     get sObjectVariablePickerTitle() {

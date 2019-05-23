@@ -11,6 +11,7 @@ import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_i
 import { format } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING, getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
+import { UseAdvancedOptionsSelectionChangedEvent } from "builder_platform_interaction/events";
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -22,14 +23,16 @@ export default class RecordLookupEditor extends LightningElement {
     state = {
         recordLookupElement: {},
         fields: {},
-        processTypeAutomaticOutPutHandlingSupport : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED,
-        processType : '',
     }
+
+    processTypeAutomaticOutPutHandlingSupport = FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+
+    processTypeValue = '';
 
     /**
      * only "Queryable" entities available
      */
-    crudFilterType = ENTITY_TYPE.QUERYABLE
+    crudFilterType = ENTITY_TYPE.QUERYABLE;
 
     /**
      * element type of the current editor
@@ -60,12 +63,12 @@ export default class RecordLookupEditor extends LightningElement {
      */
     @api
     get processType() {
-        return this.state.processType;
+        return this.processTypeValue;
     }
 
     set processType(newValue) {
-        this.state.processType = newValue;
-        this.state.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(newValue);
+        this.processTypeValue = newValue;
+        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(newValue);
     }
 
     /**
@@ -78,8 +81,12 @@ export default class RecordLookupEditor extends LightningElement {
 
     set mode(newValue) {
         this._mode = newValue;
-        this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement,
-                {wayToStoreFields: this.initialWayToStoreFields});
+        if (this.isInAddElementMode && this.isAutomaticOutputHandlingSupported) {
+            this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, new UseAdvancedOptionsSelectionChangedEvent(false));
+        } else {
+            this.state.recordLookupElement = Object.assign({}, this.state.recordLookupElement,
+                    {wayToStoreFields: this.initialWayToStoreFields});
+        }
     }
 
     get initialWayToStoreFields() {
@@ -229,7 +236,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @return {Boolean} true : the user chooses to use the Advanced Options
      */
     get isAdvancedMode() {
-        return !this.state.recordLookupElement.outputHandled;
+        return !this.state.recordLookupElement.storeOutputAutomatically;
     }
 
     /**
@@ -243,7 +250,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @return {Boolean} true : the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
-        return this.state.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
+        return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
     }
 
     get recordStoreOptions() {

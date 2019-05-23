@@ -148,7 +148,7 @@ const recordLookupFieldsStore = () => ({
     sortOrder: "NotSorted"
 });
 
-const recordLookupAutomaticMetadata = (firstRecordOnly = true) => ({
+const recordLookupAutomaticMetadata = (getFirstRecordOnly = true) => ({
     filters: [{
         field: "BillingCity",
         operator: "EqualTo",
@@ -159,11 +159,11 @@ const recordLookupAutomaticMetadata = (firstRecordOnly = true) => ({
     name: "lookup_automatic",
     object: "Account",
     queriedFields: ["BillingCountry"],
-    outputHandled : true,
-    firstRecordOnly
+    storeOutputAutomatically : true,
+    getFirstRecordOnly
 });
 
-const recordLookupAutomaticStore = (firstRecordOnly = true) => ({
+const recordLookupAutomaticStore = (getFirstRecordOnly = true) => ({
     assignNullValuesIfNoRecordsFound: false,
     availableConnections: [
         {
@@ -175,7 +175,7 @@ const recordLookupAutomaticStore = (firstRecordOnly = true) => ({
     connectorCount: 0,
     dataType: "SObject",
     subType : "Account",
-    isCollection : !firstRecordOnly,
+    isCollection : !getFirstRecordOnly,
     description: "",
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
     filterType: "all",
@@ -199,8 +199,8 @@ const recordLookupAutomaticStore = (firstRecordOnly = true) => ({
             rowIndex: MOCK_GUID}],
     sortField: "",
     sortOrder: "NotSorted",
-    outputHandled : true,
-    firstRecordOnly
+    storeOutputAutomatically : true,
+    getFirstRecordOnly
 });
 
 const outputAssignmentField = {
@@ -408,9 +408,9 @@ describe('recordLookup', () => {
               expect(actualResult.isCollection).toBeFalsy();
               expect(actualResult.subType).toBe('Account');
           });
-          it('"outputHandled" should be true', () => {
+          it('"storeOutputAutomatically" should be true', () => {
               const actualResult = createRecordLookup(recordLookupAutomatic);
-              expect(actualResult.outputHandled).toBe(true);
+              expect(actualResult.storeOutputAutomatically).toBe(true);
           });
       });
     });

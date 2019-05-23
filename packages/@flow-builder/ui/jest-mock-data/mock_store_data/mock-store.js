@@ -387,7 +387,7 @@ export const elements = {
         maxConnections: 2,
         availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
         elementType: "RecordQuery",
-        outputHandled: true,
+        storeOutputAutomatically: true,
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
         subtype: "Account",
         isCollection: false
@@ -413,7 +413,7 @@ export const elements = {
         availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
         elementType: "RecordQuery",
         outputReference: accountSObjectVariableDevName,
-        outputHandled: false,
+        storeOutputAutomatically: false,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
     },
     [lookupRecordCollectionAutomaticOutputGuid]: {
@@ -436,7 +436,7 @@ export const elements = {
         maxConnections: 2,
         availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
         elementType: "RecordQuery",
-        outputHandled: true,
+        storeOutputAutomatically: true,
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
         subtype: "Account",
         isCollection: true

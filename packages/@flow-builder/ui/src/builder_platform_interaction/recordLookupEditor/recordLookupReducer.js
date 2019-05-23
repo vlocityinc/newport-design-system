@@ -24,7 +24,7 @@ const PROPS = {
         sortOrder: 'sortOrder',
         sortField: 'sortField',
         outputReference: 'outputReference',
-        outputHandled : 'outputHandled'
+        storeOutputAutomatically : 'storeOutputAutomatically'
    };
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP].nonHydratableProperties, PROPS.wayToStoreFields]);
@@ -163,14 +163,6 @@ const resetOutputAssignmentsOutputReferenceAndQueriedfields = state => {
 };
 
 /**
- * Update the property outputHandled and reset all others.
- */
-const useAdvancedOptionsSelectionChanged = (state, {useAdvancedOptions}) => {
-    state = updateProperties(state, {[PROPS.outputHandled]: !useAdvancedOptions});
-    return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
-};
-
-/**
  * Reset current element's state filters property
  * @param {Object} state - current element's state
  * @returns {Object} updated state
@@ -194,6 +186,18 @@ const resetStoreOptions = state => {
 };
 
 /**
+ * Reset current element's state wayToStoreFields and assignNullValuesIfNoRecordsFound properties
+ * @param {Object} state - current element's state
+ * @returns {Object} updated state
+ */
+const resetWayToStoreFields = state => {
+    return updateProperties(state, {
+        [PROPS.wayToStoreFields]: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+        [PROPS.assignNullValuesIfNoRecordsFound]: false
+    });
+};
+
+/**
  * Reset filterType, filters, outputReference, queriedFields, sort order, sort field, assignment to null, storing options
  * @param {Object} state - current element state
  * @returns {Object} updated state
@@ -206,6 +210,15 @@ const resetSubSections = state => {
     state = resetFilters(state);
     // reset storing options
     return resetStoreOptions(state);
+};
+
+/**
+ * Update the property storeOutputAutomatically and reset all others.
+ */
+const useAdvancedOptionsSelectionChanged = (state, {useAdvancedOptions}) => {
+    state = updateProperties(state, {[PROPS.storeOutputAutomatically]: !useAdvancedOptions});
+    state = resetWayToStoreFields(state);
+    return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
 };
 
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
@@ -247,7 +260,7 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
             // reset outputReference and queried fields
             state = updateOutputReferenceAndQueriedFields(state, '', null);
             state = resetOutputAssignments(state);
-        } else if (propertyName === PROPS.assignNullValuesIfNoRecordsFound || propertyName === PROPS.outputHandled) {
+        } else if (propertyName === PROPS.assignNullValuesIfNoRecordsFound || propertyName === PROPS.storeOutputAutomatically) {
             state = updateProperties(state, {[propertyName]: value});
         }
     }

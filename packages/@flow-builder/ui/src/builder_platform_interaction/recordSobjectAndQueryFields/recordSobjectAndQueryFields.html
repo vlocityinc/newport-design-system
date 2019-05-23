@@ -1,7 +1,7 @@
 <template>
-    <div class={topDivCss}>
-        <h3 class={titleCss}>{sObjectVariablePickerTitle}</h3>
-        <div class={sObjectTypeSelectionDivCss}>
+    <div class={sObjectVariablePickerGlobalCss}>
+        <h3 class={sObjectVariablePickerTitleCss}>{sObjectVariablePickerTitle}</h3>
+        <div class={sObjectVariablePickerDivCss}>
              <builder_platform_interaction-sobject-or-sobject-collection-picker
                     is-collection={state.isCollection}
                     label={sObjectVariablePickerLabel}
@@ -14,14 +14,14 @@
             </builder_platform_interaction-sobject-or-sobject-collection-picker>
         </div>
     </div>
-    <div class="slds-m-bottom_small slds-border_top" if:true={state.outputReference}>
-        <h3 class={titleCss}>{selectFieldsLabel}</h3>
+    <div class={queryFieldsSeparationDivCss} if:true={state.outputReference}>
         <builder_platform_interaction-record-query-fields
             record-entity-name={recordEntityName}
             resource-display-text={resourceDisplayText}
             element-type={elementType}
             queried-fields={state.queriedFields}
-            is-displayed-in-automatic-output-advanced-mode={isDisplayedInAutomaticOutputAdvancedMode}>
+            global-css={queryFieldsGlobalCss}
+            title-css={queryFieldsTitleCss}>
         </builder_platform_interaction-record-query-fields>
     </div>
 </template>

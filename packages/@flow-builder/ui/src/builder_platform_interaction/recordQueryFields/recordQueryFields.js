@@ -37,11 +37,11 @@ export default class RecordQueryFields extends LightningElement {
     @api
     outputReferenceIndex;
 
-    /**
-     * @type {Boolean} true means the component is use in the advanced option panel.
-     */
     @api
-    isDisplayedInAutomaticOutputAdvancedMode = false;
+    globalCss = "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+
+    @api
+    titleCss = "slds-text-heading_small";
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -118,10 +118,6 @@ export default class RecordQueryFields extends LightningElement {
      */
     get idComboboxValue() {
         return {type : 'option-inline', text: 'ID', value: 'Id', displayText: 'ID'};
-    }
-
-    get topDivCss() {
-        return this.isDisplayedInAutomaticOutputAdvancedMode ? "slds-form-element slds-size_1-of-2 slds-m-bottom_small" : "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
     }
 
     /**

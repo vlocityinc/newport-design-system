@@ -130,7 +130,7 @@ const defaultRecordLookupElement = () => ({
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-    outputHandled: true
+    storeOutputAutomatically: true
 });
 
 const recordLookupElementWithSObject = () => ({
@@ -232,7 +232,7 @@ const recordLookupElementWithSObjectAutomaticOutputHandling = () => ({
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
     numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-    outputHandled : true,
+    storeOutputAutomatically : true,
     isCollection: false,
     subType: 'Account'
 });
@@ -638,10 +638,10 @@ describe('record-lookup-editor', () => {
                 });
                 it('Should display the advanced option when checked', async () => {
                     const advancedOptionCheckbox = getAdvancedOptionCheckbox(recordLookupEditor);
-                    expect(recordLookupEditor.node.outputHandled).toBe(true);
+                    expect(recordLookupEditor.node.storeOutputAutomatically).toBe(true);
                     advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
                     return Promise.resolve().then(() => {
-                        expect(recordLookupEditor.node.outputHandled).toBe(false);
+                        expect(recordLookupEditor.node.storeOutputAutomatically).toBe(false);
                         const wayToStoreFields = getAutomaticWayToStoreFields(recordLookupEditor);
                         expect(wayToStoreFields).toBeDefined();
                         expect(wayToStoreFields.value).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
@@ -663,10 +663,10 @@ describe('record-lookup-editor', () => {
                     });
                     it('Should not display the advanced option when unchecked', async () => {
                         const advancedOptionCheckbox = getAdvancedOptionCheckbox(recordLookupEditor);
-                        expect(recordLookupEditor.node.outputHandled).toBeFalsy();
+                        expect(recordLookupEditor.node.storeOutputAutomatically).toBeFalsy();
                         advancedOptionCheckbox.dispatchEvent(new ToggleOffChangeEvent());
                         return Promise.resolve().then(() => {
-                            expect(recordLookupEditor.node.outputHandled).toBe(true);
+                            expect(recordLookupEditor.node.storeOutputAutomatically).toBe(true);
                             const wayToStoreFields = getAutomaticWayToStoreFields(recordLookupEditor);
                             expect(wayToStoreFields).toBeNull();
                         });

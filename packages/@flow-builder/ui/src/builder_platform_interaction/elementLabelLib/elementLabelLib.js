@@ -10,7 +10,7 @@ import { getEntity } from 'builder_platform_interaction/sobjectLib';
  */
 export function getResourceLabel(resource) {
     let label = resource.name;
-    if (resource.elementType === ELEMENT_TYPE.RECORD_LOOKUP && resource.outputHandled) {
+    if (resource.elementType === ELEMENT_TYPE.RECORD_LOOKUP && resource.storeOutputAutomatically) {
         // "Accounts from myGetRecord"
         const entity = getEntity(resource.subtype);
         if (entity) {

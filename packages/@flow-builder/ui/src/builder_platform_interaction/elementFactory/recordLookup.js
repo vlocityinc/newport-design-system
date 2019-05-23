@@ -48,7 +48,7 @@ export const createQueriedField = queriedField => {
 
 export function createRecordLookup(recordLookup = {}) {
     let newRecordLookup;
-    if (recordLookup.outputHandled) {
+    if (recordLookup.storeOutputAutomatically) {
         newRecordLookup = createRecordLookupWithAutomaticOutputHandling(recordLookup);
     } else if (recordLookup.outputReference) {
         newRecordLookup = createRecordLookupWithOuputReference(recordLookup);
@@ -62,7 +62,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
     let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [],
-        numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD, firstRecordOnly = true } = recordLookup;
+        numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD, getFirstRecordOnly = true } = recordLookup;
     const {
         object = '',
         objectIndex = generateGuid(),
@@ -85,8 +85,8 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
     // numberRecordsToStore can only be calculated at the opening on the element
     const variable  = getElementByGuid(outputReference) || getGlobalConstantOrSystemVariable(outputReference);
     if (variable) {
-        firstRecordOnly = !(variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection);
-        numberRecordsToStore = firstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        getFirstRecordOnly = !(variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection);
+        numberRecordsToStore = getFirstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     if (queriedFields && queriedFields.length > 0) {
@@ -111,7 +111,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
         elementType,
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        outputHandled : false
+        storeOutputAutomatically : false
     });
 }
 
@@ -155,13 +155,13 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
         outputReference : undefined,
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        outputHandled : false,
-        firstRecordOnly : true
+        storeOutputAutomatically : false,
+        getFirstRecordOnly : true
     });
 }
 
 function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
-    const newRecordLookup = baseCanvasElement(recordLookup);
+ const newRecordLookup = baseCanvasElement(recordLookup);
 
     let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [] } = recordLookup;
     const {
@@ -170,7 +170,7 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         sortOrder = SORT_ORDER.NOT_SORTED,
         sortField = '',
         outputReferenceIndex = generateGuid(),
-        firstRecordOnly = true
+        getFirstRecordOnly = true
     } = recordLookup;
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
@@ -181,7 +181,7 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    const numberRecordsToStore = firstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+    const numberRecordsToStore = getFirstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
 
     if (queriedFields && queriedFields.length > 0) {
         queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
@@ -205,10 +205,10 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         outputReference : undefined,
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
-        isCollection : !firstRecordOnly,
+        isCollection : !getFirstRecordOnly,
         subType : object,
-        outputHandled : true,
-        firstRecordOnly
+        storeOutputAutomatically : true,
+        getFirstRecordOnly
     });
 }
 
@@ -255,8 +255,8 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         outputReference,
         assignNullValuesIfNoRecordsFound = false,
         filterType,
-        outputHandled,
-        firstRecordOnly
+        storeOutputAutomatically,
+        getFirstRecordOnly
     } = recordLookup;
 
     let { sortOrder, sortField, filters = [], queriedFields = [] } = recordLookup;
@@ -274,15 +274,15 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         sortField = undefined;
     }
 
-    if (outputHandled) {
+    if (storeOutputAutomatically) {
         Object.assign(recordUpdateMetadata, {
             object,
             filters,
             queriedFields,
             sortOrder,
             sortField,
-            outputHandled,
-            firstRecordOnly
+            storeOutputAutomatically,
+            getFirstRecordOnly
         });
     } else if (outputReference) {
         Object.assign(recordUpdateMetadata, {

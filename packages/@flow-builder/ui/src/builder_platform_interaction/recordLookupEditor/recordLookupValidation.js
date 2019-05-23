@@ -57,9 +57,10 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @param {Object[]} nodeElement.outputAssignments - current element's outputAssignments
  * @param {Object} nodeElement.outputReference - current element's outputReference
  * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
+ * @param {boolean} nodeElement.storeOutputAutomatically - current's element is using automatic output handling
  * @return {Object} the overridden rules
  */
-export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, outputReferenceIndex, queriedFields, outputHandled}) => {
+export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, outputReferenceIndex, queriedFields, storeOutputAutomatically}) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules};
     overriddenRules.object.push(ValidationRules.validateResourcePicker(objectIndex));
     // validate filters if filter type is ALL
@@ -71,7 +72,7 @@ export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStore
         overriddenRules.sortField = [ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.shouldNotBeBlank];
     }
 
-    if (object && object.value && !object.error && !outputHandled) {
+    if (object && object.value && !object.error && !storeOutputAutomatically) {
         if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && outputAssignments.length > 1) {
             overriddenRules.outputAssignments = validateAssignments();
         } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {

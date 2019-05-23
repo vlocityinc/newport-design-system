@@ -108,6 +108,8 @@
                 resource-display-text={resourceDisplayText}
                 element-type={elementType}
                 queried-fields={state.recordLookupElement.queriedFields}
+                global-css="slds-p-left_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+                title-css="slds-text-heading_small slds-p-top_small"
                 onaddrecordlookupfield={handlePropertyOrListItemChanged}
                 onupdaterecordlookupfield={handlePropertyOrListItemChanged}
                 ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
@@ -140,7 +142,12 @@
                 <builder_platform_interaction-record-sobject-and-query-fields
                     if:true={isSObjectMode}
                     is-collection={isCollection}
-                    is-displayed-in-automatic-output-advanced-mode=true
+                    s-object-variable-picker-global-css=""
+                    s-object-variable-picker-title-css="slds-text-heading_small slds-p-top_small"
+                    s-object-variable-picker-div-css="slds-form-element slds-size_1-of-2"
+                    query-fields-global-css="slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+                    query-fields-title-css="slds-text-heading_small slds-p-top_small"
+                    query-fields-separation-div-css=""
                     record-entity-name={recordEntityName}
                     resource-display-text={resourceDisplayText}
                     element-type={elementType}
@@ -164,7 +171,7 @@
                     is-output
                     title={assignmentTitle}
                     rhs-label={labels.filterRhsLabel}
-                    title-css="slds-text-heading_x-small slds-p-top_small"
+                    title-css="slds-text-heading_small slds-p-top_small"
                     list-css="slds-m-bottom_small"
                     top-div-css="slds-m-bottom_small"
                     onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
