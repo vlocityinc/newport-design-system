@@ -174,7 +174,7 @@ const recordLookupAutomaticStore = (getFirstRecordOnly = true) => ({
     config: { isSelected: false },
     connectorCount: 0,
     dataType: "SObject",
-    subType : "Account",
+    subtype : "Account",
     isCollection : !getFirstRecordOnly,
     description: "",
     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
@@ -406,7 +406,7 @@ describe('recordLookup', () => {
               const actualResult = createRecordLookup(recordLookupAutomatic);
               expect(actualResult.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
               expect(actualResult.isCollection).toBeFalsy();
-              expect(actualResult.subType).toBe('Account');
+              expect(actualResult.subtype).toBe('Account');
           });
           it('"storeOutputAutomatically" should be true', () => {
               const actualResult = createRecordLookup(recordLookupAutomatic);

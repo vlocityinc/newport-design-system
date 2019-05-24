@@ -206,7 +206,7 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
         isCollection : !getFirstRecordOnly,
-        subType : object,
+        subtype : object,
         storeOutputAutomatically : true,
         getFirstRecordOnly
     });
