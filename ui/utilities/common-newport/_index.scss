@@ -7,6 +7,10 @@ ng-form {
   }
 }
 
+ng-form.nds-m-bottom_large {
+  margin-bottom: 0.5rem;
+}
+
 section.nds-page-header {
   border: none;
   box-shadow: none;
@@ -183,7 +187,7 @@ ul.nds-dropdown-list {
 }
 
 .nds-form--multi-input__container .nds-control-action__container {
-  top: 0.85rem;
+  top: 0.35rem;
 }
 
 .nds-popover.nds-popover_tooltip .nds-popover__body {
@@ -710,4 +714,8 @@ form {
 .nds-inline-help-text .nds-is-absolute {
   #{$right}: -0.8rem;
   top: -3rem;
+}
+.nds-line_break {
+  max-height: 0;
+  line-height: 0;
 }
