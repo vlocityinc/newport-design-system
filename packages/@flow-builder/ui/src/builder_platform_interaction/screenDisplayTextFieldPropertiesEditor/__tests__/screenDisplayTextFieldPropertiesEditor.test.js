@@ -14,7 +14,8 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 const SELECTORS = {
     NAME_FIELD: 'builder_platform_interaction-screen-property-field[name="name"]',
-    VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="fieldText"]'
+    VALUE_FIELD: 'builder_platform_interaction-screen-property-field[name="fieldText"]',
+    COMPONENT_VISIBILITY: 'lightning-accordion-section[name="componentVisibility"]'
 };
 
 const fieldName = 'display1';
@@ -24,9 +25,11 @@ const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-display-text-field-properties-editor', {
         is: ScreenDisplayTextFieldPropertiesEditor
     });
-    if (props) {
-        Object.assign(el, props);
-    }
+
+    Object.assign(el, props || {
+        field: createTestScreenField(fieldName, 'DisplayText', displayValue)
+    });
+
     document.body.appendChild(el);
     return el;
 };
@@ -78,6 +81,20 @@ describe('screen-display-text-field-properties-editor', () => {
             renderedValueField.addEventListener('propertychanged', callback);
             renderedValueField.dispatchEvent(new PropertyChangedEvent('fieldText', 'changed display text'));
             expect(callback).toHaveBeenCalled();
+        });
+    });
+});
+
+describe('screen-display-text-field-properties-editor component visibility', () => {
+    let screenDisplayTextFieldPropEditor;
+    beforeEach(() => {
+        screenDisplayTextFieldPropEditor = createComponentUnderTest();
+    });
+
+    it('section is present', () => {
+        return Promise.resolve().then(() => {
+            const componentVisibilitySection = query(screenDisplayTextFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
+            expect(componentVisibilitySection).not.toBeNull();
         });
     });
 });

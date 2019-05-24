@@ -17,6 +17,7 @@ const SELECTORS = {
     VALIDATION_ERROR_MESSAGE: 'builder_platform_interaction-resourced-rich-text-editor.errorMessage',
     VALIDATION_FORMULA: 'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
+    COMPONENT_VISIBILITY: 'lightning-accordion-section[name="componentVisibility"]'
 };
 
 const fieldName = 'input1';
@@ -25,9 +26,11 @@ const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-textarea-field-properties-editor', {
         is: ScreenTextareaFieldPropertiesEditor
     });
-    if (props) {
-        Object.assign(el, props);
-    }
+
+    Object.assign(el, props || {
+        field: createTestScreenField(fieldName, 'LargeTextArea', SCREEN_NO_DEF_VALUE)
+    });
+
     document.body.appendChild(el);
     return el;
 };
@@ -138,6 +141,20 @@ describe('screen-textarea-field-properties-editor with validationRule', () => {
             const renderedValidationFormula = query(validationEditor, SELECTORS.VALIDATION_FORMULA);
             expect(renderedValidationFormula).not.toBeNull();
             expect(renderedValidationFormula.value.value).toBe("{!Var1} == 'text'");
+        });
+    });
+});
+
+describe('screen-textarea-field-properties-editor component visibility', () => {
+    let screenTextAreaFieldPropEditor;
+    beforeEach(() => {
+        screenTextAreaFieldPropEditor = createComponentUnderTest();
+    });
+
+    it('section is present', () => {
+        return Promise.resolve().then(() => {
+            const componentVisibilitySection = query(screenTextAreaFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
+            expect(componentVisibilitySection).not.toBeNull();
         });
     });
 });

@@ -40,6 +40,7 @@ import choices from '@salesforce/label/FlowBuilderScreenEditor.choices';
 import buttonHelpTextAltText from "@salesforce/label/FlowBuilderScreenEditor.buttonHelpTextAltText";
 import screenContainerOptions from "@salesforce/label/FlowBuilderScreenEditor.screenContainerOptions";
 import screenContainerTooltip from "@salesforce/label/FlowBuilderScreenEditor.screenContainerTooltip";
+import componentVisbilitySectionTitle from "@salesforce/label/FlowBuilderScreenEditor.componentVisbilitySectionTitle";
 import showHeader from "@salesforce/label/FlowBuilderScreenEditor.showHeader";
 import showFooter from "@salesforce/label/FlowBuilderScreenEditor.showFooter";
 import navigationOptions from "@salesforce/label/FlowBuilderScreenEditor.navigationOptions";
@@ -156,5 +157,6 @@ export const LABELS = {
     dateDataType,
     dateTimeDataType,
     dynamicRecordChoiceLabel,
-    appExchangeButtonLabel
+    appExchangeButtonLabel,
+    componentVisbilitySectionTitle
 };

@@ -39,7 +39,8 @@ const SELECTORS = {
     DATA_TYPE: 'builder_platform_interaction-data-type-picker',
     DEFAULT_SELECTED_CHOICE_REFERENCE_FIELD: 'builder_platform_interaction-screen-property-field[name="defaultSelectedChoiceReference"]',
     CHOICE_SELECTOR: 'builder_platform_interaction-screen-property-field[name="choice"]',
-    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]'
+    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]',
+    COMPONENT_VISIBILITY: 'lightning-accordion-section[name="componentVisibility"]'
 };
 
 const fieldName = 'field1';
@@ -48,9 +49,11 @@ const createComponentUnderTest = (props) => {
     const el = createElement('builder_platform_interaction-screen-choice-field-properties-editor', {
         is: ScreenChoiceFieldPropertiesEditor
     });
-    if (props) {
-        Object.assign(el, props);
-    }
+
+    Object.assign(el, props || {
+        field: createTestScreenField(fieldName, 'RadioButtons', SCREEN_NO_DEF_VALUE, {dataType: 'String', validation: false, helpText: false})
+    });
+
     document.body.appendChild(el);
     return el;
 };
@@ -435,3 +438,16 @@ describe('screen-choice-field-properties-editor for new field', () => {
     });
 });
 
+describe('screen-choise-field-properties-editor component visibility', () => {
+    let screenChoiseFieldPropEditor;
+    beforeEach(() => {
+        screenChoiseFieldPropEditor = createComponentUnderTest();
+    });
+
+    it('section is present', () => {
+        return Promise.resolve().then(() => {
+            const componentVisibilitySection = query(screenChoiseFieldPropEditor, SELECTORS.COMPONENT_VISIBILITY);
+            expect(componentVisibilitySection).not.toBeNull();
+        });
+    });
+});

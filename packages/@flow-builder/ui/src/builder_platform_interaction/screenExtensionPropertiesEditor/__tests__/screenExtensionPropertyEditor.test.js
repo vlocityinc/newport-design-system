@@ -26,6 +26,7 @@ const SELECTORS = {
     INPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
     OUTPUT_EDITOR: 'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
     OUTPUTS_SECTION: 'lightning-accordion[activeSectionName="outputsSection"]',
+    COMPONENT_VISIBILITY: 'lightning-accordion-section[name="componentVisibility"]'
 };
 
 const DESCRIPTOR_NAME = 'c:requiredAttTestComponent';
@@ -219,6 +220,12 @@ describe('Screen Extension Properties Editor', () => {
     it('renders its container when the field is set', () => {
         return runTest(true, true, null, (editor) => {
             expect(query(editor, SELECTORS.CONTAINER_DIV)).not.toBeNull();
+        });
+    });
+
+    it('component visiblity section is present when the field is set', () => {
+        return runTest(true, true, null, (editor) => {
+            expect(query(editor, SELECTORS.COMPONENT_VISIBILITY)).not.toBeNull();
         });
     });
 

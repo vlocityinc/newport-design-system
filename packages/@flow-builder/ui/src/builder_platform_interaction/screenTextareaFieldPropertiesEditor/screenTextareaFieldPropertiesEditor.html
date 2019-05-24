@@ -8,12 +8,12 @@
                                                              dev-name={field.name}
                                                              hide-description
                                                              guid={field.guid}
-                                                             onpropertychanged={handlePropertyChanged}> 
-            </builder_platform_interaction-label-description>                          
+                                                             onpropertychanged={handlePropertyChanged}>
+            </builder_platform_interaction-label-description>
 
             <!--  Required checkbox -->
             <builder_platform_interaction-screen-property-field if:false={isCheckbox}
-                                                                name='isRequired' 
+                                                                name='isRequired'
                                                                 label={labels.required}
                                                                 type='boolean'
                                                                 value={field.isRequired}
@@ -30,12 +30,18 @@
         </div>
         <div>
             <lightning-accordion allow-multiple-sections-open class='slds-has-divider slds-p-top_none'>
+                <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
+                    <!--
+                    <builder_platform_interaction-component-visibility visibility={field.visibility}>
+                    </builder_platform_interaction-component-visibility>
+                    -->
+                </lightning-accordion-section>
                 <!--  validation rule -->
                 <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
                     <builder_platform_interaction-validation-editor element={field.validationRule}>
                     </builder_platform_interaction-validation-editor>
-                </lightning-accordion-section>   
-                
+                </lightning-accordion-section>
+
                 <!--  help text -->
                 <lightning-accordion-section name='helpText' label={labels.helpTextForAccordion}>
                     <builder_platform_interaction-screen-property-field name='helpText'

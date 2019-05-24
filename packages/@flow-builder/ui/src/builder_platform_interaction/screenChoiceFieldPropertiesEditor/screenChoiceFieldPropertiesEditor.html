@@ -8,12 +8,12 @@
                                                              dev-name={field.name}
                                                              hide-description
                                                              guid={field.guid}
-                                                             onpropertychanged={handlePropertyChanged}> 
+                                                             onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-label-description>
 
             <!--  Required checkbox -->
             <builder_platform_interaction-screen-property-field if:true={showIsRequired}
-                name='isRequired' 
+                name='isRequired'
                 label={labels.required}
                 type='boolean'
                 value={field.isRequired}
@@ -59,7 +59,7 @@
                                 <div class="slds-list__item slds-is-relative" key={choice.guid}>
                                     <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
                                         <div slot="rowBody">
-                                            <builder_platform_interaction-screen-property-field 
+                                            <builder_platform_interaction-screen-property-field
                                                 name='choice'
                                                 key={choice.value}
                                                 list-index={itemIndex}
@@ -79,6 +79,13 @@
                             </template>
                         </div>
                     </builder_platform_interaction-list>
+                </lightning-accordion-section>
+
+                <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
+                    <!--
+                    <builder_platform_interaction-component-visibility visibility={field.visibility}>
+                    </builder_platform_interaction-component-visibility>
+                    -->
                 </lightning-accordion-section>
 
                 <!--  help text -->

@@ -9,23 +9,23 @@
                                                              dev-name={field.name}
                                                              hide-description
                                                              guid={field.guid}
-                                                             onpropertychanged={handlePropertyChanged}> 
+                                                             onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-label-description>
- 
+
             <!--  Required checkbox -->
             <!--  If the field type is checkbox, the 'Required' field is not present -->
             <builder_platform_interaction-screen-property-field if:false={isCheckbox}
-                                                                name='isRequired' 
+                                                                name='isRequired'
                                                                 label={labels.required}
                                                                 type='boolean'
                                                                 value={field.isRequired}
                                                                 onpropertychanged={handlePropertyChanged}>
             </builder_platform_interaction-screen-property-field>
-            
+
             <!--  default value: drop down resource list -->
-            <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->            
+            <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->
             <builder_platform_interaction-screen-property-field name='defaultValue'
-                                                                label={labels.fieldDefaultValue} 
+                                                                label={labels.fieldDefaultValue}
                                                                 value={field.defaultValue}
                                                                 row-index={field.defaultValueIndex}
                                                                 type={field.type.type}
@@ -34,8 +34,8 @@
             </builder_platform_interaction-screen-property-field>
 
             <!--  Scale, if input type supports this field -->
-            <builder_platform_interaction-screen-property-field if:true={isScaleEnabled} 
-                                                                name='scale' 
+            <builder_platform_interaction-screen-property-field if:true={isScaleEnabled}
+                                                                name='scale'
                                                                 label={labels.fieldScale}
                                                                 type='number'
                                                                 value={field.scale}
@@ -44,12 +44,18 @@
        </div>
        <div>
             <lightning-accordion allow-multiple-sections-open class='slds-has-divider slds-p-top_none'>
+                <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
+                    <!--
+                    <builder_platform_interaction-component-visibility visibility={field.visibility}>
+                    </builder_platform_interaction-component-visibility>
+                    -->
+                </lightning-accordion-section>
                 <!--  validation rule -->
                 <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
                     <builder_platform_interaction-validation-editor element={field.validationRule}>
                     </builder_platform_interaction-validation-editor>
-                </lightning-accordion-section>   
-                
+                </lightning-accordion-section>
+
                 <!--  help text -->
                 <lightning-accordion-section name='helpText' label={labels.helpTextForAccordion}>
                     <builder_platform_interaction-screen-property-field name='helpText'
