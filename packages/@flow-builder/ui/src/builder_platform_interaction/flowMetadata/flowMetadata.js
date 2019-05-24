@@ -19,7 +19,8 @@ export const FLOW_PROCESS_TYPE = {
     TRANSACTION_SECURITY_FLOW: 'TransactionSecurityFlow',
     USER_PROVISIONING_FLOW: 'UserProvisioningFlow',
     WORKFLOW: 'Workflow',
-    SALES_ENTRY_EXPERIENCE_FLOW: 'SalesEntryExperienceFlow'
+    SALES_ENTRY_EXPERIENCE_FLOW: 'SalesEntryExperienceFlow',
+    FSCLENDING: 'FSCLending',
 };
 
 export const ELEMENT_TYPE = {
