@@ -1,6 +1,6 @@
 import { mutateFlowResourceToComboboxShape, mutatePicklistValue, mutateFieldToComboboxShape } from '../menuDataGenerator';
 import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
-import { getElementCategory } from 'builder_platform_interaction/elementConfig';
+import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { mockAccountFields } from 'mock/serverEntityData';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX } from "builder_platform_interaction/systemLib";
@@ -16,9 +16,10 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/elementConfig', () => {
+jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
-        getElementCategory: jest.fn().mockReturnValue('').mockName('getElementCategory'),
+        getResourceCategory: jest.fn().mockReturnValue('').mockName('getResourceCategory'),
+        getResourceLabel: jest.fn().mockImplementation(resource => resource.name)
     };
 });
 
@@ -48,7 +49,7 @@ describe('menuDataGenerator', () => {
             mutateFlowResourceToComboboxShape(mockResource);
             expect(getDataTypeLabel).toHaveBeenCalledWith(mockResource.type.type);
             expect(getDataTypeIcons).toHaveBeenCalledWith(mockResource.type.type, expect.any(String));
-            expect(getElementCategory).toHaveBeenCalledWith(undefined, mockResource.type.type, undefined);
+            expect(getResourceCategory).toHaveBeenCalledWith({ elementType : undefined, dataType : mockResource.type.type, isCollection : undefined });
         });
 
         it('calls getDataTypeIcons if no icon exists in type object', () => {

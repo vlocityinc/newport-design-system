@@ -1,6 +1,6 @@
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
-import { resourceFilter } from "builder_platform_interaction/filterLib";
+import { resourceFilter, canvasElementFilter } from "builder_platform_interaction/filterLib";
 import { labelComparator, nameComparator } from "builder_platform_interaction/sortLib";
 import { getResourceSections } from "../resourceLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
@@ -16,6 +16,7 @@ const STATE_EMPTY = {
             "label": "Start",
             "locationX": 50,
             "locationY": 50,
+            "isCanvasElement": true,
             "config": {
                 "isSelected": false
             },
@@ -42,6 +43,7 @@ const STATE_NON_EMPTY = {
             "label": "Start",
             "locationX": 50,
             "locationY": 50,
+            "isCanvasElement": true,
             "config": {
                 "isSelected": false
             },
@@ -287,8 +289,8 @@ function verifyGroup(sections, expectedSectionCounts) {
 describe('resource-lib', () => {
     describe('When flow is empty', () => {
         it('should be handled gracefully', () => {
-            const canvasElements = getResourceSections(STATE_EMPTY.elements, resourceFilter(true), labelComparator);
-            const nonCanvasElements = getResourceSections(STATE_EMPTY.elements, resourceFilter(false), nameComparator);
+            const canvasElements = getResourceSections(STATE_EMPTY.elements, canvasElementFilter(), labelComparator);
+            const nonCanvasElements = getResourceSections(STATE_EMPTY.elements, resourceFilter(), nameComparator);
             expect(canvasElements).toHaveLength(0);
             expect(nonCanvasElements).toHaveLength(0);
         });
@@ -296,8 +298,8 @@ describe('resource-lib', () => {
 
     describe('When flow has resources', () => {
         it('should return resources excluding START_ELEMENT with expected values for the resource tab of the left-panel', () => {
-            const canvasElements = getResourceSections(STATE_NON_EMPTY.elements, resourceFilter(true), labelComparator);
-            const nonCanvasElements = getResourceSections(STATE_NON_EMPTY.elements, resourceFilter(false), nameComparator);
+            const canvasElements = getResourceSections(STATE_NON_EMPTY.elements, canvasElementFilter(), labelComparator);
+            const nonCanvasElements = getResourceSections(STATE_NON_EMPTY.elements, resourceFilter(), nameComparator);
             const expectedSectionCounts = getExpectedSectionCounts(STATE_NON_EMPTY);
             verifyGroup(canvasElements, expectedSectionCounts);
             verifyGroup(nonCanvasElements, expectedSectionCounts);

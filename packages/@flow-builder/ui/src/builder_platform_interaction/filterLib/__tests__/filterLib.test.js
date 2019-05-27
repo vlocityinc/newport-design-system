@@ -1,5 +1,5 @@
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { labelFilter, resourceFilter } from "../filterLib";
+import { labelFilter, resourceFilter, canvasElementFilter } from "../filterLib";
 
 describe('labelFilter', () => {
     const element = { label: 'Alvin' };
@@ -20,18 +20,17 @@ describe('labelFilter', () => {
     });
 });
 
-describe('resourceFilter', () => {
+describe('canvasElementFilter', () => {
     it('excludes start elements', () => {
-        const filter = resourceFilter(true);
+        const filter = canvasElementFilter();
         const element = {
             elementType: ELEMENT_TYPE.START_ELEMENT,
             isCanvasElement: true
         };
         expect(filter(element)).toEqual(false);
     });
-
-    it('includes canvas elements when requested', () => {
-        const filter = resourceFilter(true);
+    it('includes canvas elements', () => {
+        const filter = canvasElementFilter();
         const element = {
             elementType: 'myElementType',
             isCanvasElement: true
@@ -39,8 +38,39 @@ describe('resourceFilter', () => {
         expect(filter(element)).toEqual(true);
     });
 
-    it('excludes canvas elements when not requested', () => {
-        const filter = resourceFilter(false);
+    it('includes elements that contain the given pattern in their name', () => {
+        const filter = canvasElementFilter('v');
+        const element = {
+            elementType: 'myElementType',
+            isCanvasElement: true,
+            name: 'Alvin'
+        };
+        expect(filter(element)).toEqual(true);
+    });
+
+    it('excludes elements that do not contain the given pattern in their label', () => {
+        const filter = canvasElementFilter('b');
+        const element = {
+            elementType: 'myElementType',
+            isCanvasElement: true,
+            name: 'Alvin'
+        };
+        expect(filter(element)).toEqual(false);
+    });
+});
+
+describe('resourceFilter', () => {
+    it('excludes start elements', () => {
+        const filter = resourceFilter();
+        const element = {
+            elementType: ELEMENT_TYPE.START_ELEMENT,
+            isCanvasElement: true
+        };
+        expect(filter(element)).toEqual(false);
+    });
+
+    it('excludes canvas elements', () => {
+        const filter = resourceFilter();
         const element = {
             elementType: 'myElementType',
             isCanvasElement: true
@@ -48,8 +78,18 @@ describe('resourceFilter', () => {
         expect(filter(element)).toEqual(false);
     });
 
+    it('includes elements in automatic output handling mode', () => {
+        const filter = resourceFilter();
+        const element = {
+            elementType: 'myElementType',
+            isCanvasElement: true,
+            storeOutputAutomatically : true
+        };
+        expect(filter(element)).toEqual(true);
+    });
+
     it('includes elements that contain the given pattern in their name', () => {
-        const filter = resourceFilter(false, 'v');
+        const filter = resourceFilter('v');
         const element = {
             elementType: 'myElementType',
             isCanvasElement: false,
@@ -59,7 +99,7 @@ describe('resourceFilter', () => {
     });
 
     it('excludes elements that do not contain the given pattern in their label', () => {
-        const filter = resourceFilter(false, 'b');
+        const filter = resourceFilter('b');
         const element = {
             elementType: 'myElementType',
             isCanvasElement: false,

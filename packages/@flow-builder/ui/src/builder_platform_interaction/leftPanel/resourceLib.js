@@ -1,5 +1,5 @@
 import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
-import { getElementCategory } from "builder_platform_interaction/elementConfig";
+import { getElementCategory, getResourceLabel, getResourceCategory } from "builder_platform_interaction/elementLabelLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { labelComparator } from "builder_platform_interaction/sortLib";
 import { generateGuid } from "builder_platform_interaction/storeLib";
@@ -30,18 +30,7 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
         label: element.name
     };
 
-    // Adding utility icons for resource manager
-    // TODO: Figure out a better way to recognize elements that do need an icon
-    // based on the dataType
-    const dataTypeIconElements = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.RECORD_CHOICE_SET];
-    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
-        const screenFieldDataType = getScreenFieldDataType(element);
-        resourceElement.iconName = screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
-    } else if (element.dataType && dataTypeIconElements.includes(element.elementType)) {
-        resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
-    }
-
-    const category = getElementCategory(element.elementType, element.dataType, element.isCollection);
+    const category = getElementCategory(element);
     if (!acc[category]) {
         acc[category] = [];
     }
@@ -49,6 +38,50 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
 
     return acc;
 }, {});
+
+const mutateResources = (elements) => Object.values(elements).reduce((acc, element) => {
+    const resourceElement = {
+        elementType: element.elementType,
+        guid: element.guid,
+        label: getResourceLabel(element)
+    };
+
+    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
+        const screenFieldDataType = getScreenFieldDataType(element);
+        resourceElement.iconName = screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
+    } else if (element.dataType) {
+        resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
+    }
+
+    const category = getResourceCategory(element);
+    if (!acc[category]) {
+        acc[category] = [];
+    }
+    acc[category].push(resourceElement);
+
+    return acc;
+}, {});
+
+const getElementSectionsFromElementMap = (elementMap) => {
+    const elementSections = Object.keys(elementMap)
+        .filter(elementType => {
+            return (
+                elementMap[elementType] &&
+                elementMap[elementType].length > 0
+            );
+        })
+        .map(category => {
+            const section = {
+                guid: generateGuid(),
+                label: category,
+                _children: elementMap[category]
+            };
+            return section;
+        });
+
+    elementSections.sort(labelComparator);
+    return elementSections;
+};
 
 /**
  * Combines elements into their respective groupings in a form that is usable by
@@ -62,31 +95,20 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
  *            sort function to use for resource ordering
  * @returns {Array} collection of lightning-tree-grid items
  */
+export const getElementSections = (elements, filter, sort) => {
+    if (!elements || Object.keys(elements).length === 0) {
+        return [];
+    }
+    const filteredElements = Object.values(elements).filter(filter).sort(sort);
+    const elementMap = mutateElements(filteredElements);
+    return getElementSectionsFromElementMap(elementMap);
+};
+
 export const getResourceSections = (elements, filter, sort) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
-
-    let resourceSections = [];
-
     const filteredElements = Object.values(elements).filter(filter).sort(sort);
-    const resourceMap = mutateElements(filteredElements);
-    resourceSections = Object.keys(resourceMap)
-        .filter(elementType => {
-            return (
-                resourceMap[elementType] &&
-                resourceMap[elementType].length > 0
-            );
-        })
-        .map(category => {
-            const section = {
-                guid: generateGuid(),
-                label: category,
-                _children: resourceMap[category]
-            };
-            return section;
-        });
-
-    resourceSections.sort(labelComparator);
-    return resourceSections;
+    const resourceMap = mutateResources(filteredElements);
+    return getElementSectionsFromElementMap(resourceMap);
 };

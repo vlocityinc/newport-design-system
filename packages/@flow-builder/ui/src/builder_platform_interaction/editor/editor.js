@@ -256,14 +256,14 @@ export default class Editor extends LightningElement {
      * This is called once the flow has been loaded, so that sobjects in the flow have their fields loaded and cached
      */
     loadFieldsForSobjectsInFlow() {
-        // Only gets sObject variables (no collections)
-        const sobjectVariables = getSObjectOrSObjectCollectionByEntityElements(storeInstance.getCurrentState().elements);
-        for (let i = 0; i < sobjectVariables.length; i++) {
-            // add sobject variable to combobox cache in required shape
-            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjectVariables[i]);
+        // Only gets elements with sObject datatype (no collections)
+        const sobjects = getSObjectOrSObjectCollectionByEntityElements(storeInstance.getCurrentState().elements);
+        for (let i = 0; i < sobjects.length; i++) {
+            // add sobject element to combobox cache in required shape
+            const sObjectInComboboxShape = mutateFlowResourceToComboboxShape(sobjects[i]);
             addToParentElementCache(sObjectInComboboxShape.displayText, sObjectInComboboxShape);
             // fetch fields and cache them
-            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjectVariables[i].subtype, { disableErrorModal : true }).catch(() => {}));
+            this.propertyEditorBlockerCalls.push(fetchFieldsForEntity(sobjects[i].subtype, { disableErrorModal : true }).catch(() => {}));
         }
     }
 

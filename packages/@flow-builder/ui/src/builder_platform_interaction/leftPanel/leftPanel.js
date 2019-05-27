@@ -1,12 +1,12 @@
 import { LightningElement, track } from 'lwc';
 import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent } from "builder_platform_interaction/events";
-import { resourceFilter } from "builder_platform_interaction/filterLib";
+import { canvasElementFilter, resourceFilter } from "builder_platform_interaction/filterLib";
 import { Store } from "builder_platform_interaction/storeLib";
 import { isChildElement, getConfigForElementType } from "builder_platform_interaction/elementConfig";
 import { isTestMode } from "builder_platform_interaction/contextLib";
 import { nameComparator } from "builder_platform_interaction/sortLib";
 import { LABELS } from "./leftPanelLabels";
-import { getResourceSections } from "./resourceLib";
+import { getResourceSections, getElementSections } from "./resourceLib";
 import { usedBy } from "builder_platform_interaction/usedByLib";
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
 
@@ -49,8 +49,8 @@ export default class LeftPanel extends LightningElement {
     mapAppStateToStore = () => {
         const {properties = {}, elements = {}} = storeInstance.getCurrentState();
         const { processType: flowProcessType } = properties;
-        this.canvasElements = getResourceSections(elements, resourceFilter(true, this.searchString), nameComparator);
-        this.nonCanvasElements = getResourceSections(elements, resourceFilter(false, this.searchString), nameComparator);
+        this.canvasElements = getElementSections(elements, canvasElementFilter(this.searchString), nameComparator);
+        this.nonCanvasElements = getResourceSections(elements, resourceFilter(this.searchString), nameComparator);
         if (this.showResourceDetailsPanel) {
             const iconName = this.resourceDetails.ICON_NAME;
             const currentElementState = elements[this.resourceDetails.GUID];
@@ -130,8 +130,8 @@ export default class LeftPanel extends LightningElement {
     handleResourceSearch(event) {
         this.searchString = event.detail.value.trim();
         const currentState = storeInstance.getCurrentState();
-        this.canvasElements = getResourceSections(currentState.elements, resourceFilter(true, this.searchString), nameComparator);
-        this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(false, this.searchString), nameComparator);
+        this.canvasElements = getResourceSections(currentState.elements, canvasElementFilter(this.searchString), nameComparator);
+        this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(this.searchString), nameComparator);
     }
 
     retrieveResourceDetailsFromStore(currentElementState, iconName) {

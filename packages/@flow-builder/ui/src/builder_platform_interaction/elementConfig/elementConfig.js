@@ -1,5 +1,4 @@
 import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE, isComplexType } from "builder_platform_interaction/dataTypeLib";
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from "./elementConfigLabels";
 import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
@@ -94,9 +93,6 @@ import {
     createScreenWithFieldReferences,
     createScreenField
 } from "builder_platform_interaction/elementFactory";
-
-
-const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 
 /**
  * @constant
@@ -920,34 +916,4 @@ export function isCanvasElement(elementType) {
  */
 export function isChildElement(elementType) {
     return !!getConfigForElementType(elementType).isChildElement;
-}
-
-/**
- * Determines category for display.
- *
- * @param {String}
- *            elementType the element type of an element
- * @param {String}
- *            dataType the datatype of an element
- * @param {Boolean}
- *            isCollection whether or not that element is a collection
- * @returns {String} the full category label for this element
- */
-export function getElementCategory(elementType, dataType, isCollection) {
-    let categoryLabel;
-    if (!isComplexType(dataType)) {
-        if (!isCollection) {
-            const config = getConfigForElementType(elementType);
-            if (config && config.labels && config.labels.plural) {
-                categoryLabel = config.labels.plural;
-            }
-        } else {
-            categoryLabel = LABELS.collectionVariablePluralLabel;
-        }
-    } else if (isCollection) {
-        categoryLabel = dataType === SOBJECT_TYPE ? LABELS.sObjectCollectionPluralLabel : LABELS.apexCollectionVariablePluralLabel;
-    } else {
-        categoryLabel =  dataType === SOBJECT_TYPE ? LABELS.sObjectPluralLabel : LABELS.apexVariablePluralLabel;
-    }
-    return categoryLabel;
 }

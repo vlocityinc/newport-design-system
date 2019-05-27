@@ -4,7 +4,7 @@ import {
     getDataTypeIcons,
 } from "builder_platform_interaction/dataTypeLib";
 import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getSystemVariables, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
-import { getElementCategory } from "builder_platform_interaction/elementConfig";
+import { getResourceCategory } from "builder_platform_interaction/elementLabelLib";
 import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
 import { getDataType } from "builder_platform_interaction/ruleLib";
 import { isComplexType } from "builder_platform_interaction/dataTypeLib";
@@ -165,7 +165,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const resourceLabel = resource.type ? resource.type.label : resource.label;
     const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
     const resourceDataType = getDataType(resource);
-    const elementCategory = getElementCategory(resource.elementType, resourceDataType, resource.isCollection);
+    const elementCategory = getResourceCategory({ elementType : resource.elementType, dataType : resourceDataType, isCollection : resource.isCollection });
 
     newElement.text = getResourceLabel(resource);
     newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.subtype, resourceLabel);
