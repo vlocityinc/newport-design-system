@@ -38,9 +38,9 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     filters = createRecordFilters(filters, object);
 
-    const filterType = filters[0].leftHandSide
-    ? RECORD_FILTER_CRITERIA.ALL
-    : RECORD_FILTER_CRITERIA.NONE;
+    const filterType = filters[0].leftHandSide || recordUpdate.isNewElement
+        ? RECORD_FILTER_CRITERIA.ALL
+        : RECORD_FILTER_CRITERIA.NONE;
 
     const recordUpdateObject = Object.assign(newRecordUpdate, {
         inputReference,

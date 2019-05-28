@@ -139,6 +139,12 @@ describe('recordUpdate Mutation', () => {
             mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
             expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
         });
+        it('default filtering mode for a new update element is all', () => {
+            recordUpdateUsingFields.isNewElement = true;
+            const actualResult = createRecordUpdate(recordUpdateUsingFields);
+            mutatedRecordUpdateWithFields.filterType = RECORD_FILTER_CRITERIA.ALL;
+            expect(actualResult).toMatchObject(mutatedRecordUpdateWithFields);
+        });
         it('inputAssignments with value should return the expression (RHS/LHS)', () => {
             recordUpdateUsingFields.inputAssignments = [inputAssignmentFieldValue];
             const actualResult = createRecordUpdate(recordUpdateUsingFields);

@@ -522,7 +522,8 @@ export default class Editor extends LightningElement {
             const node = getElementForPropertyEditor({
                 locationX: event.detail.locationX,
                 locationY: event.detail.locationY,
-                elementType: event.detail.elementType
+                elementType: event.detail.elementType,
+                isNewElement:true
             });
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
