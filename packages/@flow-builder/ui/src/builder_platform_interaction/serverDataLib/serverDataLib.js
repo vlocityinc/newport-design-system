@@ -30,6 +30,7 @@ export const SERVER_ACTION_TYPE = {
     GET_APEX_TYPES: 'getApexTypes',
     GET_TEMPLATES: 'getTemplates',
     GET_TEMPLATE_DATA: 'getTemplateData',
+    GET_PROCESS_TYPE_FEATURES: 'getSupportedFeaturesList',
 };
 
 const actionConfig = {
@@ -62,6 +63,7 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: 'c.getApexTypes',
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: 'c.getTemplates',
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: 'c.getTemplateData',
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: 'c.getSupportedFeaturesList',
 };
 
 let auraFetch;
@@ -120,6 +122,7 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: (params) => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: (params) => params.processTypes,
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: (params) => params.versionIdOrEnum,
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: (params) => params.flowProcessType,
 };
 
 const fetchOnceCache = { };

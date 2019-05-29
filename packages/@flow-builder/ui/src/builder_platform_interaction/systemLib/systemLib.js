@@ -31,4 +31,4 @@ export const getGlobalConstantOrSystemVariable = (id) => {
 export { GLOBAL_CONSTANT_PREFIX, GLOBAL_CONSTANTS, GLOBAL_CONSTANT_OBJECTS } from "./globalConstants";
 export { setSystemVariables, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, SYSTEM_VARIABLES } from './systemVariables';
 export { setGlobalVariables, getGlobalVariableTypes, getGlobalVariables, getGlobalVariable } from './globalVariables';
-export { setProcessTypes, getProcessTypes } from './processTypes';
+export { setProcessTypes, getProcessTypes, getProcessFeatures, setProcessTypeFeature} from './processTypes';

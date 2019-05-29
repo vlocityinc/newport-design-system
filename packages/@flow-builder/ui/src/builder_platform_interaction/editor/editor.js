@@ -24,7 +24,7 @@ import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessf
     flowPropertiesCallback, saveAsFlowCallback, setPeripheralDataForPropertyEditor, setApexClassesForPropertyEditor, getDuplicateElementGuidMaps,
     getConnectorToDuplicate, highlightCanvasElement, getSelectedTemplate, setErrorMessage, closeModalAndNavigateTo, createStartElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
-import { getProcessTypes, setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { getProcessTypes, setProcessTypes, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { FETCH_FLOW_MODAL_DATA_ERROR_TYPE } from 'builder_platform_interaction/newFlowModalUtils';
 
 let unsubscribeStore;
@@ -160,6 +160,13 @@ export default class Editor extends LightningElement {
                 this.peripheralDataFetched = true;
             }).catch(() => {});
             this.propertyEditorBlockerCalls.push(getPeripheralDataForPropertyEditor);
+
+            // Get Features
+            const getProcessTypeFeatureCall = fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES, {flowProcessType: currentState.properties.processType}).then(data => {
+                setProcessTypeFeature(currentState.properties.processType, data);
+            }).catch(() => {});
+
+            this.propertyEditorBlockerCalls.push(getProcessTypeFeatureCall);
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();

@@ -1,6 +1,6 @@
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getProcessTypes } from 'builder_platform_interaction/systemLib';
+import { getProcessFeatures } from 'builder_platform_interaction/systemLib';
 
 export const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
 
@@ -38,6 +38,10 @@ export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
         REQUIRED : 'Required'
 };
 
+export const FLOW_PROCESS_TYPE_FEATURE = {
+        STORE_OUTPUT_AUTOMATICALLY : 'StoreOutputAutomatically',
+};
+
 export const getProcessTypesWithIcons = (unfilteredProcessTypes, processTypesMap, filtering, postFiltering) => {
     let filteredProcessTypes =  unfilteredProcessTypes;
     if (filtering) {
@@ -67,12 +71,13 @@ export const getProcessTypeIcon = (processType) => {
  * @return {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
  */
 export const getProcessTypeAutomaticOutPutHandlingSupport = (processType) => {
-    const processTypeName = getProcessTypes().find(type => type.name === processType);
-    if (!processTypeName) {
-        throw new Error("Can not find process type: " + processTypeName);
-    }
-    if (processType.automaticOutputHandling) {
-        return processType.automaticOutputHandling;
+    const processTypeFeatures = getProcessFeatures(processType);
+
+    if (processTypeFeatures) {
+        const isStoreOutputAutomaticallyAvailable = processTypeFeatures.find(processTypeFeature => processTypeFeature === FLOW_PROCESS_TYPE_FEATURE.STORE_OUTPUT_AUTOMATICALLY);
+        if (isStoreOutputAutomaticallyAvailable) {
+            return FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
+        }
     }
     return FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED; // TODO: this should be removed when automaticOutputHandling will be returned by the server. (W-6136932)
 };
