@@ -265,7 +265,7 @@ function updateElementGuidsReferenced(elementGuidsReferenced, newElementGuidsRef
  * @param {Array} referencing list of element which element is referencing
  * @returns {Object} usedByElement return new object with selected properties
  */
-function createUsedByElement({element, elementGuidsReferenced}) {
+export function createUsedByElement({element, elementGuidsReferenced}) {
     const elementConfig = getConfigForElementType(element.elementType);
     const guid = element.guid;
     const label = element.label;

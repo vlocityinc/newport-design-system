@@ -6,27 +6,31 @@ export default class ResourceDetails extends LightningElement {
     @api resourceDetails;
 
     get hasIcon() {
-        return this.resourceDetails.ICON_NAME !== undefined && this.resourceDetails.ICON_NAME !== null && this.resourceDetails.ICON_NAME.length > 0;
+        return !!this.resourceDetails.typeIconName;
     }
 
-    get hasUniqueName() {
-        return this.resourceDetails.NAME !== undefined && this.resourceDetails.NAME !== null && this.resourceDetails.NAME.length > 0;
+    get hasApiName() {
+        return !!this.resourceDetails.apiName;
     }
 
     get hasDescription() {
-        return this.resourceDetails.DESCRIPTION !== undefined && this.resourceDetails.DESCRIPTION !== null && this.resourceDetails.DESCRIPTION.length > 0;
+        return !!this.resourceDetails.description;
     }
 
     get hasUsedByElements() {
-        return Array.isArray(this.resourceDetails.USED_BY_ELEMENTS) && this.resourceDetails.USED_BY_ELEMENTS.length > 0;
+        return Array.isArray(this.resourceDetails.usedByElements) && this.resourceDetails.usedByElements.length > 0;
     }
 
-    get panelFooterClasses() {
-        let classes = 'panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom';
-        if (this.resourceDetails.IS_CHILD_ELEMENT) {
-            classes = `${classes} slds-hide`;
-        }
-        return classes;
+    get hasCreatedByElement() {
+        return this.resourceDetails.createdByElement != null;
+    }
+
+    get createdByElements() {
+        return this.hasCreatedByElement ? [this.resourceDetails.createdByElement] : [];
+    }
+
+    get displayButtons() {
+        return this.resourceDetails.editable && this.resourceDetails.deletable;
     }
 
     get labels() {
@@ -35,14 +39,13 @@ export default class ResourceDetails extends LightningElement {
 
     handleEditButtonClicked(event) {
         event.stopPropagation();
-        const guid = this.resourceDetails.GUID;
-        const editElementEvent = new EditElementEvent(guid);
+        const editElementEvent = new EditElementEvent(this.resourceDetails.elementGuid);
         this.dispatchEvent(editElementEvent);
     }
 
     handleDeleteButtonClicked(event) {
         event.stopPropagation();
-        const deleteEvent = new DeleteResourceEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
+        const deleteEvent = new DeleteResourceEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
         this.dispatchEvent(deleteEvent);
     }
 }

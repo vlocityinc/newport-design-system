@@ -15,7 +15,7 @@
                             <lightning-input type="search" variant="label-hidden" label={labels.resourceSearchLabel} placeholder={labels.resourceSearchPlaceholder} onchange={handleResourceSearch} class="slds-p-bottom_small"></lightning-input>
                             <lightning-button variant="Neutral" label={labels.newResourceButtonText} title={labels.newResourceButtonText} onclick={handleAddNewResourceButtonClick} class="new-resource-button"></lightning-button>
                         </div>
-                        <builder_platform_interaction-left-panel-resources canvas-elements={canvasElements} non-canvas-elements={nonCanvasElements} onpaletteitemclicked={handleResourceClicked} onpaletteitemchevronclicked={handlePaletteItemChevronClicked}></builder_platform_interaction-left-panel-resources>
+                        <builder_platform_interaction-left-panel-resources canvas-elements={canvasElements} non-canvas-elements={nonCanvasElements} onpaletteitemclicked={handleResourceClicked} onshowresourcedetails={handleShowResourceDetails}></builder_platform_interaction-left-panel-resources>
                     </lightning-tab>
                 </lightning-tabset>
             </div>

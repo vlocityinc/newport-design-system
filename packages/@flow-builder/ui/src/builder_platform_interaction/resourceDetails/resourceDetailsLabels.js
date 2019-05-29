@@ -1,5 +1,6 @@
 import typeText from '@salesforce/label/FlowBuilderResourceDetailsPanel.typeText';
 import usageText from '@salesforce/label/FlowBuilderResourceDetailsPanel.usageText';
+import createdByText from '@salesforce/label/FlowBuilderResourceDetailsPanel.createdByText';
 import uniqueNameText from '@salesforce/label/FlowBuilderResourceDetailsPanel.uniqueNameText';
 import descriptionText from '@salesforce/label/FlowBuilderResourceDetailsPanel.descriptionText';
 import detailsText from '@salesforce/label/FlowBuilderResourceDetailsPanel.detailsText';
@@ -14,4 +15,5 @@ export const LABELS = {
     detailsText,
     editButtonLabel,
     deleteButtonLabel,
+    createdByText
 };

@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { EditElementEvent, PaletteItemClickedEvent, PaletteItemChevronClickedEvent } from "builder_platform_interaction/events";
+import { EditElementEvent, PaletteItemClickedEvent, ShowResourceDetailsEvent } from "builder_platform_interaction/events";
 import LeftPanel from "builder_platform_interaction/leftPanel";
 import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
@@ -71,8 +71,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - the panel header should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
                 const panel = element.shadowRoot.querySelector(selectors.panel);
                 expect(panel.classList).toContain('slds-is-open');
@@ -94,8 +94,8 @@ describe('left-panel', () => {
             it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
                 const guid = 'guid1';
-                const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
-                element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
+                const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+                element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
                 return Promise.resolve().then(() => {
                     const header = element.shadowRoot.querySelector(selectors.panelHeader);
                     expect(header.classList).not.toContain('slds-p-left_medium');
@@ -114,8 +114,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - should have Back Button Utility Icon.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
                 const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
                 expect(backButton.iconName).toBe('utility:back');
@@ -126,8 +126,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - should handle back-button click.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
                 const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
                 backButton.click();
@@ -151,8 +151,8 @@ describe('left-panel', () => {
         it('when in Flow Resource Details view - should add show-details class.', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
-            const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemChevronClickedEvent);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
                 const leftPanel = element.shadowRoot.querySelector('.slds-panel');
                 expect(leftPanel.classList).toContain('show-details');
@@ -176,7 +176,7 @@ describe('left-panel', () => {
                 });
             });
 
-            it('handle Pallete Item Click Event ', () => {
+            it('handle Palette Item Click Event ', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
                 leftPanelComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);

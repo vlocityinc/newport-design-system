@@ -39,6 +39,22 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
     return acc;
 }, {});
 
+/**
+ * Get the icon name for the element (considered as a resource)
+ *
+ * @param {Object} element the element
+ * @returns {string|undefined} the icon name
+ */
+export const getResourceIconName = (element) => {
+    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
+        const screenFieldDataType = getScreenFieldDataType(element);
+        return screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
+    } else if (element.dataType) {
+        return getDataTypeIcons(element.dataType, 'utility');
+    }
+    return undefined;
+};
+
 const mutateResources = (elements) => Object.values(elements).reduce((acc, element) => {
     const resourceElement = {
         elementType: element.elementType,
@@ -46,12 +62,7 @@ const mutateResources = (elements) => Object.values(elements).reduce((acc, eleme
         label: getResourceLabel(element)
     };
 
-    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
-        const screenFieldDataType = getScreenFieldDataType(element);
-        resourceElement.iconName = screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
-    } else if (element.dataType) {
-        resourceElement.iconName = getDataTypeIcons(element.dataType, 'utility');
-    }
+    resourceElement.iconName = getResourceIconName(element);
 
     const category = getResourceCategory(element);
     if (!acc[category]) {
@@ -104,6 +115,18 @@ export const getElementSections = (elements, filter, sort) => {
     return getElementSectionsFromElementMap(elementMap);
 };
 
+/**
+ * Combines elements (considered as resources) into their respective groupings in a form that is usable by
+ * lightning-tree-grid.
+ *
+ * @param {Object[]}
+ *            elements list of all the elements
+ * @param {Function}
+ *            filter function to use for resource filtering
+ * @param {Function}
+ *            sort function to use for resource ordering
+ * @returns {Array} collection of lightning-tree-grid items
+ */
 export const getResourceSections = (elements, filter, sort) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];

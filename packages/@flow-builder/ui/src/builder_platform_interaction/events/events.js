@@ -76,3 +76,4 @@ export { ProcessTypeSelectedEvent } from './processTypeSelectedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
 export { NumberRecordToStoreChangedEvent } from './numberRecordToStoreChangedEvent';
 export { UseAdvancedOptionsSelectionChangedEvent } from './useAdvancedOptionsSelectionChangedEvent';
+export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';

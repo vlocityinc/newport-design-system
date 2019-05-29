@@ -6,9 +6,10 @@ import { isChildElement, getConfigForElementType } from "builder_platform_intera
 import { isTestMode } from "builder_platform_interaction/contextLib";
 import { nameComparator } from "builder_platform_interaction/sortLib";
 import { LABELS } from "./leftPanelLabels";
-import { getResourceSections, getElementSections } from "./resourceLib";
-import { usedBy } from "builder_platform_interaction/usedByLib";
+import { getResourceSections, getElementSections, getResourceIconName } from "./resourceLib";
+import { usedBy, createUsedByElement } from "builder_platform_interaction/usedByLib";
 import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 
 let storeInstance;
 let unsubscribeStore;
@@ -52,9 +53,8 @@ export default class LeftPanel extends LightningElement {
         this.canvasElements = getElementSections(elements, canvasElementFilter(this.searchString), nameComparator);
         this.nonCanvasElements = getResourceSections(elements, resourceFilter(this.searchString), nameComparator);
         if (this.showResourceDetailsPanel) {
-            const iconName = this.resourceDetails.ICON_NAME;
-            const currentElementState = elements[this.resourceDetails.GUID];
-            this.retrieveResourceDetailsFromStore(currentElementState, iconName);
+            const currentElementState = elements[this.resourceDetails.elementGuid];
+            this.retrieveResourceDetailsFromStore(currentElementState, this.resourceDetails.asResource);
         }
         if (this.processType !== flowProcessType) {
             this.processType = flowProcessType;
@@ -63,7 +63,7 @@ export default class LeftPanel extends LightningElement {
     };
 
     get getPanelTitle() {
-        return this.showResourceDetailsPanel ? this.resourceDetails.NAME : LABELS.headerText;
+        return this.showResourceDetailsPanel ? this.resourceDetails.title : LABELS.headerText;
     }
 
     get panelClasses() {
@@ -105,10 +105,9 @@ export default class LeftPanel extends LightningElement {
         this.dispatchEvent(editElementEvent);
     }
 
-    handlePaletteItemChevronClicked(event) {
-        const iconName = event.detail.iconName;
+    handleShowResourceDetails(event) {
         const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
-        this.retrieveResourceDetailsFromStore(currentElementState, iconName);
+        this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
         this.showResourceDetailsPanel = true;
     }
 
@@ -123,7 +122,7 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleDeleteButtonClicked() {
-        const deleteEvent = new DeleteElementEvent([this.resourceDetails.GUID], this.resourceDetails.TYPE);
+        const deleteEvent = new DeleteElementEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
         this.dispatchEvent(deleteEvent);
     }
 
@@ -134,19 +133,40 @@ export default class LeftPanel extends LightningElement {
         this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(this.searchString), nameComparator);
     }
 
-    retrieveResourceDetailsFromStore(currentElementState, iconName) {
+    retrieveResourceDetailsFromStore(currentElementState, asResource) {
         if (currentElementState) {
             const state = storeInstance.getCurrentState();
             const storeElements = state.elements;
+            let typeIconName;
+            let createdByElement;
+            let editable = !isChildElement(currentElementState.elementType);
+            let description = currentElementState.description;
+            let title;
+            if (asResource) {
+                typeIconName = getResourceIconName(currentElementState);
+                title = getResourceLabel(currentElementState);
+                if (currentElementState.storeOutputAutomatically) {
+                    createdByElement = createUsedByElement(
+                        { element : currentElementState, elementGuidsReferenced : [currentElementState.guid] });
+                    editable = false;
+                    description = undefined;
+                }
+            } else {
+                title = currentElementState.name;
+            }
             this.resourceDetails = {
-                TYPE: currentElementState.elementType,
-                GUID: currentElementState.guid,
-                LABEL: getConfigForElementType(currentElementState.elementType).labels.singular,
-                ICON_NAME: iconName,
-                DESCRIPTION: currentElementState.description,
-                NAME: currentElementState.name,
-                IS_CHILD_ELEMENT: isChildElement(currentElementState.elementType),
-                USED_BY_ELEMENTS: usedBy([currentElementState.guid], storeElements)
+                title,
+                elementType: currentElementState.elementType,
+                elementGuid: currentElementState.guid,
+                typeLabel: getConfigForElementType(currentElementState.elementType).labels.singular,
+                typeIconName,
+                description,
+                apiName: currentElementState.name,
+                editable,
+                deletable : editable,
+                createdByElement,
+                usedByElements: usedBy([currentElementState.guid], storeElements),
+                asResource
             };
         } else {
             this.showResourceDetailsPanel = false;

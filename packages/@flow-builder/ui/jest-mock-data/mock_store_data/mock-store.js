@@ -1,6 +1,7 @@
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
+export const startElementGuid = 'guid0';
 export const numberVariableGuid = 'guid1';
 export const accountSObjectVariableGuid = 'guid2';
 export const stringCollectionVariable1Guid = 'guid3';
@@ -79,6 +80,19 @@ export const waitEvent = ELEMENT_TYPE.WAIT_EVENT;
 export const decision = ELEMENT_TYPE.DECISION;
 
 export const elements = {
+    [startElementGuid]: {
+        guid: startElementGuid,
+        elementType: ELEMENT_TYPE.START_ELEMENT,
+        label: "Start",
+        locationX: 50,
+        locationY: 50,
+        isCanvasElement: true,
+        config: {
+            isSelected: false
+        },
+        maxConnections: 1,
+        connectorCount: 0
+    },
     [numberVariableGuid]: {
         dataType: numberDataType,
         description: '',
