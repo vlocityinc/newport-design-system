@@ -1,6 +1,6 @@
 <template>
-    <div class="slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small">
-        <builder_platform_interaction-combobox class="lhs slds-col slds-grow"
+    <div class={containerClasses}>
+        <builder_platform_interaction-combobox class={lhsClasses}
                                                label={lhsLabel}
                                                value={lhsValue}
                                                menu-data={state.lhsFilteredMenuData}
@@ -14,7 +14,7 @@
                                                enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
-        <lightning-combobox if:false={hideOperator} class="operator slds-col slds-grow slds-size_x-small"
+        <lightning-combobox if:false={hideOperator} class={operatorClasses}
                             label={operatorLabel}
                             value={operator}
                             placeholder={operatorPlaceholder}
@@ -33,7 +33,7 @@
                 </lightning-icon>
             </div>
         </div>
-        <builder_platform_interaction-combobox class="rhs slds-col slds-grow"
+        <builder_platform_interaction-combobox class={rhsClasses}
                                                label={rhsLabel}
                                                value={rhsValue}
                                                allowed-param-types={rhsParamTypes}

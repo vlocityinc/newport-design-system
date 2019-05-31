@@ -365,6 +365,12 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     @api hideNewResource = false;
 
+    /**
+     * Set it to true to hide display the expression builder vertically instead of horizontally inline
+     * @type {Boolean}
+     */
+    @api useVerticalLayout;
+
     _containerElement;
     _objectType;
     _rules;
@@ -380,6 +386,24 @@ export default class BaseExpressionBuilder extends LightningElement {
     _unsubscribeStore;
     _hideFerovMenuData = false;
     _hideSystemVariables = false;
+
+
+    get containerClasses() {
+        return this.useVerticalLayout
+            ? ''
+            : 'slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small';
+    }
+    get lhsClasses() {
+        return this.useVerticalLayout ? 'lhs' : 'lhs slds-col slds-grow';
+    }
+
+    get operatorClasses() {
+        return this.useVerticalLayout ? 'operator' : 'operator slds-col slds-grow slds-size_x-small';
+    }
+
+    get rhsClasses() {
+        return this.useVerticalLayout ? 'rhs' : 'rhs slds-col slds-grow';
+    }
 
     get showOperatorIcon() {
         return this.hideOperator && this.operatorIconName;

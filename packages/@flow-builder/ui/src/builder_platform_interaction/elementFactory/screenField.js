@@ -93,14 +93,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         validationRule = {formulaExpression: null, errorMessage: null};
     }
 
-    if (visibility) {
-        visibility = createVisibilityObject(visibility);
-    } else {
-        visibility = {
-            conditionLogic: CONDITION_LOGIC.NO_CONDITIONS,
-            conditions: []
-        };
-    }
+    visibility = createVisibilityObject(visibility);
 
     if (screenField.hasOwnProperty("isVisible")) {
         isVisible = screenField.isVisible;
@@ -245,7 +238,15 @@ function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     return name;
 }
 
-function createVisibilityObject({conditions, conditionLogic}) {
+function createVisibilityObject(visibility) {
+    if (!visibility) {
+        return {
+            conditionLogic: CONDITION_LOGIC.NO_CONDITIONS,
+            conditions: []
+        };
+    }
+
+    const { conditions, conditionLogic } = visibility;
     return {
         conditions: conditions.map(condition => createCondition(condition)),
         conditionLogic

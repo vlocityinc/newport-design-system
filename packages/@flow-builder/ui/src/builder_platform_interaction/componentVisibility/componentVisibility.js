@@ -93,17 +93,13 @@ export default class ComponentVisibility extends LightningElement {
     };
 
     handleDone = (index, condition) => {
-        let isValid = true;
         const { leftHandSide, operator, rightHandSide } = condition;
-        if (leftHandSide.error || operator.error || rightHandSide.error) {
-            isValid = false;
-        }
+        const hasError = leftHandSide.error || operator.error || rightHandSide.error;
 
-        if (isValid) {
+        if (!hasError) {
             this.dispatchEvent(new UpdateConditionEvent(this.guid, index, condition));
+            this.hidePopover();
         }
-
-        this.hidePopover();
     };
 
     handleCancelPopover = index => {
