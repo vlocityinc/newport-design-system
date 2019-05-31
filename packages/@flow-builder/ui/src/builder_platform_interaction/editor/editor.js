@@ -3,7 +3,7 @@ import { invokePropertyEditor, PROPERTY_EDITOR, invokeModalInternalData, invokeN
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import { updateFlow, doDuplicate, addElement, updateElement, selectOnCanvas, undo, redo, clearUndoRedo, updatePropertiesAfterCreatingFlowFromTemplate, updatePropertiesAfterCreatingFlowFromProcessType,
-    UPDATE_PROPERTIES_AFTER_SAVING, UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE, UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION, UPDATE_PROPERTIES_AFTER_SAVE_FAILED } from 'builder_platform_interaction/actions';
+    UPDATE_PROPERTIES_AFTER_SAVING, UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE, UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE, TOGGLE_ON_CANVAS, DESELECT_ON_CANVAS, MARQUEE_SELECT_ON_CANVAS, UPDATE_CANVAS_ELEMENT_LOCATION, UPDATE_PROPERTIES_AFTER_SAVE_FAILED } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { fetch, fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { translateFlowToUIModel, translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
@@ -93,6 +93,7 @@ export default class Editor extends LightningElement {
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
             DESELECT_ON_CANVAS, // is dispatched when user clicks on the blank space in canvas.
+            MARQUEE_SELECT_ON_CANVAS, // is dispatched when the user is marquee selecting on the canvas.
             UPDATE_CANVAS_ELEMENT_LOCATION, // is dispatched when elements are moved on canvas.
         ];
         storeInstance = Store.getStore(undoRedo(reducer, {blacklistedActions: blacklistedActionsForUndoRedoLib, groupedActions}));

@@ -1,7 +1,8 @@
 import { LightningElement, api, track } from "lwc";
 import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
-import { isMultiSelect, canDelete, canZoom, setupCanvasElements, setupConnectors, checkMarqueeSelection } from "./canvasUtils";
-import { SCALE_BOUNDS, getScaleAndOffsetValuesOnZoom, getOffsetValuesOnPan, getDistanceBetweenViewportCenterAndElement, isElementInViewport } from "./zoomPanUtils";
+import { isMultiSelect, setupCanvasElements, setupConnectors } from "./canvasUtils";
+import { SCALE_BOUNDS, getOffsetValuesOnPan, canDelete, canZoom, getScaleAndOffsetValuesOnZoom, getDistanceBetweenViewportCenterAndElement, isElementInViewport } from "./zoomPanUtils";
+import { checkMarqueeSelection } from "./marqueeSelectionLib";
 import { isCanvasElement } from "builder_platform_interaction/elementConfig";
 import { AddElementEvent, DeleteElementEvent, CanvasMouseUpEvent, AddConnectionEvent, ConnectorSelectedEvent, MarqueeSelectEvent, ZOOM_ACTION, MARQUEE_ACTION } from "builder_platform_interaction/events";
 import { KEYS } from "./keyConstants";
@@ -39,6 +40,10 @@ export default class Canvas extends LightningElement {
     canvasArea;
     innerCanvasArea;
 
+    // Center of our canvas viewport ([canvasWidth / 2, canvasHeight / 2])
+    viewportCenterPoint;
+
+    // Map of canvas element guids to canvas element container
     canvasElementGuidToContainerMap = {};
 
     // Scaling variable used for zooming
@@ -50,21 +55,22 @@ export default class Canvas extends LightningElement {
     // Variable to keep a track of when panning is in progress
     isPanInProgress = false;
 
+    // Variable to check if we need to pan the canvas as we enter it. This is set to true only when the user leaves the
+    // canvas with isCanvasMouseDown being set to true
+    shouldPanOnEnter = false;
+
     // Mouse position variables used for panning
     canvasMouseDownPoint = [0, 0];
     canvasMouseMovePoint = [0, 0];
 
-    // Scaled offsetLeft and offsetTop values when mouse down happens for panning
-    scaledOffsetsOnPanStart = [0, 0];
+    // Scaled offsetLeft and offsetTop values when mouse down happens for panning or marquee
+    scaledOffsetsOnPanOrMarqueeStart = [0, 0];
 
     // Variable to keep a track of when mouse is down on the overlay
     isOverlayMouseDown = false;
 
     // Mouse position variables used for marquee selection
     marqueeStartPoint = [0, 0];
-
-    // Set to keep track the current selected nodes for marquee selection
-    currentSelectedCanvasElementGuids = new Set();
 
     constructor() {
         super();
@@ -104,9 +110,10 @@ export default class Canvas extends LightningElement {
      * @param {object} event - mouse enter event
      */
     handleCanvasMouseEnter = (event) => {
-        if (!this.isMarqueeModeOn && (event.buttons === 1 || event.buttons === 3)) {
+        if (!this.isMarqueeModeOn && (event.buttons === 1 || event.buttons === 3) && this.shouldPanOnEnter) {
             this._initPanStart(event);
         }
+        this.shouldPanOnEnter = false;
     };
 
     /**
@@ -114,6 +121,7 @@ export default class Canvas extends LightningElement {
      */
     handleCanvasMouseLeave = () => {
         if (this.isCanvasMouseDown) {
+            this.shouldPanOnEnter = true;
             this._resetPan();
         }
     };
@@ -142,7 +150,7 @@ export default class Canvas extends LightningElement {
             this.canvasMouseMovePoint = this._getMousePoint(event);
 
             const panConfig = {
-                scaledOffsetsOnPanStart: this.scaledOffsetsOnPanStart,
+                scaledOffsetsOnPanStart: this.scaledOffsetsOnPanOrMarqueeStart,
                 mouseDownPoint: this.canvasMouseDownPoint,
                 mouseMovePoint: this.canvasMouseMovePoint
             };
@@ -277,7 +285,6 @@ export default class Canvas extends LightningElement {
     handleOverlayMouseDown = (event) => {
         event.stopPropagation();
         this._initMarqueeBox(event);
-        this.currentSelectedCanvasElementGuids.clear();
     };
 
     /**
@@ -290,8 +297,15 @@ export default class Canvas extends LightningElement {
         if (this.isOverlayMouseDown) {
             this.marqueeEndPoint = this._getMousePoint(event);
             this.isMarqueeInProgress = true;
+
+            const marqueeConfig = {
+                scaledOffsetsOnMarqueeStart: this.scaledOffsetsOnPanOrMarqueeStart,
+                marqueeStartPoint: this.marqueeStartPoint,
+                marqueeEndPoint: this.marqueeEndPoint
+            };
+
             // Check the marquee selection elements and update their selected state if in the list
-            const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect } = checkMarqueeSelection(this.nodes, this.connectors, this.currentSelectedCanvasElementGuids, this.marqueeStartPoint, this.marqueeEndPoint);
+            const { canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect } = checkMarqueeSelection(this.nodes, this.connectors, this.currentScale, marqueeConfig, this.viewportCenterPoint);
             if (canvasElementGuidsToSelect.length !== 0 || canvasElementGuidsToDeselect.length !== 0 || connectorGuidsToSelect.length !== 0 || connectorGuidsToDeselect.length !== 0) {
                 const marqueeSelectEvent = new MarqueeSelectEvent(canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect);
                 this.dispatchEvent(marqueeSelectEvent);
@@ -374,6 +388,38 @@ export default class Canvas extends LightningElement {
     };
 
     /**
+     * Helper method to get the width, height and center of the canvas viewport
+     *
+     * @return {Object} Returns an object containing the width, height and center of the canvas viewport
+     * @private
+     */
+    _getViewportDimensions = () => {
+        if (this.canvasArea.clientWidth === undefined || this.canvasArea.clientWidth < 0) {
+            throw new Error('Canvas width is either undefined or < 0. It must be defined.');
+        }
+
+        if (this.canvasArea.clientHeight === undefined || this.canvasArea.clientHeight < 0) {
+            throw new Error('Canvas height is either undefined or < 0. It must be defined.');
+        }
+
+        const viewportWidth = this.canvasArea.clientWidth;
+        const viewportHeight = this.canvasArea.clientHeight;
+        const viewportCenterPoint = [viewportWidth / 2, viewportHeight / 2];
+
+        return { viewportWidth, viewportHeight, viewportCenterPoint };
+    };
+
+    /**
+     * Helper function to return the scaled inner canvas center offsets
+     *
+     * @return {Number[]} Returns an array containing the scaled inner canvas center offsets
+     * @private
+     */
+    _getScaledInnerCanvasCenterOffsets = () => {
+        return [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop];
+    };
+
+    /**
      * Helper method used for initializing panning on canvas.
      *
      * @param {Object} event - event coming from handleCanvasMouseEnter and handleCanvasMouseDown
@@ -387,7 +433,7 @@ export default class Canvas extends LightningElement {
         this.canvasMouseDownPoint = this._getMousePoint(event);
 
         // Getting the scaled offset values of the inner canvas when mouse down happens
-        this.scaledOffsetsOnPanStart = [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop];
+        this.scaledOffsetsOnPanOrMarqueeStart = this._getScaledInnerCanvasCenterOffsets();
     };
 
     /**
@@ -421,14 +467,18 @@ export default class Canvas extends LightningElement {
     };
 
     /**
-     * Init marquee box in canvas - set isOverlayMouseDown to true, update cursor styling and get the start point
-     * for the marquee box.
+     * Init marquee box in canvas - set isOverlayMouseDown to true, update cursor styling, calculate the viewport center
+     * point, calculate scaledOffsetsOnPanOrMarqueeStart and get the marquee start point.
      *
      * @param {Object} event - event coming from handleOverlayMouseEnter and handleOverlayMouseDown
+     * @private
      */
     _initMarqueeBox = (event) => {
         this.isOverlayMouseDown = true;
         this._updateCursorStyling(CURSOR_STYLE_CROSSHAIR);
+        const { viewportCenterPoint } = this._getViewportDimensions();
+        this.viewportCenterPoint = viewportCenterPoint;
+        this.scaledOffsetsOnPanOrMarqueeStart = this._getScaledInnerCanvasCenterOffsets();
         this.marqueeStartPoint = this._getMousePoint(event);
     };
 
@@ -464,7 +514,7 @@ export default class Canvas extends LightningElement {
      */
     _canvasZoom = (action) => {
         const viewportAndOffsetConfig = {
-            viewportDimensions: [this.canvasArea.clientWidth, this.canvasArea.clientHeight],
+            viewportDimensions: this._getViewportDimensions(),
             centerOffsets: [this.innerCanvasArea.offsetLeft / this.currentScale, this.innerCanvasArea.offsetTop / this.currentScale]
         };
 
@@ -476,7 +526,7 @@ export default class Canvas extends LightningElement {
             this.currentScale = newScale;
 
             // Informing jsPlumb about the zoom level so that connectors are drawn on the new scale
-            lib.setZoom(newScale);
+            lib.setZoom(this.currentScale);
 
             // Updating the scale and left and top properties of the canvas
             this.innerCanvasArea.style.transform = `scale(${this.currentScale})`;
@@ -517,15 +567,16 @@ export default class Canvas extends LightningElement {
         if (searchedElementArray && searchedElementArray.length === 1) {
             const searchedElement = searchedElementArray[0];
 
-            const viewportCenterPoint = [this.canvasArea.clientWidth / 2, this.canvasArea.clientHeight / 2];
+            const { viewportCenterPoint } = this._getViewportDimensions();
+            this.viewportCenterPoint = viewportCenterPoint;
 
             // Calculate the new innerCanvas offsets that will bring the searched canvas element into the center of the viewport
-            const { newScaledOffsetLeft, newScaledOffsetTop } = getDistanceBetweenViewportCenterAndElement(viewportCenterPoint, searchedElement.locationX, searchedElement.locationY, this.currentScale);
+            const { newScaledOffsetLeft, newScaledOffsetTop } = getDistanceBetweenViewportCenterAndElement(this.viewportCenterPoint, searchedElement.locationX, searchedElement.locationY, this.currentScale);
 
             const panToViewConfig = {
-                originalScaledCenterOffsets: [this.innerCanvasArea.offsetLeft, this.innerCanvasArea.offsetTop],
+                originalScaledCenterOffsets: this._getScaledInnerCanvasCenterOffsets(),
                 newScaledCenterOffsets: [newScaledOffsetLeft, newScaledOffsetTop],
-                viewportCenterPoint
+                viewportCenterPoint: this.viewportCenterPoint
             };
 
             // In the element is current not in the viewport, we need to update our offsets to the newly calculated

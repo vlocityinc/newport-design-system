@@ -3,7 +3,7 @@ import { ZOOM_ACTION } from "builder_platform_interaction/events";
 
 describe('Testing getScaleAndDeltaValues', () => {
     const viewportAndOffsetConfig = {
-        viewportDimensions: [500, 500],
+        viewportDimensions: { viewportWidth: 500, viewportHeight: 500, viewportCenterPoint: [250, 250] },
         centerOffsets: [0, 0]
     };
 
