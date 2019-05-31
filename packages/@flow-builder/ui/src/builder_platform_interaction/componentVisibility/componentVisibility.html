@@ -1,0 +1,48 @@
+<template>
+    <builder_platform_interaction-condition-list
+        parent-guid={guid}
+        conditions={visibility.conditions}
+        condition-logic-options={conditionLogicOptions}
+        condition-logic={conditionLogic}
+        logic-combobox-label={labels.logicComboboxLabel}
+        container-element-type={elementType}
+        ondeletecondition={handleDeleteCondition}
+        onaddcondition={handleAddCondition}
+        onpropertychanged={handlePropertyChanged}
+    >
+        <template if:true={showConditions}>
+            <div slot="conditions">
+                <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
+                    <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
+                        <builder_platform_interaction-row
+                            item-prefix={conditionWithPrefix.prefix}
+                            show-prefix
+                            item-index={conditionIndex}
+                            show-delete={showDeleteCondition}
+                            key={conditionWithPrefix.condition.rowIndex}
+                        >
+                            <div slot="rowBody">
+                                <div
+                                    class="condition-container"
+                                    onclick={handleClickCondition}
+                                    data-index={conditionIndex}
+                                >
+                                New Condition
+                                <!--
+                                    <builder_platform_interaction-condition-list-item
+                                        item-index={conditionIndex}
+                                        condition={conditionWithPrefix.condition}
+                                        ondeletecondition={handleDeleteCondition}
+                                        deleteable={canDeleteConditions}
+                                    >
+                                    </builder_platform_interaction-condition-list-item>
+                                -->
+                                </div>
+                            </div>
+                        </builder_platform_interaction-row>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </builder_platform_interaction-condition-list>
+</template>

@@ -31,10 +31,8 @@
         <div>
             <lightning-accordion allow-multiple-sections-open class='slds-has-divider slds-p-top_none'>
                 <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
-                    <!--
-                    <builder_platform_interaction-component-visibility visibility={field.visibility}>
+                    <builder_platform_interaction-component-visibility visibility={field.visibility} guid={field.guid}>
                     </builder_platform_interaction-component-visibility>
-                    -->
                 </lightning-accordion-section>
                 <!--  validation rule -->
                 <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>

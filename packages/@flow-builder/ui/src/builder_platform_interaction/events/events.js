@@ -13,6 +13,7 @@ export { DeleteOutcomeEvent } from './deleteOutcomeEvent';
 export { DeleteWaitEventEvent } from './deleteWaitEventEvent';
 export { ReorderListEvent } from './reorderListEvent';
 export { AddConditionEvent } from './addConditionEvent';
+export { UpdateConditionLogicEvent } from './updateConditionLogicEvent';
 export { UpdateConditionEvent } from './updateConditionEvent';
 export { DeleteConditionEvent } from './deleteConditionEvent';
 export { RowContentsChangedEvent } from './rowContentsChangedEvent';

@@ -10,8 +10,8 @@ import {
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
 import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { baseElement } from "./base/baseElement";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { baseElement, createCondition } from "./base/baseElement";
+import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./variable";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createValidationRuleObject } from "./base/baseValidationInput";
@@ -40,7 +40,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         isRequired = false,
         isVisible,
         outputParameters,
-        choiceReferences = []
+        choiceReferences = [],
+        visibility
     } = screenField;
 
     if (isExtensionField(screenField)) {
@@ -92,6 +93,15 @@ export function createScreenField(screenField = {}, isNewField = false) {
         validationRule = {formulaExpression: null, errorMessage: null};
     }
 
+    if (visibility) {
+        visibility = createVisibilityObject(visibility);
+    } else {
+        visibility = {
+            conditionLogic: CONDITION_LOGIC.NO_CONDITIONS,
+            conditions: []
+        };
+    }
+
     if (screenField.hasOwnProperty("isVisible")) {
         isVisible = screenField.isVisible;
     }
@@ -117,7 +127,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
             scale,
             type,
             elementType,
-            defaultSelectedChoiceReference
+            defaultSelectedChoiceReference,
+            visibility
         },
         defaultValueFerovObject
     );
@@ -232,4 +243,11 @@ function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     }
     const { name } = getElementByGuid(choiceReference);
     return name;
+}
+
+function createVisibilityObject({conditions, conditionLogic}) {
+    return {
+        conditions: conditions.map(condition => createCondition(condition)),
+        conditionLogic
+    };
 }
