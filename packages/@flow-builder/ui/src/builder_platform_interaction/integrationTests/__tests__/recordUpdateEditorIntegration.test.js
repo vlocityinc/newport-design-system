@@ -4,9 +4,8 @@ import RecordUpdateEditor from "builder_platform_interaction/recordUpdateEditor"
 import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES, auraFetch, LIGHTNING_COMPONENTS_SELECTORS,
     getLabelDescriptionLabelElement, getLabelDescriptionNameElement, expectGroupedComboboxItem, getChildComponent, getEntityResourcePicker,
     getBaseExpressionBuilder, getFieldToFerovExpressionBuilders, getRecordVariablePickerChildGroupedComboboxComponent,
-    getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue} from "../integrationTestUtils";
+    getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue, } from "../integrationTestUtils";
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { EditElementEvent, AddElementEvent } from "builder_platform_interaction/events";
 import { mockEntities } from "mock/serverEntityData";
 import { setRules } from 'builder_platform_interaction/ruleLib';
 import { mockAccountFields } from "mock/serverEntityData";
@@ -22,10 +21,14 @@ import { mockAllRules } from "mock/ruleService";
 import { setGlobalVariables, setSystemVariables } from 'builder_platform_interaction/systemLib';
 import { globalVariableTypes, globalVariables, systemVariables,  } from 'mock/systemGlobalVars';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { RecordStoreOptionChangedEvent } from "builder_platform_interaction/events";
+import { resolveRenderCycles} from '../resolveRenderCycles';
+import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 
-const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
+
+const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-record-update-editor', { is: RecordUpdateEditor });
-    Object.assign(el, {node, mode});
+    Object.assign(el, {node});
     document.body.appendChild(el);
     return el;
 };
@@ -103,9 +106,10 @@ describe('Record Update Editor', () => {
     describe('Add new element', () => {
         beforeEach(() => {
             recordUpdateNode = getElementForPropertyEditor({
-                elementType: ELEMENT_TYPE.RECORD_UPDATE
+                elementType: ELEMENT_TYPE.RECORD_UPDATE,
+                isNewElement: true
             });
-            recordUpdateComponent = createComponentForTest(recordUpdateNode, AddElementEvent.EVENT_NAME);
+            recordUpdateComponent = createComponentForTest(recordUpdateNode);
         });
         describe('Filtering (store options)', () => {
             let storeOptions;
@@ -129,6 +133,21 @@ describe('Record Update Editor', () => {
             });
             it('value should be an empty string', () => {
                 expect(recordVariablePicker.value).toBe('');
+            });
+        });
+        describe('default Filter', () => {
+            it('should be all (Conditions are Met)', () => {
+                const recordStoreElement = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_STORE_OPTION);
+                recordStoreElement.dispatchEvent(new RecordStoreOptionChangedEvent(false, '', false));
+                return resolveRenderCycles(() => {
+                    const entityResourcePicker = getEntityResourcePicker(recordUpdateComponent);
+                    changeComboboxValue(getEntityResourcePickerChildGroupedComboboxComponent(entityResourcePicker), 'Contract');
+                    return resolveRenderCycles(() => {
+                        expect(entityResourcePicker.value).toMatchObject({displayText : 'Contract', value : 'Contract'});
+                        const recordFilter = getChildComponent(recordUpdateComponent, SELECTORS.RECORD_FILTER);
+                        expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
+                    });
+                });
             });
         });
     });
@@ -287,7 +306,7 @@ describe('Record Update Editor', () => {
                     expect(recordFilter).not.toBeNull();
                 });
                 it('filter type', () => {
-                    expect(recordFilter.filterType).toBe('all');
+                    expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
                 });
                 it('number of filters', () => {
                     expect(recordFilter.filterItems).toHaveLength(2);
