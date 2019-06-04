@@ -3,43 +3,10 @@ import { EditElementEvent, PaletteItemClickedEvent, ShowResourceDetailsEvent } f
 import LeftPanel from "builder_platform_interaction/leftPanel";
 import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
+import { lookupRecordAutomaticOutputGuid, lookupRecordOutputReferenceGuid, lookupRecordCollectionAutomaticOutputGuid, actionCallElementGuid, numberVariableGuid } from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () => {
-    const { ELEMENT_TYPE } = require('builder_platform_interaction/flowMetadata');
-    const getCurrentState = function () {
-        return {
-            properties: {
-                processType: 'flow'
-            },
-            elements: {
-                'guid1' : {
-                    guid: 'guid1',
-                    dataType: "String",
-                    defaultValue: null,
-                    defaultValueDataType: null,
-                    description: "",
-                    elementType: ELEMENT_TYPE.VARIABLE,
-                    isCollection: false,
-                    isInput: false,
-                    isOutput: false,
-                    name: "var_chocolate"
-                }
-            },
-            canvasElements: [],
-            connectors:[]
-        };
-    };
-    const getStore = function () {
-        return {
-            subscribe: () => jest.fn(),
-            getCurrentState
-        };
-    };
-    const storeLib = require('builder_platform_interaction_mocks/storeLib');
-    // Overriding mock storeLib to have custom getStore function
-    storeLib.Store.getStore = getStore;
-    return storeLib;
-});
+jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+
 const createComponentUnderTest = () => {
     const el = createElement('builder_platform_interaction-left-panel', { is: LeftPanel });
     document.body.appendChild(el);
@@ -54,7 +21,26 @@ const selectors = {
     resourceDetailsBody: 'builder_platform_interaction-resource-details',
     footer: '.panel-footer',
     footerButtons: 'lightning-button',
-    addnewresource: '.new-resource-button'
+    addnewresource: '.new-resource-button',
+    searchInput: 'lightning-input',
+    leftPanelResources : 'builder_platform_interaction-left-panel-resources'
+};
+
+const getSectionItem = (sections, { sectionLabel, elementGuid }) => {
+    let result;
+    for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        if (!sectionLabel || section.label === sectionLabel) {
+            const count = section._children.length;
+            for (let j = 0; j < count; j++) {
+                const item = section._children[j];
+                if (item.guid === elementGuid) {
+                    result = item;
+                }
+            }
+        }
+    }
+    return result;
 };
 
 describe('left-panel', () => {
@@ -175,7 +161,25 @@ describe('left-panel', () => {
                     });
                 });
             });
-
+            describe('search input', () => {
+                it('should filter the resources and elements', async () => {
+                    const leftPanelComponent = createComponentUnderTest();
+                    const searchInput = leftPanelComponent.shadowRoot.querySelector(selectors.searchInput);
+                    const changeEvent = new CustomEvent('change', { detail: { value : 'lookup' } });
+                    searchInput.dispatchEvent(changeEvent);
+                    await Promise.resolve();
+                    const leftPanelResources = leftPanelComponent.shadowRoot.querySelector(selectors.leftPanelResources);
+                    const elementsSections = leftPanelResources.canvasElements;
+                    const resourceSections = leftPanelResources.nonCanvasElements;
+                    expect(getSectionItem(elementsSections, { sectionLabel : 'FlowBuilderElementConfig.recordLookupPluralLabel', elementGuid : lookupRecordAutomaticOutputGuid })).toBeDefined();
+                    expect(getSectionItem(elementsSections, { sectionLabel : 'FlowBuilderElementConfig.recordLookupPluralLabel', elementGuid : lookupRecordOutputReferenceGuid })).toBeDefined();
+                    expect(getSectionItem(elementsSections, { sectionLabel : 'FlowBuilderElementConfig.recordLookupPluralLabel', elementGuid : lookupRecordCollectionAutomaticOutputGuid })).toBeDefined();
+                    expect(getSectionItem(elementsSections, { elementGuid : actionCallElementGuid })).toBeUndefined();
+                    expect(getSectionItem(resourceSections, { sectionLabel : 'FlowBuilderElementConfig.sObjectCollectionPluralLabel', elementGuid : lookupRecordCollectionAutomaticOutputGuid })).toBeDefined();
+                    expect(getSectionItem(resourceSections, { sectionLabel : 'FlowBuilderElementConfig.sObjectPluralLabel', elementGuid : lookupRecordAutomaticOutputGuid })).toBeDefined();
+                    expect(getSectionItem(resourceSections, { elementGuid : numberVariableGuid })).toBeUndefined();
+                });
+            });
             it('handle Palette Item Click Event ', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();

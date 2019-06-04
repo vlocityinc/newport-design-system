@@ -58,31 +58,41 @@ describe('elementLabelLib', () => {
         it('for elements', () => {
             expect(getElementCategory(createElement(ELEMENT_TYPE.ASSIGNMENT))).toEqual('Assignments');
         });
-        it('for elements that are also resources', () => {
-            expect(getElementCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, false))).toEqual('Get Records');
+        describe('For elements that are also resources', () => {
+            it('for "Get Records" as record resource', () => {
+                expect(getElementCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, false))).toEqual('Get Records');
+            });
+            it('for "Get Records" as record collection resource', () => {
+                expect(getElementCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, true))).toEqual('Get Records');
+            });
         });
         it('for collections variables', () => {
-            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.NUMBER, true))).toEqual(LABELS.collectionVariablePluralLabel);
+            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.NUMBER, true))).toEqual('FlowBuilderElementConfig.variablePluralLabel');
         });
         it('for sobjects variables', () => {
-            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, false))).toEqual(LABELS.sObjectPluralLabel);
+            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, false))).toEqual('FlowBuilderElementConfig.variablePluralLabel');
         });
         it('for sobject collections variables', () => {
-            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, true))).toEqual(LABELS.sObjectCollectionPluralLabel);
+            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.SOBJECT.value, true))).toEqual('FlowBuilderElementConfig.variablePluralLabel');
         });
         it('for apex variables', () => {
-            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, false))).toEqual(LABELS.apexVariablePluralLabel);
+            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, false))).toEqual('FlowBuilderElementConfig.variablePluralLabel');
         });
         it('for apex variable collections', () => {
-            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, true))).toEqual(LABELS.apexCollectionVariablePluralLabel);
+            expect(getElementCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.APEX.value, true))).toEqual('FlowBuilderElementConfig.variablePluralLabel');
         });
     });
     describe('getResourceCategory', () => {
         it('for elements', () => {
             expect(getResourceCategory(createElement(ELEMENT_TYPE.ASSIGNMENT))).toEqual('Assignments');
         });
-        it('for elements that are also resources', () => {
-            expect(getResourceCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, false))).toEqual(LABELS.sObjectPluralLabel);
+        describe('For elements that are also resources', () => {
+            it('for "Get Records" as record resource', () => {
+                expect(getResourceCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, false))).toEqual(LABELS.sObjectPluralLabel);
+            });
+            it('for "Get Records" as record collection resource', () => {
+                expect(getResourceCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, true))).toEqual(LABELS.sObjectCollectionPluralLabel);
+            });
         });
         it('for collections variables', () => {
             expect(getResourceCategory(createElement(ELEMENT_TYPE.VARIABLE, FLOW_DATA_TYPE.NUMBER, true))).toEqual(LABELS.collectionVariablePluralLabel);

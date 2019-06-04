@@ -10,7 +10,7 @@ const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 /**
  * Get the label for the element (if possible, considered as a resource that can be used in a merge field)
  *
- * @param {Object] resource - the element
+ * @param {Object} resource - the element
  */
 export function getResourceLabel(resource) {
     let label = resource.name;
@@ -32,14 +32,17 @@ export function getResourceLabel(resource) {
  *
  * @param {String}
  *            elementType the element type of an element
- * @param {String}
- *            dataType the datatype of an element
- * @param {Boolean}
- *            isCollection whether or not that element is a collection
  * @returns {String} the category label for this element
  */
-export function getElementCategory({ elementType, dataType, isCollection }) {
-    return getCategory(elementType, dataType, isCollection, false);
+export function getElementCategory({ elementType }) {
+    let categoryLabel;
+    const config = getConfigForElementType(elementType);
+    if (config && config.labels && config.labels.plural) {
+        categoryLabel = config.labels.plural;
+    } else {
+        categoryLabel = '';
+    }
+    return categoryLabel;
 }
 
 /**
@@ -54,25 +57,8 @@ export function getElementCategory({ elementType, dataType, isCollection }) {
  * @returns {String} the category label for this element
  */
 export function getResourceCategory({ elementType, dataType, isCollection = false }) {
-    return getCategory(elementType, dataType, isCollection, true);
-}
-
-/**
- * Determines category for display.
- *
- * @param {String}
- *            elementType the element type of an element
- * @param {String}
- *            dataType the datatype of an element
- * @param {Boolean}
- *            isCollection whether or not that element is a collection
- * @param {Boolean}
- *            asResource whether or not considered as a resource that can be used in a merge field
- * @returns {String} the full category label for this element
- */
-function getCategory(elementType, dataType, isCollection, asResource) {
     let categoryLabel;
-    if (!isComplexType(dataType) || (!asResource && elementType !== ELEMENT_TYPE.VARIABLE)) {
+    if (!isComplexType(dataType)) {
         if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.plural) {

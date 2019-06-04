@@ -141,7 +141,7 @@ describe('resource-lib', () => {
             expect(elementSections).toHaveLength(0);
         });
         test('sections and items have required properties', () => {
-            const sections = getResourceSections(elements, resourceFilter(), nameComparator);
+            const sections = getResourceSections(elements, canvasElementFilter(), nameComparator);
             forEachSection(sections, section => {
                 expect(section.guid).toBeDefined();
                 expect(section._children).toBeDefined();
@@ -158,12 +158,21 @@ describe('resource-lib', () => {
             expect(sections).toHaveSectionsAndItemsSortedInAscendingOrder();
         });
         it('should not set an icon for canvas elements', () => {
-            const sections = getElementSections(elements, resourceFilter(), nameComparator);
+            const sections = getElementSections(elements, canvasElementFilter(), nameComparator);
             forEachSection(sections, section => {
                 forEachItemInSection(section, item => {
                     expect(item.iconName).toBeUndefined();
                 });
             });
+        });
+        it.each`
+            elementGuid                                   | sectionLabel
+            ${lookupRecordAutomaticOutputGuid}            | ${'FlowBuilderElementConfig.recordLookupPluralLabel'}
+            ${lookupRecordCollectionAutomaticOutputGuid}  | ${'FlowBuilderElementConfig.recordLookupPluralLabel'}
+            `('section for $elementGuid should be $sectionLabel', ({elementGuid, sectionLabel}) => {
+            const sections = getElementSections(elements, canvasElementFilter(), nameComparator);
+            const section = getSection(sections, elementGuid);
+            expect(section.label).toBe(sectionLabel);
         });
         test('all elements in a section should have the same element type', () => {
             const sections = getElementSections(elements, canvasElementFilter(), nameComparator);
