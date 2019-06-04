@@ -17,7 +17,7 @@ export default class ResourceDetails extends LightningElement {
         return !!this.resourceDetails.description;
     }
 
-    get hasUsedByElements() {
+    get hasUsedByContent() {
         return Array.isArray(this.resourceDetails.usedByElements) && this.resourceDetails.usedByElements.length > 0;
     }
 
