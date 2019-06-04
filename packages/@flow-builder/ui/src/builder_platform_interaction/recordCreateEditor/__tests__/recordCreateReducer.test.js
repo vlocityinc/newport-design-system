@@ -2,23 +2,19 @@ import {recordCreateReducer} from "../recordCreateReducer";
 import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
+    PropertyChangedEvent,
+    RecordStoreOptionChangedEvent,
     UpdateRecordFieldAssignmentEvent,
-    PropertyChangedEvent
 } from "builder_platform_interaction/events";
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
 
 const recordCreateUsingFieldsTemplate = () =>
     ({
+        assignRecordIdToReference: {value: 'varToStoreId', error: null},
         description : {value: '', error: null},
         elementType : 'RECORD_CREATE',
+        getFirstRecordOnly : true,
         guid : 'RECORDCREATE_2',
-        isCanvasElement : true,
-        label : {value: 'testRecordFields', error: null},
-        locationX : 358,
-        locationY : 227,
-        name : {value: 'testRecordFields', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
         inputAssignments : [{
             leftHandSide: {value: "Account.BillingCountry", error: null},
             rightHandSide: {value: "myCountry", error: null},
@@ -26,26 +22,46 @@ const recordCreateUsingFieldsTemplate = () =>
             rightHandSideGuid: {value: "myCountry", error: null},
             rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d1d"}
         ],
-        object : {value: 'account', error: null},
-        assignRecordIdToReference: {value: 'varToStoreId', error: null},
-    });
-
-
-const recordCreateUsingSobjectTemplate = () =>
-    ({
-        description : {value: '', error: null},
-        elementType : 'RECORD_CREATE',
-        guid : 'RECORDCREATE_2',
         isCanvasElement : true,
         label : {value: 'testRecordFields', error: null},
         locationX : 358,
         locationY : 227,
         name : {value: 'testRecordFields', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
-        processMetadataValues: [],
-        inputReference: {value: 'VARIABLE_6', error: null},
-        assignRecordIdToReference: {value: '', error: null},
+        object : {value: 'account', error: null},
     });
+
+
+const recordCreateUsingSobjectTemplate = () =>
+({
+    assignRecordIdToReference: {value: '', error: null},
+    description : {value: '', error: null},
+    elementType : 'RECORD_CREATE',
+    getFirstRecordOnly : true,
+    guid : 'RECORDCREATE_2',
+    inputReference: {value: 'VARIABLE_6', error: null},
+    isCanvasElement : true,
+    label : {value: 'testRecordFields', error: null},
+    locationX : 358,
+    locationY : 227,
+    name : {value: 'testRecordFields', error: null},
+    processMetadataValues: [],
+});
+
+const recordCreateUsingSobjectCollectionTemplate = () =>
+({
+    assignRecordIdToReference: {value: '', error: null},
+    description : {value: '', error: null},
+    elementType : 'RECORD_CREATE',
+    getFirstRecordOnly : false,
+    guid : 'RECORDCREATE_2',
+    inputReference: {value: 'VARIABLE_Collection_6', error: null},
+    isCanvasElement : true,
+    label : {value: 'testRecordCollection', error: null},
+    locationX : 358,
+    locationY : 227,
+    name : {value: 'testRecordCollection', error: null},
+    processMetadataValues: [],
+});
 
 const updateAssignmentEvent = (side, newValue = '', index = 0) => ({
     type: UpdateRecordFieldAssignmentEvent.EVENT_NAME,
@@ -179,12 +195,9 @@ describe('record-create-reducer using fields', () => {
         describe('update numberRecordsToStore from All Records to First Record', () => {
             let newState;
             beforeAll(() => {
-                const propertyName = 'numberRecordsToStore';
-                const value = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.object.value);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordCreateReducer(originalState, propChangedEvent);
+                originalState = recordCreateUsingSobjectCollectionTemplate();
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                newState = recordCreateReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset object', () => {
                 expect(newState.object.value).toBe('');
@@ -198,12 +211,8 @@ describe('record-create-reducer using fields', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordCreateUsingSobjectTemplate();
-                const propertyName = 'numberRecordsToStore';
-                const value = NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.inputReference.value);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordCreateReducer(originalState, propChangedEvent);
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                newState = recordCreateReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset inputReference', () => {
                 expect(newState.inputReference.value).toBe('');

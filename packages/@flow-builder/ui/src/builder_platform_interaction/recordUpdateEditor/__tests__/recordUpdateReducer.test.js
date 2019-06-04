@@ -1,14 +1,15 @@
 import {recordUpdateReducer} from "../recordUpdateReducer";
 import {
     AddRecordFilterEvent,
-    UpdateRecordFilterEvent,
-    DeleteRecordFilterEvent,
     AddRecordFieldAssignmentEvent,
+    DeleteRecordFilterEvent,
     DeleteRecordFieldAssignmentEvent,
+    PropertyChangedEvent,
+    RecordStoreOptionChangedEvent,
     UpdateRecordFieldAssignmentEvent,
-    PropertyChangedEvent
+    UpdateRecordFilterEvent,
 } from "builder_platform_interaction/events";
-import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
 
 const recordUpdateUsingFieldsTemplate = () => {
@@ -21,7 +22,7 @@ const recordUpdateUsingFieldsTemplate = () => {
         locationX : 358,
         locationY : 227,
         name : {value: 'testRecordFields', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
+        useSobject: false,
         inputAssignments : [{
             leftHandSide: {value: "Account.BillingCountry", error: null},
             rightHandSide: {value: "myCountry", error: null},
@@ -51,7 +52,7 @@ const recordUpdateUsingSobjectTemplate = () => {
         locationX : 358,
         locationY : 227,
         name : {value: 'testRecordFields', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+        useSobject: true,
         processMetadataValues: [],
         inputReference: {value: 'VARIABLE_6', error: null}
     };
@@ -220,15 +221,12 @@ describe('record-update-reducer using fields', () => {
         });
     });
     describe('handle property changed event', () => {
-        describe('update numberRecordsToStore from All Records to First Record', () => {
+        describe('update getFirstRecord from false to true', () => {
             let newState;
             beforeAll(() => {
-                const propertyName = 'numberRecordsToStore';
-                const value = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.object.value);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordUpdateReducer(originalState, propChangedEvent);
+                originalState = recordUpdateUsingFieldsTemplate();
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                newState = recordUpdateReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset object', () => {
                 expect(newState.object.value).toBe('');
@@ -242,16 +240,12 @@ describe('record-update-reducer using fields', () => {
                 expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
             });
         });
-        describe('update numberRecordsToStore from First Record to All Records', () => {
+        describe('update getFirstRecord from true to false', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordUpdateUsingSobjectTemplate();
-                const propertyName = 'numberRecordsToStore';
-                const value = NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.inputReference.value);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordUpdateReducer(originalState, propChangedEvent);
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                newState = recordUpdateReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset inputReference', () => {
                 expect(newState.inputReference.value).toBe('');

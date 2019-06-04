@@ -3,7 +3,7 @@ import { recordCreateValidation, getRules } from "../recordCreateValidation";
 import RecordCreateEditor from "../recordCreateEditor";
 import * as storeMockedData from "mock/storeData";
 import { LABELS } from "builder_platform_interaction/validationRules";
-import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
+import { WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -30,7 +30,7 @@ const recordCreateElementWithValidSObject = {
     locationX : 358,
     locationY : 227,
     name : {value: 'testRecord', error: null},
-    numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+    getFirstRecordOnly: true,
     inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
     object : {value: '', error: null},
     objectIndex: {value: 'guid', error: null},
@@ -46,7 +46,7 @@ const recordCreateElementWithValidSObjectCollection = {
     locationX : 358,
     locationY : 227,
     name : {value: 'testRecord', error: null},
-    numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
+    getFirstRecordOnly: false,
     inputReference : {value: storeMockedData.accountSObjectCollectionVariableGuid, error: null},
     object : {value: '', error: null},
     objectIndex: {value: 'guid', error: null},
@@ -64,7 +64,8 @@ const recordCreateUsingFieldsTemplate = () => ({
     locationY : 227,
     name : {value: 'testRecordFields', error: null},
     inputReference : {value: '', error: null},
-    numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+    inputReferenceIndex : {value: 'guid', error: null},
+    getFirstRecordOnly: true,
     inputAssignments : [{
         leftHandSide: {value: "Account.BillingCountry", error: null},
         rightHandSide: {value: "myCountry", error: null},
@@ -124,6 +125,7 @@ describe('Check validations update using fields', () => {
     describe('object is empty', () => {
         it('should return an error when no object has been selected', () => {
             recordCreateUsingFields.object.value = '';
+            recordCreateUsingFields.object.error = null;
             const recordupdateEditor = createComponentForTest(recordCreateUsingFields);
             const errors = validate(recordupdateEditor.node, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
             expect(errors).toHaveLength(1);

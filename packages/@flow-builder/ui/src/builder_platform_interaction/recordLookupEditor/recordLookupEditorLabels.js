@@ -1,3 +1,4 @@
+import { NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 /* Labels */
 import getRecordsOfObjectType from "@salesforce/label/FlowBuilderRecordEditor.getRecordsOfObjectType";
 import object from "@salesforce/label/FlowBuilderRecordEditor.object";
@@ -28,3 +29,20 @@ export const LABELS = {
     wayToStoreFieldsLabel,
     assignNullValuesIfNoRecordsFoundLabel,
 };
+
+
+export const NUMBER_RECORDS_OPTIONS = [{
+        label : LABELS.firstRecordLabel,
+        value : NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+    }, {
+        label : LABELS.allRecordsLabel,
+        value : NUMBER_RECORDS_TO_STORE.ALL_RECORDS
+    }];
+
+export const WAY_TO_STORE_FIELDS_OPTIONS = [{
+        label : LABELS.togetherInsObjectVariable,
+        value : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+    }, {
+        label : LABELS.separateVariable,
+        value : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
+    }];

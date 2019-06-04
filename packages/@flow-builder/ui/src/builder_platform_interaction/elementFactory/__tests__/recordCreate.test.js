@@ -1,7 +1,6 @@
 import { createRecordCreate, createDuplicateRecordCreate, createRecordCreateMetadataObject } from '../recordCreate';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
@@ -56,7 +55,7 @@ const flowRecordCreateFieldsStore = () => ({
     locationY: 527,
     maxConnections: 2,
     name: "myCreate",
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
     object: "Account"
 });
 
@@ -87,7 +86,7 @@ const flowRecordCreateSObjectStore = () => ({
     locationY: 580,
     maxConnections: 2,
     name: "myCreateFast",
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
     object: ""
 });
 
@@ -170,7 +169,7 @@ describe('recordCreate new element from left panel', () => {
                 name: '',
                 description: '',
                 elementType: ELEMENT_TYPE.RECORD_CREATE,
-                numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+                getFirstRecordOnly: true,
             };
             const actualResult = createRecordCreate();
             expect(actualResult).toMatchObject(uiModelResult);

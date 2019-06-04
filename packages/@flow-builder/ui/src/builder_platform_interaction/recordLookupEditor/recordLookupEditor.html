@@ -129,7 +129,7 @@
                 </builder_platform_interaction-rich-label>
                 
                  <lightning-radio-group
-                    if:true={displayWayToStoreFields}
+                    if:false={isCollection}
                     name="wayToStoreFieldsRadioGroup"
                     label={labels.wayToStoreRecordLabel} 
                     options={wayToStoreFieldsOptions}

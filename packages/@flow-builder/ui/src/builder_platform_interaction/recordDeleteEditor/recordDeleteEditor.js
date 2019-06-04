@@ -4,7 +4,7 @@ import { LABELS } from './recordDeleteEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { AddElementEvent, PropertyChangedEvent } from "builder_platform_interaction/events";
+import { PropertyChangedEvent } from "builder_platform_interaction/events";
 import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { ENTITY_TYPE, getDeletableEntities, fetchFieldsForEntity} from "builder_platform_interaction/sobjectLib";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
@@ -19,9 +19,8 @@ export default class RecordDeleteEditor extends LightningElement {
 
     @track
     state = {
-            recordDeleteElement : {},
-            numberRecordsToStoreValue : NUMBER_RECORDS_TO_STORE.FIRST_RECORD, // in current context means no conditions
-            entityFields: {}
+        recordDeleteElement : {},
+        entityFields: {}
     };
 
     /**
@@ -71,24 +70,10 @@ export default class RecordDeleteEditor extends LightningElement {
     }
 
     /**
-     * Used to know if we are dealing with an editor in edit mode or addition mode.
-     */
-    @api
-    mode;
-
-    /**
      * @returns {string} storing options in place
      */
     get numberRecordsToStoreValue() {
-        return this.isSObjectMode ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
-    }
-
-    /**
-     * Is in "add element" mode (ie: added from the palette to the canvas)?
-     * @returns {boolean} true if in "addElement" mode otherwise false
-     */
-    get isInAddElementMode() {
-        return this.mode === AddElementEvent.EVENT_NAME;
+        return this.state.recordDeleteElement.useSobject ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
@@ -130,18 +115,7 @@ export default class RecordDeleteEditor extends LightningElement {
      * Otherwise record(s) to delete are specified using criteria
      */
     get isSObjectMode() {
-        if (this._isSObject === undefined) {
-            this._isSObject = this.isInAddElementMode || !!this.state.recordDeleteElement.inputReference.value;
-        }
-        return this._isSObject;
-    }
-
-    /**
-     * set current editor mode (SObject or fields mode)
-     * @param {boolean} newValue - true if SObject mode false otherwise?
-     */
-    set isSObjectMode(newValue) {
-        this._isSObject = newValue;
+        return this.state.recordDeleteElement.useSobject;
     }
 
     /**
@@ -220,9 +194,7 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     handleRecordStoreOptionChanged(event) {
         event.stopPropagation();
-        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, event.detail.error, true);
-        this.state.numberRecordsToStoreValue = event.detail.numberRecordsToStore;
-        this.isSObjectMode = (this.state.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, event);
     }
 
     /**

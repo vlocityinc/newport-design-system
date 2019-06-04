@@ -129,7 +129,7 @@ const defaultRecordLookupElement = () => ({
     objectIndex: {value: 'guid', error: null},
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
     storeOutputAutomatically: true
 });
 
@@ -159,7 +159,7 @@ const recordLookupElementWithSObject = () => ({
     objectIndex: {value: 'guid', error: null},
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+    getFirstRecordOnly: true
 });
 
 const recordLookupElementWithSObjectAndFilters = () => ({
@@ -184,7 +184,7 @@ const recordLookupElementWithSObjectAndFilters = () => ({
         rightHandSide: {value: 'my address', error: null},
         rightHandSideDataType: {value: 'String', error: null},
         rowIndex: 'RECORDLOOKUPFILTERITEM_122'}],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+    getFirstRecordOnly: true
 });
 
 const recordLookupElementWithFields = () => ({
@@ -203,7 +203,7 @@ const recordLookupElementWithFields = () => ({
     objectIndex: {value: 'guid', error: null},
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+    getFirstRecordOnly: true
 });
 
 const recordLookupElementWithSObjectAutomaticOutputHandling = () => ({
@@ -231,7 +231,7 @@ const recordLookupElementWithSObjectAutomaticOutputHandling = () => ({
     objectIndex: {value: 'guid', error: null},
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
     storeOutputAutomatically : true,
     isCollection: false,
     subType: 'Account'
@@ -500,7 +500,7 @@ describe('record-lookup-editor', () => {
             });
         });
         it('change number record to store to All records, sObject picker should changed', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS, '', false);
+            const event = new RecordStoreOptionChangedEvent(false, '', false);
             getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);
@@ -510,7 +510,7 @@ describe('record-lookup-editor', () => {
             });
         });
         it('handle RecordStoreOptionChangedEvent should set assignNullValuesIfNoRecordsFound to true', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.FIRST_RECORD, '', true);
+            const event = new RecordStoreOptionChangedEvent(true, '', true);
             getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 expect(recordLookupEditor.node.assignNullValuesIfNoRecordsFound).toBe(true); // We want the exact value true
@@ -569,7 +569,7 @@ describe('record-lookup-editor', () => {
             recordLookupEditor = createComponentForTest(recordLookupElementWithFields());
         });
         it('change number record to store to All records, sObject picker should changed', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false);
+            const event = new RecordStoreOptionChangedEvent(true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false);
             getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(recordLookupEditor);

@@ -16,7 +16,6 @@ export default class RecordUpdateEditor extends LightningElement {
 
     @track
     state = {
-        numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
         recordUpdateElement: {},
         recordEntityName: '',
         entityFields: {},
@@ -39,7 +38,6 @@ export default class RecordUpdateEditor extends LightningElement {
     set node(newValue) {
         this.state.recordUpdateElement = newValue;
         this.state.recordEntityName = getValueFromHydratedItem(this.state.recordUpdateElement.object);
-        this.state.numberRecordsToStore = this.state.recordUpdateElement.numberRecordsToStore;
         this.updateFields();
     }
 
@@ -86,7 +84,7 @@ export default class RecordUpdateEditor extends LightningElement {
      * Otherwise records to update are specified using critera(s).
      */
     get isSObjectMode() {
-        return getValueFromHydratedItem(this.state.numberRecordsToStore) === NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+        return this.state.recordUpdateElement.useSobject;
     }
 
     get inputReference() {
@@ -115,7 +113,7 @@ export default class RecordUpdateEditor extends LightningElement {
      * @returns {String} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
-        return getValueFromHydratedItem(this.state.numberRecordsToStore);
+        return this.isSObjectMode ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
@@ -157,9 +155,7 @@ export default class RecordUpdateEditor extends LightningElement {
 
     handleRecordStoreOptionChanged(event) {
         event.stopPropagation();
-        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, event.detail.error, false, getValueFromHydratedItem(this.state.numberRecordsToStore));
-        this.state.recordEntityName = getValueFromHydratedItem(this.state.recordUpdateElement.object);
-        this.state.numberRecordsToStore = this.state.recordUpdateElement.numberRecordsToStore;
+        this.state.recordUpdateElement = recordUpdateReducer(this.state.recordUpdateElement, event);
     }
 
     /**

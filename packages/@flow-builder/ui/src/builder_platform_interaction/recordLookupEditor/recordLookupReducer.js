@@ -1,12 +1,12 @@
 import { updateProperties, set, deleteItem, hydrateWithErrors, replaceItem } from "builder_platform_interaction/dataMutationLib";
 import { PropertyChangedEvent, AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent, AddRecordLookupFieldEvent, UpdateRecordLookupFieldEvent,
     DeleteRecordLookupFieldEvent, AddRecordFieldAssignmentEvent, DeleteRecordFieldAssignmentEvent, UpdateRecordFieldAssignmentEvent,
-    NumberRecordToStoreChangedEvent, UseAdvancedOptionsSelectionChangedEvent } from "builder_platform_interaction/events";
+    NumberRecordToStoreChangedEvent, UseAdvancedOptionsSelectionChangedEvent, RecordStoreOptionChangedEvent } from "builder_platform_interaction/events";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { recordLookupValidation, getRules } from "./recordLookupValidation";
-import { RECORD_FILTER_CRITERIA, SORT_ORDER, NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
+import { RECORD_FILTER_CRITERIA, SORT_ORDER, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 import { elementTypeToConfigMap } from "builder_platform_interaction/elementConfig";
 
@@ -19,12 +19,12 @@ const PROPS = {
         filters: 'filters',
         filterType: 'filterType',
         queriedFields: 'queriedFields',
-        numberRecordsToStore: 'numberRecordsToStore',
         wayToStoreFields: 'wayToStoreFields',
         sortOrder: 'sortOrder',
         sortField: 'sortField',
         outputReference: 'outputReference',
-        storeOutputAutomatically : 'storeOutputAutomatically'
+        storeOutputAutomatically : 'storeOutputAutomatically',
+        getFirstRecordOnly: 'getFirstRecordOnly'
    };
 
 const NON_HYDRATABLE_PROPS = new Set([...elementTypeToConfigMap[ELEMENT_TYPE.RECORD_LOOKUP].nonHydratableProperties, PROPS.wayToStoreFields]);
@@ -131,14 +131,6 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
     return resetQueriedFields(state);
 };
 
-const recordStoreOptionChanged = (state, {numberRecordsToStore}) => {
-    if (state.numberRecordsToStore !== numberRecordsToStore) {
-        state = updateProperties(state, {[PROPS.numberRecordsToStore]: numberRecordsToStore});
-        state = updateProperties(state, {[PROPS.outputReference]: {value:'', error:null}});
-    }
-    return state;
-};
-
 /**
  * Reset current element state's sortOrder and sortField properties
  * @param {Object} state - current element's state
@@ -179,7 +171,7 @@ const resetFilters = state => {
  */
 const resetStoreOptions = state => {
     return updateProperties(state, {
-        [PROPS.numberRecordsToStore]: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+        [PROPS.getFirstRecordOnly]: true,
         [PROPS.wayToStoreFields]: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
         [PROPS.assignNullValuesIfNoRecordsFound]: false
     });
@@ -212,6 +204,15 @@ const resetSubSections = state => {
     return resetStoreOptions(state);
 };
 
+const numberRecordToStoreChanged = (state, {getFirstRecordOnly}) => {
+    if (state.getFirstRecordOnly !== getFirstRecordOnly) {
+        state = updateProperties(state, {[PROPS.getFirstRecordOnly]: getFirstRecordOnly});
+        state = updateProperties(state, {[PROPS.outputReference]: {value:'', error:null}});
+        state = resetWayToStoreFields(state);
+    }
+    return state;
+};
+
 /**
  * Update the property storeOutputAutomatically and reset all others.
  */
@@ -219,6 +220,24 @@ const useAdvancedOptionsSelectionChanged = (state, {useAdvancedOptions}) => {
     state = updateProperties(state, {[PROPS.storeOutputAutomatically]: !useAdvancedOptions});
     state = resetWayToStoreFields(state);
     return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
+};
+
+/**
+ * Update the way the user store the records
+ */
+const recordStoreOptionAndWayToStoreChanged = (state, {getFirstRecordOnly, assignNullToVariableNoRecord, wayToStoreFields}) => {
+    if (state.getFirstRecordOnly !== getFirstRecordOnly) {
+        state = updateProperties(state, {[PROPS.getFirstRecordOnly]: getFirstRecordOnly});
+        return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
+    } else if (state.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord) {
+        return updateProperties(state, {[PROPS.assignNullValuesIfNoRecordsFound]: assignNullToVariableNoRecord});
+    } else if (state.wayToStoreFields !== wayToStoreFields) {
+        // reset outputReference and queried fields
+        state = updateOutputReferenceAndQueriedFields(state, '', null);
+        state = resetOutputAssignments(state);
+        return updateProperties(state, {[PROPS.wayToStoreFields]:  wayToStoreFields});
+    }
+    return state;
 };
 
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
@@ -240,9 +259,6 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
             state = resetSubSections(state);
         } else if (propertyName === PROPS.outputReference) {
             state = resetQueriedFields(state);
-        } else if (propertyName === PROPS.numberRecordsToStore) {
-            state = updateProperties(state, {[propertyName]: value});
-            state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
         } else if (propertyName === PROPS.sortOrder) {
             state = updateProperties(state,  {[propertyName]: value});
             // if set to no sorting: reset error if any, and preserve value
@@ -255,11 +271,6 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
                 // reset errors in filters if any, and preserve values
                 state = resetFilters(state);
             }
-        } else if (propertyName === PROPS.wayToStoreFields) {
-            state = updateProperties(state, {[propertyName]: value});
-            // reset outputReference and queried fields
-            state = updateOutputReferenceAndQueriedFields(state, '', null);
-            state = resetOutputAssignments(state);
         } else if (propertyName === PROPS.assignNullValuesIfNoRecordsFound || propertyName === PROPS.storeOutputAutomatically) {
             state = updateProperties(state, {[propertyName]: value});
         }
@@ -294,9 +305,11 @@ export const recordLookupReducer = (state, event) => {
         case UpdateRecordFieldAssignmentEvent.EVENT_NAME:
             return updateRecordFieldAssignment(state, event);
         case NumberRecordToStoreChangedEvent.EVENT_NAME:
-            return recordStoreOptionChanged(state, event.detail);
+            return numberRecordToStoreChanged(state, event.detail);
         case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, event.detail);
+        case RecordStoreOptionChangedEvent.EVENT_NAME:
+            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL:

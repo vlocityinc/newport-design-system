@@ -6,7 +6,6 @@ import { LIGHTNING_COMPONENTS_SELECTORS, FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     expectGroupedComboboxItem, getChildComponent, getEntityResourcePicker, getRecordVariablePickerChildGroupedComboboxComponent,
     getEntityResourcePickerChildGroupedComboboxComponent, newFilterItem, changeComboboxValue, changeInputValue, getBaseExpressionBuilder, getFieldToFerovExpressionBuilders} from "../integrationTestUtils";
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { EditElementEvent, AddElementEvent } from "builder_platform_interaction/events";
 import { mockEntities } from "mock/serverEntityData";
 import { setRules } from 'builder_platform_interaction/ruleLib';
 import { mockAccountFields } from "mock/serverEntityData";
@@ -23,9 +22,9 @@ import { setGlobalVariables, setSystemVariables } from 'builder_platform_interac
 import { globalVariableTypes, globalVariables, systemVariables,  } from 'mock/systemGlobalVars';
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
 
-const createComponentForTest = (node, mode = EditElementEvent.EVENT_NAME) => {
+const createComponentForTest = (node) => {
     const el = createElement('builder_platform_interaction-record-delete-editor', { is: RecordDeleteEditor });
-    Object.assign(el, {node, mode});
+    Object.assign(el, {node});
     document.body.appendChild(el);
     return el;
 };
@@ -102,9 +101,10 @@ describe('Record Delete Editor', () => {
     describe('Add new element', () => {
         beforeEach(() => {
             recordDeleteNode = getElementForPropertyEditor({
-                elementType: ELEMENT_TYPE.RECORD_DELETE
+                elementType: ELEMENT_TYPE.RECORD_DELETE,
+                isNewElement: true,
             });
-            recordDeleteComponent = createComponentForTest(recordDeleteNode, AddElementEvent.EVENT_NAME);
+            recordDeleteComponent = createComponentForTest(recordDeleteNode);
         });
         describe('Filtering (store options)', () => {
             let storeOptions;

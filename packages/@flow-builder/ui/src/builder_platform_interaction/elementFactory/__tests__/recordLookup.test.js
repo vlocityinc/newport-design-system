@@ -1,6 +1,5 @@
 import { createRecordLookup, createDuplicateRecordLookup, createRecordLookupMetadataObject, createQueriedField} from '../recordLookup';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { NUMBER_RECORDS_TO_STORE } from 'builder_platform_interaction/recordEditorLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
@@ -69,7 +68,7 @@ const recordLookupSObjectCollectionStore = () => ({
     locationY: 629,
     maxConnections: 2,
     name: "lookupSObject",
-    numberRecordsToStore: "allRecords",
+    getFirstRecordOnly: false,
     object: "Account",
     outputReference: "vSobjectAccountCollection",
     queriedFields: [{field: "BillingCountry",
@@ -138,7 +137,7 @@ const recordLookupFieldsStore = () => ({
     locationY: 345,
     maxConnections: 2,
     name: "lookup_with_fields",
-    numberRecordsToStore: "firstRecord",
+    getFirstRecordOnly: true,
     object: "Account",
     outputAssignments: [{
         leftHandSide: "Account.BillingCountry",
@@ -192,15 +191,14 @@ const recordLookupAutomaticStore = (getFirstRecordOnly = true) => ({
     locationY: 345,
     maxConnections: 2,
     name: "lookup_automatic",
-    numberRecordsToStore: "firstRecord",
+    getFirstRecordOnly,
     object: "Account",
     queriedFields: [{field: "BillingCountry",
         rowIndex: MOCK_GUID}, {field: "",
             rowIndex: MOCK_GUID}],
     sortField: "",
     sortOrder: "NotSorted",
-    storeOutputAutomatically : true,
-    getFirstRecordOnly
+    storeOutputAutomatically : true
 });
 
 const outputAssignmentField = {
@@ -263,9 +261,8 @@ describe('recordLookup', () => {
                 expect(recordLookup).toHaveNoCommonMutableObjectWith(recordLookupSObjectStore());
             });
             it('has the "how many records" property set from the passed object', () => {
-                const valueFromObject = recordLookupSObjectCollectionStore().numberRecordsToStore;
-                const valueFromCreation = createRecordLookup(recordLookupSObjectCollectionStore()).numberRecordsToStore;
-                expect(valueFromCreation).toEqual(valueFromObject);
+                const valueFromCreation = createRecordLookup(recordLookupSObjectCollectionStore()).getFirstRecordOnly;
+                expect(valueFromCreation).toEqual(false);
             });
         });
     });
@@ -275,7 +272,7 @@ describe('recordLookup', () => {
             name: '',
             description: '',
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+            getFirstRecordOnly: true
         };
         const actualResult = createRecordLookup();
         expect(actualResult).toMatchObject(uiModelResult);

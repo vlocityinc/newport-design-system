@@ -11,6 +11,7 @@ import {
     AddRecordFilterEvent,
     UpdateRecordFilterEvent,
     DeleteRecordFilterEvent,
+    RecordStoreOptionChangedEvent,
 } from "builder_platform_interaction/events";
 
 import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
@@ -113,6 +114,17 @@ const resetRecordUpdate = (state, resetObject) => {
     return updateProperties(state, {'inputReference': {value: '', error: null }});
 };
 
+/**
+ * Update the way the user store the records
+ */
+const recordStoreOptionAndWayToStoreChanged = (state, {getFirstRecordOnly}) => {
+    if (state.useSobject !== getFirstRecordOnly) {
+        state = updateProperties(state, {useSobject: getFirstRecordOnly});
+        return resetRecordUpdate(state, true);
+    }
+    return state;
+};
+
 const managePropertyChanged = (state, event) => {
     const propName = event.detail.propertyName;
     if (!event.detail.ignoreValidate) {
@@ -159,6 +171,8 @@ export const recordUpdateReducer = (state, event) => {
             return deleteRecordRecordFieldAssignment(state, event);
         case UpdateRecordFieldAssignmentEvent.EVENT_NAME:
             return updateRecordRecordFieldAssignment(state, event);
+        case RecordStoreOptionChangedEvent.EVENT_NAME:
+            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event);
         case VALIDATE_ALL:

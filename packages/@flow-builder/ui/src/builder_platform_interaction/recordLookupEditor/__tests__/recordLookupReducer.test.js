@@ -9,11 +9,12 @@ import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
+    RecordStoreOptionChangedEvent,
     PropertyChangedEvent
 } from "builder_platform_interaction/events";
 import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
 import * as store from "mock/storeData";
-import { SORT_ORDER, RECORD_FILTER_CRITERIA, NUMBER_RECORDS_TO_STORE, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
+import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 
 const recordLookupUsingSobjectState = () => {
     return {
@@ -39,6 +40,31 @@ const recordLookupUsingSobjectState = () => {
             rightHandSideDataType: {value: "String", error: null},
             rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
         }],
+        getFirstRecordOnly: true,
+    };
+},
+recordLookupUsingSobjectCollectionState = () => {
+    return {
+        description : { value: '', error: null },
+        elementType : 'RECORD_LOOKUP',
+        guid : '724cafc2-7744-4e46-8eaa-f2df29539d1e',
+        isCanvasElement : true,
+        label : { value: 'testRecordCollection', error: null },
+        name : { value: 'testRecordCollection', error: null },
+        outputReference : { value: store.accountSObjectCollectionVariableGuid, error: null},
+        sortField : { value:'Name', error:null},
+        sortOrder : SORT_ORDER.ASC,
+        assignNullValuesIfNoRecordsFound : true,
+        object: { value: 'Account', error: ''},
+        filterType: RECORD_FILTER_CRITERIA.ALL,
+        filters: [{
+            leftHandSide: {value: "Account.BillingAddress", error: null},
+            operator: {value: "EqualTo", error: null},
+            rightHandSide: {value: "my address", error: null},
+            rightHandSideDataType: {value: "String", error: null},
+            rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
+        }],
+        getFirstRecordOnly: false,
     };
 },
 recordLookupUsingFieldsState = () => {
@@ -69,6 +95,7 @@ recordLookupUsingFieldsState = () => {
             rightHandSide: {value: "vCity", error: null},
             rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
         }],
+        getFirstRecordOnly: true,
     };
 },
 recordLookupUsingFieldsStateEmptyOutPutAssignments = () => {
@@ -103,6 +130,7 @@ recordLookupUsingFieldsStateEmptyOutPutAssignments = () => {
             rightHandSide: {value: "", error: "A value is required."},
             rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
         }],
+        getFirstRecordOnly: true,
     };
 };
 
@@ -216,8 +244,8 @@ describe('record-lookup-reducer', () => {
                 expect(newState.queriedFields).toHaveLength(2);
                 expect(newState.queriedFields[1].field.value).toBe('');
             });
-            it('should reset "numberRecordsToStore"', () => {
-                expect(newState.numberRecordsToStore).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+            it('should reset "getFirstRecordOnly"', () => {
+                expect(newState.getFirstRecordOnly).toBe(true);
             });
             it('should reset "wayToStoreFields"', () => {
                 expect(newState.wayToStoreFields).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
@@ -384,14 +412,12 @@ describe('record-lookup-reducer - State with sObject', () => {
                 expect(newState.queriedFields[1].field.value).toBe('BillingAddress');
             });
         });
-        describe('update "numberRecordsToStore" from "First Record" to "All Records"', () => {
+        describe('update getFirstRecordOnly from true to false', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordLookupUsingSobjectState();
-                const propertyName = 'numberRecordsToStore', value = NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, true, originalState.outputReference.value);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordLookupReducer(originalState, propChangedEvent);
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset "outputReference"', () => {
                 expect(newState.outputReference.value).toBe('');
@@ -403,15 +429,12 @@ describe('record-lookup-reducer - State with sObject', () => {
                 expect(newState.sortField.value).toBe(originalState.sortField.value);
             });
         });
-        describe('update numberRecordsToStore from All Records to First Record', () => {
+        describe('update getFirstRecordOnly from false to true', () => {
             let newState;
             beforeAll(() => {
-                const propertyName = 'numberRecordsToStore';
-                const value = NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.object.value);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordLookupReducer(originalState, propChangedEvent);
+                originalState = recordLookupUsingSobjectCollectionState();
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset outputReference', () => {
                 expect(newState.outputReference.value).toBe('');
@@ -420,12 +443,8 @@ describe('record-lookup-reducer - State with sObject', () => {
         describe('update wayToStoreFields from sObject to SeparateVariable', () => {
             let newState;
             beforeAll(() => {
-                const propertyName = 'wayToStoreFields';
-                const value = WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
-                const error = null;
-                const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null);
-                propChangedEvent.detail.ignoreValidate = true;
-                newState = recordLookupReducer(originalState, propChangedEvent);
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES, false);
+                newState = recordLookupReducer(originalState, recordStoreOptionChangedEvent);
             });
             it('should reset inputReference', () => {
                 expect(newState.outputReference.value).toBe('');
@@ -526,6 +545,7 @@ describe('record-lookup-reducer - State with errors', () => {
             object: { value: 'Account', error: ''},
             filterType: RECORD_FILTER_CRITERIA.NONE,
             filters: [{ }],
+            getFirstRecordOnly: true
         };
     });
     describe('handle list item events', () => {

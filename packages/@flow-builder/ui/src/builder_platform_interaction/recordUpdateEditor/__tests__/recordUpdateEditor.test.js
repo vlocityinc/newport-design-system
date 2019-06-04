@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import RecordUpdateEditor from "../recordUpdateEditor";
 import * as storeMockedData from "mock/storeData";
 import {  SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
-import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { mockAccountFields } from "mock/serverEntityData";
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent,
@@ -42,14 +42,13 @@ const defaultRecordUpdateElement = () => {
         isCanvasElement : true,
         label : { value: '', error: null },
         name : { value: '', error: null },
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+        useSobject: true,
         inputReference : { value: '', error: null},
         inputReferenceIndex: { value: 'guid', error: null},
         object: { value: '', error: null},
         objectIndex: {value: 'guid', error: null},
         filters: [],
         inputAssignments: []
-
     };
 };
 
@@ -63,7 +62,7 @@ const recordUpdateElementWithSObject = () => {
         locationX : 358,
         locationY : 227,
         name : {value: 'testRecord', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+        useSobject: true,
         inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
         inputReferenceIndex: { value: 'guid', error: null},
         object : {value: null, error: null},
@@ -81,7 +80,7 @@ const recordUpdateElementWithFields = () => {
         locationX : 358,
         locationY : 227,
         name : {value: 'testRecordFields', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
+        useSobject: false,
         inputReferenceIndex: { value: 'guid', error: null},
         inputAssignments : [{
             leftHandSide: {value: "Account.BillingCountry", error: null},
@@ -212,7 +211,7 @@ describe('record-update-editor usung fields', () => {
     });
     describe('Handle Events', () => {
         it('change number record to store to All records, sObject picker should changed', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.FIRST_RECORD, '', false);
+            const event = new RecordStoreOptionChangedEvent(true, '', false);
             getRecordStoreOption(recordUpdateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordUpdateEditor);

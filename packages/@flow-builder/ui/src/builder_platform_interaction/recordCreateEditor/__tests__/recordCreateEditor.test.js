@@ -62,7 +62,7 @@ const recordCreateElementWithSObject = {
     inputReference : {value: store.accountSObjectVariableGuid, error: null},
     inputReferenceIndex : {value: 'guid', error: null},
     inputAssignments : [],
-    numberRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
     object : {value: '', error: null},
     objectIndex: {value: 'guid', error: null},
 };
@@ -79,7 +79,7 @@ const recordCreateElementWithSObjectCollection = {
     inputReference : {value: store.accountSObjectCollectionVariableGuid, error: null},
     inputReferenceIndex : {value: 'guid', error: null},
     inputAssignments : [],
-    numberRecordsToStore : NUMBER_RECORDS_TO_STORE.ALL_RECORDS,
+    getFirstRecordOnly: false,
     object : {value: '', error: null},
     objectIndex: {value: 'guid', error: null},
 };
@@ -95,7 +95,7 @@ const recordCreateElementWithFields = () => ({
     name : {value: 'testRecordFields', error: null},
     inputReference : {value: '', error: null},
     inputReferenceIndex : {value: 'guid', error: null},
-    numberRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
     inputAssignments : [{
         leftHandSide: {value: "Account.BillingCountry", error: null},
         rightHandSide: {value: "myCountry", error: null},
@@ -232,7 +232,7 @@ describe('record-create-editor', () => {
             recordCreateEditor = createComponentForTest(recordCreateElementWithFields());
         });
         it('change number record to store to All records, sObject picker should changed', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false);
+            const event = new RecordStoreOptionChangedEvent(true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE, false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
@@ -269,7 +269,7 @@ describe('record-create-editor', () => {
             recordCreateEditor = createComponentForTest(recordCreateElementWithSObject);
         });
         it('Number of record change should empty the sObject picker', () => {
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS, '', false);
+            const event = new RecordStoreOptionChangedEvent(false, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
@@ -279,7 +279,7 @@ describe('record-create-editor', () => {
         it('Number of record change should change the sObject or sObject Collection picker placeHolder', () => {
             let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);
             expect(sObjectOrSObjectCollectionPicker.placeholder).toBe('FlowBuilderRecordEditor.sObjectVariablePlaceholder');
-            const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS, '', false);
+            const event = new RecordStoreOptionChangedEvent(false, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
             return Promise.resolve().then(() => {
                 sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordCreateEditor);

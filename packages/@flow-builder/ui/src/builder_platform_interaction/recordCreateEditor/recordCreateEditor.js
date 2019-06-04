@@ -24,7 +24,6 @@ export default class RecordCreateEditor extends LightningElement {
         recordCreateElement: {},
         recordEntityName: '',
         entityFields: {},
-        wayToStoreFields: '',
         resourceDisplayText: ''
     }
 
@@ -45,7 +44,8 @@ export default class RecordCreateEditor extends LightningElement {
     set node(newValue) {
         this.state.recordCreateElement = newValue;
         this.state.recordEntityName = this.objectValue;
-        this.state.wayToStoreFields = this.state.recordCreateElement.object.value === '' ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
+        this.state.recordCreateElement = Object.assign({}, this.state.recordCreateElement,
+                {wayToStoreFields: this.initialWayToStoreFields});
         this.updateFields();
         this.resourceDisplayText();
     }
@@ -60,6 +60,10 @@ export default class RecordCreateEditor extends LightningElement {
         return getErrorsFromHydratedElement(this.state.recordCreateElement);
     }
 
+    get initialWayToStoreFields() {
+        return this.state.recordCreateElement.object.value === '' ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
+    }
+
     /**
      * Returns the number of result stored.
      * If firstRecord then the user will be able to select a sObject variable
@@ -67,7 +71,7 @@ export default class RecordCreateEditor extends LightningElement {
      * @returns {String} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
-        return this.state.recordCreateElement.numberRecordsToStore;
+        return this.state.recordCreateElement.getFirstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     get objectValue() {
@@ -75,16 +79,15 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     get wayToStoreFieldsValue() {
-        return this.state.wayToStoreFields;
+        return this.state.recordCreateElement.wayToStoreFields;
     }
 
     get isSObjectMode() {
-        return (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && this.state.wayToStoreFields === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
-        || (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
+        return this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
     }
 
     get isCollection() {
-        return this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        return !this.state.recordCreateElement.getFirstRecordOnly;
     }
 
     get inputReference() {
@@ -200,13 +203,7 @@ export default class RecordCreateEditor extends LightningElement {
 
     handleRecordStoreOptionChangedEvent(event) {
         event.stopPropagation();
-        let numberRecordsToStoreOldValue = this.numberRecordsToStoreValue;
-        // if the wayToStoreFields changed then we need to force the reset recordCreate in the reducer
-        if (this.state.wayToStoreFields !== event.detail.wayToStoreFields) {
-            numberRecordsToStoreOldValue = '';
-            this.state.wayToStoreFields = event.detail.wayToStoreFields;
-        }
-        this.updateProperty('numberRecordsToStore', event.detail.numberRecordsToStore, event.detail.error, false, numberRecordsToStoreOldValue);
+        this.state.recordCreateElement = recordCreateReducer(this.state.recordCreateElement, event);
         this.state.recordEntityName = this.objectValue;
     }
 

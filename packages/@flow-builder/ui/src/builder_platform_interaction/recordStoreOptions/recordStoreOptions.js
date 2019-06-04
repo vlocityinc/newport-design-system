@@ -124,6 +124,10 @@ export default class RecordStoreFieldsSelection extends LightningElement {
         return WAY_TO_STORE_FIELDS_LABELS[this.elementType];
     }
 
+    get isGetFirstRecord() {
+        return this.state.numberOfRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+    }
+
     /**
      * @return {boolean} true if the element type is Record lookup or Record create
      * and the user has selected "First Record" in the first radio button group
@@ -137,7 +141,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     handleNumberRecordsToStoreChange(event) {
         event.stopPropagation();
         this.state.numberOfRecordsToStore = event.detail.value;
-        this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
+        this.dispatchEvent(new RecordStoreOptionChangedEvent(this.isGetFirstRecord,
             this.state.wayToStoreFields,
             this.state.assignNullValuesIfNoRecordsFound));
     }
@@ -145,7 +149,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     handleWayToStoreFieldsChange(event) {
         event.stopPropagation();
         this.state.wayToStoreFields = event.detail.value;
-        this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
+        this.dispatchEvent(new RecordStoreOptionChangedEvent(this.isGetFirstRecord,
             this.state.wayToStoreFields,
             this.state.assignNullValuesIfNoRecordsFound));
     }
@@ -153,7 +157,7 @@ export default class RecordStoreFieldsSelection extends LightningElement {
     handleAssignNullValuesIfNoRecordsFoundChange(event) {
         event.stopPropagation();
         this.state.assignNullValuesIfNoRecordsFound = event.detail.checked;
-        this.dispatchEvent(new RecordStoreOptionChangedEvent(this.state.numberOfRecordsToStore,
+        this.dispatchEvent(new RecordStoreOptionChangedEvent(this.isGetFirstRecord,
             this.state.wayToStoreFields,
             this.state.assignNullValuesIfNoRecordsFound));
     }

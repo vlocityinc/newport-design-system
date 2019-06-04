@@ -1,6 +1,5 @@
 import { createRecordUpdate, createDuplicateRecordUpdate, createRecordUpdateMetadataObject } from '../recordUpdate';
-import { NUMBER_RECORDS_TO_STORE,
-    RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
@@ -27,7 +26,7 @@ const mutatedRecordUpdateUsingSobject = {
     description: '',
     elementType: ELEMENT_TYPE.RECORD_UPDATE,
     inputReference: 'myObject',
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+    useSobject: true
 };
 
 const mutatedRecordUpdateWithFieldsTemplate = () => {
@@ -35,7 +34,7 @@ const mutatedRecordUpdateWithFieldsTemplate = () => {
     description: '',
     object: 'myObject',
     elementType: ELEMENT_TYPE.RECORD_UPDATE,
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.ALL_RECORDS};
+    useSobject: false};
 };
 
 const filterWithValueFieldAndOperator = {
@@ -101,7 +100,7 @@ describe('recordUpdate Mutation', () => {
                 name: '',
                 description: '',
                 elementType: ELEMENT_TYPE.RECORD_UPDATE,
-                numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+                useSobject: true
             };
             const actualResult = createRecordUpdate();
             expect(actualResult).toMatchObject(mutatedResult);

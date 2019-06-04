@@ -1,14 +1,14 @@
 const eventName = 'numberrecordtostorechanged';
 
 export class NumberRecordToStoreChangedEvent extends Event {
-    constructor(numberRecordsToStore) {
+    constructor(getFirstRecordOnly) {
         super(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
         });
         this.detail = {
-            numberRecordsToStore
+            getFirstRecordOnly
         };
     }
 

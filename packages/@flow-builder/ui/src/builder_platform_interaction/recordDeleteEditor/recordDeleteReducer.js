@@ -2,7 +2,7 @@ import { recordDeleteValidation, getRules } from './recordDeleteValidation';
 import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import { PropertyChangedEvent, AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent } from "builder_platform_interaction/events";
+import { PropertyChangedEvent, AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent, RecordStoreOptionChangedEvent } from "builder_platform_interaction/events";
 import { generateGuid } from "builder_platform_interaction/storeLib";
 
 /**
@@ -84,6 +84,17 @@ const resetRecordDelete = (state, resetObject) => {
 };
 
 /**
+ * Update the way the user store the records
+ */
+const recordStoreOptionAndWayToStoreChanged = (state, {getFirstRecordOnly}) => {
+    if (state.getFirstRecordOnly !== getFirstRecordOnly) {
+        state = updateProperties(state, {useSobject: getFirstRecordOnly});
+        return resetRecordDelete(state, true);
+    }
+    return state;
+};
+
+/**
  * Based on property to be changed operate specific routine
  * @param {object} state - element / node state
  * @param {object} event detail
@@ -125,6 +136,8 @@ export const recordDeleteReducer = (state, event) => {
             return updateRecordFilter(state, event.detail);
         case DeleteRecordFilterEvent.EVENT_NAME:
             return deleteRecordFilter(state, event.detail);
+        case RecordStoreOptionChangedEvent.EVENT_NAME:
+            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL:

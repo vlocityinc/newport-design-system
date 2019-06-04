@@ -56,9 +56,9 @@ const getCheckedEvent = (eventValue) => {
     });
 };
 
-const getRecordStoreOptionChangedEventDetail = (assignNullToVariableNoRecordValue, numberRecordsToStoreValue, wayToStoreFieldsValue) => {
+const getRecordStoreOptionChangedEventDetail = (assignNullToVariableNoRecordValue, getFirstRecordOnlyValue, wayToStoreFieldsValue) => {
     return {assignNullToVariableNoRecord: assignNullToVariableNoRecordValue,
-        numberRecordsToStore: numberRecordsToStoreValue,
+        getFirstRecordOnly: getFirstRecordOnlyValue,
         wayToStoreFields: wayToStoreFieldsValue};
 };
 
@@ -88,7 +88,7 @@ describe('record-store-options default', () => {
         getNumberRecordsToStoreRadioGroup(recordStoreOptionComponent).dispatchEvent(getChangeEvent(NUMBER_RECORDS_TO_STORE.ALL_RECORDS));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.ALL_RECORDS, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, false, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
     });
     test('checkbox "Assign Null if no record found" changed', async () => {
         const eventCallback = jest.fn();
@@ -96,7 +96,7 @@ describe('record-store-options default', () => {
         getAssignNullIfNoRecordFoundCombobox(recordStoreOptionComponent).dispatchEvent(getCheckedEvent(true));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(true, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(true, true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
     });
     test('Event RecordStoreOptionChangedEvent is dispatched after selected way to store fields radio button changed to SObject Variable', async () => {
         const eventCallback = jest.fn();
@@ -104,7 +104,7 @@ describe('record-store-options default', () => {
         getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).dispatchEvent(getChangeEvent(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, true, WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE));
     });
     test('Event RecordStoreOptionChangedEvent is dispatched after selected way to store fields radio button changed to Separate Variables', async () => {
         const eventCallback = jest.fn();
@@ -112,7 +112,7 @@ describe('record-store-options default', () => {
         getWayToStoreFieldsRadioGroup(recordStoreOptionComponent).dispatchEvent(getChangeEvent(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES));
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, NUMBER_RECORDS_TO_STORE.FIRST_RECORD, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES));
+        expect(eventCallback.mock.calls[0][0].detail).toMatchObject(getRecordStoreOptionChangedEventDetail(false, true, WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES));
     });
 });
 

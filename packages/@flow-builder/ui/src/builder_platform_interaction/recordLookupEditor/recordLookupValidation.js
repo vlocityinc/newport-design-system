@@ -1,7 +1,7 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation } from "builder_platform_interaction/validation";
 import { SORT_ORDER, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { WAY_TO_STORE_FIELDS, NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
+import { WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 
 /**
  * Validate the filter item. Here we can't use the ValidationRules.validateExpressionWith3Properties because this function allows empty RHS
@@ -53,14 +53,14 @@ export const recordLookupValidation = new Validation(additionalRules);
  * @param {string} nodeElement.sortOrder - current element's sortOrder
  * @param {Object} nodeElement.object - current element's object
  * @param {string} nodeElement.wayToStoreFields - current element's wayToStoreFields
- * @param {string} nodeElement.numberRecordsToStore - current element's numberRecordsToStore
+ * @param {boolean} nodeElement.getFirstRecordOnly - current element's getFirstRecordOnly
  * @param {Object[]} nodeElement.outputAssignments - current element's outputAssignments
  * @param {Object} nodeElement.outputReference - current element's outputReference
  * @param {Object[]} nodeElement.queriedFields - current element's queriedFields
  * @param {boolean} nodeElement.storeOutputAutomatically - current's element is using automatic output handling
  * @return {Object} the overridden rules
  */
-export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStoreFields, numberRecordsToStore, outputAssignments, outputReference, outputReferenceIndex, queriedFields, storeOutputAutomatically}) => {
+export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStoreFields, getFirstRecordOnly, outputAssignments, outputReference, outputReferenceIndex, queriedFields, storeOutputAutomatically}) => {
     const overriddenRules = { ...recordLookupValidation.finalizedRules};
     overriddenRules.object.push(ValidationRules.validateResourcePicker(objectIndex));
     // validate filters if filter type is ALL
@@ -73,7 +73,7 @@ export const getRules = ({filterType, sortOrder, object, objectIndex, wayToStore
     }
 
     if (object && object.value && !object.error && !storeOutputAutomatically) {
-        if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && numberRecordsToStore === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && outputAssignments.length > 1) {
+        if (wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES && getFirstRecordOnly && outputAssignments.length > 1) {
             overriddenRules.outputAssignments = validateAssignments();
         } else if (outputAssignments && outputAssignments.length === 1 && outputAssignments[0].leftHandSide.value) {
             overriddenRules.outputAssignments = validateAssignments();

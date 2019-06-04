@@ -22,7 +22,6 @@ import {
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import { getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 
@@ -62,7 +61,7 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
     const newRecordLookup = baseCanvasElement(recordLookup);
 
     let { availableConnections = getDefaultAvailableConnections(), filters, queriedFields = [],
-        numberRecordsToStore = NUMBER_RECORDS_TO_STORE.FIRST_RECORD, getFirstRecordOnly = true } = recordLookup;
+        getFirstRecordOnly = true } = recordLookup;
     const {
         object = '',
         objectIndex = generateGuid(),
@@ -86,7 +85,6 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
     const variable  = getElementByGuid(outputReference) || getGlobalConstantOrSystemVariable(outputReference);
     if (variable) {
         getFirstRecordOnly = !(variable.dataType === FLOW_DATA_TYPE.SOBJECT.value && variable.isCollection);
-        numberRecordsToStore = getFirstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     if (queriedFields && queriedFields.length > 0) {
@@ -99,7 +97,6 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
         object,
         objectIndex,
         outputReference,
-        numberRecordsToStore,
         assignNullValuesIfNoRecordsFound,
         filterType,
         filters,
@@ -111,7 +108,8 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
         elementType,
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-        storeOutputAutomatically : false
+        storeOutputAutomatically : false,
+        getFirstRecordOnly
     });
 }
 
@@ -125,7 +123,7 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
         outputReferenceIndex = generateGuid(),
         assignNullValuesIfNoRecordsFound = false,
         sortOrder = SORT_ORDER.NOT_SORTED,
-        sortField = ''
+        sortField = '',
     } = recordLookup;
 
     availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
@@ -142,7 +140,6 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
         object,
         objectIndex,
         outputAssignments,
-        numberRecordsToStore : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
         assignNullValuesIfNoRecordsFound,
         filterType,
         filters,
@@ -181,8 +178,6 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    const numberRecordsToStore = getFirstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
-
     if (queriedFields && queriedFields.length > 0) {
         queriedFields = queriedFields.map(queriedField => createQueriedField(queriedField));
     } else {
@@ -193,7 +188,6 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
     return Object.assign(newRecordLookup, {
         object,
         objectIndex,
-        numberRecordsToStore,
         filterType,
         filters,
         queriedFields,

@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { recordLookupReducer } from "./recordLookupReducer";
 import { ENTITY_TYPE, fetchFieldsForEntity, getAllEntities } from "builder_platform_interaction/sobjectLib";
-import { LABELS } from "./recordLookupEditorLabels";
+import { LABELS, NUMBER_RECORDS_OPTIONS, WAY_TO_STORE_FIELDS_OPTIONS } from "./recordLookupEditorLabels";
 import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
 import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
@@ -152,14 +152,14 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {string} This value can be 'firstRecord' or 'allRecords'
      */
     get numberRecordsToStoreValue() {
-        return this.state.recordLookupElement.numberRecordsToStore;
+        return this.state.recordLookupElement.getFirstRecordOnly ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
      * @returns {boolean} true if you want to store all the records to an sObject collection variable
      */
     get isCollection() {
-        return this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        return !this.state.recordLookupElement.getFirstRecordOnly;
     }
 
     /**
@@ -210,8 +210,7 @@ export default class RecordLookupEditor extends LightningElement {
      * @returns {boolean} true if record lookup element in sobject mode false otherwise
      */
     get isSObjectMode() {
-        return (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD && this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE)
-        || (this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
+        return this.wayToStoreFieldsValue === WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE;
     }
 
     /**
@@ -240,10 +239,10 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     *
+     * @returns {boolean} true is the user select to retrieve the first record only
      */
     get displayWayToStoreFields() {
-        return this.numberRecordsToStoreValue === NUMBER_RECORDS_TO_STORE.FIRST_RECORD;
+        return this.state.recordLookupElement.getFirstRecordOnly;
     }
 
     /**
@@ -253,28 +252,16 @@ export default class RecordLookupEditor extends LightningElement {
         return this.processTypeAutomaticOutPutHandlingSupport === FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
     }
 
+    get assignNullValuesIfNoRecordsFound() {
+        return this.state.recordLookupElement.assignNullValuesIfNoRecordsFound;
+    }
+
     get recordStoreOptions() {
-        return [{
-            label : this.labels.firstRecordLabel,
-            value : NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
-        }, {
-            label : this.labels.allRecordsLabel,
-            value : NUMBER_RECORDS_TO_STORE.ALL_RECORDS,
-        }];
+        return NUMBER_RECORDS_OPTIONS;
     }
 
     get wayToStoreFieldsOptions() {
-        return [{
-            label : this.labels.togetherInsObjectVariable,
-            value : WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
-        }, {
-            label : this.labels.separateVariable,
-            value : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
-        }];
-    }
-
-    get assignNullValuesIfNoRecordsFound() {
-        return this.state.recordLookupElement.assignNullValuesIfNoRecordsFound;
+        return WAY_TO_STORE_FIELDS_OPTIONS;
     }
 
     /**
@@ -326,15 +313,7 @@ export default class RecordLookupEditor extends LightningElement {
      */
     handleRecordStoreOptionsChanged(event) {
         event.stopPropagation();
-        const {numberRecordsToStore, assignNullToVariableNoRecord, wayToStoreFields} = event.detail;
-        if (this.numberRecordsToStoreValue !== numberRecordsToStore) {
-            this.updateProperty('numberRecordsToStore', numberRecordsToStore, null, true, this.numberRecordsToStoreValue);
-            this.updateProperty('outputReference', '', null, true, this.outputReferenceValue);
-        } else if (this.state.recordLookupElement.assignNullValuesIfNoRecordsFound !== assignNullToVariableNoRecord) {
-            this.updateProperty('assignNullValuesIfNoRecordsFound', assignNullToVariableNoRecord, null, true);
-        } else if (this.wayToStoreFieldsValue !== wayToStoreFields) {
-            this.updateProperty('wayToStoreFields', wayToStoreFields, null, true);
-        }
+        this.state.recordLookupElement = recordLookupReducer(this.state.recordLookupElement, event);
     }
 
     /**

@@ -19,8 +19,10 @@ const getAvailableConnections = recordDelete => {
 
 export function createRecordDelete(recordDelete = {}) {
     const newRecordDelete = baseCanvasElement(recordDelete);
-    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), filters } = recordDelete;
+    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), filters, isNewElement } = recordDelete;
     const availableConnections = getAvailableConnections(recordDelete);
+
+    const useSobject = isNewElement || !!inputReference;
 
     return Object.assign(newRecordDelete, {
         inputReference,
@@ -32,6 +34,7 @@ export function createRecordDelete(recordDelete = {}) {
         availableConnections,
         elementType : ELEMENT_TYPE.RECORD_DELETE,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        useSobject
     });
 }
 

@@ -2,7 +2,7 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from "../recordLookupEditor";
 import { recordLookupValidation, getRules } from "../recordLookupValidation.js";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS, NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
+import { SORT_ORDER, RECORD_FILTER_CRITERIA, WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import { LABELS } from "builder_platform_interaction/validationRules";
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder'));
@@ -49,7 +49,8 @@ const recordLookupElementWithValidSObject = () => ({
         rightHandSideDataType: {value: "String", error: null},
         rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
     }],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
+    storeOutputAutomatically: false,
     outputAssignments:[],
     wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
 }),
@@ -81,7 +82,8 @@ const recordLookupElementWithValidSObject = () => ({
         rightHandSide: {value: "vCity", error: null},
         rowIndex: "71cb7e19-9f98-4b59-9fdd-a276f216ddcf"
     }],
-    numberRecordsToStore: NUMBER_RECORDS_TO_STORE.FIRST_RECORD,
+    getFirstRecordOnly: true,
+    storeOutputAutomatically: false,
     wayToStoreFields : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
 });
 

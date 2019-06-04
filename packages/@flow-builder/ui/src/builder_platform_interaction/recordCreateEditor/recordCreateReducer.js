@@ -3,11 +3,13 @@ import { updateProperties, set, deleteItem } from "builder_platform_interaction/
 import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
 import { generateGuid } from "builder_platform_interaction/storeLib";
+import { WAY_TO_STORE_FIELDS } from "builder_platform_interaction/recordEditorLib";
 import {
     PropertyChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent
+    UpdateRecordFieldAssignmentEvent,
+    RecordStoreOptionChangedEvent
 } from "builder_platform_interaction/events";
 
 const INPUTASSIGNMENTS_PROP = 'inputAssignments';
@@ -66,6 +68,20 @@ const resetRecordCreate = (state, resetObject) => {
     return updateProperties(state, {'inputReference': {value: '', error: null }});
 };
 
+/**
+ * Update the way the user store the records
+ */
+const recordStoreOptionAndWayToStoreChanged = (state, {getFirstRecordOnly, wayToStoreFields}) => {
+    if (state.getFirstRecordOnly !== getFirstRecordOnly) {
+        state = updateProperties(state, {getFirstRecordOnly});
+        state = updateProperties(state, {"wayToStoreFields":  WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE});
+        return resetRecordCreate(state, true);
+    } else if (state.wayToStoreFields !== wayToStoreFields) {
+        return updateProperties(state, {wayToStoreFields});
+    }
+    return state;
+};
+
 const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  oldValue, value}) => {
     if (!ignoreValidate) {
         error = error === null ? recordCreateValidation.validateProperty(propertyName, value) : error;
@@ -77,9 +93,6 @@ const managePropertyChanged = (state, {propertyName, ignoreValidate, error,  old
             state = resetRecordCreate(state);
         } else if (propertyName === INPUTASSIGNMENTS_PROP) {
             state = resetAssignmentErrors(state);
-        } else if (propertyName === 'numberRecordsToStore' && value !== oldValue) {
-            state = set(state, propertyName, value);
-            state = resetRecordCreate(state, true);
         } else if (propertyName === 'assignRecordIdToReference') {
             state = set(state, propertyName, {value, error: null});
         }
@@ -103,6 +116,8 @@ export const recordCreateReducer = (state, event) => {
             return updateRecordRecordFieldAssignment(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
+        case RecordStoreOptionChangedEvent.EVENT_NAME:
+            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case VALIDATE_ALL: {
             return recordCreateValidation.validateAll(state, getRules(state, event.wayToStoreFields));
         }

@@ -1,10 +1,13 @@
 import {recordDeleteReducer} from '../recordDeleteReducer';
-import {AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent, PropertyChangedEvent} from "builder_platform_interaction/events";
+import {AddRecordFilterEvent,
+        DeleteRecordFilterEvent,
+        PropertyChangedEvent,
+        RecordStoreOptionChangedEvent,
+        UpdateRecordFilterEvent, } from "builder_platform_interaction/events";
 import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 
 const INPUT_REFERENCE_PROPERTY_NAME = 'inputReference', OBJECT_PROPERTY_NAME = 'object', FILTERS_PROPERTY_NAME = 'filters',
-    NUMBER_OF_RECORDS_PROPERTY_NAME = 'numberRecordsToStore', MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d';
+    MOCK_GUID = '724cafc2-7744-4e46-8eaa-f2df29539d1d';
 
 const recordDeleteUsingSobjectState = () => {
     return {
@@ -17,6 +20,7 @@ const recordDeleteUsingSobjectState = () => {
         locationY : 227,
         name : {value: 'record_delete_with_sobject', error: null},
         processMetadataValues: [],
+        useSobject: true,
         [INPUT_REFERENCE_PROPERTY_NAME]: {value: 'VARIABLE_6', error: null}
     };
 },
@@ -29,6 +33,7 @@ recordDeleteUsingFieldsState = () => {
         label : {value: 'recordDeleteWithFields', error: null},
         locationX : 358,
         locationY : 227,
+        useSobject: false,
         name : {value: 'record_delete_with_fields', error: null},
         filters: [{
             leftHandSide: {value: "Account.BillingAddress", error: null},
@@ -104,15 +109,13 @@ describe('record delete reducer using fields', () => {
             expect(newState[OBJECT_PROPERTY_NAME]).toMatchObject({value: newValue, error: newError});
         });
 
-        describe('update the "numberRecordsToStore"', () => {
-            describe('update "numberRecordsToStore" from "All Records" to "First Record"', () => {
+        describe('update the "getFirstRecordOnly"', () => {
+            describe('update "getFirstRecordOnly" from false to true', () => {
                 let newState;
                 beforeAll(() => {
-                    const newValue = NUMBER_RECORDS_TO_STORE.FIRST_RECORD, newError = null;
-                    const propChangedEvent = new PropertyChangedEvent(NUMBER_OF_RECORDS_PROPERTY_NAME,
-                            newValue, newError, null);
-                    propChangedEvent.detail.ignoreValidate = true;
-                    newState = recordDeleteReducer(originalState, propChangedEvent);
+                    originalState = recordDeleteUsingFieldsState();
+                    const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
+                    newState = recordDeleteReducer(originalState, recordStoreOptionChangedEvent);
                 });
                 test('should reset "object" property', () => {
                     expect(newState[OBJECT_PROPERTY_NAME].value).toHaveLength(0);
@@ -123,15 +126,12 @@ describe('record delete reducer using fields', () => {
                 });
             });
 
-            describe('update "numberRecordsToStore" from "First Record" to "All Records"', () => {
+            describe('update "getFirstRecordOnly" from true to false', () => {
                 let newState;
                 beforeAll(() => {
                     originalState = recordDeleteUsingSobjectState();
-                    const newValue = NUMBER_RECORDS_TO_STORE.ALL_RECORDS, newError = null;
-                    const propChangedEvent = new PropertyChangedEvent(NUMBER_OF_RECORDS_PROPERTY_NAME,
-                            newValue, newError, null);
-                    propChangedEvent.detail.ignoreValidate = true;
-                    newState = recordDeleteReducer(originalState, propChangedEvent);
+                    const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
+                    newState = recordDeleteReducer(originalState, recordStoreOptionChangedEvent);
                 });
                 test('should reset "inputReference" property', () => {
                     expect(newState[INPUT_REFERENCE_PROPERTY_NAME].value).toHaveLength(0);

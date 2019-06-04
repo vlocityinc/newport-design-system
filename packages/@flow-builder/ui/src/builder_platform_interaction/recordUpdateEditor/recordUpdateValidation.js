@@ -1,6 +1,6 @@
 import * as ValidationRules from "builder_platform_interaction/validationRules";
 import { Validation } from "builder_platform_interaction/validation";
-import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 
 /**
  * Validate the filter item.
@@ -33,7 +33,7 @@ export const recordUpdateValidation = new Validation();
 export const getRules = (nodeElement) => {
     const overrideRules = Object.assign({}, recordUpdateValidation.finalizedRules);
     // case where a sObject has been selected
-    if (nodeElement.numberRecordsToStore.value === NUMBER_RECORDS_TO_STORE.FIRST_RECORD) {
+    if (nodeElement.useSobject) {
         overrideRules.inputReference = validateInputReference(nodeElement.inputReferenceIndex);
     } else if (nodeElement.inputAssignments) {
         overrideRules.object = validateInputReference(nodeElement.objectIndex);

@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import RecordDeleteEditor from "../recordDeleteEditor";
 import * as storeMockedData from "mock/storeData";
 import { AddElementEvent, EditElementEvent, SObjectReferenceChangedEvent } from "builder_platform_interaction/events";
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import { mockAccountFields } from "mock/serverEntityData";
 import { RecordStoreOptionChangedEvent, AddRecordFilterEvent, DeleteRecordFilterEvent, UpdateRecordFilterEvent} from "builder_platform_interaction/events";
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -35,7 +34,8 @@ const defaultRecordDeleteElement = () => ({
         inputReferenceIndex : { value: 'guid', error: null},
         object: { value: '', error: null},
         objectIndex: {value: 'guid', error: null},
-        filters: []
+        filters: [],
+        useSobject: true,
 });
 
 const recordDeleteElementWithSObject = () => ({
@@ -51,7 +51,8 @@ const recordDeleteElementWithSObject = () => ({
         inputReferenceIndex : { value: 'guid', error: null},
         filters: [],
         object : {value: '', error: null},
-        objectIndex: {value: 'guid', error: null}
+        objectIndex: {value: 'guid', error: null},
+        useSobject: true,
 });
 
 const recordDeleteElementWithFields = () => ({
@@ -67,7 +68,8 @@ const recordDeleteElementWithFields = () => ({
         inputReference : {value: '', error: null},
         inputReferenceIndex : { value: 'guid', error: null},
         object : {value: 'account', error: null},
-        objectIndex: {value: 'guid', error: null}
+        objectIndex: {value: 'guid', error: null},
+        useSobject: false,
 });
 
 const filterElement = {
@@ -146,7 +148,7 @@ describe('Record delete editor', () => {
 
         describe('Handle Events', () => {
             test('change number record to store to All records, sObject picker should changed', () => {
-                  const event = new RecordStoreOptionChangedEvent(NUMBER_RECORDS_TO_STORE.FIRST_RECORD, '', false);
+                  const event = new RecordStoreOptionChangedEvent(true, '', false);
                   getRecordStoreOption(recordDeleteEditor).dispatchEvent(event);
                   return Promise.resolve().then(() => {
                       const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(recordDeleteEditor);

@@ -8,22 +8,13 @@ import {
 import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
-import { NUMBER_RECORDS_TO_STORE,
-    RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
+import { RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
 import { createRecordFilters, createFilterMetadataObject, createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections  } from './base/baseRecordElement';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from "builder_platform_interaction/storeLib";
 
 const elementType = ELEMENT_TYPE.RECORD_UPDATE;
 const maxConnections = 2;
-
-/*
- * return the selected way to store the variables.
- * the default value is SOBJECT_VARIABLE
- */
-function getNumberRecordsToStore(inputReference, object) {
-    return inputReference !== '' || object === '' ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
-}
 
 export function createRecordUpdate(recordUpdate = {}) {
     const newRecordUpdate = baseCanvasElement(recordUpdate);
@@ -34,7 +25,7 @@ export function createRecordUpdate(recordUpdate = {}) {
 
     inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
 
-    const numberRecordsToStore = getNumberRecordsToStore(inputReference, object);
+    const useSobject = inputReference !== '' || object === '';
 
     filters = createRecordFilters(filters, object);
 
@@ -49,7 +40,7 @@ export function createRecordUpdate(recordUpdate = {}) {
         availableConnections,
         elementType,
         inputAssignments,
-        numberRecordsToStore,
+        useSobject,
         filters,
         filterType,
         object,
@@ -92,9 +83,9 @@ export function createRecordUpdateMetadataObject(recordUpdate, config) {
     }
 
     const recordUpdateMetadata = baseCanvasElementMetadataObject(recordUpdate, config);
-    const { inputReference, filterType, object, numberRecordsToStore } = recordUpdate;
+    const { inputReference, filterType, object, useSobject } = recordUpdate;
 
-    if (numberRecordsToStore === NUMBER_RECORDS_TO_STORE.ALL_RECORDS) {
+    if (!useSobject) {
         let { filters = [], inputAssignments = [] } = recordUpdate;
         if (filterType === RECORD_FILTER_CRITERIA.NONE) {
             filters = [];

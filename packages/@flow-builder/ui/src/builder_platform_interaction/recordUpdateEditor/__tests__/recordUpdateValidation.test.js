@@ -4,7 +4,6 @@ import RecordUpdateEditor from "../recordUpdateEditor";
 import * as storeMockedData from "mock/storeData";
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from "builder_platform_interaction/validationRules";
-import { NUMBER_RECORDS_TO_STORE } from "builder_platform_interaction/recordEditorLib";
 import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
@@ -29,7 +28,7 @@ const recordUpdateElementWithValidSObject = {
     locationX : 358,
     locationY : 227,
     name : {value: 'testRecord', error: null},
-    numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.FIRST_RECORD, error: null},
+    useSobject: true,
     inputReference : {value: storeMockedData.accountSObjectVariableGuid, error: null},
     object : {value: '', error: null},
     objectIndex: {value: 'guid', error: null}
@@ -45,7 +44,7 @@ const recordUpdateUsingFieldsTemplate = () => {
         locationX : 358,
         locationY : 227,
         name : {value: 'testRecordFields', error: null},
-        numberRecordsToStore : {value: NUMBER_RECORDS_TO_STORE.ALL_RECORDS, error: null},
+        useSobject: false,
         inputAssignments : [{
             leftHandSide: {value: "Account.BillingCountry", error: null},
             rightHandSide: {value: "myCountry", error: null},
