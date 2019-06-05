@@ -40,6 +40,12 @@ const UI_CREATE_PANEL = 'ui:createPanel';
  */
 const hoverPanels = {};
 
+/**
+ * @constant tracks the popover singleton's state
+ * @type {object}
+ */
+let popoverState = null;
+
 // component name used when calling invokePropertyEditor
 export const PROPERTY_EDITOR = 'builder_platform_interaction:propertyEditor';
 const RESOURCE_EDITOR = 'builder_platform_interaction:resourceEditor';
@@ -158,11 +164,7 @@ const clearExpressionValidator = (panel) => {
  * @param {Object} panel : panel Instance of status icon
  */
 const closeActionCallback = (panel) => {
-    const panelFooter = panel.get('v.footer')[0];
-    const statusIconCmp = panelFooter.find('statusIcon');
-    if (statusIconCmp && statusIconCmp.getPanelInstance()) {
-        statusIconCmp.closePanelInstance();
-    }
+    hidePopover();
     clearExpressionValidator(panel);
     panel.close();
 };
@@ -337,6 +339,30 @@ const doInvoke = (cmpName, attr, panelConfig) => {
 };
 
 /**
+ * Callback invoked when the popover is created
+ * @param {Object} panelInstance - the panel instance
+ */
+function onCreatePopover(panelInstance) {
+    popoverState.panelInstance = panelInstance;
+}
+
+/**
+ * Callback invoked when the popover is destroyed
+ */
+function onDestroyPopover() {
+    if (popoverState) {
+        const { panelInstance, onClose } = popoverState;
+
+        if (onClose) {
+            onClose();
+        }
+
+        panelInstance.close();
+        popoverState = null;
+    }
+}
+
+/**
  * Invokes the panel and creates property editor inside it
  * @param {string} cmpName - Name of the component to be created
  * @param {object} attributes - contains a callback and actual data
@@ -351,66 +377,6 @@ export function invokePropertyEditor(cmpName, attributes) {
     const { attr, panelConfig } = getEditorConfig(mode, attributes);
 
     doInvoke(cmpName, attr, panelConfig);
-}
-
-/**
- * Object containing component properties
- * @typedef {object} cmpAttributes - Contains component attributes
- * @property {string} header - Header for summary
- * @property {object[]} messages - error/warning messages
- * @property {string} type - Type of popover (error or warning)
- * @property {boolean} showOnlyNumberOfErrors - Boolean value to just show the number of errors
- */
-
-/**
- * Object containing panel properties
- * @typedef {object} panelAttributes - Contains panel attributes
- * @property {string} direction - Direction for the popover
- * @property {string} referenceSelector - Reference point for the popover
- * @property {function} createPanel - Method to create the panel
- * @property {function} destroyPanel - Method to destroy the panel
- */
-
-/**
- * Invokes the popover and creates status-icon-summary inside it
- * @param {string} cmpName - Name of the component to be created
- * @param {object} cmpAttributes - Contains component attributes
- * @param {object} panelAttributes - Contains panel attributes
- */
-export function invokePopover(cmpName, cmpAttributes, panelAttributes) {
-    if (!cmpName || !cmpAttributes || !panelAttributes) {
-        throw new Error("Component Name or Attributes can't be undefined");
-    }
-
-    const {direction,
-           referenceElement,
-           createPanel,
-           destroyPanel,
-           closeOnClickOut} = panelAttributes;
-
-    const statusIconSummaryPromise = createComponentPromise(cmpName, cmpAttributes);
-    Promise.resolve(statusIconSummaryPromise).then((newComponent) => {
-        const createPanelEventAttributes = {
-            panelType: PANEL,
-            visible: true,
-            panelConfig: {
-                body: newComponent,
-                direction,
-                showPointer: true,
-                referenceElement,
-                closeAction: () => {
-                    destroyPanel();
-                },
-                closeOnClickOut: closeOnClickOut == null ? false : closeOnClickOut
-            },
-            onCreate: (panel) => {
-                createPanel(panel, newComponent.getElement());
-            }
-        };
-        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-    }).catch(errorMessage => {
-        throw new Error('Status Icon Panel creation failed : ' + errorMessage);
-    });
 }
 
 /**
@@ -590,4 +556,72 @@ export function hideHover(hoverId) {
     if (hoverPanel) {
         hoverPanel.requestClose();
     }
+}
+
+/**
+ * Checks if the popover singleton is opened
+ * @return {boolean} - whether the popover is open
+ */
+export function isPopoverOpen() {
+    return !!popoverState;
+}
+
+/**
+ * Hides the popover singleton
+ */
+export function hidePopover() {
+    if (isPopoverOpen()) {
+        onDestroyPopover();
+    }
+}
+
+/**
+ * Object containing popover properties
+ * @typedef {object} popoverProps - Contains popover attributes
+ * @property {string} direction - Direction for the popover
+ * @property {string} referenceElement - DOM element used to position the popover
+ * @property {boolean} closeOnClickOut - Whether to close the popover on click out
+ * @property {function} onClose - Callback invoked when the popover is closed
+ */
+
+/**
+ * Shows a component in a popover singleton
+ * @param {string} cmpName - Name of the component to be created
+ * @param {object} cmpAttributes - Contains component attributes
+ * @param {object} popoverProps - Contains popover properties
+ */
+export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
+    if (isPopoverOpen()) {
+        return;
+    }
+
+    const { direction, onClose, referenceElement, closeOnClickOut } = popoverProps;
+
+    popoverState = {
+        panelInstance: null,
+        referenceElement,
+        onClose
+    };
+
+
+    const componentPromise = createComponentPromise(cmpName, cmpAttributes);
+
+    Promise.resolve(componentPromise).then((newComponent) => {
+        const createPanelEventAttributes = {
+            panelType: PANEL,
+            visible: true,
+            panelConfig: {
+                body: newComponent,
+                direction,
+                showPointer: true,
+                referenceElement,
+                closeAction: onDestroyPopover,
+                closeOnClickOut: !!closeOnClickOut
+            },
+            onCreate: onCreatePopover,
+        };
+        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+    }).catch(errorMessage => {
+        throw new Error('Status Icon Panel creation failed : ' + errorMessage);
+    });
 }

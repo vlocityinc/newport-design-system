@@ -1,5 +1,22 @@
-import {getPropertyEditorConfig} from "../builderUtils";
+import { getPropertyEditorConfig, showPopover, isPopoverOpen } from "../builderUtils";
 import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+
+jest.mock('aura', () => {
+  return {
+    dispatchGlobalEvent: jest.fn().mockImplementation((name, attributes) => {
+      attributes.onCreate({
+        close: () => {}
+      });
+    }),
+
+    createComponent: jest.fn().mockImplementation((cmpName, attr, callback) => {
+      const newComponent = {
+        getElement: () => {}
+      };
+      callback(newComponent, 'SUCCESS', null);
+    })
+  };
+});
 
 const EDIT_MODE = 'editelement',
     ADD_MODE = 'addelement';
@@ -84,5 +101,16 @@ describe('builderUtils', () => {
                 expect(actualResult).toHaveProperty(modePropertyNestedPath, ADD_MODE);
             });
         });
+    });
+
+    describe('Popover', () => {
+      it('showPopover', () => {
+          expect(isPopoverOpen()).toBe(false);
+          showPopover('builder_platform_interaction:statusIconSummary', {}, {
+            referenceElement: null,
+            onClose: () => {}
+          });
+          expect(isPopoverOpen()).toBe(true);
+      });
     });
 });

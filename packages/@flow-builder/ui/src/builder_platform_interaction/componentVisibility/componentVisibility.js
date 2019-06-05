@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 import { UpdateConditionEvent, UpdateConditionLogicEvent, AddConditionEvent } from "builder_platform_interaction/events";
 import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
 import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import popoverUtils from 'builder_platform_interaction/popoverUtils';
+import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
 
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
@@ -46,7 +46,7 @@ export default class ComponentVisibility extends LightningElement {
             this.dispatchEvent(new UpdateConditionLogicEvent(this.guid, CONDITION_LOGIC.NO_CONDITIONS));
         }
 
-        this.hidePopover();
+        hidePopover();
     };
 
     handleAddCondition = event => {
@@ -55,7 +55,7 @@ export default class ComponentVisibility extends LightningElement {
             event.stopPropagation();
         }
 
-        this.hidePopover();
+        hidePopover();
     };
 
     handlePropertyChanged = event => {
@@ -69,7 +69,7 @@ export default class ComponentVisibility extends LightningElement {
         }
 
         this.dispatchEvent(new UpdateConditionLogicEvent(this.guid, conditionLogic));
-        this.hidePopover();
+        hidePopover();
     };
 
     isLastConditionNew() {
@@ -98,7 +98,7 @@ export default class ComponentVisibility extends LightningElement {
 
         if (!hasError) {
             this.dispatchEvent(new UpdateConditionEvent(this.guid, index, condition));
-            this.hidePopover();
+            hidePopover();
         }
     };
 
@@ -109,21 +109,17 @@ export default class ComponentVisibility extends LightningElement {
             this.deleteCondition(index);
         }
 
-        this.hidePopover();
+        hidePopover();
     };
 
     isConditionNew = condition => condition[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value === '';
 
-    hidePopover() {
-        popoverUtils.hidePopover();
-    }
-
     showPopover(/* referenceElement, cmpName, cmpProps, itemIndex */) {
-        popoverUtils.showPopover();
+        showPopover('builder_platform_interaction:conditionEditorPopover', {}, { referenceElement : null });
     }
 
     showVisibilityConditionPopover(/* index */) {
-        popoverUtils.showPopover();
+        showPopover('builder_platform_interaction:conditionEditorPopover', {}, { referenceElement : null });
 
         /*
         const condition = this.visibility.conditions[index];

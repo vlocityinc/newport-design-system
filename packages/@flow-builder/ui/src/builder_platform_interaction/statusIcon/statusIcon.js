@@ -3,17 +3,16 @@ import {
     api,
     track
 } from 'lwc';
-import { invokePopover } from 'builder_platform_interaction/builderUtils';
+import { isPopoverOpen, hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './statusIconLabels';
+
 const dotPrefixForClass = '.';
 
 export default class StatusIcon extends LightningElement {
     internalMessages = [];
-    panelInstance = undefined;
 
     @track isIconVisible = false;
-    @track panelHidden = true;
 
     @api type; // Can only be error or warning as of now
     @api direction = 'south'; // other options : north, east & west
@@ -30,8 +29,8 @@ export default class StatusIcon extends LightningElement {
     set messages(msgs) {
         this.createSections(msgs);
         // Closing the panel if it was previously open and errors got updated
-        if (this.panelInstance && this.closePanelFunction) {
-            this.closePanelFunction();
+        if (isPopoverOpen()) {
+            hidePopover();
         }
 
         if (this.allCount > 0) {
@@ -39,28 +38,6 @@ export default class StatusIcon extends LightningElement {
         } else {
             this.isIconVisible = false;
         }
-    }
-
-    /**
-     * Public method to get the panel Instance
-     * @returns {Object} panelInstance
-     */
-    @api getPanelInstance() {
-        return this.panelInstance;
-    }
-
-    /**
-     * Public method to close the panel instance
-     * @returns {Promise} resolves to close the panel instance, rejects if the instance doesn't exist
-     */
-    @api closePanelInstance() {
-        return new Promise((resolve, reject) => {
-            if (this.panelInstance) {
-                resolve(this.closePanelFunction && this.closePanelFunction());
-            } else {
-                reject('Panel instance doesnt exist');
-            }
-        });
     }
 
     constructor() {
@@ -87,16 +64,17 @@ export default class StatusIcon extends LightningElement {
      */
     get iconTitle() {
         let title;
+        const panelHidden = !isPopoverOpen();
         if (this.type === 'warning') {
             if (this.messages.length > 1) {
-                title = this.panelHidden ? LABELS.statusIconShowWarningPluralTitle : LABELS.statusIconHideWarningPluralTitle;
+                title = panelHidden ? LABELS.statusIconShowWarningPluralTitle : LABELS.statusIconHideWarningPluralTitle;
             } else {
-                title = this.panelHidden ? LABELS.statusIconShowWarningSingularTitle : LABELS.statusIconHideWarningSingularTitle;
+                title = panelHidden ? LABELS.statusIconShowWarningSingularTitle : LABELS.statusIconHideWarningSingularTitle;
             }
         } else if (this.messages.length > 1) {
-            title = this.panelHidden ? LABELS.statusIconShowErrorPluralTitle : LABELS.statusIconHideErrorPluralTitle;
+            title = panelHidden ? LABELS.statusIconShowErrorPluralTitle : LABELS.statusIconHideErrorPluralTitle;
         } else {
-            title = this.panelHidden ? LABELS.statusIconShowErrorSingularTitle : LABELS.statusIconHideErrorSingularTitle;
+            title = panelHidden ? LABELS.statusIconShowErrorSingularTitle : LABELS.statusIconHideErrorSingularTitle;
         }
         return title;
     }
@@ -136,41 +114,12 @@ export default class StatusIcon extends LightningElement {
      * Handle Icon click : event handler for clicking on icon button. Acts as a toggle to show/hide the panel and create it for the very first time.
      */
     handleIconClick() {
-        if (this.panelInstance && !this.panelHidden) {
-            this.closePanelFunction();
+        if (isPopoverOpen()) {
+            hidePopover();
         } else {
             this.createPanel();
         }
     }
-
-    /**
-     * Helper method to handle closing of the panel on esc key or when clicking 'X'
-     */
-    closePanelFunction = () => {
-        if (this.panelInstance) {
-            this.panelInstance.close();
-            this.panelInstance = null; // Get rid of the access to the older instance
-            this.panelHidden = true;
-        }
-    };
-
-    /**
-     * Used to create the status-icon-summary component
-     * @param {Object} panel - Invoked panel
-     * @param {Object} statusIconSummaryComponent - status-icon-summary component created inside the panel
-     */
-    onCreatePanel = (panel, statusIconSummaryComponent) => {
-        this.panelInstance = panel;
-        this.panelHidden = false;
-        statusIconSummaryComponent.handleClickCallback = this.closePanelFunction;
-    };
-
-    /**
-     * Used to destroy the panel on esc key
-     */
-    onDestroyPanel = () => {
-        this.closePanelFunction();
-    };
 
     /**
      * creates a ui panel of type panel with the given params and sets statusIconSummary in the body of the panel
@@ -186,9 +135,7 @@ export default class StatusIcon extends LightningElement {
         const showSections = this.showSections;
         const direction = this.direction;
         const referenceElement = this.template.querySelector(dotPrefixForClass + this.classForIcon);
-        const createPanel = this.onCreatePanel;
-        const destroyPanel = this.onDestroyPanel;
-        const closeOnClickOut = this.closeOnClickOut;
-        invokePopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections }, { direction, referenceElement, createPanel, destroyPanel, closeOnClickOut });
+        const handleClickCallback = hidePopover;
+        showPopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections, handleClickCallback }, { referenceElement, direction });
     }
 }

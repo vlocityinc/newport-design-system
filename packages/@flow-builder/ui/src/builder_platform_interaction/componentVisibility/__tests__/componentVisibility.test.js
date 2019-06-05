@@ -1,6 +1,6 @@
 import {createElement} from 'lwc';
 import ComponentVisiblity from "builder_platform_interaction/componentVisibility";
-import { showPopover, hidePopover } from 'builder_platform_interaction/popoverUtils';
+import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
@@ -9,7 +9,7 @@ import {
 } from "builder_platform_interaction/events";
 import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
 
-jest.mock('builder_platform_interaction/popoverUtils', () => {
+jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
        showPopover: jest.fn().mockName('showPopover'),
        hidePopover: jest.fn().mockName('hidePopover'),
