@@ -287,6 +287,10 @@ export default class Combobox extends LightningElement {
         const wasDisabled = this.state.disabled;
         this.state.disabled = !!disabled;
 
+        if (this.state.disabled) {
+            this.state.showActivityIndicator = false;
+        }
+
         if (!this.state.disabled && wasDisabled && this._needsValidationOnEnable) {
             this.doValidation();
             this.fireComboboxStateChangedEvent();
