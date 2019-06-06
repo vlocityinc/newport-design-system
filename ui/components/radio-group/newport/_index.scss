@@ -295,3 +295,55 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/**/
+
+.nds-radio_custom-group {
+  margin-right: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nds-radio_custom-group.nds-static-wrapper
+  input[type="radio"]:checked
+  + .vlc-img_select-container
+  .vlc-img-item_select-container {
+  border: 2px solid #ff6d00;
+}
+
+.nds-radio_custom-group.vlc-img-wrapper label.vlc-img_no-width-height {
+  cursor: pointer;
+}
+
+.nds-radio_custom-group.vlc-img-wrapper
+  input[type="radio"]:checked
+  + label.vlc-img_no-width-height {
+  border: 2px solid #ff6d00;
+}
+
+.nds-radio_custom-group.nds-static-wrapper .vlc-img-item_select-container {
+  cursor: pointer;
+  border: 1px solid #d8dde6;
+}
+
+.nds-radio_custom-group.vlc-img-wrapper
+  .vlc-img_no-width-height
+  .vlc-img-item_select-container {
+  width: 100%;
+  height: 100%;
+}
+
+.nds-radio_button input[type="radio"]:checked + .nds-radio_button__label {
+  background-color: #ff6d00;
+  color: white;
+}
+
+.nds-radio_button
+  input[type="radio"]:checked
+  + .nds-radio_button__label
+  .nds-radio_faux {
+  color: white;
+}
+
+.nds-radio-block.nds-form-element__control .nds-radio {
+  display: block;
+}

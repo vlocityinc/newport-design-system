@@ -241,3 +241,98 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
 .nds-form-element__control.nds-horizontal_checkbox .nds-checkbox {
   margin: 0 1rem .5rem 0;
 }
+
+.nds-form-element__control.nds-radio_custom_container.nds-grid {
+  width: 100%;
+}
+
+.nds-checkbox_custom-group {
+  margin-right: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nds-checkbox_custom-group.nds-static-wrapper
+  input[type="checkbox"]:checked
+  + .vlc-img_select-container
+  .vlc-img-item_select-container {
+  border: 2px solid #ff6d00;
+}
+
+.nds-checkbox_custom-group.vlc-img-wrapper label.vlc-img_no-width-height {
+  cursor: pointer;
+}
+
+.nds-checkbox_custom-group.vlc-img-wrapper
+  input[type="checkbox"]:checked
+  + label.vlc-img_no-width-height {
+  border: 2px solid #ff6d00;
+}
+
+.vlc-img_select-container {
+  position: relative;
+  display: inline-block;
+}
+
+.vlc-img-wrapper {
+  position: relative;
+}
+
+.vlc-img-item {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.vlc-img-item-caption {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-checkbox_custom-group.nds-static-wrapper .vlc-img-item_select-container {
+  cursor: pointer;
+  border: 1px solid #d8dde6;
+}
+
+.nds-checkbox_custom-group.vlc-img-wrapper
+  .vlc-img_no-width-height
+  .vlc-img-item_select-container {
+  width: 100%;
+  height: 100%;
+}
+
+.vlc-img_option-width-height {
+  display: inline-block;
+  margin: 0.5rem 1rem 0.5rem 0px;
+  height: inherit;
+  width: inherit;
+  border: 1px solid #d8dde6;
+  border-radius: 0.1875rem;
+  position: relative;
+}
+
+.vlc-img_no-width-height {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 30px;
+  border: 1px solid #d8dde6;
+}
+
+.vlc-caption-out_cont {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: inherit;
+  padding-top: 10px;
+}
