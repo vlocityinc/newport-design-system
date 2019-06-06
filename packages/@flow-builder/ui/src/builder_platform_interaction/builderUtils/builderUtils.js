@@ -416,6 +416,8 @@ export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPro
                 } else {
                     modalFooter.set('v.closeModalCallback', modal.close);
                 }
+                const panelBody = modal.get('v.body')[0];
+                panelBody.set('v.footer', modalFooter);
             },
         };
         dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);

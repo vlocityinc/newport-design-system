@@ -25,7 +25,6 @@ import { getElementsToBeDeleted, getSaveType, updateStoreAfterSaveFlowIsSuccessf
     getConnectorToDuplicate, highlightCanvasElement, getSelectedTemplate, setErrorMessage, closeModalAndNavigateTo, createStartElement } from './editorUtils';
 import { cachePropertiesForClass } from "builder_platform_interaction/apexTypeLib";
 import { getProcessTypes, setProcessTypes, setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
-import { FETCH_FLOW_MODAL_DATA_ERROR_TYPE } from 'builder_platform_interaction/newFlowModalUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -107,11 +106,11 @@ export default class Editor extends LightningElement {
         return this.currentFlowId;
     }
 
-    set flowId(newFlowId) {
-        if (newFlowId) {
-            this.currentFlowId = newFlowId;
+    set flowId(currentFlowId) {
+        if (currentFlowId) {
+            this.currentFlowId = currentFlowId;
             const params = {
-                id: newFlowId
+                id: currentFlowId
             };
             // Keeping this as fetch because we want to go to the server
             fetch(SERVER_ACTION_TYPE.GET_FLOW, this.getFlowCallback, params, {background: true});
@@ -706,7 +705,7 @@ export default class Editor extends LightningElement {
             // update error message to show in flow modal
             this.isFlowServerCallInProgress = false;
             this.spinners.showFlowMetadataSpinner = false;
-            setErrorMessage(modal, FETCH_FLOW_MODAL_DATA_ERROR_TYPE.TEMPLATE_DATA_ERROR, error[0].message);
+            setErrorMessage(modal, error[0].data.contextMessage);
         } else {
             this.getFlowCallback({data, error});
             storeInstance.dispatch(updatePropertiesAfterCreatingFlowFromTemplate({

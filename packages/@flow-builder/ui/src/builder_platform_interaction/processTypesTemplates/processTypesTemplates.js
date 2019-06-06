@@ -4,7 +4,7 @@ import { ALL_PROCESS_TYPE, getProcessTypeIcon, getTemplates, cacheTemplates, get
 import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
 import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { LABELS } from 'builder_platform_interaction/processTypeLib';
-import { TemplateChangedEvent } from 'builder_platform_interaction/events';
+import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
 
 const TEMPLATES = 'templates';
 const PROCESS_TYPES_TILES = 'processTypesTiles';
@@ -24,7 +24,7 @@ export default class ProcessTypesTemplates extends LightningElement {
         templates: [], // an array of Template that are fetched for the selected process type
         processTypesTiles: [], // an array of process type tiles
     };
-    @track displaySpinner = true;
+    @track displaySpinner = false;
 
     selectedTemplate = '';
     selectedProcessTypeTile = '';
@@ -36,8 +36,8 @@ export default class ProcessTypesTemplates extends LightningElement {
     set processType(newValue) {
         this._processType = newValue || '';
         this.selectedTemplate = '';
-        this.fetchTemplates();
         this.getProcessTypesTiles();
+        this.fetchTemplates();
     }
 
     @api
@@ -56,7 +56,6 @@ export default class ProcessTypesTemplates extends LightningElement {
      * fetch the templates
      */
     fetchTemplates() {
-        this.displaySpinner = true;
         // this.state.templates = [];
         // check if we can get the templates from cache
         const cachedTemplates = getTemplates(this._processType);
@@ -65,29 +64,34 @@ export default class ProcessTypesTemplates extends LightningElement {
             if (this._processType === ALL_PROCESS_TYPE.name) {
                 // get all process types
                 const allProcessTypes = getProcessTypes();
-                allProcessTypes.forEach(type => {
-                    processTypes.push(type.name);
-                });
+                if (allProcessTypes) {
+                    allProcessTypes.forEach(type => {
+                        processTypes.push(type.name);
+                    });
+                }
             } else {
                 processTypes.push(this._processType);
             }
-            // fetch templates
-            fetchOnce(SERVER_ACTION_TYPE.GET_TEMPLATES, {processTypes}).then((data) => {
-                this.state.templates = this.mapToTemplates(data);
-                // caches the returned templates to avoid calling to server when changing the process type
-                cacheTemplates(this._processType, data);
-                this.displaySpinner = false;
-            }).catch(() => {
-                this.displaySpinner = false;
-            });
+            if (processTypes.length > 0) {
+                this.displaySpinner = true;
+                // fetch templates
+                fetchOnce(SERVER_ACTION_TYPE.GET_TEMPLATES, {processTypes}, {disableErrorModal: true}).then((data) => {
+                    this.state.templates = this.mapToTemplates(data);
+                    // caches the returned templates to avoid calling to server when changing the process type
+                    cacheTemplates(this._processType, data);
+                    this.displaySpinner = false;
+                }).catch(() => {
+                    this.displaySpinner = false;
+                    this.fireCannotRetrieveTemplatesEvent();
+                });
+            }
         } else {
             this.state.templates = this.mapToTemplates(cachedTemplates);
-            this.displaySpinner = false;
         }
     }
 
     /**
-     * @typedef {Object} FlowDeVersionDescriptor
+     * @typedef {Object} FlowVersionDescriptor
      *
      * @property {String} EnumOrID
      * @property {String} ProcessType
@@ -115,13 +119,20 @@ export default class ProcessTypesTemplates extends LightningElement {
      */
     getProcessTypesTiles() {
         if (this._processType === ALL_PROCESS_TYPE.name) {
-            this.state.processTypesTiles = [getProcessTypeTile(FLOW_PROCESS_TYPE.FLOW, true), getProcessTypeTile(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, false)];
-            this.selectedProcessTypeTile = FLOW_PROCESS_TYPE.FLOW;
+            const allProcessTypes = getProcessTypes();
+            if (allProcessTypes) {
+                this.state.processTypesTiles = [getProcessTypeTile(FLOW_PROCESS_TYPE.FLOW, true), getProcessTypeTile(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, false)];
+                this.selectedProcessTypeTile = FLOW_PROCESS_TYPE.FLOW;
+            }
         } else {
             this.state.processTypesTiles = [getProcessTypeTile(this._processType, true)];
             this.selectedProcessTypeTile = this._processType;
         }
         this.fireSelectedTemplateChangedEvent(this.selectedProcessTypeTile, true);
+    }
+
+    get hasProcessTypesTiles() {
+        return this.state.processTypesTiles.length > 0;
     }
 
     /**
@@ -171,5 +182,9 @@ export default class ProcessTypesTemplates extends LightningElement {
 
     fireSelectedTemplateChangedEvent(selectedId, isProcessType) {
         this.dispatchEvent(new TemplateChangedEvent(selectedId, isProcessType));
+    }
+
+    fireCannotRetrieveTemplatesEvent() {
+        this.dispatchEvent(new CannotRetrieveTemplatesEvent());
     }
 }

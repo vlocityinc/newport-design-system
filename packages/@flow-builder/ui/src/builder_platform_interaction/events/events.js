@@ -75,6 +75,7 @@ export { VisualPickerItemChangedEvent } from './visualPickerItemChangedEvent';
 export { VisualPickerListChangedEvent } from './visualPickerListChangedEvent';
 export { ProcessTypeSelectedEvent } from './processTypeSelectedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
+export { CannotRetrieveTemplatesEvent } from './cannotRetrieveTemplatesEvent';
 export { NumberRecordToStoreChangedEvent } from './numberRecordToStoreChangedEvent';
 export { UseAdvancedOptionsSelectionChangedEvent } from './useAdvancedOptionsSelectionChangedEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';

@@ -1,12 +1,12 @@
 import { createElement } from 'lwc';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
-import { TemplateChangedEvent } from 'builder_platform_interaction/events';
+import { TemplateChangedEvent, CannotRetrieveTemplatesEvent } from 'builder_platform_interaction/events';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
-import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import { ALL_PROCESS_TYPE, resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
 import { MOCK_ALL_PROCESS_TYPES } from "mock/processTypesData";
 
-const mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
+let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual('../../serverDataLib/serverDataLib.js');
@@ -78,7 +78,9 @@ describe('process-type-templates', () => {
     beforeEach(() => {
         processTypeTemplates = createComponentForTest();
     });
-
+    afterAll(() => {
+        resetCacheTemplates();
+    });
     it('shows 2 process type tiles: one screen and one autolaunched', () => {
         const processTypeTiles = getTemplates(processTypeTemplates, SELECTORS.FEATURED_SECTION);
         expect(processTypeTiles).toHaveLength(2);
@@ -127,5 +129,23 @@ describe('process-type-templates', () => {
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
         expect(eventCallback.mock.calls[0][0].detail).toEqual({id: template.itemId, isProcessType: false});
+    });
+});
+describe('templates load server error', () => {
+    beforeEach(() => {
+        mockTemplatesPromise = Promise.reject();
+        resetCacheTemplates();
+    });
+    afterEach(() => {
+        mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
+        resetCacheTemplates();
+    });
+    it('should fire CannotRetrieveTemplatesEvent', async () => {
+        const eventCallback = jest.fn();
+        document.addEventListener(CannotRetrieveTemplatesEvent.EVENT_NAME, eventCallback);
+        createComponentForTest();
+        await Promise.resolve();
+        expect(eventCallback).toHaveBeenCalled();
+        document.removeEventListener(CannotRetrieveTemplatesEvent.EVENT_NAME, eventCallback);
     });
 });

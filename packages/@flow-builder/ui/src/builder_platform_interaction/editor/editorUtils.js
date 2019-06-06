@@ -14,7 +14,6 @@ import { setApexClasses } from "builder_platform_interaction/apexTypeLib";
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { getFullErrorMessage } from 'builder_platform_interaction/newFlowModalUtils';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -473,9 +472,8 @@ export const getSelectedTemplate = (modal) => {
 * Set the error message in the flow modal
 * @param modal the flow modal
 * @param message the error message
-* @param type the error message type
 */
-export const setErrorMessage = (modal, type, message) => {
+export const setErrorMessage = (modal, message) => {
     const templatesModalBody = modal.get('v.body')[0];
-    templatesModalBody.set('v.errorMessage', getFullErrorMessage({type, message}));
+    templatesModalBody.set('v.errorMessage', message);
  };

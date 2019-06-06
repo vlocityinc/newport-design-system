@@ -18,15 +18,18 @@ export default class NewFlowModalBody extends LightningElement {
             errorMessage: '',
     };
 
+    @api footer;
+
     processTypes = [];
 
     connectedCallback() {
-        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}).then((data) => {
+        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}, {disableErrorModal: true}).then((data) => {
             setProcessTypes(data);
             this.processTypes = getProcessTypes();
             this.state.processTypesFetched = true;
         }).catch(() => {
             this.state.processTypesFetched = true;
+            this.handleCannotRetrieveProcessTypes();
         });
     }
 
@@ -84,7 +87,9 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectProcessType(event) {
         event.stopPropagation();
         this.state.selectedProcessType = event.detail.name;
-        this.resetErrorTypeAndMessage();
+        if (this.isResetErrorMessageNeeded()) {
+            this.resetErrorMessage();
+        }
     }
 
     /**
@@ -94,7 +99,9 @@ export default class NewFlowModalBody extends LightningElement {
     handleSelectTemplate(event) {
         event.stopPropagation();
         this.updateSelectedTemplate(event.detail.isProcessType, event.detail.id);
-        this.resetErrorTypeAndMessage();
+        if (this.isResetErrorMessageNeeded()) {
+            this.resetErrorMessage();
+        }
     }
 
     updateSelectedTemplate(isProcessType, selectedTemplate) {
@@ -102,11 +109,34 @@ export default class NewFlowModalBody extends LightningElement {
         this.state.isProcessType = isProcessType;
     }
 
+    /**
+     * close the notification error popup
+     */
     handleCloseErrorMessage() {
-        this.resetErrorTypeAndMessage();
+        this.resetErrorMessage();
     }
 
-    resetErrorTypeAndMessage() {
-        this.state.errorMessage = '';
+    /**
+     * Handle the error when fetching templates
+     */
+    handleCannotRetrieveTemplates(event) {
+        this.state.errorMessage = LABELS.errorLoadingTemplates;
+        event.stopPropagation();
+    }
+
+    isResetErrorMessageNeeded() {
+        return this.state.selectedTemplate !== '';
+    }
+
+    resetErrorMessage() {
+            this.state.errorMessage = '';
+    }
+
+    /**
+     * Handle the error when fetching process types
+     */
+    handleCannotRetrieveProcessTypes() {
+        this.state.errorMessage = LABELS.errorLoadingProcessTypes;
+        this.footer.disableButtons();
     }
 }

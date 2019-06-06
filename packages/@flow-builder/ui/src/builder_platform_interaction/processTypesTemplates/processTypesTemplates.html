@@ -1,7 +1,7 @@
 <template>
     <div class='slds-p-around_x-small'>
         <!--Featured section-->
-        <div class='featured slds-template__container'>
+        <div if:true={hasProcessTypesTiles} class='featured slds-template__container'>
             <builder_platform_interaction-visual-picker-list items={state.processTypesTiles} title={labels.featured} onvisualpickerlistchanged={handleProcessTypeTileChanged}>
             </builder_platform_interaction-visual-picker-list>
         </div>
@@ -17,5 +17,5 @@
                 <builder_platform_interaction-get-templates-tile></builder_platform_interaction-get-templates-tile>
             </div>
         </div>
-    </div>
+    </div> 
 </template>

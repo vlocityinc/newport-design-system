@@ -10,6 +10,9 @@ import newFieldServiceWebDescription from '@salesforce/label/FlowBuilderProcessT
 import newProcessTypeDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newProcessTypeDescription';
 import newContactRequestFlowDescription from '@salesforce/label/FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription';
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
+import errorLoadingProcessTypes from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingProcessTypes';
+import errorLoadingTemplates from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingTemplates';
+import errorLoadingTemplateData from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingTemplateData';
 
 export const LABELS = {
     featured,
@@ -22,4 +25,7 @@ export const LABELS = {
     [FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE] : newFieldServiceMobileDescription,
     [FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB] : newFieldServiceWebDescription,
     [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW] : newContactRequestFlowDescription,
+    errorLoadingProcessTypes,
+    errorLoadingTemplates,
+    errorLoadingTemplateData,
 };

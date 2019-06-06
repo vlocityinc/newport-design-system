@@ -1,3 +1,4 @@
+import { LABELS } from 'builder_platform_interaction/processTypeLib';
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import { ProcessTypeSelectedEvent, TemplateChangedEvent } from 'builder_platform_interaction/events';
@@ -5,10 +6,11 @@ import { ALL_PROCESS_TYPE} from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE } from "builder_platform_interaction/flowMetadata";
 import { MOCK_ALL_PROCESS_TYPES } from "mock/processTypesData";
 import { MOCK_ALL_TEMPLATES, MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2 } from 'mock/templates';
+import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 
 const mockAllProcessTypes = {"processTypes": JSON.stringify(MOCK_ALL_PROCESS_TYPES)};
 
-const mockProcessTypesPromise = Promise.resolve(mockAllProcessTypes);
+let mockProcessTypesPromise = Promise.resolve(mockAllProcessTypes);
 
 const mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
@@ -63,13 +65,17 @@ const getErrorMessage = (modalBody) => {
 
 const getProcessType = (processTypeName) => MOCK_ALL_PROCESS_TYPES.find(processType => processType.name === processTypeName);
 
+const resetProcessTypesCache = () => setProcessTypes({processTypes: JSON.stringify([])});
+
 describe('new-flow-modal-body', () => {
     describe('process types navigation', () => {
         let newFlowModalBody;
         beforeEach(() => {
             newFlowModalBody = createComponentForTest();
         });
-
+        afterAll(() => {
+            resetProcessTypesCache();
+        });
         it('shows correct number of process types in navigation', () => {
             const processTypesNavigation = getProcessTypesNavigation(newFlowModalBody);
             expect(processTypesNavigation.processTypes).toHaveLength(MOCK_ALL_PROCESS_TYPES.length);
@@ -98,7 +104,9 @@ describe('new-flow-modal-body', () => {
         beforeEach(() => {
             newFlowModalBody = createComponentForTest();
         });
-
+        afterAll(() => {
+            resetProcessTypesCache();
+        });
         it('shows process types templates', () => {
             const processTypesTemplates = getProcessTypesTemplates(newFlowModalBody);
             expect(processTypesTemplates.processType).toEqual(ALL_PROCESS_TYPE.name);
@@ -126,6 +134,9 @@ describe('new-flow-modal-body', () => {
         beforeEach(() => {
             newFlowModalBody = createComponentForTest();
         });
+        afterAll(() => {
+            resetProcessTypesCache();
+        });
         it('should show error message', async () => {
             newFlowModalBody.errorMessage = ERROR_MESSAGE;
             await Promise.resolve();
@@ -151,5 +162,23 @@ describe('new-flow-modal-body', () => {
             errorMessage = getErrorMessage(newFlowModalBody);
             expect(errorMessage).toBeNull();
         });
+    });
+});
+
+describe('process types loading server error cases', () => {
+    let newFlowModalBody;
+    beforeEach(() => {
+        mockProcessTypesPromise = Promise.reject();
+    });
+    afterEach(() => {
+        mockProcessTypesPromise = Promise.resolve(mockAllProcessTypes);
+        resetProcessTypesCache();
+    });
+    it('should show process types error message', async () => {
+        newFlowModalBody = createComponentForTest();
+        await Promise.resolve();
+
+        const errorMessage = newFlowModalBody.errorMessage;
+        expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);
     });
 });
