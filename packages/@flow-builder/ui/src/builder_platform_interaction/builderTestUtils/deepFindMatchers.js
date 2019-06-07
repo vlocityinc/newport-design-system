@@ -55,7 +55,7 @@ export const deepFindCommonElement = (object1, object2, isEqual = (e1, e2) => e1
     if (path !== undefined) {
         return [path, pathObject2];
     }
-    const iterable = typeof object2[Symbol.iterator] === 'function';
+    const iterable = object2 != null && typeof object2[Symbol.iterator] === 'function';
     if (iterable && typeof object2 !== 'string') {
         let i = 0;
         for (const value of object2) {

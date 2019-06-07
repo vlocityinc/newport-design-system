@@ -181,7 +181,9 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             return Promise.resolve().then(() => {
                 const dataTypePicker = variableEditor.shadowRoot.querySelector('builder_platform_interaction-data-type-picker').shadowRoot.querySelector('lightning-combobox');
-                expect(dataTypePicker.options).toHaveLength(Object.values(FLOW_DATA_TYPE).length);
+                // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT
+                const expectedLength = Object.values(FLOW_DATA_TYPE).length - 1;
+                expect(dataTypePicker.options).toHaveLength(expectedLength);
             });
         });
 

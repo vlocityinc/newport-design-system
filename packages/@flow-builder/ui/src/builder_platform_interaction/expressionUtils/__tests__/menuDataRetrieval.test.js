@@ -16,6 +16,7 @@ import { setSystemVariables } from '../../../../jest-modules/builder_platform_in
 import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariables } from 'mock/systemGlobalVars';
+import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
 
@@ -71,9 +72,21 @@ const parentApexItem = {
     displayText: 'apexVar',
 };
 
+const parentLightningComponentScreenFieldItem = {
+    dataType: FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
+    displayText: 'emailComponent',
+    value: store.emailScreenFieldAutomaticOutputGuid
+};
+
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
     return {
         getPropertiesForClass: jest.fn(),
+    };
+});
+
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    return {
+        describeExtension: jest.fn(),
     };
 });
 
@@ -454,6 +467,11 @@ describe('Menu data retrieval', () => {
             const mockConfig = { elementType: ELEMENT_TYPE.WAIT, shouldBeWritable: false };
             getSecondLevelItems(mockConfig, parentApexItem, jest.fn());
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
+        });
+        it('should fetch ouput parameters for LC screen field with automatic handling', () => {
+            const mockConfig = { elementType: ELEMENT_TYPE.SCREEN };
+            getSecondLevelItems(mockConfig, parentLightningComponentScreenFieldItem, jest.fn());
+            expect(describeExtension).toHaveBeenCalledTimes(1);
         });
     });
 

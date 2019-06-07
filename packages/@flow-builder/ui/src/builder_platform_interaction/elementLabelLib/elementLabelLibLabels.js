@@ -4,6 +4,8 @@ import sObjectCollectionPluralLabel from "@salesforce/label/FlowBuilderElementCo
 import apexCollectionVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexCollectionVariablePluralLabel";
 import sObjectPluralLabel from "@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel";
 import apexVariablePluralLabel from "@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel";
+import screenFieldPluralLabel from "@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel";
+import lightningComponentScreenFieldAsResourceText from "@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText";
 
 export const LABELS = {
     recordLookupAsResourceText,
@@ -11,5 +13,7 @@ export const LABELS = {
     sObjectCollectionPluralLabel,
     apexCollectionVariablePluralLabel,
     sObjectPluralLabel,
-    apexVariablePluralLabel
+    apexVariablePluralLabel,
+    lightningComponentScreenFieldAsResourceText,
+    screenFieldPluralLabel
 };

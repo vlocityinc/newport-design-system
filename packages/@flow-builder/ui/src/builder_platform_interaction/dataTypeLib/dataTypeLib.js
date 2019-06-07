@@ -68,6 +68,12 @@ const FLOW_DATA_TYPE = {
         iconName: 'standard:apex',
         utilityIconName: 'utility:apex'
     },
+    LIGHTNING_COMPONENT_OUTPUT: {
+        label: DATA_TYPE_LABELS.lightningComponentOutputDataTypeLabel,
+        value: 'LightningComponentOutput',
+        iconName: 'standard:lightning_component',
+        utilityIconName: 'utility:connected_apps'
+    },
 };
 
 const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
@@ -81,6 +87,7 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.PICKLIST.value]: 'PICKLIST',
     [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST',
     [FLOW_DATA_TYPE.APEX.value]: 'APEX',
+    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: 'LIGHTNING_COMPONENT_OUTPUT'
 };
 
 export const SCALE_RANGE = {
@@ -100,6 +107,8 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.BOOLEAN.value]: ["boolean"],
     [FLOW_DATA_TYPE.CURRENCY.value]: ["currency"],
     [FLOW_DATA_TYPE.SOBJECT.value]: ["sobject"],
+    [FLOW_DATA_TYPE.APEX.value]: ["apex"],
+    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: ["lightningComponentOutput"],
 };
 
 export const STAGE_ORDER_RANGE = {
@@ -268,5 +277,5 @@ export function getResourceTypes() {
  * @returns {Boolean}     True if data type represents a complex type, such as sobject or apex
  */
 export function isComplexType(type) {
-    return [FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.APEX.value].includes(type);
+    return [FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.APEX.value, FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value].includes(type);
 }

@@ -3,6 +3,7 @@ import {
     FLOW_DATA_TYPE,
     getResourceTypes,
     setResourceTypes,
+    getDataTypeIcons
 } from '../dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -11,6 +12,20 @@ jest.mock('../dataTypeLib.js', () => {
     dataTypeLib.FLOW_DATA_TYPE.MULTI_PICKLIST.label = undefined;
     return dataTypeLib;
 });
+
+const dataTypes = [
+    "id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url",
+    "picklist",
+    "multipicklist",
+    "datetime", "time",
+    "date",
+    "double", "int", "percent",
+    "boolean",
+    "currency",
+    "sobject",
+    "apex",
+    "lightningComponentOutput"];
+
 
 describe('dataTypeLib', () => {
     describe('getDataTypeLabel', () => {
@@ -69,6 +84,16 @@ describe('dataTypeLib', () => {
                 setResourceTypes(unsortedResourceTypes);
                 expect(getResourceTypes()).toEqual(sortedResourceTypes);
             });
+        });
+    });
+    describe('getDataTypeIcons', () => {
+        it('returns a standard icon for each data type', () => {
+            dataTypes.forEach(dataType =>
+                expect(getDataTypeIcons(dataType, 'standard')).toBeDefined());
+        });
+        it('returns a utility icon for each data type', () => {
+            dataTypes.forEach(dataType =>
+                expect(getDataTypeIcons(dataType, 'utility')).toBeDefined());
         });
     });
 });

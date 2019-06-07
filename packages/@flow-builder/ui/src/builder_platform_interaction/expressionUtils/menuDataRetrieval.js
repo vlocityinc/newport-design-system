@@ -26,6 +26,9 @@ import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newRe
 import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
 import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
 import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
+import { getFlowDataType } from "builder_platform_interaction/dataTypeLib";
 
 const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT, } = PARAM_PROPERTY;
 
@@ -423,9 +426,27 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
         callback(getGlobalVariables(subtype));
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         callback(sobjectLib.getFieldsForEntity(subtype));
+    } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+        fetchPropertiesForLightningComponentOutput(topLevelItem.value, callback);
     } else {
         callback(apexTypeLib.getPropertiesForClass(subtype));
     }
+}
+
+function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
+    const element = getElementByGuid(resourceGuid);
+    const refreshCache = false;
+    describeExtension(element.extensionName, refreshCache, (desc, err) => {
+        if (err) {
+            callback([]);
+        }
+        callback(desc.outputParameters.map(parameter => ({
+            apiName : parameter.apiName,
+            dataType : getFlowDataType(parameter.dataType),
+            isCollection : parameter.maxOccurs > 1,
+            label : parameter.label
+        })));
+    });
 }
 
 /**

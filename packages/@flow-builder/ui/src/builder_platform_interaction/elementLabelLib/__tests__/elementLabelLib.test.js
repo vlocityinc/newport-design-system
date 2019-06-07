@@ -1,6 +1,6 @@
 import { getResourceLabel, getElementCategory, getResourceCategory } from '../elementLabelLib';
 import { LABELS } from '../elementLabelLibLabels';
-import { elements, lookupRecordOutputReferenceGuid, lookupRecordAutomaticOutputGuid, lookupRecordCollectionAutomaticOutputGuid } from "mock/storeData";
+import { elements, lookupRecordOutputReferenceGuid, lookupRecordAutomaticOutputGuid, lookupRecordCollectionAutomaticOutputGuid, emailScreenFieldAutomaticOutputGuid } from "mock/storeData";
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -14,6 +14,9 @@ jest.mock('@salesforce/label/FlowBuilderElementConfig.assignmentPluralLabel', ()
 }, { virtual: true });
 jest.mock('@salesforce/label/FlowBuilderElementConfig.recordLookupPluralLabel', () => {
     return { default: 'Get Records' };
+}, { virtual: true });
+jest.mock('@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText', () => {
+    return { default: 'Outputs from {0}' };
 }, { virtual: true });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
@@ -53,6 +56,11 @@ describe('elementLabelLib', () => {
                 expect(label).toEqual(element.name);
             });
         });
+        it('returns "Outputs" from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
+            const element = elements[emailScreenFieldAutomaticOutputGuid];
+            const label = getResourceLabel(element);
+            expect(label).toEqual('Outputs from emailScreenFieldAutomatic');
+        });
     });
     describe('getElementCategory', () => {
         it('for elements', () => {
@@ -64,6 +72,9 @@ describe('elementLabelLib', () => {
             });
             it('for "Get Records" as record collection resource', () => {
                 expect(getElementCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, true))).toEqual('Get Records');
+            });
+            it('for lightning component screen field as record resource', () => {
+                expect(getElementCategory(createElement(ELEMENT_TYPE.SCREEN_FIELD, FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value, false))).toEqual('FlowBuilderElementConfig.screenFieldPluralLabel');
             });
         });
         it('for collections variables', () => {
@@ -92,6 +103,9 @@ describe('elementLabelLib', () => {
             });
             it('for "Get Records" as record collection resource', () => {
                 expect(getResourceCategory(createElement(ELEMENT_TYPE.RECORD_LOOKUP, FLOW_DATA_TYPE.SOBJECT.value, true))).toEqual(LABELS.sObjectCollectionPluralLabel);
+            });
+            it('for lightning component screen field as record resource', () => {
+                expect(getElementCategory(createElement(ELEMENT_TYPE.SCREEN_FIELD, FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value, false))).toEqual('FlowBuilderElementConfig.screenFieldPluralLabel');
             });
         });
         it('for collections variables', () => {

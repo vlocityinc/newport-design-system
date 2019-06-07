@@ -38,7 +38,7 @@ const WARNING_FIELDS = [VARIABLE_CONSTANT_FIELDS.NAME, VARIABLE_CONSTANT_FIELDS.
 // and which data types can have a default value, from the service once it's complete
 const DATATYPES_WITH_NO_DEFAULT_VALUE = [FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value, FLOW_DATA_TYPE.SOBJECT.value,
     FLOW_DATA_TYPE.APEX.value];
-const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE);
+const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE).filter(type => type !== FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT);
 const flowDataTypeConstantMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
     FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.BOOLEAN];
 

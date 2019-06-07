@@ -8,6 +8,12 @@ describe('deepFindMatchers', () => {
         it('can find value in an object', () => {
             expect(deepFind({ a : 1, b : 2, c : 3}, 3)).toBe('object.c');
         });
+        it('can find undefined value in an object', () => {
+            expect(deepFind({ a : 1, b : 2, c : 3, d: undefined }, undefined)).toBe('object.d');
+        });
+        it('can find null value in an object', () => {
+            expect(deepFind({ a : 1, b : 2, c : 3, d: null }, null)).toBe('object.d');
+        });
         it('can find key in an object', () => {
             expect(deepFind({ a : 1, b : 2, c : 3}, 'c')).toBe('object.c');
         });
@@ -24,7 +30,7 @@ describe('deepFindMatchers', () => {
     });
     describe('deepFindCommonElement', () => {
         it('returns undefined if there is no common element', () => {
-           const object1 = { a : 1, b : 2, c : 3};
+           const object1 = { a : 1, b : 2, c : 3, g : undefined, h: null };
            const object2 = { d : 4, e : 5, f : 6};
            expect(deepFindCommonElement(object1, object2)).toBeUndefined();
         });
@@ -33,5 +39,15 @@ describe('deepFindMatchers', () => {
            const object2 = {f : [{ e : 5}]};
            expect(deepFindCommonElement(object1, object2)).toEqual(['object1.a.b[0].c[4]', 'object2.f[0].e']);
         });
+        it('returns the path of first common undefined element if any', () => {
+            const object1 = {a : {b : [{ c : [1, 2, 3, 4, undefined]}]}};
+            const object2 = {f : [{ e : undefined}]};
+            expect(deepFindCommonElement(object1, object2)).toEqual(['object1.a.b[0].c[4]', 'object2.f[0].e']);
+         });
+        it('returns the path of first common null element if any', () => {
+            const object1 = {a : {b : [{ c : [1, 2, 3, 4, null]}]}};
+            const object2 = {f : [{ e : null}]};
+            expect(deepFindCommonElement(object1, object2)).toEqual(['object1.a.b[0].c[4]', 'object2.f[0].e']);
+         });
     });
 });

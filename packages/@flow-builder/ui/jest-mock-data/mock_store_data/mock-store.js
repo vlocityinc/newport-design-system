@@ -27,6 +27,7 @@ export const apexSampleCollectionVariableGuid = 'guid22';
 export const lookupRecordAutomaticOutputGuid = 'guid23';
 export const lookupRecordOutputReferenceGuid = 'guid24';
 export const lookupRecordCollectionAutomaticOutputGuid = 'guid25';
+export const emailScreenFieldAutomaticOutputGuid = 'guid26';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -54,6 +55,7 @@ export const apexSampleCollectionVariableDevName = 'apexCollectionVariable1';
 export const lookupRecordAutomaticOutputDevName = 'lookupRecord1';
 export const lookupRecordOutputReferenceDevName = 'lookupRecord2';
 export const lookupRecordCollectionAutomaticOutputDevName = 'lookupRecord3';
+export const emailScreenFieldAutomaticOutputDevName = 'emailScreenFieldAutomatic';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -455,6 +457,47 @@ export const elements = {
         subtype: "Account",
         isCollection: true
     },
+    [emailScreenFieldAutomaticOutputGuid]: {
+        guid: emailScreenFieldAutomaticOutputGuid,
+        name: emailScreenFieldAutomaticOutputDevName,
+        choiceReferences: [],
+        dataType: "LightningComponentOutput",
+        defaultValue: "",
+        defaultValueIndex: "5d457ada-a9de-41b0-8225-847942f4f69b",
+        validationRule: {
+          formulaExpression: null,
+          errorMessage: null
+        },
+        extensionName: "flowruntime:email",
+        fieldType: "ComponentInstance",
+        fieldText: "",
+        helpText: "",
+        inputParameters: [
+          {
+            rowIndex: "9950e933-80b8-4352-b1d1-3c186f502765",
+            name: "placeholder",
+            value: "your email address",
+            valueDataType: "String"
+          }
+        ],
+        isNewField: false,
+        isRequired: true,
+        outputParameters: [],
+        scale: "0",
+        type: {
+          name: "flowruntime:email",
+          fieldType: "ComponentInstance",
+          label: "flowruntime:email",
+          icon: "standard:lightning_component",
+          source: "local"
+        },
+        elementType: "SCREEN_FIELD",
+        visibility: {
+          conditionLogic: "no_conditions",
+          conditions: []
+        },
+        storeOutputAutomatically: true
+    }
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,

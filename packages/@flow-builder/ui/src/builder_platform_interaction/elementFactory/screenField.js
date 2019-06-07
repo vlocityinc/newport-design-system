@@ -16,6 +16,7 @@ import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./vari
 import { getElementByGuid } from "builder_platform_interaction/storeUtils";
 import { createValidationRuleObject } from "./base/baseValidationInput";
 import { generateGuid } from "builder_platform_interaction/storeLib";
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -25,7 +26,6 @@ export function createScreenField(screenField = {}, isNewField = false) {
         fieldText = '',
         extensionName,
         fieldType,
-        dataType,
         helpText = '',
         defaultValue,
         defaultValueDataType,
@@ -37,20 +37,28 @@ export function createScreenField(screenField = {}, isNewField = false) {
         scale,
         validationRule,
         inputParameters,
+        dataType,
         isRequired = false,
         isVisible,
         outputParameters,
         choiceReferences = [],
-        visibility
+        visibility,
+        storeOutputAutomatically,
     } = screenField;
-
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
         type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
         isRequired = true;
         inputParameters = screenField.inputParameters.filter(inputParameter => !!inputParameter.value).map(inputParameter => createInputParameter(inputParameter));
-        outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+        if (storeOutputAutomatically) {
+            dataType = FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
+            outputParameters = [];
+        } else {
+            storeOutputAutomatically = false;
+            outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+        }
     } else {
+        storeOutputAutomatically = undefined;
         type = getScreenFieldType(screenField);
         inputParameters = [];
         outputParameters = [];
@@ -121,8 +129,9 @@ export function createScreenField(screenField = {}, isNewField = false) {
             type,
             elementType,
             defaultSelectedChoiceReference,
-            visibility
+            visibility,
         },
+        (storeOutputAutomatically !== undefined) ? { storeOutputAutomatically } : {},
         defaultValueFerovObject
     );
 }
@@ -164,7 +173,7 @@ export function createScreenFieldMetadataObject(screenField) {
 
     // Unflatten these properties.
     const { extensionName, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name, validationRule, defaultSelectedChoiceReference } = screenField;
-    let { scale, inputParameters, outputParameters, choiceReferences } = screenField;
+    let { scale, inputParameters, outputParameters, choiceReferences, storeOutputAutomatically } = screenField;
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
     if (scale != null && typeof scale === 'string') {
@@ -179,7 +188,12 @@ export function createScreenFieldMetadataObject(screenField) {
 
     if (isExtensionField(screenField)) {
         inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
-        outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+        if (storeOutputAutomatically) {
+            outputParameters = [];
+        } else {
+            outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+            storeOutputAutomatically = undefined;
+        }
     }
 
     choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));
@@ -198,6 +212,7 @@ export function createScreenFieldMetadataObject(screenField) {
             scale,
 
         },
+        (storeOutputAutomatically !== undefined) ? { storeOutputAutomatically } : {},
         defaultValueMetadataObject,
     );
 
