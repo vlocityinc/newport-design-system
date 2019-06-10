@@ -25,9 +25,15 @@ export default class ToolbarStatusIcons extends LightningElement {
      * @param {Object} flowErrorsAndWarnings
      */
     openPopOver(flowErrorsAndWarnings) {
-        if (flowErrorsAndWarnings && (flowErrorsAndWarnings.warnings || flowErrorsAndWarnings.errors)) {
-            if ((Object.keys(flowErrorsAndWarnings.warnings).length > 0 && Object.keys(flowErrorsAndWarnings.errors).length > 0) ||
-                Object.keys(flowErrorsAndWarnings.errors).length > 0) {
+        if (
+            flowErrorsAndWarnings &&
+            (flowErrorsAndWarnings.warnings || flowErrorsAndWarnings.errors)
+        ) {
+            if (
+                (Object.keys(flowErrorsAndWarnings.warnings).length > 0 &&
+                    Object.keys(flowErrorsAndWarnings.errors).length > 0) ||
+                Object.keys(flowErrorsAndWarnings.errors).length > 0
+            ) {
                 const icon = this.template.querySelector('.error-icon');
                 icon.createPanel();
             } else if (Object.keys(flowErrorsAndWarnings.warnings).length > 0) {

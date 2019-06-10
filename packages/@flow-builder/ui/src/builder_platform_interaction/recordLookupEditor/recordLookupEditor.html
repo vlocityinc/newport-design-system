@@ -3,27 +3,37 @@
         {labels.recordLookupTitle}
     </div>
     <div class="slds-p-horizontal_small slds-p-top_small">
-        <builder_platform_interaction-label-description label={state.recordLookupElement.label} dev-name={state.recordLookupElement.name} description={state.recordLookupElement.description} guid={state.recordLookupElement.guid} onpropertychanged={handlePropertyOrListItemChanged}> </builder_platform_interaction-label-description>
+        <builder_platform_interaction-label-description
+            label={state.recordLookupElement.label}
+            dev-name={state.recordLookupElement.name}
+            description={state.recordLookupElement.description}
+            guid={state.recordLookupElement.guid}
+            onpropertychanged={handlePropertyOrListItemChanged}
+        >
+        </builder_platform_interaction-label-description>
     </div>
-    
+
     <!-- Entity picker (object) -->
     <div class="slds-m-bottom_small slds-border_top">
-        <h3 class="slds-text-heading_small slds-p-around_small">{labels.getRecordsOfObjectType}</h3>
+        <h3 class="slds-text-heading_small slds-p-around_small">
+            {labels.getRecordsOfObjectType}
+        </h3>
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
             <builder_platform_interaction-entity-resource-picker
-                    combobox-config={entityComboboxConfig}
-                    value={state.recordLookupElement.object.value}
-                    row-index={state.recordLookupElement.objectIndex.value}
-                    crud-filter-type={crudFilterType}
-                    oncomboboxstatechanged={handleResourceChanged}
-                    onitemselected={handleResourceChanged}>
+                combobox-config={entityComboboxConfig}
+                value={state.recordLookupElement.object.value}
+                row-index={state.recordLookupElement.objectIndex.value}
+                crud-filter-type={crudFilterType}
+                oncomboboxstatechanged={handleResourceChanged}
+                onitemselected={handleResourceChanged}
+            >
             </builder_platform_interaction-entity-resource-picker>
         </div>
     </div>
 
     <div if:true={recordEntityName}>
         <!-- Find Records section -->
-        <builder_platform_interaction-record-filter 
+        <builder_platform_interaction-record-filter
             element-type={elementType}
             filter-items={state.recordLookupElement.filters}
             record-entity-name={recordEntityName}
@@ -33,7 +43,8 @@
             onrecordfiltertypechanged={handleFilterTypeChanged}
             onaddrecordfilter={handlePropertyOrListItemChanged}
             onupdaterecordfilter={handlePropertyOrListItemChanged}
-            ondeleterecordfilter={handlePropertyOrListItemChanged}>
+            ondeleterecordfilter={handlePropertyOrListItemChanged}
+        >
         </builder_platform_interaction-record-filter>
 
         <!-- Sort Records section -->
@@ -43,7 +54,8 @@
             selected-field={state.recordLookupElement.sortField.value}
             sort-order={state.recordLookupElement.sortOrder}
             sort-field-error={state.recordLookupElement.sortField.error}
-            onchange={handleRecordSortChanged}>
+            onchange={handleRecordSortChanged}
+        >
         </builder_platform_interaction-record-sort>
 
         <!-- Automatic output is not supported -->
@@ -56,9 +68,10 @@
                 way-to-store-fields={wayToStoreFieldsValue}
                 assign-null-values-if-no-records-found={state.recordLookupElement.assignNullValuesIfNoRecordsFound}
                 display-way-to-store-fields={displayWayToStoreFields}
-                onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}>
+                onrecordstoreoptionchanged={handleRecordStoreOptionsChanged}
+            >
             </builder_platform_interaction-record-store-options>
-    
+
             <!-- SObject or SObject collection section -->
             <builder_platform_interaction-record-sobject-and-query-fields
                 if:true={isSObjectMode}
@@ -73,11 +86,12 @@
                 onsobjectreferencechanged={handleSObjectReferenceChanged}
                 onaddrecordlookupfield={handlePropertyOrListItemChanged}
                 onupdaterecordlookupfield={handlePropertyOrListItemChanged}
-                ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
+                ondeleterecordlookupfield={handlePropertyOrListItemChanged}
+            >
             </builder_platform_interaction-record-sobject-and-query-fields>
-            
-            <builder_platform_interaction-record-input-output-assignments 
-                if:false={isSObjectMode} 
+
+            <builder_platform_interaction-record-input-output-assignments
+                if:false={isSObjectMode}
                 input-output-assignments-items={state.recordLookupElement.outputAssignments}
                 resource-display-text={resourceDisplayText}
                 record-entity-name={recordEntityName}
@@ -88,7 +102,8 @@
                 rhs-label={labels.filterRhsLabel}
                 onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
                 onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            >
             </builder_platform_interaction-record-input-output-assignments>
         </div>
 
@@ -98,7 +113,8 @@
                 label={numberRecordsToStoreLabel}
                 record-store-options={recordStoreOptions}
                 number-records-to-store-value={numberRecordsToStoreValue}
-                onnumberrecordtostorechanged={handleNumberRecordsToStoreChange}>
+                onnumberrecordtostorechanged={handleNumberRecordsToStoreChange}
+            >
             </builder_platform_interaction-record-number-record-to-store>
 
             <!-- Selection list of fields -->
@@ -112,30 +128,34 @@
                 title-css="slds-text-heading_small slds-p-top_small"
                 onaddrecordlookupfield={handlePropertyOrListItemChanged}
                 onupdaterecordlookupfield={handlePropertyOrListItemChanged}
-                ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
-            </builder_platform_interaction-record-query-fields> 
-        
+                ondeleterecordlookupfield={handlePropertyOrListItemChanged}
+            >
+            </builder_platform_interaction-record-query-fields>
+
             <!-- Advance Option selection checkbox -->
             <builder_platform_interaction-record-use-advanced-options-checkbox
                 is-advanced-mode={isAdvancedMode}
-                onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}>
+                onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+            >
             </builder_platform_interaction-record-use-advanced-options-checkbox>
-            
+
             <div if:true={isAdvancedMode} class="slds-p-left_xx-large">
-                <builder_platform_interaction-rich-label 
+                <builder_platform_interaction-rich-label
                     label={labels.storeFieldsSelectionLabel}
-                    args={resourceDisplayText} 
-                    class="slds-text-body_regular">
+                    args={resourceDisplayText}
+                    class="slds-text-body_regular"
+                >
                 </builder_platform_interaction-rich-label>
-                
-                 <lightning-radio-group
+
+                <lightning-radio-group
                     if:false={isCollection}
                     name="wayToStoreFieldsRadioGroup"
-                    label={labels.wayToStoreRecordLabel} 
+                    label={labels.wayToStoreRecordLabel}
                     options={wayToStoreFieldsOptions}
                     value={wayToStoreFieldsValue}
                     onchange={handleWayToStoreFieldsChange}
-                    class="slds-m-top_x-small">
+                    class="slds-m-top_x-small"
+                >
                 </lightning-radio-group>
 
                 <!-- SObject or SObject collection section -->
@@ -158,10 +178,11 @@
                     onsobjectreferencechanged={handleSObjectReferenceChanged}
                     onaddrecordlookupfield={handlePropertyOrListItemChanged}
                     onupdaterecordlookupfield={handlePropertyOrListItemChanged}
-                    ondeleterecordlookupfield={handlePropertyOrListItemChanged}>
+                    ondeleterecordlookupfield={handlePropertyOrListItemChanged}
+                >
                 </builder_platform_interaction-record-sobject-and-query-fields>
-                
-                <builder_platform_interaction-record-input-output-assignments 
+
+                <builder_platform_interaction-record-input-output-assignments
                     if:false={isSObjectMode}
                     input-output-assignments-items={state.recordLookupElement.outputAssignments}
                     resource-display-text={resourceDisplayText}
@@ -176,17 +197,19 @@
                     top-div-css="slds-m-bottom_small"
                     onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
                     onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-                    ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+                    ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+                >
                 </builder_platform_interaction-record-input-output-assignments>
                 <lightning-input
-                    name="assignNullIfNoRecordFoundCheckbox" 
-                    class='property-input slds-m-top_x-small slds-m-bottom_x-small' 
-                    type='checkbox' 
+                    name="assignNullIfNoRecordFoundCheckbox"
+                    class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+                    type="checkbox"
                     label={labels.assignNullValuesIfNoRecordsFoundLabel}
-                    checked={assignNullValuesIfNoRecordsFound} 
-                    onchange={handleAssignNullValuesIfNoRecordsFoundChange}>
+                    checked={assignNullValuesIfNoRecordsFound}
+                    onchange={handleAssignNullValuesIfNoRecordsFoundChange}
+                >
                 </lightning-input>
             </div>
         </div>
     </div>
-</template> 
+</template>

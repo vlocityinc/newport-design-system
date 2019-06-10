@@ -1,4 +1,7 @@
-import { createOutputAssignment, createOutputAssignmentMetadataObject } from '../../base/outputAssignments';
+import {
+    createOutputAssignment,
+    createOutputAssignmentMetadataObject
+} from '../../base/outputAssignments';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {
@@ -30,7 +33,10 @@ describe('createOutputAssignment function', () => {
         });
     });
     describe('when an outputAssignment and sObject is supplied in params', () => {
-        const result = createOutputAssignment(outputAssignmentElementFromServer, mockSobject);
+        const result = createOutputAssignment(
+            outputAssignmentElementFromServer,
+            mockSobject
+        );
         it('result object matches the outputAssignmentElementAfterFactory object', () => {
             expect(result).toMatchObject(outputAssignmentElementAfterFactory);
         });
@@ -44,7 +50,9 @@ describe('createOutputAssignmentMetadataObject function', () => {
         }).toThrow();
     });
     describe('when a valid outputAssignment param is passed', () => {
-        const result = createOutputAssignmentMetadataObject(outputAssignmentElementAfterFactory);
+        const result = createOutputAssignmentMetadataObject(
+            outputAssignmentElementAfterFactory
+        );
         it('result object matches the outputAssignmentElementFromServer object', () => {
             expect(result).toMatchObject(outputAssignmentElementFromServer);
         });

@@ -11,7 +11,7 @@ export class ShowResourceDetailsEvent {
             cancelable: true,
             detail: {
                 elementGUID,
-                canvasElement,
+                canvasElement
             }
         });
     }

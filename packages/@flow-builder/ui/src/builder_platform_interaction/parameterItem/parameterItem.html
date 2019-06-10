@@ -5,58 +5,106 @@
                 <!-- right: toggle -->
                 <div class="slds-col slds-order_2 slds-size_1-of-2">
                     <div class="slds-grid slds-grid_align-end">
-                    <div class='slds-col'>
-                        <lightning-badge if:true={warningBadge} label={warningBadge} title={warningBadge} class={badgeClasses}>
-                        </lightning-badge>
+                        <div class="slds-col">
+                            <lightning-badge
+                                if:true={warningBadge}
+                                label={warningBadge}
+                                title={warningBadge}
+                                class={badgeClasses}
+                            >
+                            </lightning-badge>
+                        </div>
+                        <div class="slds-col">
+                            <builder_platform_interaction-status-icon
+                                class="warning-icon"
+                                if:true={warningMessage}
+                                type="warning"
+                                direction="north"
+                                headerforsummary={labels.warningHeaderForSummary}
+                                close-on-click-out
+                                messages={warningMessages}
+                            >
+                            </builder_platform_interaction-status-icon>
+                        </div>
+                        <div class="slds-col" if:true={showDelete}>
+                            <lightning-button-icon
+                                icon-name="utility:delete"
+                                alternative-text={labels.deleteAlternativeText}
+                                size="large"
+                                onclick={handleDelete}
+                            >
+                            </lightning-button-icon>
+                        </div>
+                        <!-- toggle checkbox here -->
+                        <div class="slds-col" if:true={showToggle}>
+                            <lightning-input
+                                type="toggle"
+                                variant="label-hidden"
+                                label={parameterLabel}
+                                message-toggle-active={labels.toggleActive}
+                                message-toggle-inactive={labels.toggleInactive}
+                                checked={checked}
+                                onchange={handleToggleChanged}
+                            >
+                            </lightning-input>
+                        </div>
                     </div>
-                    <div class='slds-col'>
-                        <builder_platform_interaction-status-icon
-                            class="warning-icon"
-                            if:true={warningMessage} type='warning' direction='north' 
-                            headerforsummary={labels.warningHeaderForSummary}
-                            close-on-click-out
-                            messages={warningMessages}>
-                        </builder_platform_interaction-status-icon>
-                    </div>
-                    <div class='slds-col' if:true={showDelete}>
-                        <lightning-button-icon icon-name="utility:delete" alternative-text={labels.deleteAlternativeText} size="large" onclick={handleDelete}>
-                        </lightning-button-icon>
-                    </div>
-                    <!-- toggle checkbox here -->
-                    <div class='slds-col' if:true={showToggle}>
-                        <lightning-input type="toggle" variant="label-hidden" label={parameterLabel} message-toggle-active={labels.toggleActive} message-toggle-inactive={labels.toggleInactive} checked={checked} onchange={handleToggleChanged}>   
-                        </lightning-input>
-                    </div>
-                    </div>
-                </div>                      
+                </div>
                 <!-- left: param name + combobox -->
-                <div class="slds-col slds-order_1 slds-p-right_medium slds-size_1-of-2 slds-col_bump-right">
+                <div
+                    class="slds-col slds-order_1 slds-p-right_medium slds-size_1-of-2 slds-col_bump-right"
+                >
                     <div class="slds-grid slds-grid_vertical-align-start">
                         <!-- parameterType.icon -->
-                        <div class="slds-m-right_x-small slds-p-top_xx-small" if:false={hideParameterIcon}>
-                            <lightning-icon icon-name={iconName} size="xx-small" alternative-text={alternativeText}></lightning-icon>
+                        <div
+                            class="slds-m-right_x-small slds-p-top_xx-small"
+                            if:false={hideParameterIcon}
+                        >
+                            <lightning-icon
+                                icon-name={iconName}
+                                size="xx-small"
+                                alternative-text={alternativeText}
+                            ></lightning-icon>
                         </div>
-                        <div class="slds-col slds-grid slds-grid_vertical-align-end">
-                            <div class="slds-form-element slds-m-top_xxx-small slds-size_medium" aria-hidden={comboboxAriaHidden}>
+                        <div
+                            class="slds-col slds-grid slds-grid_vertical-align-end"
+                        >
+                            <div
+                                class="slds-form-element slds-m-top_xxx-small slds-size_medium"
+                                aria-hidden={comboboxAriaHidden}
+                            >
                                 <!-- Parameter name is here -->
-                                <label class="slds-form-element__label" if:false={state.toggleStatus}>
+                                <label
+                                    class="slds-form-element__label"
+                                    if:false={state.toggleStatus}
+                                >
                                     {parameterLabel}
                                 </label>
                                 <!-- Combobox is here -->
-                                <builder_platform_interaction-ferov-resource-picker if:true={state.isInput} class={comboboxClass}
+                                <builder_platform_interaction-ferov-resource-picker
+                                    if:true={state.isInput}
+                                    class={comboboxClass}
                                     error-message={errorMessage}
-                                    value={parameterValue} combobox-config={parameterComboboxConfig}
-                                    element-param={elementParam} property-editor-element-type={elementType}
+                                    value={parameterValue}
+                                    combobox-config={parameterComboboxConfig}
+                                    element-param={elementParam}
+                                    property-editor-element-type={elementType}
                                     rules={rules}
                                     row-index={state.parameterItem.rowIndex}
-                                    oncomboboxstatechanged={handleUpdateParameter}>                                                                         
+                                    oncomboboxstatechanged={handleUpdateParameter}
+                                >
                                 </builder_platform_interaction-ferov-resource-picker>
-                                <builder_platform_interaction-output-resource-picker if:false={state.isInput} class={comboboxClass}
-                                    value={parameterValue} combobox-config={parameterComboboxConfig}
+                                <builder_platform_interaction-output-resource-picker
+                                    if:false={state.isInput}
+                                    class={comboboxClass}
+                                    value={parameterValue}
+                                    combobox-config={parameterComboboxConfig}
                                     row-index={state.parameterItem.rowIndex}
-                                    element-param={elementParam} property-editor-element-type={elementType}
+                                    element-param={elementParam}
+                                    property-editor-element-type={elementType}
                                     error-message={errorMessage}
-                                    oncomboboxstatechanged={handleUpdateParameter}>                                                                         
+                                    oncomboboxstatechanged={handleUpdateParameter}
+                                >
                                 </builder_platform_interaction-output-resource-picker>
                             </div>
                         </div>

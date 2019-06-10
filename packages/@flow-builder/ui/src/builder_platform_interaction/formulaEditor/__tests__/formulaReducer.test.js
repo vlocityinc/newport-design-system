@@ -1,34 +1,40 @@
-import {formulaReducer} from "../formulaReducer";
-import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
+import { formulaReducer } from '../formulaReducer';
+import {
+    createAction,
+    PROPERTY_EDITOR_ACTION
+} from 'builder_platform_interaction/actions';
 
 describe('formula-reducer', () => {
     let originalState;
     beforeEach(() => {
         originalState = {
-            "dataType": {
-                "value": "Number",
-                "error": null
+            dataType: {
+                value: 'Number',
+                error: null
             },
-            "expression": {
-                "value": "2+2",
-                "error": null
+            expression: {
+                value: '2+2',
+                error: null
             },
-            "name": {
-                "value": "myFormula",
-                "error": null
+            name: {
+                value: 'myFormula',
+                error: null
             },
-            "processMetadataValues": [],
-            "scale": 1,
-            "elementType": "FORMULA",
-            "guid": "FORMULA_11",
-            "isCanvasElement": false
+            processMetadataValues: [],
+            scale: 1,
+            elementType: 'FORMULA',
+            guid: 'FORMULA_11',
+            isCanvasElement: false
         };
     });
     describe('CHANGE_DATA_TYPE action', () => {
         it('updates the dataType and scale properties', () => {
             const dataType = 'Currency';
             const scale = 3;
-            const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : { dataType, scale } });
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE,
+                { value: { dataType, scale } }
+            );
             const newState = formulaReducer(originalState, action);
             expect(newState.dataType.value).toEqual('Currency');
             expect(newState.scale).toEqual(3);
@@ -36,7 +42,10 @@ describe('formula-reducer', () => {
         });
         it('updates scale property to 2 by default', () => {
             const dataType = 'Currency';
-            const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : { dataType } });
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE,
+                { value: { dataType } }
+            );
             const newState = formulaReducer(originalState, action);
             expect(newState.dataType.value).toEqual('Currency');
             expect(newState.scale).toEqual(2);
@@ -48,7 +57,10 @@ describe('formula-reducer', () => {
             const propertyName = 'expression';
             const value = '4+4';
             const error = null;
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                { propertyName, value, error }
+            );
             const newState = formulaReducer(originalState, action);
             expect(newState.expression.value).toEqual('4+4');
             expect(newState.expression.error).toBe(null);
@@ -58,7 +70,10 @@ describe('formula-reducer', () => {
             const propertyName = 'expression';
             const value = '4+A';
             const error = 'Formula is not valid';
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                { propertyName, value, error }
+            );
             const newState = formulaReducer(originalState, action);
             expect(newState.expression.value).toEqual(value);
             expect(newState.expression.error).toBe(error);

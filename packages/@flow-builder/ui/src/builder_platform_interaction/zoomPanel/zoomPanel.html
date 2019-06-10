@@ -1,12 +1,53 @@
 <template>
-    <div class='zoom-panel slds-is-fixed slds-p-around_large'>
-        <lightning-button-icon-stateful variant='border-filled' selected={isMarqueeModeOn} icon-name='utility:drag' id='dragButton' title={labels.marqueeTitle} alternative-text={labels.marqueeTitle} class='slds-p-right_xx-small' onclick={handleToggleMarqueeOn}></lightning-button-icon-stateful>
+    <div class="zoom-panel slds-is-fixed slds-p-around_large">
+        <lightning-button-icon-stateful
+            variant="border-filled"
+            selected={isMarqueeModeOn}
+            icon-name="utility:drag"
+            id="dragButton"
+            title={labels.marqueeTitle}
+            alternative-text={labels.marqueeTitle}
+            class="slds-p-right_xx-small"
+            onclick={handleToggleMarqueeOn}
+        ></lightning-button-icon-stateful>
 
         <lightning-button-group>
-            <lightning-button-icon variant='border-filled' disabled={isZoomOutDisabled} icon-name='utility:dash' id='zoomOutButton' title={labels.zoomOutTitle} alternative-text={labels.zoomOutTitle} onclick={handleZoomOutClick}></lightning-button-icon>
-            <lightning-button-icon variant='border-filled' if:true={isZoomToView} icon-name='utility:contract_alt' id='fitButton' title={labels.zoomToFitTitle} alternative-text={labels.zoomToFitTitle} onclick={handleZoomToFitClick}></lightning-button-icon>
-            <lightning-button-icon variant='border-filled' if:false={isZoomToView} icon-name='utility:expand_alt' id='expandButton' title={labels.zoomToViewTitle} alternative-text={labels.zoomToViewTitle} onclick={handleZoomToViewClick}></lightning-button-icon>
-            <lightning-button-icon variant='border-filled' disabled={isZoomInDisabled} icon-name='utility:add' id='zoomInButton' title={labels.zoomInTitle} alternative-text={labels.zoomInTitle} onclick={handleZoomInClick}></lightning-button-icon>
+            <lightning-button-icon
+                variant="border-filled"
+                disabled={isZoomOutDisabled}
+                icon-name="utility:dash"
+                id="zoomOutButton"
+                title={labels.zoomOutTitle}
+                alternative-text={labels.zoomOutTitle}
+                onclick={handleZoomOutClick}
+            ></lightning-button-icon>
+            <lightning-button-icon
+                variant="border-filled"
+                if:true={isZoomToView}
+                icon-name="utility:contract_alt"
+                id="fitButton"
+                title={labels.zoomToFitTitle}
+                alternative-text={labels.zoomToFitTitle}
+                onclick={handleZoomToFitClick}
+            ></lightning-button-icon>
+            <lightning-button-icon
+                variant="border-filled"
+                if:false={isZoomToView}
+                icon-name="utility:expand_alt"
+                id="expandButton"
+                title={labels.zoomToViewTitle}
+                alternative-text={labels.zoomToViewTitle}
+                onclick={handleZoomToViewClick}
+            ></lightning-button-icon>
+            <lightning-button-icon
+                variant="border-filled"
+                disabled={isZoomInDisabled}
+                icon-name="utility:add"
+                id="zoomInButton"
+                title={labels.zoomInTitle}
+                alternative-text={labels.zoomInTitle}
+                onclick={handleZoomInClick}
+            ></lightning-button-icon>
         </lightning-button-group>
     </div>
 </template>

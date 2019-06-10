@@ -1,19 +1,28 @@
-import { set, getValueFromHydratedItem, updateProperties, deleteItem } from 'builder_platform_interaction/dataMutationLib';
-import { ELEMENT_TYPE} from "builder_platform_interaction/flowMetadata";
+import {
+    set,
+    getValueFromHydratedItem,
+    updateProperties,
+    deleteItem
+} from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
-import { mergeSubflowAssignmentsWithInputOutputVariables, mergeInputOutputParameters, MERGE_WARNING_TYPE } from './calloutEditorLib';
+import {
+    mergeSubflowAssignmentsWithInputOutputVariables,
+    mergeInputOutputParameters,
+    MERGE_WARNING_TYPE
+} from './calloutEditorLib';
 
 export const MERGE_WITH_PARAMETERS = 'MERGE_WITH_PARAMETERS';
 export const REMOVE_UNSET_PARAMETERS = 'REMOVE_UNSET_PARAMETERS';
 
-const getNodeInputsPropertyName = (elementType) => {
+const getNodeInputsPropertyName = elementType => {
     if (elementType === ELEMENT_TYPE.SUBFLOW) {
         return 'inputAssignments';
     }
     return 'inputParameters';
 };
 
-const getNodeOutputsPropertyName = (elementType) => {
+const getNodeOutputsPropertyName = elementType => {
     if (elementType === ELEMENT_TYPE.SUBFLOW) {
         return 'outputAssignments';
     }
@@ -27,15 +36,22 @@ const getNodeOutputsPropertyName = (elementType) => {
  * @return {Object} the updated node
  */
 export const updateParameterItem = (state, param) => {
-    const {isInput, rowIndex, valueDataType, error} = param;
-    let {value} = param;
-    const propertyName = isInput ? getNodeInputsPropertyName(state.elementType) : getNodeOutputsPropertyName(state.elementType);
-    const paramIndex = state[propertyName].findIndex(parameter => getValueFromHydratedItem(parameter.rowIndex) === rowIndex);
+    const { isInput, rowIndex, valueDataType, error } = param;
+    let { value } = param;
+    const propertyName = isInput
+        ? getNodeInputsPropertyName(state.elementType)
+        : getNodeOutputsPropertyName(state.elementType);
+    const paramIndex = state[propertyName].findIndex(
+        parameter => getValueFromHydratedItem(parameter.rowIndex) === rowIndex
+    );
     // consider no output variable assignment if value is ''
     if (!isInput && value === '') {
         value = null;
     }
-    const updatedParam = updateProperties(state[propertyName][paramIndex], {value: {value, error}, valueDataType});
+    const updatedParam = updateProperties(state[propertyName][paramIndex], {
+        value: { value, error },
+        valueDataType
+    });
     const path = [[propertyName], paramIndex];
     state = set(state, path, updatedParam);
     return state;
@@ -47,9 +63,19 @@ export const updateParameterItem = (state, param) => {
  * @param {ActionOrApexPluginInputOutputParameter[]} inputOutputParameters all of the action/apex plugin input/output parameters
  * @return {Object} the updated node
  */
-export const mergeWithInputOutputParameters = (state, inputOutputParameters) => {
-    const { inputs, outputs } = mergeInputOutputParameters(inputOutputParameters, state.inputParameters, state.outputParameters);
-    state = updateProperties(state, {inputParameters: inputs, outputParameters : outputs});
+export const mergeWithInputOutputParameters = (
+    state,
+    inputOutputParameters
+) => {
+    const { inputs, outputs } = mergeInputOutputParameters(
+        inputOutputParameters,
+        state.inputParameters,
+        state.outputParameters
+    );
+    state = updateProperties(state, {
+        inputParameters: inputs,
+        outputParameters: outputs
+    });
     return state;
 };
 
@@ -60,8 +86,15 @@ export const mergeWithInputOutputParameters = (state, inputOutputParameters) => 
  * @return {Object} the updated node
  */
 export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
-    const { inputs, outputs } = mergeSubflowAssignmentsWithInputOutputVariables(state.inputAssignments, state.outputAssignments, inputOutputVariables);
-    state = updateProperties(state, {inputAssignments: inputs, outputAssignments : outputs});
+    const { inputs, outputs } = mergeSubflowAssignmentsWithInputOutputVariables(
+        state.inputAssignments,
+        state.outputAssignments,
+        inputOutputVariables
+    );
+    state = updateProperties(state, {
+        inputAssignments: inputs,
+        outputAssignments: outputs
+    });
     return state;
 };
 
@@ -70,12 +103,19 @@ export const mergeWithInputOutputVariables = (state, inputOutputVariables) => {
  * @param {Object} state the original node
  * @return {Object} the updated node
  */
-export const removeUnsetParameters = (state) => {
+export const removeUnsetParameters = state => {
     const inputPropertyName = getNodeInputsPropertyName(state.elementType);
     const outputPropertyName = getNodeOutputsPropertyName(state.elementType);
-    const inputs = state[inputPropertyName].filter(input => !isUndefinedOrNull(getValueFromHydratedItem(input.value)));
-    const outputs = state[outputPropertyName].filter(output => !isUndefinedOrNull(getValueFromHydratedItem(output.value)));
-    state = updateProperties(state, {[inputPropertyName]: inputs, [outputPropertyName]: outputs });
+    const inputs = state[inputPropertyName].filter(
+        input => !isUndefinedOrNull(getValueFromHydratedItem(input.value))
+    );
+    const outputs = state[outputPropertyName].filter(
+        output => !isUndefinedOrNull(getValueFromHydratedItem(output.value))
+    );
+    state = updateProperties(state, {
+        [inputPropertyName]: inputs,
+        [outputPropertyName]: outputs
+    });
     return state;
 };
 
@@ -90,21 +130,33 @@ const getAllIndexes = (arr, callback) => {
 };
 
 const removeDuplicateWarningIfOnlyOneWithName = (state, isInput, name) => {
-    const propertyName = isInput ? getNodeInputsPropertyName(state.elementType) : getNodeOutputsPropertyName(state.elementType);
-    const indexesWithSameName = getAllIndexes(state[propertyName], parameter => getValueFromHydratedItem(parameter.name) === name);
+    const propertyName = isInput
+        ? getNodeInputsPropertyName(state.elementType)
+        : getNodeOutputsPropertyName(state.elementType);
+    const indexesWithSameName = getAllIndexes(
+        state[propertyName],
+        parameter => getValueFromHydratedItem(parameter.name) === name
+    );
     if (indexesWithSameName.length !== 1) {
         return state;
     }
     const paramIndex = indexesWithSameName[0];
     if (state[propertyName][paramIndex].warnings === undefined) {
         return state;
-     }
-    const warningIndex = state[propertyName][paramIndex].warnings.findIndex(warning => warning === MERGE_WARNING_TYPE.DUPLICATE);
+    }
+    const warningIndex = state[propertyName][paramIndex].warnings.findIndex(
+        warning => warning === MERGE_WARNING_TYPE.DUPLICATE
+    );
     if (warningIndex === -1) {
         return state;
     }
-    const updatedWarnings = deleteItem(state[propertyName][paramIndex].warnings, warningIndex);
-    const updatedParam = updateProperties(state[propertyName][paramIndex], { warnings : updatedWarnings });
+    const updatedWarnings = deleteItem(
+        state[propertyName][paramIndex].warnings,
+        warningIndex
+    );
+    const updatedParam = updateProperties(state[propertyName][paramIndex], {
+        warnings: updatedWarnings
+    });
     const path = [[propertyName], paramIndex];
     state = set(state, path, updatedParam);
     return state;
@@ -118,8 +170,12 @@ const removeDuplicateWarningIfOnlyOneWithName = (state, isInput, name) => {
  */
 export const deleteParameterItem = (state, param) => {
     const { rowIndex, isInput, name } = param;
-    const propertyName = isInput ? getNodeInputsPropertyName(state.elementType) : getNodeOutputsPropertyName(state.elementType);
-    const paramIndex = state[propertyName].findIndex(parameter => getValueFromHydratedItem(parameter.rowIndex) === rowIndex);
+    const propertyName = isInput
+        ? getNodeInputsPropertyName(state.elementType)
+        : getNodeOutputsPropertyName(state.elementType);
+    const paramIndex = state[propertyName].findIndex(
+        parameter => getValueFromHydratedItem(parameter.rowIndex) === rowIndex
+    );
     const updatedParameters = deleteItem(state[propertyName], paramIndex);
     const path = [[propertyName]];
     state = set(state, path, updatedParameters);

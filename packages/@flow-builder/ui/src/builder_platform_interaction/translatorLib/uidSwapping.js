@@ -1,8 +1,16 @@
-import { isPlainObject } from "builder_platform_interaction/storeLib";
-import { TEMPLATE_FIELDS, REFERENCE_FIELDS, EXPRESSION_RE } from "builder_platform_interaction/flowMetadata";
-import { splitStringBySeparator, isReference, removeCurlyBraces } from "builder_platform_interaction/commonUtils";
-import { FEROV_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getDataTypeKey } from "builder_platform_interaction/elementFactory";
+import { isPlainObject } from 'builder_platform_interaction/storeLib';
+import {
+    TEMPLATE_FIELDS,
+    REFERENCE_FIELDS,
+    EXPRESSION_RE
+} from 'builder_platform_interaction/flowMetadata';
+import {
+    splitStringBySeparator,
+    isReference,
+    removeCurlyBraces
+} from 'builder_platform_interaction/commonUtils';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
 
 // check to enable guid to devname swapping for referencefields. While opening property editor, only template fields guids need to be swapped with dev name.
 let checkReferenceFields = true;
@@ -28,7 +36,9 @@ export const getDataType = (object, fieldName) => {
  */
 export const isTemplateField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
-    return dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName);
+    return (
+        dataType === FEROV_DATA_TYPE.STRING || TEMPLATE_FIELDS.has(fieldName)
+    );
 };
 
 /**
@@ -39,7 +49,10 @@ export const isTemplateField = (object, fieldName) => {
 export const isReferenceField = (object, fieldName) => {
     const dataType = getDataType(object, fieldName);
     // rightHandSide is in REFERENCE_FIELDS but should only be treated as a reference field in the cases when it doesn't have a data type
-    return dataType === FEROV_DATA_TYPE.REFERENCE || (!dataType && REFERENCE_FIELDS.has(fieldName));
+    return (
+        dataType === FEROV_DATA_TYPE.REFERENCE ||
+        (!dataType && REFERENCE_FIELDS.has(fieldName))
+    );
 };
 
 /**
@@ -47,8 +60,18 @@ export const isReferenceField = (object, fieldName) => {
  * @param {*} propertyValue value of the property
  * @return true if swapping needs to happen, else it returns false.
  */
-export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue) => {
-    return propertyName && propertyValue && (typeof (propertyValue) === 'string' || (Array.isArray(propertyValue) && isReferenceField(parentObject, propertyName)));
+export const shouldCallSwapFunction = (
+    parentObject,
+    propertyName,
+    propertyValue
+) => {
+    return (
+        propertyName &&
+        propertyValue &&
+        (typeof propertyValue === 'string' ||
+            (Array.isArray(propertyValue) &&
+                isReferenceField(parentObject, propertyName)))
+    );
 };
 
 /**
@@ -58,7 +81,7 @@ export const shouldCallSwapFunction = (parentObject, propertyName, propertyValue
  * @return value after swapping
  */
 const swapTemplateField = (swapFunction, value) => {
-    const replacer = (fullMatch) => {
+    const replacer = fullMatch => {
         // Strip '{!', '}'
         const expressionMatch = fullMatch.substr(2).replace('}', '');
         return '{!' + swapFunction(expressionMatch) + '}';
@@ -75,7 +98,6 @@ const swapTemplateField = (swapFunction, value) => {
 const swapReferenceField = (swapFunction, value) => {
     return swapFunction(isReference(value) ? removeCurlyBraces(value) : value);
 };
-
 
 /**
  * Swaps a value that may contain 0 or more variables
@@ -158,7 +180,7 @@ export const swapSingleExpression = (expression, mapping) => {
  * @param {Object} config   configuration to enable GUID to Devname swapping for reference fields
  */
 export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
-    const {enableGuidToDevnameSwappingForReferenceFields = true} = config;
+    const { enableGuidToDevnameSwappingForReferenceFields = true } = config;
     checkReferenceFields = enableGuidToDevnameSwappingForReferenceFields;
     const mapping = {};
     Object.keys(elementUidMap).forEach(uid => {
@@ -167,13 +189,18 @@ export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
 
     // swap the uid with it's dev name if the uid is in the element map
     // leave it unchanged if it's not
-    const swapSingleUidToDevName = (uid) => {
+    const swapSingleUidToDevName = uid => {
         return swapSingleExpression(uid, mapping);
     };
 
     // create a new function with the parameters embedded
     const swapUidForDevName = (parentObject, fieldname, value) => {
-        return swapValueFunction(swapSingleUidToDevName, parentObject, fieldname, value);
+        return swapValueFunction(
+            swapSingleUidToDevName,
+            parentObject,
+            fieldname,
+            value
+        );
     };
     recursiveSwap(flow, swapUidForDevName);
 };
@@ -187,17 +214,22 @@ export const swapUidsForDevNames = (elementUidMap, flow, config = {}) => {
  * @param {Object} config configuration to enable Devname to guid swapping for reference fields
  */
 export const swapDevNamesToUids = (nameToUid, flow, config = {}) => {
-    const {enableDevnameToGuidSwappingForReferenceFields = true} = config;
+    const { enableDevnameToGuidSwappingForReferenceFields = true } = config;
     checkReferenceFields = enableDevnameToGuidSwappingForReferenceFields;
     // swap the uid with it's dev name if the uid is in the element map
     // leave it unchanged if it's not
-    const swapSingleDevNameToUid = (devName) => {
+    const swapSingleDevNameToUid = devName => {
         return swapSingleExpression(devName, nameToUid);
     };
 
     // create a new function with the parameters embedded
     const swapDevNameToUid = (parentObject, fieldname, value) => {
-        return swapValueFunction(swapSingleDevNameToUid, parentObject, fieldname, value);
+        return swapValueFunction(
+            swapSingleDevNameToUid,
+            parentObject,
+            fieldname,
+            value
+        );
     };
     recursiveSwap(flow, swapDevNameToUid);
 };

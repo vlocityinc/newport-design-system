@@ -1,11 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./recordQueryFieldsLabels";
+import { LABELS } from './recordQueryFieldsLabels';
 import {
     AddRecordLookupFieldEvent,
     DeleteRecordLookupFieldEvent,
-    UpdateRecordLookupFieldEvent,
-} from "builder_platform_interaction/events";
-import { format } from "builder_platform_interaction/commonUtils";
+    UpdateRecordLookupFieldEvent
+} from 'builder_platform_interaction/events';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class RecordQueryFields extends LightningElement {
     labels = LABELS;
@@ -15,7 +15,7 @@ export default class RecordQueryFields extends LightningElement {
         recordEntityName: '',
         outputReference: '',
         queriedFields: [],
-        isCollection: false,
+        isCollection: false
     };
 
     /**
@@ -38,10 +38,11 @@ export default class RecordQueryFields extends LightningElement {
     outputReferenceIndex;
 
     @api
-    globalCss = "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+    globalCss =
+        'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
 
     @api
-    titleCss = "slds-text-heading_small";
+    titleCss = 'slds-text-heading_small';
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -92,15 +93,27 @@ export default class RecordQueryFields extends LightningElement {
     }
 
     get sObjectVariablePickerTitle() {
-        return !this.state.isCollection ? format(this.labels.selectVariableToStore, this.resourceDisplayText) : format(this.labels.selectVariableToStoreRecords, this.resourceDisplayText);
+        return !this.state.isCollection
+            ? format(
+                  this.labels.selectVariableToStore,
+                  this.resourceDisplayText
+              )
+            : format(
+                  this.labels.selectVariableToStoreRecords,
+                  this.resourceDisplayText
+              );
     }
 
     get sObjectVariablePickerLabel() {
-        return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
+        return !this.isCollection
+            ? this.labels.recordVariable
+            : this.labels.recordCollectionVariable;
     }
 
     get sObjectVariablePickerPlaceholder() {
-        return !this.state.isCollection ? this.labels.sObjectVariablePlaceholder : this.labels.sObjectCollectionVariablePlaceholder;
+        return !this.state.isCollection
+            ? this.labels.sObjectVariablePlaceholder
+            : this.labels.sObjectCollectionVariablePlaceholder;
     }
 
     get selectFieldsLabel() {
@@ -117,7 +130,12 @@ export default class RecordQueryFields extends LightningElement {
      * Id value for Id combobox
      */
     get idComboboxValue() {
-        return {type : 'option-inline', text: 'ID', value: 'Id', displayText: 'ID'};
+        return {
+            type: 'option-inline',
+            text: 'ID',
+            value: 'Id',
+            displayText: 'ID'
+        };
     }
 
     /**
@@ -136,7 +154,11 @@ export default class RecordQueryFields extends LightningElement {
      */
     handleUpdateField(event) {
         event.stopPropagation();
-        const updateFieldEvent = new UpdateRecordLookupFieldEvent(event.detail.index, event.detail.value, event.detail.error);
+        const updateFieldEvent = new UpdateRecordLookupFieldEvent(
+            event.detail.index,
+            event.detail.value,
+            event.detail.error
+        );
         this.dispatchEvent(updateFieldEvent);
     }
 
@@ -146,7 +168,9 @@ export default class RecordQueryFields extends LightningElement {
      */
     handleDeleteField(event) {
         event.stopPropagation();
-        const deleteFieldEvent = new DeleteRecordLookupFieldEvent(event.detail.index);
+        const deleteFieldEvent = new DeleteRecordLookupFieldEvent(
+            event.detail.index
+        );
         this.dispatchEvent(deleteFieldEvent);
     }
 }

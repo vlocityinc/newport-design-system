@@ -1,21 +1,25 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./recordSortLabels";
-import { fetchFieldsForEntity } from "builder_platform_interaction/sobjectLib";
-import { SORT_ORDER } from "builder_platform_interaction/recordEditorLib";
-import { format } from "builder_platform_interaction/commonUtils";
+import { LABELS } from './recordSortLabels';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const NOT_SORTED_VALUE = SORT_ORDER.NOT_SORTED;
 
-const SORT_ORDER_OPTIONS = [{
-    label : LABELS.sortOrderAscendingLabel,
-    value : SORT_ORDER.ASC
-}, {
-    label : LABELS.sortOrderDescendingLabel,
-    value : SORT_ORDER.DESC
-}, {
-    label : LABELS.sortOrderNotSortedLabel,
-    value : NOT_SORTED_VALUE
-}];
+const SORT_ORDER_OPTIONS = [
+    {
+        label: LABELS.sortOrderAscendingLabel,
+        value: SORT_ORDER.ASC
+    },
+    {
+        label: LABELS.sortOrderDescendingLabel,
+        value: SORT_ORDER.DESC
+    },
+    {
+        label: LABELS.sortOrderNotSortedLabel,
+        value: NOT_SORTED_VALUE
+    }
+];
 
 export default class RecordSort extends LightningElement {
     labels = LABELS;
@@ -80,17 +84,19 @@ export default class RecordSort extends LightningElement {
     getFields(resourceApiName) {
         this.loadingFields = true;
         this.fields = {};
-        fetchFieldsForEntity(resourceApiName).then((fields) => {
-            this.loadingFields = false;
-            this.fields = this.getSortableFields(fields);
-        }).catch(() => {
-            this.loadingFields = false;
-        });
+        fetchFieldsForEntity(resourceApiName)
+            .then(fields => {
+                this.loadingFields = false;
+                this.fields = this.getSortableFields(fields);
+            })
+            .catch(() => {
+                this.loadingFields = false;
+            });
     }
 
     getSortableFields(fields) {
         return Object.values(fields)
-            .filter((field) => field.sortable)
+            .filter(field => field.sortable)
             .reduce((options, field) => {
                 options[field.apiName] = field;
                 return options;
@@ -99,11 +105,26 @@ export default class RecordSort extends LightningElement {
 
     handleSortOrderChanged(event) {
         event.stopPropagation();
-        this.dispatchEvent(new CustomEvent('change', {detail: {sortOrder: event.detail.value, fieldApiName : this.selectedField}}));
+        this.dispatchEvent(
+            new CustomEvent('change', {
+                detail: {
+                    sortOrder: event.detail.value,
+                    fieldApiName: this.selectedField
+                }
+            })
+        );
     }
 
     handleSelectedFieldChanged(event) {
         event.stopPropagation();
-        this.dispatchEvent(new CustomEvent('change', {detail: {sortOrder: this.sortOrder, fieldApiName : event.detail.displayText, error: event.detail.error}}));
+        this.dispatchEvent(
+            new CustomEvent('change', {
+                detail: {
+                    sortOrder: this.sortOrder,
+                    fieldApiName: event.detail.displayText,
+                    error: event.detail.error
+                }
+            })
+        );
     }
 }

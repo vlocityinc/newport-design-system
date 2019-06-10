@@ -5,12 +5,16 @@ import {
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 jest.mock('../../base/baseElement', () => {
     return {
-        baseResource: jest.fn(() => {
-            return {};
-        }).mockName('baseResource'),
-        baseResourceMetadataObject: jest.fn(() => {
-            return {};
-        }).mockName('baseResourceMetadataObject')
+        baseResource: jest
+            .fn(() => {
+                return {};
+            })
+            .mockName('baseResource'),
+        baseResourceMetadataObject: jest
+            .fn(() => {
+                return {};
+            })
+            .mockName('baseResourceMetadataObject')
     };
 });
 
@@ -84,9 +88,13 @@ describe('createDynamicChoiceSet', () => {
         });
     });
     describe('when mock dyanmic choice set element with no limit or sort order is sent as a param', () => {
-        const result = createDynamicChoiceSet(mockDynamicChoiceSetWithNoLimitSortOrder);
+        const result = createDynamicChoiceSet(
+            mockDynamicChoiceSetWithNoLimitSortOrder
+        );
         it('result object matches the mockDynamicChoiceSetResult object', () => {
-            expect(result).toMatchObject(mockDynamicChoiceSetResultWithNoLimitSortOrder);
+            expect(result).toMatchObject(
+                mockDynamicChoiceSetResultWithNoLimitSortOrder
+            );
         });
     });
 });
@@ -97,15 +105,21 @@ describe('createDynamicChoiceMetadataObject', () => {
         }).toThrow();
     });
     describe('when a valid element is passed', () => {
-        const result = createDynamicChoiceSetMetadataObject(mockDynamicChoiceSet);
+        const result = createDynamicChoiceSetMetadataObject(
+            mockDynamicChoiceSet
+        );
         it('result object matches the mockDyanmicChoiceMetadataObjectResult object', () => {
             expect(result).toMatchObject(mockDyanmicChoiceMetadataObjectResult);
         });
     });
     describe('when a valid element is passed with empty values', () => {
-        const result = createDynamicChoiceSetMetadataObject(mockParamWithEmptyValuesForDynamicChoiceSet);
+        const result = createDynamicChoiceSetMetadataObject(
+            mockParamWithEmptyValuesForDynamicChoiceSet
+        );
         it('result object matches the mock metadata object with undefined values', () => {
-            expect(result).toMatchObject(mockDyanmicChoiceWithUndefinedValuesMetadataObjectResult);
+            expect(result).toMatchObject(
+                mockDyanmicChoiceWithUndefinedValuesMetadataObjectResult
+            );
         });
     });
 });

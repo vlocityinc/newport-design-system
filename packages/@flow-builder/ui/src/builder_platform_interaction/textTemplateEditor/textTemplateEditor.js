@@ -1,6 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    createAction,
+    PROPERTY_EDITOR_ACTION
+} from 'builder_platform_interaction/actions';
 import { textTemplateReducer } from './textTemplateReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './textTemplateEditorLabels';
@@ -56,20 +59,20 @@ export default class TextTemplateEditor extends LightningElement {
     /**
      * @param {Object} event property changed event coming from label-description component
      */
-    handlePropertyChanged = (event) => {
+    handlePropertyChanged = event => {
         event.stopPropagation();
         const propertyName = event.detail.propertyName;
         this.updateProperty(propertyName, event);
-    }
+    };
 
     /**
      * @param {object} event property changed event coming from resourced-textarea component
      */
-    handleResourceTextAreaChanged = (event) => {
+    handleResourceTextAreaChanged = event => {
         event.stopPropagation();
         const propertyName = 'text';
         this.updateProperty(propertyName, event);
-    }
+    };
 
     /**
      * Does the update property action with passed in property name, value and error.
@@ -79,9 +82,15 @@ export default class TextTemplateEditor extends LightningElement {
     updateProperty = (propertyName, event) => {
         const value = event.detail.value;
         const error = event.detail.error || null;
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
-        this.textTemplateResource = textTemplateReducer(this.textTemplateResource, action);
-    }
+        const action = createAction(
+            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+            { propertyName, value, error }
+        );
+        this.textTemplateResource = textTemplateReducer(
+            this.textTemplateResource,
+            action
+        );
+    };
 
     /** *********************************/
     /*       Validation methods         */
@@ -94,7 +103,10 @@ export default class TextTemplateEditor extends LightningElement {
     @api
     validate() {
         const event = { type: VALIDATE_ALL };
-        this.textTemplateResource = textTemplateReducer(this.textTemplateResource, event);
+        this.textTemplateResource = textTemplateReducer(
+            this.textTemplateResource,
+            event
+        );
         const errors = getErrorsFromHydratedElement(this.textTemplateResource);
         return errors;
     }

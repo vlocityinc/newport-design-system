@@ -1,9 +1,9 @@
 import { readonly } from 'lwc';
-import { translateFlowToUIModel } from "../flowToUiTranslator";
-import { translateUIModelToFlow } from "../uiToFlowTranslator";
+import { translateFlowToUIModel } from '../flowToUiTranslator';
+import { translateUIModelToFlow } from '../uiToFlowTranslator';
 import { flowWithVariables } from 'mock/flows/flowWithVariables';
-import { flowWithAssignments } from "mock/flows/flowWithAssignments";
-import { deepCopy, Store } from "builder_platform_interaction/storeLib";
+import { flowWithAssignments } from 'mock/flows/flowWithAssignments';
+import { deepCopy, Store } from 'builder_platform_interaction/storeLib';
 import { flowCollectionServicesDemo } from 'mock/flows/flowCollectionServicesDemo';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -12,7 +12,12 @@ import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils'
 
 expect.extend(deepFindMatchers);
 
-const SAMPLE_FLOWS = [flowLegalNameChange, flowCollectionServicesDemo, flowWithVariables, flowWithAssignments];
+const SAMPLE_FLOWS = [
+    flowLegalNameChange,
+    flowCollectionServicesDemo,
+    flowWithVariables,
+    flowWithAssignments
+];
 
 // we want to use the real implementation (and we cannot use unmock ...)
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -32,15 +37,28 @@ export const modifyExpected = (given, expected, callback, path = []) => {
     }
     given = readonly(given);
     if (Array.isArray(given) && Array.isArray(expected)) {
-        const length = given.length >= expected.length ? given.length : expected.length;
+        const length =
+            given.length >= expected.length ? given.length : expected.length;
         for (let i = 0; i < length; i++) {
-            modifyExpected(i < given.length ? given[i] : undefined, i < expected.length ? expected[i] : undefined, callback, [...path, i]);
+            modifyExpected(
+                i < given.length ? given[i] : undefined,
+                i < expected.length ? expected[i] : undefined,
+                callback,
+                [...path, i]
+            );
         }
     } else if (typeof given === 'object' && typeof expected === 'object') {
         for (const key in given) {
             if (Object.prototype.hasOwnProperty.call(given, key)) {
                 const newPath = [...path, key];
-                callback(given, expected, key, given[key], expected[key], newPath);
+                callback(
+                    given,
+                    expected,
+                    key,
+                    given[key],
+                    expected[key],
+                    newPath
+                );
                 modifyExpected(given[key], expected[key], callback, newPath);
             }
         }
@@ -48,8 +66,20 @@ export const modifyExpected = (given, expected, callback, path = []) => {
             if (Object.prototype.hasOwnProperty.call(expected, key)) {
                 if (!Object.prototype.hasOwnProperty.call(given, key)) {
                     const newPath = [...path, key];
-                    callback(given, expected, key, given[key], expected[key], newPath);
-                    modifyExpected(given[key], expected[key], callback, newPath);
+                    callback(
+                        given,
+                        expected,
+                        key,
+                        given[key],
+                        expected[key],
+                        newPath
+                    );
+                    modifyExpected(
+                        given[key],
+                        expected[key],
+                        callback,
+                        newPath
+                    );
                 }
             }
         }
@@ -57,15 +87,38 @@ export const modifyExpected = (given, expected, callback, path = []) => {
     return expected;
 };
 
-const isEmpty = (value) => value === "" || value == null || (Array.isArray(value) && value.length === 0);
+const isEmpty = value =>
+    value === '' ||
+    value == null ||
+    (Array.isArray(value) && value.length === 0);
 
-const all = (callbacks) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const all = callbacks => (
+    givenElement,
+    expectedElement,
+    key,
+    givenValue,
+    expectedValue,
+    path
+) => {
     for (const callback of callbacks) {
-        callback(givenElement, expectedElement, key, givenValue, expectedValue, path);
+        callback(
+            givenElement,
+            expectedElement,
+            key,
+            givenValue,
+            expectedValue,
+            path
+        );
     }
 };
 
-const ignoreEmptyFields = (givenElement, expectedElement, key, givenValue, expectedValue) => {
+const ignoreEmptyFields = (
+    givenElement,
+    expectedElement,
+    key,
+    givenValue,
+    expectedValue
+) => {
     if (expectedElement) {
         if (isEmpty(givenValue) && expectedValue === undefined) {
             expectedElement[key] = givenValue;
@@ -101,10 +154,20 @@ const isSamePath = (path1, path2) => {
  * @returns {boolean} true if path is included in paths
  */
 const isPathIncluded = (paths, path) => {
-    return paths.find(pathFromArray => isSamePath(pathFromArray, path)) !== undefined;
+    return (
+        paths.find(pathFromArray => isSamePath(pathFromArray, path)) !==
+        undefined
+    );
 };
 
-const ignoreIfNotInGiven = (paths) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const ignoreIfNotInGiven = paths => (
+    givenElement,
+    expectedElement,
+    key,
+    givenValue,
+    expectedValue,
+    path
+) => {
     if (expectedElement) {
         if (isEmpty(givenValue) && isPathIncluded(paths, path)) {
             delete expectedElement[key];
@@ -112,7 +175,14 @@ const ignoreIfNotInGiven = (paths) => (givenElement, expectedElement, key, given
     }
 };
 
-const ignoreIfNotInExpected = (paths) => (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const ignoreIfNotInExpected = paths => (
+    givenElement,
+    expectedElement,
+    key,
+    givenValue,
+    expectedValue,
+    path
+) => {
     if (expectedElement) {
         if (isEmpty(expectedValue) && isPathIncluded(paths, path)) {
             if (!Object.prototype.hasOwnProperty.call(expectedElement, key)) {
@@ -124,35 +194,78 @@ const ignoreIfNotInExpected = (paths) => (givenElement, expectedElement, key, gi
     }
 };
 
-const stringifyExpectedNumberValue = (givenElement, expectedElement, key, givenValue, expectedValue) => {
-    if (expectedElement && (key === 'numberValue' || key === 'limit') && typeof expectedValue == 'number') {
+const stringifyExpectedNumberValue = (
+    givenElement,
+    expectedElement,
+    key,
+    givenValue,
+    expectedValue
+) => {
+    if (
+        expectedElement &&
+        (key === 'numberValue' || key === 'limit') &&
+        typeof expectedValue == 'number'
+    ) {
         expectedElement[key] = expectedValue.toString();
     }
 };
 
-const ignoreIfDefaultValue = (givenElement, expectedElement, key, givenValue, expectedValue, path) => {
+const ignoreIfDefaultValue = (
+    givenElement,
+    expectedElement,
+    key,
+    givenValue,
+    expectedValue,
+    path
+) => {
     if (!isEmpty(givenValue)) {
         return;
     }
     // default value is 0 for limit
-    if (key === 'limit' && expectedValue === 0 && path[path.length - 3] === 'dynamicChoiceSets') {
+    if (
+        key === 'limit' &&
+        expectedValue === 0 &&
+        path[path.length - 3] === 'dynamicChoiceSets'
+    ) {
         delete expectedElement.limit;
     }
     // isVisible is "Reserved for future use"
-    if (key === 'isVisible' && expectedValue === false && path[path.length - 3] === 'fields') {
+    if (
+        key === 'isVisible' &&
+        expectedValue === false &&
+        path[path.length - 3] === 'fields'
+    ) {
         delete expectedElement.isVisible;
     }
 };
 
 const getExpectedFlowMetadata = (uiFlow, flowFromMetadataAPI) => {
-    const ignoredIfNotInGiven = [['createdById'], ['createdDate'], ['definitionId'], ['id'], ['lastModifiedById'],
-        ['lastModifiedDate'], ['manageableState'], ['masterLabel'], ['processType'], ['status'], ['metadata', 'isTemplate']];
+    const ignoredIfNotInGiven = [
+        ['createdById'],
+        ['createdDate'],
+        ['definitionId'],
+        ['id'],
+        ['lastModifiedById'],
+        ['lastModifiedDate'],
+        ['manageableState'],
+        ['masterLabel'],
+        ['processType'],
+        ['status'],
+        ['metadata', 'isTemplate']
+    ];
     const ignoredIfNotInExpected = [['metadata', 'processMetadataValues']];
     // TODO W-5583918 stringifyExpectedNumberValue : it would be better to have a number instead of a string
-    return modifyExpected(uiFlow, deepCopy(flowFromMetadataAPI),
-        all([ignoreEmptyFields, ignoreIfNotInGiven(ignoredIfNotInGiven),
-             ignoreIfNotInExpected(ignoredIfNotInExpected), stringifyExpectedNumberValue,
-             ignoreIfDefaultValue]));
+    return modifyExpected(
+        uiFlow,
+        deepCopy(flowFromMetadataAPI),
+        all([
+            ignoreEmptyFields,
+            ignoreIfNotInGiven(ignoredIfNotInGiven),
+            ignoreIfNotInExpected(ignoredIfNotInExpected),
+            stringifyExpectedNumberValue,
+            ignoreIfDefaultValue
+        ])
+    );
 };
 
 describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
@@ -166,7 +279,10 @@ describe('Getting flow metadata, calling flow-to-ui translation and calling ui-t
             expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
             store.dispatch(updateFlow(uiFlow));
             const newMetadataFlow = translateUIModelToFlow(uiFlow);
-            const expected = getExpectedFlowMetadata(newMetadataFlow, metadataFlow);
+            const expected = getExpectedFlowMetadata(
+                newMetadataFlow,
+                metadataFlow
+            );
             expect(newMetadataFlow).toEqual(expected);
         });
     });

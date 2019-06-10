@@ -10,8 +10,14 @@ import {
     duplicateCanvasElement
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
-import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
-import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
+import {
+    createInputParameter,
+    createInputParameterMetadataObject
+} from './inputParameter';
+import {
+    createOutputParameter,
+    createOutputParameterMetadataObject
+} from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -26,13 +32,26 @@ export const getDefaultAvailableConnections = () => [
     }
 ];
 
-export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACTION_CALL) {
+export function createActionCall(
+    actionCall = {},
+    elementType = ELEMENT_TYPE.ACTION_CALL
+) {
     const newActionCall = baseCanvasElement(actionCall);
     const { actionType = '', actionName = '' } = actionCall;
-    let { inputParameters = [], outputParameters = [], availableConnections = getDefaultAvailableConnections() } = actionCall;
-    inputParameters = inputParameters.map(inputParameter => createInputParameter(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createOutputParameter(outputParameter));
-    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
+    let {
+        inputParameters = [],
+        outputParameters = [],
+        availableConnections = getDefaultAvailableConnections()
+    } = actionCall;
+    inputParameters = inputParameters.map(inputParameter =>
+        createInputParameter(inputParameter)
+    );
+    outputParameters = outputParameters.map(outputParameter =>
+        createOutputParameter(outputParameter)
+    );
+    availableConnections = availableConnections.map(availableConnection =>
+        createAvailableConnection(availableConnection)
+    );
 
     const actionCallObject = Object.assign(newActionCall, {
         actionType,
@@ -42,7 +61,7 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
         availableConnections,
         maxConnections,
         elementType,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value
     });
 
     return actionCallObject;
@@ -50,8 +69,14 @@ export function createActionCall(actionCall = {}, elementType = ELEMENT_TYPE.ACT
 
 export function createDuplicateActionCall(actionCall, newGuid, newName) {
     const newActionCall = createActionCall(actionCall);
-    Object.assign(newActionCall, { availableConnections: getDefaultAvailableConnections() });
-    const duplicateActionCall = duplicateCanvasElement(newActionCall, newGuid, newName);
+    Object.assign(newActionCall, {
+        availableConnections: getDefaultAvailableConnections()
+    });
+    const duplicateActionCall = duplicateCanvasElement(
+        newActionCall,
+        newGuid,
+        newName
+    );
 
     return duplicateActionCall;
 }
@@ -59,12 +84,12 @@ export function createDuplicateActionCall(actionCall, newGuid, newName) {
 export function createActionCallWithConnectors(actionCall, elementType) {
     const newActionCall = createActionCall(actionCall, elementType);
 
-    const connectors = createConnectorObjects(
-        actionCall,
-        newActionCall.guid
-    );
+    const connectors = createConnectorObjects(actionCall, newActionCall.guid);
     const defaultAvailableConnections = getDefaultAvailableConnections();
-    const availableConnections = removeFromAvailableConnections(defaultAvailableConnections, connectors);
+    const availableConnections = removeFromAvailableConnections(
+        defaultAvailableConnections,
+        connectors
+    );
     const connectorCount = connectors ? connectors.length : 0;
 
     const actionCallObject = Object.assign(newActionCall, {
@@ -80,11 +105,18 @@ export function createActionCallMetadataObject(actionCall, config) {
         throw new Error('actionCall is not defined');
     }
 
-    const actionCallMetadata = baseCanvasElementMetadataObject(actionCall, config);
+    const actionCallMetadata = baseCanvasElementMetadataObject(
+        actionCall,
+        config
+    );
     const { actionType, actionName } = actionCall;
     let { inputParameters = [], outputParameters = [] } = actionCall;
-    inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
-    outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+    inputParameters = inputParameters.map(inputParameter =>
+        createInputParameterMetadataObject(inputParameter)
+    );
+    outputParameters = outputParameters.map(outputParameter =>
+        createOutputParameterMetadataObject(outputParameter)
+    );
 
     return Object.assign(actionCallMetadata, {
         actionType,
@@ -104,9 +136,15 @@ export function createActionCallForStore(actionCall) {
     const actionType = actionCall.actionType;
     switch (actionType) {
         case ACTION_TYPE.EMAIL_ALERT:
-            return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.EMAIL_ALERT);
+            return createActionCallWithConnectors(
+                actionCall,
+                ELEMENT_TYPE.EMAIL_ALERT
+            );
         case ACTION_TYPE.APEX:
-            return createActionCallWithConnectors(actionCall, ELEMENT_TYPE.APEX_CALL);
+            return createActionCallWithConnectors(
+                actionCall,
+                ELEMENT_TYPE.APEX_CALL
+            );
         default:
             return createActionCallWithConnectors(actionCall);
     }

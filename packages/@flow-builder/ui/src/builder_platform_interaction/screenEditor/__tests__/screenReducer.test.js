@@ -1,14 +1,19 @@
-import { createTestScreen, createTestScreenField } from "builder_platform_interaction/builderTestUtils";
-import { screenReducer } from "../screenReducer";
+import {
+    createTestScreen,
+    createTestScreenField
+} from 'builder_platform_interaction/builderTestUtils';
+import { screenReducer } from '../screenReducer';
 
 import {
     PropertyChangedEvent,
     ReorderListEvent,
     createScreenElementDeletedEvent,
     createAddScreenFieldEvent
-} from "builder_platform_interaction/events";
+} from 'builder_platform_interaction/events';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const SCREEN_NAME = 'TestScreen1';
 
@@ -18,7 +23,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'label',
-                value: {value: 'newlabel', error: null},
+                value: { value: 'newlabel', error: null },
                 error: null
             }
         };
@@ -36,7 +41,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'fieldText',
-                value: {value: newDisplayText, error: null},
+                value: { value: newDisplayText, error: null },
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: screen.fields[0].fieldText
@@ -47,7 +52,9 @@ describe('screen reducer', () => {
         // The changed property should be updated, but the unchanged property should be the same.
         expect(newScreen).toBeDefined();
         expect(newScreen.fields[0].fieldText.value).toBe(newDisplayText);
-        expect(newScreen.fields[0].name.value).toBe(screen.fields[0].name.value);
+        expect(newScreen.fields[0].name.value).toBe(
+            screen.fields[0].name.value
+        );
     });
 
     it('change screen field validation error message when there is none before', () => {
@@ -57,7 +64,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'errorMessage',
-                value: {value: newErrorMessage, error: null},
+                value: { value: newErrorMessage, error: null },
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: undefined
@@ -76,16 +83,23 @@ describe('screen reducer', () => {
         const newErrorMessage = 'error2';
         const screen = createTestScreen(SCREEN_NAME, null);
         screen.fields = [];
-        const field = createTestScreenField('Screenfield1', 'DisplayText', 'Display this');
-        field.errorMessage = { value: oldErrorMessage, error: null};
-        field.formulaExpression = {value: '{Screenfield1} != null', error: null};
+        const field = createTestScreenField(
+            'Screenfield1',
+            'DisplayText',
+            'Display this'
+        );
+        field.errorMessage = { value: oldErrorMessage, error: null };
+        field.formulaExpression = {
+            value: '{Screenfield1} != null',
+            error: null
+        };
         screen.fields.push(field);
 
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'errorMessage',
-                value: {value: newErrorMessage, error: null},
+                value: { value: newErrorMessage, error: null },
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: screen.fields[0].errorMessage
@@ -105,7 +119,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'formulaExpression',
-                value: {value: newFormula, error: null},
+                value: { value: newFormula, error: null },
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: undefined
@@ -124,16 +138,20 @@ describe('screen reducer', () => {
         const newFormula = '{Screenfield1} != null';
         const screen = createTestScreen(SCREEN_NAME, null);
         screen.fields = [];
-        const field = createTestScreenField('Screenfield1', 'DisplayText', 'Display this');
-        field.errorMessage = {value: 'some error', error: null};
-        field.formulaExpression = {value: oldFormula, error: null};
+        const field = createTestScreenField(
+            'Screenfield1',
+            'DisplayText',
+            'Display this'
+        );
+        field.errorMessage = { value: 'some error', error: null };
+        field.formulaExpression = { value: oldFormula, error: null };
         screen.fields.push(field);
 
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'formulaExpression',
-                value: {value: newFormula, error: null},
+                value: { value: newFormula, error: null },
                 error: null,
                 guid: screen.fields[0].guid,
                 oldValue: screen.fields[0].formulaExpression
@@ -151,7 +169,7 @@ describe('screen reducer', () => {
             type: PropertyChangedEvent.EVENT_NAME,
             detail: {
                 propertyName: 'label',
-                value: {value: 'newlabel', error: 'errorFromChildComponent'},
+                value: { value: 'newlabel', error: 'errorFromChildComponent' },
                 error: 'errorFromChildComponent'
             }
         };
@@ -185,7 +203,9 @@ describe('screen reducer', () => {
         const event = createAddScreenFieldEvent(fieldType);
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toHaveLength(screen.fields.length + 1);
-        expect(newScreen.fields[newScreen.fields.length - 1].type.name).toBe(fieldType);
+        expect(newScreen.fields[newScreen.fields.length - 1].type.name).toBe(
+            fieldType
+        );
     });
 
     it('deletes a screen field', () => {

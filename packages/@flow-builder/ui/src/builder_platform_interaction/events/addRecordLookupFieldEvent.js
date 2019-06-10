@@ -1,6 +1,5 @@
 const eventName = 'addrecordlookupfield';
 
-
 export class AddRecordLookupFieldEvent {
     constructor() {
         return new CustomEvent(eventName, {

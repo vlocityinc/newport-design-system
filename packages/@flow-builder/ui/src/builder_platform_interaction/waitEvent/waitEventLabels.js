@@ -19,7 +19,6 @@ import andConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.a
 import orConditionLogicLabel from '@salesforce/label/FlowBuilderConditionList.orConditionLogicLabel';
 import customLogicLabel from '@salesforce/label/FlowBuilderConditionList.customLogicLabel';
 
-
 export const LABELS = {
     waitEventsDetailsHeader,
     deleteWaitEventLabel,
@@ -36,5 +35,5 @@ export const LABELS = {
     operatorLabel,
     rhsLabel,
     lhsPlaceholder,
-    operatorPlaceholder,
+    operatorPlaceholder
 };

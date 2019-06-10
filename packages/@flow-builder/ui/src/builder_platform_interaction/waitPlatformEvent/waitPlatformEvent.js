@@ -1,11 +1,20 @@
 import { LightningElement, track, api } from 'lwc';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './waitPlatformEventLabels';
-import { RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import {
+    RULE_TYPES,
+    getRulesForElementType
+} from 'builder_platform_interaction/ruleLib';
 import { getInputParametersForEventType } from 'builder_platform_interaction/sobjectLib';
-import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getValueFromHydratedItem,
+    getErrorFromHydratedItem
+} from 'builder_platform_interaction/dataMutationLib';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
@@ -14,7 +23,7 @@ import {
     WaitEventDeleteParameterEvent,
     WaitEventParameterChangedEvent,
     WaitEventPropertyChangedEvent,
-    UpdateWaitEventEventTypeEvent,
+    UpdateWaitEventEventTypeEvent
 } from 'builder_platform_interaction/events';
 import { getItemOrDisplayText } from 'builder_platform_interaction/expressionUtils';
 import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
@@ -24,7 +33,7 @@ import EntityResourcePicker from 'builder_platform_interaction/entityResourcePic
 const OUTPUT_PARAMETER_DEFINITION = {
     label: LABELS.platformEventOutputLabel,
     iconName: 'utility:events',
-    dataType: FLOW_DATA_TYPE.SOBJECT.value,
+    dataType: FLOW_DATA_TYPE.SOBJECT.value
 };
 
 const ASSIGNMENT_ICON = 'utility:assignment';
@@ -42,10 +51,11 @@ export default class WaitPlatformEvent extends LightningElement {
     set outputParameters(outputParameters) {
         this._outputParameters = outputParameters;
         const outputParam = outputParameters[this.eventTypeValue];
-        this.outputParameterItem = Object.assign({},
+        this.outputParameterItem = Object.assign(
+            {},
             outputParam,
-            { objectType: this.eventTypeValue, name: this.eventTypeValue, },
-            OUTPUT_PARAMETER_DEFINITION,
+            { objectType: this.eventTypeValue, name: this.eventTypeValue },
+            OUTPUT_PARAMETER_DEFINITION
         );
     }
 
@@ -123,8 +133,10 @@ export default class WaitPlatformEvent extends LightningElement {
                 this.filters.push(filter);
             }
 
-            this.filterConditionLogic = this.filters.length === 0 ? {value: CONDITION_LOGIC.NO_CONDITIONS} :
-                {value: CONDITION_LOGIC.AND};
+            this.filterConditionLogic =
+                this.filters.length === 0
+                    ? { value: CONDITION_LOGIC.NO_CONDITIONS }
+                    : { value: CONDITION_LOGIC.AND };
         }
     }
 
@@ -138,12 +150,18 @@ export default class WaitPlatformEvent extends LightningElement {
 
     @track
     filterConditionLogicOptions = [
-        {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.noConditionsLabel},
-        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel}
+        {
+            value: CONDITION_LOGIC.NO_CONDITIONS,
+            label: LABELS.noConditionsLabel
+        },
+        { value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel }
     ];
 
     @track
-    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.ASSIGNMENT, this.elementTypeForExpressionBuilder);
+    rulesForExpressionBuilder = getRulesForElementType(
+        RULE_TYPES.ASSIGNMENT,
+        this.elementTypeForExpressionBuilder
+    );
 
     @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.WAIT;
@@ -152,7 +170,7 @@ export default class WaitPlatformEvent extends LightningElement {
     eventTypeParameters;
 
     @track
-    filterConditionLogic = {value: CONDITION_LOGIC.NO_CONDITIONS};
+    filterConditionLogic = { value: CONDITION_LOGIC.NO_CONDITIONS };
 
     @track
     filters = [];
@@ -171,11 +189,16 @@ export default class WaitPlatformEvent extends LightningElement {
     _lastRecordedEventTypeValue = null;
 
     get eventTypeValue() {
-        return this._eventType ? getValueFromHydratedItem(this._eventType) : null;
+        return this._eventType
+            ? getValueFromHydratedItem(this._eventType)
+            : null;
     }
 
     get isEventTypeValid() {
-        return getValueFromHydratedItem(this._eventType) && !getErrorFromHydratedItem(this._eventType);
+        return (
+            getValueFromHydratedItem(this._eventType) &&
+            !getErrorFromHydratedItem(this._eventType)
+        );
     }
 
     get operatorIconName() {
@@ -186,7 +209,7 @@ export default class WaitPlatformEvent extends LightningElement {
      * get the fields of the selected entity
      */
     updateFilterFields(eventType) {
-        getInputParametersForEventType(eventType, (params) => {
+        getInputParametersForEventType(eventType, params => {
             this.filterFields = params;
         });
     }
@@ -195,9 +218,10 @@ export default class WaitPlatformEvent extends LightningElement {
      * Update the event type name in output parameter item
      */
     updateOutputParameterItemEventType() {
-        Object.assign(this.outputParameterItem,
-            { objectType: this.eventTypeValue, name: this.eventTypeValue, }
-        );
+        Object.assign(this.outputParameterItem, {
+            objectType: this.eventTypeValue,
+            name: this.eventTypeValue
+        });
     }
 
     /**
@@ -209,7 +233,7 @@ export default class WaitPlatformEvent extends LightningElement {
             LABELS.selectEventLabel,
             getErrorFromHydratedItem(this.eventType),
             false,
-            true,
+            true
         );
     }
 
@@ -281,9 +305,13 @@ export default class WaitPlatformEvent extends LightningElement {
         const error = event.detail.error;
 
         // fire update event type event
-        const updateWaitEvenTypeEvent = new UpdateWaitEventEventTypeEvent(value, error, this.waitEventGuid, this._lastRecordedEventTypeValue);
+        const updateWaitEvenTypeEvent = new UpdateWaitEventEventTypeEvent(
+            value,
+            error,
+            this.waitEventGuid,
+            this._lastRecordedEventTypeValue
+        );
         this.dispatchEvent(updateWaitEvenTypeEvent);
-
 
         // if the event type is valid and there is no error then clear all input parameters
         if (this._lastRecordedEventTypeValue !== value && !error) {
@@ -301,12 +329,17 @@ export default class WaitPlatformEvent extends LightningElement {
         const { value, error, oldValue } = event.detail;
 
         if (event.detail.propertyName === 'conditionLogic') {
-            this.filterConditionLogic = {value: event.detail.value};
+            this.filterConditionLogic = { value: event.detail.value };
             propertyName = 'platformEventConditionLogic';
         }
 
-        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, this.waitEventGuid, oldValue);
-
+        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(
+            propertyName,
+            value,
+            error,
+            this.waitEventGuid,
+            oldValue
+        );
 
         this.dispatchEvent(waitEventPropertyChangedEvent);
     }
@@ -315,35 +348,60 @@ export default class WaitPlatformEvent extends LightningElement {
         event.stopPropagation();
         switch (event.type) {
             case AddConditionEvent.EVENT_NAME:
-                this.dispatchEvent(new WaitEventAddParameterEvent(
-                    null, event.detail.parentGUID, true
-                ));
+                this.dispatchEvent(
+                    new WaitEventAddParameterEvent(
+                        null,
+                        event.detail.parentGUID,
+                        true
+                    )
+                );
                 break;
             case DeleteConditionEvent.EVENT_NAME:
-                this.dispatchEvent(new WaitEventDeleteParameterEvent(
-                    null, event.detail.parentGUID, true, event.detail.index
-                ));
+                this.dispatchEvent(
+                    new WaitEventDeleteParameterEvent(
+                        null,
+                        event.detail.parentGUID,
+                        true,
+                        event.detail.index
+                    )
+                );
                 break;
             case UpdateConditionEvent.EVENT_NAME:
-                this.dispatchEvent(new WaitEventParameterChangedEvent(
-                    // EventType prefix should not be there in metadata/store
-                    {
-                        value: event.detail.value.leftHandSide ? this.removeEventTypePrefix(event.detail.value.leftHandSide) : undefined,
-                        error: event.detail.value.leftHandSide ? event.detail.value.leftHandSide.error : null,
-                    },
-                    {
-                        value: event.detail.value.rightHandSide ? event.detail.value.rightHandSide.value : undefined,
-                        error: event.detail.value.rightHandSide ? event.detail.value.rightHandSide.error : null,
-                    },
-                    {
-                        value: event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.value : undefined,
-                        error: event.detail.value.rightHandSideDataType ? event.detail.value.rightHandSideDataType.error : null,
-                    },
-                    event.detail.error,
-                    event.detail.parentGUID,
-                    true,
-                    event.detail.index
-                ));
+                this.dispatchEvent(
+                    new WaitEventParameterChangedEvent(
+                        // EventType prefix should not be there in metadata/store
+                        {
+                            value: event.detail.value.leftHandSide
+                                ? this.removeEventTypePrefix(
+                                      event.detail.value.leftHandSide
+                                  )
+                                : undefined,
+                            error: event.detail.value.leftHandSide
+                                ? event.detail.value.leftHandSide.error
+                                : null
+                        },
+                        {
+                            value: event.detail.value.rightHandSide
+                                ? event.detail.value.rightHandSide.value
+                                : undefined,
+                            error: event.detail.value.rightHandSide
+                                ? event.detail.value.rightHandSide.error
+                                : null
+                        },
+                        {
+                            value: event.detail.value.rightHandSideDataType
+                                ? event.detail.value.rightHandSideDataType.value
+                                : undefined,
+                            error: event.detail.value.rightHandSideDataType
+                                ? event.detail.value.rightHandSideDataType.error
+                                : null
+                        },
+                        event.detail.error,
+                        event.detail.parentGUID,
+                        true,
+                        event.detail.index
+                    )
+                );
                 break;
             default:
                 break;

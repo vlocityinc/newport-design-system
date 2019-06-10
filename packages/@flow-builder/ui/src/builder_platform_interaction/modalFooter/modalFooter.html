@@ -1,4 +1,20 @@
 <template>
-    <lightning-button if:true={buttons.buttonOne} disabled={state.buttonOneDisabled} variant={buttons.buttonOne.buttonVariant} label={buttons.buttonOne.buttonLabel} title={buttons.buttonOne.buttonLabel} onclick={handleButtonOneClick} class='slds-m-left_x-small'></lightning-button>
-    <lightning-button if:true={buttons.buttonTwo} disabled={state.buttonTwoDisabled} variant={buttons.buttonTwo.buttonVariant} label={buttons.buttonTwo.buttonLabel} title={buttons.buttonTwo.buttonLabel} onclick={handleButtonTwoClick} class='slds-m-left_x-small'></lightning-button>
-</template> 
+    <lightning-button
+        if:true={buttons.buttonOne}
+        disabled={state.buttonOneDisabled}
+        variant={buttons.buttonOne.buttonVariant}
+        label={buttons.buttonOne.buttonLabel}
+        title={buttons.buttonOne.buttonLabel}
+        onclick={handleButtonOneClick}
+        class="slds-m-left_x-small"
+    ></lightning-button>
+    <lightning-button
+        if:true={buttons.buttonTwo}
+        disabled={state.buttonTwoDisabled}
+        variant={buttons.buttonTwo.buttonVariant}
+        label={buttons.buttonTwo.buttonLabel}
+        title={buttons.buttonTwo.buttonLabel}
+        onclick={handleButtonTwoClick}
+        class="slds-m-left_x-small"
+    ></lightning-button>
+</template>

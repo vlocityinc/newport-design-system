@@ -1,34 +1,41 @@
 import {
     getGlobalConstantOrSystemVariable,
     getGlobalVariable,
-    GLOBAL_CONSTANT_OBJECTS,
-} from "builder_platform_interaction/systemLib";
-import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
+    GLOBAL_CONSTANT_OBJECTS
+} from 'builder_platform_interaction/systemLib';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
     mutateFieldToComboboxShape,
-    mutateFlowResourceToComboboxShape,
+    mutateFlowResourceToComboboxShape
 } from './menuDataGenerator';
-import * as sobjectLib from "builder_platform_interaction/sobjectLib";
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { elementToParam } from "builder_platform_interaction/ruleLib";
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { isObject, addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { elementToParam } from 'builder_platform_interaction/ruleLib';
+import {
+    FEROV_DATA_TYPE,
+    FLOW_DATA_TYPE
+} from 'builder_platform_interaction/dataTypeLib';
+import {
+    isObject,
+    addCurlyBraces,
+    format
+} from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import removedResource from "@salesforce/label/FlowBuilderValidation.removedResource";
+import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
     OPERATOR: 'operator',
     RIGHT_HAND_SIDE: 'rightHandSide',
-    RIGHT_HAND_SIDE_DATA_TYPE: 'rightHandSideDataType',
+    RIGHT_HAND_SIDE_DATA_TYPE: 'rightHandSideDataType'
 };
 
 export const OPERATOR_DISPLAY_OPTION = {
     COMBOBOX: 'combobox',
     RIGHT_ARROW: 'utility:forward',
     LEFT_ARROW: 'utility:back',
-    NONE: 'none',
+    NONE: 'none'
 };
 
 /**
@@ -39,7 +46,7 @@ export const OPERATOR_DISPLAY_OPTION = {
 export const LHS_DISPLAY_OPTION = {
     NOT_FIELD: 'notField',
     FIELD_ON_VARIABLE: 'fieldOnVariable',
-    SOBJECT_FIELD: 'sobjectField',
+    SOBJECT_FIELD: 'sobjectField'
 };
 
 /**
@@ -49,7 +56,7 @@ export const LHS_DISPLAY_OPTION = {
  * @param {Object} event Event for the data type
  * @return {Object|String} value of the event payload
  */
-export const getItemOrDisplayText = (event) => {
+export const getItemOrDisplayText = event => {
     // if it is a combobox value changed event we have two cases: literals or item select
     return event.detail.item || event.detail.displayText;
 };
@@ -60,9 +67,11 @@ export const getItemOrDisplayText = (event) => {
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
  * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
-export const getResourceByUniqueIdentifier = (identifier) => {
+export const getResourceByUniqueIdentifier = identifier => {
     const complexGuid = sanitizeGuid(identifier);
-    let resource = getElementByGuid(complexGuid.guidOrLiteral) || getGlobalConstantOrSystemVariable(identifier);
+    let resource =
+        getElementByGuid(complexGuid.guidOrLiteral) ||
+        getGlobalConstantOrSystemVariable(identifier);
     if (!resource && identifier && identifier.startsWith('$')) {
         resource = getGlobalVariable(identifier);
     }
@@ -76,7 +85,7 @@ export const getResourceByUniqueIdentifier = (identifier) => {
  * @param {String} identifier    unique identifier that can be used to retrieve the flow resource
  * @returns {FEROV_DATA_TYPE|null}    the dataType category this value belongs to or null if it doesn't exist
  */
-export const getFerovDataTypeForValidId = (identifier) => {
+export const getFerovDataTypeForValidId = identifier => {
     if (GLOBAL_CONSTANT_OBJECTS[identifier]) {
         return GLOBAL_CONSTANT_OBJECTS[identifier].dataType;
     } else if (getResourceByUniqueIdentifier(identifier)) {
@@ -97,7 +106,9 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     let value = event.detail.displayText;
     let dataType = literalDataType;
     if (isObject(itemOrDisplayText) && !error) {
-        const resourceDataType = getFerovDataTypeForValidId(itemOrDisplayText.value);
+        const resourceDataType = getFerovDataTypeForValidId(
+            itemOrDisplayText.value
+        );
         if (resourceDataType) {
             value = itemOrDisplayText.value;
             dataType = resourceDataType;
@@ -110,7 +121,7 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     return {
         value,
         dataType,
-        error,
+        error
     };
 };
 
@@ -120,7 +131,7 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
  * @param {String} identifier    used to identify value, could be GUID or literal
  * @returns {Item}               value in format displayable by combobox
  */
-export const normalizeFEROV = (identifier) => {
+export const normalizeFEROV = identifier => {
     // TODO: W-5981876 consolidate this with outputResourcePicker.normalizeValue
     const rhs = { itemOrDisplayText: identifier };
     const flowElement = getResourceByUniqueIdentifier(identifier);
@@ -131,13 +142,23 @@ export const normalizeFEROV = (identifier) => {
         if (!fieldName) {
             rhs.itemOrDisplayText = item;
         } else {
-            const retrieveFieldsFn = flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value ? sobjectLib.getFieldsForEntity : apexTypeLib.getPropertiesForClass;
+            const retrieveFieldsFn =
+                flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value
+                    ? sobjectLib.getFieldsForEntity
+                    : apexTypeLib.getPropertiesForClass;
             const fields = retrieveFieldsFn(flowElement.subtype);
             const field = fields && fields[fieldName];
             if (field && fieldName.indexOf('.') === -1) {
-                rhs.itemOrDisplayText = mutateFieldToComboboxShape(field, item, true, true);
+                rhs.itemOrDisplayText = mutateFieldToComboboxShape(
+                    field,
+                    item,
+                    true,
+                    true
+                );
             } else {
-                rhs.itemOrDisplayText = addCurlyBraces(item.text + '.' + fieldName);
+                rhs.itemOrDisplayText = addCurlyBraces(
+                    item.text + '.' + fieldName
+                );
             }
             rhs.fields = fields;
         }
@@ -179,13 +200,23 @@ export const normalizeFEROV = (identifier) => {
  * @param {Boolean} isFieldOnSobjectVar   true if this field should be displayed in a mergefield relative to an sobject variable, false if it should be displayed alone
  * @returns {lhsDescribe}                      describes the attributes needed for the expression builder
  */
-export const populateLhsStateForField =  (fields, fieldName, fieldParent, isFieldOnSobjectVar) => {
+export const populateLhsStateForField = (
+    fields,
+    fieldName,
+    fieldParent,
+    isFieldOnSobjectVar
+) => {
     const lhsState = {
-        fields,
+        fields
     };
     const field = fields && fields[fieldName];
     if (field) {
-        lhsState.value = mutateFieldToComboboxShape(field, fieldParent, isFieldOnSobjectVar, isFieldOnSobjectVar);
+        lhsState.value = mutateFieldToComboboxShape(
+            field,
+            fieldParent,
+            isFieldOnSobjectVar,
+            isFieldOnSobjectVar
+        );
         lhsState.activePicklistValues = field.activePicklistValues || false;
         lhsState.param = elementToParam(field);
     }
@@ -204,7 +235,7 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
         isField: false,
         fields: null,
         error: rightHandSide.error,
-        itemOrDisplayText: rightHandSide.value,
+        itemOrDisplayText: rightHandSide.value
     };
 
     if (!rightHandSide.error) {
@@ -214,15 +245,27 @@ export const populateRhsState = ({ rightHandSide }, callback) => {
     callback(rhsState);
 };
 
-export const checkExpressionForDeletedElem = (deletedGuids, expression, propertyEditorLabel) => {
-    const checkComboboxForDeletedElem = (prop) => {
+export const checkExpressionForDeletedElem = (
+    deletedGuids,
+    expression,
+    propertyEditorLabel
+) => {
+    const checkComboboxForDeletedElem = prop => {
         const property = expression[prop];
         if (property && !property.error && deletedGuids.has(property.value)) {
-            const deletedDevName = getResourceByUniqueIdentifier(property.value).name;
+            const deletedDevName = getResourceByUniqueIdentifier(property.value)
+                .name;
             property.value = addCurlyBraces(deletedDevName);
-            property.error = format(removedResource, deletedDevName, propertyEditorLabel);
+            property.error = format(
+                removedResource,
+                deletedDevName,
+                propertyEditorLabel
+            );
         }
     };
 
-    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].forEach(prop => checkComboboxForDeletedElem(prop));
+    [
+        EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
+        EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE
+    ].forEach(prop => checkComboboxForDeletedElem(prop));
 };

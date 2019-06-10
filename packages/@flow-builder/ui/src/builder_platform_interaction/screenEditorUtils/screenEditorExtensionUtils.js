@@ -1,7 +1,13 @@
-import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { getDataTypeIcons, FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
+import {
+    fetch,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import {
+    getDataTypeIcons,
+    FLOW_DATA_TYPE
+} from 'builder_platform_interaction/dataTypeLib';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
@@ -10,7 +16,7 @@ let extensionDescriptionCache = {};
 let flowProcessTypeCache;
 let _retriever; // Retrieves extensions list and notifies all callbacks that registered while the operation was taking place
 
-export const EXTENSION_TYPE_SOURCE = {LOCAL:'local', SERVER: 'server'};
+export const EXTENSION_TYPE_SOURCE = { LOCAL: 'local', SERVER: 'server' };
 export const COMPONENT_INSTANCE = 'ComponentInstance';
 
 // Makes the object read only
@@ -88,9 +94,15 @@ function createDescription(name, data) {
 
 function transformDefaultValue(value) {
     if (value) {
-        if (value === false || (value.toLowerCase && value.toLowerCase().trim() === 'false')) {
+        if (
+            value === false ||
+            (value.toLowerCase && value.toLowerCase().trim() === 'false')
+        ) {
             return GLOBAL_CONSTANTS.BOOLEAN_FALSE;
-        } else if (value === true || (value.toLowerCase && value.toLowerCase().trim() === 'true')) {
+        } else if (
+            value === true ||
+            (value.toLowerCase && value.toLowerCase().trim() === 'true')
+        ) {
             return GLOBAL_CONSTANTS.BOOLEAN_TRUE;
         } else if (value && value.trim && value.trim() === '') {
             return GLOBAL_CONSTANTS.EMPTY_STRING;
@@ -132,36 +144,48 @@ function getListExtensionsRetriever(flowProcessType) {
                     started = true;
                     const cbs = this.callbacks;
                     extensionCache = [];
-                    fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS, ({data, error}) => {
-                        _retriever.callbacks = [];
-                        _retriever = null;
+                    fetch(
+                        SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS,
+                        ({ data, error }) => {
+                            _retriever.callbacks = [];
+                            _retriever = null;
 
-                        if (error) {
-                            for (const callback of cbs) {
-                                callback(null, error);
-                            }
-                        } else {
-                            flowProcessTypeCache = flowProcessType;
-                            for (const extension of data) {
-                                extensionCache.push(freeze({
-                                    name: extension.qualifiedApiName,
-                                    fieldType: COMPONENT_INSTANCE,
-                                    label: extension.label ? extension.label : extension.qualifiedApiName,
-                                    icon: 'standard:lightning_component',
-                                    category: extension.source === 'Standard' ? LABELS.fieldCategoryInput : LABELS.fieldCategoryCustom,
-                                    description: extension.description,
-                                    marker: extension.marker,
-                                    source: EXTENSION_TYPE_SOURCE.SERVER // The extension description was retrieved from the server
-                                }));
-                            }
+                            if (error) {
+                                for (const callback of cbs) {
+                                    callback(null, error);
+                                }
+                            } else {
+                                flowProcessTypeCache = flowProcessType;
+                                for (const extension of data) {
+                                    extensionCache.push(
+                                        freeze({
+                                            name: extension.qualifiedApiName,
+                                            fieldType: COMPONENT_INSTANCE,
+                                            label: extension.label
+                                                ? extension.label
+                                                : extension.qualifiedApiName,
+                                            icon:
+                                                'standard:lightning_component',
+                                            category:
+                                                extension.source === 'Standard'
+                                                    ? LABELS.fieldCategoryInput
+                                                    : LABELS.fieldCategoryCustom,
+                                            description: extension.description,
+                                            marker: extension.marker,
+                                            source: EXTENSION_TYPE_SOURCE.SERVER // The extension description was retrieved from the server
+                                        })
+                                    );
+                                }
 
-                            for (const callback of cbs) {
-                                callback(extensionCache.slice(0), null); // clone the array
+                                for (const callback of cbs) {
+                                    callback(extensionCache.slice(0), null); // clone the array
+                                }
                             }
+                        },
+                        {
+                            flowProcessType
                         }
-                    }, {
-                        flowProcessType
-                    });
+                    );
                 }
             }
         };
@@ -200,14 +224,24 @@ export function describeExtension(name, refreshCache, callback) {
             return;
         }
 
-        fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS, ({data, error}) => {
-            if (error) {
-                callback(null, error);
-            } else {
-                extensionDescriptionCache[name] = createDescription(name, data);
-                callback(cloneDescription(extensionDescriptionCache[name]), null);
-            }
-        }, {name});
+        fetch(
+            SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS,
+            ({ data, error }) => {
+                if (error) {
+                    callback(null, error);
+                } else {
+                    extensionDescriptionCache[name] = createDescription(
+                        name,
+                        data
+                    );
+                    callback(
+                        cloneDescription(extensionDescriptionCache[name]),
+                        null
+                    );
+                }
+            },
+            { name }
+        );
     }
 }
 
@@ -251,19 +285,28 @@ export function describeExtensions(names, refreshCache, callback) {
         }
     }
 
-    fetch(SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS, ({data, error}) => {
-        if (error) {
-            callback(null, error);
-        } else {
-            const descs = [];
-            for (const name of names) {
-                extensionDescriptionCache[name] = createDescription(name, data[name]);
-                descs.push(cloneDescription(extensionDescriptionCache[name]));
-            }
+    fetch(
+        SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS,
+        ({ data, error }) => {
+            if (error) {
+                callback(null, error);
+            } else {
+                const descs = [];
+                for (const name of names) {
+                    extensionDescriptionCache[name] = createDescription(
+                        name,
+                        data[name]
+                    );
+                    descs.push(
+                        cloneDescription(extensionDescriptionCache[name])
+                    );
+                }
 
-            callback(descs, null);
-        }
-    }, {names});
+                callback(descs, null);
+            }
+        },
+        { names }
+    );
 }
 
 /**
@@ -281,7 +324,10 @@ export function clearExtensionsCache() {
  */
 export function processScreenExtensionTypes(screen) {
     for (const field of screen.fields) {
-        if (field.fieldType === COMPONENT_INSTANCE && field.type.source === EXTENSION_TYPE_SOURCE.LOCAL) {
+        if (
+            field.fieldType === COMPONENT_INSTANCE &&
+            field.type.source === EXTENSION_TYPE_SOURCE.LOCAL
+        ) {
             for (const type of extensionCache) {
                 if (type.name === field.type.name) {
                     field.type = type;
@@ -303,12 +349,14 @@ export function processScreenExtensionTypes(screen) {
  */
 export function processRequiredParamsForExtensionsInScreen(screen, callback) {
     // Get all extension fields
-    const extensionFields = screen.fields.filter(f => f.fieldType === COMPONENT_INSTANCE);
+    const extensionFields = screen.fields.filter(
+        f => f.fieldType === COMPONENT_INSTANCE
+    );
 
     // Get the extension names
     const extensions = extensionFields.map(f => f.extensionName.value);
 
-    const processFn = (descriptions) => {
+    const processFn = descriptions => {
         // Create a map field.name = field
         const fieldsMap = extensionFields.reduce((map, field) => {
             map[field.extensionName.value] = field;
@@ -323,22 +371,24 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
         }
     };
 
-
-    if (callback) { // Async, go to server if necessary
+    if (callback) {
+        // Async, go to server if necessary
         // Get the descriptions
         describeExtensions(extensions, false, (descs, error) => {
             if (error) {
-                callback({error});
+                callback({ error });
             } else {
                 processFn(descs);
-                callback({error, screen});
+                callback({ error, screen });
             }
         });
     } else {
         // Use cached descriptors
         const descs = getCachedExtensions(extensions);
         if (descs.length !== extensions.length) {
-            throw new Error('Can not find all required extension descriptions in the cache');
+            throw new Error(
+                'Can not find all required extension descriptions in the cache'
+            );
         } else {
             processFn(descs);
         }
@@ -354,10 +404,15 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
 export function addRequiredInputParameters(field, description) {
     for (const param of description.inputParameters) {
         if (param.isRequired && !param.hasDefaultValue) {
-            if (field.inputParameters.filter(p => p.name.value === param.apiName).length === 0) { // Param is not present
+            if (
+                field.inputParameters.filter(
+                    p => p.name.value === param.apiName
+                ).length === 0
+            ) {
+                // Param is not present
                 field.inputParameters.push({
-                    name: {value: param.apiName, error: null},
-                    value: {value: null, error: null},
+                    name: { value: param.apiName, error: null },
+                    value: { value: null, error: null },
                     processMetadataValues: {}
                 });
             }

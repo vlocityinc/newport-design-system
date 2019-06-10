@@ -22,12 +22,16 @@ import {
     ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT,
-    UPDATE_CANVAS_ELEMENT_LOCATION,
-} from "builder_platform_interaction/actions";
-import { isDevNameInStore } from "builder_platform_interaction/storeUtils";
-import { updateProperties, omit, addItem } from "builder_platform_interaction/dataMutationLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+    UPDATE_CANVAS_ELEMENT_LOCATION
+} from 'builder_platform_interaction/actions';
+import { isDevNameInStore } from 'builder_platform_interaction/storeUtils';
+import {
+    updateProperties,
+    omit,
+    addItem
+} from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 /**
  * Reducer for elements.
@@ -40,22 +44,43 @@ import { getConfigForElementType } from "builder_platform_interaction/elementCon
 export default function elementsReducer(state = {}, action) {
     switch (action.type) {
         case UPDATE_FLOW:
-            return {...action.payload.elements};
+            return { ...action.payload.elements };
         case DO_DUPLICATE:
-            return _duplicateElement(state, action.payload.canvasElementGuidMap, action.payload.childElementGuidMap, action.payload.connectorsToDuplicate);
+            return _duplicateElement(
+                state,
+                action.payload.canvasElementGuidMap,
+                action.payload.childElementGuidMap,
+                action.payload.connectorsToDuplicate
+            );
         case ADD_CANVAS_ELEMENT:
         case ADD_START_ELEMENT:
         case ADD_RESOURCE:
         case UPDATE_CANVAS_ELEMENT:
         case UPDATE_CANVAS_ELEMENT_LOCATION:
         case UPDATE_RESOURCE:
-            return _addOrUpdateElement(state, action.payload.guid, action.payload);
+            return _addOrUpdateElement(
+                state,
+                action.payload.guid,
+                action.payload
+            );
         case UPDATE_VARIABLE_CONSTANT:
-            return _updateVariableOrConstant(state, action.payload.guid, action.payload);
+            return _updateVariableOrConstant(
+                state,
+                action.payload.guid,
+                action.payload
+            );
         case UPDATE_RECORD_LOOKUP:
-            return _updateRecordLookup(state, action.payload.guid, action.payload);
+            return _updateRecordLookup(
+                state,
+                action.payload.guid,
+                action.payload
+            );
         case DELETE_ELEMENT:
-            return _deleteAndUpdateElements(state, action.payload.selectedElementGUIDs, action.payload.connectorsToDelete);
+            return _deleteAndUpdateElements(
+                state,
+                action.payload.selectedElementGUIDs,
+                action.payload.connectorsToDelete
+            );
         case ADD_CONNECTOR:
             return _updateElementOnAddConnection(state, action.payload);
         case DELETE_RESOURCE:
@@ -67,17 +92,31 @@ export default function elementsReducer(state = {}, action) {
         case DESELECT_ON_CANVAS:
             return _deselectCanvasElements(state);
         case MARQUEE_SELECT_ON_CANVAS:
-            return _marqueeSelect(state, action.payload.canvasElementGuidsToSelect, action.payload.canvasElementGuidsToDeselect);
+            return _marqueeSelect(
+                state,
+                action.payload.canvasElementGuidsToSelect,
+                action.payload.canvasElementGuidsToDeselect
+            );
         case HIGHLIGHT_ON_CANVAS:
             return _highlightCanvasElement(state, action.payload.guid);
         case ADD_DECISION_WITH_OUTCOMES:
         case MODIFY_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
         case MODIFY_WAIT_WITH_WAIT_EVENTS:
-            return _addOrUpdateCanvasElementWithChildElements(state, action.payload.canvasElement, action.payload.deletedChildElementGuids, action.payload.childElements);
+            return _addOrUpdateCanvasElementWithChildElements(
+                state,
+                action.payload.canvasElement,
+                action.payload.deletedChildElementGuids,
+                action.payload.childElements
+            );
         case ADD_SCREEN_WITH_FIELDS:
         case MODIFY_SCREEN_WITH_FIELDS:
-            return _addOrUpdateScreenWithScreenFields(state, action.payload.screen, action.payload.deletedFields, action.payload.fields);
+            return _addOrUpdateScreenWithScreenFields(
+                state,
+                action.payload.screen,
+                action.payload.deletedFields,
+                action.payload.fields
+            );
         default:
             return state;
     }
@@ -95,42 +134,78 @@ export default function elementsReducer(state = {}, action) {
  * @return {Object} new state after reduction
  * @private
  */
-function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap = {}, connectorsToDuplicate = []) {
+function _duplicateElement(
+    state,
+    canvasElementGuidMap = {},
+    childElementGuidMap = {},
+    connectorsToDuplicate = []
+) {
     let newState = Object.assign({}, state);
 
     const elementGuidsToDuplicate = Object.keys(canvasElementGuidMap);
     const childElementGuidsToDuplicate = Object.keys(childElementGuidMap);
     const blacklistNames = [];
-    const childElementNameMap = _getDuplicateChildElementNameMap(newState, childElementGuidsToDuplicate, blacklistNames);
+    const childElementNameMap = _getDuplicateChildElementNameMap(
+        newState,
+        childElementGuidsToDuplicate,
+        blacklistNames
+    );
     blacklistNames.push(Object.values(childElementNameMap));
 
     for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
         const selectedElement = newState[elementGuidsToDuplicate[i]];
         // Deselect each element to be duplicated (since the duplicated elements will now be selected)
-        if (selectedElement && selectedElement.config && selectedElement.config.isSelected) {
-            newState[selectedElement.guid] = Object.assign({}, selectedElement, {
-                config: {
-                    isSelected: false,
-                    isHighlighted: selectedElement.config.isHighlighted
+        if (
+            selectedElement &&
+            selectedElement.config &&
+            selectedElement.config.isSelected
+        ) {
+            newState[selectedElement.guid] = Object.assign(
+                {},
+                selectedElement,
+                {
+                    config: {
+                        isSelected: false,
+                        isHighlighted: selectedElement.config.isHighlighted
+                    }
                 }
-            });
+            );
         }
 
         // Figure out a unique name for the element to be duplicated
         const duplicateElementGuid = canvasElementGuidMap[selectedElement.guid];
-        const duplicateElementName = _getUniqueDuplicateElementName(selectedElement.name, blacklistNames);
+        const duplicateElementName = _getUniqueDuplicateElementName(
+            selectedElement.name,
+            blacklistNames
+        );
         blacklistNames.push(duplicateElementName);
 
-        const elementConfig = getConfigForElementType(selectedElement.elementType);
-        const { duplicatedElement, duplicatedChildElements = {} } = elementConfig && elementConfig.factory && elementConfig.factory.duplicateElement
-                                                                    && elementConfig.factory.duplicateElement(selectedElement, duplicateElementGuid, duplicateElementName, childElementGuidMap, childElementNameMap);
+        const elementConfig = getConfigForElementType(
+            selectedElement.elementType
+        );
+        const { duplicatedElement, duplicatedChildElements = {} } =
+            elementConfig &&
+            elementConfig.factory &&
+            elementConfig.factory.duplicateElement &&
+            elementConfig.factory.duplicateElement(
+                selectedElement,
+                duplicateElementGuid,
+                duplicateElementName,
+                childElementGuidMap,
+                childElementNameMap
+            );
 
         newState[duplicatedElement.guid] = duplicatedElement;
-        newState = {...newState, ...duplicatedChildElements};
+        newState = { ...newState, ...duplicatedChildElements };
     }
 
     // Update the available connections and connector count on each duplicated element based on what connectors were also duplicated
-    _updateAvailableConnectionsAndConnectorCount(newState, connectorsToDuplicate, canvasElementGuidMap, childElementGuidMap);
+    _updateAvailableConnectionsAndConnectorCount(
+        newState,
+        connectorsToDuplicate,
+        canvasElementGuidMap,
+        childElementGuidMap
+    );
 
     return newState;
 }
@@ -147,12 +222,23 @@ function _duplicateElement(state, canvasElementGuidMap = {}, childElementGuidMap
  * @return {Object} new state after reduction
  * @private
  */
-function _addOrUpdateCanvasElementWithChildElements(state, canvasElement, deletedChildElementGuids, childElements = []) {
+function _addOrUpdateCanvasElementWithChildElements(
+    state,
+    canvasElement,
+    deletedChildElementGuids,
+    childElements = []
+) {
     let newState = updateProperties(state);
-    newState[canvasElement.guid] = updateProperties(newState[canvasElement.guid], canvasElement);
+    newState[canvasElement.guid] = updateProperties(
+        newState[canvasElement.guid],
+        canvasElement
+    );
 
     for (const childElement of childElements) {
-        newState[childElement.guid] = updateProperties(newState[childElement.guid], childElement);
+        newState[childElement.guid] = updateProperties(
+            newState[childElement.guid],
+            childElement
+        );
     }
 
     newState = omit(newState, deletedChildElementGuids);
@@ -186,7 +272,7 @@ function _addOrUpdateElement(state, guid, element) {
  * @private
  */
 function _updateVariableOrConstant(state, guid, element) {
-    return updateProperties(state, { [guid] : element});
+    return updateProperties(state, { [guid]: element });
 }
 
 /**
@@ -232,7 +318,9 @@ function _getSubElementGuids(node) {
         }
     } else if (node.elementType === ELEMENT_TYPE.WAIT) {
         for (let i = 0; i < node.waitEventReferences.length; i++) {
-            subElementsGuids.push(node.waitEventReferences[i].waitEventReference);
+            subElementsGuids.push(
+                node.waitEventReferences[i].waitEventReference
+            );
         }
     }
 
@@ -262,17 +350,22 @@ function _deleteAndUpdateElements(elements, originalGUIDs, connectorsToDelete) {
     const connectorsToDeleteLength = connectorsToDelete.length;
     for (let i = 0; i < connectorsToDeleteLength; i++) {
         const connector = connectorsToDelete[i];
-        const connectorSourceElement = updateProperties(newState[connector.source]);
+        const connectorSourceElement = updateProperties(
+            newState[connector.source]
+        );
         if (connectorSourceElement && connectorSourceElement.connectorCount) {
             // Decrements the connector count
             connectorSourceElement.connectorCount--;
 
             if (connectorSourceElement.availableConnections) {
                 // Adds the deleted connector to availableConnections
-                connectorSourceElement.availableConnections = addItem(connectorSourceElement.availableConnections, {
-                    type: connector.type,
-                    childReference: connector.childSource
-                });
+                connectorSourceElement.availableConnections = addItem(
+                    connectorSourceElement.availableConnections,
+                    {
+                        type: connector.type,
+                        childReference: connector.childSource
+                    }
+                );
             }
 
             newState[connector.source] = connectorSourceElement;
@@ -333,7 +426,10 @@ function _selectCanvasElement(elements, selectedGUID) {
                     });
                     hasStateChanged = true;
                 }
-            } else if (element.config.isSelected || element.config.isHighlighted) {
+            } else if (
+                element.config.isSelected ||
+                element.config.isHighlighted
+            ) {
                 newState[guid] = updateProperties(element, {
                     config: {
                         isSelected: false,
@@ -419,7 +515,12 @@ function _deselectCanvasElements(elements) {
     let hasStateChanged = false;
     Object.keys(elements).map(guid => {
         const element = newState[guid];
-        if (element && element.isCanvasElement && element.config && (element.config.isSelected || element.config.isHighlighted)) {
+        if (
+            element &&
+            element.isCanvasElement &&
+            element.config &&
+            (element.config.isSelected || element.config.isHighlighted)
+        ) {
             newState[guid] = updateProperties(element, {
                 config: {
                     isSelected: false,
@@ -481,7 +582,12 @@ function _highlightCanvasElement(elements, elementGuid) {
  * @return {Object} new state after reduction
  * @private
  */
-function _addOrUpdateScreenWithScreenFields(state, screen, deletedFields, fields = []) {
+function _addOrUpdateScreenWithScreenFields(
+    state,
+    screen,
+    deletedFields,
+    fields = []
+) {
     let newState = updateProperties(state);
     newState[screen.guid] = updateProperties(newState[screen.guid], screen);
 
@@ -524,11 +630,18 @@ function _getUniqueDuplicateElementName(name, blacklistNames = []) {
  *
  * @return {Object} Map of child element dev names to duplicated child element dev names
  */
-function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, blacklistNames = []) {
+function _getDuplicateChildElementNameMap(
+    state,
+    childElementGuidsToDuplicate,
+    blacklistNames = []
+) {
     const childElementNameMap = {};
     for (let i = 0; i < childElementGuidsToDuplicate.length; i++) {
         const childElement = state[childElementGuidsToDuplicate[i]];
-        const duplicateChildElementName = _getUniqueDuplicateElementName(childElement.name, blacklistNames);
+        const duplicateChildElementName = _getUniqueDuplicateElementName(
+            childElement.name,
+            blacklistNames
+        );
         childElementNameMap[childElement.name] = duplicateChildElementName;
         blacklistNames.push(duplicateChildElementName);
     }
@@ -544,19 +657,31 @@ function _getDuplicateChildElementNameMap(state, childElementGuidsToDuplicate, b
  * @param {Object} canvasElementGuidMap - Map of canvas element guids to duplicated canvas element guids
  * @param {Object} childElementGuidMap - Map of child element guids to duplicated child element guids
  */
-function _updateAvailableConnectionsAndConnectorCount(state, connectorsToDuplicate, canvasElementGuidMap, childElementGuidMap) {
+function _updateAvailableConnectionsAndConnectorCount(
+    state,
+    connectorsToDuplicate,
+    canvasElementGuidMap,
+    childElementGuidMap
+) {
     for (let i = 0; i < connectorsToDuplicate.length; i++) {
         const originalConnector = connectorsToDuplicate[i];
 
-        const duplicateSourceGuid = canvasElementGuidMap[originalConnector.source];
+        const duplicateSourceGuid =
+            canvasElementGuidMap[originalConnector.source];
         const duplicateSourceElement = state[duplicateSourceGuid];
 
-        const childSourceGUID = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
+        const childSourceGUID =
+            originalConnector.childSource &&
+            childElementGuidMap[originalConnector.childSource];
         const duplicateConnectorType = originalConnector.type;
-        _filterAvailableConnections(duplicateSourceElement, childSourceGUID, duplicateConnectorType);
+        _filterAvailableConnections(
+            duplicateSourceElement,
+            childSourceGUID,
+            duplicateConnectorType
+        );
 
         state[duplicateSourceGuid] = Object.assign({}, duplicateSourceElement, {
-            connectorCount: duplicateSourceElement.connectorCount + 1,
+            connectorCount: duplicateSourceElement.connectorCount + 1
         });
     }
 }
@@ -572,9 +697,14 @@ function _filterAvailableConnections(element, childSourceGUID, connectorType) {
     // Filter out an available connection if the child reference matches the child source element guid passed in OR if the connector type matches the connector type passed in
     if (element.availableConnections) {
         if (childSourceGUID) {
-            element.availableConnections = element.availableConnections.filter(availableConnector => (availableConnector.childReference !==  childSourceGUID));
+            element.availableConnections = element.availableConnections.filter(
+                availableConnector =>
+                    availableConnector.childReference !== childSourceGUID
+            );
         } else {
-            element.availableConnections = element.availableConnections.filter(availableConnector => (availableConnector.type !==  connectorType));
+            element.availableConnections = element.availableConnections.filter(
+                availableConnector => availableConnector.type !== connectorType
+            );
         }
     }
 }

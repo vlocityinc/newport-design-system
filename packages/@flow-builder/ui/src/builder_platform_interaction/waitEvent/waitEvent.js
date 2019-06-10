@@ -1,13 +1,23 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./waitEventLabels";
-import { CONDITION_LOGIC, ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getConditionsWithPrefixes, showDeleteCondition } from 'builder_platform_interaction/conditionListUtils';
+import { LABELS } from './waitEventLabels';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import {
+    getConditionsWithPrefixes,
+    showDeleteCondition
+} from 'builder_platform_interaction/conditionListUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
+import {
+    RULE_OPERATOR,
+    RULE_TYPES,
+    getRulesForElementType
+} from 'builder_platform_interaction/ruleLib';
 import {
     DeleteWaitEventEvent,
     WaitEventPropertyChangedEvent,
-    WaitEventParameterChangedEvent,
+    WaitEventParameterChangedEvent
 } from 'builder_platform_interaction/events';
 
 export default class WaitEvent extends LightningElement {
@@ -15,13 +25,16 @@ export default class WaitEvent extends LightningElement {
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
     conditionLogicOptions = [
-        {value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.alwaysWaitLabel},
-        {value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel},
-        {value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customLogicLabel},
+        { value: CONDITION_LOGIC.NO_CONDITIONS, label: LABELS.alwaysWaitLabel },
+        { value: CONDITION_LOGIC.AND, label: LABELS.andConditionLogicLabel },
+        { value: CONDITION_LOGIC.OR, label: LABELS.orConditionLogicLabel },
+        { value: CONDITION_LOGIC.CUSTOM_LOGIC, label: LABELS.customLogicLabel }
     ];
 
-    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementTypeForExpressionBuilder);
+    rulesForExpressionBuilder = getRulesForElementType(
+        RULE_TYPES.COMPARISON,
+        this.elementTypeForExpressionBuilder
+    );
 
     @track element;
 
@@ -38,7 +51,9 @@ export default class WaitEvent extends LightningElement {
     handleDelete(event) {
         event.stopPropagation();
 
-        const deleteWaitEventEvent = new DeleteWaitEventEvent(this.element.guid);
+        const deleteWaitEventEvent = new DeleteWaitEventEvent(
+            this.element.guid
+        );
         this.dispatchEvent(deleteWaitEventEvent);
     }
 
@@ -48,7 +63,13 @@ export default class WaitEvent extends LightningElement {
         const { propertyName, value, error, oldValue } = event.detail;
         const guid = this.element.guid;
 
-        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(propertyName, value, error, guid, oldValue);
+        const waitEventPropertyChangedEvent = new WaitEventPropertyChangedEvent(
+            propertyName,
+            value,
+            error,
+            guid,
+            oldValue
+        );
         this.dispatchEvent(waitEventPropertyChangedEvent);
     }
 
@@ -69,9 +90,9 @@ export default class WaitEvent extends LightningElement {
             },
             event.detail.error,
             this.element.guid,
-            event.detail.isInput,
-         );
-         this.dispatchEvent(waitEventParameterChanged);
+            event.detail.isInput
+        );
+        this.dispatchEvent(waitEventParameterChanged);
     }
 
     get upperCaseWaitConditionsTabText() {
@@ -87,7 +108,12 @@ export default class WaitEvent extends LightningElement {
     }
 
     get conditionsWithPrefixes() {
-        return this.element.conditions && this.element.conditionLogic ? getConditionsWithPrefixes(this.element.conditionLogic, this.element.conditions) : [];
+        return this.element.conditions && this.element.conditionLogic
+            ? getConditionsWithPrefixes(
+                  this.element.conditionLogic,
+                  this.element.conditions
+              )
+            : [];
     }
 
     /**
@@ -95,7 +121,10 @@ export default class WaitEvent extends LightningElement {
      * @return {boolean} if delete should be shown for each condition
      */
     get showDeleteCondition() {
-        return this.element.conditions && showDeleteCondition(this.element.conditions);
+        return (
+            this.element.conditions &&
+            showDeleteCondition(this.element.conditions)
+        );
     }
 
     get showErrorIndicatorWaitConditions() {
@@ -103,21 +132,34 @@ export default class WaitEvent extends LightningElement {
             return false;
         }
         const conditions = this.element.conditions || [];
-        const conditionLogic = this.element.conditionLogic ? { conditionLogic: this.element.conditionLogic } : {};
+        const conditionLogic = this.element.conditionLogic
+            ? { conditionLogic: this.element.conditionLogic }
+            : {};
 
-        return getErrorsFromHydratedElement(conditions).length > 0 || getErrorsFromHydratedElement(conditionLogic).length > 0;
+        return (
+            getErrorsFromHydratedElement(conditions).length > 0 ||
+            getErrorsFromHydratedElement(conditionLogic).length > 0
+        );
     }
 
     get showErrorIndicatorResumeConditions() {
-        if (!this.element.inputParameters && !this.element.outputParameters && !this.element.eventType) {
+        if (
+            !this.element.inputParameters &&
+            !this.element.outputParameters &&
+            !this.element.eventType
+        ) {
             return false;
         }
         const inputParams = this.element.inputParameters || [];
         const outputParams = this.element.outputParameters || {};
-        const eventType = this.element.eventType ? { eventType: this.element.eventType } : {};
+        const eventType = this.element.eventType
+            ? { eventType: this.element.eventType }
+            : {};
 
-        return getErrorsFromHydratedElement(inputParams).length > 0
-        || getErrorsFromHydratedElement(outputParams).length > 0
-        || getErrorsFromHydratedElement(eventType).length > 0;
+        return (
+            getErrorsFromHydratedElement(inputParams).length > 0 ||
+            getErrorsFromHydratedElement(outputParams).length > 0 ||
+            getErrorsFromHydratedElement(eventType).length > 0
+        );
     }
 }

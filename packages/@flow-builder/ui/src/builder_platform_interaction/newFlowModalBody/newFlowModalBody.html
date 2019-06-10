@@ -1,29 +1,57 @@
 <template>
     <!-- should be replaced by stencil placeholder: W-5921905 -->
-    <div class='slds-grid' if:false={state.processTypesFetched}>
-        <lightning-spinner size='medium' variant='brand' class='spinner' alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
+    <div class="slds-grid" if:false={state.processTypesFetched}>
+        <lightning-spinner
+            size="medium"
+            variant="brand"
+            class="spinner"
+            alternative-text={labels.spinnerAlternativeText}
+        ></lightning-spinner>
     </div>
-    <div class='slds-grid' if:true={state.processTypesFetched}>
-        <div class='slds-size_small slds-grow-none slds-shrink-none'>        
-            <builder_platform_interaction-process-types-vertical-navigation process-types={processTypes} selected-process-type={selectedProcessType} onprocesstypeselected={handleSelectProcessType}>
-            </builder_platform_interaction-process-types-vertical-navigation >
+    <div class="slds-grid" if:true={state.processTypesFetched}>
+        <div class="slds-size_small slds-grow-none slds-shrink-none">
+            <builder_platform_interaction-process-types-vertical-navigation
+                process-types={processTypes}
+                selected-process-type={selectedProcessType}
+                onprocesstypeselected={handleSelectProcessType}
+            >
+            </builder_platform_interaction-process-types-vertical-navigation>
         </div>
-        <div class='canvas-container slds-grow slds-shrink slds-scrollable_x'>
-            <div if:true={errorMessage} class='slds-notify_container slds-is-relative errorMessage'>
-                <div class='slds-notify slds-notify_toast slds-theme_error' role='status'>
-                    <lightning-icon icon-name="utility:error" class='slds-m-right_small slds-no-flex slds-align-top' variant='inverse' size='x-small'>
+        <div class="canvas-container slds-grow slds-shrink slds-scrollable_x">
+            <div
+                if:true={errorMessage}
+                class="slds-notify_container slds-is-relative errorMessage"
+            >
+                <div
+                    class="slds-notify slds-notify_toast slds-theme_error"
+                    role="status"
+                >
+                    <lightning-icon
+                        icon-name="utility:error"
+                        class="slds-m-right_small slds-no-flex slds-align-top"
+                        variant="inverse"
+                        size="x-small"
+                    >
                     </lightning-icon>
                     <div class="slds-notify__content">
                         <span>{errorMessage}</span>
                     </div>
                     <div class="slds-notify__close">
-                        <lightning-button-icon icon-name='utility:close' variant='bare-inverse' class='slds-m-left_xx-small' onclick={handleCloseErrorMessage}></lightning-button-icon>
-                  </div>
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            variant="bare-inverse"
+                            class="slds-m-left_xx-small"
+                            onclick={handleCloseErrorMessage}
+                        ></lightning-button-icon>
+                    </div>
                 </div>
             </div>
-            <builder_platform_interaction-process-types-templates process-type={selectedProcessType} ontemplatechanged={handleSelectTemplate} oncannotretrievetemplates={handleCannotRetrieveTemplates}>
-            </builder_platform_interaction-process-types-templates >
+            <builder_platform_interaction-process-types-templates
+                process-type={selectedProcessType}
+                ontemplatechanged={handleSelectTemplate}
+                oncannotretrievetemplates={handleCannotRetrieveTemplates}
+            >
+            </builder_platform_interaction-process-types-templates>
         </div>
-        
-    </div>   
+    </div>
 </template>

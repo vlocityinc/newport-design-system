@@ -1,9 +1,12 @@
 <template>
     <div class="slds-list_vertical-space">
-        <slot name="listBody">
-        </slot>
+        <slot name="listBody"> </slot>
         <div class="slds-m-top_small">
-            <lightning-button label={addLabel} icon-name="utility:add" onclick={handleAddClicked}>
+            <lightning-button
+                label={addLabel}
+                icon-name="utility:add"
+                onclick={handleAddClicked}
+            >
             </lightning-button>
         </div>
     </div>

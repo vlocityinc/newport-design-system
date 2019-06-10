@@ -20,7 +20,7 @@ export const FLOW_PROCESS_TYPE = {
     USER_PROVISIONING_FLOW: 'UserProvisioningFlow',
     WORKFLOW: 'Workflow',
     SALES_ENTRY_EXPERIENCE_FLOW: 'SalesEntryExperienceFlow',
-    FSCLENDING: 'FSCLending',
+    FSCLENDING: 'FSCLending'
 };
 
 export const ELEMENT_TYPE = {
@@ -29,7 +29,8 @@ export const ELEMENT_TYPE = {
     ASSIGNMENT: 'Assignment',
     VARIABLE: 'Variable',
     DECISION: 'Decision',
-    DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES: 'DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES',
+    DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES:
+        'DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES',
     APEX_PLUGIN_CALL: 'ApexPlugin',
     APEX_CALL: 'APEX_CALL',
     EMAIL_ALERT: 'EMAIL_ALERT',
@@ -51,12 +52,14 @@ export const ELEMENT_TYPE = {
     SUBFLOW: 'Subflow',
     START_ELEMENT: 'START_ELEMENT',
     WAIT: 'Wait',
-    WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS: 'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
+    WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS:
+        'WAIT_WITH_MODIFIED_AND_DELETED_WAIT_EVENTS',
     WAIT_EVENT: 'WAIT_EVENT',
     FLOW_PROPERTIES: 'FLOW_PROPERTIES',
     SCREEN_FIELD: 'SCREEN_FIELD',
-    SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS: 'SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS',
-    DEFAULT: 'defaultElement',
+    SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
+        'SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS',
+    DEFAULT: 'defaultElement'
 };
 
 export const CONNECTOR_TYPE = {
@@ -72,7 +75,7 @@ export const SUB_ELEMENT_TYPE = {
     ASSIGNMENT_ITEM: 'ASSIGNMENT_ITEM',
     CONDITION: 'CONDITION',
     RECORD_LOOKUP_FILTER_ITEM: 'RECORD_LOOKUP_FILTER_ITEM',
-    RECORD_LOOKUP_FIELD: 'RECORD_LOOKUP_FIELD',
+    RECORD_LOOKUP_FIELD: 'RECORD_LOOKUP_FIELD'
 };
 
 export const ACTION_TYPE = {
@@ -108,30 +111,30 @@ export const METADATA_KEY = {
 };
 
 export const UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE = {
-    [ELEMENT_TYPE.ACTION_CALL]: "ACTIONCALL",
-    [ELEMENT_TYPE.ASSIGNMENT]: "ASSIGNMENT",
-    [ELEMENT_TYPE.VARIABLE]: "VARIABLE",
-    [ELEMENT_TYPE.DECISION]: "DECISION",
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: "APEXPLUGIN",
-    [ELEMENT_TYPE.APEX_CALL]: "ACTIONCALL",
-    [ELEMENT_TYPE.EMAIL_ALERT]: "ACTIONCALL",
-    [ELEMENT_TYPE.CHOICE]: "CHOICE",
-    [ELEMENT_TYPE.CONSTANT]: "CONSTANT",
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: "CHOICELOOKUP",
-    [ELEMENT_TYPE.PICKLIST_CHOICE_SET]: "CHOICELOOKUP",
-    [ELEMENT_TYPE.FORMULA]: "FORMULA",
-    [ELEMENT_TYPE.STAGE]: "STAGE",
-    [ELEMENT_TYPE.TEXT_TEMPLATE]: "TEXTTEMPLATE",
-    [ELEMENT_TYPE.LOOP]: "LOOP",
-    [ELEMENT_TYPE.RECORD_CREATE]: "RECORDCREATE",
-    [ELEMENT_TYPE.RECORD_DELETE]: "RECORDDELETE",
-    [ELEMENT_TYPE.RECORD_LOOKUP]: "RECORDQUERY",
-    [ELEMENT_TYPE.RECORD_UPDATE]: "RECORDUPDATE",
-    [ELEMENT_TYPE.SCREEN]: "SCREEN",
-    [ELEMENT_TYPE.SCREEN_FIELD]: "SCREENFIELD",
-    [ELEMENT_TYPE.STEP]: "STEP",
-    [ELEMENT_TYPE.SUBFLOW]: "SUBFLOW",
-    [ELEMENT_TYPE.WAIT]: "WAIT",
+    [ELEMENT_TYPE.ACTION_CALL]: 'ACTIONCALL',
+    [ELEMENT_TYPE.ASSIGNMENT]: 'ASSIGNMENT',
+    [ELEMENT_TYPE.VARIABLE]: 'VARIABLE',
+    [ELEMENT_TYPE.DECISION]: 'DECISION',
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: 'APEXPLUGIN',
+    [ELEMENT_TYPE.APEX_CALL]: 'ACTIONCALL',
+    [ELEMENT_TYPE.EMAIL_ALERT]: 'ACTIONCALL',
+    [ELEMENT_TYPE.CHOICE]: 'CHOICE',
+    [ELEMENT_TYPE.CONSTANT]: 'CONSTANT',
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: 'CHOICELOOKUP',
+    [ELEMENT_TYPE.PICKLIST_CHOICE_SET]: 'CHOICELOOKUP',
+    [ELEMENT_TYPE.FORMULA]: 'FORMULA',
+    [ELEMENT_TYPE.STAGE]: 'STAGE',
+    [ELEMENT_TYPE.TEXT_TEMPLATE]: 'TEXTTEMPLATE',
+    [ELEMENT_TYPE.LOOP]: 'LOOP',
+    [ELEMENT_TYPE.RECORD_CREATE]: 'RECORDCREATE',
+    [ELEMENT_TYPE.RECORD_DELETE]: 'RECORDDELETE',
+    [ELEMENT_TYPE.RECORD_LOOKUP]: 'RECORDQUERY',
+    [ELEMENT_TYPE.RECORD_UPDATE]: 'RECORDUPDATE',
+    [ELEMENT_TYPE.SCREEN]: 'SCREEN',
+    [ELEMENT_TYPE.SCREEN_FIELD]: 'SCREENFIELD',
+    [ELEMENT_TYPE.STEP]: 'STEP',
+    [ELEMENT_TYPE.SUBFLOW]: 'SUBFLOW',
+    [ELEMENT_TYPE.WAIT]: 'WAIT'
 };
 
 /**
@@ -151,7 +154,7 @@ export const CONDITION_LOGIC = {
 export const WAIT_EVENT_FIELDS = {
     EVENT_TYPE: 'eventType',
     INPUT_PARAMETERS: 'inputParameters',
-    OUTPUT_PARAMETERS: 'outputParameters',
+    OUTPUT_PARAMETERS: 'outputParameters'
 };
 
 /**
@@ -186,7 +189,7 @@ export const WAIT_TIME_EVENT_PARAMETER_NAMES = {
     EVENT_DELIVERY_STATUS: 'Status',
     RESUME_TIME: 'AlarmTime',
     OFFSET_NUMBER: 'TimeOffset',
-    OFFSET_UNIT: 'TimeOffsetUnit',
+    OFFSET_UNIT: 'TimeOffsetUnit'
 };
 
 /**
@@ -199,12 +202,12 @@ export const WAIT_TIME_EVENT_FIELDS = {
         [WAIT_EVENT_FIELDS.INPUT_PARAMETERS]: [
             WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME,
             WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER,
-            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT
         ],
         [WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS]: [
             WAIT_TIME_EVENT_PARAMETER_NAMES.RESUME_TIME,
-            WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS,
-        ],
+            WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS
+        ]
     },
     [WAIT_TIME_EVENT_TYPE.DIRECT_RECORD_TIME]: {
         [WAIT_EVENT_FIELDS.INPUT_PARAMETERS]: [
@@ -212,13 +215,13 @@ export const WAIT_TIME_EVENT_FIELDS = {
             WAIT_TIME_EVENT_PARAMETER_NAMES.DIRECT_RECORD_BASE_TIME,
             WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID,
             WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_NUMBER,
-            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT,
+            WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT
         ],
         [WAIT_EVENT_FIELDS.OUTPUT_PARAMETERS]: [
             WAIT_TIME_EVENT_PARAMETER_NAMES.RESUME_TIME,
-            WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS,
-        ],
-    },
+            WAIT_TIME_EVENT_PARAMETER_NAMES.EVENT_DELIVERY_STATUS
+        ]
+    }
 };
 
 /**
@@ -244,7 +247,7 @@ export const REFERENCE_FIELDS = new Set([
     'choiceReference',
     'defaultSelectedChoiceReference',
     'fieldReference',
-    'waitEventReference',
+    'waitEventReference'
 ]);
 
 /**
@@ -253,16 +256,16 @@ export const REFERENCE_FIELDS = new Set([
  */
 export const TEMPLATE_FIELDS = new Set([
     'stringValue', // field of a ferov
-    'expression',  // represents body of a formula
-    'text',        // represents body of a text template
-    'fieldText',   // body of screen field of type Display Text
-    'helpText',     // help text for a screen or screen field
+    'expression', // represents body of a formula
+    'text', // represents body of a text template
+    'fieldText', // body of screen field of type Display Text
+    'helpText', // help text for a screen or screen field
     'pausedText', // Paused text for screens
     'interviewLabel', // interview label for the flow properties
     'errorMessage', // errorMessage field in validationRule Object for choice editor and screenField
     'formulaExpression', // used in validation Rule Object for choice editor and screenField
     'choiceText', // used in Choice Editor
-    'promptText', // used in Choice Editor
+    'promptText' // used in Choice Editor
 ]);
 
 export const EXPRESSION_RE = /\{!([^}]+)\}/g;
@@ -271,5 +274,5 @@ export const FLOW_STATUS = {
     ACTIVE: 'Active',
     OBSOLETE: 'Obsolete',
     DRAFT: 'Draft',
-    INVALID_DRAFT: 'InvalidDraft',
+    INVALID_DRAFT: 'InvalidDraft'
 };

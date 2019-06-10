@@ -6,5 +6,5 @@ import addFieldButtonLabel from '@salesforce/label/FlowBuilderRecordEditor.addFi
 export const LABELS = {
     field,
     getFieldPlaceholder,
-    addFieldButtonLabel,
+    addFieldButtonLabel
 };

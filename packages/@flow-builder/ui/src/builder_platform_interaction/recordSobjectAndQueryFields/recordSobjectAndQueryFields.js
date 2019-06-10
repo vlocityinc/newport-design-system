@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./recordSobjectAndQueryFieldsLabels";
-import { format } from "builder_platform_interaction/commonUtils";
+import { LABELS } from './recordSobjectAndQueryFieldsLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class RecordSobjectAndQueryFields extends LightningElement {
     labels = LABELS;
@@ -10,7 +10,7 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
         recordEntityName: '',
         outputReference: '',
         queriedFields: [],
-        isCollection: false,
+        isCollection: false
     };
 
     /**
@@ -33,22 +33,25 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     outputReferenceIndex;
 
     @api
-    sObjectVariablePickerGlobalCss = "slds-m-bottom_small slds-border_top";
+    sObjectVariablePickerGlobalCss = 'slds-m-bottom_small slds-border_top';
 
     @api
-    sObjectVariablePickerTitleCss = "slds-text-heading_small slds-p-around_small";
+    sObjectVariablePickerTitleCss =
+        'slds-text-heading_small slds-p-around_small';
 
     @api
-    sObjectVariablePickerDivCss = "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+    sObjectVariablePickerDivCss =
+        'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
 
     @api
-    queryFieldsGlobalCss = "slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small";
+    queryFieldsGlobalCss =
+        'slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small';
 
     @api
-    queryFieldsTitleCss = "slds-text-heading_small slds-p-top_small";
+    queryFieldsTitleCss = 'slds-text-heading_small slds-p-top_small';
 
     @api
-    queryFieldsSeparationDivCss = "slds-m-bottom_small slds-border_top"
+    queryFieldsSeparationDivCss = 'slds-m-bottom_small slds-border_top';
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
@@ -99,15 +102,27 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     }
 
     get sObjectVariablePickerTitle() {
-        return !this.state.isCollection ? format(this.labels.selectVariableToStore, this.resourceDisplayText) : format(this.labels.selectVariableToStoreRecords, this.resourceDisplayText);
+        return !this.state.isCollection
+            ? format(
+                  this.labels.selectVariableToStore,
+                  this.resourceDisplayText
+              )
+            : format(
+                  this.labels.selectVariableToStoreRecords,
+                  this.resourceDisplayText
+              );
     }
 
     get sObjectVariablePickerLabel() {
-        return !this.isCollection ? this.labels.recordVariable : this.labels.recordCollectionVariable;
+        return !this.isCollection
+            ? this.labels.recordVariable
+            : this.labels.recordCollectionVariable;
     }
 
     get sObjectVariablePickerPlaceholder() {
-        return !this.state.isCollection ? this.labels.sObjectVariablePlaceholder : this.labels.sObjectCollectionVariablePlaceholder;
+        return !this.state.isCollection
+            ? this.labels.sObjectVariablePlaceholder
+            : this.labels.sObjectCollectionVariablePlaceholder;
     }
 
     get selectFieldsLabel() {
@@ -124,6 +139,11 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
      * Id value for Id combobox
      */
     get idComboboxValue() {
-        return {type : 'option-inline', text: 'ID', value: 'Id', displayText: 'ID'};
+        return {
+            type: 'option-inline',
+            text: 'ID',
+            value: 'Id',
+            displayText: 'ID'
+        };
     }
 }

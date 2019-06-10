@@ -1,29 +1,34 @@
-import {assignmentReducer} from "../assignmentReducer";
+import { assignmentReducer } from '../assignmentReducer';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
     UpdateListItemEvent,
     PropertyChangedEvent
-} from "builder_platform_interaction/events";
-import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
+} from 'builder_platform_interaction/events';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 
-import { deepCopy } from "builder_platform_interaction/storeLib";
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 const state = {
-    assignmentItems : [{
-        operator: {value: 'Assign', error: null},
-        valueType: {value: '', error: null},
-        leftHandSide: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: null},
-        rightHandSide: {value: 'xyz', error: null},
-        inputDataType: {value:'', error: null}
-    }],
-    description : {value: '', error: null},
-    elementType : 'ASSIGNMENT',
-    guid : '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
-    isCanvasElemen : true,
-    label : {value: 'testAssignment', error: null},
-    locationX : 358,
-    locationY : 227,
-    name : {value: 'testAssignment', error: null}
+    assignmentItems: [
+        {
+            operator: { value: 'Assign', error: null },
+            valueType: { value: '', error: null },
+            leftHandSide: {
+                value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0',
+                error: null
+            },
+            rightHandSide: { value: 'xyz', error: null },
+            inputDataType: { value: '', error: null }
+        }
+    ],
+    description: { value: '', error: null },
+    elementType: 'ASSIGNMENT',
+    guid: '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
+    isCanvasElemen: true,
+    label: { value: 'testAssignment', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'testAssignment', error: null }
 };
 
 describe('the best assignment reducer ever', () => {
@@ -57,8 +62,7 @@ describe('the best assignment reducer ever', () => {
         expect(resultObj).not.toBe(state);
     });
     it('ignores unknown events', () => {
-        const event = {
-        };
+        const event = {};
         const resultObj = assignmentReducer(state, event);
         expect(resultObj).toBeDefined();
         expect(resultObj.label.value).toBe('testAssignment');
@@ -81,7 +85,7 @@ describe('the best assignment reducer ever', () => {
         const event = {
             type: DeleteListItemEvent.EVENT_NAME,
             detail: {
-                index: 0,
+                index: 0
             }
         };
         const resultObj = assignmentReducer(testState, event);
@@ -93,7 +97,12 @@ describe('the best assignment reducer ever', () => {
             type: UpdateListItemEvent.EVENT_NAME,
             detail: {
                 index: 0,
-                value: {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'val', error: 'error'}},
+                value: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: 'val',
+                        error: 'error'
+                    }
+                }
             }
         };
         const resultObj = assignmentReducer(testState, event);
@@ -108,14 +117,23 @@ describe('the best assignment reducer ever', () => {
             type: UpdateListItemEvent.EVENT_NAME,
             detail: {
                 index: 1,
-                value: {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {value: 'val', error: 'error'}},
+                value: {
+                    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                        value: 'val',
+                        error: 'error'
+                    }
+                }
             }
         };
         expect(testState.assignmentItems).toHaveLength(3);
         const resultObj = assignmentReducer(testState, event);
         expect(resultObj.assignmentItems).toHaveLength(3);
-        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
+        expect(resultObj.assignmentItems[0].leftHandSide.value).toBe(
+            state.assignmentItems[0].leftHandSide.value
+        );
         expect(resultObj.assignmentItems[1].leftHandSide.value).toBe('val');
-        expect(resultObj.assignmentItems[2].leftHandSide.value).toBe(state.assignmentItems[0].leftHandSide.value);
+        expect(resultObj.assignmentItems[2].leftHandSide.value).toBe(
+            state.assignmentItems[0].leftHandSide.value
+        );
     });
 });

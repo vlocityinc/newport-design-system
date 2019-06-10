@@ -1,70 +1,150 @@
 <template>
-    <div if:true={screen} class='slds-p-around_small screen-editor-canvas-container slds-scrollable' onclick={handleOnClick} 
-                                                                                                     ondragenter={handleDragEnd}                                                                    
-                                                                                                     ondrop={handleDrop} 
-                                                                                                     onscroll={handleScroll}>
-                                                                    
-        <div class='slds-grow screen-editor-canvas-content slds-p-top_small slds-grid'>
-            <div class='slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical'>
+    <div
+        if:true={screen}
+        class="slds-p-around_small screen-editor-canvas-container slds-scrollable"
+        onclick={handleOnClick}
+        ondragenter={handleDragEnd}
+        ondrop={handleDrop}
+        onscroll={handleScroll}
+    >
+        <div
+            class="slds-grow screen-editor-canvas-content slds-p-top_small slds-grid"
+        >
+            <div
+                class="slds-card slds-card_boundary slds-grow slds-grid slds-grid_vertical"
+            >
                 <!--  header -->
-                <builder_platform_interaction-screen-editor-highlight if:true={screen.showHeader} screen-element={screen} property='showHeader' 
-                                                                      prevent-events='true' title={labels.header} tab-index={tabIndex} selected={headerSelected}>
-                    <div slot='screen-element' class='slds-grid slds-grow'>
-                        <!-- Screen config has errors -->       
-                        <div if:true={screenConfigurationHasErrors} class='slds-grow slds-p-horizontal_small slds-p-vertical_x-small'>
-                            <builder_platform_interaction-screen-field-card class='slds-grow' title={labels.invalidScreen} error>
+                <builder_platform_interaction-screen-editor-highlight
+                    if:true={screen.showHeader}
+                    screen-element={screen}
+                    property="showHeader"
+                    prevent-events="true"
+                    title={labels.header}
+                    tab-index={tabIndex}
+                    selected={headerSelected}
+                >
+                    <div slot="screen-element" class="slds-grid slds-grow">
+                        <!-- Screen config has errors -->
+                        <div
+                            if:true={screenConfigurationHasErrors}
+                            class="slds-grow slds-p-horizontal_small slds-p-vertical_x-small"
+                        >
+                            <builder_platform_interaction-screen-field-card
+                                class="slds-grow"
+                                title={labels.invalidScreen}
+                                error
+                            >
                             </builder_platform_interaction-screen-field-card>
-                        </div>             
+                        </div>
 
                         <!-- Screen config is fine -->
-                        <div if:false={screenConfigurationHasErrors} class='slds-card__header slds-grid slds-grow slds-border_bottom'>
-                            <header class='slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small'>
-                                <div class='slds-media__body'>
-                                    <h2><span class='slds-card__header-link slds-text-heading_small'>{screenTitle}</span></h2>
+                        <div
+                            if:false={screenConfigurationHasErrors}
+                            class="slds-card__header slds-grid slds-grow slds-border_bottom"
+                        >
+                            <header
+                                class="slds-media slds-media_center slds-has-flexi-truncate slds-p-bottom_small"
+                            >
+                                <div class="slds-media__body">
+                                    <h2>
+                                        <span
+                                            class="slds-card__header-link slds-text-heading_small"
+                                            >{screenTitle}</span
+                                        >
+                                    </h2>
                                 </div>
                             </header>
-                            <div if:true={hasHelpText} class='slds-no-flex'>
-                                <lightning-button-icon icon-name='utility:info' variant='bare' alternative-text='{labels.buttonHelpTextAltText}' size='small'></lightning-button-icon>
+                            <div if:true={hasHelpText} class="slds-no-flex">
+                                <lightning-button-icon
+                                    icon-name="utility:info"
+                                    variant="bare"
+                                    alternative-text={labels.buttonHelpTextAltText}
+                                    size="small"
+                                ></lightning-button-icon>
                             </div>
                         </div>
                     </div>
                 </builder_platform_interaction-screen-editor-highlight>
-                
-                <!--  body -->  
-                <div class='screen-editor-canvas-body slds-card__body slds-m-bottom_none slds-is-relative' ondragenter={handleDragEnter} 
-                                                                                                           ondragover={handleDragOver}
-                                                                                                           ondragend={handleDragEnd}>
-                    <template for:each={fields} for:item='field'>
-                        <builder_platform_interaction-screen-editor-highlight key={field.field.guid}
-                                                                              draggable='true'
-                                                                              screen-element={field.field} 
-                                                                              prevent-events='true'
-                                                                              display-icons='true'
-                                                                              title={field.field.type.label} 
-                                                                              tab-index={tabIndex}
-                                                                              selected={field.selected}>
+
+                <!--  body -->
+                <div
+                    class="screen-editor-canvas-body slds-card__body slds-m-bottom_none slds-is-relative"
+                    ondragenter={handleDragEnter}
+                    ondragover={handleDragOver}
+                    ondragend={handleDragEnd}
+                >
+                    <template for:each={fields} for:item="field">
+                        <builder_platform_interaction-screen-editor-highlight
+                            key={field.field.guid}
+                            draggable="true"
+                            screen-element={field.field}
+                            prevent-events="true"
+                            display-icons="true"
+                            title={field.field.type.label}
+                            tab-index={tabIndex}
+                            selected={field.selected}
+                        >
                             <!-- field preview -->
-                            <builder_platform_interaction-screen-field slot='screen-element' screenfield={field.field} class='slds-grow'></builder_platform_interaction-screen-field> 
+                            <builder_platform_interaction-screen-field
+                                slot="screen-element"
+                                screenfield={field.field}
+                                class="slds-grow"
+                            ></builder_platform_interaction-screen-field>
                         </builder_platform_interaction-screen-editor-highlight>
                     </template>
-                    
-                    <div class='screen-editor-canvas-dragging-region slds-hide slds-is-absolute'>
-                        <hr class='screen-editor-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none'></hr>
+
+                    <div
+                        class="screen-editor-canvas-dragging-region slds-hide slds-is-absolute"
+                    >
+                        <hr
+                            class="screen-editor-canvas-insertion-line slds-is-relative slds-m-around_none slds-p-around_none"
+                        ></hr>
                     </div>
                 </div>
-                
+
                 <!--  footer -->
-                <builder_platform_interaction-screen-editor-highlight if:true={screen.showFooter} screen-element={screen} property='showFooter'
-                                                                      prevent-events='true' title={labels.footer} tab-index={tabIndex} selected={footerSelected}>
-                    <div slot='screen-element' class='screen-editor-canvas-footer slds-card__footer slds-grid slds-border_top slds-grow'>
-                        <button if:true={screen.allowPause} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.pause}</button>
-                        <div class='slds-col_bump-left'>
-                            <button if:true={screen.allowBack} class='slds-button slds-button--neutral' type='button' tabindex='-1'>{labels.previous}</button>
-                            <button if:true={screen.allowFinish} class='slds-button slds-button--brand' type='button' tabindex='-1'>{labels.finish}</button>
+                <builder_platform_interaction-screen-editor-highlight
+                    if:true={screen.showFooter}
+                    screen-element={screen}
+                    property="showFooter"
+                    prevent-events="true"
+                    title={labels.footer}
+                    tab-index={tabIndex}
+                    selected={footerSelected}
+                >
+                    <div
+                        slot="screen-element"
+                        class="screen-editor-canvas-footer slds-card__footer slds-grid slds-border_top slds-grow"
+                    >
+                        <button
+                            if:true={screen.allowPause}
+                            class="slds-button slds-button--neutral"
+                            type="button"
+                            tabindex="-1"
+                        >
+                            {labels.pause}
+                        </button>
+                        <div class="slds-col_bump-left">
+                            <button
+                                if:true={screen.allowBack}
+                                class="slds-button slds-button--neutral"
+                                type="button"
+                                tabindex="-1"
+                            >
+                                {labels.previous}
+                            </button>
+                            <button
+                                if:true={screen.allowFinish}
+                                class="slds-button slds-button--brand"
+                                type="button"
+                                tabindex="-1"
+                            >
+                                {labels.finish}
+                            </button>
                         </div>
                     </div>
                 </builder_platform_interaction-screen-editor-highlight>
-            </div>            
+            </div>
         </div>
     </div>
 </template>

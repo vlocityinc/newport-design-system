@@ -9,10 +9,14 @@ import {
     MARQUEE_SELECT_ON_CANVAS,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS
-} from "builder_platform_interaction/actions";
-import { addItem, updateProperties, replaceItem} from "builder_platform_interaction/dataMutationLib";
-import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { createConnector } from "builder_platform_interaction/elementFactory";
+} from 'builder_platform_interaction/actions';
+import {
+    addItem,
+    updateProperties,
+    replaceItem
+} from 'builder_platform_interaction/dataMutationLib';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { createConnector } from 'builder_platform_interaction/elementFactory';
 
 /**
  * Reducer for connectors.
@@ -23,23 +27,42 @@ import { createConnector } from "builder_platform_interaction/elementFactory";
  */
 export default function connectorsReducer(state = [], action) {
     switch (action.type) {
-        case UPDATE_FLOW: return [...action.payload.connectors];
-        case DO_DUPLICATE:return _duplicateConnector(state, action.payload.canvasElementGuidMap, action.payload.childElementGuidMap, action.payload.connectorsToDuplicate);
-        case DELETE_ELEMENT: return _deleteConnectors(state, action.payload.connectorsToDelete);
-        case ADD_CONNECTOR: return addItem(state, action.payload);
-        case SELECT_ON_CANVAS: return _selectConnector(state, action.payload.guid);
-        case TOGGLE_ON_CANVAS: return _toggleConnector(state, action.payload.guid);
-        case DESELECT_ON_CANVAS: return _deselectConnectors(state);
-        case MARQUEE_SELECT_ON_CANVAS: return _marqueeSelect(state, action.payload.connectorGuidsToSelect, action.payload.connectorGuidsToDeselect);
+        case UPDATE_FLOW:
+            return [...action.payload.connectors];
+        case DO_DUPLICATE:
+            return _duplicateConnector(
+                state,
+                action.payload.canvasElementGuidMap,
+                action.payload.childElementGuidMap,
+                action.payload.connectorsToDuplicate
+            );
+        case DELETE_ELEMENT:
+            return _deleteConnectors(state, action.payload.connectorsToDelete);
+        case ADD_CONNECTOR:
+            return addItem(state, action.payload);
+        case SELECT_ON_CANVAS:
+            return _selectConnector(state, action.payload.guid);
+        case TOGGLE_ON_CANVAS:
+            return _toggleConnector(state, action.payload.guid);
+        case DESELECT_ON_CANVAS:
+            return _deselectConnectors(state);
+        case MARQUEE_SELECT_ON_CANVAS:
+            return _marqueeSelect(
+                state,
+                action.payload.connectorGuidsToSelect,
+                action.payload.connectorGuidsToDeselect
+            );
         case MODIFY_DECISION_WITH_OUTCOMES:
-        case MODIFY_WAIT_WITH_WAIT_EVENTS: return _deleteAndUpdateConnectorsForChildElements(
+        case MODIFY_WAIT_WITH_WAIT_EVENTS:
+            return _deleteAndUpdateConnectorsForChildElements(
                 state,
                 action.payload.canvasElement.guid,
                 action.payload.canvasElement.defaultConnectorLabel,
                 action.payload.childElements,
                 action.payload.deletedChildElementGuids
             );
-        default: return state;
+        default:
+            return state;
     }
 }
 
@@ -56,8 +79,13 @@ export default function connectorsReducer(state = [], action) {
  * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _duplicateConnector(connectors, canvasElementGuidMap = {}, childElementGuidMap = {}, connectorsToDuplicate = []) {
-    let newState = connectors.map((connector) => {
+function _duplicateConnector(
+    connectors,
+    canvasElementGuidMap = {},
+    childElementGuidMap = {},
+    connectorsToDuplicate = []
+) {
+    let newState = connectors.map(connector => {
         // Deselect each connector to be duplicated (since the duplicated connectors will now be selected)
         if (connector.config && connector.config.isSelected) {
             return Object.assign({}, connector, {
@@ -73,10 +101,19 @@ function _duplicateConnector(connectors, canvasElementGuidMap = {}, childElement
         const originalConnector = connectorsToDuplicate[i];
         const source = canvasElementGuidMap[originalConnector.source];
         const target = canvasElementGuidMap[originalConnector.target];
-        const childSource = originalConnector.childSource && childElementGuidMap[originalConnector.childSource];
+        const childSource =
+            originalConnector.childSource &&
+            childElementGuidMap[originalConnector.childSource];
         const { label, type } = originalConnector;
 
-        const duplicateConnector = createConnector(source, childSource, target, label, type, true);
+        const duplicateConnector = createConnector(
+            source,
+            childSource,
+            target,
+            label,
+            type,
+            true
+        );
 
         newState = addItem(newState, duplicateConnector);
     }
@@ -98,7 +135,9 @@ function _deleteConnectors(connectors, connectorsToDelete) {
         const connectorGUIDs = connectorsToDelete.map(deleteConnector => {
             return deleteConnector.guid;
         });
-        newState = connectors.filter(connector => (connectorGUIDs.indexOf(connector.guid) === -1));
+        newState = connectors.filter(
+            connector => connectorGUIDs.indexOf(connector.guid) === -1
+        );
     }
     return newState;
 }
@@ -117,7 +156,13 @@ function _deleteConnectors(connectors, connectorsToDelete) {
  * @return {Object[]} new state of connectors after reduction
  * @private
  */
-function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElementGuid, defaultConnectorLabel, updatedElements, deletedChildElementGuids) {
+function _deleteAndUpdateConnectorsForChildElements(
+    origConnectors,
+    parentElementGuid,
+    defaultConnectorLabel,
+    updatedElements,
+    deletedChildElementGuids
+) {
     const updatedElementGuidMap = new Map();
     for (let i = 0; i < updatedElements.length; i++) {
         updatedElementGuidMap.set(updatedElements[i].guid, updatedElements[i]);
@@ -132,7 +177,10 @@ function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElemen
 
         if (!connector.childSource) {
             let updatedConnector = connector;
-            if (connector.type === CONNECTOR_TYPE.DEFAULT && connector.source === parentElementGuid) {
+            if (
+                connector.type === CONNECTOR_TYPE.DEFAULT &&
+                connector.source === parentElementGuid
+            ) {
                 updatedConnector = updateProperties(connector, {
                     label: defaultConnectorLabel
                 });
@@ -162,7 +210,7 @@ function _deleteAndUpdateConnectorsForChildElements(origConnectors, parentElemen
  */
 function _selectConnector(connectors, selectedGUID) {
     let hasStateChanged = false;
-    const newState = connectors.map((connector) => {
+    const newState = connectors.map(connector => {
         if (connector.guid === selectedGUID) {
             if (!connector.config.isSelected) {
                 hasStateChanged = true;
@@ -195,7 +243,9 @@ function _selectConnector(connectors, selectedGUID) {
  * @private
  */
 function _toggleConnector(connectors, selectedGUID) {
-    const index = connectors.findIndex(connector => (connector.guid === selectedGUID));
+    const index = connectors.findIndex(
+        connector => connector.guid === selectedGUID
+    );
     if (index !== -1) {
         const newConnector = updateProperties(connectors[index], {
             config: {
@@ -217,7 +267,7 @@ function _toggleConnector(connectors, selectedGUID) {
  */
 function _deselectConnectors(connectors) {
     let hasStateChanged = false;
-    const newState = connectors.map((connector) => {
+    const newState = connectors.map(connector => {
         if (connector.config.isSelected) {
             hasStateChanged = true;
             return updateProperties(connector, {
@@ -242,7 +292,7 @@ function _deselectConnectors(connectors) {
  */
 function _marqueeSelect(connectors, guidsToSelect, guidsToDeselect) {
     let hasStateChanged = false;
-    const newState = connectors.map((connector) => {
+    const newState = connectors.map(connector => {
         if (guidsToSelect.includes(connector.guid)) {
             hasStateChanged = true;
             return updateProperties(connector, {

@@ -1,7 +1,7 @@
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { variableConstantValidation } from "./variableConstantValidation";
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { variableConstantValidation } from './variableConstantValidation';
 
 const dataTypeChanged = (state, action) => {
     const value = action.payload.value;
@@ -9,7 +9,7 @@ const dataTypeChanged = (state, action) => {
         value.scale = 2;
     }
     const updatedValues = {
-        dataType : { error: null, value: value.dataType },
+        dataType: { error: null, value: value.dataType },
         scale: value.scale,
         isCollection: value.isCollection
     };
@@ -25,17 +25,25 @@ const dataTypeChanged = (state, action) => {
 export const variableConstantReducer = (variableOrConstant, action) => {
     switch (action.type) {
         case PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY: {
-            const error = action.payload.error || variableConstantValidation.validateProperty(action.payload.propertyName, action.payload.value);
+            const error =
+                action.payload.error ||
+                variableConstantValidation.validateProperty(
+                    action.payload.propertyName,
+                    action.payload.value
+                );
             const propertyValue = {
                 error,
                 value: action.payload.value
             };
-            return updateProperties(variableOrConstant, {[action.payload.propertyName]: propertyValue});
+            return updateProperties(variableOrConstant, {
+                [action.payload.propertyName]: propertyValue
+            });
         }
         case PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE:
             return dataTypeChanged(variableOrConstant, action);
         case VALIDATE_ALL:
             return variableConstantValidation.validateAll(variableOrConstant);
-        default: return variableOrConstant;
+        default:
+            return variableOrConstant;
     }
 };

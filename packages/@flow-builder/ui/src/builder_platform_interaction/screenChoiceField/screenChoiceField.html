@@ -2,29 +2,35 @@
  Wrapper for a radio based choice screen field.
 -->
 <template>
-  <!-- TODO W-5543587 - add help when available -->
-  <lightning-radio-group if:true={isRadioField}
-                         label={displayLabel}
-                         options={choices}
-                         value={defaultChoice}
-                         disabled
-                         required={field.isRequired}>
-  </lightning-radio-group>
+    <!-- TODO W-5543587 - add help when available -->
+    <lightning-radio-group
+        if:true={isRadioField}
+        label={displayLabel}
+        options={choices}
+        value={defaultChoice}
+        disabled
+        required={field.isRequired}
+    >
+    </lightning-radio-group>
 
-  <!-- TODO W-5543587 - add help when available -->
-  <lightning-checkbox-group if:true={isMultiSelectCheckboxField}
-                            label={displayLabel}
-                            options={choices}
-                            value={defaultChoice}
-                            disabled
-                            required={field.isRequired}>
-  </lightning-checkbox-group>
+    <!-- TODO W-5543587 - add help when available -->
+    <lightning-checkbox-group
+        if:true={isMultiSelectCheckboxField}
+        label={displayLabel}
+        options={choices}
+        value={defaultChoice}
+        disabled
+        required={field.isRequired}
+    >
+    </lightning-checkbox-group>
 
-  <lightning-picklist if:true={isPickListType}
-                      label={displayLabel}
-                      options={choices}
-                      value={defaultChoice}
-                      field-level-help={helpText}
-                      required={field.isRequired}>
-</lightning-picklist>
+    <lightning-picklist
+        if:true={isPickListType}
+        label={displayLabel}
+        options={choices}
+        value={defaultChoice}
+        field-level-help={helpText}
+        required={field.isRequired}
+    >
+    </lightning-picklist>
 </template>

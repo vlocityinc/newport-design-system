@@ -11,7 +11,7 @@ export class PaletteItemChevronClickedEvent {
             cancelable: true,
             detail: {
                 elementGUID,
-                iconName,
+                iconName
             }
         });
     }

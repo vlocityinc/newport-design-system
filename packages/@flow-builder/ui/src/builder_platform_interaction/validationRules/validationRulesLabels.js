@@ -10,8 +10,8 @@ import overMaxIntegerValue from '@salesforce/label/FlowBuilderValidation.overMax
 import orderNumberNotUnique from '@salesforce/label/FlowBuilderValidation.numberNotUnique';
 import shouldBeInRange from '@salesforce/label/FlowBuilderValidation.shouldBeInRange';
 import enterValidValue from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
-import dateErrorMessage from "@salesforce/label/FlowBuilderCombobox.dateErrorMessage";
-import datetimeErrorMessage from "@salesforce/label/FlowBuilderCombobox.datetimeErrorMessage";
+import dateErrorMessage from '@salesforce/label/FlowBuilderCombobox.dateErrorMessage';
+import datetimeErrorMessage from '@salesforce/label/FlowBuilderCombobox.datetimeErrorMessage';
 
 export const LABELS = {
     cannotBeBlank,

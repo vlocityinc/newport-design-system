@@ -1,4 +1,4 @@
-import { createListRowItem } from "../../base/baseList";
+import { createListRowItem } from '../../base/baseList';
 
 const listRowItem = {
     leftHandSide: '{!var1}',

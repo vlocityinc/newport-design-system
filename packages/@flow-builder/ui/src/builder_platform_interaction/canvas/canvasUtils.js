@@ -1,5 +1,5 @@
-import { drawingLibInstance as lib} from "builder_platform_interaction/drawingLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Helper function to set the id on the canvas element container.
@@ -8,13 +8,20 @@ import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
  * @param {String} canvasElementGuid - Guid of the canvas element
  * @private
  */
-const _setIdOnCanvasElementContainer = (canvasElementContainer, canvasElementGuid) => {
+const _setIdOnCanvasElementContainer = (
+    canvasElementContainer,
+    canvasElementGuid
+) => {
     if (!canvasElementContainer) {
-        throw new Error('canvasElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementContainer is not defined. It must be defined.'
+        );
     }
 
     if (!canvasElementGuid) {
-        throw new Error('canvasElementGuid is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementGuid is not defined. It must be defined.'
+        );
     }
 
     if (!canvasElementContainer.getAttribute('id')) {
@@ -30,13 +37,21 @@ const _setIdOnCanvasElementContainer = (canvasElementContainer, canvasElementGui
  * @param {String} elementType - Type of the canvas element
  * @private
  */
-const _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementContainer, elementType) => {
+const _setElementAsDraggable = (
+    canvasElementContainerTemplate,
+    canvasElementContainer,
+    elementType
+) => {
     if (!canvasElementContainerTemplate) {
-        throw new Error('canvasElementContainerTemplate is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementContainerTemplate is not defined. It must be defined.'
+        );
     }
 
     if (!canvasElementContainer) {
-        throw new Error('canvasElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementContainer is not defined. It must be defined.'
+        );
     }
 
     if (!elementType) {
@@ -63,14 +78,19 @@ const _setElementAsDraggable = (canvasElementContainerTemplate, canvasElementCon
  */
 const _setElementAsTarget = (canvasElementContainer, elementType) => {
     if (!canvasElementContainer) {
-        throw new Error('canvasElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementContainer is not defined. It must be defined.'
+        );
     }
 
     if (!elementType) {
         throw new Error('elementType is not defined. It must be defined.');
     }
 
-    if (elementType !== ELEMENT_TYPE.START_ELEMENT && !lib.isTarget(canvasElementContainer)) {
+    if (
+        elementType !== ELEMENT_TYPE.START_ELEMENT &&
+        !lib.isTarget(canvasElementContainer)
+    ) {
         lib.makeTarget(canvasElementContainer);
     }
 };
@@ -81,9 +101,11 @@ const _setElementAsTarget = (canvasElementContainer, elementType) => {
  * @param {Object} canvasElementContainer - Container of the canvas element
  * @private
  */
-const _setElementAsSource = (canvasElementContainer) => {
+const _setElementAsSource = canvasElementContainer => {
     if (!canvasElementContainer) {
-        throw new Error('canvasElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementContainer is not defined. It must be defined.'
+        );
     }
 
     if (!lib.isSource(canvasElementContainer)) {
@@ -98,12 +120,20 @@ const _setElementAsSource = (canvasElementContainer) => {
  * @param {Object} canvasElementConfig - Canvas element's config
  * @private
  */
-const _updateDragSelection = (canvasElementContainer, canvasElementConfig = {}) => {
+const _updateDragSelection = (
+    canvasElementContainer,
+    canvasElementConfig = {}
+) => {
     if (!canvasElementContainer) {
-        throw new Error('canvasElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementContainer is not defined. It must be defined.'
+        );
     }
 
-    if (canvasElementConfig.isSelected || canvasElementConfig.addToDragSelection) {
+    if (
+        canvasElementConfig.isSelected ||
+        canvasElementConfig.addToDragSelection
+    ) {
         lib.addToDragSelection(canvasElementContainer);
     } else {
         lib.removeFromDragSelection(canvasElementContainer);
@@ -120,9 +150,16 @@ const _updateDragSelection = (canvasElementContainer, canvasElementConfig = {}) 
  * @returns {Object} jsPlumbConnector - Newly setup jsPlumb connection
  * @private
  */
-const _setJsPlumbConnection = (connectorTemplate, connector, sourceElementContainer, targetElementContainer) => {
+const _setJsPlumbConnection = (
+    connectorTemplate,
+    connector,
+    sourceElementContainer,
+    targetElementContainer
+) => {
     if (!connectorTemplate) {
-        throw new Error('connectorTemplate is not defined. It must be defined.');
+        throw new Error(
+            'connectorTemplate is not defined. It must be defined.'
+        );
     }
 
     if (!connector) {
@@ -130,14 +167,24 @@ const _setJsPlumbConnection = (connectorTemplate, connector, sourceElementContai
     }
 
     if (!sourceElementContainer) {
-        throw new Error('sourceElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'sourceElementContainer is not defined. It must be defined.'
+        );
     }
 
     if (!targetElementContainer) {
-        throw new Error('sourceElementContainer is not defined. It must be defined.');
+        throw new Error(
+            'sourceElementContainer is not defined. It must be defined.'
+        );
     }
 
-    const jsPlumbConnector = lib.setExistingConnections(sourceElementContainer, targetElementContainer, connector.label, connector.guid, connector.type);
+    const jsPlumbConnector = lib.setExistingConnections(
+        sourceElementContainer,
+        targetElementContainer,
+        connector.label,
+        connector.guid,
+        connector.type
+    );
     connectorTemplate.setJsPlumbConnector(jsPlumbConnector);
     return jsPlumbConnector;
 };
@@ -192,7 +239,7 @@ const _setConnectorLabel = (connector, jsPlumbConnector) => {
  * @param {Object} event - Any event that needs to be checked for multi-selection
  * @returns {boolean}  Returns true if shift key is down during the event
  */
-export const isMultiSelect = (event) => {
+export const isMultiSelect = event => {
     return event && event.shiftKey;
 };
 
@@ -203,23 +250,45 @@ export const isMultiSelect = (event) => {
  * @param {Object[]} canvasElementTemplates - Array of Canvas Element Templates
  * @returns {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
  */
-export const setupCanvasElements = (canvasElementTemplates) => {
+export const setupCanvasElements = canvasElementTemplates => {
     const canvasElementGuidToContainerMap = {};
-    const canvasElementTemplatesLength = canvasElementTemplates && canvasElementTemplates.length;
+    const canvasElementTemplatesLength =
+        canvasElementTemplates && canvasElementTemplates.length;
     for (let index = 0; index < canvasElementTemplatesLength; index++) {
         const canvasElementContainerTemplate = canvasElementTemplates[index];
-        const canvasElementContainer = canvasElementContainerTemplate && canvasElementContainerTemplate.shadowRoot && canvasElementContainerTemplate.shadowRoot.firstChild;
+        const canvasElementContainer =
+            canvasElementContainerTemplate &&
+            canvasElementContainerTemplate.shadowRoot &&
+            canvasElementContainerTemplate.shadowRoot.firstChild;
 
-        const canvasElementGuid = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.guid;
-        canvasElementGuidToContainerMap[canvasElementGuid] = canvasElementContainer;
-        _setIdOnCanvasElementContainer(canvasElementContainer, canvasElementGuid);
+        const canvasElementGuid =
+            canvasElementContainerTemplate &&
+            canvasElementContainerTemplate.node &&
+            canvasElementContainerTemplate.node.guid;
+        canvasElementGuidToContainerMap[
+            canvasElementGuid
+        ] = canvasElementContainer;
+        _setIdOnCanvasElementContainer(
+            canvasElementContainer,
+            canvasElementGuid
+        );
 
-        const elementType = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.elementType;
-        _setElementAsDraggable(canvasElementContainerTemplate, canvasElementContainer, elementType);
+        const elementType =
+            canvasElementContainerTemplate &&
+            canvasElementContainerTemplate.node &&
+            canvasElementContainerTemplate.node.elementType;
+        _setElementAsDraggable(
+            canvasElementContainerTemplate,
+            canvasElementContainer,
+            elementType
+        );
         _setElementAsTarget(canvasElementContainer, elementType);
         _setElementAsSource(canvasElementContainer);
 
-        const canvasElementConfig = canvasElementContainerTemplate && canvasElementContainerTemplate.node && canvasElementContainerTemplate.node.config;
+        const canvasElementConfig =
+            canvasElementContainerTemplate &&
+            canvasElementContainerTemplate.node &&
+            canvasElementContainerTemplate.node.config;
         _updateDragSelection(canvasElementContainer, canvasElementConfig);
     }
 
@@ -232,22 +301,38 @@ export const setupCanvasElements = (canvasElementTemplates) => {
  * @param {Object[]} connectorTemplates - Array of connector templates
  * @param {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
  */
-export const setupConnectors = (connectorTemplates, canvasElementGuidToContainerMap) => {
+export const setupConnectors = (
+    connectorTemplates,
+    canvasElementGuidToContainerMap
+) => {
     if (!canvasElementGuidToContainerMap) {
-        throw new Error('canvasElementGuidToContainerMap is not defined. It must be defined.');
+        throw new Error(
+            'canvasElementGuidToContainerMap is not defined. It must be defined.'
+        );
     }
 
-    const connectorTemplatesLength = connectorTemplates && connectorTemplates.length;
+    const connectorTemplatesLength =
+        connectorTemplates && connectorTemplates.length;
     for (let index = 0; index < connectorTemplatesLength; index++) {
         const connectorTemplate = connectorTemplates[index];
         const connector = connectorTemplate && connectorTemplate.connector;
 
-        let jsPlumbConnector = connectorTemplate && connectorTemplate.getJsPlumbConnector && connectorTemplate.getJsPlumbConnector();
+        let jsPlumbConnector =
+            connectorTemplate &&
+            connectorTemplate.getJsPlumbConnector &&
+            connectorTemplate.getJsPlumbConnector();
 
         if (!jsPlumbConnector) {
-            const sourceElementContainer = canvasElementGuidToContainerMap[connector.source];
-            const targetElementContainer = canvasElementGuidToContainerMap[connector.target];
-            jsPlumbConnector = _setJsPlumbConnection(connectorTemplate, connector, sourceElementContainer, targetElementContainer);
+            const sourceElementContainer =
+                canvasElementGuidToContainerMap[connector.source];
+            const targetElementContainer =
+                canvasElementGuidToContainerMap[connector.target];
+            jsPlumbConnector = _setJsPlumbConnection(
+                connectorTemplate,
+                connector,
+                sourceElementContainer,
+                targetElementContainer
+            );
             if (connector.config && connector.config.isSelected) {
                 lib.selectConnector(jsPlumbConnector, connector.type);
             }

@@ -1,13 +1,23 @@
 <template>
     <div class="slds-vertical-tabs__nav slds-size_full slds-m-left_xxx-small">
-        <div class="slds-text-title_caps slds-grid slds-grid_vertical-align-center slds-shrink-none slds-p-top_xx-small slds-p-bottom_xx-small slds-p-left_small -slds-theme_shade slds-border_bottom">
-                 <slot name="header" class="slds-show_inline">
-                     <!-- Example: -->
-                     Item Order
-                 </slot>
+        <div
+            class="slds-text-title_caps slds-grid slds-grid_vertical-align-center slds-shrink-none slds-p-top_xx-small slds-p-bottom_xx-small slds-p-left_small -slds-theme_shade slds-border_bottom"
+        >
+            <slot name="header" class="slds-show_inline">
+                <!-- Example: -->
+                Item Order
+            </slot>
         </div>
-        <div class="slds-vertical-tabs__nav slds-size_full slds-scrollable_y navigation-content" role="tablist" aria-orientation="vertical">
-            <template for:each={decoratedMenuItems} for:item="item" for:index="itemIndex">
+        <div
+            class="slds-vertical-tabs__nav slds-size_full slds-scrollable_y navigation-content"
+            role="tablist"
+            aria-orientation="vertical"
+        >
+            <template
+                for:each={decoratedMenuItems}
+                for:item="item"
+                for:index="itemIndex"
+            >
                 <builder_platform_interaction-reorderable-vertical-navigation-item
                     has-front-icon={item.isDraggable}
                     key={item.guid}
@@ -18,16 +28,28 @@
                     role="presentation"
                     onitemclicked={handleItemClicked}
                     is-draggable={item.isDraggable}
-                    has-end-icon={item.hasErrors}>
-                    <div class='slds-show_inline-block' slot='front-icon'>
-                        <lightning-icon icon-name='utility:drag_and_drop' size='x-small' class='slds-m-right_x-small'></lightning-icon>
+                    has-end-icon={item.hasErrors}
+                >
+                    <div class="slds-show_inline-block" slot="front-icon">
+                        <lightning-icon
+                            icon-name="utility:drag_and_drop"
+                            size="x-small"
+                            class="slds-m-right_x-small"
+                        ></lightning-icon>
                     </div>
-                    <div slot='end-icon' class='slds-col_bump-left'>
-                        <lightning-icon icon-name='utility:error' size='x-small' variant='error'></lightning-icon>
+                    <div slot="end-icon" class="slds-col_bump-left">
+                        <lightning-icon
+                            icon-name="utility:error"
+                            size="x-small"
+                            variant="error"
+                        ></lightning-icon>
                     </div>
                 </builder_platform_interaction-reorderable-vertical-navigation-item>
             </template>
-            <div if:false={hideFooter} class="slds-vertical-tabs__nav-item slds-p-around_small">
+            <div
+                if:false={hideFooter}
+                class="slds-vertical-tabs__nav-item slds-p-around_small"
+            >
                 <slot name="footer">
                     <!-- Example: -->
                     Default Item

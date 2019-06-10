@@ -31,9 +31,14 @@ export default class ElementIcon extends LightningElement {
 
     get containerClass() {
         if (this.iconName === 'standard:decision') {
-            const baseClasses = 'rotate-icon-container slds-icon-standard-decision';
-            const commonClasses = 'non-canvas-decision-icon slds-m-right_x-small';
-            return this.updateClassesForNonCanvasElements(baseClasses, commonClasses);
+            const baseClasses =
+                'rotate-icon-container slds-icon-standard-decision';
+            const commonClasses =
+                'non-canvas-decision-icon slds-m-right_x-small';
+            return this.updateClassesForNonCanvasElements(
+                baseClasses,
+                commonClasses
+            );
         }
         return '';
     }
@@ -41,13 +46,19 @@ export default class ElementIcon extends LightningElement {
     get svgClass() {
         let commonClasses;
         if (this.iconName === 'standard:decision') {
-            commonClasses =  'rotate-icon-svg';
+            commonClasses = 'rotate-icon-svg';
         } else if (this.backgroundColor) {
             commonClasses = 'slds-m-right_x-small';
-            commonClasses = this.updateClassesForNonCanvasElements('background-' + this.backgroundColor, commonClasses);
+            commonClasses = this.updateClassesForNonCanvasElements(
+                'background-' + this.backgroundColor,
+                commonClasses
+            );
         } else {
             commonClasses = 'slds-m-right_x-small';
-            commonClasses = this.updateClassesForNonCanvasElements('', commonClasses);
+            commonClasses = this.updateClassesForNonCanvasElements(
+                '',
+                commonClasses
+            );
         }
         return commonClasses;
     }

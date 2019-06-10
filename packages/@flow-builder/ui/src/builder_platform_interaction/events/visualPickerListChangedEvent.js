@@ -10,7 +10,7 @@ export class VisualPickerListChangedEvent {
             composed: true,
             cancelable: true,
             detail: {
-                items,
+                items
             }
         });
     }

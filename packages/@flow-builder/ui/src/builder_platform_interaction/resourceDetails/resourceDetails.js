@@ -1,6 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { EditElementEvent, DeleteResourceEvent } from "builder_platform_interaction/events";
-import { LABELS } from "./resourceDetailsLabels";
+import {
+    EditElementEvent,
+    DeleteResourceEvent
+} from 'builder_platform_interaction/events';
+import { LABELS } from './resourceDetailsLabels';
 
 export default class ResourceDetails extends LightningElement {
     @api resourceDetails;
@@ -18,7 +21,10 @@ export default class ResourceDetails extends LightningElement {
     }
 
     get hasUsedByContent() {
-        return Array.isArray(this.resourceDetails.usedByElements) && this.resourceDetails.usedByElements.length > 0;
+        return (
+            Array.isArray(this.resourceDetails.usedByElements) &&
+            this.resourceDetails.usedByElements.length > 0
+        );
     }
 
     get hasCreatedByElement() {
@@ -26,7 +32,9 @@ export default class ResourceDetails extends LightningElement {
     }
 
     get createdByElements() {
-        return this.hasCreatedByElement ? [this.resourceDetails.createdByElement] : [];
+        return this.hasCreatedByElement
+            ? [this.resourceDetails.createdByElement]
+            : [];
     }
 
     get displayButtons() {
@@ -39,13 +47,18 @@ export default class ResourceDetails extends LightningElement {
 
     handleEditButtonClicked(event) {
         event.stopPropagation();
-        const editElementEvent = new EditElementEvent(this.resourceDetails.elementGuid);
+        const editElementEvent = new EditElementEvent(
+            this.resourceDetails.elementGuid
+        );
         this.dispatchEvent(editElementEvent);
     }
 
     handleDeleteButtonClicked(event) {
         event.stopPropagation();
-        const deleteEvent = new DeleteResourceEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
+        const deleteEvent = new DeleteResourceEvent(
+            [this.resourceDetails.elementGuid],
+            this.resourceDetails.elementType
+        );
         this.dispatchEvent(deleteEvent);
     }
 }

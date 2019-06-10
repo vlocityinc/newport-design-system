@@ -23,5 +23,5 @@ export const LABELS = {
     platformEventFilterLhsLabel,
     platformEventFilterLhsPlaceholder,
     platformEventFilterRhsLabel,
-    waitFilterConditionsHeader,
+    waitFilterConditionsHeader
 };

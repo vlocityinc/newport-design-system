@@ -11,11 +11,7 @@ const elementType = ELEMENT_TYPE.FORMULA;
  */
 export function createFormula(formula = {}) {
     const newFormula = baseResource(formula);
-    const {
-        expression = '',
-        dataType = null,
-        scale = 2
-    } = formula;
+    const { expression = '', dataType = null, scale = 2 } = formula;
     Object.assign(newFormula, {
         expression,
         dataType,
@@ -45,11 +41,7 @@ export function createFormulaMetadataObject(formula) {
         throw new Error('formula is not defined');
     }
     const newFormula = baseResourceMetadataObject(formula);
-    const {
-        expression,
-        dataType,
-        scale
-    } = formula;
+    const { expression, dataType, scale } = formula;
     Object.assign(newFormula, {
         expression,
         dataType,

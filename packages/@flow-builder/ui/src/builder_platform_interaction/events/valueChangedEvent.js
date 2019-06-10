@@ -3,7 +3,6 @@
  */
 const eventName = 'valuechanged';
 
-
 export class ValueChangedEvent {
     constructor(value = null, error = null) {
         return new CustomEvent(eventName, {

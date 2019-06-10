@@ -1,7 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import {
-    ReorderListEvent
-} from "builder_platform_interaction/events";
+import { ReorderListEvent } from 'builder_platform_interaction/events';
 
 export default class Draggable extends LightningElement {
     @api index;

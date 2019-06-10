@@ -1,24 +1,45 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { FetchMenuDataEvent, ComboboxStateChangedEvent, FilterMatchesEvent, NewResourceEvent, ItemSelectedEvent } from "builder_platform_interaction/events";
-import { FLOW_DATA_TYPE, isComplexType } from "builder_platform_interaction/dataTypeLib";
-import { COMBOBOX_NEW_RESOURCE_VALUE } from "builder_platform_interaction/expressionUtils";
-import { format, isUndefinedOrNull, isObject, isValidNumber, addCurlyBraces, splitStringBySeparator, isReference } from "builder_platform_interaction/commonUtils";
-import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
-import { LABELS } from "./comboboxLabels";
-import { validateTextWithMergeFields, validateMergeField, isTextWithMergeFields } from "builder_platform_interaction/mergeFieldLib";
-import { getElementFromParentElementCache } from "builder_platform_interaction/comboboxCache";
-import { isGlobalConstantOrSystemVariableId } from "builder_platform_interaction/systemLib";
+import {
+    FetchMenuDataEvent,
+    ComboboxStateChangedEvent,
+    FilterMatchesEvent,
+    NewResourceEvent,
+    ItemSelectedEvent
+} from 'builder_platform_interaction/events';
+import {
+    FLOW_DATA_TYPE,
+    isComplexType
+} from 'builder_platform_interaction/dataTypeLib';
+import { COMBOBOX_NEW_RESOURCE_VALUE } from 'builder_platform_interaction/expressionUtils';
+import {
+    format,
+    isUndefinedOrNull,
+    isObject,
+    isValidNumber,
+    addCurlyBraces,
+    splitStringBySeparator,
+    isReference
+} from 'builder_platform_interaction/commonUtils';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { LABELS } from './comboboxLabels';
+import {
+    validateTextWithMergeFields,
+    validateMergeField,
+    isTextWithMergeFields
+} from 'builder_platform_interaction/mergeFieldLib';
+import { getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
+import { isGlobalConstantOrSystemVariableId } from 'builder_platform_interaction/systemLib';
 import {
     normalizeDateTime,
     createMetadataDateTime,
     formatDateTime,
     isValidFormattedDateTime,
     isValidMetadataDateTime,
-    getFormat,
+    getFormat
 } from 'builder_platform_interaction/dateTimeUtils';
 
 const SELECTORS = {
-    GROUPED_COMBOBOX: 'lightning-grouped-combobox',
+    GROUPED_COMBOBOX: 'lightning-grouped-combobox'
 };
 
 /**
@@ -27,8 +48,11 @@ const SELECTORS = {
 const ERROR_MESSAGE = {
     [FLOW_DATA_TYPE.CURRENCY.value]: LABELS.currencyErrorMessage,
     [FLOW_DATA_TYPE.NUMBER.value]: LABELS.numberErrorMessage,
-    [FLOW_DATA_TYPE.DATE.value] : format(LABELS.dateErrorMessage, getFormat()),
-    [FLOW_DATA_TYPE.DATE_TIME.value] : format(LABELS.datetimeErrorMessage, getFormat(true)),
+    [FLOW_DATA_TYPE.DATE.value]: format(LABELS.dateErrorMessage, getFormat()),
+    [FLOW_DATA_TYPE.DATE_TIME.value]: format(
+        LABELS.datetimeErrorMessage,
+        getFormat(true)
+    ),
     [FLOW_DATA_TYPE.BOOLEAN.value]: LABELS.genericErrorMessage,
     GENERIC: LABELS.genericErrorMessage,
     REQUIRED: LABELS.requiredErrorMessage
@@ -39,10 +63,16 @@ const ERROR_MESSAGE = {
  */
 const MERGE_FIELD_REGEX = new RegExp('^[a-zA-Z][a-zA-Z0-9_]*$');
 
-const isMatchWithTrailingSeparator = (text, textWithSeparatorAndBracket, separator) => {
-    return text.substring(0, text.length - 1) + `${separator}}` === textWithSeparatorAndBracket;
+const isMatchWithTrailingSeparator = (
+    text,
+    textWithSeparatorAndBracket,
+    separator
+) => {
+    return (
+        text.substring(0, text.length - 1) + `${separator}}` ===
+        textWithSeparatorAndBracket
+    );
 };
-
 
 const MENU_DATA_MAX_LEVEL_DEFAULT_VALUE = 2;
 
@@ -51,10 +81,10 @@ export default class Combobox extends LightningElement {
     state = {
         displayText: '',
         showActivityIndicator: false,
-        forceShowActivityIndicator : false,
+        forceShowActivityIndicator: false,
         inputIcon: 'utility:search',
         menuData: [],
-        disabled: false,
+        disabled: false
     };
 
     @api
@@ -69,7 +99,10 @@ export default class Combobox extends LightningElement {
 
     @api
     get showActivityIndicator() {
-        return this.state.forceShowActivityIndicator || this.state.showActivityIndicator;
+        return (
+            this.state.forceShowActivityIndicator ||
+            this.state.showActivityIndicator
+        );
     }
 
     /**
@@ -119,7 +152,9 @@ export default class Combobox extends LightningElement {
                 }
             }
 
-            throw new Error(`Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`);
+            throw new Error(
+                `Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`
+            );
         }
     }
 
@@ -151,7 +186,10 @@ export default class Combobox extends LightningElement {
     set literalsAllowed(isAllowed) {
         const previousIsLiteralAllowed = this._isLiteralAllowed;
         this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
-        if (this._isValidationEnabled && (previousIsLiteralAllowed !== this._isLiteralAllowed)) {
+        if (
+            this._isValidationEnabled &&
+            previousIsLiteralAllowed !== this._isLiteralAllowed
+        ) {
             this._needsValidationOnEnable = true;
             this.doValidation();
             this.fireComboboxStateChangedEvent();
@@ -160,7 +198,13 @@ export default class Combobox extends LightningElement {
 
     @api
     get literalsAllowed() {
-        return this._isLiteralAllowed && !(isComplexType(this._dataType) || this._dataType === FLOW_DATA_TYPE.BOOLEAN.value);
+        return (
+            this._isLiteralAllowed &&
+            !(
+                isComplexType(this._dataType) ||
+                this._dataType === FLOW_DATA_TYPE.BOOLEAN.value
+            )
+        );
     }
 
     /**
@@ -199,7 +243,9 @@ export default class Combobox extends LightningElement {
                     this._mergeFieldLevel = this.menuDataMaxLevel;
                 }
             } else {
-                throw new Error('Setting an item on Flow Combobox without a value property!');
+                throw new Error(
+                    'Setting an item on Flow Combobox without a value property!'
+                );
             }
         } else {
             if (!itemOrDisplayText && this.state.displayText) {
@@ -239,12 +285,20 @@ export default class Combobox extends LightningElement {
      */
     set type(dataType) {
         if (dataType && dataType.toUpperCase) {
-            if (!Object.values(FLOW_DATA_TYPE).find(type => type.value === dataType)) {
-                throw new Error(`Data type must be a valid Flow Data Type but instead was ${dataType}`);
+            if (
+                !Object.values(FLOW_DATA_TYPE).find(
+                    type => type.value === dataType
+                )
+            ) {
+                throw new Error(
+                    `Data type must be a valid Flow Data Type but instead was ${dataType}`
+                );
             }
             this._dataType = dataType;
 
-            this.state.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
+            this.state.displayText = this.normalizeIfMetadataDateTime(
+                this.state.displayText
+            );
 
             if (this._isValidationEnabled) {
                 this._needsValidationOnEnable = true;
@@ -272,7 +326,9 @@ export default class Combobox extends LightningElement {
         this.state.menuData = data;
         this.state.showActivityIndicator = false;
         if (this._waitingForMenuDataDropDown) {
-            const combobox = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
+            const combobox = this.template.querySelector(
+                SELECTORS.GROUPED_COMBOBOX
+            );
             combobox.focusAndOpenDropdownIfNotEmpty();
             this._waitingForMenuDataDropDown = false;
         }
@@ -291,7 +347,11 @@ export default class Combobox extends LightningElement {
             this.state.showActivityIndicator = false;
         }
 
-        if (!this.state.disabled && wasDisabled && this._needsValidationOnEnable) {
+        if (
+            !this.state.disabled &&
+            wasDisabled &&
+            this._needsValidationOnEnable
+        ) {
             this.doValidation();
             this.fireComboboxStateChangedEvent();
         }
@@ -358,14 +418,26 @@ export default class Combobox extends LightningElement {
      * Returns the literal value of the combobox (could be different from the displayed value)
      */
     get literalValue() {
-        if (this.isDateOrDateTime && this.literalsAllowed && !this.errorMessage) {
-            return createMetadataDateTime(this.state.displayText, this.isDateTime) || this.state.displayText;
+        if (
+            this.isDateOrDateTime &&
+            this.literalsAllowed &&
+            !this.errorMessage
+        ) {
+            return (
+                createMetadataDateTime(
+                    this.state.displayText,
+                    this.isDateTime
+                ) || this.state.displayText
+            );
         }
         return this.state.displayText;
     }
 
     get isDateOrDateTime() {
-        return this.type === FLOW_DATA_TYPE.DATE.value || this.type === FLOW_DATA_TYPE.DATE_TIME.value;
+        return (
+            this.type === FLOW_DATA_TYPE.DATE.value ||
+            this.type === FLOW_DATA_TYPE.DATE_TIME.value
+        );
     }
 
     get isDateTime() {
@@ -380,7 +452,9 @@ export default class Combobox extends LightningElement {
 
     connectedCallback() {
         this._isInitialized = true;
-        this.state.displayText = this.normalizeIfMetadataDateTime(this.state.displayText);
+        this.state.displayText = this.normalizeIfMetadataDateTime(
+            this.state.displayText
+        );
     }
 
     /**
@@ -514,7 +588,11 @@ export default class Combobox extends LightningElement {
         this.updateInputIcon();
 
         // set state to resource if value starts with {!, append the closing brace, and place cursor before it
-        if (this.state.displayText === '{!' && previousValue === '{' && !this._isMergeField) {
+        if (
+            this.state.displayText === '{!' &&
+            previousValue === '{' &&
+            !this._isMergeField
+        ) {
             this._isMergeField = true;
             this.setValueAndCursor('{!}');
         } else {
@@ -528,7 +606,10 @@ export default class Combobox extends LightningElement {
         if (this.isPotentialField()) {
             // Checks if base is a valid parent element and fetch menu data if so
             this.getParentElementAndFetchFields();
-        } else if (this._mergeFieldLevel === this.menuDataMaxLevel && !this.hasMergeFieldCrossedMaxLevel()) {
+        } else if (
+            this._mergeFieldLevel === this.menuDataMaxLevel &&
+            !this.hasMergeFieldCrossedMaxLevel()
+        ) {
             // if on the second level and no longer a potential field, get first level menu data
             // TODO check _mergeFieldLevel before setting to null if/when we have fields that have hasNext = true
             this._base = null;
@@ -537,7 +618,10 @@ export default class Combobox extends LightningElement {
 
         // Fire event to filter menu data only if within the max level, otherwise clear menu data
         if (!this.hasMergeFieldCrossedMaxLevel()) {
-            this.fireFilterMatchesEvent(this.getFilterText(sanitizedValue), this._isMergeField);
+            this.fireFilterMatchesEvent(
+                this.getFilterText(sanitizedValue),
+                this._isMergeField
+            );
         } else {
             this.state.menuData = [];
         }
@@ -559,7 +643,10 @@ export default class Combobox extends LightningElement {
 
         // menu data should be filtered using new display text, filtering must be fired before item is selected, as if the user typed the whole string
         if (!itemHasNextLevel) {
-            this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue(item.displayText)), this._isMergeField);
+            this.fireFilterMatchesEvent(
+                this.getFilterText(this.getSanitizedValue(item.displayText)),
+                this._isMergeField
+            );
         }
 
         this._item = item;
@@ -588,8 +675,16 @@ export default class Combobox extends LightningElement {
         this.setMergeFieldState(this.state.displayText, true);
 
         // Remove the last dot from the expression & get the updated menudata
-        if (this._isMergeField && this.state.displayText.charAt(this.state.displayText.length - 2) === this.separator) {
-            this.state.displayText = this.state.displayText.substring(0, this.state.displayText.length - 2) + '}';
+        if (
+            this._isMergeField &&
+            this.state.displayText.charAt(this.state.displayText.length - 2) ===
+                this.separator
+        ) {
+            this.state.displayText =
+                this.state.displayText.substring(
+                    0,
+                    this.state.displayText.length - 2
+                ) + '}';
             // TODO check _mergeFieldLevel before setting to null if/when we have fields that have hasNext = true
             this._base = null;
             this.fireFetchMenuDataEvent();
@@ -622,7 +717,10 @@ export default class Combobox extends LightningElement {
                 this.getParentElementAndFetchFields();
             }
             if (!this.hasMergeFieldCrossedMaxLevel()) {
-                this.fireFilterMatchesEvent(this.getFilterText(this.getSanitizedValue()), this._isMergeField);
+                this.fireFilterMatchesEvent(
+                    this.getFilterText(this.getSanitizedValue()),
+                    this._isMergeField
+                );
             }
         }
     }
@@ -642,7 +740,9 @@ export default class Combobox extends LightningElement {
         } else if (['number', 'boolean'].includes(typeof valueToConvert)) {
             return valueToConvert.toString();
         } else if (typeof valueToConvert !== 'string') {
-            throw new Error(`Trying to set value of invalid type ${typeof valueToConvert} on Flow Combobox!`);
+            throw new Error(
+                `Trying to set value of invalid type ${typeof valueToConvert} on Flow Combobox!`
+            );
         }
         return valueToConvert;
     }
@@ -654,7 +754,9 @@ export default class Combobox extends LightningElement {
      */
     setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
         if (isReference(value)) {
-            this._isMergeField = isStrictMode ? !this.isExpressionIdentifierLiteral(value, true) : true;
+            this._isMergeField = isStrictMode
+                ? !this.isExpressionIdentifierLiteral(value, true)
+                : true;
         } else {
             this._isMergeField = false;
         }
@@ -665,8 +767,15 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} returns true if the current displayText is a potential field
      */
     isPotentialField() {
-        const field = splitStringBySeparator(this.getSanitizedValue(), this.separator)[1];
-        if (this._isMergeField && !this.hasMergeFieldCrossedMaxLevel() && !isUndefinedOrNull(field)) {
+        const field = splitStringBySeparator(
+            this.getSanitizedValue(),
+            this.separator
+        )[1];
+        if (
+            this._isMergeField &&
+            !this.hasMergeFieldCrossedMaxLevel() &&
+            !isUndefinedOrNull(field)
+        ) {
             return true;
         }
         return false;
@@ -676,17 +785,30 @@ export default class Combobox extends LightningElement {
      * Grabs the flow element from the cache/store and gets the fields for the item
      */
     getParentElementAndFetchFields() {
-        const devNames = splitStringBySeparator(this.getSanitizedValue(), this.separator);
+        const devNames = splitStringBySeparator(
+            this.getSanitizedValue(),
+            this.separator
+        );
         let baseMergeField = addCurlyBraces(devNames[0]);
         const item = this.matchTextWithItem(baseMergeField, false);
         if (item && baseMergeField !== item.displayText) {
-            const newDisplayText = item.displayText.substring(0, item.displayText.length - 1) + this.separator + devNames[1] + '}';
+            const newDisplayText =
+                item.displayText.substring(0, item.displayText.length - 1) +
+                this.separator +
+                devNames[1] +
+                '}';
             this.setValueAndCursor(newDisplayText);
             baseMergeField = item.displayText;
         }
-        if (this._mergeFieldLevel === 1 || (this._mergeFieldLevel === this.menuDataMaxLevel && this._base !== baseMergeField)) {
+        if (
+            this._mergeFieldLevel === 1 ||
+            (this._mergeFieldLevel === this.menuDataMaxLevel &&
+                this._base !== baseMergeField)
+        ) {
             // get parent element from combobox cache
-            const parentElementInComboboxShape = getElementFromParentElementCache(baseMergeField);
+            const parentElementInComboboxShape = getElementFromParentElementCache(
+                baseMergeField
+            );
             if (parentElementInComboboxShape) {
                 this._base = baseMergeField;
                 this.fireFetchMenuDataEvent(parentElementInComboboxShape);
@@ -703,7 +825,10 @@ export default class Combobox extends LightningElement {
         if (this.enableFieldDrilldown) {
             if (item && this._mergeFieldLevel === 1) {
                 this._mergeFieldLevel++;
-            } else if (!item && this._mergeFieldLevel === this.menuDataMaxLevel) {
+            } else if (
+                !item &&
+                this._mergeFieldLevel === this.menuDataMaxLevel
+            ) {
                 this._mergeFieldLevel--;
             }
             this.state.menuData = [];
@@ -729,7 +854,12 @@ export default class Combobox extends LightningElement {
      * NOTE: This event is only fired if there have been changes
      */
     fireComboboxStateChangedEvent() {
-        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(this._item, this.literalValue, this._errorMessage, this._isMergeField);
+        const comboboxStateChangedEvent = new ComboboxStateChangedEvent(
+            this._item,
+            this.literalValue,
+            this._errorMessage,
+            this._isMergeField
+        );
         this.dispatchEvent(comboboxStateChangedEvent);
     }
 
@@ -760,19 +890,26 @@ export default class Combobox extends LightningElement {
         let matchedItem;
         if (!this._item && text && this.state.menuData) {
             const matchedItems = [];
-            const groupOrItemCount =  this.state.menuData.length;
+            const groupOrItemCount = this.state.menuData.length;
             for (let i = 0; i < groupOrItemCount; i++) {
                 if (this.state.menuData[i].items) {
                     // a menu data group
                     this.state.menuData[i].items.forEach(item => {
-                        if (item.displayText && (item.displayText.toLowerCase() === text.toLowerCase())) {
+                        if (
+                            item.displayText &&
+                            item.displayText.toLowerCase() ===
+                                text.toLowerCase()
+                        ) {
                             matchedItems.push(item);
                         }
                     });
                 } else {
                     // a menu data item
                     const item = this.state.menuData[i];
-                    if (item.displayText && (item.displayText.toLowerCase() === text.toLowerCase())) {
+                    if (
+                        item.displayText &&
+                        item.displayText.toLowerCase() === text.toLowerCase()
+                    ) {
                         matchedItems.push(item);
                     }
                 }
@@ -831,7 +968,10 @@ export default class Combobox extends LightningElement {
      * @returns {Boolean} true when the level is greater than max level.
      */
     hasMergeFieldCrossedMaxLevel() {
-        return splitStringBySeparator(this.state.displayText, this.separator).length > this.menuDataMaxLevel;
+        return (
+            splitStringBySeparator(this.state.displayText, this.separator)
+                .length > this.menuDataMaxLevel
+        );
     }
 
     /**
@@ -840,13 +980,16 @@ export default class Combobox extends LightningElement {
      * @param {String} hasNextLevel whether or not the selected item has a next level
      */
     setValueAndCursor(value, hasNextLevel = false) {
-        const combobox = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
+        const combobox = this.template.querySelector(
+            SELECTORS.GROUPED_COMBOBOX
+        );
         const input = combobox.getElementsByTagName('input')[0];
 
         // Add a separator to the end if selected value has a next level
         if (hasNextLevel) {
             if (isReference(value)) {
-                value = value.substring(0, value.length - 1) + `${this.separator}}`;
+                value =
+                    value.substring(0, value.length - 1) + `${this.separator}}`;
             } else {
                 value += this.separator;
             }
@@ -855,7 +998,10 @@ export default class Combobox extends LightningElement {
         this.state.displayText = input.value = value;
         // Lightning components team may provide a method to accomplish this in the future
         if (this._isMergeField) {
-            input.setSelectionRange(this.state.displayText.length - 1, this.state.displayText.length - 1);
+            input.setSelectionRange(
+                this.state.displayText.length - 1,
+                this.state.displayText.length - 1
+            );
         }
     }
 
@@ -882,7 +1028,11 @@ export default class Combobox extends LightningElement {
      */
     getFilterText(sanitizedValue) {
         const lastIndex = sanitizedValue.lastIndexOf(this.separator);
-        if (this._isMergeField && lastIndex !== -1 && (this._item || this._base)) {
+        if (
+            this._isMergeField &&
+            lastIndex !== -1 &&
+            (this._item || this._base)
+        ) {
             return sanitizedValue.substring(lastIndex + 1);
         }
         return sanitizedValue;
@@ -944,8 +1094,16 @@ export default class Combobox extends LightningElement {
     syncValueAndDisplayText(item) {
         let displayText = this.getStringValue(item.displayText);
 
-        if (this._isInitialized && !this._isUserBlurred && item.hasNext &&
-            isMatchWithTrailingSeparator(item.displayText, this.state.displayText, this.separator)) {
+        if (
+            this._isInitialized &&
+            !this._isUserBlurred &&
+            item.hasNext &&
+            isMatchWithTrailingSeparator(
+                item.displayText,
+                this.state.displayText,
+                this.separator
+            )
+        ) {
             displayText = this.state.displayText;
         }
 
@@ -984,8 +1142,11 @@ export default class Combobox extends LightningElement {
      * ex: Hi {!myAccount.Name}!
      */
     validateMultipleMergeFieldsWithText() {
-        const mergeFieldsAllowedForDataTypes = [FLOW_DATA_TYPE.STRING.value,
-            FLOW_DATA_TYPE.PICKLIST.value, FLOW_DATA_TYPE.MULTI_PICKLIST.value];
+        const mergeFieldsAllowedForDataTypes = [
+            FLOW_DATA_TYPE.STRING.value,
+            FLOW_DATA_TYPE.PICKLIST.value,
+            FLOW_DATA_TYPE.MULTI_PICKLIST.value
+        ];
 
         // merge fields are valid only with literals allowed
         if (!this._isLiteralAllowed) {
@@ -1034,17 +1195,24 @@ export default class Combobox extends LightningElement {
     validateResource() {
         if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
-        } else if (!this.hasMergeFieldCrossedMaxLevel()) { // no validation for more than max level
+        } else if (!this.hasMergeFieldCrossedMaxLevel()) {
+            // no validation for more than max level
             // For single level merge field use menu data and for two levels use merge field lib
             if (this._mergeFieldLevel === 1 && !this.allowedParamTypes) {
                 if (!this._item) {
                     this._errorMessage = ERROR_MESSAGE.GENERIC;
                 }
             } else {
-                this.validateUsingMergeFieldLib(validateMergeField, this.allowedParamTypes);
+                this.validateUsingMergeFieldLib(
+                    validateMergeField,
+                    this.allowedParamTypes
+                );
             }
             // we do not want to check data type here for literals allowed
-        } else if (!this._isLiteralAllowed && this.hasMergeFieldCrossedMaxLevel()) {
+        } else if (
+            !this._isLiteralAllowed &&
+            this.hasMergeFieldCrossedMaxLevel()
+        ) {
             // if literals are not allowed, then you cannot reference a merge field past the max level
             this._errorMessage = ERROR_MESSAGE.GENERIC;
         }
@@ -1081,7 +1249,10 @@ export default class Combobox extends LightningElement {
 
     validateDateOrDateTime() {
         if (isValidFormattedDateTime(this.state.displayText, this.isDateTime)) {
-            this.state.displayText = formatDateTime(this.state.displayText, this.isDateTime);
+            this.state.displayText = formatDateTime(
+                this.state.displayText,
+                this.isDateTime
+            );
         } else {
             this._errorMessage = ERROR_MESSAGE[this._dataType];
         }
@@ -1092,7 +1263,10 @@ export default class Combobox extends LightningElement {
      * @param {function} validateFunctionRef a existing function reference from merge field lib that returns promise.
      */
     validateUsingMergeFieldLib(validateFunctionRef) {
-        const errors = validateFunctionRef.call(this, this.state.displayText, {allowGlobalConstants: true, allowedParamTypes: this.allowedParamTypes});
+        const errors = validateFunctionRef.call(this, this.state.displayText, {
+            allowGlobalConstants: true,
+            allowedParamTypes: this.allowedParamTypes
+        });
         if (errors.length > 0) {
             this._errorMessage = errors[0].message;
         }
@@ -1108,8 +1282,13 @@ export default class Combobox extends LightningElement {
      * @param {boolean} allowDotSuffix to allow dot at the end of the expression identifier
      * @returns {*} returns false if invalid dev name chars or regex result.
      */
-    isExpressionIdentifierLiteral(valueToCheck = this.state.displayText, allowDotSuffix) {
-        const consecutiveSeparatorsRegex = new RegExp(`\\${this.separator}{2,}`);
+    isExpressionIdentifierLiteral(
+        valueToCheck = this.state.displayText,
+        allowDotSuffix
+    ) {
+        const consecutiveSeparatorsRegex = new RegExp(
+            `\\${this.separator}{2,}`
+        );
         let value;
         let regexResult = true;
         if (isReference(valueToCheck)) {
@@ -1122,11 +1301,17 @@ export default class Combobox extends LightningElement {
 
         if (value) {
             // check that there aren't consecutive separators anywhere and doesn't start with a separator
-            if (consecutiveSeparatorsRegex.exec(value) || value.startsWith(this.separator)) {
+            if (
+                consecutiveSeparatorsRegex.exec(value) ||
+                value.startsWith(this.separator)
+            ) {
                 return true;
             }
             // split the merge field by separator
-            const mergeFieldArray = splitStringBySeparator(value, this.separator);
+            const mergeFieldArray = splitStringBySeparator(
+                value,
+                this.separator
+            );
             let i = 0;
             while (regexResult && i < mergeFieldArray.length) {
                 // don't execute regex on empty strings
@@ -1151,7 +1336,12 @@ export default class Combobox extends LightningElement {
     normalizeIfMetadataDateTime(text) {
         let literal = text;
         if (!this._isNormalized) {
-            if (this.isDateOrDateTime && this.literalsAllowed && !this.errorMessage && isValidMetadataDateTime(literal, this.isDateTime)) {
+            if (
+                this.isDateOrDateTime &&
+                this.literalsAllowed &&
+                !this.errorMessage &&
+                isValidMetadataDateTime(literal, this.isDateTime)
+            ) {
                 literal = normalizeDateTime(literal, this.isDateTime);
                 this._isNormalized = true;
             }

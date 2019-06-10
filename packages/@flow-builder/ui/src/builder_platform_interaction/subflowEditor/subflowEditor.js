@@ -1,12 +1,26 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./subflowEditorLabels";
-import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { LABELS } from './subflowEditorLabels';
+import {
+    fetchOnce,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
+import {
+    getValueFromHydratedItem,
+    getErrorsFromHydratedElement
+} from 'builder_platform_interaction/dataMutationLib';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { subflowReducer, MERGE_WITH_VARIABLES, REMOVE_UNSET_ASSIGNMENTS } from "./subflowReducer";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import {
+    subflowReducer,
+    MERGE_WITH_VARIABLES,
+    REMOVE_UNSET_ASSIGNMENTS
+} from './subflowReducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import {
+    ClosePropertyEditorEvent,
+    CannotRetrieveCalloutParametersEvent,
+    SetPropertyEditorTitleEvent
+} from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 export default class SubflowEditor extends LightningElement {
@@ -43,19 +57,26 @@ export default class SubflowEditor extends LightningElement {
         this.subflowVariablesDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
         const serverActionParams = { flowName };
-        fetchOnce(SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES, serverActionParams).then((inputOutputVariables) => {
-            if (this.connected) {
-                this.displaySpinner = false;
-                this.subflowVariablesDescriptor = inputOutputVariables;
-                const event = new CustomEvent(MERGE_WITH_VARIABLES, { detail : inputOutputVariables });
-                this.subflowNode = subflowReducer(this.subflowNode, event);
-            }
-        }).catch(() => {
-            if (this.connected) {
-                this.displaySpinner = false;
-                this.cannotRetrieveParameters();
-            }
-        });
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES,
+            serverActionParams
+        )
+            .then(inputOutputVariables => {
+                if (this.connected) {
+                    this.displaySpinner = false;
+                    this.subflowVariablesDescriptor = inputOutputVariables;
+                    const event = new CustomEvent(MERGE_WITH_VARIABLES, {
+                        detail: inputOutputVariables
+                    });
+                    this.subflowNode = subflowReducer(this.subflowNode, event);
+                }
+            })
+            .catch(() => {
+                if (this.connected) {
+                    this.displaySpinner = false;
+                    this.cannotRetrieveParameters();
+                }
+            });
     }
 
     cannotRetrieveParameters() {
@@ -72,27 +93,42 @@ export default class SubflowEditor extends LightningElement {
     fetchSubflowDescriptor() {
         this.subflowDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
-        const options = {disableErrorModal : true};
-        const { processType: flowProcessType } = Store.getStore().getCurrentState().properties;
-        fetchOnce(SERVER_ACTION_TYPE.GET_SUBFLOWS, {
-            flowProcessType
-        }, options).then((subflows) => {
-            if (this.connected) {
-                this.subflowDescriptor = subflows.find(f => f.fullName === flowName);
-                this.updatePropertyEditorTitle();
-            }
-        }).catch(() => {
-            // ignore the error : we won't use the subflowDescriptor in this case
-        });
+        const options = { disableErrorModal: true };
+        const {
+            processType: flowProcessType
+        } = Store.getStore().getCurrentState().properties;
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_SUBFLOWS,
+            {
+                flowProcessType
+            },
+            options
+        )
+            .then(subflows => {
+                if (this.connected) {
+                    this.subflowDescriptor = subflows.find(
+                        f => f.fullName === flowName
+                    );
+                    this.updatePropertyEditorTitle();
+                }
+            })
+            .catch(() => {
+                // ignore the error : we won't use the subflowDescriptor in this case
+            });
     }
 
     updatePropertyEditorTitle() {
         if (this.isNewMode || !this.subflowNode) {
             return;
         }
-        const flowName = this.subflowDescriptor != null ? this.subflowDescriptor.masterLabel : getValueFromHydratedItem(this.subflowNode.flowName);
+        const flowName =
+            this.subflowDescriptor != null
+                ? this.subflowDescriptor.masterLabel
+                : getValueFromHydratedItem(this.subflowNode.flowName);
         const title = format(this.labels.editPropertyEditorTitle, flowName);
-        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(
+            title
+        );
         this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 
@@ -129,28 +165,43 @@ export default class SubflowEditor extends LightningElement {
     }
 
     get elementType() {
-        return (this.subflowNode && this.subflowNode.elementType) ? this.subflowNode.elementType : undefined;
+        return this.subflowNode && this.subflowNode.elementType
+            ? this.subflowNode.elementType
+            : undefined;
     }
 
     get subtitle() {
         if (!this.subflowNode) {
             return '';
         }
-        const flowName = this.subflowDescriptor != null ? this.subflowDescriptor.masterLabel : getValueFromHydratedItem(this.subflowNode.flowName);
+        const flowName =
+            this.subflowDescriptor != null
+                ? this.subflowDescriptor.masterLabel
+                : getValueFromHydratedItem(this.subflowNode.flowName);
         return format(this.labels.subtitle, flowName);
     }
 
     get parameterListConfig() {
-        const inputs = this.subflowVariablesDescriptor ? this.subflowNode.inputAssignments : [];
-        const outputs = this.subflowVariablesDescriptor ? this.subflowNode.outputAssignments : [];
+        const inputs = this.subflowVariablesDescriptor
+            ? this.subflowNode.inputAssignments
+            : [];
+        const outputs = this.subflowVariablesDescriptor
+            ? this.subflowNode.outputAssignments
+            : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
-            emptyInputsBody: format(this.labels.emptyInputsBody, this.labels.subflowTypeLabel),
+            emptyInputsBody: format(
+                this.labels.emptyInputsBody,
+                this.labels.subflowTypeLabel
+            ),
             emptyOutputsTitle: this.labels.emptyOutputsTitle,
-            emptyOutputsBody: format(this.labels.emptyOutputsBody, this.labels.subflowTypeLabel),
+            emptyOutputsBody: format(
+                this.labels.emptyOutputsBody,
+                this.labels.subflowTypeLabel
+            ),
             sortInputs: true,
             sortOutputs: true,
             inputs,

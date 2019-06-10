@@ -1,26 +1,49 @@
 <template>
-    <lightning-spinner if:true={spinnerActive} variant='brand' alternative-text={spinnerAlternativeText}></lightning-spinner>
-    <div class='property-input slds-form-element'>
-        <label if:true={label} for={name} class='slds-form-element__label'>
-            <abbr if:true={isRequired} title={labels.required} class='slds-required'>*</abbr>
+    <lightning-spinner
+        if:true={spinnerActive}
+        variant="brand"
+        alternative-text={spinnerAlternativeText}
+    ></lightning-spinner>
+    <div class="property-input slds-form-element">
+        <label if:true={label} for={name} class="slds-form-element__label">
+            <abbr
+                if:true={isRequired}
+                title={labels.required}
+                class="slds-required"
+                >*</abbr
+            >
             {label}
         </label>
-        <lightning-helptext if:true={helpText} class='slds-form-element' content={helpText}></lightning-helptext>
-        
+        <lightning-helptext
+            if:true={helpText}
+            class="slds-form-element"
+            content={helpText}
+        ></lightning-helptext>
+
         <div class={classList}>
-            <div class='slds-p-around_x-small slds-p-bottom_xx-small'> 
-                <builder_platform_interaction-ferov-resource-picker combobox-config={resourceComboBoxConfig}
-                                                                    element-config={elementConfig}
-                                                                    hide-global-constants
-                                                                    show-global-variables={showGlobalVariables}
-                                                                    hide-new-resource={hideNewResource}
-                                                                    onitemselected={handleResourcePickerSelection}>
+            <div class="slds-p-around_x-small slds-p-bottom_xx-small">
+                <builder_platform_interaction-ferov-resource-picker
+                    combobox-config={resourceComboBoxConfig}
+                    element-config={elementConfig}
+                    hide-global-constants
+                    show-global-variables={showGlobalVariables}
+                    hide-new-resource={hideNewResource}
+                    onitemselected={handleResourcePickerSelection}
+                >
                 </builder_platform_interaction-ferov-resource-picker>
-            </div>                
-            <textarea class='slds-textarea slds-input textarea-input' name={name} onblur={handleEvent} onchange={handleEvent} maxlength={maxLength}>{_value}</textarea>
+            </div>
+            <textarea
+                class="slds-textarea slds-input textarea-input"
+                name={name}
+                onblur={handleEvent}
+                onchange={handleEvent}
+                maxlength={maxLength}
+            >
+{_value}</textarea
+            >
         </div>
-        <div if:true={error} class='slds-has-error'>
-            <div role='alert' class='slds-form-element__help'>{error}</div>
+        <div if:true={error} class="slds-has-error">
+            <div role="alert" class="slds-form-element__help">{error}</div>
         </div>
     </div>
 </template>

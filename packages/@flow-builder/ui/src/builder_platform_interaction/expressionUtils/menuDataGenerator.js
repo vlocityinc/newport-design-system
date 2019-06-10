@@ -1,13 +1,22 @@
 import {
     FLOW_DATA_TYPE,
     getDataTypeLabel,
-    getDataTypeIcons,
-} from "builder_platform_interaction/dataTypeLib";
-import { isGlobalConstantOrSystemVariableId, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getSystemVariables, getGlobalVariableTypes } from "builder_platform_interaction/systemLib";
-import { getResourceCategory } from "builder_platform_interaction/elementLabelLib";
-import { addCurlyBraces, format } from 'builder_platform_interaction/commonUtils';
-import { getDataType } from "builder_platform_interaction/ruleLib";
-import { isComplexType } from "builder_platform_interaction/dataTypeLib";
+    getDataTypeIcons
+} from 'builder_platform_interaction/dataTypeLib';
+import {
+    isGlobalConstantOrSystemVariableId,
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    getSystemVariables,
+    getGlobalVariableTypes
+} from 'builder_platform_interaction/systemLib';
+import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
+import {
+    addCurlyBraces,
+    format
+} from 'builder_platform_interaction/commonUtils';
+import { getDataType } from 'builder_platform_interaction/ruleLib';
+import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
@@ -22,7 +31,6 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
     OPTION_CARD: 'option-card',
     OPTION_INLINE: 'option-inline'
 };
-
 
 /**
  * The subtext of a row varies a bit. This function captures those rules.
@@ -84,7 +92,17 @@ function getSubText(dataType, subtype, label) {
  * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
  * @returns {MenuItem}  the generated menu item
  */
-export const createMenuItem = (type, text, subText, displayText, iconName, value, parent, dataType, subtype) => {
+export const createMenuItem = (
+    type,
+    text,
+    subText,
+    displayText,
+    iconName,
+    value,
+    parent,
+    dataType,
+    subtype
+) => {
     return {
         type,
         text,
@@ -105,10 +123,11 @@ export const createMenuItem = (type, text, subText, displayText, iconName, value
  * @param {Object} [parent] Parent object if field is a second level item
  * @return {boolean} True if dataType should be the subtext
  */
-const shouldShowDataTypeAsSubText = (parent) => (
-    parent && (parent.dataType === FLOW_DATA_TYPE.APEX.value || parent.text === SYSTEM_VARIABLE_PREFIX
-        || parent.text === SYSTEM_VARIABLE_CLIENT_PREFIX)
-);
+const shouldShowDataTypeAsSubText = parent =>
+    parent &&
+    (parent.dataType === FLOW_DATA_TYPE.APEX.value ||
+        parent.text === SYSTEM_VARIABLE_PREFIX ||
+        parent.text === SYSTEM_VARIABLE_CLIENT_PREFIX);
 
 /**
  * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
@@ -119,7 +138,12 @@ const shouldShowDataTypeAsSubText = (parent) => (
  * @param {boolean} showSubText true to show the sub text
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
-export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, showSubText) {
+export function mutateFieldToComboboxShape(
+    field,
+    parent,
+    showAsFieldReference,
+    showSubText
+) {
     const formattedField = {
         iconSize: ICON_SIZE
     };
@@ -131,20 +155,28 @@ export function mutateFieldToComboboxShape(field, parent, showAsFieldReference, 
     const apiName = field.apiName || field.qualifiedApiName;
     const label = field.label || apiName;
     let subText = label;
-     if (shouldShowDataTypeAsSubText(parent)) {
-         const dataTypeLabel = getDataTypeLabel(field.dataType);
-         if (field.isCollection && parent.dataType === FLOW_DATA_TYPE.APEX.value) {
-             subText = format(collectionDataType, dataTypeLabel);
-         } else {
-             subText = dataTypeLabel;
-         }
-     }
+    if (shouldShowDataTypeAsSubText(parent)) {
+        const dataTypeLabel = getDataTypeLabel(field.dataType);
+        if (
+            field.isCollection &&
+            parent.dataType === FLOW_DATA_TYPE.APEX.value
+        ) {
+            subText = format(collectionDataType, dataTypeLabel);
+        } else {
+            subText = dataTypeLabel;
+        }
+    }
 
     formattedField.text = apiName;
-    formattedField.subText = (showSubText) ? subText : '';
-    formattedField.value = (parent) ? (parent.value + '.' + apiName) : apiName;
-    formattedField.displayText = (showAsFieldReference && parent && parent.displayText) ?
-        (parent.displayText.substring(0, parent.displayText.length - 1) + '.' + apiName + '}') : apiName;
+    formattedField.subText = showSubText ? subText : '';
+    formattedField.value = parent ? parent.value + '.' + apiName : apiName;
+    formattedField.displayText =
+        showAsFieldReference && parent && parent.displayText
+            ? parent.displayText.substring(0, parent.displayText.length - 1) +
+              '.' +
+              apiName +
+              '}'
+            : apiName;
     formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     formattedField.iconName = getDataTypeIcons(field.dataType, ICON_TYPE);
 
@@ -165,15 +197,24 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const resourceLabel = resource.type ? resource.type.label : resource.label;
     const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
     const resourceDataType = getDataType(resource);
-    const elementCategory = getResourceCategory({ elementType : resource.elementType, dataType : resourceDataType, isCollection : resource.isCollection });
+    const elementCategory = getResourceCategory({
+        elementType: resource.elementType,
+        dataType: resourceDataType,
+        isCollection: resource.isCollection
+    });
 
     newElement.text = getResourceLabel(resource);
-    newElement.subText = isNonElement ? resource.description : getSubText(resourceDataType, resource.subtype, resourceLabel);
+    newElement.subText = isNonElement
+        ? resource.description
+        : getSubText(resourceDataType, resource.subtype, resourceLabel);
     newElement.value = resource.guid;
     newElement.displayText = addCurlyBraces(resource.name);
-    newElement.hasNext = isComplexType(resourceDataType) && !resource.isCollection;
-    newElement.category = resource.category || (elementCategory && elementCategory.toUpperCase());
-    newElement.iconName = resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
+    newElement.hasNext =
+        isComplexType(resourceDataType) && !resource.isCollection;
+    newElement.category =
+        resource.category || (elementCategory && elementCategory.toUpperCase());
+    newElement.iconName =
+        resourceIcon || getDataTypeIcons(resourceDataType, ICON_TYPE);
     newElement.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
     newElement.dataType = resourceDataType;
     newElement.subtype = resource.subtype || null;
@@ -189,7 +230,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
  * @param {Array} entities the array of entities that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given entities
  */
-export const mutateEntitiesToComboboxShape = (entities) => {
+export const mutateEntitiesToComboboxShape = entities => {
     return entities.map(entity => {
         return createMenuItem(
             COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
@@ -200,12 +241,12 @@ export const mutateEntitiesToComboboxShape = (entities) => {
             entity.apiName,
             undefined,
             SOBJECT_TYPE,
-            entity.apiName,
+            entity.apiName
         );
     });
 };
 
-export const mutateApexClassesToComboboxShape = (classes) => {
+export const mutateApexClassesToComboboxShape = classes => {
     return classes.map(clazz => {
         return createMenuItem(
             COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
@@ -216,7 +257,7 @@ export const mutateApexClassesToComboboxShape = (classes) => {
             clazz.durableId,
             undefined,
             APEX_TYPE,
-            clazz.durableId,
+            clazz.durableId
         );
     });
 };
@@ -226,7 +267,7 @@ export const mutateApexClassesToComboboxShape = (classes) => {
  * @param {Object} picklistOption object that is a picklist value
  * @returns {MenuItem} menu item representing the picklist value
  */
-export const mutatePicklistValue = (picklistOption) => {
+export const mutatePicklistValue = picklistOption => {
     return createMenuItem(
         COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         picklistOption.label || picklistOption.value,
@@ -234,7 +275,9 @@ export const mutatePicklistValue = (picklistOption) => {
         picklistOption.value,
         getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
         // This is to insure uniqueness among picklist values
-        (picklistOption.label) ? (picklistOption.value + '-' + picklistOption.label) : picklistOption.value,
+        picklistOption.label
+            ? picklistOption.value + '-' + picklistOption.label
+            : picklistOption.value
     );
 };
 
@@ -243,7 +286,7 @@ export const mutatePicklistValue = (picklistOption) => {
  * @param {Array} eventTypes the array of event types that you want to mutate into comboobx shape
  * @returns {MenuData} combobox menu data for the given event types
  */
-export const mutateEventTypesToComboboxShape = (eventTypes) => {
+export const mutateEventTypesToComboboxShape = eventTypes => {
     return eventTypes.map(eventType => {
         return createMenuItem(
             COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
@@ -254,12 +297,12 @@ export const mutateEventTypesToComboboxShape = (eventTypes) => {
             eventType.qualifiedApiName,
             undefined,
             SOBJECT_TYPE,
-            eventType.qualifiedApiName,
+            eventType.qualifiedApiName
         );
     });
 };
 
-const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
+const mutateSystemAndGlobalVariablesToComboboxShape = value => {
     return {
         value,
         subtype: value,
@@ -270,7 +313,7 @@ const mutateSystemAndGlobalVariablesToComboboxShape = (value) => {
         iconName: ICON_TYPE + ':system_and_global_variable',
         iconSize: ICON_SIZE,
         rightIconName: RIGHT_ICON_NAME,
-        rightIconSize: ICON_SIZE,
+        rightIconSize: ICON_SIZE
     };
 };
 
@@ -283,9 +326,11 @@ export const getGlobalVariableTypeComboboxItems = () => {
     const globalVariableTypes = getGlobalVariableTypes();
     const typeMenuData = [];
 
-    Object.keys(globalVariableTypes).forEach((type) => {
+    Object.keys(globalVariableTypes).forEach(type => {
         const globalVariable = globalVariableTypes[type];
-        typeMenuData.push(mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name));
+        typeMenuData.push(
+            mutateSystemAndGlobalVariablesToComboboxShape(globalVariable.name)
+        );
     });
 
     return typeMenuData;
@@ -297,7 +342,9 @@ export const getGlobalVariableTypeComboboxItems = () => {
  * @return {MenuDataItem[]} menu data for $Flow
  */
 export const getFlowSystemVariableComboboxItem = () => {
-    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_PREFIX);
+    return mutateSystemAndGlobalVariablesToComboboxShape(
+        SYSTEM_VARIABLE_PREFIX
+    );
 };
 
 /**
@@ -306,7 +353,9 @@ export const getFlowSystemVariableComboboxItem = () => {
  * @return {MenuDataItem[]} menu data for $Client
  */
 export const getFlowSystemClientVariableComboboxItem = () => {
-    return mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_CLIENT_PREFIX);
+    return mutateSystemAndGlobalVariablesToComboboxShape(
+        SYSTEM_VARIABLE_CLIENT_PREFIX
+    );
 };
 
 /**
@@ -316,11 +365,17 @@ export const getFlowSystemClientVariableComboboxItem = () => {
  * @param {Boolean} showGlobalVariables   should include the global variable categories
  * @return {MenuData} menu data showing system variables and/or global variables
  */
-export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlobalVariables) => {
+export const getSystemAndGlobalVariableMenuData = (
+    showSystemVariables,
+    showGlobalVariables
+) => {
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());
-        if (Object.keys(getSystemVariables(SYSTEM_VARIABLE_CLIENT_PREFIX)).length > 0) {
+        if (
+            Object.keys(getSystemVariables(SYSTEM_VARIABLE_CLIENT_PREFIX))
+                .length > 0
+        ) {
             categories.push(getFlowSystemClientVariableComboboxItem());
         }
     }
@@ -332,7 +387,7 @@ export const getSystemAndGlobalVariableMenuData = (showSystemVariables, showGlob
     });
     const globalVariableCategory = {
         label: systemGlobalVariableCategoryLabel,
-        items: categories,
+        items: categories
     };
 
     return globalVariableCategory;

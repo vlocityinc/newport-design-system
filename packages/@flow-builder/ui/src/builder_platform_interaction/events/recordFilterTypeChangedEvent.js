@@ -1,6 +1,5 @@
 const eventName = 'recordfiltertypechanged';
 
-
 export class RecordFilterTypeChangedEvent {
     constructor(filterType) {
         return new CustomEvent(eventName, {

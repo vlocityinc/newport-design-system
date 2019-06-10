@@ -1,5 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { sanitizeGuid, updateProperties } from "builder_platform_interaction/dataMutationLib";
+import {
+    sanitizeGuid,
+    updateProperties
+} from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getResourceByUniqueIdentifier,
@@ -7,10 +10,10 @@ import {
     LHS_DISPLAY_OPTION,
     populateLhsStateForField,
     populateRhsState,
-    getSecondLevelItems,
-} from "builder_platform_interaction/expressionUtils";
+    getSecondLevelItems
+} from 'builder_platform_interaction/expressionUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { elementToParam } from "builder_platform_interaction/ruleLib";
+import { elementToParam } from 'builder_platform_interaction/ruleLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -24,10 +27,10 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
         lhsActivePicklistValues: undefined,
         lhsDisplayOption: undefined,
         rhsDescribe: {
-            value : '',
-            error : undefined,
-            isField : false,
-            fields : null
+            value: '',
+            error: undefined,
+            isField: false,
+            fields: null
         }
     };
 
@@ -69,11 +72,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     set expression(expression) {
         this.state.expression = expression;
         this.populateLhsState();
-        populateRhsState(expression,
-            (values) => {
-                this.state.rhsDescribe = values;
-            }
-        );
+        populateRhsState(expression, values => {
+            this.state.rhsDescribe = values;
+        });
     }
 
     @api
@@ -103,7 +104,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
             error: lhs.error,
             param: null,
             activePicklistValues: null,
-            fields: null,
+            fields: null
         };
 
         if (lhs.value && !lhs.error) {
@@ -113,17 +114,33 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                 const lhsItem = mutateFlowResourceToComboboxShape(fer);
                 const fieldName = sanitizeGuid(lhs.value).fieldName;
                 if (fieldName) {
-                    getSecondLevelItems({ elementType: this.containerElement, shouldBeWritable: this.lhsMustBeWritable },
-                        lhsItem, (fields) => {
-                        const isFieldOnSobjectVar = true;
-                        this.state.lhsDisplayOption = LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
-                        if (fields && fields[fieldName]) {
-                            this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
-                                populateLhsStateForField(fields, fieldName, lhsItem, isFieldOnSobjectVar));
-                        } else {
-                            this.state.lhsDescribe.value = addCurlyBraces(fer.name + '.' + fieldName);
+                    getSecondLevelItems(
+                        {
+                            elementType: this.containerElement,
+                            shouldBeWritable: this.lhsMustBeWritable
+                        },
+                        lhsItem,
+                        fields => {
+                            const isFieldOnSobjectVar = true;
+                            this.state.lhsDisplayOption =
+                                LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
+                            if (fields && fields[fieldName]) {
+                                this.state.lhsDescribe = updateProperties(
+                                    this.state.lhsDescribe,
+                                    populateLhsStateForField(
+                                        fields,
+                                        fieldName,
+                                        lhsItem,
+                                        isFieldOnSobjectVar
+                                    )
+                                );
+                            } else {
+                                this.state.lhsDescribe.value = addCurlyBraces(
+                                    fer.name + '.' + fieldName
+                                );
+                            }
                         }
-                    });
+                    );
                 } else {
                     this.state.lhsDescribe.value = lhsItem;
                     this.state.lhsDescribe.param = elementToParam(fer);

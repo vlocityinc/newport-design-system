@@ -5,7 +5,6 @@
  */
 const eventName = 'reorderlist';
 
-
 export class ReorderListEvent {
     constructor(sourceGuid, destinationGuid) {
         return new CustomEvent(eventName, {

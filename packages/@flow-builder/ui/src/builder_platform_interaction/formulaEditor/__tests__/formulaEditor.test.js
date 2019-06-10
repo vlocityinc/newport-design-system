@@ -1,12 +1,16 @@
 import { createElement } from 'lwc';
-import FormulaEditor from "../formulaEditor";
-import { createFormula } from "builder_platform_interaction/elementFactory";
-import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
+import FormulaEditor from '../formulaEditor';
+import { createFormula } from 'builder_platform_interaction/elementFactory';
+import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 
-const createComponentUnderTest = (node) => {
-    const el = createElement('builder_platform_interaction-formula-editor', { is: FormulaEditor });
+const createComponentUnderTest = node => {
+    const el = createElement('builder_platform_interaction-formula-editor', {
+        is: FormulaEditor
+    });
     el.node = node;
     document.body.appendChild(el);
     return el;
@@ -14,43 +18,41 @@ const createComponentUnderTest = (node) => {
 
 const selectors = {
     dataTypePicker: 'builder_platform_interaction-data-type-picker',
-    formulaTextArea : 'builder_platform_interaction-resourced-textarea'
+    formulaTextArea: 'builder_platform_interaction-resourced-textarea'
 };
 
-const getDataTypePicker = (formulaEditor) => {
+const getDataTypePicker = formulaEditor => {
     return formulaEditor.shadowRoot.querySelector(selectors.dataTypePicker);
 };
 
-const getFormulaTextArea = (formulaEditor) => {
+const getFormulaTextArea = formulaEditor => {
     return formulaEditor.shadowRoot.querySelector(selectors.formulaTextArea);
 };
 
 describe('formula-editor', () => {
     let formulaResource;
-    beforeEach(() => {
-
-    });
+    beforeEach(() => {});
     describe('Edit existing formula', () => {
         let formulaEditor;
         beforeEach(() => {
             formulaResource = {
-                "dataType": {
-                    "value": "Number",
-                    "error": null
+                dataType: {
+                    value: 'Number',
+                    error: null
                 },
-                "expression": {
-                    "value": "2+2",
-                    "error": null
+                expression: {
+                    value: '2+2',
+                    error: null
                 },
-                "name": {
-                    "value": "myFormula",
-                    "error": null
+                name: {
+                    value: 'myFormula',
+                    error: null
                 },
-                "processMetadataValues": [],
-                "scale": 1,
-                "elementType": "FORMULA",
-                "guid": "FORMULA_11",
-                "isCanvasElement": false
+                processMetadataValues: [],
+                scale: 1,
+                elementType: 'FORMULA',
+                guid: 'FORMULA_11',
+                isCanvasElement: false
             };
             formulaEditor = createComponentUnderTest(formulaResource);
         });

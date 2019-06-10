@@ -1,11 +1,13 @@
 <template>
     <div if:true={variableConstantResource}>
         <div class="slds-form slds-form_compound slds-p-around_small">
-            <builder_platform_interaction-label-description dev-name={variableConstantResource.name}
-                                                            guid={variableConstantResource.guid}
-                                                            description={variableConstantResource.description}
-                                                            hide-label=true
-                                                            onpropertychanged={handlePropertyChanged}>
+            <builder_platform_interaction-label-description
+                dev-name={variableConstantResource.name}
+                guid={variableConstantResource.guid}
+                description={variableConstantResource.description}
+                hide-label="true"
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-label-description>
 
             <builder_platform_interaction-data-type-picker
@@ -18,10 +20,14 @@
                 collection-help-text={collectionHelpText}
                 combobox-error-message={variableConstantResource.dataType.error}
                 value={dataTypePickerValue}
-                onvaluechanged={handleDataTypeChanged}>
+                onvaluechanged={handleDataTypeChanged}
+            >
             </builder_platform_interaction-data-type-picker>
 
-            <div if:true={hasDefaultValue} class="default-value slds-form-element__row">
+            <div
+                if:true={hasDefaultValue}
+                class="default-value slds-form-element__row"
+            >
                 <builder_platform_interaction-ferov-resource-picker
                     class="slds-size_1-of-1"
                     value={defaultValue}
@@ -33,7 +39,8 @@
                     rules={rulesForVariableDefaultValue}
                     hide-system-variables={isConstant}
                     hide-new-resource={hideNewResourceButton}
-                    oncomboboxstatechanged={handleDefaultValuePropertyChanged}>
+                    oncomboboxstatechanged={handleDefaultValuePropertyChanged}
+                >
                 </builder_platform_interaction-ferov-resource-picker>
             </div>
 
@@ -45,22 +52,26 @@
                     row-index={variableConstantResource.subtypeIndex.value}
                     mode={entityMode}
                     oncomboboxstatechanged={handleSubtypeChange}
-                    onitemselected={handleSubtypeSelect}>
+                    onitemselected={handleSubtypeSelect}
+                >
                 </builder_platform_interaction-entity-resource-picker>
             </div>
-            
-            <div if:true={isExternallyAccessible} class="slds-form-element__row">
+
+            <div
+                if:true={isExternallyAccessible}
+                class="slds-form-element__row"
+            >
                 <!-- TODO: Add field-level-help={externalAccessHelpText} once W-4972926 is fixed. Tracking bug W-4981924 -->
-                <lightning-checkbox-group 
+                <lightning-checkbox-group
                     class="slds-form-element"
                     label={externalAccessLabel}
                     value={externalAccessValue}
                     options={externalAccessOptions}
                     onchange={handleExternalAccessPropertyChanged}
-                    onblur={handleExternalAccessOnBlur}>
+                    onblur={handleExternalAccessOnBlur}
+                >
                 </lightning-checkbox-group>
             </div>
-            
         </div>
     </div>
 </template>

@@ -1,7 +1,14 @@
-import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { Validation, defaultRules } from "builder_platform_interaction/validation";
-import { getCachedExtensions, isExtensionField, isChoiceField } from "builder_platform_interaction/screenEditorUtils";
-import { isReference } from "builder_platform_interaction/commonUtils";
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import {
+    Validation,
+    defaultRules
+} from 'builder_platform_interaction/validation';
+import {
+    getCachedExtensions,
+    isExtensionField,
+    isChoiceField
+} from 'builder_platform_interaction/screenEditorUtils';
+import { isReference } from 'builder_platform_interaction/commonUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const LONG_STRING_LEN = 65535;
@@ -15,7 +22,7 @@ const addRules = (property, rules, propertyRules) => {
     rules[property].push(...propertyRules);
 };
 
-const addDefaultRules = (rules) => {
+const addDefaultRules = rules => {
     for (const propertyName in defaultRules) {
         if (defaultRules.hasOwnProperty(propertyName)) {
             addRules(propertyName, rules, defaultRules[propertyName]);
@@ -29,20 +36,16 @@ const addDefaultRules = (rules) => {
  *
  * @param {object} rules - The rules
  */
-const addCommonRules = (rules) => {
+const addCommonRules = rules => {
     // Common rules
-    addRules('helpText', rules, [
-        ValidationRules.isValidResourcedTextArea,
-    ]);
+    addRules('helpText', rules, [ValidationRules.isValidResourcedTextArea]);
 
-    addRules('pausedText', rules, [
-        ValidationRules.isValidResourcedTextArea,
-    ]);
+    addRules('pausedText', rules, [ValidationRules.isValidResourcedTextArea]);
 
     addDefaultRules(rules);
 };
 
-const addCommonFieldRules = (rules, {defaultValueIndex}) => {
+const addCommonFieldRules = (rules, { defaultValueIndex }) => {
     // Common rules
     addRules('defaultValue', rules, [
         ValidationRules.maximumCharactersLimit(255),
@@ -58,7 +61,7 @@ const addCommonFieldRules = (rules, {defaultValueIndex}) => {
     ]);
 };
 
-const getDescriptorForExtension = (extName) => {
+const getDescriptorForExtension = extName => {
     if (extName) {
         const descs = getCachedExtensions([extName]);
         if (descs && descs.length === 1) {
@@ -66,7 +69,9 @@ const getDescriptorForExtension = (extName) => {
         }
     }
 
-    throw new Error('Error found trying to determine the descriptor for ' + extName);
+    throw new Error(
+        'Error found trying to determine the descriptor for ' + extName
+    );
 };
 
 // DISABLED UNTIL WE HAVE A CONVERSATION ABOUT TYPE VALIDATION OUTSIDE OF FRP
@@ -112,7 +117,10 @@ const createTypeValidationRule = (/* type */) => {
 const getExtensionParameterRules = (type, required, rowIndex) => {
     const rules = [];
     if (required) {
-        rules.push(ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined);
+        rules.push(
+            ValidationRules.shouldNotBeBlank,
+            ValidationRules.shouldNotBeNullOrUndefined
+        );
     }
 
     if (type) {
@@ -134,29 +142,54 @@ const getRulesForExtensionField = (field, rules) => {
     const extensionName = field.extensionName && field.extensionName.value;
     const descriptor = getDescriptorForExtension(extensionName);
 
-    rules.inputParameters = (param) => {
+    rules.inputParameters = param => {
         const inputName = param.name.value ? param.name.value : param.name;
-        const attributeDescriptors = descriptor.inputParameters.filter(p => p.apiName === inputName);
+        const attributeDescriptors = descriptor.inputParameters.filter(
+            p => p.apiName === inputName
+        );
         if (attributeDescriptors.length < 1) {
-            throw new Error('Cannot find parameter ' + inputName + ' in the description of ' + extensionName);
+            throw new Error(
+                'Cannot find parameter ' +
+                    inputName +
+                    ' in the description of ' +
+                    extensionName
+            );
         } else {
             // here we have the attribute from the definition and the parameter from the field, let's make sure that the type and the requiredness match
             const type = attributeDescriptors[0].dataType;
-            const required = attributeDescriptors[0].isRequired && !attributeDescriptors[0].hasDefaultValue;
-            return {value: getExtensionParameterRules(type, required, param.rowIndex)};
+            const required =
+                attributeDescriptors[0].isRequired &&
+                !attributeDescriptors[0].hasDefaultValue;
+            return {
+                value: getExtensionParameterRules(
+                    type,
+                    required,
+                    param.rowIndex
+                )
+            };
         }
     };
 
-    rules.outputParameters = (param) => {
+    rules.outputParameters = param => {
         // Find attribute description in the definition of the extension
         const outputName = param.name.value ? param.name.value : param.name;
-        const attributeDescriptors = descriptor.outputParameters.filter(p => p.apiName === outputName);
+        const attributeDescriptors = descriptor.outputParameters.filter(
+            p => p.apiName === outputName
+        );
         if (attributeDescriptors.length < 1) {
-            throw new Error('Cannot find parameter ' + outputName + ' in the description of ' + extensionName);
+            throw new Error(
+                'Cannot find parameter ' +
+                    outputName +
+                    ' in the description of ' +
+                    extensionName
+            );
         } else {
             const type = attributeDescriptors[0].dataType;
             return {
-                value: [createTypeValidationRule(type), ValidationRules.validateResourcePicker(param.rowIndex)]
+                value: [
+                    createTypeValidationRule(type),
+                    ValidationRules.validateResourcePicker(param.rowIndex)
+                ]
             };
         }
     };
@@ -167,12 +200,18 @@ const getRulesForExtensionField = (field, rules) => {
  * @param {String} dependentValue - The value that toggles requiredness validation (passing a value in this argument will trigger requiredness validation)
  * @returns {function} - The validation rule
  */
-const createConditionalRuleForTextProperty = (dependentValue) => {
-    return (propertyValue) => {
-        if (dependentValue && dependentValue.value && dependentValue.value.length) {
+const createConditionalRuleForTextProperty = dependentValue => {
+    return propertyValue => {
+        if (
+            dependentValue &&
+            dependentValue.value &&
+            dependentValue.value.length
+        ) {
             let error = ValidationRules.shouldNotBeBlank(propertyValue);
             if (!error) {
-                error = ValidationRules.shouldNotBeNullOrUndefined(propertyValue);
+                error = ValidationRules.shouldNotBeNullOrUndefined(
+                    propertyValue
+                );
             }
 
             return error;
@@ -188,7 +227,7 @@ const createConditionalRuleForTextProperty = (dependentValue) => {
  * @returns {function} - The validation rule
  */
 const createReferenceSafeRule = (rule, dataType) => {
-    return (value) => {
+    return value => {
         if (isReference(value) || (dataType && dataType === 'reference')) {
             return null;
         }
@@ -210,15 +249,22 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
         // Number based fields
         if (typeName === 'Number' || typeName === 'Currency') {
             addRules('scale', rules, [
-                createReferenceSafeRule(ValidationRules.shouldBeAPositiveIntegerOrZero),
-                createReferenceSafeRule(ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE))
+                createReferenceSafeRule(
+                    ValidationRules.shouldBeAPositiveIntegerOrZero
+                ),
+                createReferenceSafeRule(
+                    ValidationRules.shouldBeUnderMaxValue(MAX_SCALE_VALUE)
+                )
             ]);
         }
 
         // Date
         if (typeName === 'Date') {
             addRules('defaultValue', rules, [
-                createReferenceSafeRule(ValidationRules.shouldBeADate, field.defaultValueDataType)
+                createReferenceSafeRule(
+                    ValidationRules.shouldBeADate,
+                    field.defaultValueDataType
+                )
             ]);
         }
 
@@ -234,8 +280,10 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
     if (isChoiceField(field)) {
         rules.choiceReferences = () => {
             return {
-                choiceReference: [createReferenceSafeRule(ValidationRules.shouldNotBeBlank),
-                                  ValidationRules.shouldNotBeNullOrUndefined]
+                choiceReference: [
+                    createReferenceSafeRule(ValidationRules.shouldNotBeBlank),
+                    ValidationRules.shouldNotBeNullOrUndefined
+                ]
             };
         };
     }
@@ -243,28 +291,34 @@ const getRulesForInputField = (field, rules, newValueIsReference = false) => {
     // LargeTextArea
     if (typeName === 'LargeTextArea') {
         addRules('defaultValue', rules, [
-            ValidationRules.isValidResourcedTextArea,
+            ValidationRules.isValidResourcedTextArea
         ]);
     }
 
     // DisplayText
     if (typeName === 'DisplayText') {
         addRules('fieldText', rules, [
-            createReferenceSafeRule(ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)),
-            ValidationRules.isValidResourcedTextArea,
+            createReferenceSafeRule(
+                ValidationRules.maximumCharactersLimit(LONG_STRING_LEN)
+            ),
+            ValidationRules.isValidResourcedTextArea
         ]);
     }
 
     // Error message and formulaExpression are dependent on each other
     rules.validationRule = {
         formulaExpression: [
-            createConditionalRuleForTextProperty(field.validationRule.errorMessage),
-            ValidationRules.isValidResourcedTextArea,
+            createConditionalRuleForTextProperty(
+                field.validationRule.errorMessage
+            ),
+            ValidationRules.isValidResourcedTextArea
         ],
-        errorMessage:[
-            createConditionalRuleForTextProperty(field.validationRule.formulaExpression),
-            ValidationRules.isValidResourcedTextArea,
-        ],
+        errorMessage: [
+            createConditionalRuleForTextProperty(
+                field.validationRule.formulaExpression
+            ),
+            ValidationRules.isValidResourcedTextArea
+        ]
     };
 };
 
@@ -299,8 +353,11 @@ const getScreenAdditionalRules = () => {
 
     addCommonRules(rules);
 
-    rules.fields = (field) => {
-        return getRulesForField(field, field.defaultValueDataType === 'reference');
+    rules.fields = field => {
+        return getRulesForField(
+            field,
+            field.defaultValueDataType === 'reference'
+        );
     };
 
     return rules;
@@ -313,24 +370,42 @@ class ScreenValidation extends Validation {
      * @param {string} currentFieldGuid - guid of the current field whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
-    validateFieldNameUniquenessLocally = (state, devNameToBeValidated, currentFieldGuid) => {
-        const stateGuidToDevName = [{
-            guid: state.guid,
-            name: state.name.value
-        }];
+    validateFieldNameUniquenessLocally = (
+        state,
+        devNameToBeValidated,
+        currentFieldGuid
+    ) => {
+        const stateGuidToDevName = [
+            {
+                guid: state.guid,
+                name: state.name.value
+            }
+        ];
         const fieldsDevNameToGuidList = state.fields.map(field => {
             return {
                 guid: field.guid,
-                name: field.name.value,
+                name: field.name.value
             };
         });
-        const finalListOfGuidToDevNames = stateGuidToDevName.concat(fieldsDevNameToGuidList);
-        return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentFieldGuid);
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(
+            fieldsDevNameToGuidList
+        );
+        return this.validateDevNameUniquenessLocally(
+            finalListOfGuidToDevNames,
+            devNameToBeValidated,
+            currentFieldGuid
+        );
     };
 }
-export const screenValidation = new ScreenValidation(getScreenAdditionalRules());
+export const screenValidation = new ScreenValidation(
+    getScreenAdditionalRules()
+);
 
-export const getExtensionParameterValidation = (propertyName, type, required) => {
+export const getExtensionParameterValidation = (
+    propertyName,
+    type,
+    required
+) => {
     const rules = getExtensionParameterRules(type, required);
-    return new Validation({[propertyName] : rules});
+    return new Validation({ [propertyName]: rules });
 };

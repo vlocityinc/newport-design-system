@@ -1,6 +1,9 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
-import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    createAction,
+    PROPERTY_EDITOR_ACTION
+} from 'builder_platform_interaction/actions';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { choiceReducer } from './choiceReducer';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -8,11 +11,19 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from './choiceEditorLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import {
+    getRulesForElementType,
+    RULE_TYPES
+} from 'builder_platform_interaction/ruleLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 
-const flowDataTypeChoiceMenuItems = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY,
-    FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.BOOLEAN];
+const flowDataTypeChoiceMenuItems = [
+    FLOW_DATA_TYPE.STRING,
+    FLOW_DATA_TYPE.NUMBER,
+    FLOW_DATA_TYPE.CURRENCY,
+    FLOW_DATA_TYPE.DATE,
+    FLOW_DATA_TYPE.BOOLEAN
+];
 
 // the property names in a choice element (after mutation)
 const CHOICE_FIELDS = {
@@ -49,10 +60,28 @@ export default class ChoiceEditor extends LightningElement {
 
     set node(newValue) {
         this.choiceResource = unwrap(newValue);
-        this._rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.CHOICE);
-        if (this.choiceResource && this.choiceResource.userInput && this.choiceResource.userInput.promptText && !this.choiceResource.userInput.promptText.value) {
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: CHOICE_FIELDS.PROMPT_TEXT, value: '', error: LABELS.cannotBeBlank });
-            this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
+        this._rules = getRulesForElementType(
+            RULE_TYPES.ASSIGNMENT,
+            ELEMENT_TYPE.CHOICE
+        );
+        if (
+            this.choiceResource &&
+            this.choiceResource.userInput &&
+            this.choiceResource.userInput.promptText &&
+            !this.choiceResource.userInput.promptText.value
+        ) {
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                {
+                    propertyName: CHOICE_FIELDS.PROMPT_TEXT,
+                    value: '',
+                    error: LABELS.cannotBeBlank
+                }
+            );
+            this.choiceResource.userInput = choiceReducer(
+                this.choiceResource.userInput,
+                action
+            );
         }
     }
 
@@ -82,12 +111,16 @@ export default class ChoiceEditor extends LightningElement {
     }
 
     get dataTypePickerValue() {
-        return { dataType : this.dataType };
+        return { dataType: this.dataType };
     }
 
     get storedValue() {
         const storedValue = this.choiceResource.storedValue.value;
-        if (storedValue && (typeof storedValue === 'number' || typeof storedValue === 'boolean')) {
+        if (
+            storedValue &&
+            (typeof storedValue === 'number' ||
+                typeof storedValue === 'boolean')
+        ) {
             return storedValue.toString();
         }
         return storedValue;
@@ -131,7 +164,10 @@ export default class ChoiceEditor extends LightningElement {
      * @param {String} error if any
      */
     updateProperty(propertyName, value, error) {
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+        const action = createAction(
+            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+            { propertyName, value, error }
+        );
         this.choiceResource = choiceReducer(this.choiceResource, action);
     }
 
@@ -176,7 +212,11 @@ export default class ChoiceEditor extends LightningElement {
             error = LABELS.cannotBeBlank;
         }
 
-        return createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value: newLabel, error });
+        return createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
+            propertyName,
+            value: newLabel,
+            error
+        });
     }
 
     /**
@@ -185,7 +225,10 @@ export default class ChoiceEditor extends LightningElement {
      */
     handleChoiceLabelChanged(event) {
         event.stopPropagation();
-        const action = this.updateInputValue(event.detail, CHOICE_FIELDS.CHOICE_TEXT);
+        const action = this.updateInputValue(
+            event.detail,
+            CHOICE_FIELDS.CHOICE_TEXT
+        );
         this.choiceResource = choiceReducer(this.choiceResource, action);
     }
 
@@ -197,8 +240,13 @@ export default class ChoiceEditor extends LightningElement {
     handleChoiceLabelBlur(event) {
         event.stopPropagation();
         // if the value start with <p> tag we should remove it W-5886583
-        if (this.choiceResource.choiceText.value && this.choiceResource.choiceText.value.match(/^<p>/i)) {
-            this.choiceResource.choiceText.value = this.choiceResource.choiceText.value.replace('<p>', '').replace('</p>', '');
+        if (
+            this.choiceResource.choiceText.value &&
+            this.choiceResource.choiceText.value.match(/^<p>/i)
+        ) {
+            this.choiceResource.choiceText.value = this.choiceResource.choiceText.value
+                .replace('<p>', '')
+                .replace('</p>', '');
         }
     }
 
@@ -215,7 +263,9 @@ export default class ChoiceEditor extends LightningElement {
             // we want to clear the stored value
             this.updateStoredValueWithLiteral(null, null);
         }
-        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value });
+        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, {
+            value
+        });
         this.choiceResource = choiceReducer(this.choiceResource, action);
     }
 
@@ -225,7 +275,11 @@ export default class ChoiceEditor extends LightningElement {
      * @param {object} error
      */
     updateStoredValueWithLiteral(displayText, error) {
-        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, this.dataType, null);
+        this.updateProperty(
+            STORED_VALUE_DATA_TYPE_PROPERTY,
+            this.dataType,
+            null
+        );
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, displayText, error);
     }
 
@@ -236,7 +290,10 @@ export default class ChoiceEditor extends LightningElement {
     handleStoredValuePropertyChanged(event) {
         event.stopPropagation();
 
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(event, this.dataType);
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
+            event,
+            this.dataType
+        );
         this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, value, error);
     }
@@ -247,7 +304,11 @@ export default class ChoiceEditor extends LightningElement {
      */
     handleInputSelectionChange(event) {
         event.stopPropagation();
-        this.updateProperty(CHOICE_FIELDS.IS_SHOW_INPUT_SELECTED, event.detail.checked, null);
+        this.updateProperty(
+            CHOICE_FIELDS.IS_SHOW_INPUT_SELECTED,
+            event.detail.checked,
+            null
+        );
 
         let emptyUserInputObject;
         if (event.detail.checked) {
@@ -262,10 +323,18 @@ export default class ChoiceEditor extends LightningElement {
             };
         } else {
             // Need to set this to false so that validationEditor doesn't show up
-            this.updateProperty(CHOICE_FIELDS.IS_VALIDATE_SELECTED, event.detail.checked, null);
+            this.updateProperty(
+                CHOICE_FIELDS.IS_VALIDATE_SELECTED,
+                event.detail.checked,
+                null
+            );
         }
 
-        this.updateProperty(CHOICE_FIELDS.USER_INPUT, emptyUserInputObject, null);
+        this.updateProperty(
+            CHOICE_FIELDS.USER_INPUT,
+            emptyUserInputObject,
+            null
+        );
     }
 
     /**
@@ -274,8 +343,14 @@ export default class ChoiceEditor extends LightningElement {
      */
     handlePromptTextChanged(event) {
         event.stopPropagation();
-        const action = this.updateInputValue(event.target, CHOICE_FIELDS.PROMPT_TEXT);
-        this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
+        const action = this.updateInputValue(
+            event.target,
+            CHOICE_FIELDS.PROMPT_TEXT
+        );
+        this.choiceResource.userInput = choiceReducer(
+            this.choiceResource.userInput,
+            action
+        );
     }
 
     /**
@@ -284,8 +359,18 @@ export default class ChoiceEditor extends LightningElement {
      */
     handleIsRequiredChange(event) {
         event.stopPropagation();
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: CHOICE_FIELDS.IS_REQUIRED, value: event.detail.checked, error: null });
-        this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
+        const action = createAction(
+            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+            {
+                propertyName: CHOICE_FIELDS.IS_REQUIRED,
+                value: event.detail.checked,
+                error: null
+            }
+        );
+        this.choiceResource.userInput = choiceReducer(
+            this.choiceResource.userInput,
+            action
+        );
     }
 
     /**
@@ -294,7 +379,11 @@ export default class ChoiceEditor extends LightningElement {
      */
     handleIsValidateChange(event) {
         event.stopPropagation();
-        this.updateProperty(CHOICE_FIELDS.IS_VALIDATE_SELECTED, event.detail.checked, null);
+        this.updateProperty(
+            CHOICE_FIELDS.IS_VALIDATE_SELECTED,
+            event.detail.checked,
+            null
+        );
 
         let emptyValidationRuleObject;
         if (event.detail.checked) {
@@ -310,8 +399,18 @@ export default class ChoiceEditor extends LightningElement {
             };
         }
 
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: CHOICE_FIELDS.VALIDATION_RULE, value: emptyValidationRuleObject, error: null });
-        this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
+        const action = createAction(
+            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+            {
+                propertyName: CHOICE_FIELDS.VALIDATION_RULE,
+                value: emptyValidationRuleObject,
+                error: null
+            }
+        );
+        this.choiceResource.userInput = choiceReducer(
+            this.choiceResource.userInput,
+            action
+        );
     }
 
     /**
@@ -321,8 +420,18 @@ export default class ChoiceEditor extends LightningElement {
     handleValidationEditorChanged(event) {
         event.stopPropagation();
         if (event.detail && event.detail.rule) {
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName: CHOICE_FIELDS.VALIDATION_RULE, value: event.detail.rule, error: null });
-            this.choiceResource.userInput = choiceReducer(this.choiceResource.userInput, action);
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                {
+                    propertyName: CHOICE_FIELDS.VALIDATION_RULE,
+                    value: event.detail.rule,
+                    error: null
+                }
+            );
+            this.choiceResource.userInput = choiceReducer(
+                this.choiceResource.userInput,
+                action
+            );
         }
     }
 
@@ -348,16 +457,30 @@ export default class ChoiceEditor extends LightningElement {
         const event = { type: VALIDATE_ALL };
         this.choiceResource = choiceReducer(this.choiceResource, event);
         const promptTextInput = this.template.querySelector('.prompt-text');
-        if (this.choiceResource.userInput && this.choiceResource.userInput.promptText && this.choiceResource.userInput.promptText.error) {
-            this.setInputFieldErrorMessage(promptTextInput, this.choiceResource.userInput.promptText.error);
+        if (
+            this.choiceResource.userInput &&
+            this.choiceResource.userInput.promptText &&
+            this.choiceResource.userInput.promptText.error
+        ) {
+            this.setInputFieldErrorMessage(
+                promptTextInput,
+                this.choiceResource.userInput.promptText.error
+            );
         }
         return getErrorsFromHydratedElement(this.choiceResource);
     }
 
     renderedCallback() {
-        if (this.choiceResource.userInput && this.choiceResource.userInput.promptText && this.choiceResource.userInput.promptText.value !== null) {
+        if (
+            this.choiceResource.userInput &&
+            this.choiceResource.userInput.promptText &&
+            this.choiceResource.userInput.promptText.value !== null
+        ) {
             const promptTextInput = this.template.querySelector('.prompt-text');
-            this.setInputFieldErrorMessage(promptTextInput, this.choiceResource.userInput.promptText.error);
+            this.setInputFieldErrorMessage(
+                promptTextInput,
+                this.choiceResource.userInput.promptText.error
+            );
         }
     }
 }

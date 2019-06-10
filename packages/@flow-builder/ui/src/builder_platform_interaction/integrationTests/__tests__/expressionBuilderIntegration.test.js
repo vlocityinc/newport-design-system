@@ -1,17 +1,24 @@
 import { createElement } from 'lwc';
-import FerToFerovExpressionBuilder from "builder_platform_interaction/ferToFerovExpressionBuilder";
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import { setRules, getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
-import { mockAccountFields } from "mock/serverEntityData";
-import * as selectorsMock from "builder_platform_interaction/selectors";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import * as store from "mock/storeData";
+import FerToFerovExpressionBuilder from 'builder_platform_interaction/ferToFerovExpressionBuilder';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import {
+    setRules,
+    getRulesForElementType,
+    RULE_TYPES
+} from 'builder_platform_interaction/ruleLib';
+import { mockAccountFields } from 'mock/serverEntityData';
+import * as selectorsMock from 'builder_platform_interaction/selectors';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import * as store from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const SELECTORS = {
-    BASE_EXPRESSION_BUILDER: 'builder_platform_interaction-base-expression-builder',
-    COMBOBOX: 'builder_platform_interaction-combobox',
+    BASE_EXPRESSION_BUILDER:
+        'builder_platform_interaction-base-expression-builder',
+    COMBOBOX: 'builder_platform_interaction-combobox'
 };
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
@@ -22,16 +29,22 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        writableElementsSelector: jest.fn(),
+        writableElementsSelector: jest.fn()
     };
 });
 
-const createComponentForTest = (expression) => {
-    const el = createElement('builder_platform_interaction-fer-to-ferov-expression-builder', {
-        is: FerToFerovExpressionBuilder
-    });
+const createComponentForTest = expression => {
+    const el = createElement(
+        'builder_platform_interaction-fer-to-ferov-expression-builder',
+        {
+            is: FerToFerovExpressionBuilder
+        }
+    );
     el.containerElement = ELEMENT_TYPE.ASSIGNMENT;
-    el.rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.ASSIGNMENT);
+    el.rules = getRulesForElementType(
+        RULE_TYPES.ASSIGNMENT,
+        ELEMENT_TYPE.ASSIGNMENT
+    );
     el.expression = expression;
     document.body.appendChild(el);
     return el;
@@ -66,35 +79,45 @@ let populatedRHSSObjectFieldExpression;
 let ferToFerovExpressionBuilder;
 
 beforeEach(() => {
-    selectorsMock.writableElementsSelector.mockReturnValue([store.elements[store.stringVariableGuid]]);
+    selectorsMock.writableElementsSelector.mockReturnValue([
+        store.elements[store.stringVariableGuid]
+    ]);
     setRules(mockSingleAssignmentRule);
     populatedRHSSObjectFieldExpression = {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
             value: store.stringVariableGuid,
-            error: null,
+            error: null
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
             value: 'Assign',
-            error: null,
+            error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
             value: store.accountSObjectVariableGuid + '.Description',
-            error: null,
+            error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
             value: 'reference',
-            error: null,
-        },
+            error: null
+        }
     };
-    ferToFerovExpressionBuilder = createComponentForTest(populatedRHSSObjectFieldExpression);
+    ferToFerovExpressionBuilder = createComponentForTest(
+        populatedRHSSObjectFieldExpression
+    );
 });
 
 const describeSkip = describe.skip;
 describeSkip('Expression Builder', () => {
     it('should populate rhs menu data when there is an sobject variable field reference in rhs', () => {
-        const baseExpressionBuilder = ferToFerovExpressionBuilder.shadowRoot.querySelector(SELECTORS.BASE_EXPRESSION_BUILDER);
-        const rhsCombobox = baseExpressionBuilder.shadowRoot.querySelectorAll(SELECTORS.COMBOBOX)[1];
+        const baseExpressionBuilder = ferToFerovExpressionBuilder.shadowRoot.querySelector(
+            SELECTORS.BASE_EXPRESSION_BUILDER
+        );
+        const rhsCombobox = baseExpressionBuilder.shadowRoot.querySelectorAll(
+            SELECTORS.COMBOBOX
+        )[1];
         expect(rhsCombobox.menuData.length).toBeGreaterThan(0);
-        expect(rhsCombobox.menuData[0].value).toBe(store.accountSObjectVariableGuid + '.Description');
+        expect(rhsCombobox.menuData[0].value).toBe(
+            store.accountSObjectVariableGuid + '.Description'
+        );
     });
 });

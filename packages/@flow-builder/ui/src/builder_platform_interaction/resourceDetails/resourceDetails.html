@@ -1,40 +1,85 @@
 <template>
     <div class="resource-detail-panel-body slds-scrollable_y">
         <ul class="slds-p-around_small">
-            <li class="slds-text-title_caps slds-p-left_none slds-m-bottom_x_small">{labels.detailsText}</li>
+            <li
+                class="slds-text-title_caps slds-p-left_none slds-m-bottom_x_small"
+            >
+                {labels.detailsText}
+            </li>
             <li class="slds-item slds-truncate_container">
-                <span class="slds-form-element__label slds-no-flex">{labels.typeText}</span>
-                <lightning-icon if:true={hasIcon} class="slds-m-right_xx-small" icon-name={resourceDetails.typeIconName} size="xx-small" alternative-text={resourceDetails.typeLabel}></lightning-icon>
-                <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.typeLabel}>{resourceDetails.typeLabel}</span>
+                <span class="slds-form-element__label slds-no-flex"
+                    >{labels.typeText}</span
+                >
+                <lightning-icon
+                    if:true={hasIcon}
+                    class="slds-m-right_xx-small"
+                    icon-name={resourceDetails.typeIconName}
+                    size="xx-small"
+                    alternative-text={resourceDetails.typeLabel}
+                ></lightning-icon>
+                <span
+                    class="slds-text-body_regular slds-align-middle slds-truncate"
+                    title={resourceDetails.typeLabel}
+                    >{resourceDetails.typeLabel}</span
+                >
             </li>
             <li if:true={hasApiName} class="slds-item slds-truncate_container">
-                <span class="slds-form-element__label slds-no-flex">{labels.uniqueNameText}</span>
-                <span class="slds-text-body_regular slds-align-middle slds-truncate" title={resourceDetails.apiName}>{resourceDetails.apiName}</span>
+                <span class="slds-form-element__label slds-no-flex"
+                    >{labels.uniqueNameText}</span
+                >
+                <span
+                    class="slds-text-body_regular slds-align-middle slds-truncate"
+                    title={resourceDetails.apiName}
+                    >{resourceDetails.apiName}</span
+                >
             </li>
             <li if:true={hasDescription} class="slds-item slds-hyphenate">
-                <span class="slds-form-element__label">{labels.descriptionText}</span>
-                <span class="slds-text-body_regular slds-align-middle" title={resourceDetails.description}>{resourceDetails.description}</span>
+                <span class="slds-form-element__label"
+                    >{labels.descriptionText}</span
+                >
+                <span
+                    class="slds-text-body_regular slds-align-middle"
+                    title={resourceDetails.description}
+                    >{resourceDetails.description}</span
+                >
             </li>
         </ul>
         <div if:true={hasCreatedByElement} class="slds-p-horizontal_small">
-            <builder_platform_interaction-used-by-content list-section-items={createdByElements} 
-                                                        list-section-header={labels.createdByText}
-                                                        is-resource-details>
+            <builder_platform_interaction-used-by-content
+                list-section-items={createdByElements}
+                list-section-header={labels.createdByText}
+                is-resource-details
+            >
             </builder_platform_interaction-used-by-content>
         </div>
         <div if:true={hasUsedByContent} class="slds-p-horizontal_small">
-            <builder_platform_interaction-used-by-content list-section-items={resourceDetails.usedByElements} 
-                                                        list-section-header={labels.usageText}
-                                                        is-resource-details>
+            <builder_platform_interaction-used-by-content
+                list-section-items={resourceDetails.usedByElements}
+                list-section-header={labels.usageText}
+                is-resource-details
+            >
             </builder_platform_interaction-used-by-content>
         </div>
     </div>
-    <div if:true={displayButtons} class='panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom'>
+    <div
+        if:true={displayButtons}
+        class="panel-footer slds-grid slds-grid_align-end slds-p-around_small slds-border_top slds-border_bottom"
+    >
         <div class="slds-col slds-p-horizontal_x-small">
-            <lightning-button variant="Destructive" label={labels.deleteButtonLabel}  title={labels.deleteButtonLabel} onclick={handleDeleteButtonClicked}></lightning-button>
+            <lightning-button
+                variant="Destructive"
+                label={labels.deleteButtonLabel}
+                title={labels.deleteButtonLabel}
+                onclick={handleDeleteButtonClicked}
+            ></lightning-button>
         </div>
         <div class="slds-col slds-p-horizontal_x-small">
-            <lightning-button variant="Brand" label={labels.editButtonLabel} title={labels.editButtonLabel} onclick={handleEditButtonClicked}></lightning-button>
+            <lightning-button
+                variant="Brand"
+                label={labels.editButtonLabel}
+                title={labels.editButtonLabel}
+                onclick={handleEditButtonClicked}
+            ></lightning-button>
         </div>
     </div>
 </template>

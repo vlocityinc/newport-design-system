@@ -9,19 +9,25 @@ import { createFilter } from '../base/baseRecordElement';
 
 jest.mock('../base/dynamicChoiceSet', () => {
     return {
-        createDynamicChoiceSet: jest.fn(() => {
-            return {};
-        }).mockName('createDynamicChoiceSet'),
-        createDynamicChoiceSetMetadataObject: jest.fn(() => {
-            return {};
-        }).mockName('createDynamicChoiceSetMetadataObject')
+        createDynamicChoiceSet: jest
+            .fn(() => {
+                return {};
+            })
+            .mockName('createDynamicChoiceSet'),
+        createDynamicChoiceSetMetadataObject: jest
+            .fn(() => {
+                return {};
+            })
+            .mockName('createDynamicChoiceSetMetadataObject')
     };
 });
 jest.mock('../base/baseElement', () => {
     return {
-        baseElementsArrayToMap: jest.fn(() => {
-            return {};
-        }).mockName('baseElementsArrayToMap')
+        baseElementsArrayToMap: jest
+            .fn(() => {
+                return {};
+            })
+            .mockName('baseElementsArrayToMap')
     };
 });
 jest.mock('builder_platform_interaction/storeLib', () => {
@@ -71,7 +77,9 @@ describe('createRecordChoiceSetMetadataObject', () => {
         }).toThrow();
     });
     describe('when a valid element is passed as param', () => {
-        const result = createRecordChoiceSetMetadataObject(paramElementForRecordChoiceSet);
+        const result = createRecordChoiceSetMetadataObject(
+            paramElementForRecordChoiceSet
+        );
         it('result object matches the paramElementForRecordChoiceSet object', () => {
             expect(result).toMatchObject(paramElementForRecordChoiceSet);
         });
@@ -86,6 +94,8 @@ describe('createRecordChoiceForStore', () => {
     });
     it('calls the baseElementsArrayToMap function with the right param', () => {
         createRecordChoiceSetForStore(mockRecordChoiceSetResult);
-        expect(baseElementsArrayToMap.mock.calls[0][0]).toMatchObject([mockRecordChoiceSetResult]);
+        expect(baseElementsArrayToMap.mock.calls[0][0]).toMatchObject([
+            mockRecordChoiceSetResult
+        ]);
     });
 });

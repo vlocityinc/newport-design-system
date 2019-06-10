@@ -1,30 +1,30 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /* Labels */
-import actionTypeLabel from "@salesforce/label/FlowBuilderActionSelector.actionTypeLabel";
-import actionTypeOption from "@salesforce/label/FlowBuilderActionSelector.actionTypeOption";
-import actionComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.actionComboboxLabel";
-import actionComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.actionComboboxPlaceholder";
-import apexPluginTypeOption from "@salesforce/label/FlowBuilderActionSelector.apexPluginTypeOption";
-import apexPluginComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.apexPluginComboboxLabel";
-import apexPluginComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.apexPluginComboboxPlaceholder";
-import apexTypeOption from "@salesforce/label/FlowBuilderActionSelector.apexTypeOption";
-import apexComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.apexComboboxLabel";
-import apexComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.apexComboboxPlaceholder";
-import emailAlertTypeOption from "@salesforce/label/FlowBuilderActionSelector.emailAlertTypeOption";
-import emailAlertComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxLabel";
-import emailAlertComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxPlaceholder";
-import subflowTypeOption from "@salesforce/label/FlowBuilderActionSelector.subflowTypeOption";
-import subflowComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.subflowComboboxLabel";
-import subflowComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.subflowComboboxPlaceholder";
-import globalQuickActionSubTextPrefix from "@salesforce/label/FlowBuilderActionSelector.globalQuickActionSubTextPrefix";
-import allInvocableActions from "@salesforce/label/FlowBuilderActionSelector.allInvocableActions";
-import unCategorizedInvocableActions from "@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions";
+import actionTypeLabel from '@salesforce/label/FlowBuilderActionSelector.actionTypeLabel';
+import actionTypeOption from '@salesforce/label/FlowBuilderActionSelector.actionTypeOption';
+import actionComboboxLabel from '@salesforce/label/FlowBuilderActionSelector.actionComboboxLabel';
+import actionComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.actionComboboxPlaceholder';
+import apexPluginTypeOption from '@salesforce/label/FlowBuilderActionSelector.apexPluginTypeOption';
+import apexPluginComboboxLabel from '@salesforce/label/FlowBuilderActionSelector.apexPluginComboboxLabel';
+import apexPluginComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.apexPluginComboboxPlaceholder';
+import apexTypeOption from '@salesforce/label/FlowBuilderActionSelector.apexTypeOption';
+import apexComboboxLabel from '@salesforce/label/FlowBuilderActionSelector.apexComboboxLabel';
+import apexComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.apexComboboxPlaceholder';
+import emailAlertTypeOption from '@salesforce/label/FlowBuilderActionSelector.emailAlertTypeOption';
+import emailAlertComboboxLabel from '@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxLabel';
+import emailAlertComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.emailAlertComboboxPlaceholder';
+import subflowTypeOption from '@salesforce/label/FlowBuilderActionSelector.subflowTypeOption';
+import subflowComboboxLabel from '@salesforce/label/FlowBuilderActionSelector.subflowComboboxLabel';
+import subflowComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.subflowComboboxPlaceholder';
+import globalQuickActionSubTextPrefix from '@salesforce/label/FlowBuilderActionSelector.globalQuickActionSubTextPrefix';
+import allInvocableActions from '@salesforce/label/FlowBuilderActionSelector.allInvocableActions';
+import unCategorizedInvocableActions from '@salesforce/label/FlowBuilderActionSelector.unCategorizedInvocableActions';
 import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
 import filterByTypeOption from '@salesforce/label/FlowBuilderActionSelector.filterByTypeOption';
-import externalServiceTypeOption from "@salesforce/label/FlowBuilderActionSelector.externalServiceTypeOption";
-import externalServiceComboboxLabel from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxLabel";
-import externalServiceComboboxPlaceholder from "@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder";
+import externalServiceTypeOption from '@salesforce/label/FlowBuilderActionSelector.externalServiceTypeOption';
+import externalServiceComboboxLabel from '@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxLabel';
+import externalServiceComboboxPlaceholder from '@salesforce/label/FlowBuilderActionSelector.externalServiceComboboxPlaceholder';
 import loading from '@salesforce/label/FlowBuilderActionSelector.loading';
 
 export const LABELS = {

@@ -1,1 +1,1 @@
-export * from "./screenEditorLabels.js";
+export * from './screenEditorLabels.js';

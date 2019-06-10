@@ -1,34 +1,67 @@
 ﻿<template>
-    <div class='canvas grab slds-is-relative' id='canvas' tabindex='0' onmouseenter={handleCanvasMouseEnter} onmouseleave={handleCanvasMouseLeave}
-         onmousedown={handleCanvasMouseDown} onmousemove={handleCanvasMouseMove} onmouseup={handleCanvasMouseUp} oncontextmenu={handleCanvasContextMenu}
-         onkeydown={handleKeyDown} ondragover={handleDragOver} ondrop={handleDrop}>
-
+    <div
+        class="canvas grab slds-is-relative"
+        id="canvas"
+        tabindex="0"
+        onmouseenter={handleCanvasMouseEnter}
+        onmouseleave={handleCanvasMouseLeave}
+        onmousedown={handleCanvasMouseDown}
+        onmousemove={handleCanvasMouseMove}
+        onmouseup={handleCanvasMouseUp}
+        oncontextmenu={handleCanvasContextMenu}
+        onkeydown={handleKeyDown}
+        ondragover={handleDragOver}
+        ondrop={handleDrop}
+    >
         <!--Overlay-->
-        <div if:true={isMarqueeModeOn} class='overlay slds-is-absolute' id='overlay' onmouseenter={handleOverlayMouseEnter} onmouseleave={handleOverlayMouseLeave}
-             onmousedown={handleOverlayMouseDown} onmousemove={handleOverlayMouseMove} onmouseup={handleOverlayMouseUp} oncontextmenu={handleOverlayContextMenu}>
-
+        <div
+            if:true={isMarqueeModeOn}
+            class="overlay slds-is-absolute"
+            id="overlay"
+            onmouseenter={handleOverlayMouseEnter}
+            onmouseleave={handleOverlayMouseLeave}
+            onmousedown={handleOverlayMouseDown}
+            onmousemove={handleOverlayMouseMove}
+            onmouseup={handleOverlayMouseUp}
+            oncontextmenu={handleOverlayContextMenu}
+        >
             <!--Marquee-->
-            <builder_platform_interaction-marquee-selection-box if:true={isMarqueeInProgress}
-                                                                id='marquee'
-                                                                marquee-start-point={marqueeStartPoint}
-                                                                marquee-end-point={marqueeEndPoint}>
+            <builder_platform_interaction-marquee-selection-box
+                if:true={isMarqueeInProgress}
+                id="marquee"
+                marquee-start-point={marqueeStartPoint}
+                marquee-end-point={marqueeEndPoint}
+            >
             </builder_platform_interaction-marquee-selection-box>
         </div>
 
         <!--Inner Canvas-->
-        <div class='inner-canvas slds-is-relative' id='innerCanvas'>
+        <div class="inner-canvas slds-is-relative" id="innerCanvas">
             <!--Iterating over the nodes-->
-            <template for:each={nodes} for:item='node'>
-                <builder_platform_interaction-node node={node} key={node.guid}></builder_platform_interaction-node>
+            <template for:each={nodes} for:item="node">
+                <builder_platform_interaction-node
+                    node={node}
+                    key={node.guid}
+                ></builder_platform_interaction-node>
             </template>
 
             <!--Iterating over the connectors-->
-            <template for:each={connectors} for:item='connector'>
-                <builder_platform_interaction-connector connector={connector} key={connector.guid}></builder_platform_interaction-connector>
+            <template for:each={connectors} for:item="connector">
+                <builder_platform_interaction-connector
+                    connector={connector}
+                    key={connector.guid}
+                ></builder_platform_interaction-connector>
             </template>
         </div>
 
         <!--Zoom Panel-->
-        <builder_platform_interaction-zoom-panel is-marquee-mode-on={isMarqueeModeOn} is-zoom-out-disabled={isZoomOutDisabled} is-zoom-to-view={isZoomToView} is-zoom-in-disabled={isZoomInDisabled} ontogglemarqueeon={handleMarqueeOn} onclicktozoom={handleZoom}></builder_platform_interaction-zoom-panel>
+        <builder_platform_interaction-zoom-panel
+            is-marquee-mode-on={isMarqueeModeOn}
+            is-zoom-out-disabled={isZoomOutDisabled}
+            is-zoom-to-view={isZoomToView}
+            is-zoom-in-disabled={isZoomInDisabled}
+            ontogglemarqueeon={handleMarqueeOn}
+            onclicktozoom={handleZoom}
+        ></builder_platform_interaction-zoom-panel>
     </div>
 </template>

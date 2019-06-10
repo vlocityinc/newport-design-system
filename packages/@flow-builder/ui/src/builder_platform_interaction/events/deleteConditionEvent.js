@@ -1,6 +1,5 @@
 const eventName = 'deletecondition';
 
-
 export class DeleteConditionEvent {
     constructor(parentGUID, index) {
         return new CustomEvent(eventName, {

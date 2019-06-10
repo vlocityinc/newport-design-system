@@ -1,6 +1,5 @@
 const eventName = 'deleterecordlookupfield';
 
-
 export class DeleteRecordLookupFieldEvent {
     constructor(index) {
         return new CustomEvent(eventName, {

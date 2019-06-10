@@ -1,73 +1,71 @@
-import {recordCreateReducer} from "../recordCreateReducer";
+import { recordCreateReducer } from '../recordCreateReducer';
 import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     PropertyChangedEvent,
     RecordStoreOptionChangedEvent,
-    UpdateRecordFieldAssignmentEvent,
-} from "builder_platform_interaction/events";
-import {EXPRESSION_PROPERTY_TYPE} from "builder_platform_interaction/expressionUtils";
+    UpdateRecordFieldAssignmentEvent
+} from 'builder_platform_interaction/events';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 
-const recordCreateUsingFieldsTemplate = () =>
-    ({
-        assignRecordIdToReference: {value: 'varToStoreId', error: null},
-        description : {value: '', error: null},
-        elementType : 'RECORD_CREATE',
-        getFirstRecordOnly : true,
-        guid : 'RECORDCREATE_2',
-        inputAssignments : [{
-            leftHandSide: {value: "Account.BillingCountry", error: null},
-            rightHandSide: {value: "myCountry", error: null},
-            rightHandSideDataType: {value: "String", error: null},
-            rightHandSideGuid: {value: "myCountry", error: null},
-            rowIndex: "724cafc2-7744-4e46-8eaa-f2df29539d1d"}
-        ],
-        isCanvasElement : true,
-        label : {value: 'testRecordFields', error: null},
-        locationX : 358,
-        locationY : 227,
-        name : {value: 'testRecordFields', error: null},
-        object : {value: 'account', error: null},
-    });
-
-
-const recordCreateUsingSobjectTemplate = () =>
-({
-    assignRecordIdToReference: {value: '', error: null},
-    description : {value: '', error: null},
-    elementType : 'RECORD_CREATE',
-    getFirstRecordOnly : true,
-    guid : 'RECORDCREATE_2',
-    inputReference: {value: 'VARIABLE_6', error: null},
-    isCanvasElement : true,
-    label : {value: 'testRecordFields', error: null},
-    locationX : 358,
-    locationY : 227,
-    name : {value: 'testRecordFields', error: null},
-    processMetadataValues: [],
+const recordCreateUsingFieldsTemplate = () => ({
+    assignRecordIdToReference: { value: 'varToStoreId', error: null },
+    description: { value: '', error: null },
+    elementType: 'RECORD_CREATE',
+    getFirstRecordOnly: true,
+    guid: 'RECORDCREATE_2',
+    inputAssignments: [
+        {
+            leftHandSide: { value: 'Account.BillingCountry', error: null },
+            rightHandSide: { value: 'myCountry', error: null },
+            rightHandSideDataType: { value: 'String', error: null },
+            rightHandSideGuid: { value: 'myCountry', error: null },
+            rowIndex: '724cafc2-7744-4e46-8eaa-f2df29539d1d'
+        }
+    ],
+    isCanvasElement: true,
+    label: { value: 'testRecordFields', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'testRecordFields', error: null },
+    object: { value: 'account', error: null }
 });
 
-const recordCreateUsingSobjectCollectionTemplate = () =>
-({
-    assignRecordIdToReference: {value: '', error: null},
-    description : {value: '', error: null},
-    elementType : 'RECORD_CREATE',
-    getFirstRecordOnly : false,
-    guid : 'RECORDCREATE_2',
-    inputReference: {value: 'VARIABLE_Collection_6', error: null},
-    isCanvasElement : true,
-    label : {value: 'testRecordCollection', error: null},
-    locationX : 358,
-    locationY : 227,
-    name : {value: 'testRecordCollection', error: null},
-    processMetadataValues: [],
+const recordCreateUsingSobjectTemplate = () => ({
+    assignRecordIdToReference: { value: '', error: null },
+    description: { value: '', error: null },
+    elementType: 'RECORD_CREATE',
+    getFirstRecordOnly: true,
+    guid: 'RECORDCREATE_2',
+    inputReference: { value: 'VARIABLE_6', error: null },
+    isCanvasElement: true,
+    label: { value: 'testRecordFields', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'testRecordFields', error: null },
+    processMetadataValues: []
+});
+
+const recordCreateUsingSobjectCollectionTemplate = () => ({
+    assignRecordIdToReference: { value: '', error: null },
+    description: { value: '', error: null },
+    elementType: 'RECORD_CREATE',
+    getFirstRecordOnly: false,
+    guid: 'RECORDCREATE_2',
+    inputReference: { value: 'VARIABLE_Collection_6', error: null },
+    isCanvasElement: true,
+    label: { value: 'testRecordCollection', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'testRecordCollection', error: null },
+    processMetadataValues: []
 });
 
 const updateAssignmentEvent = (side, newValue = '', index = 0) => ({
     type: UpdateRecordFieldAssignmentEvent.EVENT_NAME,
     detail: {
         index,
-        value: {[side]: {value: newValue, error: null}},
+        value: { [side]: { value: newValue, error: null } }
     }
 });
 
@@ -81,9 +79,18 @@ describe('record-create-reducer using sObject', () => {
             const propertyName = 'inputReference';
             const value = 'VARIABLE_33';
             const error = null;
-            const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.inputReference.value);
+            const propChangedEvent = new PropertyChangedEvent(
+                propertyName,
+                value,
+                error,
+                null,
+                originalState.inputReference.value
+            );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordCreateReducer(originalState, propChangedEvent);
+            const newState = recordCreateReducer(
+                originalState,
+                propChangedEvent
+            );
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual('VARIABLE_33');
             expect(newState.inputReference.error).toBe(null);
@@ -92,9 +99,18 @@ describe('record-create-reducer using sObject', () => {
             const propertyName = 'inputReference';
             const value = 'notValidSobject';
             const error = 'You have entered an invalid value.';
-            const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.inputReference.value);
+            const propChangedEvent = new PropertyChangedEvent(
+                propertyName,
+                value,
+                error,
+                null,
+                originalState.inputReference.value
+            );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordCreateReducer(originalState, propChangedEvent);
+            const newState = recordCreateReducer(
+                originalState,
+                propChangedEvent
+            );
             expect(newState).not.toBe(originalState);
             expect(newState.inputReference.value).toEqual(value);
             expect(newState.inputReference.error).toBe(error);
@@ -123,9 +139,18 @@ describe('record-create-reducer using fields', () => {
             const propertyName = 'object';
             const value = 'USER';
             const error = null;
-            const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.object.value);
+            const propChangedEvent = new PropertyChangedEvent(
+                propertyName,
+                value,
+                error,
+                null,
+                originalState.object.value
+            );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordCreateReducer(originalState, propChangedEvent);
+            const newState = recordCreateReducer(
+                originalState,
+                propChangedEvent
+            );
             expect(newState).not.toBe(originalState);
             expect(newState.object.value).toEqual('USER');
             expect(newState.object.error).toBe(null);
@@ -134,9 +159,18 @@ describe('record-create-reducer using fields', () => {
             const propertyName = 'object';
             const value = 'notValidSobject';
             const error = 'You have entered an invalid value.';
-            const propChangedEvent = new PropertyChangedEvent(propertyName, value, error, null, originalState.object.value);
+            const propChangedEvent = new PropertyChangedEvent(
+                propertyName,
+                value,
+                error,
+                null,
+                originalState.object.value
+            );
             propChangedEvent.detail.ignoreValidate = true;
-            const newState = recordCreateReducer(originalState, propChangedEvent);
+            const newState = recordCreateReducer(
+                originalState,
+                propChangedEvent
+            );
             expect(newState).not.toBe(originalState);
             expect(newState.object.value).toEqual(value);
             expect(newState.object.error).toBe(error);
@@ -145,7 +179,7 @@ describe('record-create-reducer using fields', () => {
     describe('handle list item events', () => {
         it('add an assignment item', () => {
             const event = {
-                type: AddRecordFieldAssignmentEvent.EVENT_NAME,
+                type: AddRecordFieldAssignmentEvent.EVENT_NAME
             };
             const newState = recordCreateReducer(originalState, event);
             expect(newState.inputAssignments).toHaveLength(2);
@@ -155,7 +189,7 @@ describe('record-create-reducer using fields', () => {
             const event = {
                 type: DeleteRecordFieldAssignmentEvent.EVENT_NAME,
                 detail: {
-                    index: 0,
+                    index: 0
                 }
             };
             const newState = recordCreateReducer(originalState, event);
@@ -163,30 +197,45 @@ describe('record-create-reducer using fields', () => {
             expect(newState).not.toBe(originalState);
         });
         it('update the left hand side of an assignment item', () => {
-            const event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE, 'Account.Description');
+            const event = updateAssignmentEvent(
+                EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE,
+                'Account.Description'
+            );
             const newState = recordCreateReducer(originalState, event);
             expect(newState.inputAssignments).toHaveLength(1);
-            expect(newState.inputAssignments[0].leftHandSide.value).toBe('Account.Description');
+            expect(newState.inputAssignments[0].leftHandSide.value).toBe(
+                'Account.Description'
+            );
             expect(newState).not.toBe(originalState);
         });
         describe('update the left hand side of an assignment item', () => {
             it('with an empty value when the right hand side has a value', () => {
-                const event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE);
+                const event = updateAssignmentEvent(
+                    EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE
+                );
                 const newState = recordCreateReducer(originalState, event);
                 expect(newState.inputAssignments).toHaveLength(1);
-                expect(newState.inputAssignments[0].leftHandSide.value).toBe('Account.BillingCountry');
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe(
+                    'Account.BillingCountry'
+                );
                 expect(newState).not.toBe(originalState);
             });
             it('with an empty value when the right hand side does not have a value', () => {
                 // Remove Right Hand Side value first
-                let event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE);
+                let event = updateAssignmentEvent(
+                    EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE
+                );
                 let newState = recordCreateReducer(originalState, event);
 
                 // Remove Left Hand Side after
-                event = updateAssignmentEvent(EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE);
+                event = updateAssignmentEvent(
+                    EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE
+                );
                 newState = recordCreateReducer(newState, event);
                 expect(newState.inputAssignments).toHaveLength(1);
-                expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe(
+                    ''
+                );
                 expect(newState).not.toBe(originalState);
             });
         });
@@ -196,23 +245,39 @@ describe('record-create-reducer using fields', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordCreateUsingSobjectCollectionTemplate();
-                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(true, '', false);
-                newState = recordCreateReducer(originalState, recordStoreOptionChangedEvent);
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
+                    true,
+                    '',
+                    false
+                );
+                newState = recordCreateReducer(
+                    originalState,
+                    recordStoreOptionChangedEvent
+                );
             });
             it('should reset object', () => {
                 expect(newState.object.value).toBe('');
             });
             it('should reset inputAssignments', () => {
                 expect(newState.inputAssignments).toHaveLength(1);
-                expect(newState.inputAssignments[0].leftHandSide.value).toBe('');
+                expect(newState.inputAssignments[0].leftHandSide.value).toBe(
+                    ''
+                );
             });
         });
         describe('update numberRecordsToStore from First Record to All Records', () => {
             let newState;
             beforeAll(() => {
                 originalState = recordCreateUsingSobjectTemplate();
-                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(false, '', false);
-                newState = recordCreateReducer(originalState, recordStoreOptionChangedEvent);
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
+                    false,
+                    '',
+                    false
+                );
+                newState = recordCreateReducer(
+                    originalState,
+                    recordStoreOptionChangedEvent
+                );
             });
             it('should reset inputReference', () => {
                 expect(newState.inputReference.value).toBe('');

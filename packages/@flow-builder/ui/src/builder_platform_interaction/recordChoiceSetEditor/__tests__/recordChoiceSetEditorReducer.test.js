@@ -4,7 +4,7 @@ import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 describe('Record Choice Set Reducer', () => {
     const recordChoiceObject = {
         elementType: 'RECORD_CHOICE_SET',
-        guid: 'guid_1',
+        guid: 'guid1',
         name: {
             value: 'recordChoice1',
             error: null
@@ -38,10 +38,12 @@ describe('Record Choice Set Reducer', () => {
             error: null
         },
         filters: [],
-        outputAssignments: [{
-            leftHandSide: 'lhs',
-            rightHandSide: 'rhs'
-        }]
+        outputAssignments: [
+            {
+                leftHandSide: 'lhs',
+                rightHandSide: 'rhs'
+            }
+        ]
     };
 
     describe('for action type update element property', () => {
@@ -55,7 +57,10 @@ describe('Record Choice Set Reducer', () => {
                     doValidateProperty: true
                 }
             };
-            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
+            const resultObj = recordChoiceSetReducer(
+                recordChoiceObject,
+                action
+            );
 
             expect(resultObj.name).toEqual({
                 value: 'recChoice',
@@ -73,15 +78,18 @@ describe('Record Choice Set Reducer', () => {
                     doValidateProperty: true
                 }
             };
-            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
+            const resultObj = recordChoiceSetReducer(
+                recordChoiceObject,
+                action
+            );
 
             it('empty outputAssignment is added', () => {
-                expect(resultObj.outputAssignments).toMatchObject(
-                    [{
-                        'leftHandSide': {'error': null, 'value': ''},
-                        'rightHandSide': {'error': null, 'value': ''}
-                    }]
-                );
+                expect(resultObj.outputAssignments).toMatchObject([
+                    {
+                        leftHandSide: { error: null, value: '' },
+                        rightHandSide: { error: null, value: '' }
+                    }
+                ]);
             });
         });
 
@@ -95,7 +103,10 @@ describe('Record Choice Set Reducer', () => {
                     doValidateProperty: true
                 }
             };
-            const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
+            const resultObj = recordChoiceSetReducer(
+                recordChoiceObject,
+                action
+            );
 
             it('filterType is set to none', () => {
                 expect(resultObj.filterType).toEqual({
@@ -111,7 +122,7 @@ describe('Record Choice Set Reducer', () => {
     });
     describe('for action type add filter item', () => {
         const action = {
-            type: PROPERTY_EDITOR_ACTION.ADD_FILTER_ITEM,
+            type: PROPERTY_EDITOR_ACTION.ADD_FILTER_ITEM
         };
         const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
 
@@ -126,10 +137,10 @@ describe('Record Choice Set Reducer', () => {
             payload: {
                 index: 0,
                 value: {
-                    leftHandSide: {value: 'test', error: null},
-                    operator: {value: '', error: null},
-                    rightHandSide: {value: '', error: null},
-                    rightHandSideDataType: {value: '', error: null}
+                    leftHandSide: { value: 'test', error: null },
+                    operator: { value: '', error: null },
+                    rightHandSide: { value: '', error: null },
+                    rightHandSideDataType: { value: '', error: null }
                 }
             }
         };
@@ -203,7 +214,7 @@ describe('Record Choice Set Reducer', () => {
 
     describe('for action type AddEmptyOutputAssignment', () => {
         const action = {
-            type: PROPERTY_EDITOR_ACTION.ADD_EMPTY_OUTPUT_ASSIGNMENT,
+            type: PROPERTY_EDITOR_ACTION.ADD_EMPTY_OUTPUT_ASSIGNMENT
         };
         const resultObj = recordChoiceSetReducer(recordChoiceObject, action);
 
@@ -213,27 +224,30 @@ describe('Record Choice Set Reducer', () => {
 
         it('emptyOutputAssignment should be added', () => {
             expect(resultObj.outputAssignments[0]).toMatchObject({
-                'leftHandSide': {'error': null, 'value': ''},
-                'rightHandSide': {'error': null, 'value': ''}
+                leftHandSide: { error: null, value: '' },
+                rightHandSide: { error: null, value: '' }
             });
         });
     });
 
     describe('for action type UpdateOutputAssignmentsBeforeClose', () => {
         const action = {
-            type: PROPERTY_EDITOR_ACTION.UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE,
+            type: PROPERTY_EDITOR_ACTION.UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE
         };
 
         const recordChoiceObjectTwo = {
             elementType: 'RECORD_CHOICE_SET',
-            guid: 'guid_1',
-            outputAssignments: [{
-                leftHandSide: {error: null, value: 'lhs'},
-                rightHandSide: {error: null, value: 'rhs'}
-            }, {
-                leftHandSide: {error: null, value: null},
-                rightHandSide: {error: null, value: null}
-            }]
+            guid: 'guid1',
+            outputAssignments: [
+                {
+                    leftHandSide: { error: null, value: 'lhs' },
+                    rightHandSide: { error: null, value: 'rhs' }
+                },
+                {
+                    leftHandSide: { error: null, value: null },
+                    rightHandSide: { error: null, value: null }
+                }
+            ]
         };
 
         const resultObj = recordChoiceSetReducer(recordChoiceObjectTwo, action);
@@ -244,10 +258,9 @@ describe('Record Choice Set Reducer', () => {
 
         it('outputAssignment should be have the right value', () => {
             expect(resultObj.outputAssignments[0]).toMatchObject({
-                'leftHandSide': {'error': null, 'value': 'lhs'},
-                'rightHandSide': {'error': null, 'value': 'rhs'}
+                leftHandSide: { error: null, value: 'lhs' },
+                rightHandSide: { error: null, value: 'rhs' }
             });
         });
     });
 });
-

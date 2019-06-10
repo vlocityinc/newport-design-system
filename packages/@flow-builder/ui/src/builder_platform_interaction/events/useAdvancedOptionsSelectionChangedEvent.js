@@ -5,7 +5,7 @@ export class UseAdvancedOptionsSelectionChangedEvent extends Event {
         super(eventName, {
             cancelable: false,
             composed: true,
-            bubbles: true,
+            bubbles: true
         });
         this.detail = {
             useAdvancedOptions

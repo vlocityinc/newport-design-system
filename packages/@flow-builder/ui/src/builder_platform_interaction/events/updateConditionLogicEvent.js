@@ -1,6 +1,5 @@
 const eventName = 'updateconditionlogic';
 
-
 export class UpdateConditionLogicEvent {
     constructor(parentGUID, value) {
         return new CustomEvent(eventName, {

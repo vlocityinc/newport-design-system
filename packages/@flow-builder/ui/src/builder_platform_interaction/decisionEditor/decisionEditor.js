@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import { decisionReducer, resetDeletedGuids } from "./decisionReducer";
-import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
-import { LABELS } from "./decisionEditorLabels";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { decisionReducer, resetDeletedGuids } from './decisionReducer';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './decisionEditorLabels';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 const SELECTORS = {
     OUTCOME: 'builder_platform_interaction-outcome'
@@ -44,7 +44,9 @@ export default class DecisionEditor extends LightningElement {
     }
 
     get activeOutcome() {
-        return this.decisionElement.outcomes.find(outcome => outcome.guid === this.activeOutcomeId);
+        return this.decisionElement.outcomes.find(
+            outcome => outcome.guid === this.activeOutcomeId
+        );
     }
 
     // getter and setter for nodes don't work well with mixins
@@ -66,14 +68,19 @@ export default class DecisionEditor extends LightningElement {
     // getErrorsFromHydratedElement recursively walks the object structure and there could be performance issues by calling it in a getter
     // (and thus on every render) depending on the object depth
     get outcomesWithDefaultOutcome() {
-        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(outcome => {
-            return {
-                element: outcome,
-                label: outcome.label && outcome.label.value ? outcome.label.value : EMPTY_OUTCOME_LABEL,
-                isDraggable: true,
-                hasErrors: getErrorsFromHydratedElement(outcome).length > 0
-            };
-        });
+        const outcomesWithDefaultOutcome = this.decisionElement.outcomes.map(
+            outcome => {
+                return {
+                    element: outcome,
+                    label:
+                        outcome.label && outcome.label.value
+                            ? outcome.label.value
+                            : EMPTY_OUTCOME_LABEL,
+                    isDraggable: true,
+                    hasErrors: getErrorsFromHydratedElement(outcome).length > 0
+                };
+            }
+        );
 
         // Add the default outcome
         const defaultLabel = this.decisionElement.defaultConnectorLabel;
@@ -82,7 +89,10 @@ export default class DecisionEditor extends LightningElement {
             element: {
                 guid: DEFAULT_OUTCOME_ID
             },
-            label: defaultLabel && defaultLabel.value ? defaultLabel.value : EMPTY_DEFAULT_OUTCOME_LABEL,
+            label:
+                defaultLabel && defaultLabel.value
+                    ? defaultLabel.value
+                    : EMPTY_DEFAULT_OUTCOME_LABEL,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error
         });
@@ -132,7 +142,10 @@ export default class DecisionEditor extends LightningElement {
             event.detail.value
         );
 
-        this.decisionElement = decisionReducer(this.decisionElement, defaultOutcomeChangedEvent);
+        this.decisionElement = decisionReducer(
+            this.decisionElement,
+            defaultOutcomeChangedEvent
+        );
     }
 
     /**
@@ -144,7 +157,7 @@ export default class DecisionEditor extends LightningElement {
         const originalNumberOfOutcomes = this.decisionElement.outcomes.length;
         this.decisionElement = decisionReducer(this.decisionElement, event);
         if (this.decisionElement.outcomes.length < originalNumberOfOutcomes) {
-           this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
+            this.activeOutcomeId = this.decisionElement.outcomes[0].guid;
         }
     }
 

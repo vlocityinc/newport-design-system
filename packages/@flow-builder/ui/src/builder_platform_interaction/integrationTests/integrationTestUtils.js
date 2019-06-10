@@ -2,12 +2,12 @@ import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
-    GENERIC : 'FlowBuilderCombobox.genericErrorMessage'
+    GENERIC: 'FlowBuilderCombobox.genericErrorMessage'
 };
 
 const LABEL_DESCRIPTION_SELECTORS = {
     DEV_NAME: '.devName',
-    LABEL: '.label',
+    LABEL: '.label'
 };
 
 export const LIGHTNING_COMPONENTS_SELECTORS = {
@@ -15,7 +15,7 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_ICON: 'lightning-icon',
     LIGHTNING_TAB: 'lightning-tab',
-    LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
+    LIGHTNING_RADIO_GROUP: 'lightning-radio-group'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {
@@ -25,63 +25,90 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
     INTERACTION_COMBOBOX: 'builder_platform_interaction-combobox',
-    OUTPUT_RESOURCE_PICKER: 'builder_platform_interaction-output-resource-picker',
+    OUTPUT_RESOURCE_PICKER:
+        'builder_platform_interaction-output-resource-picker',
     BASE_CALLOUT_EDITOR: 'builder_platform_interaction-base-callout-editor',
     COMBOBOX: 'builder_platform_interaction-combobox',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
-    FIELD_TO_FEROV_EXPRESSION_BUILDER: 'builder_platform_interaction-field-to-ferov-expression-builder',
-    BASE_EXPRESSION_BUILDER: 'builder_platform_interaction-base-expression-builder',
-    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
+    FIELD_TO_FEROV_EXPRESSION_BUILDER:
+        'builder_platform_interaction-field-to-ferov-expression-builder',
+    BASE_EXPRESSION_BUILDER:
+        'builder_platform_interaction-base-expression-builder',
+    ENTITY_RESOURCE_PICKER:
+        'builder_platform_interaction-entity-resource-picker'
 };
 
-export const getLabelDescriptionElement = (editor) => {
-    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
+export const getLabelDescriptionElement = editor => {
+    return editor.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION
+    );
 };
 
-export const getLabelDescriptionNameElement = (editor) => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
+export const getLabelDescriptionNameElement = editor => {
+    return getLabelDescriptionElement(editor).shadowRoot.querySelector(
+        LABEL_DESCRIPTION_SELECTORS.DEV_NAME
+    );
 };
 
-export const getLabelDescriptionLabelElement = (editor) => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
+export const getLabelDescriptionLabelElement = editor => {
+    return getLabelDescriptionElement(editor).shadowRoot.querySelector(
+        LABEL_DESCRIPTION_SELECTORS.LABEL
+    );
 };
 
 export const focusoutEvent = new FocusEvent('focusout', {
-    'bubbles'   : true,
-    'cancelable': true,
+    bubbles: true,
+    cancelable: true
 });
 
-export const textInputEvent = (textInput) => {
+export const textInputEvent = textInput => {
     return new CustomEvent('textinput', {
-        'bubbles'   : true,
-        'cancelable': true,
-        detail: { text: textInput },
+        bubbles: true,
+        cancelable: true,
+        detail: { text: textInput }
     });
 };
 
 export const blurEvent = new FocusEvent('blur', {
-    'bubbles'   : true,
-    'cancelable': true,
+    bubbles: true,
+    cancelable: true
 });
 
-export const selectEvent = (value) => {
+export const selectEvent = value => {
     return new CustomEvent('select', {
-        'bubbles'   : true,
-        'cancelable': true,
-        detail: { value },
+        bubbles: true,
+        cancelable: true,
+        detail: { value }
     });
 };
 
 export const expectGroupedComboboxItem = (groupedCombobox, itemText) => {
-    expect(groupedCombobox.items).toEqual(expect.arrayContaining([expect.objectContaining({"text": itemText})]));
+    expect(groupedCombobox.items).toEqual(
+        expect.arrayContaining([expect.objectContaining({ text: itemText })])
+    );
 };
-export const expectGroupedComboboxItemInGroup = (groupedCombobox, groupLabel, itemText) => {
-    expect(groupedCombobox.items).toEqual(expect.arrayContaining([
-        expect.objectContaining({label : groupLabel, items: expect.arrayContaining([expect.objectContaining({ "text": itemText})])})
-    ]));
+export const expectGroupedComboboxItemInGroup = (
+    groupedCombobox,
+    groupLabel,
+    itemText
+) => {
+    expect(groupedCombobox.items).toEqual(
+        expect.arrayContaining([
+            expect.objectContaining({
+                label: groupLabel,
+                items: expect.arrayContaining([
+                    expect.objectContaining({ text: itemText })
+                ])
+            })
+        ])
+    );
 };
-export const getGroupedComboboxItemInGroup = (groupedCombobox, groupLabel, itemText) => {
+export const getGroupedComboboxItemInGroup = (
+    groupedCombobox,
+    groupLabel,
+    itemText
+) => {
     for (const item of groupedCombobox.items) {
         if (item.label === groupLabel && item.items) {
             for (const subItem of item.items) {
@@ -102,23 +129,36 @@ export const getGroupedComboboxItem = (groupedCombobox, itemText) => {
     return undefined;
 };
 
-export const getFieldToFerovExpressionBuilders = (parentElement) => {
-    return parentElement.shadowRoot.querySelectorAll(INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER);
+export const getFieldToFerovExpressionBuilders = parentElement => {
+    return parentElement.shadowRoot.querySelectorAll(
+        INTERACTION_COMPONENTS_SELECTORS.FIELD_TO_FEROV_EXPRESSION_BUILDER
+    );
 };
 
-export const getBaseExpressionBuilder = (parentElement) => {
-    return parentElement.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
+export const getBaseExpressionBuilder = parentElement => {
+    return parentElement.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER
+    );
 };
 
-export const getEntityResourcePicker = (editor) => {
-    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
+export const getEntityResourcePicker = editor => {
+    return editor.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER
+    );
 };
 
-export const getRadioGroup = (parentElement) => {
-    return parentElement.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
+export const getRadioGroup = parentElement => {
+    return parentElement.shadowRoot.querySelectorAll(
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
+    );
 };
 
-export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, callback, params) => {
+export const auraFetch = actions => async (
+    actionName,
+    shouldExecuteCallback,
+    callback,
+    params
+) => {
     await ticks(10);
     if (!shouldExecuteCallback()) {
         return undefined;
@@ -127,7 +167,7 @@ export const auraFetch = (actions) => async (actionName, shouldExecuteCallback, 
     if (actions[actionName]) {
         result = actions[actionName](params);
     } else {
-        result = { error : 'Unknown actionName'};
+        result = { error: 'Unknown actionName' };
     }
     callback(result);
     return undefined;
@@ -138,16 +178,30 @@ export const getChildComponent = (parentComponent, childComponentSelector) => {
 };
 
 export const getRecordVariablePickerChildGroupedComboboxComponent = parentPickerComponent => {
-    const ferovResourcePicker = parentPickerComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER);
-    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX);
-    return interactionCombobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const ferovResourcePicker = parentPickerComponent.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER
+    );
+    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+    );
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX
+    );
+    return interactionCombobox.shadowRoot.querySelector(
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    );
 };
 
 export const getEntityResourcePickerChildGroupedComboboxComponent = parentPickerComponent => {
-    const resourcePicker = parentPickerComponent.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER);
-    const combobox = resourcePicker.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.COMBOBOX);
-    return combobox.shadowRoot.querySelector(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
+    const resourcePicker = parentPickerComponent.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
+    );
+    const combobox = resourcePicker.shadowRoot.querySelector(
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
+    );
+    return combobox.shadowRoot.querySelector(
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    );
 };
 
 export const changeComboboxValue = (combobox, newValue) => {
@@ -160,21 +214,26 @@ export const changeInputValue = (input, newValue) => {
     input.dispatchEvent(focusoutEvent);
 };
 
-export const newFilterItem = (lhsValue = '', operatorValue = '', rhsValue = '', rhsDataType = '') => ({
+export const newFilterItem = (
+    lhsValue = '',
+    operatorValue = '',
+    rhsValue = '',
+    rhsDataType = ''
+) => ({
     leftHandSide: {
         value: lhsValue,
         error: null
-      },
-      rightHandSide: {
+    },
+    rightHandSide: {
         value: rhsValue,
         error: null
-      },
-      rightHandSideDataType: {
+    },
+    rightHandSideDataType: {
         value: rhsDataType,
         error: null
-      },
-      operator: {
+    },
+    operator: {
         value: operatorValue,
         error: null
-      }
+    }
 });

@@ -1,16 +1,28 @@
-const topLevelBlackList = ['createdById', 'createdDate', 'definitionId', 'lastModifiedBy', 'lastModifiedById', 'lastModifiedDate', 'manageableState',
-    'manageableState', 'masterLabel', 'processType', 'status', 'id'];
+const topLevelBlackList = [
+    'createdById',
+    'createdDate',
+    'definitionId',
+    'lastModifiedBy',
+    'lastModifiedById',
+    'lastModifiedDate',
+    'manageableState',
+    'manageableState',
+    'masterLabel',
+    'processType',
+    'status',
+    'id'
+];
 
-const dateRegEx =  '^.[^T]+';
-const dateTimeFormat1 =  '^.*[+].*';
-const dateTimeFormat2 =  '^.*[Z].*';
+const dateRegEx = '^.[^T]+';
+const dateTimeFormat1 = '^.*[+].*';
+const dateTimeFormat2 = '^.*[Z].*';
 
 // Matches dateTimes like this: 2000-12-12T00:00:00.000+0000
-const dateTimeFormat1Prefix =  '^.[^+]+'; // get everything before the +
+const dateTimeFormat1Prefix = '^.[^+]+'; // get everything before the +
 const dateTimeFormat1Suffix = '[+].*'; // get everything including and after the +
 
 // Matches dateTimes like this: 1981-07-25T15:32:00.000Z
-const dateTimeFormat2Prefix =  '^.[^Z]+'; // get everything before the Z
+const dateTimeFormat2Prefix = '^.[^Z]+'; // get everything before the Z
 
 /**
  * Returns an object which represents the diff between the two objects provided.
@@ -25,8 +37,21 @@ const dateTimeFormat2Prefix =  '^.[^Z]+'; // get everything before the Z
  * after object. Anything with '--' indicates a key that was in the old object and is
  * missing in the new object.
  */
-export function diffFlow(beforeObj, afterObj, useBlackList, trimEmptyItems, ignoreDateTimeFormatDiff) {
-    return diffObjects(beforeObj, afterObj, useBlackList, trimEmptyItems, ignoreDateTimeFormatDiff, 1);
+export function diffFlow(
+    beforeObj,
+    afterObj,
+    useBlackList,
+    trimEmptyItems,
+    ignoreDateTimeFormatDiff
+) {
+    return diffObjects(
+        beforeObj,
+        afterObj,
+        useBlackList,
+        trimEmptyItems,
+        ignoreDateTimeFormatDiff,
+        1
+    );
 }
 
 /**
@@ -43,16 +68,28 @@ export function diffFlow(beforeObj, afterObj, useBlackList, trimEmptyItems, igno
  * after object. Anything with '--' indicates a key that was in the old object and is
  * missing in the new object.
  */
-function diffObjects(beforeObj, afterObj, useBlackList, trimEmptyItems, ignoreDateTimeFormatDiff, level) {
+function diffObjects(
+    beforeObj,
+    afterObj,
+    useBlackList,
+    trimEmptyItems,
+    ignoreDateTimeFormatDiff,
+    level
+) {
     const ret = {};
     for (const item in afterObj) {
         if (!beforeObj.hasOwnProperty(item)) {
             // The thing is only in the after object, not the before.
             // Check for trim mode before adding this as a diff.
             if (trimEmptyItems) {
-                if (!((typeof afterObj[item] === 'string' && afterObj[item].length === 0) ||
-                     afterObj[item] === undefined ||
-                     afterObj[item] === null)) {
+                if (
+                    !(
+                        (typeof afterObj[item] === 'string' &&
+                            afterObj[item].length === 0) ||
+                        afterObj[item] === undefined ||
+                        afterObj[item] === null
+                    )
+                ) {
                     ret['++' + item] = afterObj[item];
                 }
             } else {
@@ -61,30 +98,56 @@ function diffObjects(beforeObj, afterObj, useBlackList, trimEmptyItems, ignoreDa
         } else if (typeof afterObj[item] !== typeof beforeObj[item]) {
             // both before and after have this thing, but they're not the same type.
             // Don't try to diff it, just log it as a diff.
-            ret[item] = {'BEFORE': beforeObj[item], 'AFTER': afterObj[item]};
-        } else if (typeof afterObj[item] === 'string' || typeof afterObj[item] === 'number' || typeof afterObj[item] === 'boolean') {
+            ret[item] = { BEFORE: beforeObj[item], AFTER: afterObj[item] };
+        } else if (
+            typeof afterObj[item] === 'string' ||
+            typeof afterObj[item] === 'number' ||
+            typeof afterObj[item] === 'boolean'
+        ) {
             // Both before and after have this item, and the type of the thing is the same, so we'll diff it.
-            if (!diffLiteral(ignoreDateTimeFormatDiff, item, beforeObj, afterObj)) {
-                ret[item] = {'BEFORE': beforeObj[item], 'AFTER': afterObj[item]};
+            if (
+                !diffLiteral(
+                    ignoreDateTimeFormatDiff,
+                    item,
+                    beforeObj,
+                    afterObj
+                )
+            ) {
+                ret[item] = { BEFORE: beforeObj[item], AFTER: afterObj[item] };
             }
         } else {
-                // The stuff has more stuff in it. Keep diffing.
-                const innerRet = diffObjects(beforeObj[item], afterObj[item], useBlackList, trimEmptyItems, ignoreDateTimeFormatDiff, level + 1);
-                // something is different
-                if (Object.keys(innerRet).length > 0) {
-                    ret[item] = innerRet;
-                }
+            // The stuff has more stuff in it. Keep diffing.
+            const innerRet = diffObjects(
+                beforeObj[item],
+                afterObj[item],
+                useBlackList,
+                trimEmptyItems,
+                ignoreDateTimeFormatDiff,
+                level + 1
+            );
+            // something is different
+            if (Object.keys(innerRet).length > 0) {
+                ret[item] = innerRet;
+            }
         }
     }
 
     // Add anything that is only in the before object, but not the after.
     for (const item in beforeObj) {
         // Item is on the blacklist
-        if (!(useBlackList && topLevelBlackList.includes(item) && level === 1)) {
+        if (
+            !(useBlackList && topLevelBlackList.includes(item) && level === 1)
+        ) {
             if (!afterObj.hasOwnProperty(item)) {
                 if (trimEmptyItems) {
-                    if (!(beforeObj[item] === undefined || beforeObj[item] === null ||
-                          (typeof beforeObj[item] === 'object' && beforeObj[item].length === 0))) {
+                    if (
+                        !(
+                            beforeObj[item] === undefined ||
+                            beforeObj[item] === null ||
+                            (typeof beforeObj[item] === 'object' &&
+                                beforeObj[item].length === 0)
+                        )
+                    ) {
                         ret['--' + item] = beforeObj[item];
                     }
                 } else {

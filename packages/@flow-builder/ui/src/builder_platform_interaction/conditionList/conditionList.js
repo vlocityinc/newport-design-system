@@ -4,9 +4,9 @@ import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
-} from "builder_platform_interaction/events";
-import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
-import { LABELS } from "./conditionListLabels";
+} from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from './conditionListLabels';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -32,10 +32,10 @@ export default class ConditionList extends LightningElement {
     showErrorMessageIfBlank = this.labels.cannotBeBlankError;
 
     /**
-    * @typedef {Object} conditionLogicOption
-    * @property {module:flow-metadata.CONDITION_LOGIC} value
-    * @property {string} label
-    */
+     * @typedef {Object} conditionLogicOption
+     * @property {module:flow-metadata.CONDITION_LOGIC} value
+     * @property {string} label
+     */
 
     /**
      * @type conditionLogicOption[]
@@ -81,11 +81,14 @@ export default class ConditionList extends LightningElement {
         this.state.conditionLogicComboBoxValue = value;
         this.state.showCustomLogicInput = false;
 
-        if (!Object.values(CONDITION_LOGIC).find((logicValue) => {
-            return value === logicValue;
-        })) {
+        if (
+            !Object.values(CONDITION_LOGIC).find(logicValue => {
+                return value === logicValue;
+            })
+        ) {
             // Select the custom logic option in the dropdown
-            this.state.conditionLogicComboBoxValue = CONDITION_LOGIC.CUSTOM_LOGIC;
+            this.state.conditionLogicComboBoxValue =
+                CONDITION_LOGIC.CUSTOM_LOGIC;
             // And show the custom logic input
             this.state.showCustomLogicInput = true;
         }
@@ -96,7 +99,10 @@ export default class ConditionList extends LightningElement {
      * @return {null|boolean} whether the condition list will be displayed
      */
     get isConditionListVisible() {
-        return this.state.conditionLogic && this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS;
+        return (
+            this.state.conditionLogic &&
+            this.state.conditionLogic.value === CONDITION_LOGIC.NO_CONDITIONS
+        );
     }
 
     /** Sets the CustomValidity if there is a valid error message.
@@ -119,8 +125,13 @@ export default class ConditionList extends LightningElement {
      */
     renderedCallback() {
         if (this.state.conditionLogic) {
-            const conditionLogicInput = this.template.querySelector(SELECTORS.CUSTOM_LOGIC);
-            this.setInputErrorMessage(conditionLogicInput, this.state.conditionLogic.error);
+            const conditionLogicInput = this.template.querySelector(
+                SELECTORS.CUSTOM_LOGIC
+            );
+            this.setInputErrorMessage(
+                conditionLogicInput,
+                this.state.conditionLogic.error
+            );
         }
     }
 
@@ -153,14 +164,22 @@ export default class ConditionList extends LightningElement {
 
         const propertyChangedEvent = new PropertyChangedEvent(
             'conditionLogic',
-            newLogicValue, null, this.parentGuid);
+            newLogicValue,
+            null,
+            this.parentGuid
+        );
         this.dispatchEvent(propertyChangedEvent);
     }
 
     handleCustomLogicFocusOut(event) {
         const value = event.target.value;
 
-        const propertyChangedEvent = new PropertyChangedEvent('conditionLogic', value, null, this.parentGuid);
+        const propertyChangedEvent = new PropertyChangedEvent(
+            'conditionLogic',
+            value,
+            null,
+            this.parentGuid
+        );
         this.dispatchEvent(propertyChangedEvent);
     }
 
@@ -181,7 +200,10 @@ export default class ConditionList extends LightningElement {
     handleDeleteCondition(event) {
         event.stopPropagation();
 
-        const deleteConditionEvent = new DeleteConditionEvent(this.parentGuid, event.detail.index);
+        const deleteConditionEvent = new DeleteConditionEvent(
+            this.parentGuid,
+            event.detail.index
+        );
 
         this.dispatchEvent(deleteConditionEvent);
     }
@@ -192,7 +214,8 @@ export default class ConditionList extends LightningElement {
     handleUpdateCondition(event) {
         event.stopPropagation();
 
-        const updateConditionEvent = new UpdateConditionEvent(this.parentGuid,
+        const updateConditionEvent = new UpdateConditionEvent(
+            this.parentGuid,
             event.detail.index,
             event.detail.value,
             event.detail.error

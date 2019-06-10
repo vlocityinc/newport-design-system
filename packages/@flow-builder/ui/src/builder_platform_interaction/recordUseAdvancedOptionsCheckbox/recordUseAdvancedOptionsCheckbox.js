@@ -1,6 +1,6 @@
 import { LightningElement, api } from 'lwc';
-import { LABELS } from "./recordUseAdvancedOptionsCheckboxLabels";
-import { UseAdvancedOptionsSelectionChangedEvent } from "builder_platform_interaction/events";
+import { LABELS } from './recordUseAdvancedOptionsCheckboxLabels';
+import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 
 export default class RecordUseAdvancedOptionsCheckbox extends LightningElement {
     labels = LABELS;
@@ -14,6 +14,8 @@ export default class RecordUseAdvancedOptionsCheckbox extends LightningElement {
      */
     handleUseAdvancedOptionsSelectionChange(event) {
         event.stopPropagation();
-        this.dispatchEvent(new UseAdvancedOptionsSelectionChangedEvent(event.detail.checked));
+        this.dispatchEvent(
+            new UseAdvancedOptionsSelectionChangedEvent(event.detail.checked)
+        );
     }
 }

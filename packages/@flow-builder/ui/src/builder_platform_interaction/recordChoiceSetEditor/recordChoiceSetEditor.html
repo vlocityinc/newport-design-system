@@ -3,29 +3,31 @@
         <div class="slds-form slds-form_compound slds-p-around_small">
             <!-- Name Label Desc Component -->
             <builder_platform_interaction-label-description
-                    hide-label
-                    dev-name={recordChoiceSetResource.name}
-                    description={recordChoiceSetResource.description}
-                    guid={recordChoiceSetResource.guid}
-                    onpropertychanged={handlePropertyChanged}>
+                hide-label
+                dev-name={recordChoiceSetResource.name}
+                description={recordChoiceSetResource.description}
+                guid={recordChoiceSetResource.guid}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-label-description>
 
             <!-- Entity Resource Picker -->
             <div class="slds-form-element__row">
                 <builder_platform_interaction-entity-resource-picker
-                        class="slds-form-element slds-size_1-of-2"
-                        combobox-config={entityComboboxConfig}
-                        value={recordChoiceSetResource.object.value}
-                        row-index={recordChoiceSetResource.objectIndex.value}
-                        oncomboboxstatechanged={handleObjectTypeChange}
-                        onitemselected={handleObjectTypeSelect}>
+                    class="slds-form-element slds-size_1-of-2"
+                    combobox-config={entityComboboxConfig}
+                    value={recordChoiceSetResource.object.value}
+                    row-index={recordChoiceSetResource.objectIndex.value}
+                    oncomboboxstatechanged={handleObjectTypeChange}
+                    onitemselected={handleObjectTypeSelect}
+                >
                 </builder_platform_interaction-entity-resource-picker>
             </div>
         </div>
 
         <div if:true={showSecondSection}>
             <!-- Record Filter component  -->
-            <builder_platform_interaction-record-filter 
+            <builder_platform_interaction-record-filter
                 element-type={recordChoiceSetResource.elementType}
                 filter-items={recordChoiceSetResource.filters}
                 record-entity-name={recordChoiceSetResource.object.value}
@@ -36,7 +38,8 @@
                 onrecordfiltertypechanged={handleFilterTypeChanged}
                 onaddrecordfilter={handleListItemChanged}
                 onupdaterecordfilter={handleListItemChanged}
-                ondeleterecordfilter={handleListItemChanged}>
+                ondeleterecordfilter={handleListItemChanged}
+            >
             </builder_platform_interaction-record-filter>
 
             <!-- Record Sort component  -->
@@ -46,80 +49,94 @@
                 selected-field={recordChoiceSetResource.sortField.value}
                 sort-order={recordChoiceSetResource.sortOrder.value}
                 sort-field-error={recordChoiceSetResource.sortField.error}
-                onchange={handleRecordSortChanged}>
+                onchange={handleRecordSortChanged}
+            >
             </builder_platform_interaction-record-sort>
 
             <!-- Choice Limit Filter component  -->
-            <lightning-input 
+            <lightning-input
                 type="number"
                 label={labels.choiceLimitLabel}
                 onfocusout={handleChoiceLimitChanged}
                 value={recordChoiceSetResource.limit.value}
                 field-level-help={labels.choiceLimitHelpText}
-                class="choice-limit slds-p-horizontal_small slds-p-bottom_small slds-form-element slds-size_1-of-2">
+                class="choice-limit slds-p-horizontal_small slds-p-bottom_small slds-form-element slds-size_1-of-2"
+            >
             </lightning-input>
 
             <!-- Choice Template Section -->
             <div class="slds-border_top slds-p-around_small">
-                <div class="slds-text-heading_small slds-p-bottom_small">{labels.choiceTemplateHeading}</div>
-                <div class="slds-text-color_weak slds-p-bottom_small">{labels.choiceTemplateSubHeading}</div>
+                <div class="slds-text-heading_small slds-p-bottom_small">
+                    {labels.choiceTemplateHeading}
+                </div>
+                <div class="slds-text-color_weak slds-p-bottom_small">
+                    {labels.choiceTemplateSubHeading}
+                </div>
                 <!-- Choice Label Field Picker -->
-                <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+                <div
+                    class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+                >
                     <builder_platform_interaction-field-picker
-                            class="test-display-field slds-col slds-grow slds-size_1-of-2"
-                            label={labels.choiceLabel}
-                            placeholder={labels.choiceLabelPlaceholder}
-                            value={recordChoiceSetResource.displayField.value}
-                            required
-                            fields={menuDataFields}
-                            error-message={recordChoiceSetResource.displayField.error}
-                            oncomboboxstatechanged={handleDisplayFieldChanged}>
+                        class="test-display-field slds-col slds-grow slds-size_1-of-2"
+                        label={labels.choiceLabel}
+                        placeholder={labels.choiceLabelPlaceholder}
+                        value={recordChoiceSetResource.displayField.value}
+                        required
+                        fields={menuDataFields}
+                        error-message={recordChoiceSetResource.displayField.error}
+                        oncomboboxstatechanged={handleDisplayFieldChanged}
+                    >
                     </builder_platform_interaction-field-picker>
                 </div>
 
-                <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small">
+                <div
+                    class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                >
                     <!-- Choice Data Type Picker -->
                     <div class="slds-col slds-grow slds-size_1-of-2">
                         <builder_platform_interaction-data-type-picker
-                                class-name="slds-size_1-of-1"
-                                available-data-types={dataTypeList}
-                                type-and-collection-disabled={isFieldDisabled}
-                                required
-                                combobox-error-message={recordChoiceSetResource.dataType.error}
-                                value={dataTypePickerValue}
-                                onvaluechanged={handleDataTypeChanged}>
+                            class-name="slds-size_1-of-1"
+                            available-data-types={dataTypeList}
+                            type-and-collection-disabled={isFieldDisabled}
+                            required
+                            combobox-error-message={recordChoiceSetResource.dataType.error}
+                            value={dataTypePickerValue}
+                            onvaluechanged={handleDataTypeChanged}
+                        >
                         </builder_platform_interaction-data-type-picker>
                     </div>
 
                     <!-- Choice Value Field Picker -->
                     <builder_platform_interaction-field-picker
-                            class="test-value-field slds-col slds-grow slds-size_1-of-2"
-                            label={labels.choiceValueLabel}
-                            placeholder={labels.choiceValuePlaceholder}
-                            value={recordChoiceSetResource.valueField.value}
-                            disabled={disableValueFieldPicker}
-                            fields={filteredMenuDataFields}
-                            error-message={recordChoiceSetResource.valueField.error}
-                            oncomboboxstatechanged={handleValueFieldChanged}>
+                        class="test-value-field slds-col slds-grow slds-size_1-of-2"
+                        label={labels.choiceValueLabel}
+                        placeholder={labels.choiceValuePlaceholder}
+                        value={recordChoiceSetResource.valueField.value}
+                        disabled={disableValueFieldPicker}
+                        fields={filteredMenuDataFields}
+                        error-message={recordChoiceSetResource.valueField.error}
+                        oncomboboxstatechanged={handleValueFieldChanged}
+                    >
                     </builder_platform_interaction-field-picker>
                 </div>
             </div>
 
             <!-- OutputAssignments fields -->
             <builder_platform_interaction-record-input-output-assignments
-                    input-output-assignments-items={recordChoiceSetResource.outputAssignments}
-                    resource-display-text={resourceDisplayText}
-                    record-entity-name={recordChoiceSetResource.object.value}
-                    record-fields={menuDataFields}
-                    element-type={recordChoiceSetResource.elementType}
-                    is-output
-                    title={outputAssignmentTitle}
-                    subtitle={labels.outputFieldsSubHeading}
-                    rhs-label={labels.outputAssignmentRhsLabel}
-                    hide-new-resource={hideNewResourceButton}
-                    onupdaterecordfieldassignment={handleListItemChanged}
-                    onaddrecordfieldassignment={handleListItemChanged}
-                    ondeleterecordfieldassignment={handleListItemChanged}>
+                input-output-assignments-items={recordChoiceSetResource.outputAssignments}
+                resource-display-text={resourceDisplayText}
+                record-entity-name={recordChoiceSetResource.object.value}
+                record-fields={menuDataFields}
+                element-type={recordChoiceSetResource.elementType}
+                is-output
+                title={outputAssignmentTitle}
+                subtitle={labels.outputFieldsSubHeading}
+                rhs-label={labels.outputAssignmentRhsLabel}
+                hide-new-resource={hideNewResourceButton}
+                onupdaterecordfieldassignment={handleListItemChanged}
+                onaddrecordfieldassignment={handleListItemChanged}
+                ondeleterecordfieldassignment={handleListItemChanged}
+            >
             </builder_platform_interaction-record-input-output-assignments>
         </div>
     </div>

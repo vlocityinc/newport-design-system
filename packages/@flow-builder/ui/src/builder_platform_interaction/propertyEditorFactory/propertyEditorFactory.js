@@ -1,12 +1,13 @@
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { Store, deepCopy } from "builder_platform_interaction/storeLib";
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { Store, deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     swapUidsForDevNames,
     swapDevNamesToGuids
-} from "builder_platform_interaction/translatorLib";
+} from 'builder_platform_interaction/translatorLib';
 import {
-    hydrateWithErrors, dehydrate
-} from "builder_platform_interaction/dataMutationLib";
+    hydrateWithErrors,
+    dehydrate
+} from 'builder_platform_interaction/dataMutationLib';
 
 /**
  * This function create element using factory, does UID to devname swapping for template fields and hydrate the element
@@ -16,17 +17,23 @@ import {
 export function getElementForPropertyEditor(element = {}) {
     const { elementType } = element;
     if (!elementType) {
-        throw new Error('ElementType is not defined for creation of resource element');
+        throw new Error(
+            'ElementType is not defined for creation of resource element'
+        );
     }
     const { factory } = getConfigForElementType(elementType);
     const { propertyEditor } = factory;
     if (!propertyEditor) {
-        throw new Error('property editor factory is not defined to create new element');
+        throw new Error(
+            'property editor factory is not defined to create new element'
+        );
     }
     const newElement = propertyEditor(element);
     // Find a better way to do this and don't couple store with this library
     const elements = Store.getStore().getCurrentState().elements;
-    swapUidsForDevNames(elements, newElement, {enableGuidToDevnameSwappingForReferenceFields: false});
+    swapUidsForDevNames(elements, newElement, {
+        enableGuidToDevnameSwappingForReferenceFields: false
+    });
     return getElementAfterHydratingWithError(newElement);
 }
 
@@ -42,7 +49,9 @@ export function getElementForStore(element) {
     }
     const { elementType } = element;
     if (!elementType) {
-        throw new Error('ElementType is not defined for creation of resource element');
+        throw new Error(
+            'ElementType is not defined for creation of resource element'
+        );
     }
     // TODO: REMOVE THIS DEEP COPY ASAP W-5501173
     const elementAfterDehydrateAndUnwrap = dehydrate(deepCopy(element));
@@ -54,7 +63,9 @@ export function getElementForStore(element) {
     } else if (propertyEditor) {
         newElement = propertyEditor(elementAfterDehydrateAndUnwrap);
     } else {
-        throw new Error('property editor factory is not defined to create new element');
+        throw new Error(
+            'property editor factory is not defined to create new element'
+        );
     }
     const elements = Store.getStore().getCurrentState().elements;
     swapDevNamesToGuids(elements, newElement);

@@ -2,38 +2,60 @@
     <div if:true={assignmentElement}>
         <div class="slds-p-horizontal_small slds-p-top_small">
             <!-- Name Label Desc Component -->
-            <builder_platform_interaction-label-description label={assignmentElement.label}
-                                                            dev-name={assignmentElement.name}
-                                                            description={assignmentElement.description}
-                                                            guid={assignmentElement.guid}
-                                                            onpropertychanged={handleEvent}>
+            <builder_platform_interaction-label-description
+                label={assignmentElement.label}
+                dev-name={assignmentElement.name}
+                description={assignmentElement.description}
+                guid={assignmentElement.guid}
+                onpropertychanged={handleEvent}
+            >
             </builder_platform_interaction-label-description>
         </div>
         <!-- Assignments Section -->
         <div class=" slds-border_top slds-p-around_small">
-            <h3 class="slds-text-heading_small slds-p-bottom_small">{labels.assignmentsSectionHeader}</h3>
-            <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium">{labels.assignmentsSectionDescription}</div>
-            <builder_platform_interaction-list items={assignmentElement.assignmentItems}
-                                               onaddlistitem={handleEvent}
-                                               onupdatelistitem={handleEvent}
-                                               ondeletelistitem={handleEvent}
-                                               add-label={labels.addButtonLabel}>
+            <h3 class="slds-text-heading_small slds-p-bottom_small">
+                {labels.assignmentsSectionHeader}
+            </h3>
+            <div
+                class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium"
+            >
+                {labels.assignmentsSectionDescription}
+            </div>
+            <builder_platform_interaction-list
+                items={assignmentElement.assignmentItems}
+                onaddlistitem={handleEvent}
+                onupdatelistitem={handleEvent}
+                ondeletelistitem={handleEvent}
+                add-label={labels.addButtonLabel}
+            >
                 <div slot="listBody">
-                    <template for:each={assignmentElement.assignmentItems} for:item="item" for:index="itemIndex" slot="listBody">
-                        <div class="slds-list__item slds-is-relative" key={item.rowIndex}>
-                            <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
+                    <template
+                        for:each={assignmentElement.assignmentItems}
+                        for:item="item"
+                        for:index="itemIndex"
+                        slot="listBody"
+                    >
+                        <div
+                            class="slds-list__item slds-is-relative"
+                            key={item.rowIndex}
+                        >
+                            <builder_platform_interaction-row
+                                item-index={itemIndex}
+                                show-delete={showDelete}
+                            >
                                 <div slot="rowBody">
                                     <builder_platform_interaction-fer-to-ferov-expression-builder
-                                            expression={item}
-                                            container-element={elementType}
-                                            rules={rules}
-                                            lhs-label={labels.lhsLabel}
-                                            lhs-must-be-writable
-                                            operator-label={labels.operatorLabel}
-                                            default-operator={defaultOperator}
-                                            rhs-label={labels.rhsLabel}
-                                            lhs-placeholder={labels.lhsPlaceholder}
-                                            operator-placeholder={labels.operatorPlaceholder}>
+                                        expression={item}
+                                        container-element={elementType}
+                                        rules={rules}
+                                        lhs-label={labels.lhsLabel}
+                                        lhs-must-be-writable
+                                        operator-label={labels.operatorLabel}
+                                        default-operator={defaultOperator}
+                                        rhs-label={labels.rhsLabel}
+                                        lhs-placeholder={labels.lhsPlaceholder}
+                                        operator-placeholder={labels.operatorPlaceholder}
+                                    >
                                     </builder_platform_interaction-fer-to-ferov-expression-builder>
                                 </div>
                             </builder_platform_interaction-row>

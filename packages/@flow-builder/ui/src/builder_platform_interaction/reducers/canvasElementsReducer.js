@@ -7,8 +7,8 @@ import {
     ADD_DECISION_WITH_OUTCOMES,
     ADD_SCREEN_WITH_FIELDS,
     ADD_START_ELEMENT
-} from "builder_platform_interaction/actions";
-import { addItem } from "builder_platform_interaction/dataMutationLib";
+} from 'builder_platform_interaction/actions';
+import { addItem } from 'builder_platform_interaction/dataMutationLib';
 
 /**
  * Reducer for canvas element.
@@ -19,9 +19,13 @@ import { addItem } from "builder_platform_interaction/dataMutationLib";
  */
 export default function canvasElementsReducer(state = [], action) {
     switch (action.type) {
-        case UPDATE_FLOW: return [...action.payload.canvasElements];
+        case UPDATE_FLOW:
+            return [...action.payload.canvasElements];
         case DO_DUPLICATE:
-            return [...state, ...Object.values(action.payload.canvasElementGuidMap)];
+            return [
+                ...state,
+                ...Object.values(action.payload.canvasElementGuidMap)
+            ];
         case ADD_DECISION_WITH_OUTCOMES:
         case ADD_WAIT_WITH_WAIT_EVENTS:
             return addItem(state, action.payload.canvasElement.guid);
@@ -30,8 +34,13 @@ export default function canvasElementsReducer(state = [], action) {
             return addItem(state, action.payload.guid);
         case ADD_SCREEN_WITH_FIELDS:
             return addItem(state, action.payload.screen.guid);
-        case DELETE_ELEMENT: return _deleteCanvasElements(state, action.payload.selectedElementGUIDs);
-        default: return state;
+        case DELETE_ELEMENT:
+            return _deleteCanvasElements(
+                state,
+                action.payload.selectedElementGUIDs
+            );
+        default:
+            return state;
     }
 }
 
@@ -45,9 +54,14 @@ export default function canvasElementsReducer(state = [], action) {
  */
 function _deleteCanvasElements(canvasElements, selectedCanvasElementGUIDs) {
     if (selectedCanvasElementGUIDs && selectedCanvasElementGUIDs.length > 0) {
-        return selectedCanvasElementGUIDs.reduce((newCanvasElements, guid) => {
-            return newCanvasElements.filter(canvasElement => (canvasElement !== guid));
-        }, [...canvasElements]);
+        return selectedCanvasElementGUIDs.reduce(
+            (newCanvasElements, guid) => {
+                return newCanvasElements.filter(
+                    canvasElement => canvasElement !== guid
+                );
+            },
+            [...canvasElements]
+        );
     }
     return canvasElements;
 }

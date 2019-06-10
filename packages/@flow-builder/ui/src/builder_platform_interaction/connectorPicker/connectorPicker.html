@@ -1,16 +1,20 @@
 <template>
-    <div class='connector-picker'>
-        <div class='picker-title slds-m-bottom_medium slds-align_absolute-center'>
+    <div class="connector-picker">
+        <div
+            class="picker-title slds-m-bottom_medium slds-align_absolute-center"
+        >
             {connectorPickerTitle}
         </div>
-        <div class='slds-grid slds-grid_align-center'>
-            <lightning-combobox label={comboBoxLabel}
-                                value={defaultOptionAndValue}
-                                options={comboboxOptions}
-                                title={comboBoxLabel}
-                                onchange={handlePickerValueChange}
-                                dropdown-alignment="auto"
-                                class='slds-size_large'>
+        <div class="slds-grid slds-grid_align-center">
+            <lightning-combobox
+                label={comboBoxLabel}
+                value={defaultOptionAndValue}
+                options={comboboxOptions}
+                title={comboBoxLabel}
+                onchange={handlePickerValueChange}
+                dropdown-alignment="auto"
+                class="slds-size_large"
+            >
             </lightning-combobox>
         </div>
     </div>

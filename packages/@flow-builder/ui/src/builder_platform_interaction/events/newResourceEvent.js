@@ -4,7 +4,6 @@
 
 const eventName = 'addnewresource';
 
-
 export class NewResourceEvent {
     constructor() {
         return new CustomEvent(eventName, {

@@ -1,40 +1,52 @@
 <template>
-    <div class='slds-p-horizontal_small slds-p-vertical_x-small'>
+    <div class="slds-p-horizontal_small slds-p-vertical_x-small">
         <div if:true={hasErrors}>
-            <builder_platform_interaction-screen-field-card title={labels.invalidScreenfield}
-                                                            text={displayName}
-                                                            error>
+            <builder_platform_interaction-screen-field-card
+                title={labels.invalidScreenfield}
+                text={displayName}
+                error
+            >
             </builder_platform_interaction-screen-field-card>
         </div>
         <div if:false={hasErrors}>
-            <builder_platform_interaction-screen-field-card if:true={isExtension}
-                                                            title={displayName} 
-                                                            text={labels.fieldExtensionPreviewDescription} 
-                                                            icon='custom:custom9'>
+            <builder_platform_interaction-screen-field-card
+                if:true={isExtension}
+                title={displayName}
+                text={labels.fieldExtensionPreviewDescription}
+                icon="custom:custom9"
+            >
             </builder_platform_interaction-screen-field-card>
-            <builder_platform_interaction-screen-input-field if:true={isInputFieldType}
-                                                            type-name={screenfield.type.name} 
-                                                            label={fieldText}
-                                                            value={defaultValue}
-                                                            value-type={screenfield.defaultValueDataType}
-                                                            help-text={screenfield.helpText}
-                                                            required={isRequired}>
+            <builder_platform_interaction-screen-input-field
+                if:true={isInputFieldType}
+                type-name={screenfield.type.name}
+                label={fieldText}
+                value={defaultValue}
+                value-type={screenfield.defaultValueDataType}
+                help-text={screenfield.helpText}
+                required={isRequired}
+            >
             </builder_platform_interaction-screen-input-field>
-            <builder_platform_interaction-screen-display-text-field if:true={isDisplayTextType}
-                                                                    type-name={screenfield.type.name}
-                                                                    title={name}
-                                                                    value={fieldText}>
+            <builder_platform_interaction-screen-display-text-field
+                if:true={isDisplayTextType}
+                type-name={screenfield.type.name}
+                title={name}
+                value={fieldText}
+            >
             </builder_platform_interaction-screen-display-text-field>
-            <builder_platform_interaction-screen-textarea-field if:true={isTextAreaType}
-                                                                label={fieldText}
-                                                                value={defaultValue}
-                                                                help-text={screenfield.helpText}
-                                                                required={screenfield.isRequired}>
+            <builder_platform_interaction-screen-textarea-field
+                if:true={isTextAreaType}
+                label={fieldText}
+                value={defaultValue}
+                help-text={screenfield.helpText}
+                required={screenfield.isRequired}
+            >
             </builder_platform_interaction-screen-textarea-field>
-            <builder_platform_interaction-screen-choice-field if:true={isChoiceField}
-                                                            label={fieldText}
-                                                            value={screenfield.defaultSelectedChoiceReference}
-                                                            field={screenfield}>
+            <builder_platform_interaction-screen-choice-field
+                if:true={isChoiceField}
+                label={fieldText}
+                value={screenfield.defaultSelectedChoiceReference}
+                field={screenfield}
+            >
             </builder_platform_interaction-screen-choice-field>
         </div>
     </div>

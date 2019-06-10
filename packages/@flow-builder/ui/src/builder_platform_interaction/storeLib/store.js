@@ -1,6 +1,6 @@
 import { isPlainObject } from './isPlainObject';
 import { deepFreeze } from './deepFreeze';
-import { isDevMode } from "builder_platform_interaction/contextLib";
+import { isDevMode } from 'builder_platform_interaction/contextLib';
 
 /**
  * Library for UI state management
@@ -53,7 +53,7 @@ export class Store {
     static getStore(reducer) {
         if (!storeInstance) {
             storeInstance = new Store(reducer);
-            storeInstance.dispatch({type: 'INIT'});
+            storeInstance.dispatch({ type: 'INIT' });
         }
         return storeInstance;
     }
@@ -75,9 +75,14 @@ export class Store {
         return function unSubscribe() {
             const index = currentListeners.indexOf(listener);
             if (index !== -1) {
-                currentListeners = [...currentListeners.slice(0, index), ...currentListeners.slice(index + 1)];
+                currentListeners = [
+                    ...currentListeners.slice(0, index),
+                    ...currentListeners.slice(index + 1)
+                ];
             } else {
-                throw new Error(`Failed to unsubscribe listener. Listener ${listener} not found!`);
+                throw new Error(
+                    `Failed to unsubscribe listener. Listener ${listener} not found!`
+                );
             }
         };
     }
@@ -102,7 +107,7 @@ export class Store {
             currentState = deepFreeze(currentState);
         }
         // once state is changes, executing all the listeners
-        currentListeners.forEach((listener) => {
+        currentListeners.forEach(listener => {
             listener();
         });
     }

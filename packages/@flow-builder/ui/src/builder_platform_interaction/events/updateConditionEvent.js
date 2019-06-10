@@ -1,6 +1,5 @@
 const eventName = 'updatecondition';
 
-
 export class UpdateConditionEvent {
     constructor(parentGUID, index, value) {
         return new CustomEvent(eventName, {

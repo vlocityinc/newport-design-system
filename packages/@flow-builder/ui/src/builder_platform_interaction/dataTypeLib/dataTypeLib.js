@@ -1,5 +1,5 @@
-import { LABELS as SCREEN_LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { LABELS as DATA_TYPE_LABELS } from "./dataTypeLibLabels";
+import { LABELS as SCREEN_LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { LABELS as DATA_TYPE_LABELS } from './dataTypeLibLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
@@ -73,7 +73,7 @@ const FLOW_DATA_TYPE = {
         value: 'LightningComponentOutput',
         iconName: 'standard:lightning_component',
         utilityIconName: 'utility:connected_apps'
-    },
+    }
 };
 
 const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
@@ -87,33 +87,52 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.PICKLIST.value]: 'PICKLIST',
     [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST',
     [FLOW_DATA_TYPE.APEX.value]: 'APEX',
-    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: 'LIGHTNING_COMPONENT_OUTPUT'
+    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]:
+        'LIGHTNING_COMPONENT_OUTPUT'
 };
 
 export const SCALE_RANGE = {
-    min : 0,
-    max : 17
+    min: 0,
+    max: 17
 };
 
 export const SCALE_DEFAULT = 2;
 
 const TYPE_MAPPING = {
-    [FLOW_DATA_TYPE.STRING.value]: ["id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url"],
-    [FLOW_DATA_TYPE.PICKLIST.value]: ["picklist"],
-    [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: ["multipicklist"],
-    [FLOW_DATA_TYPE.DATE_TIME.value]: ["datetime", "time"],
-    [FLOW_DATA_TYPE.DATE.value]: ["date"],
-    [FLOW_DATA_TYPE.NUMBER.value]: ["double", "int", "percent"],
-    [FLOW_DATA_TYPE.BOOLEAN.value]: ["boolean"],
-    [FLOW_DATA_TYPE.CURRENCY.value]: ["currency"],
-    [FLOW_DATA_TYPE.SOBJECT.value]: ["sobject"],
-    [FLOW_DATA_TYPE.APEX.value]: ["apex"],
-    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: ["lightningComponentOutput"],
+    [FLOW_DATA_TYPE.STRING.value]: [
+        'id',
+        'reference',
+        'address',
+        'anytype',
+        'base64',
+        'combobox',
+        'complexvalue',
+        'datacategorygroupreference',
+        'email',
+        'encryptedstring',
+        'location',
+        'phone',
+        'string',
+        'textarea',
+        'url'
+    ],
+    [FLOW_DATA_TYPE.PICKLIST.value]: ['picklist'],
+    [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: ['multipicklist'],
+    [FLOW_DATA_TYPE.DATE_TIME.value]: ['datetime', 'time'],
+    [FLOW_DATA_TYPE.DATE.value]: ['date'],
+    [FLOW_DATA_TYPE.NUMBER.value]: ['double', 'int', 'percent'],
+    [FLOW_DATA_TYPE.BOOLEAN.value]: ['boolean'],
+    [FLOW_DATA_TYPE.CURRENCY.value]: ['currency'],
+    [FLOW_DATA_TYPE.SOBJECT.value]: ['sobject'],
+    [FLOW_DATA_TYPE.APEX.value]: ['apex'],
+    [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: [
+        'lightningComponentOutput'
+    ]
 };
 
 export const STAGE_ORDER_RANGE = {
-    min : 0,
-    max : 99999999
+    min: 0,
+    max: 99999999
 };
 
 let resourceTypes = [];
@@ -121,11 +140,11 @@ let resourceTypes = [];
 export { FLOW_DATA_TYPE };
 
 export const FEROV_DATA_TYPE = {
-    STRING : FLOW_DATA_TYPE.STRING.value,
-    NUMBER : FLOW_DATA_TYPE.NUMBER.value,
-    DATE : FLOW_DATA_TYPE.DATE.value,
+    STRING: FLOW_DATA_TYPE.STRING.value,
+    NUMBER: FLOW_DATA_TYPE.NUMBER.value,
+    DATE: FLOW_DATA_TYPE.DATE.value,
     DATETIME: FLOW_DATA_TYPE.DATE_TIME.value,
-    BOOLEAN : FLOW_DATA_TYPE.BOOLEAN.value,
+    BOOLEAN: FLOW_DATA_TYPE.BOOLEAN.value,
     REFERENCE: 'reference'
 };
 
@@ -135,23 +154,23 @@ export const FEROV_DATA_TYPE = {
 export const INPUT_FIELD_DATA_TYPE = {
     String: {
         label: SCREEN_LABELS.textDataType,
-        value: 'TextBox',
+        value: 'TextBox'
     },
     Number: {
         label: SCREEN_LABELS.numberDataType,
-        value: 'Number',
+        value: 'Number'
     },
     Currency: {
         label: SCREEN_LABELS.currencyDataType,
-        value: 'Currency',
+        value: 'Currency'
     },
     Boolean: {
         label: SCREEN_LABELS.booleanDataType,
-        value: 'Checkbox',
+        value: 'Checkbox'
     },
     Date: {
         label: SCREEN_LABELS.dateDataType,
-        value: 'Date',
+        value: 'Date'
     }
 };
 
@@ -162,12 +181,25 @@ export const INPUT_FIELD_DATA_TYPE = {
  * @returns {Array} sorted resource type list based on custom ordering
  */
 function sortResourceTypes(unsortedResourceTypes = []) {
-    const resourceOrderedList = [ELEMENT_TYPE.VARIABLE, ELEMENT_TYPE.CONSTANT, ELEMENT_TYPE.FORMULA, ELEMENT_TYPE.TEXT_TEMPLATE,
-        ELEMENT_TYPE.CHOICE, ELEMENT_TYPE.RECORD_CHOICE_SET, ELEMENT_TYPE.PICKLIST_CHOICE_SET, ELEMENT_TYPE.STAGE];
-    return [...unsortedResourceTypes].sort((firstResourceType, secondResourceType) => {
-        // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
-        return resourceOrderedList.indexOf(firstResourceType.name) - resourceOrderedList.indexOf(secondResourceType.name);
-    });
+    const resourceOrderedList = [
+        ELEMENT_TYPE.VARIABLE,
+        ELEMENT_TYPE.CONSTANT,
+        ELEMENT_TYPE.FORMULA,
+        ELEMENT_TYPE.TEXT_TEMPLATE,
+        ELEMENT_TYPE.CHOICE,
+        ELEMENT_TYPE.RECORD_CHOICE_SET,
+        ELEMENT_TYPE.PICKLIST_CHOICE_SET,
+        ELEMENT_TYPE.STAGE
+    ];
+    return [...unsortedResourceTypes].sort(
+        (firstResourceType, secondResourceType) => {
+            // sort by name property instead of elementType here since 'RECORD_CHOICE_SET' and 'PICKLIST_CHOICE_SET' both point to 'CHOICELOOKUP' ElementType
+            return (
+                resourceOrderedList.indexOf(firstResourceType.name) -
+                resourceOrderedList.indexOf(secondResourceType.name)
+            );
+        }
+    );
 }
 
 /**
@@ -187,7 +219,9 @@ export function getFlowType(dataType) {
         for (const flowType in FLOW_DATA_TYPE) {
             if (FLOW_DATA_TYPE.hasOwnProperty(flowType)) {
                 const flowDataType = FLOW_DATA_TYPE[flowType];
-                const type = TYPE_MAPPING[flowDataType.value].find(t => t.toUpperCase() === ucDataType);
+                const type = TYPE_MAPPING[flowDataType.value].find(
+                    t => t.toUpperCase() === ucDataType
+                );
                 if (type) {
                     return flowDataType;
                 }
@@ -211,7 +245,8 @@ export function getDataTypeIcons(dataType, iconType = 'standard') {
     if (dataType) {
         const flowType = getFlowType(dataType);
         if (flowType) {
-            const dataTypeKey = FLOW_API_VALUE_TO_FLOW_DATA_TYPE[flowType.value];
+            const dataTypeKey =
+                FLOW_API_VALUE_TO_FLOW_DATA_TYPE[flowType.value];
             if (dataTypeKey) {
                 const data = FLOW_DATA_TYPE[dataTypeKey];
                 if (data) {
@@ -252,8 +287,10 @@ export function getDataTypeLabel(dataTypeApiName) {
  * TODO: will be replaced by service when W-4797144 is done
  */
 export function getFlowDataType(dataType) {
-    const flowDataType = Object.keys(TYPE_MAPPING).find(key => TYPE_MAPPING[key].includes(dataType.toLowerCase()));
-    return (flowDataType) ? flowDataType : undefined;
+    const flowDataType = Object.keys(TYPE_MAPPING).find(key =>
+        TYPE_MAPPING[key].includes(dataType.toLowerCase())
+    );
+    return flowDataType ? flowDataType : undefined;
 }
 
 /**
@@ -277,5 +314,9 @@ export function getResourceTypes() {
  * @returns {Boolean}     True if data type represents a complex type, such as sobject or apex
  */
 export function isComplexType(type) {
-    return [FLOW_DATA_TYPE.SOBJECT.value, FLOW_DATA_TYPE.APEX.value, FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value].includes(type);
+    return [
+        FLOW_DATA_TYPE.SOBJECT.value,
+        FLOW_DATA_TYPE.APEX.value,
+        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+    ].includes(type);
 }

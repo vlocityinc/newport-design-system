@@ -4,7 +4,8 @@ const canvasElementsReducer = jest
         switch (action.type) {
             case 'updateCanvasElements':
                 return [...canvasElements, 'Element 1'];
-            default: return canvasElements;
+            default:
+                return canvasElements;
         }
     });
 
@@ -86,7 +87,8 @@ describe('Store class', () => {
             // updating store state directly throws error in local env in auto builds it's not
             const previousStoreState = storeInstance.getCurrentState();
             try {
-                storeInstance.getCurrentState().invalidProperty = 'property value';
+                storeInstance.getCurrentState().invalidProperty =
+                    'property value';
             } catch (e) {
                 // ignore the error
             }

@@ -16,12 +16,15 @@ import {
     createCondition,
     createWaitEventInputParameters,
     createWaitEventOutputParameters,
-    getParametersPropertyName,
-} from "builder_platform_interaction/elementFactory";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+    getParametersPropertyName
+} from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
+import {
+    usedByStoreAndElementState,
+    invokeUsedByAlertModal
+} from 'builder_platform_interaction/usedByLib';
 import {
     PropertyChangedEvent,
     AddConditionEvent,
@@ -33,12 +36,15 @@ import {
     WaitEventParameterChangedEvent,
     WaitEventAddParameterEvent,
     WaitEventDeleteParameterEvent,
-    UpdateWaitEventEventTypeEvent,
+    UpdateWaitEventEventTypeEvent
 } from 'builder_platform_interaction/events';
-import {waitValidation, shouldBeHoursDaysOrBlank } from './waitValidation';
-import { CONDITION_LOGIC, WAIT_TIME_EVENT_PARAMETER_NAMES } from 'builder_platform_interaction/flowMetadata';
-import { checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
-import { LABELS } from "./waitEditorLabels";
+import { waitValidation, shouldBeHoursDaysOrBlank } from './waitValidation';
+import {
+    CONDITION_LOGIC,
+    WAIT_TIME_EVENT_PARAMETER_NAMES
+} from 'builder_platform_interaction/flowMetadata';
+import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
+import { LABELS } from './waitEditorLabels';
 
 let lastValidWaitEventInputParameters = [];
 let lastValidWaitEventOutputParameters = [];
@@ -50,12 +56,22 @@ export const resetDeletedGuids = () => {
 };
 
 const validateProperty = (state, event) => {
-    event.detail.error = event.detail.error === null ? waitValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    event.detail.error =
+        event.detail.error === null
+            ? waitValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
     if (event.detail.error === null && event.detail.propertyName === 'name') {
         // Check for duplicate wait event api names
-        event.detail.error = waitValidation.validateWaitEventNameUniquenessLocally(state, event.detail.value, event.detail.guid // label description should have guid automatically filled in- W-5553931
-                                                                                                            || event.detail.parentGUID // fallback in case of wait events, we want to use the parentGuid which is waitEvent's guid
-                                                                                                            || state.guid); // fallback for wait's own guid
+        event.detail.error = waitValidation.validateWaitEventNameUniquenessLocally(
+            state,
+            event.detail.value,
+            event.detail.guid || // label description should have guid automatically filled in- W-5553931
+            event.detail.parentGUID || // fallback in case of wait events, we want to use the parentGuid which is waitEvent's guid
+                state.guid
+        ); // fallback for wait's own guid
     }
 };
 
@@ -69,48 +85,56 @@ const waitPropertyChanged = (state, event) => {
     });
 };
 
-const addWaitEvent = (state) => {
+const addWaitEvent = state => {
     let newWaitEvent = createWaitEvent();
     newWaitEvent = hydrateWithErrors(newWaitEvent);
 
     const waitEvents = addItem(state.waitEvents, newWaitEvent);
 
-    return updateProperties(state, {waitEvents});
+    return updateProperties(state, { waitEvents });
 };
 
 const deleteWaitEvent = (state, event) => {
-    const usedElements = usedByStoreAndElementState(event.detail.guid, state.guid, state.waitEvents);
+    const usedElements = usedByStoreAndElementState(
+        event.detail.guid,
+        state.guid,
+        state.waitEvents
+    );
 
     if (usedElements && usedElements.length > 0) {
-        invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.WAIT_EVENT);
+        invokeUsedByAlertModal(
+            usedElements,
+            [event.detail.guid],
+            ELEMENT_TYPE.WAIT_EVENT
+        );
     } else {
-        const waitEvents = state.waitEvents.filter((waitEvent) => {
+        const waitEvents = state.waitEvents.filter(waitEvent => {
             return waitEvent.guid !== event.detail.guid;
         });
 
         // store guids that have been removed
         // TODO: W-5507691 handle addition/removal of store elements inside editors more cleanly
         deletedWaitEventGuids.set(event.detail.guid, true);
-        return updateProperties(state, {waitEvents});
+        return updateProperties(state, { waitEvents });
     }
     return state;
 };
 
 const reorderWaitEvents = (state, event) => {
     let waitEvents = state.waitEvents;
-    const destinationIndex = state.waitEvents.findIndex((element) => {
+    const destinationIndex = state.waitEvents.findIndex(element => {
         return element.guid === event.detail.destinationGuid;
     });
-    const movedWaitEvent = state.waitEvents.find((waitEvent) => {
+    const movedWaitEvent = state.waitEvents.find(waitEvent => {
         return waitEvent.guid === event.detail.sourceGuid;
     });
     if (destinationIndex >= 0 && movedWaitEvent) {
-        waitEvents = state.waitEvents.filter((waitEvent) => {
+        waitEvents = state.waitEvents.filter(waitEvent => {
             return waitEvent.guid !== event.detail.sourceGuid;
         });
         waitEvents.splice(destinationIndex, 0, movedWaitEvent);
     }
-    return updateProperties(state, {waitEvents});
+    return updateProperties(state, { waitEvents });
 };
 
 /**
@@ -150,23 +174,43 @@ const addWaitCondition = function (state, event) {
         const newCondition = hydrateWithErrors(createCondition());
         return addItem(conditions, newCondition);
     };
-    return waitEventReducer(state, event, waitEventOperation('conditions', addCondition));
+    return waitEventReducer(
+        state,
+        event,
+        waitEventOperation('conditions', addCondition)
+    );
 };
 
 const deleteWaitCondition = function (state, event) {
     const deleteCondition = conditions => {
         return deleteItem(conditions, event.detail.index);
     };
-    return waitEventReducer(state, event, waitEventOperation('conditions', deleteCondition));
+    return waitEventReducer(
+        state,
+        event,
+        waitEventOperation('conditions', deleteCondition)
+    );
 };
 
 const updateWaitCondition = function (state, event) {
     const updateCondition = conditions => {
-        const updatedCondition = Object.assign({}, conditions[event.detail.index], event.detail.value);
-        checkExpressionForDeletedElem(deletedWaitEventGuids, updatedCondition, LABELS.waitSingularLabel);
+        const updatedCondition = Object.assign(
+            {},
+            conditions[event.detail.index],
+            event.detail.value
+        );
+        checkExpressionForDeletedElem(
+            deletedWaitEventGuids,
+            updatedCondition,
+            LABELS.waitSingularLabel
+        );
         return replaceItem(conditions, updatedCondition, event.detail.index);
     };
-    return waitEventReducer(state, event, waitEventOperation('conditions', updateCondition));
+    return waitEventReducer(
+        state,
+        event,
+        waitEventOperation('conditions', updateCondition)
+    );
 };
 
 const configureConditionsByLogic = (waitEvent, event) => {
@@ -191,16 +235,19 @@ const configureConditionsByLogic = (waitEvent, event) => {
 const updatePlatformEventInputParametersByLogic = (waitEvent, event) => {
     const inputParameters = [];
 
-    if (event.detail.value !== CONDITION_LOGIC.NO_CONDITIONS && waitEvent.inputParameters.length === 0) {
+    if (
+        event.detail.value !== CONDITION_LOGIC.NO_CONDITIONS &&
+        waitEvent.inputParameters.length === 0
+    ) {
         // condition logic must be 'and' and we need an input parameter
         const newParameter = hydrateWithErrors(createInputParameter());
         inputParameters.push(newParameter);
     }
 
-    return Object.assign({}, waitEvent, {inputParameters});
+    return Object.assign({}, waitEvent, { inputParameters });
 };
 
-const verifyParentGuidIsSet = (event) => {
+const verifyParentGuidIsSet = event => {
     if (isUndefinedOrNull(event.detail.parentGUID)) {
         throw new Error('The wait event GUID must be set!');
     }
@@ -220,11 +267,24 @@ const waitEventPropertyChanged = (state, event) => {
             let conditions;
             if (event.detail.propertyName === 'conditionLogic') {
                 conditions = configureConditionsByLogic(waitEvent, event);
-            } else if (event.detail.propertyName === 'platformEventConditionLogic') {
-                return updatePlatformEventInputParametersByLogic(waitEvent, event);
+            } else if (
+                event.detail.propertyName === 'platformEventConditionLogic'
+            ) {
+                return updatePlatformEventInputParametersByLogic(
+                    waitEvent,
+                    event
+                );
             }
-            const updatedProperty = { value: event.detail.value, error: event.detail.error };
-            return Object.assign({}, waitEvent, { [event.detail.propertyName] : updatedProperty }, conditions);
+            const updatedProperty = {
+                value: event.detail.value,
+                error: event.detail.error
+            };
+            return Object.assign(
+                {},
+                waitEvent,
+                { [event.detail.propertyName]: updatedProperty },
+                conditions
+            );
         }
         return waitEvent;
     };
@@ -237,8 +297,13 @@ const updateWaitEventParameter = (state, event) => {
     verifyParentGuidIsSet(event);
 
     // Make sure the offset unit validates
-    if (event.detail.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT) {
-        event.detail.value.error = event.detail.value.error === null ? shouldBeHoursDaysOrBlank(event.detail.value.value) : event.detail.value.error;
+    if (
+        event.detail.name.value === WAIT_TIME_EVENT_PARAMETER_NAMES.OFFSET_UNIT
+    ) {
+        event.detail.value.error =
+            event.detail.value.error === null
+                ? shouldBeHoursDaysOrBlank(event.detail.value.value)
+                : event.detail.value.error;
     }
 
     const updateParameter = parameters => {
@@ -261,7 +326,9 @@ const updateWaitEventParameter = (state, event) => {
             };
         }
 
-        const valueDataTypeValue = getValueFromHydratedItem(event.detail.valueDataType);
+        const valueDataTypeValue = getValueFromHydratedItem(
+            event.detail.valueDataType
+        );
         if (!isUndefinedOrNull(valueDataTypeValue)) {
             propsToUpdate.valueDataType = {
                 value: valueDataTypeValue,
@@ -283,19 +350,36 @@ const updateWaitEventParameter = (state, event) => {
                 throw new Error(`Invalid parameter item index: ${index}`);
             }
 
-            const updatedParam = Object.assign({}, parameters[index], propsToUpdate);
+            const updatedParam = Object.assign(
+                {},
+                parameters[index],
+                propsToUpdate
+            );
             return replaceItem(parameters, updatedParam, index);
         }
 
         // Otherwise output parameters is a map
         if (!parameters[nameValue]) {
-            throw new Error(`Attempting to update non-existent parameter item ${nameValue}`);
+            throw new Error(
+                `Attempting to update non-existent parameter item ${nameValue}`
+            );
         }
 
-        const updatedParam = Object.assign({}, parameters[nameValue], propsToUpdate);
+        const updatedParam = Object.assign(
+            {},
+            parameters[nameValue],
+            propsToUpdate
+        );
         return Object.assign({}, parameters, { [nameValue]: updatedParam });
     };
-    return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), updateParameter));
+    return waitEventReducer(
+        state,
+        event,
+        waitEventOperation(
+            getParametersPropertyName(event.detail.isInputParameter),
+            updateParameter
+        )
+    );
 };
 
 const addWaitEventParameter = (state, event) => {
@@ -310,13 +394,28 @@ const addWaitEventParameter = (state, event) => {
         // output parameters is a Map
         if (event.detail.name) {
             const name = hydrateWithErrors(event.detail.name);
-            const newParameter = hydrateWithErrors(createOutputParameter({ name }));
-            return Object.assign({}, parameters, { [event.detail.name]: newParameter });
+            const newParameter = hydrateWithErrors(
+                createOutputParameter({ name })
+            );
+            return Object.assign({}, parameters, {
+                [event.detail.name]: newParameter
+            });
         }
         // output param without name
-        throw new Error(`Attempting to add output event parameter with no name ${event.detail.name}`);
+        throw new Error(
+            `Attempting to add output event parameter with no name ${
+                event.detail.name
+            }`
+        );
     };
-    return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), addParameter));
+    return waitEventReducer(
+        state,
+        event,
+        waitEventOperation(
+            getParametersPropertyName(event.detail.isInputParameter),
+            addParameter
+        )
+    );
 };
 
 const deleteWaitEventParameter = (state, event) => {
@@ -330,17 +429,28 @@ const deleteWaitEventParameter = (state, event) => {
         // Otherwise output parameters is a Map
         return omit(parameters, [event.detail.name]);
     };
-    return waitEventReducer(state, event, waitEventOperation(getParametersPropertyName(event.detail.isInputParameter), deleteParameter));
+    return waitEventReducer(
+        state,
+        event,
+        waitEventOperation(
+            getParametersPropertyName(event.detail.isInputParameter),
+            deleteParameter
+        )
+    );
 };
 
 const deleteAllWaitEventParameters = (state, event) => {
     verifyParentGuidIsSet(event);
-    const inputParamsRemovedState = waitEventReducer(state, event,
+    const inputParamsRemovedState = waitEventReducer(
+        state,
+        event,
         waitEventOperation(getParametersPropertyName(true), () => {
             return [];
         })
     );
-    return waitEventReducer(inputParamsRemovedState, event,
+    return waitEventReducer(
+        inputParamsRemovedState,
+        event,
         waitEventOperation(getParametersPropertyName(false), () => {
             return {};
         })
@@ -375,25 +485,40 @@ const updateWaitEventEventType = (state, event) => {
     const eventTypeUpdatedState = waitEventPropertyChanged(state, event);
 
     if (!error && wasErrorBeforeForWaitEventType && value === lastValidValue) {
-        const inputParametersUpdatedState = waitEventReducer(eventTypeUpdatedState, event,
+        const inputParametersUpdatedState = waitEventReducer(
+            eventTypeUpdatedState,
+            event,
             waitEventOperation(getParametersPropertyName(true), () => {
                 return lastValidWaitEventInputParameters;
-        }));
+            })
+        );
         wasErrorBeforeForWaitEventType = false;
-        return waitEventReducer(inputParametersUpdatedState, event,
+        return waitEventReducer(
+            inputParametersUpdatedState,
+            event,
             waitEventOperation(getParametersPropertyName(false), () => {
                 return lastValidWaitEventOutputParameters;
-        }));
+            })
+        );
     } else if (!error && value !== lastValidValue) {
         // remove all the parameters for the wait event
-        const parametersRemovedState = deleteAllWaitEventParameters(eventTypeUpdatedState, event);
+        const parametersRemovedState = deleteAllWaitEventParameters(
+            eventTypeUpdatedState,
+            event
+        );
 
         // initialize the input and output parameters for the new event type
-        const inputParameters = hydrateWithErrors(createWaitEventInputParameters(value));
-        const outputParameters = hydrateWithErrors(createWaitEventOutputParameters(value));
+        const inputParameters = hydrateWithErrors(
+            createWaitEventInputParameters(value)
+        );
+        const outputParameters = hydrateWithErrors(
+            createWaitEventOutputParameters(value)
+        );
 
         // update the state with new input parameters
-        const inputParamsAddedState = waitEventReducer(parametersRemovedState, event,
+        const inputParamsAddedState = waitEventReducer(
+            parametersRemovedState,
+            event,
             waitEventOperation(getParametersPropertyName(true), () => {
                 return inputParameters;
             })
@@ -403,7 +528,9 @@ const updateWaitEventEventType = (state, event) => {
         lastValidWaitEventOutputParameters = outputParameters;
         wasErrorBeforeForWaitEventType = false;
         // update the state with new output parameters
-        return waitEventReducer(inputParamsAddedState, event,
+        return waitEventReducer(
+            inputParamsAddedState,
+            event,
             waitEventOperation(getParametersPropertyName(false), () => {
                 return outputParameters;
             })
@@ -412,7 +539,10 @@ const updateWaitEventEventType = (state, event) => {
 
     if (error) {
         // error state - note the current input and output conditions so they can be restored when the error is fixed
-        const waitEvent = getWaitEventForGuid(eventTypeUpdatedState, event.detail.parentGUID);
+        const waitEvent = getWaitEventForGuid(
+            eventTypeUpdatedState,
+            event.detail.parentGUID
+        );
         wasErrorBeforeForWaitEventType = true;
         lastValidWaitEventInputParameters = waitEvent.inputParameters;
         lastValidWaitEventOutputParameters = waitEvent.outputParameters;
@@ -448,13 +578,17 @@ export const waitReducer = (state, event) => {
         case UpdateWaitEventEventTypeEvent.EVENT_NAME:
             return updateWaitEventEventType(state, event);
         case VALIDATE_ALL:
-            return waitValidation.validateAll(state, waitValidation.getBaseWaitRules());
+            return waitValidation.validateAll(
+                state,
+                waitValidation.getBaseWaitRules()
+            );
         case PROPERTY_EDITOR_ACTION.ADD_WAIT_EVENT:
             return addWaitEvent(state);
         case ReorderListEvent.EVENT_NAME:
             return reorderWaitEvents(state, event);
         case DeleteWaitEventEvent.EVENT_NAME:
             return deleteWaitEvent(state, event);
-        default: return state;
+        default:
+            return state;
     }
 };

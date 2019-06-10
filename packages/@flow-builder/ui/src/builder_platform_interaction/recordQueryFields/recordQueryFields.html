@@ -1,16 +1,40 @@
 <template>
-    <div class={globalCss}>	
-	    <h3 class={titleCss}>{selectFieldsLabel}</h3>
+    <div class={globalCss}>
+        <h3 class={titleCss}>{selectFieldsLabel}</h3>
         <!-- show ID as a disabled input to inform users that they will get it anyway. -->
-        <builder_platform_interaction-combobox label={labels.field} menu-data={idMenuData} value={idComboboxValue} disabled>
+        <builder_platform_interaction-combobox
+            label={labels.field}
+            menu-data={idMenuData}
+            value={idComboboxValue}
+            disabled
+        >
         </builder_platform_interaction-combobox>
         <!-- Use combobox component to select fields. -->
-        <builder_platform_interaction-list items={queriedFields} onaddlistitem={handleAddField} onupdatelistitem={handleUpdateField} ondeletelistitem={handleDeleteField} add-label='Add Field'>
+        <builder_platform_interaction-list
+            items={queriedFields}
+            onaddlistitem={handleAddField}
+            onupdatelistitem={handleUpdateField}
+            ondeletelistitem={handleDeleteField}
+            add-label="Add Field"
+        >
             <div slot="listBody">
-                <template for:each={queriedFields} for:item="queriedField" for:index="fieldIndex">
-                <div class="slds-list__item slds-is-relative" key={queriedField.rowIndex}>
-                    <builder_platform_interaction-record-field-picker-row field-index={fieldIndex} record-entity-name={recordEntityName} value={queriedField.field.value} queried-fields={queriedFields} error-message={queriedField.field.error}></builder_platform_interaction-record-field-picker-row>
-                </div>
+                <template
+                    for:each={queriedFields}
+                    for:item="queriedField"
+                    for:index="fieldIndex"
+                >
+                    <div
+                        class="slds-list__item slds-is-relative"
+                        key={queriedField.rowIndex}
+                    >
+                        <builder_platform_interaction-record-field-picker-row
+                            field-index={fieldIndex}
+                            record-entity-name={recordEntityName}
+                            value={queriedField.field.value}
+                            queried-fields={queriedFields}
+                            error-message={queriedField.field.error}
+                        ></builder_platform_interaction-record-field-picker-row>
+                    </div>
                 </template>
             </div>
         </builder_platform_interaction-list>

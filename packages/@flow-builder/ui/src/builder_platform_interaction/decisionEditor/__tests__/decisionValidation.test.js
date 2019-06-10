@@ -1,32 +1,48 @@
-import {decisionValidation} from "../decisionValidation";
+import { decisionValidation } from '../decisionValidation';
 
-import { LABELS } from "../../validationRules/validationRulesLabels";
+import { LABELS } from '../../validationRules/validationRulesLabels';
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
-jest.mock('builder_platform_interaction/expressionValidator', () => require('builder_platform_interaction_mocks/expressionValidator'));
+jest.mock('builder_platform_interaction/expressionValidator', () =>
+    require('builder_platform_interaction_mocks/expressionValidator')
+);
 
 describe('Additional Decision Validations', () => {
     describe('when props set to conditionLogic', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(decisionValidation.validateProperty('conditionLogic', "valid condition")).toBeNull();
+            expect(
+                decisionValidation.validateProperty(
+                    'conditionLogic',
+                    'valid condition'
+                )
+            ).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(decisionValidation.validateProperty('conditionLogic', '')).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(
+                decisionValidation.validateProperty('conditionLogic', '')
+            ).toBe(CANNOT_BE_BLANK_ERROR);
         });
     });
     describe('when props set to defaultConnectorLabel', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(decisionValidation.validateProperty('defaultConnectorLabel', "valid default outcome name")).toBeNull();
+            expect(
+                decisionValidation.validateProperty(
+                    'defaultConnectorLabel',
+                    'valid default outcome name'
+                )
+            ).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(decisionValidation.validateProperty('defaultConnectorLabel', '')).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(
+                decisionValidation.validateProperty('defaultConnectorLabel', '')
+            ).toBe(CANNOT_BE_BLANK_ERROR);
         });
     });
 });
 describe('All validations happen when OK is clicked', () => {
     it('check all rules are included in finalizedRules', () => {
-            // 5 is the combination of defaultRules in Validation.js and the additionalRules in DecisionValidation
-            expect(Object.keys(decisionValidation.finalizedRules)).toHaveLength(5);
+        // 5 is the combination of defaultRules in Validation.js and the additionalRules in DecisionValidation
+        expect(Object.keys(decisionValidation.finalizedRules)).toHaveLength(5);
     });
 
     describe('when conditions are set', () => {
@@ -35,49 +51,70 @@ describe('All validations happen when OK is clicked', () => {
                 outcomes: [
                     {
                         guid: 'SOME_OUTCOME_1',
-                        conditions: [{
-                            leftHandSide: {value: 'TEST_VAR', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }]
+                        conditions: [
+                            {
+                                leftHandSide: {
+                                    value: 'TEST_VAR',
+                                    error: null
+                                },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
                     },
                     {
                         guid: 'SOME_OUTCOME_2',
-                        conditions: [{
-                            leftHandSide: {value: 'TEST_VAR', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }]
-                    },
+                        conditions: [
+                            {
+                                leftHandSide: {
+                                    value: 'TEST_VAR',
+                                    error: null
+                                },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
+                    }
                 ]
             };
-            expect(decisionValidation.validateAll(decisionWithCorrectCondition)).toEqual(decisionWithCorrectCondition);
+            expect(
+                decisionValidation.validateAll(decisionWithCorrectCondition)
+            ).toEqual(decisionWithCorrectCondition);
         });
         it('and when empty string is passed on leftHandSide, should return - Cannot be blank.', () => {
             const decisionWithEmptyLHSInCondition = {
                 outcomes: [
                     {
                         guid: 'SOME_OUTCOME_1',
-                        conditions: [{
-                            leftHandSide: {value: 'TEST_VAR', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }]
+                        conditions: [
+                            {
+                                leftHandSide: {
+                                    value: 'TEST_VAR',
+                                    error: null
+                                },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
                     },
                     {
                         guid: 'SOME_OUTCOME_2',
-                        conditions: [{
-                            leftHandSide: {value: '', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }]
-                    },
+                        conditions: [
+                            {
+                                leftHandSide: { value: '', error: null },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
+                    }
                 ]
             };
             // The node returned after validation has only one change - the correct error added to the invalid property
-            const expectedNode = {...decisionWithEmptyLHSInCondition};
+            const expectedNode = { ...decisionWithEmptyLHSInCondition };
             expectedNode.outcomes[1].conditions[0].leftHandSide.error = CANNOT_BE_BLANK_ERROR;
-            const validatedNode = decisionValidation.validateAll(decisionWithEmptyLHSInCondition);
+            const validatedNode = decisionValidation.validateAll(
+                decisionWithEmptyLHSInCondition
+            );
             expect(validatedNode).toEqual(expectedNode);
         });
     });
@@ -98,10 +135,14 @@ describe('All validations happen when OK is clicked', () => {
                 },
                 outcomes: [{}]
             };
-            const validatedDecision = decisionValidation.validateAll(decisionWithEmptyProperties);
+            const validatedDecision = decisionValidation.validateAll(
+                decisionWithEmptyProperties
+            );
             expect(validatedDecision.label.error).toBe(CANNOT_BE_BLANK_ERROR);
             expect(validatedDecision.name.error).toBe(CANNOT_BE_BLANK_ERROR);
-            expect(validatedDecision.conditionLogic.error).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(validatedDecision.conditionLogic.error).toBe(
+                CANNOT_BE_BLANK_ERROR
+            );
         });
     });
 });

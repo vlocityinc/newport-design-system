@@ -1,13 +1,19 @@
 import { LightningElement, api, track } from 'lwc';
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
-import { compareParamsByRequired, compareParamsByLabel } from './parameterUtils';
+import {
+    getRulesForElementType,
+    RULE_TYPES
+} from 'builder_platform_interaction/ruleLib';
+import {
+    compareParamsByRequired,
+    compareParamsByLabel
+} from './parameterUtils';
 import { multiComparator } from 'builder_platform_interaction/sortLib';
 
 export default class ParameterList extends LightningElement {
     @track state = {
         inputs: [],
-        outputs: [],
-    }
+        outputs: []
+    };
 
     /**
      * Input tab header title
@@ -124,12 +130,29 @@ export default class ParameterList extends LightningElement {
     @api warnings = {};
 
     get sortedInputsWithWarnings() {
-        const sortedInputs = this.sortInputs ? this.state.inputs.slice().sort(multiComparator([compareParamsByRequired, compareParamsByLabel])) : this.state.inputs;
-        return sortedInputs.map(item => ({ item, warning : this.warnings[item.rowIndex] || {} }));
+        const sortedInputs = this.sortInputs
+            ? this.state.inputs
+                  .slice()
+                  .sort(
+                      multiComparator([
+                          compareParamsByRequired,
+                          compareParamsByLabel
+                      ])
+                  )
+            : this.state.inputs;
+        return sortedInputs.map(item => ({
+            item,
+            warning: this.warnings[item.rowIndex] || {}
+        }));
     }
 
     get sortedOutputsWithWarnings() {
-        const sortedOutputs = this.sortOutputs ? this.state.outputs.slice().sort(compareParamsByLabel) : this.state.outputs;
-        return sortedOutputs.map(item => ({ item, warning : this.warnings[item.rowIndex] || {} }));
+        const sortedOutputs = this.sortOutputs
+            ? this.state.outputs.slice().sort(compareParamsByLabel)
+            : this.state.outputs;
+        return sortedOutputs.map(item => ({
+            item,
+            warning: this.warnings[item.rowIndex] || {}
+        }));
     }
 }

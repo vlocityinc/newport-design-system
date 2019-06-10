@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import filterByCategoryOption from '@salesforce/label/FlowBuilderActionSelector.filterByCategoryOption';
 
@@ -33,62 +33,62 @@ export const LABELS = {
     [ELEMENT_TYPE.SUBFLOW]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: noActionHeadingMediumFlow,
+            false: noActionHeadingMediumFlow
         },
         BODY: {
             true: selectActionBodyRegularFlow,
-            false: noActionBodyRegularFlow,
+            false: noActionBodyRegularFlow
         }
     },
     [ELEMENT_TYPE.ACTION_CALL]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: noActionHeadingMediumCore,
+            false: noActionHeadingMediumCore
         },
         BODY: {
             true: selectActionBodyRegularCore,
-            false: noActionBodyRegularCore,
+            false: noActionBodyRegularCore
         }
     },
     [ELEMENT_TYPE.APEX_CALL]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: noActionHeadingMediumApex,
+            false: noActionHeadingMediumApex
         },
         BODY: {
             true: selectActionBodyRegularApex,
-            false: noActionBodyRegularApex,
+            false: noActionBodyRegularApex
         }
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: noActionHeadingMediumLegacyApex,
+            false: noActionHeadingMediumLegacyApex
         },
         BODY: {
             true: selectActionBodyRegularLegacyApex,
-            false: noActionBodyRegularLegacyApex,
+            false: noActionBodyRegularLegacyApex
         }
     },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: noActionHeadingMediumEmail,
+            false: noActionHeadingMediumEmail
         },
         BODY: {
             true: selectActionBodyRegularEmail,
-            false: noActionBodyRegularEmail,
+            false: noActionBodyRegularEmail
         }
     },
     // no external service actions case is filtered out in code
     [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
         HEAD: {
             true: selectActionHeadingMedium,
-            false: '',
+            false: ''
         },
         BODY: {
             true: selectActionBodyRegularExternalService,
-            false: '',
+            false: ''
         }
-    },
+    }
 };

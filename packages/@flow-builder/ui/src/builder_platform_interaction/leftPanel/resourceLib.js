@@ -1,8 +1,12 @@
-import { getDataTypeIcons } from "builder_platform_interaction/dataTypeLib";
-import { getElementCategory, getResourceLabel, getResourceCategory } from "builder_platform_interaction/elementLabelLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { labelComparator } from "builder_platform_interaction/sortLib";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import {
+    getElementCategory,
+    getResourceLabel,
+    getResourceCategory
+} from 'builder_platform_interaction/elementLabelLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { labelComparator } from 'builder_platform_interaction/sortLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Helper function to return the dataType associated with a screen field
@@ -10,7 +14,10 @@ import { generateGuid } from "builder_platform_interaction/storeLib";
  * @returns dataType associated with a screen field
  */
 const getScreenFieldDataType = (screenFieldObject = {}) => {
-    return screenFieldObject.dataType || (screenFieldObject.type && screenFieldObject.type.type);
+    return (
+        screenFieldObject.dataType ||
+        (screenFieldObject.type && screenFieldObject.type.type)
+    );
 };
 
 /**
@@ -23,21 +30,22 @@ const getScreenFieldDataType = (screenFieldObject = {}) => {
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
-const mutateElements = (elements) => Object.values(elements).reduce((acc, element) => {
-    const resourceElement = {
-        elementType: element.elementType,
-        guid: element.guid,
-        label: element.name
-    };
+const mutateElements = elements =>
+    Object.values(elements).reduce((acc, element) => {
+        const resourceElement = {
+            elementType: element.elementType,
+            guid: element.guid,
+            label: element.name
+        };
 
-    const category = getElementCategory(element);
-    if (!acc[category]) {
-        acc[category] = [];
-    }
-    acc[category].push(resourceElement);
+        const category = getElementCategory(element);
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(resourceElement);
 
-    return acc;
-}, {});
+        return acc;
+    }, {});
 
 /**
  * Get the icon name for the element (considered as a resource)
@@ -45,40 +53,42 @@ const mutateElements = (elements) => Object.values(elements).reduce((acc, elemen
  * @param {Object} element the element
  * @returns {string|undefined} the icon name
  */
-export const getResourceIconName = (element) => {
+export const getResourceIconName = element => {
     if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
         const screenFieldDataType = getScreenFieldDataType(element);
-        return screenFieldDataType ? getDataTypeIcons(screenFieldDataType, 'utility') : 'utility:connected_apps';
+        return screenFieldDataType
+            ? getDataTypeIcons(screenFieldDataType, 'utility')
+            : 'utility:connected_apps';
     } else if (element.dataType) {
         return getDataTypeIcons(element.dataType, 'utility');
     }
     return undefined;
 };
 
-const mutateResources = (elements) => Object.values(elements).reduce((acc, element) => {
-    const resourceElement = {
-        elementType: element.elementType,
-        guid: element.guid,
-        label: getResourceLabel(element)
-    };
+const mutateResources = elements =>
+    Object.values(elements).reduce((acc, element) => {
+        const resourceElement = {
+            elementType: element.elementType,
+            guid: element.guid,
+            label: getResourceLabel(element)
+        };
 
-    resourceElement.iconName = getResourceIconName(element);
+        resourceElement.iconName = getResourceIconName(element);
 
-    const category = getResourceCategory(element);
-    if (!acc[category]) {
-        acc[category] = [];
-    }
-    acc[category].push(resourceElement);
+        const category = getResourceCategory(element);
+        if (!acc[category]) {
+            acc[category] = [];
+        }
+        acc[category].push(resourceElement);
 
-    return acc;
-}, {});
+        return acc;
+    }, {});
 
-const getElementSectionsFromElementMap = (elementMap) => {
+const getElementSectionsFromElementMap = elementMap => {
     const elementSections = Object.keys(elementMap)
         .filter(elementType => {
             return (
-                elementMap[elementType] &&
-                elementMap[elementType].length > 0
+                elementMap[elementType] && elementMap[elementType].length > 0
             );
         })
         .map(category => {
@@ -110,7 +120,9 @@ export const getElementSections = (elements, filter, sort) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
-    const filteredElements = Object.values(elements).filter(filter).sort(sort);
+    const filteredElements = Object.values(elements)
+        .filter(filter)
+        .sort(sort);
     const elementMap = mutateElements(filteredElements);
     return getElementSectionsFromElementMap(elementMap);
 };
@@ -131,7 +143,9 @@ export const getResourceSections = (elements, filter, sort) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
-    const filteredElements = Object.values(elements).filter(filter).sort(sort);
+    const filteredElements = Object.values(elements)
+        .filter(filter)
+        .sort(sort);
     const resourceMap = mutateResources(filteredElements);
     return getElementSectionsFromElementMap(resourceMap);
 };

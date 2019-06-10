@@ -2,23 +2,35 @@
 *NOTE* PLEASE do not use this component without contacting [nikhil.kataria, ankush.bansal, avanderlee]@salesforce.com first!!!!
 -->
 <template>
-    <li class='slds-accordion__list-item'>
-        <section class={sectionState} >
-            <div class='slds-accordion__summary'>
-                <h3 onclick={handleAccordionHeaderClick} id='section' class='slds-text-heading_small slds-accordion__summary-heading'>
-                    <button aria-expanded='true' class='slds-button slds-button_reset'>
+    <li class="slds-accordion__list-item">
+        <section class={sectionState}>
+            <div class="slds-accordion__summary">
+                <h3
+                    onclick={handleAccordionHeaderClick}
+                    id="section"
+                    class="slds-text-heading_small slds-accordion__summary-heading"
+                >
+                    <button
+                        aria-expanded="true"
+                        class="slds-button slds-button_reset"
+                    >
                         <lightning-icon
-                            icon-name='utility:chevrondown' 
-                            variant='base'
-                            size='x-small'
-                            class='slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left'>
+                            icon-name="utility:chevrondown"
+                            variant="base"
+                            size="x-small"
+                            class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left"
+                        >
                         </lightning-icon>
                     </button>
-                    <slot name='accordion-header'></slot>
+                    <slot name="accordion-header"></slot>
                 </h3>
             </div>
-            <div aria-hidden='false' class='slds-accordion__content' id='accordion-details-01'>
-                <slot name='accordion-body'></slot>
+            <div
+                aria-hidden="false"
+                class="slds-accordion__content"
+                id="accordion-details-01"
+            >
+                <slot name="accordion-body"></slot>
             </div>
         </section>
     </li>

@@ -1,16 +1,16 @@
 import {
     ELEMENT_TYPE,
     CONNECTOR_TYPE
-} from "builder_platform_interaction/flowMetadata";
+} from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     duplicateCanvasElement,
     baseCanvasElementsArrayToMap
-} from "./base/baseElement";
-import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
-import { removeFromAvailableConnections } from "builder_platform_interaction/connectorUtils";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.LOOP;
 const maxConnections = 2;
@@ -49,7 +49,9 @@ export function createLoop(loop = {}) {
 
 export function createDuplicateLoop(loop, newGuid, newName) {
     const newLoop = createLoop(loop);
-    Object.assign(newLoop, { availableConnections: getDefaultAvailableConnections() });
+    Object.assign(newLoop, {
+        availableConnections: getDefaultAvailableConnections()
+    });
     const duplicateLoop = duplicateCanvasElement(newLoop, newGuid, newName);
 
     return duplicateLoop;

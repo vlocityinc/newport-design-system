@@ -1,10 +1,23 @@
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import { isUndefinedOrNull, format } from "builder_platform_interaction/commonUtils";
-import { isDevNameInStore, isOrderNumberInStore } from "builder_platform_interaction/storeUtils";
-import { isValidMetadataDateTime, getFormat } from 'builder_platform_interaction/dateTimeUtils';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import {
+    isUndefinedOrNull,
+    format
+} from 'builder_platform_interaction/commonUtils';
+import {
+    isDevNameInStore,
+    isOrderNumberInStore
+} from 'builder_platform_interaction/storeUtils';
+import {
+    isValidMetadataDateTime,
+    getFormat
+} from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
-import { LABELS as labels} from "./validationRulesLabels";
-import { validateLHS, validateRHS, validatePicker } from "builder_platform_interaction/expressionValidator";
+import { LABELS as labels } from './validationRulesLabels';
+import {
+    validateLHS,
+    validateRHS,
+    validatePicker
+} from 'builder_platform_interaction/expressionValidator';
 
 /**
  * @param {Object} rule - object containing regex pattern and message
@@ -24,26 +37,29 @@ const evaluateRegex = (rule, value) => {
 
 const cannotBeBlankError = LABELS.cannotBeBlank;
 const dateErrorMessage = format(LABELS.dateErrorMessage, getFormat());
-const datetimeErrorMessage = format(LABELS.datetimeErrorMessage, getFormat(true));
+const datetimeErrorMessage = format(
+    LABELS.datetimeErrorMessage,
+    getFormat(true)
+);
 
 const regexConfig = {
     shouldNotBeBlank: {
         regexPattern: '^\\s*$',
-        message: cannotBeBlankError,
+        message: cannotBeBlankError
     },
     shouldNotBeginOrEndWithUnderscores: {
         regexPattern: '^_{1,}|_{1,}$|_{2,}',
-        message: LABELS.shouldNotBeginOrEndWithUnderscores,
+        message: LABELS.shouldNotBeginOrEndWithUnderscores
     },
     shouldNotBeginWithNumericOrSpecialCharacters: {
         regexPattern: '^[^a-zA-Z]{1}',
-        message: LABELS.shouldNotBeginWithNumericOrSpecialCharacters,
+        message: LABELS.shouldNotBeginWithNumericOrSpecialCharacters
     },
     shouldAcceptOnlyAlphanumericCharacters: {
         regexPattern: '\\W+',
-        message: LABELS.shouldAcceptOnlyAlphanumericCharacters,
+        message: LABELS.shouldAcceptOnlyAlphanumericCharacters
     },
-    shouldBeAPositiveIntegerOrZero : {
+    shouldBeAPositiveIntegerOrZero: {
         regexPattern: '[^0-9]+',
         message: LABELS.shouldBeAPositiveIntegerOrZero
     }
@@ -58,42 +74,50 @@ export const VALIDATE_ALL = 'VALIDATE_ALL';
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldNotBeBlank = (value) => evaluateRegex(regexConfig.shouldNotBeBlank, value);
+export const shouldNotBeBlank = value =>
+    evaluateRegex(regexConfig.shouldNotBeBlank, value);
 
 /**
  * Function to test the value should not begin or end with underscore
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldNotBeginOrEndWithUnderscores = (value) => evaluateRegex(regexConfig.shouldNotBeginOrEndWithUnderscores, value);
+export const shouldNotBeginOrEndWithUnderscores = value =>
+    evaluateRegex(regexConfig.shouldNotBeginOrEndWithUnderscores, value);
 
 /**
  * Function to test the value should not begin with numeric or special characters
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldNotBeginWithNumericOrSpecialCharacters = (value) => evaluateRegex(regexConfig.shouldNotBeginWithNumericOrSpecialCharacters, value);
+export const shouldNotBeginWithNumericOrSpecialCharacters = value =>
+    evaluateRegex(
+        regexConfig.shouldNotBeginWithNumericOrSpecialCharacters,
+        value
+    );
 
 /**
  * Function to test the value should not be blank
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldAcceptOnlyAlphanumericCharacters = (value) => evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericCharacters, value);
+export const shouldAcceptOnlyAlphanumericCharacters = value =>
+    evaluateRegex(regexConfig.shouldAcceptOnlyAlphanumericCharacters, value);
 
 /**
  * Function to test the value is zero or a positive integer
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeAPositiveIntegerOrZero = (value) => evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
+export const shouldBeAPositiveIntegerOrZero = value =>
+    evaluateRegex(regexConfig.shouldBeAPositiveIntegerOrZero, value);
 
 /**
  * Function to test the value is a valid date
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeADate = (value) => {
+export const shouldBeADate = value => {
     if (!value) {
         return null;
     }
@@ -110,7 +134,7 @@ export const shouldBeADate = (value) => {
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeADateTime = (value) => {
+export const shouldBeADateTime = value => {
     if (!value) {
         return null;
     }
@@ -127,7 +151,7 @@ export const shouldBeADateTime = (value) => {
  * @param {string} maxLimit - max value allowed
  * @returns {string|null} errorString or null
  */
-export const shouldBeUnderMaxValue = (maxLimit) => {
+export const shouldBeUnderMaxValue = maxLimit => {
     return function (value) {
         if (isNaN(value)) {
             return LABELS.shouldBeAPositiveIntegerOrZero;
@@ -143,7 +167,7 @@ export const shouldBeUnderMaxValue = (maxLimit) => {
  * @param {string} value - value to be tested
  * @returns {string|null} errorString or null
  */
-export const shouldBeANumber = (value) => {
+export const shouldBeANumber = value => {
     if (isNaN(Number(value))) {
         return LABELS.mustBeAValidNumber;
     }
@@ -156,7 +180,7 @@ export const shouldBeANumber = (value) => {
  * @param {String} value the value to be tested
  * @returns {String|null} errorString or null
  */
-export const shouldNotBeNullOrUndefined = (value) => {
+export const shouldNotBeNullOrUndefined = value => {
     if (isUndefinedOrNull(value)) {
         return cannotBeBlankError;
     }
@@ -169,7 +193,7 @@ export const shouldNotBeNullOrUndefined = (value) => {
  * @param {number} limit - maximum number of characters possible in value
  * @returns {string|null} errorString or null
  */
-export const maximumCharactersLimit = (limit) => {
+export const maximumCharactersLimit = limit => {
     return function (value) {
         if (value && value.length > limit) {
             return format(LABELS.maximumCharactersLimit, limit);
@@ -188,7 +212,11 @@ export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
         if (value !== '') {
             value = Number(value);
             if (value < rangeMinimum || value > rangeMaximum) {
-            return format(LABELS.shouldBeInRange, rangeMinimum, rangeMaximum);
+                return format(
+                    LABELS.shouldBeInRange,
+                    rangeMinimum,
+                    rangeMaximum
+                );
             }
         }
         return null;
@@ -199,7 +227,7 @@ export const shouldBeInRange = (rangeMinimum, rangeMaximum) => {
  * Run validation on LHS of an expression
  * @param {String} rowIndex the index(guid) of the expression
  */
-export const lhsShouldBeValid = (rowIndex) => {
+export const lhsShouldBeValid = rowIndex => {
     return function () {
         return validateLHS(rowIndex);
     };
@@ -209,7 +237,7 @@ export const lhsShouldBeValid = (rowIndex) => {
  * Run validation on RHS of an expression
  * @param {String} rowIndex the index(guid) of the expression
  */
-export const rhsShouldBeValid = (rowIndex) => {
+export const rhsShouldBeValid = rowIndex => {
     return function () {
         return validateRHS(rowIndex);
     };
@@ -219,7 +247,7 @@ export const rhsShouldBeValid = (rowIndex) => {
  * Run validation on a resource picker
  * @param {String} rowIndex the index(guid) of the picker
  */
-export const validateResourcePicker = (rowIndex) => {
+export const validateResourcePicker = rowIndex => {
     return function () {
         return validatePicker(rowIndex);
     };
@@ -231,18 +259,22 @@ export const validateResourcePicker = (rowIndex) => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith3Properties = () => {
-    return (expression) => {
+    return expression => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
         };
 
         if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(
+                lhsShouldBeValid(expression.rowIndex)
+            );
             rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
         }
 
         if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [rhsShouldBeValid(expression.rowIndex)];
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
+                rhsShouldBeValid(expression.rowIndex)
+            ];
         }
 
         return rules;
@@ -254,41 +286,49 @@ export const validateExpressionWith3Properties = () => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith3PropertiesWithNoEmptyRHS = () => {
-    return (expression) => {
+    return expression => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
         };
 
         if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(
+                lhsShouldBeValid(expression.rowIndex)
+            );
             rules[EXPRESSION_PROPERTY_TYPE.OPERATOR] = [shouldNotBeBlank];
         }
 
         if (expression[EXPRESSION_PROPERTY_TYPE.OPERATOR].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [shouldNotBeBlank, rhsShouldBeValid(expression.rowIndex)];
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
+                shouldNotBeBlank,
+                rhsShouldBeValid(expression.rowIndex)
+            ];
         }
 
         return rules;
     };
 };
 
-
 /**
  * Validates 2 part expression builders
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith2Properties = () => {
-    return (expression) => {
+    return expression => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank]
         };
 
         if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(
+                lhsShouldBeValid(expression.rowIndex)
+            );
         }
 
         if (expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [rhsShouldBeValid(expression.rowIndex)];
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
+                rhsShouldBeValid(expression.rowIndex)
+            ];
         }
 
         return rules;
@@ -300,19 +340,25 @@ export const validateExpressionWith2Properties = () => {
  * @returns {string|null} errorString or null
  */
 export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
-    return (expression) => {
+    return expression => {
         const rules = {
             [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: [shouldNotBeBlank],
             [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: []
         };
 
         if (expression[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(lhsShouldBeValid(expression.rowIndex));
-            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [shouldNotBeBlank];
+            rules[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].push(
+                lhsShouldBeValid(expression.rowIndex)
+            );
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE] = [
+                shouldNotBeBlank
+            ];
         }
 
         if (expression[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].value) {
-            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].push(rhsShouldBeValid(expression.rowIndex));
+            rules[EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE].push(
+                rhsShouldBeValid(expression.rowIndex)
+            );
         }
 
         return rules;
@@ -326,8 +372,13 @@ export const validateExpressionWith2PropertiesWithNoEmptyRHS = () => {
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {string|null} errorString or null
  */
-export const isUniqueDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
-    return isDevNameInStore(nameToBeTested, listOfGuidsToSkip) ? LABELS.fieldNotUnique : null;
+export const isUniqueDevNameInStore = (
+    nameToBeTested,
+    listOfGuidsToSkip = []
+) => {
+    return isDevNameInStore(nameToBeTested, listOfGuidsToSkip)
+        ? LABELS.fieldNotUnique
+        : null;
 };
 
 /**
@@ -350,8 +401,13 @@ export const checkDevNameUniqueness = (nameToBeTested, parentElement) => {
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {string|null} errorString or null
  */
-export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = []) => {
-    return isOrderNumberInStore(orderNumberToBeTested, listOfGuidsToSkip) ? LABELS.orderNumberNotUnique : null;
+export const isUniqueOrderNumberInStore = (
+    orderNumberToBeTested,
+    listOfGuidsToSkip = []
+) => {
+    return isOrderNumberInStore(orderNumberToBeTested, listOfGuidsToSkip)
+        ? LABELS.orderNumberNotUnique
+        : null;
 };
 
 /**
@@ -359,8 +415,8 @@ export const isUniqueOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToS
  * @param {Object} options list of options to provide to merge field validation
  * @returns {Function} function that accepts the text to be validated. Returns an error from validation operation
  */
-export const isValidTextWithMergeFields = (options) => {
-    return (text) => {
+export const isValidTextWithMergeFields = options => {
+    return text => {
         const errors = validateTextWithMergeFields(text, options);
         return errors.length > 0 ? errors[0].message : null;
     };
@@ -370,7 +426,10 @@ export const isValidTextWithMergeFields = (options) => {
  * Validates that the text inside a resourced text area is valid
  * @param {String} text the text to validate
  */
-export const isValidResourcedTextArea = (text) => {
-    return isValidTextWithMergeFields({ allowGlobalConstants : false, allowCollectionVariables : true })(text);
+export const isValidResourcedTextArea = text => {
+    return isValidTextWithMergeFields({
+        allowGlobalConstants: false,
+        allowCollectionVariables: true
+    })(text);
 };
-    /** Exported Validation Rules End **/
+/** Exported Validation Rules End **/

@@ -8,7 +8,7 @@ import { LABELS } from './paletteLabels';
  * @returns {boolean} true if data._children is non-empty
  */
 export function isSection(row) {
-    return Array.isArray(row._children) && (row._children.length > 0);
+    return Array.isArray(row._children) && row._children.length > 0;
 }
 
 /**
@@ -71,10 +71,14 @@ export function createSection(section, options, level, posinset, setsize) {
     const visibleItems = section._children.length;
 
     // TODO: Might not be good for i18n.
-    const label = options.showSectionItemCount ? section.label + ' (' + visibleItems + ')' : section.label;
+    const label = options.showSectionItemCount
+        ? section.label + ' (' + visibleItems + ')'
+        : section.label;
 
     // TODO: Might not be good for i18n.
-    const prefix = expanded ? LABELS.palleteSectionToggleCollapseText : LABELS.palleteSectionToggleExpandText;
+    const prefix = expanded
+        ? LABELS.palleteSectionToggleCollapseText
+        : LABELS.palleteSectionToggleExpandText;
     const toggleAlternativeText = prefix + ' ' + section.label;
 
     const row = {
@@ -117,7 +121,9 @@ export function createLevel(data, options, level) {
 
     for (let i = 0; i < data.length; i++) {
         if (isSection(data[i])) {
-            rows = rows.concat(createSection(data[i], options, level, i + 1, data.length));
+            rows = rows.concat(
+                createSection(data[i], options, level, i + 1, data.length)
+            );
         } else {
             rows.push(createItem(data[i], level, i + 1, data.length));
         }

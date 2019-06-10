@@ -1,7 +1,7 @@
 import { LightningElement, api } from 'lwc';
 import { PaletteItemClickedEvent } from 'builder_platform_interaction/events';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
-import { isTestMode } from "builder_platform_interaction/contextLib";
+import { isTestMode } from 'builder_platform_interaction/contextLib';
 
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
@@ -22,12 +22,17 @@ export default class PaletteItem extends LightningElement {
 
     @api
     get elementIcon() {
-        return this.template.querySelector('builder_platform_interaction-element-icon');
+        return this.template.querySelector(
+            'builder_platform_interaction-element-icon'
+        );
     }
 
     @api
     get dragImage() {
-        if (typeof this.dragImageSrc !== 'string' || this.dragImageSrc.length === 0) {
+        if (
+            typeof this.dragImageSrc !== 'string' ||
+            this.dragImageSrc.length === 0
+        ) {
             return undefined;
         }
 
@@ -42,7 +47,11 @@ export default class PaletteItem extends LightningElement {
     }
 
     get hasIcon() {
-        return this.iconName !== undefined && this.iconName !== null && this.iconName.length > 0;
+        return (
+            this.iconName !== undefined &&
+            this.iconName !== null &&
+            this.iconName.length > 0
+        );
     }
 
     /**
@@ -63,7 +72,10 @@ export default class PaletteItem extends LightningElement {
         event.stopPropagation();
         const elementType = this.elementType;
         const guid = this.guid;
-        const paletteItemClickedEvent = new PaletteItemClickedEvent(elementType, guid);
+        const paletteItemClickedEvent = new PaletteItemClickedEvent(
+            elementType,
+            guid
+        );
         this.dispatchEvent(paletteItemClickedEvent);
     }
 
@@ -73,7 +85,7 @@ export default class PaletteItem extends LightningElement {
                 // The space bar sometimes scrolls the parent container so we
                 // need to prevent the default.
                 event.preventDefault();
-                // fall through
+            // fall through
             case 'Enter':
                 this.handleLinkClick(event);
                 break;

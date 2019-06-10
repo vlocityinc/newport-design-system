@@ -28,23 +28,29 @@ const setValue = (obj, path, value) => {
         const key = path[0];
         if (Array.isArray(obj)) {
             if (isNaN(parseInt(key, 10))) {
-                throw new Error(`the key ${key} is not a number and cannot be used in an array`);
+                throw new Error(
+                    `the key ${key} is not a number and cannot be used in an array`
+                );
             }
             // create a new array with the given value at position key
             return replaceItem(obj, value, key);
         }
         // make a new object with an updated property
-        return updateProperties(obj, { [key] : value });
+        return updateProperties(obj, { [key]: value });
     }
     // recursively call the set function and assign the results to our current object
     const key = path[0];
     if (Array.isArray(obj)) {
         if (isNaN(parseInt(key, 10))) {
-            throw new Error(`the key ${key} is not a number and cannot be used as an index in an array`);
+            throw new Error(
+                `the key ${key} is not a number and cannot be used as an index in an array`
+            );
         }
         return replaceItem(obj, setValue(obj[key], path.slice(1), value), key);
     }
-    return updateProperties(obj, { [key] : setValue(obj[key], path.slice(1), value) });
+    return updateProperties(obj, {
+        [key]: setValue(obj[key], path.slice(1), value)
+    });
 };
 
 /**
@@ -68,7 +74,7 @@ export function updateProperties(obj = {}, props = {}) {
  * @param {String} string the string path we will convert to an array path
  * @returns {Array}     array of keys that represent a path in an object
  */
-export const stringToPath = (string) => {
+export const stringToPath = string => {
     if (Array.isArray(string)) {
         // if we get an array we assume it is already a correct path
         return string;
@@ -80,7 +86,7 @@ export const stringToPath = (string) => {
     const path = [];
     // leverage string replace to build our path. separating them based on dots or array indexing
     string.replace(rePropName, (match, number, quote, str) => {
-        path.push(quote ? str.replace(reEscapeChar, '$1') : (number || match));
+        path.push(quote ? str.replace(reEscapeChar, '$1') : number || match);
     });
     return path;
 };
@@ -113,7 +119,7 @@ export const set = (obj = {}, path = [], value = undefined) => {
  * @return {Object} new object with only allowed properties
  */
 export function pick(obj = {}, allowedProps = []) {
-    const filterKeysRule = (key) => obj.hasOwnProperty(key);
+    const filterKeysRule = key => obj.hasOwnProperty(key);
     return allowedProps.filter(filterKeysRule).reduce((acc, key) => {
         acc[key] = obj[key];
         return acc;
@@ -129,9 +135,11 @@ export function pick(obj = {}, allowedProps = []) {
  * @return {Object} new object without omitted properties
  */
 export function omit(obj = {}, omitProps = []) {
-    const filterKeysRule = (key) => omitProps.indexOf(key) === -1;
-    return Object.keys(obj).filter(filterKeysRule).reduce((acc, key) => {
-        acc[key] = obj[key];
-        return acc;
-    }, {});
+    const filterKeysRule = key => omitProps.indexOf(key) === -1;
+    return Object.keys(obj)
+        .filter(filterKeysRule)
+        .reduce((acc, key) => {
+            acc[key] = obj[key];
+            return acc;
+        }, {});
 }

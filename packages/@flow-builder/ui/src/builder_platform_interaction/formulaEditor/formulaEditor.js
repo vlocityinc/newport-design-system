@@ -1,12 +1,25 @@
 import { LightningElement, api, track } from 'lwc';
-import { getErrorsFromHydratedElement, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
-import { createAction, PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
-import { formulaReducer } from "./formulaReducer";
-import { LABELS } from "./formulaEditorLabels";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import {
+    getErrorsFromHydratedElement,
+    getValueFromHydratedItem
+} from 'builder_platform_interaction/dataMutationLib';
+import {
+    createAction,
+    PROPERTY_EDITOR_ACTION
+} from 'builder_platform_interaction/actions';
+import { formulaReducer } from './formulaReducer';
+import { LABELS } from './formulaEditorLabels';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
-const dataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER, FLOW_DATA_TYPE.CURRENCY, FLOW_DATA_TYPE.BOOLEAN, FLOW_DATA_TYPE.DATE, FLOW_DATA_TYPE.DATE_TIME];
+const dataTypes = [
+    FLOW_DATA_TYPE.STRING,
+    FLOW_DATA_TYPE.NUMBER,
+    FLOW_DATA_TYPE.CURRENCY,
+    FLOW_DATA_TYPE.BOOLEAN,
+    FLOW_DATA_TYPE.DATE,
+    FLOW_DATA_TYPE.DATE_TIME
+];
 
 export default class FormulaEditor extends LightningElement {
     @track
@@ -42,9 +55,9 @@ export default class FormulaEditor extends LightningElement {
     }
 
     get selectedDataType() {
-        return  {
-            dataType : getValueFromHydratedItem(this.formulaResource.dataType),
-            scale : this.formulaResource.scale
+        return {
+            dataType: getValueFromHydratedItem(this.formulaResource.dataType),
+            scale: this.formulaResource.scale
         };
     }
 
@@ -53,7 +66,9 @@ export default class FormulaEditor extends LightningElement {
     }
 
     get dataTypeHelpText() {
-        return !this.isNewMode ? this.labels.dataTypeCannotBeChangedHelpText : null;
+        return !this.isNewMode
+            ? this.labels.dataTypeCannotBeChangedHelpText
+            : null;
     }
 
     get hideNewResourceButton() {
@@ -67,13 +82,18 @@ export default class FormulaEditor extends LightningElement {
         const propertyName = event.detail.propertyName;
         const value = event.detail.value;
         const error = event.detail.error;
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+        const action = createAction(
+            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+            { propertyName, value, error }
+        );
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 
     handleDataTypeChanged(event) {
         event.stopPropagation();
-        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, { value : event.detail.value });
+        const action = createAction(PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE, {
+            value: event.detail.value
+        });
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 
@@ -81,7 +101,10 @@ export default class FormulaEditor extends LightningElement {
         const propertyName = 'expression';
         const value = event.detail.value;
         const error = event.detail.error || null;
-        const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error });
+        const action = createAction(
+            PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+            { propertyName, value, error }
+        );
         this.formulaResource = formulaReducer(this.formulaResource, action);
     }
 

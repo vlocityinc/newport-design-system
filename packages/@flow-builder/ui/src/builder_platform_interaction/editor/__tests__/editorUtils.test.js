@@ -11,74 +11,82 @@ import {
     setPeripheralDataForPropertyEditor,
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
-    highlightCanvasElement } from "../editorUtils";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+    highlightCanvasElement
+} from '../editorUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         canvasSelector: jest.fn().mockImplementation(() => {
-            return [{
-                guid: 'canvasElement1',
-                elementType: 'ASSIGNMENT',
-                config: {
-                    isSelected: true,
-                    isHighlighted: false
+            return [
+                {
+                    guid: 'canvasElement1',
+                    elementType: 'ASSIGNMENT',
+                    config: {
+                        isSelected: true,
+                        isHighlighted: false
+                    }
+                },
+                {
+                    guid: 'canvasElement2',
+                    elementType: 'DECISION',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false
+                    }
+                },
+                {
+                    guid: 'canvasElement3',
+                    elementType: 'ASSIGNMENT',
+                    config: {
+                        isSelected: true,
+                        isHighlighted: false
+                    }
+                },
+                {
+                    guid: 'canvasElement4',
+                    elementType: 'ASSIGNMENT',
+                    config: {
+                        isSelected: false,
+                        isHighlighted: false
+                    }
                 }
-            }, {
-                guid: 'canvasElement2',
-                elementType: 'DECISION',
-                config: {
-                    isSelected: false,
-                    isHighlighted: false
-                }
-            }, {
-                guid: 'canvasElement3',
-                elementType: 'ASSIGNMENT',
-                config: {
-                    isSelected: true,
-                    isHighlighted: false
-                }
-            }, {
-                guid: 'canvasElement4',
-                elementType: 'ASSIGNMENT',
-                config: {
-                    isSelected: false,
-                    isHighlighted: false
-                }
-            }];
+            ];
         })
     };
 });
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        deleteElement: jest.fn().mockImplementation((payload) => {
+        deleteElement: jest.fn().mockImplementation(payload => {
             return {
                 type: 'deleteElement',
                 payload
             };
         }),
-        updatePropertiesAfterSaving: jest.fn().mockImplementation((payload) => {
+        updatePropertiesAfterSaving: jest.fn().mockImplementation(payload => {
             return {
                 type: 'updatePropertiesAfterSaving',
                 payload
             };
         }),
-        updatePropertiesAfterSaveFailed: jest.fn().mockImplementation((payload) => {
-            return {
-                type: 'updatePropertiesAfterSaveFailed',
-                payload
-            };
-        }),
-        updateProperties: jest.fn().mockImplementation((payload) => {
+        updatePropertiesAfterSaveFailed: jest
+            .fn()
+            .mockImplementation(payload => {
+                return {
+                    type: 'updatePropertiesAfterSaveFailed',
+                    payload
+                };
+            }),
+        updateProperties: jest.fn().mockImplementation(payload => {
             return {
                 type: 'updateProperties',
                 payload
             };
         }),
-        highlightOnCanvas: jest.fn().mockImplementation((payload) => {
+        highlightOnCanvas: jest.fn().mockImplementation(payload => {
             return {
                 type: 'highlightOnCanvas',
                 payload
@@ -95,7 +103,9 @@ jest.mock('builder_platform_interaction/usedByLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
+jest.mock('builder_platform_interaction/drawingLib', () =>
+    require('builder_platform_interaction_mocks/drawingLib')
+);
 
 jest.mock('builder_platform_interaction/propertyEditorFactory', () => {
     return {
@@ -183,7 +193,7 @@ describe('Editor Utils Test', () => {
             getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
-                        'canvasElement1': {
+                        canvasElement1: {
                             guid: 'canvasElement1',
                             elementType: ELEMENT_TYPE.ASSIGNMENT,
                             config: {
@@ -191,7 +201,7 @@ describe('Editor Utils Test', () => {
                                 isHighlighted: false
                             }
                         },
-                        'canvasElement2' : {
+                        canvasElement2: {
                             guid: 'canvasElement2',
                             elementType: ELEMENT_TYPE.DECISION,
                             config: {
@@ -199,7 +209,7 @@ describe('Editor Utils Test', () => {
                                 isHighlighted: false
                             }
                         },
-                        'canvasElement3' : {
+                        canvasElement3: {
                             guid: 'canvasElement3',
                             elementType: ELEMENT_TYPE.ASSIGNMENT,
                             config: {
@@ -207,7 +217,7 @@ describe('Editor Utils Test', () => {
                                 isHighlighted: false
                             }
                         },
-                        'canvasElement4' : {
+                        canvasElement4: {
                             guid: 'canvasElement4',
                             elementType: ELEMENT_TYPE.ASSIGNMENT,
                             config: {
@@ -216,25 +226,29 @@ describe('Editor Utils Test', () => {
                             }
                         }
                     },
-                    connectors: [{
-                        source: 'canvasElement2',
-                        target: 'canvasElement3',
-                        config: {
-                            isSelected: false
+                    connectors: [
+                        {
+                            source: 'canvasElement2',
+                            target: 'canvasElement3',
+                            config: {
+                                isSelected: false
+                            }
+                        },
+                        {
+                            source: 'canvasElement3',
+                            target: 'canvasElement4',
+                            config: {
+                                isSelected: false
+                            }
+                        },
+                        {
+                            source: 'canvasElement2',
+                            target: 'canvasElement4',
+                            config: {
+                                isSelected: true
+                            }
                         }
-                    }, {
-                        source: 'canvasElement3',
-                        target: 'canvasElement4',
-                        config: {
-                            isSelected: false
-                        }
-                    }, {
-                        source: 'canvasElement2',
-                        target: 'canvasElement4',
-                        config: {
-                            isSelected: true
-                        }
-                    }]
+                    ]
                 };
             });
 
@@ -254,7 +268,10 @@ describe('Editor Utils Test', () => {
                 elementType: ELEMENT_TYPE.ASSIGNMENT
             };
 
-            getElementsToBeDeleted(storeInstance, {selectedElementGUID, selectedElementType});
+            getElementsToBeDeleted(storeInstance, {
+                selectedElementGUID,
+                selectedElementType
+            });
 
             expect(dispatch).toHaveBeenCalledWith({
                 type: 'deleteElement',
@@ -268,23 +285,29 @@ describe('Editor Utils Test', () => {
 
             const payload = {
                 selectedElementGUIDs: ['canvasElement2'],
-                connectorsToDelete: [{
-                    source: 'canvasElement2',
-                    target: 'canvasElement3',
-                    config: {
-                        isSelected: false
+                connectorsToDelete: [
+                    {
+                        source: 'canvasElement2',
+                        target: 'canvasElement3',
+                        config: {
+                            isSelected: false
+                        }
+                    },
+                    {
+                        source: 'canvasElement2',
+                        target: 'canvasElement4',
+                        config: {
+                            isSelected: true
+                        }
                     }
-                }, {
-                    source: 'canvasElement2',
-                    target: 'canvasElement4',
-                    config: {
-                        isSelected: true
-                    }
-                }],
+                ],
                 elementType: ELEMENT_TYPE.ASSIGNMENT
             };
 
-            getElementsToBeDeleted(storeInstance, {selectedElementGUID, selectedElementType});
+            getElementsToBeDeleted(storeInstance, {
+                selectedElementGUID,
+                selectedElementType
+            });
 
             expect(dispatch).toHaveBeenCalledWith({
                 type: 'deleteElement',
@@ -298,29 +321,36 @@ describe('Editor Utils Test', () => {
 
             const payload = {
                 selectedElementGUIDs: ['canvasElement1', 'canvasElement3'],
-                connectorsToDelete: [{
-                    source: 'canvasElement2',
-                    target: 'canvasElement3',
-                    config: {
-                        isSelected: false
+                connectorsToDelete: [
+                    {
+                        source: 'canvasElement2',
+                        target: 'canvasElement3',
+                        config: {
+                            isSelected: false
+                        }
+                    },
+                    {
+                        source: 'canvasElement3',
+                        target: 'canvasElement4',
+                        config: {
+                            isSelected: false
+                        }
+                    },
+                    {
+                        source: 'canvasElement2',
+                        target: 'canvasElement4',
+                        config: {
+                            isSelected: true
+                        }
                     }
-                }, {
-                    source: 'canvasElement3',
-                    target: 'canvasElement4',
-                    config: {
-                        isSelected: false
-                    }
-                }, {
-                    source: 'canvasElement2',
-                    target: 'canvasElement4',
-                    config: {
-                        isSelected: true
-                    }
-                }],
+                ],
                 elementType: undefined
             };
 
-            getElementsToBeDeleted(storeInstance, {selectedElementGUID, selectedElementType});
+            getElementsToBeDeleted(storeInstance, {
+                selectedElementGUID,
+                selectedElementType
+            });
 
             expect(dispatch).toHaveBeenCalledWith({
                 type: 'deleteElement',
@@ -337,30 +367,41 @@ describe('Editor Utils Test', () => {
         });
 
         it('return "UPDATE" save type if flow event type is "save" and flowid is defined', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE, 'flowid', false)).toBe(SaveType.UPDATE);
+            expect(getSaveType(SaveFlowEvent.Type.SAVE, 'flowid', false)).toBe(
+                SaveType.UPDATE
+            );
         });
 
         it('return "CREATE" save type if flow event type is "save" and flow id is not defined', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE, undefined, false)).toBe(SaveType.CREATE);
+            expect(getSaveType(SaveFlowEvent.Type.SAVE, undefined, false)).toBe(
+                SaveType.CREATE
+            );
         });
 
         it('return "NEW_DEFINITION" save type if flow event type is "save_as", "flowId" is undefined and "canOnlySaveAsNewDefinition" is true', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, true)).toBe(SaveType.NEW_DEFINITION);
+            expect(
+                getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, true)
+            ).toBe(SaveType.NEW_DEFINITION);
         });
 
         it('return "NEW_DEFINITION" save type if flow event type is "save_as", "flowId" is defined and "canOnlySaveAsNewDefinition" is true', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', true)).toBe(SaveType.NEW_DEFINITION);
+            expect(
+                getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', true)
+            ).toBe(SaveType.NEW_DEFINITION);
         });
 
         it('return "NEW_VERSION" save type if flow event type is "save_as", "flowId" is undefined and "canOnlySaveAsNewDefinition" is false', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, false)).toBe(SaveType.NEW_VERSION);
+            expect(
+                getSaveType(SaveFlowEvent.Type.SAVE_AS, undefined, false)
+            ).toBe(SaveType.NEW_VERSION);
         });
 
         it('return "NEW_VERSION" save type if flow event type is "save_as", "flowId" is defined and "canOnlySaveAsNewDefinition" is false', () => {
-            expect(getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', false)).toBe(SaveType.NEW_VERSION);
+            expect(
+                getSaveType(SaveFlowEvent.Type.SAVE_AS, 'flowid', false)
+            ).toBe(SaveType.NEW_VERSION);
         });
     });
-
 
     describe('updateStoreAfterSaveFlowIsSuccessful function', () => {
         it('throw an error if store instance not defined', () => {
@@ -374,7 +415,12 @@ describe('Editor Utils Test', () => {
                 dispatch
             };
 
-            updateStoreAfterSaveFlowIsSuccessful(storeInstance, {versionNumber: '1', status: 'Active', lastModifiedDate: '', lastModifiedBy: 'user1'});
+            updateStoreAfterSaveFlowIsSuccessful(storeInstance, {
+                versionNumber: '1',
+                status: 'Active',
+                lastModifiedDate: '',
+                lastModifiedBy: 'user1'
+            });
 
             const payload = {
                 versionNumber: '1',
@@ -396,7 +442,7 @@ describe('Editor Utils Test', () => {
         it('throw an error if store instance not defined', () => {
             expect(() => {
                 updateStoreAfterSaveAsNewFlowIsFailed();
-            }) .toThrow();
+            }).toThrow();
         });
 
         it('dispatch updateProperties action if saveAsNewFlow fails', () => {
@@ -423,7 +469,6 @@ describe('Editor Utils Test', () => {
         });
     });
 
-
     describe('updateStoreAfterSaveAsNewVersionIsFailed function', () => {
         it('throw an error if store instance not defined', () => {
             expect(() => {
@@ -432,23 +477,28 @@ describe('Editor Utils Test', () => {
         });
 
         it('dispatch updateProperties action if saveAsNewVersion fails', () => {
-           const dispatch = jest.fn();
-           const storeInstance = {
-               dispatch
-           };
+            const dispatch = jest.fn();
+            const storeInstance = {
+                dispatch
+            };
 
-           updateStoreAfterSaveAsNewVersionIsFailed(storeInstance, "label1", "description1", "interviewLabel1");
+            updateStoreAfterSaveAsNewVersionIsFailed(
+                storeInstance,
+                'label1',
+                'description1',
+                'interviewLabel1'
+            );
 
-           const payload = {
-               label: "label1",
-               description: "description1",
-               interviewLabel: "interviewLabel1"
-           };
+            const payload = {
+                label: 'label1',
+                description: 'description1',
+                interviewLabel: 'interviewLabel1'
+            };
 
-           expect(dispatch).toHaveBeenCalledWith({
-               type: 'updateProperties',
-               payload
-           });
+            expect(dispatch).toHaveBeenCalledWith({
+                type: 'updateProperties',
+                payload
+            });
         });
     });
 
@@ -462,34 +512,52 @@ describe('Editor Utils Test', () => {
 
     describe('setFlowErrorsAndWarnings function', () => {
         it('when undefined data object is passed', () => {
-            expect(setFlowErrorsAndWarnings()).toEqual({errors: {}, warnings: {}});
+            expect(setFlowErrorsAndWarnings()).toEqual({
+                errors: {},
+                warnings: {}
+            });
         });
 
         it('when no errors and warnings are present', () => {
-            expect(setFlowErrorsAndWarnings({})).toEqual({errors: {}, warnings: {}});
+            expect(setFlowErrorsAndWarnings({})).toEqual({
+                errors: {},
+                warnings: {}
+            });
         });
 
         it('when errors are present, but warnings are not', () => {
-            const errors = {e1: "e1"}, warnings = {};
-            expect(setFlowErrorsAndWarnings({errors, warnings})).toEqual({errors: {e1: "e1"}, warnings: {}});
+            const errors = { e1: 'e1' },
+                warnings = {};
+            expect(setFlowErrorsAndWarnings({ errors, warnings })).toEqual({
+                errors: { e1: 'e1' },
+                warnings: {}
+            });
         });
 
         it('when errors are not present and warnings are present', () => {
-            const errors = {}, warnings = {w1: "w1"};
-            expect(setFlowErrorsAndWarnings({errors, warnings})).toEqual({errors: {}, warnings: {w1: "w1"}});
+            const errors = {},
+                warnings = { w1: 'w1' };
+            expect(setFlowErrorsAndWarnings({ errors, warnings })).toEqual({
+                errors: {},
+                warnings: { w1: 'w1' }
+            });
         });
 
         it('when both errors and warnings are present', () => {
-            const errors = {e1: "e1"}, warnings = {e1: "e1"};
-            expect(setFlowErrorsAndWarnings({errors, warnings})).toEqual({errors: {e1: "e1"}, warnings: {e1: "e1"}});
+            const errors = { e1: 'e1' },
+                warnings = { e1: 'e1' };
+            expect(setFlowErrorsAndWarnings({ errors, warnings })).toEqual({
+                errors: { e1: 'e1' },
+                warnings: { e1: 'e1' }
+            });
         });
     });
 
     describe('flowPropertiesCallback function', () => {
         it('throw an error if store instance is not defined', () => {
-           expect(() => {
-               flowPropertiesCallback()({});
-           }).toThrow('Store instance is not defined');
+            expect(() => {
+                flowPropertiesCallback()({});
+            }).toThrow('Store instance is not defined');
         });
 
         it('dispatch updateProperties action when flow property editor ok', () => {
@@ -499,7 +567,7 @@ describe('Editor Utils Test', () => {
             };
 
             flowPropertiesCallback(storeInstance)({
-                name: {error: null, value: 'flowProperties'}
+                name: { error: null, value: 'flowProperties' }
             });
 
             const payload = {
@@ -516,14 +584,14 @@ describe('Editor Utils Test', () => {
     describe('saveAsFlowCallback function', () => {
         it('throw an error if store instance is not defined', () => {
             expect(() => {
-               saveAsFlowCallback()();
+                saveAsFlowCallback()();
             }).toThrow('Store instance is not defined');
         });
 
         it('throw an error if save flow function is not defined', () => {
-           expect(() => {
-               saveAsFlowCallback({})();
-           }).toThrow('Save flow function is not defined');
+            expect(() => {
+                saveAsFlowCallback({})();
+            }).toThrow('Save flow function is not defined');
         });
 
         it('saveFlowFn is called with appropriate save type', () => {
@@ -541,24 +609,41 @@ describe('Editor Utils Test', () => {
     });
 
     describe('setPeripheralDataForPropertyEditor function', () => {
-        const { setRules, setOperators } = require('builder_platform_interaction/ruleLib');
-        const { setResourceTypes } = require('builder_platform_interaction/dataTypeLib');
-        const { setEntities, setEventTypes } = require('builder_platform_interaction/sobjectLib');
-        const { setGlobalVariables, setSystemVariables } = require('builder_platform_interaction/systemLib');
+        const {
+            setRules,
+            setOperators
+        } = require('builder_platform_interaction/ruleLib');
+        const {
+            setResourceTypes
+        } = require('builder_platform_interaction/dataTypeLib');
+        const {
+            setEntities,
+            setEventTypes
+        } = require('builder_platform_interaction/sobjectLib');
+        const {
+            setGlobalVariables,
+            setSystemVariables
+        } = require('builder_platform_interaction/systemLib');
 
-        const rules = [{
-            ruleType: 'assignment'
-        }];
+        const rules = [
+            {
+                ruleType: 'assignment'
+            }
+        ];
         const operators = {};
         const resourceTypes = {};
         const eventTypes = {};
         const globalVariables = {};
-        const systemVariables = [{
-            devName: 'CurrentDate'
-        }];
-        const entities = [{
-            fields: null
-        }];
+        const systemVariables = [
+            {
+                devName: 'CurrentDate'
+            }
+        ];
+        const entities = [
+            {
+                fields: null
+            }
+        ];
 
         beforeEach(() => {
             setPeripheralDataForPropertyEditor({
@@ -617,28 +702,33 @@ describe('Editor Utils Test', () => {
         it('return {canvasElementGuidMap, childElementGuidMap}', () => {
             const canvasElementsInStore = ['guid1', 'guid2'];
             const elementsInStore = {
-                'guid1': {
-                    config: {isSelected: false, isHighlighted: false},
+                guid1: {
+                    config: { isSelected: false, isHighlighted: false },
                     connectorCount: 0,
-                    elementType: "START_ELEMENT",
-                    guid: "guid1",
+                    elementType: 'START_ELEMENT',
+                    guid: 'guid1',
                     isCanvasElement: true
                 },
-                'guid2': {
-                    config: {isSelected: true, isHighlighted: false},
+                guid2: {
+                    config: { isSelected: true, isHighlighted: false },
                     connectorCount: 0,
-                    elementType: "SCREEN",
-                    guid: "guid2",
+                    elementType: 'SCREEN',
+                    guid: 'guid2',
                     isCanvasElement: true
                 }
             };
 
             const canvasElementGuidMap = {
-                'guid2': 'rand_guid'
+                guid2: 'rand_guid'
             };
             const childElementGuidMap = {};
-            const res = {canvasElementGuidMap, childElementGuidMap};
-            expect(getDuplicateElementGuidMaps(canvasElementsInStore, elementsInStore)).toEqual(res);
+            const res = { canvasElementGuidMap, childElementGuidMap };
+            expect(
+                getDuplicateElementGuidMaps(
+                    canvasElementsInStore,
+                    elementsInStore
+                )
+            ).toEqual(res);
         });
     });
 
@@ -656,38 +746,46 @@ describe('Editor Utils Test', () => {
         });
 
         it('return array containing connectors that need to be duplicated', () => {
-            const connectorsInStore = [{
-                guid: 'conn1',
-                source: 'guid1',
-                target: 'guid2',
-                config: {isSelected: false},
-                type: 'REGULAR'
-            }, {
-                guid: 'conn2',
-                source: 'guid2',
-                target: 'guid3',
-                config: {isSelected: true},
-                type: 'REGULAR'
-            }, {
-                guid: 'conn3',
-                source: 'guid3',
-                target: 'guid4',
-                config: {isSelected: true},
-                type: 'REGULAR'
-            }];
+            const connectorsInStore = [
+                {
+                    guid: 'conn1',
+                    source: 'guid1',
+                    target: 'guid2',
+                    config: { isSelected: false },
+                    type: 'REGULAR'
+                },
+                {
+                    guid: 'conn2',
+                    source: 'guid2',
+                    target: 'guid3',
+                    config: { isSelected: true },
+                    type: 'REGULAR'
+                },
+                {
+                    guid: 'conn3',
+                    source: 'guid3',
+                    target: 'guid4',
+                    config: { isSelected: true },
+                    type: 'REGULAR'
+                }
+            ];
             const canvasElementGuidMap = {
-                'guid3': 'rand_guid3',
-                'guid4': 'rand_guid4'
+                guid3: 'rand_guid3',
+                guid4: 'rand_guid4'
             };
 
-            const connectorsToDuplicate = [{
-                guid: 'conn3',
-                source: 'guid3',
-                target: 'guid4',
-                config: {isSelected: true},
-                type: 'REGULAR'
-            }];
-            expect(getConnectorToDuplicate(connectorsInStore, canvasElementGuidMap)).toEqual(connectorsToDuplicate);
+            const connectorsToDuplicate = [
+                {
+                    guid: 'conn3',
+                    source: 'guid3',
+                    target: 'guid4',
+                    config: { isSelected: true },
+                    type: 'REGULAR'
+                }
+            ];
+            expect(
+                getConnectorToDuplicate(connectorsInStore, canvasElementGuidMap)
+            ).toEqual(connectorsToDuplicate);
         });
     });
 
@@ -709,7 +807,7 @@ describe('Editor Utils Test', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
-                        'guid1': {
+                        guid1: {
                             guid: 'guid1',
                             config: {
                                 isHighlighted: false
@@ -740,7 +838,7 @@ describe('Editor Utils Test', () => {
             const getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
-                        'guid1': {
+                        guid1: {
                             guid: 'guid1',
                             config: {
                                 isHighlighted: true

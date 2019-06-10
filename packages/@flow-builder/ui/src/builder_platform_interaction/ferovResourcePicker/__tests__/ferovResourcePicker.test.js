@@ -1,35 +1,43 @@
 import { createElement } from 'lwc';
-import FerovResourcePicker from "../ferovResourcePicker";
+import FerovResourcePicker from '../ferovResourcePicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { ComboboxStateChangedEvent } from "builder_platform_interaction/events";
-import { normalizeFEROV, getMenuData } from "builder_platform_interaction/expressionUtils";
-import * as mockRuleLib from "builder_platform_interaction/ruleLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "../../dataTypeLib/dataTypeLib";
+import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import {
+    normalizeFEROV,
+    getMenuData
+} from 'builder_platform_interaction/expressionUtils';
+import * as mockRuleLib from 'builder_platform_interaction/ruleLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from '../../dataTypeLib/dataTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const SELECTORS = {
-    BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker',
+    BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
 };
 
-const setupComponentUnderTest = (props) => {
-    const element = createElement('builder_platform_interaction-ferov-resource-picker', {
-        is: FerovResourcePicker,
-    });
+const setupComponentUnderTest = props => {
+    const element = createElement(
+        'builder_platform_interaction-ferov-resource-picker',
+        {
+            is: FerovResourcePicker
+        }
+    );
     Object.assign(element, props);
     document.body.appendChild(element);
     return element;
 };
 
 const parentItem = {
-    objectType: 'Account',
+    objectType: 'Account'
 };
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn(),
+        getFieldsForEntity: jest.fn()
     };
 });
 
@@ -37,23 +45,31 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     const mockParam = {
         paramType: 'Data',
         dataType: 'Currency',
-        collection: false,
+        collection: false
     };
     const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
         mockParam,
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
-        getRHSTypes: jest.fn().mockReturnValue(mockParam).mockName('getRHSTypes')
+        getRHSTypes: jest
+            .fn()
+            .mockReturnValue(mockParam)
+            .mockName('getRHSTypes')
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
-        getMenuData: jest.fn().mockReturnValue(['ferovMenuData']).mockName('getMenuData'),
-        normalizeFEROV: jest.fn().mockImplementation((rhsId) => {
-            return require.requireActual('../../expressionUtils/expressionUtils.js').normalizeFEROV(rhsId);
-        }),
+        getMenuData: jest
+            .fn()
+            .mockReturnValue(['ferovMenuData'])
+            .mockName('getMenuData'),
+        normalizeFEROV: jest.fn().mockImplementation(rhsId => {
+            return require
+                .requireActual('../../expressionUtils/expressionUtils.js')
+                .normalizeFEROV(rhsId);
+        })
     };
 });
 
@@ -64,7 +80,7 @@ describe('ferov-resource-picker', () => {
         props = {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
             elementParam: { elementType: ELEMENT_TYPE.VARIABLE },
-            comboboxConfig: { label: 'test label' },
+            comboboxConfig: { label: 'test label' }
         };
     });
 
@@ -72,7 +88,9 @@ describe('ferov-resource-picker', () => {
         it('exists', () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
                 expect(baseResourcePicker).toBeDefined();
             });
         });
@@ -83,8 +101,12 @@ describe('ferov-resource-picker', () => {
             };
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-                expect(baseResourcePicker.comboboxConfig).toEqual(props.comboboxConfig);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
+                expect(baseResourcePicker.comboboxConfig).toEqual(
+                    props.comboboxConfig
+                );
             });
         });
 
@@ -92,17 +114,26 @@ describe('ferov-resource-picker', () => {
             props.value = 'test display text';
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
                 expect(baseResourcePicker.value).toEqual(props.value);
             });
         });
 
         it('has the value set as an item', () => {
-            props.value = { value: '{!testValue}', displayText: 'test display text'};
-            normalizeFEROV.mockImplementationOnce(() => ({itemOrDisplayText: props.value}));
+            props.value = {
+                value: '{!testValue}',
+                displayText: 'test display text'
+            };
+            normalizeFEROV.mockImplementationOnce(() => ({
+                itemOrDisplayText: props.value
+            }));
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
                 expect(baseResourcePicker.value).toEqual(props.value);
             });
         });
@@ -129,14 +160,25 @@ describe('ferov-resource-picker', () => {
         props.value = 'foo';
         const normalizedValue = {
             itemOrDisplayText: {
-                value: props.value,
+                value: props.value
             }
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true, false);
+            expect(getMenuData).toHaveBeenCalledWith(
+                undefined,
+                ELEMENT_TYPE.VARIABLE,
+                expect.any(Function),
+                true,
+                false,
+                Store.getStore(),
+                true,
+                undefined,
+                undefined,
+                true,
+                false
+            );
         });
     });
 
@@ -145,15 +187,26 @@ describe('ferov-resource-picker', () => {
         const normalizedValue = {
             itemOrDisplayText: {
                 value: props.value,
-                parent: parentItem,
+                parent: parentItem
             },
-            fields: ['mockField'],
+            fields: ['mockField']
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, parentItem, ["mockField"], true, false);
+            expect(getMenuData).toHaveBeenCalledWith(
+                undefined,
+                ELEMENT_TYPE.VARIABLE,
+                expect.any(Function),
+                true,
+                false,
+                Store.getStore(),
+                true,
+                parentItem,
+                ['mockField'],
+                true,
+                false
+            );
         });
     });
 
@@ -162,29 +215,51 @@ describe('ferov-resource-picker', () => {
         const normalizedValue = {
             itemOrDisplayText: {
                 value: props.value,
-                parent: parentItem,
+                parent: parentItem
             },
-            fields: undefined,
+            fields: undefined
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, parentItem, undefined, true, false);
+            expect(getMenuData).toHaveBeenCalledWith(
+                undefined,
+                ELEMENT_TYPE.VARIABLE,
+                expect.any(Function),
+                true,
+                false,
+                Store.getStore(),
+                true,
+                parentItem,
+                undefined,
+                true,
+                false
+            );
         });
     });
 
     it('uses rule service and expression utils to retrieve ferov data', () => {
         const normalizedValue = {
             itemOrDisplayText: {
-                value: props.value,
+                value: props.value
             }
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
-            expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true, false);
+            expect(getMenuData).toHaveBeenCalledWith(
+                undefined,
+                ELEMENT_TYPE.VARIABLE,
+                expect.any(Function),
+                true,
+                false,
+                Store.getStore(),
+                true,
+                undefined,
+                undefined,
+                true,
+                false
+            );
         });
     });
 
@@ -192,7 +267,7 @@ describe('ferov-resource-picker', () => {
         it('calls getRHSTypes with the right arguments', () => {
             const normalizedValue = {
                 itemOrDisplayText: {
-                    value: props.value,
+                    value: props.value
                 }
             };
             normalizeFEROV.mockReturnValueOnce(normalizedValue);
@@ -202,8 +277,12 @@ describe('ferov-resource-picker', () => {
             return Promise.resolve().then(() => {
                 const populateParamTypesFn = getMenuData.mock.calls[0][2];
                 populateParamTypesFn();
-                expect(mockRuleLib.getRHSTypes).toHaveBeenCalledWith(ELEMENT_TYPE.VARIABLE, { elementType: ELEMENT_TYPE.VARIABLE },
-                    mockRuleLib.RULE_OPERATOR.ASSIGN, mockRules);
+                expect(mockRuleLib.getRHSTypes).toHaveBeenCalledWith(
+                    ELEMENT_TYPE.VARIABLE,
+                    { elementType: ELEMENT_TYPE.VARIABLE },
+                    mockRuleLib.RULE_OPERATOR.ASSIGN,
+                    mockRules
+                );
             });
         });
     });
@@ -211,26 +290,40 @@ describe('ferov-resource-picker', () => {
     it('does not set param types with elementConfig set', () => {
         const elementConfigProps = {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
-            elementConfig: { elementType: ELEMENT_TYPE.VARIABLE, shouldBeWritable: false }
+            elementConfig: {
+                elementType: ELEMENT_TYPE.VARIABLE,
+                shouldBeWritable: false
+            }
         };
         const normalizedValue = {
             itemOrDisplayText: {
-                value: props.value,
+                value: props.value
             }
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
         setupComponentUnderTest(elementConfigProps);
         return Promise.resolve().then(() => {
             expect(mockRuleLib.getRHSTypes).not.toHaveBeenCalled();
-            expect(getMenuData).toHaveBeenCalledWith(elementConfigProps.elementConfig, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true, false);
+            expect(getMenuData).toHaveBeenCalledWith(
+                elementConfigProps.elementConfig,
+                ELEMENT_TYPE.VARIABLE,
+                expect.any(Function),
+                true,
+                false,
+                Store.getStore(),
+                true,
+                undefined,
+                undefined,
+                true,
+                false
+            );
         });
     });
 
     it('sends param types to the base picker when enableFieldDrilldown is true', () => {
         const normalizedValue = {
             itemOrDisplayText: {
-                value: props.value,
+                value: props.value
             }
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
@@ -238,15 +331,21 @@ describe('ferov-resource-picker', () => {
         props.rules = mockRules;
         props.comboboxConfig.enableFieldDrilldown = true;
         const ferovPicker = setupComponentUnderTest(props);
-        const basePicker = ferovPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        const basePicker = ferovPicker.shadowRoot.querySelector(
+            BaseResourcePicker.SELECTOR
+        );
 
         return Promise.resolve().then(() => {
             const populateParamTypesFn = getMenuData.mock.calls[0][2];
             populateParamTypesFn();
             return Promise.resolve().then(() => {
                 expect(mockRuleLib.getRHSTypes).toHaveBeenCalled();
-                expect(mockRuleLib.getRHSTypes.mock.results[0]).toEqual(expect.any(Object));
-                expect(basePicker.allowedParamTypes).toEqual(mockRuleLib.mockParam);
+                expect(mockRuleLib.getRHSTypes.mock.results[0]).toEqual(
+                    expect.any(Object)
+                );
+                expect(basePicker.allowedParamTypes).toEqual(
+                    mockRuleLib.mockParam
+                );
             });
         });
     });
@@ -254,20 +353,24 @@ describe('ferov-resource-picker', () => {
     it('does not send param types to the base picker when enableFieldDrilldown is not set', () => {
         const normalizedValue = {
             itemOrDisplayText: {
-                value: props.value,
+                value: props.value
             }
         };
         normalizeFEROV.mockReturnValueOnce(normalizedValue);
         const mockRules = ['rule1'];
         props.rules = mockRules;
         const ferovPicker = setupComponentUnderTest(props);
-        const basePicker = ferovPicker.shadowRoot.querySelector(BaseResourcePicker.SELECTOR);
+        const basePicker = ferovPicker.shadowRoot.querySelector(
+            BaseResourcePicker.SELECTOR
+        );
 
         return Promise.resolve().then(() => {
             const populateParamTypesFn = getMenuData.mock.calls[0][2];
             populateParamTypesFn();
             expect(mockRuleLib.getRHSTypes).toHaveBeenCalled();
-            expect(mockRuleLib.getRHSTypes.mock.results[0]).toEqual(expect.any(Object));
+            expect(mockRuleLib.getRHSTypes.mock.results[0]).toEqual(
+                expect.any(Object)
+            );
             expect(basePicker.allowedParamTypes).toEqual(null);
         });
     });
@@ -299,24 +402,34 @@ describe('ferov-resource-picker', () => {
     });
     describe('event handling', () => {
         const comboboxValue = {
-            value: "value",
+            value: 'value'
         };
-        const displayText = "displayText";
+        const displayText = 'displayText';
         it('when combobox changes to valid item, item is stored', () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
+                baseResourcePicker.dispatchEvent(
+                    new ComboboxStateChangedEvent(comboboxValue, displayText)
+                );
                 return Promise.resolve().then(() => {
-                    expect(ferovResourcePicker.value).toMatchObject(comboboxValue);
+                    expect(ferovResourcePicker.value).toMatchObject(
+                        comboboxValue
+                    );
                 });
             });
         });
         it('when combobox changes to valid literal, literal is stored', () => {
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(null, displayText));
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
+                baseResourcePicker.dispatchEvent(
+                    new ComboboxStateChangedEvent(null, displayText)
+                );
                 return Promise.resolve().then(() => {
                     expect(ferovResourcePicker.value).toEqual(displayText);
                 });
@@ -326,8 +439,12 @@ describe('ferov-resource-picker', () => {
             props.errorMessage = 'error';
             const ferovResourcePicker = setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-                baseResourcePicker.dispatchEvent(new ComboboxStateChangedEvent(comboboxValue, displayText));
+                const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
+                    SELECTORS.BASE_RESOURCE_PICKER
+                );
+                baseResourcePicker.dispatchEvent(
+                    new ComboboxStateChangedEvent(comboboxValue, displayText)
+                );
                 return Promise.resolve().then(() => {
                     expect(ferovResourcePicker.value).toEqual(displayText);
                 });
@@ -337,36 +454,80 @@ describe('ferov-resource-picker', () => {
     describe('handles system & global variables', () => {
         beforeEach(() => {
             // if RHS doesn't exist, menu data isn't set
-            normalizeFEROV.mockReturnValueOnce({itemOrDisplayText: 'foo'});
+            normalizeFEROV.mockReturnValueOnce({ itemOrDisplayText: 'foo' });
         });
         it('defaults hideSystemVariables to false', () => {
             setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true, false);
+                expect(getMenuData).toHaveBeenCalledWith(
+                    undefined,
+                    ELEMENT_TYPE.VARIABLE,
+                    expect.any(Function),
+                    true,
+                    false,
+                    Store.getStore(),
+                    true,
+                    undefined,
+                    undefined,
+                    true,
+                    false
+                );
             });
         });
         it('defaults showGlobalVariables to false', () => {
             setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true, false);
+                expect(getMenuData).toHaveBeenCalledWith(
+                    undefined,
+                    ELEMENT_TYPE.VARIABLE,
+                    expect.any(Function),
+                    true,
+                    false,
+                    Store.getStore(),
+                    true,
+                    undefined,
+                    undefined,
+                    true,
+                    false
+                );
             });
         });
         it('passes along showSystemVariables setting', () => {
             props.hideSystemVariables = true;
             setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, false, false);
+                expect(getMenuData).toHaveBeenCalledWith(
+                    undefined,
+                    ELEMENT_TYPE.VARIABLE,
+                    expect.any(Function),
+                    true,
+                    false,
+                    Store.getStore(),
+                    true,
+                    undefined,
+                    undefined,
+                    false,
+                    false
+                );
             });
         });
         it('passes along showGlobalVariables setting', () => {
             props.showGlobalVariables = true;
             setupComponentUnderTest(props);
             return Promise.resolve().then(() => {
-                expect(getMenuData).toHaveBeenCalledWith(undefined, ELEMENT_TYPE.VARIABLE, expect.any(Function),
-                true, false, Store.getStore(), true, undefined, undefined, true, true);
+                expect(getMenuData).toHaveBeenCalledWith(
+                    undefined,
+                    ELEMENT_TYPE.VARIABLE,
+                    expect.any(Function),
+                    true,
+                    false,
+                    Store.getStore(),
+                    true,
+                    undefined,
+                    undefined,
+                    true,
+                    true
+                );
             });
         });
     });

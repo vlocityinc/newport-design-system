@@ -3,7 +3,6 @@
  */
 const eventName = 'actionsloaded';
 
-
 export class ActionsLoadedEvent {
     constructor(value = null, number = null) {
         return new CustomEvent(eventName, {

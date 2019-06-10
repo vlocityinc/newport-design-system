@@ -1,4 +1,4 @@
-import reducer from "../connectorsReducer";
+import reducer from '../connectorsReducer';
 import {
     ADD_CONNECTOR,
     SELECT_ON_CANVAS,
@@ -9,35 +9,44 @@ import {
     DELETE_ELEMENT,
     MODIFY_DECISION_WITH_OUTCOMES,
     MODIFY_WAIT_WITH_WAIT_EVENTS
-} from "builder_platform_interaction/actions";
-import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+} from 'builder_platform_interaction/actions';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-const connectorsState = [{
-    guid: 'c1',
-    label: 'l1',
-    childSource: 'childGuid1'
-}, {
-    guid: 'c2',
-    label: 'l2'
-}];
+const connectorsState = [
+    {
+        guid: 'c1',
+        label: 'l1',
+        childSource: 'childGuid1'
+    },
+    {
+        guid: 'c2',
+        label: 'l2'
+    }
+];
 
-const newConnectorStateAfterAddingConnector = [{
-    guid: 'c1',
-    label: 'l1',
-    childSource: 'childGuid1'
-}, {
-    guid: 'c2',
-    label: 'l2'
-}, {
-    guid: 'c3',
-    label: 'l3'
-}];
+const newConnectorStateAfterAddingConnector = [
+    {
+        guid: 'c1',
+        label: 'l1',
+        childSource: 'childGuid1'
+    },
+    {
+        guid: 'c2',
+        label: 'l2'
+    },
+    {
+        guid: 'c3',
+        label: 'l3'
+    }
+];
 
-const newConnectorStateAfterConnectorDeletion = [{
-    guid: 'c1',
-    label: 'l1',
-    childSource: 'childGuid1'
-}];
+const newConnectorStateAfterConnectorDeletion = [
+    {
+        guid: 'c1',
+        label: 'l1',
+        childSource: 'childGuid1'
+    }
+];
 
 const getConnectorWithConfigProp = (guid, isSelected) => {
     return {
@@ -56,32 +65,51 @@ describe('connectors-reducer', () => {
                 label: 'l3'
             };
 
-            expect(reducer(connectorsState, {
-                type: ADD_CONNECTOR,
-                payload
-            })).toEqual(newConnectorStateAfterAddingConnector);
+            expect(
+                reducer(connectorsState, {
+                    type: ADD_CONNECTOR,
+                    payload
+                })
+            ).toEqual(newConnectorStateAfterAddingConnector);
         });
     });
 
     describe('Select Connectors on Canvas', () => {
         it('With state set to undefined & action type is SELECT_ON_CANVAS should return the copy of original state', () => {
             const updatedConnectors = [];
-            const newConnectorState = reducer(undefined, {type: SELECT_ON_CANVAS, payload: {guid: 'guid1' }});
+            const newConnectorState = reducer(undefined, {
+                type: SELECT_ON_CANVAS,
+                payload: { guid: 'guid1' }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
         describe('Connector being clicked upon', () => {
             it('When the connector is deselected, the connector gets selected.', () => {
-                const connectorState = [getConnectorWithConfigProp('selectedGUID', false)];
-                const newConnectorState = reducer(connectorState, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
-                const updatedConnectors = [getConnectorWithConfigProp('selectedGUID', true)];
+                const connectorState = [
+                    getConnectorWithConfigProp('selectedGUID', false)
+                ];
+                const newConnectorState = reducer(connectorState, {
+                    type: SELECT_ON_CANVAS,
+                    payload: { guid: 'selectedGUID' }
+                });
+                const updatedConnectors = [
+                    getConnectorWithConfigProp('selectedGUID', true)
+                ];
                 expect(newConnectorState).toEqual(updatedConnectors);
             });
 
             it('When the connector is selected, the connector stays selected.', () => {
-                const connectorState = [getConnectorWithConfigProp('selectedGUID', true)];
-                const newConnectorState = reducer(connectorState, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
-                const updatedConnectors = [getConnectorWithConfigProp('selectedGUID', true)];
+                const connectorState = [
+                    getConnectorWithConfigProp('selectedGUID', true)
+                ];
+                const newConnectorState = reducer(connectorState, {
+                    type: SELECT_ON_CANVAS,
+                    payload: { guid: 'selectedGUID' }
+                });
+                const updatedConnectors = [
+                    getConnectorWithConfigProp('selectedGUID', true)
+                ];
                 expect(newConnectorState).toEqual(updatedConnectors);
             });
         });
@@ -96,7 +124,10 @@ describe('connectors-reducer', () => {
                     getConnectorWithConfigProp('selectedGUID', true),
                     getConnectorWithConfigProp('guid2', false)
                 ];
-                const newConnectorState = reducer(connectorState, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                const newConnectorState = reducer(connectorState, {
+                    type: SELECT_ON_CANVAS,
+                    payload: { guid: 'selectedGUID' }
+                });
                 expect(newConnectorState).toEqual(updatedConnectors);
             });
 
@@ -109,7 +140,10 @@ describe('connectors-reducer', () => {
                     getConnectorWithConfigProp('selectedGUID', true),
                     getConnectorWithConfigProp('guid2', false)
                 ];
-                const newConnectorState = reducer(connectorState, {type: SELECT_ON_CANVAS, payload: {guid: 'selectedGUID' }});
+                const newConnectorState = reducer(connectorState, {
+                    type: SELECT_ON_CANVAS,
+                    payload: { guid: 'selectedGUID' }
+                });
                 expect(newConnectorState).toEqual(updatedConnectors);
             });
         });
@@ -118,21 +152,38 @@ describe('connectors-reducer', () => {
     describe('Toggle Connectors on Canvas', () => {
         it('With state set to undefined & action type is TOGGLE_ON_CANVAS should return the copy of original state', () => {
             const updatedConnectors = [];
-            const newConnectorState = reducer(undefined, {type: TOGGLE_ON_CANVAS, payload: {guid: 'guid1' }});
+            const newConnectorState = reducer(undefined, {
+                type: TOGGLE_ON_CANVAS,
+                payload: { guid: 'guid1' }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
         it('When the connector is deselected, the connector gets selected.', () => {
-            const connectorState = [getConnectorWithConfigProp('toggledGUID', false)];
-            const updatedConnectors = [getConnectorWithConfigProp('toggledGUID', true)];
-            const newConnectorState = reducer(connectorState, {type: TOGGLE_ON_CANVAS, payload: {guid: 'toggledGUID' }});
+            const connectorState = [
+                getConnectorWithConfigProp('toggledGUID', false)
+            ];
+            const updatedConnectors = [
+                getConnectorWithConfigProp('toggledGUID', true)
+            ];
+            const newConnectorState = reducer(connectorState, {
+                type: TOGGLE_ON_CANVAS,
+                payload: { guid: 'toggledGUID' }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
         it('When the connector is selected, the connector gets deselected.', () => {
-            const connectorState = [getConnectorWithConfigProp('toggledGUID', true)];
-            const updatedConnectors = [getConnectorWithConfigProp('toggledGUID', false)];
-            const newConnectorState = reducer(connectorState, {type: TOGGLE_ON_CANVAS, payload: {guid: 'toggledGUID' }});
+            const connectorState = [
+                getConnectorWithConfigProp('toggledGUID', true)
+            ];
+            const updatedConnectors = [
+                getConnectorWithConfigProp('toggledGUID', false)
+            ];
+            const newConnectorState = reducer(connectorState, {
+                type: TOGGLE_ON_CANVAS,
+                payload: { guid: 'toggledGUID' }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
     });
@@ -140,7 +191,10 @@ describe('connectors-reducer', () => {
     describe('Deselect Connectors on Canvas', () => {
         it('With state set to undefined & action type is DESELECT_ON_CANVAS should return the copy of original state', () => {
             const updatedConnectors = [];
-            const newConnectorState = reducer(undefined, {type: DESELECT_ON_CANVAS, payload: {guid: 'guid1' }});
+            const newConnectorState = reducer(undefined, {
+                type: DESELECT_ON_CANVAS,
+                payload: { guid: 'guid1' }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
@@ -152,8 +206,10 @@ describe('connectors-reducer', () => {
             const updatedConnectors = [
                 getConnectorWithConfigProp('guid1', false),
                 getConnectorWithConfigProp('guid2', false)
-        ];
-            const newConnectorState = reducer(connectorState, {type: DESELECT_ON_CANVAS});
+            ];
+            const newConnectorState = reducer(connectorState, {
+                type: DESELECT_ON_CANVAS
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
     });
@@ -161,7 +217,13 @@ describe('connectors-reducer', () => {
     describe('Marquee Select Connectors on Canvas', () => {
         it('With state set to undefined & action type is DESELECT_ON_CANVAS should return the copy of original state', () => {
             const updatedConnectors = [];
-            const newConnectorState = reducer(undefined, {type: MARQUEE_SELECT_ON_CANVAS, payload: { connectorGuidsToSelect: [], connectorGuidsToDeselect: [] }});
+            const newConnectorState = reducer(undefined, {
+                type: MARQUEE_SELECT_ON_CANVAS,
+                payload: {
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
@@ -180,7 +242,13 @@ describe('connectors-reducer', () => {
                 getConnectorWithConfigProp('guid3', false),
                 getConnectorWithConfigProp('guid4', false)
             ];
-            const newConnectorState = reducer(connectorState, {type: MARQUEE_SELECT_ON_CANVAS, payload: { connectorGuidsToSelect: guidsToSelect, connectorGuidsToDeselect: guidsToDeselect }});
+            const newConnectorState = reducer(connectorState, {
+                type: MARQUEE_SELECT_ON_CANVAS,
+                payload: {
+                    connectorGuidsToSelect: guidsToSelect,
+                    connectorGuidsToDeselect: guidsToDeselect
+                }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
@@ -199,7 +267,13 @@ describe('connectors-reducer', () => {
                 getConnectorWithConfigProp('guid3', false),
                 getConnectorWithConfigProp('guid4', false)
             ];
-            const newConnectorState = reducer(connectorState, {type: MARQUEE_SELECT_ON_CANVAS, payload: { connectorGuidsToSelect: guidsToSelect, connectorGuidsToDeselect: guidsToDeselect }});
+            const newConnectorState = reducer(connectorState, {
+                type: MARQUEE_SELECT_ON_CANVAS,
+                payload: {
+                    connectorGuidsToSelect: guidsToSelect,
+                    connectorGuidsToDeselect: guidsToDeselect
+                }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
 
@@ -218,7 +292,13 @@ describe('connectors-reducer', () => {
                 getConnectorWithConfigProp('guid3', false),
                 getConnectorWithConfigProp('guid4', false)
             ];
-            const newConnectorState = reducer(connectorState, {type: MARQUEE_SELECT_ON_CANVAS, payload: { connectorGuidsToSelect: guidsToSelect, connectorGuidsToDeselect: guidsToDeselect }});
+            const newConnectorState = reducer(connectorState, {
+                type: MARQUEE_SELECT_ON_CANVAS,
+                payload: {
+                    connectorGuidsToSelect: guidsToSelect,
+                    connectorGuidsToDeselect: guidsToDeselect
+                }
+            });
             expect(newConnectorState).toEqual(updatedConnectors);
         });
     });
@@ -226,15 +306,19 @@ describe('connectors-reducer', () => {
     describe('DELETE_ELEMENT', () => {
         it('with deleting one associated connector', () => {
             const payload = {
-                connectorsToDelete: [{
-                    guid: 'c2'
-                }]
+                connectorsToDelete: [
+                    {
+                        guid: 'c2'
+                    }
+                ]
             };
 
-            expect(reducer(connectorsState, {
-                type: DELETE_ELEMENT,
-                payload
-            })).toEqual(newConnectorStateAfterConnectorDeletion);
+            expect(
+                reducer(connectorsState, {
+                    type: DELETE_ELEMENT,
+                    payload
+                })
+            ).toEqual(newConnectorStateAfterConnectorDeletion);
         });
     });
 
@@ -254,16 +338,18 @@ describe('connectors-reducer', () => {
             const childElementGuidMap = {
                 [childElementGuid]: duplicateChildElementGuid
             };
-            const connectors = [{
-                label: 'foo',
-                source: elementGuid,
-                childSource: childElementGuid,
-                target: targetElementGuid,
-                type: CONNECTOR_TYPE.REGULAR,
-                config: {
-                    isSelected: true
+            const connectors = [
+                {
+                    label: 'foo',
+                    source: elementGuid,
+                    childSource: childElementGuid,
+                    target: targetElementGuid,
+                    type: CONNECTOR_TYPE.REGULAR,
+                    config: {
+                        isSelected: true
+                    }
                 }
-            }];
+            ];
 
             const payload = {
                 canvasElementGuidMap,
@@ -288,8 +374,12 @@ describe('connectors-reducer', () => {
                     isSelected: true
                 }
             };
-            expect(newConnectorsState).toContainEqual(expect.objectContaining(expectedOriginalConnector));
-            expect(newConnectorsState).toContainEqual(expect.objectContaining(expectedDuplicateConnector));
+            expect(newConnectorsState).toContainEqual(
+                expect.objectContaining(expectedOriginalConnector)
+            );
+            expect(newConnectorsState).toContainEqual(
+                expect.objectContaining(expectedDuplicateConnector)
+            );
         });
     });
 
@@ -298,29 +388,35 @@ describe('connectors-reducer', () => {
             const payloadWithNoDeletedComponents = {
                 canvasElement: {},
                 childElements: [{}],
-                deletedChildElementGuids: [],
+                deletedChildElementGuids: []
             };
 
-            expect(reducer(connectorsState, {
-                type: MODIFY_DECISION_WITH_OUTCOMES,
-                payload: payloadWithNoDeletedComponents
-            })).toEqual(connectorsState);
+            expect(
+                reducer(connectorsState, {
+                    type: MODIFY_DECISION_WITH_OUTCOMES,
+                    payload: payloadWithNoDeletedComponents
+                })
+            ).toEqual(connectorsState);
         });
 
         describe('with modified outcome label', () => {
             it('with no connections does nothing', () => {
                 const payloadWithModifiedOutcomeButNoConnection = {
                     canvasElement: {},
-                    childElements: [{
-                        guid: 'outcomeWithNoConnection'
-                    }],
-                    deletedChildElementGuids: [],
+                    childElements: [
+                        {
+                            guid: 'outcomeWithNoConnection'
+                        }
+                    ],
+                    deletedChildElementGuids: []
                 };
 
-                expect(reducer(connectorsState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: payloadWithModifiedOutcomeButNoConnection
-                })).toEqual(connectorsState);
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_DECISION_WITH_OUTCOMES,
+                        payload: payloadWithModifiedOutcomeButNoConnection
+                    })
+                ).toEqual(connectorsState);
             });
 
             it('with connection associatd with outcome updates the connection label', () => {
@@ -328,11 +424,13 @@ describe('connectors-reducer', () => {
 
                 const payloadWithModifiedOutcomeWithConnection = {
                     canvasElement: {},
-                    childElements: [{
-                        guid: 'childGuid1',
-                        label: newLabel
-                    }],
-                    deletedChildElementGuids: [],
+                    childElements: [
+                        {
+                            guid: 'childGuid1',
+                            label: newLabel
+                        }
+                    ],
+                    deletedChildElementGuids: []
                 };
 
                 const updatedConnectors = reducer(connectorsState, {
@@ -349,26 +447,30 @@ describe('connectors-reducer', () => {
                 const payloadWithDeletedOutcomeButNoConnection = {
                     canvasElement: {},
                     childElements: [{}],
-                    deletedChildElementGuids: [],
+                    deletedChildElementGuids: []
                 };
 
-                expect(reducer(connectorsState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: payloadWithDeletedOutcomeButNoConnection
-                })).toEqual(connectorsState);
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_DECISION_WITH_OUTCOMES,
+                        payload: payloadWithDeletedOutcomeButNoConnection
+                    })
+                ).toEqual(connectorsState);
             });
 
             it('with connections deletes the connection', () => {
                 const payloadWithDeletedOutcomeWithConnection = {
                     canvasElement: {},
                     childElements: [{}],
-                    deletedChildElementGuids: ['childGuid1'],
+                    deletedChildElementGuids: ['childGuid1']
                 };
 
-                expect(reducer(connectorsState, {
-                    type: MODIFY_DECISION_WITH_OUTCOMES,
-                    payload: payloadWithDeletedOutcomeWithConnection
-                })).toEqual([connectorsState[1]]);
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_DECISION_WITH_OUTCOMES,
+                        payload: payloadWithDeletedOutcomeWithConnection
+                    })
+                ).toEqual([connectorsState[1]]);
             });
         });
     });
@@ -378,16 +480,20 @@ describe('connectors-reducer', () => {
             it('with no connections does nothing', () => {
                 const payloadWithModifiedWaitEventButNoConnection = {
                     canvasElement: {},
-                    childElements: [{
-                        guid: 'waitEventWithNoConnection'
-                    }],
-                    deletedChildElementGuids: [],
+                    childElements: [
+                        {
+                            guid: 'waitEventWithNoConnection'
+                        }
+                    ],
+                    deletedChildElementGuids: []
                 };
 
-                expect(reducer(connectorsState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: payloadWithModifiedWaitEventButNoConnection
-                })).toEqual(connectorsState);
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                        payload: payloadWithModifiedWaitEventButNoConnection
+                    })
+                ).toEqual(connectorsState);
             });
 
             it('with connection associatd with wait event updates the connection label', () => {
@@ -395,11 +501,13 @@ describe('connectors-reducer', () => {
 
                 const payloadWithModifiedWaitEventButNoConnection = {
                     canvasElement: {},
-                    childElements: [{
-                        guid: 'childGuid1',
-                        label: newLabel
-                    }],
-                    deletedChildElementGuids: [],
+                    childElements: [
+                        {
+                            guid: 'childGuid1',
+                            label: newLabel
+                        }
+                    ],
+                    deletedChildElementGuids: []
                 };
 
                 const updatedConnectors = reducer(connectorsState, {
@@ -416,26 +524,30 @@ describe('connectors-reducer', () => {
                 const payloadWithDeletedWaitEventButNoConnection = {
                     canvasElement: {},
                     childElements: [{}],
-                    deletedChildElementGuids: [],
+                    deletedChildElementGuids: []
                 };
 
-                expect(reducer(connectorsState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: payloadWithDeletedWaitEventButNoConnection
-                })).toEqual(connectorsState);
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                        payload: payloadWithDeletedWaitEventButNoConnection
+                    })
+                ).toEqual(connectorsState);
             });
 
             it('with connections deletes the connection', () => {
                 const payloadWithDeletedWaitEventWithConnection = {
                     canvasElement: {},
                     childElements: [{}],
-                    deletedChildElementGuids: ['childGuid1'],
+                    deletedChildElementGuids: ['childGuid1']
                 };
 
-                expect(reducer(connectorsState, {
-                    type: MODIFY_WAIT_WITH_WAIT_EVENTS,
-                    payload: payloadWithDeletedWaitEventWithConnection
-                })).toEqual([connectorsState[1]]);
+                expect(
+                    reducer(connectorsState, {
+                        type: MODIFY_WAIT_WITH_WAIT_EVENTS,
+                        payload: payloadWithDeletedWaitEventWithConnection
+                    })
+                ).toEqual([connectorsState[1]]);
             });
         });
     });

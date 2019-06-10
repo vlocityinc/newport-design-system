@@ -1,14 +1,28 @@
 import { createElement } from 'lwc';
-import { EditElementEvent, PaletteItemClickedEvent, ShowResourceDetailsEvent } from "builder_platform_interaction/events";
-import LeftPanel from "builder_platform_interaction/leftPanel";
+import {
+    EditElementEvent,
+    PaletteItemClickedEvent,
+    ShowResourceDetailsEvent
+} from 'builder_platform_interaction/events';
+import LeftPanel from 'builder_platform_interaction/leftPanel';
 import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
-import { lookupRecordAutomaticOutputGuid, lookupRecordOutputReferenceGuid, lookupRecordCollectionAutomaticOutputGuid, actionCallElementGuid, numberVariableGuid } from 'mock/storeData';
+import {
+    lookupRecordAutomaticOutputGuid,
+    lookupRecordOutputReferenceGuid,
+    lookupRecordCollectionAutomaticOutputGuid,
+    actionCallElementGuid,
+    numberVariableGuid
+} from 'mock/storeData';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const createComponentUnderTest = () => {
-    const el = createElement('builder_platform_interaction-left-panel', { is: LeftPanel });
+    const el = createElement('builder_platform_interaction-left-panel', {
+        is: LeftPanel
+    });
     document.body.appendChild(el);
     return el;
 };
@@ -23,7 +37,7 @@ const selectors = {
     footerButtons: 'lightning-button',
     addnewresource: '.new-resource-button',
     searchInput: 'lightning-input',
-    leftPanelResources : 'builder_platform_interaction-left-panel-resources'
+    leftPanelResources: 'builder_platform_interaction-left-panel-resources'
 };
 
 const getSectionItem = (sections, { sectionLabel, elementGuid }) => {
@@ -58,7 +72,11 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
+            element.shadowRoot
+                .querySelector(
+                    'builder_platform_interaction-left-panel-resources'
+                )
+                .dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
                 const panel = element.shadowRoot.querySelector(selectors.panel);
                 expect(panel.classList).toContain('slds-is-open');
@@ -72,7 +90,9 @@ describe('left-panel', () => {
             it('when in Flow Resource List view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
                 return Promise.resolve().then(() => {
-                    const header = element.shadowRoot.querySelector(selectors.panelHeader);
+                    const header = element.shadowRoot.querySelector(
+                        selectors.panelHeader
+                    );
                     expect(header.classList).toContain('slds-p-left_medium');
                 });
             });
@@ -80,11 +100,21 @@ describe('left-panel', () => {
             it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
                 const guid = 'guid1';
-                const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
-                element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
+                const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+                    guid
+                );
+                element.shadowRoot
+                    .querySelector(
+                        'builder_platform_interaction-left-panel-resources'
+                    )
+                    .dispatchEvent(showResourceDetailsEvent);
                 return Promise.resolve().then(() => {
-                    const header = element.shadowRoot.querySelector(selectors.panelHeader);
-                    expect(header.classList).not.toContain('slds-p-left_medium');
+                    const header = element.shadowRoot.querySelector(
+                        selectors.panelHeader
+                    );
+                    expect(header.classList).not.toContain(
+                        'slds-p-left_medium'
+                    );
                 });
             });
         });
@@ -92,7 +122,9 @@ describe('left-panel', () => {
         it('when in Flow Resource List view - should NOT have Back Button Utility Icon.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+                const backButton = element.shadowRoot.querySelector(
+                    selectors.panelHeaderBackButton
+                );
                 expect(backButton).toBeNull();
             });
         });
@@ -101,9 +133,15 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
+            element.shadowRoot
+                .querySelector(
+                    'builder_platform_interaction-left-panel-resources'
+                )
+                .dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
-                const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+                const backButton = element.shadowRoot.querySelector(
+                    selectors.panelHeaderBackButton
+                );
                 expect(backButton.iconName).toBe('utility:back');
                 expect(backButton.alternativeText).toBe(backButtonAltText);
             });
@@ -113,12 +151,20 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
+            element.shadowRoot
+                .querySelector(
+                    'builder_platform_interaction-left-panel-resources'
+                )
+                .dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
-                const backButton = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+                const backButton = element.shadowRoot.querySelector(
+                    selectors.panelHeaderBackButton
+                );
                 backButton.click();
                 return Promise.resolve().then(() => {
-                    const button = element.shadowRoot.querySelector(selectors.panelHeaderBackButton);
+                    const button = element.shadowRoot.querySelector(
+                        selectors.panelHeaderBackButton
+                    );
                     expect(button).toBeNull();
                 });
             });
@@ -129,7 +175,9 @@ describe('left-panel', () => {
         it('when in Flow Resource List view - should NOT add show-details class.', () => {
             const element = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const leftPanel = element.shadowRoot.querySelector('.slds-panel');
+                const leftPanel = element.shadowRoot.querySelector(
+                    '.slds-panel'
+                );
                 expect(leftPanel.classList).not.toContain('show-details');
             });
         });
@@ -138,9 +186,15 @@ describe('left-panel', () => {
             const element = createComponentUnderTest();
             const guid = 'guid1';
             const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
-            element.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(showResourceDetailsEvent);
+            element.shadowRoot
+                .querySelector(
+                    'builder_platform_interaction-left-panel-resources'
+                )
+                .dispatchEvent(showResourceDetailsEvent);
             return Promise.resolve().then(() => {
-                const leftPanel = element.shadowRoot.querySelector('.slds-panel');
+                const leftPanel = element.shadowRoot.querySelector(
+                    '.slds-panel'
+                );
                 expect(leftPanel.classList).toContain('show-details');
             });
         });
@@ -149,14 +203,23 @@ describe('left-panel', () => {
             describe('New Resource BUTTON', () => {
                 it('Label name should be New Resource ', () => {
                     const leftPanelComponent = createComponentUnderTest();
-                    expect(leftPanelComponent.shadowRoot.querySelector(selectors.addnewresource).label).toEqual(newResourceButtonText);
+                    expect(
+                        leftPanelComponent.shadowRoot.querySelector(
+                            selectors.addnewresource
+                        ).label
+                    ).toEqual(newResourceButtonText);
                 });
                 it('fires add event when NEW RESOURCE button is clicked', () => {
                     const leftPanelComponent = createComponentUnderTest();
                     return Promise.resolve().then(() => {
                         const eventCallback = jest.fn();
-                        leftPanelComponent.addEventListener('addnewresource', eventCallback);
-                        leftPanelComponent.shadowRoot.querySelector(selectors.addnewresource).click();
+                        leftPanelComponent.addEventListener(
+                            'addnewresource',
+                            eventCallback
+                        );
+                        leftPanelComponent.shadowRoot
+                            .querySelector(selectors.addnewresource)
+                            .click();
                         expect(eventCallback).toHaveBeenCalled();
                     });
                 });
@@ -164,30 +227,85 @@ describe('left-panel', () => {
             describe('search input', () => {
                 it('should filter the resources and elements', async () => {
                     const leftPanelComponent = createComponentUnderTest();
-                    const searchInput = leftPanelComponent.shadowRoot.querySelector(selectors.searchInput);
-                    const changeEvent = new CustomEvent('change', { detail: { value : 'lookup' } });
+                    const searchInput = leftPanelComponent.shadowRoot.querySelector(
+                        selectors.searchInput
+                    );
+                    const changeEvent = new CustomEvent('change', {
+                        detail: { value: 'lookup' }
+                    });
                     searchInput.dispatchEvent(changeEvent);
                     await Promise.resolve();
-                    const leftPanelResources = leftPanelComponent.shadowRoot.querySelector(selectors.leftPanelResources);
+                    const leftPanelResources = leftPanelComponent.shadowRoot.querySelector(
+                        selectors.leftPanelResources
+                    );
                     const elementsSections = leftPanelResources.canvasElements;
-                    const resourceSections = leftPanelResources.nonCanvasElements;
-                    expect(getSectionItem(elementsSections, { sectionLabel : 'FlowBuilderElementConfig.recordLookupPluralLabel', elementGuid : lookupRecordAutomaticOutputGuid })).toBeDefined();
-                    expect(getSectionItem(elementsSections, { sectionLabel : 'FlowBuilderElementConfig.recordLookupPluralLabel', elementGuid : lookupRecordOutputReferenceGuid })).toBeDefined();
-                    expect(getSectionItem(elementsSections, { sectionLabel : 'FlowBuilderElementConfig.recordLookupPluralLabel', elementGuid : lookupRecordCollectionAutomaticOutputGuid })).toBeDefined();
-                    expect(getSectionItem(elementsSections, { elementGuid : actionCallElementGuid })).toBeUndefined();
-                    expect(getSectionItem(resourceSections, { sectionLabel : 'FlowBuilderElementConfig.sObjectCollectionPluralLabel', elementGuid : lookupRecordCollectionAutomaticOutputGuid })).toBeDefined();
-                    expect(getSectionItem(resourceSections, { sectionLabel : 'FlowBuilderElementConfig.sObjectPluralLabel', elementGuid : lookupRecordAutomaticOutputGuid })).toBeDefined();
-                    expect(getSectionItem(resourceSections, { elementGuid : numberVariableGuid })).toBeUndefined();
+                    const resourceSections =
+                        leftPanelResources.nonCanvasElements;
+                    expect(
+                        getSectionItem(elementsSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.recordLookupPluralLabel',
+                            elementGuid: lookupRecordAutomaticOutputGuid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(elementsSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.recordLookupPluralLabel',
+                            elementGuid: lookupRecordOutputReferenceGuid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(elementsSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.recordLookupPluralLabel',
+                            elementGuid: lookupRecordCollectionAutomaticOutputGuid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(elementsSections, {
+                            elementGuid: actionCallElementGuid
+                        })
+                    ).toBeUndefined();
+                    expect(
+                        getSectionItem(resourceSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.sObjectCollectionPluralLabel',
+                            elementGuid: lookupRecordCollectionAutomaticOutputGuid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(resourceSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.sObjectPluralLabel',
+                            elementGuid: lookupRecordAutomaticOutputGuid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(resourceSections, {
+                            elementGuid: numberVariableGuid
+                        })
+                    ).toBeUndefined();
                 });
             });
             it('handle Palette Item Click Event ', () => {
                 const leftPanelComponent = createComponentUnderTest();
                 const eventCallback = jest.fn();
-                leftPanelComponent.addEventListener(EditElementEvent.EVENT_NAME, eventCallback);
+                leftPanelComponent.addEventListener(
+                    EditElementEvent.EVENT_NAME,
+                    eventCallback
+                );
                 const type = 'VARIABLE';
                 const guid = 'guid1';
-                const paletteItemClickedEvent = new PaletteItemClickedEvent(type, guid);
-                leftPanelComponent.shadowRoot.querySelector('builder_platform_interaction-left-panel-resources').dispatchEvent(paletteItemClickedEvent);
+                const paletteItemClickedEvent = new PaletteItemClickedEvent(
+                    type,
+                    guid
+                );
+                leftPanelComponent.shadowRoot
+                    .querySelector(
+                        'builder_platform_interaction-left-panel-resources'
+                    )
+                    .dispatchEvent(paletteItemClickedEvent);
                 return Promise.resolve().then(() => {
                     expect(eventCallback).toHaveBeenCalled();
                     expect(eventCallback.mock.calls[0][0]).toMatchObject({

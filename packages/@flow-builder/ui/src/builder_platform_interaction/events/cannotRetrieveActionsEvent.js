@@ -1,6 +1,5 @@
 const eventName = 'cannotretrieveactions';
 
-
 export class CannotRetrieveActionsEvent {
     constructor() {
         return new CustomEvent(eventName, {

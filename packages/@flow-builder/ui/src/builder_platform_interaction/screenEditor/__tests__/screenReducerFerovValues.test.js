@@ -1,27 +1,47 @@
-import { createTestScreenField, createTestScreenWithFields, SCREEN_NULL_DEF_VALUE } from "builder_platform_interaction/builderTestUtils";
-import { screenReducer } from "../screenReducer";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import {
+    createTestScreenField,
+    createTestScreenWithFields,
+    SCREEN_NULL_DEF_VALUE
+} from 'builder_platform_interaction/builderTestUtils';
+import { screenReducer } from '../screenReducer';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { createScreenField } from 'builder_platform_interaction/elementFactory';
-import { EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
+import { EXTENSION_PARAM_PREFIX } from 'builder_platform_interaction/screenEditorUtils';
 
 export const REFERENCE_VALUES = {
-    STRING_1: {value:'{!String1}', valueGuid: 'GUID_String_1', isReference: true},
-    STRING_2: {value:'{!String2}', valueGuid: 'GUID_String_2', isReference: true},
-    NUMBER_3: {value:'{!Number3}', valueGuid: 'GUID_Number_3', isReference: true},
-    CHECKBOX_1: {value:'{!Boolean1}', valueGuid: 'GUID_Boolean_1', isReference: true},
+    STRING_1: {
+        value: '{!String1}',
+        valueGuid: 'GUID_String_1',
+        isReference: true
+    },
+    STRING_2: {
+        value: '{!String2}',
+        valueGuid: 'GUID_String_2',
+        isReference: true
+    },
+    NUMBER_3: {
+        value: '{!Number3}',
+        valueGuid: 'GUID_Number_3',
+        isReference: true
+    },
+    CHECKBOX_1: {
+        value: '{!Boolean1}',
+        valueGuid: 'GUID_Boolean_1',
+        isReference: true
+    }
 };
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     return {
         getElementByGuid(guid) {
             if (guid && guid.startsWith('GUID_')) {
-                const groups = (/GUID_([a-zA-Z]*)_(\d)/g).exec(guid);
+                const groups = /GUID_([a-zA-Z]*)_(\d)/g.exec(guid);
                 return {
                     dataType: groups[1],
-                    elementType: "VARIABLE",
+                    elementType: 'VARIABLE',
                     guid,
-                    isCanvasElement:false,
-                    isCollection:false,
+                    isCanvasElement: false,
+                    isCollection: false,
                     name: groups[1] + groups[2]
                 };
             }
@@ -33,25 +53,33 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             const type = name.substring(0, name.length - 1);
             const num = name.substring(name.length - 1);
             return {
-                dataType:type,
-                elementType: "VARIABLE",
+                dataType: type,
+                elementType: 'VARIABLE',
                 guid: 'GUID_' + type + '_' + num,
-                isCanvasElement:false,
-                isCollection:false,
+                isCanvasElement: false,
+                isCollection: false,
                 name
             };
         }
     };
 });
 
-function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvider, fieldProvider, propertyNameProvider, defaultDataType) {
+function testFerovValue(
+    valueBefore,
+    valueAfter,
+    propertyName,
+    screenFieldProvider,
+    fieldProvider,
+    propertyNameProvider,
+    defaultDataType
+) {
     const dataTypePropName = propertyName + 'DataType';
 
     // Determine value to use (reference, stringValue or null)
     if (valueBefore.isReference) {
-        valueBefore.propertyValue = {elementReference: valueBefore.valueGuid};
+        valueBefore.propertyValue = { elementReference: valueBefore.valueGuid };
     } else if (valueBefore.value) {
-        valueBefore.propertyValue = {stringValue: valueBefore.value};
+        valueBefore.propertyValue = { stringValue: valueBefore.value };
     } else {
         valueBefore.propertyValue = SCREEN_NULL_DEF_VALUE;
     }
@@ -65,7 +93,8 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     expect(screen).toBeDefined();
     if (valueBefore.value) {
         expect(field[propertyName].value).toBe(valueBefore.value);
-    } else if (!valueBefore.isInput) { // Input parameters without a value should be removed from the list
+    } else if (!valueBefore.isInput) {
+        // Input parameters without a value should be removed from the list
         expect(field[propertyName].value).toEqual('');
     }
 
@@ -73,7 +102,8 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
         expect(field[dataTypePropName]).toBe('reference');
     } else if (valueBefore.value) {
         expect(field[dataTypePropName]).toBe('String');
-    } else if (!valueBefore.isInput) { // Input parameters without a value should be removed from the list
+    } else if (!valueBefore.isInput) {
+        // Input parameters without a value should be removed from the list
         expect(field[dataTypePropName]).toBeFalsy();
     }
 
@@ -81,12 +111,18 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     const event = {
         type: PropertyChangedEvent.EVENT_NAME,
         detail: {
-            propertyName: propertyNameProvider ? propertyNameProvider(field) : propertyName,
-            value: {value: valueAfter.value, error: null},
+            propertyName: propertyNameProvider
+                ? propertyNameProvider(field)
+                : propertyName,
+            value: { value: valueAfter.value, error: null },
             error: null,
-            guid: (valueAfter.isReference ? valueAfter.valueGuid : null),
+            guid: valueAfter.isReference ? valueAfter.valueGuid : null,
             oldValue: field ? field[propertyName] : null,
-            dataType: valueAfter.isReference ? (valueAfter.globalConstantDataType || 'reference') : (valueAfter.value ? defaultDataType || 'String' : undefined),
+            dataType: valueAfter.isReference
+                ? valueAfter.globalConstantDataType || 'reference'
+                : valueAfter.value
+                ? defaultDataType || 'String'
+                : undefined
         }
     };
 
@@ -99,11 +135,16 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
     if (valueAfter.shouldBeUndefined) {
         expect(newField).toBeUndefined();
     } else {
-        const expectedValue = valueAfter.isReference && !valueAfter.globalConstantDataType ? valueAfter.valueGuid : valueAfter.value;
+        const expectedValue =
+            valueAfter.isReference && !valueAfter.globalConstantDataType
+                ? valueAfter.valueGuid
+                : valueAfter.value;
         expect(newField[propertyName].value).toBe(expectedValue);
 
         if (valueAfter.isReference && valueAfter.globalConstantDataType) {
-            expect(newField[dataTypePropName]).toBe(valueAfter.globalConstantDataType);
+            expect(newField[dataTypePropName]).toBe(
+                valueAfter.globalConstantDataType
+            );
         } else if (valueAfter.isReference) {
             expect(newField[dataTypePropName]).toBe('reference');
         } else if (valueAfter.value) {
@@ -115,56 +156,106 @@ function testFerovValue(valueBefore, valueAfter, propertyName, screenFieldProvid
 }
 
 function testInputParamValue(valueBefore, valueAfter) {
-    const screenFieldProvider = (value) => {
-        const config = {hydrateValues: false, helpText: false, validation: false, includeNonMDValues: false};
-        const field = createTestScreenField('lcfield1', 'Extension', 'c:fakeCmpName', config);
-        field.inputParameters[0].value = value !== SCREEN_NULL_DEF_VALUE ? value : null;
+    const screenFieldProvider = value => {
+        const config = {
+            hydrateValues: false,
+            helpText: false,
+            validation: false,
+            includeNonMDValues: false
+        };
+        const field = createTestScreenField(
+            'lcfield1',
+            'Extension',
+            'c:fakeCmpName',
+            config
+        );
+        field.inputParameters[0].value =
+            value !== SCREEN_NULL_DEF_VALUE ? value : null;
         field.outputParameters[0].value = 'GUID_String_1';
         return createScreenField(field);
     };
 
-    const fieldProvider = (screen) => {
+    const fieldProvider = screen => {
         return screen.fields[0].inputParameters[0];
     };
 
-    const propertyNameProvider = (field) => {
-        return EXTENSION_PARAM_PREFIX.INPUT + '.' + (field ? field.name.value : 'attribute1');
+    const propertyNameProvider = field => {
+        return (
+            EXTENSION_PARAM_PREFIX.INPUT +
+            '.' +
+            (field ? field.name.value : 'attribute1')
+        );
     };
 
-    testFerovValue(valueBefore, valueAfter, 'value', screenFieldProvider, fieldProvider, propertyNameProvider, 'String');
+    testFerovValue(
+        valueBefore,
+        valueAfter,
+        'value',
+        screenFieldProvider,
+        fieldProvider,
+        propertyNameProvider,
+        'String'
+    );
 }
 
 function testDefaultValue(valueBefore, valueAfter, fieldType) {
-    const screenFieldProvider = (value) => {
-        return createTestScreenField('field1', fieldType || 'TextBox', value, {hydrateValues: false});
+    const screenFieldProvider = value => {
+        return createTestScreenField('field1', fieldType || 'TextBox', value, {
+            hydrateValues: false
+        });
     };
 
-    const fieldProvider = (screen) => {
+    const fieldProvider = screen => {
         return screen.fields[0];
     };
 
-    testFerovValue(valueBefore, valueAfter, 'defaultValue', screenFieldProvider, fieldProvider);
+    testFerovValue(
+        valueBefore,
+        valueAfter,
+        'defaultValue',
+        screenFieldProvider,
+        fieldProvider
+    );
 }
 
 describe('screen reducer change screen field default value', () => {
     it('from literal to literal', () => {
-        testDefaultValue({value:'BEFORE', isReference: false}, {value:'AFTER', isReference:false});
+        testDefaultValue(
+            { value: 'BEFORE', isReference: false },
+            { value: 'AFTER', isReference: false }
+        );
     });
 
     it('from literal to null', () => {
-        testDefaultValue({value:'BEFORE', isReference: false}, {value:null, isReference:false});
+        testDefaultValue(
+            { value: 'BEFORE', isReference: false },
+            { value: null, isReference: false }
+        );
     });
 
     it('from literal to global constant', () => {
-        testDefaultValue({value:'BEFORE', isReference: false}, {value:'$GlobalConstant.EmptyString', isReference:true, globalConstantDataType:'String'});
+        testDefaultValue(
+            { value: 'BEFORE', isReference: false },
+            {
+                value: '$GlobalConstant.EmptyString',
+                isReference: true,
+                globalConstantDataType: 'String'
+            }
+        );
     });
 
     it('from null to literal', () => {
-        testDefaultValue({value:null, isReference: false}, {value:'AFTER', isReference:false});
+        testDefaultValue(
+            { value: null, isReference: false },
+            { value: 'AFTER', isReference: false }
+        );
     });
 
     it('from literal to reference', () => {
-        testDefaultValue({value:'BEFORE', isReference: false}, REFERENCE_VALUES.STRING_1);
+        testDefaultValue(
+            { value: 'BEFORE', isReference: false },
+            REFERENCE_VALUES.STRING_1
+        );
     });
 
     it('from reference to reference', () => {
@@ -176,60 +267,113 @@ describe('screen reducer change screen field default value', () => {
     });
 
     it('from reference to null', () => {
-        testDefaultValue(REFERENCE_VALUES.STRING_1, {value:null, isReference:false});
+        testDefaultValue(REFERENCE_VALUES.STRING_1, {
+            value: null,
+            isReference: false
+        });
     });
 
     it('from reference to global constant', () => {
-        testDefaultValue(REFERENCE_VALUES.CHECKBOX_1, {value:'$GlobalConstant.True', isReference:true, globalConstantDataType:'Boolean'}, 'Checkbox');
+        testDefaultValue(
+            REFERENCE_VALUES.CHECKBOX_1,
+            {
+                value: '$GlobalConstant.True',
+                isReference: true,
+                globalConstantDataType: 'Boolean'
+            },
+            'Checkbox'
+        );
     });
 
     it('from null to reference', () => {
-        testDefaultValue({value:null, isReference:false}, REFERENCE_VALUES.STRING_1);
+        testDefaultValue(
+            { value: null, isReference: false },
+            REFERENCE_VALUES.STRING_1
+        );
     });
 
     it('from null to global constant', () => {
-        testDefaultValue({value:null, isReference:false}, {value:'$GlobalConstant.False', isReference:true, globalConstantDataType:'Boolean'}, 'Checkbox');
+        testDefaultValue(
+            { value: null, isReference: false },
+            {
+                value: '$GlobalConstant.False',
+                isReference: true,
+                globalConstantDataType: 'Boolean'
+            },
+            'Checkbox'
+        );
     });
 
     it('from reference to literal', () => {
-        testDefaultValue(REFERENCE_VALUES.STRING_1, {value:'BEFORE', isReference: false});
+        testDefaultValue(REFERENCE_VALUES.STRING_1, {
+            value: 'BEFORE',
+            isReference: false
+        });
     });
 });
 
 describe('screen reducer change LC screen field input parameter value value', () => {
     it('from literal to literal', () => {
-        testInputParamValue({value:'BEFORE', isReference: false}, {value:'AFTER', isReference:false});
+        testInputParamValue(
+            { value: 'BEFORE', isReference: false },
+            { value: 'AFTER', isReference: false }
+        );
     });
 
     it('from literal to null', () => {
-        testInputParamValue({value:'BEFORE', isReference: false}, {value:null, isReference:false, shouldBeUndefined:true}); // LC Atts set to null must be removed from the params list
+        testInputParamValue(
+            { value: 'BEFORE', isReference: false },
+            { value: null, isReference: false, shouldBeUndefined: true }
+        ); // LC Atts set to null must be removed from the params list
     });
 
     it('from null to literal', () => {
-        testInputParamValue({value:null, isReference: false, isInput: true}, {value:'AFTER', isReference:false});
+        testInputParamValue(
+            { value: null, isReference: false, isInput: true },
+            { value: 'AFTER', isReference: false }
+        );
     });
 
     it('from literal to reference', () => {
-        testInputParamValue({value:'BEFORE', isReference: false}, REFERENCE_VALUES.STRING_1);
+        testInputParamValue(
+            { value: 'BEFORE', isReference: false },
+            REFERENCE_VALUES.STRING_1
+        );
     });
 
     it('from reference to reference', () => {
-        testInputParamValue(REFERENCE_VALUES.STRING_1, REFERENCE_VALUES.STRING_2);
+        testInputParamValue(
+            REFERENCE_VALUES.STRING_1,
+            REFERENCE_VALUES.STRING_2
+        );
     });
 
     it('from reference to reference with a different type', () => {
-        testInputParamValue(REFERENCE_VALUES.STRING_1, REFERENCE_VALUES.NUMBER_3);
+        testInputParamValue(
+            REFERENCE_VALUES.STRING_1,
+            REFERENCE_VALUES.NUMBER_3
+        );
     });
 
     it('from reference to null', () => {
-        testInputParamValue(REFERENCE_VALUES.STRING_1, {value:null, isReference:false, shouldBeUndefined:true}); // LC Atts set to null must be removed from the params list
+        testInputParamValue(REFERENCE_VALUES.STRING_1, {
+            value: null,
+            isReference: false,
+            shouldBeUndefined: true
+        }); // LC Atts set to null must be removed from the params list
     });
 
     it('from null to reference', () => {
-        testInputParamValue({value:null, isReference:false, isInput: true}, REFERENCE_VALUES.STRING_1);
+        testInputParamValue(
+            { value: null, isReference: false, isInput: true },
+            REFERENCE_VALUES.STRING_1
+        );
     });
 
     it('from reference to literal', () => {
-        testInputParamValue(REFERENCE_VALUES.STRING_1, {value:'AFTER', isReference: false});
+        testInputParamValue(REFERENCE_VALUES.STRING_1, {
+            value: 'AFTER',
+            isReference: false
+        });
     });
 });

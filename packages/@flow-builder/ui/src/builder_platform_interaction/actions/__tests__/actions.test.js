@@ -5,15 +5,16 @@ import {
     MODIFY_DECISION_WITH_OUTCOMES,
     UPDATE_VARIABLE_CONSTANT
 } from '../actions';
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 describe('updateElement', () => {
     it('handles modify decision with outcomes', () => {
         const payload = {
-            elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
-            decision: {x: 6},
-            modified: [{a: 1}, {b: 2}],
-            deleted: [{c: 3}]
+            elementType:
+                ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+            decision: { x: 6 },
+            modified: [{ a: 1 }, { b: 2 }],
+            deleted: [{ c: 3 }]
         };
 
         const action = updateElement(payload);
@@ -24,7 +25,7 @@ describe('updateElement', () => {
     it('handles variables with a UPDATE_VARIABLE_CONSTANT action', () => {
         const payload = {
             elementType: ELEMENT_TYPE.VARIABLE,
-            somePayload: {x: 6},
+            somePayload: { x: 6 }
         };
 
         const action = updateElement(payload);
@@ -37,9 +38,10 @@ describe('updateElement', () => {
 describe('addElement', () => {
     it('handles add decision with outcomes', () => {
         const payload = {
-            elementType: ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
-            decision: {x: 6},
-            modified: [{a: 1}, {b: 2}]
+            elementType:
+                ELEMENT_TYPE.DECISION_WITH_MODIFIED_AND_DELETED_OUTCOMES,
+            decision: { x: 6 },
+            modified: [{ a: 1 }, { b: 2 }]
         };
 
         const action = addElement(payload);
@@ -48,4 +50,3 @@ describe('addElement', () => {
         expect(action.payload).toEqual(payload);
     });
 });
-

@@ -1,7 +1,15 @@
 import { LightningElement, api } from 'lwc';
-import { createScreenElementSelectedEvent, createScreenElementDeletedEvent } from "builder_platform_interaction/events";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { SELECTED_CLASS, DRAGGING_CLASS, CONTAINER_DIV_SELECTOR, booleanAttributeValue} from "builder_platform_interaction/screenEditorUtils";
+import {
+    createScreenElementSelectedEvent,
+    createScreenElementDeletedEvent
+} from 'builder_platform_interaction/events';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import {
+    SELECTED_CLASS,
+    DRAGGING_CLASS,
+    CONTAINER_DIV_SELECTOR,
+    booleanAttributeValue
+} from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Selection frame with a header and support for deleting components
@@ -17,7 +25,10 @@ export default class ScreenEditorHighlight extends LightningElement {
     labels = LABELS;
 
     get classList() {
-        return 'highlight slds-is-relative ' + (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '');
+        return (
+            'highlight slds-is-relative ' +
+            (booleanAttributeValue(this, 'selected') ? SELECTED_CLASS : '')
+        );
     }
 
     get isDraggable() {
@@ -32,27 +43,38 @@ export default class ScreenEditorHighlight extends LightningElement {
         return booleanAttributeValue(this, 'displayIcons');
     }
 
-    handleSelected = (event) => {
+    handleSelected = event => {
         event.stopPropagation();
 
         if (!this.selected) {
-            this.dispatchEvent(createScreenElementSelectedEvent(this.screenElement, this.property));
+            this.dispatchEvent(
+                createScreenElementSelectedEvent(
+                    this.screenElement,
+                    this.property
+                )
+            );
         }
-    }
+    };
 
-    handleDelete = (event) => {
+    handleDelete = event => {
         event.stopPropagation();
-        this.dispatchEvent(createScreenElementDeletedEvent(this.screenElement, this.property));
-    }
+        this.dispatchEvent(
+            createScreenElementDeletedEvent(this.screenElement, this.property)
+        );
+    };
 
     handleDragStart(event) {
-        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.add(DRAGGING_CLASS);
+        this.template
+            .querySelector(CONTAINER_DIV_SELECTOR)
+            .classList.add(DRAGGING_CLASS);
         event.dataTransfer.effectAllowed = 'move';
         // Cannot use a different attribute here because only 'text' works in IE
         event.dataTransfer.setData('text', this.screenElement.guid);
     }
 
     handleDragEnd(/* event */) {
-        this.template.querySelector(CONTAINER_DIV_SELECTOR).classList.remove(DRAGGING_CLASS);
+        this.template
+            .querySelector(CONTAINER_DIV_SELECTOR)
+            .classList.remove(DRAGGING_CLASS);
     }
 }

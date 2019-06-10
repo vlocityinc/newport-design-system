@@ -1,22 +1,24 @@
-import { translateUIModelToFlow } from "../uiToFlowTranslator";
+import { translateUIModelToFlow } from '../uiToFlowTranslator';
 
 const uiModel = {
     elements: {
-        'guid1': {
+        guid1: {
             elementType: 'dummyElementType',
             guid: 'guid1',
-            name: 'dummyElementName',
+            name: 'dummyElementName'
         },
-        'guid2': {
+        guid2: {
             elementType: 'startElement',
             guid: 'guid2',
             name: 'startElementName'
         }
     },
-    connectors: [{
-        source: 'guid2',
-        target: 'guid1',
-    }],
+    connectors: [
+        {
+            source: 'guid2',
+            target: 'guid1'
+        }
+    ],
     properties: {
         versionNumber: 1,
         name: 'flow name',
@@ -40,7 +42,7 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
 });
 jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
-        getConfigForElementType: jest.fn().mockImplementation((elementType) => {
+        getConfigForElementType: jest.fn().mockImplementation(elementType => {
             if (elementType === 'dummyElementType') {
                 return {
                     metadataKey: 'dummyMetadataKey',

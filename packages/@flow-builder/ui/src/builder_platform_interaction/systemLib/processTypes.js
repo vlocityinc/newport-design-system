@@ -7,7 +7,7 @@ const processTypesFeatures = new Map();
  * @param {Object}
  *            data the data returned by the service
  */
-export const setProcessTypes = (data) => {
+export const setProcessTypes = data => {
     const parsedTypes = JSON.parse(data.processTypes);
     if (Array.isArray(parsedTypes)) {
         processTypes = parsedTypes;
@@ -34,6 +34,6 @@ export const setProcessTypeFeature = (processTypeName, features) => {
 /**
  * @returns {Array|undefined} List of available features for the process type
  */
-export const getProcessFeatures = (processTypeName) => {
+export const getProcessFeatures = processTypeName => {
     return processTypesFeatures.get(processTypeName);
 };

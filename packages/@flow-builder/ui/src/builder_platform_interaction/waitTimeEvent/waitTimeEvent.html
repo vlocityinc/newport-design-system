@@ -1,5 +1,7 @@
 <template>
-    <div class="slds-form slds-form_compound slds-p-top_small slds-p-bottom-small">
+    <div
+        class="slds-form slds-form_compound slds-p-top_small slds-p-bottom-small"
+    >
         <lightning-radio-group
             class="slds-p-bottom_small"
             label={labels.timeTypeLabel}
@@ -7,13 +9,19 @@
             value={eventType}
             options={eventTypeValueOptions}
             onchange={handleEventTypeChange}
-            required>
+            required
+        >
         </lightning-radio-group>
 
         <!-- input paramters (resume time parameters) -->
-        <h3 class="slds-border_top slds-p-top_medium slds-text-heading_small">{labels.resumeTimeHeader}</h3>
+        <h3 class="slds-border_top slds-p-top_medium slds-text-heading_small">
+            {labels.resumeTimeHeader}
+        </h3>
 
-        <div if:true={isAbsoluteTime} class="slds-form-element__row slds-p-top_small">
+        <div
+            if:true={isAbsoluteTime}
+            class="slds-form-element__row slds-p-top_small"
+        >
             <builder_platform_interaction-ferov-resource-picker
                 class="slds-size_1-of-2 absolute-basetime"
                 value={absoluteBaseTime}
@@ -23,10 +31,14 @@
                 property-editor-element-type={elementType}
                 element-param={dateTimeElementParam}
                 rules={timeEventParameterRules}
-                oncomboboxstatechanged={handleAbsoluteBaseTimeChange}>
+                oncomboboxstatechanged={handleAbsoluteBaseTimeChange}
+            >
             </builder_platform_interaction-ferov-resource-picker>
         </div>
-        <div if:false={isAbsoluteTime} class="slds-form-element slds-p-top_small">
+        <div
+            if:false={isAbsoluteTime}
+            class="slds-form-element slds-p-top_small"
+        >
             <div class="slds-size_medium">
                 <lightning-input
                     type="text"
@@ -36,7 +48,8 @@
                     required
                     message-when-value-missing={labels.cannotBeBlank}
                     class="salesforce-object"
-                    field-level-help={labels.salesforceObjectHelpText}>
+                    field-level-help={labels.salesforceObjectHelpText}
+                >
                 </lightning-input>
             </div>
             <div class="slds-size_medium slds-m-top_x-small">
@@ -48,7 +61,8 @@
                     required
                     message-when-value-missing={labels.cannotBeBlank}
                     class="direct-record-basetime"
-                    field-level-help={labels.directRecordBaseTimeHelpText}>
+                    field-level-help={labels.directRecordBaseTimeHelpText}
+                >
                 </lightning-input>
             </div>
             <div class="slds-size_medium slds-m-top_x-small">
@@ -62,26 +76,35 @@
                     element-param={recordIdElementParam}
                     onitemselected={handleRecordIdChanged}
                     rules={timeEventParameterRules}
-                    oncomboboxstatechanged={handleRecordIdChanged}>
+                    oncomboboxstatechanged={handleRecordIdChanged}
+                >
                 </builder_platform_interaction-ferov-resource-picker>
             </div>
         </div>
         <lightning-input
             class="slds-size_1-of-2 slds-p-top_small offset-number"
             value={offsetNumber}
-            type="number" label={labels.offsetNumberLabel}
+            type="number"
+            label={labels.offsetNumberLabel}
             field-level-help={offsetNumberHelpText}
-            onfocusout={handleOffsetNumberChange}>
+            onfocusout={handleOffsetNumberChange}
+        >
         </lightning-input>
-		<lightning-input
+        <lightning-input
             class="slds-size_1-of-2 slds-p-top_small offset-unit"
             value={offsetUnit}
-            type="text" label={labels.offsetUnitLabel}
+            type="text"
+            label={labels.offsetUnitLabel}
             field-level-help={labels.offsetUnitHelpText}
-            onfocusout={handleOffsetUnitChange}>
+            onfocusout={handleOffsetUnitChange}
+        >
         </lightning-input>
 
-        <h3 class="slds-border_top slds-m-top_medium slds-p-top_medium slds-text-heading_small">{labels.assignOutputsToVariablesLabel}</h3>
+        <h3
+            class="slds-border_top slds-m-top_medium slds-p-top_medium slds-text-heading_small"
+        >
+            {labels.assignOutputsToVariablesLabel}
+        </h3>
 
         <!-- output parameters (assign outputs to variables) -->
         <div class="slds-form-element_row">
@@ -89,12 +112,12 @@
                 <builder_platform_interaction-parameter-item
                     item={outputResumeTime}
                     element-type={elementType}
-                    is-input=false>
+                >
                 </builder_platform_interaction-parameter-item>
                 <builder_platform_interaction-parameter-item
                     item={outputEventDeliveryStatus}
                     element-type={elementType}
-                    is-input=false>
+                >
                 </builder_platform_interaction-parameter-item>
             </ul>
         </div>

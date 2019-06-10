@@ -5,8 +5,12 @@ import {
     UpdateRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
-import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
-import { getOutputRules, getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getOutputRules,
+    getRulesForElementType,
+    RULE_TYPES
+} from 'builder_platform_interaction/ruleLib';
 
 export default class RecordInputOutputAssignments extends LightningElement {
     labels = LABELS;
@@ -87,17 +91,26 @@ export default class RecordInputOutputAssignments extends LightningElement {
         // In the inputOutputAssignmentsItems the left hand side value is formed like "entityName.FieldApiName"
         this.inputOutputAssignmentsItems.forEach(item => {
             if (item.leftHandSide.value && item.leftHandSide.value !== '') {
-                excludedFields.push(sanitizeGuid(item.leftHandSide.value).fieldName);
+                excludedFields.push(
+                    sanitizeGuid(item.leftHandSide.value).fieldName
+                );
             }
         });
 
-        this.inputOutputAssignmentsItems.forEach((item) => {
+        this.inputOutputAssignmentsItems.forEach(item => {
             const itemApiName = sanitizeGuid(item.leftHandSide.value).fieldName;
-            const fields = this.recordFields && Object.values(this.recordFields);
+            const fields =
+                this.recordFields && Object.values(this.recordFields);
             const entityFilteredFields = [];
             fields.forEach(field => {
                 // The field list Should not contains the already selected field
-                if (this.includeField(excludedFields, field.apiName, itemApiName)) {
+                if (
+                    this.includeField(
+                        excludedFields,
+                        field.apiName,
+                        itemApiName
+                    )
+                ) {
                     entityFilteredFields[field.apiName] = field;
                 }
             });
@@ -118,7 +131,10 @@ export default class RecordInputOutputAssignments extends LightningElement {
      * if a field has already been select then it should not be possible to select it again.
      */
     includeField(excludedFields, fieldApiName, itemApiName) {
-        return !excludedFields.includes(fieldApiName) || fieldApiName === itemApiName;
+        return (
+            !excludedFields.includes(fieldApiName) ||
+            fieldApiName === itemApiName
+        );
     }
 
     /**
@@ -137,7 +153,11 @@ export default class RecordInputOutputAssignments extends LightningElement {
      */
     handleUpdateAssignment(event) {
         event.stopPropagation();
-        const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(event.detail.index, event.detail.value, event.detail.error);
+        const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
+            event.detail.index,
+            event.detail.value,
+            event.detail.error
+        );
         this.dispatchEvent(updateRecordFieldAssignmentEvent);
     }
 
@@ -147,7 +167,9 @@ export default class RecordInputOutputAssignments extends LightningElement {
      */
     handleDeleteAssignment(event) {
         event.stopPropagation();
-        const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(event.detail.index);
+        const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
+            event.detail.index
+        );
         this.dispatchEvent(deleteRecordFieldAssignmentEvent);
     }
 }

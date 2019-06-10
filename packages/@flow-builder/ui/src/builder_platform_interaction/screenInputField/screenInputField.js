@@ -1,6 +1,12 @@
 import { LightningElement, track, api } from 'lwc';
-import { getVariant, booleanValue, getPlaceHolderLabel, CURRENCY_FORMAT, LIGHTNING_INPUT_TYPES } from "builder_platform_interaction/screenEditorUtils";
-import { GLOBAL_CONSTANTS } from "builder_platform_interaction/systemLib";
+import {
+    getVariant,
+    booleanValue,
+    getPlaceHolderLabel,
+    CURRENCY_FORMAT,
+    LIGHTNING_INPUT_TYPES
+} from 'builder_platform_interaction/screenEditorUtils';
+import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 
 /**
  * Wrapper used to represent visual preview of screen fields which are are input fields.
@@ -54,7 +60,12 @@ export default class ScreenInputField extends LightningElement {
         // The lightning components used to render canvas preview for date and dateTime need
         // to be ISO format in order to be previewed. Perform this translation for preview
         // purposes only.
-        if ((this.type === LIGHTNING_INPUT_TYPES.DATE || this.type === LIGHTNING_INPUT_TYPES.DATE_TIME) && displayValue && displayValue.trim() !== '') {
+        if (
+            (this.type === LIGHTNING_INPUT_TYPES.DATE ||
+                this.type === LIGHTNING_INPUT_TYPES.DATE_TIME) &&
+            displayValue &&
+            displayValue.trim() !== ''
+        ) {
             // Don't try to convert to a date if the value is a reference.
             // As long as this value isn't blank, we should get a valid date back. The value itself
             // should have already been validated as being a valid date from the combobox component.
@@ -77,7 +88,9 @@ export default class ScreenInputField extends LightningElement {
     get label() {
         // Empty label is not allowed by the lightning component used to render this field type.
         // Use a placeholder label if none was provided.
-        return this._label && this._label.value ? this._label.value : getPlaceHolderLabel(this.typeName);
+        return this._label && this._label.value
+            ? this._label.value
+            : getPlaceHolderLabel(this.typeName);
     }
 
     set label(value) {

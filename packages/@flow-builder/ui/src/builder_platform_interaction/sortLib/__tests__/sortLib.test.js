@@ -1,4 +1,4 @@
-import { multiComparator, stringComparator } from "../sortLib";
+import { multiComparator, stringComparator } from '../sortLib';
 
 describe('stringComparator', () => {
     const input = [
@@ -92,7 +92,10 @@ describe('multiComparator', () => {
             { first: 'Simon', last: 'Seville' },
             { first: 'theodore', last: 'Seville' }
         ];
-        const comparators = [stringComparator('last'), stringComparator('first')];
+        const comparators = [
+            stringComparator('last'),
+            stringComparator('first')
+        ];
         expect(input.sort(multiComparator(comparators))).toEqual(expected);
     });
 });

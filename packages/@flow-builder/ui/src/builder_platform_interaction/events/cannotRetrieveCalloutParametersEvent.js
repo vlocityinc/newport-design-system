@@ -1,6 +1,5 @@
 const eventName = 'cannotretrievecalloutparameters';
 
-
 export class CannotRetrieveCalloutParametersEvent {
     constructor() {
         return new CustomEvent(eventName, {

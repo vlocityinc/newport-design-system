@@ -1,31 +1,44 @@
 import { createElement } from 'lwc';
-import ScreenPropertyField from "../screenPropertyField";
-import { getRulesForElementType, RULE_TYPES } from 'builder_platform_interaction/ruleLib';
+import ScreenPropertyField from '../screenPropertyField';
+import {
+    getRulesForElementType,
+    RULE_TYPES
+} from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
 
-jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () =>
+    require('builder_platform_interaction_mocks/outputResourcePicker')
+);
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements)),
+        readableElementsSelector: jest.fn(data => Object.values(data.elements))
     };
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
     const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
-        getRulesForElementType: jest.fn().mockImplementation(() => []).mockName('getRulesForElementType'),
+        getRulesForElementType: jest
+            .fn()
+            .mockImplementation(() => [])
+            .mockName('getRulesForElementType'),
         RULE_TYPES: actual.RULE_TYPES,
-        PARAM_PROPERTY: actual.PARAM_PROPERTY,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY
     };
 });
 
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-screen-property-field', {
-        is: ScreenPropertyField
-    });
+const createComponentUnderTest = props => {
+    const el = createElement(
+        'builder_platform_interaction-screen-property-field',
+        {
+            is: ScreenPropertyField
+        }
+    );
     if (props) {
         Object.assign(el, props);
     }
@@ -42,30 +55,36 @@ describe('screen-property-field', () => {
     it('long string renders text area field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
             name: fieldName,
-            type: 'long_string',
+            type: 'long_string'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(TEXT_AREA_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
+                TEXT_AREA_SELECTOR
+            );
             expect(elem).toBeDefined();
         });
     });
     it('rich string field renders rich input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
             name: fieldName,
-            type: 'rich_string',
+            type: 'rich_string'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(RICH_TEXT);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
+                RICH_TEXT
+            );
             expect(elem).toBeDefined();
         });
     });
     it('number field renders input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
             name: fieldName,
-            type: 'number',
+            type: 'number'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
+                INPUT_SELECTOR
+            );
             expect(elem).toBeDefined();
             expect(elem.type).toBe('number');
         });
@@ -73,10 +92,12 @@ describe('screen-property-field', () => {
     it('boolean field renders input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
             name: fieldName,
-            type: 'boolean',
+            type: 'boolean'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
+                INPUT_SELECTOR
+            );
             expect(elem).toBeDefined();
             expect(elem.type).toBe('checkbox');
         });
@@ -84,10 +105,12 @@ describe('screen-property-field', () => {
     it('string field renders input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
             name: fieldName,
-            type: 'string',
+            type: 'string'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
+                INPUT_SELECTOR
+            );
             expect(elem).toBeDefined();
             expect(elem.type).toBe('text');
         });
@@ -100,7 +123,9 @@ describe('screen-property-field', () => {
             helpText: helpValue
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(INPUT_SELECTOR);
+            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
+                INPUT_SELECTOR
+            );
             expect(elem).toBeDefined();
             expect(elem.fieldLevelHelp).toBe(helpValue);
         });
@@ -114,7 +139,10 @@ describe('screen-property-field', () => {
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {
-            expect(getRulesForElementType).toHaveBeenCalledWith(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.SCREEN);
+            expect(getRulesForElementType).toHaveBeenCalledWith(
+                RULE_TYPES.ASSIGNMENT,
+                ELEMENT_TYPE.SCREEN
+            );
         });
     });
 
@@ -128,7 +156,9 @@ describe('screen-property-field', () => {
             resourcePickerConfig: {}
         });
         return Promise.resolve().then(() => {
-            const picker = screenPropertyField.shadowRoot.querySelector(FerovResourcePicker.SELECTOR);
+            const picker = screenPropertyField.shadowRoot.querySelector(
+                FerovResourcePicker.SELECTOR
+            );
             expect(picker.rules).toEqual(mockRules);
         });
     });

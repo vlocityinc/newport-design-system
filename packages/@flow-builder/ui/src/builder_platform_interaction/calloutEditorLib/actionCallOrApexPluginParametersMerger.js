@@ -1,5 +1,5 @@
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { getFlowDataType } from "builder_platform_interaction/dataTypeLib";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { MERGE_WARNING_TYPE } from './mergeWarningType';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -19,18 +19,19 @@ function getAsMap(actionParameters, nodeParameters) {
         // there can be several assignments for a given parameter
         const nodeParameterName = getValueFromHydratedItem(nodeParameter.name);
         map[nodeParameterName] = map[nodeParameterName] || {};
-        map[nodeParameterName].paramAssigments = map[nodeParameterName].paramAssigments || [];
+        map[nodeParameterName].paramAssigments =
+            map[nodeParameterName].paramAssigments || [];
         map[nodeParameterName].paramAssigments.push(nodeParameter);
     });
     return map;
 }
 
 /**
-* @typedef {Object} WithWarnings
-* @property {MERGE_WARNING_TYPE[]} warnings
-*
-* @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
-*/
+ * @typedef {Object} WithWarnings
+ * @property {MERGE_WARNING_TYPE[]} warnings
+ *
+ * @typedef {ParameterItem & WithWarnings} ParameterItemWithWarnings
+ */
 
 /**
  * @typedef {ActionOrApexPluginInputOutputParameter} action call or apex plugin input/output parameter
@@ -52,22 +53,44 @@ function getAsMap(actionParameters, nodeParameters) {
  */
 
 /**
-* @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
-* @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
-* @return {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
-*/
+ * @param {ActionOrApexPluginInputOutputParameter[]} inputOrOutputParameters - all input parameters or all output parameters
+ * @param {CalloutInputParameter[]|CalloutOutputParameter[]} nodeParameters - node's input parameters or node's output parameters
+ * @return {ParameterItemWithWarnings[]} an array of ParameterItemWithWarnings
+ */
 function mergeParameters(inputOrOutputParameters, nodeParameters) {
     const finalArray = [];
     const allParameters = getAsMap(inputOrOutputParameters, nodeParameters);
-    for (const [name, { parameter, paramAssigments }] of Object.entries(allParameters)) {
-        let parameterItem = {name};
+    for (const [name, { parameter, paramAssigments }] of Object.entries(
+        allParameters
+    )) {
+        let parameterItem = { name };
         if (parameter) {
-            const {isRequired, maxOccurs, dataType, label, sobjectType, apexClass} = parameter;
-            parameterItem = {name, isRequired, maxOccurs, label, dataType: dataType ? getFlowDataType(dataType) : FLOW_DATA_TYPE.APEX.value, subtype: sobjectType || apexClass};
+            const {
+                isRequired,
+                maxOccurs,
+                dataType,
+                label,
+                sobjectType,
+                apexClass
+            } = parameter;
+            parameterItem = {
+                name,
+                isRequired,
+                maxOccurs,
+                label,
+                dataType: dataType
+                    ? getFlowDataType(dataType)
+                    : FLOW_DATA_TYPE.APEX.value,
+                subtype: sobjectType || apexClass
+            };
         }
         if (paramAssigments.length > 0) {
             paramAssigments.forEach(nodeParameter => {
-                const parameterItemWithWarning = Object.assign({}, nodeParameter, parameterItem);
+                const parameterItemWithWarning = Object.assign(
+                    {},
+                    nodeParameter,
+                    parameterItem
+                );
                 const warnings = getMergeWarnings(parameter, paramAssigments);
                 if (warnings.length > 0) {
                     parameterItemWithWarning.warnings = warnings;
@@ -76,14 +99,23 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
             });
         } else {
             // assign the null value to the required parameters, so that validate.validateAll will throw an error if the required input parameter isn't set in new mode
-            finalArray.push(Object.assign({rowIndex: generateGuid()}, parameterItem.isRequired ? {value: {value: null, error: null}} : {}, parameterItem));
+            finalArray.push(
+                Object.assign(
+                    { rowIndex: generateGuid() },
+                    parameterItem.isRequired
+                        ? { value: { value: null, error: null } }
+                        : {},
+                    parameterItem
+                )
+            );
         }
     }
     return finalArray;
 }
 
 function getMergeWarnings(parameter, paramAssigments) {
-    const warnings = paramAssigments.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
+    const warnings =
+        paramAssigments.length === 1 ? [] : [MERGE_WARNING_TYPE.DUPLICATE];
     if (!parameter) {
         warnings.push(MERGE_WARNING_TYPE.NOT_AVAILABLE);
     }
@@ -97,11 +129,25 @@ function getMergeWarnings(parameter, paramAssigments) {
  * @param {CalloutOutputParameter[]} nodeOutputParameters the current node's output parameters, hydrated
  * @return {InputOutputParameterItems} the input and output parameter items
  */
-export function mergeInputOutputParameters(allParameters, nodeInputParameters, nodeOutputParameters) {
+export function mergeInputOutputParameters(
+    allParameters,
+    nodeInputParameters,
+    nodeOutputParameters
+) {
     const newParameters = {};
-    const inputParameters = allParameters.filter(parameter => parameter.isInput === true);
-    const outputParameters = allParameters.filter(parameter => parameter.isInput === false);
-    newParameters.inputs = mergeParameters(inputParameters, nodeInputParameters);
-    newParameters.outputs = mergeParameters(outputParameters, nodeOutputParameters);
+    const inputParameters = allParameters.filter(
+        parameter => parameter.isInput === true
+    );
+    const outputParameters = allParameters.filter(
+        parameter => parameter.isInput === false
+    );
+    newParameters.inputs = mergeParameters(
+        inputParameters,
+        nodeInputParameters
+    );
+    newParameters.outputs = mergeParameters(
+        outputParameters,
+        nodeOutputParameters
+    );
     return newParameters;
 }

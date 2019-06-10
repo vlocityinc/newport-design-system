@@ -5,7 +5,12 @@
 const eventName = 'marqueeselect';
 
 export class MarqueeSelectEvent {
-    constructor(canvasElementGuidsToSelect, canvasElementGuidsToDeselect, connectorGuidsToSelect, connectorGuidsToDeselect) {
+    constructor(
+        canvasElementGuidsToSelect,
+        canvasElementGuidsToDeselect,
+        connectorGuidsToSelect,
+        connectorGuidsToDeselect
+    ) {
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,

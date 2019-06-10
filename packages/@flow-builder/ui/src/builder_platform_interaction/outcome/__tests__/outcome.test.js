@@ -1,32 +1,30 @@
-import {createElement} from 'lwc';
-import Outcome from "builder_platform_interaction/outcome";
-import {
-    DeleteOutcomeEvent
-} from "builder_platform_interaction/events";
-import { LABELS } from "../outcomeLabels";
+import { createElement } from 'lwc';
+import Outcome from 'builder_platform_interaction/outcome';
+import { DeleteOutcomeEvent } from 'builder_platform_interaction/events';
+import { LABELS } from '../outcomeLabels';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
 import { getConditionsWithPrefixes } from 'builder_platform_interaction/conditionListUtils';
 
-jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () => require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder'));
+jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
+    require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
+);
 
 const outcomeWithOneConditional = {
-    label: {value: 'Test Name of the Outcome'},
-    name: {value: 'Test Dev Name'},
-    guid: {value: '123'},
-    conditionLogic: {value: '1'},
-    conditions: [
-        {name: 'condition1', rowIndex: 0}
-    ]
+    label: { value: 'Test Name of the Outcome' },
+    name: { value: 'Test Dev Name' },
+    guid: { value: '123' },
+    conditionLogic: { value: '1' },
+    conditions: [{ name: 'condition1', rowIndex: 0 }]
 };
 const outcomeWithThreeConditionals = {
-    label: {value: 'Test Name of the Outcome'},
-    name: {value: 'Test Dev Name'},
-    guid: {value: '123'},
-    conditionLogic: {value: '1 and 2'},
+    label: { value: 'Test Name of the Outcome' },
+    name: { value: 'Test Dev Name' },
+    guid: { value: '123' },
+    conditionLogic: { value: '1 and 2' },
     conditions: [
-        {name: 'condition1', rowIndex: 0},
-        {name: 'condition2', rowIndex: 1},
-        {name: 'condition3', rowIndex: 2},
+        { name: 'condition1', rowIndex: 0 },
+        { name: 'condition2', rowIndex: 1 },
+        { name: 'condition3', rowIndex: 2 }
     ]
 };
 
@@ -38,13 +36,16 @@ const selectors = {
     conditionLogicComboBox: '.conditionLogic',
     customLogicInput: '.customLogic',
     removeButton: 'lightning-button.removeOutcome',
-    ferToFerovExpressionBuilder: 'builder_platform_interaction-fer-to-ferov-expression-builder',
+    ferToFerovExpressionBuilder:
+        'builder_platform_interaction-fer-to-ferov-expression-builder'
 };
 
 jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
-        getConditionsWithPrefixes: jest.fn().mockName('getConditionsWithPrefixes'),
-        showDeleteCondition: jest.fn().mockName('showDeleteCondition'),
+        getConditionsWithPrefixes: jest
+            .fn()
+            .mockName('getConditionsWithPrefixes'),
+        showDeleteCondition: jest.fn().mockName('showDeleteCondition')
     };
 });
 
@@ -67,10 +68,16 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const labelAndNameComponents = element.shadowRoot.querySelectorAll(selectors.labelAndName);
+                const labelAndNameComponents = element.shadowRoot.querySelectorAll(
+                    selectors.labelAndName
+                );
                 expect(labelAndNameComponents).toHaveLength(1);
-                expect(labelAndNameComponents[0].devName.value).toBe(outcomeWithOneConditional.name.value);
-                expect(labelAndNameComponents[0].label.value).toBe(outcomeWithOneConditional.label.value);
+                expect(labelAndNameComponents[0].devName.value).toBe(
+                    outcomeWithOneConditional.name.value
+                );
+                expect(labelAndNameComponents[0].label.value).toBe(
+                    outcomeWithOneConditional.label.value
+                );
             });
         });
         it('has Remove button if show delete is true', () => {
@@ -78,7 +85,9 @@ describe('Outcome', () => {
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelectorAll(selectors.removeButton)[0];
+                const removeButton = element.shadowRoot.querySelectorAll(
+                    selectors.removeButton
+                )[0];
 
                 expect(removeButton.label).toBe(LABELS.deleteOutcomeLabel);
                 expect(removeButton.title).toBe(LABELS.deleteOutcomeTitle);
@@ -90,7 +99,9 @@ describe('Outcome', () => {
             element.showDelete = false;
 
             return Promise.resolve().then(() => {
-                const removeButton = element.shadowRoot.querySelector(selectors.removeButton);
+                const removeButton = element.shadowRoot.querySelector(
+                    selectors.removeButton
+                );
 
                 expect(removeButton).toBeNull();
             });
@@ -104,9 +115,14 @@ describe('Outcome', () => {
 
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
-                element.addEventListener(DeleteOutcomeEvent.EVENT_NAME, eventCallback);
+                element.addEventListener(
+                    DeleteOutcomeEvent.EVENT_NAME,
+                    eventCallback
+                );
 
-                const removeButton = element.shadowRoot.querySelector(selectors.button);
+                const removeButton = element.shadowRoot.querySelector(
+                    selectors.button
+                );
                 removeButton.click();
 
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -124,13 +140,15 @@ describe('Outcome', () => {
             getConditionsWithPrefixes.mockReturnValueOnce([
                 {
                     prefix: 'foo',
-                    condition: { rowIndex: 'bar' },
-                },
+                    condition: { rowIndex: 'bar' }
+                }
             ]);
             element.outcome = outcomeWithOneConditional;
 
             return Promise.resolve().then(() => {
-                const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
+                const expressionBuilder = element.shadowRoot.querySelector(
+                    selectors.ferToFerovExpressionBuilder
+                );
                 expect(expressionBuilder).not.toBeNull();
             });
         });
@@ -139,21 +157,23 @@ describe('Outcome', () => {
             getConditionsWithPrefixes.mockReturnValue([
                 {
                     prefix: 'foo',
-                    condition: { rowIndex: 'bar' },
+                    condition: { rowIndex: 'bar' }
                 },
                 {
                     prefix: 'fizz',
-                    condition: { rowIndex: 'buzz' },
+                    condition: { rowIndex: 'buzz' }
                 },
                 {
                     prefix: 'dunder',
-                    condition: { rowIndex: 'mifflin' },
-                },
+                    condition: { rowIndex: 'mifflin' }
+                }
             ]);
             element.outcome = outcomeWithThreeConditionals;
 
             return Promise.resolve().then(() => {
-                const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
+                const rowsArray = element.shadowRoot.querySelectorAll(
+                    selectors.row
+                );
                 expect(rowsArray).toHaveLength(3);
             });
         });
@@ -162,13 +182,17 @@ describe('Outcome', () => {
             getConditionsWithPrefixes.mockReturnValueOnce([
                 {
                     prefix: 'foo',
-                    condition: { rowIndex: 'bar' },
-                },
+                    condition: { rowIndex: 'bar' }
+                }
             ]);
             element.outcome = outcomeWithOneConditional;
             return Promise.resolve().then(() => {
-                const expressionBuilder = element.shadowRoot.querySelector(selectors.ferToFerovExpressionBuilder);
-                expect(expressionBuilder.defaultOperator).toEqual(RULE_OPERATOR.EQUAL_TO);
+                const expressionBuilder = element.shadowRoot.querySelector(
+                    selectors.ferToFerovExpressionBuilder
+                );
+                expect(expressionBuilder.defaultOperator).toEqual(
+                    RULE_OPERATOR.EQUAL_TO
+                );
             });
         });
     });

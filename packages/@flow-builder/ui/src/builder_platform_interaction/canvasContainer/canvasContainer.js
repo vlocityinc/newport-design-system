@@ -1,8 +1,23 @@
-import { LightningElement, api, track } from "lwc";
-import { isEmptyArray, getNodesFromStore, getConnectorsFromStore, updateStoreOnSelection, hasOneAvailableConnection, createConnectorWhenOneConnectionAvailable,
-    shouldCreateStartConnection, addConnection, openConnectorSelectionModal, shouldOpenConnectorSelectionModal, calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from './canvasContainerUtils';
+import { LightningElement, api, track } from 'lwc';
+import {
+    isEmptyArray,
+    getNodesFromStore,
+    getConnectorsFromStore,
+    updateStoreOnSelection,
+    hasOneAvailableConnection,
+    createConnectorWhenOneConnectionAvailable,
+    shouldCreateStartConnection,
+    addConnection,
+    openConnectorSelectionModal,
+    shouldOpenConnectorSelectionModal,
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance
+} from './canvasContainerUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { deselectOnCanvas, marqueeSelectOnCanvas, updateCanvasElementLocation } from 'builder_platform_interaction/actions';
+import {
+    deselectOnCanvas,
+    marqueeSelectOnCanvas,
+    updateCanvasElementLocation
+} from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /** Private singleton variables */
@@ -32,7 +47,9 @@ export default class CanvasContainer extends LightningElement {
      * @param {String} canvasElementGuid - guid of the canvas element that needs to be highlighted
      */
     @api panElementToView = (canvasElementGuid = '') => {
-        const canvas = this.template.querySelector('builder_platform_interaction-canvas');
+        const canvas = this.template.querySelector(
+            'builder_platform_interaction-canvas'
+        );
         if (canvas && canvas.panElementToViewIfNeeded) {
             canvas.panElementToViewIfNeeded(canvasElementGuid);
         }
@@ -47,12 +64,16 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - node clicked event coming from node.js
      */
-    handleCanvasElementSelection = (event) => {
+    handleCanvasElementSelection = event => {
         if (event && event.detail) {
             const payload = {
                 guid: event.detail.canvasElementGUID
             };
-            updateStoreOnSelection(storeInstance, payload, event.detail.isMultiSelectKeyPressed);
+            updateStoreOnSelection(
+                storeInstance,
+                payload,
+                event.detail.isMultiSelectKeyPressed
+            );
         }
     };
 
@@ -63,12 +84,16 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - connection clicked event coming from canvas.js
      */
-    handleConnectorSelection = (event) => {
+    handleConnectorSelection = event => {
         if (event && event.detail) {
             const payload = {
-                guid : event.detail.connectorGUID
+                guid: event.detail.connectorGUID
             };
-            updateStoreOnSelection(storeInstance, payload, event.detail.isMultiSelectKeyPressed);
+            updateStoreOnSelection(
+                storeInstance,
+                payload,
+                event.detail.isMultiSelectKeyPressed
+            );
         }
     };
 
@@ -77,7 +102,7 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - node stop event coming from node.js
      */
-    handleCanvasElementMove = (event) => {
+    handleCanvasElementMove = event => {
         if (event && event.detail) {
             const payload = {
                 guid: event.detail.canvasElementGUID,
@@ -96,24 +121,39 @@ export default class CanvasContainer extends LightningElement {
         storeInstance.dispatch(deselectOnCanvas);
     };
 
-    handleAddConnector = (event) => {
+    handleAddConnector = event => {
         if (event && event.detail) {
             const { sourceGuid, targetGuid } = event.detail;
             if (sourceGuid && targetGuid) {
                 if (shouldCreateStartConnection(storeInstance, sourceGuid)) {
-                    addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.START);
+                    addConnection(storeInstance, sourceGuid, targetGuid)(
+                        CONNECTOR_TYPE.START
+                    );
                     return;
                 }
-                if (shouldOpenConnectorSelectionModal(storeInstance, sourceGuid)) {
+                if (
+                    shouldOpenConnectorSelectionModal(storeInstance, sourceGuid)
+                ) {
                     const mode = event.type;
-                    openConnectorSelectionModal(storeInstance, sourceGuid, targetGuid, mode);
+                    openConnectorSelectionModal(
+                        storeInstance,
+                        sourceGuid,
+                        targetGuid,
+                        mode
+                    );
                     return;
                 }
                 if (hasOneAvailableConnection(storeInstance, sourceGuid)) {
-                    createConnectorWhenOneConnectionAvailable(storeInstance, sourceGuid, targetGuid);
+                    createConnectorWhenOneConnectionAvailable(
+                        storeInstance,
+                        sourceGuid,
+                        targetGuid
+                    );
                     return;
                 }
-                addConnection(storeInstance, sourceGuid, targetGuid)(CONNECTOR_TYPE.REGULAR);
+                addConnection(storeInstance, sourceGuid, targetGuid)(
+                    CONNECTOR_TYPE.REGULAR
+                );
             }
         }
     };
@@ -123,25 +163,33 @@ export default class CanvasContainer extends LightningElement {
      *
      * @param {object} event - marquee select event coming from canvas.js
      */
-    handleMarqueeSelection = (event) => {
+    handleMarqueeSelection = event => {
         if (event && event.detail) {
             const payload = {
-                canvasElementGuidsToSelect: event.detail.canvasElementGuidsToSelect,
-                canvasElementGuidsToDeselect: event.detail.canvasElementGuidsToDeselect,
+                canvasElementGuidsToSelect:
+                    event.detail.canvasElementGuidsToSelect,
+                canvasElementGuidsToDeselect:
+                    event.detail.canvasElementGuidsToDeselect,
                 connectorGuidsToSelect: event.detail.connectorGuidsToSelect,
                 connectorGuidsToDeselect: event.detail.connectorGuidsToDeselect
             };
             storeInstance.dispatch(marqueeSelectOnCanvas(payload));
         }
-    }
+    };
 
     /** Private functions */
     mapCanvasStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
         const updatedCanvasElementsFromStore = getNodesFromStore(currentState);
-        const canvasTemplate = this.template.querySelector('builder_platform_interaction-canvas');
-        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(this.nodes, updatedCanvasElementsFromStore, canvasTemplate);
+        const canvasTemplate = this.template.querySelector(
+            'builder_platform_interaction-canvas'
+        );
+        calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
+            this.nodes,
+            updatedCanvasElementsFromStore,
+            canvasTemplate
+        );
         this.nodes = updatedCanvasElementsFromStore;
         this.connectors = getConnectorsFromStore(currentState);
-    }
+    };
 }

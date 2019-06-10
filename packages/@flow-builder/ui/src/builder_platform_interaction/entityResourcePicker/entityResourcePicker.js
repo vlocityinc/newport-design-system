@@ -1,5 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
-import { getEntitiesMenuData, getEventTypesMenuData, getApexClassMenuData } from 'builder_platform_interaction/expressionUtils';
+import {
+    getEntitiesMenuData,
+    getEventTypesMenuData,
+    getApexClassMenuData
+} from 'builder_platform_interaction/expressionUtils';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
@@ -15,7 +19,7 @@ export default class EntityResourcePicker extends LightningElement {
     static ENTITY_MODE = {
         SOBJECT: 'sobject',
         EVENT: 'event',
-        APEX: 'apex',
+        APEX: 'apex'
     };
 
     /**
@@ -78,7 +82,10 @@ export default class EntityResourcePicker extends LightningElement {
      */
     set crudFilterType(crudFilterType) {
         this._crudFilterType = crudFilterType;
-        if (this._isInitialized && this.mode === EntityResourcePicker.ENTITY_MODE.SOBJECT) {
+        if (
+            this._isInitialized &&
+            this.mode === EntityResourcePicker.ENTITY_MODE.SOBJECT
+        ) {
             this.populateEntityMenuData();
         }
     }
@@ -121,10 +128,16 @@ export default class EntityResourcePicker extends LightningElement {
      */
     set value(itemOrDisplayText) {
         // if the user passes down display text we check if we already have a stored item
-        if (!isObject(itemOrDisplayText) && isObject(this.state.itemOrDisplayText) && this._isInitialized) {
+        if (
+            !isObject(itemOrDisplayText) &&
+            isObject(this.state.itemOrDisplayText) &&
+            this._isInitialized
+        ) {
             // if the existing item does not match the given display text we attempt to match it to the menu data
             if (this.state.itemOrDisplayText.value !== itemOrDisplayText) {
-                this.state.itemOrDisplayText = this.matchDisplayTextWithMenuDataItem(itemOrDisplayText);
+                this.state.itemOrDisplayText = this.matchDisplayTextWithMenuDataItem(
+                    itemOrDisplayText
+                );
             }
         } else {
             // if the consumer passes down an item we override existing state and pass it down to combobox
@@ -138,29 +151,38 @@ export default class EntityResourcePicker extends LightningElement {
     }
 
     matchDisplayTextWithMenuDataItem(displayText) {
-        const foundValue = this._fullEntityMenuData.find((item => item.value === displayText));
+        const foundValue = this._fullEntityMenuData.find(
+            item => item.value === displayText
+        );
         return foundValue;
     }
 
     handleComboboxChange(event) {
-        this.state.itemOrDisplayText = event.detail.item || event.detail.displayText;
+        this.state.itemOrDisplayText =
+            event.detail.item || event.detail.displayText;
     }
 
     handleItemSelected(event) {
-        this.state.itemOrDisplayText = event.detail.item || event.detail.displayText;
+        this.state.itemOrDisplayText =
+            event.detail.item || event.detail.displayText;
     }
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
+            this._baseResourcePicker = this.template.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
             this.populateEntityMenuData();
             this._isInitialized = true;
             // when loading the entity resource picker for the first time, we only get the api value (displayText) not the item
             // to dislay the correct label we need to query for the matching menu item
             // this may go away if combobox eventually does this work
             if (!isObject(this.value)) {
-                const foundValue = this._fullEntityMenuData.find((item => item.value === this.state.itemOrDisplayText));
-                this.state.itemOrDisplayText = foundValue || this.state.itemOrDisplayText;
+                const foundValue = this._fullEntityMenuData.find(
+                    item => item.value === this.state.itemOrDisplayText
+                );
+                this.state.itemOrDisplayText =
+                    foundValue || this.state.itemOrDisplayText;
             }
         }
     }
@@ -173,7 +195,8 @@ export default class EntityResourcePicker extends LightningElement {
         const fetchMenuDataForEntityMode = {
             [EntityResourcePicker.ENTITY_MODE.APEX]: getApexClassMenuData,
             [EntityResourcePicker.ENTITY_MODE.EVENT]: getEventTypesMenuData,
-            [EntityResourcePicker.ENTITY_MODE.SOBJECT]: () => getEntitiesMenuData(this._crudFilterType),
+            [EntityResourcePicker.ENTITY_MODE.SOBJECT]: () =>
+                getEntitiesMenuData(this._crudFilterType)
         };
         this._fullEntityMenuData = fetchMenuDataForEntityMode[newMode]();
         this._baseResourcePicker.setMenuData(this._fullEntityMenuData);

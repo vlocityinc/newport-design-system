@@ -1,13 +1,13 @@
-import {LightningElement, api, track} from 'lwc';
-import {PropertyChangedEvent} from "builder_platform_interaction/events";
-import {isUniqueDevNameInStore} from "builder_platform_interaction/validationRules";
-import { sanitizeDevName } from "builder_platform_interaction/commonUtils";
-import { LABELS } from "./labelDescriptionLabels";
+import { LightningElement, api, track } from 'lwc';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { isUniqueDevNameInStore } from 'builder_platform_interaction/validationRules';
+import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { LABELS } from './labelDescriptionLabels';
 
 const SELECTORS = {
     LABEL: '.label',
     DEV_NAME: '.devName',
-    DESCRIPTION: '.description',
+    DESCRIPTION: '.description'
 };
 
 export default class LabelDescription extends LightningElement {
@@ -16,9 +16,9 @@ export default class LabelDescription extends LightningElement {
     /** @track decorators **/
     @track
     state = {
-        label: {value: '', error: null},
-        devName: {value: '', error: null},
-        description: {value: '', error: null},
+        label: { value: '', error: null },
+        devName: { value: '', error: null },
+        description: { value: '', error: null }
     };
 
     @track
@@ -153,13 +153,19 @@ export default class LabelDescription extends LightningElement {
     renderedCallback() {
         if (this._shouldSetLabelError) {
             const labelInput = this.template.querySelector(SELECTORS.LABEL);
-            this.resetError(labelInput, this.state.label.error, this.labelRequired);
+            this.resetError(
+                labelInput,
+                this.state.label.error,
+                this.labelRequired
+            );
             this.setInputErrorMessage(labelInput, this.state.label.error);
             this._shouldSetLabelError = false;
         }
 
         if (this._shouldSetDevNameError) {
-            const devNameInput = this.template.querySelector(SELECTORS.DEV_NAME);
+            const devNameInput = this.template.querySelector(
+                SELECTORS.DEV_NAME
+            );
             this.resetError(devNameInput, this.state.devName.error, true);
             this.setInputErrorMessage(devNameInput, this.state.devName.error);
             this._shouldSetDevNameError = false;
@@ -172,10 +178,7 @@ export default class LabelDescription extends LightningElement {
      * @param {String} prop - the prop type
      */
     updateStateAndDispatch(value, prop, error) {
-        const event = new PropertyChangedEvent(
-            prop,
-            value,
-            error);
+        const event = new PropertyChangedEvent(prop, value, error);
         this.dispatchEvent(event);
     }
 
@@ -191,7 +194,8 @@ export default class LabelDescription extends LightningElement {
             // TODO get property name from constant source
             'name',
             newDevName,
-            error);
+            error
+        );
         this.dispatchEvent(event);
     }
 
@@ -215,7 +219,7 @@ export default class LabelDescription extends LightningElement {
      * @returns {string} class name for name
      */
     get computedNameClass() {
-        return 'slds-col label' + (this.isVertical ? '' :  ' slds-size_1-of-2');
+        return 'slds-col label' + (this.isVertical ? '' : ' slds-size_1-of-2');
     }
 
     /**
@@ -223,9 +227,9 @@ export default class LabelDescription extends LightningElement {
      * @returns {string} class name for dev name
      */
     get computedDevNameClass() {
-        return this.isVertical ?
-            'slds-col devName slds-m-top_x-small' :
-            'slds-col devName' + (this.hideLabel ? '' : ' slds-size_1-of-2');
+        return this.isVertical
+            ? 'slds-col devName slds-m-top_x-small'
+            : 'slds-col devName' + (this.hideLabel ? '' : ' slds-size_1-of-2');
     }
 
     /**
@@ -233,8 +237,10 @@ export default class LabelDescription extends LightningElement {
      * @returns {string} class name for name
      */
     get computedNameAndDevContainerClass() {
-        return 'container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small' +
-            (this.isVertical ? ' slds-grid_vertical' : '');
+        return (
+            'container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small' +
+            (this.isVertical ? ' slds-grid_vertical' : '')
+        );
     }
 
     handleLabelFocusOut(e) {
@@ -246,11 +252,17 @@ export default class LabelDescription extends LightningElement {
             // only required if the user makes a whitespace only change such as 'a' to 'a '
             inputElement.value = newLabel;
         }
-        const error = inputElement.value === '' ? this.showErrorMessageIfBlank : null;
+        const error =
+            inputElement.value === '' ? this.showErrorMessageIfBlank : null;
         this.updateStateAndDispatch(newLabel, 'label', error);
 
         // Update devName if it is present, enabled, and blank
-        if (newLabel !== '' && !this.hideDevName && !this.disableDevName && !this.state.devName.value) {
+        if (
+            newLabel !== '' &&
+            !this.hideDevName &&
+            !this.disableDevName &&
+            !this.state.devName.value
+        ) {
             if (newLabel.match(/^\W+$/)) {
                 newLabel = 'UniqueName';
             }

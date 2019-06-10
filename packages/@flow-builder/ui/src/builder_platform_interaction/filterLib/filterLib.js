@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
 
 export * from './matchers';
@@ -12,8 +12,8 @@ export * from './matchers';
  * @return {Function} a filter function that finds elements containing the given
  *         pattern in their label
  */
-export const labelFilter = (pattern) => {
-    return (obj) => {
+export const labelFilter = pattern => {
+    return obj => {
         return pattern ? containsMatcher(obj, 'label', pattern) : true;
     };
 };
@@ -27,9 +27,11 @@ export const labelFilter = (pattern) => {
  * @return {Function} a filter function that finds resources containing the given
  *         pattern in their label
  */
-export const resourceFilter = (pattern) => {
-    return (obj) => {
-        let result = (booleanMatcher(obj, 'isCanvasElement', false) || booleanMatcher(obj, 'storeOutputAutomatically', true));
+export const resourceFilter = pattern => {
+    return obj => {
+        let result =
+            booleanMatcher(obj, 'isCanvasElement', false) ||
+            booleanMatcher(obj, 'storeOutputAutomatically', true);
         if (pattern) {
             result = result && containsMatcher(obj, 'name', pattern);
         }
@@ -46,11 +48,13 @@ export const resourceFilter = (pattern) => {
  * @return {Function} a filter function that finds canvas elements containing the given
  *         pattern in their label
  */
-export const canvasElementFilter = (pattern) => {
-    return (obj) => {
+export const canvasElementFilter = pattern => {
+    return obj => {
         // TODO: Temporarily filtering out the Start Element until it becomes a
         // first class element.
-        let result = notEqualsMatcher(obj, 'elementType', ELEMENT_TYPE.START_ELEMENT) && booleanMatcher(obj, 'isCanvasElement', true);
+        let result =
+            notEqualsMatcher(obj, 'elementType', ELEMENT_TYPE.START_ELEMENT) &&
+            booleanMatcher(obj, 'isCanvasElement', true);
         if (pattern) {
             result = result && containsMatcher(obj, 'name', pattern);
         }

@@ -3,7 +3,6 @@
  */
 const eventName = 'fetchmenudata';
 
-
 export class FetchMenuDataEvent {
     constructor(item = null) {
         return new CustomEvent(eventName, {

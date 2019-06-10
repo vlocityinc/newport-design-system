@@ -1,6 +1,12 @@
-import { booleanMatcher, containsMatcher, equalsMatcher, notEqualsMatcher, startsWithMatcher } from '../matchers';
+import {
+    booleanMatcher,
+    containsMatcher,
+    equalsMatcher,
+    notEqualsMatcher,
+    startsWithMatcher
+} from '../matchers';
 
-const verifyValidation = (matcher) => {
+const verifyValidation = matcher => {
     // throws an error when obj is undefined
     expect(() => matcher()).toThrowError(TypeError);
 
@@ -23,7 +29,7 @@ const verifyValidation = (matcher) => {
     expect(() => matcher({}, '')).toThrowError(TypeError);
 };
 
-const verifyStringValidation = (matcher) => {
+const verifyStringValidation = matcher => {
     verifyValidation(matcher);
 
     // throws an error when pattern is undefined
@@ -63,7 +69,9 @@ describe('startsWithMatcher', () => {
     });
 
     it('does not find a match', () => {
-        expect(startsWithMatcher({ name: 'Alvin' }, 'name', 'b')).toEqual(false);
+        expect(startsWithMatcher({ name: 'Alvin' }, 'name', 'b')).toEqual(
+            false
+        );
     });
 });
 
@@ -77,7 +85,9 @@ describe('equalsMatcher', () => {
     });
 
     it('does not find a match', () => {
-        expect(equalsMatcher({ name: 'Alvin' }, 'name', 'alvin')).toEqual(false);
+        expect(equalsMatcher({ name: 'Alvin' }, 'name', 'alvin')).toEqual(
+            false
+        );
     });
 });
 
@@ -87,11 +97,15 @@ describe('notEqualsMatcher', () => {
     });
 
     it('finds a match', () => {
-        expect(notEqualsMatcher({ name: 'Alvin' }, 'name', 'alvin')).toEqual(true);
+        expect(notEqualsMatcher({ name: 'Alvin' }, 'name', 'alvin')).toEqual(
+            true
+        );
     });
 
     it('does not find a match', () => {
-        expect(notEqualsMatcher({ name: 'Alvin' }, 'name', 'Alvin')).toEqual(false);
+        expect(notEqualsMatcher({ name: 'Alvin' }, 'name', 'Alvin')).toEqual(
+            false
+        );
     });
 });
 
@@ -104,10 +118,14 @@ describe('booleanMatcher', () => {
     });
 
     it('finds a match', () => {
-        expect(booleanMatcher({ isChipmunk: true }, 'isChipmunk', true)).toEqual(true);
+        expect(
+            booleanMatcher({ isChipmunk: true }, 'isChipmunk', true)
+        ).toEqual(true);
     });
 
     it('does not find a match', () => {
-        expect(booleanMatcher({ isChipmunk: false }, 'isChipmunk', true)).toEqual(false);
+        expect(
+            booleanMatcher({ isChipmunk: false }, 'isChipmunk', true)
+        ).toEqual(false);
     });
 });

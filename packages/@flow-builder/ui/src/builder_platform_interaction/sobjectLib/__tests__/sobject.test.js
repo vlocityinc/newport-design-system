@@ -1,11 +1,27 @@
-import { mockEntities, mockAccountFields } from "mock/serverEntityData";
-import { setEntities, getAllEntities, getQueryableEntities, getCreateableEntities, getDeletableEntities, getUpdateableEntities, getFieldsForEntity, fetchFieldsForEntity, getEntity } from "builder_platform_interaction/sobjectLib";
+import { mockEntities, mockAccountFields } from 'mock/serverEntityData';
+import {
+    setEntities,
+    getAllEntities,
+    getQueryableEntities,
+    getCreateableEntities,
+    getDeletableEntities,
+    getUpdateableEntities,
+    getFieldsForEntity,
+    fetchFieldsForEntity,
+    getEntity
+} from 'builder_platform_interaction/sobjectLib';
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
-        fetchOnce : jest.fn().mockImplementation(() => Promise.resolve(JSON.stringify(mockAccountFields))),
-        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE,
+        fetchOnce: jest
+            .fn()
+            .mockImplementation(() =>
+                Promise.resolve(JSON.stringify(mockAccountFields))
+            ),
+        SERVER_ACTION_TYPE: require.requireActual(
+            '../../serverDataLib/serverDataLib.js'
+        ).SERVER_ACTION_TYPE
     };
 });
 
@@ -30,7 +46,9 @@ describe('SObject Lib Tests', () => {
         it('Get Queryable Entities', () => {
             const queryableEntities = getQueryableEntities();
             expect(queryableEntities).toHaveLength(3);
-            expect(queryableEntities[0].apiName).toEqual('AcceptedEventRelation');
+            expect(queryableEntities[0].apiName).toEqual(
+                'AcceptedEventRelation'
+            );
             expect(queryableEntities[1].apiName).toEqual('Account');
             expect(queryableEntities[2].apiName).toEqual('Case');
         });
@@ -55,14 +73,14 @@ describe('SObject Lib Tests', () => {
             expect(updateableEntities[1].apiName).toEqual('Contract');
         });
         it('Get existing entity description', () => {
-           const entity = getEntity('Account');
-           expect(entity).toBeDefined();
-           expect(entity.apiName).toEqual('Account');
+            const entity = getEntity('Account');
+            expect(entity).toBeDefined();
+            expect(entity.apiName).toEqual('Account');
         });
         it('Get unexisting entity description', () => {
             const entity = getEntity('UnknownEntity');
             expect(entity).toBeUndefined();
-         });
+        });
     });
 
     describe('fetchFieldsForEntity', () => {

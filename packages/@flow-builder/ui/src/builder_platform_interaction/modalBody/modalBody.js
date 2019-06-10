@@ -7,6 +7,9 @@ export default class ModalBody extends LightningElement {
     @api listSectionItems;
 
     get hasUsedByContent() {
-        return Array.isArray(this.listSectionItems) && this.listSectionItems.length > 0;
+        return (
+            Array.isArray(this.listSectionItems) &&
+            this.listSectionItems.length > 0
+        );
     }
 }

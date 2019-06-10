@@ -1,12 +1,12 @@
-import {createElement} from 'lwc';
+import { createElement } from 'lwc';
 import ElementIcon from 'builder_platform_interaction/elementIcon';
 
-const ICON_NAMES =  {
+const ICON_NAMES = {
     subflow: 'standard:flow',
-    decision : 'standard:decision'
+    decision: 'standard:decision'
 };
 
-const CLASS_NAMES =  {
+const CLASS_NAMES = {
     drag: 'drag-element',
     rotateContainer: 'rotate-icon-container',
     rotateDecision: 'non-canvas-decision-icon',
@@ -26,9 +26,15 @@ function getLightningIcon(elementIcon) {
     return elementIcon.shadowRoot.querySelector(SELECTORS.lightningIcon);
 }
 
-const createComponentForTest = ({  iconName, isDraggable, backgroundColor } = {}) => {
-    const el = createElement('builder_platform_interaction-element-icon', {is: ElementIcon});
-    Object.assign(el, {iconName, isDraggable, backgroundColor});
+const createComponentForTest = ({
+    iconName,
+    isDraggable,
+    backgroundColor
+} = {}) => {
+    const el = createElement('builder_platform_interaction-element-icon', {
+        is: ElementIcon
+    });
+    Object.assign(el, { iconName, isDraggable, backgroundColor });
     document.body.appendChild(el);
     return el;
 };
@@ -48,8 +54,12 @@ describe('Element Icon', () => {
                 iconName: ICON_NAMES.subflow
             });
             const container = getContainer(elementIcon);
-            expect(container.classList).not.toContain(CLASS_NAMES.rotateContainer);
-            expect(container.classList).not.toContain(CLASS_NAMES.rotateDecision);
+            expect(container.classList).not.toContain(
+                CLASS_NAMES.rotateContainer
+            );
+            expect(container.classList).not.toContain(
+                CLASS_NAMES.rotateDecision
+            );
         });
         it('Should add the css class to rotate the decision element icon', () => {
             const elementIcon = createComponentForTest({
@@ -63,7 +73,9 @@ describe('Element Icon', () => {
                 iconName: ICON_NAMES.subflow
             });
             const lightningIcon = getLightningIcon(elementIcon);
-            expect(lightningIcon.classList).not.toContain(CLASS_NAMES.rotateSvg);
+            expect(lightningIcon.classList).not.toContain(
+                CLASS_NAMES.rotateSvg
+            );
         });
         it('Should add the css class to set the background color when backgroundColor is non-empty', () => {
             const elementIcon = createComponentForTest({
@@ -79,7 +91,9 @@ describe('Element Icon', () => {
                 backgroundColor: undefined
             });
             const lightningIcon = getLightningIcon(elementIcon);
-            expect(lightningIcon.classList).not.toContain('background-undefined');
+            expect(lightningIcon.classList).not.toContain(
+                'background-undefined'
+            );
         });
         it('Should add the drag css class when isDraggable is true', () => {
             const elementIcon = createComponentForTest({

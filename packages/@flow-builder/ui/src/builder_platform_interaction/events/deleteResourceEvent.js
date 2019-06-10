@@ -3,7 +3,6 @@
  */
 const eventName = 'deleteresource';
 
-
 export class DeleteResourceEvent {
     constructor(selectedElementGUID, selectedElementType) {
         return new CustomEvent(eventName, {

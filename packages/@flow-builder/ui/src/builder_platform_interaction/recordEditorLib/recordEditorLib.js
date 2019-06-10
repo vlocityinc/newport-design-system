@@ -12,8 +12,8 @@ export const RECORD_FILTER_CRITERIA = {
  * @type {{FIRST_RECORD: string, ALL_RECORDS: string}}
  */
 export const NUMBER_RECORDS_TO_STORE = {
-    FIRST_RECORD : 'firstRecord',
-    ALL_RECORDS : 'allRecords'
+    FIRST_RECORD: 'firstRecord',
+    ALL_RECORDS: 'allRecords'
 };
 
 /**
@@ -21,8 +21,8 @@ export const NUMBER_RECORDS_TO_STORE = {
  * @type {{SOBJECT_VARIABLE: string, SEPARATE_VARIABLES: string}}
  */
 export const WAY_TO_STORE_FIELDS = {
-    SOBJECT_VARIABLE : 'sObjectVariable',
-    SEPARATE_VARIABLES : 'separateVariables'
+    SOBJECT_VARIABLE: 'sObjectVariable',
+    SEPARATE_VARIABLES: 'separateVariables'
 };
 
 /**
@@ -34,4 +34,3 @@ export const SORT_ORDER = {
     DESC: 'Desc',
     NOT_SORTED: 'NotSorted'
 };
-

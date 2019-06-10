@@ -1,6 +1,5 @@
 const eventName = 'sobjectreferencechanged';
 
-
 export class SObjectReferenceChangedEvent {
     constructor(value, error = null) {
         return new CustomEvent(eventName, {

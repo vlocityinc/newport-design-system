@@ -3,27 +3,34 @@
         {labels.recordUpdateTitle}
     </div>
     <div class="slds-p-horizontal_small slds-p-top_small">
-      <builder_platform_interaction-label-description label={state.recordUpdateElement.label}
-        dev-name={state.recordUpdateElement.name}
-        description={state.recordUpdateElement.description}
-        guid={state.recordUpdateElement.guid}
-        onpropertychanged={handlePropertyOrListItemChanged}>
-      </builder_platform_interaction-label-description>
+        <builder_platform_interaction-label-description
+            label={state.recordUpdateElement.label}
+            dev-name={state.recordUpdateElement.name}
+            description={state.recordUpdateElement.description}
+            guid={state.recordUpdateElement.guid}
+            onpropertychanged={handlePropertyOrListItemChanged}
+        >
+        </builder_platform_interaction-label-description>
     </div>
 
-     <!-- Record Store Fields Selection section -->
-     <builder_platform_interaction-record-store-options
-         element-type={state.recordUpdateElement.elementType}
+    <!-- Record Store Fields Selection section -->
+    <builder_platform_interaction-record-store-options
+        element-type={state.recordUpdateElement.elementType}
         resource-display-text={state.resourceDisplayText}
         number-of-records-to-store={numberRecordsToStoreValue}
-        onrecordstoreoptionchanged={handleRecordStoreOptionChanged}>
+        onrecordstoreoptionchanged={handleRecordStoreOptionChanged}
+    >
     </builder_platform_interaction-record-store-options>
 
     <div if:true={isSObjectMode}>
         <div class="slds-m-bottom_small slds-border_top">
-            <h3 class="slds-text-heading_small slds-p-around_small">{labels.selectsObjectOrsObjectCollectionVariable}</h3>
-            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
-                <builder_platform_interaction-sobject-or-sobject-collection-picker 
+            <h3 class="slds-text-heading_small slds-p-around_small">
+                {labels.selectsObjectOrsObjectCollectionVariable}
+            </h3>
+            <div
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+                <builder_platform_interaction-sobject-or-sobject-collection-picker
                     is-collection={isCollection}
                     label={labels.recordVariableOrRecordCollectionVariable}
                     placeholder={labels.sObjectVariablePlaceholder}
@@ -31,7 +38,8 @@
                     value={inputReference}
                     row-index={state.recordUpdateElement.inputReferenceIndex.value}
                     error-message={state.recordUpdateElement.inputReference.error}
-                    onsobjectreferencechanged={handleInputReferenceChangedEvent}>
+                    onsobjectreferencechanged={handleInputReferenceChangedEvent}
+                >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
             </div>
         </div>
@@ -39,27 +47,38 @@
             <div class="slds-m-top_xx-small">
                 <span>{labels.helpIdFieldPopulatedWithTextForUpdate}</span>
             </div>
-            <lightning-helptext class="slds-m-left_xx-small" content={labels.helpSObjectRecordUpdateAltText}></lightning-helptext>
-        </div>        
+            <lightning-helptext
+                class="slds-m-left_xx-small"
+                content={labels.helpSObjectRecordUpdateAltText}
+            ></lightning-helptext>
+        </div>
     </div>
-    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
+    <div
+        if:false={isSObjectMode}
+        class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported"
+    >
         <!-- sobject picker -->
         <div class="slds-m-bottom_small slds-border_top">
-            <h3 class="slds-text-heading_small slds-p-around_small">{labels.updateRecordOfThisObject}</h3>
-            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+            <h3 class="slds-text-heading_small slds-p-around_small">
+                {labels.updateRecordOfThisObject}
+            </h3>
+            <div
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+            >
                 <builder_platform_interaction-entity-resource-picker
-                        combobox-config={entityComboboxConfig}
-                        value={state.recordEntityName}
-                        row-index={state.recordUpdateElement.objectIndex.value}
-                        crud-filter-type={crudFilterType}
-                        oncomboboxstatechanged={handleResourceChanged}
-                        onitemselected={handleResourceChanged}>
+                    combobox-config={entityComboboxConfig}
+                    value={state.recordEntityName}
+                    row-index={state.recordUpdateElement.objectIndex.value}
+                    crud-filter-type={crudFilterType}
+                    oncomboboxstatechanged={handleResourceChanged}
+                    onitemselected={handleResourceChanged}
+                >
                 </builder_platform_interaction-entity-resource-picker>
             </div>
         </div>
         <div if:true={state.recordEntityName}>
             <!-- Find Records section -->
-            <builder_platform_interaction-record-filter 
+            <builder_platform_interaction-record-filter
                 element-type={state.recordUpdateElement.elementType}
                 filter-items={state.recordUpdateElement.filters}
                 record-entity-name={state.recordEntityName}
@@ -69,11 +88,12 @@
                 onrecordfiltertypechanged={handleFilterTypeChanged}
                 onaddrecordfilter={handlePropertyOrListItemChanged}
                 onupdaterecordfilter={handlePropertyOrListItemChanged}
-                ondeleterecordfilter={handlePropertyOrListItemChanged}>
+                ondeleterecordfilter={handlePropertyOrListItemChanged}
+            >
             </builder_platform_interaction-record-filter>
 
             <!-- InputAssignments fields -->
-            <builder_platform_interaction-record-input-output-assignments 
+            <builder_platform_interaction-record-input-output-assignments
                 input-output-assignments-items={state.recordUpdateElement.inputAssignments}
                 resource-display-text={resourceDisplayText}
                 record-entity-name={state.recordEntityName}
@@ -83,7 +103,8 @@
                 rhs-label={labels.filterRhsLabel}
                 onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
                 onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            >
             </builder_platform_interaction-record-input-output-assignments>
         </div>
     </div>

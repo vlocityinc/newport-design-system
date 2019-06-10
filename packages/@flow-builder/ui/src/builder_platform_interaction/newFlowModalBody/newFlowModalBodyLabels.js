@@ -6,5 +6,5 @@ import errorLoadingTemplateData from '@salesforce/label/FlowBuilderNewFlowModal.
 export const LABELS = {
     errorLoadingProcessTypes,
     errorLoadingTemplates,
-    errorLoadingTemplateData,
+    errorLoadingTemplateData
 };

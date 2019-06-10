@@ -1,22 +1,22 @@
-import { LightningElement, api, track }  from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import {
     getMenuData,
     getResourceByUniqueIdentifier,
     mutateFieldToComboboxShape,
-    mutateFlowResourceToComboboxShape,
-} from "builder_platform_interaction/expressionUtils";
+    mutateFlowResourceToComboboxShape
+} from 'builder_platform_interaction/expressionUtils';
 import {
     getOutputRules,
     getRHSTypes,
-    RULE_OPERATOR,
-} from "builder_platform_interaction/ruleLib";
-import { isObject } from "builder_platform_interaction/commonUtils";
+    RULE_OPERATOR
+} from 'builder_platform_interaction/ruleLib';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
-import { sanitizeGuid } from "builder_platform_interaction/dataMutationLib";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import * as sobjectLib from "builder_platform_interaction/sobjectLib";
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 
 let storeInstance;
@@ -95,7 +95,10 @@ export default class OutputResourcePicker extends LightningElement {
      * @param {module:base-resource-picker.ComboboxConfig} newComboboxConfig the new combobox config object
      */
     set comboboxConfig(newComboboxConfig) {
-        this._comboboxConfig = Object.assign({}, newComboboxConfig, { literalsAllowed: false, placeholder: outputPlaceholder });
+        this._comboboxConfig = Object.assign({}, newComboboxConfig, {
+            literalsAllowed: false,
+            placeholder: outputPlaceholder
+        });
         this._isInitialized = false;
     }
 
@@ -132,7 +135,7 @@ export default class OutputResourcePicker extends LightningElement {
     get elementConfig() {
         return {
             elementType: this.propertyEditorElementType,
-            shouldBeWritable: true,
+            shouldBeWritable: true
         };
     }
 
@@ -167,7 +170,9 @@ export default class OutputResourcePicker extends LightningElement {
     constructor() {
         super();
         storeInstance = Store.getStore();
-        this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
+        this._unsubscribeStore = storeInstance.subscribe(
+            this.handleStoreChange
+        );
     }
 
     disconnectedCallback() {
@@ -178,21 +183,25 @@ export default class OutputResourcePicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
+            this._baseResourcePicker = this.template.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
 
-            const identifier = isObject(this.value) ? this.value.value : this.value;
+            const identifier = isObject(this.value)
+                ? this.value.value
+                : this.value;
             this.initializeResourcePicker(this.normalizeValue(identifier));
         }
     }
 
     /** HELPER METHODS */
 
-    initializeResourcePicker = (normalizedValue) => {
+    initializeResourcePicker = normalizedValue => {
         // on first render we want to replace the given value with the normalized value
         this._value = normalizedValue;
         this.populateMenuData(this.parentItem);
         this._isInitialized = true;
-    }
+    };
 
     /**
      * Callback from the store for changes in store.
@@ -202,19 +211,32 @@ export default class OutputResourcePicker extends LightningElement {
     };
 
     populateParamTypes = () => {
-        this.paramTypes = getRHSTypes(this.propertyEditorElementType,
-            this.elementParam, RULE_OPERATOR.ASSIGN, OutputResourcePicker.RULES);
+        this.paramTypes = getRHSTypes(
+            this.propertyEditorElementType,
+            this.elementParam,
+            RULE_OPERATOR.ASSIGN,
+            OutputResourcePicker.RULES
+        );
         return this.paramTypes;
     };
 
-    populateMenuData = (parentItem) => {
+    populateMenuData = parentItem => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
-                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, false,
-                    this.enableFieldDrilldown, storeInstance, showNewResource, parentItem));
+                getMenuData(
+                    this.elementConfig,
+                    this.propertyEditorElementType,
+                    this.populateParamTypes,
+                    false,
+                    this.enableFieldDrilldown,
+                    storeInstance,
+                    showNewResource,
+                    parentItem
+                )
+            );
         }
-    }
+    };
 
     /**
      * This function handles any identifier that may be passed to the picker,
@@ -224,23 +246,35 @@ export default class OutputResourcePicker extends LightningElement {
      * @param {String} identifier    Used to identify the value (e.g. GUID for flow elements)
      * @returns normalizedValue      value to pass to the combobox
      */
-    normalizeValue = (identifier) => {
+    normalizeValue = identifier => {
         // TODO: W-5981876 consolidate this with resourceUtils.normalizeFerov
         let normalizedValue;
         const flowElement = getResourceByUniqueIdentifier(identifier);
         if (flowElement) {
             const fieldName = sanitizeGuid(identifier).fieldName;
             if (fieldName) {
-                const retrieveFieldsFn = flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value ? sobjectLib.getFieldsForEntity : apexTypeLib.getPropertiesForClass;
+                const retrieveFieldsFn =
+                    flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value
+                        ? sobjectLib.getFieldsForEntity
+                        : apexTypeLib.getPropertiesForClass;
                 const fields = retrieveFieldsFn(flowElement.subtype);
                 const field = fields && fields[fieldName];
                 if (field) {
                     field.isCollection = !!field.isCollection;
-                    const fieldParent = mutateFlowResourceToComboboxShape(flowElement);
-                    normalizedValue = mutateFieldToComboboxShape(field, fieldParent, true, true);
+                    const fieldParent = mutateFlowResourceToComboboxShape(
+                        flowElement
+                    );
+                    normalizedValue = mutateFieldToComboboxShape(
+                        field,
+                        fieldParent,
+                        true,
+                        true
+                    );
                 }
             } else {
-                normalizedValue = mutateFlowResourceToComboboxShape(flowElement);
+                normalizedValue = mutateFlowResourceToComboboxShape(
+                    flowElement
+                );
             }
         } else {
             // Pass in identifier as string in the default case

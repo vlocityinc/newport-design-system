@@ -1,26 +1,44 @@
 <template>
-    <div class='navigation-container slds-size_small slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical' aria-hidden='false'>
-        <div class='slds-scrollable_y slds-grid slds-grid_vertical slds-grow'>
-            <lightning-vertical-navigation selected-item={selectedProcessType} onselect={handleSelectProcessType}>
+    <div
+        class="navigation-container slds-size_small slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical"
+        aria-hidden="false"
+    >
+        <div class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow">
+            <lightning-vertical-navigation
+                selected-item={selectedProcessType}
+                onselect={handleSelectProcessType}
+            >
                 <!-- Featured process types section -->
-                <template for:each={featuredProcessTypes} for:item="featuredProcessType">
-                    <lightning-vertical-navigation-item-icon key={featuredProcessType.name}
+                <template
+                    for:each={featuredProcessTypes}
+                    for:item="featuredProcessType"
+                >
+                    <lightning-vertical-navigation-item-icon
+                        key={featuredProcessType.name}
                         label={featuredProcessType.label}
                         name={featuredProcessType.name}
-                        icon-name={featuredProcessType.iconName}>
+                        icon-name={featuredProcessType.iconName}
+                    >
                     </lightning-vertical-navigation-item-icon>
-                </template>               
-                <!-- Other process types section -->      
-                <lightning-vertical-navigation-overflow if:true={hasOtherProcessTypes} >
-                    <template for:each={otherProcessTypes} for:item="otherProcessType">
-                        <lightning-vertical-navigation-item-icon key={otherProcessType.name}
+                </template>
+                <!-- Other process types section -->
+                <lightning-vertical-navigation-overflow
+                    if:true={hasOtherProcessTypes}
+                >
+                    <template
+                        for:each={otherProcessTypes}
+                        for:item="otherProcessType"
+                    >
+                        <lightning-vertical-navigation-item-icon
+                            key={otherProcessType.name}
                             label={otherProcessType.label}
                             name={otherProcessType.name}
-                            icon-name={otherProcessType.iconName}>
+                            icon-name={otherProcessType.iconName}
+                        >
                         </lightning-vertical-navigation-item-icon>
                     </template>
                 </lightning-vertical-navigation-overflow>
             </lightning-vertical-navigation>
-        </div>  
+        </div>
     </div>
 </template>

@@ -1,9 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./recordFieldPickerRowLabels";
-import {
-    UpdateRecordLookupFieldEvent,
-} from "builder_platform_interaction/events";
-import * as sobjectLib from "builder_platform_interaction/sobjectLib";
+import { LABELS } from './recordFieldPickerRowLabels';
+import { UpdateRecordLookupFieldEvent } from 'builder_platform_interaction/events';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 
 const ID_FIELD = 'Id';
 
@@ -34,12 +32,15 @@ export default class RecordFieldPickerRow extends LightningElement {
             this._recordEntityName = name;
             this._entityFields = {};
             this.setupMenuDataFields();
-            sobjectLib.fetchFieldsForEntity(name).then(fields => {
-                this._entityFields = fields;
-                this.setupMenuDataFields();
-            }).catch(() => {
-                // fetchFieldsForEntity displays an error message
-            });
+            sobjectLib
+                .fetchFieldsForEntity(name)
+                .then(fields => {
+                    this._entityFields = fields;
+                    this.setupMenuDataFields();
+                })
+                .catch(() => {
+                    // fetchFieldsForEntity displays an error message
+                });
         }
     }
 
@@ -77,8 +78,10 @@ export default class RecordFieldPickerRow extends LightningElement {
         }
 
         this.menuDataFields = Object.keys(this._entityFields)
-            .filter((field) => {
-                return field === this.value || !this.queriedFields.includes(field);
+            .filter(field => {
+                return (
+                    field === this.value || !this.queriedFields.includes(field)
+                );
             })
             .reduce((menuData, fieldName) => {
                 menuData[fieldName] = this._entityFields[fieldName];
@@ -106,7 +109,13 @@ export default class RecordFieldPickerRow extends LightningElement {
      */
     handleFieldChanged(event) {
         event.stopPropagation();
-        const updateFieldEvent = new UpdateRecordLookupFieldEvent(this.fieldIndex, (event.detail.item) ? event.detail.item.value : event.detail.displayText, event.detail.error);
+        const updateFieldEvent = new UpdateRecordLookupFieldEvent(
+            this.fieldIndex,
+            event.detail.item
+                ? event.detail.item.value
+                : event.detail.displayText,
+            event.detail.error
+        );
         this.dispatchEvent(updateFieldEvent);
     }
 }

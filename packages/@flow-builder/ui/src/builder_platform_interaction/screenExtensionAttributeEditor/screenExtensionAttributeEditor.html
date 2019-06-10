@@ -1,36 +1,49 @@
 <template>
-    <div class='container' if:true={descriptor}>
-        <div class='slds-is-relative slds-grid'>
-            <div class='input slds-grow' if:true={isInput}>
-                <builder_platform_interaction-screen-property-field allow-resources-for-parameter
-                                                                    data-param-type='input'
-                                                                    help-text={helptext}
-                                                                    label={label} 
-                                                                    name={descriptor.apiName}
-                                                                    required={descriptor.isRequired}
-                                                                    resource-picker-config={resourcePickerConfig}
-                                                                    type={descriptor.dataType}
-                                                                    value={value} 
-                                                                    row-index={rowIndex}
-                                                                    onpropertychanged={handlePropertyChanged}>
+    <div class="container" if:true={descriptor}>
+        <div class="slds-is-relative slds-grid">
+            <div class="input slds-grow" if:true={isInput}>
+                <builder_platform_interaction-screen-property-field
+                    allow-resources-for-parameter
+                    data-param-type="input"
+                    help-text={helptext}
+                    label={label}
+                    name={descriptor.apiName}
+                    required={descriptor.isRequired}
+                    resource-picker-config={resourcePickerConfig}
+                    type={descriptor.dataType}
+                    value={value}
+                    row-index={rowIndex}
+                    onpropertychanged={handlePropertyChanged}
+                >
                 </builder_platform_interaction-screen-property-field>
             </div>
-            <div class='output slds-grid slds-grow' if:true={isOutput}>
-                <div class='slds-p-top_xx-small slds-p-right_x-small' if:true={icon}>
-                    <div if:false={isFirst} class='padding slds-p-top_xx-small'></div>
-                    <lightning-icon icon-name={icon} size='x-small'></lightning-icon>
+            <div class="output slds-grid slds-grow" if:true={isOutput}>
+                <div
+                    class="slds-p-top_xx-small slds-p-right_x-small"
+                    if:true={icon}
+                >
+                    <div
+                        if:false={isFirst}
+                        class="padding slds-p-top_xx-small"
+                    ></div>
+                    <lightning-icon
+                        icon-name={icon}
+                        size="x-small"
+                    ></lightning-icon>
                 </div>
-                <builder_platform_interaction-screen-property-field class='slds-grow'
-                                                                    allow-resources-for-output
-                                                                    data-param-type='output'
-                                                                    hide-top-padding={isFirst}
-                                                                    label={label}
-                                                                    name={descriptor.apiName} 
-                                                                    resource-picker-config={resourcePickerConfig} 
-                                                                    type={descriptor.dataType}
-                                                                    value={value} 
-                                                                    row-index={rowIndex}
-                                                                    onpropertychanged={handlePropertyChanged}>
+                <builder_platform_interaction-screen-property-field
+                    class="slds-grow"
+                    allow-resources-for-output
+                    data-param-type="output"
+                    hide-top-padding={isFirst}
+                    label={label}
+                    name={descriptor.apiName}
+                    resource-picker-config={resourcePickerConfig}
+                    type={descriptor.dataType}
+                    value={value}
+                    row-index={rowIndex}
+                    onpropertychanged={handlePropertyChanged}
+                >
                 </builder_platform_interaction-screen-property-field>
             </div>
             <div if:true={helptext} class={helptextClass}>

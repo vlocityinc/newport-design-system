@@ -1,11 +1,15 @@
 import { createElement } from 'lwc';
-import ParameterList from "../parameterList";
+import ParameterList from '../parameterList';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
-jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
+jest.mock('builder_platform_interaction/outputResourcePicker', () =>
+    require('builder_platform_interaction_mocks/outputResourcePicker')
+);
 
 const defaultInputTabHeader = 'Send to action';
 const defaultOutputTabHeader = 'Received from action';
@@ -16,63 +20,63 @@ const defaultEmptyOutputsBody = 'This action doesn’t return any data';
 
 const defaultInputParameters = [
     {
-        label: {value: 'Community ID', error: null},
-        name: {value: 'communityId', error: null},
+        label: { value: 'Community ID', error: null },
+        name: { value: 'communityId', error: null },
         isInput: true,
         isRequired: false,
         dataType: 'String',
-        value: {value: '"3824e478-141e-48e5-b1cd-5dbfd5868435"', error: null},
+        value: { value: '"3824e478-141e-48e5-b1cd-5dbfd5868435"', error: null },
         valueDataType: 'reference',
         rowIndex: generateGuid()
     },
     {
-        label: {value: 'Subject Name or Id', error: null},
-        name: {value: 'subjectNameOrId', error: null},
+        label: { value: 'Subject Name or Id', error: null },
+        name: { value: 'subjectNameOrId', error: null },
         isInput: true,
         isRequired: true,
         dataType: 'String',
-        value: {value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f', error: null},
+        value: { value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f', error: null },
         valueDataType: 'reference',
         rowIndex: generateGuid()
     },
     {
-        label: {value: 'Message', error: null},
-        name: {value: 'text', error: null},
+        label: { value: 'Message', error: null },
+        name: { value: 'text', error: null },
         isInput: true,
         isRequired: true,
         dataType: 'String',
-        value: {value: 'This is a message', error: null},
+        value: { value: 'This is a message', error: null },
         valueDataType: 'String',
         rowIndex: generateGuid()
-    },
+    }
 ];
 
 const defaultOutputParameters = [
     {
-        label: {value: 'Feed ID', error: null},
-        name: {value: 'feedId', error: null},
+        label: { value: 'Feed ID', error: null },
+        name: { value: 'feedId', error: null },
         isInput: false,
         isRequired: false,
         dataType: 'String',
-        value: {value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f', error: null},
+        value: { value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f', error: null },
         valueDataType: 'reference',
         rowIndex: generateGuid()
     },
     {
-        label: {value: 'Account ID', error: null},
-        name: {value: 'accountId', error: null},
+        label: { value: 'Account ID', error: null },
+        name: { value: 'accountId', error: null },
         isInput: false,
         isRequired: false,
         dataType: 'String',
-        value: {value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f', error: null},
+        value: { value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f', error: null },
         valueDataType: 'reference',
         rowIndex: generateGuid()
-    },
+    }
 ];
 
 const defaultParameterList = {
     inputs: defaultInputParameters,
-    outputs: defaultOutputParameters,
+    outputs: defaultOutputParameters
 };
 
 const selectors = {
@@ -82,36 +86,66 @@ const selectors = {
     emptyInputs: '.emptyInputsMessage',
     emptyOutputs: '.emptyOutputsMessage',
     goneCamping: '.goneCamping',
-    parameterItem: 'builder_platform_interaction-parameter-item',
+    parameterItem: 'builder_platform_interaction-parameter-item'
 };
 
-const getLightningTabs = (parameterList) => {
+const getLightningTabs = parameterList => {
     return parameterList.shadowRoot.querySelectorAll(selectors.lightningTab);
 };
 
-const getInputParameterItems = (parameterList) => {
-    return parameterList.shadowRoot.querySelector(selectors.inputTab).querySelectorAll(selectors.parameterItem);
+const getInputParameterItems = parameterList => {
+    return parameterList.shadowRoot
+        .querySelector(selectors.inputTab)
+        .querySelectorAll(selectors.parameterItem);
 };
 
-const getOutputParameterItems = (parameterList) => {
-    return parameterList.shadowRoot.querySelector(selectors.outputTab).querySelectorAll(selectors.parameterItem);
+const getOutputParameterItems = parameterList => {
+    return parameterList.shadowRoot
+        .querySelector(selectors.outputTab)
+        .querySelectorAll(selectors.parameterItem);
 };
 
-const getEmptyInputs = (parameterList) => {
-    return parameterList.shadowRoot.querySelector(selectors.emptyInputs).querySelector(selectors.goneCamping);
+const getEmptyInputs = parameterList => {
+    return parameterList.shadowRoot
+        .querySelector(selectors.emptyInputs)
+        .querySelector(selectors.goneCamping);
 };
 
-const getEmptyOutputs = (parameterList) => {
-    return parameterList.shadowRoot.querySelector(selectors.emptyOutputs).querySelector(selectors.goneCamping);
+const getEmptyOutputs = parameterList => {
+    return parameterList.shadowRoot
+        .querySelector(selectors.emptyOutputs)
+        .querySelector(selectors.goneCamping);
 };
 
-function createComponentForTest({ elementType = ELEMENT_TYPE.ACTION_CALL, inputTabHeader = defaultInputTabHeader, outputTabHeader = defaultOutputTabHeader,
-    emptyInputsTitle = defaultEmptyInputsTitle, emptyOutputsTitle = defaultEmptyOutputsTitle,
-    emptyInputsBody = defaultEmptyInputsBody, emptyOutputsBody = defaultEmptyOutputsBody,
-    inputs = [], outputs = [],
-    sortInputs = true, sortOutputs = true} = {}) {
-    const el = createElement('builder_platform_interaction-parameter-list', { is: ParameterList });
-    Object.assign(el, {elementType, inputTabHeader, outputTabHeader, inputs, outputs, emptyInputsTitle, emptyOutputsTitle, emptyInputsBody, emptyOutputsBody, sortInputs, sortOutputs});
+function createComponentForTest({
+    elementType = ELEMENT_TYPE.ACTION_CALL,
+    inputTabHeader = defaultInputTabHeader,
+    outputTabHeader = defaultOutputTabHeader,
+    emptyInputsTitle = defaultEmptyInputsTitle,
+    emptyOutputsTitle = defaultEmptyOutputsTitle,
+    emptyInputsBody = defaultEmptyInputsBody,
+    emptyOutputsBody = defaultEmptyOutputsBody,
+    inputs = [],
+    outputs = [],
+    sortInputs = true,
+    sortOutputs = true
+} = {}) {
+    const el = createElement('builder_platform_interaction-parameter-list', {
+        is: ParameterList
+    });
+    Object.assign(el, {
+        elementType,
+        inputTabHeader,
+        outputTabHeader,
+        inputs,
+        outputs,
+        emptyInputsTitle,
+        emptyOutputsTitle,
+        emptyInputsBody,
+        emptyOutputsBody,
+        sortInputs,
+        sortOutputs
+    });
     document.body.appendChild(el);
     return el;
 }
@@ -163,12 +197,24 @@ describe('parameter-list', () => {
         it('sorts input parameters by isRequired and label', () => {
             const parameterItems = getInputParameterItems(parameterList);
             const expectedInputs = [
-                {name: 'text', label: 'Message', isRequired: true},
-                {name: 'subjectNameOrId', label: 'Subject Name or Id', isRequired: true},
-                {name: 'communityId', label: 'Community ID', isRequired: false},
-                ];
+                { name: 'text', label: 'Message', isRequired: true },
+                {
+                    name: 'subjectNameOrId',
+                    label: 'Subject Name or Id',
+                    isRequired: true
+                },
+                {
+                    name: 'communityId',
+                    label: 'Community ID',
+                    isRequired: false
+                }
+            ];
             const inputParameters = [...parameterItems].map(parameterItem => {
-                return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
+                return {
+                    name: getValueFromHydratedItem(parameterItem.item.name),
+                    label: getValueFromHydratedItem(parameterItem.item.label),
+                    isRequired: parameterItem.item.isRequired
+                };
             });
             expect(inputParameters).toEqual(expectedInputs);
         });
@@ -179,11 +225,15 @@ describe('parameter-list', () => {
         it('sorts outputs parameters by label', () => {
             const parameterItems = getOutputParameterItems(parameterList);
             const expectedOutputs = [
-                {name: 'accountId', label: 'Account ID', isRequired: false},
-                {name: 'feedId', label: 'Feed ID', isRequired: false},
-                ];
+                { name: 'accountId', label: 'Account ID', isRequired: false },
+                { name: 'feedId', label: 'Feed ID', isRequired: false }
+            ];
             const outputParameters = [...parameterItems].map(parameterItem => {
-                return {name: getValueFromHydratedItem(parameterItem.item.name), label: getValueFromHydratedItem(parameterItem.item.label), isRequired: parameterItem.item.isRequired};
+                return {
+                    name: getValueFromHydratedItem(parameterItem.item.name),
+                    label: getValueFromHydratedItem(parameterItem.item.label),
+                    isRequired: parameterItem.item.isRequired
+                };
             });
             expect(outputParameters).toEqual(expectedOutputs);
         });

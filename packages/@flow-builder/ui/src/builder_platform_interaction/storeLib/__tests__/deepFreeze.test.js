@@ -9,20 +9,17 @@ const obj = {
 const assignmentItem = {
     lhs: {
         menuData: ['testmenudata'],
-        value: 'testvalue',
+        value: 'testvalue'
     },
     operator: {
-        value: 'add',
+        value: 'add'
     },
     rhs: {
-        value: 'defaultrhs',
+        value: 'defaultrhs'
     }
 };
 
-const items = [
-    { value: 'name' },
-    { value: 'label' },
-];
+const items = [{ value: 'name' }, { value: 'label' }];
 
 describe('deep freeze function', () => {
     it('should freeze object with one level', () => {

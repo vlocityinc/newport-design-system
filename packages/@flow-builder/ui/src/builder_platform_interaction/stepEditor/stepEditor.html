@@ -1,21 +1,29 @@
 <template>
-    <div class="slds-form slds-form_compound slds-p-around_small slds-p-horizontal_small">
+    <div
+        class="slds-form slds-form_compound slds-p-around_small slds-p-horizontal_small"
+    >
         <div class="slds-grid slds-m-bottom_x-small">
-            <span class="slds-badge slds-text-title_caps slds-theme--warning test-badge-icon">{labels.deprecatedBadgeIconLabel}
+            <span
+                class="slds-badge slds-text-title_caps slds-theme--warning test-badge-icon"
+                >{labels.deprecatedBadgeIconLabel}
             </span>
-            <span class="slds-text-color_weak slds-text-body_small slds-p-left_small slds-truncate slds-m-top_xx-small test-section-description">{labels.stepSectionDescription}</span>
+            <span
+                class="slds-text-color_weak slds-text-body_small slds-p-left_small slds-truncate slds-m-top_xx-small test-section-description"
+                >{labels.stepSectionDescription}</span
+            >
         </div>
         <!-- Name Label Desc Component -->
         <builder_platform_interaction-label-description
-                label={stepElement.label}
-                dev-name={stepElement.name}
-                description={stepElement.description}
-                guid={stepElement.guid}
-                disable-dev-name=true
-                disable-name=true
-                disable-description=true
-                name-label={labels.stepNameLabel}
-                dev-name-label={labels.stepAPINameLabel}>
+            label={stepElement.label}
+            dev-name={stepElement.name}
+            description={stepElement.description}
+            guid={stepElement.guid}
+            disable-dev-name="true"
+            disable-name="true"
+            disable-description="true"
+            name-label={labels.stepNameLabel}
+            dev-name-label={labels.stepAPINameLabel}
+        >
         </builder_platform_interaction-label-description>
     </div>
 </template>

@@ -7,7 +7,7 @@ export default class UsedByContentItem extends LightningElement {
     @api showLocatorIcon = false;
 
     get showLocatorIconForCanvasElements() {
-        return (this.showLocatorIcon && this.listItem.isCanvasElement);
+        return this.showLocatorIcon && this.listItem.isCanvasElement;
     }
 
     get labels() {
@@ -19,7 +19,11 @@ export default class UsedByContentItem extends LightningElement {
      * @param {object} event onclick event
      */
     handleUsageSectionLocatorClick(event) {
-        const guid = event && event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.guid;
+        const guid =
+            event &&
+            event.currentTarget &&
+            event.currentTarget.dataset &&
+            event.currentTarget.dataset.guid;
         const locatorIconEvent = new LocatorIconClickedEvent(guid);
         this.dispatchEvent(locatorIconEvent);
     }

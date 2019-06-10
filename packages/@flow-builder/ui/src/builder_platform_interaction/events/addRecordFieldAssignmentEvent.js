@@ -1,6 +1,5 @@
 const eventName = 'addrecordfieldassignment';
 
-
 export class AddRecordFieldAssignmentEvent {
     constructor() {
         return new CustomEvent(eventName, {

@@ -1,6 +1,6 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-export * from "./screenEditorFieldTypeUtils.js";
-export * from "./screenEditorExtensionUtils.js";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+export * from './screenEditorFieldTypeUtils.js';
+export * from './screenEditorExtensionUtils.js';
 
 // export {translateCFDtoQuill} from './rich-text-utils.js'; TODO - W-4947234
 
@@ -34,14 +34,20 @@ export const DRAGGING_CLASS = 'dragging';
 export const CONTAINER_DIV_SELECTOR = 'div.highlight';
 
 export function isScreen(element) {
-    return element && element.elementType && element.elementType === ELEMENT_TYPE.SCREEN;
+    return (
+        element &&
+        element.elementType &&
+        element.elementType === ELEMENT_TYPE.SCREEN
+    );
 }
 
 export function getVariant(label) {
     // field labels are not required in flow, but they are required by the lightning component
     // we're using to preview them. Hide the label if the label is an empty string or equivalent.
     const displayText = typeof label === 'string' ? label : label.value;
-    return displayText && displayText.trim().length > 0 ? LIGHTNING_INPUT_VARIANTS.STANDARD : LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
+    return displayText && displayText.trim().length > 0
+        ? LIGHTNING_INPUT_VARIANTS.STANDARD
+        : LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN;
 }
 
 export function booleanAttributeValue(element, property) {

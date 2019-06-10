@@ -1,26 +1,33 @@
-import { isUndefinedOrNull } from "builder_platform_interaction/commonUtils";
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 
-const DEFAULT_BLACK_LIST = ['guid', 'elementType', 'locationX', 'locationY', 'rowIndex', 'availableConnections'];
+const DEFAULT_BLACK_LIST = [
+    'guid',
+    'elementType',
+    'locationX',
+    'locationY',
+    'rowIndex',
+    'availableConnections'
+];
 
 /**
  * Returns true if the input item is hydrated with errors.
  * @param {Object} item to evaluate if its hydrated
  * @return {boolean} returns true if item has error and value property otherwise false
  */
-export const isItemHydratedWithErrors = (item) => {
+export const isItemHydratedWithErrors = item => {
     return item && item.hasOwnProperty('value') && item.hasOwnProperty('error');
 };
 
 const doHydrateWithErrors = (element, blackList) => {
-    Object.entries(element).filter(([key]) => !blackList.includes(key)).forEach(
-        ([key, val]) => {
+    Object.entries(element)
+        .filter(([key]) => !blackList.includes(key))
+        .forEach(([key, val]) => {
             if (typeof val === 'string' || val === null) {
-                element[key] = { value : val, error: null };
+                element[key] = { value: val, error: null };
             } else if (typeof val === 'object') {
                 doHydrateWithErrors(val, blackList);
             }
-        }
-    );
+        });
 
     return element;
 };
@@ -30,9 +37,12 @@ const doHydrateWithErrors = (element, blackList) => {
  * @param {object | null} value - The value to hydrate
  * @returns {object} - The hydrated value
  */
-export const hydrateIfNecessary = (value) => {
-    if (!isItemHydratedWithErrors(value) && (typeof value === 'string' || value === null)) {
-        return {value, error: null};
+export const hydrateIfNecessary = value => {
+    if (
+        !isItemHydratedWithErrors(value) &&
+        (typeof value === 'string' || value === null)
+    ) {
+        return { value, error: null };
     }
     return value;
 };
@@ -50,7 +60,9 @@ export const hydrateWithErrors = (
     useDefaultBlackList = true
 ) => {
     // Merge elementBlacklist and blackList fields
-    const allBlacklistFields = useDefaultBlackList ? DEFAULT_BLACK_LIST.concat(elementBlackListFields) : elementBlackListFields;
+    const allBlacklistFields = useDefaultBlackList
+        ? DEFAULT_BLACK_LIST.concat(elementBlackListFields)
+        : elementBlackListFields;
     return doHydrateWithErrors(element, allBlacklistFields);
 };
 
@@ -59,26 +71,30 @@ export const hydrateWithErrors = (
  * @param {Object} element hydrated element data object
  * @return {Object} dehydrated element object
  */
-export const dehydrate = (element) => {
+export const dehydrate = element => {
     if (!isUndefinedOrNull(element)) {
-        Object.entries(element).forEach(
-            ([key, value]) => {
-                if (typeof value === 'object') {
-                    if (Array.isArray(value)) {
-                        value.forEach((item) => {
-                            dehydrate(item);
-                        });
-                    } else if (isItemHydratedWithErrors(element[key])) {
-                        if (element[key].error !== null) {
-                            throw new Error(key + ' should not have any error: ' + element[key].value + ':' + element[key].error);
-                        }
-                        element[key] = element[key].value;
-                    } else {
-                        dehydrate(value);
+        Object.entries(element).forEach(([key, value]) => {
+            if (typeof value === 'object') {
+                if (Array.isArray(value)) {
+                    value.forEach(item => {
+                        dehydrate(item);
+                    });
+                } else if (isItemHydratedWithErrors(element[key])) {
+                    if (element[key].error !== null) {
+                        throw new Error(
+                            key +
+                                ' should not have any error: ' +
+                                element[key].value +
+                                ':' +
+                                element[key].error
+                        );
                     }
+                    element[key] = element[key].value;
+                } else {
+                    dehydrate(value);
                 }
             }
-        );
+        });
     }
     return element;
 };
@@ -91,24 +107,22 @@ export const dehydrate = (element) => {
  */
 export const getErrorsFromHydratedElement = (element, errorsList = []) => {
     const listOfErrors = errorsList;
-    Object.entries(element).forEach(
-        ([key, value]) => {
-            if (value && typeof value === 'object') {
-                if (Array.isArray(value)) {
-                    value.forEach((item) => {
-                        getErrorsFromHydratedElement(item, listOfErrors);
-                    });
-                } else if (isItemHydratedWithErrors(element[key])) {
-                    const errorString = element[key].error;
-                    if (errorString !== null) {
-                        listOfErrors.push({key, errorString});
-                    }
-                } else {
-                    getErrorsFromHydratedElement(value, listOfErrors);
+    Object.entries(element).forEach(([key, value]) => {
+        if (value && typeof value === 'object') {
+            if (Array.isArray(value)) {
+                value.forEach(item => {
+                    getErrorsFromHydratedElement(item, listOfErrors);
+                });
+            } else if (isItemHydratedWithErrors(element[key])) {
+                const errorString = element[key].error;
+                if (errorString !== null) {
+                    listOfErrors.push({ key, errorString });
                 }
+            } else {
+                getErrorsFromHydratedElement(value, listOfErrors);
             }
         }
-    );
+    });
     return listOfErrors;
 };
 
@@ -117,7 +131,7 @@ export const getErrorsFromHydratedElement = (element, errorsList = []) => {
  * @param {*} item Object hydrated with error or a property
  * @return {*} value property if item is hydrated with error else item
  */
-export const getValueFromHydratedItem = (item) => {
+export const getValueFromHydratedItem = item => {
     if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
         return item.value;
     }
@@ -129,7 +143,7 @@ export const getValueFromHydratedItem = (item) => {
  * @param {*} item Object hydrated with error or a property
  * @return {*} value property if item is hydrated with error else null
  */
-export const getErrorFromHydratedItem = (item) => {
+export const getErrorFromHydratedItem = item => {
     if (typeof item === 'object' && isItemHydratedWithErrors(item)) {
         return item.error;
     }

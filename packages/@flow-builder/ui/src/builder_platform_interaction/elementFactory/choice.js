@@ -1,13 +1,19 @@
-import { baseElementsArrayToMap, baseResource } from "./base/baseElement";
-import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from "./ferov";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { baseResourceMetadataObject } from "./base/baseMetadata";
-import { createValidationRuleObject } from "./base/baseValidationInput";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { baseElementsArrayToMap, baseResource } from './base/baseElement';
+import {
+    createFEROV,
+    createFEROVMetadataObject,
+    getDataTypeKey
+} from './ferov';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { baseResourceMetadataObject } from './base/baseMetadata';
+import { createValidationRuleObject } from './base/baseValidationInput';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.CHOICE;
 const STORED_VALUE_PROPERTY = 'storedValue';
-export const STORED_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(STORED_VALUE_PROPERTY);
+export const STORED_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(
+    STORED_VALUE_PROPERTY
+);
 
 /**
  * @typedef {Object} userInput
@@ -55,12 +61,7 @@ export function createChoice(choice = {}) {
     let valueFerov,
         isShowInputSelected = false, // isShowIfInputSelected is false by default to hide the section
         isValidateSelected = false; // false by default to keep the validate section close by default
-    const {
-        dataType = null,
-        choiceText = null,
-        value,
-        userInput
-    } = choice;
+    const { dataType = null, choiceText = null, value, userInput } = choice;
     let newUserInput;
     // create metadata for supporting the UI section state (show/hide)
     if (userInput) {
@@ -72,10 +73,18 @@ export function createChoice(choice = {}) {
     }
 
     if (value) {
-        valueFerov = createFEROV(value, STORED_VALUE_PROPERTY, STORED_VALUE_DATA_TYPE_PROPERTY);
+        valueFerov = createFEROV(
+            value,
+            STORED_VALUE_PROPERTY,
+            STORED_VALUE_DATA_TYPE_PROPERTY
+        );
     }
 
-    const { storedValue = null, storedValueDataType = null, storedValueIndex = generateGuid() } = valueFerov || choice;
+    const {
+        storedValue = null,
+        storedValueDataType = null,
+        storedValueIndex = generateGuid()
+    } = valueFerov || choice;
 
     return Object.assign(newChoice, {
         elementType,
@@ -97,7 +106,9 @@ export function createChoice(choice = {}) {
  */
 export function createChoiceForStore(choice) {
     if (!choice) {
-        throw new Error('choice is required to create choice element for store');
+        throw new Error(
+            'choice is required to create choice element for store'
+        );
     }
     const newChoice = createChoice(choice);
     return baseElementsArrayToMap([newChoice]);
@@ -110,7 +121,9 @@ export function createChoiceForStore(choice) {
  */
 export function createChoiceMetadataObject(choice) {
     if (!choice) {
-        throw new Error('choice element object is required while creating choice metadata object');
+        throw new Error(
+            'choice element object is required while creating choice metadata object'
+        );
     }
     const newChoice = baseResourceMetadataObject(choice);
     const { dataType, choiceText, userInput } = choice;
@@ -121,14 +134,18 @@ export function createChoiceMetadataObject(choice) {
         STORED_VALUE_DATA_TYPE_PROPERTY
     );
     if (valueFerov) {
-        valueFerovObject = { value : valueFerov };
+        valueFerovObject = { value: valueFerov };
     }
     if (userInput) {
         newUserInput = createUserInputForChoice(userInput);
     }
-    return Object.assign(newChoice, {
-        dataType,
-        choiceText,
-        userInput: newUserInput
-    }, valueFerovObject);
+    return Object.assign(
+        newChoice,
+        {
+            dataType,
+            choiceText,
+            userInput: newUserInput
+        },
+        valueFerovObject
+    );
 }

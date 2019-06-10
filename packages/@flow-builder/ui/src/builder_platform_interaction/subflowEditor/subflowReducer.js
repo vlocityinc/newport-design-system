@@ -1,15 +1,32 @@
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { subflowValidation } from "./subflowValidation";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { UpdateParameterItemEvent, DeleteParameterItemEvent, PropertyChangedEvent } from 'builder_platform_interaction/events';
-import { updateParameterItem, removeUnsetParameters, deleteParameterItem, mergeWithInputOutputVariables } from 'builder_platform_interaction/calloutEditorLib';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { subflowValidation } from './subflowValidation';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    UpdateParameterItemEvent,
+    DeleteParameterItemEvent,
+    PropertyChangedEvent
+} from 'builder_platform_interaction/events';
+import {
+    updateParameterItem,
+    removeUnsetParameters,
+    deleteParameterItem,
+    mergeWithInputOutputVariables
+} from 'builder_platform_interaction/calloutEditorLib';
 
 export const MERGE_WITH_VARIABLES = 'MERGE_WITH_VARIABLES';
 export const REMOVE_UNSET_ASSIGNMENTS = 'REMOVE_UNSET_ASSIGNMENTS';
 
 const subflowPropertyChanged = (state, event) => {
-    const error = event.detail.error === null ? subflowValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
-    return updateProperties(state, {[event.detail.propertyName]: {error, value: event.detail.value}});
+    const error =
+        event.detail.error === null
+            ? subflowValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
+    return updateProperties(state, {
+        [event.detail.propertyName]: { error, value: event.detail.value }
+    });
 };
 
 /**
@@ -32,6 +49,7 @@ export const subflowReducer = (state, event) => {
             return removeUnsetParameters(state);
         case VALIDATE_ALL:
             return subflowValidation.validateAll(state);
-        default: return state;
+        default:
+            return state;
     }
 };

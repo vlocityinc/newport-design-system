@@ -5,15 +5,20 @@ import { Validation } from 'builder_platform_interaction/validation';
  * validates against possible blank, empty or undefined value
  * @returns {Array} corresponding array of validation rules
  */
-const validateAgainstBlankNullOrUndefined = (index) => {
-    return [ValidationRules.shouldNotBeBlank, ValidationRules.shouldNotBeNullOrUndefined, ValidationRules.validateResourcePicker(index)];
+const validateAgainstBlankNullOrUndefined = index => {
+    return [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.validateResourcePicker(index)
+    ];
 };
 
 /**
  * Validates the record filter item.
  * @returns {function} the function to be called with each filter item to return the array of rules.
  */
-const validateFilters = () => ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
+const validateFilters = () =>
+    ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
 export const recordDeleteValidation = new Validation();
 
@@ -22,17 +27,20 @@ export const recordDeleteValidation = new Validation();
  * @param {Object} grabbing properties isSObjectMode
  * @returns {Object} the overridden rules
  */
-export const getRules = (nodeElement, {isSObjectMode}) => {
-    const overrideRules = {...recordDeleteValidation.finalizedRules};
+export const getRules = (nodeElement, { isSObjectMode }) => {
+    const overrideRules = { ...recordDeleteValidation.finalizedRules };
     // case where an sObject has been selected
     if (isSObjectMode) {
-        overrideRules.inputReference = validateAgainstBlankNullOrUndefined(nodeElement.inputReferenceIndex);
+        overrideRules.inputReference = validateAgainstBlankNullOrUndefined(
+            nodeElement.inputReferenceIndex
+        );
     } else {
-        overrideRules.object = validateAgainstBlankNullOrUndefined(nodeElement.objectIndex);
+        overrideRules.object = validateAgainstBlankNullOrUndefined(
+            nodeElement.objectIndex
+        );
         if (nodeElement.object.value !== '' && !nodeElement.object.error) {
             overrideRules.filters = validateFilters();
         }
     }
     return overrideRules;
 };
-

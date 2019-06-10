@@ -3,17 +3,39 @@ import { booleanAttributeValue } from 'builder_platform_interaction/screenEditor
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from './resourcedRichTextEditorLabels';
 import { convertHTMLToQuillHTML } from './richTextConverter';
-import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 // all formats except 'strike' and 'video'
-const RTE_FORMATS = ['table', 'background', 'bold', 'color', 'font', 'code', 'italic', 'link', 'size', 'script', 'underline', 'blockquote', 'header', 'indent', 'list', 'align', 'direction', 'code-block', 'clean', 'image'];
+const RTE_FORMATS = [
+    'table',
+    'background',
+    'bold',
+    'color',
+    'font',
+    'code',
+    'italic',
+    'link',
+    'size',
+    'script',
+    'underline',
+    'blockquote',
+    'header',
+    'indent',
+    'list',
+    'align',
+    'direction',
+    'code-block',
+    'clean',
+    'image'
+];
 
 const SELECTORS = {
     INPUT_RICH_TEXT: 'lightning-input-rich-text',
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
-    INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON:'.slds-button.slds-button_icon-border-filled.ql-image'
+    INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON:
+        '.slds-button.slds-button_icon-border-filled.ql-image'
 };
 
 /**
@@ -22,7 +44,7 @@ const SELECTORS = {
 export default class ResourcedRichTextEditor extends LightningElement {
     @api label;
     @api helpText;
-    @api required =  false;
+    @api required = false;
     @api showGlobalVariables = false;
     @api plainTextAvailable = false;
 
@@ -31,9 +53,9 @@ export default class ResourcedRichTextEditor extends LightningElement {
     @api hideNewResource = false;
 
     @track state = {
-        value : '',
-        error : null,
-        isPlainTextMode : false
+        value: '',
+        error: null,
+        isPlainTextMode: false
     };
 
     labels = LABELS;
@@ -42,20 +64,20 @@ export default class ResourcedRichTextEditor extends LightningElement {
     initialized = false;
 
     resourceComboBoxConfig = BaseResourcePicker.getComboboxConfig(
-            LABELS.resourcePickerTitle, // Label
-            LABELS.resourcePickerPlaceholder, // Placeholder
-            null, // errorMessage
-            false, // literalsAllowed
-            false, // required
-            false, // disabled
-            'String', // type
-            true, // enableFieldDrilldown
-            LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN, // variant
-        );
+        LABELS.resourcePickerTitle, // Label
+        LABELS.resourcePickerPlaceholder, // Placeholder
+        null, // errorMessage
+        false, // literalsAllowed
+        false, // required
+        false, // disabled
+        'String', // type
+        true, // enableFieldDrilldown
+        LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN // variant
+    );
 
     elementConfig = {
-            elementType: ELEMENT_TYPE.SCREEN,
-        };
+        elementType: ELEMENT_TYPE.SCREEN
+    };
 
     get isRequired() {
         return booleanAttributeValue(this, 'required');
@@ -66,27 +88,30 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     /**
-    * True if editor in plain text mode, false otherwise for rich text mode
-    * @type {boolean}
-    */
+     * True if editor in plain text mode, false otherwise for rich text mode
+     * @type {boolean}
+     */
     @api get isPlainTextMode() {
         return this.state.isPlainTextMode;
     }
 
     /**
-    * Set editor plain text mode
-    * @param {boolean} val - true to switch in plain text, false to switch in rich text mode
-    */
+     * Set editor plain text mode
+     * @param {boolean} val - true to switch in plain text, false to switch in rich text mode
+     */
     set isPlainTextMode(val) {
         this.state.isPlainTextMode = val;
     }
 
     @api get value() {
-        return this.hydrated ?  {value: this.state.value, error: this.state.error} : this.state.value;
+        return this.hydrated
+            ? { value: this.state.value, error: this.state.error }
+            : this.state.value;
     }
 
     set value(val) {
-        this.hydrated = val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
+        this.hydrated =
+            val && val.hasOwnProperty('value') && val.hasOwnProperty('error');
 
         if (this.hydrated) {
             this.state.value = val.value;
@@ -106,7 +131,10 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     get classList() {
-        return 'container slds-grid slds-grid_vertical' + (this.state.error ? ' has-error' : '');
+        return (
+            'container slds-grid slds-grid_vertical' +
+            (this.state.error ? ' has-error' : '')
+        );
     }
 
     // Replace new line with <br /> tag as done at runtime (see _createOutput in factory.js)
@@ -146,19 +174,32 @@ export default class ResourcedRichTextEditor extends LightningElement {
     }
 
     validateMergeFields(textWithMergeFields) {
-        const options = { allowGlobalConstants : false, allowCollectionVariables : true };
-        const errors = validateTextWithMergeFields(textWithMergeFields, options);
+        const options = {
+            allowGlobalConstants: false,
+            allowCollectionVariables: true
+        };
+        const errors = validateTextWithMergeFields(
+            textWithMergeFields,
+            options
+        );
         return errors;
     }
 
     fireChangeEvent(value, error) {
-        const event = new CustomEvent('change', {detail: {value, error}, cancelable: true, composed: true, bubbles: true});
+        const event = new CustomEvent('change', {
+            detail: { value, error },
+            cancelable: true,
+            composed: true,
+            bubbles: true
+        });
         this.dispatchEvent(event);
     }
 
     handleResourcePickerFocusout() {
         Promise.resolve().then(() => {
-            const ferovResourcePicker = this.template.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
+            const ferovResourcePicker = this.template.querySelector(
+                SELECTORS.FEROV_RESOURCE_PICKER
+            );
             ferovResourcePicker.value = null;
             ferovResourcePicker.errorMessage = null;
         });
@@ -168,7 +209,9 @@ export default class ResourcedRichTextEditor extends LightningElement {
         event.stopPropagation();
         const text = event.detail.item.displayText;
         if (text) {
-            const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
+            const inputRichText = this.template.querySelector(
+                SELECTORS.INPUT_RICH_TEXT
+            );
             inputRichText.insertTextAtCursor(text);
             inputRichText.focus();
         }
@@ -178,17 +221,22 @@ export default class ResourcedRichTextEditor extends LightningElement {
         if (!this.state.isPlainTextMode) {
             if (!this.initialized) {
                 // Temp "BETA" tooltip addition for lightning rich text input upload img button
-                const inputRichText = this.template.querySelector(SELECTORS.INPUT_RICH_TEXT);
+                const inputRichText = this.template.querySelector(
+                    SELECTORS.INPUT_RICH_TEXT
+                );
                 if (inputRichText && inputRichText.shadowRoot) {
-                    const uploadImgBtn = inputRichText.shadowRoot.querySelector(SELECTORS.INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON);
+                    const uploadImgBtn = inputRichText.shadowRoot.querySelector(
+                        SELECTORS.INPUT_RICH_TEXT_UPLOAD_IMG_BUTTON
+                    );
                     if (uploadImgBtn) {
-                        uploadImgBtn.title = LABELS.richTextInputUploadImgBtnBetaTitle;
+                        uploadImgBtn.title =
+                            LABELS.richTextInputUploadImgBtnBetaTitle;
                     }
                 }
                 this.initialized = true;
             }
-        } else  {
+        } else {
             this.initialized = false;
         }
-     }
+    }
 }

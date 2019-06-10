@@ -1,7 +1,11 @@
 import { LightningElement, api } from 'lwc';
-import { CANVAS_SCREEN_GUIDS } from "builder_platform_interaction/screenEditorUtils";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { ReorderListEvent, createScreenElementDeselectedEvent, createAddScreenFieldEvent } from "builder_platform_interaction/events";
+import { CANVAS_SCREEN_GUIDS } from 'builder_platform_interaction/screenEditorUtils';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import {
+    ReorderListEvent,
+    createScreenElementDeselectedEvent,
+    createAddScreenFieldEvent
+} from 'builder_platform_interaction/events';
 const DRAGGING_REGION_SELECTOR = '.screen-editor-canvas-dragging-region';
 const INSERTION_LINE_SELECTOR = '.screen-editor-canvas-insertion-line';
 
@@ -45,10 +49,10 @@ export default class ScreenEditorCanvas extends LightningElement {
 
     get fields() {
         if (this.screen) {
-            return this.screen.fields.map((field) => {
+            return this.screen.fields.map(field => {
                 return {
                     field,
-                    selected: (this.selectedItemGuid === field.guid)
+                    selected: this.selectedItemGuid === field.guid
                 };
             });
         }
@@ -56,11 +60,11 @@ export default class ScreenEditorCanvas extends LightningElement {
         return [];
     }
 
-    handleOnClick = (event) => {
+    handleOnClick = event => {
         const selected = this.getSelectedElement();
         this.dispatchEvent(createScreenElementDeselectedEvent(selected));
         event.stopPropagation();
-    }
+    };
 
     handleDrop(event) {
         event.preventDefault();
@@ -68,17 +72,25 @@ export default class ScreenEditorCanvas extends LightningElement {
         const range = this.getDraggingRange(event);
 
         // Figure out if we're adding a field or moving a field and fire the correct event.
-        if (event.dataTransfer && (event.dataTransfer.effectAllowed === 'copy' || event.dataTransfer.getData('dragStartLocation') === 'leftPanel')) {
+        if (
+            event.dataTransfer &&
+            (event.dataTransfer.effectAllowed === 'copy' ||
+                event.dataTransfer.getData('dragStartLocation') === 'leftPanel')
+        ) {
             // Field is being added from the palette.
             const fieldTypeName = event.dataTransfer.getData('text');
-            const addFieldEvent = createAddScreenFieldEvent(fieldTypeName, range.index);
+            const addFieldEvent = createAddScreenFieldEvent(
+                fieldTypeName,
+                range.index
+            );
             this.dispatchEvent(addFieldEvent);
             this.clearDraggingState();
         } else {
             // Existing field is being moved around.
             const sourceGuid = event.dataTransfer.getData('text');
             const sourceIndex = this.screen.getFieldIndexByGUID(sourceGuid);
-            const destIndex = range.index > sourceIndex ? range.index - 1 : range.index;
+            const destIndex =
+                range.index > sourceIndex ? range.index - 1 : range.index;
             const destScreenField = this.screen.fields[destIndex];
             if (destScreenField) {
                 const destGuid = destScreenField.guid;
@@ -87,20 +99,32 @@ export default class ScreenEditorCanvas extends LightningElement {
                     this.clearDraggingState();
                 }
             } else {
-                throw new Error('No screen field found at drag destination. Source index: ' + sourceIndex + '. Destination index: ' + destIndex +
-                        '. Event: ' + event.dataTransfer.effectAllowed + '. Number of screen fields: ' + this.screen.fields.length);
+                throw new Error(
+                    'No screen field found at drag destination. Source index: ' +
+                        sourceIndex +
+                        '. Destination index: ' +
+                        destIndex +
+                        '. Event: ' +
+                        event.dataTransfer.effectAllowed +
+                        '. Number of screen fields: ' +
+                        this.screen.fields.length
+                );
             }
         }
     }
 
     handleDragEnter(event) {
-        this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.remove('slds-hide');
+        this.template
+            .querySelector(DRAGGING_REGION_SELECTOR)
+            .classList.remove('slds-hide');
         event.preventDefault();
         event.stopPropagation();
     }
 
     handleDragEnd(/* event */) {
-        this.template.querySelector(DRAGGING_REGION_SELECTOR).classList.add('slds-hide');
+        this.template
+            .querySelector(DRAGGING_REGION_SELECTOR)
+            .classList.add('slds-hide');
         this.template.querySelector(INSERTION_LINE_SELECTOR).style.top = '0';
     }
 
@@ -108,10 +132,13 @@ export default class ScreenEditorCanvas extends LightningElement {
         const range = this.getDraggingRange(event);
         if (range) {
             if (!this.top) {
-                this.top = this.template.querySelector(DRAGGING_REGION_SELECTOR).getBoundingClientRect().top;
+                this.top = this.template
+                    .querySelector(DRAGGING_REGION_SELECTOR)
+                    .getBoundingClientRect().top;
             }
 
-            this.template.querySelector(INSERTION_LINE_SELECTOR).style.top = (range.top - this.top) + 'px';
+            this.template.querySelector(INSERTION_LINE_SELECTOR).style.top =
+                range.top - this.top + 'px';
         }
 
         event.preventDefault();
@@ -124,12 +151,17 @@ export default class ScreenEditorCanvas extends LightningElement {
             let idx = 0;
 
             // iterate over all screen fields and get their vertical coordinates.
-            for (const highlight of this.template.querySelector('div.screen-editor-canvas-body').querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
+            for (const highlight of this.template
+                .querySelector('div.screen-editor-canvas-body')
+                .querySelectorAll(
+                    'builder_platform_interaction-screen-editor-highlight'
+                )) {
                 const rect = highlight.getBoundingClientRect();
+                const rectMiddle = (rect.bottom - rect.top) / 2;
                 this.ranges.push({
                     top: rect.top,
                     bottom: rect.bottom,
-                    middle: rect.top + ((rect.bottom - rect.top) / 2),
+                    middle: rect.top + rectMiddle,
                     index: idx
                 });
                 idx++;
@@ -148,8 +180,13 @@ export default class ScreenEditorCanvas extends LightningElement {
         for (let i = 0, length = this.ranges.length; i < length; i++) {
             const range = this.ranges[i];
             if (event.y >= range.top && event.y <= range.bottom) {
-                return (i < length - 1 && event.y >= range.middle) ? this.ranges[i + 1] : range;
-            } else if ((i === 0 && event.y < range.top) || (i === length - 1 && event.y > range.top)) {
+                return i < length - 1 && event.y >= range.middle
+                    ? this.ranges[i + 1]
+                    : range;
+            } else if (
+                (i === 0 && event.y < range.top) ||
+                (i === length - 1 && event.y > range.top)
+            ) {
                 return range;
             }
         }
@@ -157,7 +194,7 @@ export default class ScreenEditorCanvas extends LightningElement {
         return null;
     }
 
-    handleScroll()  {
+    handleScroll() {
         this.clearDraggingState();
     }
 
@@ -167,7 +204,9 @@ export default class ScreenEditorCanvas extends LightningElement {
     }
 
     getSelectedElement() {
-        for (const highlight of this.template.querySelectorAll('builder_platform_interaction-screen-editor-highlight')) {
+        for (const highlight of this.template.querySelectorAll(
+            'builder_platform_interaction-screen-editor-highlight'
+        )) {
             if (highlight.selected) {
                 return highlight;
             }
@@ -178,7 +217,10 @@ export default class ScreenEditorCanvas extends LightningElement {
 
     fireReorder(sourceIndex, destIndex) {
         if (sourceIndex !== destIndex) {
-            const reorderListEvent = new ReorderListEvent(sourceIndex, destIndex);
+            const reorderListEvent = new ReorderListEvent(
+                sourceIndex,
+                destIndex
+            );
             this.dispatchEvent(reorderListEvent);
         }
     }

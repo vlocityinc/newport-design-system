@@ -1,45 +1,62 @@
 <template>
-    <div if:true={showSaveAsTypePicker} class='slds-p-horizontal_small slds-p-top_small'>
-        <lightning-radio-group class='slds-text-align_center'
-                               label={labels.saveAsTypeLabel}
-                               name="saveAsType"
-                               options={saveAsTypeOptions}
-                               type="button"
-                               onchange={handleSaveAsTypeChange}
-                               value={flowProperties.saveType}>
+    <div
+        if:true={showSaveAsTypePicker}
+        class="slds-p-horizontal_small slds-p-top_small"
+    >
+        <lightning-radio-group
+            class="slds-text-align_center"
+            label={labels.saveAsTypeLabel}
+            name="saveAsType"
+            options={saveAsTypeOptions}
+            type="button"
+            onchange={handleSaveAsTypeChange}
+            value={flowProperties.saveType}
+        >
         </lightning-radio-group>
-    </div>    
-    <div class='slds-p-around_small'>
-        <builder_platform_interaction-label-description dev-name={flowProperties.name}
-                                                        dev-name-label={labels.uniqueNameLabel}
-                                                        disable-dev-name={savingExistingFlow}
-                                                        disable-dev-name-validation
-                                                        description={flowProperties.description}
-                                                        label={flowProperties.label}
-                                                        name-label={labels.nameLabel}
-                                                        onpropertychanged={handleEvent}>
+    </div>
+    <div class="slds-p-around_small">
+        <builder_platform_interaction-label-description
+            dev-name={flowProperties.name}
+            dev-name-label={labels.uniqueNameLabel}
+            disable-dev-name={savingExistingFlow}
+            disable-dev-name-validation
+            description={flowProperties.description}
+            label={flowProperties.label}
+            name-label={labels.nameLabel}
+            onpropertychanged={handleEvent}
+        >
         </builder_platform_interaction-label-description>
-        <lightning-combobox class="process-type slds-col slds-grow"
-                            label={labels.processTypeLabel}
-                            options={processTypes}
-                            value={processType}
-                            required
-                            disabled={savingExistingFlow}
-                            placeholder={labels.processTypePlaceholderLabel}
-                            message-when-value-missing={labels.processTypeRequiredLabel}
-                            dropdown-alignment="auto"
-                            onchange={handleProcessTypeChange}>
+        <lightning-combobox
+            class="process-type slds-col slds-grow"
+            label={labels.processTypeLabel}
+            options={processTypes}
+            value={processType}
+            required
+            disabled={savingExistingFlow}
+            placeholder={labels.processTypePlaceholderLabel}
+            message-when-value-missing={labels.processTypeRequiredLabel}
+            dropdown-alignment="auto"
+            onchange={handleProcessTypeChange}
+        >
         </lightning-combobox>
 
         <div class="slds-m-top_small">
-            <lightning-button if:false={isAdvancedShown} variant="base"
-                              class="show-advanced-button"
-                              label={labels.showAdvanced} title={labels.showAdvanced}
-                              onclick={handleAdvancedToggle}></lightning-button>
-            <lightning-button if:true={isAdvancedShown} variant="base"
-                              class="hide-advanced-button"
-                              label={labels.hideAdvanced} title={labels.hideAdvanced}
-                              onclick={handleAdvancedToggle}></lightning-button>
+            <lightning-button
+                if:false={isAdvancedShown}
+                variant="base"
+                class="show-advanced-button"
+                label={labels.showAdvanced}
+                title={labels.showAdvanced}
+                onclick={handleAdvancedToggle}
+            ></lightning-button>
+            <lightning-button
+                if:true={isAdvancedShown}
+                variant="base"
+                class="hide-advanced-button"
+                label={labels.hideAdvanced}
+                title={labels.hideAdvanced}
+                onclick={handleAdvancedToggle}
+            ></lightning-button>
         </div>
 
         <div if:true={isAdvancedShown} class="advanced">
@@ -48,7 +65,8 @@
                 value={flowProperties.interviewLabel}
                 onblur={handleInstanceLabelChanged}
                 onchange={handleInstanceLabelChanged}
-                help-text={labels.instanceLabelHelpText}>
+                help-text={labels.instanceLabelHelpText}
+            >
             </builder_platform_interaction-resourced-textarea>
 
             <div if:true={savingExistingFlow} class="slds-m-top_small">
@@ -56,21 +74,27 @@
                 <div class="lastModified">{lastModifiedText}</div>
             </div>
 
-            <div if:true={savingExistingFlow} class="slds-grid slds-m-top_small">
+            <div
+                if:true={savingExistingFlow}
+                class="slds-grid slds-m-top_small"
+            >
                 <div class="slds-size_1-of-3">
                     {labels.status}:
                     <div>
-                        <builder_platform_interaction-flow-status flow-status={flowProperties.status.value}></builder_platform_interaction-flow-status>
+                        <builder_platform_interaction-flow-status
+                            flow-status={flowProperties.status.value}
+                        ></builder_platform_interaction-flow-status>
                     </div>
                 </div>
-                <div class="slds-size_1-of-3">{labels.currentType}:
+                <div class="slds-size_1-of-3">
+                    {labels.currentType}:
                     <div class="lastProcessType">{processTypeLabel}</div>
                 </div>
-                <div class="slds-size_1-of-3 versionNumber">{labels.currentVersion}:
+                <div class="slds-size_1-of-3 versionNumber">
+                    {labels.currentVersion}:
                     <div>{flowProperties.versionNumber}</div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>

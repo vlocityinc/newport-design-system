@@ -1,26 +1,43 @@
 import { recordDeleteValidation, getRules } from './recordDeleteValidation';
-import { updateProperties, set, deleteItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    updateProperties,
+    set,
+    deleteItem
+} from 'builder_platform_interaction/dataMutationLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import { PropertyChangedEvent, AddRecordFilterEvent, UpdateRecordFilterEvent, DeleteRecordFilterEvent, RecordStoreOptionChangedEvent } from "builder_platform_interaction/events";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import {
+    PropertyChangedEvent,
+    AddRecordFilterEvent,
+    UpdateRecordFilterEvent,
+    DeleteRecordFilterEvent,
+    RecordStoreOptionChangedEvent
+} from 'builder_platform_interaction/events';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Property names
  */
-const PROP_NAMES = { filters : 'filters', inputReference: 'inputReference',
-        object : 'object', numberRecordsToStore : 'numberRecordsToStore'};
+const PROP_NAMES = {
+    filters: 'filters',
+    inputReference: 'inputReference',
+    object: 'object',
+    numberRecordsToStore: 'numberRecordsToStore'
+};
 
 /**
  * Empty record filter item
  * @returns {object} empty record filter item
  */
 const emptyFilterItem = () => ({
-      [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
-      [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null },
-      [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null },
-      [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null },
-      rowIndex: generateGuid()
+    [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
+    [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null },
+    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null },
+    [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+        value: '',
+        error: null
+    },
+    rowIndex: generateGuid()
 });
 
 /**
@@ -28,7 +45,7 @@ const emptyFilterItem = () => ({
  * @param {object} state - element / node state
  * @returns {object} updated state
  */
-const addRecordFilter = (state) => {
+const addRecordFilter = state => {
     const path = [PROP_NAMES.filters, state.filters.length];
     return set(state, path, emptyFilterItem());
 };
@@ -40,7 +57,7 @@ const addRecordFilter = (state) => {
  * @param {number} event.detail.index index of the record filter item to delete
  * @returns {object} updated state
  */
-const deleteRecordFilter = (state, {index}) => {
+const deleteRecordFilter = (state, { index }) => {
     const updatedItems = deleteItem(state.filters, index);
     return set(state, PROP_NAMES.filters, updatedItems);
 };
@@ -53,7 +70,7 @@ const deleteRecordFilter = (state, {index}) => {
  * @param {string} event.detail.value new value of the record filter item to update
  * @returns {object} updated state
  */
-const updateRecordFilter = (state, {index, value}) => {
+const updateRecordFilter = (state, { index, value }) => {
     const path = [PROP_NAMES.filters, index];
     const item = updateProperties(state.filters[index], value);
     return set(state, path, item);
@@ -64,7 +81,7 @@ const updateRecordFilter = (state, {index, value}) => {
  * @param {object} state - element / node state
  * @returns {object} updated state
  */
-const resetFilters = (state) => {
+const resetFilters = state => {
     return set(state, PROP_NAMES.filters, [emptyFilterItem()]);
 };
 
@@ -77,18 +94,21 @@ const resetFilters = (state) => {
 const resetRecordDelete = (state, resetObject) => {
     state = resetFilters(state);
     if (resetObject) {
-        state = set(state, PROP_NAMES.object, {value: '', error: null });
+        state = set(state, PROP_NAMES.object, { value: '', error: null });
     }
     // reset inputReference
-    return set(state, PROP_NAMES.inputReference, {value: '', error: null });
+    return set(state, PROP_NAMES.inputReference, { value: '', error: null });
 };
 
 /**
  * Update the way the user store the records
  */
-const recordStoreOptionAndWayToStoreChanged = (state, {getFirstRecordOnly}) => {
+const recordStoreOptionAndWayToStoreChanged = (
+    state,
+    { getFirstRecordOnly }
+) => {
     if (state.getFirstRecordOnly !== getFirstRecordOnly) {
-        state = updateProperties(state, {useSobject: getFirstRecordOnly});
+        state = updateProperties(state, { useSobject: getFirstRecordOnly });
         return resetRecordDelete(state, true);
     }
     return state;
@@ -105,12 +125,18 @@ const recordStoreOptionAndWayToStoreChanged = (state, {getFirstRecordOnly}) => {
  * @param {string} event.detail.oldValue current property value
  * @returns {object} updated state
  */
-const managePropertyChanged = (state, { propertyName: propName, ignoreValidate, error, value, oldValue }) => {
+const managePropertyChanged = (
+    state,
+    { propertyName: propName, ignoreValidate, error, value, oldValue }
+) => {
     if (!ignoreValidate) {
-        error = error === null ? recordDeleteValidation.validateProperty(propName, value) : error;
+        error =
+            error === null
+                ? recordDeleteValidation.validateProperty(propName, value)
+                : error;
     }
     if (state[propName]) {
-        state = updateProperties(state, {[propName]: {value, error}});
+        state = updateProperties(state, { [propName]: { value, error } });
     }
     if (!error) {
         if (propName === PROP_NAMES.object && value !== oldValue) {
@@ -141,7 +167,10 @@ export const recordDeleteReducer = (state, event) => {
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
         case VALIDATE_ALL:
-            return recordDeleteValidation.validateAll(state, getRules(state, event));
+            return recordDeleteValidation.validateAll(
+                state,
+                getRules(state, event)
+            );
         default:
             return state;
     }

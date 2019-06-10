@@ -1,45 +1,109 @@
 <template>
     <div if:true={screen}>
-        <div class='slds-p-horizontal_small slds-p-vertical_x-small'>        
-            <builder_platform_interaction-label-description layout-mode='vertical' label={screen.label} dev-name={screen.name}
-                                                            description={screen.description} guid={screen.guid} onpropertychanged={handlePropertyChanged}> 
+        <div class="slds-p-horizontal_small slds-p-vertical_x-small">
+            <builder_platform_interaction-label-description
+                layout-mode="vertical"
+                label={screen.label}
+                dev-name={screen.name}
+                description={screen.description}
+                guid={screen.guid}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-label-description>
         </div>
-        <lightning-accordion allow-multiple-sections-open active-section-name={expandedSectionNames} class='slds-has-divider slds-p-top_none'>
-            <lightning-accordion-section name='containerOptions' label={labels.screenContainerOptions}>
-                <div slot='actions'>
-                    <lightning-helptext class='slds-list_inline slds-m-left_small' content={labels.screenContainerTooltip}></lightning-helptext>
+        <lightning-accordion
+            allow-multiple-sections-open
+            active-section-name={expandedSectionNames}
+            class="slds-has-divider slds-p-top_none"
+        >
+            <lightning-accordion-section
+                name="containerOptions"
+                label={labels.screenContainerOptions}
+            >
+                <div slot="actions">
+                    <lightning-helptext
+                        class="slds-list_inline slds-m-left_small"
+                        content={labels.screenContainerTooltip}
+                    ></lightning-helptext>
                 </div>
 
-                <builder_platform_interaction-screen-property-field name='showHeader' label={labels.showHeader} type='boolean' value={screen.showHeader} hide-top-padding>
+                <builder_platform_interaction-screen-property-field
+                    name="showHeader"
+                    label={labels.showHeader}
+                    type="boolean"
+                    value={screen.showHeader}
+                    hide-top-padding
+                >
                 </builder_platform_interaction-screen-property-field>
 
-                <builder_platform_interaction-screen-property-field name='showFooter' label={labels.showFooter} type='boolean' value={screen.showFooter}>
-                </builder_platform_interaction-screen-property-field>                    
+                <builder_platform_interaction-screen-property-field
+                    name="showFooter"
+                    label={labels.showFooter}
+                    type="boolean"
+                    value={screen.showFooter}
+                >
+                </builder_platform_interaction-screen-property-field>
             </lightning-accordion-section>
 
-            <lightning-accordion-section name='navigationOptions' label={labels.navigationOptions}>
-                <div slot='actions'>
-                    <lightning-helptext class='slds-list_inline slds-m-left_small' content={labels.navigationOptionsTooltip}></lightning-helptext>
+            <lightning-accordion-section
+                name="navigationOptions"
+                label={labels.navigationOptions}
+            >
+                <div slot="actions">
+                    <lightning-helptext
+                        class="slds-list_inline slds-m-left_small"
+                        content={labels.navigationOptionsTooltip}
+                    ></lightning-helptext>
                 </div>
-                
-                <builder_platform_interaction-screen-property-field name='allowFinish' label={labels.allowFinishButton} type='boolean' value={screen.allowFinish} hide-top-padding>
+
+                <builder_platform_interaction-screen-property-field
+                    name="allowFinish"
+                    label={labels.allowFinishButton}
+                    type="boolean"
+                    value={screen.allowFinish}
+                    hide-top-padding
+                >
                 </builder_platform_interaction-screen-property-field>
 
-                <builder_platform_interaction-screen-property-field name='allowBack' label={labels.allowPreviousButton} type='boolean' value={screen.allowBack}>
+                <builder_platform_interaction-screen-property-field
+                    name="allowBack"
+                    label={labels.allowPreviousButton}
+                    type="boolean"
+                    value={screen.allowBack}
+                >
                 </builder_platform_interaction-screen-property-field>
 
-                <builder_platform_interaction-screen-property-field name='allowPause' label={labels.allowPauseButton} type='boolean' 
-                                                                    value={screen.allowPause} help-text={labels.allowPauseButtonTooltip}>
+                <builder_platform_interaction-screen-property-field
+                    name="allowPause"
+                    label={labels.allowPauseButton}
+                    type="boolean"
+                    value={screen.allowPause}
+                    help-text={labels.allowPauseButtonTooltip}
+                >
                 </builder_platform_interaction-screen-property-field>
 
-                <builder_platform_interaction-screen-property-field if:true={screen.allowPause} name='pausedText' label={labels.pauseConfirmationMessage} type='rich_string'
-                                                                    value={screen.pausedText} help-text={labels.pauseConfirmationMessageTooltip}>
+                <builder_platform_interaction-screen-property-field
+                    if:true={screen.allowPause}
+                    name="pausedText"
+                    label={labels.pauseConfirmationMessage}
+                    type="rich_string"
+                    value={screen.pausedText}
+                    help-text={labels.pauseConfirmationMessageTooltip}
+                >
                 </builder_platform_interaction-screen-property-field>
             </lightning-accordion-section>
 
-            <lightning-accordion-section name='helpText' label={labels.helpTextForAccordion}>
-                <builder_platform_interaction-screen-property-field name='helpText' label='{labels.helpSectionHeader}' type='rich_string' value={screen.helpText} hide-top-padding>
+            <lightning-accordion-section
+                name="helpText"
+                label={labels.helpTextForAccordion}
+            >
+                <builder_platform_interaction-screen-property-field
+                    name="helpText"
+                    label={labels.helpSectionHeader}
+                    type="rich_string"
+                    value={screen.helpText}
+                    hide-top-padding
+                >
                 </builder_platform_interaction-screen-property-field>
             </lightning-accordion-section>
         </lightning-accordion>

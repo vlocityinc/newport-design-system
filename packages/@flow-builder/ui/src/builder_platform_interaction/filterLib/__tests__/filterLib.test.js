@@ -1,5 +1,5 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { labelFilter, resourceFilter, canvasElementFilter } from "../filterLib";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { labelFilter, resourceFilter, canvasElementFilter } from '../filterLib';
 
 describe('labelFilter', () => {
     const element = { label: 'Alvin' };
@@ -83,7 +83,7 @@ describe('resourceFilter', () => {
         const element = {
             elementType: 'myElementType',
             isCanvasElement: true,
-            storeOutputAutomatically : true
+            storeOutputAutomatically: true
         };
         expect(filter(element)).toEqual(true);
     });

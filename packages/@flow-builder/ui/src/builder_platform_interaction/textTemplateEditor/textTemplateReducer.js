@@ -4,8 +4,19 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { textTemplateValidation } from './textTemplateValidation';
 
 const textTemplatePropertyChanged = (textTemplate, action) => {
-    action.payload.error = action.payload.error === null ? textTemplateValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
-    return updateProperties(textTemplate, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
+    action.payload.error =
+        action.payload.error === null
+            ? textTemplateValidation.validateProperty(
+                  action.payload.propertyName,
+                  action.payload.value
+              )
+            : action.payload.error;
+    return updateProperties(textTemplate, {
+        [action.payload.propertyName]: {
+            error: action.payload.error,
+            value: action.payload.value
+        }
+    });
 };
 
 /**
@@ -20,6 +31,7 @@ export const textTemplateReducer = (textTemplate, action) => {
             return textTemplatePropertyChanged(textTemplate, action);
         case VALIDATE_ALL:
             return textTemplateValidation.validateAll(textTemplate);
-        default: return textTemplate;
+        default:
+            return textTemplate;
     }
 };

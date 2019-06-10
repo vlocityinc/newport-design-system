@@ -12,8 +12,15 @@
     >
         <template if:true={showConditions}>
             <div slot="conditions">
-                <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
-                    <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
+                <template
+                    for:each={conditionsWithPrefixes}
+                    for:item="conditionWithPrefix"
+                    for:index="conditionIndex"
+                >
+                    <div
+                        class="slds-list__item slds-is-relative"
+                        key={conditionWithPrefix.condition.rowIndex}
+                    >
                         <builder_platform_interaction-row
                             item-prefix={conditionWithPrefix.prefix}
                             show-prefix
@@ -27,8 +34,8 @@
                                     onclick={handleClickCondition}
                                     data-index={conditionIndex}
                                 >
-                                New Condition
-                                <!--
+                                    New Condition
+                                    <!--
                                     <builder_platform_interaction-condition-list-item
                                         item-index={conditionIndex}
                                         condition={conditionWithPrefix.condition}
@@ -36,8 +43,7 @@
                                         deleteable={canDeleteConditions}
                                     >
                                     </builder_platform_interaction-condition-list-item>
-                                -->
-                                </div>
+                                --></div>
                             </div>
                         </builder_platform_interaction-row>
                     </div>

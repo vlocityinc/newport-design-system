@@ -35,5 +35,5 @@ export const LABELS = {
     status,
     currentType,
     currentVersion,
-    currentVersionHelpText,
+    currentVersionHelpText
 };

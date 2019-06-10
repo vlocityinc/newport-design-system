@@ -1,4 +1,8 @@
-import { createStep, createStepWithConnectorsForStore, createStepMetadataObject } from '../step';
+import {
+    createStep,
+    createStepWithConnectorsForStore,
+    createStepMetadataObject
+} from '../step';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const defaultStepElement = {
@@ -9,7 +13,7 @@ const defaultStepElement = {
     label: '',
     maxConnections: -1,
     locationX: 0,
-    locationY:0,
+    locationY: 0,
     isCanvasElement: true,
     config: {
         isSelected: false
@@ -19,7 +23,7 @@ const defaultStepElement = {
 
 const stepElementForStore = {
     elementType: ELEMENT_TYPE.STEP,
-    description:'mock description for step element',
+    description: 'mock description for step element',
     name: 'mock name for step element',
     guid: 'testGUID',
     locationX: 0,
@@ -29,7 +33,7 @@ const stepElementForStore = {
 };
 
 const stepElementWithUserInput = {
-    description:'mock description for step element',
+    description: 'mock description for step element',
     name: 'mock name for step element',
     label: 'mock label for step element',
     locationX: 0,
@@ -37,7 +41,7 @@ const stepElementWithUserInput = {
 };
 
 const stepElement = {
-    guid: 'guid_1',
+    guid: 'guid1',
     name: 'Step 1',
     description: 'This is description for step 1',
     label: 'Step 1',
@@ -54,7 +58,7 @@ const stepElement = {
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {
         generateGuid: jest.fn().mockImplementation(() => {
-            return "testGUID";
+            return 'testGUID';
         })
     };
 });
@@ -72,21 +76,27 @@ describe('Step Element Factory', () => {
             const expectedObject = {
                 testGUID: defaultStepElement
             };
-            expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
+            expect(Object.values(actualResult)[0]).toMatchObject(
+                expectedObject
+            );
         });
         it('returns a new step object for store with same values when an existing step object is passed', () => {
-            const actualResult = createStepWithConnectorsForStore(stepElementForStore);
+            const actualResult = createStepWithConnectorsForStore(
+                stepElementForStore
+            );
             const expectedObject = {
                 testGUID: stepElementForStore
             };
-            expect(Object.values(actualResult)[0]).toMatchObject(expectedObject);
+            expect(Object.values(actualResult)[0]).toMatchObject(
+                expectedObject
+            );
         });
     });
     describe('createStepMetadataObject function', () => {
         it('throws an error when called without a step Element object', () => {
-                expect(() => {
-                    createStepMetadataObject();
-                }).toThrow();
+            expect(() => {
+                createStepMetadataObject();
+            }).toThrow();
         });
         it('returns a new step meta data object when a valid step object is passed', () => {
             const actualResult = createStepMetadataObject(stepElementForStore);
@@ -99,11 +109,13 @@ describe('Step Element Factory', () => {
                     translateY: 20
                 },
                 connectorMap: {
-                    'guid_1': [{
-                        type: 'REGULAR',
-                        source: 'guid_1',
-                        target: 'guid_2'
-                    }]
+                    guid1: [
+                        {
+                            type: 'REGULAR',
+                            source: 'guid1',
+                            target: 'guid_2'
+                        }
+                    ]
                 }
             };
             const expectedStepResult = {
@@ -112,9 +124,11 @@ describe('Step Element Factory', () => {
                 label: 'Step 1',
                 locationX: 20,
                 locationY: 40,
-                connectors: [{
-                    targetReference: 'guid_2'
-                }]
+                connectors: [
+                    {
+                        targetReference: 'guid_2'
+                    }
+                ]
             };
             const actualResult = createStepMetadataObject(stepElement, config);
             expect(actualResult).toMatchObject(expectedStepResult);

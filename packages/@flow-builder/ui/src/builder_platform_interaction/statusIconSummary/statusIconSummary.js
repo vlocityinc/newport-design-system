@@ -1,12 +1,12 @@
 import { LightningElement, api } from 'lwc';
-import { LABELS } from "./statusIconSummaryLabels";
-import { format } from "builder_platform_interaction/commonUtils";
+import { LABELS } from './statusIconSummaryLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class StatusIconSummary extends LightningElement {
     @api header;
     @api sections = {};
     @api type;
-    @api allCount
+    @api allCount;
     @api handleClickCallback;
     @api showOnlyNumberOfErrors = false;
     @api showTotalCounts;
@@ -27,8 +27,11 @@ export default class StatusIconSummary extends LightningElement {
      * @returns {string} sectionStyle: the section style css based on type
      */
     get sectionStyle() {
-        const popOverClasses =  'slds-popover slds-show slds-popover_' + this.type;
-        return this.type === 'warning' ? popOverClasses + ' slds-popover_large' : popOverClasses + ' slds-popover_medium';
+        const popOverClasses =
+            'slds-popover slds-show slds-popover_' + this.type;
+        return this.type === 'warning'
+            ? popOverClasses + ' slds-popover_large'
+            : popOverClasses + ' slds-popover_medium';
     }
 
     /**
@@ -45,30 +48,38 @@ export default class StatusIconSummary extends LightningElement {
      */
     get messageBody() {
         if (this.type === 'warning') {
-            return this.allCount > 1 ? format(LABELS.popupWarningMessagePlural, this.allCount) : format(LABELS.popupWarningMessageSingular, this.allCount);
+            return this.allCount > 1
+                ? format(LABELS.popupWarningMessagePlural, this.allCount)
+                : format(LABELS.popupWarningMessageSingular, this.allCount);
         }
-        return this.allCount > 1 ? format(LABELS.popupErrorMessagePlural, this.allCount) : format(LABELS.popupErrorMessageSingular, this.allCount);
+        return this.allCount > 1
+            ? format(LABELS.popupErrorMessagePlural, this.allCount)
+            : format(LABELS.popupErrorMessageSingular, this.allCount);
     }
 
     /**
      * @returns {boolean} hasSectionHeader : section header based on type
      */
     get hasSectionHeader() {
-        return this.type  === 'warning' && this.showSections;
+        return this.type === 'warning' && this.showSections;
     }
 
     /**
      * @returns {string} sectionStyle: the section style css based on type
-    */
+     */
     get hasSections() {
         return this.type === 'warning' ? 'slds-item' : 'slds-p-around_x-small';
     }
 
     /**
      * @returns {string} sectionItemStyle: the section item style css based on type
-    */
+     */
     get hasSectionItems() {
-        const sectionItemClasses = "slds-is-nested slds-list_vertical-space-medium";
-        return (this.type === 'warning' && this.showSections) || this.type === 'error' ? sectionItemClasses + ' slds-list_dotted' : sectionItemClasses;
+        const sectionItemClasses =
+            'slds-is-nested slds-list_vertical-space-medium';
+        return (this.type === 'warning' && this.showSections) ||
+            this.type === 'error'
+            ? sectionItemClasses + ' slds-list_dotted'
+            : sectionItemClasses;
     }
 }

@@ -12,7 +12,7 @@ export class WaitEventAddParameterEvent {
             detail: {
                 name,
                 parentGUID,
-                isInputParameter,
+                isInputParameter
             }
         });
     }

@@ -1,11 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
-import { getResourceByUniqueIdentifier } from "builder_platform_interaction/expressionUtils";
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { addCurlyBraces } from "builder_platform_interaction/commonUtils";
-import {
-    SObjectReferenceChangedEvent,
-} from "builder_platform_interaction/events";
+import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
+import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 
 /**
  * a combobox to retrieve a list of sobject and/or sobject collection variables of a specified entity or all if no entity
@@ -113,7 +111,12 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     }
 
     get sobjectVariableElementConfig() {
-        return {elementType: this.elementType, isCollection: this.state.isCollection, entityName: this.state.recordEntityName, sObjectSelector: true};
+        return {
+            elementType: this.elementType,
+            isCollection: this.state.isCollection,
+            entityName: this.state.recordEntityName,
+            sObjectSelector: true
+        };
     }
 
     /**
@@ -122,8 +125,13 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
      */
     handleSObjectVariableChanged(event) {
         event.stopPropagation();
-        const newValue = event.detail.item ? event.detail.item.value : event.detail.displayText;
-        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(newValue, event.detail.error);
+        const newValue = event.detail.item
+            ? event.detail.item.value
+            : event.detail.displayText;
+        const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
+            newValue,
+            event.detail.error
+        );
         this.dispatchEvent(sObjectReferenceChangedEvent);
     }
 }

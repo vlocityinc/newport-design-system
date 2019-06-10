@@ -1,11 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import invocableActionTemplate from "./invocableActionTemplate.html";
-import apexPluginTemplate from "./apexPluginTemplate.html";
-import subflowTemplate from "./subflowTemplate.html";
-import noActionTemplate from "./noActionTemplate.html";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import invocableActionTemplate from './invocableActionTemplate.html';
+import apexPluginTemplate from './apexPluginTemplate.html';
+import subflowTemplate from './subflowTemplate.html';
+import noActionTemplate from './noActionTemplate.html';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { LABELS } from "./calloutEditorLabels";
+import { LABELS } from './calloutEditorLabels';
 
 const EDITOR_SELECTOR = '.editor_template';
 
@@ -15,7 +15,7 @@ export default class CalloutEditorContainer extends LightningElement {
     @track
     state = {
         noActionBodyRegular: '',
-        noActionHeadingMedium: '',
+        noActionHeadingMedium: ''
     };
 
     /**
@@ -48,7 +48,10 @@ export default class CalloutEditorContainer extends LightningElement {
 
     @api
     get location() {
-        return { locationX: this.node.locationX, locationY: this.node.locationY };
+        return {
+            locationX: this.node.locationX,
+            locationY: this.node.locationY
+        };
     }
 
     set location(newValue) {
@@ -90,7 +93,12 @@ export default class CalloutEditorContainer extends LightningElement {
         const elementType = this._selectedAction.elementType;
         let node = getElementForPropertyEditor({ elementType });
         // assign values from _selectedAction to node
-        node = Object.assign({}, node, { locationX: this.node.locationX, locationY: this.node.locationY }, this._selectedAction);
+        node = Object.assign(
+            {},
+            node,
+            { locationX: this.node.locationX, locationY: this.node.locationY },
+            this._selectedAction
+        );
         const editorNode = this.getNode();
         if (editorNode) {
             node.name = editorNode.name;
@@ -108,7 +116,10 @@ export default class CalloutEditorContainer extends LightningElement {
             case ELEMENT_TYPE.ACTION_CALL:
             case ELEMENT_TYPE.EMAIL_ALERT:
             case ELEMENT_TYPE.APEX_CALL:
-                return !this._selectedAction.actionName && !this._selectedAction.actionType;
+                return (
+                    !this._selectedAction.actionName &&
+                    !this._selectedAction.actionType
+                );
             case ELEMENT_TYPE.APEX_PLUGIN_CALL:
                 return !this._selectedAction.apexClass;
             case ELEMENT_TYPE.SUBFLOW:
@@ -183,7 +194,8 @@ export default class CalloutEditorContainer extends LightningElement {
     }
 
     updateLabels() {
-        const elementType = (this.node && this.node.elementType) ? this.node.elementType : null;
+        const elementType =
+            this.node && this.node.elementType ? this.node.elementType : null;
         if (elementType == null) {
             this.state.noActionHeadingMedium = '';
             this.state.noActionBodyRegular = '';
@@ -194,8 +206,12 @@ export default class CalloutEditorContainer extends LightningElement {
                 this.state.noActionHeadingMedium = this.labels.selectActionHeadingMedium;
                 this.state.noActionBodyRegular = this.labels.selectActionBodyRegular;
             } else {
-                this.state.noActionHeadingMedium = this.labels[elementType].HEAD[this._hasActions];
-                this.state.noActionBodyRegular = this.labels[elementType].BODY[this._hasActions];
+                this.state.noActionHeadingMedium = this.labels[
+                    elementType
+                ].HEAD[this._hasActions];
+                this.state.noActionBodyRegular = this.labels[elementType].BODY[
+                    this._hasActions
+                ];
             }
         } else {
             this.state.noActionHeadingMedium = this.labels.actionsLoading;

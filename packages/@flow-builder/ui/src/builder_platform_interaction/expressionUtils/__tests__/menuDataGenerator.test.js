@@ -1,9 +1,19 @@
-import { mutateFlowResourceToComboboxShape, mutatePicklistValue, mutateFieldToComboboxShape } from '../menuDataGenerator';
-import { getDataTypeLabel, getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
+import {
+    mutateFlowResourceToComboboxShape,
+    mutatePicklistValue,
+    mutateFieldToComboboxShape
+} from '../menuDataGenerator';
+import {
+    getDataTypeLabel,
+    getDataTypeIcons
+} from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { mockAccountFields } from 'mock/serverEntityData';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX } from "builder_platform_interaction/systemLib";
+import {
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX
+} from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
@@ -12,14 +22,19 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
         getDataTypeIcons: jest.fn().mockName('getDataTypeIcons'),
         FLOW_DATA_TYPE: actual.FLOW_DATA_TYPE,
         FEROV_DATA_TYPE: actual.FEROV_DATA_TYPE,
-        isComplexType: actual.isComplexType,
+        isComplexType: actual.isComplexType
     };
 });
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
-        getResourceCategory: jest.fn().mockReturnValue('').mockName('getResourceCategory'),
-        getResourceLabel: jest.fn().mockImplementation(resource => resource.name)
+        getResourceCategory: jest
+            .fn()
+            .mockReturnValue('')
+            .mockName('getResourceCategory'),
+        getResourceLabel: jest
+            .fn()
+            .mockImplementation(resource => resource.name)
     };
 });
 
@@ -28,12 +43,14 @@ describe('menuDataGenerator', () => {
         let mockResource;
         beforeEach(() => {
             mockResource = {
-                dataType: 'sfdcDataType',
+                dataType: 'sfdcDataType'
             };
         });
         it('calls getDataTypeLabel when given a non sobject resource with no label', () => {
             mutateFlowResourceToComboboxShape(mockResource);
-            expect(getDataTypeLabel).toHaveBeenCalledWith(mockResource.dataType);
+            expect(getDataTypeLabel).toHaveBeenCalledWith(
+                mockResource.dataType
+            );
         });
 
         it('gets a localized label when getting subtext for a data type', () => {
@@ -47,13 +64,22 @@ describe('menuDataGenerator', () => {
             mockResource.dataType = undefined;
             mockResource.type = { type: 'screenFieldDataType' };
             mutateFlowResourceToComboboxShape(mockResource);
-            expect(getDataTypeLabel).toHaveBeenCalledWith(mockResource.type.type);
-            expect(getDataTypeIcons).toHaveBeenCalledWith(mockResource.type.type, expect.any(String));
-            expect(getResourceCategory).toHaveBeenCalledWith({ elementType : undefined, dataType : mockResource.type.type, isCollection : undefined });
+            expect(getDataTypeLabel).toHaveBeenCalledWith(
+                mockResource.type.type
+            );
+            expect(getDataTypeIcons).toHaveBeenCalledWith(
+                mockResource.type.type,
+                expect.any(String)
+            );
+            expect(getResourceCategory).toHaveBeenCalledWith({
+                elementType: undefined,
+                dataType: mockResource.type.type,
+                isCollection: undefined
+            });
         });
 
         it('calls getDataTypeIcons if no icon exists in type object', () => {
-            mockResource.type = { };
+            mockResource.type = {};
             mutateFlowResourceToComboboxShape(mockResource);
             expect(getDataTypeIcons).toHaveBeenCalledTimes(1);
         });
@@ -74,7 +100,7 @@ describe('menuDataGenerator', () => {
                 type: 'option-card',
                 value: val
             };
-            const picklistValue = {value: val};
+            const picklistValue = { value: val };
             const mutatedValue = mutatePicklistValue(picklistValue);
             expect(mutatedValue).toEqual(expectedMutatedValue);
         });
@@ -83,18 +109,18 @@ describe('menuDataGenerator', () => {
         const parentSObjectItem = {
             dataType: FLOW_DATA_TYPE.SOBJECT.value,
             subtype: 'Account',
-            displayText: 'recordVar',
+            displayText: 'recordVar'
         };
 
         const parentApexItem = {
             dataType: FLOW_DATA_TYPE.APEX.value,
             subtype: 'ApexClass',
-            displayText: 'apexVar',
+            displayText: 'apexVar'
         };
 
         const apexProperty = {
             apiName: 'ApexProperty',
-            dataType: FLOW_DATA_TYPE.STRING.value,
+            dataType: FLOW_DATA_TYPE.STRING.value
         };
 
         const parentFlowVariableItem = {
@@ -103,7 +129,7 @@ describe('menuDataGenerator', () => {
         };
 
         const flowVariable = {
-            dataType: FLOW_DATA_TYPE.STRING.value,
+            dataType: FLOW_DATA_TYPE.STRING.value
         };
 
         const parentClientVariableItem = {
@@ -112,18 +138,28 @@ describe('menuDataGenerator', () => {
         };
 
         const clientVariable = {
-            dataType: FLOW_DATA_TYPE.STRING.value,
+            dataType: FLOW_DATA_TYPE.STRING.value
         };
 
         const testDataTypeSubText = (field, parent) => {
             const label = `${field.dataType}Label`;
             getDataTypeLabel.mockReturnValueOnce(label);
-            const mutatedProperty = mutateFieldToComboboxShape(field, parent, true, true);
+            const mutatedProperty = mutateFieldToComboboxShape(
+                field,
+                parent,
+                true,
+                true
+            );
             expect(mutatedProperty.subText).toEqual(label);
         };
         it('should use label for subtext for sobject fields', () => {
             const mockField = mockAccountFields.AccountSource;
-            const mutatedField = mutateFieldToComboboxShape(mockField, parentSObjectItem, true, true);
+            const mutatedField = mutateFieldToComboboxShape(
+                mockField,
+                parentSObjectItem,
+                true,
+                true
+            );
             expect(mutatedField.subText).toEqual(mockField.label);
         });
         it('should use dataType for subtext for apex properties', () => {

@@ -2,33 +2,69 @@ import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
     getStoreElements,
-    getSecondLevelItems,
+    getSecondLevelItems
 } from './menuDataRetrieval';
 
-const getFieldMenuData = (elementConfig, populateParamTypesFn, parentItem, entityFields) => {
+const getFieldMenuData = (
+    elementConfig,
+    populateParamTypesFn,
+    parentItem,
+    entityFields
+) => {
     const showAsFieldReference = true;
     const showSubText = true;
     let menuData;
 
     const allowedParamTypes = populateParamTypesFn();
     if (entityFields) {
-        menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, entityFields, showAsFieldReference, showSubText);
+        menuData = filterFieldsForChosenElement(
+            parentItem,
+            allowedParamTypes,
+            entityFields,
+            showAsFieldReference,
+            showSubText
+        );
         return menuData;
     }
     // TODO: this no longer needs to be a callback
-    getSecondLevelItems(elementConfig, parentItem, (fields) => {
-        menuData = filterFieldsForChosenElement(parentItem, allowedParamTypes, fields, showAsFieldReference, showSubText);
+    getSecondLevelItems(elementConfig, parentItem, fields => {
+        menuData = filterFieldsForChosenElement(
+            parentItem,
+            allowedParamTypes,
+            fields,
+            showAsFieldReference,
+            showSubText
+        );
     });
     return menuData;
 };
 
-const getFerovMenuData = (elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
-    enableFieldDrilldown, storeInstance, includeNewResource, showSystemVariables, showGlobalVariables) => {
-    const menuDataElements = getStoreElements(storeInstance.getCurrentState(),
-        elementConfig || { elementType: propertyEditorElementType });
+const getFerovMenuData = (
+    elementConfig,
+    propertyEditorElementType,
+    populateParamTypesFn,
+    allowSobjectForFields,
+    enableFieldDrilldown,
+    storeInstance,
+    includeNewResource,
+    showSystemVariables,
+    showGlobalVariables
+) => {
+    const menuDataElements = getStoreElements(
+        storeInstance.getCurrentState(),
+        elementConfig || { elementType: propertyEditorElementType }
+    );
 
-    return filterAndMutateMenuData(menuDataElements, populateParamTypesFn(), includeNewResource,
-        allowSobjectForFields, !enableFieldDrilldown, null, showSystemVariables, showGlobalVariables);
+    return filterAndMutateMenuData(
+        menuDataElements,
+        populateParamTypesFn(),
+        includeNewResource,
+        allowSobjectForFields,
+        !enableFieldDrilldown,
+        null,
+        showSystemVariables,
+        showGlobalVariables
+    );
 };
 
 /**
@@ -45,11 +81,36 @@ const getFerovMenuData = (elementConfig, propertyEditorElementType, populatePara
  * @param {Array} fields fields to be populated if parentItem is defined
  * @returns {Item[]} Array of resources
  */
-export const getMenuData = (elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
-    enableFieldDrilldown, storeInstance, includeNewResource, parentItem, fields, showSystemVariables = true, showGlobalVariables = false) => {
+export const getMenuData = (
+    elementConfig,
+    propertyEditorElementType,
+    populateParamTypesFn,
+    allowSobjectForFields,
+    enableFieldDrilldown,
+    storeInstance,
+    includeNewResource,
+    parentItem,
+    fields,
+    showSystemVariables = true,
+    showGlobalVariables = false
+) => {
     if (parentItem) {
-        return getFieldMenuData(elementConfig, populateParamTypesFn, parentItem, fields);
+        return getFieldMenuData(
+            elementConfig,
+            populateParamTypesFn,
+            parentItem,
+            fields
+        );
     }
-    return getFerovMenuData(elementConfig, propertyEditorElementType, populateParamTypesFn, allowSobjectForFields,
-            enableFieldDrilldown, storeInstance, includeNewResource, showSystemVariables, showGlobalVariables);
+    return getFerovMenuData(
+        elementConfig,
+        propertyEditorElementType,
+        populateParamTypesFn,
+        allowSobjectForFields,
+        enableFieldDrilldown,
+        storeInstance,
+        includeNewResource,
+        showSystemVariables,
+        showGlobalVariables
+    );
 };

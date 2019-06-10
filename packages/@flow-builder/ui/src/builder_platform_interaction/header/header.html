@@ -1,31 +1,69 @@
 <template>
     <div class="slds-builder-header flow-builder-header_border_icon">
         <div class="slds-builder-header__item">
-            <div class="slds-builder-header__item-label slds-media slds-media_center">
-                <lightning-icon variant="inverse" size="x-small" icon-name="utility:flow" class="slds-media__figure test-flow-utility-icon"></lightning-icon>
-                <div class="slds-media__body test-app-name">{labels.appNameText}</div>
+            <div
+                class="slds-builder-header__item-label slds-media slds-media_center"
+            >
+                <lightning-icon
+                    variant="inverse"
+                    size="x-small"
+                    icon-name="utility:flow"
+                    class="slds-media__figure test-flow-utility-icon"
+                ></lightning-icon>
+                <div class="slds-media__body test-app-name">
+                    {labels.appNameText}
+                </div>
             </div>
         </div>
-        <div title={flowNameAndVersionTitle} class="slds-builder-header__item custom-item-width test-flow-name-version-title">
-            <span class="custom-builder-header__item-label slds-p-left_medium slds-truncate test-flow-name">{currentFlowName}</span>
+        <div
+            title={flowNameAndVersionTitle}
+            class="slds-builder-header__item custom-item-width test-flow-name-version-title"
+        >
+            <span
+                class="custom-builder-header__item-label slds-p-left_medium slds-truncate test-flow-name"
+                >{currentFlowName}</span
+            >
             &nbsp;
-            <span class="custom-builder-header__item-label test-flow-version">{flowVersionNumber}</span>
+            <span class="custom-builder-header__item-label test-flow-version"
+                >{flowVersionNumber}</span
+            >
         </div>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">
-                <a href={backUrl} class="slds-builder-header__item-action slds-media slds-media_center test-back-url">
+                <a
+                    href={backUrl}
+                    class="slds-builder-header__item-action slds-media slds-media_center test-back-url"
+                >
                     <div class="slds-media__figure">
-                        <lightning-icon variant="inverse" size="x-small" icon-name="utility:back" class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"></lightning-icon>
+                        <lightning-icon
+                            variant="inverse"
+                            size="x-small"
+                            icon-name="utility:back"
+                            class="slds-icon_container slds-icon-utility-back slds-current-color test-back-utility-icon"
+                        ></lightning-icon>
                     </div>
-                    <div class="slds-media__body test-back-label">{labels.backButtonText}</div>
+                    <div class="slds-media__body test-back-label">
+                        {labels.backButtonText}
+                    </div>
                 </a>
             </div>
             <div class="slds-builder-header__utilities-item">
-                <a href={headerHelpUrl} target="_blank" class="slds-builder-header__item-action slds-media slds-media_center test-help-url">
+                <a
+                    href={headerHelpUrl}
+                    target="_blank"
+                    class="slds-builder-header__item-action slds-media slds-media_center test-help-url"
+                >
                     <div class="slds-media__figure">
-                        <lightning-icon variant="inverse" size="x-small" icon-name="utility:help" class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"></lightning-icon>
+                        <lightning-icon
+                            variant="inverse"
+                            size="x-small"
+                            icon-name="utility:help"
+                            class="slds-icon_container slds-icon-utility-back slds-current-color test-help-utility-icon"
+                        ></lightning-icon>
                     </div>
-                    <div class="slds-media__body test-help-label">{labels.helpButtonText}</div>
+                    <div class="slds-media__body test-help-label">
+                        {labels.helpButtonText}
+                    </div>
                 </a>
             </div>
         </div>

@@ -6,7 +6,7 @@ let resourcePickers = {};
  * Save the expression to be accessed later
  * @param {BaseExpressionBuilder} expression The expression to be saved
  */
-export const saveExpression = (expression) => {
+export const saveExpression = expression => {
     expressions[expression.rowIndex] = expression;
 };
 
@@ -14,7 +14,7 @@ export const saveExpression = (expression) => {
  * Save the resource picker to be accessed later
  * @param {BaseResourcePicker} resourcePicker the resourcePicker to be saved
  */
-export const saveResourcePicker = (resourcePicker) => {
+export const saveResourcePicker = resourcePicker => {
     const index = resourcePicker.rowIndex;
     if (index) {
         resourcePickers[index.value ? index.value : index] = resourcePicker;
@@ -26,11 +26,13 @@ export const saveResourcePicker = (resourcePicker) => {
  * @param {String} rowIndex The index(guid) associated with the picker
  * @returns {String} the error message or null
  */
-export const validatePicker = (rowIndex) => {
+export const validatePicker = rowIndex => {
     if (rowIndex) {
         const index = rowIndex.value ? rowIndex.value : rowIndex;
         if (resourcePickers[index]) {
-            const combobox = resourcePickers[index].template.querySelector('builder_platform_interaction-combobox');
+            const combobox = resourcePickers[index].template.querySelector(
+                'builder_platform_interaction-combobox'
+            );
             return combobox.validate();
         }
     }
@@ -42,9 +44,11 @@ export const validatePicker = (rowIndex) => {
  * @param {String} rowIndex The index(guid) associated with the expression
  * @returns {String} the error message or null
  */
-export const validateLHS = (rowIndex) => {
+export const validateLHS = rowIndex => {
     if (expressions[rowIndex]) {
-        const lhsCombobox = expressions[rowIndex].template.querySelector('.lhs');
+        const lhsCombobox = expressions[rowIndex].template.querySelector(
+            '.lhs'
+        );
         return lhsCombobox.validate();
     }
     return null;
@@ -55,9 +59,11 @@ export const validateLHS = (rowIndex) => {
  * @param {String} rowIndex The index(guid) associated with the expression
  * @returns {String} the error message or null
  */
-export const validateRHS = (rowIndex) => {
+export const validateRHS = rowIndex => {
     if (expressions[rowIndex]) {
-        const rhsCombobox = expressions[rowIndex].template.querySelector('.rhs');
+        const rhsCombobox = expressions[rowIndex].template.querySelector(
+            '.rhs'
+        );
         return rhsCombobox.validate();
     }
     return null;

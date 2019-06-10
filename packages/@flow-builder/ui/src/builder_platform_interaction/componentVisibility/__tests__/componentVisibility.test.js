@@ -1,37 +1,44 @@
-import {createElement} from 'lwc';
-import ComponentVisiblity from "builder_platform_interaction/componentVisibility";
-import { showPopover, hidePopover } from 'builder_platform_interaction/builderUtils';
+import { createElement } from 'lwc';
+import ComponentVisiblity from 'builder_platform_interaction/componentVisibility';
+import {
+    showPopover,
+    hidePopover
+} from 'builder_platform_interaction/builderUtils';
 import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionLogicEvent,
     PropertyChangedEvent
-} from "builder_platform_interaction/events";
-import { CONDITION_LOGIC } from "builder_platform_interaction/flowMetadata";
+} from 'builder_platform_interaction/events';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
-       showPopover: jest.fn().mockName('showPopover'),
-       hidePopover: jest.fn().mockName('hidePopover'),
+        showPopover: jest.fn().mockName('showPopover'),
+        hidePopover: jest.fn().mockName('hidePopover')
     };
 });
 
 const NEW_CONDITION = {
     rowIndex: 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e4',
-    leftHandSide: { value: ''}
+    leftHandSide: { value: '' }
 };
 
 const CONDITION = {
     rowIndex: 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e5',
-    leftHandSide: { value: 'xyz'}
+    leftHandSide: { value: 'xyz' }
 };
 
 const selectors = {
     conditionList: 'builder_platform_interaction-condition-list',
-    firstCondition: 'builder_platform_interaction-row:nth-child(1) div.condition-container'
+    firstCondition:
+        'builder_platform_interaction-row:nth-child(1) div.condition-container'
 };
 
-function getVisibility(conditionLogic = CONDITION_LOGIC.NO_CONDITIONS, conditions = []) {
+function getVisibility(
+    conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
+    conditions = []
+) {
     return {
         conditionLogic: { value: conditionLogic },
         conditions
@@ -39,13 +46,19 @@ function getVisibility(conditionLogic = CONDITION_LOGIC.NO_CONDITIONS, condition
 }
 
 const createComponentUnderTest = props => {
-    const el = createElement('builder_platform_interaction-component-visibility', {
-        is: ComponentVisiblity
-    });
+    const el = createElement(
+        'builder_platform_interaction-component-visibility',
+        {
+            is: ComponentVisiblity
+        }
+    );
 
-    Object.assign(el, props || {
-        visibility: getVisibility()
-    });
+    Object.assign(
+        el,
+        props || {
+            visibility: getVisibility()
+        }
+    );
 
     document.body.appendChild(el);
     return el;
@@ -73,11 +86,15 @@ describe('Component Visibility', () => {
             visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION])
         });
 
-        const firstCondition = element.shadowRoot.querySelector(selectors.firstCondition);
-        firstCondition.dispatchEvent(new Event('click', {
-            'bubbles'   : true,
-            'cancelable': true,
-        }));
+        const firstCondition = element.shadowRoot.querySelector(
+            selectors.firstCondition
+        );
+        firstCondition.dispatchEvent(
+            new Event('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
 
         expect(showPopover).toHaveBeenCalled();
     });
@@ -87,20 +104,32 @@ describe('Component Visibility', () => {
             const element = createComponentUnderTest();
 
             const updateConditionLogicCallback = jest.fn();
-            element.addEventListener(UpdateConditionLogicEvent.EVENT_NAME, updateConditionLogicCallback);
+            element.addEventListener(
+                UpdateConditionLogicEvent.EVENT_NAME,
+                updateConditionLogicCallback
+            );
 
             const addConditionCallback = jest.fn();
-            element.addEventListener(UpdateConditionLogicEvent.EVENT_NAME, addConditionCallback);
+            element.addEventListener(
+                UpdateConditionLogicEvent.EVENT_NAME,
+                addConditionCallback
+            );
 
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
-            conditionList.dispatchEvent(new PropertyChangedEvent('conditionlogic', CONDITION_LOGIC.AND));
+            const conditionList = element.shadowRoot.querySelector(
+                selectors.conditionList
+            );
+            conditionList.dispatchEvent(
+                new PropertyChangedEvent('conditionlogic', CONDITION_LOGIC.AND)
+            );
 
             expect(updateConditionLogicCallback).toHaveBeenCalled();
-            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    value: CONDITION_LOGIC.AND
+            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject(
+                {
+                    detail: {
+                        value: CONDITION_LOGIC.AND
+                    }
                 }
-            });
+            );
 
             expect(addConditionCallback).toHaveBeenCalled();
         });
@@ -111,33 +140,55 @@ describe('Component Visibility', () => {
             });
 
             const updateConditionLogicCallback = jest.fn();
-            element.addEventListener(UpdateConditionLogicEvent.EVENT_NAME, updateConditionLogicCallback);
+            element.addEventListener(
+                UpdateConditionLogicEvent.EVENT_NAME,
+                updateConditionLogicCallback
+            );
 
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
-            conditionList.dispatchEvent(new PropertyChangedEvent('conditionlogic', CONDITION_LOGIC.NO_CONDITIONS));
+            const conditionList = element.shadowRoot.querySelector(
+                selectors.conditionList
+            );
+            conditionList.dispatchEvent(
+                new PropertyChangedEvent(
+                    'conditionlogic',
+                    CONDITION_LOGIC.NO_CONDITIONS
+                )
+            );
 
             expect(updateConditionLogicCallback).toHaveBeenCalled();
-            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject({
-                detail: {
-                    value: CONDITION_LOGIC.NO_CONDITIONS
+            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject(
+                {
+                    detail: {
+                        value: CONDITION_LOGIC.NO_CONDITIONS
+                    }
                 }
-            });
+            );
         });
     });
 
     describe('delete condition', () => {
         it('should emit a DeleteConditionEvent', () => {
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION, NEW_CONDITION])
+                visibility: getVisibility(CONDITION_LOGIC.AND, [
+                    CONDITION,
+                    NEW_CONDITION
+                ])
             });
 
             const eventCallback = jest.fn();
-            element.addEventListener(DeleteConditionEvent.EVENT_NAME, eventCallback);
+            element.addEventListener(
+                DeleteConditionEvent.EVENT_NAME,
+                eventCallback
+            );
 
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
-            conditionList.dispatchEvent(new DeleteConditionEvent(element.guid, 0));
+            const conditionList = element.shadowRoot.querySelector(
+                selectors.conditionList
+            );
+            conditionList.dispatchEvent(
+                new DeleteConditionEvent(element.guid, 0)
+            );
 
-           // expect(element.hidePopover).toHaveBeenCalled();
+            // expect(element.hidePopover).toHaveBeenCalled();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: {
@@ -154,13 +205,23 @@ describe('Component Visibility', () => {
             });
 
             const deleteConditionCallback = jest.fn();
-            element.addEventListener(DeleteConditionEvent.EVENT_NAME, deleteConditionCallback);
+            element.addEventListener(
+                DeleteConditionEvent.EVENT_NAME,
+                deleteConditionCallback
+            );
 
             const updateConditionLogicCallback = jest.fn();
-            element.addEventListener(UpdateConditionLogicEvent.EVENT_NAME, updateConditionLogicCallback);
+            element.addEventListener(
+                UpdateConditionLogicEvent.EVENT_NAME,
+                updateConditionLogicCallback
+            );
 
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
-            conditionList.dispatchEvent(new DeleteConditionEvent(element.guid, 0));
+            const conditionList = element.shadowRoot.querySelector(
+                selectors.conditionList
+            );
+            conditionList.dispatchEvent(
+                new DeleteConditionEvent(element.guid, 0)
+            );
 
             expect(deleteConditionCallback).toHaveBeenCalled();
             expect(updateConditionLogicCallback).toHaveBeenCalled();
@@ -174,8 +235,13 @@ describe('Component Visibility', () => {
             const element = createComponentUnderTest();
 
             const eventCallback = jest.fn();
-            element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
+            element.addEventListener(
+                AddConditionEvent.EVENT_NAME,
+                eventCallback
+            );
+            const conditionList = element.shadowRoot.querySelector(
+                selectors.conditionList
+            );
 
             conditionList.dispatchEvent(new AddConditionEvent());
             expect(eventCallback).toHaveBeenCalled();
@@ -189,8 +255,13 @@ describe('Component Visibility', () => {
             });
 
             const eventCallback = jest.fn();
-            element.addEventListener(AddConditionEvent.EVENT_NAME, eventCallback);
-            const conditionList = element.shadowRoot.querySelector(selectors.conditionList);
+            element.addEventListener(
+                AddConditionEvent.EVENT_NAME,
+                eventCallback
+            );
+            const conditionList = element.shadowRoot.querySelector(
+                selectors.conditionList
+            );
 
             conditionList.dispatchEvent(new AddConditionEvent());
 

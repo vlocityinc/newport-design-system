@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
-import { filterMatches } from "builder_platform_interaction/expressionUtils";
+import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
-import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
 
 /**
@@ -26,7 +26,7 @@ export default class BaseResourcePicker extends LightningElement {
      * @property {String} displayText   the value displayed in the input field when this menu item is selected
      * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
      * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
-    */
+     */
 
     /**
      * the state of the resource picker containing the current item, displayText, and the menu data
@@ -177,13 +177,23 @@ export default class BaseResourcePicker extends LightningElement {
         if (!this.allowedParamTypes) {
             return this.comboboxConfig.literalsAllowed;
         }
-        return this.comboboxConfig.literalsAllowed && !isCollectionRequired(this.allowedParamTypes, this.comboboxConfig.type);
+        return (
+            this.comboboxConfig.literalsAllowed &&
+            !isCollectionRequired(
+                this.allowedParamTypes,
+                this.comboboxConfig.type
+            )
+        );
     }
 
     /** EVENT HANDLERS */
 
     handleFilterMatches(event) {
         event.stopPropagation();
-        this.state.menuData = filterMatches(event.detail.value, this._fullMenuData, event.detail.isMergeField);
+        this.state.menuData = filterMatches(
+            event.detail.value,
+            this._fullMenuData,
+            event.detail.isMergeField
+        );
     }
 }

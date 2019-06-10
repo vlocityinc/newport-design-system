@@ -1,6 +1,6 @@
 import {
     createOutputParameter,
-    createOutputParameterMetadataObject,
+    createOutputParameterMetadataObject
 } from '../outputParameter';
 
 const valuePropertyName = 'value';

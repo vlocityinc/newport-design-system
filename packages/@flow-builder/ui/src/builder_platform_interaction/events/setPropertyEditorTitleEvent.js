@@ -4,7 +4,6 @@
 
 const eventName = 'setpropertyeditortitle';
 
-
 export class SetPropertyEditorTitleEvent {
     constructor(title) {
         return new CustomEvent(eventName, {

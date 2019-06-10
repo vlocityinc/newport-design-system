@@ -1,7 +1,14 @@
-import { ACTION_TYPE, METADATA_KEY, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import {
+    ACTION_TYPE,
+    METADATA_KEY,
+    ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
-import { LABELS } from "./elementConfigLabels";
-import { AddElementEvent, EditElementEvent } from 'builder_platform_interaction/events';
+import { LABELS } from './elementConfigLabels';
+import {
+    AddElementEvent,
+    EditElementEvent
+} from 'builder_platform_interaction/events';
 import {
     createActionCall,
     createDuplicateActionCall,
@@ -92,7 +99,7 @@ import {
     createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
     createScreenWithFieldReferences,
     createScreenField
-} from "builder_platform_interaction/elementFactory";
+} from 'builder_platform_interaction/elementFactory';
 
 /**
  * @constant
@@ -140,8 +147,10 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.SUBFLOW]: {
         descriptor: {
-            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:subflowEditor',
-            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+            [EditElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:subflowEditor',
+            [AddElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:callOutEditor'
         },
         nodeConfig: {
             iconName: 'standard:flow',
@@ -173,8 +182,10 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.ACTION_CALL]: {
         descriptor: {
-            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
-            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+            [EditElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:callOutEditor'
         },
         nodeConfig: {
             iconName: 'standard:custom_notification',
@@ -188,9 +199,10 @@ export const elementTypeToConfigMap = {
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
         // action call : standard actions and quickactions
-        metadataFilter : element => element.actionType !== ACTION_TYPE.EMAIL_ALERT &&
-                                    element.actionType !== ACTION_TYPE.APEX &&
-                                    element.actionType !== ACTION_TYPE.FLOW,
+        metadataFilter: element =>
+            element.actionType !== ACTION_TYPE.EMAIL_ALERT &&
+            element.actionType !== ACTION_TYPE.APEX &&
+            element.actionType !== ACTION_TYPE.FLOW,
         labels: {
             singular: LABELS.actionSingularLabel,
             plural: LABELS.actionPluralLabel,
@@ -210,8 +222,10 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.EXTERNAL_SERVICE]: {
         descriptor: {
-            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
-            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+            [EditElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:callOutEditor'
         },
         nodeConfig: {
             iconName: 'standard:custom_notification',
@@ -222,7 +236,8 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter : element => element.actionType === ACTION_TYPE.EXTERNAL_SERVICE,
+        metadataFilter: element =>
+            element.actionType === ACTION_TYPE.EXTERNAL_SERVICE,
         labels: {
             singular: LABELS.actionSingularLabel,
             plural: LABELS.actionPluralLabel,
@@ -241,8 +256,10 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.APEX_PLUGIN_CALL]: {
         descriptor: {
-            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:apexPluginEditor',
-            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+            [EditElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:apexPluginEditor',
+            [AddElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:callOutEditor'
         },
         nodeConfig: {
             iconName: 'standard:apex_plugin',
@@ -258,7 +275,6 @@ export const elementTypeToConfigMap = {
             plural: LABELS.apexPluginPluralLabel,
             newModal: LABELS.newApexActionPluginLabel,
             editModal: LABELS.editApexActionPluginLabel
-
         },
         canvasElement: true,
         nonHydratableProperties: ['valueDataType'],
@@ -272,8 +288,10 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.APEX_CALL]: {
         descriptor: {
-            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
-            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+            [EditElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:callOutEditor'
         },
         nodeConfig: {
             iconName: 'standard:apex',
@@ -284,7 +302,7 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter : element => element.actionType === ACTION_TYPE.APEX,
+        metadataFilter: element => element.actionType === ACTION_TYPE.APEX,
         labels: {
             singular: LABELS.apexSingularLabel,
             plural: LABELS.apexPluralLabel,
@@ -303,8 +321,10 @@ export const elementTypeToConfigMap = {
     },
     [ELEMENT_TYPE.EMAIL_ALERT]: {
         descriptor: {
-            [EditElementEvent.EVENT_NAME] : 'builder_platform_interaction:invocableActionEditor',
-            [AddElementEvent.EVENT_NAME]: 'builder_platform_interaction:callOutEditor'
+            [EditElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:invocableActionEditor',
+            [AddElementEvent.EVENT_NAME]:
+                'builder_platform_interaction:callOutEditor'
         },
         nodeConfig: {
             iconName: 'standard:email',
@@ -315,7 +335,8 @@ export const elementTypeToConfigMap = {
         },
         modalSize: MODAL_SIZE.MEDIUM,
         metadataKey: METADATA_KEY.ACTION_CALLS,
-        metadataFilter : element => element.actionType === ACTION_TYPE.EMAIL_ALERT,
+        metadataFilter: element =>
+            element.actionType === ACTION_TYPE.EMAIL_ALERT,
         labels: {
             singular: LABELS.emailAlertSingularLabel,
             plural: LABELS.emailAlertPluralLabel,
@@ -385,8 +406,15 @@ export const elementTypeToConfigMap = {
             plural: 'fieldReferences'
         },
         canvasElement: true,
-        nonHydratableProperties: ['fieldType', 'dataType', 'type', 'defaultValueDataType', 'defaultValueGuid',
-            'valueDataType', 'valueGuid'],
+        nonHydratableProperties: [
+            'fieldType',
+            'dataType',
+            'type',
+            'defaultValueDataType',
+            'defaultValueGuid',
+            'valueDataType',
+            'valueGuid'
+        ],
         bodyCssClass: 'slds-scrollable_none',
         factory: {
             propertyEditor: createScreenWithFields,
@@ -474,7 +502,7 @@ export const elementTypeToConfigMap = {
         // WAIT_EVENT is not a canvas element, but is a first class element
         nodeConfig: {
             iconName: 'standard:waits',
-            utilityIconName: 'utility:waits',
+            utilityIconName: 'utility:waits'
         },
         labels: {
             singular: LABELS.waitEventSingularLabel,
@@ -566,7 +594,12 @@ export const elementTypeToConfigMap = {
         },
         canvasElement: true,
         canHaveFaultConnector: true,
-        nonHydratableProperties: ['numberRecordsToStore', 'filterType', 'sortOrder', 'assignNullValuesIfNoRecordsFound'],
+        nonHydratableProperties: [
+            'numberRecordsToStore',
+            'filterType',
+            'sortOrder',
+            'assignNullValuesIfNoRecordsFound'
+        ],
         factory: {
             propertyEditor: createRecordLookup,
             duplicateElement: createDuplicateRecordLookup,
@@ -874,10 +907,9 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:custom',
             maxConnections: 1
         },
-        bodyCssClass: '',
+        bodyCssClass: ''
     }
 };
-
 
 /**
  * @param {string}

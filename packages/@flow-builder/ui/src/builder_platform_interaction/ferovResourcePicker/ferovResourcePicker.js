@@ -1,13 +1,13 @@
-import { LightningElement, api, track }  from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import {
     normalizeFEROV,
-    getMenuData,
-} from "builder_platform_interaction/expressionUtils";
+    getMenuData
+} from 'builder_platform_interaction/expressionUtils';
 import {
     getRHSTypes,
-    RULE_OPERATOR,
-} from "builder_platform_interaction/ruleLib";
-import { isObject } from "builder_platform_interaction/commonUtils";
+    RULE_OPERATOR
+} from 'builder_platform_interaction/ruleLib';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
@@ -223,7 +223,9 @@ export default class FerovResourcePicker extends LightningElement {
     constructor() {
         super();
         storeInstance = Store.getStore();
-        this._unsubscribeStore = storeInstance.subscribe(this.handleStoreChange);
+        this._unsubscribeStore = storeInstance.subscribe(
+            this.handleStoreChange
+        );
     }
 
     disconnectedCallback() {
@@ -234,21 +236,25 @@ export default class FerovResourcePicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
+            this._baseResourcePicker = this.template.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
 
-            const identifier = isObject(this.value) ? this.value.value : this.value;
+            const identifier = isObject(this.value)
+                ? this.value.value
+                : this.value;
             this.initializeResourcePicker(normalizeFEROV(identifier));
         }
     }
 
     /** HELPER METHODS */
 
-    initializeResourcePicker = (normalizedValue) => {
+    initializeResourcePicker = normalizedValue => {
         // on first render we want to replace the given value with the itemOrDisplayText from normalized value
         this.value = normalizedValue.itemOrDisplayText;
         this.populateMenuData(this.parentItem, normalizedValue.fields);
         this._isInitialized = true;
-    }
+    };
 
     /**
      * Callback from the store for changes in store.
@@ -258,15 +264,34 @@ export default class FerovResourcePicker extends LightningElement {
     };
 
     populateParamTypes = () => {
-        this.paramTypes = this.elementConfig ? null : getRHSTypes(this.propertyEditorElementType, this.elementParam, RULE_OPERATOR.ASSIGN, this.rules);
+        this.paramTypes = this.elementConfig
+            ? null
+            : getRHSTypes(
+                  this.propertyEditorElementType,
+                  this.elementParam,
+                  RULE_OPERATOR.ASSIGN,
+                  this.rules
+              );
         return this.paramTypes;
     };
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
-                getMenuData(this.elementConfig, this.propertyEditorElementType, this.populateParamTypes, !this.hideGlobalConstants,
-                    this.enableFieldDrilldown, storeInstance, !this.hideNewResource, parentItem, fields, !this.hideSystemVariables, this.showGlobalVariables));
+                getMenuData(
+                    this.elementConfig,
+                    this.propertyEditorElementType,
+                    this.populateParamTypes,
+                    !this.hideGlobalConstants,
+                    this.enableFieldDrilldown,
+                    storeInstance,
+                    !this.hideNewResource,
+                    parentItem,
+                    fields,
+                    !this.hideSystemVariables,
+                    this.showGlobalVariables
+                )
+            );
         }
-    }
+    };
 }

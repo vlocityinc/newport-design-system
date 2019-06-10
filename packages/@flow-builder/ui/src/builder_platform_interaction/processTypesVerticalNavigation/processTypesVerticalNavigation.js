@@ -1,6 +1,10 @@
-import { LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
-import { ALL_PROCESS_TYPE, getProcessTypesWithIcons, PROCESS_TYPES_ICONS } from 'builder_platform_interaction/processTypeLib';
+import {
+    ALL_PROCESS_TYPE,
+    getProcessTypesWithIcons,
+    PROCESS_TYPES_ICONS
+} from 'builder_platform_interaction/processTypeLib';
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
@@ -39,9 +43,13 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
      */
     @api
     get featuredProcessTypes() {
-        return getProcessTypesWithIcons(this.processTypes, PROCESS_TYPES_ICONS.FEATURED,
+        return getProcessTypesWithIcons(
+            this.processTypes,
+            PROCESS_TYPES_ICONS.FEATURED,
             processType => PROCESS_TYPES_ICONS.FEATURED.has(processType.name),
-            filteredProcessTypes => filteredProcessTypes.unshift(ALL_PROCESS_TYPE));
+            filteredProcessTypes =>
+                filteredProcessTypes.unshift(ALL_PROCESS_TYPE)
+        );
     }
 
     /**
@@ -51,8 +59,12 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
     @api
     get otherProcessTypes() {
         if (!this._otherProcessTypes) {
-            this._otherProcessTypes = getProcessTypesWithIcons(this.processTypes, PROCESS_TYPES_ICONS.OTHERS,
-            processType => !PROCESS_TYPES_ICONS.FEATURED.has(processType.name));
+            this._otherProcessTypes = getProcessTypesWithIcons(
+                this.processTypes,
+                PROCESS_TYPES_ICONS.OTHERS,
+                processType =>
+                    !PROCESS_TYPES_ICONS.FEATURED.has(processType.name)
+            );
         }
         return this._otherProcessTypes;
     }

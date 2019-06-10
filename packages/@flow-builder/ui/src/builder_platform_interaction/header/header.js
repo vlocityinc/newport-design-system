@@ -1,18 +1,18 @@
-import { LightningElement, api} from 'lwc';
-import { LABELS } from "./headerLabels";
+import { LightningElement, api } from 'lwc';
+import { LABELS } from './headerLabels';
 
 export default class Header extends LightningElement {
     @api
-    flowName
+    flowName;
 
     @api
-    flowVersion
+    flowVersion;
 
     @api
-    backUrl
+    backUrl;
 
     @api
-    helpUrl
+    helpUrl;
 
     get labels() {
         return LABELS;

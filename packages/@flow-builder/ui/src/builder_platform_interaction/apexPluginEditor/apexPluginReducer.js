@@ -1,13 +1,31 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { apexPluginValidation } from './apexPluginValidation';
-import { UpdateParameterItemEvent, PropertyChangedEvent, DeleteParameterItemEvent } from 'builder_platform_interaction/events';
-import { updateParameterItem, mergeWithInputOutputParameters, removeUnsetParameters, deleteParameterItem,
-    MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS } from 'builder_platform_interaction/calloutEditorLib';
+import {
+    UpdateParameterItemEvent,
+    PropertyChangedEvent,
+    DeleteParameterItemEvent
+} from 'builder_platform_interaction/events';
+import {
+    updateParameterItem,
+    mergeWithInputOutputParameters,
+    removeUnsetParameters,
+    deleteParameterItem,
+    MERGE_WITH_PARAMETERS,
+    REMOVE_UNSET_PARAMETERS
+} from 'builder_platform_interaction/calloutEditorLib';
 
 const apexPluginPropertyChanged = (state, event) => {
-    const error = event.detail.error === null ? apexPluginValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
-    return updateProperties(state, {[event.detail.propertyName]: {value: event.detail.value, error}});
+    const error =
+        event.detail.error === null
+            ? apexPluginValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
+    return updateProperties(state, {
+        [event.detail.propertyName]: { value: event.detail.value, error }
+    });
 };
 
 /**
@@ -30,6 +48,7 @@ export const apexPluginReducer = (state, event) => {
             return removeUnsetParameters(state);
         case VALIDATE_ALL:
             return apexPluginValidation.validateAll(state);
-        default: return state;
+        default:
+            return state;
     }
 };

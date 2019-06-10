@@ -2,7 +2,7 @@ import { getMenuData } from '../resourcePickerUtils';
 import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
-    getStoreElements,
+    getStoreElements
 } from '../menuDataRetrieval';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
@@ -14,7 +14,7 @@ let resourcePicker;
 const objectName = 'Account';
 const parentItem = {
     dataType: FLOW_DATA_TYPE.SOBJECT.value,
-    subtype: objectName,
+    subtype: objectName
 };
 
 const fields = ['field1'];
@@ -27,12 +27,13 @@ const storeInstance = {
 
 jest.mock('../menuDataRetrieval', () => {
     return {
-        getSecondLevelItems: require.requireActual('../menuDataRetrieval').getSecondLevelItems,
+        getSecondLevelItems: require.requireActual('../menuDataRetrieval')
+            .getSecondLevelItems,
         filterFieldsForChosenElement: jest.fn(),
-        getStoreElements: jest.fn((storeState) => {
+        getStoreElements: jest.fn(storeState => {
             return storeState;
         }),
-        filterAndMutateMenuData: jest.fn(),
+        filterAndMutateMenuData: jest.fn()
     };
 });
 
@@ -40,7 +41,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn(() => {
             return ['field2'];
-        }),
+        })
     };
 });
 
@@ -58,21 +59,59 @@ describe('resourcePickerUtils', () => {
             const mockFieldMenuData = ['field2'];
             filterFieldsForChosenElement.mockReturnValueOnce(mockFieldMenuData);
 
-            const result = getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem);
+            const result = getMenuData(
+                null,
+                null,
+                resourcePicker.populateParamTypes,
+                false,
+                false,
+                null,
+                true,
+                parentItem
+            );
             expect(result).toEqual(['field2']);
         });
 
         it('Should filter the fields when the fields already have been loaded', () => {
-            getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem, fields);
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
-                fields, true, true);
+            getMenuData(
+                null,
+                null,
+                resourcePicker.populateParamTypes,
+                false,
+                false,
+                null,
+                true,
+                parentItem,
+                fields
+            );
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
+                parentItem,
+                paramTypes,
+                fields,
+                true,
+                true
+            );
         });
 
         it('Should filter the fields after waiting for the fields to load', () => {
-            getMenuData(null, null, resourcePicker.populateParamTypes, false, false, null, true, parentItem);
+            getMenuData(
+                null,
+                null,
+                resourcePicker.populateParamTypes,
+                false,
+                false,
+                null,
+                true,
+                parentItem
+            );
             expect(getFieldsForEntity).toHaveBeenCalledWith(objectName);
-            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(parentItem, paramTypes,
-                ['field2'], true, true);
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
+                parentItem,
+                paramTypes,
+                ['field2'],
+                true,
+                true
+            );
         });
     });
 
@@ -92,25 +131,69 @@ describe('resourcePickerUtils', () => {
             const mockMenuData = ['foo'];
             filterAndMutateMenuData.mockReturnValueOnce(mockMenuData);
 
-            const result = getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
-            resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false);
+            const result = getMenuData(
+                'elementConfig',
+                resourcePicker.propertyEditorElementType,
+                resourcePicker.populateParamTypes,
+                resourcePicker.allowSobjectForFields,
+                resourcePicker.enableFieldDrilldown,
+                storeInstance,
+                false
+            );
             expect(result).toEqual(mockMenuData);
         });
 
         it('Should get menu data when there is no element config', () => {
-            getMenuData(null, resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, true);
-            expect(getStoreElements).toHaveBeenCalledWith(elements, { elementType: 'Assignment' });
+            getMenuData(
+                null,
+                resourcePicker.propertyEditorElementType,
+                resourcePicker.populateParamTypes,
+                resourcePicker.allowSobjectForFields,
+                resourcePicker.enableFieldDrilldown,
+                storeInstance,
+                true
+            );
+            expect(getStoreElements).toHaveBeenCalledWith(elements, {
+                elementType: 'Assignment'
+            });
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, true, true, true, null, true, false);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
+                elements,
+                paramTypes,
+                true,
+                true,
+                true,
+                null,
+                true,
+                false
+            );
         });
 
         it('Should get menu data when there is element config and we do not want new resource option', () => {
-            getMenuData('elementConfig', resourcePicker.propertyEditorElementType, resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields, resourcePicker.enableFieldDrilldown, storeInstance, false);
-            expect(getStoreElements).toHaveBeenCalledWith(elements, 'elementConfig');
+            getMenuData(
+                'elementConfig',
+                resourcePicker.propertyEditorElementType,
+                resourcePicker.populateParamTypes,
+                resourcePicker.allowSobjectForFields,
+                resourcePicker.enableFieldDrilldown,
+                storeInstance,
+                false
+            );
+            expect(getStoreElements).toHaveBeenCalledWith(
+                elements,
+                'elementConfig'
+            );
             expect(filterAndMutateMenuData).toHaveBeenCalledTimes(1);
-            expect(filterAndMutateMenuData).toHaveBeenCalledWith(elements, paramTypes, false, true, true, null, true, false);
+            expect(filterAndMutateMenuData).toHaveBeenCalledWith(
+                elements,
+                paramTypes,
+                false,
+                true,
+                true,
+                null,
+                true,
+                false
+            );
         });
     });
 });

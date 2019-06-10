@@ -1,4 +1,4 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
 
@@ -28,7 +28,11 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
 
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
-    const { versionNumber = null, lastModifiedDate = null,  manageableState = null } = flowProperties;
+    const {
+        versionNumber = null,
+        lastModifiedDate = null,
+        manageableState = null
+    } = flowProperties;
     const lastModifiedBy = getLastModifiedBy(flowProperties.lastModifiedBy);
 
     const {
@@ -42,34 +46,42 @@ export function createFlowProperties(flowProperties = {}) {
         hasUnsavedChanges = false
     } = flowProperties.metadata || flowProperties;
 
-    let { isLightningFlowBuilder = true, isCreatedOutsideLfb = false, canOnlySaveAsNewDefinition = false } = flowProperties;
-    canOnlySaveAsNewDefinition = canOnlySaveAsNewDefinition || manageableState === 'installed';
+    let {
+        isLightningFlowBuilder = true,
+        isCreatedOutsideLfb = false,
+        canOnlySaveAsNewDefinition = false
+    } = flowProperties;
+    canOnlySaveAsNewDefinition =
+        canOnlySaveAsNewDefinition || manageableState === 'installed';
 
     if (processMetadataValues) {
         // isCreatedOutsideLFB can be true in 2 cases
         // 1) when an existing flow is never saved in LFB => In this case processMetadataValues will be an empty array
         // 2) After an existing flow is saved for the first time in LFB
-        isCreatedOutsideLfb = processMetadataValues.length === 0 || checkIfCreatedOutsideLFB(processMetadataValues);
-        isLightningFlowBuilder = checkIfLightningFlowBuilder(processMetadataValues);
+        isCreatedOutsideLfb =
+            processMetadataValues.length === 0 ||
+            checkIfCreatedOutsideLFB(processMetadataValues);
+        isLightningFlowBuilder = checkIfLightningFlowBuilder(
+            processMetadataValues
+        );
     }
 
-
     return {
-            label,
-            name,
-            description,
-            versionNumber,
-            lastModifiedDate,
-            lastModifiedBy,
-            interviewLabel,
-            isTemplate,
-            processType,
-            status,
-            canOnlySaveAsNewDefinition,
-            elementType,
-            isLightningFlowBuilder,
-            isCreatedOutsideLfb,
-            hasUnsavedChanges
+        label,
+        name,
+        description,
+        versionNumber,
+        lastModifiedDate,
+        lastModifiedBy,
+        interviewLabel,
+        isTemplate,
+        processType,
+        status,
+        canOnlySaveAsNewDefinition,
+        elementType,
+        isLightningFlowBuilder,
+        isCreatedOutsideLfb,
+        hasUnsavedChanges
     };
 }
 
@@ -96,13 +108,13 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
     const processMetadataValues = setProcessMetadataValue(isCreatedOutsideLfb);
 
     return {
-            label,
-            description,
-            interviewLabel,
-            isTemplate,
-            processType,
-            status,
-            processMetadataValues
+        label,
+        description,
+        interviewLabel,
+        isTemplate,
+        processType,
+        status,
+        processMetadataValues
     };
 }
 
@@ -128,9 +140,9 @@ function getLastModifiedBy(lastModifiedBy) {
  * @returns true if processMetadataValues have an object with name as 'OriginBuilderType'
  */
 function checkIfCreatedOutsideLFB(processMetadataValues = []) {
-    return !processMetadataValues.some(((processMetadataValue) => {
+    return !processMetadataValues.some(processMetadataValue => {
         return processMetadataValue.name === ORIGIN_BUILDER_TYPE;
-    }));
+    });
 }
 
 /**
@@ -140,11 +152,13 @@ function checkIfCreatedOutsideLFB(processMetadataValues = []) {
  */
 
 function checkIfLightningFlowBuilder(processMetadataValues = []) {
-    return processMetadataValues.some(((processMetadataValue) => {
-        return (processMetadataValue.name === BUILDER_TYPE
-            && processMetadataValue.value
-            && processMetadataValue.value.stringValue === LIGHTNING_FLOW_BUILDER);
-    }));
+    return processMetadataValues.some(processMetadataValue => {
+        return (
+            processMetadataValue.name === BUILDER_TYPE &&
+            processMetadataValue.value &&
+            processMetadataValue.value.stringValue === LIGHTNING_FLOW_BUILDER
+        );
+    });
 }
 
 /**
@@ -152,11 +166,17 @@ function checkIfLightningFlowBuilder(processMetadataValues = []) {
  * @param {*} isCreatedOutsideLfb if flow was created via CFD, metadata api or any third party builder
  */
 function setProcessMetadataValue(isCreatedOutsideLfb = false) {
-    const lfbProcessMetadataValue = createProcessMetadataValue(BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
+    const lfbProcessMetadataValue = createProcessMetadataValue(
+        BUILDER_TYPE,
+        LIGHTNING_FLOW_BUILDER
+    );
     if (isCreatedOutsideLfb) {
         return [lfbProcessMetadataValue];
     }
-    const originProcessMetadataValue = createProcessMetadataValue(ORIGIN_BUILDER_TYPE, LIGHTNING_FLOW_BUILDER);
+    const originProcessMetadataValue = createProcessMetadataValue(
+        ORIGIN_BUILDER_TYPE,
+        LIGHTNING_FLOW_BUILDER
+    );
     return [lfbProcessMetadataValue, originProcessMetadataValue];
 }
 

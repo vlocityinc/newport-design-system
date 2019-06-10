@@ -7,9 +7,18 @@ const TEMPLATE_LABEL = 'Flow Label';
 const TEMPLATE_DESCRIPTION = 'Flow description';
 const TEMPLATE_ICON = 'utility:flow';
 
-function createComponentForTest({ itemId = TEMPLATE_ID, label = TEMPLATE_LABEL, description = TEMPLATE_DESCRIPTION, iconName = TEMPLATE_ICON, isSelected = false } = {}) {
-    const el = createElement('builder_platform_interaction-visual-picker-item', { is: VisualPickerItem });
-    Object.assign(el, {itemId, label, description, iconName, isSelected});
+function createComponentForTest({
+    itemId = TEMPLATE_ID,
+    label = TEMPLATE_LABEL,
+    description = TEMPLATE_DESCRIPTION,
+    iconName = TEMPLATE_ICON,
+    isSelected = false
+} = {}) {
+    const el = createElement(
+        'builder_platform_interaction-visual-picker-item',
+        { is: VisualPickerItem }
+    );
+    Object.assign(el, { itemId, label, description, iconName, isSelected });
     document.body.appendChild(el);
     return el;
 }
@@ -20,15 +29,18 @@ const getChangedEvent = () => {
 
 const SELECTORS = {
     MEDIA_FIGURE: '.slds-media__figure ',
-    VISUAL_PICKER_TEXT: '.slds-visual-picker input:checked ~ label .slds-visual-picker__text',
+    VISUAL_PICKER_TEXT:
+        '.slds-visual-picker input:checked ~ label .slds-visual-picker__text',
     LABEL: '.slds-media__body .slds-text-heading_small',
     DESCRIPTION: '.slds-media__body .text-content',
     LIGHTNING_ICON: 'lightning-icon',
-    CHECKBOX: 'input[type="checkbox"]',
+    CHECKBOX: 'input[type="checkbox"]'
 };
 
 function getTemplateIcon(visualPickerItem) {
-    return visualPickerItem.shadowRoot.querySelector(SELECTORS.MEDIA_FIGURE).querySelector(SELECTORS.LIGHTNING_ICON);
+    return visualPickerItem.shadowRoot
+        .querySelector(SELECTORS.MEDIA_FIGURE)
+        .querySelector(SELECTORS.LIGHTNING_ICON);
 }
 
 function getTemplateLabel(visualPickerItem) {
@@ -44,7 +56,9 @@ function getCheckbox(visualPickerItem) {
 }
 
 function getCheckedText(visualPickerItem) {
-    return visualPickerItem.shadowRoot.querySelector(SELECTORS.VISUAL_PICKER_TEXT);
+    return visualPickerItem.shadowRoot.querySelector(
+        SELECTORS.VISUAL_PICKER_TEXT
+    );
 }
 
 describe('visual-picker-item', () => {
@@ -54,15 +68,21 @@ describe('visual-picker-item', () => {
     });
 
     it('shows the flow icon', () => {
-        expect(getTemplateIcon(visualPickerItemCmp).iconName).toEqual(TEMPLATE_ICON);
+        expect(getTemplateIcon(visualPickerItemCmp).iconName).toEqual(
+            TEMPLATE_ICON
+        );
     });
 
     it('shows the label as a template label', () => {
-        expect(getTemplateLabel(visualPickerItemCmp).textContent).toEqual(TEMPLATE_LABEL);
+        expect(getTemplateLabel(visualPickerItemCmp).textContent).toEqual(
+            TEMPLATE_LABEL
+        );
     });
 
     it('shows the description as a template description', () => {
-        expect(getTemplateDescription(visualPickerItemCmp).textContent).toEqual(TEMPLATE_DESCRIPTION);
+        expect(getTemplateDescription(visualPickerItemCmp).textContent).toEqual(
+            TEMPLATE_DESCRIPTION
+        );
     });
 
     it('should not be selected', () => {
@@ -70,24 +90,35 @@ describe('visual-picker-item', () => {
         expect(getCheckbox(visualPickerItemCmp).checked).toBe(false);
     });
 
-    it('should show check icon when selecting template',  async () => {
+    it('should show check icon when selecting template', async () => {
         const eventCallback = jest.fn();
-        visualPickerItemCmp.addEventListener(VisualPickerItemChangedEvent.EVENT_NAME, eventCallback);
+        visualPickerItemCmp.addEventListener(
+            VisualPickerItemChangedEvent.EVENT_NAME,
+            eventCallback
+        );
         const checkbox = getCheckbox(visualPickerItemCmp);
         checkbox.checked = true;
         checkbox.dispatchEvent(getChangedEvent());
         await Promise.resolve();
-        expect(getComputedStyle(getCheckedText(visualPickerItemCmp), ':after')).not.toBeNull();
+        expect(
+            getComputedStyle(getCheckedText(visualPickerItemCmp), ':after')
+        ).not.toBeNull();
     });
 
-    it('should fire VisualPickerItemChangedEvent event when selecting template',  async () => {
+    it('should fire VisualPickerItemChangedEvent event when selecting template', async () => {
         const eventCallback = jest.fn();
-        visualPickerItemCmp.addEventListener(VisualPickerItemChangedEvent.EVENT_NAME, eventCallback);
+        visualPickerItemCmp.addEventListener(
+            VisualPickerItemChangedEvent.EVENT_NAME,
+            eventCallback
+        );
         const checkbox = getCheckbox(visualPickerItemCmp);
         checkbox.checked = true;
         checkbox.dispatchEvent(getChangedEvent());
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toEqual({id: TEMPLATE_ID, isSelected: true });
+        expect(eventCallback.mock.calls[0][0].detail).toEqual({
+            id: TEMPLATE_ID,
+            isSelected: true
+        });
     });
 });

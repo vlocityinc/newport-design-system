@@ -1,33 +1,44 @@
 <template>
-    <div if:false={screen} class='slds-spinner_container'>
-        <lightning-spinner variant='brand' alternative-text={labels.spinnerAlternativeText}></lightning-spinner>
+    <div if:false={screen} class="slds-spinner_container">
+        <lightning-spinner
+            variant="brand"
+            alternative-text={labels.spinnerAlternativeText}
+        ></lightning-spinner>
     </div>
 
-    <div if:true={screen} class='slds-grid screen-editor-container'>
-        <div class='slds-size_small slds-grow-none slds-shrink-none'>        
-            <builder_platform_interaction-screen-editor-palette screen-field-types={screenFieldTypes} extension-types={extensionTypes} onaddscreenfield={handleAddScreenField}>
+    <div if:true={screen} class="slds-grid screen-editor-container">
+        <div class="slds-size_small slds-grow-none slds-shrink-none">
+            <builder_platform_interaction-screen-editor-palette
+                screen-field-types={screenFieldTypes}
+                extension-types={extensionTypes}
+                onaddscreenfield={handleAddScreenField}
+            >
             </builder_platform_interaction-screen-editor-palette>
         </div>
-        <div class='canvas-container slds-grow slds-shrink slds-scrollable_x'>
-            <builder_platform_interaction-screen-editor-canvas class='slds-size_full'
-                                                               screen={screen} 
-                                                               flow-label={flowLabel}
-                                                               selected-item-guid={selectedItemGuid}
-                                                               onaddscreenfield={handleAddScreenField} 
-                                                               onscreenelementselected={handleSelectScreenElement}
-                                                               onreorderlist={handleReorder}
-                                                               onscreenelementdeselected={handleDeselectScreenElement}
-                                                               onscreenelementdeleted={handleDeleteScreenElement}>
+        <div class="canvas-container slds-grow slds-shrink slds-scrollable_x">
+            <builder_platform_interaction-screen-editor-canvas
+                class="slds-size_full"
+                screen={screen}
+                flow-label={flowLabel}
+                selected-item-guid={selectedItemGuid}
+                onaddscreenfield={handleAddScreenField}
+                onscreenelementselected={handleSelectScreenElement}
+                onreorderlist={handleReorder}
+                onscreenelementdeselected={handleDeselectScreenElement}
+                onscreenelementdeleted={handleDeleteScreenElement}
+            >
             </builder_platform_interaction-screen-editor-canvas>
         </div>
-        <div class='slds-grow-none slds-shrink-none'>
-            <builder_platform_interaction-screen-properties-editor-container node={selectedNode}
-                                                                             onscreennodeselected={handleDeselectScreenElement} 
-                                                                             onpropertychanged={handleScreenStateChanged}
-                                                                             onvalidationrulechanged={handleScreenStateChanged}
-                                                                             onchoicechanged={handleScreenStateChanged}
-                                                                             onchoicedeleted={handleScreenStateChanged}
-                                                                             onchoiceadded={handleScreenStateChanged}>
+        <div class="slds-grow-none slds-shrink-none">
+            <builder_platform_interaction-screen-properties-editor-container
+                node={selectedNode}
+                onscreennodeselected={handleDeselectScreenElement}
+                onpropertychanged={handleScreenStateChanged}
+                onvalidationrulechanged={handleScreenStateChanged}
+                onchoicechanged={handleScreenStateChanged}
+                onchoicedeleted={handleScreenStateChanged}
+                onchoiceadded={handleScreenStateChanged}
+            >
             </builder_platform_interaction-screen-properties-editor-container>
         </div>
     </div>

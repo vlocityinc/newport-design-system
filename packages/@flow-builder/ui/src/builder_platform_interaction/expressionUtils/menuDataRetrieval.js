@@ -1,17 +1,26 @@
-import { isMatch, PARAM_PROPERTY, SUBTYPE, getDataType } from "builder_platform_interaction/ruleLib";
+import {
+    isMatch,
+    PARAM_PROPERTY,
+    SUBTYPE,
+    getDataType
+} from 'builder_platform_interaction/ruleLib';
 import {
     writableElementsSelector,
     readableElementsSelector,
     collectionElementsSelector,
     byTypeWritableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
-    choiceSelector,
-} from "builder_platform_interaction/selectors";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { Store } from "builder_platform_interaction/storeLib";
-import * as sobjectLib from "builder_platform_interaction/sobjectLib";
-import { FLOW_DATA_TYPE, getResourceTypes, isComplexType } from "builder_platform_interaction/dataTypeLib";
+    choiceSelector
+} from 'builder_platform_interaction/selectors';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
+import {
+    FLOW_DATA_TYPE,
+    getResourceTypes,
+    isComplexType
+} from 'builder_platform_interaction/dataTypeLib';
 import {
     mutateFieldToComboboxShape,
     mutateFlowResourceToComboboxShape,
@@ -20,30 +29,40 @@ import {
     mutateEventTypesToComboboxShape,
     mutateApexClassesToComboboxShape,
     getSystemAndGlobalVariableMenuData,
-    COMBOBOX_ITEM_DISPLAY_TYPE,
+    COMBOBOX_ITEM_DISPLAY_TYPE
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
-import { GLOBAL_CONSTANT_OBJECTS, getSystemVariables, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX, getProcessTypes, getGlobalVariables } from "builder_platform_interaction/systemLib";
-import * as apexTypeLib from "builder_platform_interaction/apexTypeLib";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import {
+    GLOBAL_CONSTANT_OBJECTS,
+    getSystemVariables,
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    getProcessTypes,
+    getGlobalVariables
+} from 'builder_platform_interaction/systemLib';
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
-import { getFlowDataType } from "builder_platform_interaction/dataTypeLib";
+import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 
-const { SOBJECT_FIELD_REQUIREMENT, SYSTEM_VARIABLE_REQUIREMENT, } = PARAM_PROPERTY;
+const {
+    SOBJECT_FIELD_REQUIREMENT,
+    SYSTEM_VARIABLE_REQUIREMENT
+} = PARAM_PROPERTY;
 
-const isPicklistFieldAllowed = (allowedTypes) => {
+const isPicklistFieldAllowed = allowedTypes => {
     // we need a param to represent picklist values so we can check if they are allowed based on the given param types
     const picklistParam = {
         dataType: FLOW_DATA_TYPE.STRING.value,
-        isCollection: false,
+        isCollection: false
     };
     return isElementAllowed(allowedTypes, picklistParam);
 };
 
 export const RESOURCE_PICKER_MODE = {
     FEROV_MODE: 'ferov',
-    ENTITY_MODE: 'entity',
+    ENTITY_MODE: 'entity'
 };
 
 /**
@@ -62,8 +81,13 @@ let _eventTypesCache;
  * @returns {Integer} A negative number if elemA comes after elemB, positive number if elemB comes before elemA
  */
 function compareElementsByCategoryThenDevName(elemA, elemB) {
-    return elemA.category === elemB.category ?  -elemA.text.localeCompare(elemB.text, undefined, {sensitivity:'base'})
-        : -elemA.category.localeCompare(elemB.category, undefined, {sensitivity:'base'});
+    return elemA.category === elemB.category
+        ? -elemA.text.localeCompare(elemB.text, undefined, {
+              sensitivity: 'base'
+          })
+        : -elemA.category.localeCompare(elemB.category, undefined, {
+              sensitivity: 'base'
+          });
 }
 
 /**
@@ -112,19 +136,33 @@ function elementMatchesRule(allowedParamTypes, element) {
  * @param {boolean} showSObjectsForFields   true if fields are allowed here - sobjects should be shown so that users can drill down to fields
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
-export function isElementAllowed(allowedParamTypes, element, showComplexObjectsForFields = false) {
-    const isElementMatchForProperty = (property) => {
-        return (allowedParamTypes.hasOwnProperty(property) && elementMatchesRule(allowedParamTypes[property], element));
+export function isElementAllowed(
+    allowedParamTypes,
+    element,
+    showComplexObjectsForFields = false
+) {
+    const isElementMatchForProperty = property => {
+        return (
+            allowedParamTypes.hasOwnProperty(property) &&
+            elementMatchesRule(allowedParamTypes[property], element)
+        );
     };
 
-    return !allowedParamTypes
-        || isElementMatchForProperty(getDataType(element))
-        || isElementMatchForProperty(UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[element[PARAM_PROPERTY.ELEMENT_TYPE]] || element[PARAM_PROPERTY.ELEMENT_TYPE])
-        || isElementMatchForProperty(element[SUBTYPE])
-        || (showComplexObjectsForFields &&
-            (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value || allowedParamTypes[SOBJECT_FIELD_REQUIREMENT])
-            && isComplexType(element.dataType)
-            && !element.isCollection);
+    return (
+        !allowedParamTypes ||
+        isElementMatchForProperty(getDataType(element)) ||
+        isElementMatchForProperty(
+            UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[
+                element[PARAM_PROPERTY.ELEMENT_TYPE]
+            ] || element[PARAM_PROPERTY.ELEMENT_TYPE]
+        ) ||
+        isElementMatchForProperty(element[SUBTYPE]) ||
+        (showComplexObjectsForFields &&
+            (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
+                allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) &&
+            isComplexType(element.dataType) &&
+            !element.isCollection)
+    );
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -136,10 +174,10 @@ export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
 function getNewResourceItem() {
     return {
         displayText: newResourceLabel,
-        text : newResourceLabel,
-        type : COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
-        value : COMBOBOX_NEW_RESOURCE_VALUE,
-        iconName : 'utility:add'
+        text: newResourceLabel,
+        type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_INLINE,
+        value: COMBOBOX_NEW_RESOURCE_VALUE,
+        iconName: 'utility:add'
     };
 }
 
@@ -157,8 +195,10 @@ function getNewResourceItem() {
  */
 function writableOrReadableElement(shouldBeWritable) {
     return {
-        selector: shouldBeWritable ? writableElementsSelector : readableElementsSelector,
-        isWritable: shouldBeWritable,
+        selector: shouldBeWritable
+            ? writableElementsSelector
+            : readableElementsSelector,
+        isWritable: shouldBeWritable
     };
 }
 
@@ -170,11 +210,14 @@ function writableOrReadableElement(shouldBeWritable) {
  */
 function buildCludSelector(shouldBeWritable, sObjectSelector) {
     return function (retrieveOptions) {
-        const selector = sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector(retrieveOptions)
-                : shouldBeWritable ? writableElementsSelector : readableElementsSelector;
+        const selector = sObjectSelector
+            ? sObjectOrSObjectCollectionByEntitySelector(retrieveOptions)
+            : shouldBeWritable
+            ? writableElementsSelector
+            : readableElementsSelector;
         return {
             selector,
-            isWritable: !sObjectSelector && shouldBeWritable,
+            isWritable: !sObjectSelector && shouldBeWritable
         };
     };
 }
@@ -188,9 +231,20 @@ function buildCludSelector(shouldBeWritable, sObjectSelector) {
  * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
  * @returns filterInformation
  */
-function sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector) {
+function sObjectOrByTypeElements(
+    shouldBeWritable,
+    elementType,
+    isCollection,
+    dataType,
+    entityName,
+    sObjectSelector
+) {
     return {
-        selector: isCollection ? collectionElementsSelector : (sObjectSelector ? sObjectOrSObjectCollectionByEntitySelector({entityName}) : byTypeWritableElementsSelector(dataType)),
+        selector: isCollection
+            ? collectionElementsSelector
+            : sObjectSelector
+            ? sObjectOrSObjectCollectionByEntitySelector({ entityName })
+            : byTypeWritableElementsSelector(dataType)
     };
 }
 
@@ -209,29 +263,84 @@ function screenSelectors(shouldBeWritable, choices, dataType) {
     }
 
     return {
-        selector: choices ? choiceSelector(dataType) : readableElementsSelector,
+        selector: choices ? choiceSelector(dataType) : readableElementsSelector
     };
 }
 
 const filterInformationProviderMap = {
-    [ELEMENT_TYPE.EXTERNAL_SERVICE]: ({ shouldBeWritable }) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.ACTION_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.APEX_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.ASSIGNMENT]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.EMAIL_ALERT]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.SUBFLOW]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.VARIABLE]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.CHOICE]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.EXTERNAL_SERVICE]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ACTION_CALL]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_CALL]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.APEX_PLUGIN_CALL]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.ASSIGNMENT]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.EMAIL_ALERT]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.SUBFLOW]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.VARIABLE]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.CHOICE]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.DECISION]: () => writableOrReadableElement(),
-    [ELEMENT_TYPE.WAIT]: ({shouldBeWritable}) => writableOrReadableElement(shouldBeWritable),
-    [ELEMENT_TYPE.SCREEN]: ({shouldBeWritable, dataType, choices}) => screenSelectors(shouldBeWritable, choices, dataType),
-    [ELEMENT_TYPE.RECORD_CREATE]: ({shouldBeWritable, isCollection, entityName, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({ isCollection, entityName, createable:true}),
-    [ELEMENT_TYPE.RECORD_UPDATE]: ({shouldBeWritable, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({allSObjectsAndSObjectCollections: true, updateable:true}),
-    [ELEMENT_TYPE.RECORD_DELETE]: ({shouldBeWritable, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({allSObjectsAndSObjectCollections: true, deleteable:true}),
-    [ELEMENT_TYPE.RECORD_LOOKUP]: ({shouldBeWritable, isCollection, entityName, sObjectSelector}) => buildCludSelector(shouldBeWritable, sObjectSelector)({ isCollection, entityName, queryable:true}),
-    [ELEMENT_TYPE.LOOP]: ({shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector}) => sObjectOrByTypeElements(shouldBeWritable, elementType, isCollection, dataType, entityName, sObjectSelector),
+    [ELEMENT_TYPE.WAIT]: ({ shouldBeWritable }) =>
+        writableOrReadableElement(shouldBeWritable),
+    [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices }) =>
+        screenSelectors(shouldBeWritable, choices, dataType),
+    [ELEMENT_TYPE.RECORD_CREATE]: ({
+        shouldBeWritable,
+        isCollection,
+        entityName,
+        sObjectSelector
+    }) =>
+        buildCludSelector(shouldBeWritable, sObjectSelector)({
+            isCollection,
+            entityName,
+            createable: true
+        }),
+    [ELEMENT_TYPE.RECORD_UPDATE]: ({ shouldBeWritable, sObjectSelector }) =>
+        buildCludSelector(shouldBeWritable, sObjectSelector)({
+            allSObjectsAndSObjectCollections: true,
+            updateable: true
+        }),
+    [ELEMENT_TYPE.RECORD_DELETE]: ({ shouldBeWritable, sObjectSelector }) =>
+        buildCludSelector(shouldBeWritable, sObjectSelector)({
+            allSObjectsAndSObjectCollections: true,
+            deleteable: true
+        }),
+    [ELEMENT_TYPE.RECORD_LOOKUP]: ({
+        shouldBeWritable,
+        isCollection,
+        entityName,
+        sObjectSelector
+    }) =>
+        buildCludSelector(shouldBeWritable, sObjectSelector)({
+            isCollection,
+            entityName,
+            queryable: true
+        }),
+    [ELEMENT_TYPE.LOOP]: ({
+        shouldBeWritable,
+        elementType,
+        isCollection,
+        dataType,
+        entityName,
+        sObjectSelector
+    }) =>
+        sObjectOrByTypeElements(
+            shouldBeWritable,
+            elementType,
+            isCollection,
+            dataType,
+            entityName,
+            sObjectSelector
+        )
 };
 
 /**
@@ -245,8 +354,10 @@ const filterInformationProviderMap = {
  * @returns filterInformation
  */
 function getFilterInformation(config = {}) {
-    const {elementType} = config;
-    return filterInformationProviderMap[elementType] ? filterInformationProviderMap[elementType](config) : {};
+    const { elementType } = config;
+    return filterInformationProviderMap[elementType]
+        ? filterInformationProviderMap[elementType](config)
+        : {};
 }
 
 /**
@@ -258,7 +369,7 @@ function getFilterInformation(config = {}) {
 export function getStoreElements(storeInstance, config) {
     let elements = [];
 
-    const {selector} = getFilterInformation(config);
+    const { selector } = getFilterInformation(config);
     if (selector) {
         elements = selector(storeInstance);
     }
@@ -271,14 +382,16 @@ export function getStoreElements(storeInstance, config) {
  * @param {Object[]} picklist list of objects representing picklist values
  * @returns {module:menuDataGenerator.GroupMenuItems} menu data that has picklist values
  */
-export const getPicklistMenuData = (picklist) => {
+export const getPicklistMenuData = picklist => {
     if (!Array.isArray(picklist)) {
-        throw new Error(`Picklist field values must be an array but instead was: ${typeof picklist}`);
+        throw new Error(
+            `Picklist field values must be an array but instead was: ${typeof picklist}`
+        );
     }
     const picklistLabel = 'Picklist Values';
     const picklistGroup = {
         label: picklistLabel,
-        items: [],
+        items: []
     };
     picklistGroup.items = picklist.map(mutatePicklistValue);
     return picklistGroup;
@@ -297,14 +410,27 @@ export const getPicklistMenuData = (picklist) => {
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function getElementsForMenuData(elementConfig, allowedParamTypes, includeNewResource = false,
-                                       allowGlobalConstants = false, disableHasNext = false, activePicklistValues = []) {
+export function getElementsForMenuData(
+    elementConfig,
+    allowedParamTypes,
+    includeNewResource = false,
+    allowGlobalConstants = false,
+    disableHasNext = false,
+    activePicklistValues = []
+) {
     const state = Store.getStore().getCurrentState();
 
     // TODO: once multiple params are allowed on RHS, we may need to deal with that here
     const menuDataElements = getStoreElements(state, elementConfig);
 
-    return filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource, allowGlobalConstants, disableHasNext, activePicklistValues);
+    return filterAndMutateMenuData(
+        menuDataElements,
+        allowedParamTypes,
+        includeNewResource,
+        allowGlobalConstants,
+        disableHasNext,
+        activePicklistValues
+    );
 }
 
 /**
@@ -320,17 +446,25 @@ export function getElementsForMenuData(elementConfig, allowedParamTypes, include
  * @param {boolean} showSystemVariables   are system variables allowed in this context
  * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
-export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, includeNewResource = false,
-                                        allowGlobalConstants = false, disableHasNext = false, activePicklistValues = [],
-                                        showSystemVariables = true, showGlobalVariables = false) {
+export function filterAndMutateMenuData(
+    menuDataElements,
+    allowedParamTypes,
+    includeNewResource = false,
+    allowGlobalConstants = false,
+    disableHasNext = false,
+    activePicklistValues = [],
+    showSystemVariables = true,
+    showGlobalVariables = false
+) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
 
-
     const menuData = menuDataElements
-        .filter(element => isElementAllowed(allowedParamTypes, element, !disableHasNext))
+        .filter(element =>
+            isElementAllowed(allowedParamTypes, element, !disableHasNext)
+        )
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {
@@ -339,14 +473,26 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
             }
             return menuItem;
         })
-        .sort(compareElementsByCategoryThenDevName).reduce(sortIntoCategories, []);
+        .sort(compareElementsByCategoryThenDevName)
+        .reduce(sortIntoCategories, []);
 
-    const systemVariablesAllowed = showSystemVariables && (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
+    const systemVariablesAllowed =
+        showSystemVariables &&
+        (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
     if (systemVariablesAllowed || showGlobalVariables) {
-        menuData.push(getSystemAndGlobalVariableMenuData(systemVariablesAllowed, showGlobalVariables));
+        menuData.push(
+            getSystemAndGlobalVariableMenuData(
+                systemVariablesAllowed,
+                showGlobalVariables
+            )
+        );
     }
 
-    if (activePicklistValues && activePicklistValues.length > 0 && isPicklistFieldAllowed(allowedParamTypes)) {
+    if (
+        activePicklistValues &&
+        activePicklistValues.length > 0 &&
+        isPicklistFieldAllowed(allowedParamTypes)
+    ) {
         // if the picklist is allowed we want to include those in the menu data
         const picklistMenuData = getPicklistMenuData(activePicklistValues);
         menuData.unshift(picklistMenuData);
@@ -363,7 +509,7 @@ export function filterAndMutateMenuData(menuDataElements, allowedParamTypes, inc
  * @param {String} entityType   The entity type that we want in our menu data (ex: queryable, updatable etc)
  * @returns {MenuData}             Combobox menu data with our entities
  */
-export const getEntitiesMenuData = (entityType) => {
+export const getEntitiesMenuData = entityType => {
     let entities;
     switch (entityType) {
         case sobjectLib.ENTITY_TYPE.QUERYABLE:
@@ -394,40 +540,62 @@ export const getEntitiesMenuData = (entityType) => {
  * @param {boolean} showSubText show sub text
  * @returns {Array} array of alphabetized objects
  */
-export function filterFieldsForChosenElement(chosenElement, allowedParamTypes, fields, showAsFieldReference, showSubText) {
+export function filterFieldsForChosenElement(
+    chosenElement,
+    allowedParamTypes,
+    fields,
+    showAsFieldReference,
+    showSubText
+) {
     if (fields) {
-        return Object.values(fields).filter((element) => isElementAllowed(allowedParamTypes, element)).map((element) => {
-            return mutateFieldToComboboxShape(element, chosenElement, showAsFieldReference, showSubText);
-        });
+        return Object.values(fields)
+            .filter(element => isElementAllowed(allowedParamTypes, element))
+            .map(element => {
+                return mutateFieldToComboboxShape(
+                    element,
+                    chosenElement,
+                    showAsFieldReference,
+                    showSubText
+                );
+            });
     }
     return [];
 }
 
 export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
-    const shouldBeWritable = elementConfig && getFilterInformation(elementConfig).isWritable;
+    const shouldBeWritable =
+        elementConfig && getFilterInformation(elementConfig).isWritable;
     const { dataType, subtype } = topLevelItem;
 
-    const filterWritable = (items) => {
+    const filterWritable = items => {
         const writableItems = {};
         Object.keys(items)
-            .filter((key) => {
+            .filter(key => {
                 return !items[key].readOnly;
             })
-            .forEach((key) => {
+            .forEach(key => {
                 writableItems[key] = items[key];
             });
         return writableItems;
     };
 
-    if (subtype === SYSTEM_VARIABLE_PREFIX || subtype === SYSTEM_VARIABLE_CLIENT_PREFIX) {
+    if (
+        subtype === SYSTEM_VARIABLE_PREFIX ||
+        subtype === SYSTEM_VARIABLE_CLIENT_PREFIX
+    ) {
         const systemVariables = getSystemVariables(subtype);
-        callback(shouldBeWritable ? filterWritable(systemVariables) : systemVariables);
+        callback(
+            shouldBeWritable ? filterWritable(systemVariables) : systemVariables
+        );
     } else if (getGlobalVariables(subtype)) {
         callback(getGlobalVariables(subtype));
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         callback(sobjectLib.getFieldsForEntity(subtype));
     } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
-        fetchPropertiesForLightningComponentOutput(topLevelItem.value, callback);
+        fetchPropertiesForLightningComponentOutput(
+            topLevelItem.value,
+            callback
+        );
     } else {
         callback(apexTypeLib.getPropertiesForClass(subtype));
     }
@@ -440,12 +608,14 @@ function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
         if (err) {
             callback([]);
         }
-        callback(desc.outputParameters.map(parameter => ({
-            apiName : parameter.apiName,
-            dataType : getFlowDataType(parameter.dataType),
-            isCollection : parameter.maxOccurs > 1,
-            label : parameter.label
-        })));
+        callback(
+            desc.outputParameters.map(parameter => ({
+                apiName: parameter.apiName,
+                dataType: getFlowDataType(parameter.dataType),
+                isCollection: parameter.maxOccurs > 1,
+                label: parameter.label
+            }))
+        );
     });
 }
 
@@ -458,7 +628,7 @@ function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
  * @returns {Object}  the element with the provided devName
  */
 export function getElementByDevName(elements = {}, devName) {
-    return Object.values(elements).find((element) => {
+    return Object.values(elements).find(element => {
         return element.name === devName;
     });
 }
@@ -490,7 +660,7 @@ export const getProcessTypesMenuData = () => {
     return processTypes.map(processTypeObject => {
         return {
             value: processTypeObject.name,
-            label: processTypeObject.label,
+            label: processTypeObject.label
         };
     });
 };

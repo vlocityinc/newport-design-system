@@ -2,15 +2,17 @@ import {
     createInputParameter,
     createInputParameterMetadataObject,
     VALUE_PROPERTY_NAME,
-    VALUE_DATA_TYPE_PROPERTY_NAME,
+    VALUE_DATA_TYPE_PROPERTY_NAME
 } from '../inputParameter';
 import { createFEROV, createFEROVMetadataObject } from '../ferov';
 
 jest.mock('../ferov', () => {
     return {
         createFEROV: jest.fn().mockName('createFEROV'),
-        createFEROVMetadataObject: jest.fn().mockName('createFEROVMetadataObject'),
-        getDataTypeKey: require.requireActual('../ferov').getDataTypeKey,
+        createFEROVMetadataObject: jest
+            .fn()
+            .mockName('createFEROVMetadataObject'),
+        getDataTypeKey: require.requireActual('../ferov').getDataTypeKey
     };
 });
 
@@ -33,7 +35,11 @@ describe('inputParameter', () => {
             const mockFerov = { elementReference: 'foo' };
             const mockElement = { value: mockFerov };
             createInputParameter(mockElement);
-            expect(createFEROV).toHaveBeenCalledWith(mockFerov, VALUE_PROPERTY_NAME, VALUE_DATA_TYPE_PROPERTY_NAME);
+            expect(createFEROV).toHaveBeenCalledWith(
+                mockFerov,
+                VALUE_PROPERTY_NAME,
+                VALUE_DATA_TYPE_PROPERTY_NAME
+            );
         });
 
         it('uses value and valueDataType properties when not given a FEROV obejct', () => {
@@ -52,7 +58,11 @@ describe('inputParameter', () => {
             const valueDataType = 'fooDataType';
             const mockElement = { value, valueDataType };
             createInputParameterMetadataObject(mockElement);
-            expect(createFEROVMetadataObject).toHaveBeenCalledWith(mockElement, VALUE_PROPERTY_NAME, VALUE_DATA_TYPE_PROPERTY_NAME);
+            expect(createFEROVMetadataObject).toHaveBeenCalledWith(
+                mockElement,
+                VALUE_PROPERTY_NAME,
+                VALUE_DATA_TYPE_PROPERTY_NAME
+            );
         });
 
         it('uses name from the element', () => {

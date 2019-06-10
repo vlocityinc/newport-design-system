@@ -1,23 +1,30 @@
-import { assignmentValidation } from "./assignmentValidation";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { updateProperties, set, deleteItem } from "builder_platform_interaction/dataMutationLib";
-import { EXPRESSION_PROPERTY_TYPE } from "builder_platform_interaction/expressionUtils";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { assignmentValidation } from './assignmentValidation';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import {
+    updateProperties,
+    set,
+    deleteItem
+} from 'builder_platform_interaction/dataMutationLib';
+import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
     AddListItemEvent,
     DeleteListItemEvent,
     UpdateListItemEvent,
     PropertyChangedEvent
-} from "builder_platform_interaction/events";
+} from 'builder_platform_interaction/events';
 
-const addAssignmentItem = (state) => {
+const addAssignmentItem = state => {
     // TODO this should come from the assignment element factory W-5825956
     const emptyAssignmentItem = {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
-        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
-        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-        rowIndex: generateGuid(),
+        [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null },
+        [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+            value: '',
+            error: null
+        },
+        rowIndex: generateGuid()
     };
 
     const path = ['assignmentItems', state.assignmentItems.length];
@@ -32,15 +39,26 @@ const deleteAssignmentItem = (state, event) => {
 const updateAssignmentItem = (state, event) => {
     const path = ['assignmentItems', event.detail.index];
 
-    const item = updateProperties(state.assignmentItems[event.detail.index], event.detail.value);
+    const item = updateProperties(
+        state.assignmentItems[event.detail.index],
+        event.detail.value
+    );
     return set(state, path, item);
 };
 
 const assignmentPropertyChanged = (state, event) => {
-    event.detail.error = event.detail.error === null ?
-        assignmentValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    event.detail.error =
+        event.detail.error === null
+            ? assignmentValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
     return updateProperties(state, {
-        [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
+        [event.detail.propertyName]: {
+            error: event.detail.error,
+            value: event.detail.value
+        }
     });
 };
 
@@ -67,6 +85,7 @@ export const assignmentReducer = (state, event) => {
             return assignmentValidation.validateAll(state);
         }
 
-        default: return state;
+        default:
+            return state;
     }
 };

@@ -1,6 +1,4 @@
-import {
-    ELEMENT_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
@@ -12,9 +10,14 @@ import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-import { getGlobalConstantOrSystemVariable } from "builder_platform_interaction/systemLib";
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { createFlowInputFieldAssignmentMetadataObject, createFlowInputFieldAssignment, getDefaultAvailableConnections, createEmptyAssignmentMetadata }  from "./base/baseRecordElement";
+import { getGlobalConstantOrSystemVariable } from 'builder_platform_interaction/systemLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import {
+    createFlowInputFieldAssignmentMetadataObject,
+    createFlowInputFieldAssignment,
+    getDefaultAvailableConnections,
+    createEmptyAssignmentMetadata
+} from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
@@ -22,15 +25,29 @@ const maxConnections = 2;
 
 export function createRecordCreate(recordCreate = {}) {
     const newRecordCreate = baseCanvasElement(recordCreate);
-    const { inputReference = '', inputReferenceIndex = generateGuid(), object = '', objectIndex = generateGuid(), assignRecordIdToReference = '', assignRecordIdToReferenceIndex = generateGuid() } = recordCreate;
-    let { inputAssignments = [], availableConnections = getDefaultAvailableConnections()} = recordCreate;
-    availableConnections = availableConnections.map(availableConnection => createAvailableConnection(availableConnection));
+    const {
+        inputReference = '',
+        inputReferenceIndex = generateGuid(),
+        object = '',
+        objectIndex = generateGuid(),
+        assignRecordIdToReference = '',
+        assignRecordIdToReferenceIndex = generateGuid()
+    } = recordCreate;
+    let {
+        inputAssignments = [],
+        availableConnections = getDefaultAvailableConnections()
+    } = recordCreate;
+    availableConnections = availableConnections.map(availableConnection =>
+        createAvailableConnection(availableConnection)
+    );
 
     let getFirstRecordOnly = true;
 
     let recordCreateObject;
     if (object) {
-        inputAssignments = inputAssignments.map(item => createFlowInputFieldAssignment(item, object));
+        inputAssignments = inputAssignments.map(item =>
+            createFlowInputFieldAssignment(item, object)
+        );
 
         recordCreateObject = Object.assign(newRecordCreate, {
             object,
@@ -44,16 +61,19 @@ export function createRecordCreate(recordCreate = {}) {
             elementType,
             assignRecordIdToReference,
             assignRecordIdToReferenceIndex,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
-
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value
         });
     } else {
         if (inputReference) {
             // When the builder is loaded the store does not yet contain the variables
             // getFirstRecordOnly can only be calculated at the opening on the element
-            const variable  = getElementByGuid(inputReference) || getGlobalConstantOrSystemVariable(inputReference);
+            const variable =
+                getElementByGuid(inputReference) ||
+                getGlobalConstantOrSystemVariable(inputReference);
             if (variable) {
-                getFirstRecordOnly = variable.dataType !== FLOW_DATA_TYPE.SOBJECT.value || !variable.isCollection;
+                getFirstRecordOnly =
+                    variable.dataType !== FLOW_DATA_TYPE.SOBJECT.value ||
+                    !variable.isCollection;
             }
         }
 
@@ -67,7 +87,7 @@ export function createRecordCreate(recordCreate = {}) {
             maxConnections,
             elementType,
             assignRecordIdToReferenceIndex,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value
         });
     }
 
@@ -76,8 +96,14 @@ export function createRecordCreate(recordCreate = {}) {
 
 export function createDuplicateRecordCreate(recordCreate, newGuid, newName) {
     const newRecordCreate = createRecordCreate(recordCreate);
-    Object.assign(newRecordCreate, { availableConnections: getDefaultAvailableConnections() });
-    const duplicateRecordCreate = duplicateCanvasElement(newRecordCreate, newGuid, newName);
+    Object.assign(newRecordCreate, {
+        availableConnections: getDefaultAvailableConnections()
+    });
+    const duplicateRecordCreate = duplicateCanvasElement(
+        newRecordCreate,
+        newGuid,
+        newName
+    );
 
     return duplicateRecordCreate;
 }
@@ -90,7 +116,10 @@ export function createRecordCreateWithConnectors(recordCreate) {
         newRecordCreate.guid
     );
     const defaultAvailableConnections = getDefaultAvailableConnections();
-    const availableConnections = removeFromAvailableConnections(defaultAvailableConnections, connectors);
+    const availableConnections = removeFromAvailableConnections(
+        defaultAvailableConnections,
+        connectors
+    );
     const connectorCount = connectors ? connectors.length : 0;
 
     const recordCreateObject = Object.assign(newRecordCreate, {
@@ -106,19 +135,24 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         throw new Error('recordCreate is not defined');
     }
 
-    const recordCreateMetadata = baseCanvasElementMetadataObject(recordCreate, config);
+    const recordCreateMetadata = baseCanvasElementMetadataObject(
+        recordCreate,
+        config
+    );
     const { inputReference, object, getFirstRecordOnly } = recordCreate;
 
     if (getFirstRecordOnly && recordCreate.object !== '') {
-        const {assignRecordIdToReference } = recordCreate;
+        const { assignRecordIdToReference } = recordCreate;
         let { inputAssignments = [] } = recordCreate;
-        inputAssignments = inputAssignments.map(input => createFlowInputFieldAssignmentMetadataObject(input));
+        inputAssignments = inputAssignments.map(input =>
+            createFlowInputFieldAssignmentMetadataObject(input)
+        );
 
         inputAssignments = createEmptyAssignmentMetadata(inputAssignments);
 
         const newRecordCreateMetadata = Object.assign(recordCreateMetadata, {
             object,
-            inputAssignments,
+            inputAssignments
         });
         if (assignRecordIdToReference !== '') {
             newRecordCreateMetadata.assignRecordIdToReference = assignRecordIdToReference;

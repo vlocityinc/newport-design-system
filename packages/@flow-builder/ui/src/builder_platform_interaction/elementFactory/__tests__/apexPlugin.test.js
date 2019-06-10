@@ -1,10 +1,19 @@
-import { createApexPlugin, createDuplicateApexPlugin, createApexPluginMetadataObject } from '../apexPlugin';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    createApexPlugin,
+    createDuplicateApexPlugin,
+    createApexPluginMetadataObject
+} from '../apexPlugin';
+import {
+    ELEMENT_TYPE,
+    CONNECTOR_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 expect.extend(deepFindMatchers);
 
@@ -15,7 +24,7 @@ const flowInputParameterWithDefaultValueAsString = {
     value: {
         stringValue: 'My name'
     },
-    processMetadataValues: [],
+    processMetadataValues: []
 };
 
 const storeInputParameterWithDefaultValueAsString = {
@@ -30,7 +39,7 @@ const flowInputParameterWithDefaultValueAsReference = {
     value: {
         elementReference: 'var_text'
     },
-    processMetadataValues: [],
+    processMetadataValues: []
 };
 
 const storeInputParameterWithDefaultValueAsReference = {
@@ -41,13 +50,13 @@ const storeInputParameterWithDefaultValueAsReference = {
 };
 
 const flowOutputParameterWithDefaultValue = {
-    name: "accountId",
+    name: 'accountId',
     assignToReference: 'var_text',
-    processMetadataValues: [],
+    processMetadataValues: []
 };
 
 const storeOutputParameterWithDefaultValue = {
-    name: "accountId",
+    name: 'accountId',
     value: 'var_text',
     valueDataType: 'reference',
     rowIndex: mockGuid
@@ -63,10 +72,8 @@ const apexPluginMetaData = {
         flowInputParameterWithDefaultValueAsString,
         flowInputParameterWithDefaultValueAsReference
     ],
-    outputParameters: [
-        flowOutputParameterWithDefaultValue
-    ],
-    processMetadataValues: [],
+    outputParameters: [flowOutputParameterWithDefaultValue],
+    processMetadataValues: []
 };
 
 const apexPluginInStore = {
@@ -80,23 +87,21 @@ const apexPluginInStore = {
     isCanvasElement: true,
     connectorCount: 0,
     availableConnections: [
-      {
-          type: 'REGULAR'
-      },
-      {
-          type: 'FAULT'
-      }
+        {
+            type: 'REGULAR'
+        },
+        {
+            type: 'FAULT'
+        }
     ],
     config: {
-      isSelected: false
+        isSelected: false
     },
     inputParameters: [
         storeInputParameterWithDefaultValueAsString,
         storeInputParameterWithDefaultValueAsReference
     ],
-    outputParameters: [
-        storeOutputParameterWithDefaultValue
-    ],
+    outputParameters: [storeOutputParameterWithDefaultValue],
     maxConnections: 2,
     elementType: 'APEX_PLUGIN_CALL'
 };
@@ -105,12 +110,12 @@ const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
         if (isInput) {
             return {
                 name: param.name,
-                value: param.value,
+                value: param.value
             };
         }
         return {
             name: param.name,
-            assignToReference: param.assignToReference,
+            assignToReference: param.assignToReference
         };
     });
 };
@@ -125,7 +130,9 @@ describe('apexPlugin', () => {
             });
 
             it('creates element of type APEX_PLUGIN_CALL', () => {
-                expect(apexPlugin.elementType).toEqual(ELEMENT_TYPE.APEX_PLUGIN_CALL);
+                expect(apexPlugin.elementType).toEqual(
+                    ELEMENT_TYPE.APEX_PLUGIN_CALL
+                );
             });
 
             it('has empty apexClass', () => {
@@ -140,7 +147,9 @@ describe('apexPlugin', () => {
                 expect(apexPlugin.outputParameters).toHaveLength(0);
             });
             it('has dataType of boolean', () => {
-                expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(apexPlugin.dataType).toEqual(
+                    FLOW_DATA_TYPE.BOOLEAN.value
+                );
             });
         });
 
@@ -149,22 +158,34 @@ describe('apexPlugin', () => {
                 apexPlugin = createApexPlugin(apexPluginMetaData);
             });
             it('creates element of type APEX_PLUGIN_CALL', () => {
-                expect(apexPlugin.elementType).toEqual(ELEMENT_TYPE.APEX_PLUGIN_CALL);
+                expect(apexPlugin.elementType).toEqual(
+                    ELEMENT_TYPE.APEX_PLUGIN_CALL
+                );
             });
             it('has apexClass equal to apexClass from store', () => {
-                expect(apexPlugin.apexClass).toEqual(apexPluginInStore.apexClass);
+                expect(apexPlugin.apexClass).toEqual(
+                    apexPluginInStore.apexClass
+                );
             });
             it('has inputParameters matching the inputParameters from store', () => {
-                expect(apexPlugin.inputParameters).toEqual(apexPluginInStore.inputParameters);
+                expect(apexPlugin.inputParameters).toEqual(
+                    apexPluginInStore.inputParameters
+                );
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(apexPlugin.outputParameters).toEqual(apexPluginInStore.outputParameters);
+                expect(apexPlugin.outputParameters).toEqual(
+                    apexPluginInStore.outputParameters
+                );
             });
             it('has dataType of boolean', () => {
-                expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(apexPlugin.dataType).toEqual(
+                    FLOW_DATA_TYPE.BOOLEAN.value
+                );
             });
             it('has no common mutable object with apex plugin metadata passed as parameter', () => {
-                expect(apexPlugin).toHaveNoCommonMutableObjectWith(apexPluginMetaData);
+                expect(apexPlugin).toHaveNoCommonMutableObjectWith(
+                    apexPluginMetaData
+                );
             });
         });
 
@@ -173,19 +194,29 @@ describe('apexPlugin', () => {
                 apexPlugin = createApexPlugin(apexPluginInStore);
             });
             it('has apexClass equal to apexClass from store', () => {
-                expect(apexPlugin.apexClass).toEqual(apexPluginInStore.apexClass);
+                expect(apexPlugin.apexClass).toEqual(
+                    apexPluginInStore.apexClass
+                );
             });
             it('has inputParameters matching the inputParameters from store', () => {
-                expect(apexPlugin.inputParameters).toEqual(apexPluginInStore.inputParameters);
+                expect(apexPlugin.inputParameters).toEqual(
+                    apexPluginInStore.inputParameters
+                );
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(apexPlugin.outputParameters).toEqual(apexPluginInStore.outputParameters);
+                expect(apexPlugin.outputParameters).toEqual(
+                    apexPluginInStore.outputParameters
+                );
             });
             it('has dataType of boolean', () => {
-                expect(apexPlugin.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(apexPlugin.dataType).toEqual(
+                    FLOW_DATA_TYPE.BOOLEAN.value
+                );
             });
             it('has no common mutable object with apex plugin from store passed as parameter', () => {
-                expect(apexPlugin).toHaveNoCommonMutableObjectWith(apexPluginInStore);
+                expect(apexPlugin).toHaveNoCommonMutableObjectWith(
+                    apexPluginInStore
+                );
             });
         });
     });
@@ -210,7 +241,11 @@ describe('apexPlugin', () => {
                 }
             ]
         };
-        const { duplicatedElement } = createDuplicateApexPlugin(originalApexCall, 'duplicatedGuid', 'duplicatedName');
+        const { duplicatedElement } = createDuplicateApexPlugin(
+            originalApexCall,
+            'duplicatedGuid',
+            'duplicatedName'
+        );
 
         it('has the new guid', () => {
             expect(duplicatedElement.guid).toEqual('duplicatedGuid');
@@ -219,10 +254,14 @@ describe('apexPlugin', () => {
             expect(duplicatedElement.name).toEqual('duplicatedName');
         });
         it('has the updated locationX', () => {
-            expect(duplicatedElement.locationX).toEqual(originalApexCall.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
+            expect(duplicatedElement.locationX).toEqual(
+                originalApexCall.locationX + DUPLICATE_ELEMENT_XY_OFFSET
+            );
         });
         it('has the updated locationY', () => {
-            expect(duplicatedElement.locationY).toEqual(originalApexCall.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
+            expect(duplicatedElement.locationY).toEqual(
+                originalApexCall.locationY + DUPLICATE_ELEMENT_XY_OFFSET
+            );
         });
         it('has isSelected set to true', () => {
             expect(duplicatedElement.config.isSelected).toBeTruthy();
@@ -237,14 +276,19 @@ describe('apexPlugin', () => {
             expect(duplicatedElement.maxConnections).toEqual(2);
         });
         it('has the right elementType', () => {
-            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.APEX_PLUGIN_CALL);
+            expect(duplicatedElement.elementType).toEqual(
+                ELEMENT_TYPE.APEX_PLUGIN_CALL
+            );
         });
         it('has default availableConnections', () => {
-            expect(duplicatedElement.availableConnections).toEqual([{
-                type: CONNECTOR_TYPE.REGULAR
-            }, {
-                type: CONNECTOR_TYPE.FAULT
-            }]);
+            expect(duplicatedElement.availableConnections).toEqual([
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ]);
         });
     });
 
@@ -252,16 +296,30 @@ describe('apexPlugin', () => {
         let apexPluginMetaDataObject;
         describe('when store apexPlugin is passed', () => {
             beforeEach(() => {
-                apexPluginMetaDataObject = createApexPluginMetadataObject(apexPluginInStore);
+                apexPluginMetaDataObject = createApexPluginMetadataObject(
+                    apexPluginInStore
+                );
             });
             it('has apexClass equal to apexClass from flow', () => {
-                expect(apexPluginMetaDataObject.apexClass).toEqual(apexPluginMetaData.apexClass);
+                expect(apexPluginMetaDataObject.apexClass).toEqual(
+                    apexPluginMetaData.apexClass
+                );
             });
             it('has inputParameters match the inputParameters from flow', () => {
-                expect(apexPluginMetaDataObject.inputParameters).toEqual(parametersWithoutProcessMetaDataValue(apexPluginMetaData.inputParameters, true));
+                expect(apexPluginMetaDataObject.inputParameters).toEqual(
+                    parametersWithoutProcessMetaDataValue(
+                        apexPluginMetaData.inputParameters,
+                        true
+                    )
+                );
             });
             it('has outputParameters matching the outputParameters from flow', () => {
-                expect(apexPluginMetaDataObject.outputParameters).toEqual(parametersWithoutProcessMetaDataValue(apexPluginMetaData.outputParameters, false));
+                expect(apexPluginMetaDataObject.outputParameters).toEqual(
+                    parametersWithoutProcessMetaDataValue(
+                        apexPluginMetaData.outputParameters,
+                        false
+                    )
+                );
             });
         });
     });

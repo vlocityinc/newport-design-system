@@ -4,7 +4,13 @@
 const eventName = 'waiteventpropertychanged';
 
 export class WaitEventPropertyChangedEvent {
-    constructor(propertyName, value, error = null, parentGUID, oldValue = undefined) {
+    constructor(
+        propertyName,
+        value,
+        error = null,
+        parentGUID,
+        oldValue = undefined
+    ) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,

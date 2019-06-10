@@ -1,14 +1,35 @@
 import { LightningElement, track } from 'lwc';
-import { AddElementEvent, EditElementEvent, DeleteElementEvent, NewResourceEvent } from "builder_platform_interaction/events";
-import { canvasElementFilter, resourceFilter } from "builder_platform_interaction/filterLib";
-import { Store } from "builder_platform_interaction/storeLib";
-import { isChildElement, getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { isTestMode } from "builder_platform_interaction/contextLib";
-import { nameComparator } from "builder_platform_interaction/sortLib";
-import { LABELS } from "./leftPanelLabels";
-import { getResourceSections, getElementSections, getResourceIconName } from "./resourceLib";
-import { usedBy, createUsedByElement } from "builder_platform_interaction/usedByLib";
-import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import {
+    AddElementEvent,
+    EditElementEvent,
+    DeleteElementEvent,
+    NewResourceEvent
+} from 'builder_platform_interaction/events';
+import {
+    canvasElementFilter,
+    resourceFilter
+} from 'builder_platform_interaction/filterLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    isChildElement,
+    getConfigForElementType
+} from 'builder_platform_interaction/elementConfig';
+import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { nameComparator } from 'builder_platform_interaction/sortLib';
+import { LABELS } from './leftPanelLabels';
+import {
+    getResourceSections,
+    getElementSections,
+    getResourceIconName
+} from './resourceLib';
+import {
+    usedBy,
+    createUsedByElement
+} from 'builder_platform_interaction/usedByLib';
+import {
+    fetch,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
 import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 
 let storeInstance;
@@ -31,7 +52,7 @@ export default class LeftPanel extends LightningElement {
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
     }
 
-     /**
+    /**
      * Callback which gets executed after getting elements for left panel
      * palette
      *
@@ -39,7 +60,7 @@ export default class LeftPanel extends LightningElement {
      *            has error property if there is error fetching the data else
      *            has data property
      */
-    setElements = ({data, error}) => {
+    setElements = ({ data, error }) => {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else {
@@ -48,33 +69,56 @@ export default class LeftPanel extends LightningElement {
     };
 
     mapAppStateToStore = () => {
-        const {properties = {}, elements = {}} = storeInstance.getCurrentState();
+        const {
+            properties = {},
+            elements = {}
+        } = storeInstance.getCurrentState();
         const { processType: flowProcessType } = properties;
-        this.canvasElements = getElementSections(elements, canvasElementFilter(this.searchString), nameComparator);
-        this.nonCanvasElements = getResourceSections(elements, resourceFilter(this.searchString), nameComparator);
+        this.canvasElements = getElementSections(
+            elements,
+            canvasElementFilter(this.searchString),
+            nameComparator
+        );
+        this.nonCanvasElements = getResourceSections(
+            elements,
+            resourceFilter(this.searchString),
+            nameComparator
+        );
         if (this.showResourceDetailsPanel) {
-            const currentElementState = elements[this.resourceDetails.elementGuid];
-            this.retrieveResourceDetailsFromStore(currentElementState, this.resourceDetails.asResource);
+            const currentElementState =
+                elements[this.resourceDetails.elementGuid];
+            this.retrieveResourceDetailsFromStore(
+                currentElementState,
+                this.resourceDetails.asResource
+            );
         }
         if (this.processType !== flowProcessType) {
             this.processType = flowProcessType;
-            fetch(SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS, this.setElements, {flowProcessType});
+            fetch(
+                SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS,
+                this.setElements,
+                { flowProcessType }
+            );
         }
     };
 
     get getPanelTitle() {
-        return this.showResourceDetailsPanel ? this.resourceDetails.title : LABELS.headerText;
+        return this.showResourceDetailsPanel
+            ? this.resourceDetails.title
+            : LABELS.headerText;
     }
 
     get panelClasses() {
-        let classes = 'left-panel slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-is-directional slds-is-open';
+        let classes =
+            'left-panel slds-panel slds-size_medium slds-panel_docked slds-panel_docked-left slds-is-directional slds-is-open';
         if (this.showResourceDetailsPanel) {
             classes = `${classes} show-details`;
         }
         return classes;
     }
     get panelHeaderClasses() {
-        let classes = 'left-panel-header slds-panel__header slds-truncate_container';
+        let classes =
+            'left-panel-header slds-panel__header slds-truncate_container';
         if (!this.showResourceDetailsPanel) {
             classes = `${classes} slds-p-left_medium`;
         }
@@ -95,7 +139,11 @@ export default class LeftPanel extends LightningElement {
         const locationX = 0;
         const locationY = 0;
 
-        const addElementEvent = new AddElementEvent(elementType, locationX, locationY);
+        const addElementEvent = new AddElementEvent(
+            elementType,
+            locationX,
+            locationY
+        );
         this.dispatchEvent(addElementEvent);
     }
 
@@ -106,12 +154,17 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleShowResourceDetails(event) {
-        const currentElementState = storeInstance.getCurrentState().elements[event.detail.elementGUID];
-        this.retrieveResourceDetailsFromStore(currentElementState, !event.detail.canvasElement);
+        const currentElementState = storeInstance.getCurrentState().elements[
+            event.detail.elementGUID
+        ];
+        this.retrieveResourceDetailsFromStore(
+            currentElementState,
+            !event.detail.canvasElement
+        );
         this.showResourceDetailsPanel = true;
     }
 
-    handleAddNewResourceButtonClick = (event) => {
+    handleAddNewResourceButtonClick = event => {
         event.stopPropagation();
         const handleOnClickEvent = new NewResourceEvent();
         this.dispatchEvent(handleOnClickEvent);
@@ -122,15 +175,26 @@ export default class LeftPanel extends LightningElement {
     }
 
     handleDeleteButtonClicked() {
-        const deleteEvent = new DeleteElementEvent([this.resourceDetails.elementGuid], this.resourceDetails.elementType);
+        const deleteEvent = new DeleteElementEvent(
+            [this.resourceDetails.elementGuid],
+            this.resourceDetails.elementType
+        );
         this.dispatchEvent(deleteEvent);
     }
 
     handleResourceSearch(event) {
         this.searchString = event.detail.value.trim();
         const currentState = storeInstance.getCurrentState();
-        this.canvasElements = getElementSections(currentState.elements, canvasElementFilter(this.searchString), nameComparator);
-        this.nonCanvasElements = getResourceSections(currentState.elements, resourceFilter(this.searchString), nameComparator);
+        this.canvasElements = getElementSections(
+            currentState.elements,
+            canvasElementFilter(this.searchString),
+            nameComparator
+        );
+        this.nonCanvasElements = getResourceSections(
+            currentState.elements,
+            resourceFilter(this.searchString),
+            nameComparator
+        );
     }
 
     retrieveResourceDetailsFromStore(currentElementState, asResource) {
@@ -146,8 +210,10 @@ export default class LeftPanel extends LightningElement {
                 typeIconName = getResourceIconName(currentElementState);
                 title = getResourceLabel(currentElementState);
                 if (currentElementState.storeOutputAutomatically) {
-                    createdByElement = createUsedByElement(
-                        { element : currentElementState, elementGuidsReferenced : [currentElementState.guid] });
+                    createdByElement = createUsedByElement({
+                        element: currentElementState,
+                        elementGuidsReferenced: [currentElementState.guid]
+                    });
                     editable = false;
                     description = undefined;
                 }
@@ -158,14 +224,19 @@ export default class LeftPanel extends LightningElement {
                 title,
                 elementType: currentElementState.elementType,
                 elementGuid: currentElementState.guid,
-                typeLabel: getConfigForElementType(currentElementState.elementType).labels.singular,
+                typeLabel: getConfigForElementType(
+                    currentElementState.elementType
+                ).labels.singular,
                 typeIconName,
                 description,
                 apiName: currentElementState.name,
                 editable,
-                deletable : editable,
+                deletable: editable,
                 createdByElement,
-                usedByElements: usedBy([currentElementState.guid], storeElements),
+                usedByElements: usedBy(
+                    [currentElementState.guid],
+                    storeElements
+                ),
                 asResource
             };
         } else {

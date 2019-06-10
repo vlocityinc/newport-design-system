@@ -7,5 +7,5 @@ export const LABELS = {
     globalConstantCategory,
     sObjectPluralLabel,
     sObjectCollectionPluralLabel,
-    collectionVariablePluralLabel,
+    collectionVariablePluralLabel
 };

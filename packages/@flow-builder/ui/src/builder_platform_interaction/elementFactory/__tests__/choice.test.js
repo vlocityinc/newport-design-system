@@ -9,7 +9,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 jest.mock('builder_platform_interaction/storeLib', () => {
     return {
         generateGuid: jest.fn().mockImplementation(() => {
-            return "testGUID";
+            return 'testGUID';
         })
     };
 });
@@ -38,7 +38,7 @@ const choiceElementWithoutUserInput = {
     dataType: 'String',
     value: {
         stringValue: 'test String value'
-    },
+    }
 };
 
 const choiceElementWithUserInput = {
@@ -60,10 +60,10 @@ const choiceElementWithUserInputAndNoValidationRule = {
     value: {
         stringValue: 'test String value'
     },
-    userInput : {
-    isRequired: false,
-    promptText: 'test prompt text',
-    validationRule: undefined
+    userInput: {
+        isRequired: false,
+        promptText: 'test prompt text',
+        validationRule: undefined
     }
 };
 
@@ -83,7 +83,7 @@ const defaultChoiceElement = {
 
 const choiceElementForStore = {
     elementType: ELEMENT_TYPE.CHOICE,
-    description:'',
+    description: '',
     name: 'mock name for choice element',
     choiceText: 'mock choice text',
     guid: 'testGUID',
@@ -178,13 +178,15 @@ describe('createChoice function', () => {
             storedValueDataType: 'String',
             isShowInputSelected: true,
             isValidateSelected: false,
-            userInput : {
+            userInput: {
                 isRequired: false,
                 promptText: 'test prompt text',
                 validationRule: undefined
             }
         };
-        const actualResult = createChoice(choiceElementWithUserInputAndNoValidationRule);
+        const actualResult = createChoice(
+            choiceElementWithUserInputAndNoValidationRule
+        );
         it('returns a new choice object with userInput', () => {
             expect(actualResult).toMatchObject(expectedResult);
         });

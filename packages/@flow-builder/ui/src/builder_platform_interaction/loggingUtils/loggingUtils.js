@@ -5,8 +5,8 @@ const APP_NAME = 'FLOW_BUILDER';
  * Wrapper function for logging Error transaction in metrics service
  * @param {String} errorMessage error message
  */
-export const logMetricsServiceErrorTransaction = (errorMessage) => {
-    metricsService.error({error: errorMessage});
+export const logMetricsServiceErrorTransaction = errorMessage => {
+    metricsService.error({ error: errorMessage });
 };
 
 /**
@@ -55,6 +55,18 @@ export const logPerfMarkEnd = (name, context) => {
  * @param {Object} eventSource - click or scroll.
  * @param {String} eventType - user / system for non-user event types.
  */
-export const logInteraction = (target, scope, context, eventSource, eventType = 'user') => {
-    metricsService.interaction(target, scope, context, 'synthetic-' + eventSource, eventType);
+export const logInteraction = (
+    target,
+    scope,
+    context,
+    eventSource,
+    eventType = 'user'
+) => {
+    metricsService.interaction(
+        target,
+        scope,
+        context,
+        'synthetic-' + eventSource,
+        eventType
+    );
 };

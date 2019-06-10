@@ -1,4 +1,7 @@
-import { compareParamsByRequired, compareParamsByLabel } from "../parameterUtils";
+import {
+    compareParamsByRequired,
+    compareParamsByLabel
+} from '../parameterUtils';
 
 describe('compareParamsByRequired', () => {
     it('sorts params by isRequired', () => {
@@ -43,7 +46,7 @@ describe('compareParamsByRequired', () => {
             { name: 'param8' },
             { name: 'param2', isRequired: false },
             { name: 'param6' },
-            { name: 'param4', isRequired: false },
+            { name: 'param4', isRequired: false }
         ];
         expect(params.sort(compareParamsByRequired)).toEqual(expectedParams);
     });

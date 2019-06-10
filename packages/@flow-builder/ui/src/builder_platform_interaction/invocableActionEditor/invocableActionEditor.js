@@ -1,12 +1,26 @@
 import { LightningElement, api, track } from 'lwc';
-import { fetchOnce, SERVER_ACTION_TYPE } from 'builder_platform_interaction/serverDataLib';
+import {
+    fetchOnce,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
 import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { getValueFromHydratedItem, getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getValueFromHydratedItem,
+    getErrorsFromHydratedElement
+} from 'builder_platform_interaction/dataMutationLib';
 import { invocableActionReducer } from './invocableActionReducer';
-import { MERGE_WITH_PARAMETERS, REMOVE_UNSET_PARAMETERS, getParameterListWarnings } from 'builder_platform_interaction/calloutEditorLib';
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { ClosePropertyEditorEvent, CannotRetrieveCalloutParametersEvent, SetPropertyEditorTitleEvent } from 'builder_platform_interaction/events';
+import {
+    MERGE_WITH_PARAMETERS,
+    REMOVE_UNSET_PARAMETERS,
+    getParameterListWarnings
+} from 'builder_platform_interaction/calloutEditorLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    ClosePropertyEditorEvent,
+    CannotRetrieveCalloutParametersEvent,
+    SetPropertyEditorTitleEvent
+} from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 export default class InvocableActionEditor extends LightningElement {
@@ -63,31 +77,49 @@ export default class InvocableActionEditor extends LightningElement {
      */
     @api validate() {
         const event = { type: VALIDATE_ALL };
-        this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+        this.actionCallNode = invocableActionReducer(
+            this.actionCallNode,
+            event
+        );
         return getErrorsFromHydratedElement(this.actionCallNode);
     }
 
     get elementType() {
-        return (this.actionCallNode && this.actionCallNode.elementType) ? this.actionCallNode.elementType : undefined;
+        return this.actionCallNode && this.actionCallNode.elementType
+            ? this.actionCallNode.elementType
+            : undefined;
     }
 
     fetchActionParameters() {
-        const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
+        const actionParams = {
+            actionName: getValueFromHydratedItem(this.node.actionName),
+            actionType: getValueFromHydratedItem(this.node.actionType)
+        };
         this.displaySpinner = true;
         this.invocableActionParametersDescriptor = undefined;
-        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS, actionParams).then((parameters) => {
-            if (this.connected) {
-                this.displaySpinner = false;
-                this.invocableActionParametersDescriptor = parameters;
-                const event = new CustomEvent(MERGE_WITH_PARAMETERS, { detail : parameters });
-                this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
-            }
-        }).catch(() => {
-            if (this.connected) {
-                this.displaySpinner = false;
-                this.cannotRetrieveParameters();
-            }
-        });
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS,
+            actionParams
+        )
+            .then(parameters => {
+                if (this.connected) {
+                    this.displaySpinner = false;
+                    this.invocableActionParametersDescriptor = parameters;
+                    const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
+                        detail: parameters
+                    });
+                    this.actionCallNode = invocableActionReducer(
+                        this.actionCallNode,
+                        event
+                    );
+                }
+            })
+            .catch(() => {
+                if (this.connected) {
+                    this.displaySpinner = false;
+                    this.cannotRetrieveParameters();
+                }
+            });
     }
 
     cannotRetrieveParameters() {
@@ -103,19 +135,34 @@ export default class InvocableActionEditor extends LightningElement {
 
     fetchInvocableActionDescriptor() {
         this.invocableActionDescriptor = undefined;
-        const actionParams = { actionName: getValueFromHydratedItem(this.node.actionName), actionType: getValueFromHydratedItem(this.node.actionType) };
-        const options = {disableErrorModal : true};
-        const { processType: flowProcessType } = Store.getStore().getCurrentState().properties;
-        fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-            flowProcessType
-        }, options).then((invocableActions) => {
-            if (this.connected) {
-                this.invocableActionDescriptor = invocableActions.find(action => action.name === actionParams.actionName && action.type === actionParams.actionType);
-                this.updatePropertyEditorTitle();
-            }
-        }).catch(() => {
-            // ignore the error : we won't use the invocableActionDescriptor in this case
-        });
+        const actionParams = {
+            actionName: getValueFromHydratedItem(this.node.actionName),
+            actionType: getValueFromHydratedItem(this.node.actionType)
+        };
+        const options = { disableErrorModal: true };
+        const {
+            processType: flowProcessType
+        } = Store.getStore().getCurrentState().properties;
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
+            {
+                flowProcessType
+            },
+            options
+        )
+            .then(invocableActions => {
+                if (this.connected) {
+                    this.invocableActionDescriptor = invocableActions.find(
+                        action =>
+                            action.name === actionParams.actionName &&
+                            action.type === actionParams.actionType
+                    );
+                    this.updatePropertyEditorTitle();
+                }
+            })
+            .catch(() => {
+                // ignore the error : we won't use the invocableActionDescriptor in this case
+            });
     }
 
     // used to keep track of whether this is an existing invocable action
@@ -126,21 +173,38 @@ export default class InvocableActionEditor extends LightningElement {
         if (!this.actionCallNode) {
             return '';
         }
-        const actionName = this.invocableActionDescriptor != null ? this.invocableActionDescriptor.label : getValueFromHydratedItem(this.actionCallNode.actionName);
-        return format(this.labels.subtitle, actionName, ACTION_TYPE_LABEL[this.elementType]);
+        const actionName =
+            this.invocableActionDescriptor != null
+                ? this.invocableActionDescriptor.label
+                : getValueFromHydratedItem(this.actionCallNode.actionName);
+        return format(
+            this.labels.subtitle,
+            actionName,
+            ACTION_TYPE_LABEL[this.elementType]
+        );
     }
 
     get parameterListConfig() {
-        const inputs = this.invocableActionParametersDescriptor ? this.actionCallNode.inputParameters : [];
-        const outputs = this.invocableActionParametersDescriptor ? this.actionCallNode.outputParameters : [];
+        const inputs = this.invocableActionParametersDescriptor
+            ? this.actionCallNode.inputParameters
+            : [];
+        const outputs = this.invocableActionParametersDescriptor
+            ? this.actionCallNode.outputParameters
+            : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
             inputTabHeader: this.labels.inputTabHeader,
             outputTabHeader: this.labels.outputTabHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
-            emptyInputsBody: format(this.labels.emptyInputsBody, ACTION_TYPE_LABEL[this.elementType]),
+            emptyInputsBody: format(
+                this.labels.emptyInputsBody,
+                ACTION_TYPE_LABEL[this.elementType]
+            ),
             emptyOutputsTitle: this.labels.emptyOutputsTitle,
-            emptyOutputsBody: format(this.labels.emptyOutputsBody, ACTION_TYPE_LABEL[this.elementType]),
+            emptyOutputsBody: format(
+                this.labels.emptyOutputsBody,
+                ACTION_TYPE_LABEL[this.elementType]
+            ),
             sortInputs: true,
             sortOutputs: true,
             inputs,
@@ -155,16 +219,28 @@ export default class InvocableActionEditor extends LightningElement {
 
     handleEvent(event) {
         event.stopPropagation();
-        this.actionCallNode = invocableActionReducer(this.actionCallNode, event);
+        this.actionCallNode = invocableActionReducer(
+            this.actionCallNode,
+            event
+        );
     }
 
     updatePropertyEditorTitle() {
         if (this.isNewMode || !this.actionCallNode) {
             return;
         }
-        const actionName = this.invocableActionDescriptor != null ? this.invocableActionDescriptor.label : getValueFromHydratedItem(this.actionCallNode.actionName);
-        const title = format(this.labels.editPropertyEditorTitle, actionName, ACTION_TYPE_LABEL[this.elementType]);
-        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(title);
+        const actionName =
+            this.invocableActionDescriptor != null
+                ? this.invocableActionDescriptor.label
+                : getValueFromHydratedItem(this.actionCallNode.actionName);
+        const title = format(
+            this.labels.editPropertyEditorTitle,
+            actionName,
+            ACTION_TYPE_LABEL[this.elementType]
+        );
+        const setPropertyEditorTitleEvent = new SetPropertyEditorTitleEvent(
+            title
+        );
         this.dispatchEvent(setPropertyEditorTitleEvent);
     }
 }

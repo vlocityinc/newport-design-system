@@ -1,20 +1,18 @@
-import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { Validation } from "builder_platform_interaction/validation";
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { Validation } from 'builder_platform_interaction/validation';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
 const additionalRules = {
-    defaultConnectorLabel: [
-        ValidationRules.shouldNotBeBlank
-    ],
-    conditionLogic: [
-        ValidationRules.shouldNotBeBlank
-    ],
-    conditions: ValidationRules.validateExpressionWith3Properties({elementType: ELEMENT_TYPE.DECISION})
+    defaultConnectorLabel: [ValidationRules.shouldNotBeBlank],
+    conditionLogic: [ValidationRules.shouldNotBeBlank],
+    conditions: ValidationRules.validateExpressionWith3Properties({
+        elementType: ELEMENT_TYPE.DECISION
+    })
 };
 
 class DecisionValidation extends Validation {
@@ -25,10 +23,10 @@ class DecisionValidation extends Validation {
      */
     validateAll(nodeElement, overrideRules) {
         if (nodeElement.outcomes) {
-            const outcomes = nodeElement.outcomes.map((outcome) => {
+            const outcomes = nodeElement.outcomes.map(outcome => {
                 return super.validateAll(outcome, overrideRules);
             });
-            nodeElement = updateProperties(nodeElement, {outcomes});
+            nodeElement = updateProperties(nodeElement, { outcomes });
         }
         return super.validateAll(nodeElement, overrideRules);
     }
@@ -40,20 +38,32 @@ class DecisionValidation extends Validation {
      * @param {string} currentOutcomeGuid - guid of the current outcome whose devname is tested for uniquness
      * @returns {string|null} errorString or null
      */
-    validateOutcomeNameUniquenessLocally = (state, devNameToBeValidated, currentOutcomeGuid) => {
+    validateOutcomeNameUniquenessLocally = (
+        state,
+        devNameToBeValidated,
+        currentOutcomeGuid
+    ) => {
         // Add the decision editor guid and api name to the list to check
-        const stateGuidToDevName = [{
-            guid: state.guid,
-            name: state.name.value
-        }];
+        const stateGuidToDevName = [
+            {
+                guid: state.guid,
+                name: state.name.value
+            }
+        ];
         const outcomesDevNameToGuidList = state.outcomes.map(outcome => {
             return {
                 guid: outcome.guid,
-                name: outcome.name.value,
+                name: outcome.name.value
             };
         });
-        const finalListOfGuidToDevNames = stateGuidToDevName.concat(outcomesDevNameToGuidList);
-        return this.validateDevNameUniquenessLocally(finalListOfGuidToDevNames, devNameToBeValidated, currentOutcomeGuid);
+        const finalListOfGuidToDevNames = stateGuidToDevName.concat(
+            outcomesDevNameToGuidList
+        );
+        return this.validateDevNameUniquenessLocally(
+            finalListOfGuidToDevNames,
+            devNameToBeValidated,
+            currentOutcomeGuid
+        );
     };
 }
 

@@ -1,4 +1,4 @@
-import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from "./baseList";
+import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from './baseList';
 /**
  * Factory function for creating output assignment used in record lookup and recordChoiceSet
  * @param {Object} outputAssignment
@@ -6,12 +6,19 @@ import { createExpressionListRowItemWithoutOperatorAndRHSDataType } from "./base
  */
 export const createOutputAssignment = (outputAssignment = {}, sObject) => {
     let newOutputAssignment = {};
-    if (outputAssignment.hasOwnProperty('field') && outputAssignment.hasOwnProperty('assignToReference')) {
+    if (
+        outputAssignment.hasOwnProperty('field') &&
+        outputAssignment.hasOwnProperty('assignToReference')
+    ) {
         const leftHandSide = sObject + '.' + outputAssignment.field;
         const rightHandSide = outputAssignment.assignToReference;
-        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({leftHandSide, rightHandSide});
+        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(
+            { leftHandSide, rightHandSide }
+        );
     } else {
-        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignment);
+        newOutputAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(
+            outputAssignment
+        );
     }
     return newOutputAssignment;
 };
@@ -20,11 +27,15 @@ export const createOutputAssignment = (outputAssignment = {}, sObject) => {
  * @param {Object} outputAssignment
  * @param {String} sObject
  */
-export const createOutputAssignmentMetadataObject = (outputAssignment) => {
+export const createOutputAssignmentMetadataObject = outputAssignment => {
     if (!outputAssignment) {
-        throw new Error('outputAssignment is required to create the outputAssignmentMetadataObject');
+        throw new Error(
+            'outputAssignment is required to create the outputAssignmentMetadataObject'
+        );
     }
-    const field = outputAssignment.leftHandSide.substring(outputAssignment.leftHandSide.indexOf('.') + 1);
+    const field = outputAssignment.leftHandSide.substring(
+        outputAssignment.leftHandSide.indexOf('.') + 1
+    );
     const assignToReference = outputAssignment.rightHandSide;
     return {
         field,

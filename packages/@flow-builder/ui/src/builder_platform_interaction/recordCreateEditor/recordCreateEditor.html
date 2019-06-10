@@ -3,12 +3,13 @@
         {labels.recordCreateTitle}
     </div>
     <div class="slds-p-horizontal_small slds-p-top_small">
-        <builder_platform_interaction-label-description 
-            label={state.recordCreateElement.label} 
-            dev-name={state.recordCreateElement.name} 
+        <builder_platform_interaction-label-description
+            label={state.recordCreateElement.label}
+            dev-name={state.recordCreateElement.name}
             description={state.recordCreateElement.description}
-            guid={state.recordCreateElement.guid} 
-            onpropertychanged={handleLabelDescriptionChangedEvent}>
+            guid={state.recordCreateElement.guid}
+            onpropertychanged={handleLabelDescriptionChangedEvent}
+        >
         </builder_platform_interaction-label-description>
     </div>
 
@@ -17,15 +18,19 @@
         element-type={state.recordCreateElement.elementType}
         number-of-records-to-store={numberRecordsToStoreValue}
         way-to-store-fields={wayToStoreFieldsValue}
-        onrecordstoreoptionchanged={handleRecordStoreOptionChangedEvent}>
+        onrecordstoreoptionchanged={handleRecordStoreOptionChangedEvent}
+    >
     </builder_platform_interaction-record-store-options>
-    
+
     <div if:true={isSObjectMode}>
-    
         <div class="slds-m-bottom_small slds-border_top">
-            <h3 class="slds-text-heading_small slds-p-around_small">{labels.sObjectVariable}</h3>
-            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small">
-                <builder_platform_interaction-sobject-or-sobject-collection-picker 
+            <h3 class="slds-text-heading_small slds-p-around_small">
+                {labels.sObjectVariable}
+            </h3>
+            <div
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+                <builder_platform_interaction-sobject-or-sobject-collection-picker
                     is-collection={isCollection}
                     label={sObjectVariablePickerLabel}
                     placeholder={sObjectVariablePickerPlaceholder}
@@ -33,36 +38,50 @@
                     value={inputReference}
                     row-index={state.recordCreateElement.inputReferenceIndex.value}
                     error-message={inputReferenceError}
-                    onsobjectreferencechanged={handleInputReferenceChangedEvent}>
+                    onsobjectreferencechanged={handleInputReferenceChangedEvent}
+                >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
             </div>
         </div>
         <div class="slds-p-horizontal_small slds-m-bottom_small slds-grid">
-          <div class="slds-m-top_xx-small">
-            <span if:true={isCollection}>{labels.helpSObjectCollectionText}</span>
-            <span if:false={isCollection}>{labels.helpSObjectText}</span>
-          </div>
-          <lightning-helptext class="slds-m-left_xx-small" content={sObjectAltText}></lightning-helptext>
+            <div class="slds-m-top_xx-small">
+                <span if:true={isCollection}
+                    >{labels.helpSObjectCollectionText}</span
+                >
+                <span if:false={isCollection}>{labels.helpSObjectText}</span>
+            </div>
+            <lightning-helptext
+                class="slds-m-left_xx-small"
+                content={sObjectAltText}
+            ></lightning-helptext>
         </div>
     </div>
-    <div if:false={isSObjectMode} class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported">
+    <div
+        if:false={isSObjectMode}
+        class="slds-m-bottom_small slds-border_top fieldAssignmentNotSupported"
+    >
         <!-- sobject picker -->
         <div class="slds-m-bottom_small slds-border_top">
-            <h3 class="slds-text-heading_small slds-p-around_small">{labels.createRecordOfThisObject}</h3>
-            <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
+            <h3 class="slds-text-heading_small slds-p-around_small">
+                {labels.createRecordOfThisObject}
+            </h3>
+            <div
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+            >
                 <builder_platform_interaction-entity-resource-picker
-                        combobox-config={entityComboboxConfig}
-                        value={state.recordEntityName}
-                        row-index={state.recordCreateElement.objectIndex.value}
-                        crud-filter-type={crudFilterType}
-                        oncomboboxstatechanged={handleResourceChanged}
-                        onitemselected={handleResourceChanged}>
+                    combobox-config={entityComboboxConfig}
+                    value={state.recordEntityName}
+                    row-index={state.recordCreateElement.objectIndex.value}
+                    crud-filter-type={crudFilterType}
+                    oncomboboxstatechanged={handleResourceChanged}
+                    onitemselected={handleResourceChanged}
+                >
                 </builder_platform_interaction-entity-resource-picker>
             </div>
         </div>
         <div if:true={state.recordEntityName}>
             <!-- InputAssignments fields -->
-            <builder_platform_interaction-record-input-output-assignments 
+            <builder_platform_interaction-record-input-output-assignments
                 input-output-assignments-items={state.recordCreateElement.inputAssignments}
                 resource-display-text={resourceDisplayText}
                 record-entity-name={state.recordEntityName}
@@ -72,23 +91,30 @@
                 rhs-label={labels.filterRhsLabel}
                 onupdaterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
                 onaddrecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
-                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}>
+                ondeleterecordfieldassignment={handleRecordInputOutputAssignmentsChanged}
+            >
             </builder_platform_interaction-record-input-output-assignments>
             <div class="slds-m-bottom_small slds-border_top">
-            <h3 class="slds-text-heading_small slds-p-around_small">{storeNewIdTitle}</h3>
-             <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"> 
-                <builder_platform_interaction-output-resource-picker 
-                    class={comboboxClass}
-                    value={assignRecordIDValue}
-                    row-index={state.recordCreateElement.assignRecordIdToReferenceIndex}
-                    error-message={assignRecordIDError}
-                    combobox-config={variableComboboxConfig}
-                    element-param={elementParam}
-                    property-editor-element-type={propertyEditorElementType}
-                    onitemselected={handleAssignRecordIdToReferenceEvent} oncomboboxstatechanged={handleAssignRecordIdToReferenceEvent}>
-                </builder_platform_interaction-output-resource-picker>
-             </div>
+                <h3 class="slds-text-heading_small slds-p-around_small">
+                    {storeNewIdTitle}
+                </h3>
+                <div
+                    class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+                >
+                    <builder_platform_interaction-output-resource-picker
+                        class={comboboxClass}
+                        value={assignRecordIDValue}
+                        row-index={state.recordCreateElement.assignRecordIdToReferenceIndex}
+                        error-message={assignRecordIDError}
+                        combobox-config={variableComboboxConfig}
+                        element-param={elementParam}
+                        property-editor-element-type={propertyEditorElementType}
+                        onitemselected={handleAssignRecordIdToReferenceEvent}
+                        oncomboboxstatechanged={handleAssignRecordIdToReferenceEvent}
+                    >
+                    </builder_platform_interaction-output-resource-picker>
+                </div>
             </div>
         </div>
     </div>
-</template> 
+</template>

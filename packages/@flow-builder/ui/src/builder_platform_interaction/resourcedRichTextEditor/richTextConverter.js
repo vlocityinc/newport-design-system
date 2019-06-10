@@ -1,6 +1,8 @@
 import quillLib from 'lightning/quillLib';
 
-const INPUT_RICH_TEXT_FONTS = quillLib.inputRichTextLibrary.FONT_LIST.map(item => ({ fontName : item.label.toUpperCase(), value : item.value }));
+const INPUT_RICH_TEXT_FONTS = quillLib.inputRichTextLibrary.FONT_LIST.map(
+    item => ({ fontName: item.label.toUpperCase(), value: item.value })
+);
 
 /**
  * This function converts HTML edited in Cloud Flow Designer (either in the flash rich text editor or in a textarea) to HTML that lightning-input-rich-text (which is using Quill) can understand.
@@ -13,7 +15,10 @@ export function convertHTMLToQuillHTML(htmlText) {
         return htmlText;
     }
     // If we don't add a surrounding div, leading spaces are removed
-    const document = new DOMParser().parseFromString('<div>' + htmlText + '</div>', 'text/html');
+    const document = new DOMParser().parseFromString(
+        '<div>' + htmlText + '</div>',
+        'text/html'
+    );
 
     document.childNodes.forEach(node => {
         processNode(node, document);
@@ -23,14 +28,22 @@ export function convertHTMLToQuillHTML(htmlText) {
 
 function serializeToString(document) {
     let nodeToSerialize = document.documentElement.querySelector('div');
-    if (nodeToSerialize.attributes.length === 0 && nodeToSerialize.childNodes.length === 0) {
+    if (
+        nodeToSerialize.attributes.length === 0 &&
+        nodeToSerialize.childNodes.length === 0
+    ) {
         // no html elements
         return '';
     }
-    if (nodeToSerialize.attributes.length === 0 && nodeToSerialize.childNodes.length === 1) {
-            nodeToSerialize = nodeToSerialize.childNodes[0];
+    if (
+        nodeToSerialize.attributes.length === 0 &&
+        nodeToSerialize.childNodes.length === 1
+    ) {
+        nodeToSerialize = nodeToSerialize.childNodes[0];
     }
-    const convertedString = new XMLSerializer().serializeToString(nodeToSerialize);
+    const convertedString = new XMLSerializer().serializeToString(
+        nodeToSerialize
+    );
     return convertedString;
 }
 
@@ -162,7 +175,9 @@ function processFontNode(node) {
  */
 function convertToSupportedFontFamily(fontName) {
     const fontNameUppercase = fontName.toUpperCase();
-    const elementFound = INPUT_RICH_TEXT_FONTS.find(element => element.fontName === fontNameUppercase);
+    const elementFound = INPUT_RICH_TEXT_FONTS.find(
+        element => element.fontName === fontNameUppercase
+    );
     if (elementFound) {
         if (elementFound.value === 'default') {
             return undefined;
@@ -195,8 +210,12 @@ function processUnsupportedNode(node) {
 
 function renameNode(node, newNodeName) {
     const newNode = createElement(newNodeName);
-    Array.from(node.attributes).forEach(attr => newNode.setAttribute(attr.localName, attr.value));
-    Array.from(node.childNodes).forEach(childNode => newNode.appendChild(childNode));
+    Array.from(node.attributes).forEach(attr =>
+        newNode.setAttribute(attr.localName, attr.value)
+    );
+    Array.from(node.childNodes).forEach(childNode =>
+        newNode.appendChild(childNode)
+    );
 
     node.parentElement.insertBefore(newNode, node);
     node.parentElement.removeChild(node);

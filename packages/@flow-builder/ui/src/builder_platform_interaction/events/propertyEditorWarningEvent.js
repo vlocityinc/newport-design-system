@@ -4,7 +4,6 @@
  */
 const eventName = 'propeditorwarning';
 
-
 export class PropertyEditorWarningEvent {
     constructor(propertyName, warning = null) {
         return new CustomEvent(eventName, {

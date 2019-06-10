@@ -1,7 +1,17 @@
 // eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch
 import { createComponent, dispatchGlobalEvent } from 'aura';
-import { getConfigForElementType, MODAL_SIZE } from 'builder_platform_interaction/elementConfig';
-import { AddElementEvent, AddNonCanvasElementEvent, EditElementEvent, NewResourceEvent, AddConnectionEvent, SaveFlowEvent } from 'builder_platform_interaction/events';
+import {
+    getConfigForElementType,
+    MODAL_SIZE
+} from 'builder_platform_interaction/elementConfig';
+import {
+    AddElementEvent,
+    AddNonCanvasElementEvent,
+    EditElementEvent,
+    NewResourceEvent,
+    AddConnectionEvent,
+    SaveFlowEvent
+} from 'builder_platform_interaction/events';
 import { LABELS } from './builderUtilsLabels';
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { clearExpressions } from 'builder_platform_interaction/expressionValidator';
@@ -12,7 +22,7 @@ import { clearExpressions } from 'builder_platform_interaction/expressionValidat
  */
 const STATE = {
     SUCCESS: 'SUCCESS',
-    ERROR: 'ERROR',
+    ERROR: 'ERROR'
 };
 
 /**
@@ -75,7 +85,10 @@ const createComponentPromise = (cmpName, attr) => {
 const getTitleForModalHeader = (mode, elementType) => {
     const elementConfig = getConfigForElementType(elementType);
     if (!elementConfig || !elementConfig.labels) {
-        throw new Error("label is not defined in the element config for the element type: " + elementType);
+        throw new Error(
+            'label is not defined in the element config for the element type: ' +
+                elementType
+        );
     }
 
     let titlePrefix = '',
@@ -111,9 +124,12 @@ const getTitleForModalHeader = (mode, elementType) => {
     return titlePrefix ? titlePrefix + ' ' + label : label;
 };
 
-const getLabelForOkButton = (mode) => {
+const getLabelForOkButton = mode => {
     let label;
-    if (mode === SaveFlowEvent.Type.SAVE || mode === SaveFlowEvent.Type.SAVE_AS) {
+    if (
+        mode === SaveFlowEvent.Type.SAVE ||
+        mode === SaveFlowEvent.Type.SAVE_AS
+    ) {
         label = LABELS.saveButtonLabel;
     }
     return label;
@@ -121,7 +137,7 @@ const getLabelForOkButton = (mode) => {
 
 let newResourceConfig;
 
-const getNewResourceConfig = (attributes) => {
+const getNewResourceConfig = attributes => {
     if (newResourceConfig) {
         return newResourceConfig;
     }
@@ -134,27 +150,31 @@ const getNewResourceConfig = (attributes) => {
         bodyComponent: {
             desc,
             attr: {
-                node: {},
-            },
-        },
+                node: {}
+            }
+        }
     };
 
     const panelConfig = {
         titleForModal,
         flavor: MODAL_SIZE.MEDIUM,
-        bodyClass: 'slds-p-around_none',
+        bodyClass: 'slds-p-around_none'
     };
 
     newResourceConfig = {
         attr,
-        panelConfig,
+        panelConfig
     };
     return newResourceConfig;
 };
 
-const clearExpressionValidator = (panel) => {
+const clearExpressionValidator = panel => {
     const panelBody = panel.get('v.body')[0];
-    if (panelBody && panelBody.get('v.bodyComponent') && panelBody.get('v.bodyComponent').desc !== RESOURCE_EDITOR) {
+    if (
+        panelBody &&
+        panelBody.get('v.bodyComponent') &&
+        panelBody.get('v.bodyComponent').desc !== RESOURCE_EDITOR
+    ) {
         clearExpressions();
     }
 };
@@ -163,7 +183,7 @@ const clearExpressionValidator = (panel) => {
  * Callback that executes just before closing any property editor modal
  * @param {Object} panel : panel Instance of status icon
  */
-const closeActionCallback = (panel) => {
+const closeActionCallback = panel => {
     hidePopover();
     clearExpressionValidator(panel);
     panel.close();
@@ -176,8 +196,15 @@ const closeActionCallback = (panel) => {
  * @return {object} - contains the attr for the editor and panel config
  */
 const getConnectorPickerConfig = (mode, attributes) => {
-    if (!attributes.nodeUpdate || !attributes.comboboxOptions || !attributes.sourceElementType || !attributes.targetElementLabel) {
-        throw new Error("Attributes passed to invoke connector selection panel method are incorrect. Must contain nodeUpdate, comboboxOptions, sourceElementType and targetElementLabel");
+    if (
+        !attributes.nodeUpdate ||
+        !attributes.comboboxOptions ||
+        !attributes.sourceElementType ||
+        !attributes.targetElementLabel
+    ) {
+        throw new Error(
+            'Attributes passed to invoke connector selection panel method are incorrect. Must contain nodeUpdate, comboboxOptions, sourceElementType and targetElementLabel'
+        );
     }
 
     const nodeUpdate = attributes.nodeUpdate,
@@ -192,7 +219,7 @@ const getConnectorPickerConfig = (mode, attributes) => {
     const attr = {
         nodeUpdate,
         bodyComponent: {
-            desc: "builder_platform_interaction:connectorPicker",
+            desc: 'builder_platform_interaction:connectorPicker',
             attr: {
                 comboboxOptions,
                 bodyText,
@@ -236,7 +263,9 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
  */
 export const getPropertyEditorConfig = (mode, attributes) => {
     if (!attributes.node || !attributes.nodeUpdate) {
-        throw new Error('Attributes passed to invoke panel method are incorrect. Must contain node and nodeUpdate');
+        throw new Error(
+            'Attributes passed to invoke panel method are incorrect. Must contain node and nodeUpdate'
+        );
     }
 
     const nodeUpdate = attributes.nodeUpdate,
@@ -249,7 +278,10 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         desc = getPropertyEditorDescriptor(mode, elementConfig),
         processType = attributes.processType;
     if (!desc) {
-        throw new Error('descriptor is not defined in the element config for the element type: ' + elementType);
+        throw new Error(
+            'descriptor is not defined in the element config for the element type: ' +
+                elementType
+        );
     }
 
     const attr = {
@@ -260,7 +292,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
             attr: {
                 node,
                 processType,
-                mode,
+                mode
             }
         }
     };
@@ -302,40 +334,57 @@ const getEditorConfig = (mode, attributes) => {
  */
 const doInvoke = (cmpName, attr, panelConfig) => {
     const propertyEditorBodyPromise = createComponentPromise(cmpName, attr);
-    const propertyEditorHeaderPromise = createComponentPromise("builder_platform_interaction:propertyEditorHeader", { titleForModal: panelConfig.titleForModal });
+    const propertyEditorHeaderPromise = createComponentPromise(
+        'builder_platform_interaction:propertyEditorHeader',
+        { titleForModal: panelConfig.titleForModal }
+    );
     let propertyEditorFooterPromise;
     if (panelConfig.labelForOkButton) {
-        propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter", { labelForOkButton: panelConfig.labelForOkButton });
+        propertyEditorFooterPromise = createComponentPromise(
+            'builder_platform_interaction:propertyEditorFooter',
+            { labelForOkButton: panelConfig.labelForOkButton }
+        );
     } else {
-        propertyEditorFooterPromise = createComponentPromise("builder_platform_interaction:propertyEditorFooter");
+        propertyEditorFooterPromise = createComponentPromise(
+            'builder_platform_interaction:propertyEditorFooter'
+        );
     }
-    Promise.all([propertyEditorBodyPromise, propertyEditorHeaderPromise, propertyEditorFooterPromise]).then((newComponents) => {
-        const createPanelEventAttributes = {
-            panelType: MODAL,
-            visible: true,
-            panelConfig: {
-                body: newComponents[0],
-                flavor: panelConfig.flavor,
-                bodyClass: panelConfig.bodyClass,
-                header: newComponents[1],
-                footer: newComponents[2],
-                closeAction: (panel) => {
-                    closeActionCallback(panel);
+    Promise.all([
+        propertyEditorBodyPromise,
+        propertyEditorHeaderPromise,
+        propertyEditorFooterPromise
+    ])
+        .then(newComponents => {
+            const createPanelEventAttributes = {
+                panelType: MODAL,
+                visible: true,
+                panelConfig: {
+                    body: newComponents[0],
+                    flavor: panelConfig.flavor,
+                    bodyClass: panelConfig.bodyClass,
+                    header: newComponents[1],
+                    footer: newComponents[2],
+                    closeAction: panel => {
+                        closeActionCallback(panel);
+                    }
+                },
+                onCreate: panel => {
+                    const panelFooter = panel.get('v.footer')[0];
+                    panelFooter.set('v.panelInstance', panel);
+                    panelFooter.set(
+                        'v.closeActionCallback',
+                        closeActionCallback
+                    );
+                    const panelBody = panel.get('v.body')[0];
+                    panelBody.set('v.panelInstance', panel);
+                    panelBody.set('v.closeActionCallback', closeActionCallback);
                 }
-            },
-            onCreate: (panel) => {
-                const panelFooter = panel.get('v.footer')[0];
-                panelFooter.set('v.panelInstance', panel);
-                panelFooter.set('v.closeActionCallback', closeActionCallback);
-                const panelBody = panel.get('v.body')[0];
-                panelBody.set('v.panelInstance', panel);
-                panelBody.set('v.closeActionCallback', closeActionCallback);
-            }
-        };
-        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-    }).catch(errorMessage => {
-        throw new Error('UI panel creation failed: ' + errorMessage);
-    });
+            };
+            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+        })
+        .catch(errorMessage => {
+            throw new Error('UI panel creation failed: ' + errorMessage);
+        });
 };
 
 /**
@@ -369,7 +418,9 @@ function onDestroyPopover() {
  */
 export function invokePropertyEditor(cmpName, attributes) {
     if (!attributes || !attributes.mode) {
-        throw new Error("Attributes passed to invoke connector selection panel method are incorrect. Must contain a mode");
+        throw new Error(
+            'Attributes passed to invoke connector selection panel method are incorrect. Must contain a mode'
+        );
     }
 
     const mode = attributes.mode;
@@ -386,53 +437,64 @@ export function invokePropertyEditor(cmpName, attributes) {
  * @param modalBodyPromise - the promise for the body.
  * @param modalFooterPromise - the promise for footer.
  */
-export const invokeModalWithComponents = (data, modalHeaderPromise, modalBodyPromise, modalFooterPromise) => {
-    Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise]).then((newComponents) => {
-        const createPanelEventAttributes = {
-            panelType: MODAL,
-            visible: true,
-            panelConfig: {
-                header: newComponents[0],
-                body: newComponents[1],
-                footer: newComponents[2],
-                bodyClass: data.bodyClass || '',
-                flavor: data.flavor || '',
-                closeAction: (modal) => {
-                    let skipCloseAction = false;
-                    if (data.closeCallback) {
-                        skipCloseAction = data.closeCallback();
+export const invokeModalWithComponents = (
+    data,
+    modalHeaderPromise,
+    modalBodyPromise,
+    modalFooterPromise
+) => {
+    Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise])
+        .then(newComponents => {
+            const createPanelEventAttributes = {
+                panelType: MODAL,
+                visible: true,
+                panelConfig: {
+                    header: newComponents[0],
+                    body: newComponents[1],
+                    footer: newComponents[2],
+                    bodyClass: data.bodyClass || '',
+                    flavor: data.flavor || '',
+                    closeAction: modal => {
+                        let skipCloseAction = false;
+                        if (data.closeCallback) {
+                            skipCloseAction = data.closeCallback();
+                        }
+                        if (!skipCloseAction) {
+                            modal.close();
+                        }
                     }
-                    if (!skipCloseAction) {
-                        modal.close();
+                },
+                onCreate: modal => {
+                    const modalFooter = modal.get('v.footer')[0];
+                    if (data.closeModalCallback) {
+                        modalFooter.set('v.closeModalCallback', () => {
+                            data.closeModalCallback(modal);
+                        });
+                    } else {
+                        modalFooter.set('v.closeModalCallback', modal.close);
                     }
+                    const panelBody = modal.get('v.body')[0];
+                    panelBody.set('v.footer', modalFooter);
                 }
-            },
-            onCreate: (modal) => {
-                const modalFooter = modal.get('v.footer')[0];
-                if (data.closeModalCallback) {
-                    modalFooter.set('v.closeModalCallback', () => {
-                        data.closeModalCallback(modal);
-                    });
-                } else {
-                    modalFooter.set('v.closeModalCallback', modal.close);
-                }
-                const panelBody = modal.get('v.body')[0];
-                panelBody.set('v.footer', modalFooter);
-            },
-        };
-        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-    }).catch(errorMessage => {
-        throw new Error('Modal creation failed : ' + errorMessage);
-    });
+            };
+            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+        })
+        .catch(errorMessage => {
+            throw new Error('Modal creation failed : ' + errorMessage);
+        });
 };
 
 /**
  * Invokes the modal and creates the alert/confirmation modal inside it
  * @param {object} data - contains data for modal header/body/footer
  */
-export const invokeModal = (data) => {
-    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader", { headerTitle: data.headerData.headerTitle });
-    const modalBodyPromise = createComponentPromise("builder_platform_interaction:modalBody",
+export const invokeModal = data => {
+    const modalHeaderPromise = createComponentPromise(
+        'builder_platform_interaction:modalHeader',
+        { headerTitle: data.headerData.headerTitle }
+    );
+    const modalBodyPromise = createComponentPromise(
+        'builder_platform_interaction:modalBody',
         {
             bodyTextOne: data.bodyData.bodyTextOne,
             bodyTextTwo: data.bodyData.bodyTextTwo,
@@ -440,20 +502,31 @@ export const invokeModal = (data) => {
             listSectionItems: data.bodyData.listSectionItems
         }
     );
-    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter", { buttons: data.footerData });
+    const modalFooterPromise = createComponentPromise(
+        'builder_platform_interaction:modalFooter',
+        { buttons: data.footerData }
+    );
 
-    invokeModalWithComponents(data, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+    invokeModalWithComponents(
+        data,
+        modalHeaderPromise,
+        modalBodyPromise,
+        modalFooterPromise
+    );
 };
-
 
 /**
  * Invokes the internal data modal and creates the alert/confirmation modal inside it.
  * This should only be used when displaying internal only data.
  * @param data
  */
-export const invokeModalInternalData = (data) => {
-    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader", { headerTitle: data.headerData.headerTitle });
-    const modalBodyPromise = createComponentPromise("builder_platform_interaction:modalBodyInternalData",
+export const invokeModalInternalData = data => {
+    const modalHeaderPromise = createComponentPromise(
+        'builder_platform_interaction:modalHeader',
+        { headerTitle: data.headerData.headerTitle }
+    );
+    const modalBodyPromise = createComponentPromise(
+        'builder_platform_interaction:modalBodyInternalData',
         {
             bodyTextOne: data.bodyData.bodyTextOne,
             bodyTextTwo: data.bodyData.bodyTextTwo,
@@ -461,11 +534,18 @@ export const invokeModalInternalData = (data) => {
             listSectionItems: data.bodyData.listSectionItems
         }
     );
-    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter", { buttons: data.footerData });
+    const modalFooterPromise = createComponentPromise(
+        'builder_platform_interaction:modalFooter',
+        { buttons: data.footerData }
+    );
 
-    invokeModalWithComponents(data, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+    invokeModalWithComponents(
+        data,
+        modalHeaderPromise,
+        modalBodyPromise,
+        modalFooterPromise
+    );
 };
-
 
 /**
  * @typedef {Object} NewFlowModalProperties
@@ -479,24 +559,41 @@ export const invokeModalInternalData = (data) => {
  * @param {Function} closeFlowModalAction the callback to execute when clicking the exit icon
  * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
  */
-export const invokeNewFlowModal = (closeFlowModalAction, createFlowFromTemplateCallback) => {
-    const modalHeaderPromise = createComponentPromise("builder_platform_interaction:modalHeader",
+export const invokeNewFlowModal = (
+    closeFlowModalAction,
+    createFlowFromTemplateCallback
+) => {
+    const modalHeaderPromise = createComponentPromise(
+        'builder_platform_interaction:modalHeader',
         {
             headerTitle: LABELS.headerTitle
         }
     );
-    const modalBodyPromise = createComponentPromise("builder_platform_interaction:newFlowModalBody");
-    const modalFooterPromise = createComponentPromise("builder_platform_interaction:modalFooter",
+    const modalBodyPromise = createComponentPromise(
+        'builder_platform_interaction:newFlowModalBody'
+    );
+    const modalFooterPromise = createComponentPromise(
+        'builder_platform_interaction:modalFooter',
         {
             buttons: {
                 buttonOne: {
                     buttonLabel: LABELS.createButtonLabel,
-                    buttonVariant: 'brand',
+                    buttonVariant: 'brand'
                 }
-            },
+            }
         }
     );
-    invokeModalWithComponents({ bodyClass: 'slds-p-around_none slds-is-relative', flavor: MODAL_SIZE.LARGE, closeCallback: closeFlowModalAction, closeModalCallback: createFlowFromTemplateCallback }, modalHeaderPromise, modalBodyPromise, modalFooterPromise);
+    invokeModalWithComponents(
+        {
+            bodyClass: 'slds-p-around_none slds-is-relative',
+            flavor: MODAL_SIZE.LARGE,
+            closeCallback: closeFlowModalAction,
+            closeModalCallback: createFlowFromTemplateCallback
+        },
+        modalHeaderPromise,
+        modalBodyPromise,
+        modalFooterPromise
+    );
 };
 
 /**
@@ -532,7 +629,7 @@ export function showHover(cmpName, attr, hoverId, panelConfig) {
                 panelType: HOVER_PANEL,
                 visible: true,
                 panelConfig,
-                onCreate: (hoverPanel) => {
+                onCreate: hoverPanel => {
                     if (hoverPanel.isValid()) {
                         hoverPanels[hoverId] = hoverPanel;
                     }
@@ -597,7 +694,12 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
         return;
     }
 
-    const { direction, onClose, referenceElement, closeOnClickOut } = popoverProps;
+    const {
+        direction,
+        onClose,
+        referenceElement,
+        closeOnClickOut
+    } = popoverProps;
 
     popoverState = {
         panelInstance: null,
@@ -605,25 +707,28 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
         onClose
     };
 
-
     const componentPromise = createComponentPromise(cmpName, cmpAttributes);
 
-    Promise.resolve(componentPromise).then((newComponent) => {
-        const createPanelEventAttributes = {
-            panelType: PANEL,
-            visible: true,
-            panelConfig: {
-                body: newComponent,
-                direction,
-                showPointer: true,
-                referenceElement,
-                closeAction: onDestroyPopover,
-                closeOnClickOut: !!closeOnClickOut
-            },
-            onCreate: onCreatePopover,
-        };
-        dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
-    }).catch(errorMessage => {
-        throw new Error('Status Icon Panel creation failed : ' + errorMessage);
-    });
+    Promise.resolve(componentPromise)
+        .then(newComponent => {
+            const createPanelEventAttributes = {
+                panelType: PANEL,
+                visible: true,
+                panelConfig: {
+                    body: newComponent,
+                    direction,
+                    showPointer: true,
+                    referenceElement,
+                    closeAction: onDestroyPopover,
+                    closeOnClickOut: !!closeOnClickOut
+                },
+                onCreate: onCreatePopover
+            };
+            dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
+        })
+        .catch(errorMessage => {
+            throw new Error(
+                'Status Icon Panel creation failed : ' + errorMessage
+            );
+        });
 }

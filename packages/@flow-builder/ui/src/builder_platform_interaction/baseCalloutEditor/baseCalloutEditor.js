@@ -2,8 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 
 export default class BaseCalloutEditor extends LightningElement {
     @track state = {
-        parameterListConfig: {},
-    }
+        parameterListConfig: {}
+    };
     /**
      * Config for label-description component. For example {name: actionNode.name, label: actionNode.label, description: actionNode.label, guid: actionNode.guid}
      *
@@ -55,6 +55,8 @@ export default class BaseCalloutEditor extends LightningElement {
     @api displaySpinner;
 
     get warnings() {
-        return this.parameterListConfig.warnings ? this.parameterListConfig.warnings : {};
+        return this.parameterListConfig.warnings
+            ? this.parameterListConfig.warnings
+            : {};
     }
 }

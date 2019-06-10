@@ -1,9 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import *  as screenEditorUtils from "builder_platform_interaction/screenEditorUtils";
-import { createScreenNodeSelectedEvent } from "builder_platform_interaction/events";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-
+import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
+import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 /*
  * Right hand side component, used to toggle between screen and field property editors.
@@ -52,7 +51,10 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     }
 
     get isInputField() {
-        return screenEditorUtils.isInputField(this.node) || screenEditorUtils.isPasswordField(this.node);
+        return (
+            screenEditorUtils.isInputField(this.node) ||
+            screenEditorUtils.isPasswordField(this.node)
+        );
     }
 
     get isTextAreaField() {
@@ -70,7 +72,9 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     get getPanelTitle() {
         let title = '';
         if (this.node) {
-            title = screenEditorUtils.isScreen(this.node) ? LABELS.screenProperties : this.node.type.label;
+            title = screenEditorUtils.isScreen(this.node)
+                ? LABELS.screenProperties
+                : this.node.type.label;
         }
         return title;
     }
@@ -89,25 +93,32 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         container.classList.toggle('slds-size_medium');
         const expanded = container.classList.toggle('slds-size_x-large');
 
-        this.toggleIconName = expanded ? 'utility:contract_alt' :  'utility:expand_alt';
-    }
+        this.toggleIconName = expanded
+            ? 'utility:contract_alt'
+            : 'utility:expand_alt';
+    };
 
-    handleScreenSelection =  (/* event */) => {
+    handleScreenSelection = (/* event */) => {
         this.dispatchEvent(createScreenNodeSelectedEvent(this.node));
-    }
+    };
 
     fetchDescription() {
         this.displaySpinner = true;
         const node = this.node; // closure
-        screenEditorUtils.describeExtension(node.extensionName.value, false, (desc, error) => {
-            this.displaySpinner = false;
-            if (this.node === node) { // Let's make sure the user didn't change the selection
-                if (error) {
-                    throw error;
-                } else {
-                    this.extendedInfo = desc;
+        screenEditorUtils.describeExtension(
+            node.extensionName.value,
+            false,
+            (desc, error) => {
+                this.displaySpinner = false;
+                if (this.node === node) {
+                    // Let's make sure the user didn't change the selection
+                    if (error) {
+                        throw error;
+                    } else {
+                        this.extendedInfo = desc;
+                    }
                 }
             }
-        });
+        );
     }
 }

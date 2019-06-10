@@ -5,5 +5,5 @@ import resourceTypeRequiredLabel from '@salesforce/label/FlowBuilderValidation.c
 export const LABELS = {
     resourceTypeLabel,
     resourceTypePlaceholderLabel,
-    resourceTypeRequiredLabel,
+    resourceTypeRequiredLabel
 };

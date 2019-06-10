@@ -5,33 +5,45 @@
  */
 
 import { createElement } from 'lwc';
-import ScreenPropertiesEditor from "../screenPropertiesEditor";
-import { query } from "builder_platform_interaction/builderTestUtils";
-import { createTestScreen } from "../../builderTestUtils/screenEditorTestUtils";
-import { createScreenWithFields } from "builder_platform_interaction/elementFactory";
+import ScreenPropertiesEditor from '../screenPropertiesEditor';
+import { query } from 'builder_platform_interaction/builderTestUtils';
+import { createTestScreen } from '../../builderTestUtils/screenEditorTestUtils';
+import { createScreenWithFields } from 'builder_platform_interaction/elementFactory';
 
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
-        readableElementsSelector: jest.fn(data => Object.values(data.elements)),
+        readableElementsSelector: jest.fn(data => Object.values(data.elements))
     };
 });
 
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
-    SHOW_HEADER: 'builder_platform_interaction-screen-property-field[name="showHeader"]',
-    SHOW_FOOTER: 'builder_platform_interaction-screen-property-field[name="showFooter"]',
-    ALLOW_PAUSE: 'builder_platform_interaction-screen-property-field[name="allowPause"]',
-    ALLOW_BACK: 'builder_platform_interaction-screen-property-field[name="allowBack"]',
-    ALLOW_NEXT: 'builder_platform_interaction-screen-property-field[name="allowFinish"]',
-    PAUSED_TEXT: 'builder_platform_interaction-screen-property-field[name="pausedText"]',
-    HELP_TEXT: 'builder_platform_interaction-screen-property-field[name="helpText"]'
+    SHOW_HEADER:
+        'builder_platform_interaction-screen-property-field[name="showHeader"]',
+    SHOW_FOOTER:
+        'builder_platform_interaction-screen-property-field[name="showFooter"]',
+    ALLOW_PAUSE:
+        'builder_platform_interaction-screen-property-field[name="allowPause"]',
+    ALLOW_BACK:
+        'builder_platform_interaction-screen-property-field[name="allowBack"]',
+    ALLOW_NEXT:
+        'builder_platform_interaction-screen-property-field[name="allowFinish"]',
+    PAUSED_TEXT:
+        'builder_platform_interaction-screen-property-field[name="pausedText"]',
+    HELP_TEXT:
+        'builder_platform_interaction-screen-property-field[name="helpText"]'
 };
 
-const createComponentUnderTest = (props) => {
-    const el = createElement('builder_platform_interaction-screen-properties-editor', {
-        is: ScreenPropertiesEditor
-    });
+const createComponentUnderTest = props => {
+    const el = createElement(
+        'builder_platform_interaction-screen-properties-editor',
+        {
+            is: ScreenPropertiesEditor
+        }
+    );
     if (props) {
         Object.assign(el, props);
     }
@@ -49,20 +61,26 @@ describe('screen-properties-editor for new screen', () => {
     });
     it('API Name should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.devName.value).toBe("");
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
+                SELECTORS.NAME_AND_LABEL_FIELD
+            );
+            expect(nameAndLabelField.devName.value).toBe('');
         });
     });
     it('Label should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.label.value).toBe("");
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
+                SELECTORS.NAME_AND_LABEL_FIELD
+            );
+            expect(nameAndLabelField.label.value).toBe('');
         });
     });
     it('Description should be empty by default', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.description.value).toBe("");
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
+                SELECTORS.NAME_AND_LABEL_FIELD
+            );
+            expect(nameAndLabelField.description.value).toBe('');
         });
     });
     it('Show header is a checkbox and selected by default', () => {
@@ -152,8 +170,10 @@ describe('screen-properties-editor for existing screen', () => {
     });
     it('API Name is populated', () => {
         return Promise.resolve().then(() => {
-            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(SELECTORS.NAME_AND_LABEL_FIELD);
-            expect(nameAndLabelField.devName.value).toBe("screen1");
+            const nameAndLabelField = screenPropEditor.shadowRoot.querySelector(
+                SELECTORS.NAME_AND_LABEL_FIELD
+            );
+            expect(nameAndLabelField.devName.value).toBe('screen1');
         });
     });
     it('Allow back has expected value', () => {

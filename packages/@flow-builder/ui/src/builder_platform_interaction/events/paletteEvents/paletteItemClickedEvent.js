@@ -3,7 +3,6 @@
  */
 const eventName = 'paletteitemclicked';
 
-
 export class PaletteItemClickedEvent {
     constructor(elementType, guid) {
         return new CustomEvent(eventName, {
@@ -13,7 +12,6 @@ export class PaletteItemClickedEvent {
             detail: {
                 elementType,
                 guid
-
             }
         });
     }

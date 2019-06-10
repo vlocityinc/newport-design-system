@@ -1,13 +1,16 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     duplicateCanvasElementWithChildElements,
     baseCanvasElementsArrayToMap
-} from "./base/baseElement";
-import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
-import { createScreenField, createScreenFieldMetadataObject } from './screenField';
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
+import {
+    createScreenField,
+    createScreenFieldMetadataObject
+} from './screenField';
 import { createConnectorObjects } from './connector';
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 
 const elementType = ELEMENT_TYPE.SCREEN;
 const maxConnections = 1;
@@ -28,7 +31,8 @@ export function createScreenWithFields(screen = {}) {
 
     let { fields = [] } = screen;
 
-    if (fieldReferences && fieldReferences.length > 0) { // screen with field references
+    if (fieldReferences && fieldReferences.length > 0) {
+        // screen with field references
         // Decouple field from store.
         fields = fieldReferences.map(fieldReference =>
             createScreenField(getElementByGuid(fieldReference.fieldReference))
@@ -54,14 +58,40 @@ export function createScreenWithFields(screen = {}) {
  * the duplicated child elements
  * @return {Object} Returns an object containing the duplicated element and the duplicated childElements
  */
-export function createDuplicateScreen(screen, newGuid, newName, childElementGuidMap, childElementNameMap) {
+export function createDuplicateScreen(
+    screen,
+    newGuid,
+    newName,
+    childElementGuidMap,
+    childElementNameMap
+) {
     const duplicateScreen = createScreenElement(screen);
-    const { duplicatedElement, duplicatedChildElements, updatedChildReferences } = duplicateCanvasElementWithChildElements(screen, newGuid, newName, childElementGuidMap, childElementNameMap, createScreenField, childReferenceKeys.childReferencesKey, childReferenceKeys.childReferenceKey);
+    const {
+        duplicatedElement,
+        duplicatedChildElements,
+        updatedChildReferences
+    } = duplicateCanvasElementWithChildElements(
+        screen,
+        newGuid,
+        newName,
+        childElementGuidMap,
+        childElementNameMap,
+        createScreenField,
+        childReferenceKeys.childReferencesKey,
+        childReferenceKeys.childReferenceKey
+    );
 
-    const updatedDuplicatedElement = Object.assign(duplicateScreen, duplicatedElement, {
-        [childReferenceKeys.childReferencesKey]: updatedChildReferences
-    });
-    return { duplicatedElement: updatedDuplicatedElement, duplicatedChildElements };
+    const updatedDuplicatedElement = Object.assign(
+        duplicateScreen,
+        duplicatedElement,
+        {
+            [childReferenceKeys.childReferencesKey]: updatedChildReferences
+        }
+    );
+    return {
+        duplicatedElement: updatedDuplicatedElement,
+        duplicatedChildElements
+    };
 }
 
 /**
@@ -73,7 +103,9 @@ export function createDuplicateScreen(screen, newGuid, newName, childElementGuid
  *     deletedFields: screenField[] , fields: Array, elementType: string}
  * }
  */
-export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(screen) {
+export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(
+    screen
+) {
     const newScreen = createScreenElement(screen);
     const { fields } = screen;
 
@@ -83,7 +115,10 @@ export function createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor(sc
     for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
         const newField = createScreenField(field);
-        fieldReferences = updateScreenFieldReferences(fieldReferences, newField);
+        fieldReferences = updateScreenFieldReferences(
+            fieldReferences,
+            newField
+        );
         newFields = [...newFields, newField];
     }
 
@@ -114,14 +149,18 @@ export function createScreenWithFieldReferences(screen = {}) {
     const connectors = createConnectorObjects(screen, newScreen.guid);
     const connectorCount = connectors ? connectors.length : 0;
 
-    let screenFields = [], fieldReferences = [];
+    let screenFields = [],
+        fieldReferences = [];
 
     for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
         const screenField = createScreenField(field);
         screenFields = [...screenFields, screenField];
         // updating fieldReferences
-        fieldReferences = updateScreenFieldReferences(fieldReferences, screenField);
+        fieldReferences = updateScreenFieldReferences(
+            fieldReferences,
+            screenField
+        );
     }
 
     Object.assign(newScreen, {
@@ -131,7 +170,10 @@ export function createScreenWithFieldReferences(screen = {}) {
         maxConnections
     });
 
-    return baseCanvasElementsArrayToMap([newScreen, ...screenFields], connectors);
+    return baseCanvasElementsArrayToMap(
+        [newScreen, ...screenFields],
+        connectors
+    );
 }
 
 /**
@@ -166,7 +208,9 @@ export function createScreenMetadataObject(screen, config = {}) {
     const { fieldReferences } = screen;
     if (fieldReferences && fieldReferences.length > 0) {
         fields = fieldReferences.map(fieldReference => {
-            return createScreenFieldMetadataObject(getElementByGuid(fieldReference.fieldReference));
+            return createScreenFieldMetadataObject(
+                getElementByGuid(fieldReference.fieldReference)
+            );
         });
     }
 
@@ -241,13 +285,17 @@ function getDeletedScreenFieldsUsingStore(originalScreen, newFields = []) {
     const screenFromStore = getElementByGuid(guid);
     let screenFieldReferencesFromStore;
     if (screenFromStore) {
-        screenFieldReferencesFromStore = screenFromStore.fieldReferences.map((fieldReference) => fieldReference.fieldReference);
+        screenFieldReferencesFromStore = screenFromStore.fieldReferences.map(
+            fieldReference => fieldReference.fieldReference
+        );
     }
     if (screenFieldReferencesFromStore) {
-        const newfieldGuids = newFields.map((newField) => newField.guid);
-        return screenFieldReferencesFromStore.filter((fieldReferenceGuid) => {
-            return !newfieldGuids.includes(fieldReferenceGuid);
-        }).map((fieldReference) => getElementByGuid(fieldReference));
+        const newfieldGuids = newFields.map(newField => newField.guid);
+        return screenFieldReferencesFromStore
+            .filter(fieldReferenceGuid => {
+                return !newfieldGuids.includes(fieldReferenceGuid);
+            })
+            .map(fieldReference => getElementByGuid(fieldReference));
     }
     return [];
 }
@@ -256,7 +304,10 @@ function updateScreenFieldReferences(fieldReferences = [], field) {
     if (!field || !field.guid) {
         throw new Error('Either field or field.guid is not defined');
     }
-    return [...fieldReferences, {
-        fieldReference: field.guid
-    }];
+    return [
+        ...fieldReferences,
+        {
+            fieldReference: field.guid
+        }
+    ];
 }

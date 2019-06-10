@@ -1,9 +1,9 @@
+import { LightningElement, api, track } from 'lwc';
 import {
-    LightningElement,
-    api,
-    track
-} from 'lwc';
-import { isPopoverOpen, hidePopover, showPopover } from 'builder_platform_interaction/builderUtils';
+    isPopoverOpen,
+    hidePopover,
+    showPopover
+} from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './statusIconLabels';
 
@@ -42,7 +42,7 @@ export default class StatusIcon extends LightningElement {
 
     constructor() {
         super();
-        this.classForIcon =  'statusIcon-' + generateGuid(); // This is needed to uniquely identify the specific instance of status icon in the dom
+        this.classForIcon = 'statusIcon-' + generateGuid(); // This is needed to uniquely identify the specific instance of status icon in the dom
     }
 
     /**
@@ -67,14 +67,22 @@ export default class StatusIcon extends LightningElement {
         const panelHidden = !isPopoverOpen();
         if (this.type === 'warning') {
             if (this.messages.length > 1) {
-                title = panelHidden ? LABELS.statusIconShowWarningPluralTitle : LABELS.statusIconHideWarningPluralTitle;
+                title = panelHidden
+                    ? LABELS.statusIconShowWarningPluralTitle
+                    : LABELS.statusIconHideWarningPluralTitle;
             } else {
-                title = panelHidden ? LABELS.statusIconShowWarningSingularTitle : LABELS.statusIconHideWarningSingularTitle;
+                title = panelHidden
+                    ? LABELS.statusIconShowWarningSingularTitle
+                    : LABELS.statusIconHideWarningSingularTitle;
             }
         } else if (this.messages.length > 1) {
-            title = panelHidden ? LABELS.statusIconShowErrorPluralTitle : LABELS.statusIconHideErrorPluralTitle;
+            title = panelHidden
+                ? LABELS.statusIconShowErrorPluralTitle
+                : LABELS.statusIconHideErrorPluralTitle;
         } else {
-            title = panelHidden ? LABELS.statusIconShowErrorSingularTitle : LABELS.statusIconHideErrorSingularTitle;
+            title = panelHidden
+                ? LABELS.statusIconShowErrorSingularTitle
+                : LABELS.statusIconHideErrorSingularTitle;
         }
         return title;
     }
@@ -82,19 +90,25 @@ export default class StatusIcon extends LightningElement {
     /**
      * @param {object} msgs - messages based off the type
      * @returns {object} createSections : based of msgs
-    */
+     */
     createSections(msgs) {
         if (!msgs) {
             msgs = {};
         }
         this.allCount = 0;
-        this.internalMessages = Object.keys(msgs).map((section) => {
+        this.internalMessages = Object.keys(msgs).map(section => {
             let sectionHeader = section;
             let sectionInfo = '';
             this.allCount += msgs[section].length;
             if (this.type === 'warning') {
-                sectionHeader = (section === 'INFO' ? LABELS.generalWarningSectionTitle : LABELS.validationWarningsSectionTitle);
-                sectionInfo = (section === 'INFO' ? LABELS.generalWarningSectionInfo : LABELS.validationWarningsSectionInfo);
+                sectionHeader =
+                    section === 'INFO'
+                        ? LABELS.generalWarningSectionTitle
+                        : LABELS.validationWarningsSectionTitle;
+                sectionInfo =
+                    section === 'INFO'
+                        ? LABELS.generalWarningSectionInfo
+                        : LABELS.validationWarningsSectionInfo;
             }
             return {
                 title: sectionHeader,
@@ -134,8 +148,23 @@ export default class StatusIcon extends LightningElement {
         const showTotalCounts = this.showTotalCounts;
         const showSections = this.showSections;
         const direction = this.direction;
-        const referenceElement = this.template.querySelector(dotPrefixForClass + this.classForIcon);
+        const referenceElement = this.template.querySelector(
+            dotPrefixForClass + this.classForIcon
+        );
         const handleClickCallback = hidePopover;
-        showPopover('builder_platform_interaction:statusIconSummary', { header, sections, type, showOnlyNumberOfErrors, allCount, showTotalCounts, showSections, handleClickCallback }, { referenceElement, direction });
+        showPopover(
+            'builder_platform_interaction:statusIconSummary',
+            {
+                header,
+                sections,
+                type,
+                showOnlyNumberOfErrors,
+                allCount,
+                showTotalCounts,
+                showSections,
+                handleClickCallback
+            },
+            { referenceElement, direction }
+        );
     }
 }

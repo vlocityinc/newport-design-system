@@ -1,12 +1,29 @@
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { COMPONENT_INSTANCE, EXTENSION_TYPE_SOURCE, getAllCachedExtensionTypes, listExtensions, getCachedFlowProcessType } from "./screenEditorExtensionUtils";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import {
+    COMPONENT_INSTANCE,
+    EXTENSION_TYPE_SOURCE,
+    getAllCachedExtensionTypes,
+    listExtensions,
+    getCachedFlowProcessType
+} from './screenEditorExtensionUtils';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const FEROV_TYPES = {
     String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
-    Number: ['CURRENCY', 'NUMBER', 'DECIMAL', 'FLOAT', 'DOUBLE', 'LONG', 'INT', 'INTEGER', 'SHORT', 'BYTE'],
+    Number: [
+        'CURRENCY',
+        'NUMBER',
+        'DECIMAL',
+        'FLOAT',
+        'DOUBLE',
+        'LONG',
+        'INT',
+        'INTEGER',
+        'SHORT',
+        'BYTE'
+    ],
     Date: ['DATE'],
     DateTime: ['DATETIME', 'DATE-TIME'],
     Boolean: ['BOOLEAN']
@@ -25,7 +42,8 @@ const screenFieldTypes = [
         icon: 'standard:textbox',
         category: LABELS.fieldCategoryInput,
         type: 'String'
-    }, {
+    },
+    {
         name: 'LargeTextArea',
         fieldType: 'LargeTextArea',
         dataType: undefined,
@@ -33,7 +51,8 @@ const screenFieldTypes = [
         icon: 'standard:textarea',
         category: LABELS.fieldCategoryInput,
         type: 'String'
-    }, {
+    },
+    {
         name: 'Number',
         fieldType: 'InputField',
         dataType: 'Number',
@@ -41,7 +60,8 @@ const screenFieldTypes = [
         icon: 'standard:number_input',
         category: LABELS.fieldCategoryInput,
         type: 'Number'
-    }, {
+    },
+    {
         name: 'Currency',
         fieldType: 'InputField',
         dataType: 'Currency',
@@ -49,7 +69,8 @@ const screenFieldTypes = [
         icon: 'standard:currency_input',
         category: LABELS.fieldCategoryInput,
         type: 'Number'
-    }, {
+    },
+    {
         name: 'Date',
         fieldType: 'InputField',
         dataType: 'Date',
@@ -57,7 +78,8 @@ const screenFieldTypes = [
         icon: 'standard:date_input',
         category: LABELS.fieldCategoryInput,
         type: 'Date'
-    }, {
+    },
+    {
         name: 'DateTime',
         fieldType: 'InputField',
         dataType: 'DateTime',
@@ -65,7 +87,8 @@ const screenFieldTypes = [
         icon: 'standard:date_time',
         category: LABELS.fieldCategoryInput,
         type: 'DateTime'
-    }, {
+    },
+    {
         name: 'Password',
         fieldType: 'PasswordField',
         dataType: undefined,
@@ -73,7 +96,8 @@ const screenFieldTypes = [
         icon: 'standard:password',
         category: LABELS.fieldCategoryInput,
         type: 'String'
-    }, {
+    },
+    {
         name: 'Checkbox',
         fieldType: 'InputField',
         dataType: 'Boolean',
@@ -81,7 +105,8 @@ const screenFieldTypes = [
         icon: 'standard:task2',
         category: LABELS.fieldCategoryInput,
         type: 'Boolean'
-    }, {
+    },
+    {
         // TODO: Set dataType to null once W-5795949 is completed
         name: 'RadioButtons',
         fieldType: 'RadioButtons',
@@ -89,7 +114,8 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelRadioButtons,
         icon: 'standard:radio_button',
         category: LABELS.fieldCategoryInput
-    }, {
+    },
+    {
         // TODO: Set dataType to null once W-5795949 is completed
         name: 'DropdownBox',
         fieldType: 'DropdownBox',
@@ -97,21 +123,24 @@ const screenFieldTypes = [
         label: LABELS.fieldTypeLabelPicklist,
         icon: 'standard:picklist_type',
         category: LABELS.fieldCategoryInput
-    }, {
+    },
+    {
         name: 'MultiSelectCheckboxes',
         fieldType: 'MultiSelectCheckboxes',
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectCheckboxes,
         icon: 'standard:multi_select_checkbox',
         category: LABELS.fieldCategoryInput
-    }, {
+    },
+    {
         name: 'MultiSelectPicklist',
         fieldType: 'MultiSelectPicklist',
         dataType: 'String',
         label: LABELS.fieldTypeLabelMultiSelectPicklist,
         icon: 'standard:multi_picklist',
         category: LABELS.fieldCategoryInput
-    }, {
+    },
+    {
         name: 'DisplayText',
         fieldType: 'DisplayText',
         dataType: undefined,
@@ -119,7 +148,7 @@ const screenFieldTypes = [
         icon: 'standard:display_text',
         category: LABELS.fieldCategoryDisplay,
         type: 'String'
-    },
+    }
 ];
 
 /**
@@ -133,7 +162,12 @@ export function getExtensionFieldTypes(flowProcessType) {
     // After refactoring, the screen property editor will be using the same mechanism to cache as other places in the flow builder.
     // Work item: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000006Qf9JIAS/view
     const cachedFlowProcessType = getCachedFlowProcessType();
-    if (cachedFields && cachedFields.length && cachedFlowProcessType && cachedFlowProcessType === flowProcessType) {
+    if (
+        cachedFields &&
+        cachedFields.length &&
+        cachedFlowProcessType &&
+        cachedFlowProcessType === flowProcessType
+    ) {
         return Promise.resolve(cachedFields);
     }
 
@@ -179,7 +213,9 @@ export function getLocalExtensionFieldType(name) {
  */
 export function getScreenFieldTypeByName(name) {
     name = name && name.toLowerCase();
-    return [...screenFieldTypes, ...getAllCachedExtensionTypes()].find(type => type.name.toLowerCase() === name);
+    return [...screenFieldTypes, ...getAllCachedExtensionTypes()].find(
+        type => type.name.toLowerCase() === name
+    );
 }
 
 /**
@@ -201,8 +237,10 @@ export function getScreenFieldType(field) {
         // A reality, these choice based fields have a dataType associated with them. However, we generically
         // lump each type of choice based fields as one type in the screenFieldTypes map and dataType is ignored.
         // For this check only, just check the fieldType and ignore dataType.
-        if (fieldType === type.fieldType &&
-            (fieldType === 'RadioButtons' || fieldType === 'DropdownBox')) {
+        if (
+            fieldType === type.fieldType &&
+            (fieldType === 'RadioButtons' || fieldType === 'DropdownBox')
+        ) {
             return type;
         }
     }
@@ -319,8 +357,13 @@ export function isPicklistField(field) {
  * @returns {boolean} Indicates if the specified field is a choice based field.
  */
 export function isChoiceField(field) {
-    return field && (isPicklistField(field) || isMultiSelectCheckboxField(field) ||
-        isMultiSelectPicklistField(field) || isRadioField(field));
+    return (
+        field &&
+        (isPicklistField(field) ||
+            isMultiSelectCheckboxField(field) ||
+            isMultiSelectPicklistField(field) ||
+            isRadioField(field))
+    );
 }
 
 /**
@@ -332,7 +375,13 @@ export function getFlowDataTypeByName(dataType) {
         // Lightning Component attributes support field types in various number flavors, which all map to number
         // in Flow metadata.
         let lcType = dataType.toUpperCase();
-        if (lcType === 'DECIMAL' || lcType === 'DOUBLE' || lcType === 'INTEGER' || lcType === 'LONG' || lcType === 'INT') {
+        if (
+            lcType === 'DECIMAL' ||
+            lcType === 'DOUBLE' ||
+            lcType === 'INTEGER' ||
+            lcType === 'LONG' ||
+            lcType === 'INT'
+        ) {
             lcType = 'NUMBER';
         }
 
@@ -352,7 +401,9 @@ export function getFlowDataTypeByName(dataType) {
  */
 export function getFerovTypeFromFieldType(fieldType) {
     if (fieldType) {
-        return getFerovTypeFromTypeName(fieldType.dataType || fieldType.fieldType);
+        return getFerovTypeFromTypeName(
+            fieldType.dataType || fieldType.fieldType
+        );
     }
 
     return null;
@@ -401,25 +452,40 @@ export function getPlaceHolderLabel(fieldName) {
  */
 export function getFieldChoiceData(field) {
     if (field.choiceReferences && field.choiceReferences.length > 0) {
-        return field.choiceReferences.map((choice) => {
-            if (choice && choice.choiceReference && choice.choiceReference.value && choice.choiceReference.value !== "" && !choice.choiceReference.error) {
-                const choiceElement = getElementByGuid(choice.choiceReference.value);
+        return field.choiceReferences.map(choice => {
+            if (
+                choice &&
+                choice.choiceReference &&
+                choice.choiceReference.value &&
+                choice.choiceReference.value !== '' &&
+                !choice.choiceReference.error
+            ) {
+                const choiceElement = getElementByGuid(
+                    choice.choiceReference.value
+                );
                 if (!choiceElement) {
-                    throw new Error('Unable to find element associated with choice: ' + choice.choiceReference.value);
+                    throw new Error(
+                        'Unable to find element associated with choice: ' +
+                            choice.choiceReference.value
+                    );
                 }
 
                 return {
                     value: choiceElement.guid,
-                    label: {value: '{!' + choiceElement.name + '}', error: getErrorFromChoice(choice)},
+                    label: {
+                        value: '{!' + choiceElement.name + '}',
+                        error: getErrorFromChoice(choice)
+                    },
                     name: choiceElement.name,
-                    defaultValueOption: choiceElement.elementType === ELEMENT_TYPE.CHOICE
+                    defaultValueOption:
+                        choiceElement.elementType === ELEMENT_TYPE.CHOICE
                 };
             }
             // When a new choice is being added to a screen field, there will be
             // no data for the choice yet. In that case, display this placeholder data.
             return {
                 value: '',
-                label: {value: null, error: getErrorFromChoice(choice)},
+                label: { value: null, error: getErrorFromChoice(choice) },
                 name: '',
                 defaultValueOption: false
             };

@@ -1,12 +1,16 @@
-import { LightningElement, api } from "lwc";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { CANVAS_EVENT, EditElementEvent, DeleteElementEvent } from "builder_platform_interaction/events";
-import { LABELS } from "./nodeLabels";
-import { format } from "builder_platform_interaction/commonUtils";
-import startElement from "./startElement.html";
-import nodeElement from "./node.html";
-import { isTestMode } from "builder_platform_interaction/contextLib";
+import { LightningElement, api } from 'lwc';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    CANVAS_EVENT,
+    EditElementEvent,
+    DeleteElementEvent
+} from 'builder_platform_interaction/events';
+import { LABELS } from './nodeLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
+import startElement from './startElement.html';
+import nodeElement from './node.html';
+import { isTestMode } from 'builder_platform_interaction/contextLib';
 
 /**
  * Node component for flow builder.
@@ -47,15 +51,17 @@ export default class Node extends LightningElement {
     }
 
     get iconName() {
-        return getConfigForElementType(this.node.elementType).nodeConfig.iconName;
+        return getConfigForElementType(this.node.elementType).nodeConfig
+            .iconName;
     }
 
     get iconBackgroundColor() {
-        return getConfigForElementType(this.node.elementType).nodeConfig.iconBackgroundColor;
+        return getConfigForElementType(this.node.elementType).nodeConfig
+            .iconBackgroundColor;
     }
 
     get hasAvailableConnections() {
-        return (this.node.maxConnections !== this.node.connectorCount);
+        return this.node.maxConnections !== this.node.connectorCount;
     }
 
     get isSelected() {
@@ -63,7 +69,11 @@ export default class Node extends LightningElement {
     }
 
     get nodeIconTitle() {
-        return format(LABELS.nodeIconTitle, getConfigForElementType(this.node.elementType).labels.singular, this.node.label);
+        return format(
+            LABELS.nodeIconTitle,
+            getConfigForElementType(this.node.elementType).labels.singular,
+            this.node.label
+        );
     }
 
     get endPointTitle() {
@@ -71,7 +81,11 @@ export default class Node extends LightningElement {
     }
 
     get trashCanAlternativeText() {
-        return format(LABELS.trashCanAlternativeText, getConfigForElementType(this.node.elementType).labels.singular, this.node.label);
+        return format(
+            LABELS.trashCanAlternativeText,
+            getConfigForElementType(this.node.elementType).labels.singular,
+            this.node.label
+        );
     }
 
     get nodeLabel() {
@@ -86,14 +100,17 @@ export default class Node extends LightningElement {
      * Build main parent template div class adding some "test mode only" value to it to ease up Selenium effort
      */
     get parentDivComputedClass() {
-        let classes = 'element-container node-container slds-is-absolute slds-text-align_center';
+        let classes =
+            'element-container node-container slds-is-absolute slds-text-align_center';
 
         if (this.node.config.isHighlighted) {
             classes = `${classes} highlighted-container`;
         }
 
         if (isTestMode()) {
-            classes = `${classes} test-node-${(this.node.elementType || '').toLowerCase()}`;
+            classes = `${classes} test-node-${(
+                this.node.elementType || ''
+            ).toLowerCase()}`;
         }
 
         return classes;
@@ -112,19 +129,22 @@ export default class Node extends LightningElement {
      * Handles the node click event on node div and fires off a nodeSelected event.
      * @param {object} event - node clicked event
      */
-    handleNodeClick = (event) => {
+    handleNodeClick = event => {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
         if (!this.node.config.isSelected || !this.isNodeDragging) {
-            const nodeSelectedEvent = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: this.node.guid,
-                    isMultiSelectKeyPressed
+            const nodeSelectedEvent = new CustomEvent(
+                CANVAS_EVENT.NODE_SELECTED,
+                {
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true,
+                    detail: {
+                        canvasElementGUID: this.node.guid,
+                        isMultiSelectKeyPressed
+                    }
                 }
-            });
+            );
             this.dispatchEvent(nodeSelectedEvent);
         }
         this.isNodeDragging = false;
@@ -134,7 +154,7 @@ export default class Node extends LightningElement {
      * Handles the node double click event on node div and fires off a edit element event.
      * @param {object} event - node double clicked event
      */
-    handleDblClick = (event) => {
+    handleDblClick = event => {
         event.stopPropagation();
         const canvasElementGUID = this.node.guid;
         const editElementEvent = new EditElementEvent(canvasElementGUID);
@@ -145,10 +165,13 @@ export default class Node extends LightningElement {
      * Fires an event to delete the node.
      * @param {object} event - trash can click event
      */
-    handleTrashClick = (event) => {
+    handleTrashClick = event => {
         event.stopPropagation();
         if (!this.isNodeDragging) {
-            const deleteEvent = new DeleteElementEvent([this.node.guid], this.node.elementType);
+            const deleteEvent = new DeleteElementEvent(
+                [this.node.guid],
+                this.node.elementType
+            );
             this.dispatchEvent(deleteEvent);
         }
         this.isNodeDragging = false;
@@ -176,19 +199,22 @@ export default class Node extends LightningElement {
      * as soon as drag begins
      * @param {object} event - drag start event
      */
-    @api dragStart = (event) => {
+    @api dragStart = event => {
         this.isNodeDragging = true;
         if (!this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
-            const nodeSelectedEvent = new CustomEvent(CANVAS_EVENT.NODE_SELECTED, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: this.node.guid,
-                    isMultiSelectKeyPressed
+            const nodeSelectedEvent = new CustomEvent(
+                CANVAS_EVENT.NODE_SELECTED,
+                {
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true,
+                    detail: {
+                        canvasElementGUID: this.node.guid,
+                        isMultiSelectKeyPressed
+                    }
                 }
-            });
+            );
             this.dispatchEvent(nodeSelectedEvent);
         }
     };
@@ -197,8 +223,11 @@ export default class Node extends LightningElement {
      * Updates the location of the node once the user stops dragging it on the canvas.
      * @param {object} event - drag stop event
      */
-    @api dragStop = (event) => {
-        if (event.finalPos[0] !== this.node.locationX || event.finalPos[1] !== this.node.locationY) {
+    @api dragStop = event => {
+        if (
+            event.finalPos[0] !== this.node.locationX ||
+            event.finalPos[1] !== this.node.locationY
+        ) {
             const dragStopEvent = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
                 bubbles: true,
                 composed: true,
@@ -218,7 +247,7 @@ export default class Node extends LightningElement {
      * Updates the location of the node while the user is dragging it on the canvas.
      * @param {object} event - drag event
      */
-    @api drag = (event) => {
+    @api drag = event => {
         const dragNodeEvent = new CustomEvent(CANVAS_EVENT.DRAG_NODE, {
             bubbles: true,
             composed: true,

@@ -5,27 +5,35 @@ import { ALL_PROCESS_TYPE, getProcessTypeIcon } from './processTypeUtils';
 
 let allTemplates = {};
 
-const groupByProcessType = (templates) => {
+const groupByProcessType = templates => {
     return templates.reduce((templatesByProcessType, template) => {
-      if (!templatesByProcessType[template.ProcessType]) {
-          templatesByProcessType[template.ProcessType] = [];
-      }
-      templatesByProcessType[template.ProcessType].push(template);
-      return templatesByProcessType;
+        if (!templatesByProcessType[template.ProcessType]) {
+            templatesByProcessType[template.ProcessType] = [];
+        }
+        templatesByProcessType[template.ProcessType].push(template);
+        return templatesByProcessType;
     }, {});
 };
 
 export const getProcessTypeTile = (processTypeName, isSelected) => {
-    const processType = getProcessTypes().find(type => type.name === processTypeName);
+    const processType = getProcessTypes().find(
+        type => type.name === processTypeName
+    );
     if (!processType) {
-        throw new Error("Can not find process type: " + processTypeName);
+        throw new Error('Can not find process type: ' + processTypeName);
     }
     const label = processType.label;
     let description = LABELS[processTypeName];
     if (!description) {
         description = format(LABELS.newProcessTypeDescription, label);
     }
-    return {itemId: processTypeName, label, iconName: getProcessTypeIcon(processTypeName), description, isSelected};
+    return {
+        itemId: processTypeName,
+        label,
+        iconName: getProcessTypeIcon(processTypeName),
+        description,
+        isSelected
+    };
 };
 
 export const cacheTemplates = (processType, templates) => {
@@ -39,7 +47,7 @@ export const cacheTemplates = (processType, templates) => {
     allTemplates[processType] = templates;
 };
 
-export const getTemplates = (processType) => {
+export const getTemplates = processType => {
     return allTemplates[processType];
 };
 

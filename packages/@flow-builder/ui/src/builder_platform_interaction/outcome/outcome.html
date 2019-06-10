@@ -3,44 +3,62 @@
         <h3 class="slds-text-title_caps">
             <span class="slds-truncate">{labels.outcomeDetailsHeader}</span>
         </h3>
-        <lightning-button if:true={showDelete} label={labels.deleteOutcomeLabel} title={labels.deleteOutcomeTitle}
-                          class="slds-col_bump-left slds-shrink-none removeOutcome"
-                          onclick={handleDelete}>
+        <lightning-button
+            if:true={showDelete}
+            label={labels.deleteOutcomeLabel}
+            title={labels.deleteOutcomeTitle}
+            class="slds-col_bump-left slds-shrink-none removeOutcome"
+            onclick={handleDelete}
+        >
         </lightning-button>
     </div>
     <builder_platform_interaction-label-description
-            label={outcome.label}
-            dev-name-label={labels.outcomeApiName}
-            dev-name={outcome.name}
-            guid={outcome.guid}
-            onpropertychanged={handlePropertyChanged}
-            hide-description=true>
+        label={outcome.label}
+        dev-name-label={labels.outcomeApiName}
+        dev-name={outcome.name}
+        guid={outcome.guid}
+        onpropertychanged={handlePropertyChanged}
+        hide-description="true"
+    >
     </builder_platform_interaction-label-description>
 
-
     <builder_platform_interaction-condition-list
-            parent-guid={outcome.guid}
-            conditions={outcome.conditions}
-            condition-logic-options={conditionLogicOptions}
-            condition-logic={outcome.conditionLogic}
-            logic-combobox-label={labels.outcomeConditionsHeader}
-            container-element-type={elementTypeForExpressionBuilder}>
+        parent-guid={outcome.guid}
+        conditions={outcome.conditions}
+        condition-logic-options={conditionLogicOptions}
+        condition-logic={outcome.conditionLogic}
+        logic-combobox-label={labels.outcomeConditionsHeader}
+        container-element-type={elementTypeForExpressionBuilder}
+    >
         <div slot="conditions">
-            <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
-                <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
-                    <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true
-                                                      item-index={conditionIndex} show-delete={showDeleteCondition}
-                                                      key={conditionWithPrefix.condition.rowIndex}>
+            <template
+                for:each={conditionsWithPrefixes}
+                for:item="conditionWithPrefix"
+                for:index="conditionIndex"
+            >
+                <div
+                    class="slds-list__item slds-is-relative"
+                    key={conditionWithPrefix.condition.rowIndex}
+                >
+                    <builder_platform_interaction-row
+                        item-prefix={conditionWithPrefix.prefix}
+                        show-prefix="true"
+                        item-index={conditionIndex}
+                        show-delete={showDeleteCondition}
+                        key={conditionWithPrefix.condition.rowIndex}
+                    >
                         <div slot="rowBody">
                             <builder_platform_interaction-fer-to-ferov-expression-builder
-                                    container-element={elementTypeForExpressionBuilder}
-                                    rules={rulesForExpressionBuilder}
-                                    expression={conditionWithPrefix.condition}
-                                    lhs-label={labels.lhsLabel} operator-label={labels.operatorLabel}
-                                    rhs-label={labels.rhsLabel}
-                                    lhs-placeholder={labels.lhsPlaceholder}
-                                    default-operator={defaultOperator}
-                                    operator-placeholder={labels.operatorPlaceholder}>
+                                container-element={elementTypeForExpressionBuilder}
+                                rules={rulesForExpressionBuilder}
+                                expression={conditionWithPrefix.condition}
+                                lhs-label={labels.lhsLabel}
+                                operator-label={labels.operatorLabel}
+                                rhs-label={labels.rhsLabel}
+                                lhs-placeholder={labels.lhsPlaceholder}
+                                default-operator={defaultOperator}
+                                operator-placeholder={labels.operatorPlaceholder}
+                            >
                             </builder_platform_interaction-fer-to-ferov-expression-builder>
                         </div>
                     </builder_platform_interaction-row>

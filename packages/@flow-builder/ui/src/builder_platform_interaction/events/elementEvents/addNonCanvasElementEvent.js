@@ -10,7 +10,7 @@ export class AddNonCanvasElementEvent {
             composed: true,
             cancelable: true,
             detail: {
-                elementType,
+                elementType
             }
         });
     }

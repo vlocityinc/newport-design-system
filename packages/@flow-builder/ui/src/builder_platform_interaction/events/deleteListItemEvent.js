@@ -1,6 +1,5 @@
 const eventName = 'deletelistitem';
 
-
 export class DeleteListItemEvent {
     constructor(index) {
         return new CustomEvent(eventName, {

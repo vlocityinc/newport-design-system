@@ -1,13 +1,20 @@
 import { LightningElement, api, track, unwrap } from 'lwc';
-import { getValueFromHydratedItem, getErrorFromHydratedItem, getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { LABELS } from "./flowPropertiesEditorLabels";
-import { flowPropertiesEditorReducer } from "./flowPropertiesEditorReducer";
-import { format, addCurlyBraces } from "builder_platform_interaction/commonUtils";
-import { normalizeDateTime } from "builder_platform_interaction/dateTimeUtils";
-import { SaveType } from "builder_platform_interaction/saveType";
-import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import {
+    getValueFromHydratedItem,
+    getErrorFromHydratedItem,
+    getErrorsFromHydratedElement
+} from 'builder_platform_interaction/dataMutationLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { LABELS } from './flowPropertiesEditorLabels';
+import { flowPropertiesEditorReducer } from './flowPropertiesEditorReducer';
+import {
+    format,
+    addCurlyBraces
+} from 'builder_platform_interaction/commonUtils';
+import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
+import { SaveType } from 'builder_platform_interaction/saveType';
+import { getProcessTypesMenuData } from 'builder_platform_interaction/expressionUtils';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
 /**
  * Flow Properties property editor for Flow Builder
@@ -50,11 +57,23 @@ export default class FlowPropertiesEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
-        const event = { type: VALIDATE_ALL, isSavingExistingFlow: this.savingExistingFlow };
-        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
+        const event = {
+            type: VALIDATE_ALL,
+            isSavingExistingFlow: this.savingExistingFlow
+        };
+        this.flowProperties = flowPropertiesEditorReducer(
+            this.flowProperties,
+            event
+        );
         const processTypeElement = this.template.querySelector('.process-type');
-        if (this.flowProperties.processType && this.flowProperties.processType.error) {
-            this.setElementErrorMessage(processTypeElement, this.flowProperties.processType.error);
+        if (
+            this.flowProperties.processType &&
+            this.flowProperties.processType.error
+        ) {
+            this.setElementErrorMessage(
+                processTypeElement,
+                this.flowProperties.processType.error
+            );
         }
         return getErrorsFromHydratedElement(this.flowProperties);
     }
@@ -78,8 +97,11 @@ export default class FlowPropertiesEditor extends LightningElement {
     _originalInterviewLabel;
 
     saveAsTypeOptions = [
-        { 'label': LABELS.saveAsNewVersionTypeLabel, 'value': SaveType.NEW_VERSION },
-        { 'label': LABELS.saveAsNewFlowTypeLabel, 'value': SaveType.NEW_DEFINITION},
+        {
+            label: LABELS.saveAsNewVersionTypeLabel,
+            value: SaveType.NEW_VERSION
+        },
+        { label: LABELS.saveAsNewFlowTypeLabel, value: SaveType.NEW_DEFINITION }
     ];
 
     /**
@@ -99,7 +121,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     get processTypeLabel() {
         let label = null;
         if (this.flowProperties.processType) {
-            const processType = this._processTypes.find((pt) => {
+            const processType = this._processTypes.find(pt => {
                 return pt.value === this.flowProperties.processType.value;
             });
 
@@ -112,7 +134,10 @@ export default class FlowPropertiesEditor extends LightningElement {
      * Indicates whether we are saving an existing to an existing flow definition (updating or saving as new version)
      */
     get savingExistingFlow() {
-        return this.node.saveType === SaveType.NEW_VERSION || this.node.saveType === SaveType.UPDATE;
+        return (
+            this.node.saveType === SaveType.NEW_VERSION ||
+            this.node.saveType === SaveType.UPDATE
+        );
     }
 
     get showSaveAsTypePicker() {
@@ -149,7 +174,11 @@ export default class FlowPropertiesEditor extends LightningElement {
      * @return {string}
      */
     get lastModifiedText() {
-        return format(LABELS.lastModifiedText, this.flowProperties.lastModifiedBy.value, normalizeDateTime(this.flowProperties.lastModifiedDate.value, true));
+        return format(
+            LABELS.lastModifiedText,
+            this.flowProperties.lastModifiedBy.value,
+            normalizeDateTime(this.flowProperties.lastModifiedDate.value, true)
+        );
     }
 
     /**
@@ -170,10 +199,14 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     updateProperty(propName, newValue, error = null) {
         const propChangedEvent = new PropertyChangedEvent(
-                propName,
-                newValue,
-                error);
-        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, propChangedEvent);
+            propName,
+            newValue,
+            error
+        );
+        this.flowProperties = flowPropertiesEditorReducer(
+            this.flowProperties,
+            propChangedEvent
+        );
     }
 
     /* ********************** */
@@ -185,12 +218,26 @@ export default class FlowPropertiesEditor extends LightningElement {
      */
     handleEvent(event) {
         event.stopPropagation();
-        this.flowProperties = flowPropertiesEditorReducer(this.flowProperties, event);
-        const flowLabelValue = getValueFromHydratedItem(this.flowProperties.label);
-        const flowLabelError = getErrorFromHydratedItem(this.flowProperties.label);
-        const interviewLabel = getValueFromHydratedItem(this.flowProperties.interviewLabel);
+        this.flowProperties = flowPropertiesEditorReducer(
+            this.flowProperties,
+            event
+        );
+        const flowLabelValue = getValueFromHydratedItem(
+            this.flowProperties.label
+        );
+        const flowLabelError = getErrorFromHydratedItem(
+            this.flowProperties.label
+        );
+        const interviewLabel = getValueFromHydratedItem(
+            this.flowProperties.interviewLabel
+        );
         if (flowLabelValue && !interviewLabel && !flowLabelError) {
-            this.updateProperty('interviewLabel', flowLabelValue + ' ' + addCurlyBraces(SYSTEM_VARIABLES.CURRENT_DATE_TIME));
+            this.updateProperty(
+                'interviewLabel',
+                flowLabelValue +
+                    ' ' +
+                    addCurlyBraces(SYSTEM_VARIABLES.CURRENT_DATE_TIME)
+            );
         }
     }
 
@@ -235,12 +282,22 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleInstanceLabelChanged(event) {
         event.stopPropagation();
-        this.updateProperty('interviewLabel', event.detail.value, event.detail.error);
+        this.updateProperty(
+            'interviewLabel',
+            event.detail.value,
+            event.detail.error
+        );
     }
 
     renderedCallback() {
-        if (this.flowProperties.processType && this.flowProperties.processType.value && !this.flowProperties.processType.error) {
-            const processTypeElement = this.template.querySelector('.process-type');
+        if (
+            this.flowProperties.processType &&
+            this.flowProperties.processType.value &&
+            !this.flowProperties.processType.error
+        ) {
+            const processTypeElement = this.template.querySelector(
+                '.process-type'
+            );
             this.setElementErrorMessage(processTypeElement, null);
         }
     }

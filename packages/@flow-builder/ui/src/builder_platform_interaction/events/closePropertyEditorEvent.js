@@ -4,7 +4,6 @@
 
 const eventName = 'closepropertyeditor';
 
-
 export class ClosePropertyEditorEvent {
     constructor() {
         return new CustomEvent(eventName, {

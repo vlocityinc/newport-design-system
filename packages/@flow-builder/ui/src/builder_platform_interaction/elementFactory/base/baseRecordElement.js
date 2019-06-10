@@ -4,9 +4,9 @@ import {
     createExpressionListRowItemWithoutOperatorAndRHSDataType,
     RHS_PROPERTY,
     RHS_DATA_TYPE_PROPERTY
-} from "./baseList";
+} from './baseList';
 import { createFEROV, createFEROVMetadataObject } from '../ferov';
-import { CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const lhsMetadataPropertyName = 'value';
 const outputLhsMetadataPropertyName = 'assignToReference';
@@ -19,7 +19,7 @@ export function createFilter(filter = {}, objectType) {
         if (filter.field) {
             leftHandSide = objectType + '.' + filter.field;
         }
-        const { operator = ''} = filter;
+        const { operator = '' } = filter;
         const rhsFerovObject = createFEROV(
             filter.value,
             RHS_PROPERTY,
@@ -57,7 +57,6 @@ export function createFilterMetadataObject(filter) {
     return newFilter;
 }
 
-
 export function createFlowInputFieldAssignmentMetadataObject(inputParameter) {
     if (!inputParameter) {
         throw new Error('record Flow Input Field Assignment is not defined');
@@ -74,34 +73,53 @@ export function createFlowInputFieldAssignmentMetadataObject(inputParameter) {
     if (value) {
         return { field, value };
     }
-    return {field};
+    return { field };
 }
 
-export function createFlowInputFieldAssignment(inputAssignmentsItem, objectType) {
+export function createFlowInputFieldAssignment(
+    inputAssignmentsItem,
+    objectType
+) {
     let newAssignment = {};
 
     if (inputAssignmentsItem.hasOwnProperty('field')) {
         const leftHandSide = objectType + '.' + inputAssignmentsItem.field;
         if (inputAssignmentsItem[lhsMetadataPropertyName]) {
-            newAssignment = createFEROV(inputAssignmentsItem[lhsMetadataPropertyName], RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
+            newAssignment = createFEROV(
+                inputAssignmentsItem[lhsMetadataPropertyName],
+                RHS_PROPERTY,
+                RHS_DATA_TYPE_PROPERTY
+            );
         }
-        Object.assign(newAssignment, {leftHandSide});
-        newAssignment = createExpressionListRowItemWithoutOperator(newAssignment);
+        Object.assign(newAssignment, { leftHandSide });
+        newAssignment = createExpressionListRowItemWithoutOperator(
+            newAssignment
+        );
     } else {
-        newAssignment = createExpressionListRowItemWithoutOperator(inputAssignmentsItem);
+        newAssignment = createExpressionListRowItemWithoutOperator(
+            inputAssignmentsItem
+        );
     }
     return newAssignment;
 }
 
-export function createFlowOutputFieldAssignment(outputAssignmentsItem, objectType) {
+export function createFlowOutputFieldAssignment(
+    outputAssignmentsItem,
+    objectType
+) {
     let newAssignment = {};
 
     if (outputAssignmentsItem.hasOwnProperty('field')) {
         const leftHandSide = objectType + '.' + outputAssignmentsItem.field;
-        const rightHandSide = outputAssignmentsItem[outputLhsMetadataPropertyName];
-        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType({leftHandSide, rightHandSide});
+        const rightHandSide =
+            outputAssignmentsItem[outputLhsMetadataPropertyName];
+        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(
+            { leftHandSide, rightHandSide }
+        );
     } else {
-        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(outputAssignmentsItem);
+        newAssignment = createExpressionListRowItemWithoutOperatorAndRHSDataType(
+            outputAssignmentsItem
+        );
     }
     return newAssignment;
 }
@@ -115,7 +133,10 @@ export function createFlowOutputFieldAssignmentMetadataObject(outputParameter) {
         outputParameter.leftHandSide.indexOf('.') + 1
     );
 
-    return { field, [outputLhsMetadataPropertyName]: outputParameter.rightHandSide };
+    return {
+        field,
+        [outputLhsMetadataPropertyName]: outputParameter.rightHandSide
+    };
 }
 
 /**
@@ -138,8 +159,12 @@ export const getDefaultAvailableConnections = () => [
     }
 ];
 
-export const createRecordFilters = (filters, object, defaultFilters = [createFilter()]) => {
-    return filters && filters.length > 0 ?
-         filters.map(filter => createFilter(filter, object)) :
-         defaultFilters;
+export const createRecordFilters = (
+    filters,
+    object,
+    defaultFilters = [createFilter()]
+) => {
+    return filters && filters.length > 0
+        ? filters.map(filter => createFilter(filter, object))
+        : defaultFilters;
 };

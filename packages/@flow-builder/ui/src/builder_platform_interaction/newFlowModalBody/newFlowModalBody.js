@@ -1,21 +1,27 @@
 import { LightningElement, api, track } from 'lwc';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
-import { fetchOnce, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
-import { setProcessTypes, getProcessTypes } from 'builder_platform_interaction/systemLib';
+import {
+    fetchOnce,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
+import {
+    setProcessTypes,
+    getProcessTypes
+} from 'builder_platform_interaction/systemLib';
 import { LABELS } from 'builder_platform_interaction/processTypeLib';
 
 export default class NewFlowModalBody extends LightningElement {
     labels = LABELS;
 
     @track state = {
-            // the selected process type in process type navigation tree
-            selectedProcessType: ALL_PROCESS_TYPE.name,
-            // the selected template
-            selectedTemplate: '',
-            // true if the featured (process type) is selected
-            isProcessType: false,
-            processTypesFetched: false,
-            errorMessage: '',
+        // the selected process type in process type navigation tree
+        selectedProcessType: ALL_PROCESS_TYPE.name,
+        // the selected template
+        selectedTemplate: '',
+        // true if the featured (process type) is selected
+        isProcessType: false,
+        processTypesFetched: false,
+        errorMessage: ''
     };
 
     @api footer;
@@ -23,14 +29,20 @@ export default class NewFlowModalBody extends LightningElement {
     processTypes = [];
 
     connectedCallback() {
-        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES, {}, {disableErrorModal: true}).then((data) => {
-            setProcessTypes(data);
-            this.processTypes = getProcessTypes();
-            this.state.processTypesFetched = true;
-        }).catch(() => {
-            this.state.processTypesFetched = true;
-            this.handleCannotRetrieveProcessTypes();
-        });
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_PROCESS_TYPES,
+            {},
+            { disableErrorModal: true }
+        )
+            .then(data => {
+                setProcessTypes(data);
+                this.processTypes = getProcessTypes();
+                this.state.processTypesFetched = true;
+            })
+            .catch(() => {
+                this.state.processTypesFetched = true;
+                this.handleCannotRetrieveProcessTypes();
+            });
     }
 
     set isProcessType(value) {
@@ -98,7 +110,10 @@ export default class NewFlowModalBody extends LightningElement {
      */
     handleSelectTemplate(event) {
         event.stopPropagation();
-        this.updateSelectedTemplate(event.detail.isProcessType, event.detail.id);
+        this.updateSelectedTemplate(
+            event.detail.isProcessType,
+            event.detail.id
+        );
         if (this.isResetErrorMessageNeeded()) {
             this.resetErrorMessage();
         }
@@ -129,7 +144,7 @@ export default class NewFlowModalBody extends LightningElement {
     }
 
     resetErrorMessage() {
-            this.state.errorMessage = '';
+        this.state.errorMessage = '';
     }
 
     /**

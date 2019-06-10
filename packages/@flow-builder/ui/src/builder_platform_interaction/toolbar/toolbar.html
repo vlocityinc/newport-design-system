@@ -4,82 +4,118 @@
         <!--TODO: Uncomment sections as we work on them-->
         <!--Undo/Redo-->
         <lightning-button-group class="slds-builder-toolbar__item-group">
-            <lightning-button-icon variant="border-filled" icon-name="utility:undo" disabled={isUndoDisabled} onclick={handleUndo} title={labels.undoTitle} alternative-text={labels.undoTitle}>
+            <lightning-button-icon
+                variant="border-filled"
+                icon-name="utility:undo"
+                disabled={isUndoDisabled}
+                onclick={handleUndo}
+                title={labels.undoTitle}
+                alternative-text={labels.undoTitle}
+            >
             </lightning-button-icon>
-            <lightning-button-icon variant="border-filled" icon-name="utility:redo" disabled={isRedoDisabled} onclick={handleRedo} title={labels.redoTitle} alternative-text={labels.undoTitle}>
+            <lightning-button-icon
+                variant="border-filled"
+                icon-name="utility:redo"
+                disabled={isRedoDisabled}
+                onclick={handleRedo}
+                title={labels.redoTitle}
+                alternative-text={labels.undoTitle}
+            >
             </lightning-button-icon>
         </lightning-button-group>
         <!--Duplicate(Copy/Paste)-->
         <lightning-button-icon
-                variant="border-filled"
-                icon-name="utility:copy"
-                title={labels.duplicateTitle}
-                alternative-text={labels.duplicateTitle}
-                onclick={handleDuplicateButtonClick}
-                class="slds-builder-toolbar__item-group test-toolbar-duplicate">
+            variant="border-filled"
+            icon-name="utility:copy"
+            title={labels.duplicateTitle}
+            alternative-text={labels.duplicateTitle}
+            onclick={handleDuplicateButtonClick}
+            class="slds-builder-toolbar__item-group test-toolbar-duplicate"
+        >
         </lightning-button-icon>
         <!--Toggle Left Panel-->
         <!--<div class="slds-builder-toolbar__item-group">-->
-            <!--<lightning-button-icon-stateful variant="border-filled" icon-name="utility:toggle_panel_left" title="Toggle Left Panel" alternative-text="Toggle Left Panel">-->
-            <!--</lightning-button-icon-stateful>-->
+        <!--<lightning-button-icon-stateful variant="border-filled" icon-name="utility:toggle_panel_left" title="Toggle Left Panel" alternative-text="Toggle Left Panel">-->
+        <!--</lightning-button-icon-stateful>-->
         <!--</div>-->
         <!--Flow Properties-->
         <lightning-button-icon
-                variant="border-filled"
-                icon-name="utility:settings"
-                alternative-text={labels.flowPropertiesTitle}
-                onclick={handleEditFlowProperties}
-                disabled={isEditFlowPropertiesDisabled}
-                class="slds-builder-toolbar__item-group test-toolbar-editflowproperties">
+            variant="border-filled"
+            icon-name="utility:settings"
+            alternative-text={labels.flowPropertiesTitle}
+            onclick={handleEditFlowProperties}
+            disabled={isEditFlowPropertiesDisabled}
+            class="slds-builder-toolbar__item-group test-toolbar-editflowproperties"
+        >
         </lightning-button-icon>
 
         <!--Right Hand Side-->
         <div class="slds-builder-toolbar__actions">
-            <button if:true={showLastSavedPill} title={saveStatus} class="slds-button test-toolbar-last-saved">
+            <button
+                if:true={showLastSavedPill}
+                title={saveStatus}
+                class="slds-button test-toolbar-last-saved"
+            >
                 <span>{saveStatus}</span>
-                <span if:true={showDate}>&nbsp;<lightning-relative-date-time value={currentDate}></lightning-relative-date-time></span>
+                <span if:true={showDate}
+                    >&nbsp;<lightning-relative-date-time
+                        value={currentDate}
+                    ></lightning-relative-date-time
+                ></span>
             </button>
             <div class="inline-display slds-m-left_xx-small">
-                <builder_platform_interaction-toolbar-status-icons 
-                    flow-errors-and-warnings={flowErrorsAndWarnings}>
+                <builder_platform_interaction-toolbar-status-icons
+                    flow-errors-and-warnings={flowErrorsAndWarnings}
+                >
                 </builder_platform_interaction-toolbar-status-icons>
             </div>
-            <div if:true={flowStatus} class="inline-display slds-align-middle slds-m-left_xx-small">
-                <builder_platform_interaction-flow-status flow-status={flowStatus}></builder_platform_interaction-flow-status>
+            <div
+                if:true={flowStatus}
+                class="inline-display slds-align-middle slds-m-left_xx-small"
+            >
+                <builder_platform_interaction-flow-status
+                    flow-status={flowStatus}
+                ></builder_platform_interaction-flow-status>
             </div>
             <lightning-button-group class="slds-m-left_xx-small">
                 <lightning-button
                     label={labels.runTitle}
                     title={labels.runTitle}
                     onclick={handleRun}
-                    disabled={isRunDebugDisabled}>
+                    disabled={isRunDebugDisabled}
+                >
                 </lightning-button>
                 <lightning-button
                     label={labels.debugTitle}
                     title={labels.debugTitle}
                     onclick={handleDebug}
-                    disabled={isRunDebugDisabled}>
+                    disabled={isRunDebugDisabled}
+                >
                 </lightning-button>
-                <lightning-button if:true={isDiffFlowAllowed}
-                                  label={labels.diffFlowTitle}
-                                  title={labels.diffFlowTitle}
-                                  onclick={handleDiff}>
+                <lightning-button
+                    if:true={isDiffFlowAllowed}
+                    label={labels.diffFlowTitle}
+                    title={labels.diffFlowTitle}
+                    onclick={handleDiff}
+                >
                 </lightning-button>
             </lightning-button-group>
             <lightning-button
-                    label={labels.saveAsTitle}
-                    title={labels.saveAsTitle}
-                    onclick={handleSaveAs}
-                    disabled={isSaveAsDisabled}
-                    class="test-toolbar-saveas slds-m-left_xx-small">
+                label={labels.saveAsTitle}
+                title={labels.saveAsTitle}
+                onclick={handleSaveAs}
+                disabled={isSaveAsDisabled}
+                class="test-toolbar-saveas slds-m-left_xx-small"
+            >
             </lightning-button>
             <lightning-button
-                    label={labels.saveTitle}
-                    variant="brand"
-                    title={labels.saveTitle}
-                    onclick={handleSave}
-                    disabled={saveDisabled}
-                    class="test-toolbar-save slds-m-left_xx-small">
+                label={labels.saveTitle}
+                variant="brand"
+                title={labels.saveTitle}
+                onclick={handleSave}
+                disabled={saveDisabled}
+                class="test-toolbar-save slds-m-left_xx-small"
+            >
             </lightning-button>
         </div>
     </div>

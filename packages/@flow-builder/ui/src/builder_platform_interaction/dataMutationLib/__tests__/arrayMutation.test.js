@@ -1,14 +1,23 @@
-import { addItem, insertItem, replaceItem, deleteItem, shallowCopyArray } from '../arrayMutation';
+import {
+    addItem,
+    insertItem,
+    replaceItem,
+    deleteItem,
+    shallowCopyArray
+} from '../arrayMutation';
 
-const arr = [{
-    name: 'ass1',
-    label: 'assignment 1',
-    description: 'desc 1'
-}, {
-    name: 'ass2',
-    label: 'assignment 2',
-    description: 'desc 2'
-}];
+const arr = [
+    {
+        name: 'ass1',
+        label: 'assignment 1',
+        description: 'desc 1'
+    },
+    {
+        name: 'ass2',
+        label: 'assignment 2',
+        description: 'desc 2'
+    }
+];
 const newItem = {
     name: 'ass3',
     label: 'assignment 3',

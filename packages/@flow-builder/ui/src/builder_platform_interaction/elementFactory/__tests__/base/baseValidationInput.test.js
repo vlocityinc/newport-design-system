@@ -1,4 +1,4 @@
-import { createValidationRuleObject } from "../../base/baseValidationInput";
+import { createValidationRuleObject } from '../../base/baseValidationInput';
 
 const validationRule = {
     errorMessage: 'mock error message value',

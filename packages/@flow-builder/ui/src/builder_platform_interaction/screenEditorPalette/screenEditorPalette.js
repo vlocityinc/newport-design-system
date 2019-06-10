@@ -1,14 +1,17 @@
 import { LightningElement, track, api } from 'lwc';
-import { labelFilter } from "builder_platform_interaction/filterLib";
-import { getAllScreenFieldTypes, getAllCachedExtensionTypes } from "builder_platform_interaction/screenEditorUtils";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { createAddScreenFieldEvent } from "builder_platform_interaction/events";
-import { labelComparator } from "builder_platform_interaction/sortLib";
-import { APP_EXCHANGE_LINK } from "builder_platform_interaction/commonUtils";
+import { labelFilter } from 'builder_platform_interaction/filterLib';
+import {
+    getAllScreenFieldTypes,
+    getAllCachedExtensionTypes
+} from 'builder_platform_interaction/screenEditorUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';
+import { labelComparator } from 'builder_platform_interaction/sortLib';
+import { APP_EXCHANGE_LINK } from 'builder_platform_interaction/commonUtils';
 
 const SELECTORS = {
-    FILTER_INPUT: '.palette-search-input',
+    FILTER_INPUT: '.palette-search-input'
 };
 
 export default class ScreenPalette extends LightningElement {
@@ -50,7 +53,10 @@ export default class ScreenPalette extends LightningElement {
             if (typeMap.hasOwnProperty(type)) {
                 const items = typeMap[type];
                 if (items && items.length > 0) {
-                    const section = createSection(type, items.sort(labelComparator));
+                    const section = createSection(
+                        type,
+                        items.sort(labelComparator)
+                    );
                     sections.push(section);
                 }
             }
@@ -63,7 +69,7 @@ export default class ScreenPalette extends LightningElement {
         this.buildModel();
     }
 
-    handlePaletteItemClickedEvent = (event) => {
+    handlePaletteItemClickedEvent = event => {
         // Clicking on an element from the palette should add the corresponding field
         // type to the canvas.
         const fieldGuid = event.detail.guid;
@@ -71,7 +77,7 @@ export default class ScreenPalette extends LightningElement {
         const addFieldEvent = createAddScreenFieldEvent(fieldTypeName);
         this.dispatchEvent(addFieldEvent);
         event.stopPropagation();
-    }
+    };
 
     handleDragStart(event) {
         // Dragging an element could mean user wants to add the corresponding
@@ -108,7 +114,7 @@ function getFieldTypeNameByGuid(types, guid) {
             }
         }
     }
-    throw new Error("Unable to find field type by guid");
+    throw new Error('Unable to find field type by guid');
 }
 
 function createSection(label, items) {
@@ -121,7 +127,10 @@ function createSection(label, items) {
 }
 
 function getTypeMap(pattern) {
-    const types = [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].filter(labelFilter(pattern));
+    const types = [
+        ...getAllScreenFieldTypes(),
+        ...getAllCachedExtensionTypes()
+    ].filter(labelFilter(pattern));
     const typeMap = types.reduce((acc, type) => {
         const guid = generateGuid();
         const item = {

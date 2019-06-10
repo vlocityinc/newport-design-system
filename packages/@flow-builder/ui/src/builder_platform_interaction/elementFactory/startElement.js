@@ -1,7 +1,10 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { LABELS } from "./elementFactoryLabels";
-import { baseCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
-import { createStartElementConnector } from "./connector";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LABELS } from './elementFactoryLabels';
+import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap
+} from './base/baseElement';
+import { createStartElementConnector } from './connector';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -21,12 +24,10 @@ export function createStartElement() {
         locationY: START_ELEMENT_LOCATION.y
     });
 
-    Object.assign(newStartElement,
-        {
-            elementType,
-            maxConnections
-        }
-    );
+    Object.assign(newStartElement, {
+        elementType,
+        maxConnections
+    });
     return newStartElement;
 }
 
@@ -39,7 +40,10 @@ export function createStartElementWithConnectors(startElementReference) {
     const newStartElement = createStartElement();
     let connectors = [];
     if (startElementReference) {
-        connectors = createStartElementConnector(newStartElement.guid, startElementReference);
+        connectors = createStartElementConnector(
+            newStartElement.guid,
+            startElementReference
+        );
     }
     const connectorCount = connectors.length;
     Object.assign(newStartElement, { connectorCount });

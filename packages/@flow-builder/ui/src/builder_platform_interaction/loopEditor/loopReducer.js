@@ -1,7 +1,10 @@
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { PropertyChangedEvent, LoopCollectionChangedEvent } from "builder_platform_interaction/events";
-import { getRules, loopValidation } from "./loopValidation";
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    PropertyChangedEvent,
+    LoopCollectionChangedEvent
+} from 'builder_platform_interaction/events';
+import { getRules, loopValidation } from './loopValidation';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 
 const LOOP_PROPERTIES = {
     COLLECTION_VARIABLE: 'collectionReference',
@@ -9,8 +12,13 @@ const LOOP_PROPERTIES = {
 };
 
 const loopPropertyChanged = (state, event) => {
-    event.detail.error = event.detail.error === null ?
-        loopValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    event.detail.error =
+        event.detail.error === null
+            ? loopValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: {
             value: event.detail.value,
@@ -20,11 +28,22 @@ const loopPropertyChanged = (state, event) => {
 };
 
 const loopCollectionChangedEvent = (state, event) => {
-    const newCollectionValue = event.detail.collectionValue ? event.detail.collectionValue : null;
-    const newLoopVariableValue = event.detail.loopVariableValue ? event.detail.loopVariableValue : null;
-    const newCollectionError = event.detail.collectionError === null ?
-        loopValidation.validateProperty(LOOP_PROPERTIES.COLLECTION_VARIABLE, newCollectionValue) : event.detail.collectionError;
-    const newLoopVariableError = event.detail.loopVariableErrorMessage ? event.detail.loopVariableErrorMessage : null;
+    const newCollectionValue = event.detail.collectionValue
+        ? event.detail.collectionValue
+        : null;
+    const newLoopVariableValue = event.detail.loopVariableValue
+        ? event.detail.loopVariableValue
+        : null;
+    const newCollectionError =
+        event.detail.collectionError === null
+            ? loopValidation.validateProperty(
+                  LOOP_PROPERTIES.COLLECTION_VARIABLE,
+                  newCollectionValue
+              )
+            : event.detail.collectionError;
+    const newLoopVariableError = event.detail.loopVariableErrorMessage
+        ? event.detail.loopVariableErrorMessage
+        : null;
 
     return updateProperties(state, {
         [LOOP_PROPERTIES.COLLECTION_VARIABLE]: {
@@ -57,6 +76,7 @@ export const loopReducer = (state, event) => {
         case VALIDATE_ALL: {
             return loopValidation.validateAll(state, getRules(state));
         }
-        default: return state;
+        default:
+            return state;
     }
 };

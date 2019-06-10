@@ -34,11 +34,15 @@ export default class FlowStatus extends LightningElement {
     };
 
     get statusBadgeLabel() {
-        return this.flowStatus ? this.statusLabelAndTitle[this.flowStatus].label : '';
+        return this.flowStatus
+            ? this.statusLabelAndTitle[this.flowStatus].label
+            : '';
     }
 
     get statusBadgeTitle() {
-        return this.flowStatus ? this.statusLabelAndTitle[this.flowStatus].title : '';
+        return this.flowStatus
+            ? this.statusLabelAndTitle[this.flowStatus].title
+            : '';
     }
 
     get statusBadgeClasses() {

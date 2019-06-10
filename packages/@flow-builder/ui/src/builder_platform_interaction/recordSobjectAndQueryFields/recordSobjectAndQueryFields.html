@@ -1,16 +1,19 @@
 <template>
     <div class={sObjectVariablePickerGlobalCss}>
-        <h3 class={sObjectVariablePickerTitleCss}>{sObjectVariablePickerTitle}</h3>
+        <h3 class={sObjectVariablePickerTitleCss}>
+            {sObjectVariablePickerTitle}
+        </h3>
         <div class={sObjectVariablePickerDivCss}>
-             <builder_platform_interaction-sobject-or-sobject-collection-picker
-                    is-collection={state.isCollection}
-                    label={sObjectVariablePickerLabel}
-                    placeholder={sObjectVariablePickerPlaceholder}
-                    record-entity-name={state.recordEntityName}
-                    element-type={elementType}
-                    value={state.outputReference}
-                    row-index={outputReferenceIndex}
-                    error-message={sobjectVariableErrorMessage}>
+            <builder_platform_interaction-sobject-or-sobject-collection-picker
+                is-collection={state.isCollection}
+                label={sObjectVariablePickerLabel}
+                placeholder={sObjectVariablePickerPlaceholder}
+                record-entity-name={state.recordEntityName}
+                element-type={elementType}
+                value={state.outputReference}
+                row-index={outputReferenceIndex}
+                error-message={sobjectVariableErrorMessage}
+            >
             </builder_platform_interaction-sobject-or-sobject-collection-picker>
         </div>
     </div>
@@ -21,7 +24,8 @@
             element-type={elementType}
             queried-fields={state.queriedFields}
             global-css={queryFieldsGlobalCss}
-            title-css={queryFieldsTitleCss}>
+            title-css={queryFieldsTitleCss}
+        >
         </builder_platform_interaction-record-query-fields>
     </div>
 </template>

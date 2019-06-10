@@ -1,10 +1,14 @@
 import { LightningElement, api, track } from 'lwc';
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { assignmentReducer } from "./assignmentReducer";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { getRulesForElementType, RULE_TYPES, RULE_OPERATOR } from "builder_platform_interaction/ruleLib";
-import { LABELS } from "./assignmentEditorLabels";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { assignmentReducer } from './assignmentReducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getRulesForElementType,
+    RULE_TYPES,
+    RULE_OPERATOR
+} from 'builder_platform_interaction/ruleLib';
+import { LABELS } from './assignmentEditorLabels';
 
 /**
  * @constant UPDATE_PROPERTY
@@ -56,7 +60,10 @@ export default class AssignmentEditor extends LightningElement {
     @api validate() {
         // we may want to use createAction here ?
         const event = { type: VALIDATE_ALL };
-        this.assignmentElement = assignmentReducer(this.assignmentElement, event);
+        this.assignmentElement = assignmentReducer(
+            this.assignmentElement,
+            event
+        );
         return getErrorsFromHydratedElement(this.assignmentElement);
     }
 
@@ -65,6 +72,9 @@ export default class AssignmentEditor extends LightningElement {
      */
     handleEvent(event) {
         event.stopPropagation();
-        this.assignmentElement = assignmentReducer(this.assignmentElement, event);
+        this.assignmentElement = assignmentReducer(
+            this.assignmentElement,
+            event
+        );
     }
 }

@@ -1,5 +1,5 @@
-import { mutateFlowResourceToComboboxShape } from "builder_platform_interaction/expressionUtils";
-import { apexScalarVariablesSelector } from "builder_platform_interaction/selectors";
+import { mutateFlowResourceToComboboxShape } from 'builder_platform_interaction/expressionUtils';
+import { apexScalarVariablesSelector } from 'builder_platform_interaction/selectors';
 import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
@@ -27,12 +27,14 @@ export const addToParentElementCache = (key, value) => {
  * @param {String} key the devName/displayText of the menu item
  * @returns {MenuItem} the parent element in combobox shape. Undefined if no item found
  */
-export const getElementFromParentElementCache = (key) => {
+export const getElementFromParentElementCache = key => {
     if (!parentElementCache[key] && !apexClassesCached) {
-        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach(el => {
-            const menuItem = mutateFlowResourceToComboboxShape(el);
-            parentElementCache[menuItem.displayText] = menuItem;
-        });
+        apexScalarVariablesSelector(Store.getStore().getCurrentState()).forEach(
+            el => {
+                const menuItem = mutateFlowResourceToComboboxShape(el);
+                parentElementCache[menuItem.displayText] = menuItem;
+            }
+        );
         apexClassesCached = true;
     }
     return parentElementCache[key];

@@ -1,6 +1,5 @@
 const eventName = 'updaterecordfilter';
 
-
 export class UpdateRecordFilterEvent {
     constructor(index, value) {
         return new CustomEvent(eventName, {

@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { booleanAttributeValue} from "builder_platform_interaction/screenEditorUtils";
+import { booleanAttributeValue } from 'builder_platform_interaction/screenEditorUtils';
 /*
  * The screen field element that will decide the actual component to use for preview based on the field type
  */
@@ -18,7 +18,9 @@ export default class ScreenField extends LightningElement {
     }
 
     get computedClass() {
-        return 'slds-card slds-grow ' + (this.hasError ? 'has-error' : 'bordered');
+        return (
+            'slds-card slds-grow ' + (this.hasError ? 'has-error' : 'bordered')
+        );
     }
 
     get iconVariant() {

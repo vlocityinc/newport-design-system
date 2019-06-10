@@ -1,7 +1,11 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./dataTypePickerLabels";
-import { FLOW_DATA_TYPE, SCALE_RANGE, SCALE_DEFAULT } from "builder_platform_interaction/dataTypeLib";
-import { ValueChangedEvent } from "builder_platform_interaction/events";
+import { LABELS } from './dataTypePickerLabels';
+import {
+    FLOW_DATA_TYPE,
+    SCALE_RANGE,
+    SCALE_DEFAULT
+} from 'builder_platform_interaction/dataTypeLib';
+import { ValueChangedEvent } from 'builder_platform_interaction/events';
 
 export default class DataTypePicker extends LightningElement {
     labels = LABELS;
@@ -70,7 +74,12 @@ export default class DataTypePicker extends LightningElement {
     }
 
     get showScale() {
-        return this.allowScale && !this.state.isCollection && (this.state.dataType === FLOW_DATA_TYPE.NUMBER.value || this.state.dataType === FLOW_DATA_TYPE.CURRENCY.value);
+        return (
+            this.allowScale &&
+            !this.state.isCollection &&
+            (this.state.dataType === FLOW_DATA_TYPE.NUMBER.value ||
+                this.state.dataType === FLOW_DATA_TYPE.CURRENCY.value)
+        );
     }
 
     get comboboxClasses() {

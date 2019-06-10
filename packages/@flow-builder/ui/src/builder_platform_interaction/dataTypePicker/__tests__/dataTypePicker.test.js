@@ -1,10 +1,16 @@
 import { createElement } from 'lwc';
-import DataTypePicker from "../dataTypePicker";
-import { FLOW_DATA_TYPE, SCALE_DEFAULT, SCALE_RANGE } from "builder_platform_interaction/dataTypeLib";
-import { ValueChangedEvent } from "builder_platform_interaction/events";
+import DataTypePicker from '../dataTypePicker';
+import {
+    FLOW_DATA_TYPE,
+    SCALE_DEFAULT,
+    SCALE_RANGE
+} from 'builder_platform_interaction/dataTypeLib';
+import { ValueChangedEvent } from 'builder_platform_interaction/events';
 
 const createComponentUnderTest = () => {
-    const el = createElement('builder_platform_interaction-data-type-picker', { is: DataTypePicker });
+    const el = createElement('builder_platform_interaction-data-type-picker', {
+        is: DataTypePicker
+    });
     document.body.appendChild(el);
     return el;
 };
@@ -16,22 +22,39 @@ describe('Data Type picker', () => {
     let collectionComponent;
     beforeEach(() => {
         dataTypePickerComponent = createComponentUnderTest();
-        dataTypeComponent = () => dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox');
-        scaleComponent = () => dataTypePickerComponent.shadowRoot.querySelector('.scale');
-        collectionComponent = () => dataTypePickerComponent.shadowRoot.querySelector('.collection');
+        dataTypeComponent = () =>
+            dataTypePickerComponent.shadowRoot.querySelector(
+                'lightning-combobox'
+            );
+        scaleComponent = () =>
+            dataTypePickerComponent.shadowRoot.querySelector('.scale');
+        collectionComponent = () =>
+            dataTypePickerComponent.shadowRoot.querySelector('.collection');
     });
 
     it('should only display given available data types', async () => {
-        dataTypePickerComponent.availableDataTypes = [FLOW_DATA_TYPE.STRING, FLOW_DATA_TYPE.NUMBER];
+        dataTypePickerComponent.availableDataTypes = [
+            FLOW_DATA_TYPE.STRING,
+            FLOW_DATA_TYPE.NUMBER
+        ];
         await Promise.resolve();
-        expect(dataTypePickerComponent.shadowRoot.querySelector('lightning-combobox').options.map(option => option.label)).toEqual(['FlowBuilderDataTypes.textDataTypeLabel', 'FlowBuilderDataTypes.numberDataTypeLabel']);
+        expect(
+            dataTypePickerComponent.shadowRoot
+                .querySelector('lightning-combobox')
+                .options.map(option => option.label)
+        ).toEqual([
+            'FlowBuilderDataTypes.textDataTypeLabel',
+            'FlowBuilderDataTypes.numberDataTypeLabel'
+        ]);
     });
 
     it('should display the given error message', () => {
         const errorMessage = 'test error';
         dataTypePickerComponent.errorMessage = errorMessage;
         return Promise.resolve(() => {
-            const combobox = dataTypeComponent.shadowRoot.querySelector('lightning-component');
+            const combobox = dataTypeComponent.shadowRoot.querySelector(
+                'lightning-component'
+            );
             expect(combobox.checkValidity()).toBeFalsy();
             expect(combobox.errorMessage).toEqual(errorMessage);
         });
@@ -42,23 +65,32 @@ describe('Data Type picker', () => {
             dataTypePickerComponent.allowScale = true;
         });
         it('should show scale input when Number is selected', async () => {
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value
+            };
             await Promise.resolve();
             expect(scaleComponent()).not.toBeNull();
         });
         it('should show scale input when Currency is selected', async () => {
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.CURRENCY.value };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.CURRENCY.value
+            };
             await Promise.resolve();
             expect(scaleComponent()).not.toBeNull();
         });
         it('should not show scale input for any other data type', async () => {
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.STRING.value };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.STRING.value
+            };
             await Promise.resolve();
             expect(scaleComponent()).toBeNull();
         });
         it('should not show scale input when collection is selected', async () => {
             dataTypePickerComponent.allowCollection = true;
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value, isCollection : true };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                isCollection: true
+            };
             await Promise.resolve();
             expect(scaleComponent()).toBeNull();
         });
@@ -68,7 +100,9 @@ describe('Data Type picker', () => {
             dataTypePickerComponent.allowScale = false;
         });
         it('should not show scale input', async () => {
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value
+            };
             await Promise.resolve();
             expect(scaleComponent()).toBeNull();
         });
@@ -76,7 +110,10 @@ describe('Data Type picker', () => {
     describe('When collection is allowed', () => {
         it('should show collection checkbox', async () => {
             dataTypePickerComponent.allowCollection = true;
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value, isCollection : true };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                isCollection: true
+            };
             await Promise.resolve();
             expect(collectionComponent()).not.toBeNull();
         });
@@ -85,42 +122,71 @@ describe('Data Type picker', () => {
     describe('When collection is not allowed', () => {
         it('should not show collection checkbox', async () => {
             dataTypePickerComponent.allowCollection = false;
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value
+            };
             await Promise.resolve();
             expect(collectionComponent()).toBeNull();
         });
     });
     describe('Events', () => {
         let eventCallback;
-        const expectValueChangedEventWithValue = (value) => {
+        const expectValueChangedEventWithValue = value => {
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({ detail: { value } });
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: { value }
+            });
         };
         beforeEach(async () => {
             eventCallback = jest.fn();
-            dataTypePickerComponent.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            dataTypePickerComponent.addEventListener(
+                ValueChangedEvent.EVENT_NAME,
+                eventCallback
+            );
             dataTypePickerComponent.allowScale = true;
             dataTypePickerComponent.allowCollection = true;
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value, isCollection : false, scale : 2 };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                isCollection: false,
+                scale: 2
+            };
             await Promise.resolve();
             scaleComponent().reportValidity = jest.fn();
         });
         it('fires valueChanged event when another datatype is selected in the combobox', async () => {
             dataTypeComponent().value = FLOW_DATA_TYPE.CURRENCY.value;
-            dataTypeComponent().dispatchEvent(new CustomEvent('change', { detail: { value: FLOW_DATA_TYPE.CURRENCY.value } }));
+            dataTypeComponent().dispatchEvent(
+                new CustomEvent('change', {
+                    detail: { value: FLOW_DATA_TYPE.CURRENCY.value }
+                })
+            );
             await Promise.resolve();
-            expectValueChangedEventWithValue({ dataType : FLOW_DATA_TYPE.CURRENCY.value, isCollection : false, scale : 2 });
+            expectValueChangedEventWithValue({
+                dataType: FLOW_DATA_TYPE.CURRENCY.value,
+                isCollection: false,
+                scale: 2
+            });
         });
         it('fires valueChanged event when collection is changed', async () => {
-            collectionComponent().dispatchEvent(new CustomEvent('change', { detail: { checked : true } }));
+            collectionComponent().dispatchEvent(
+                new CustomEvent('change', { detail: { checked: true } })
+            );
             await Promise.resolve();
-            expectValueChangedEventWithValue({ dataType : FLOW_DATA_TYPE.NUMBER.value, isCollection : true, scale : 2 });
+            expectValueChangedEventWithValue({
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                isCollection: true,
+                scale: 2
+            });
         });
         it('fires valueChanged event on blur when scale is changed', async () => {
             scaleComponent().mockUserInput('3');
             scaleComponent().dispatchEvent(new CustomEvent('blur'));
             await Promise.resolve();
-            expectValueChangedEventWithValue({ dataType : FLOW_DATA_TYPE.NUMBER.value, isCollection : false, scale : 3 });
+            expectValueChangedEventWithValue({
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                isCollection: false,
+                scale: 3
+            });
         });
         it('does not fire valueChanged event on blur when scale has not been changed', async () => {
             scaleComponent().mockUserInput('2');
@@ -131,19 +197,29 @@ describe('Data Type picker', () => {
     });
     describe('Scale input', () => {
         let eventCallback;
-        const expectValueChangedEventWithScale = (scale) => {
+        const expectValueChangedEventWithScale = scale => {
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: { value : { dataType : FLOW_DATA_TYPE.NUMBER.value, scale } } });
+            expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                detail: {
+                    value: { dataType: FLOW_DATA_TYPE.NUMBER.value, scale }
+                }
+            });
         };
-        const enterScaleAndDispatchBlur = (userInput) => {
+        const enterScaleAndDispatchBlur = userInput => {
             scaleComponent().mockUserInput(userInput);
             scaleComponent().dispatchEvent(new CustomEvent('blur'));
         };
         beforeEach(async () => {
             eventCallback = jest.fn();
-            dataTypePickerComponent.addEventListener(ValueChangedEvent.EVENT_NAME, eventCallback);
+            dataTypePickerComponent.addEventListener(
+                ValueChangedEvent.EVENT_NAME,
+                eventCallback
+            );
             dataTypePickerComponent.allowScale = true;
-            dataTypePickerComponent.value = { dataType : FLOW_DATA_TYPE.NUMBER.value, scale : 3 };
+            dataTypePickerComponent.value = {
+                dataType: FLOW_DATA_TYPE.NUMBER.value,
+                scale: 3
+            };
             await Promise.resolve();
             scaleComponent().reportValidity = jest.fn();
         });

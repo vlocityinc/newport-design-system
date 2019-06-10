@@ -10,9 +10,13 @@
  * @returns {Object} returns the frozen object
  */
 export function deepFreeze(obj) {
-    Object.getOwnPropertyNames(obj).map((prop) => {
+    Object.getOwnPropertyNames(obj).map(prop => {
         // Freeze prop if it is an object and is not already frozen
-        if (obj[prop] !== null && typeof obj[prop] === 'object' && !Object.isFrozen(obj)) {
+        if (
+            obj[prop] !== null &&
+            typeof obj[prop] === 'object' &&
+            !Object.isFrozen(obj)
+        ) {
             return deepFreeze(obj[prop]);
         }
         return prop;

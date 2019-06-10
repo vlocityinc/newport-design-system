@@ -1,11 +1,15 @@
 <template>
-    <div class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex">
-        <lightning-radio-group label='{numberRecordsToStoreLabel}'
-            name="numberRecordsToStoreRadioGroup" 
+    <div
+        class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+    >
+        <lightning-radio-group
+            label={numberRecordsToStoreLabel}
+            name="numberRecordsToStoreRadioGroup"
             options={recordStoreOptions}
             value={numberRecordsToStoreValue}
             onchange={handleNumberRecordsToStoreChange}
-            class="slds-m-top_x-small">
+            class="slds-m-top_x-small"
+        >
         </lightning-radio-group>
     </div>
 </template>

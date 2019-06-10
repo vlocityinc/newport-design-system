@@ -1,23 +1,33 @@
 import { createElement } from 'lwc';
 import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
-import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    createAction,
+    PROPERTY_EDITOR_ACTION
+} from 'builder_platform_interaction/actions';
 import { picklistChoiceSetReducer } from '../picklistChoiceSetReducer';
-import { PropertyChangedEvent, ValueChangedEvent } from 'builder_platform_interaction/events';
+import {
+    PropertyChangedEvent,
+    ValueChangedEvent
+} from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { mockAccountFields } from 'mock/serverEntityData';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    ENTITY_RESOURCE_PICKER: 'builder_platform_interaction-entity-resource-picker',
+    ENTITY_RESOURCE_PICKER:
+        'builder_platform_interaction-entity-resource-picker',
     DATA_TYPE_PICKER: 'builder_platform_interaction-data-type-picker',
     FIELD_PICKER: 'builder_platform_interaction-field-picker'
 };
 
-const setupComponentUnderTest = (picklistChoiceObject) => {
-    const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
-        is: PicklistChoiceSetEditor,
-    });
+const setupComponentUnderTest = picklistChoiceObject => {
+    const element = createElement(
+        'builder_platform_interaction-picklist-choice-set-editor',
+        {
+            is: PicklistChoiceSetEditor
+        }
+    );
     element.node = picklistChoiceObject;
     document.body.appendChild(element);
     return element;
@@ -26,14 +36,18 @@ const setupComponentUnderTest = (picklistChoiceObject) => {
 jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
-        PROPERTY_EDITOR_ACTION: require.requireActual('../../actions/actions.js').PROPERTY_EDITOR_ACTION,
+        PROPERTY_EDITOR_ACTION: require.requireActual(
+            '../../actions/actions.js'
+        ).PROPERTY_EDITOR_ACTION
     };
 });
 
 // helps remove dependency of the editor tests on the reducer functionality
 jest.mock('../picklistChoiceSetReducer', () => {
     return {
-        picklistChoiceSetReducer: jest.fn().mockImplementation(((obj) => Object.assign({}, obj))),
+        picklistChoiceSetReducer: jest
+            .fn()
+            .mockImplementation(obj => Object.assign({}, obj))
     };
 });
 
@@ -42,22 +56,28 @@ const mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
     const mockSobjectLib = Object.assign({}, sobjectLib);
-    mockSobjectLib.fetchFieldsForEntity = jest.fn().mockImplementation(() => mockAccountFieldsPromise);
+    mockSobjectLib.fetchFieldsForEntity = jest
+        .fn()
+        .mockImplementation(() => mockAccountFieldsPromise);
     return mockSobjectLib;
 });
 
-const newPicklistObjectOrField = {item: {value: 'Contact'}, displayText: 'contact', error: null};
+const newPicklistObjectOrField = {
+    item: { value: 'Contact' },
+    displayText: 'contact',
+    error: null
+};
 
 function getComboboxStateChangedEvent() {
     return new CustomEvent('comboboxstatechanged', {
-        detail: newPicklistObjectOrField,
+        detail: newPicklistObjectOrField
     });
 }
 
 describe('picklist-choice-set-editor', () => {
     const picklistChoiceObject = {
         elementType: 'PICKLIST_CHOICE_SET',
-        guid: 'guid_1',
+        guid: 'guid1',
         name: {
             value: 'picklistChoice1',
             error: null
@@ -92,8 +112,12 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let labelDescription;
         beforeEach(() => {
-            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            labelDescription = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.LABEL_DESCRIPTION);
+            picklistChoiceEditor = setupComponentUnderTest(
+                picklistChoiceObject
+            );
+            labelDescription = picklistChoiceEditor.shadowRoot.querySelector(
+                SELECTORS.LABEL_DESCRIPTION
+            );
         });
 
         it('Label-Description should be defined', () => {
@@ -105,18 +129,29 @@ describe('picklist-choice-set-editor', () => {
         });
 
         it('Description should be same as the description of the picklistChoiceObject', () => {
-            expect(labelDescription.description).toEqual(picklistChoiceObject.description);
+            expect(labelDescription.description).toEqual(
+                picklistChoiceObject.description
+            );
         });
 
         it('Handles the property changed event and updates the property', () => {
-            const event = new PropertyChangedEvent('description', 'new desc', null);
-            picklistChoiceEditor.shadowRoot.querySelector('builder_platform_interaction-label-description').dispatchEvent(event);
-            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                propertyName: 'description',
-                value: 'new desc',
-                error: null,
-                doValidateProperty: true
-            });
+            const event = new PropertyChangedEvent(
+                'description',
+                'new desc',
+                null
+            );
+            picklistChoiceEditor.shadowRoot
+                .querySelector('builder_platform_interaction-label-description')
+                .dispatchEvent(event);
+            expect(createAction).toHaveBeenCalledWith(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                {
+                    propertyName: 'description',
+                    value: 'new desc',
+                    error: null,
+                    doValidateProperty: true
+                }
+            );
         });
     });
 
@@ -124,8 +159,12 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let entityResourcePicker;
         beforeEach(() => {
-            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            entityResourcePicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.ENTITY_RESOURCE_PICKER);
+            picklistChoiceEditor = setupComponentUnderTest(
+                picklistChoiceObject
+            );
+            entityResourcePicker = picklistChoiceEditor.shadowRoot.querySelector(
+                SELECTORS.ENTITY_RESOURCE_PICKER
+            );
         });
 
         it('entity-resource-picker should be defined', () => {
@@ -162,11 +201,15 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let dataTypePicker;
         beforeEach(() => {
-            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            dataTypePicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.DATA_TYPE_PICKER);
+            picklistChoiceEditor = setupComponentUnderTest(
+                picklistChoiceObject
+            );
+            dataTypePicker = picklistChoiceEditor.shadowRoot.querySelector(
+                SELECTORS.DATA_TYPE_PICKER
+            );
         });
 
-        const dispatchValueChangedEvent = (payload) => {
+        const dispatchValueChangedEvent = payload => {
             const mockChangeEvent = new ValueChangedEvent(payload);
             dataTypePicker.dispatchEvent(mockChangeEvent);
         };
@@ -176,22 +219,27 @@ describe('picklist-choice-set-editor', () => {
         });
 
         it('data-type-picker should have two options', () => {
-            const dataTypeCombobox = dataTypePicker.shadowRoot.querySelector('lightning-combobox');
+            const dataTypeCombobox = dataTypePicker.shadowRoot.querySelector(
+                'lightning-combobox'
+            );
             expect(dataTypeCombobox.options).toHaveLength(2);
         });
 
         it('Handles value change event when data type option is selected', () => {
-            dispatchValueChangedEvent({ dataType : 'MultiPicklist' });
-            expect(createAction).toHaveBeenCalledWith(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, {
-                propertyName : 'dataType',
-                value: 'MultiPicklist',
-                error: null,
-                doValidateProperty: true
-            });
+            dispatchValueChangedEvent({ dataType: 'MultiPicklist' });
+            expect(createAction).toHaveBeenCalledWith(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                {
+                    propertyName: 'dataType',
+                    value: 'MultiPicklist',
+                    error: null,
+                    doValidateProperty: true
+                }
+            );
         });
 
         it('Changing value in data-type-picker should update picklistField', () => {
-            dispatchValueChangedEvent({ dataType : 'MultiPicklist' });
+            dispatchValueChangedEvent({ dataType: 'MultiPicklist' });
             expect(createAction.mock.calls[1][1]).toEqual({
                 propertyName: 'picklistField',
                 value: null,
@@ -205,8 +253,12 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let fieldPicker;
         beforeEach(() => {
-            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            fieldPicker = picklistChoiceEditor.shadowRoot.querySelector(SELECTORS.FIELD_PICKER);
+            picklistChoiceEditor = setupComponentUnderTest(
+                picklistChoiceObject
+            );
+            fieldPicker = picklistChoiceEditor.shadowRoot.querySelector(
+                SELECTORS.FIELD_PICKER
+            );
         });
 
         it('fieldPicker should be defined', () => {
@@ -238,8 +290,12 @@ describe('picklist-choice-set-editor', () => {
         let picklistChoiceEditor;
         let sortOrderCombobox;
         beforeEach(() => {
-            picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
-            sortOrderCombobox = picklistChoiceEditor.shadowRoot.querySelector('lightning-combobox');
+            picklistChoiceEditor = setupComponentUnderTest(
+                picklistChoiceObject
+            );
+            sortOrderCombobox = picklistChoiceEditor.shadowRoot.querySelector(
+                'lightning-combobox'
+            );
         });
 
         it('Sort Order Combobox should be defined', () => {
@@ -251,7 +307,9 @@ describe('picklist-choice-set-editor', () => {
         });
 
         it('Ascending should be the selected sortOrder', () => {
-            const sortOrderComboboxChangeEvent = new CustomEvent('change', {detail: {value: 'Desc'}});
+            const sortOrderComboboxChangeEvent = new CustomEvent('change', {
+                detail: { value: 'Desc' }
+            });
             sortOrderCombobox.dispatchEvent(sortOrderComboboxChangeEvent);
             expect(createAction.mock.calls[0][1]).toEqual({
                 propertyName: 'sortOrder',
@@ -264,9 +322,13 @@ describe('picklist-choice-set-editor', () => {
 
     describe('Validation', () => {
         it('Calls reducer with validate all event', () => {
-            const picklistChoiceEditor = setupComponentUnderTest(picklistChoiceObject);
+            const picklistChoiceEditor = setupComponentUnderTest(
+                picklistChoiceObject
+            );
             picklistChoiceEditor.validate();
-            expect(picklistChoiceSetReducer.mock.calls[0][1]).toEqual({type: VALIDATE_ALL});
+            expect(picklistChoiceSetReducer.mock.calls[0][1]).toEqual({
+                type: VALIDATE_ALL
+            });
         });
     });
 });

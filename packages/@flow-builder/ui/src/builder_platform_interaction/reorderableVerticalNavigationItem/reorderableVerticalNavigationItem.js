@@ -17,9 +17,10 @@ export default class ReorderableVerticalNavigationItem extends LightningElement 
     @api hasEndIcon = false;
     @api isDraggable = false;
 
-
     get ariaSelected() {
-        return this.isActive() ? LINK_ARIA_SELECTED_ACTIVE : LINK_ARIA_SELECTED_INACTIVE;
+        return this.isActive()
+            ? LINK_ARIA_SELECTED_ACTIVE
+            : LINK_ARIA_SELECTED_INACTIVE;
     }
 
     get itemClass() {
@@ -29,7 +30,9 @@ export default class ReorderableVerticalNavigationItem extends LightningElement 
     // In FireFox the dragstart happens only for the anchor element;
     // we need to specifically call the handler from the draggable element
     handleDragStart(event) {
-        const draggableElement = this.template.querySelector('builder_platform_interaction-draggable');
+        const draggableElement = this.template.querySelector(
+            'builder_platform_interaction-draggable'
+        );
         draggableElement.handleDragStart(event);
     }
 

@@ -1,29 +1,41 @@
 <template>
-    <div class="slds-form slds-form_compound slds-p-around_small slds-p-horizontal_small">
+    <div
+        class="slds-form slds-form_compound slds-p-around_small slds-p-horizontal_small"
+    >
         <!-- Name Label Desc Component -->
         <builder_platform_interaction-label-description
-                label={stageResource.label}
-                dev-name={stageResource.name}
-                description={stageResource.description}
-                guid={stageResource.guid}
-                onpropertychanged={handlePropertyChanged}>
+            label={stageResource.label}
+            dev-name={stageResource.name}
+            description={stageResource.description}
+            guid={stageResource.guid}
+            onpropertychanged={handlePropertyChanged}
+        >
         </builder_platform_interaction-label-description>
         <div class="slds-form-element__group">
-            <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
-                <lightning-input class="slds-form-element slds-col slds-grow slds-size_1-of-2 test-order"
-                                 type="number" label={labels.orderSectionLabel}
-                                 onfocusout={handleOrderChange}
-                                 value={stageResource.stageOrder.value}
-                                 required min={stageOrderRange.min}
-                                 max={stageOrderRange.max}
-                                 message-when-value-missing={showErrorMessageIfBlank}
-                                 field-level-help={labels.orderHelpText}>
+            <div
+                class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+                <lightning-input
+                    class="slds-form-element slds-col slds-grow slds-size_1-of-2 test-order"
+                    type="number"
+                    label={labels.orderSectionLabel}
+                    onfocusout={handleOrderChange}
+                    value={stageResource.stageOrder.value}
+                    required
+                    min={stageOrderRange.min}
+                    max={stageOrderRange.max}
+                    message-when-value-missing={showErrorMessageIfBlank}
+                    field-level-help={labels.orderHelpText}
+                >
                 </lightning-input>
-                <lightning-input class="slds-form-element slds-col slds-grow slds-size_1-of-2 slds-p-top_large test-active-by-default"
-                                 label={labels.activeByDefaultLabel} type="checkbox"
-                                 checked={stageResource.isActive}
-                                 onchange={handleIsActiveChange}
-                                 field-level-help={labels.activeByDefaultHelpText}>
+                <lightning-input
+                    class="slds-form-element slds-col slds-grow slds-size_1-of-2 slds-p-top_large test-active-by-default"
+                    label={labels.activeByDefaultLabel}
+                    type="checkbox"
+                    checked={stageResource.isActive}
+                    onchange={handleIsActiveChange}
+                    field-level-help={labels.activeByDefaultHelpText}
+                >
                 </lightning-input>
             </div>
         </div>

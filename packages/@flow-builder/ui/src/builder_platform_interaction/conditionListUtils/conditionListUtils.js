@@ -1,15 +1,18 @@
-import { CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import andPrefixLabel from '@salesforce/label/FlowBuilderConditionList.andPrefixLabel';
 import orPrefixLabel from '@salesforce/label/FlowBuilderConditionList.orPrefixLabel';
 
 const PREFIX_TO_LABEL = {
     [CONDITION_LOGIC.AND]: andPrefixLabel,
-    [CONDITION_LOGIC.OR]: orPrefixLabel,
+    [CONDITION_LOGIC.OR]: orPrefixLabel
 };
 
 const getPrefix = (conditionLogic, index) => {
     // conditionLogic.value is either 'and' or 'or' or a custom logic string (e.g. '1 AND (2 or 3)'
-    if (conditionLogic.value === CONDITION_LOGIC.AND || conditionLogic.value === CONDITION_LOGIC.OR) {
+    if (
+        conditionLogic.value === CONDITION_LOGIC.AND ||
+        conditionLogic.value === CONDITION_LOGIC.OR
+    ) {
         return index > 0 ? PREFIX_TO_LABEL[conditionLogic.value] : '';
     }
     // Convert to 1 based indexes
@@ -39,4 +42,3 @@ export function getConditionsWithPrefixes(conditionLogic, conditions) {
 export function showDeleteCondition(conditions) {
     return conditions.length > 1;
 }
-

@@ -1,74 +1,85 @@
 <template>
     <div class={computedClass}>
-        <builder_platform_interaction-ferov-resource-picker if:true={isFerov} 
-                                                            class='property-input'
-                                                            combobox-config={resourceComboBoxConfig}
-                                                            element-config={resourcePickerConfig.elementConfig}
-                                                            element-param={elementParam}
-                                                            hide-global-constants={resourcePickerConfig.hideGlobalConstants}
-                                                            hide-system-variables={resourcePickerConfig.hideSystemVariables}
-                                                            property-editor-element-type={propertyEditorElementType}
-                                                            rules={resourcePickerRules}
-                                                            hide-new-resource={resourcePickerConfig.hideNewResource}
-                                                            row-index={rowIndex}
-                                                            value={propertyValue}
-                                                            oncomboboxstatechanged={handleComboboxChanged}
-                                                            onitemselected={handleComboboxChanged}>
+        <builder_platform_interaction-ferov-resource-picker
+            if:true={isFerov}
+            class="property-input"
+            combobox-config={resourceComboBoxConfig}
+            element-config={resourcePickerConfig.elementConfig}
+            element-param={elementParam}
+            hide-global-constants={resourcePickerConfig.hideGlobalConstants}
+            hide-system-variables={resourcePickerConfig.hideSystemVariables}
+            property-editor-element-type={propertyEditorElementType}
+            rules={resourcePickerRules}
+            hide-new-resource={resourcePickerConfig.hideNewResource}
+            row-index={rowIndex}
+            value={propertyValue}
+            oncomboboxstatechanged={handleComboboxChanged}
+            onitemselected={handleComboboxChanged}
+        >
         </builder_platform_interaction-ferov-resource-picker>
 
-        <builder_platform_interaction-output-resource-picker if:true={allowsResourcesForOutput} 
-                                                             class='property-input'
-                                                             combobox-config={resourceComboBoxConfig}
-                                                             element-param={elementParam}
-                                                             property-editor-element-type={propertyEditorElementType}
-                                                             value={propertyValue}
-                                                             row-index={rowIndex}
-                                                             oncomboboxstatechanged={handleComboboxChanged}
-                                                             onitemselected={handleComboboxChanged}>
+        <builder_platform_interaction-output-resource-picker
+            if:true={allowsResourcesForOutput}
+            class="property-input"
+            combobox-config={resourceComboBoxConfig}
+            element-param={elementParam}
+            property-editor-element-type={propertyEditorElementType}
+            value={propertyValue}
+            row-index={rowIndex}
+            oncomboboxstatechanged={handleComboboxChanged}
+            onitemselected={handleComboboxChanged}
+        >
         </builder_platform_interaction-output-resource-picker>
 
-        <lightning-input if:true={isInput}
-                         checked={checked}
-                         class='property-input'
-                         field-level-help={helpText}
-                         label={label}
-                         name={name}
-                         required={required}
-                         type={inputType}
-                         value={propertyValue}
-                         onchange={handleEvent}
-                         onblur={handleEvent}>
+        <lightning-input
+            if:true={isInput}
+            checked={checked}
+            class="property-input"
+            field-level-help={helpText}
+            label={label}
+            name={name}
+            required={required}
+            type={inputType}
+            value={propertyValue}
+            onchange={handleEvent}
+            onblur={handleEvent}
+        >
         </lightning-input>
 
-        <lightning-combobox if:true={isList}
-                            class='slds-combobox__form-element property-input'
-                            disabled={disabled}
-                            label={label}
-                            options={listChoices}
-                            value={propertyValue}
-                            onchange={handleEvent}>
+        <lightning-combobox
+            if:true={isList}
+            class="slds-combobox__form-element property-input"
+            disabled={disabled}
+            label={label}
+            options={listChoices}
+            value={propertyValue}
+            onchange={handleEvent}
+        >
         </lightning-combobox>
- 
-         <builder_platform_interaction-resourced-textarea if:true={isLongString}
-                                                         class='property-input'
-                                                         help-text={helpText}
-                                                         label={label}
-                                                         name={name}
-                                                         required={required}
-                                                         value={value}
-                                                         onblur={handleEvent}
-                                                         onchange={handleEvent}>
+
+        <builder_platform_interaction-resourced-textarea
+            if:true={isLongString}
+            class="property-input"
+            help-text={helpText}
+            label={label}
+            name={name}
+            required={required}
+            value={value}
+            onblur={handleEvent}
+            onchange={handleEvent}
+        >
         </builder_platform_interaction-resourced-textarea>
- 
-        <builder_platform_interaction-resourced-rich-text-editor if:true={isRichString}
-                                                       class='property-input'
-                                                       help-text={helpText}
-                                                       label={label}
-                                                       required={required}
-                                                       value={value}
-                                                       onblur={handleEvent}
-                                                       onchange={handleEvent}>
+
+        <builder_platform_interaction-resourced-rich-text-editor
+            if:true={isRichString}
+            class="property-input"
+            help-text={helpText}
+            label={label}
+            required={required}
+            value={value}
+            onblur={handleEvent}
+            onchange={handleEvent}
+        >
         </builder_platform_interaction-resourced-rich-text-editor>
-    
     </div>
 </template>

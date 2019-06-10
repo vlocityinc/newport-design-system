@@ -1,6 +1,5 @@
-import {LightningElement, api} from 'lwc';
-import {AddListItemEvent} from "builder_platform_interaction/events";
-
+import { LightningElement, api } from 'lwc';
+import { AddListItemEvent } from 'builder_platform_interaction/events';
 
 /**
  * Assignment Item List component for flow builder.

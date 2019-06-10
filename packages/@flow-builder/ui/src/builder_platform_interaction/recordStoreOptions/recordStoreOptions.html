@@ -2,38 +2,43 @@
     <div class="slds-border_top ">
         <div class="slds-form_stacked slds-p-around_small slds-no-flex">
             <div if:true={displayNumberRecordsToStore}>
-                <builder_platform_interaction-rich-label 
+                <builder_platform_interaction-rich-label
                     if:true={isLookupElement}
                     label={labels.storeFieldsSelectionLabel}
-                    args={state.resourceDisplayText} 
-                    class="slds-text-body_regular">
+                    args={state.resourceDisplayText}
+                    class="slds-text-body_regular"
+                >
                 </builder_platform_interaction-rich-label>
-                <lightning-radio-group label='{numberRecordsToStoreLabel}'
-                    name="numberRecordsToStoreRadioGroup" 
+                <lightning-radio-group
+                    label={numberRecordsToStoreLabel}
+                    name="numberRecordsToStoreRadioGroup"
                     options={recordStoreOptions}
                     value={state.numberOfRecordsToStore}
                     onchange={handleNumberRecordsToStoreChange}
-                    class="slds-m-top_x-small">
+                    class="slds-m-top_x-small"
+                >
                 </lightning-radio-group>
             </div>
             <div if:true={displayWayToStoreFields}>
-                <lightning-radio-group 
+                <lightning-radio-group
                     if:true={showWayToStoreFieldSelector}
                     name="wayToStoreFieldsRadioGroup"
-                    label={wayToStoreRecordLabel} 
+                    label={wayToStoreRecordLabel}
                     options={wayToStoreFieldsOptions}
                     value={state.wayToStoreFields}
                     onchange={handleWayToStoreFieldsChange}
-                    class="slds-m-top_x-small">
+                    class="slds-m-top_x-small"
+                >
                 </lightning-radio-group>
-                <lightning-input 
+                <lightning-input
                     if:true={isLookupElement}
-                    name="assignNullIfNoRecordFoundComboBox" 
-                    class='property-input slds-m-top_x-small' 
-                    type='checkbox' 
+                    name="assignNullIfNoRecordFoundComboBox"
+                    class="property-input slds-m-top_x-small"
+                    type="checkbox"
                     label={labels.assignNullValuesIfNoRecordsFoundLabel}
-                    checked={state.assignNullValuesIfNoRecordsFound} 
-                    onchange={handleAssignNullValuesIfNoRecordsFoundChange}>
+                    checked={state.assignNullValuesIfNoRecordsFound}
+                    onchange={handleAssignNullValuesIfNoRecordsFoundChange}
+                >
                 </lightning-input>
             </div>
         </div>

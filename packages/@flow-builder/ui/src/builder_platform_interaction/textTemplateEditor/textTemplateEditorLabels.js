@@ -3,5 +3,5 @@ import resourcePlaceholder from '@salesforce/label/FlowBuilderTextTemplateEditor
 
 export const LABELS = {
     textTemplateLabel,
-    resourcePlaceholder,
+    resourcePlaceholder
 };

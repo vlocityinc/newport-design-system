@@ -1,5 +1,8 @@
-import {loopReducer} from "../loopReducer";
-import {PropertyChangedEvent, LoopCollectionChangedEvent} from "builder_platform_interaction/events";
+import { loopReducer } from '../loopReducer';
+import {
+    PropertyChangedEvent,
+    LoopCollectionChangedEvent
+} from 'builder_platform_interaction/events';
 
 const IAMERRORED = 'IAMERRORED';
 const CANNOTBEBLANKERROR = 'FlowBuilderValidation.cannotBeBlank';
@@ -9,17 +12,17 @@ describe('Loop-reducer', () => {
     let originalState;
     beforeEach(() => {
         originalState = {
-            name : {value: 'testLoop', error: null},
-            label : {value: 'testLoop', error: null},
-            description : {value: 'test description', error: null},
-            assignNextValueToReference: {value: 'VARIABLE_1', error: null},
-            collectionReference: {value: 'VARIABLE_2', error: null},
-            iterationOrder: {value:'Asc', error: null },
-            elementType : 'LOOP',
-            guid : '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
-            isCanvasElement : true,
-            locationX : 789,
-            locationY : 123,
+            name: { value: 'testLoop', error: null },
+            label: { value: 'testLoop', error: null },
+            description: { value: 'test description', error: null },
+            assignNextValueToReference: { value: 'VARIABLE_1', error: null },
+            collectionReference: { value: 'VARIABLE_2', error: null },
+            iterationOrder: { value: 'Asc', error: null },
+            elementType: 'LOOP',
+            guid: '141f916fee-1c6f3-108bf-1ca54-16c041fcba152a7',
+            isCanvasElement: true,
+            locationX: 789,
+            locationY: 123
         };
     });
     describe('handles loopCollectionChangedEvent event', () => {
@@ -29,7 +32,7 @@ describe('Loop-reducer', () => {
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: null,
-                    loopVariableValue : null,
+                    loopVariableValue: null,
                     loopVariableErrorMessage: null
                 }
             };
@@ -45,7 +48,7 @@ describe('Loop-reducer', () => {
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: IAMERRORED,
-                    loopVariableValue : null,
+                    loopVariableValue: null,
                     loopVariableErrorMessage: null
                 }
             };
@@ -61,15 +64,21 @@ describe('Loop-reducer', () => {
                 detail: {
                     collectionValue: null,
                     collectionError: null,
-                    loopVariableValue : VARIABLE,
+                    loopVariableValue: VARIABLE,
                     loopVariableErrorMessage: IAMERRORED
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(null);
-            expect(resultObj.collectionReference.error).toEqual(CANNOTBEBLANKERROR);
-            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
-            expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
+            expect(resultObj.collectionReference.error).toEqual(
+                CANNOTBEBLANKERROR
+            );
+            expect(resultObj.assignNextValueToReference.value).toEqual(
+                VARIABLE
+            );
+            expect(resultObj.assignNextValueToReference.error).toEqual(
+                IAMERRORED
+            );
         });
         it('updates both loop collection value, loop collection error', () => {
             const event = {
@@ -77,7 +86,7 @@ describe('Loop-reducer', () => {
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: IAMERRORED,
-                    loopVariableValue : null,
+                    loopVariableValue: null,
                     loopVariableErrorMessage: null
                 }
             };
@@ -93,15 +102,19 @@ describe('Loop-reducer', () => {
                 detail: {
                     collectionValue: VARIABLE,
                     collectionError: IAMERRORED,
-                    loopVariableValue : VARIABLE,
+                    loopVariableValue: VARIABLE,
                     loopVariableErrorMessage: IAMERRORED
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(VARIABLE);
             expect(resultObj.collectionReference.error).toEqual(IAMERRORED);
-            expect(resultObj.assignNextValueToReference.value).toEqual(VARIABLE);
-            expect(resultObj.assignNextValueToReference.error).toEqual(IAMERRORED);
+            expect(resultObj.assignNextValueToReference.value).toEqual(
+                VARIABLE
+            );
+            expect(resultObj.assignNextValueToReference.error).toEqual(
+                IAMERRORED
+            );
         });
         it('updates cannot be blank error for only loop collection error', () => {
             const event = {
@@ -109,13 +122,15 @@ describe('Loop-reducer', () => {
                 detail: {
                     collectionValue: null,
                     collectionError: null,
-                    loopVariableValue : null,
+                    loopVariableValue: null,
                     loopVariableErrorMessage: null
                 }
             };
             const resultObj = loopReducer(originalState, event);
             expect(resultObj.collectionReference.value).toEqual(null);
-            expect(resultObj.collectionReference.error).toEqual(CANNOTBEBLANKERROR);
+            expect(resultObj.collectionReference.error).toEqual(
+                CANNOTBEBLANKERROR
+            );
             expect(resultObj.assignNextValueToReference.value).toEqual(null);
             expect(resultObj.assignNextValueToReference.error).toEqual(null);
         });

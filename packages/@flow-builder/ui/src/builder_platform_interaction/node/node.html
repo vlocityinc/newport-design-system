@@ -1,29 +1,60 @@
 <template>
-    <div class={parentDivComputedClass} title={nodeIconTitle} style={nodeLocation}>
+    <div
+        class={parentDivComputedClass}
+        title={nodeIconTitle}
+        style={nodeLocation}
+    >
         <div class={nodeClasses}>
             <!--Node icon -->
             <div class={rotateIconClass}>
-                <button title={nodeIconTitle} tabindex='0' class='icon' onfocus={handleNodeClick} onmousedown={handleMouseDown} onclick={handleNodeClick} ondblclick={handleDblClick}>
+                <button
+                    title={nodeIconTitle}
+                    tabindex="0"
+                    class="icon"
+                    onfocus={handleNodeClick}
+                    onmousedown={handleMouseDown}
+                    onclick={handleNodeClick}
+                    ondblclick={handleDblClick}
+                >
                     <builder_platform_interaction-element-icon
-                            icon-name={iconName}
-                            icon-size='large'
-                            background-color={iconBackgroundColor}
-                            is-canvas-element-icon>
+                        icon-name={iconName}
+                        icon-size="large"
+                        background-color={iconBackgroundColor}
+                        is-canvas-element-icon
+                    >
                     </builder_platform_interaction-element-icon>
                 </button>
             </div>
 
             <!--End Point-->
-            <button if:true={hasAvailableConnections} title={endPointTitle} tabindex='0' class='end-point slds-is-absolute'></button>
+            <button
+                if:true={hasAvailableConnections}
+                title={endPointTitle}
+                tabindex="0"
+                class="end-point slds-is-absolute"
+            ></button>
 
             <!--Trash can-->
-            <lightning-button-icon if:true={isSelected} tabindex='0' icon-name='utility:delete' variant='bare' size='small' alternative-text={trashCanAlternativeText} class='trash-can slds-is-absolute slds-button-icon_small' onclick={handleTrashClick}></lightning-button-icon>
+            <lightning-button-icon
+                if:true={isSelected}
+                tabindex="0"
+                icon-name="utility:delete"
+                variant="bare"
+                size="small"
+                alternative-text={trashCanAlternativeText}
+                class="trash-can slds-is-absolute slds-button-icon_small"
+                onclick={handleTrashClick}
+            ></lightning-button-icon>
         </div>
 
         <!--Label and description-->
-        <div class='text-container slds-is-absolute'>
-            <div class='text-label slds-text-body_regular slds-truncate'>{nodeLabel}</div>
-            <div class='text-element-type slds-text-body_regular slds-truncate'>{nodeTypeLabel}</div>
+        <div class="text-container slds-is-absolute">
+            <div class="text-label slds-text-body_regular slds-truncate">
+                {nodeLabel}
+            </div>
+            <div class="text-element-type slds-text-body_regular slds-truncate">
+                {nodeTypeLabel}
+            </div>
         </div>
     </div>
 </template>

@@ -1,57 +1,66 @@
-import { setApexClasses, cachePropertiesForClass, getPropertiesForClass } from '../apexTypeLib';
+import {
+    setApexClasses,
+    cachePropertiesForClass,
+    getPropertiesForClass
+} from '../apexTypeLib';
 
-const string = "String";
-const sobject = "SObject";
-const className = "ApexClass";
-const sobjectType = "Account";
-const property1 = "property1";
-const property2 = "property2";
-const sampleApexClass = [{
-      "durableId" : className,
-      "innerTypes" : {
-          "done" : true,
-          "entityTypeName": "FlowApexClassDescriptor",
-          "records" : [{
-              "fieldsToNull" : [],
-              "id" : "000000000000000AAA",
-              "name" : "Request",
-              "parentId" : className
-            },
-            {
-                "fieldsToNull" : [],
-                "id" : "000000000000000AAA",
-                "name" : "Request2",
-                "parentId" : className
-            }],
-          "size" : 2,
-          "totalSize" : 2
-      },
-      "name" : className,
-      "properties" : {
-          "done" : true,
-          "entityTypeName" : "FlowApexClassPropertyDesc",
-          "records" : [{
-              "fieldsToNull" : [],
-              "id" : "000000000000000AAA",
-              "isCollection" : false,
-              "name" : property1,
-              "parentId" : className,
-              "type" : string
-          },
-          {
-              "fieldsToNull" : [],
-              "id" : "000000000000000AAB",
-              "isCollection" : false,
-              "name" : property2,
-              "parentId" : className,
-              "type" : sobject,
-              "objectType": sobjectType,
-          },
-          ],
-          "size" : 1,
-          "totalSize" : 1
-      },
-}];
+const string = 'String';
+const sobject = 'SObject';
+const className = 'ApexClass';
+const sobjectType = 'Account';
+const property1 = 'property1';
+const property2 = 'property2';
+const sampleApexClass = [
+    {
+        durableId: className,
+        innerTypes: {
+            done: true,
+            entityTypeName: 'FlowApexClassDescriptor',
+            records: [
+                {
+                    fieldsToNull: [],
+                    id: '000000000000000AAA',
+                    name: 'Request',
+                    parentId: className
+                },
+                {
+                    fieldsToNull: [],
+                    id: '000000000000000AAA',
+                    name: 'Request2',
+                    parentId: className
+                }
+            ],
+            size: 2,
+            totalSize: 2
+        },
+        name: className,
+        properties: {
+            done: true,
+            entityTypeName: 'FlowApexClassPropertyDesc',
+            records: [
+                {
+                    fieldsToNull: [],
+                    id: '000000000000000AAA',
+                    isCollection: false,
+                    name: property1,
+                    parentId: className,
+                    type: string
+                },
+                {
+                    fieldsToNull: [],
+                    id: '000000000000000AAB',
+                    isCollection: false,
+                    name: property2,
+                    parentId: className,
+                    type: sobject,
+                    objectType: sobjectType
+                }
+            ],
+            size: 1,
+            totalSize: 1
+        }
+    }
+];
 
 describe('apex type lib', () => {
     beforeEach(() => {
@@ -67,7 +76,7 @@ describe('apex type lib', () => {
         const expectedProperty = {
             apiName: property1,
             dataType: string,
-            apexClass: className,
+            apexClass: className
         };
         const actualProperty = getPropertiesForClass(className)[property1];
         expect(actualProperty).toMatchObject(expectedProperty);
@@ -77,7 +86,7 @@ describe('apex type lib', () => {
         const expectedProperty = {
             apiName: property2,
             dataType: sobject,
-            subtype: sobjectType,
+            subtype: sobjectType
         };
         const actualProperty = getPropertiesForClass(className)[property2];
         expect(actualProperty).toMatchObject(expectedProperty);

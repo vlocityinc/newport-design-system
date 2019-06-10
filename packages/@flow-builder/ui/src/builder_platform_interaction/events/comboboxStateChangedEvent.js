@@ -18,7 +18,12 @@ const eventName = 'comboboxstatechanged';
  */
 
 export class ComboboxStateChangedEvent {
-    constructor(item = null, displayText = null, error = null, isMergeField = false) {
+    constructor(
+        item = null,
+        displayText = null,
+        error = null,
+        isMergeField = false
+    ) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
@@ -28,7 +33,7 @@ export class ComboboxStateChangedEvent {
                 item,
                 displayText,
                 error,
-                isMergeField,
+                isMergeField
             }
         });
     }

@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import { format } from "builder_platform_interaction/commonUtils";
+import { format } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Display a label that can contain strong HTML tags.
@@ -12,9 +12,9 @@ import { format } from "builder_platform_interaction/commonUtils";
 export default class RichLabel extends LightningElement {
     @track
     state = {
-        label : "",
-        args : []
-    }
+        label: '',
+        args: []
+    };
 
     @api
     get label() {

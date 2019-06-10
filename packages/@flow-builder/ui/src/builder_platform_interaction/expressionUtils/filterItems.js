@@ -1,4 +1,7 @@
-import { escapeForRegExp, isReference } from 'builder_platform_interaction/commonUtils';
+import {
+    escapeForRegExp,
+    isReference
+} from 'builder_platform_interaction/commonUtils';
 
 /**
  * Persist original text/subText else clear highlight if present.
@@ -54,7 +57,11 @@ function highlightItem(filterText, escapedFilterText, item) {
         item.text = highlight(filterText, escapedFilterText, item.text);
 
         if (item.subText) {
-            item.subText = highlight(filterText, escapedFilterText, item.subText);
+            item.subText = highlight(
+                filterText,
+                escapedFilterText,
+                item.subText
+            );
         }
     }
 }
@@ -90,7 +97,8 @@ function highlight(filterText, escapedFilterText, targetText) {
     const targetTextArray = targetText.split(regex).filter(String);
     const formattedText = targetTextArray.map(targetTextFragment => {
         return {
-            highlight: (targetTextFragment.toLowerCase() === filterText.toLowerCase()),
+            highlight:
+                targetTextFragment.toLowerCase() === filterText.toLowerCase(),
             text: targetTextFragment
         };
     });
@@ -148,10 +156,17 @@ export function filterMatches(filterText, menuData, isMergeField) {
         }
 
         const matchedItems = itemsToMatch.filter(menuItem => {
-            return isEmpty(filterText) || getIndex(filterText, menuItem.text) !== -1 || getIndex(filterText, menuItem.subText) !== -1 || getIndex(filterText, menuItem.displayText) !== -1;
+            return (
+                isEmpty(filterText) ||
+                getIndex(filterText, menuItem.text) !== -1 ||
+                getIndex(filterText, menuItem.subText) !== -1 ||
+                getIndex(filterText, menuItem.displayText) !== -1
+            );
         });
 
-        const escapedFilterText = isEmpty(filterText) ? filterText : escapeForRegExp(filterText);
+        const escapedFilterText = isEmpty(filterText)
+            ? filterText
+            : escapeForRegExp(filterText);
         // Only add group with matched items
         if (matchedItems && matchedItems.length > 0) {
             matchedItems.forEach(menuItem => {

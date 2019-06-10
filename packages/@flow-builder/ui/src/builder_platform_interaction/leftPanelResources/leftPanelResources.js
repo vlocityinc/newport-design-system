@@ -1,6 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { LABELS } from "./leftPanelResourcesLabels";
-import { logPerfTransactionStart, logPerfTransactionEnd } from "builder_platform_interaction/loggingUtils";
+import { LABELS } from './leftPanelResourcesLabels';
+import {
+    logPerfTransactionStart,
+    logPerfTransactionEnd
+} from 'builder_platform_interaction/loggingUtils';
 import { ShowResourceDetailsEvent } from 'builder_platform_interaction/events';
 
 const leftPanelResources = 'LEFT_PANEL_RESOURCES';
@@ -33,12 +36,18 @@ export default class LeftPanelResources extends LightningElement {
     }
 
     handleNonCanvasElementChevronClicked(event) {
-        const showResourceDetailsEvent = new ShowResourceDetailsEvent(event.detail.elementGUID, false);
+        const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+            event.detail.elementGUID,
+            false
+        );
         this.dispatchEvent(showResourceDetailsEvent);
     }
 
     handleCanvasElementChevronClicked(event) {
-        const showResourceDetailsEvent = new ShowResourceDetailsEvent(event.detail.elementGUID, true);
+        const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+            event.detail.elementGUID,
+            true
+        );
         this.dispatchEvent(showResourceDetailsEvent);
     }
 }

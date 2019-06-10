@@ -13,7 +13,7 @@ const createComponentUnderTest = () => {
 };
 
 const selectors = {
-    badge: 'lightning-badge',
+    badge: 'lightning-badge'
 };
 
 describe('flowStatus', () => {
@@ -23,7 +23,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.ACTIVE;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.label).toEqual(LABELS.activeLabel);
             });
         });
@@ -32,7 +34,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.ACTIVE;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.title).toEqual(LABELS.activeTitle);
             });
         });
@@ -41,7 +45,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.ACTIVE;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.className).toEqual('slds-theme_success');
             });
         });
@@ -53,7 +59,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.OBSOLETE;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.label).toEqual(LABELS.deactivatedLabel);
             });
         });
@@ -62,7 +70,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.OBSOLETE;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.title).toEqual(LABELS.deactivatedTitle);
             });
         });
@@ -71,7 +81,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.OBSOLETE;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.className).toEqual('');
             });
         });
@@ -83,7 +95,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.DRAFT;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.label).toEqual(LABELS.draftLabel);
             });
         });
@@ -92,7 +106,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.DRAFT;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.title).toEqual(LABELS.draftTitle);
             });
         });
@@ -101,7 +117,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.DRAFT;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.className).toEqual('');
             });
         });
@@ -113,7 +131,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.INVALID_DRAFT;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.label).toEqual(LABELS.draftLabel);
             });
         });
@@ -122,7 +142,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.INVALID_DRAFT;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.title).toEqual(LABELS.draftTitle);
             });
         });
@@ -131,7 +153,9 @@ describe('flowStatus', () => {
             component.flowStatus = FLOW_STATUS.INVALID_DRAFT;
 
             return Promise.resolve().then(() => {
-                const badge = component.shadowRoot.querySelector(selectors.badge);
+                const badge = component.shadowRoot.querySelector(
+                    selectors.badge
+                );
                 expect(badge.className).toEqual('');
             });
         });

@@ -1,8 +1,12 @@
 import { createElement } from 'lwc';
-import { EditElementEvent, DeleteElementEvent, CANVAS_EVENT } from "builder_platform_interaction/events";
-import Node from "builder_platform_interaction/node";
-import {isTestMode} from 'builder_platform_interaction/contextLib';
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import {
+    EditElementEvent,
+    DeleteElementEvent,
+    CANVAS_EVENT
+} from 'builder_platform_interaction/events';
+import Node from 'builder_platform_interaction/node';
+import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const createComponentUnderTest = (isSelected, isHighlighted) => {
     const el = createElement('builder_platform_interaction-node', {
@@ -10,12 +14,12 @@ const createComponentUnderTest = (isSelected, isHighlighted) => {
     });
     el.node = {
         guid: '1',
-        locationX : '20px',
-        locationY : '40px',
-        elementType : ELEMENT_TYPE.ASSIGNMENT,
-        label : 'First Node',
-        description : 'My first test node',
-        config: {isSelected, isHighlighted}
+        locationX: '20px',
+        locationY: '40px',
+        elementType: ELEMENT_TYPE.ASSIGNMENT,
+        label: 'First Node',
+        description: 'My first test node',
+        config: { isSelected, isHighlighted }
     };
     document.body.appendChild(el);
     return el;
@@ -33,10 +37,10 @@ jest.mock('builder_platform_interaction/contextLib', () => ({
     isTestMode: jest.fn()
 }));
 
-const dblClick = (component) => {
+const dblClick = component => {
     const doubleClickEvent = new Event('dblclick', {
-        'bubbles'   : true,
-        'cancelable': true,
+        bubbles: true,
+        cancelable: true
     });
     const nodeIcon = component.shadowRoot.querySelector(selectors.icon);
     nodeIcon.dispatchEvent(doubleClickEvent);
@@ -59,7 +63,10 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(false, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
+            nodeComponent.addEventListener(
+                CANVAS_EVENT.NODE_SELECTED,
+                callback
+            );
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -69,7 +76,10 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(CANVAS_EVENT.NODE_SELECTED, callback);
+            nodeComponent.addEventListener(
+                CANVAS_EVENT.NODE_SELECTED,
+                callback
+            );
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -77,19 +87,28 @@ describe('node', () => {
 
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
-        expect(nodeComponent.shadowRoot.querySelector(selectors.iconSelected)).toBeTruthy();
+        expect(
+            nodeComponent.shadowRoot.querySelector(selectors.iconSelected)
+        ).toBeTruthy();
     });
 
     it('Checks if a highlighted node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(false, true);
-        expect(nodeComponent.shadowRoot.querySelector(selectors.highlightedContainer)).toBeTruthy();
+        expect(
+            nodeComponent.shadowRoot.querySelector(
+                selectors.highlightedContainer
+            )
+        ).toBeTruthy();
     });
 
     it('Checks if an EditElementEvent is dispatched when icon is double clicked', () => {
         const nodeComponent = createComponentUnderTest(false, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(EditElementEvent.EVENT_NAME, callback);
+            nodeComponent.addEventListener(
+                EditElementEvent.EVENT_NAME,
+                callback
+            );
             dblClick(nodeComponent);
             expect(callback).toHaveBeenCalled();
             expect(callback.mock.calls[0][0]).toMatchObject({
@@ -104,7 +123,10 @@ describe('node', () => {
         const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
             const callback = jest.fn();
-            nodeComponent.addEventListener(DeleteElementEvent.EVENT_NAME, callback);
+            nodeComponent.addEventListener(
+                DeleteElementEvent.EVENT_NAME,
+                callback
+            );
             nodeComponent.shadowRoot.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
         });
@@ -123,7 +145,9 @@ describe('node', () => {
             isTestMode.mockReturnValue(false);
             const node = createComponentUnderTest();
             parentDiv = node.shadowRoot.querySelector('div');
-            expect(parentDiv.classList).not.toContain(testModeSpecificClassName);
+            expect(parentDiv.classList).not.toContain(
+                testModeSpecificClassName
+            );
         });
     });
 });

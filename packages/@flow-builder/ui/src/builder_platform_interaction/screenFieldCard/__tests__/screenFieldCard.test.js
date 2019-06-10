@@ -1,7 +1,7 @@
-import {createElement} from 'lwc';
-import ScreenFieldCard from "../screenFieldCard";
+import { createElement } from 'lwc';
+import ScreenFieldCard from '../screenFieldCard';
 
-const createComponentUnderTest = (props) => {
+const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-ScreenFieldCard', {
         is: ScreenFieldCard
     });
@@ -20,11 +20,17 @@ const SELECTORS = {
 };
 
 describe('ScreenFieldCard with errors', () => {
-    const fieldProps = {error: true, title: 'invalid component', text: 'invalid'};
+    const fieldProps = {
+        error: true,
+        title: 'invalid component',
+        text: 'invalid'
+    };
     it('should have has-error class in its CONTAINER', () => {
         const element = createComponentUnderTest(fieldProps);
         const container = element.shadowRoot.querySelector(SELECTORS.CONTAINER);
-        expect(container.className).toEqual(expect.stringContaining('has-error'));
+        expect(container.className).toEqual(
+            expect.stringContaining('has-error')
+        );
     });
     it('should display an error icon on error', () => {
         const element = createComponentUnderTest(fieldProps);
@@ -39,15 +45,23 @@ describe('ScreenFieldCard with errors', () => {
 });
 
 describe('ScreenFieldCard without errors', () => {
-    const fieldProps = {title: 'component header', text: 'component text', icon:'custom:custom9'};
+    const fieldProps = {
+        title: 'component header',
+        text: 'component text',
+        icon: 'custom:custom9'
+    };
     it('should have bordered class in its CONTAINER', () => {
         const element = createComponentUnderTest(fieldProps);
         const container = element.shadowRoot.querySelector(SELECTORS.CONTAINER);
-        expect(container.className).toEqual(expect.stringContaining('bordered'));
+        expect(container.className).toEqual(
+            expect.stringContaining('bordered')
+        );
     });
     it('should display the title', () => {
         const element = createComponentUnderTest(fieldProps);
-        const headerBody = element.shadowRoot.querySelector(SELECTORS.HEADER_TEXT);
+        const headerBody = element.shadowRoot.querySelector(
+            SELECTORS.HEADER_TEXT
+        );
         expect(headerBody.textContent).toBe('component header');
     });
     it('should display the text if set', () => {
@@ -56,7 +70,10 @@ describe('ScreenFieldCard without errors', () => {
         expect(body.textContent).toBe('component text');
     });
     it('should not display the text div if no text has been set', () => {
-        const element = createComponentUnderTest({title: 'component header', icon:'custom:custom9'});
+        const element = createComponentUnderTest({
+            title: 'component header',
+            icon: 'custom:custom9'
+        });
         const body = element.shadowRoot.querySelector(SELECTORS.BODY_TEXT);
         expect(body).toBeNull();
     });

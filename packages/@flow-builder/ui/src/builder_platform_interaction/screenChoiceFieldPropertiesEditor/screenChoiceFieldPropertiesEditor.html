@@ -1,66 +1,90 @@
 <template>
     <div if:true={field}>
-        <div class='slds-p-horizontal_small slds-p-top_x-small'>
-             <!--  field label and unique name -->
-             <builder_platform_interaction-label-description layout-mode='vertical'
-                                                             label={field.fieldText}
-                                                             label-optional=true
-                                                             dev-name={field.name}
-                                                             hide-description
-                                                             guid={field.guid}
-                                                             onpropertychanged={handlePropertyChanged}>
+        <div class="slds-p-horizontal_small slds-p-top_x-small">
+            <!--  field label and unique name -->
+            <builder_platform_interaction-label-description
+                layout-mode="vertical"
+                label={field.fieldText}
+                label-optional="true"
+                dev-name={field.name}
+                hide-description
+                guid={field.guid}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-label-description>
 
             <!--  Required checkbox -->
-            <builder_platform_interaction-screen-property-field if:true={showIsRequired}
-                name='isRequired'
+            <builder_platform_interaction-screen-property-field
+                if:true={showIsRequired}
+                name="isRequired"
                 label={labels.required}
-                type='boolean'
+                type="boolean"
                 value={field.isRequired}
-                onpropertychanged={handlePropertyChanged}>
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-screen-property-field>
 
             <!--  Data type: This is read-only for existing fields -->
             <div class="slds-p-top_xx-small">
                 <builder_platform_interaction-data-type-picker
-                    class-name='slds-size_2-of-2'
+                    class-name="slds-size_2-of-2"
                     available-data-types={dataTypeList}
                     type-and-collection-disabled={isDataTypeDisabled}
                     required={isDataTypeRequired}
                     value={dataTypePickerValue}
-                    onvaluechanged={handleDataTypeChanged}>
+                    onvaluechanged={handleDataTypeChanged}
+                >
                 </builder_platform_interaction-data-type-picker>
             </div>
 
             <!--  default value: drop down resource list -->
             <builder_platform_interaction-screen-property-field
-                    name="defaultSelectedChoiceReference"
-                    type="list"
-                    list-choices={defaultValueChoices}
-                    value={defaultValue}
-                    label={labels.fieldDefaultValue}
-                    hide-top-padding
-                    onpropertychanged={handleDefaultValuePropertyChanged}>
+                name="defaultSelectedChoiceReference"
+                type="list"
+                list-choices={defaultValueChoices}
+                value={defaultValue}
+                label={labels.fieldDefaultValue}
+                hide-top-padding
+                onpropertychanged={handleDefaultValuePropertyChanged}
+            >
             </builder_platform_interaction-screen-property-field>
-
         </div>
-
 
         <!--  Choice selectors -->
         <div>
-            <lightning-accordion allow-multiple-sections-open active-section-name={expandedSectionNames} class='slds-has-divider slds-p-top_none'>
-                <lightning-accordion-section name='choicesSection' label={labels.choices}>
-                    <builder_platform_interaction-list items={field.choiceReferences}
-                                                       onaddlistitem={handleChoiceAdded}
-                                                       ondeletelistitem={handleChoiceDeleted}
-                                                       add-label={labels.addChoice}>
+            <lightning-accordion
+                allow-multiple-sections-open
+                active-section-name={expandedSectionNames}
+                class="slds-has-divider slds-p-top_none"
+            >
+                <lightning-accordion-section
+                    name="choicesSection"
+                    label={labels.choices}
+                >
+                    <builder_platform_interaction-list
+                        items={field.choiceReferences}
+                        onaddlistitem={handleChoiceAdded}
+                        ondeletelistitem={handleChoiceDeleted}
+                        add-label={labels.addChoice}
+                    >
                         <div slot="listBody">
-                            <template for:each={fieldChoices}  for:item="choice" for:index="itemIndex" slot="listBody">
-                                <div class="slds-list__item slds-is-relative" key={choice.guid}>
-                                    <builder_platform_interaction-row item-index={itemIndex} show-delete={showDelete}>
+                            <template
+                                for:each={fieldChoices}
+                                for:item="choice"
+                                for:index="itemIndex"
+                                slot="listBody"
+                            >
+                                <div
+                                    class="slds-list__item slds-is-relative"
+                                    key={choice.guid}
+                                >
+                                    <builder_platform_interaction-row
+                                        item-index={itemIndex}
+                                        show-delete={showDelete}
+                                    >
                                         <div slot="rowBody">
                                             <builder_platform_interaction-screen-property-field
-                                                name='choice'
+                                                name="choice"
                                                 key={choice.value}
                                                 list-index={itemIndex}
                                                 label={labels.fieldTypeLabelChoice}
@@ -71,7 +95,8 @@
                                                 required
                                                 hide-top-padding
                                                 resource-picker-config={choiceResourcePickerConfig}
-                                                onpropertychanged={handleChoiceChanged}>
+                                                onpropertychanged={handleChoiceChanged}
+                                            >
                                             </builder_platform_interaction-screen-property-field>
                                         </div>
                                     </builder_platform_interaction-row>
@@ -81,18 +106,29 @@
                     </builder_platform_interaction-list>
                 </lightning-accordion-section>
 
-                <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
-                    <builder_platform_interaction-component-visibility visibility={field.visibility} guid={field.guid}>
+                <lightning-accordion-section
+                    name="componentVisibility"
+                    label={labels.componentVisbilitySectionTitle}
+                >
+                    <builder_platform_interaction-component-visibility
+                        visibility={field.visibility}
+                        guid={field.guid}
+                    >
                     </builder_platform_interaction-component-visibility>
                 </lightning-accordion-section>
 
                 <!--  help text -->
-                <lightning-accordion-section name='helpText' label={labels.helpTextForAccordion}>
-                    <builder_platform_interaction-screen-property-field name='helpText'
-                                                                        label={labels.helpSectionHeader}
-                                                                        type='rich_string'
-                                                                        value={field.helpText}
-                                                                        hide-top-padding>
+                <lightning-accordion-section
+                    name="helpText"
+                    label={labels.helpTextForAccordion}
+                >
+                    <builder_platform_interaction-screen-property-field
+                        name="helpText"
+                        label={labels.helpSectionHeader}
+                        type="rich_string"
+                        value={field.helpText}
+                        hide-top-padding
+                    >
                     </builder_platform_interaction-screen-property-field>
                 </lightning-accordion-section>
             </lightning-accordion>

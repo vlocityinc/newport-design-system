@@ -1,29 +1,35 @@
 <template>
     <div class="slds-form slds-form_compound slds-p-around_small">
-        <builder_platform_interaction-label-description dev-name={formulaResource.name}
-                                                        description={formulaResource.description}
-                                                        guid={formulaResource.guid}
-                                                        hide-label=true
-                                                        onpropertychanged={handlePropertyChanged}>
+        <builder_platform_interaction-label-description
+            dev-name={formulaResource.name}
+            description={formulaResource.description}
+            guid={formulaResource.guid}
+            hide-label="true"
+            onpropertychanged={handlePropertyChanged}
+        >
         </builder_platform_interaction-label-description>
 
-        <builder_platform_interaction-data-type-picker available-data-types={dataTypes}
-                                                       value={selectedDataType}
-                                                       type-and-collection-disabled={isEditMode}
-                                                       onvaluechanged={handleDataTypeChanged}
-                                                       help-text={dataTypeHelpText}
-                                                       combobox-error-message={formulaResource.dataType.error}
-                                                       allow-scale
-                                                       required>
+        <builder_platform_interaction-data-type-picker
+            available-data-types={dataTypes}
+            value={selectedDataType}
+            type-and-collection-disabled={isEditMode}
+            onvaluechanged={handleDataTypeChanged}
+            help-text={dataTypeHelpText}
+            combobox-error-message={formulaResource.dataType.error}
+            allow-scale
+            required
+        >
         </builder_platform_interaction-data-type-picker>
- 
-        <builder_platform_interaction-resourced-textarea label={labels.formulaLabel}
-                                                         spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
-                                                         value={formulaResource.expression}
-                                                         hide-new-resource={hideNewResourceButton}
-                                                         onchange={handleFormulaExpressionChanged}
-                                                         show-global-variables
-                                                         required>
+
+        <builder_platform_interaction-resourced-textarea
+            label={labels.formulaLabel}
+            spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
+            value={formulaResource.expression}
+            hide-new-resource={hideNewResourceButton}
+            onchange={handleFormulaExpressionChanged}
+            show-global-variables
+            required
+        >
         </builder_platform_interaction-resourced-textarea>
     </div>
 </template>

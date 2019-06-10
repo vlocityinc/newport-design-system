@@ -1,35 +1,52 @@
 <template>
     <div class={topDivCss}>
         <h3 class={titleCss}>{title}</h3>
-        <div if:true={subtitle} class="slds-text-color_weak slds-p-horizontal_small slds-p-bottom_small">{subtitle}</div>
+        <div
+            if:true={subtitle}
+            class="slds-text-color_weak slds-p-horizontal_small slds-p-bottom_small"
+        >
+            {subtitle}
+        </div>
         <div class={listCss}>
-            <builder_platform_interaction-list items={inputOutputAssignmentsItems} add-label={labels.addFieldButtonLabel}
-                onaddlistitem={handleAddAssignment} onupdatelistitem={handleUpdateAssignment} ondeletelistitem={handleDeleteAssignment}>
+            <builder_platform_interaction-list
+                items={inputOutputAssignmentsItems}
+                add-label={labels.addFieldButtonLabel}
+                onaddlistitem={handleAddAssignment}
+                onupdatelistitem={handleUpdateAssignment}
+                ondeletelistitem={handleDeleteAssignment}
+            >
                 <div slot="listBody">
-                  <template for:each={inputOutputAssignmentItemsWithLhsFields} 
-                            for:item="item" 
-                            for:index="itemIndex" 
-                            slot="listBody">
-                    <div class="slds-list__item slds-is-relative" key={item.data.rowIndex}>
-                      <builder_platform_interaction-row item-index={itemIndex} 
-                        show-delete={showDelete}
+                    <template
+                        for:each={inputOutputAssignmentItemsWithLhsFields}
+                        for:item="item"
+                        for:index="itemIndex"
+                        slot="listBody"
+                    >
+                        <div
+                            class="slds-list__item slds-is-relative"
+                            key={item.data.rowIndex}
                         >
-                        <div slot="rowBody">
-                                <builder_platform_interaction-field-to-ferov-expression-builder 
-                                    object-type={recordEntityName}
-                                    container-element={elementType}
-                                    lhs-fields={item.fields}
-                                    expression={item.data}
-                                    lhs-label={labels.field}
-                                    lhs-placeholder={labels.getFieldPlaceholder}
-                                    operator-icon-name={operatorIconName}
-                                    rhs-label={rhsLabel}
-                                    rules={rules}
-                                    hide-new-resource={hideNewResource}>
-                            </builder_platform_interaction-field-to-ferov-expression-builder>
-                          </div>
-                        </builder_platform_interaction-row>
-                      </div>
+                            <builder_platform_interaction-row
+                                item-index={itemIndex}
+                                show-delete={showDelete}
+                            >
+                                <div slot="rowBody">
+                                    <builder_platform_interaction-field-to-ferov-expression-builder
+                                        object-type={recordEntityName}
+                                        container-element={elementType}
+                                        lhs-fields={item.fields}
+                                        expression={item.data}
+                                        lhs-label={labels.field}
+                                        lhs-placeholder={labels.getFieldPlaceholder}
+                                        operator-icon-name={operatorIconName}
+                                        rhs-label={rhsLabel}
+                                        rules={rules}
+                                        hide-new-resource={hideNewResource}
+                                    >
+                                    </builder_platform_interaction-field-to-ferov-expression-builder>
+                                </div>
+                            </builder_platform_interaction-row>
+                        </div>
                     </template>
                 </div>
             </builder_platform_interaction-list>

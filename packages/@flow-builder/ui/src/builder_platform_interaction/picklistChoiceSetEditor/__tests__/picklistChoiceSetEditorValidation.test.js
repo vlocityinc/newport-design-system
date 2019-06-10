@@ -3,10 +3,13 @@ import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { picklistChoiceSetValidation } from '../picklistChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-const setupComponentUnderTest = (picklistChoiceSetObject) => {
-    const element = createElement('builder_platform_interaction-picklist-choice-set-editor', {
-        is: PicklistChoiceSetEditor,
-    });
+const setupComponentUnderTest = picklistChoiceSetObject => {
+    const element = createElement(
+        'builder_platform_interaction-picklist-choice-set-editor',
+        {
+            is: PicklistChoiceSetEditor
+        }
+    );
     element.node = picklistChoiceSetObject;
     document.body.appendChild(element);
     return element;
@@ -19,7 +22,7 @@ describe('Picklist Choice Set Validation', () => {
             error: null
         },
         guid: {
-            value: 'guid_1',
+            value: 'guid1',
             error: null
         },
         name: {
@@ -52,8 +55,10 @@ describe('Picklist Choice Set Validation', () => {
         }
     };
 
-    const validate = (node) => {
-        return getErrorsFromHydratedElement(picklistChoiceSetValidation.validateAll(node));
+    const validate = node => {
+        return getErrorsFromHydratedElement(
+            picklistChoiceSetValidation.validateAll(node)
+        );
     };
 
     let errors;

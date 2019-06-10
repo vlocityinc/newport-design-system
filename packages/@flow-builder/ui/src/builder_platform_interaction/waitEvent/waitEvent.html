@@ -1,21 +1,28 @@
 <template>
     <div class="slds-grid slds-m-bottom_x-small">
         <h3 class="slds-text-title_caps">
-            <span class="slds-truncate slds-text-title--caps">{labels.waitEventsDetailsHeader}</span>
+            <span class="slds-truncate slds-text-title--caps"
+                >{labels.waitEventsDetailsHeader}</span
+            >
         </h3>
-        <lightning-button if:true={showDelete} label={labels.deleteWaitEventLabel} title={labels.deleteWaitEventLabel}
-                        class="slds-col_bump-left slds-shrink-none removeWaitEvent"
-                        onclick={handleDelete}>
+        <lightning-button
+            if:true={showDelete}
+            label={labels.deleteWaitEventLabel}
+            title={labels.deleteWaitEventLabel}
+            class="slds-col_bump-left slds-shrink-none removeWaitEvent"
+            onclick={handleDelete}
+        >
         </lightning-button>
     </div>
     <builder_platform_interaction-label-description
-            label={waitEvent.label}
-            name-label={labels.waitEventName}
-            dev-name-label={labels.waitEventApiName}
-            dev-name={waitEvent.name}
-            guid={waitEvent.guid}
-            onpropertychanged={handlePropertyChanged}
-            hide-description>
+        label={waitEvent.label}
+        name-label={labels.waitEventName}
+        dev-name-label={labels.waitEventApiName}
+        dev-name={waitEvent.name}
+        guid={waitEvent.guid}
+        onpropertychanged={handlePropertyChanged}
+        hide-description
+    >
     </builder_platform_interaction-label-description>
 
     <lightning-tabset>
@@ -23,7 +30,8 @@
             value="wait-conditions"
             label={upperCaseWaitConditionsTabText}
             class="slds-p-around_none"
-            show-error-indicator={showErrorIndicatorWaitConditions}>
+            show-error-indicator={showErrorIndicatorWaitConditions}
+        >
             <builder_platform_interaction-condition-list
                 parent-guid={waitEvent.guid}
                 conditions={waitEvent.conditions}
@@ -31,23 +39,37 @@
                 condition-logic={waitEvent.conditionLogic}
                 logic-combobox-label={labels.waitConditionsHeader}
                 container-element-type={elementTypeForExpressionBuilder}
-                onpropertychanged={handlePropertyChanged}>
+                onpropertychanged={handlePropertyChanged}
+            >
                 <div slot="conditions">
-                    <template for:each={conditionsWithPrefixes} for:item="conditionWithPrefix" for:index="conditionIndex">
-                        <div class="slds-list__item slds-is-relative" key={conditionWithPrefix.condition.rowIndex}>
-                            <builder_platform_interaction-row item-prefix={conditionWithPrefix.prefix} show-prefix=true
-                                                            item-index={conditionIndex} show-delete={showDeleteCondition}
-                                                            key={conditionWithPrefix.condition.rowIndex}>
+                    <template
+                        for:each={conditionsWithPrefixes}
+                        for:item="conditionWithPrefix"
+                        for:index="conditionIndex"
+                    >
+                        <div
+                            class="slds-list__item slds-is-relative"
+                            key={conditionWithPrefix.condition.rowIndex}
+                        >
+                            <builder_platform_interaction-row
+                                item-prefix={conditionWithPrefix.prefix}
+                                show-prefix="true"
+                                item-index={conditionIndex}
+                                show-delete={showDeleteCondition}
+                                key={conditionWithPrefix.condition.rowIndex}
+                            >
                                 <div slot="rowBody">
                                     <builder_platform_interaction-fer-to-ferov-expression-builder
-                                            container-element={elementTypeForExpressionBuilder}
-                                            rules={rulesForExpressionBuilder}
-                                            expression={conditionWithPrefix.condition}
-                                            lhs-label={labels.lhsLabel} operator-label={labels.operatorLabel}
-                                            rhs-label={labels.rhsLabel}
-                                            lhs-placeholder={labels.lhsPlaceholder}
-                                            default-operator={defaultOperator}
-                                            operator-placeholder={labels.operatorPlaceholder}>
+                                        container-element={elementTypeForExpressionBuilder}
+                                        rules={rulesForExpressionBuilder}
+                                        expression={conditionWithPrefix.condition}
+                                        lhs-label={labels.lhsLabel}
+                                        operator-label={labels.operatorLabel}
+                                        rhs-label={labels.rhsLabel}
+                                        lhs-placeholder={labels.lhsPlaceholder}
+                                        default-operator={defaultOperator}
+                                        operator-placeholder={labels.operatorPlaceholder}
+                                    >
                                     </builder_platform_interaction-fer-to-ferov-expression-builder>
                                 </div>
                             </builder_platform_interaction-row>
@@ -60,7 +82,8 @@
             value="resume-conditions"
             label={upperCaseResumeConditionsTabText}
             class="slds-p-around_none"
-            show-error-indicator={showErrorIndicatorResumeConditions}>
+            show-error-indicator={showErrorIndicatorResumeConditions}
+        >
             <builder_platform_interaction-wait-resume-conditions
                 wait-event-guid={waitEvent.guid}
                 resume-time-parameters={waitEvent.inputParameters}
@@ -68,7 +91,8 @@
                 event-type={waitEvent.eventType}
                 event-type-index={waitEvent.eventTypeIndex}
                 onpropertychanged={handlePropertyChanged}
-                onupdateparameteritem={handleParameterChanged}>
+                onupdateparameteritem={handleParameterChanged}
+            >
             </builder_platform_interaction-wait-resume-conditions>
         </lightning-tab>
     </lightning-tabset>

@@ -1,26 +1,72 @@
 <template>
     <div class={panelClasses}>
         <div class={panelHeaderClasses}>
-            <lightning-button-icon if:true={showResourceDetailsPanel} variant="container" size="small" icon-name="utility:back" class="back-button slds-panel__back slds-shrink-none" onclick={handleResourceDetailsBackLinkClicked} alternative-text={labels.backButtonAltText}></lightning-button-icon>
-            <h2 class="slds-text-heading_small slds-truncate" title={getPanelTitle}>{getPanelTitle}</h2>
+            <lightning-button-icon
+                if:true={showResourceDetailsPanel}
+                variant="container"
+                size="small"
+                icon-name="utility:back"
+                class="back-button slds-panel__back slds-shrink-none"
+                onclick={handleResourceDetailsBackLinkClicked}
+                alternative-text={labels.backButtonAltText}
+            ></lightning-button-icon>
+            <h2
+                class="slds-text-heading_small slds-truncate"
+                title={getPanelTitle}
+            >
+                {getPanelTitle}
+            </h2>
         </div>
         <div class="slds-panel__body slds-p-around_none slds-grid ">
             <div class="flow-resource-list">
                 <lightning-tabset>
-                    <lightning-tab value="left-panel-tabitem-elements" label={labels.elementTabText} class="slds-p-around_none">
-                        <builder_platform_interaction-left-panel-elements elements={elements} onpaletteitemclicked={handleElementClicked}></builder_platform_interaction-left-panel-elements>
+                    <lightning-tab
+                        value="left-panel-tabitem-elements"
+                        label={labels.elementTabText}
+                        class="slds-p-around_none"
+                    >
+                        <builder_platform_interaction-left-panel-elements
+                            elements={elements}
+                            onpaletteitemclicked={handleElementClicked}
+                        ></builder_platform_interaction-left-panel-elements>
                     </lightning-tab>
-                    <lightning-tab value="left-panel-tabitem-resources" label={labels.resourceTabText} class="slds-p-around_none">
+                    <lightning-tab
+                        value="left-panel-tabitem-resources"
+                        label={labels.resourceTabText}
+                        class="slds-p-around_none"
+                    >
                         <div class="slds-p-horizontal_small slds-p-top_small">
-                            <lightning-input type="search" variant="label-hidden" label={labels.resourceSearchLabel} placeholder={labels.resourceSearchPlaceholder} onchange={handleResourceSearch} class="slds-p-bottom_small"></lightning-input>
-                            <lightning-button variant="Neutral" label={labels.newResourceButtonText} title={labels.newResourceButtonText} onclick={handleAddNewResourceButtonClick} class="new-resource-button"></lightning-button>
+                            <lightning-input
+                                type="search"
+                                variant="label-hidden"
+                                label={labels.resourceSearchLabel}
+                                placeholder={labels.resourceSearchPlaceholder}
+                                onchange={handleResourceSearch}
+                                class="slds-p-bottom_small"
+                            ></lightning-input>
+                            <lightning-button
+                                variant="Neutral"
+                                label={labels.newResourceButtonText}
+                                title={labels.newResourceButtonText}
+                                onclick={handleAddNewResourceButtonClick}
+                                class="new-resource-button"
+                            ></lightning-button>
                         </div>
-                        <builder_platform_interaction-left-panel-resources canvas-elements={canvasElements} non-canvas-elements={nonCanvasElements} onpaletteitemclicked={handleResourceClicked} onshowresourcedetails={handleShowResourceDetails}></builder_platform_interaction-left-panel-resources>
+                        <builder_platform_interaction-left-panel-resources
+                            canvas-elements={canvasElements}
+                            non-canvas-elements={nonCanvasElements}
+                            onpaletteitemclicked={handleResourceClicked}
+                            onshowresourcedetails={handleShowResourceDetails}
+                        ></builder_platform_interaction-left-panel-resources>
                     </lightning-tab>
                 </lightning-tabset>
             </div>
             <div class="flow-resource-details">
-                <builder_platform_interaction-resource-details if:true={showResourceDetailsPanel} resource-details={resourceDetails} ondeleteresource={handleDeleteButtonClicked}></builder_platform_interaction-resource-details>
+                <builder_platform_interaction-resource-details
+                    if:true={showResourceDetailsPanel}
+                    resource-details={resourceDetails}
+                    ondeleteresource={handleDeleteButtonClicked}
+                ></builder_platform_interaction-resource-details>
             </div>
         </div>
     </div>

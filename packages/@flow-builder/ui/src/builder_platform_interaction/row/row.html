@@ -1,21 +1,33 @@
 <template>
     <fieldset>
         <template if:true={showPrefix}>
-            <legend class="slds-is-absolute slds-p-top_large slds-m-top_xx-small">
+            <legend
+                class="slds-is-absolute slds-p-top_large slds-m-top_xx-small"
+            >
                 <strong>{itemPrefix}</strong>
             </legend>
         </template>
-        <div class={rowContentsClass} onrowcontentschanged={handleRowContentsChanged}>
-
+        <div
+            class={rowContentsClass}
+            onrowcontentschanged={handleRowContentsChanged}
+        >
             <div class="slds-col">
                 <slot name="rowBody"></slot>
             </div>
 
             <div class="slds-col slds-grow-none">
-                <span class="slds-form-element__label slds-is-visually-empty">&nbsp;</span>
+                <span class="slds-form-element__label slds-is-visually-empty"
+                    >&nbsp;</span
+                >
                 <div class="slds-form-element__control">
-                <lightning-button-icon icon-name="utility:delete" size="large" onclick={handleDelete} disabled={disableDelete} alternative-text={deleteAlternativeText}>
-                </lightning-button-icon>
+                    <lightning-button-icon
+                        icon-name="utility:delete"
+                        size="large"
+                        onclick={handleDelete}
+                        disabled={disableDelete}
+                        alternative-text={deleteAlternativeText}
+                    >
+                    </lightning-button-icon>
                 </div>
             </div>
         </div>

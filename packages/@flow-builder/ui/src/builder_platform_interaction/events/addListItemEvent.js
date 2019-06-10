@@ -1,6 +1,5 @@
 const eventName = 'addlistitem';
 
-
 export class AddListItemEvent {
     constructor(index) {
         return new CustomEvent(eventName, {

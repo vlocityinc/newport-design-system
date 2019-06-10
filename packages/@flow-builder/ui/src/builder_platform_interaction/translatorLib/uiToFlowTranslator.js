@@ -1,10 +1,9 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { swapUidsForDevNames } from "./uidSwapping";
-import { getFlowBounds } from "builder_platform_interaction/connectorUtils";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { swapUidsForDevNames } from './uidSwapping';
+import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
-
-const getXYTranslate = (canvasElements) => {
+const getXYTranslate = canvasElements => {
     const EXTRA_SPACING = 180;
 
     const flowBounds = getFlowBounds(canvasElements);
@@ -43,7 +42,7 @@ export function translateUIModelToFlow(uiModel) {
         const sourceGuid = connector.childSource || connector.source;
         const sourceConnectorList = connectorMap[sourceGuid] || [];
         sourceConnectorList.push(connector);
-        Object.assign(connectorMap, {[sourceGuid] : sourceConnectorList});
+        Object.assign(connectorMap, { [sourceGuid]: sourceConnectorList });
     }
 
     // Get x, y coordinate translate numbers
@@ -76,7 +75,10 @@ export function translateUIModelToFlow(uiModel) {
                 metadata[elementInfo.metadataKey] = [];
             }
 
-            const metadataElement = getElementForUiToFlowTranslation(element, config);
+            const metadataElement = getElementForUiToFlowTranslation(
+                element,
+                config
+            );
 
             metadata[elementInfo.metadataKey].push(metadataElement);
         }
@@ -106,12 +108,16 @@ function getElementForUiToFlowTranslation(element, config) {
     }
     const { elementType } = element;
     if (!elementType) {
-        throw new Error('ElementType is not defined for creation of resource element');
+        throw new Error(
+            'ElementType is not defined for creation of resource element'
+        );
     }
     const { factory } = getConfigForElementType(elementType);
     const { uiToFlow } = factory;
     if (!uiToFlow) {
-        throw new Error('ui to flow factory is not defined to translate a flow');
+        throw new Error(
+            'ui to flow factory is not defined to translate a flow'
+        );
     }
     return uiToFlow(element, config);
 }

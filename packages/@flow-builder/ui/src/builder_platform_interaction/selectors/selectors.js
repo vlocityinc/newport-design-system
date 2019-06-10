@@ -1,10 +1,11 @@
-export { canvasSelector } from "./canvasSelector";
-export { readableElementsSelector,
+export { canvasSelector } from './canvasSelector';
+export {
+    readableElementsSelector,
     writableElementsSelector,
     collectionElementsSelector,
     byTypeWritableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,
-    apexScalarVariablesSelector,
-} from "./menuDataSelector";
+    apexScalarVariablesSelector
+} from './menuDataSelector';

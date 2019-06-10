@@ -1,15 +1,28 @@
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
 import { stageValidation } from './stageValidation';
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 
 const stagePropertyChanged = (state, action) => {
-    action.payload.error = action.payload.error === null ? stageValidation.validateProperty(action.payload.propertyName, action.payload.value) : action.payload.error;
-    return updateProperties(state, {[action.payload.propertyName]: {error: action.payload.error, value: action.payload.value}});
+    action.payload.error =
+        action.payload.error === null
+            ? stageValidation.validateProperty(
+                  action.payload.propertyName,
+                  action.payload.value
+              )
+            : action.payload.error;
+    return updateProperties(state, {
+        [action.payload.propertyName]: {
+            error: action.payload.error,
+            value: action.payload.value
+        }
+    });
 };
 
 const stageValueChanged = (state, action) => {
-    return updateProperties(state, { [action.payload.propertyName] : action.payload.value });
+    return updateProperties(state, {
+        [action.payload.propertyName]: action.payload.value
+    });
 };
 
 /**
@@ -26,6 +39,7 @@ export const stageReducer = (state, action) => {
             return stageValueChanged(state, action);
         case VALIDATE_ALL:
             return stageValidation.validateAll(state);
-        default: return state;
+        default:
+            return state;
     }
 };

@@ -1,9 +1,16 @@
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { getScreenFieldTypeByName, getLocalExtensionFieldType } from "builder_platform_interaction/screenEditorUtils";
-import { hydrateWithErrors } from "builder_platform_interaction/dataMutationLib";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { getConfigForElementType } from "builder_platform_interaction/elementConfig";
-import { createScreenWithFields, createScreenField, createChoiceReference } from "builder_platform_interaction/elementFactory";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import {
+    getScreenFieldTypeByName,
+    getLocalExtensionFieldType
+} from 'builder_platform_interaction/screenEditorUtils';
+import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import {
+    createScreenWithFields,
+    createScreenField,
+    createChoiceReference
+} from 'builder_platform_interaction/elementFactory';
 
 const SELECTOR_REGEX = /(.*)\[([^$*^|~]*)(.*)?=["'](.*)["']\]/g;
 
@@ -24,7 +31,7 @@ export const ATT_SELECTOR_OPERATORS = {
     STARTS_WITH_WORD: '|',
     ENDS_WITH: '$',
 
-    parse: (opValue) => {
+    parse: opValue => {
         if (opValue) {
             for (const prop in ATT_SELECTOR_OPERATORS) {
                 if (ATT_SELECTOR_OPERATORS[prop] === opValue) {
@@ -42,13 +49,18 @@ function check(value = '', expectedValue, operator) {
     if (operator === ATT_SELECTOR_OPERATORS.CONTAINS) {
         return value.indexOf(expectedValue) > -1;
     } else if (operator === ATT_SELECTOR_OPERATORS.CONTAINS_WORD) {
-        return value.startsWith(expectedValue + ' ') ||
-               value.indexOf(' ' + expectedValue + ' ') > -1 ||
-               value.endsWith(' ' + expectedValue);
+        return (
+            value.startsWith(expectedValue + ' ') ||
+            value.indexOf(' ' + expectedValue + ' ') > -1 ||
+            value.endsWith(' ' + expectedValue)
+        );
     } else if (operator === ATT_SELECTOR_OPERATORS.STARTS_WITH) {
         return value.startsWith(expectedValue);
     } else if (operator === ATT_SELECTOR_OPERATORS.STARTS_WITH_WORD) {
-        return value.startsWith(expectedValue) || value.startsWith(expectedValue + '-');
+        return (
+            value.startsWith(expectedValue) ||
+            value.startsWith(expectedValue + '-')
+        );
     } else if (operator === ATT_SELECTOR_OPERATORS.ENDS_WITH) {
         return value.endsWith(expectedValue);
     }
@@ -60,13 +72,13 @@ function check(value = '', expectedValue, operator) {
  * Screen field type names with default values
  */
 const SCREEN_FIELD_TYPES_AND_VALUES = {
-    TextBox: {stringValue:'Default value for TextField'},
-    LargeTextArea: {stringValue:'Default value for LTA'},
-    Currency: {numberValue:17},
-    Number: {numberValue:13},
-    Date: {dateValue:'2018-02-22T00:00:00.000+0000'},
-    Password: {stringValue:'Default value for Password'},
-    Checkbox: {booleanValue:true},
+    TextBox: { stringValue: 'Default value for TextField' },
+    LargeTextArea: { stringValue: 'Default value for LTA' },
+    Currency: { numberValue: 17 },
+    Number: { numberValue: 13 },
+    Date: { dateValue: '2018-02-22T00:00:00.000+0000' },
+    Password: { stringValue: 'Default value for Password' },
+    Checkbox: { booleanValue: true },
     DisplayText: null
 };
 
@@ -89,8 +101,8 @@ function booleanValue(obj, prop, defValue) {
  * @returns {object} {string} - The default value
  */
 function getStringValue(value, defValue, hydrate) {
-    const val = (value && value.length > 0) ? value : defValue;
-    return hydrate ? {value: val, error: null} : val;
+    const val = value && value.length > 0 ? value : defValue;
+    return hydrate ? { value: val, error: null } : val;
 }
 
 /**
@@ -105,7 +117,7 @@ function getStringValue(value, defValue, hydrate) {
  */
 function getDefaultValue(type, valueType) {
     if (valueType === VALUE_TYPE_REF) {
-        return {elementReference: (type + '--VARIABLE_1')};
+        return { elementReference: type + '--VARIABLE_1' };
     } else if (valueType === VALUE_TYPE_STATIC) {
         return SCREEN_FIELD_TYPES_AND_VALUES[type];
     }
@@ -124,18 +136,18 @@ function createScreen(name, fieldsProducer, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
     let screen = {
-        allowBack:booleanValue(config, 'allowBack', true),
-        allowFinish:booleanValue(config, 'allowFinish', true),
-        allowPause:booleanValue(config, 'allowPause', true),
+        allowBack: booleanValue(config, 'allowBack', true),
+        allowFinish: booleanValue(config, 'allowFinish', true),
+        allowPause: booleanValue(config, 'allowPause', true),
         label: getStringValue(name, 'Screen 1 Label', false),
         name: getStringValue(name, 'Screen1', false),
         helpText: getStringValue(null, 'Screen 1 Help Text', false),
-        showFooter:booleanValue(config, 'showFooter', true),
-        showHeader:booleanValue(config, 'showHeader', true),
+        showFooter: booleanValue(config, 'showFooter', true),
+        showHeader: booleanValue(config, 'showHeader', true),
         pausedText: getStringValue(null, 'Screen 1 Paused Text', false),
-        guid:generateGuid(),
-        processMetadataValues:[],
-        rules:[],
+        guid: generateGuid(),
+        processMetadataValues: [],
+        rules: [],
         fields: fieldsProducer()
     };
 
@@ -144,7 +156,7 @@ function createScreen(name, fieldsProducer, config = {}) {
         screen.locationY = 450;
         screen.elementType = ELEMENT_TYPE.SCREEN;
         screen.isCanvasElement = true;
-        screen.config = {isSelected:true};
+        screen.config = { isSelected: true };
         screen.connectorCount = 0;
         screen.maxConnections = 1;
     }
@@ -154,7 +166,9 @@ function createScreen(name, fieldsProducer, config = {}) {
     }
 
     if (hydrateValues) {
-        const blacklistedProperties = getConfigForElementType(ELEMENT_TYPE.SCREEN).nonHydratableProperties;
+        const blacklistedProperties = getConfigForElementType(
+            ELEMENT_TYPE.SCREEN
+        ).nonHydratableProperties;
         hydrateWithErrors(screen, blacklistedProperties);
     }
 
@@ -173,7 +187,10 @@ function createScreen(name, fieldsProducer, config = {}) {
  */
 export function createTestScreenField(name, type, value, config = {}) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
-    const fieldType = type === 'Extension' ? getLocalExtensionFieldType(value) : getScreenFieldTypeByName(type);
+    const fieldType =
+        type === 'Extension'
+            ? getLocalExtensionFieldType(value)
+            : getScreenFieldTypeByName(type);
 
     // If the dataType was specified, use it. (This should only happen for fields where dataType is undefined by default).
     const dataType = getStringValue(config.dataType, undefined, false);
@@ -185,16 +202,20 @@ export function createTestScreenField(name, type, value, config = {}) {
         guid: generateGuid(), // Guids are generated during translation, so they need to be added here for testing
         choiceReferences: [],
         dataType: fieldType.dataType,
-        fieldType:fieldType.fieldType,
+        fieldType: fieldType.fieldType,
         fieldText: getStringValue(null, name, hydrateValues),
-        helpText: getStringValue('Screen field ' + name + ' help text', null, hydrateValues),
+        helpText: getStringValue(
+            'Screen field ' + name + ' help text',
+            null,
+            hydrateValues
+        ),
         name: getStringValue(null, name, hydrateValues),
-        isRequired:booleanValue(config, 'required', false),
-        isVisible:true,
-        scale: getStringValue("0", "0", hydrateValues),
-        inputParameters:[],
-        outputParameters:[],
-        processMetadataValues:[]
+        isRequired: booleanValue(config, 'required', false),
+        isVisible: true,
+        scale: getStringValue('0', '0', hydrateValues),
+        inputParameters: [],
+        outputParameters: [],
+        processMetadataValues: []
     };
 
     if (type === 'DisplayText' && value !== SCREEN_NO_DEF_VALUE) {
@@ -203,32 +224,44 @@ export function createTestScreenField(name, type, value, config = {}) {
     } else if (type === 'Extension') {
         field.extensionName = value;
         // Params made up
-        field.outputParameters = [{
-            value: getStringValue('VARIABLE_5', null, hydrateValues),
-            name: getStringValue('attribute1', null, hydrateValues),
-            processMetadataValues:[]
-        }];
-        field.inputParameters = [{
-            value: getStringValue('Attribute value', null, hydrateValues),
-            name: getStringValue('attribute1', null, hydrateValues),
-            processMetadataValues:[]
-        }];
+        field.outputParameters = [
+            {
+                value: getStringValue('VARIABLE_5', null, hydrateValues),
+                name: getStringValue('attribute1', null, hydrateValues),
+                processMetadataValues: []
+            }
+        ];
+        field.inputParameters = [
+            {
+                value: getStringValue('Attribute value', null, hydrateValues),
+                name: getStringValue('attribute1', null, hydrateValues),
+                processMetadataValues: []
+            }
+        ];
     } else if (value !== SCREEN_NO_DEF_VALUE) {
         if (value === SCREEN_NULL_DEF_VALUE) {
             field.defaultValue = null;
-        } else if (value === null) { // Generate value based in type
-            field.defaultValue = getDefaultValue(type, config.defaultValueType || VALUE_TYPE_STATIC);
+        } else if (value === null) {
+            // Generate value based in type
+            field.defaultValue = getDefaultValue(
+                type,
+                config.defaultValueType || VALUE_TYPE_STATIC
+            );
         } else if (typeof value !== 'object') {
             // Set the string version of the default value, and the internal version, which
             // specifies what type of field value this is.
-            if (type === 'TextBox' ||  type === 'LargeTextArea' || type === 'Password') {
-                field.defaultValue = {stringValue:value};
+            if (
+                type === 'TextBox' ||
+                type === 'LargeTextArea' ||
+                type === 'Password'
+            ) {
+                field.defaultValue = { stringValue: value };
             } else if (type === 'Number' || type === 'Currency') {
-                field.defaultValue = {numberValue:value};
+                field.defaultValue = { numberValue: value };
             } else if (type === 'Date' || type === 'DateTime') {
-                field.defaultValue = {dateValue:value};
+                field.defaultValue = { dateValue: value };
             } else if (type === 'Checkbox') {
-                field.defaultValue = {booleanValue:value};
+                field.defaultValue = { booleanValue: value };
             }
         } else {
             // Hopefully the object is a well-formed ferov
@@ -236,7 +269,13 @@ export function createTestScreenField(name, type, value, config = {}) {
         }
     }
 
-    field = addConfigOptionsToField(field, name, config, fieldType, hydrateValues);
+    field = addConfigOptionsToField(
+        field,
+        name,
+        config,
+        fieldType,
+        hydrateValues
+    );
 
     return createScreenField(field);
 }
@@ -250,28 +289,53 @@ export function createTestScreenField(name, type, value, config = {}) {
  * @param hydrateValues
  * @returns {*}
  */
-function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) {
+function addConfigOptionsToField(
+    field,
+    name,
+    config,
+    fieldType,
+    hydrateValues
+) {
     // If the field type is Radio, create some choice references.
-    if (fieldType.name === 'RadioButtons' && booleanValue(config, 'createChoices', false)) {
+    if (
+        fieldType.name === 'RadioButtons' &&
+        booleanValue(config, 'createChoices', false)
+    ) {
         for (let i = 0; i < 3; i++) {
             const choiceGuid = 'choice' + i;
-            field.choiceReferences[i] = hydrateWithErrors(createChoiceReference(choiceGuid));
+            field.choiceReferences[i] = hydrateWithErrors(
+                createChoiceReference(choiceGuid)
+            );
         }
     }
 
     if (booleanValue(config, 'helpText', true)) {
-        field.helpText = getStringValue('Screen field ' + name + ' help text', null, hydrateValues);
+        field.helpText = getStringValue(
+            'Screen field ' + name + ' help text',
+            null,
+            hydrateValues
+        );
     }
 
     if (booleanValue(config, 'validation', true)) {
         field.validationRule = {
-            errorMessage: getStringValue('The value you entered doesn\'t meet the validation criteria for this input field.', null, hydrateValues),
-            formulaExpression: getStringValue('{!Var1} == \'text\'', null, hydrateValues)
+            errorMessage: getStringValue(
+                "The value you entered doesn't meet the validation criteria for this input field.",
+                null,
+                hydrateValues
+            ),
+            formulaExpression: getStringValue(
+                "{!Var1} == 'text'",
+                null,
+                hydrateValues
+            )
         };
     } else {
         field.validationRule = {
-            errorMessage: hydrateValues ? {value: null, error: null} : null,
-            formulaExpression: hydrateValues ? {value: null, error: null} : null
+            errorMessage: hydrateValues ? { value: null, error: null } : null,
+            formulaExpression: hydrateValues
+                ? { value: null, error: null }
+                : null
         };
     }
 
@@ -292,9 +356,15 @@ function addConfigOptionsToField(field, name, config, fieldType, hydrateValues) 
  */
 export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
     const fieldsProducer = () => {
-        const includeNonMDValues = booleanValue(config, 'includeNonMDValues', true);
+        const includeNonMDValues = booleanValue(
+            config,
+            'includeNonMDValues',
+            true
+        );
         const fields = [];
-        const types = screenFieldTypeNames ? screenFieldTypeNames : Object.keys(SCREEN_FIELD_TYPES_AND_VALUES);
+        const types = screenFieldTypeNames
+            ? screenFieldTypeNames
+            : Object.keys(SCREEN_FIELD_TYPES_AND_VALUES);
         for (let i = 0; i < types.length; i++) {
             let defaultValueType = VALUE_TYPE_STATIC;
             if (i % 3 === 1) {
@@ -303,9 +373,23 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
                 defaultValueType = VALUE_TYPE_NULL;
             }
 
-            const fieldConfig = {required: (i % 2 === 0), validation: (i % 4 === 0), hydrateValues: false, includeNonMDValues, defaultValueType};
-            const val = types[i] === 'Extension' ? 'c:cmpAvailableForFlowScreens' : null;
-            const field = createTestScreenField('screenField ' + i, types[i], val, fieldConfig);
+            const fieldConfig = {
+                required: i % 2 === 0,
+                validation: i % 4 === 0,
+                hydrateValues: false,
+                includeNonMDValues,
+                defaultValueType
+            };
+            const val =
+                types[i] === 'Extension'
+                    ? 'c:cmpAvailableForFlowScreens'
+                    : null;
+            const field = createTestScreenField(
+                'screenField ' + i,
+                types[i],
+                val,
+                fieldConfig
+            );
             fields.push(field);
         }
 
@@ -322,7 +406,11 @@ export function createTestScreen(name, screenFieldTypeNames = [], config = {}) {
  * @param {object} config - {allowBack = true, allowFinish = true, allowPause = true, showFooter = true, showHeader = true, hydrateValues = true, includeNonMDValues = true, mutateScreen = true}
  * @returns {object} - The screen
  */
-export function createTestScreenWithFields(name, screenFields = [], config = {}) {
+export function createTestScreenWithFields(
+    name,
+    screenFields = [],
+    config = {}
+) {
     const fieldsProducer = () => {
         return screenFields;
     };
@@ -344,14 +432,20 @@ export function query(element, selector, returnList) {
     SELECTOR_REGEX.lastIndex = 0;
     const res = SELECTOR_REGEX.exec(selector);
     if (res && res.length === 5) {
-        return find(element, res[1], res[2], res[4], ATT_SELECTOR_OPERATORS.parse(res[3]), returnList);
+        return find(
+            element,
+            res[1],
+            res[2],
+            res[4],
+            ATT_SELECTOR_OPERATORS.parse(res[3]),
+            returnList
+        );
     } else if (selector) {
         return find(element, selector, null, null, null, returnList);
     }
 
     return null;
 }
-
 
 /**
  * Returns the child of element that contains an attribute with the given value.
@@ -366,10 +460,25 @@ export function query(element, selector, returnList) {
  * @param {boolean} returnList - If you want a list of matching results returned (vs first one found).
  * @return {Element} the element or null
  */
-export function find(element, childName, attributeName, attributeValue, operator, returnList = false) {
+export function find(
+    element,
+    childName,
+    attributeName,
+    attributeValue,
+    operator,
+    returnList = false
+) {
     const results = [];
     for (const child of element.shadowRoot.querySelectorAll(childName)) {
-        if (!attributeName || (child[attributeName] && check(child[attributeName], attributeValue, ATT_SELECTOR_OPERATORS[operator]))) {
+        if (
+            !attributeName ||
+            (child[attributeName] &&
+                check(
+                    child[attributeName],
+                    attributeValue,
+                    ATT_SELECTOR_OPERATORS[operator]
+                ))
+        ) {
             if (!returnList) {
                 return child;
             }

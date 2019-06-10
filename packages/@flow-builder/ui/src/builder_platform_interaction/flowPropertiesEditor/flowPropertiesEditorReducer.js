@@ -1,13 +1,24 @@
-import { flowPropertiesEditorValidation, getRules } from "./flowPropertiesEditorValidation";
-import { updateProperties } from "builder_platform_interaction/dataMutationLib";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import {
+    flowPropertiesEditorValidation,
+    getRules
+} from './flowPropertiesEditorValidation';
+import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
 const flowPropertiesPropertyChanged = (state, event) => {
-    event.detail.error = event.detail.error === null ?
-        flowPropertiesEditorValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    event.detail.error =
+        event.detail.error === null
+            ? flowPropertiesEditorValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
     return updateProperties(state, {
-        [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
+        [event.detail.propertyName]: {
+            error: event.detail.error,
+            value: event.detail.value
+        }
     });
 };
 
@@ -23,8 +34,12 @@ export const flowPropertiesEditorReducer = (state, event) => {
             return flowPropertiesPropertyChanged(state, event);
         }
         case VALIDATE_ALL: {
-            return flowPropertiesEditorValidation.validateAll(state, getRules(state, event.isSavingExistingFlow));
+            return flowPropertiesEditorValidation.validateAll(
+                state,
+                getRules(state, event.isSavingExistingFlow)
+            );
         }
-        default: return state;
+        default:
+            return state;
     }
 };

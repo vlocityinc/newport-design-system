@@ -1,5 +1,5 @@
-import {createElement} from 'lwc';
-import Draggable from "builder_platform_interaction/draggable";
+import { createElement } from 'lwc';
+import Draggable from 'builder_platform_interaction/draggable';
 
 const SELECTORS = {
     DRAGGABLE: 'div'
@@ -42,7 +42,9 @@ describe('Draggable component', () => {
             draggableItem.dispatchEvent(dropEvent);
 
             expect(eventCallback).toHaveBeenCalled();
-            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({sourceGuid: SOURCE_INDEX});
+            expect(eventCallback.mock.calls[0][0].detail).toMatchObject({
+                sourceGuid: SOURCE_INDEX
+            });
         });
     });
     it('sets id of the element as text data in the event when drag starts', () => {
@@ -63,7 +65,9 @@ describe('Draggable component', () => {
             };
             draggableItem.dispatchEvent(dragStartEvent);
 
-            expect(dragStartEvent.dataTransfer.getData('text')).toBe(SOURCE_INDEX);
+            expect(dragStartEvent.dataTransfer.getData('text')).toBe(
+                SOURCE_INDEX
+            );
             expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
         });
     });

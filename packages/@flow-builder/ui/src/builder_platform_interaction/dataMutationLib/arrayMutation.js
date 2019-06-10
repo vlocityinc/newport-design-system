@@ -29,8 +29,16 @@ export function shallowCopyArray(arr) {
  * @return {Array} new array with inserted item
  */
 export function insertItem(arr, newItem, itemAt) {
-    if (arr === undefined || newItem === undefined || itemAt === undefined || itemAt < 0 || itemAt > arr.length) {
-        throw new Error(`could not insert ${newItem} at position ${itemAt}, something went wrong`);
+    if (
+        arr === undefined ||
+        newItem === undefined ||
+        itemAt === undefined ||
+        itemAt < 0 ||
+        itemAt > arr.length
+    ) {
+        throw new Error(
+            `could not insert ${newItem} at position ${itemAt}, something went wrong`
+        );
     }
     return [...arr.slice(0, itemAt), newItem, ...arr.slice(itemAt)];
 }
@@ -43,15 +51,19 @@ export function insertItem(arr, newItem, itemAt) {
  * @returns {Array} new array with updated item
  */
 export function replaceItem(arr, newItem, itemAt) {
-    if (arr === undefined || newItem === undefined || itemAt === undefined || itemAt < 0 || itemAt > arr.length) {
-        throw new Error(`could not replace position ${itemAt} with ${newItem}, something went wrong`);
+    if (
+        arr === undefined ||
+        newItem === undefined ||
+        itemAt === undefined ||
+        itemAt < 0 ||
+        itemAt > arr.length
+    ) {
+        throw new Error(
+            `could not replace position ${itemAt} with ${newItem}, something went wrong`
+        );
     }
     const end = parseInt(itemAt, 10) + 1;
-    return [
-        ...arr.slice(0, itemAt),
-        newItem,
-        ...arr.slice(end)
-    ];
+    return [...arr.slice(0, itemAt), newItem, ...arr.slice(end)];
 }
 
 /**
@@ -61,8 +73,15 @@ export function replaceItem(arr, newItem, itemAt) {
  * @return {Array} new updated array
  */
 export function deleteItem(arr, itemAt) {
-    if (arr === undefined || itemAt === undefined || itemAt < 0 || itemAt > arr.length) {
-        throw new Error(`could not delete at position ${itemAt}, something went wrong`);
+    if (
+        arr === undefined ||
+        itemAt === undefined ||
+        itemAt < 0 ||
+        itemAt > arr.length
+    ) {
+        throw new Error(
+            `could not delete at position ${itemAt}, something went wrong`
+        );
     }
     return [...arr.slice(0, itemAt), ...arr.slice(itemAt + 1)];
 }

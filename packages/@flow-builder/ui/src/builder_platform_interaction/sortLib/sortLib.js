@@ -18,7 +18,9 @@ export const stringComparator = (field, reverse) => {
     return (a, b) => {
         // TODO: Get locale from user settings rather than using what the
         // browser tells us.
-        const result = a[field].localeCompare(b[field], undefined, {sensitivity:'base'});
+        const result = a[field].localeCompare(b[field], undefined, {
+            sensitivity: 'base'
+        });
         return reverse ? -result : result;
     };
 };
@@ -44,7 +46,7 @@ export const nameComparator = stringComparator('name');
  * @returns {Function} a comparison function using the given comparators for
  *          tiebreakers
  */
-export const multiComparator = (comparators) => {
+export const multiComparator = comparators => {
     if (!Array.isArray(comparators) || comparators.length === 0) {
         throw new TypeError('comparators must be a non-empty array');
     }

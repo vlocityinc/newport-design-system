@@ -1,19 +1,22 @@
 <template>
     <div class="resource_editor">
-        <div class='slds-form slds-form_compound slds-p-around_small'>
-            <lightning-combobox class="slds-col slds-grow"
-                                label={labels.resourceTypeLabel}
-                                options={resourceTypes}
-                                value={selectedResource}
-                                required
-                                placeholder={labels.resourceTypePlaceholderLabel}
-                                message-when-value-missing={labels.resourceTypeRequiredLabel}
-                                dropdown-alignment="auto"
-                                onchange={handleResourceChange}>
+        <div class="slds-form slds-form_compound slds-p-around_small">
+            <lightning-combobox
+                class="slds-col slds-grow"
+                label={labels.resourceTypeLabel}
+                options={resourceTypes}
+                value={selectedResource}
+                required
+                placeholder={labels.resourceTypePlaceholderLabel}
+                message-when-value-missing={labels.resourceTypeRequiredLabel}
+                dropdown-alignment="auto"
+                onchange={handleResourceChange}
+            >
             </lightning-combobox>
         </div>
         <builder_platform_interaction-resource-editor-container
-            selected-resource={selectedResource}>
+            selected-resource={selectedResource}
+        >
         </builder_platform_interaction-resource-editor-container>
     </div>
 </template>

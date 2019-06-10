@@ -1,30 +1,46 @@
 <template>
-    <span class="slds-hide">HACK TO FORCE RERENDER:{label.error}{devName.error}{description.error}</span>
+    <span class="slds-hide"
+        >HACK TO FORCE
+        RERENDER:{label.error}{devName.error}{description.error}</span
+    >
     <div class="slds-form slds-form_compound">
         <div class={computedNameAndDevContainerClass}>
-            <lightning-input if:false={hideLabel} type="text" label={nameLabel}
-                             onfocusout={handleLabelFocusOut}
-                             value={label.value}
-                             required={labelRequired}
-                             message-when-value-missing={showErrorMessageIfBlank}
-                             class={computedNameClass} disabled={disableName}>
+            <lightning-input
+                if:false={hideLabel}
+                type="text"
+                label={nameLabel}
+                onfocusout={handleLabelFocusOut}
+                value={label.value}
+                required={labelRequired}
+                message-when-value-missing={showErrorMessageIfBlank}
+                class={computedNameClass}
+                disabled={disableName}
+            >
             </lightning-input>
-            <lightning-input if:false={hideDevName} type="text" label={devNameLabel}
-                             disabled={disableDevName}
-                             onfocusout={handleDevNameFocusOut}
-                             value={devName.value}
-                             required
-                             message-when-value-missing={showErrorMessageIfBlank}
-                             class={computedDevNameClass}>
+            <lightning-input
+                if:false={hideDevName}
+                type="text"
+                label={devNameLabel}
+                disabled={disableDevName}
+                onfocusout={handleDevNameFocusOut}
+                value={devName.value}
+                required
+                message-when-value-missing={showErrorMessageIfBlank}
+                class={computedDevNameClass}
+            >
             </lightning-input>
         </div>
-        <div if:false={hideDescription}
-             class="slds-form-element__group slds-form-element__row">
-            <lightning-textarea label={labels.descriptionLabel}
-                                disabled={disableDescription}
-                                onfocusout={handleDescriptionFocusOut}
-                                value={description.value}
-                                class="slds-size_1-of-1 description">
+        <div
+            if:false={hideDescription}
+            class="slds-form-element__group slds-form-element__row"
+        >
+            <lightning-textarea
+                label={labels.descriptionLabel}
+                disabled={disableDescription}
+                onfocusout={handleDescriptionFocusOut}
+                value={description.value}
+                class="slds-size_1-of-1 description"
+            >
             </lightning-textarea>
         </div>
     </div>

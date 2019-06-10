@@ -1,5 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { LocatorIconClickedEvent, PaletteItemChevronClickedEvent } from 'builder_platform_interaction/events';
+import {
+    LocatorIconClickedEvent,
+    PaletteItemChevronClickedEvent
+} from 'builder_platform_interaction/events';
 import { flatten } from './paletteLib';
 import { LABELS } from './paletteLabels';
 
@@ -53,7 +56,7 @@ export default class Palette extends LightningElement {
     }
 
     get enableLocator() {
-        return (this.showLocatorIcon && this.showResourceDetails);
+        return this.showLocatorIcon && this.showResourceDetails;
     }
 
     @track rows = [];
@@ -93,7 +96,7 @@ export default class Palette extends LightningElement {
      */
     createItemMap(rows) {
         const itemMap = {};
-        rows.forEach((row) => {
+        rows.forEach(row => {
             itemMap[row.key] = row;
         });
         return itemMap;
@@ -117,7 +120,11 @@ export default class Palette extends LightningElement {
      * @param {object} event onclick event
      */
     handleLocatorClick(event) {
-        const guid = event && event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.guid;
+        const guid =
+            event &&
+            event.currentTarget &&
+            event.currentTarget.dataset &&
+            event.currentTarget.dataset.guid;
         const locatorIconEvent = new LocatorIconClickedEvent(guid);
         this.dispatchEvent(locatorIconEvent);
     }
@@ -131,7 +138,10 @@ export default class Palette extends LightningElement {
     handleResourceDetailsClick(event) {
         const guid = event.currentTarget.dataset.guid;
         const iconName = event.currentTarget.dataset.iconName;
-        const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(guid, iconName);
+        const paletteItemChevronClickedEvent = new PaletteItemChevronClickedEvent(
+            guid,
+            iconName
+        );
         this.dispatchEvent(paletteItemChevronClickedEvent);
     }
 
@@ -152,7 +162,9 @@ export default class Palette extends LightningElement {
                 return;
             }
 
-            const paletteItem = referenceElement.querySelector('builder_platform_interaction-palette-item');
+            const paletteItem = referenceElement.querySelector(
+                'builder_platform_interaction-palette-item'
+            );
             let dragElement = paletteItem.dragImage;
             if (!dragElement) {
                 const elementIcon = paletteItem.elementIcon;

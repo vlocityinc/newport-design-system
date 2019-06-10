@@ -1,7 +1,15 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { baseCanvasElement, duplicateCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
-import { createListRowItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY } from "./base/baseList";
-import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    baseCanvasElement,
+    duplicateCanvasElement,
+    baseCanvasElementsArrayToMap
+} from './base/baseElement';
+import {
+    createListRowItem,
+    RHS_PROPERTY,
+    RHS_DATA_TYPE_PROPERTY
+} from './base/baseList';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
 import { createConnectorObjects } from './connector';
 
@@ -12,7 +20,9 @@ export function createAssignment(assignment = {}) {
     const newAssignment = baseCanvasElement(assignment);
     let { assignmentItems } = assignment;
     if (assignmentItems && assignmentItems.length > 0) {
-        assignmentItems = assignmentItems.map(assignmentItem => createAssignmentItem(assignmentItem));
+        assignmentItems = assignmentItems.map(assignmentItem =>
+            createAssignmentItem(assignmentItem)
+        );
     } else {
         const newAssignmentItem = createAssignmentItem();
         assignmentItems = [newAssignmentItem];
@@ -29,7 +39,11 @@ export function createAssignment(assignment = {}) {
 
 export function createDuplicateAssignment(assignment = {}, newGuid, newName) {
     const newAssignment = createAssignment(assignment);
-    const duplicateAssignment = duplicateCanvasElement(newAssignment, newGuid, newName);
+    const duplicateAssignment = duplicateCanvasElement(
+        newAssignment,
+        newGuid,
+        newName
+    );
 
     return duplicateAssignment;
 }
@@ -50,8 +64,16 @@ export function createAssignmentItem(assignmentItem = {}) {
     if (assignmentItem.hasOwnProperty('assignToReference')) {
         const leftHandSide = assignmentItem.assignToReference;
         const operator = assignmentItem.operator;
-        const rhsFerovObject = createFEROV(assignmentItem.value, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
-        newAssignmentItem = Object.assign({}, {leftHandSide, operator}, rhsFerovObject);
+        const rhsFerovObject = createFEROV(
+            assignmentItem.value,
+            RHS_PROPERTY,
+            RHS_DATA_TYPE_PROPERTY
+        );
+        newAssignmentItem = Object.assign(
+            {},
+            { leftHandSide, operator },
+            rhsFerovObject
+        );
         newAssignmentItem = createListRowItem(newAssignmentItem);
     } else {
         newAssignmentItem = createListRowItem(assignmentItem);
@@ -68,7 +90,9 @@ export function createAssignmentMetadataObject(assignment, config = {}) {
     const newAssignment = baseCanvasElementMetadataObject(assignment, config);
     let { assignmentItems } = assignment;
     if (assignmentItems && assignmentItems.length > 0) {
-        assignmentItems = assignmentItems.map(assignmentItem => createAssignmentItemMetadataObject(assignmentItem));
+        assignmentItems = assignmentItems.map(assignmentItem =>
+            createAssignmentItemMetadataObject(assignmentItem)
+        );
     } else {
         const newAssignmentItem = createAssignmentItemMetadataObject();
         assignmentItems = [newAssignmentItem];
@@ -86,9 +110,16 @@ export function createAssignmentItemMetadataObject(assignmentItem) {
 
     const assignToReference = assignmentItem.leftHandSide;
     const operator = assignmentItem.operator;
-    const value = createFEROVMetadataObject(assignmentItem, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
+    const value = createFEROVMetadataObject(
+        assignmentItem,
+        RHS_PROPERTY,
+        RHS_DATA_TYPE_PROPERTY
+    );
 
-    const newAssignmentItem = Object.assign({}, {assignToReference, operator, value});
+    const newAssignmentItem = Object.assign(
+        {},
+        { assignToReference, operator, value }
+    );
 
     return newAssignmentItem;
 }

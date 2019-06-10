@@ -2,12 +2,10 @@ import {
     parseDateTimeUTC,
     syncUTCToWallTime,
     syncWallTimeToUTC,
-    getLocale,
+    getLocale
 } from 'lightning/internalLocalizationService';
 
-import {
-    getLocalizationService,
-} from 'lightning/configProvider';
+import { getLocalizationService } from 'lightning/configProvider';
 
 /**
  * Returns the default date or datetime format for user's locale
@@ -35,16 +33,25 @@ export const getFormat = (isDateTime = false) => {
  * @param {Boolean} isFormattedDate true if literal is formatted to user's locale format, false if literal is ISO8601 format
  * @returns {parsedDate} the parsed date
  */
-const parseDateTime = (literal, isDateTime = false, isFormattedDate = false) => {
+const parseDateTime = (
+    literal,
+    isDateTime = false,
+    isFormattedDate = false
+) => {
     if (typeof literal !== 'string') {
-        throw new Error(`Date literal must be type string but instead was ${typeof literal}`);
+        throw new Error(
+            `Date literal must be type string but instead was ${typeof literal}`
+        );
     }
     const dateLiteral = literal.trim();
     let date;
 
     if (isFormattedDate) {
         // TODO W-5602291 this will hopefully get replaced if format param is exposed in lightning/internalLocalizationService
-        date = getLocalizationService().parseDateTimeUTC(dateLiteral, getFormat(isDateTime));
+        date = getLocalizationService().parseDateTimeUTC(
+            dateLiteral,
+            getFormat(isDateTime)
+        );
     } else {
         date = parseDateTimeUTC(dateLiteral);
     }
@@ -56,7 +63,7 @@ const parseDateTime = (literal, isDateTime = false, isFormattedDate = false) => 
 
     return {
         date,
-        dateLiteral,
+        dateLiteral
     };
 };
 
@@ -66,7 +73,7 @@ const parseDateTime = (literal, isDateTime = false, isFormattedDate = false) => 
  * @param {Boolean} isDateTime true if literal is a datetime, false if literal is a date
  * @returns {parsedDate} the parsed date
  */
-export const parseMetadataDateTime  = (literal, isDateTime = false) => {
+export const parseMetadataDateTime = (literal, isDateTime = false) => {
     return parseDateTime(literal, isDateTime);
 };
 
@@ -118,9 +125,15 @@ export const normalizeDateTime = (literal, isDateTime = false) => {
         if (isDateTime) {
             const timezone = getLocale().timezone;
             const wallDate = syncUTCToWallTime(date, timezone);
-            return getLocalizationService().formatDateTimeUTC(wallDate.toISOString(), getFormat(isDateTime));
+            return getLocalizationService().formatDateTimeUTC(
+                wallDate.toISOString(),
+                getFormat(isDateTime)
+            );
         }
-        return getLocalizationService().formatDateUTC(date.toISOString(), getFormat(isDateTime));
+        return getLocalizationService().formatDateUTC(
+            date.toISOString(),
+            getFormat(isDateTime)
+        );
     }
     return dateLiteral;
 };
@@ -160,9 +173,15 @@ export const formatDateTime = (literal, isDateTime = false) => {
     const { date, dateLiteral } = parseFormattedDateTime(literal, isDateTime);
     if (date) {
         if (isDateTime) {
-            return getLocalizationService().formatDateTimeUTC(date.toISOString(), getFormat(isDateTime));
+            return getLocalizationService().formatDateTimeUTC(
+                date.toISOString(),
+                getFormat(isDateTime)
+            );
         }
-        return getLocalizationService().formatDateUTC(date.toISOString(), getFormat(isDateTime));
+        return getLocalizationService().formatDateUTC(
+            date.toISOString(),
+            getFormat(isDateTime)
+        );
     }
     return dateLiteral;
 };

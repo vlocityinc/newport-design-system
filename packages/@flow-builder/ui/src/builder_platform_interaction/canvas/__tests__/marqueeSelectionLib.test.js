@@ -1,6 +1,11 @@
 import { checkMarqueeSelection } from '../marqueeSelectionLib';
 
-const getCanvasElementWithMarqueeProp = (guid, locationX, locationY, config) => {
+const getCanvasElementWithMarqueeProp = (
+    guid,
+    locationX,
+    locationY,
+    config
+) => {
     return {
         guid,
         locationX,
@@ -22,7 +27,9 @@ describe('checkMarqueeSelection', () => {
     it('With canvasElements undefined should throw an error', () => {
         expect(() => {
             checkMarqueeSelection(undefined, [], 1, {}, []);
-        }).toThrow(new Error('canvasElements is not defined. It must be defined.'));
+        }).toThrow(
+            new Error('canvasElements is not defined. It must be defined.')
+        );
     });
 
     it('With connectors undefined should throw an error', () => {
@@ -51,8 +58,14 @@ describe('checkMarqueeSelection', () => {
 
     describe('Marquee Select Canvas Elements', () => {
         const canvasElements = [
-            getCanvasElementWithMarqueeProp('canvasElement1', 100, 100, { isSelected: false, isHighlighted: false }),
-            getCanvasElementWithMarqueeProp('canvasElement2', 400, 400, { isSelected: true, isHighlighted: false })
+            getCanvasElementWithMarqueeProp('canvasElement1', 100, 100, {
+                isSelected: false,
+                isHighlighted: false
+            }),
+            getCanvasElementWithMarqueeProp('canvasElement2', 400, 400, {
+                isSelected: true,
+                isHighlighted: false
+            })
         ];
         const connectors = [];
         const viewportCenterPoint = [250, 250];
@@ -66,8 +79,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [120, 120]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: ['canvasElement1'], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: ['canvasElement1'],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
 
             it('Should neither add already selected overlapping elements to canvasElementGuidsToSelect nor add non overlapping unselected elements to canvasElementGuidsToDeselect', () => {
@@ -77,8 +103,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [200, 200]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: [], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: [],
+                    canvasElementGuidsToDeselect: [],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
         });
 
@@ -91,8 +130,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [120, 120]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: [],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
 
             it('Should add canvasElement1 to canvasElementGuidsToSelect since it does overlap with the marquess box including the centerOffsets', () => {
@@ -102,8 +154,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [140, 200]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: ['canvasElement1'], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: ['canvasElement1'],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
         });
 
@@ -116,8 +181,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [250, 250]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: ['canvasElement1'], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: ['canvasElement1'],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
 
             it('Should not add canvasElement1 to canvasElementGuidsToSelect since it does not overlap witht he marque box on 0.5 scale', () => {
@@ -127,8 +205,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [120, 120]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: [],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
         });
 
@@ -141,8 +232,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [120, 120]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: [],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
 
             it('Should add canvasElement1 to canvasElementGuidsToSelect since it does overlap with the marquess box including the centerOffsets', () => {
@@ -152,8 +256,21 @@ describe('checkMarqueeSelection', () => {
                     marqueeEndPoint: [300, 300]
                 };
 
-                const expectedResult = {canvasElementGuidsToSelect: ['canvasElement1'], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: []};
-                expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+                const expectedResult = {
+                    canvasElementGuidsToSelect: ['canvasElement1'],
+                    canvasElementGuidsToDeselect: ['canvasElement2'],
+                    connectorGuidsToSelect: [],
+                    connectorGuidsToDeselect: []
+                };
+                expect(
+                    checkMarqueeSelection(
+                        canvasElements,
+                        connectors,
+                        currentScale,
+                        marqueeConfig,
+                        viewportCenterPoint
+                    )
+                ).toEqual(expectedResult);
             });
         });
     });
@@ -169,54 +286,176 @@ describe('checkMarqueeSelection', () => {
 
         it('When both source and target nodes are selected and their connector is in unselected state, should add to connectorGuidsToSelect list', () => {
             const canvasElements = [
-                getCanvasElementWithMarqueeProp('canvasElement1', 50, 50, { isSelected: false, isHighlighted: false }),
-                getCanvasElementWithMarqueeProp('canvasElement2', 50, 50, { isSelected: false, isHighlighted: false })
+                getCanvasElementWithMarqueeProp('canvasElement1', 50, 50, {
+                    isSelected: false,
+                    isHighlighted: false
+                }),
+                getCanvasElementWithMarqueeProp('canvasElement2', 50, 50, {
+                    isSelected: false,
+                    isHighlighted: false
+                })
             ];
             const connectors = [
-                getConnectorWithMarqueeProp('connector1', 'canvasElement1', 'canvasElement2', { isSelected: false }),
-                getConnectorWithMarqueeProp('connector2', 'canvasElement1', 'canvasElement2', { isSelected: true })
+                getConnectorWithMarqueeProp(
+                    'connector1',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: false }
+                ),
+                getConnectorWithMarqueeProp(
+                    'connector2',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: true }
+                )
             ];
-            const expectedResult = {canvasElementGuidsToSelect: ['canvasElement1', 'canvasElement2'], canvasElementGuidsToDeselect: [], connectorGuidsToSelect: ['connector1'], connectorGuidsToDeselect: []};
-            expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+            const expectedResult = {
+                canvasElementGuidsToSelect: [
+                    'canvasElement1',
+                    'canvasElement2'
+                ],
+                canvasElementGuidsToDeselect: [],
+                connectorGuidsToSelect: ['connector1'],
+                connectorGuidsToDeselect: []
+            };
+            expect(
+                checkMarqueeSelection(
+                    canvasElements,
+                    connectors,
+                    currentScale,
+                    marqueeConfig,
+                    viewportCenterPoint
+                )
+            ).toEqual(expectedResult);
         });
 
         it('When source node is selected and target node is deselected, their connector is in selected state, should add to connectorGuidsToDeselect list', () => {
             const canvasElements = [
-                getCanvasElementWithMarqueeProp('canvasElement1', 50, 50, { isSelected: false, isHighlighted: false }),
-                getCanvasElementWithMarqueeProp('canvasElement2', 200, 200, { isSelected: true, isHighlighted: false })
+                getCanvasElementWithMarqueeProp('canvasElement1', 50, 50, {
+                    isSelected: false,
+                    isHighlighted: false
+                }),
+                getCanvasElementWithMarqueeProp('canvasElement2', 200, 200, {
+                    isSelected: true,
+                    isHighlighted: false
+                })
             ];
             const connectors = [
-                getConnectorWithMarqueeProp('connector1', 'canvasElement1', 'canvasElement2', { isSelected: false }),
-                getConnectorWithMarqueeProp('connector2', 'canvasElement1', 'canvasElement2', { isSelected: true })
+                getConnectorWithMarqueeProp(
+                    'connector1',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: false }
+                ),
+                getConnectorWithMarqueeProp(
+                    'connector2',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: true }
+                )
             ];
-            const expectedResult = {canvasElementGuidsToSelect: ['canvasElement1'], canvasElementGuidsToDeselect: ['canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: ['connector2']};
-            expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+            const expectedResult = {
+                canvasElementGuidsToSelect: ['canvasElement1'],
+                canvasElementGuidsToDeselect: ['canvasElement2'],
+                connectorGuidsToSelect: [],
+                connectorGuidsToDeselect: ['connector2']
+            };
+            expect(
+                checkMarqueeSelection(
+                    canvasElements,
+                    connectors,
+                    currentScale,
+                    marqueeConfig,
+                    viewportCenterPoint
+                )
+            ).toEqual(expectedResult);
         });
 
         it('When source node is deselected and target node is selected, their connector is in selected state, should add to connectorGuidsToDeselect list', () => {
             const canvasElements = [
-                getCanvasElementWithMarqueeProp('canvasElement1', 200, 200, { isSelected: true, isHighlighted: false }),
-                getCanvasElementWithMarqueeProp('canvasElement2', 50, 50, { isSelected: false, isHighlighted: false })
+                getCanvasElementWithMarqueeProp('canvasElement1', 200, 200, {
+                    isSelected: true,
+                    isHighlighted: false
+                }),
+                getCanvasElementWithMarqueeProp('canvasElement2', 50, 50, {
+                    isSelected: false,
+                    isHighlighted: false
+                })
             ];
             const connectors = [
-                getConnectorWithMarqueeProp('connector1', 'canvasElement1', 'canvasElement2', { isSelected: false }),
-                getConnectorWithMarqueeProp('connector2', 'canvasElement1', 'canvasElement2', { isSelected: true })
+                getConnectorWithMarqueeProp(
+                    'connector1',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: false }
+                ),
+                getConnectorWithMarqueeProp(
+                    'connector2',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: true }
+                )
             ];
-            const expectedResult = {canvasElementGuidsToSelect: ['canvasElement2'], canvasElementGuidsToDeselect: ['canvasElement1'], connectorGuidsToSelect: [], connectorGuidsToDeselect: ['connector2']};
-            expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+            const expectedResult = {
+                canvasElementGuidsToSelect: ['canvasElement2'],
+                canvasElementGuidsToDeselect: ['canvasElement1'],
+                connectorGuidsToSelect: [],
+                connectorGuidsToDeselect: ['connector2']
+            };
+            expect(
+                checkMarqueeSelection(
+                    canvasElements,
+                    connectors,
+                    currentScale,
+                    marqueeConfig,
+                    viewportCenterPoint
+                )
+            ).toEqual(expectedResult);
         });
 
         it('When both source and target nodes get deselected, their connector is in selected state, should add to connectorGuidsToDeselect list', () => {
             const canvasElements = [
-                getCanvasElementWithMarqueeProp('canvasElement1', 200, 200, { isSelected: true, isHighlighted: false }),
-                getCanvasElementWithMarqueeProp('canvasElement2', 200, 200, { isSelected: true, isHighlighted: false })
+                getCanvasElementWithMarqueeProp('canvasElement1', 200, 200, {
+                    isSelected: true,
+                    isHighlighted: false
+                }),
+                getCanvasElementWithMarqueeProp('canvasElement2', 200, 200, {
+                    isSelected: true,
+                    isHighlighted: false
+                })
             ];
             const connectors = [
-                getConnectorWithMarqueeProp('connector1', 'canvasElement1', 'canvasElement2', { isSelected: false }),
-                getConnectorWithMarqueeProp('connector2', 'canvasElement1', 'canvasElement2', { isSelected: true })
+                getConnectorWithMarqueeProp(
+                    'connector1',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: false }
+                ),
+                getConnectorWithMarqueeProp(
+                    'connector2',
+                    'canvasElement1',
+                    'canvasElement2',
+                    { isSelected: true }
+                )
             ];
-            const expectedResult = {canvasElementGuidsToSelect: [], canvasElementGuidsToDeselect: ['canvasElement1', 'canvasElement2'], connectorGuidsToSelect: [], connectorGuidsToDeselect: ['connector2']};
-            expect(checkMarqueeSelection(canvasElements, connectors, currentScale, marqueeConfig, viewportCenterPoint)).toEqual(expectedResult);
+            const expectedResult = {
+                canvasElementGuidsToSelect: [],
+                canvasElementGuidsToDeselect: [
+                    'canvasElement1',
+                    'canvasElement2'
+                ],
+                connectorGuidsToSelect: [],
+                connectorGuidsToDeselect: ['connector2']
+            };
+            expect(
+                checkMarqueeSelection(
+                    canvasElements,
+                    connectors,
+                    currentScale,
+                    marqueeConfig,
+                    viewportCenterPoint
+                )
+            ).toEqual(expectedResult);
         });
     });
 });

@@ -1,19 +1,30 @@
 import { createElement } from 'lwc';
-import ScreenEditorHighlight from "builder_platform_interaction/screenEditorHighlight";
-import { SCREEN_EDITOR_EVENT_NAME } from "builder_platform_interaction/events";
-import { DRAGGING_CLASS, CONTAINER_DIV_SELECTOR} from "builder_platform_interaction/screenEditorUtils";
-import { createTestScreenField } from "builder_platform_interaction/builderTestUtils";
+import ScreenEditorHighlight from 'builder_platform_interaction/screenEditorHighlight';
+import { SCREEN_EDITOR_EVENT_NAME } from 'builder_platform_interaction/events';
+import {
+    DRAGGING_CLASS,
+    CONTAINER_DIV_SELECTOR
+} from 'builder_platform_interaction/screenEditorUtils';
+import { createTestScreenField } from 'builder_platform_interaction/builderTestUtils';
 
 function createComponentForTest(props) {
-    const el = createElement('builder_platform_interaction-screen-editor-highlight', { is: ScreenEditorHighlight });
+    const el = createElement(
+        'builder_platform_interaction-screen-editor-highlight',
+        { is: ScreenEditorHighlight }
+    );
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 }
 
 function clickHighlight(highlight, callback) {
-    const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
-    highlight.addEventListener(SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED, callback);
+    const hightlightDiv = highlight.shadowRoot.querySelector(
+        CONTAINER_DIV_SELECTOR
+    );
+    highlight.addEventListener(
+        SCREEN_EDITOR_EVENT_NAME.SCREEN_ELEMENT_SELECTED,
+        callback
+    );
     hightlightDiv.click();
 }
 
@@ -58,10 +69,14 @@ describe('onDragStart', () => {
                     return this.data[type];
                 }
             };
-            const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = highlight.shadowRoot.querySelector(
+                CONTAINER_DIV_SELECTOR
+            );
             hightlightDiv.dispatchEvent(dragStartEvent);
             expect(dragStartEvent.dataTransfer.effectAllowed).toBe('move');
-            expect(dragStartEvent.dataTransfer.getData('text')).toBe(highlight.screenElement.guid);
+            expect(dragStartEvent.dataTransfer.getData('text')).toBe(
+                highlight.screenElement.guid
+            );
             expect(hightlightDiv.classList).toContain(DRAGGING_CLASS);
         });
     });
@@ -88,7 +103,9 @@ describe('onDragEnd', () => {
             };
             const dragEndEvent = new CustomEvent('dragend');
 
-            const hightlightDiv = highlight.shadowRoot.querySelector(CONTAINER_DIV_SELECTOR);
+            const hightlightDiv = highlight.shadowRoot.querySelector(
+                CONTAINER_DIV_SELECTOR
+            );
             hightlightDiv.dispatchEvent(dragStartEvent);
             hightlightDiv.dispatchEvent(dragEndEvent);
             expect(hightlightDiv.classList).not.toContain(DRAGGING_CLASS);

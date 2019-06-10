@@ -1,20 +1,27 @@
-import { decisionReducer, resetDeletedGuids, } from "../decisionReducer";
+import { decisionReducer, resetDeletedGuids } from '../decisionReducer';
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
-} from "builder_platform_interaction/events";
-import {PROPERTY_EDITOR_ACTION} from "builder_platform_interaction/actions";
-import { EXPRESSION_PROPERTY_TYPE, checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
+} from 'builder_platform_interaction/events';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    EXPRESSION_PROPERTY_TYPE,
+    checkExpressionForDeletedElem
+} from 'builder_platform_interaction/expressionUtils';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         checkExpressionForDeletedElem: jest.fn(),
-        EXPRESSION_PROPERTY_TYPE: require.requireActual('../../expressionUtils/expressionUtils.js').EXPRESSION_PROPERTY_TYPE,
+        EXPRESSION_PROPERTY_TYPE: require.requireActual(
+            '../../expressionUtils/expressionUtils.js'
+        ).EXPRESSION_PROPERTY_TYPE
     };
 });
 
@@ -23,32 +30,32 @@ describe('decision-reducer', () => {
 
     beforeEach(() => {
         originalState = {
-            label: "decisionLabel",
-            name: "decisionDevName",
-            elementType: "DECISION",
-            guid: "decisionGuid",
+            label: 'decisionLabel',
+            name: 'decisionDevName',
+            elementType: 'DECISION',
+            guid: 'decisionGuid',
             isCanvasElement: true,
             outcomes: [
                 {
                     guid: '456',
                     conditions: [{}],
-                    label: "outcomeLabel1",
-                    name: "outcomeName1",
+                    label: 'outcomeLabel1',
+                    name: 'outcomeName1',
                     processMetadataValues: [],
-                    dataType: "Boolean",
-                    elementType: "OUTCOME",
+                    dataType: 'Boolean',
+                    elementType: 'OUTCOME',
                     isCanvasElement: false
                 },
                 {
                     guid: '123',
                     conditions: [{}],
-                    label: "outcomeLabel2",
-                    name: "outcomeName2",
+                    label: 'outcomeLabel2',
+                    name: 'outcomeName2',
                     processMetadataValues: [],
-                    dataType: "Boolean",
-                    elementType: "OUTCOME",
+                    dataType: 'Boolean',
+                    elementType: 'OUTCOME',
                     isCanvasElement: false
-                },
+                }
             ]
         };
         resetDeletedGuids();
@@ -58,42 +65,68 @@ describe('decision-reducer', () => {
         describe('without guid (decision)', () => {
             let decisionPropertyChangedEvent;
             beforeEach(() => {
-                decisionPropertyChangedEvent = new PropertyChangedEvent('label', 'val', 'anError');
+                decisionPropertyChangedEvent = new PropertyChangedEvent(
+                    'label',
+                    'val',
+                    'anError'
+                );
             });
 
             it('to return a new state object', () => {
-                const newState = decisionReducer(originalState, decisionPropertyChangedEvent);
+                const newState = decisionReducer(
+                    originalState,
+                    decisionPropertyChangedEvent
+                );
 
                 expect(newState).not.toBe(originalState);
             });
 
             it('to update the specified property on only the decision', () => {
-                const newState = decisionReducer(originalState, decisionPropertyChangedEvent);
+                const newState = decisionReducer(
+                    originalState,
+                    decisionPropertyChangedEvent
+                );
 
                 expect(newState.label.value).toEqual('val');
                 expect(newState.label.error).toEqual('anError');
-                expect(newState.outcomes[0].label).toBe(originalState.outcomes[0].label);
-                expect(newState.outcomes[1].label).toBe(originalState.outcomes[1].label);
+                expect(newState.outcomes[0].label).toBe(
+                    originalState.outcomes[0].label
+                );
+                expect(newState.outcomes[1].label).toBe(
+                    originalState.outcomes[1].label
+                );
             });
         });
         describe('with guid (outcome)', () => {
             let outcomePropertyChangedEvent;
 
             beforeEach(() => {
-                outcomePropertyChangedEvent =
-                    new PropertyChangedEvent('label', 'val', 'anError', originalState.outcomes[1].guid);
+                outcomePropertyChangedEvent = new PropertyChangedEvent(
+                    'label',
+                    'val',
+                    'anError',
+                    originalState.outcomes[1].guid
+                );
             });
 
             it('to return a new state object', () => {
-                const newState = decisionReducer(originalState, outcomePropertyChangedEvent);
+                const newState = decisionReducer(
+                    originalState,
+                    outcomePropertyChangedEvent
+                );
 
                 expect(newState).not.toBe(originalState);
             });
 
             it('to update the specified property on only the specified outcome', () => {
-                const newState = decisionReducer(originalState, outcomePropertyChangedEvent);
+                const newState = decisionReducer(
+                    originalState,
+                    outcomePropertyChangedEvent
+                );
                 expect(newState.label).toBe(originalState.label);
-                expect(newState.outcomes[0].label).toBe(originalState.outcomes[0].label);
+                expect(newState.outcomes[0].label).toBe(
+                    originalState.outcomes[0].label
+                );
                 expect(newState.outcomes[1].label.value).toEqual('val');
                 expect(newState.outcomes[1].label.error).toEqual('anError');
             });
@@ -107,7 +140,9 @@ describe('decision-reducer', () => {
             const mockGuid1 = 'ABC';
             storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid1);
 
-            const addOutcomeAction = {type:PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME};
+            const addOutcomeAction = {
+                type: PROPERTY_EDITOR_ACTION.ADD_DECISION_OUTCOME
+            };
 
             let newState = decisionReducer(originalState, addOutcomeAction);
 
@@ -132,7 +167,10 @@ describe('decision-reducer', () => {
                     guid: originalState.outcomes[0].guid
                 }
             };
-            const newState = decisionReducer(originalState, deleteOutcomeAction);
+            const newState = decisionReducer(
+                originalState,
+                deleteOutcomeAction
+            );
 
             expect(newState.outcomes).toHaveLength(1);
             expect(newState.outcomes[0]).toEqual(originalState.outcomes[1]);
@@ -146,7 +184,10 @@ describe('decision-reducer', () => {
                 }
             };
 
-            const newState = decisionReducer(originalState, deleteOutcomeAction);
+            const newState = decisionReducer(
+                originalState,
+                deleteOutcomeAction
+            );
 
             expect(newState.outcomes).toHaveLength(2);
         });
@@ -161,24 +202,32 @@ describe('decision-reducer', () => {
 
             const outcome = originalState.outcomes[1];
 
-            const addConditionEvent  =
-                new AddConditionEvent(outcome.guid);
+            const addConditionEvent = new AddConditionEvent(outcome.guid);
             const newState = decisionReducer(originalState, addConditionEvent);
 
             const newOutcome = newState.outcomes[1];
-            const hydratedNewObject = {value: '', error: null};
+            const hydratedNewObject = { value: '', error: null };
 
             expect(newOutcome.conditions).toHaveLength(2);
             expect(newOutcome.conditions[1].rowIndex).toEqual(mockGuid);
-            expect(newOutcome.conditions[1].leftHandSide).toMatchObject(hydratedNewObject);
-            expect(newOutcome.conditions[1].operator).toMatchObject(hydratedNewObject);
-            expect(newOutcome.conditions[1].rightHandSide).toMatchObject(hydratedNewObject);
-            expect(newOutcome.conditions[1].rightHandSideDataType).toMatchObject(hydratedNewObject);
+            expect(newOutcome.conditions[1].leftHandSide).toMatchObject(
+                hydratedNewObject
+            );
+            expect(newOutcome.conditions[1].operator).toMatchObject(
+                hydratedNewObject
+            );
+            expect(newOutcome.conditions[1].rightHandSide).toMatchObject(
+                hydratedNewObject
+            );
+            expect(
+                newOutcome.conditions[1].rightHandSideDataType
+            ).toMatchObject(hydratedNewObject);
         });
 
         it('does not add condition to other outcomes', () => {
-            const addConditionEvent  =
-                new AddConditionEvent(originalState.outcomes[0].guid);
+            const addConditionEvent = new AddConditionEvent(
+                originalState.outcomes[0].guid
+            );
             const newState = decisionReducer(originalState, addConditionEvent);
 
             expect(newState.outcomes[1].conditions).toHaveLength(1);
@@ -187,9 +236,14 @@ describe('decision-reducer', () => {
 
     describe('DeleteConditionEvent', () => {
         it('deletes condition based on index', () => {
-            const deleteConditionEvent  =
-                new DeleteConditionEvent(originalState.outcomes[0].guid, 0);
-            const newState = decisionReducer(originalState, deleteConditionEvent);
+            const deleteConditionEvent = new DeleteConditionEvent(
+                originalState.outcomes[0].guid,
+                0
+            );
+            const newState = decisionReducer(
+                originalState,
+                deleteConditionEvent
+            );
 
             const newOutcome = newState.outcomes[0];
 
@@ -197,9 +251,14 @@ describe('decision-reducer', () => {
         });
 
         it('does not delete condition from other outcomes', () => {
-            const deleteConditionEvent  =
-                new DeleteConditionEvent(originalState.outcomes[0].guid, 0);
-            const newState = decisionReducer(originalState, deleteConditionEvent);
+            const deleteConditionEvent = new DeleteConditionEvent(
+                originalState.outcomes[0].guid,
+                0
+            );
+            const newState = decisionReducer(
+                originalState,
+                deleteConditionEvent
+            );
 
             expect(newState.outcomes[1].conditions).toHaveLength(1);
         });
@@ -207,16 +266,24 @@ describe('decision-reducer', () => {
 
     describe('UpdateConditionEvent', () => {
         it('updates condition based on index', () => {
-            const mockLHS = {value: 'val', error: 'err'};
-            const updateConditionEvent  =
-                new UpdateConditionEvent(originalState.outcomes[0].guid, 0, {[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: mockLHS});
-            const newState = decisionReducer(originalState, updateConditionEvent);
+            const mockLHS = { value: 'val', error: 'err' };
+            const updateConditionEvent = new UpdateConditionEvent(
+                originalState.outcomes[0].guid,
+                0,
+                { [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: mockLHS }
+            );
+            const newState = decisionReducer(
+                originalState,
+                updateConditionEvent
+            );
 
             const newOutcome = newState.outcomes[0];
             const modifiedCondition = newOutcome.conditions[0];
 
             expect(newOutcome.conditions).toHaveLength(1);
-            expect(modifiedCondition[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]).toEqual({
+            expect(
+                modifiedCondition[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]
+            ).toEqual({
                 value: mockLHS.value,
                 error: mockLHS.error
             });
@@ -224,13 +291,23 @@ describe('decision-reducer', () => {
         });
 
         it('does not delete condition from other outcomes', () => {
-            const updateConditionEvent  =
-                new UpdateConditionEvent(originalState.outcomes[0].guid, 0, 'name', 'val', 'err');
-            const newState = decisionReducer(originalState, updateConditionEvent);
+            const updateConditionEvent = new UpdateConditionEvent(
+                originalState.outcomes[0].guid,
+                0,
+                'name',
+                'val',
+                'err'
+            );
+            const newState = decisionReducer(
+                originalState,
+                updateConditionEvent
+            );
 
             const newOutcome = newState.outcomes[1];
 
-            expect(newOutcome.conditions).toEqual(originalState.outcomes[1].conditions);
+            expect(newOutcome.conditions).toEqual(
+                originalState.outcomes[1].conditions
+            );
         });
     });
 });

@@ -1,11 +1,11 @@
-import { decisionValidation } from "./decisionValidation";
+import { decisionValidation } from './decisionValidation';
 import {
     updateProperties,
     addItem,
     deleteItem,
     replaceItem,
-    hydrateWithErrors,
-} from "builder_platform_interaction/dataMutationLib";
+    hydrateWithErrors
+} from 'builder_platform_interaction/dataMutationLib';
 import {
     PropertyChangedEvent,
     DeleteOutcomeEvent,
@@ -13,15 +13,21 @@ import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionEvent
-} from "builder_platform_interaction/events";
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { createOutcome } from "builder_platform_interaction/elementFactory";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { PROPERTY_EDITOR_ACTION } from "builder_platform_interaction/actions";
-import { EXPRESSION_PROPERTY_TYPE, checkExpressionForDeletedElem } from "builder_platform_interaction/expressionUtils";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { usedByStoreAndElementState, invokeUsedByAlertModal } from "builder_platform_interaction/usedByLib";
-import { LABELS } from "./decisionEditorLabels";
+} from 'builder_platform_interaction/events';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { createOutcome } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    EXPRESSION_PROPERTY_TYPE,
+    checkExpressionForDeletedElem
+} from 'builder_platform_interaction/expressionUtils';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import {
+    usedByStoreAndElementState,
+    invokeUsedByAlertModal
+} from 'builder_platform_interaction/usedByLib';
+import { LABELS } from './decisionEditorLabels';
 
 let deletedOutcomeGuids;
 
@@ -29,21 +35,29 @@ export const resetDeletedGuids = () => {
     deletedOutcomeGuids = new Map();
 };
 
-const addOutcome = (state) => {
+const addOutcome = state => {
     let newOutcome = createOutcome();
     newOutcome = hydrateWithErrors(newOutcome);
 
     const outcomes = addItem(state.outcomes, newOutcome);
 
-    return updateProperties(state, {outcomes});
+    return updateProperties(state, { outcomes });
 };
 
 const deleteOutcome = (state, event) => {
-    const usedElements = usedByStoreAndElementState(event.detail.guid, state.guid, state.outcomes);
+    const usedElements = usedByStoreAndElementState(
+        event.detail.guid,
+        state.guid,
+        state.outcomes
+    );
     if (usedElements && usedElements.length > 0) {
-        invokeUsedByAlertModal(usedElements, [event.detail.guid], ELEMENT_TYPE.OUTCOME);
+        invokeUsedByAlertModal(
+            usedElements,
+            [event.detail.guid],
+            ELEMENT_TYPE.OUTCOME
+        );
     } else {
-        const outcomes = state.outcomes.filter((outcome) => {
+        const outcomes = state.outcomes.filter(outcome => {
             return outcome.guid !== event.detail.guid;
         });
 
@@ -51,96 +65,139 @@ const deleteOutcome = (state, event) => {
         // TODO: W-5507691 handle addition/removal of store elements inside editors more cleanly
         deletedOutcomeGuids.set(event.detail.guid, true);
 
-        return updateProperties(state, {outcomes});
+        return updateProperties(state, { outcomes });
     }
     return state;
 };
 
 const reorderOutcomes = (state, event) => {
     let outcomes = state.outcomes;
-    const destinationIndex = state.outcomes.findIndex((element) => {
+    const destinationIndex = state.outcomes.findIndex(element => {
         return element.guid === event.detail.destinationGuid;
     });
-    const movedOutcome = state.outcomes.find((outcome) => {
+    const movedOutcome = state.outcomes.find(outcome => {
         return outcome.guid === event.detail.sourceGuid;
     });
     if (destinationIndex >= 0 && movedOutcome) {
-        outcomes = state.outcomes.filter((outcome) => {
+        outcomes = state.outcomes.filter(outcome => {
             return outcome.guid !== event.detail.sourceGuid;
         });
         outcomes.splice(destinationIndex, 0, movedOutcome);
     }
-    return updateProperties(state, {outcomes});
+    return updateProperties(state, { outcomes });
 };
 
 const addCondition = (state, event) => {
-    const outcomes = state.outcomes.map((outcome) => {
+    const outcomes = state.outcomes.map(outcome => {
         const newCondition = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: { value: '', error: null },
-            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null},
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: { value: '', error: null},
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: { value: '', error: null},
-            rowIndex: generateGuid(),
+            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
+                value: '',
+                error: null
+            },
+            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null },
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
+                value: '',
+                error: null
+            },
+            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
+                value: '',
+                error: null
+            },
+            rowIndex: generateGuid()
         };
-        return outcome.guid === event.detail.parentGUID ? updateProperties(outcome, {
-            conditions: addItem(outcome.conditions, newCondition),
-        }) : outcome;
+        return outcome.guid === event.detail.parentGUID
+            ? updateProperties(outcome, {
+                  conditions: addItem(outcome.conditions, newCondition)
+              })
+            : outcome;
     });
 
-
-    return updateProperties(state, {outcomes});
+    return updateProperties(state, { outcomes });
 };
 
 const deleteCondition = (state, event) => {
-    const outcomes = state.outcomes.map((outcome) => {
-        return outcome.guid === event.detail.parentGUID ? updateProperties(outcome, {
-            conditions: deleteItem(outcome.conditions, event.detail.index)
-        }) : outcome;
+    const outcomes = state.outcomes.map(outcome => {
+        return outcome.guid === event.detail.parentGUID
+            ? updateProperties(outcome, {
+                  conditions: deleteItem(outcome.conditions, event.detail.index)
+              })
+            : outcome;
     });
 
-    return updateProperties(state, {outcomes});
+    return updateProperties(state, { outcomes });
 };
 
 const updateCondition = (state, event) => {
-    const outcomes = state.outcomes.map((outcome) => {
+    const outcomes = state.outcomes.map(outcome => {
         if (outcome.guid === event.detail.parentGUID) {
-            const newCondition = updateProperties(outcome.conditions[event.detail.index], event.detail.value);
-            checkExpressionForDeletedElem(deletedOutcomeGuids, newCondition, LABELS.decisionSingularLabel);
+            const newCondition = updateProperties(
+                outcome.conditions[event.detail.index],
+                event.detail.value
+            );
+            checkExpressionForDeletedElem(
+                deletedOutcomeGuids,
+                newCondition,
+                LABELS.decisionSingularLabel
+            );
             return updateProperties(outcome, {
-                conditions: replaceItem(outcome.conditions, newCondition, event.detail.index),
+                conditions: replaceItem(
+                    outcome.conditions,
+                    newCondition,
+                    event.detail.index
+                )
             });
         }
 
         return outcome;
     });
 
-    return updateProperties(state, {outcomes});
+    return updateProperties(state, { outcomes });
 };
 
 const validateProperty = (state, event) => {
-    event.detail.error = event.detail.error === null ? decisionValidation.validateProperty(event.detail.propertyName, event.detail.value) : event.detail.error;
+    event.detail.error =
+        event.detail.error === null
+            ? decisionValidation.validateProperty(
+                  event.detail.propertyName,
+                  event.detail.value
+              )
+            : event.detail.error;
     if (event.detail.error === null && event.detail.propertyName === 'name') {
         // we need to run the outcome api name uniqueness validation within the current session of property editor
-        event.detail.error = decisionValidation.validateOutcomeNameUniquenessLocally(state, event.detail.value, event.detail.guid);
+        event.detail.error = decisionValidation.validateOutcomeNameUniquenessLocally(
+            state,
+            event.detail.value,
+            event.detail.guid
+        );
     }
 };
 
 const outcomePropertyChanged = (state, event) => {
     validateProperty(state, event);
-    const outcomes = state.outcomes.map((outcome) => {
-        return event.detail.guid !== outcome.guid ? outcome : updateProperties(outcome, {
-            [event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}
-        });
+    const outcomes = state.outcomes.map(outcome => {
+        return event.detail.guid !== outcome.guid
+            ? outcome
+            : updateProperties(outcome, {
+                  [event.detail.propertyName]: {
+                      error: event.detail.error,
+                      value: event.detail.value
+                  }
+              });
     });
 
-    return updateProperties(state, {outcomes});
+    return updateProperties(state, { outcomes });
 };
 
 const decisionPropertyChanged = (state, event) => {
     // TODO: W-5553931 Guid should already be present in the event.
     event.detail.guid = state.guid;
     validateProperty(state, event);
-    return updateProperties(state, {[event.detail.propertyName]: {error: event.detail.error, value: event.detail.value}});
+    return updateProperties(state, {
+        [event.detail.propertyName]: {
+            error: event.detail.error,
+            value: event.detail.value
+        }
+    });
 };
 
 /**

@@ -1,58 +1,103 @@
 <template>
-    <div class='properties-container full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium toggle-animated' aria-hidden='false' >
+    <div
+        class="properties-container full-height slds-panel slds-no-flex slds-panel_drawer slds-panel_docked-right slds-border_left slds-grid slds-grid_vertical slds-size_medium toggle-animated"
+        aria-hidden="false"
+    >
         <div if:true={node} class="slds-panel__header slds-truncate_container">
-            <lightning-button-icon  if:false={isScreen} variant="container" size="small" 
-                                    icon-name="utility:back" class="back-button slds-panel__back slds-shrink-none" 
-                                    onclick={handleScreenSelection} alternative-text={labels.screenProperties}  
-                                    title={labels.screenProperties}>
+            <lightning-button-icon
+                if:false={isScreen}
+                variant="container"
+                size="small"
+                icon-name="utility:back"
+                class="back-button slds-panel__back slds-shrink-none"
+                onclick={handleScreenSelection}
+                alternative-text={labels.screenProperties}
+                title={labels.screenProperties}
+            >
             </lightning-button-icon>
             <div class={panelHeaderTextClasses}>
-                <h2 class="slds-panel__header-title slds-text-heading_small slds-truncate" 
-                    title={getPanelTitle}>{getPanelTitle}
+                <h2
+                    class="slds-panel__header-title slds-text-heading_small slds-truncate"
+                    title={getPanelTitle}
+                >
+                    {getPanelTitle}
                 </h2>
             </div>
-            <lightning-button-icon if:true={hasErrors} size='small' variant='container' 
-                                   icon-name='utility:error' icon-class='slds-icon-text-error' 
-                                   title={labels.errorIconTitle}>
+            <lightning-button-icon
+                if:true={hasErrors}
+                size="small"
+                variant="container"
+                icon-name="utility:error"
+                icon-class="slds-icon-text-error"
+                title={labels.errorIconTitle}
+            >
             </lightning-button-icon>
-            <lightning-button-icon icon-name={toggleIconName} size='small' variant='container' 
-                                   title={labels.togglePropertiesPanelTitle} onclick={handleToggleExpand}>
+            <lightning-button-icon
+                icon-name={toggleIconName}
+                size="small"
+                variant="container"
+                title={labels.togglePropertiesPanelTitle}
+                onclick={handleToggleExpand}
+            >
             </lightning-button-icon>
         </div>
-        <div if:true={displaySpinner} class='slds-is-relative full-height slds-shrink'>
-            <lightning-spinner alternative-text={labels.spinnerAlternativeText} size='medium' variant='brand' class='spinner'></lightning-spinner>
+        <div
+            if:true={displaySpinner}
+            class="slds-is-relative full-height slds-shrink"
+        >
+            <lightning-spinner
+                alternative-text={labels.spinnerAlternativeText}
+                size="medium"
+                variant="brand"
+                class="spinner"
+            ></lightning-spinner>
         </div>
-        
-        <div if:false={displaySpinner} class='slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow full-height'>
-            <builder_platform_interaction-screen-properties-editor if:true={isScreen} 
-                                                                   class='properties-editor-panel' 
-                                                                   screen={node}>
+
+        <div
+            if:false={displaySpinner}
+            class="slds-panel__body slds-scrollable_y slds-p-around_none slds-grid slds-grid_vertical slds-grow full-height"
+        >
+            <builder_platform_interaction-screen-properties-editor
+                if:true={isScreen}
+                class="properties-editor-panel"
+                screen={node}
+            >
             </builder_platform_interaction-screen-properties-editor>
 
-            <builder_platform_interaction-screen-extension-properties-editor if:true={isExtensionField}
-                                                                             class='full-height properties-editor-panel' 
-                                                                             field={node}
-                                                                             extension-description={extendedInfo}>
+            <builder_platform_interaction-screen-extension-properties-editor
+                if:true={isExtensionField}
+                class="full-height properties-editor-panel"
+                field={node}
+                extension-description={extendedInfo}
+            >
             </builder_platform_interaction-screen-extension-properties-editor>
 
-            <builder_platform_interaction-screen-display-text-field-properties-editor if:true={isDisplayField}
-                                                                   class='full-height properties-editor-panel' 
-                                                                   field={node}>
+            <builder_platform_interaction-screen-display-text-field-properties-editor
+                if:true={isDisplayField}
+                class="full-height properties-editor-panel"
+                field={node}
+            >
             </builder_platform_interaction-screen-display-text-field-properties-editor>
 
-            <builder_platform_interaction-screen-input-field-properties-editor if:true={isInputField}
-                                                                   class='full-height properties-editor-panel'
-                                                                   field={node}>
+            <builder_platform_interaction-screen-input-field-properties-editor
+                if:true={isInputField}
+                class="full-height properties-editor-panel"
+                field={node}
+            >
             </builder_platform_interaction-screen-input-field-properties-editor>
-            
-            <builder_platform_interaction-screen-textarea-field-properties-editor if:true={isTextAreaField}
-                                                                   class='full-height properties-editor-panel'
-                                                                   field={node}>
-            </builder_platform_interaction-screen-textarea-field-properties-editor>            
-            
-            <builder_platform_interaction-screen-choice-field-properties-editor if:true={isChoiceField}
-                                                                   class='full-height properties-editor-panel'
-                                                                   field={node}>
+
+            <builder_platform_interaction-screen-textarea-field-properties-editor
+                if:true={isTextAreaField}
+                class="full-height properties-editor-panel"
+                field={node}
+            >
+            </builder_platform_interaction-screen-textarea-field-properties-editor>
+
+            <builder_platform_interaction-screen-choice-field-properties-editor
+                if:true={isChoiceField}
+                class="full-height properties-editor-panel"
+                field={node}
+            >
             </builder_platform_interaction-screen-choice-field-properties-editor>
         </div>
     </div>

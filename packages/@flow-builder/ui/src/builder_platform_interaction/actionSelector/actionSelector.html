@@ -1,7 +1,14 @@
 <template>
-    <builder_platform_interaction-combobox menu-data={state.filteredActionMenuData}
-        oncomboboxstatechanged={handleActionChanged} onitemselected={handleActionChanged}
-        onfiltermatches={handleFilterMatches} value={actionComboValue} placeholder={actionComboPlaceholder}
-        disabled={actionComboDisabled} error-message={errorMessage} show-activity-indicator={state.spinnerActive}>
+    <builder_platform_interaction-combobox
+        menu-data={state.filteredActionMenuData}
+        oncomboboxstatechanged={handleActionChanged}
+        onitemselected={handleActionChanged}
+        onfiltermatches={handleFilterMatches}
+        value={actionComboValue}
+        placeholder={actionComboPlaceholder}
+        disabled={actionComboDisabled}
+        error-message={errorMessage}
+        show-activity-indicator={state.spinnerActive}
+    >
     </builder_platform_interaction-combobox>
 </template>

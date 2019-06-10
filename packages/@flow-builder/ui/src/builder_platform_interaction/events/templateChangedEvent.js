@@ -8,7 +8,7 @@ export class TemplateChangedEvent {
             bubbles: true,
             detail: {
                 id,
-                isProcessType,
+                isProcessType
             }
         });
     }

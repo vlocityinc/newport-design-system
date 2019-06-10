@@ -1,12 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
-import { filterFieldsForChosenElement } from "builder_platform_interaction/expressionUtils";
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
+import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 export default class FieldPicker extends LightningElement {
     @track
     state = {
         fields: null,
-        value: '',
+        value: ''
     };
 
     @api
@@ -82,7 +82,9 @@ export default class FieldPicker extends LightningElement {
 
     renderedCallback() {
         if (!this._isInitialized) {
-            this._baseResourcePicker = this.template.querySelector(BaseResourcePicker.SELECTOR);
+            this._baseResourcePicker = this.template.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
             this._isInitialized = true;
 
             if (this.fields) {
@@ -97,7 +99,15 @@ export default class FieldPicker extends LightningElement {
      */
     populateFieldMenuData() {
         if (this._baseResourcePicker) {
-            this._baseResourcePicker.setMenuData(filterFieldsForChosenElement(null, null, this.fields, false, true));
+            this._baseResourcePicker.setMenuData(
+                filterFieldsForChosenElement(
+                    null,
+                    null,
+                    this.fields,
+                    false,
+                    true
+                )
+            );
         }
     }
 }

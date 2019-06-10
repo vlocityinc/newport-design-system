@@ -1,53 +1,56 @@
 <template>
     <div class={containerClasses}>
-        <builder_platform_interaction-combobox class={lhsClasses}
-                                               label={lhsLabel}
-                                               value={lhsValue}
-                                               menu-data={state.lhsFilteredMenuData}
-                                               placeholder={lhsPlaceholder}
-                                               error-message={lhsError}
-                                               literals-allowed=false
-                                               oncomboboxstatechanged={handleLhsValueChanged}
-                                               onfiltermatches={handleFilterLhsMatches}
-                                               onfetchmenudata={handleFetchLhsMenuData}
-                                               onitemselected={handleLhsItemSelected}
-                                               enable-field-drilldown
+        <builder_platform_interaction-combobox
+            class={lhsClasses}
+            label={lhsLabel}
+            value={lhsValue}
+            menu-data={state.lhsFilteredMenuData}
+            placeholder={lhsPlaceholder}
+            error-message={lhsError}
+            oncomboboxstatechanged={handleLhsValueChanged}
+            onfiltermatches={handleFilterLhsMatches}
+            onfetchmenudata={handleFetchLhsMenuData}
+            onitemselected={handleLhsItemSelected}
+            enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
-        <lightning-combobox if:false={hideOperator} class={operatorClasses}
-                            label={operatorLabel}
-                            value={operator}
-                            placeholder={operatorPlaceholder}
-                            options={operatorMenuData}
-                            onchange={handleOperatorChanged}
-                            dropdown-alignment="auto"
-                            disabled={state.operatorAndRhsDisabled}
+        <lightning-combobox
+            if:false={hideOperator}
+            class={operatorClasses}
+            label={operatorLabel}
+            value={operator}
+            placeholder={operatorPlaceholder}
+            options={operatorMenuData}
+            onchange={handleOperatorChanged}
+            dropdown-alignment="auto"
+            disabled={state.operatorAndRhsDisabled}
         >
         </lightning-combobox>
         <div if:true={showOperatorIcon} class="slds-col slds-grow-none">
-            <span class="slds-form-element__label slds-is-visually-empty">&nbsp;</span>
+            <span class="slds-form-element__label slds-is-visually-empty"
+                >&nbsp;</span
+            >
             <div class="slds-line-height_reset slds-p-vertical_x-small">
-                <lightning-icon
-                    icon-name={operatorIconName}
-                    size="x-small">
+                <lightning-icon icon-name={operatorIconName} size="x-small">
                 </lightning-icon>
             </div>
         </div>
-        <builder_platform_interaction-combobox class={rhsClasses}
-                                               label={rhsLabel}
-                                               value={rhsValue}
-                                               allowed-param-types={rhsParamTypes}
-                                               menu-data={state.rhsFilteredMenuData}
-                                               placeholder={rhsPlaceholder}
-                                               literals-allowed={rhsLiteralsAllowed}
-                                               error-message={rhsError}
-                                               type={rhsDataType}
-                                               oncomboboxstatechanged={handleRhsValueChanged}
-                                               onfiltermatches={handleFilterRhsMatches}
-                                               onfetchmenudata={handleFetchRhsMenuData}
-                                               disabled={state.operatorAndRhsDisabled}
-                                               block-validation={blockRhsValidation}
-                                               enable-field-drilldown
+        <builder_platform_interaction-combobox
+            class={rhsClasses}
+            label={rhsLabel}
+            value={rhsValue}
+            allowed-param-types={rhsParamTypes}
+            menu-data={state.rhsFilteredMenuData}
+            placeholder={rhsPlaceholder}
+            literals-allowed={rhsLiteralsAllowed}
+            error-message={rhsError}
+            type={rhsDataType}
+            oncomboboxstatechanged={handleRhsValueChanged}
+            onfiltermatches={handleFilterRhsMatches}
+            onfetchmenudata={handleFetchRhsMenuData}
+            disabled={state.operatorAndRhsDisabled}
+            block-validation={blockRhsValidation}
+            enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
     </div>

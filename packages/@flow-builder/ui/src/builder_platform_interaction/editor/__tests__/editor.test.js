@@ -1,12 +1,17 @@
 import { createElement } from 'lwc';
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import Editor from '../editor';
-import { CANVAS_EVENT } from "builder_platform_interaction/events";
-import { Store } from "builder_platform_interaction/storeLib";
-import { translateUIModelToFlow } from "builder_platform_interaction/translatorLib";
-import { fetch, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import { CANVAS_EVENT } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+import {
+    fetch,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
 
-jest.mock('builder_platform_interaction/drawingLib', () => require('builder_platform_interaction_mocks/drawingLib'));
+jest.mock('builder_platform_interaction/drawingLib', () =>
+    require('builder_platform_interaction_mocks/drawingLib')
+);
 
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
@@ -17,11 +22,13 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
-        SERVER_ACTION_TYPE: require.requireActual('../../serverDataLib/serverDataLib.js').SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: require.requireActual(
+            '../../serverDataLib/serverDataLib.js'
+        ).SERVER_ACTION_TYPE
     };
 });
 
-const createComponentUnderTest = (props) => {
+const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
     });
@@ -40,90 +47,92 @@ const selectors = {
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const storeState = {
-        elements : {
-            '1' : {
+        elements: {
+            '1': {
                 guid: '1',
-                locationX : '20',
-                locationY : '40',
-                elementType : 'ASSIGNMENT',
-                label : 'First Node',
-                description : 'My first test node',
-                config: {isSelected: false}
+                locationX: '20',
+                locationY: '40',
+                elementType: 'ASSIGNMENT',
+                label: 'First Node',
+                description: 'My first test node',
+                config: { isSelected: false }
             },
-            '2' : {
+            '2': {
                 guid: '2',
-                locationX : '50',
-                locationY : '40',
-                elementType : 'ASSIGNMENT',
-                label : 'Second Node',
-                description : 'My second test node',
-                config: {isSelected: true}
+                locationX: '50',
+                locationY: '40',
+                elementType: 'ASSIGNMENT',
+                label: 'Second Node',
+                description: 'My second test node',
+                config: { isSelected: true }
             },
-            '3' : {
+            '3': {
                 guid: '3',
-                locationX : '100',
-                locationY : '240',
-                elementType : 'DECISION',
-                label : 'Third Node',
-                description : 'My third test node',
-                outcomeReferences: [{
-                    outcomeReference: '4'
-                }],
-                config: {isSelected: false}
+                locationX: '100',
+                locationY: '240',
+                elementType: 'DECISION',
+                label: 'Third Node',
+                description: 'My third test node',
+                outcomeReferences: [
+                    {
+                        outcomeReference: '4'
+                    }
+                ],
+                config: { isSelected: false }
             },
-            '4' : {
+            '4': {
                 guid: '4',
-                elementType : 'OUTCOME',
-                label : 'Fourth Node',
-                description : 'My fourth test node',
+                elementType: 'OUTCOME',
+                label: 'Fourth Node',
+                description: 'My fourth test node'
             },
-            '5' : {
+            '5': {
                 guid: '5',
-                locationX : '250',
-                locationY : '240',
-                elementType : 'ASSIGNMENT',
-                label : 'Fifth Node',
-                description : 'My fifth test node',
-                config: {isSelected: false}
-            },
+                locationX: '250',
+                locationY: '240',
+                elementType: 'ASSIGNMENT',
+                label: 'Fifth Node',
+                description: 'My fifth test node',
+                config: { isSelected: false }
+            }
         },
         canvasElements: [
-            {guid: '1'},
-            {guid: '2'},
-            {guid: '3'},
-            {guid: '5'},
+            { guid: '1' },
+            { guid: '2' },
+            { guid: '3' },
+            { guid: '5' }
         ],
-        connectors : [
+        connectors: [
             {
                 guid: 'c1',
                 source: '1',
                 target: '2',
                 label: 'label',
-                config: {isSelected: false}
+                config: { isSelected: false }
             },
             {
                 guid: 'c2',
                 source: '2',
                 target: '1',
                 label: 'label',
-                config: {isSelected: true}
+                config: { isSelected: true }
             },
             {
                 guid: 'c3',
                 source: '4',
                 target: '5',
                 label: 'label',
-                config: {isSelected: false}
+                config: { isSelected: false }
             },
             {
                 guid: 'c4',
                 source: '5',
                 target: '3',
                 label: 'label',
-                config: {isSelected: false}
+                config: { isSelected: false }
             }
         ],
-        properties : {
+        properties: {
             label: 'Flow Name',
             versionNumber: '1'
         }
@@ -133,31 +142,31 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
     return {
         Store: {
-            getStore : () => {
+            getStore: () => {
                 return {
-                    subscribe: (mapAppStateToStore) => {
+                    subscribe: mapAppStateToStore => {
                         mapAppStateToStore(storeState);
                         return jest.fn().mockImplementation(() => {
                             return 'Testing';
                         });
                     },
                     dispatch: dispatchSpy,
-                    getCurrentState : () => {
+                    getCurrentState: () => {
                         return storeState;
                     }
                 };
             }
         },
-        deepCopy: jest.fn().mockImplementation((obj) => {
+        deepCopy: jest.fn().mockImplementation(obj => {
             return obj;
         }),
-        generateGuid: jest.fn().mockImplementation((prefix) => {
+        generateGuid: jest.fn().mockImplementation(prefix => {
             return prefix;
         }),
         combinedReducer: jest.fn(),
         createSelector: jest.fn().mockImplementation(() => {
             return () => {
-                return storeState.canvasElements.map((canvasElement) => {
+                return storeState.canvasElements.map(canvasElement => {
                     return storeState.elements[canvasElement.guid];
                 });
             };
@@ -167,7 +176,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 const element = (guid, type) => {
     return {
-        payload : {
+        payload: {
             guid
         },
         type
@@ -175,60 +184,60 @@ const element = (guid, type) => {
 };
 
 const deselectionAction = {
-    payload : {},
-    type : 'DESELECT_ON_CANVAS'
+    payload: {},
+    type: 'DESELECT_ON_CANVAS'
 };
 
 const deleteElementByGuid = {
-    payload : {
+    payload: {
         selectedCanvasElementGUIDs: ['2'],
         connectorGUIDs: ['c1', 'c2'],
         canvasElementsToUpdate: ['1'],
         elementType: ELEMENT_TYPE.ASSIGNMENT
     },
-    type : 'DELETE_CANVAS_ELEMENT'
+    type: 'DELETE_CANVAS_ELEMENT'
 };
 
 const deleteElementByIsSelected = {
-    payload : {
+    payload: {
         selectedCanvasElementGUIDs: ['2'],
         connectorGUIDs: ['c2', 'c1'],
         canvasElementsToUpdate: ['1'],
         elementType: ELEMENT_TYPE.ASSIGNMENT
     },
-    type : 'DELETE_CANVAS_ELEMENT'
+    type: 'DELETE_CANVAS_ELEMENT'
 };
 
 const deleteDecision = {
-    payload : {
+    payload: {
         selectedCanvasElementGUIDs: ['3'],
         connectorGUIDs: ['c4'],
         canvasElementsToUpdate: ['5'],
         // Event currently always thrown with 'assignment'
         elementType: ELEMENT_TYPE.ASSIGNMENT
     },
-    type : 'DELETE_CANVAS_ELEMENT'
+    type: 'DELETE_CANVAS_ELEMENT'
 };
 
 const updateElement = {
-    payload : {
-        guid : '1',
-        elementType : ELEMENT_TYPE.ASSIGNMENT,
-        locationX : '80',
-        locationY : '70'
+    payload: {
+        guid: '1',
+        elementType: ELEMENT_TYPE.ASSIGNMENT,
+        locationX: '80',
+        locationY: '70'
     },
-    type : 'UPDATE_CANVAS_ELEMENT'
+    type: 'UPDATE_CANVAS_ELEMENT'
 };
 
 const connectorElement = {
-    payload : {
+    payload: {
         guid: 'CONNECTOR',
         source: '1',
         target: '2',
         label: 'Label',
-        config: {isSelected: false}
+        config: { isSelected: false }
     },
-    type : 'ADD_CONNECTOR'
+    type: 'ADD_CONNECTOR'
 };
 
 // TODO: Since we are doing lot of refactoring in canvas, commenting these tests. Will clean up as part of this work item:
@@ -239,28 +248,38 @@ describeSkip('editor', () => {
         it('translates the ui model to flow data', () => {
             const toolbarComponent = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                toolbarComponent.shadowRoot.querySelector(selectors.save).click();
+                toolbarComponent.shadowRoot
+                    .querySelector(selectors.save)
+                    .click();
 
                 expect(translateUIModelToFlow.mock.calls).toHaveLength(1);
-                expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(Store.getStore().getCurrentState());
+                expect(translateUIModelToFlow.mock.calls[0][0]).toEqual(
+                    Store.getStore().getCurrentState()
+                );
             });
         });
 
         it('passes the translated value to fetch', () => {
             const toolbarComponent = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                const flow = {x: 1};
+                const flow = { x: 1 };
 
                 translateUIModelToFlow.mockReturnValue(flow);
 
-                toolbarComponent.shadowRoot.querySelector(selectors.save).click();
+                toolbarComponent.shadowRoot
+                    .querySelector(selectors.save)
+                    .click();
                 // Check against the last call to fetch.  The first is in editor.js constructor and thus
                 // unavoidable and other components included via editor.html may also have fetch calls
                 // (for example left-panel-elements
                 const saveFetchCallIndex = fetch.mock.calls.length - 1;
 
-                expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(SERVER_ACTION_TYPE.SAVE_FLOW);
-                expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({ flow });
+                expect(fetch.mock.calls[saveFetchCallIndex][0]).toEqual(
+                    SERVER_ACTION_TYPE.SAVE_FLOW
+                );
+                expect(fetch.mock.calls[saveFetchCallIndex][2]).toEqual({
+                    flow
+                });
             });
         });
     });
@@ -270,7 +289,9 @@ describeSkip('editor', () => {
             createComponentUnderTest();
             return Promise.resolve().then(() => {
                 expect(fetch.mock.calls).toHaveLength(4);
-                expect(fetch.mock.calls[0][0]).toEqual(SERVER_ACTION_TYPE.GET_RULES);
+                expect(fetch.mock.calls[0][0]).toEqual(
+                    SERVER_ACTION_TYPE.GET_RULES
+                );
             });
         });
         it('getting flow metadata', () => {
@@ -279,14 +300,18 @@ describeSkip('editor', () => {
             });
             return Promise.resolve().then(() => {
                 expect(fetch.mock.calls).toHaveLength(5);
-                expect(fetch.mock.calls[3][0]).toEqual(SERVER_ACTION_TYPE.GET_FLOW);
+                expect(fetch.mock.calls[3][0]).toEqual(
+                    SERVER_ACTION_TYPE.GET_FLOW
+                );
             });
         });
         it('getting header urls', () => {
             createComponentUnderTest();
             return Promise.resolve().then(() => {
                 expect(fetch.mock.calls).toHaveLength(4);
-                expect(fetch.mock.calls[2][0]).toEqual(SERVER_ACTION_TYPE.GET_HEADER_URLS);
+                expect(fetch.mock.calls[2][0]).toEqual(
+                    SERVER_ACTION_TYPE.GET_HEADER_URLS
+                );
             });
         });
 
@@ -301,15 +326,19 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    canvasElementGUID : '1',
+                    canvasElementGUID: '1',
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('1', 'SELECT_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('1', 'SELECT_ON_CANVAS')
+                );
             });
         });
 
@@ -320,15 +349,19 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    canvasElementGUID : '2',
+                    canvasElementGUID: '2',
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('2', 'SELECT_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('2', 'SELECT_ON_CANVAS')
+                );
             });
         });
 
@@ -339,15 +372,19 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    canvasElementGUID : '1',
+                    canvasElementGUID: '1',
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('1', 'TOGGLE_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('1', 'TOGGLE_ON_CANVAS')
+                );
             });
         });
 
@@ -358,15 +395,19 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    canvasElementGUID : '2',
+                    canvasElementGUID: '2',
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('2', 'TOGGLE_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('2', 'TOGGLE_ON_CANVAS')
+                );
             });
         });
 
@@ -377,7 +418,9 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -396,11 +439,15 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'SELECT_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('c1', 'SELECT_ON_CANVAS')
+                );
             });
         });
 
@@ -415,11 +462,15 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: false
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'SELECT_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('c2', 'SELECT_ON_CANVAS')
+                );
             });
         });
 
@@ -434,11 +485,15 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c1', 'TOGGLE_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('c1', 'TOGGLE_ON_CANVAS')
+                );
             });
         });
 
@@ -453,11 +508,15 @@ describeSkip('editor', () => {
                     isMultiSelectKeyPressed: true
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
-                expect(spy.mock.calls[0][0]).toEqual(element('c2', 'TOGGLE_ON_CANVAS'));
+                expect(spy.mock.calls[0][0]).toEqual(
+                    element('c2', 'TOGGLE_ON_CANVAS')
+                );
             });
         });
 
@@ -472,7 +531,9 @@ describeSkip('editor', () => {
                         selectedCanvasElementGUIDs: ['2']
                     }
                 });
-                editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+                editorComponent.shadowRoot
+                    .querySelector('builder_platform_interaction-canvas')
+                    .dispatchEvent(event);
                 return Promise.resolve().then(() => {
                     const spy = Store.getStore().dispatch;
                     expect(spy).toHaveBeenCalled();
@@ -490,7 +551,9 @@ describeSkip('editor', () => {
                         selectedCanvasElementGUIDs: ['3']
                     }
                 });
-                editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+                editorComponent.shadowRoot
+                    .querySelector('builder_platform_interaction-canvas')
+                    .dispatchEvent(event);
                 return Promise.resolve().then(() => {
                     const spy = Store.getStore().dispatch;
                     expect(spy).toHaveBeenCalled();
@@ -498,7 +561,6 @@ describeSkip('editor', () => {
                 });
             });
         });
-
 
         it('Checks if node and connector deletion is handled correctly when delete key is pressed', () => {
             const editorComponent = createComponentUnderTest();
@@ -508,7 +570,9 @@ describeSkip('editor', () => {
                 cancelable: true,
                 detail: {}
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -523,13 +587,15 @@ describeSkip('editor', () => {
                 composed: true,
                 cancelable: true,
                 detail: {
-                    canvasElementGUID : '1',
+                    canvasElementGUID: '1',
                     elementType: ELEMENT_TYPE.ASSIGNMENT,
                     locationX: '80',
                     locationY: '70'
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();
@@ -548,7 +614,9 @@ describeSkip('editor', () => {
                     label: 'Label'
                 }
             });
-            editorComponent.shadowRoot.querySelector('builder_platform_interaction-canvas').dispatchEvent(event);
+            editorComponent.shadowRoot
+                .querySelector('builder_platform_interaction-canvas')
+                .dispatchEvent(event);
             return Promise.resolve().then(() => {
                 const spy = Store.getStore().dispatch;
                 expect(spy).toHaveBeenCalled();

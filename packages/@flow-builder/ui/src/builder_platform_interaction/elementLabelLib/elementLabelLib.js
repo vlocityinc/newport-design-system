@@ -2,12 +2,16 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementLabelLibLabels';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
-import { FLOW_DATA_TYPE, isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import {
+    FLOW_DATA_TYPE,
+    isComplexType
+} from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
-const LIGHTNING_COMPONENT_OUTPUT_TYPE = FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
+const LIGHTNING_COMPONENT_OUTPUT_TYPE =
+    FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
 
 /**
  * Get the label for the element (if possible, considered as a resource that can be used in a merge field)
@@ -21,14 +25,26 @@ export function getResourceLabel(resource) {
             // "Accounts from myGetRecord"
             const entity = getEntity(resource.subtype);
             if (entity) {
-                const entityLabel = resource.isCollection ? entity.entityLabelPlural : entity.entityLabel;
+                const entityLabel = resource.isCollection
+                    ? entity.entityLabelPlural
+                    : entity.entityLabel;
                 if (entityLabel) {
-                    label = format(LABELS.recordLookupAsResourceText, entityLabel, resource.name);
+                    label = format(
+                        LABELS.recordLookupAsResourceText,
+                        entityLabel,
+                        resource.name
+                    );
                 }
             }
-        } else if (resource.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+        } else if (
+            resource.dataType ===
+            FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+        ) {
             // "Outputs from myLC"
-            label = format(LABELS.lightningComponentScreenFieldAsResourceText, resource.name);
+            label = format(
+                LABELS.lightningComponentScreenFieldAsResourceText,
+                resource.name
+            );
         }
     }
     return label;
@@ -63,7 +79,11 @@ export function getElementCategory({ elementType }) {
  *            isCollection whether or not that element is a collection
  * @returns {String} the category label for this element
  */
-export function getResourceCategory({ elementType, dataType, isCollection = false }) {
+export function getResourceCategory({
+    elementType,
+    dataType,
+    isCollection = false
+}) {
     let categoryLabel;
     if (!isComplexType(dataType)) {
         if (!isCollection) {
@@ -75,13 +95,16 @@ export function getResourceCategory({ elementType, dataType, isCollection = fals
             categoryLabel = LABELS.collectionVariablePluralLabel;
         }
     } else if (isCollection) {
-        categoryLabel = dataType === SOBJECT_TYPE ? LABELS.sObjectCollectionPluralLabel : LABELS.apexCollectionVariablePluralLabel;
+        categoryLabel =
+            dataType === SOBJECT_TYPE
+                ? LABELS.sObjectCollectionPluralLabel
+                : LABELS.apexCollectionVariablePluralLabel;
     } else if (dataType === SOBJECT_TYPE) {
-            categoryLabel = LABELS.sObjectPluralLabel;
-        } else if (dataType === APEX_TYPE) {
-            categoryLabel = LABELS.apexVariablePluralLabel;
-        } else if (dataType === LIGHTNING_COMPONENT_OUTPUT_TYPE) {
-            categoryLabel = LABELS.screenFieldPluralLabel;
-        }
+        categoryLabel = LABELS.sObjectPluralLabel;
+    } else if (dataType === APEX_TYPE) {
+        categoryLabel = LABELS.apexVariablePluralLabel;
+    } else if (dataType === LIGHTNING_COMPONENT_OUTPUT_TYPE) {
+        categoryLabel = LABELS.screenFieldPluralLabel;
+    }
     return categoryLabel;
 }

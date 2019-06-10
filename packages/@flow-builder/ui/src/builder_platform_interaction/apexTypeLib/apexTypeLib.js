@@ -12,7 +12,7 @@ const mutateProperty = (apexClassName, property) => {
         dataType: property.type,
         subtype: property.objectType || property.apexClass,
         isCollection: property.isCollection,
-        apexClass: apexClassName,
+        apexClass: apexClassName
     };
 };
 
@@ -34,7 +34,7 @@ const mutateProperty = (apexClassName, property) => {
  * }
  */
 
-export const setApexClasses = (classes) => {
+export const setApexClasses = classes => {
     apexClasses = classes;
 };
 
@@ -46,19 +46,19 @@ export const getApexClasses = () => {
  * Caches properties & inner types of an apex class so they can be used for menu data, etc
  * @param {String} name     name of the apex class
  */
-export const cachePropertiesForClass = (name) => {
+export const cachePropertiesForClass = name => {
     const apexClass = apexClasses.find(clazz => {
         return clazz.durableId === name;
     });
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
-        apexClass.properties.records.forEach((prop) => {
+        apexClass.properties.records.forEach(prop => {
             apexFieldsForClass[name][prop.name] = mutateProperty(name, prop);
         });
     }
 };
 
-export const getPropertiesForClass = (clazz) => {
+export const getPropertiesForClass = clazz => {
     cachePropertiesForClass(clazz);
     return apexFieldsForClass[clazz];
 };

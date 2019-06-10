@@ -1,11 +1,21 @@
 import { LightningElement, api } from 'lwc';
-import { PropertyChangedEvent, createChoiceAddedEvent, createChoiceChangedEvent, createChoiceDeletedEvent } from "builder_platform_interaction/events";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { INPUT_FIELD_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getFieldChoiceData, isPicklistField, isMultiSelectCheckboxField, isMultiSelectPicklistField } from "builder_platform_interaction/screenEditorUtils";
-import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
-import { hydrateIfNecessary } from "builder_platform_interaction/dataMutationLib";
+import {
+    PropertyChangedEvent,
+    createChoiceAddedEvent,
+    createChoiceChangedEvent,
+    createChoiceDeletedEvent
+} from 'builder_platform_interaction/events';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { INPUT_FIELD_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    getFieldChoiceData,
+    isPicklistField,
+    isMultiSelectCheckboxField,
+    isMultiSelectPicklistField
+} from 'builder_platform_interaction/screenEditorUtils';
+import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+import { hydrateIfNecessary } from 'builder_platform_interaction/dataMutationLib';
 
 const EXPANDED_SECTION_NAMES = ['choicesSection'];
 const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
@@ -27,18 +37,34 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
         return EXPANDED_SECTION_NAMES;
     }
 
-    handlePropertyChanged = (event) => {
-        this.dispatchEvent(addCurrentValueToEvent(event, this.field, this.field[event.detail.propertyName]));
+    handlePropertyChanged = event => {
+        this.dispatchEvent(
+            addCurrentValueToEvent(
+                event,
+                this.field,
+                this.field[event.detail.propertyName]
+            )
+        );
         event.stopPropagation();
-    }
+    };
 
     handleDataTypeChanged(event) {
         event.stopPropagation();
-        const newFieldDataType = this.getFlowDataTypeFromInputType(event.detail.value.dataType);
-        this.dispatchEvent(new PropertyChangedEvent("dataType", newFieldDataType, event.detail.error, this.field.guid, this.field.dataType));
+        const newFieldDataType = this.getFlowDataTypeFromInputType(
+            event.detail.value.dataType
+        );
+        this.dispatchEvent(
+            new PropertyChangedEvent(
+                'dataType',
+                newFieldDataType,
+                event.detail.error,
+                this.field.guid,
+                this.field.dataType
+            )
+        );
     }
 
-    handleDefaultValuePropertyChanged = (event) => {
+    handleDefaultValuePropertyChanged = event => {
         event.stopPropagation();
 
         // If user is trying to set default value back to nothing, set the value to null,
@@ -50,45 +76,65 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
             newValue = event.detail.guid;
         }
 
-        this.dispatchEvent(new PropertyChangedEvent(
-            event.detail.propertyName,
-            hydrateIfNecessary(newValue),
-            event.detail.error,
-            event.detail.guid ? event.detail.guid : null,
-            hydrateIfNecessary(this.field.defaultSelectedChoiceReference)
-        ));
-    }
+        this.dispatchEvent(
+            new PropertyChangedEvent(
+                event.detail.propertyName,
+                hydrateIfNecessary(newValue),
+                event.detail.error,
+                event.detail.guid ? event.detail.guid : null,
+                hydrateIfNecessary(this.field.defaultSelectedChoiceReference)
+            )
+        );
+    };
 
-    handleChoiceChanged = (event) => {
+    handleChoiceChanged = event => {
         event.stopPropagation();
 
         // We get the display value from the event, which might be something
         // like {!choice1}, but we want the devName. Get the devName by using the GUID.
         if (event && event.detail) {
             // If the choice value didn't actually change, don't do anything.
-            if (this.field.choiceReferences[event.detail.listIndex] &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference.value === event.detail.guid &&
-                this.field.choiceReferences[event.detail.listIndex].choiceReference.error === event.detail.error) {
+            if (
+                this.field.choiceReferences[event.detail.listIndex] &&
+                this.field.choiceReferences[event.detail.listIndex]
+                    .choiceReference &&
+                this.field.choiceReferences[event.detail.listIndex]
+                    .choiceReference.value === event.detail.guid &&
+                this.field.choiceReferences[event.detail.listIndex]
+                    .choiceReference.error === event.detail.error
+            ) {
                 return;
             }
 
-            this.dispatchEvent(createChoiceChangedEvent(this.field, {
-                value: event.detail.guid,
-                error: event.detail.error
-            }, event.detail.listIndex));
+            this.dispatchEvent(
+                createChoiceChangedEvent(
+                    this.field,
+                    {
+                        value: event.detail.guid,
+                        error: event.detail.error
+                    },
+                    event.detail.listIndex
+                )
+            );
         }
-    }
+    };
 
-    handleChoiceDeleted = (event) => {
+    handleChoiceDeleted = event => {
         event.stopPropagation();
-        this.dispatchEvent(createChoiceDeletedEvent(this.field, event.detail.index));
-    }
+        this.dispatchEvent(
+            createChoiceDeletedEvent(this.field, event.detail.index)
+        );
+    };
 
-    handleChoiceAdded = (event) => {
+    handleChoiceAdded = event => {
         event.stopPropagation();
-        this.dispatchEvent(createChoiceAddedEvent(this.field, this.field.choiceReferences.length));
-    }
+        this.dispatchEvent(
+            createChoiceAddedEvent(
+                this.field,
+                this.field.choiceReferences.length
+            )
+        );
+    };
 
     get fieldChoices() {
         return getFieldChoiceData(this.field);
@@ -111,13 +157,20 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
 
     get isDataTypeDisabled() {
         // For certain choice based fields, dataType will always be disabled because there is no option.
-        return !this.field.isNewField || isMultiSelectCheckboxField(this.field) || isMultiSelectPicklistField(this.field);
+        return (
+            !this.field.isNewField ||
+            isMultiSelectCheckboxField(this.field) ||
+            isMultiSelectPicklistField(this.field)
+        );
     }
 
     get isDataTypeRequired() {
         // These field types don't offer a dataType option. We just display the only valid setting
         // available. For the the rest, dataType is a configurable and required setting.
-        return !isMultiSelectCheckboxField(this.field) && !isMultiSelectPicklistField(this.field);
+        return (
+            !isMultiSelectCheckboxField(this.field) &&
+            !isMultiSelectPicklistField(this.field)
+        );
     }
 
     get showIsRequired() {
@@ -126,7 +179,9 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     }
 
     get dataTypePickerValue() {
-        return this.field.dataType ? this.getInputTypeFromFieldDataType : { dataType: null };
+        return this.field.dataType
+            ? this.getInputTypeFromFieldDataType
+            : { dataType: null };
     }
 
     get dataTypeList() {
@@ -141,10 +196,13 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
     get getInputTypeFromFieldDataType() {
         for (const key in this.inputFieldMap) {
             if (this.field.dataType === key) {
-                return { dataType : this.inputFieldMap[key].value };
+                return { dataType: this.inputFieldMap[key].value };
             }
         }
-        throw new Error("Screen field data type is set, but unable to find corresponding flow data type: " + this.field.dataType);
+        throw new Error(
+            'Screen field data type is set, but unable to find corresponding flow data type: ' +
+                this.field.dataType
+        );
     }
 
     get choiceDisabled() {
@@ -159,25 +217,34 @@ export default class ScreenChoiceFieldPropertiesEditor extends LightningElement 
                 return key;
             }
         }
-        throw new Error("Unable to find Flow data type for provided screen field input type: " + newValue);
+        throw new Error(
+            'Unable to find Flow data type for provided screen field input type: ' +
+                newValue
+        );
     }
 
     // Used to figure out which choices are available as possible values for the default value setting.
     // The only options should be those that are associated with this field (not all choices in the flow).
     get defaultValueChoices() {
         const defaultChoices = [this.defaultValueNone];
-        const choices = getFieldChoiceData((this.field));
+        const choices = getFieldChoiceData(this.field);
         for (let i = 0; i < choices.length; i++) {
             // Only use this choice if it's a valid as a defaultValue option.
             if (choices[i].defaultValueOption) {
-                defaultChoices.push({label: choices[i].name, value: choices[i].value});
+                defaultChoices.push({
+                    label: choices[i].name,
+                    value: choices[i].value
+                });
             }
         }
         return defaultChoices;
     }
 
     get defaultValue() {
-        if (this.field.defaultSelectedChoiceReference && this.field.defaultSelectedChoiceReference.value) {
+        if (
+            this.field.defaultSelectedChoiceReference &&
+            this.field.defaultSelectedChoiceReference.value
+        ) {
             return this.field.defaultSelectedChoiceReference;
         }
         // Select the 'nothing selected' option (i.e. no default set).

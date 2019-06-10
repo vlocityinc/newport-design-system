@@ -1,17 +1,23 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { baseResource, baseElementsArrayToMap } from "./base/baseElement";
-import { baseResourceMetadataObject } from "./base/baseMetadata";
-import { createFEROV, createFEROVMetadataObject, getDataTypeKey } from './ferov';
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { baseResource, baseElementsArrayToMap } from './base/baseElement';
+import { baseResourceMetadataObject } from './base/baseMetadata';
+import {
+    createFEROV,
+    createFEROVMetadataObject,
+    getDataTypeKey
+} from './ferov';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const elementType = ELEMENT_TYPE.VARIABLE;
 export const DEFAULT_VALUE_PROPERTY = 'defaultValue';
-export const DEFAULT_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(DEFAULT_VALUE_PROPERTY);
+export const DEFAULT_VALUE_DATA_TYPE_PROPERTY = getDataTypeKey(
+    DEFAULT_VALUE_PROPERTY
+);
 
 const subtypeProperties = {
     [FLOW_DATA_TYPE.APEX.value]: 'apexClass',
-    [FLOW_DATA_TYPE.SOBJECT.value]: 'objectType',
+    [FLOW_DATA_TYPE.SOBJECT.value]: 'objectType'
 };
 
 /**
@@ -21,12 +27,31 @@ const subtypeProperties = {
  */
 export function createVariable(variable = {}) {
     const newVariable = baseResource(variable);
-    const { dataType = null, isCollection = false, isInput = false, isOutput = false, objectType = null, apexClass = null, subtype = null, subtypeIndex = generateGuid(), scale = 2, value} = variable;
+    const {
+        dataType = null,
+        isCollection = false,
+        isInput = false,
+        isOutput = false,
+        objectType = null,
+        apexClass = null,
+        subtype = null,
+        subtypeIndex = generateGuid(),
+        scale = 2,
+        value
+    } = variable;
     let valueFerov;
     if (value) {
-        valueFerov = createFEROV(value, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
+        valueFerov = createFEROV(
+            value,
+            DEFAULT_VALUE_PROPERTY,
+            DEFAULT_VALUE_DATA_TYPE_PROPERTY
+        );
     }
-    const { defaultValue = null, defaultValueDataType = null, defaultValueIndex = generateGuid() } = valueFerov || variable;
+    const {
+        defaultValue = null,
+        defaultValueDataType = null,
+        defaultValueIndex = generateGuid()
+    } = valueFerov || variable;
     Object.assign(newVariable, {
         elementType,
         isCollection,
@@ -66,7 +91,14 @@ export function createVariableMetadataObject(variable) {
         throw new Error('variable is not defined');
     }
     const newVariable = baseResourceMetadataObject(variable);
-    const { isCollection = false, isInput = false, isOutput = false, scale, dataType, subtype } = variable;
+    const {
+        isCollection = false,
+        isInput = false,
+        isOutput = false,
+        scale,
+        dataType,
+        subtype
+    } = variable;
     let valueFerovObject;
     const valueFerov = createFEROVMetadataObject(
         variable,
@@ -74,17 +106,21 @@ export function createVariableMetadataObject(variable) {
         DEFAULT_VALUE_DATA_TYPE_PROPERTY
     );
     if (valueFerov) {
-        valueFerovObject = { value : valueFerov };
+        valueFerovObject = { value: valueFerov };
     }
     if (subtype) {
         newVariable[subtypeProperties[dataType]] = subtype;
     }
-    Object.assign(newVariable, {
-        dataType,
-        isCollection,
-        isInput,
-        isOutput,
-        scale,
-    }, valueFerovObject);
+    Object.assign(
+        newVariable,
+        {
+            dataType,
+            isCollection,
+            isInput,
+            isOutput,
+            scale
+        },
+        valueFerovObject
+    );
     return newVariable;
 }

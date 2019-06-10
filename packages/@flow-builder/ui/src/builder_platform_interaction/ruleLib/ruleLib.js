@@ -1,2 +1,2 @@
-export * from "./operatorRuleUtil";
+export * from './operatorRuleUtil';
 export * from './rules';

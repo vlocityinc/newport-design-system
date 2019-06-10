@@ -9,7 +9,9 @@ export default class AccordionSection extends LightningElement {
      * @returns {string} sectionState slds for section header state
      */
     get sectionState() {
-        return this.isSectionOpen ? 'slds-accordion__section slds-is-open' : 'slds-accordion__section';
+        return this.isSectionOpen
+            ? 'slds-accordion__section slds-is-open'
+            : 'slds-accordion__section';
     }
 
     /**

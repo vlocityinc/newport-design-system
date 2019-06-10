@@ -1,10 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import { LABELS } from "./waitResumeConditionsLabels";
+import { LABELS } from './waitResumeConditionsLabels';
 import { WAIT_TIME_EVENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
-import {
-    UpdateWaitEventEventTypeEvent
-} from 'builder_platform_interaction/events';
+import { UpdateWaitEventEventTypeEvent } from 'builder_platform_interaction/events';
 import { isWaitTimeEventType } from 'builder_platform_interaction/elementFactory';
 
 const resumeEventType = {
@@ -47,8 +45,9 @@ export default class WaitResumeConditions extends LightningElement {
     set eventType(newEventType) {
         this._eventType = newEventType;
         if (newEventType) {
-            this.resumeEventType = this.isTimeEvent(newEventType) ? resumeEventType.timeEventType :
-                resumeEventType.platformEventType;
+            this.resumeEventType = this.isTimeEvent(newEventType)
+                ? resumeEventType.timeEventType
+                : resumeEventType.platformEventType;
         }
     }
 
@@ -70,8 +69,14 @@ export default class WaitResumeConditions extends LightningElement {
     labels = LABELS;
 
     resumeEventTypeOptions = [
-        { 'label': LABELS.timeEventTypeLabel, 'value': resumeEventType.timeEventType },
-        { 'label': LABELS.platformEventTypeLabel, 'value': resumeEventType.platformEventType},
+        {
+            label: LABELS.timeEventTypeLabel,
+            value: resumeEventType.timeEventType
+        },
+        {
+            label: LABELS.platformEventTypeLabel,
+            value: resumeEventType.platformEventType
+        }
     ];
 
     get isPlatformEventTypeSelected() {
@@ -94,7 +99,11 @@ export default class WaitResumeConditions extends LightningElement {
         }
 
         // fire update event type event
-        const updateWaitEventEventEvent = new UpdateWaitEventEventTypeEvent(this._eventType, null, this.waitEventGuid);
+        const updateWaitEventEventEvent = new UpdateWaitEventEventTypeEvent(
+            this._eventType,
+            null,
+            this.waitEventGuid
+        );
         this.dispatchEvent(updateWaitEventEventEvent);
     }
 

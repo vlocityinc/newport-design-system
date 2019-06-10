@@ -6,16 +6,28 @@ import {
     getLocalExtensionFieldType,
     getScreenFieldTypeByName,
     getScreenFieldType
-} from "builder_platform_interaction/screenEditorUtils";
+} from 'builder_platform_interaction/screenEditorUtils';
 import { createFEROV, createFEROVMetadataObject } from './ferov';
-import { createInputParameter, createInputParameterMetadataObject } from './inputParameter';
-import { createOutputParameter, createOutputParameterMetadataObject } from './outputParameter';
-import { baseElement, createCondition } from "./base/baseElement";
-import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY } from "./variable";
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { createValidationRuleObject } from "./base/baseValidationInput";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import {
+    createInputParameter,
+    createInputParameterMetadataObject
+} from './inputParameter';
+import {
+    createOutputParameter,
+    createOutputParameterMetadataObject
+} from './outputParameter';
+import { baseElement, createCondition } from './base/baseElement';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import {
+    DEFAULT_VALUE_PROPERTY,
+    DEFAULT_VALUE_DATA_TYPE_PROPERTY
+} from './variable';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import { createValidationRuleObject } from './base/baseValidationInput';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
@@ -43,19 +55,25 @@ export function createScreenField(screenField = {}, isNewField = false) {
         outputParameters,
         choiceReferences = [],
         visibility,
-        storeOutputAutomatically,
+        storeOutputAutomatically
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
-        type = getScreenFieldTypeByName(screenField.extensionName) || getLocalExtensionFieldType(screenField.extensionName);
+        type =
+            getScreenFieldTypeByName(screenField.extensionName) ||
+            getLocalExtensionFieldType(screenField.extensionName);
         isRequired = true;
-        inputParameters = screenField.inputParameters.filter(inputParameter => !!inputParameter.value).map(inputParameter => createInputParameter(inputParameter));
+        inputParameters = screenField.inputParameters
+            .filter(inputParameter => !!inputParameter.value)
+            .map(inputParameter => createInputParameter(inputParameter));
         if (storeOutputAutomatically) {
             dataType = FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
             outputParameters = [];
         } else {
             storeOutputAutomatically = false;
-            outputParameters = screenField.outputParameters.map(outputParameter => createOutputParameter(outputParameter));
+            outputParameters = screenField.outputParameters.map(
+                outputParameter => createOutputParameter(outputParameter)
+            );
         }
     } else {
         storeOutputAutomatically = undefined;
@@ -74,7 +92,11 @@ export function createScreenField(screenField = {}, isNewField = false) {
         // Temporary workaround to fix W-5886211
         // Todo: Update this as a part of W-5902485
         let updatedDefaultValue = defaultValue;
-        if (isTextAreaField(screenField) && defaultValue && defaultValue.elementReference) {
+        if (
+            isTextAreaField(screenField) &&
+            defaultValue &&
+            defaultValue.elementReference
+        ) {
             updatedDefaultValue = {
                 stringValue: `{!${defaultValue.elementReference}}`
             };
@@ -87,7 +109,9 @@ export function createScreenField(screenField = {}, isNewField = false) {
         );
     }
 
-    choiceReferences = choiceReferences.map((choiceReference) => createChoiceReference(choiceReference));
+    choiceReferences = choiceReferences.map(choiceReference =>
+        createChoiceReference(choiceReference)
+    );
 
     // Convert scale property to string, which is needed for validation purposes.
     // Saving it as a string allows it be hydrated.
@@ -98,12 +122,12 @@ export function createScreenField(screenField = {}, isNewField = false) {
     if (validationRule && validationRule.formulaExpression) {
         validationRule = createValidationRuleObject(validationRule);
     } else {
-        validationRule = {formulaExpression: null, errorMessage: null};
+        validationRule = { formulaExpression: null, errorMessage: null };
     }
 
     visibility = createVisibilityObject(visibility);
 
-    if (screenField.hasOwnProperty("isVisible")) {
+    if (screenField.hasOwnProperty('isVisible')) {
         isVisible = screenField.isVisible;
     }
 
@@ -129,9 +153,11 @@ export function createScreenField(screenField = {}, isNewField = false) {
             type,
             elementType,
             defaultSelectedChoiceReference,
-            visibility,
+            visibility
         },
-        (storeOutputAutomatically !== undefined) ? { storeOutputAutomatically } : {},
+        storeOutputAutomatically !== undefined
+            ? { storeOutputAutomatically }
+            : {},
         defaultValueFerovObject
     );
 }
@@ -144,22 +170,27 @@ export function createScreenField(screenField = {}, isNewField = false) {
 export function createEmptyScreenFieldOfType(typeName) {
     const type = getScreenFieldTypeByName(typeName);
     const newScreenField = {
-            isRequired: type.dataType === 'Boolean' ? true : false,
-            defaultValue: '',
-            dataType: type.dataType,
-            extensionName: type.name,
-            fieldType: type.fieldType,
-            scale: '0', // Store as string for validation purposes.
-            inputParameters: [],
-            outputParameters: [],
-            validationRule: {
-                formulaExpression: '',
-                errorMessage: ''
-           }
+        isRequired: type.dataType === 'Boolean' ? true : false,
+        defaultValue: '',
+        dataType: type.dataType,
+        extensionName: type.name,
+        fieldType: type.fieldType,
+        scale: '0', // Store as string for validation purposes.
+        inputParameters: [],
+        outputParameters: [],
+        validationRule: {
+            formulaExpression: '',
+            errorMessage: ''
+        }
     };
 
     // Always add a placeholder choice for any choice based fields.
-    if (type.name === 'RadioButtons' || type.name === 'MultiSelectCheckboxes' || type.name === 'DropdownBox' || type.name === 'MultiSelectPicklist') {
+    if (
+        type.name === 'RadioButtons' ||
+        type.name === 'MultiSelectCheckboxes' ||
+        type.name === 'DropdownBox' ||
+        type.name === 'MultiSelectPicklist'
+    ) {
         newScreenField.choiceReferences = [''];
     }
 
@@ -168,12 +199,29 @@ export function createEmptyScreenFieldOfType(typeName) {
 
 export function createScreenFieldMetadataObject(screenField) {
     if (!screenField) {
-        throw new Error("screenField is not defined");
+        throw new Error('screenField is not defined');
     }
 
     // Unflatten these properties.
-    const { extensionName, defaultValue, dataType, helpText, isRequired, fieldText, fieldType, name, validationRule, defaultSelectedChoiceReference } = screenField;
-    let { scale, inputParameters, outputParameters, choiceReferences, storeOutputAutomatically } = screenField;
+    const {
+        extensionName,
+        defaultValue,
+        dataType,
+        helpText,
+        isRequired,
+        fieldText,
+        fieldType,
+        name,
+        validationRule,
+        defaultSelectedChoiceReference
+    } = screenField;
+    let {
+        scale,
+        inputParameters,
+        outputParameters,
+        choiceReferences,
+        storeOutputAutomatically
+    } = screenField;
 
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
     if (scale != null && typeof scale === 'string') {
@@ -182,23 +230,34 @@ export function createScreenFieldMetadataObject(screenField) {
 
     let defaultValueMetadataObject;
     if (defaultValue) {
-        const defaultValueFerov = createFEROVMetadataObject(screenField, DEFAULT_VALUE_PROPERTY, DEFAULT_VALUE_DATA_TYPE_PROPERTY);
-        defaultValueMetadataObject = { defaultValue : defaultValueFerov };
+        const defaultValueFerov = createFEROVMetadataObject(
+            screenField,
+            DEFAULT_VALUE_PROPERTY,
+            DEFAULT_VALUE_DATA_TYPE_PROPERTY
+        );
+        defaultValueMetadataObject = { defaultValue: defaultValueFerov };
     }
 
     if (isExtensionField(screenField)) {
-        inputParameters = inputParameters.map(inputParameter => createInputParameterMetadataObject(inputParameter));
+        inputParameters = inputParameters.map(inputParameter =>
+            createInputParameterMetadataObject(inputParameter)
+        );
         if (storeOutputAutomatically) {
             outputParameters = [];
         } else {
-            outputParameters = outputParameters.map(outputParameter => createOutputParameterMetadataObject(outputParameter));
+            outputParameters = outputParameters.map(outputParameter =>
+                createOutputParameterMetadataObject(outputParameter)
+            );
             storeOutputAutomatically = undefined;
         }
     }
 
-    choiceReferences = choiceReferences.map((choiceReference) => createChoiceReferenceMetadatObject(choiceReference));
+    choiceReferences = choiceReferences.map(choiceReference =>
+        createChoiceReferenceMetadatObject(choiceReference)
+    );
 
-    const mdScreenField = Object.assign({},
+    const mdScreenField = Object.assign(
+        {},
         {
             choiceReferences,
             dataType,
@@ -209,11 +268,12 @@ export function createScreenFieldMetadataObject(screenField) {
             isRequired,
             name,
             outputParameters,
-            scale,
-
+            scale
         },
-        (storeOutputAutomatically !== undefined) ? { storeOutputAutomatically } : {},
-        defaultValueMetadataObject,
+        storeOutputAutomatically !== undefined
+            ? { storeOutputAutomatically }
+            : {},
+        defaultValueMetadataObject
     );
 
     // Only allowed when the field type is extension.
@@ -222,7 +282,9 @@ export function createScreenFieldMetadataObject(screenField) {
     }
 
     if (validationRule && validationRule.formulaExpression) {
-        mdScreenField.validationRule = createValidationRuleObject(validationRule);
+        mdScreenField.validationRule = createValidationRuleObject(
+            validationRule
+        );
     }
 
     if (isChoiceField(screenField)) {

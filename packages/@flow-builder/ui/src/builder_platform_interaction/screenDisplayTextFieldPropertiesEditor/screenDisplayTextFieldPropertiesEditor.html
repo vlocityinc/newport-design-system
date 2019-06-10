@@ -1,23 +1,36 @@
 <template>
     <div if:true={field}>
-        <div class='slds-p-horizontal_small slds-p-top_x-small'>
-            <builder_platform_interaction-screen-property-field name='name'
-                                                                label={labels.fieldName}
-                                                                required='required'
-                                                                type='string'
-                                                                value={field.name}
-                                                                onpropertychanged={handlePropertyChanged}>
+        <div class="slds-p-horizontal_small slds-p-top_x-small">
+            <builder_platform_interaction-screen-property-field
+                name="name"
+                label={labels.fieldName}
+                required="required"
+                type="string"
+                value={field.name}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-screen-property-field>
-            <builder_platform_interaction-screen-property-field name='fieldText'
-                                                                type='rich_string'
-                                                                value={field.fieldText}
-                                                                onpropertychanged={handlePropertyChanged}>
+            <builder_platform_interaction-screen-property-field
+                name="fieldText"
+                type="rich_string"
+                value={field.fieldText}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-screen-property-field>
         </div>
         <div>
-            <lightning-accordion allow-multiple-sections-open class='slds-has-divider slds-p-top_none'>
-                <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
-                    <builder_platform_interaction-component-visibility visibility={field.visibility} guid={field.guid}>
+            <lightning-accordion
+                allow-multiple-sections-open
+                class="slds-has-divider slds-p-top_none"
+            >
+                <lightning-accordion-section
+                    name="componentVisibility"
+                    label={labels.componentVisbilitySectionTitle}
+                >
+                    <builder_platform_interaction-component-visibility
+                        visibility={field.visibility}
+                        guid={field.guid}
+                    >
                     </builder_platform_interaction-component-visibility>
                 </lightning-accordion-section>
             </lightning-accordion>

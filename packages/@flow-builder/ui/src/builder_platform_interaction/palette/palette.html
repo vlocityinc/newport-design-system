@@ -1,9 +1,14 @@
 <template>
-    <table class="slds-table slds-table_fixed-layout slds-tree slds-table_tree" role="treegrid" aria-readonly="true">
+    <table
+        class="slds-table slds-table_fixed-layout slds-tree slds-table_tree"
+        role="treegrid"
+        aria-readonly="true"
+    >
         <tbody>
             <template for:each={rows} for:item="row" for:index="rowIndex">
-                <!-- Section Header -->                               
-                <tr if:true={row.isSection}
+                <!-- Section Header -->
+                <tr
+                    if:true={row.isSection}
                     key={row.key}
                     data-id={row.id}
                     data-key={row.key}
@@ -12,19 +17,27 @@
                     aria-posinset={row.posinset}
                     aria-setsize={row.setsize}
                     class="slds-hint-parent"
-                    onclick={handleToggleSection}>
+                    onclick={handleToggleSection}
+                >
                     <th class="slds-tree__item" scope="row">
                         <!-- NOTE: The lightning-button-icon component rotates the chevron image for us when toggled. -->
-                        <lightning-button-icon icon-name="utility:chevronright" variant="bare" size="small" alternative-text={row.toggleAlternativeText} class="slds-m-right_x-small test-section-chevron-icon"></lightning-button-icon>
-                        <div class="slds-truncate" title={row.label}>{row.label}</div>
+                        <lightning-button-icon
+                            icon-name="utility:chevronright"
+                            variant="bare"
+                            size="small"
+                            alternative-text={row.toggleAlternativeText}
+                            class="slds-m-right_x-small test-section-chevron-icon"
+                        ></lightning-button-icon>
+                        <div class="slds-truncate" title={row.label}>
+                            {row.label}
+                        </div>
                     </th>
-                    <td if:true={enableLocator} role="gridcell">
-                    </td>
-                    <td if:true={showResourceDetails} role="gridcell">
-                    </td>
+                    <td if:true={enableLocator} role="gridcell"></td>
+                    <td if:true={showResourceDetails} role="gridcell"></td>
                 </tr>
                 <!-- Item -->
-                <tr if:false={row.isSection}
+                <tr
+                    if:false={row.isSection}
                     draggable={itemsDraggable}
                     key={row.key}
                     data-key={row.key}
@@ -32,7 +45,8 @@
                     aria-posinset={row.posinset}
                     aria-setsize={row.setsize}
                     class="slds-hint-parent palette-item"
-                    ondragstart={handleDragStart}>
+                    ondragstart={handleDragStart}
+                >
                     <td role="gridcell">
                         <builder_platform_interaction-palette-item
                             description={row.description}
@@ -42,18 +56,20 @@
                             icon-background-color={row.iconBackgroundColor}
                             icon-name={row.iconName}
                             icon-size={iconSize}
-                            label={row.label}>
+                            label={row.label}
+                        >
                         </builder_platform_interaction-palette-item>
                     </td>
                     <td if:true={enableLocator} role="gridcell">
                         <lightning-button-icon
-                                data-guid={row.key}
-                                icon-name="utility:search"
-                                variant="bare"
-                                title={labels.locatorIconText}
-                                alternative-text={labels.locatorIconText}
-                                class="test-locator-icon"
-                                onclick={handleLocatorClick}>
+                            data-guid={row.key}
+                            icon-name="utility:search"
+                            variant="bare"
+                            title={labels.locatorIconText}
+                            alternative-text={labels.locatorIconText}
+                            class="test-locator-icon"
+                            onclick={handleLocatorClick}
+                        >
                         </lightning-button-icon>
                     </td>
                     <td if:true={showResourceDetails} role="gridcell">
@@ -64,7 +80,8 @@
                             variant="bare"
                             alternative-text={labels.detailsText}
                             class="test-details-chevron-icon"
-                            onclick={handleResourceDetailsClick}>
+                            onclick={handleResourceDetailsClick}
+                        >
                         </lightning-button-icon>
                     </td>
                 </tr>

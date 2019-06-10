@@ -10,15 +10,17 @@
         type="button"
         onchange={handleOptionSelected}
         value={resumeEventType}
-        required>
+        required
+    >
     </lightning-radio-group>
     <div if:true={isPlatformEventTypeSelected}>
         <builder_platform_interaction-wait-platform-event
-                wait-event-guid={waitEventGuid}
-                event-type={eventType}
-                event-type-index={eventTypeIndex}
-                input-filter-parameters={resumeTimeParameters}
-                output-parameters={outputParameters}>
+            wait-event-guid={waitEventGuid}
+            event-type={eventType}
+            event-type-index={eventTypeIndex}
+            input-filter-parameters={resumeTimeParameters}
+            output-parameters={outputParameters}
+        >
         </builder_platform_interaction-wait-platform-event>
     </div>
     <div if:true={isTimeEventTypeSelected}>
@@ -26,7 +28,8 @@
             wait-event-guid={waitEventGuid}
             resume-time-parameters={resumeTimeParameters}
             output-parameters={outputParameters}
-            event-type={eventType}>
+            event-type={eventType}
+        >
         </builder_platform_interaction-wait-time-event>
     </div>
 </template>

@@ -1,29 +1,37 @@
 <template>
     <div class="slds-form-element slds-size_1-of-3 slds-m-bottom_small">
-        <lightning-combobox class="slds-col slds-grow conditionLogic"
-                            label={logicComboboxLabel}
-                            value={state.conditionLogicComboBoxValue}
-                            options={conditionLogicOptions}
-                            dropdown-alignment="auto"
-                            onchange={handleConditionLogicChange}></lightning-combobox>
+        <lightning-combobox
+            class="slds-col slds-grow conditionLogic"
+            label={logicComboboxLabel}
+            value={state.conditionLogicComboBoxValue}
+            options={conditionLogicOptions}
+            dropdown-alignment="auto"
+            onchange={handleConditionLogicChange}
+        ></lightning-combobox>
     </div>
 
     <div class="slds-form-element slds-m-bottom_small">
-        <lightning-input if:true={state.showCustomLogicInput} type="text" label={labels.customLogicLabel}
-                         onfocusout={handleCustomLogicFocusOut}
-                         value={state.conditionLogic.value}
-                         required
-                         message-when-value-missing={showErrorMessageIfBlank}
-                         field-level-help={labels.customConditionHelpText}
-                         class="slds-col customLogic"></lightning-input>
+        <lightning-input
+            if:true={state.showCustomLogicInput}
+            type="text"
+            label={labels.customLogicLabel}
+            onfocusout={handleCustomLogicFocusOut}
+            value={state.conditionLogic.value}
+            required
+            message-when-value-missing={showErrorMessageIfBlank}
+            field-level-help={labels.customConditionHelpText}
+            class="slds-col customLogic"
+        ></lightning-input>
     </div>
 
-    <builder_platform_interaction-list if:false={isConditionListVisible}
-                                       items={state.conditions}
-                                       onaddlistitem={handleAddCondition}
-                                       onupdatelistitem={handleUpdateCondition}
-                                       ondeletelistitem={handleDeleteCondition}
-                                       add-label={labels.addConditionsLabel}>
+    <builder_platform_interaction-list
+        if:false={isConditionListVisible}
+        items={state.conditions}
+        onaddlistitem={handleAddCondition}
+        onupdatelistitem={handleUpdateCondition}
+        ondeletelistitem={handleDeleteCondition}
+        add-label={labels.addConditionsLabel}
+    >
         <div slot="listBody">
             <slot name="conditions">
                 <!-- Example:

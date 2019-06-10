@@ -8,7 +8,7 @@ export function combinedReducer(reducers) {
         let updated = false;
         const newState = {};
         const reducerKeys = Object.keys(reducers);
-        reducerKeys.forEach((key) => {
+        reducerKeys.forEach(key => {
             newState[key] = reducers[key](state[key], action);
             updated = updated || newState[key] !== state[key];
         });

@@ -1,17 +1,17 @@
-import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { Validation } from "builder_platform_interaction/validation";
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { Validation } from 'builder_platform_interaction/validation';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
 const additionalRules = {
-    'label' : [
+    label: [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.maximumCharactersLimit(255)
     ],
-    'name' : [
+    name: [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeginOrEndWithUnderscores,
@@ -19,18 +19,22 @@ const additionalRules = {
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
     ],
-    'processType' : [
-        ValidationRules.shouldNotBeNullOrUndefined
-    ],
-    'interviewLabel': [
+    processType: [ValidationRules.shouldNotBeNullOrUndefined],
+    interviewLabel: [
         ValidationRules.maximumCharactersLimit(1000),
-        ValidationRules.isValidResourcedTextArea,
+        ValidationRules.isValidResourcedTextArea
     ]
 };
 
-export const flowPropertiesEditorValidation = new Validation(additionalRules, true);
+export const flowPropertiesEditorValidation = new Validation(
+    additionalRules,
+    true
+);
 export const getRules = (state, isSavingExistingFlow) => {
-    const overrideRules = Object.assign({}, flowPropertiesEditorValidation.finalizedRules);
+    const overrideRules = Object.assign(
+        {},
+        flowPropertiesEditorValidation.finalizedRules
+    );
 
     if (isSavingExistingFlow) {
         overrideRules.name = [];

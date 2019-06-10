@@ -1,6 +1,6 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { createActionCall, getDefaultAvailableConnections } from './actionCall';
-import {  duplicateCanvasElement } from "./base/baseElement";
+import { duplicateCanvasElement } from './base/baseElement';
 
 const elementType = ELEMENT_TYPE.EMAIL_ALERT;
 
@@ -10,13 +10,19 @@ const elementType = ELEMENT_TYPE.EMAIL_ALERT;
  * @return {Object} newEmailAlert new email alert which is created
  */
 export function createEmailAlert(emailAlert = {}) {
-    return  createActionCall(emailAlert, elementType);
+    return createActionCall(emailAlert, elementType);
 }
 
 export function createDuplicateEmailAlert(emailAlert, newGuid, newName) {
     const newEmailAlert = createEmailAlert(emailAlert);
-    Object.assign(newEmailAlert, { availableConnections: getDefaultAvailableConnections() });
-    const duplicateEmailAlert = duplicateCanvasElement(newEmailAlert, newGuid, newName);
+    Object.assign(newEmailAlert, {
+        availableConnections: getDefaultAvailableConnections()
+    });
+    const duplicateEmailAlert = duplicateCanvasElement(
+        newEmailAlert,
+        newGuid,
+        newName
+    );
 
     return duplicateEmailAlert;
 }

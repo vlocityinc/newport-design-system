@@ -3,7 +3,6 @@
  */
 const eventName = 'visualpickeritemchanged';
 
-
 export class VisualPickerItemChangedEvent {
     constructor(id, isSelected) {
         return new CustomEvent(eventName, {

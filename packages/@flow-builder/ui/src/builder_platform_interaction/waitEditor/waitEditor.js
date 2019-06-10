@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import { waitReducer, resetDeletedGuids } from "./waitReducer";
-import { VALIDATE_ALL } from "builder_platform_interaction/validationRules";
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import { waitReducer, resetDeletedGuids } from './waitReducer';
+import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import { LABELS } from "./waitEditorLabels";
+import { LABELS } from './waitEditorLabels';
 
 const SELECTORS = {
     WAIT_EVENT: 'builder_platform_interaction-wait-event'
@@ -65,25 +65,36 @@ export default class WaitEditor extends LightningElement {
     }
 
     get activeWaitEvent() {
-        return this.waitElement.waitEvents.find(waitEvent => waitEvent.guid === this.activeWaitEventId);
+        return this.waitElement.waitEvents.find(
+            waitEvent => waitEvent.guid === this.activeWaitEventId
+        );
     }
 
     get waitEventsWithDefaultPath() {
-        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(waitEvent => {
-            return {
-                element: waitEvent,
-                label: waitEvent.label && waitEvent.label.value ? waitEvent.label.value : LABELS.newWaitEventLabel,
-                isDraggable: true,
-                hasErrors: getErrorsFromHydratedElement(waitEvent).length > 0
-            };
-        });
+        const waitEventsWithDefaultPath = this.waitElement.waitEvents.map(
+            waitEvent => {
+                return {
+                    element: waitEvent,
+                    label:
+                        waitEvent.label && waitEvent.label.value
+                            ? waitEvent.label.value
+                            : LABELS.newWaitEventLabel,
+                    isDraggable: true,
+                    hasErrors:
+                        getErrorsFromHydratedElement(waitEvent).length > 0
+                };
+            }
+        );
 
         const defaultLabel = this.waitElement.defaultConnectorLabel;
         const defaultPath = {
             element: {
                 guid: DEFAULT_WAIT_EVENT_ID
             },
-            label: defaultLabel && defaultLabel.value ? defaultLabel.value : LABELS.defaultPathLabel,
+            label:
+                defaultLabel && defaultLabel.value
+                    ? defaultLabel.value
+                    : LABELS.defaultPathLabel,
             isDraggable: false,
             hasErrors: defaultLabel && defaultLabel.error
         };
@@ -93,16 +104,19 @@ export default class WaitEditor extends LightningElement {
     }
 
     get isDefaultPath() {
-      return this.activeWaitEventId === DEFAULT_WAIT_EVENT_ID;
+        return this.activeWaitEventId === DEFAULT_WAIT_EVENT_ID;
     }
 
     handleDefaultPathChangedEvent(event) {
-      event.stopPropagation();
-      const defaultPathChangedEvent = new PropertyChangedEvent(
-          'defaultConnectorLabel',
-          event.detail.value
-      );
-      this.waitElement = waitReducer(this.waitElement, defaultPathChangedEvent);
+        event.stopPropagation();
+        const defaultPathChangedEvent = new PropertyChangedEvent(
+            'defaultConnectorLabel',
+            event.detail.value
+        );
+        this.waitElement = waitReducer(
+            this.waitElement,
+            defaultPathChangedEvent
+        );
     }
 
     handleWaitEventSelected(event) {
@@ -119,7 +133,7 @@ export default class WaitEditor extends LightningElement {
         const originalNumberOfWaitEvents = this.waitElement.waitEvents.length;
         this.waitElement = waitReducer(this.waitElement, event);
         if (this.waitElement.waitEvents.length < originalNumberOfWaitEvents) {
-           this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
+            this.activeWaitEventId = this.waitElement.waitEvents[0].guid;
         }
     }
 

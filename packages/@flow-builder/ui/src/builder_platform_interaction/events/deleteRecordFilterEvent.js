@@ -1,6 +1,5 @@
 const eventName = 'deleterecordfilter';
 
-
 export class DeleteRecordFilterEvent {
     constructor(index) {
         return new CustomEvent(eventName, {

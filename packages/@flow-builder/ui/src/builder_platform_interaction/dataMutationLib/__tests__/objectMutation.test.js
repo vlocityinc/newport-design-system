@@ -1,4 +1,10 @@
-import { pick, omit, set, updateProperties, stringToPath} from '../objectMutation';
+import {
+    pick,
+    omit,
+    set,
+    updateProperties,
+    stringToPath
+} from '../objectMutation';
 
 const obj = {
     name: 'ass1',
@@ -9,13 +15,13 @@ const obj = {
 const assignmentItem = {
     lhs: {
         menuData: ['testmenudata'],
-        value: 'testvalue',
+        value: 'testvalue'
     },
     operator: {
-        value: 'add',
+        value: 'add'
     },
     rhs: {
-        value: 'defaultrhs',
+        value: 'defaultrhs'
     }
 };
 
@@ -25,34 +31,34 @@ const mockAssignment = {
         {
             lhs: {
                 menuData: ['firstmenudata'],
-                value: 'firstlhs',
+                value: 'firstlhs'
             },
             operator: {
-                value: 'add',
+                value: 'add'
             },
             rhs: {
-                value: 'firstrhs',
+                value: 'firstrhs'
             }
         },
         {
             lhs: {
                 menuData: ['secondmenudata'],
-                value: 'secondlhs',
+                value: 'secondlhs'
             },
             operator: {
-                value: 'setTo',
+                value: 'setTo'
             },
             rhs: {
-                value: 'secondrhs',
+                value: 'secondrhs'
             }
-        },
+        }
     ],
-    label: 'mockassignment',
+    label: 'mockassignment'
 };
 
 const updatedProps = {
     name: 'ass2',
-    createdBy: 'user1',
+    createdBy: 'user1'
 };
 
 const allowedProps = ['name', 'label'];
@@ -133,40 +139,40 @@ describe('Set function', () => {
         });
 
         it('should return an array when setting a value at an array', () => {
-            const myArray = [{one: 'one'}, 'two'];
+            const myArray = [{ one: 'one' }, 'two'];
             const newArray = set(myArray, '[0].one', 'newvalue');
             expect(Array.isArray(newArray)).toBeTruthy();
         });
 
         it('should return an array when setting a value at an array nested within an object', () => {
-            const myObject = {"array": [{one: 'one'}, 'two']};
+            const myObject = { array: [{ one: 'one' }, 'two'] };
             const newObject = set(myObject, 'array.[0].one', 'newvalue');
             expect(Array.isArray(newObject.array)).toBeTruthy();
         });
 
         it('should update the value with a string path if given object is an array', () => {
-            const myArray = [{one: 'one'}, 'two'];
+            const myArray = [{ one: 'one' }, 'two'];
             const newArray = set(myArray, '[0].one', 'newvalue');
             expect(newArray[0].one).toEqual('newvalue');
             expect(newArray[1]).toEqual('two');
         });
 
         it('should update the value with an array path if given object is an array', () => {
-            const myArray = [{one: 'one'}, 'two'];
+            const myArray = [{ one: 'one' }, 'two'];
             const newArray = set(myArray, [0, 'one'], 'newvalue');
             expect(newArray[0].one).toEqual('newvalue');
             expect(newArray[1]).toEqual('two');
         });
 
         it('should update the value in an array at the given path using multiple indexing', () => {
-            const arrayOfArray = [{ 'one': ['one']}, 'two'];
+            const arrayOfArray = [{ one: ['one'] }, 'two'];
             const newArray = set(arrayOfArray, [0, 'one', '0'], 'newvalue');
             expect(newArray[0].one[0]).toEqual('newvalue');
             expect(newArray[1]).toEqual('two');
         });
 
         it('should throw an error when given an index that is not a number for an array', () => {
-            const myArray = [{one: 'one'}, 'two'];
+            const myArray = [{ one: 'one' }, 'two'];
             expect(() => {
                 set(myArray, ['notANumber', 'one'], 'newvalue');
             }).toThrow();
@@ -206,7 +212,11 @@ describe('Set function', () => {
         });
 
         it('should update the value with a string path using indexing', () => {
-            const newObj = set(mockAssignment, 'items[0].lhs.value', 'newvalue');
+            const newObj = set(
+                mockAssignment,
+                'items[0].lhs.value',
+                'newvalue'
+            );
             expect(newObj.items[0].lhs.value).toEqual('newvalue');
         });
 
@@ -224,12 +234,20 @@ describe('Set function', () => {
         });
 
         it('should update the value at the given path using idexing', () => {
-            const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
+            const newObj = set(
+                mockAssignment,
+                ['items', '0', 'lhs', 'value'],
+                'newvalue'
+            );
             expect(newObj.items[0].lhs.value).toEqual('newvalue');
         });
 
         it('should return an object with keys from the given path if such a path does not already exist', () => {
-            const newObj = set(assignmentItem, ['firstNewKey', 'secondNewKey'], 'newvalue');
+            const newObj = set(
+                assignmentItem,
+                ['firstNewKey', 'secondNewKey'],
+                'newvalue'
+            );
             expect(newObj.firstNewKey.secondNewKey).toEqual('newvalue');
         });
 
@@ -243,9 +261,17 @@ describe('Set function', () => {
         });
 
         it('should only change the value at the given path using indexing', () => {
-            const newObj = set(mockAssignment, ['items', '0', 'lhs', 'value'], 'newvalue');
-            expect(newObj.items[0].lhs.menudata).toEqual(mockAssignment.items[0].lhs.menudata);
-            expect(newObj.items[0].operator).toEqual(mockAssignment.items[0].operator);
+            const newObj = set(
+                mockAssignment,
+                ['items', '0', 'lhs', 'value'],
+                'newvalue'
+            );
+            expect(newObj.items[0].lhs.menudata).toEqual(
+                mockAssignment.items[0].lhs.menudata
+            );
+            expect(newObj.items[0].operator).toEqual(
+                mockAssignment.items[0].operator
+            );
             expect(newObj.items[0].rhs).toEqual(mockAssignment.items[0].rhs);
             expect(newObj.items[1]).toEqual(mockAssignment.items[1]);
         });
@@ -328,17 +354,17 @@ describe('Omit function', () => {
 
 describe('update properties function', () => {
     it('should return new object', () => {
-        const newObj =  updateProperties(obj, updatedProps);
+        const newObj = updateProperties(obj, updatedProps);
         expect(newObj).not.toBe(obj);
     });
 
     it('should return new object with new values for name props', () => {
-        const newObj =  updateProperties(obj, updatedProps);
+        const newObj = updateProperties(obj, updatedProps);
         expect(newObj.name).toBe('ass2');
     });
 
     it('should return new object with new props', () => {
-        const newObj =  updateProperties(obj, updatedProps);
+        const newObj = updateProperties(obj, updatedProps);
         expect(newObj).toHaveProperty('createdBy');
     });
 });

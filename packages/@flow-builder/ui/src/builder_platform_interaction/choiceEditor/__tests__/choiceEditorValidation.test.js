@@ -3,13 +3,20 @@ import ChoiceEditor from '../choiceEditor';
 import { choiceValidation } from '../choiceValidation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
-const setupComponentUnderTest = (defaultChoiceObject) => {
-    const element = createElement('builder_platform_interaction-choice-editor', {
-        is: ChoiceEditor,
-    });
+const setupComponentUnderTest = defaultChoiceObject => {
+    const element = createElement(
+        'builder_platform_interaction-choice-editor',
+        {
+            is: ChoiceEditor
+        }
+    );
     element.node = defaultChoiceObject;
     document.body.appendChild(element);
     return element;
@@ -34,7 +41,7 @@ describe('Choice Validation', () => {
             error: null
         },
         guid: {
-            value: 'guid_1',
+            value: 'guid1',
             error: null
         },
         isShowInputSelected: true,
@@ -61,7 +68,7 @@ describe('Choice Validation', () => {
         }
     };
 
-    const validate = (node) => {
+    const validate = node => {
         return getErrorsFromHydratedElement(choiceValidation.validateAll(node));
     };
 

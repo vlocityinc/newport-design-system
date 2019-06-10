@@ -1,67 +1,93 @@
 <template>
     <div if:true={field}>
-        <div class='slds-p-horizontal_small slds-p-top_x-small'>
-
-             <!--  field label and unique name -->
-             <builder_platform_interaction-label-description layout-mode='vertical'
-                                                             label={field.fieldText}
-                                                             label-optional=true
-                                                             dev-name={field.name}
-                                                             hide-description
-                                                             guid={field.guid}
-                                                             onpropertychanged={handlePropertyChanged}>
+        <div class="slds-p-horizontal_small slds-p-top_x-small">
+            <!--  field label and unique name -->
+            <builder_platform_interaction-label-description
+                layout-mode="vertical"
+                label={field.fieldText}
+                label-optional="true"
+                dev-name={field.name}
+                hide-description
+                guid={field.guid}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-label-description>
 
             <!--  Required checkbox -->
             <!--  If the field type is checkbox, the 'Required' field is not present -->
-            <builder_platform_interaction-screen-property-field if:false={isCheckbox}
-                                                                name='isRequired'
-                                                                label={labels.required}
-                                                                type='boolean'
-                                                                value={field.isRequired}
-                                                                onpropertychanged={handlePropertyChanged}>
+            <builder_platform_interaction-screen-property-field
+                if:false={isCheckbox}
+                name="isRequired"
+                label={labels.required}
+                type="boolean"
+                value={field.isRequired}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-screen-property-field>
 
             <!--  default value: drop down resource list -->
             <!--  TODO: W-5220407 - date and dateTime picker isn't show up -->
-            <builder_platform_interaction-screen-property-field name='defaultValue'
-                                                                label={labels.fieldDefaultValue}
-                                                                value={field.defaultValue}
-                                                                row-index={field.defaultValueIndex}
-                                                                type={field.type.type}
-                                                                allow-resources-for-parameter
-                                                                resource-picker-config={defaultValueResourcePickerConfig}>
+            <builder_platform_interaction-screen-property-field
+                name="defaultValue"
+                label={labels.fieldDefaultValue}
+                value={field.defaultValue}
+                row-index={field.defaultValueIndex}
+                type={field.type.type}
+                allow-resources-for-parameter
+                resource-picker-config={defaultValueResourcePickerConfig}
+            >
             </builder_platform_interaction-screen-property-field>
 
             <!--  Scale, if input type supports this field -->
-            <builder_platform_interaction-screen-property-field if:true={isScaleEnabled}
-                                                                name='scale'
-                                                                label={labels.fieldScale}
-                                                                type='number'
-                                                                value={field.scale}
-                                                                onpropertychanged={handlePropertyChanged}>
+            <builder_platform_interaction-screen-property-field
+                if:true={isScaleEnabled}
+                name="scale"
+                label={labels.fieldScale}
+                type="number"
+                value={field.scale}
+                onpropertychanged={handlePropertyChanged}
+            >
             </builder_platform_interaction-screen-property-field>
-       </div>
-       <div>
-            <lightning-accordion allow-multiple-sections-open class='slds-has-divider slds-p-top_none'>
-                <lightning-accordion-section name='componentVisibility' label={labels.componentVisbilitySectionTitle}>
-                    <builder_platform_interaction-component-visibility visibility={field.visibility}  guid={field.guid}>
+        </div>
+        <div>
+            <lightning-accordion
+                allow-multiple-sections-open
+                class="slds-has-divider slds-p-top_none"
+            >
+                <lightning-accordion-section
+                    name="componentVisibility"
+                    label={labels.componentVisbilitySectionTitle}
+                >
+                    <builder_platform_interaction-component-visibility
+                        visibility={field.visibility}
+                        guid={field.guid}
+                    >
                     </builder_platform_interaction-component-visibility>
                 </lightning-accordion-section>
                 <!--  validation rule -->
-                <lightning-accordion-section name='validationOptions' label={labels.fieldValidation}>
-                    <builder_platform_interaction-validation-editor element={field.validationRule}>
+                <lightning-accordion-section
+                    name="validationOptions"
+                    label={labels.fieldValidation}
+                >
+                    <builder_platform_interaction-validation-editor
+                        element={field.validationRule}
+                    >
                     </builder_platform_interaction-validation-editor>
                 </lightning-accordion-section>
 
                 <!--  help text -->
-                <lightning-accordion-section name='helpText' label={labels.helpTextForAccordion}>
-                    <builder_platform_interaction-screen-property-field name='helpText'
-                                                                        label={labels.helpSectionHeader}
-                                                                        type='rich_string'
-                                                                        value={field.helpText}
-                                                                        onpropertychanged={handlePropertyChanged}
-                                                                        hide-top-padding>
+                <lightning-accordion-section
+                    name="helpText"
+                    label={labels.helpTextForAccordion}
+                >
+                    <builder_platform_interaction-screen-property-field
+                        name="helpText"
+                        label={labels.helpSectionHeader}
+                        type="rich_string"
+                        value={field.helpText}
+                        onpropertychanged={handlePropertyChanged}
+                        hide-top-padding
+                    >
                     </builder_platform_interaction-screen-property-field>
                 </lightning-accordion-section>
             </lightning-accordion>

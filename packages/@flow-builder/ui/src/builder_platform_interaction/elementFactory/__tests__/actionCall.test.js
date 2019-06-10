@@ -1,22 +1,31 @@
-import { createActionCall, createDuplicateActionCall, createActionCallMetadataObject } from '../actionCall';
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    createActionCall,
+    createDuplicateActionCall,
+    createActionCallMetadataObject
+} from '../actionCall';
+import {
+    ELEMENT_TYPE,
+    CONNECTOR_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 expect.extend(deepFindMatchers);
 
 const mockGuid = 'mockGuid';
 
 const flowInputParameterWithDefaultValueAsString = {
-        name: 'text',
-        value: {
-            stringValue: 'This is message'
-        },
-        processMetadataValues: [],
-    };
+    name: 'text',
+    value: {
+        stringValue: 'This is message'
+    },
+    processMetadataValues: []
+};
 
 const storeInputParameterWithDefaultValueAsString = {
     name: 'text',
@@ -30,7 +39,7 @@ const flowInputParameterWithDefaultValueAsReference = {
     value: {
         elementReference: 'var_text'
     },
-    processMetadataValues: [],
+    processMetadataValues: []
 };
 
 const storeInputParameterWithDefaultValueAsReference = {
@@ -41,13 +50,13 @@ const storeInputParameterWithDefaultValueAsReference = {
 };
 
 const flowOutputParameterWithDefaultValue = {
-    name: "feedId",
+    name: 'feedId',
     assignToReference: 'var_text',
-    processMetadataValues: [],
+    processMetadataValues: []
 };
 
 const storeOutputParameterWithDefaultValue = {
-    name: "feedId",
+    name: 'feedId',
     value: 'var_text',
     valueDataType: 'reference',
     rowIndex: mockGuid
@@ -64,10 +73,8 @@ const actionCallMetaData = {
     locationX: 353,
     locationY: 57,
     name: 'My_Post_to_Chatter',
-    outputParameters: [
-        flowOutputParameterWithDefaultValue
-    ],
-    processMetadataValues: [],
+    outputParameters: [flowOutputParameterWithDefaultValue],
+    processMetadataValues: []
 };
 
 const actionCallInStore = {
@@ -82,23 +89,21 @@ const actionCallInStore = {
     isCanvasElement: true,
     connectorCount: 0,
     availableConnections: [
-      {
-          type: 'REGULAR'
-      },
-      {
-          type: 'FAULT'
-      }
+        {
+            type: 'REGULAR'
+        },
+        {
+            type: 'FAULT'
+        }
     ],
     config: {
-      isSelected: false
+        isSelected: false
     },
     inputParameters: [
         storeInputParameterWithDefaultValueAsString,
         storeInputParameterWithDefaultValueAsReference
     ],
-    outputParameters: [
-        storeOutputParameterWithDefaultValue
-    ],
+    outputParameters: [storeOutputParameterWithDefaultValue],
     maxConnections: 2,
     elementType: 'ACTION_CALL'
 };
@@ -108,12 +113,12 @@ const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
         if (isInput) {
             return {
                 name: param.name,
-                value: param.value,
+                value: param.value
             };
         }
         return {
             name: param.name,
-            assignToReference: param.assignToReference,
+            assignToReference: param.assignToReference
         };
     });
 };
@@ -129,7 +134,9 @@ describe('actionCall', () => {
             });
 
             it('creates element of type ACTION_CALL', () => {
-                expect(actionCall.elementType).toEqual(ELEMENT_TYPE.ACTION_CALL);
+                expect(actionCall.elementType).toEqual(
+                    ELEMENT_TYPE.ACTION_CALL
+                );
             });
 
             it('has empty actionName', () => {
@@ -148,7 +155,9 @@ describe('actionCall', () => {
                 expect(actionCall.outputParameters).toHaveLength(0);
             });
             it('has dataType of boolean', () => {
-                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(actionCall.dataType).toEqual(
+                    FLOW_DATA_TYPE.BOOLEAN.value
+                );
             });
         });
 
@@ -157,25 +166,39 @@ describe('actionCall', () => {
                 actionCall = createActionCall(actionCallMetaData);
             });
             it('creates element of type ACTION_CALL', () => {
-                expect(actionCall.elementType).toEqual(ELEMENT_TYPE.ACTION_CALL);
+                expect(actionCall.elementType).toEqual(
+                    ELEMENT_TYPE.ACTION_CALL
+                );
             });
             it('has actionName equal to actionName from store', () => {
-                expect(actionCall.actionName).toEqual(actionCallMetaData.actionName);
+                expect(actionCall.actionName).toEqual(
+                    actionCallMetaData.actionName
+                );
             });
             it('has actionType equal to actionType from store', () => {
-                expect(actionCall.actionType).toEqual(actionCallMetaData.actionType);
+                expect(actionCall.actionType).toEqual(
+                    actionCallMetaData.actionType
+                );
             });
             it('has inputParameters matching the inputParameters from store', () => {
-                expect(actionCall.inputParameters).toEqual(actionCallInStore.inputParameters);
+                expect(actionCall.inputParameters).toEqual(
+                    actionCallInStore.inputParameters
+                );
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(actionCall.outputParameters).toEqual(actionCallInStore.outputParameters);
+                expect(actionCall.outputParameters).toEqual(
+                    actionCallInStore.outputParameters
+                );
             });
             it('has dataType of boolean', () => {
-                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(actionCall.dataType).toEqual(
+                    FLOW_DATA_TYPE.BOOLEAN.value
+                );
             });
             it('has no common mutable object with action call metadata passed as parameter', () => {
-                expect(actionCall).toHaveNoCommonMutableObjectWith(actionCallMetaData);
+                expect(actionCall).toHaveNoCommonMutableObjectWith(
+                    actionCallMetaData
+                );
             });
         });
 
@@ -184,22 +207,34 @@ describe('actionCall', () => {
                 actionCall = createActionCall(actionCallInStore);
             });
             it('has actionName equal to actionName from store', () => {
-                expect(actionCall.actionName).toEqual(actionCallInStore.actionName);
+                expect(actionCall.actionName).toEqual(
+                    actionCallInStore.actionName
+                );
             });
             it('has actionType equal to actionType from store', () => {
-                expect(actionCall.actionType).toEqual(actionCallInStore.actionType);
+                expect(actionCall.actionType).toEqual(
+                    actionCallInStore.actionType
+                );
             });
             it('has inputParameters matching the inputParameters from store', () => {
-                expect(actionCall.inputParameters).toEqual(actionCallInStore.inputParameters);
+                expect(actionCall.inputParameters).toEqual(
+                    actionCallInStore.inputParameters
+                );
             });
             it('has outputParameters matching the outputParameters from store', () => {
-                expect(actionCall.outputParameters).toEqual(actionCallInStore.outputParameters);
+                expect(actionCall.outputParameters).toEqual(
+                    actionCallInStore.outputParameters
+                );
             });
             it('has dataType of boolean', () => {
-                expect(actionCall.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
+                expect(actionCall.dataType).toEqual(
+                    FLOW_DATA_TYPE.BOOLEAN.value
+                );
             });
             it('has no common mutable object with action call from store passed as parameter', () => {
-                expect(actionCall).toHaveNoCommonMutableObjectWith(actionCallInStore);
+                expect(actionCall).toHaveNoCommonMutableObjectWith(
+                    actionCallInStore
+                );
             });
         });
     });
@@ -224,7 +259,11 @@ describe('actionCall', () => {
                 }
             ]
         };
-        const { duplicatedElement } = createDuplicateActionCall(originalActionCall, 'duplicatedGuid', 'duplicatedName');
+        const { duplicatedElement } = createDuplicateActionCall(
+            originalActionCall,
+            'duplicatedGuid',
+            'duplicatedName'
+        );
 
         it('has the new guid', () => {
             expect(duplicatedElement.guid).toEqual('duplicatedGuid');
@@ -233,10 +272,14 @@ describe('actionCall', () => {
             expect(duplicatedElement.name).toEqual('duplicatedName');
         });
         it('has the updated locationX', () => {
-            expect(duplicatedElement.locationX).toEqual(originalActionCall.locationX + DUPLICATE_ELEMENT_XY_OFFSET);
+            expect(duplicatedElement.locationX).toEqual(
+                originalActionCall.locationX + DUPLICATE_ELEMENT_XY_OFFSET
+            );
         });
         it('has the updated locationY', () => {
-            expect(duplicatedElement.locationY).toEqual(originalActionCall.locationY + DUPLICATE_ELEMENT_XY_OFFSET);
+            expect(duplicatedElement.locationY).toEqual(
+                originalActionCall.locationY + DUPLICATE_ELEMENT_XY_OFFSET
+            );
         });
         it('has isSelected set to true', () => {
             expect(duplicatedElement.config.isSelected).toBeTruthy();
@@ -251,14 +294,19 @@ describe('actionCall', () => {
             expect(duplicatedElement.maxConnections).toEqual(2);
         });
         it('has the right elementType', () => {
-            expect(duplicatedElement.elementType).toEqual(ELEMENT_TYPE.ACTION_CALL);
+            expect(duplicatedElement.elementType).toEqual(
+                ELEMENT_TYPE.ACTION_CALL
+            );
         });
         it('has default availableConnections', () => {
-            expect(duplicatedElement.availableConnections).toEqual([{
-                type: CONNECTOR_TYPE.REGULAR
-            }, {
-                type: CONNECTOR_TYPE.FAULT
-            }]);
+            expect(duplicatedElement.availableConnections).toEqual([
+                {
+                    type: CONNECTOR_TYPE.REGULAR
+                },
+                {
+                    type: CONNECTOR_TYPE.FAULT
+                }
+            ]);
         });
     });
 
@@ -266,19 +314,35 @@ describe('actionCall', () => {
         let actionCallMetaDataObject;
         describe('when store actionCall is passed', () => {
             beforeEach(() => {
-                actionCallMetaDataObject = createActionCallMetadataObject(actionCallInStore);
+                actionCallMetaDataObject = createActionCallMetadataObject(
+                    actionCallInStore
+                );
             });
             it('has actionName equal to actionName from flow', () => {
-                expect(actionCallMetaDataObject.actionName).toEqual(actionCallMetaData.actionName);
+                expect(actionCallMetaDataObject.actionName).toEqual(
+                    actionCallMetaData.actionName
+                );
             });
             it('has actionType equal to actionType from flow', () => {
-                expect(actionCallMetaDataObject.actionType).toEqual(actionCallMetaData.actionType);
+                expect(actionCallMetaDataObject.actionType).toEqual(
+                    actionCallMetaData.actionType
+                );
             });
             it('has inputParameters matching the inputParameters from flow', () => {
-                expect(actionCallMetaDataObject.inputParameters).toEqual(parametersWithoutProcessMetaDataValue(actionCallMetaData.inputParameters, true));
+                expect(actionCallMetaDataObject.inputParameters).toEqual(
+                    parametersWithoutProcessMetaDataValue(
+                        actionCallMetaData.inputParameters,
+                        true
+                    )
+                );
             });
             it('has outputParameters matching the outputParameters from flow', () => {
-                expect(actionCallMetaDataObject.outputParameters).toEqual(parametersWithoutProcessMetaDataValue(actionCallMetaData.outputParameters, false));
+                expect(actionCallMetaDataObject.outputParameters).toEqual(
+                    parametersWithoutProcessMetaDataValue(
+                        actionCallMetaData.outputParameters,
+                        false
+                    )
+                );
             });
         });
     });

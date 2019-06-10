@@ -1,8 +1,10 @@
 import { createElement } from 'lwc';
-import StepEditor from "../stepEditor";
+import StepEditor from '../stepEditor';
 
-const createComponentUnderTest = (node) => {
-    const el = createElement('builder_platform_interaction-step-editor', { is: StepEditor });
+const createComponentUnderTest = node => {
+    const el = createElement('builder_platform_interaction-step-editor', {
+        is: StepEditor
+    });
     el.node = node;
     document.body.appendChild(el);
     return el;
@@ -14,15 +16,15 @@ const selectors = {
     SECTION_HEADER: '.test-section-description'
 };
 
-const getLabelDescription = (stepEditor) => {
+const getLabelDescription = stepEditor => {
     return stepEditor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
 };
 
-const getBadgeIcon = (stepEditor) => {
+const getBadgeIcon = stepEditor => {
     return stepEditor.shadowRoot.querySelector(selectors.BADGE_ICON);
 };
 
-const getSectionHeader = (stepEditor) => {
+const getSectionHeader = stepEditor => {
     return stepEditor.shadowRoot.querySelector(selectors.SECTION_HEADER);
 };
 
@@ -33,13 +35,13 @@ describe('Step-Editor', () => {
         let stepEditor;
         beforeEach(() => {
             stepElement = {
-                "name": "myStepName",
-                "label": "myStepLabel",
-                "description": "myDescription",
-                "processMetadataValues": [],
-                "elementType": "STEP",
-                "guid": "STEP_11",
-                "isCanvasElement": true,
+                name: 'myStepName',
+                label: 'myStepLabel',
+                description: 'myDescription',
+                processMetadataValues: [],
+                elementType: 'STEP',
+                guid: 'STEP_11',
+                isCanvasElement: true
             };
             stepEditor = createComponentUnderTest(stepElement);
         });

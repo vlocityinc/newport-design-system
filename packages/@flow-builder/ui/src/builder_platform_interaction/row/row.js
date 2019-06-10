@@ -1,5 +1,8 @@
-import {LightningElement, api} from 'lwc';
-import {DeleteListItemEvent, UpdateListItemEvent} from "builder_platform_interaction/events";
+import { LightningElement, api } from 'lwc';
+import {
+    DeleteListItemEvent,
+    UpdateListItemEvent
+} from 'builder_platform_interaction/events';
 import deleteRowAlternativeText from '@salesforce/label/FlowBuilderRows.deleteRowAlternativeText';
 
 /**
@@ -24,7 +27,8 @@ export default class Row extends LightningElement {
     }
 
     get rowContentsClass() {
-        let contentsClass = 'slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small';
+        let contentsClass =
+            'slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small';
         if (this.showPrefix) {
             contentsClass = 'slds-m-left_x-large ' + contentsClass;
         }

@@ -1,6 +1,5 @@
 import { MERGE_WARNING_TYPE } from './mergeWarningType';
 
-
 /**
 * @typedef {Object} LABELS
 * @property {String} [warningNotAvailable] the warning message when variable isn't available in subflow or parameter isn't available in action or apex plugin.
@@ -21,7 +20,11 @@ import { MERGE_WARNING_TYPE } from './mergeWarningType';
  * @param {LABELS} labels the labels
  * @return {ParameterListWarnings} the warnings
  */
-export function getParameterListWarnings(inputAssignments, outputAssignments, labels) {
+export function getParameterListWarnings(
+    inputAssignments,
+    outputAssignments,
+    labels
+) {
     const map = {};
     inputAssignments.forEach(assignment => {
         const warning = getParameterItemWarning(assignment.warnings, labels);
@@ -55,28 +58,34 @@ export function getParameterItemWarning(warnings, labels) {
     let grayPill = false;
     warnings.forEach(warning => {
         switch (warning) {
-        case MERGE_WARNING_TYPE.NOT_AVAILABLE:
-            warningMessage = labels.warningNotAvailable;
-            shouldBeDeleted = true;
-            hideIcon = true;
-            warningBadge = labels.badgeWillCauseErrors;
-            break;
-        case MERGE_WARNING_TYPE.DATA_TYPE_CHANGED:
-            warningMessage = labels.warningDataTypeChanged;
-            break;
-        case MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST:
-            warningMessage = labels.warningLatestOnly;
-            warningBadge = labels.badgeDebugOnly;
-            grayPill = true;
-            break;
-        case MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE:
-            warningMessage = labels.warningActiveOnly;
-            break;
-        case MERGE_WARNING_TYPE.DUPLICATE:
-            shouldBeDeleted = true;
-            break;
-        default:
+            case MERGE_WARNING_TYPE.NOT_AVAILABLE:
+                warningMessage = labels.warningNotAvailable;
+                shouldBeDeleted = true;
+                hideIcon = true;
+                warningBadge = labels.badgeWillCauseErrors;
+                break;
+            case MERGE_WARNING_TYPE.DATA_TYPE_CHANGED:
+                warningMessage = labels.warningDataTypeChanged;
+                break;
+            case MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_LATEST:
+                warningMessage = labels.warningLatestOnly;
+                warningBadge = labels.badgeDebugOnly;
+                grayPill = true;
+                break;
+            case MERGE_WARNING_TYPE.ONLY_AVAILABLE_IN_ACTIVE:
+                warningMessage = labels.warningActiveOnly;
+                break;
+            case MERGE_WARNING_TYPE.DUPLICATE:
+                shouldBeDeleted = true;
+                break;
+            default:
         }
     });
-    return { warningBadge, warningMessage, shouldBeDeleted, hideIcon, grayPill };
+    return {
+        warningBadge,
+        warningMessage,
+        shouldBeDeleted,
+        hideIcon,
+        grayPill
+    };
 }

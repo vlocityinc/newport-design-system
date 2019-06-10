@@ -1,4 +1,11 @@
-import { RULE_TYPES, RULE_PROPERTY, setRules, getRules, getOutputRules, getRulesForElementType } from "../rules";
+import {
+    RULE_TYPES,
+    RULE_PROPERTY,
+    setRules,
+    getRules,
+    getOutputRules,
+    getRulesForElementType
+} from '../rules';
 
 const { ASSIGNMENT, COMPARISON } = RULE_TYPES;
 const { LEFT, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
@@ -83,7 +90,7 @@ const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
     '           }],' +
     '       "includeElems":null,' +
     '       "excludeElems":null' +
-    '    },'  +
+    '    },' +
     '    {' +
     '       "ruleType": "comparison",' +
     '       "assignmentOperator":null,' +
@@ -100,7 +107,9 @@ const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
     '               "elementType":null,' +
     '               "collection":false' +
     '           }],' +
-    '       "includeElems":["' + decisionElement + '"],' +
+    '       "includeElems":["' +
+    decisionElement +
+    '"],' +
     '       "excludeElems":null' +
     '   }]';
 
@@ -197,13 +206,15 @@ const mockSingleAssignmentRuleWithExcludeElems =
     '       "excludeElems":["SUBFLOW"]' +
     '   }]';
 
-const verifyProperties = (testRulesVariable) => {
+const verifyProperties = testRulesVariable => {
     expect(testRulesVariable).toHaveProperty(COMPARISON);
     expect(testRulesVariable).toHaveProperty(ASSIGNMENT);
 };
 
-const verifyOutputRuleShape = (testExcludeElems) => {
-    const rule = testExcludeElems ? mockSingleAssignmentRuleWithExcludeElems : mockSingleAssignmentRule;
+const verifyOutputRuleShape = testExcludeElems => {
+    const rule = testExcludeElems
+        ? mockSingleAssignmentRuleWithExcludeElems
+        : mockSingleAssignmentRule;
     const initialRule = JSON.parse(rule)[0];
     const initialLHS = initialRule[LEFT];
     const initialRHSParams = initialRule[RHS_PARAMS];
@@ -299,8 +310,13 @@ describe('get rules for element type', () => {
         setRules(mockRulesFromServiceAssignmentComparisonAndIncludedElems);
 
         const allRules = getRules();
-        const comparisonRules = getRulesForElementType(COMPARISON, decisionElement);
+        const comparisonRules = getRulesForElementType(
+            COMPARISON,
+            decisionElement
+        );
 
-        expect(comparisonRules).toEqual(allRules[COMPARISON].concat(allRules[decisionElement][COMPARISON]));
+        expect(comparisonRules).toEqual(
+            allRules[COMPARISON].concat(allRules[decisionElement][COMPARISON])
+        );
     });
 });

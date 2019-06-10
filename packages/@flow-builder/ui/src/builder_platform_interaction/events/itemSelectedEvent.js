@@ -3,7 +3,6 @@
  */
 const eventName = 'itemselected';
 
-
 export class ItemSelectedEvent {
     constructor(item = null) {
         return new CustomEvent(eventName, {

@@ -1,11 +1,14 @@
 import { LightningElement, api, track } from 'lwc';
-import { sanitizeGuid, updateProperties } from "builder_platform_interaction/dataMutationLib";
+import {
+    sanitizeGuid,
+    updateProperties
+} from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     LHS_DISPLAY_OPTION,
     populateLhsStateForField,
-    populateRhsState,
-} from "builder_platform_interaction/expressionUtils";
+    populateRhsState
+} from 'builder_platform_interaction/expressionUtils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -22,7 +25,7 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
         lhsDisplayOption: LHS_DISPLAY_OPTION.SOBJECT_FIELD,
         operatorValue: undefined,
         operatorError: undefined,
-        rhsDescribe: {},
+        rhsDescribe: {}
     };
 
     @api
@@ -110,11 +113,9 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
         // if RHSDT doesn't exist as a separate property, then RHS must be a FER
         this.rhsIsFer = !expression[RHSDT];
 
-        populateRhsState(expression,
-            (values) => {
-                this.state.rhsDescribe = values;
-            }
-        );
+        populateRhsState(expression, values => {
+            this.state.rhsDescribe = values;
+        });
     }
 
     @api
@@ -168,7 +169,11 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
      * and what fields should show up in the menudata.
      */
     populateLhsState() {
-        if (!this.state.expression || !this.state.objectType || !this.lhsFields) {
+        if (
+            !this.state.expression ||
+            !this.state.objectType ||
+            !this.lhsFields
+        ) {
             return;
         }
         const lhs = this.state.expression[LHS];
@@ -178,15 +183,22 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
             error: lhs.error,
             param: null,
             activePicklistValues: null,
-            fields: null,
+            fields: null
         };
 
         if (lhs.value && !lhs.error) {
             const complexGuid = sanitizeGuid(lhs.value);
-            const fieldParent = {value: this.state.objectType};
+            const fieldParent = { value: this.state.objectType };
             const isFieldOnSobjectVar = false;
-            this.state.lhsDescribe = updateProperties(this.state.lhsDescribe,
-                populateLhsStateForField(this.lhsFields, complexGuid.fieldName, fieldParent, isFieldOnSobjectVar));
+            this.state.lhsDescribe = updateProperties(
+                this.state.lhsDescribe,
+                populateLhsStateForField(
+                    this.lhsFields,
+                    complexGuid.fieldName,
+                    fieldParent,
+                    isFieldOnSobjectVar
+                )
+            );
         }
     }
 }

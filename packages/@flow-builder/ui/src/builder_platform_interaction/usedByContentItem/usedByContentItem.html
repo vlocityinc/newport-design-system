@@ -1,22 +1,24 @@
 <template>
     <div class="slds-grid slds-grid_vertical-align-center">
         <builder_platform_interaction-element-icon
-                if:true={listItem.iconName}
-                icon-name={listItem.iconName}
-                icon-size='small'
-                title={listItem.name}
-                alternative-text={listItem.name}>
+            if:true={listItem.iconName}
+            icon-name={listItem.iconName}
+            icon-size="small"
+            title={listItem.name}
+            alternative-text={listItem.name}
+        >
         </builder_platform_interaction-element-icon>
         <span class="slds-truncate test-list-item-name">{listItem.name}</span>
         <lightning-button-icon
-                if:true={showLocatorIconForCanvasElements}
-                data-guid={listItem.guid}
-                icon-name="utility:search"
-                variant="bare"
-                title={labels.locatorIconText}
-                alternative-text={labels.locatorIconText}
-                onclick={handleUsageSectionLocatorClick}
-                class="slds-col_bump-left test-usage-section-locator-icon">
+            if:true={showLocatorIconForCanvasElements}
+            data-guid={listItem.guid}
+            icon-name="utility:search"
+            variant="bare"
+            title={labels.locatorIconText}
+            alternative-text={labels.locatorIconText}
+            onclick={handleUsageSectionLocatorClick}
+            class="slds-col_bump-left test-usage-section-locator-icon"
+        >
         </lightning-button-icon>
     </div>
 </template>

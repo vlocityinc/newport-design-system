@@ -7,40 +7,54 @@
             row-index={eventTypeIndex}
             mode={mode}
             oncomboboxstatechanged={handleEventTypeChanged}
-            onitemselected={handleEventTypeChanged}>
+            onitemselected={handleEventTypeChanged}
+        >
         </builder_platform_interaction-entity-resource-picker>
     </div>
     <div if:true={isEventTypeValid}>
-        <h3 class="slds-p-top_small slds-text-heading_small">{labels.filterEventLabel}</h3>
+        <h3 class="slds-p-top_small slds-text-heading_small">
+            {labels.filterEventLabel}
+        </h3>
 
         <builder_platform_interaction-condition-list
-                class="slds-m-bottom_small"
-                parent-guid={waitEventGuid}
-                conditions={filters}
-                condition-logic-options={filterConditionLogicOptions}
-                condition-logic={filterConditionLogic}
-                logic-combobox-label={labels.waitFilterConditionsHeader}
-                container-element-type={elementTypeForExpressionBuilder}
-                onpropertychanged={handlePropertyChanged}
-                onaddcondition={handlePlatformInputFilterEvent}
-                ondeletecondition={handlePlatformInputFilterEvent}
-                onupdatecondition={handlePlatformInputFilterEvent}>
+            class="slds-m-bottom_small"
+            parent-guid={waitEventGuid}
+            conditions={filters}
+            condition-logic-options={filterConditionLogicOptions}
+            condition-logic={filterConditionLogic}
+            logic-combobox-label={labels.waitFilterConditionsHeader}
+            container-element-type={elementTypeForExpressionBuilder}
+            onpropertychanged={handlePropertyChanged}
+            onaddcondition={handlePlatformInputFilterEvent}
+            ondeletecondition={handlePlatformInputFilterEvent}
+            onupdatecondition={handlePlatformInputFilterEvent}
+        >
             <div slot="conditions">
-                <template for:each={filters} for:item="filter" for:index="filterIndex">
-                    <div class="slds-list__item slds-is-relative" key={filter.rowIndex}>
-                        <builder_platform_interaction-row show-prefix=false
-                                                          item-index={filterIndex} show-delete={showDelete}>
+                <template
+                    for:each={filters}
+                    for:item="filter"
+                    for:index="filterIndex"
+                >
+                    <div
+                        class="slds-list__item slds-is-relative"
+                        key={filter.rowIndex}
+                    >
+                        <builder_platform_interaction-row
+                            item-index={filterIndex}
+                            show-delete={showDelete}
+                        >
                             <div slot="rowBody">
                                 <builder_platform_interaction-field-to-ferov-expression-builder
-                                        container-element={elementTypeForExpressionBuilder}
-                                        rules={rulesForExpressionBuilder}
-                                        expression={filter.expression}
-                                        object-type={eventTypeValue}
-                                        lhs-fields={filterFields}
-                                        operator-icon-name={operatorIconName}
-                                        lhs-label={labels.platformEventFilterLhsLabel}
-                                        rhs-label={labels.platformEventFilterRhsLabel}
-                                        lhs-placeholder={labels.platformEventFilterLhsPlaceholder}>
+                                    container-element={elementTypeForExpressionBuilder}
+                                    rules={rulesForExpressionBuilder}
+                                    expression={filter.expression}
+                                    object-type={eventTypeValue}
+                                    lhs-fields={filterFields}
+                                    operator-icon-name={operatorIconName}
+                                    lhs-label={labels.platformEventFilterLhsLabel}
+                                    rhs-label={labels.platformEventFilterRhsLabel}
+                                    lhs-placeholder={labels.platformEventFilterLhsPlaceholder}
+                                >
                                 </builder_platform_interaction-field-to-ferov-expression-builder>
                             </div>
                         </builder_platform_interaction-row>
@@ -54,15 +68,18 @@
                 <h3 class="slds-text-heading_small slds-section__title">
                     <span>{labels.assignOutputsToVariablesLabel}</span>
                 </h3>
-                <lightning-helptext class="slds-m-left_xx-small" content={labels.platformEventOutputHelpText}></lightning-helptext>
+                <lightning-helptext
+                    class="slds-m-left_xx-small"
+                    content={labels.platformEventOutputHelpText}
+                ></lightning-helptext>
             </div>
             <div>
                 <ul>
                     <builder_platform_interaction-parameter-item
-                            item={outputParameterItem}
-                            element-type={elementType}
-                            is-input=false>
-                        </builder_platform_interaction-parameter-item>
+                        item={outputParameterItem}
+                        element-type={elementType}
+                    >
+                    </builder_platform_interaction-parameter-item>
                 </ul>
             </div>
         </div>

@@ -1,6 +1,8 @@
 <template>
     <div class="slds-form-element__group">
-        <div class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small">
+        <div
+            class="slds-grid slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+        >
             <lightning-combobox
                 class={comboboxClasses}
                 label={labels.dataTypeLabel}
@@ -12,9 +14,10 @@
                 field-level-help={helpText}
                 required={required}
                 dropdown-alignment="auto"
-                >
+            >
             </lightning-combobox>
-            <lightning-input if:true={allowCollection}
+            <lightning-input
+                if:true={allowCollection}
                 class="slds-form-element slds-col slds-grow slds-size_1-of-2 slds-p-top_large collection"
                 label={labels.collectionLabel}
                 type="checkbox"
@@ -22,16 +25,21 @@
                 disabled={typeAndCollectionDisabled}
                 onchange={handleCollectionChange}
                 field-level-help={collectionHelpText}
-                >
+            >
             </lightning-input>
         </div>
-        <lightning-input if:true={showScale}
+        <lightning-input
+            if:true={showScale}
             class="slds-form-element scale"
-            type="number" min={scaleRange.min} max={scaleRange.max} label={labels.scaleLabel}
+            type="number"
+            min={scaleRange.min}
+            max={scaleRange.max}
+            label={labels.scaleLabel}
             onblur={handleScaleBlur}
             onchange={handleScaleChanged}
             disabled={scaleDisabled}
-            value={state.scale}>
-         </lightning-input>
+            value={state.scale}
+        >
+        </lightning-input>
     </div>
 </template>

@@ -4,7 +4,9 @@ import { LABELS } from '../../validationRules/validationRulesLabels';
 
 const CANNOT_BE_BLANK_ERROR = LABELS.cannotBeBlank;
 
-jest.mock('builder_platform_interaction/storeLib', () => require('builder_platform_interaction_mocks/storeLib'));
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 jest.mock('builder_platform_interaction/elementFactory', () => {
     return {
@@ -19,18 +21,32 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 describe('Additional Wait Validations', () => {
     describe('when props set to conditionLogic', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(waitValidation.validateProperty('conditionLogic', "valid condition")).toBeNull();
+            expect(
+                waitValidation.validateProperty(
+                    'conditionLogic',
+                    'valid condition'
+                )
+            ).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(waitValidation.validateProperty('conditionLogic', '')).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(waitValidation.validateProperty('conditionLogic', '')).toBe(
+                CANNOT_BE_BLANK_ERROR
+            );
         });
     });
     describe('when props set to defaultConnectorLabel', () => {
         it('and when valid string is passed should return - null', () => {
-            expect(waitValidation.validateProperty('defaultConnectorLabel', "valid default outcome name")).toBeNull();
+            expect(
+                waitValidation.validateProperty(
+                    'defaultConnectorLabel',
+                    'valid default outcome name'
+                )
+            ).toBeNull();
         });
         it('and when empty string is passed should return - Cannot be blank.', () => {
-            expect(waitValidation.validateProperty('defaultConnectorLabel', '')).toBe(CANNOT_BE_BLANK_ERROR);
+            expect(
+                waitValidation.validateProperty('defaultConnectorLabel', '')
+            ).toBe(CANNOT_BE_BLANK_ERROR);
         });
     });
 });
@@ -50,45 +66,57 @@ describe('All validation happens when OK is clicked', () => {
                         guid: 'SOME_WAIT_EVENT_1',
                         label: {
                             value: 'waitEvent1',
-                            error: null,
+                            error: null
                         },
                         name: {
                             value: 'waitEvent1',
-                            error: null,
-                        },
-                        conditionLogic: {
-                            value : CONDITION_LOGIC.AND,
                             error: null
                         },
-                        conditions: [{
-                            leftHandSide: {value: 'TEST_VAR', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }],
+                        conditionLogic: {
+                            value: CONDITION_LOGIC.AND,
+                            error: null
+                        },
+                        conditions: [
+                            {
+                                leftHandSide: {
+                                    value: 'TEST_VAR',
+                                    error: null
+                                },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
                     },
                     {
                         guid: 'SOME_WAIT_EVENT_2',
                         label: {
                             value: 'waitEvent2',
-                            error: null,
+                            error: null
                         },
                         name: {
                             value: 'waitEvent2',
-                            error: null,
-                        },
-                        conditionLogic: {
-                            value : CONDITION_LOGIC.AND,
                             error: null
                         },
-                        conditions: [{
-                            leftHandSide: {value: 'TEST_VAR', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }],
-                    },
+                        conditionLogic: {
+                            value: CONDITION_LOGIC.AND,
+                            error: null
+                        },
+                        conditions: [
+                            {
+                                leftHandSide: {
+                                    value: 'TEST_VAR',
+                                    error: null
+                                },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
+                    }
                 ]
             };
-            expect(waitValidation.validateAll(waitWithCorrectCondition)).toEqual(waitWithCorrectCondition);
+            expect(
+                waitValidation.validateAll(waitWithCorrectCondition)
+            ).toEqual(waitWithCorrectCondition);
         });
         it('and when empty string is passed on leftHandSide, should return - Cannot be blank.', () => {
             const waitWithEmptyLHSInCondition = {
@@ -97,48 +125,57 @@ describe('All validation happens when OK is clicked', () => {
                         guid: 'SOME_WAIT_EVENT_1',
                         label: {
                             value: 'waitEvent1',
-                            error: null,
+                            error: null
                         },
                         name: {
                             value: 'waitEvent1',
-                            error: null,
-                        },
-                        conditionLogic: {
-                            value : CONDITION_LOGIC.AND,
                             error: null
                         },
-                        conditions: [{
-                            leftHandSide: {value: 'TEST_VAR', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }],
+                        conditionLogic: {
+                            value: CONDITION_LOGIC.AND,
+                            error: null
+                        },
+                        conditions: [
+                            {
+                                leftHandSide: {
+                                    value: 'TEST_VAR',
+                                    error: null
+                                },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
                     },
                     {
                         guid: 'SOME_WAIT_EVENT_2',
                         label: {
                             value: 'waitEvent2',
-                            error: null,
+                            error: null
                         },
                         name: {
                             value: 'waitEvent2',
-                            error: null,
-                        },
-                        conditionLogic: {
-                            value : CONDITION_LOGIC.AND,
                             error: null
                         },
-                        conditions: [{
-                            leftHandSide: {value: '', error: null},
-                            operator: {value: 'EqualTo', error: null},
-                            rightHandSide: {value: '1', error: null}
-                        }],
-                    },
+                        conditionLogic: {
+                            value: CONDITION_LOGIC.AND,
+                            error: null
+                        },
+                        conditions: [
+                            {
+                                leftHandSide: { value: '', error: null },
+                                operator: { value: 'EqualTo', error: null },
+                                rightHandSide: { value: '1', error: null }
+                            }
+                        ]
+                    }
                 ]
             };
             // The node returned after validation has only one change - the correct error added to the invalid property
-            const expectedNode = {...waitWithEmptyLHSInCondition};
+            const expectedNode = { ...waitWithEmptyLHSInCondition };
             expectedNode.waitEvents[1].conditions[0].leftHandSide.error = CANNOT_BE_BLANK_ERROR;
-            const validatedNode = waitValidation.validateAll(waitWithEmptyLHSInCondition);
+            const validatedNode = waitValidation.validateAll(
+                waitWithEmptyLHSInCondition
+            );
             expect(validatedNode).toEqual(expectedNode);
         });
     });
@@ -152,25 +189,30 @@ describe('All validation happens when OK is clicked', () => {
                 value: 'wait1',
                 error: null
             },
-            waitEvents: [{
-                guid: 'SOME_WAIT_EVENT_1',
-                eventType: '',
-                label: {
-                    value: '',
-                    error: null,
-                },
-                name: {
-                    value: '',
-                    error: null,
-                },
-                conditionLogic: {
-                    value: '',
-                    error: null
+            waitEvents: [
+                {
+                    guid: 'SOME_WAIT_EVENT_1',
+                    eventType: '',
+                    label: {
+                        value: '',
+                        error: null
+                    },
+                    name: {
+                        value: '',
+                        error: null
+                    },
+                    conditionLogic: {
+                        value: '',
+                        error: null
+                    }
                 }
-            }]
+            ]
         };
 
-        const validatedWait = waitValidation.validateAll(waitWithEmptyProperties, waitValidation.getBaseWaitRules());
+        const validatedWait = waitValidation.validateAll(
+            waitWithEmptyProperties,
+            waitValidation.getBaseWaitRules()
+        );
         const waitEvent = validatedWait.waitEvents[0];
 
         expect(waitEvent.label.error).toBe(CANNOT_BE_BLANK_ERROR);

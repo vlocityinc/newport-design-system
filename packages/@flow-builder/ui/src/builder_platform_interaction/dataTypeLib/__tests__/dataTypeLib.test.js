@@ -8,24 +8,44 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('../dataTypeLib.js', () => {
-    const dataTypeLib = Object.assign({}, jest.requireActual('../dataTypeLib.js'));
+    const dataTypeLib = Object.assign(
+        {},
+        jest.requireActual('../dataTypeLib.js')
+    );
     dataTypeLib.FLOW_DATA_TYPE.MULTI_PICKLIST.label = undefined;
     return dataTypeLib;
 });
 
 const dataTypes = [
-    "id", "reference", "address", "anytype", "base64", "combobox", "complexvalue", "datacategorygroupreference", "email", "encryptedstring", "location", "phone", "string", "textarea", "url",
-    "picklist",
-    "multipicklist",
-    "datetime", "time",
-    "date",
-    "double", "int", "percent",
-    "boolean",
-    "currency",
-    "sobject",
-    "apex",
-    "lightningComponentOutput"];
-
+    'id',
+    'reference',
+    'address',
+    'anytype',
+    'base64',
+    'combobox',
+    'complexvalue',
+    'datacategorygroupreference',
+    'email',
+    'encryptedstring',
+    'location',
+    'phone',
+    'string',
+    'textarea',
+    'url',
+    'picklist',
+    'multipicklist',
+    'datetime',
+    'time',
+    'date',
+    'double',
+    'int',
+    'percent',
+    'boolean',
+    'currency',
+    'sobject',
+    'apex',
+    'lightningComponentOutput'
+];
 
 describe('dataTypeLib', () => {
     describe('getDataTypeLabel', () => {
@@ -61,12 +81,18 @@ describe('dataTypeLib', () => {
         describe('When resources are available', () => {
             it('return sorted resource type list based on custom ordering when receive child resource list', () => {
                 const unsortedResourceTypes = [
-                    {name: ELEMENT_TYPE.PICKLIST_CHOICE_SET}, {name: ELEMENT_TYPE.VARIABLE},
-                    {name: ELEMENT_TYPE.CONSTANT}, {name: ELEMENT_TYPE.STAGE}, {name: ELEMENT_TYPE.TEXT_TEMPLATE}
+                    { name: ELEMENT_TYPE.PICKLIST_CHOICE_SET },
+                    { name: ELEMENT_TYPE.VARIABLE },
+                    { name: ELEMENT_TYPE.CONSTANT },
+                    { name: ELEMENT_TYPE.STAGE },
+                    { name: ELEMENT_TYPE.TEXT_TEMPLATE }
                 ];
                 const sortedResourceTypes = [
-                    {name: ELEMENT_TYPE.VARIABLE}, {name: ELEMENT_TYPE.CONSTANT}, {name: ELEMENT_TYPE.TEXT_TEMPLATE},
-                    {name: ELEMENT_TYPE.PICKLIST_CHOICE_SET}, {name: ELEMENT_TYPE.STAGE}
+                    { name: ELEMENT_TYPE.VARIABLE },
+                    { name: ELEMENT_TYPE.CONSTANT },
+                    { name: ELEMENT_TYPE.TEXT_TEMPLATE },
+                    { name: ELEMENT_TYPE.PICKLIST_CHOICE_SET },
+                    { name: ELEMENT_TYPE.STAGE }
                 ];
                 setResourceTypes(unsortedResourceTypes);
                 expect(getResourceTypes()).toEqual(sortedResourceTypes);
@@ -74,12 +100,24 @@ describe('dataTypeLib', () => {
 
             it('return sorted resource type list based on custom ordering when receive full resource list', () => {
                 const unsortedResourceTypes = [
-                    {name: ELEMENT_TYPE.PICKLIST_CHOICE_SET}, {name: ELEMENT_TYPE.VARIABLE}, {name: ELEMENT_TYPE.CHOICE}, {name: ELEMENT_TYPE.RECORD_CHOICE_SET},
-                    {name: ELEMENT_TYPE.CONSTANT}, {name: ELEMENT_TYPE.STAGE}, {name: ELEMENT_TYPE.FORMULA}, {name: ELEMENT_TYPE.TEXT_TEMPLATE}
+                    { name: ELEMENT_TYPE.PICKLIST_CHOICE_SET },
+                    { name: ELEMENT_TYPE.VARIABLE },
+                    { name: ELEMENT_TYPE.CHOICE },
+                    { name: ELEMENT_TYPE.RECORD_CHOICE_SET },
+                    { name: ELEMENT_TYPE.CONSTANT },
+                    { name: ELEMENT_TYPE.STAGE },
+                    { name: ELEMENT_TYPE.FORMULA },
+                    { name: ELEMENT_TYPE.TEXT_TEMPLATE }
                 ];
                 const sortedResourceTypes = [
-                    {name: ELEMENT_TYPE.VARIABLE}, {name: ELEMENT_TYPE.CONSTANT}, {name: ELEMENT_TYPE.FORMULA}, {name: ELEMENT_TYPE.TEXT_TEMPLATE},
-                    {name: ELEMENT_TYPE.CHOICE}, {name: ELEMENT_TYPE.RECORD_CHOICE_SET}, {name: ELEMENT_TYPE.PICKLIST_CHOICE_SET}, {name: ELEMENT_TYPE.STAGE}
+                    { name: ELEMENT_TYPE.VARIABLE },
+                    { name: ELEMENT_TYPE.CONSTANT },
+                    { name: ELEMENT_TYPE.FORMULA },
+                    { name: ELEMENT_TYPE.TEXT_TEMPLATE },
+                    { name: ELEMENT_TYPE.CHOICE },
+                    { name: ELEMENT_TYPE.RECORD_CHOICE_SET },
+                    { name: ELEMENT_TYPE.PICKLIST_CHOICE_SET },
+                    { name: ELEMENT_TYPE.STAGE }
                 ];
                 setResourceTypes(unsortedResourceTypes);
                 expect(getResourceTypes()).toEqual(sortedResourceTypes);
@@ -89,11 +127,13 @@ describe('dataTypeLib', () => {
     describe('getDataTypeIcons', () => {
         it('returns a standard icon for each data type', () => {
             dataTypes.forEach(dataType =>
-                expect(getDataTypeIcons(dataType, 'standard')).toBeDefined());
+                expect(getDataTypeIcons(dataType, 'standard')).toBeDefined()
+            );
         });
         it('returns a utility icon for each data type', () => {
             dataTypes.forEach(dataType =>
-                expect(getDataTypeIcons(dataType, 'utility')).toBeDefined());
+                expect(getDataTypeIcons(dataType, 'utility')).toBeDefined()
+            );
         });
     });
 });

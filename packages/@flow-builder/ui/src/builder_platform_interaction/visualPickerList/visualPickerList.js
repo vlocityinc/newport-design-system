@@ -69,7 +69,11 @@ export default class VisualPickerList extends LightningElement {
         let i = 0;
         // looping through the array until we have reached the final index
         while (i < this.items.length) {
-            const chunkedItems = {rowIndex: generateGuid(), items: this.items.slice(i, i += this.numberOfColumns)} || {};
+            const chunkedItems =
+                {
+                    rowIndex: generateGuid(),
+                    items: this.items.slice(i, (i += this.numberOfColumns))
+                } || {};
             results.push(chunkedItems);
         }
         return results;
@@ -81,13 +85,21 @@ export default class VisualPickerList extends LightningElement {
         if (event.detail.isSelected) {
             // unselect the prev selected item if allowMultipleSelection is false
             if (!this.allowMultipleSelection) {
-                const prevSelectedItem = this.items.find(item => item.isSelected);
+                const prevSelectedItem = this.items.find(
+                    item => item.isSelected
+                );
                 if (prevSelectedItem) {
-                    changedItems.push({id: prevSelectedItem.itemId, isSelected: false});
+                    changedItems.push({
+                        id: prevSelectedItem.itemId,
+                        isSelected: false
+                    });
                 }
             }
         }
-        changedItems.push({id: event.detail.id, isSelected: event.detail.isSelected});
+        changedItems.push({
+            id: event.detail.id,
+            isSelected: event.detail.isSelected
+        });
         this.dispatchEvent(new VisualPickerListChangedEvent(changedItems));
     }
 }

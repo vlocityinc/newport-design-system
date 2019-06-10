@@ -1,27 +1,65 @@
 import { createElement } from 'lwc';
 import ParameterItem from 'builder_platform_interaction/parameterItem';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FEROV_DATA_TYPE, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { UpdateParameterItemEvent, DeleteParameterItemEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
+import {
+    FEROV_DATA_TYPE,
+    FLOW_DATA_TYPE
+} from 'builder_platform_interaction/dataTypeLib';
+import {
+    UpdateParameterItemEvent,
+    DeleteParameterItemEvent,
+    ComboboxStateChangedEvent
+} from 'builder_platform_interaction/events';
 import { stringVariableDevName, stringVariableGuid } from 'mock/storeData';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
-jest.mock('builder_platform_interaction/outputResourcePicker', () => require('builder_platform_interaction_mocks/outputResourcePicker'));
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/outputResourcePicker', () =>
+    require('builder_platform_interaction_mocks/outputResourcePicker')
+);
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 
 const parameterLabel = 'Parameter Label';
 const parameterName = 'parameterName';
 const parameterStringValue = 'Simple String Value';
 
-function createComponentForTest({ item = createMockParameterItem(true, 'string'), elementType = ELEMENT_TYPE.ACTION_CALL, itemIndex = 0, showDelete = false, warningMessage, warningBadge, grayPill = false, isInput = true } = {}) {
-    const el = createElement('builder_platform_interaction-parameter-item', { is: ParameterItem });
-    Object.assign(el, {item, elementType, itemIndex, showDelete, warningMessage, warningBadge, grayPill, isInput});
+function createComponentForTest({
+    item = createMockParameterItem(true, 'string'),
+    elementType = ELEMENT_TYPE.ACTION_CALL,
+    itemIndex = 0,
+    showDelete = false,
+    warningMessage,
+    warningBadge,
+    grayPill = false,
+    isInput = true
+} = {}) {
+    const el = createElement('builder_platform_interaction-parameter-item', {
+        is: ParameterItem
+    });
+    Object.assign(el, {
+        item,
+        elementType,
+        itemIndex,
+        showDelete,
+        warningMessage,
+        warningBadge,
+        grayPill,
+        isInput
+    });
     document.body.appendChild(el);
     return el;
 }
 
-function createMockParameterItem(isRequired, dataType, value, valueDataType, objectType, maxOccurs) {
+function createMockParameterItem(
+    isRequired,
+    dataType,
+    value,
+    valueDataType,
+    objectType,
+    maxOccurs
+) {
     const item = {
         isRequired,
         dataType,
@@ -30,10 +68,10 @@ function createMockParameterItem(isRequired, dataType, value, valueDataType, obj
         name: parameterName,
         description: 'Parameter Description',
         maxOccurs,
-        rowIndex : generateGuid()
+        rowIndex: generateGuid()
     };
     if (!isUndefinedOrNull(value)) {
-        item.value = {value, error: null};
+        item.value = { value, error: null };
     }
     if (!isUndefinedOrNull(valueDataType)) {
         item.valueDataType = valueDataType;
@@ -43,13 +81,13 @@ function createMockParameterItem(isRequired, dataType, value, valueDataType, obj
 
 class ToggleOnChangeEvent extends CustomEvent {
     constructor() {
-        super('change', { detail: { checked: true, }});
+        super('change', { detail: { checked: true } });
     }
 }
 
 class ToggleOffChangeEvent extends CustomEvent {
     constructor() {
-        super('change', { detail: { checked: false, }});
+        super('change', { detail: { checked: false } });
     }
 }
 
@@ -62,24 +100,31 @@ class DeleteButtonClickEvent extends CustomEvent {
 const selectors = {
     ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker',
     outputResourcePicker: 'builder_platform_interaction-output-resource-picker',
-    hiddenFerovResourcePickerElement: 'builder_platform_interaction-ferov-resource-picker.slds-hide',
+    hiddenFerovResourcePickerElement:
+        'builder_platform_interaction-ferov-resource-picker.slds-hide',
     toggle: 'lightning-input',
     baseResourcePicker: 'builder_platform_interaction-base-resource-picker',
     warningIcon: 'builder_platform_interaction-status-icon',
     warningBadge: 'lightning-badge',
-    deleteButton: 'lightning-button-icon',
+    deleteButton: 'lightning-button-icon'
 };
 
 function getFerovResourcePickerElement(parameterItem) {
-    return parameterItem.shadowRoot.querySelector(selectors.ferovResourcePicker);
+    return parameterItem.shadowRoot.querySelector(
+        selectors.ferovResourcePicker
+    );
 }
 
 function getHiddenFerovResourcePickerElement(parameterItem) {
-    return parameterItem.shadowRoot.querySelector(selectors.hiddenFerovResourcePickerElement);
+    return parameterItem.shadowRoot.querySelector(
+        selectors.hiddenFerovResourcePickerElement
+    );
 }
 
 function getOutputResourcePickerElement(parameterItem) {
-    return parameterItem.shadowRoot.querySelector(selectors.outputResourcePicker);
+    return parameterItem.shadowRoot.querySelector(
+        selectors.outputResourcePicker
+    );
 }
 
 function getLightningInputToggle(parameterItem) {
@@ -106,7 +151,9 @@ describe('parameter-item', () => {
         beforeEach(() => {
             parameterItemCmp = createComponentForTest();
             parameterItemCmp.rules = mockRules;
-            ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+            ferovResourcePicker = getFerovResourcePickerElement(
+                parameterItemCmp
+            );
         });
 
         it('gets the rules used by the ferovResourcePicker through an api property', () => {
@@ -123,7 +170,9 @@ describe('parameter-item', () => {
             let ferovResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest();
-                ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+                ferovResourcePicker = getFerovResourcePickerElement(
+                    parameterItemCmp
+                );
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
@@ -136,7 +185,9 @@ describe('parameter-item', () => {
                 expect(ferovResourcePicker.comboboxConfig.required).toBe(true);
             });
             it('combobox label should be shown', () => {
-                expect(ferovResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
+                expect(ferovResourcePicker.comboboxConfig.label).toEqual(
+                    parameterLabel
+                );
             });
             it('input toggle should not be shown', () => {
                 expect(toggleInput).toBeNull();
@@ -146,10 +197,17 @@ describe('parameter-item', () => {
             let ferovResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
-                    item: createMockParameterItem(true, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                    isInput : true
+                    item: createMockParameterItem(
+                        true,
+                        FLOW_DATA_TYPE.STRING.value,
+                        parameterStringValue,
+                        FEROV_DATA_TYPE.STRING
+                    ),
+                    isInput: true
                 });
-                ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+                ferovResourcePicker = getFerovResourcePickerElement(
+                    parameterItemCmp
+                );
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
@@ -162,7 +220,9 @@ describe('parameter-item', () => {
                 expect(ferovResourcePicker.comboboxConfig.required).toBe(true);
             });
             it('combobox label should be shown', () => {
-                expect(ferovResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
+                expect(ferovResourcePicker.comboboxConfig.label).toEqual(
+                    parameterLabel
+                );
             });
             it('input toggle should not be shown', () => {
                 expect(toggleInput).toBeNull();
@@ -174,10 +234,15 @@ describe('parameter-item', () => {
             let hiddenFerovResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
-                    item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value),
-                    isInput : true
+                    item: createMockParameterItem(
+                        false,
+                        FLOW_DATA_TYPE.STRING.value
+                    ),
+                    isInput: true
                 });
-                hiddenFerovResourcePicker = getHiddenFerovResourcePickerElement(parameterItemCmp);
+                hiddenFerovResourcePicker = getHiddenFerovResourcePickerElement(
+                    parameterItemCmp
+                );
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be hidden', () => {
@@ -194,10 +259,17 @@ describe('parameter-item', () => {
             let ferovResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
-                    item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                    isInput : true
+                    item: createMockParameterItem(
+                        false,
+                        FLOW_DATA_TYPE.STRING.value,
+                        parameterStringValue,
+                        FEROV_DATA_TYPE.STRING
+                    ),
+                    isInput: true
                 });
-                ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+                ferovResourcePicker = getFerovResourcePickerElement(
+                    parameterItemCmp
+                );
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
@@ -222,10 +294,15 @@ describe('parameter-item', () => {
             let outputResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
-                    item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value),
-                    isInput : false
+                    item: createMockParameterItem(
+                        false,
+                        FLOW_DATA_TYPE.STRING.value
+                    ),
+                    isInput: false
                 });
-                outputResourcePicker = getOutputResourcePickerElement(parameterItemCmp);
+                outputResourcePicker = getOutputResourcePickerElement(
+                    parameterItemCmp
+                );
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
@@ -235,10 +312,14 @@ describe('parameter-item', () => {
                 expect(outputResourcePicker.value).toBeNull();
             });
             it('combobox should not be required', () => {
-                expect(outputResourcePicker.comboboxConfig.required).toBe(false);
+                expect(outputResourcePicker.comboboxConfig.required).toBe(
+                    false
+                );
             });
             it('combobox label should be shown', () => {
-                expect(outputResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
+                expect(outputResourcePicker.comboboxConfig.label).toEqual(
+                    parameterLabel
+                );
             });
             it('input toggle should not be shown', () => {
                 expect(toggleInput).toBeNull();
@@ -248,23 +329,36 @@ describe('parameter-item', () => {
             let outputResourcePicker, toggleInput;
             beforeAll(() => {
                 const parameterItemCmp = createComponentForTest({
-                    item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, stringVariableGuid + '.' + stringVariableDevName, FEROV_DATA_TYPE.REFERENCE),
-                    isInput : false
+                    item: createMockParameterItem(
+                        false,
+                        FLOW_DATA_TYPE.STRING.value,
+                        stringVariableGuid + '.' + stringVariableDevName,
+                        FEROV_DATA_TYPE.REFERENCE
+                    ),
+                    isInput: false
                 });
-                outputResourcePicker = getOutputResourcePickerElement(parameterItemCmp);
+                outputResourcePicker = getOutputResourcePickerElement(
+                    parameterItemCmp
+                );
                 toggleInput = getLightningInputToggle(parameterItemCmp);
             });
             it('combobox should be shown', () => {
                 expect(outputResourcePicker).not.toBeNull();
             });
             it('combobox value should be equal to stringVariableGuid.stringVariableDevName', () => {
-                expect(outputResourcePicker.value).toEqual(stringVariableGuid + '.' + stringVariableDevName);
+                expect(outputResourcePicker.value).toEqual(
+                    stringVariableGuid + '.' + stringVariableDevName
+                );
             });
             it('combobox should not be required', () => {
-                expect(outputResourcePicker.comboboxConfig.required).toBe(false);
+                expect(outputResourcePicker.comboboxConfig.required).toBe(
+                    false
+                );
             });
             it('combobox label should be shown', () => {
-                expect(outputResourcePicker.comboboxConfig.label).toEqual(parameterLabel);
+                expect(outputResourcePicker.comboboxConfig.label).toEqual(
+                    parameterLabel
+                );
             });
             it('input toggle should not be shown', () => {
                 expect(toggleInput).toBeNull();
@@ -274,108 +368,207 @@ describe('parameter-item', () => {
     describe('handling onchange from input toggle', () => {
         it('should show the combobox for optional input parameter when toggle from OFF to ON ', () => {
             const parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value),
-                isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value
+                ),
+                isInput: true
             });
             const toggleInput = getLightningInputToggle(parameterItemCmp);
             toggleInput.dispatchEvent(new ToggleOnChangeEvent());
             return Promise.resolve().then(() => {
-                expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).toBeNull();
-                expect(getFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
+                expect(
+                    getHiddenFerovResourcePickerElement(parameterItemCmp)
+                ).toBeNull();
+                expect(
+                    getFerovResourcePickerElement(parameterItemCmp)
+                ).not.toBeNull();
             });
         });
         it('should hide the combobox for optional input parameter when toggle from ON to OFF ', () => {
             const parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true
             });
-            return Promise.resolve().then(() => {
-                const toggleInput = getLightningInputToggle(parameterItemCmp);
-                toggleInput.dispatchEvent(new ToggleOffChangeEvent());
-            }).then(() => {
-                expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
-            });
+            return Promise.resolve()
+                .then(() => {
+                    const toggleInput = getLightningInputToggle(
+                        parameterItemCmp
+                    );
+                    toggleInput.dispatchEvent(new ToggleOffChangeEvent());
+                })
+                .then(() => {
+                    expect(
+                        getHiddenFerovResourcePickerElement(parameterItemCmp)
+                    ).not.toBeNull();
+                });
         });
         it('should hide the comboBox when toggle OFF ', () => {
             const parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true
             });
             const toggleInput = getLightningInputToggle(parameterItemCmp);
             // from ON to OFF
             toggleInput.dispatchEvent(new ToggleOffChangeEvent());
             return Promise.resolve().then(() => {
-                expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
+                expect(
+                    getHiddenFerovResourcePickerElement(parameterItemCmp)
+                ).not.toBeNull();
             });
         });
         it('should preserve the value for optional input parameter when toggle OFF', () => {
             const parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true
             });
             const toggleInput = getLightningInputToggle(parameterItemCmp);
             // from ON to OFF
             toggleInput.dispatchEvent(new ToggleOffChangeEvent());
             // from OFF to ON
-            return Promise.resolve().then(() => {
-                toggleInput.dispatchEvent(new ToggleOnChangeEvent());
-            }).then(() => {
-                const combobox = getFerovResourcePickerElement(parameterItemCmp);
-                expect(combobox).not.toBeNull();
-                expect(combobox.value).toEqual(parameterStringValue);
-            });
+            return Promise.resolve()
+                .then(() => {
+                    toggleInput.dispatchEvent(new ToggleOnChangeEvent());
+                })
+                .then(() => {
+                    const combobox = getFerovResourcePickerElement(
+                        parameterItemCmp
+                    );
+                    expect(combobox).not.toBeNull();
+                    expect(combobox.value).toEqual(parameterStringValue);
+                });
         });
         it('should fire UpdateParameterItemEvent', () => {
             const parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true
             });
             const eventCallback = jest.fn();
-            parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            parameterItemCmp.addEventListener(
+                UpdateParameterItemEvent.EVENT_NAME,
+                eventCallback
+            );
             const toggleInput = getLightningInputToggle(parameterItemCmp);
             // from ON to OFF
             toggleInput.dispatchEvent(new ToggleOffChangeEvent());
-            return Promise.resolve().then(() => {
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: null, valueDataType: null, error: null, rowIndex : expect.any(String) }});
-            }).then(() => {
-                // from OFF to ON
-                toggleInput.dispatchEvent(new ToggleOnChangeEvent());
-                expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[1][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: parameterStringValue, valueDataType: FEROV_DATA_TYPE.STRING, error: null, rowIndex : expect.any(String)}});
-            });
+            return Promise.resolve()
+                .then(() => {
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                        detail: {
+                            isInput: true,
+                            name: parameterName,
+                            value: null,
+                            valueDataType: null,
+                            error: null,
+                            rowIndex: expect.any(String)
+                        }
+                    });
+                })
+                .then(() => {
+                    // from OFF to ON
+                    toggleInput.dispatchEvent(new ToggleOnChangeEvent());
+                    expect(eventCallback).toHaveBeenCalled();
+                    expect(eventCallback.mock.calls[1][0]).toMatchObject({
+                        detail: {
+                            isInput: true,
+                            name: parameterName,
+                            value: parameterStringValue,
+                            valueDataType: FEROV_DATA_TYPE.STRING,
+                            error: null,
+                            rowIndex: expect.any(String)
+                        }
+                    });
+                });
         });
     });
     describe('handling value change event from combobox', () => {
         it('should fire UpdateParameterItemEvent', () => {
             const parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true
             });
             const eventCallback = jest.fn();
-            parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            parameterItemCmp.addEventListener(
+                UpdateParameterItemEvent.EVENT_NAME,
+                eventCallback
+            );
             const newParamValue = 'new value';
-            const cbChangeEvent = new ComboboxStateChangedEvent(null, newParamValue);
-            const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+            const cbChangeEvent = new ComboboxStateChangedEvent(
+                null,
+                newParamValue
+            );
+            const ferovResourcePicker = getFerovResourcePickerElement(
+                parameterItemCmp
+            );
             ferovResourcePicker.dispatchEvent(cbChangeEvent);
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, value: newParamValue, valueDataType: FEROV_DATA_TYPE.STRING, rowIndex : expect.any(String)}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        isInput: true,
+                        name: parameterName,
+                        value: newParamValue,
+                        valueDataType: FEROV_DATA_TYPE.STRING,
+                        rowIndex: expect.any(String)
+                    }
+                });
             });
         });
         it('should not fire UpdateParameterItemEvent if parameter is an optional input collection and it has no value', () => {
             const parameterItemCmp = createComponentForTest({
-               item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, null, null, null, 5),
-               isInput : true
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    null,
+                    null,
+                    null,
+                    5
+                ),
+                isInput: true
             });
             const eventCallback = jest.fn();
-            parameterItemCmp.addEventListener(UpdateParameterItemEvent.EVENT_NAME, eventCallback);
+            parameterItemCmp.addEventListener(
+                UpdateParameterItemEvent.EVENT_NAME,
+                eventCallback
+            );
             const newParamValue = '';
-            const cbChangeEvent = new ComboboxStateChangedEvent(null, newParamValue);
-            const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+            const cbChangeEvent = new ComboboxStateChangedEvent(
+                null,
+                newParamValue
+            );
+            const ferovResourcePicker = getFerovResourcePickerElement(
+                parameterItemCmp
+            );
             ferovResourcePicker.dispatchEvent(cbChangeEvent);
             return Promise.resolve().then(() => {
-                    expect(eventCallback).not.toHaveBeenCalled();
+                expect(eventCallback).not.toHaveBeenCalled();
             });
         });
     });
@@ -383,20 +576,42 @@ describe('parameter-item', () => {
         let parameterItemCmp;
         it('should show only icon if only warningMessage is set', () => {
             parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true,
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true,
                 warningMessage: 'Warning message'
             });
             const statusIcon = getWarningIcon(parameterItemCmp);
             expect(statusIcon).not.toBeNull();
             expect(statusIcon.type).toBe('warning');
-            expect(statusIcon.messages).toEqual([{guid : expect.any(String), "messages": [{"guid": expect.any(String), "message": "Warning message"}], "sectionInfo": "FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo", "title": "FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle" }]);
+            expect(statusIcon.messages).toEqual([
+                {
+                    guid: expect.any(String),
+                    messages: [
+                        { guid: expect.any(String), message: 'Warning message' }
+                    ],
+                    sectionInfo:
+                        'FlowBuilderCommonPropertyEditor.validationWarningsSectionInfo',
+                    title:
+                        'FlowBuilderCommonPropertyEditor.validationWarningsSectionTitle'
+                }
+            ]);
             expect(getWarningBadge(parameterItemCmp)).toBeNull();
         });
         it('should show badge and icon if both warningBadge and warningMessage are set', () => {
             parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true,
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true,
                 warningMessage: 'Warning',
                 warningBadge: 'Debug Only'
             });
@@ -408,8 +623,13 @@ describe('parameter-item', () => {
         });
         it('should gray the badge', () => {
             parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true,
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true,
                 warningMessage: 'Warning',
                 warningBadge: 'Debug Only',
                 grayPill: true
@@ -419,8 +639,14 @@ describe('parameter-item', () => {
         });
         it('should close popover when clicked out', () => {
             parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true,
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true,
                 warningMessage: 'Warning message'
             });
             const statusIcon = getWarningIcon(parameterItemCmp);
@@ -432,8 +658,13 @@ describe('parameter-item', () => {
         let parameterItemCmp, deleteBtn;
         beforeAll(() => {
             parameterItemCmp = createComponentForTest({
-                item: createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING),
-                isInput : true,
+                item: createMockParameterItem(
+                    false,
+                    FLOW_DATA_TYPE.STRING.value,
+                    parameterStringValue,
+                    FEROV_DATA_TYPE.STRING
+                ),
+                isInput: true,
                 showDelete: true
             });
             deleteBtn = getDeleteButton(parameterItemCmp);
@@ -447,56 +678,98 @@ describe('parameter-item', () => {
         });
         it('should fire DeleteParameterItemEvent when delete button is clicked', () => {
             const eventCallback = jest.fn();
-            parameterItemCmp.addEventListener(DeleteParameterItemEvent.EVENT_NAME, eventCallback);
+            parameterItemCmp.addEventListener(
+                DeleteParameterItemEvent.EVENT_NAME,
+                eventCallback
+            );
             deleteBtn.dispatchEvent(new DeleteButtonClickEvent());
             return Promise.resolve().then(() => {
                 expect(eventCallback).toHaveBeenCalled();
-                expect(eventCallback.mock.calls[0][0]).toMatchObject({detail: {isInput: true, name: parameterName, rowIndex : expect.any(String)}});
+                expect(eventCallback.mock.calls[0][0]).toMatchObject({
+                    detail: {
+                        isInput: true,
+                        name: parameterName,
+                        rowIndex: expect.any(String)
+                    }
+                });
             });
         });
     });
     describe('when error is not null', () => {
         it('should show error message for input', () => {
-            const item = createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, parameterStringValue, FEROV_DATA_TYPE.STRING);
+            const item = createMockParameterItem(
+                false,
+                FLOW_DATA_TYPE.STRING.value,
+                parameterStringValue,
+                FEROV_DATA_TYPE.STRING
+            );
             item.value.error = 'Error message';
             const parameterItemCmp = createComponentForTest({
                 item,
-                isInput : true
+                isInput: true
             });
-            const ferovResourcePicker = getFerovResourcePickerElement(parameterItemCmp);
+            const ferovResourcePicker = getFerovResourcePickerElement(
+                parameterItemCmp
+            );
             expect(ferovResourcePicker.errorMessage).toEqual('Error message');
         });
         it('should show error message for output', () => {
-            const item = createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, stringVariableGuid + '.' + stringVariableDevName, FEROV_DATA_TYPE.REFERENCE);
+            const item = createMockParameterItem(
+                false,
+                FLOW_DATA_TYPE.STRING.value,
+                stringVariableGuid + '.' + stringVariableDevName,
+                FEROV_DATA_TYPE.REFERENCE
+            );
             item.value.error = 'Error message';
             const parameterItemCmp = createComponentForTest({
                 item,
-                isInput : false
+                isInput: false
             });
-            const ferovResourcePicker = getOutputResourcePickerElement(parameterItemCmp);
+            const ferovResourcePicker = getOutputResourcePickerElement(
+                parameterItemCmp
+            );
             expect(ferovResourcePicker.errorMessage).toEqual('Error message');
         });
     });
     describe('when value is empty', () => {
         it('should show combobox', () => {
-            const item = createMockParameterItem(false, FLOW_DATA_TYPE.STRING.value, '', FEROV_DATA_TYPE.STRING);
+            const item = createMockParameterItem(
+                false,
+                FLOW_DATA_TYPE.STRING.value,
+                '',
+                FEROV_DATA_TYPE.STRING
+            );
             const parameterItemCmp = createComponentForTest({
                 item,
-                isInput : true
+                isInput: true
             });
-            expect(getFerovResourcePickerElement(parameterItemCmp)).not.toBeNull();
-            expect(getHiddenFerovResourcePickerElement(parameterItemCmp)).toBeNull();
+            expect(
+                getFerovResourcePickerElement(parameterItemCmp)
+            ).not.toBeNull();
+            expect(
+                getHiddenFerovResourcePickerElement(parameterItemCmp)
+            ).toBeNull();
         });
     });
     describe('when data type is SObject or Apex', () => {
         const testDisableDrilldown = (dataType, isInput) => {
-            const item = createMockParameterItem(false, dataType, undefined, undefined, 'Account');
+            const item = createMockParameterItem(
+                false,
+                dataType,
+                undefined,
+                undefined,
+                'Account'
+            );
             const parameterItemCmp = createComponentForTest({
                 item,
-                isInput,
+                isInput
             });
-            const compRetrievalFn = isInput ? getFerovResourcePickerElement : getOutputResourcePickerElement;
-            expect(compRetrievalFn(parameterItemCmp).enableFieldDrilldown).toBeFalsy();
+            const compRetrievalFn = isInput
+                ? getFerovResourcePickerElement
+                : getOutputResourcePickerElement;
+            expect(
+                compRetrievalFn(parameterItemCmp).enableFieldDrilldown
+            ).toBeFalsy();
         };
         it('disable field drilldown for sobject input', () => {
             testDisableDrilldown(FLOW_DATA_TYPE.SOBJECT.value, true);

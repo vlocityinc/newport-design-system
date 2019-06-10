@@ -6,26 +6,48 @@
                 dev-name={waitElement.name}
                 description={waitElement.description}
                 guid={waitElement.guid}
-                onpropertychanged={handleEvent}>
+                onpropertychanged={handleEvent}
+            >
             </builder_platform_interaction-label-description>
         </div>
-        <div class="slds-p-top_x-small slds-border_top slds-p-horizontal_small slds-shrink-none slds-grid_vertical-align-start slds-text-color_weak slds-text-body_small slds-p-left_small slds-m-vertical_x-small">{labels.waitEventsSectionDescription}</div>
+        <div
+            class="slds-p-top_x-small slds-border_top slds-p-horizontal_small slds-shrink-none slds-grid_vertical-align-start slds-text-color_weak slds-text-body_small slds-p-left_small slds-m-vertical_x-small"
+        >
+            {labels.waitEventsSectionDescription}
+        </div>
         <div class="slds-vertical-tabs slds-is-relative slds-grow">
             <builder_platform_interaction-reorderable-vertical-navigation
-                    class="slds-theme_shade slds-size_1-of-5"
-                    menu-items={waitEventsWithDefaultPath}
-                    active-item-id={activeWaitEventId}
-                    onitemselected={handleWaitEventSelected}
-                    onreorderlist={handleReorderWaitEvents}
-                    hide-footer>
+                class="slds-theme_shade slds-size_1-of-5"
+                menu-items={waitEventsWithDefaultPath}
+                active-item-id={activeWaitEventId}
+                onitemselected={handleWaitEventSelected}
+                onreorderlist={handleReorderWaitEvents}
+                hide-footer
+            >
                 <div slot="header" class="slds-grid">
-                    <span class="waitEventListHeader">{labels.waitEventListHeader}</span>
-                    <lightning-helptext class="slds-p-top_xx-small slds-p-left_xx-small" content={labels.waitEventListHelptext}></lightning-helptext>
-                    <lightning-button-icon icon-name="utility:add" variant="border-filled" class="slds-p-horizontal_xx-small"  onclick={handleAddWaitEvent} title={labels.addWaitEventButtonLabel} alternative-text={labels.addWaitEventButtonLabel}></lightning-button-icon>
+                    <span class="waitEventListHeader"
+                        >{labels.waitEventListHeader}</span
+                    >
+                    <lightning-helptext
+                        class="slds-p-top_xx-small slds-p-left_xx-small"
+                        content={labels.waitEventListHelptext}
+                    ></lightning-helptext>
+                    <lightning-button-icon
+                        icon-name="utility:add"
+                        variant="border-filled"
+                        class="slds-p-horizontal_xx-small"
+                        onclick={handleAddWaitEvent}
+                        title={labels.addWaitEventButtonLabel}
+                        alternative-text={labels.addWaitEventButtonLabel}
+                    ></lightning-button-icon>
                 </div>
             </builder_platform_interaction-reorderable-vertical-navigation>
-            <div class="slds-vertical-tabs__content slds-show slds-scrollable_y" role="tabpanel">
-                <builder_platform_interaction-wait-event if:false={isDefaultPath}
+            <div
+                class="slds-vertical-tabs__content slds-show slds-scrollable_y"
+                role="tabpanel"
+            >
+                <builder_platform_interaction-wait-event
+                    if:false={isDefaultPath}
                     wait-event={activeWaitEvent}
                     show-delete={showDeleteWaitEvent}
                     ondeletewaitevent={handleDeleteWaitEvent}
@@ -37,26 +59,38 @@
                     onwaiteventparameterchanged={handleEvent}
                     onwaiteventaddparameter={handleEvent}
                     onwaiteventdeleteparameter={handleEvent}
-                    onupdatewaiteventeventtype={handleEvent}>
+                    onupdatewaiteventeventtype={handleEvent}
+                >
                 </builder_platform_interaction-wait-event>
                 <div if:true={isDefaultPath}>
                     <div class="slds-grid slds-m-bottom_x-small">
                         <h3 class="slds-text-title_caps">
-                            <span class="slds-truncate">{labels.waitEventsDetailsHeader}</span>
+                            <span class="slds-truncate"
+                                >{labels.waitEventsDetailsHeader}</span
+                            >
                         </h3>
                     </div>
                     <builder_platform_interaction-label-description
-                            label={waitElement.defaultConnectorLabel}
-                            onpropertychanged={handleDefaultPathChangedEvent}
-                            hide-dev-name
-                            name-label={labels.defaultPathNameLabel}
-                            hide-description
-                            class="defaultPath">
+                        label={waitElement.defaultConnectorLabel}
+                        onpropertychanged={handleDefaultPathChangedEvent}
+                        hide-dev-name
+                        name-label={labels.defaultPathNameLabel}
+                        hide-description
+                        class="defaultPath"
+                    >
                     </builder_platform_interaction-label-description>
                     <div class="slds-text-align_center">
                         <img src="/img/LakeMountainSimplified.svg" />
-                        <div class="slds-text-heading_medium slds-text-color_weak">{labels.defaultPathNoConditionsNeeded}</div>
-                        <div class="slds-text-body_regular slds-text-color_weak">{labels.defaultPathDescription}</div>
+                        <div
+                            class="slds-text-heading_medium slds-text-color_weak"
+                        >
+                            {labels.defaultPathNoConditionsNeeded}
+                        </div>
+                        <div
+                            class="slds-text-body_regular slds-text-color_weak"
+                        >
+                            {labels.defaultPathDescription}
+                        </div>
                     </div>
                 </div>
             </div>

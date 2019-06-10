@@ -1,8 +1,8 @@
-import { createSelector } from "builder_platform_interaction/storeLib";
+import { createSelector } from 'builder_platform_interaction/storeLib';
 
-const elementsSelector = (state) => state.elements;
+const elementsSelector = state => state.elements;
 
-const canvasElementsSelector = (state) => state.canvasElements;
+const canvasElementsSelector = state => state.canvasElements;
 
 /**
  * Transform canvas elements GUIDs to shape canvas expects
@@ -10,10 +10,14 @@ const canvasElementsSelector = (state) => state.canvasElements;
  * @param {Object} canvasElements list of GUIDs of canvas elements
  * @return {Array} collection of canvas elements
  */
-const getCanvasElements = (elements, canvasElements) => canvasElements.reduce((acc, guid) => {
-    const element = elements[guid];
-    acc.push(element);
-    return acc;
-}, []);
+const getCanvasElements = (elements, canvasElements) =>
+    canvasElements.reduce((acc, guid) => {
+        const element = elements[guid];
+        acc.push(element);
+        return acc;
+    }, []);
 
-export const canvasSelector = createSelector([elementsSelector, canvasElementsSelector], getCanvasElements);
+export const canvasSelector = createSelector(
+    [elementsSelector, canvasElementsSelector],
+    getCanvasElements
+);

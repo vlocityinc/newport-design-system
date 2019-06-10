@@ -1,7 +1,10 @@
-import { createDynamicChoiceSet, createDynamicChoiceSetMetadataObject } from "./base/dynamicChoiceSet";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { baseElementsArrayToMap } from "./base/baseElement";
-import { generateGuid } from "builder_platform_interaction/storeLib";
+import {
+    createDynamicChoiceSet,
+    createDynamicChoiceSetMetadataObject
+} from './base/dynamicChoiceSet';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { baseElementsArrayToMap } from './base/baseElement';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Picklist choice set factory function
@@ -28,9 +31,11 @@ export const createPicklistChoiceSet = (element = {}) => {
  * @param {Object} element - picklistChoiceSet element.
  * @returns {Object} picklistChoiceSet object in a {guid : [choice]} format
  */
-export const createPicklistChoiceSetForStore = (element) => {
+export const createPicklistChoiceSetForStore = element => {
     if (!element) {
-        throw new Error('Element is required to create picklist choice set element for store');
+        throw new Error(
+            'Element is required to create picklist choice set element for store'
+        );
     }
     const picklistChoiceSetElement = createPicklistChoiceSet(element);
     return baseElementsArrayToMap([picklistChoiceSetElement]);
@@ -41,18 +46,22 @@ export const createPicklistChoiceSetForStore = (element) => {
  * @param {Object} element picklistChoiceSet object
  * @returns {Object} picklistChoiceMetadata object
  */
-export const createPicklistChoiceSetMetadataObject = (element) => {
+export const createPicklistChoiceSetMetadataObject = element => {
     if (!element) {
-        throw new Error('Element is required to create dynamic choice set meta data object');
+        throw new Error(
+            'Element is required to create dynamic choice set meta data object'
+        );
     }
-    const baseDynamicChoiceMetadataObject = createDynamicChoiceSetMetadataObject(element);
-    const {
-        picklistField,
-        picklistObject
-    } = element;
-    const picklistChoiceSetObject = Object.assign(baseDynamicChoiceMetadataObject, {
-        picklistField,
-        picklistObject
-    });
+    const baseDynamicChoiceMetadataObject = createDynamicChoiceSetMetadataObject(
+        element
+    );
+    const { picklistField, picklistObject } = element;
+    const picklistChoiceSetObject = Object.assign(
+        baseDynamicChoiceMetadataObject,
+        {
+            picklistField,
+            picklistObject
+        }
+    );
     return picklistChoiceSetObject;
 };

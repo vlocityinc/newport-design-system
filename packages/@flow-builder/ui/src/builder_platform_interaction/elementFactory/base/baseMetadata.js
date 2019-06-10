@@ -1,6 +1,6 @@
 import { createConnectorMetadataObjects } from '../connector';
-import { createFEROVMetadataObject } from "../ferov";
-import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
+import { createFEROVMetadataObject } from '../ferov';
+import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from './baseList';
 
 function baseElementMetadataObject(element = {}) {
     const { name = '' } = element;
@@ -17,9 +17,16 @@ export function baseResourceMetadataObject(resource = {}) {
     });
 }
 
-export function baseCanvasElementMetadataObject(canvasElement = {}, config = {}) {
+export function baseCanvasElementMetadataObject(
+    canvasElement = {},
+    config = {}
+) {
     const newCanvasElement = baseResourceMetadataObject(canvasElement);
-    const { xyTranslate, connectorMap = {}, hasMultipleRegularConnectors = false } = config;
+    const {
+        xyTranslate,
+        connectorMap = {},
+        hasMultipleRegularConnectors = false
+    } = config;
     const { label = '' } = canvasElement;
     let { locationX = 0, locationY = 0 } = canvasElement;
 
@@ -33,7 +40,11 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
     const { elementType } = canvasElement;
 
     if (connectors) {
-        connectorMetadata = createConnectorMetadataObjects(connectors, hasMultipleRegularConnectors, elementType);
+        connectorMetadata = createConnectorMetadataObjects(
+            connectors,
+            hasMultipleRegularConnectors,
+            elementType
+        );
     }
 
     return Object.assign(
@@ -63,7 +74,7 @@ export function baseCanvasElementMetadataObject(canvasElement = {}, config = {})
  */
 export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     const newChildElement = baseElementMetadataObject(childElement);
-    const { label = '', } = childElement;
+    const { label = '' } = childElement;
     const { connectorMap = {} } = config;
     const connectors = connectorMap[childElement.guid];
 
@@ -71,10 +82,7 @@ export function baseChildElementMetadataObject(childElement = {}, config = {}) {
     if (connectors) {
         connectorMetadata = createConnectorMetadataObjects(connectors, false);
     }
-    return Object.assign(newChildElement,
-        { label },
-        connectorMetadata
-    );
+    return Object.assign(newChildElement, { label }, connectorMetadata);
 }
 
 export function createConditionMetadataObject(condition) {
@@ -82,11 +90,17 @@ export function createConditionMetadataObject(condition) {
         throw new Error('Condition is not defined');
     }
     const { leftHandSide, operator } = condition;
-    const rightValue = createFEROVMetadataObject(condition, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
-    return Object.assign({}, {
-        leftValueReference: leftHandSide,
-        rightValue,
-        operator
-    });
+    const rightValue = createFEROVMetadataObject(
+        condition,
+        RHS_PROPERTY,
+        RHS_DATA_TYPE_PROPERTY
+    );
+    return Object.assign(
+        {},
+        {
+            leftValueReference: leftHandSide,
+            rightValue,
+            operator
+        }
+    );
 }
-

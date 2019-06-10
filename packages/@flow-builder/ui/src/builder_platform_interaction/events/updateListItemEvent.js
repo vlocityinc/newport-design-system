@@ -1,6 +1,5 @@
 const eventName = 'updatelistitem';
 
-
 export class UpdateListItemEvent {
     constructor(index, value) {
         return new CustomEvent(eventName, {
@@ -9,7 +8,7 @@ export class UpdateListItemEvent {
             bubbles: true,
             detail: {
                 index,
-                value,
+                value
             }
         });
     }

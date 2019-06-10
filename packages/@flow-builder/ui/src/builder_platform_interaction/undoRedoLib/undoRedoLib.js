@@ -1,9 +1,9 @@
 /**
  * @owner: Process UI Design Time team.
  * @design-doc: https://salesforce.quip.com/Ax4HAoPvhmAb
-*/
+ */
 // Internal State Holder variables for past, present and future state of the app
-let past =  [];
+let past = [];
 let present;
 let future = [];
 let lastAction; // Used in grouping the multiple actions into one state
@@ -18,7 +18,7 @@ let lastAction; // Used in grouping the multiple actions into one state
  */
 const undo = (pastStates, presentState, futureStates) => {
     if (pastStates && pastStates.length < 1) {
-        throw new Error("Undo: Past State Array Length cannot be less than 1");
+        throw new Error('Undo: Past State Array Length cannot be less than 1');
     }
     const previous = pastStates[pastStates.length - 1];
     const updatedPast = pastStates.slice(0, pastStates.length - 1);
@@ -40,7 +40,9 @@ const undo = (pastStates, presentState, futureStates) => {
  */
 const redo = (pastStates, presentState, futureStates) => {
     if (futureStates && futureStates.length < 1) {
-        throw new Error("Redo: Future State Array length cannot be less than 1");
+        throw new Error(
+            'Redo: Future State Array length cannot be less than 1'
+        );
     }
     const next = futureStates[0];
     const updatedFuture = futureStates.slice(1);
@@ -76,7 +78,10 @@ export const isRedoAvailable = () => {
  * @param {Object} config - Config object containing blacklistedActions array & groupedActions array
  * @returns {Object} Reduced state object
  */
-export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}) => (state = {}, action) => {
+export const undoRedo = (
+    reducer,
+    { blacklistedActions = [], groupedActions = [] }
+) => (state = {}, action) => {
     switch (action.type) {
         case CLEAR_UNDO_REDO: {
             past = [];
@@ -85,11 +90,11 @@ export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}
             break;
         }
         case UNDO: {
-            (({past, present, future} = undo(past, present, future)));
+            ({ past, present, future } = undo(past, present, future));
             break;
         }
-        case REDO : {
-            (({past, present, future} = redo(past, present, future)));
+        case REDO: {
+            ({ past, present, future } = redo(past, present, future));
             break;
         }
         default: {
@@ -107,7 +112,10 @@ export const undoRedo = (reducer, {blacklistedActions = [], groupedActions = []}
             }
 
             // Grouped Actions
-            if (groupedActions.includes(action.type) && (lastAction === action.type)) {
+            if (
+                groupedActions.includes(action.type) &&
+                lastAction === action.type
+            ) {
                 present = newState;
             } else {
                 // Do not ever put undefined in the past state. Else it would result in undo state corruption.

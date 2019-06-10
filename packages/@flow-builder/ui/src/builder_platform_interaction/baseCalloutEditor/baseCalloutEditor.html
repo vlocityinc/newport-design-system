@@ -1,26 +1,39 @@
 <template>
-<!-- This template is common, used for invocable-action-editor, apex-plugin-editor, subflow-editor -->
-    <div class='slds-form slds-form_compound slds-p-around_small'>
+    <!-- This template is common, used for invocable-action-editor, apex-plugin-editor, subflow-editor -->
+    <div class="slds-form slds-form_compound slds-p-around_small">
         <div class="slds-p-top_small">
             {subtitle}
         </div>
-        <div class='slds-p-top_small'>
-            <builder_platform_interaction-label-description label={labelDescriptionConfig.label} 
-                                                            dev-name={labelDescriptionConfig.name} 
-                                                            description={labelDescriptionConfig.description}
-                                                            guid={labelDescriptionConfig.guid}>
+        <div class="slds-p-top_small">
+            <builder_platform_interaction-label-description
+                label={labelDescriptionConfig.label}
+                dev-name={labelDescriptionConfig.name}
+                description={labelDescriptionConfig.description}
+                guid={labelDescriptionConfig.guid}
+            >
             </builder_platform_interaction-label-description>
         </div>
-        <lightning-spinner if:true={displaySpinner} size='medium' variant='brand' class='spinner'></lightning-spinner>
-        <div class="slds-p-top_small"> 
-            <builder_platform_interaction-parameter-list inputs={parameterListConfig.inputs} outputs={parameterListConfig.outputs} 
-                                                         warnings={warnings}
-                                                         input-tab-header={parameterListConfig.inputTabHeader} output-tab-header={parameterListConfig.outputTabHeader} 
-                                                         element-type={elementType}
-                                                         sort-inputs={parameterListConfig.sortInputs} sort-outputs={parameterListConfig.sortOutputs}
-                                                         empty-inputs-title={parameterListConfig.emptyInputsTitle} empty-inputs-body={parameterListConfig.emptyInputsBody}
-                                                         empty-outputs-title={parameterListConfig.emptyOutputsTitle} empty-outputs-body={parameterListConfig.emptyOutputsBody}
-                                                         >
+        <lightning-spinner
+            if:true={displaySpinner}
+            size="medium"
+            variant="brand"
+            class="spinner"
+        ></lightning-spinner>
+        <div class="slds-p-top_small">
+            <builder_platform_interaction-parameter-list
+                inputs={parameterListConfig.inputs}
+                outputs={parameterListConfig.outputs}
+                warnings={warnings}
+                input-tab-header={parameterListConfig.inputTabHeader}
+                output-tab-header={parameterListConfig.outputTabHeader}
+                element-type={elementType}
+                sort-inputs={parameterListConfig.sortInputs}
+                sort-outputs={parameterListConfig.sortOutputs}
+                empty-inputs-title={parameterListConfig.emptyInputsTitle}
+                empty-inputs-body={parameterListConfig.emptyInputsBody}
+                empty-outputs-title={parameterListConfig.emptyOutputsTitle}
+                empty-outputs-body={parameterListConfig.emptyOutputsBody}
+            >
             </builder_platform_interaction-parameter-list>
         </div>
     </div>

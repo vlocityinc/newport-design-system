@@ -1,11 +1,19 @@
 import { LightningElement, api, track } from 'lwc';
-import { getConditionsWithPrefixes, showDeleteCondition } from "builder_platform_interaction/conditionListUtils";
 import {
-    DeleteOutcomeEvent
-} from "builder_platform_interaction/events";
-import { CONDITION_LOGIC, ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { RULE_OPERATOR, RULE_TYPES, getRulesForElementType } from 'builder_platform_interaction/ruleLib';
-import { LABELS } from "./outcomeLabels";
+    getConditionsWithPrefixes,
+    showDeleteCondition
+} from 'builder_platform_interaction/conditionListUtils';
+import { DeleteOutcomeEvent } from 'builder_platform_interaction/events';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import {
+    RULE_OPERATOR,
+    RULE_TYPES,
+    getRulesForElementType
+} from 'builder_platform_interaction/ruleLib';
+import { LABELS } from './outcomeLabels';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -33,28 +41,42 @@ export default class Outcome extends LightningElement {
 
     /** Focus the label field of the label description component */
     @api focus() {
-        const labelDescription = this.template.querySelector(SELECTORS.LABEL_DESCRIPTION);
+        const labelDescription = this.template.querySelector(
+            SELECTORS.LABEL_DESCRIPTION
+        );
         labelDescription.focus();
     }
 
     conditionLogicOptions = [
-        {value: CONDITION_LOGIC.AND, label: this.labels.andConditionLogicLabel},
-        {value: CONDITION_LOGIC.OR, label: this.labels.orConditionLogicLabel},
-        {value: CONDITION_LOGIC.CUSTOM_LOGIC, label: this.labels.customConditionLogicLabel},
+        {
+            value: CONDITION_LOGIC.AND,
+            label: this.labels.andConditionLogicLabel
+        },
+        { value: CONDITION_LOGIC.OR, label: this.labels.orConditionLogicLabel },
+        {
+            value: CONDITION_LOGIC.CUSTOM_LOGIC,
+            label: this.labels.customConditionLogicLabel
+        }
     ];
 
     @track
     elementTypeForExpressionBuilder = ELEMENT_TYPE.DECISION;
 
     @track
-    rulesForExpressionBuilder = getRulesForElementType(RULE_TYPES.COMPARISON, this.elementTypeForExpressionBuilder);
+    rulesForExpressionBuilder = getRulesForElementType(
+        RULE_TYPES.COMPARISON,
+        this.elementTypeForExpressionBuilder
+    );
 
     /**
      * Helper method needed for conditions list
      * @return {boolean} if delete should be shown for each condition
      */
     get showDeleteCondition() {
-        return this.element.conditions && showDeleteCondition(this.element.conditions);
+        return (
+            this.element.conditions &&
+            showDeleteCondition(this.element.conditions)
+        );
     }
 
     /**
@@ -62,7 +84,12 @@ export default class Outcome extends LightningElement {
      * @return {Object[]} Array of all conditions decorated with prefix
      */
     get conditionsWithPrefixes() {
-        return this.element.conditions ? getConditionsWithPrefixes(this.element.conditionLogic, this.element.conditions) : [];
+        return this.element.conditions
+            ? getConditionsWithPrefixes(
+                  this.element.conditionLogic,
+                  this.element.conditions
+              )
+            : [];
     }
 
     /**

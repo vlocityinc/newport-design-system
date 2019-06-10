@@ -1,13 +1,15 @@
 import { createElement } from 'lwc';
-import { getProcessTypesMenuData } from "builder_platform_interaction/expressionUtils";
+import { getProcessTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import FlowPropertiesEditor from '../flowPropertiesEditor';
-import { SaveType } from "builder_platform_interaction/saveType";
-import { LABELS } from "../flowPropertiesEditorLabels";
+import { SaveType } from 'builder_platform_interaction/saveType';
+import { LABELS } from '../flowPropertiesEditorLabels';
 import normalizeDateTime from 'builder_platform_interaction/dateTimeUtils';
 import format from 'builder_platform_interaction/commonUtils';
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
@@ -20,7 +22,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                 {
                     value: 'processType2',
                     label: 'processTypeLabel2'
-                },
+                }
             ];
         }
     };
@@ -29,7 +31,8 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 const mockDateTimeString = 'some date time string';
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
-        getFormat: require.requireActual('../../dateTimeUtils/dateTimeUtils.js').getFormat,
+        getFormat: require.requireActual('../../dateTimeUtils/dateTimeUtils.js')
+            .getFormat,
         normalizeDateTime: jest.fn()
     };
 });
@@ -43,8 +46,10 @@ jest.mock('builder_platform_interaction/commonUtils', () => {
     return {
         format: jest.fn(),
         isUndefinedOrNull: jest.fn(),
-        addCurlyBraces: require.requireActual('../../commonUtils/commonUtils.js').addCurlyBraces,
-        removeCurlyBraces: jest.fn(),
+        addCurlyBraces: require.requireActual(
+            '../../commonUtils/commonUtils.js'
+        ).addCurlyBraces,
+        removeCurlyBraces: jest.fn()
     };
 });
 
@@ -52,8 +57,11 @@ format.format = jest.fn(() => {
     return mockFormattedLabel;
 });
 
-const createComponentUnderTest = (node) => {
-    const el = createElement('builder_platform_interaction-flowPropertiesEditor', { is: FlowPropertiesEditor });
+const createComponentUnderTest = node => {
+    const el = createElement(
+        'builder_platform_interaction-flowPropertiesEditor',
+        { is: FlowPropertiesEditor }
+    );
     el.node = node;
     document.body.appendChild(el);
     return el;
@@ -72,43 +80,63 @@ const selectors = {
     RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea'
 };
 
-const getLabelDescription = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.LABEL_DESCRIPTION);
+const getLabelDescription = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.LABEL_DESCRIPTION
+    );
 };
 
-const getProcessType = (flowPropertiesEditor) => {
+const getProcessType = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(selectors.FLOW_TYPE);
 };
 
-const getShowAdvancedButton = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.SHOW_ADVANCED);
+const getShowAdvancedButton = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.SHOW_ADVANCED
+    );
 };
 
-const getHideAdvancedButton = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.HIDE_ADVANCED);
+const getHideAdvancedButton = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.HIDE_ADVANCED
+    );
 };
 
-const getAdvancedProperties = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.ADVANCED_PROPERTIES);
+const getAdvancedProperties = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.ADVANCED_PROPERTIES
+    );
 };
 
-const getLastModifiedDetails = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.LAST_MODIFIED);
+const getLastModifiedDetails = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.LAST_MODIFIED
+    );
 };
 
-const getResourceTextArea = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.RESOURCE_TEXT_AREA);
+const getResourceTextArea = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.RESOURCE_TEXT_AREA
+    );
 };
 
-const getLastProcessType = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.LAST_PROCESS_TYPE);
+const getLastProcessType = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.LAST_PROCESS_TYPE
+    );
 };
 
-const getSaveAsToggle = (flowPropertiesEditor) => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.SAVE_AS_TOGGLE);
+const getSaveAsToggle = flowPropertiesEditor => {
+    return flowPropertiesEditor.shadowRoot.querySelector(
+        selectors.SAVE_AS_TOGGLE
+    );
 };
 
-const dispatchLabelChangedEvent = (flowPropertiesEditor, newLabelValue, error) => {
+const dispatchLabelChangedEvent = (
+    flowPropertiesEditor,
+    newLabelValue,
+    error
+) => {
     const event = new PropertyChangedEvent('label', newLabelValue, error);
     const labelDescription = getLabelDescription(flowPropertiesEditor);
     labelDescription.dispatchEvent(event);
@@ -131,7 +159,9 @@ describe('FlowPropertiesEditor', () => {
         });
         describe('Label Description', () => {
             it('check default values', () => {
-                const labelDescription = getLabelDescription(flowPropertiesEditor);
+                const labelDescription = getLabelDescription(
+                    flowPropertiesEditor
+                );
                 expect(labelDescription).toBeDefined();
                 expect(labelDescription.label.value).toBe('');
                 expect(labelDescription.label.error).toBeNull();
@@ -142,25 +172,51 @@ describe('FlowPropertiesEditor', () => {
             });
             it('handles the property changed event and updates the property', () => {
                 return Promise.resolve().then(() => {
-                    const event = new PropertyChangedEvent('description', 'new desc', null);
-                    const labelDescription = getLabelDescription(flowPropertiesEditor);
+                    const event = new PropertyChangedEvent(
+                        'description',
+                        'new desc',
+                        null
+                    );
+                    const labelDescription = getLabelDescription(
+                        flowPropertiesEditor
+                    );
                     labelDescription.dispatchEvent(event);
-                    expect(flowPropertiesEditor.node.description.value).toBe('new desc');
+                    expect(flowPropertiesEditor.node.description.value).toBe(
+                        'new desc'
+                    );
                 });
             });
             describe('Updating the flow label', () => {
                 it('should update the interview label if it is blank', () => {
-                    dispatchLabelChangedEvent(flowPropertiesEditor, 'new label', null);
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('new label {!$Flow.CurrentDateTime}');
+                    dispatchLabelChangedEvent(
+                        flowPropertiesEditor,
+                        'new label',
+                        null
+                    );
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                        'new label {!$Flow.CurrentDateTime}'
+                    );
                 });
                 it('should not update the interview label if the flow label has an error', () => {
-                    dispatchLabelChangedEvent(flowPropertiesEditor, 'new label', 'error');
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
+                    dispatchLabelChangedEvent(
+                        flowPropertiesEditor,
+                        'new label',
+                        'error'
+                    );
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                        ''
+                    );
                 });
                 it('should not update the interview label if it already has a value', () => {
                     flowProperties.interviewLabel.value = 'old interview label';
-                    dispatchLabelChangedEvent(flowPropertiesEditor, 'new label', 'error');
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('old interview label');
+                    dispatchLabelChangedEvent(
+                        flowPropertiesEditor,
+                        'new label',
+                        'error'
+                    );
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                        'old interview label'
+                    );
                 });
             });
         });
@@ -171,28 +227,46 @@ describe('FlowPropertiesEditor', () => {
         });
         describe('Advanced Properties', () => {
             it('HIDE Advanced Properties', () => {
-                const showAdvancedButton = getShowAdvancedButton(flowPropertiesEditor);
+                const showAdvancedButton = getShowAdvancedButton(
+                    flowPropertiesEditor
+                );
                 expect(showAdvancedButton.label).toBe(LABELS.showAdvanced);
                 expect(getHideAdvancedButton(flowPropertiesEditor)).toBeNull();
                 expect(getAdvancedProperties(flowPropertiesEditor)).toBeNull();
                 expect(getResourceTextArea(flowPropertiesEditor)).toBeNull();
             });
             it('SHOW Advanced Properties', () => {
-                const showAdvancedButton = getShowAdvancedButton(flowPropertiesEditor);
+                const showAdvancedButton = getShowAdvancedButton(
+                    flowPropertiesEditor
+                );
                 return Promise.resolve().then(() => {
                     showAdvancedButton.click();
                     return Promise.resolve().then(() => {
-                        expect(getShowAdvancedButton(flowPropertiesEditor)).toBeNull();
-                        expect(getHideAdvancedButton(flowPropertiesEditor).label).toBe(LABELS.hideAdvanced);
-                        expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
-                        expect(getResourceTextArea(flowPropertiesEditor).value.value).toBe('');
-                        expect(getResourceTextArea(flowPropertiesEditor).value.error).toBeNull();
+                        expect(
+                            getShowAdvancedButton(flowPropertiesEditor)
+                        ).toBeNull();
+                        expect(
+                            getHideAdvancedButton(flowPropertiesEditor).label
+                        ).toBe(LABELS.hideAdvanced);
+                        expect(
+                            getAdvancedProperties(flowPropertiesEditor)
+                        ).not.toBeNull();
+                        expect(
+                            getResourceTextArea(flowPropertiesEditor).value
+                                .value
+                        ).toBe('');
+                        expect(
+                            getResourceTextArea(flowPropertiesEditor).value
+                                .error
+                        ).toBeNull();
                     });
                 });
             });
             it('Last Modified Information should NOT be shown for saveType CREATE', () => {
                 return Promise.resolve().then(() => {
-                    expect(getLastModifiedDetails(flowPropertiesEditor)).toBeNull();
+                    expect(
+                        getLastModifiedDetails(flowPropertiesEditor)
+                    ).toBeNull();
                 });
             });
         });
@@ -208,44 +282,74 @@ describe('FlowPropertiesEditor', () => {
                 interviewLabel: { value: 'interviewLabel' },
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE,
+                saveType: SaveType.UPDATE
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
         });
         describe('Label Description', () => {
             it('check existing values', () => {
-                const labelDescription = getLabelDescription(flowPropertiesEditor);
+                const labelDescription = getLabelDescription(
+                    flowPropertiesEditor
+                );
                 expect(labelDescription).toBeDefined();
-                expect(labelDescription.label.value).toBe(flowProperties.label.value);
-                expect(labelDescription.devName.value).toBe(flowProperties.name.value);
-                expect(labelDescription.description.value).toBe(flowProperties.description.value);
+                expect(labelDescription.label.value).toBe(
+                    flowProperties.label.value
+                );
+                expect(labelDescription.devName.value).toBe(
+                    flowProperties.name.value
+                );
+                expect(labelDescription.description.value).toBe(
+                    flowProperties.description.value
+                );
             });
         });
         describe('Advanced Properties', () => {
             it('SHOW Advanced Properties', () => {
                 return Promise.resolve().then(() => {
                     getHideAdvancedButton(flowPropertiesEditor).click();
-                    expect(getHideAdvancedButton(flowPropertiesEditor)).toBeDefined();
-                    expect(getShowAdvancedButton(flowPropertiesEditor)).toBeNull();
-                    expect(getHideAdvancedButton(flowPropertiesEditor).label).toBe(LABELS.hideAdvanced);
-                    expect(getAdvancedProperties(flowPropertiesEditor)).not.toBeNull();
-                    expect(getResourceTextArea(flowPropertiesEditor).value.value).toBe(flowProperties.interviewLabel.value);
+                    expect(
+                        getHideAdvancedButton(flowPropertiesEditor)
+                    ).toBeDefined();
+                    expect(
+                        getShowAdvancedButton(flowPropertiesEditor)
+                    ).toBeNull();
+                    expect(
+                        getHideAdvancedButton(flowPropertiesEditor).label
+                    ).toBe(LABELS.hideAdvanced);
+                    expect(
+                        getAdvancedProperties(flowPropertiesEditor)
+                    ).not.toBeNull();
+                    expect(
+                        getResourceTextArea(flowPropertiesEditor).value.value
+                    ).toBe(flowProperties.interviewLabel.value);
                 });
             });
             describe('Last Modified Information', () => {
                 it('returns the localized label with the correct user name and last modified date/time', () => {
                     return Promise.resolve().then(() => {
-                        expect(getLastModifiedDetails(flowPropertiesEditor).textContent).toEqual(mockFormattedLabel);
+                        expect(
+                            getLastModifiedDetails(flowPropertiesEditor)
+                                .textContent
+                        ).toEqual(mockFormattedLabel);
                     });
                 });
                 it('calls normalizeDateTime with the the last modified datetime', () => {
                     return Promise.resolve().then(() => {
-                        expect(normalizeDateTime.normalizeDateTime).toHaveBeenCalledWith(flowPropertiesEditor.node.lastModifiedDate.value, true);
+                        expect(
+                            normalizeDateTime.normalizeDateTime
+                        ).toHaveBeenCalledWith(
+                            flowPropertiesEditor.node.lastModifiedDate.value,
+                            true
+                        );
                     });
                 });
                 it('calls format with the label, user and datetime', () => {
                     return Promise.resolve().then(() => {
-                        expect(format.format).toHaveBeenCalledWith(LABELS.lastModifiedText, flowPropertiesEditor.node.lastModifiedBy.value, mockDateTimeString);
+                        expect(format.format).toHaveBeenCalledWith(
+                            LABELS.lastModifiedText,
+                            flowPropertiesEditor.node.lastModifiedBy.value,
+                            mockDateTimeString
+                        );
                     });
                 });
             });
@@ -262,11 +366,13 @@ describe('FlowPropertiesEditor', () => {
                 status: { value: 'Active' },
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE,
+                saveType: SaveType.UPDATE
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             return Promise.resolve().then(() => {
-                expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual('');
+                expect(
+                    getLastProcessType(flowPropertiesEditor).textContent
+                ).toEqual('');
             });
         });
 
@@ -281,11 +387,13 @@ describe('FlowPropertiesEditor', () => {
                 status: { value: 'Active' },
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE,
+                saveType: SaveType.UPDATE
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             return Promise.resolve().then(() => {
-                expect(getLastProcessType(flowPropertiesEditor).textContent).toEqual(processTypes[1].label);
+                expect(
+                    getLastProcessType(flowPropertiesEditor).textContent
+                ).toEqual(processTypes[1].label);
             });
         });
 
@@ -302,24 +410,34 @@ describe('FlowPropertiesEditor', () => {
                     lastModifiedBy: { value: 'some user' },
                     lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     versionNumber: 1,
-                    saveType: SaveType.UPDATE,
+                    saveType: SaveType.UPDATE
                 };
             });
 
             it('is shown when save type is UPDATE', () => {
                 const component = createComponentUnderTest(defaultNode);
                 return Promise.resolve().then(() => {
-                    expect(component.shadowRoot.querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                    expect(
+                        component.shadowRoot.querySelector(
+                            selectors.VERSION_NUMBER
+                        )
+                    ).not.toBeNull();
                 });
             });
 
             it('is shown when save type is NEW_VERSION', () => {
                 defaultNode.saveType = SaveType.NEW_VERSION;
                 const component = createComponentUnderTest(defaultNode);
-                const button = component.shadowRoot.querySelector(selectors.SHOW_ADVANCED);
+                const button = component.shadowRoot.querySelector(
+                    selectors.SHOW_ADVANCED
+                );
                 button.dispatchEvent(new CustomEvent('click'));
                 return Promise.resolve().then(() => {
-                    expect(component.shadowRoot.querySelector(selectors.VERSION_NUMBER)).not.toBeNull();
+                    expect(
+                        component.shadowRoot.querySelector(
+                            selectors.VERSION_NUMBER
+                        )
+                    ).not.toBeNull();
                 });
             });
         });
@@ -335,21 +453,34 @@ describe('FlowPropertiesEditor', () => {
                     status: { value: 'Active' },
                     interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
-                    saveType: SaveType.NEW_DEFINITION,
+                    saveType: SaveType.NEW_DEFINITION
                 };
             });
 
             it('restores the original flow property values when toggling back to New Version', () => {
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
                 return Promise.resolve().then(() => {
-                    const event = new PropertyChangedEvent('interviewLabel', 'new label', null);
-                    const labelDescription = getLabelDescription(flowPropertiesEditor);
+                    const event = new PropertyChangedEvent(
+                        'interviewLabel',
+                        'new label',
+                        null
+                    );
+                    const labelDescription = getLabelDescription(
+                        flowPropertiesEditor
+                    );
                     labelDescription.dispatchEvent(event);
                     // This first expect is to ensure the test is not a false positive
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('new label');
-                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(new CustomEvent('change',
-                        {detail: {value: SaveType.NEW_VERSION}}));
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('interviewLabel');
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                        'new label'
+                    );
+                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                        new CustomEvent('change', {
+                            detail: { value: SaveType.NEW_VERSION }
+                        })
+                    );
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                        'interviewLabel'
+                    );
                 });
             });
 
@@ -357,12 +488,19 @@ describe('FlowPropertiesEditor', () => {
                 defaultNode.saveType = SaveType.NEW_VERSION;
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
                 return Promise.resolve().then(() => {
-                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(new CustomEvent('change',
-                        {detail: {value: SaveType.NEW_DEFINITION}}));
+                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                        new CustomEvent('change', {
+                            detail: { value: SaveType.NEW_DEFINITION }
+                        })
+                    );
                     expect(flowPropertiesEditor.node.label.value).toBe('');
                     expect(flowPropertiesEditor.node.name.value).toBe('');
-                    expect(flowPropertiesEditor.node.description.value).toBe('');
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
+                    expect(flowPropertiesEditor.node.description.value).toBe(
+                        ''
+                    );
+                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                        ''
+                    );
                 });
             });
         });

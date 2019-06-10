@@ -1,4 +1,8 @@
-import { fetchOnce, isAlreadyFetched, SERVER_ACTION_TYPE } from "builder_platform_interaction/serverDataLib";
+import {
+    fetchOnce,
+    isAlreadyFetched,
+    SERVER_ACTION_TYPE
+} from 'builder_platform_interaction/serverDataLib';
 
 const allEntities = [];
 const allEntitiesMap = {};
@@ -13,7 +17,7 @@ export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
     QUERYABLE: 'QUERYABLE',
     UPDATABLE: 'UPDATABLE',
-    DELETABLE: 'DELETABLE',
+    DELETABLE: 'DELETABLE'
 };
 
 /**
@@ -24,7 +28,7 @@ export const setEntities = (entities = null) => {
     const unfilteredEntities = JSON.parse(entities);
 
     if (unfilteredEntities) {
-        unfilteredEntities.forEach((entity) => {
+        unfilteredEntities.forEach(entity => {
             allEntities.push(entity);
             allEntitiesMap[entity.apiName] = entity;
             if (entity.queryable) {
@@ -57,7 +61,7 @@ export const getAllEntities = () => {
  * @param {string} apiName the api name of the entity
  * @return {Object} the entity description
  */
-export const getEntity = (apiName) => allEntitiesMap[apiName];
+export const getEntity = apiName => allEntitiesMap[apiName];
 
 /**
  * Returns only queryable SObjects
@@ -83,7 +87,6 @@ export const getDeletableEntities = () => {
     return deletableEntities;
 };
 
-
 /**
  * Returns only updatable SObjects
  * @returns {Array} Updateable
@@ -92,7 +95,7 @@ export const getUpdateableEntities = () => {
     return updateableEntities;
 };
 
-export const areFieldsForEntityAlreadyFetched = (entityName) => {
+export const areFieldsForEntityAlreadyFetched = entityName => {
     const params = {
         entityApiName: entityName
     };
@@ -109,22 +112,28 @@ export const areFieldsForEntityAlreadyFetched = (entityName) => {
  *            messageForErrorModal the message to use instead of the default error message
  * @return {Promise} Promise object with the fields
  */
-export const fetchFieldsForEntity = (entityName, { background = false, disableErrorModal = false, messageForErrorModal } = {}) => {
+export const fetchFieldsForEntity = (
+    entityName,
+    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+) => {
     const params = {
         entityApiName: entityName
     };
-    return fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, params, { background, disableErrorModal, messageForErrorModal })
-        .then(data => {
-            const fields = JSON.parse(data);
-            cachedEntityFields[entityName] = fields;
-            return fields;
-        });
+    return fetchOnce(SERVER_ACTION_TYPE.GET_ENTITY_FIELDS, params, {
+        background,
+        disableErrorModal,
+        messageForErrorModal
+    }).then(data => {
+        const fields = JSON.parse(data);
+        cachedEntityFields[entityName] = fields;
+        return fields;
+    });
 };
 
 /**
  * Grabs the fields for a specific sObject from the cache, undefined if not a valid entityName
  * @param {String} entityName Api name of the SObject
  */
-export const getFieldsForEntity = (entityName) => {
+export const getFieldsForEntity = entityName => {
     return cachedEntityFields[entityName];
 };

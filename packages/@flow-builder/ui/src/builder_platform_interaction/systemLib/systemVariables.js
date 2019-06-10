@@ -4,7 +4,7 @@ export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 export const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client';
 
 export const SYSTEM_VARIABLES = {
-    CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime',
+    CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime'
 };
 
 let systemVariables = {};
@@ -15,24 +15,25 @@ let systemVariables = {};
  * @param {Array}
  *            data raw variable data from the server
  */
-const convertData = (data) => data.reduce((acc, obj) => {
-    const name = `$${obj.category}.${obj.devName}`;
-    const variable = Object.assign(obj, {
-        category: systemVariableCategory,
-        apiName: obj.devName,
-        dataType: obj.dataType,
-        guid: name,
-        label: obj.devName,
-        name,
-        readOnly: !obj.isAssignable,
-        isSystemVariable: true,
-        subtype: `${obj.category}`,
-    });
-    delete variable.devName;
+const convertData = data =>
+    data.reduce((acc, obj) => {
+        const name = `$${obj.category}.${obj.devName}`;
+        const variable = Object.assign(obj, {
+            category: systemVariableCategory,
+            apiName: obj.devName,
+            dataType: obj.dataType,
+            guid: name,
+            label: obj.devName,
+            name,
+            readOnly: !obj.isAssignable,
+            isSystemVariable: true,
+            subtype: `${obj.category}`
+        });
+        delete variable.devName;
 
-    acc[name] = variable;
-    return acc;
-}, {});
+        acc[name] = variable;
+        return acc;
+    }, {});
 
 /**
  * Sets the system variables. This should be done during app initialization.
@@ -40,7 +41,7 @@ const convertData = (data) => data.reduce((acc, obj) => {
  * @param {Object}
  *            data the data returned by the service
  */
-export const setSystemVariables = (data) => {
+export const setSystemVariables = data => {
     const parsedVariables = JSON.parse(data);
     if (Array.isArray(parsedVariables)) {
         systemVariables = convertData(parsedVariables);
@@ -53,7 +54,7 @@ export const setSystemVariables = (data) => {
  *
  * @returns {Object} system variables usable in menus
  */
-export const getSystemVariables = (category) => {
+export const getSystemVariables = category => {
     if (category) {
         const categoryVariables = {};
         Object.keys(systemVariables).forEach(key => {

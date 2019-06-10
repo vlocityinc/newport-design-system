@@ -1,16 +1,16 @@
-import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { Validation } from "builder_platform_interaction/validation";
-import { getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
-import { isComplexType } from "builder_platform_interaction/dataTypeLib";
-import { isUndefinedOrNull } from "builder_platform_interaction/commonUtils";
-import { LABELS } from "./variableConstantEditorLabels";
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import { Validation } from 'builder_platform_interaction/validation';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import { LABELS } from './variableConstantEditorLabels';
 
 /**
  * @constant additionalRules - map of propertyName to validation rules
  * @type {Object}
  */
 const additionalRules = {
-    'dataType': [ValidationRules.shouldNotBeNullOrUndefined],
+    dataType: [ValidationRules.shouldNotBeNullOrUndefined]
 };
 
 /**
@@ -18,14 +18,16 @@ const additionalRules = {
  * @param {Boolean} isComplexType true if the value to be tested has a subtype, false otherwise
  * @returns {function} function that checks if the given is non-null
  */
-const validateVariableObjectType = (isComplex) => {
+const validateVariableObjectType = isComplex => {
     /**
      * @param {String} value the value to be tested
      * @returns {String|null} errorString or null
      */
-    return (value) => {
+    return value => {
         if (isComplex) {
-            return isUndefinedOrNull(value) ? LABELS.subtypeCannotBeBlank : null;
+            return isUndefinedOrNull(value)
+                ? LABELS.subtypeCannotBeBlank
+                : null;
         }
         return null;
     };
@@ -38,10 +40,25 @@ class VariableConstantValidation extends Validation {
      * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
      */
     validateAll(variableConstantResource, overrideRules) {
-        this.finalizedRules.subtype = [validateVariableObjectType(isComplexType(getValueFromHydratedItem(variableConstantResource.dataType))), ValidationRules.validateResourcePicker(variableConstantResource.subtypeIndex)];
-        this.finalizedRules.defaultValue = [ValidationRules.validateResourcePicker(variableConstantResource.defaultValueIndex)];
+        this.finalizedRules.subtype = [
+            validateVariableObjectType(
+                isComplexType(
+                    getValueFromHydratedItem(variableConstantResource.dataType)
+                )
+            ),
+            ValidationRules.validateResourcePicker(
+                variableConstantResource.subtypeIndex
+            )
+        ];
+        this.finalizedRules.defaultValue = [
+            ValidationRules.validateResourcePicker(
+                variableConstantResource.defaultValueIndex
+            )
+        ];
         return super.validateAll(variableConstantResource, overrideRules);
     }
 }
 
-export const variableConstantValidation = new VariableConstantValidation(additionalRules);
+export const variableConstantValidation = new VariableConstantValidation(
+    additionalRules
+);

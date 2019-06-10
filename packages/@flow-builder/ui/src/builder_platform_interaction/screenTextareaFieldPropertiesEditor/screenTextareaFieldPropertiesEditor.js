@@ -1,9 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
-import { LABELS } from "builder_platform_interaction/screenEditorI18nUtils";
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
-import { LIGHTNING_INPUT_VARIANTS } from "builder_platform_interaction/screenEditorUtils";
-import { addCurrentValueToEvent } from "builder_platform_interaction/screenEditorCommonUtils";
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
+import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
 
 /*
  * Screen element property editor for the text area field.
@@ -13,15 +13,25 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
 
     labels = LABELS;
 
-    handlePropertyChanged = (event) => {
+    handlePropertyChanged = event => {
         event.stopPropagation();
         const currentValue = this.field[event.detail.propertyName];
-        this.dispatchEvent(addCurrentValueToEvent(event, this.field, currentValue));
-    }
+        this.dispatchEvent(
+            addCurrentValueToEvent(event, this.field, currentValue)
+        );
+    };
 
     /* Handle change of Default Value resource picker */
     handleDefaultValueChanged(event) {
-        const propChangedEvent = new PropertyChangedEvent('defaultValue', event.detail.value, event.detail.error, null, this.field.defaultValue, undefined, event.detail.dataType);
+        const propChangedEvent = new PropertyChangedEvent(
+            'defaultValue',
+            event.detail.value,
+            event.detail.error,
+            null,
+            this.field.defaultValue,
+            undefined,
+            event.detail.dataType
+        );
         // This lets the next event handler know that the default value should be treated like a string
         // if it's not a reference and it's not null.
         propChangedEvent.detail.defaultValueDataType = 'String';
@@ -39,6 +49,7 @@ export default class ScreenTextareaFieldPropertiesEditor extends LightningElemen
             false, // disabled
             this.field.dataType, // type
             false, // enableFieldDrilldown
-            LIGHTNING_INPUT_VARIANTS.STANDARD); // variant
+            LIGHTNING_INPUT_VARIANTS.STANDARD
+        ); // variant
     }
 }

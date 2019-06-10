@@ -1,9 +1,16 @@
-import { generateGuid } from "builder_platform_interaction/storeLib";
-import { getElementByGuid } from "builder_platform_interaction/storeUtils";
-import { ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { createFEROV } from "../ferov";
-import { createListRowItem, RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from "./baseList";
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import {
+    ELEMENT_TYPE,
+    CONNECTOR_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createFEROV } from '../ferov';
+import {
+    createListRowItem,
+    RHS_DATA_TYPE_PROPERTY,
+    RHS_PROPERTY
+} from './baseList';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -20,14 +27,21 @@ export function createAvailableConnection(availableConnection = {}) {
     return { type };
 }
 
-function createCanvasElementConfig(config = { isSelected: false, isHighlighted: false }) {
+function createCanvasElementConfig(
+    config = { isSelected: false, isHighlighted: false }
+) {
     const { isSelected, isHighlighted } = config;
     return { isSelected, isHighlighted };
 }
 
 export function baseCanvasElement(canvasElement = {}) {
     const newCanvasElement = baseResource(canvasElement);
-    const { label = '', locationX = 0, locationY = 0, connectorCount = 0 } = canvasElement;
+    const {
+        label = '',
+        locationX = 0,
+        locationY = 0,
+        connectorCount = 0
+    } = canvasElement;
     let { config } = canvasElement;
     config = createCanvasElementConfig(config);
     return Object.assign(newCanvasElement, {
@@ -49,12 +63,12 @@ export function baseCanvasElement(canvasElement = {}) {
  */
 export function duplicateCanvasElement(canvasElement, newGuid, newName) {
     const { locationX, locationY, maxConnections, elementType } = canvasElement;
-    const duplicatedElement =  Object.assign({}, canvasElement, {
+    const duplicatedElement = Object.assign({}, canvasElement, {
         guid: newGuid,
         name: newName,
         locationX: locationX + DUPLICATE_ELEMENT_XY_OFFSET,
         locationY: locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-        config: {isSelected: true, isHighlighted: false},
+        config: { isSelected: true, isHighlighted: false },
         connectorCount: 0,
         maxConnections,
         elementType
@@ -74,7 +88,13 @@ export function duplicateCanvasElement(canvasElement, newGuid, newName) {
  * @returns {Object} Returns the duplicated child element with the updated guid and name
  * @private
  */
-function _createDuplicateChildElement(childReference, childElementGuidMap, childElementNameMap, createChildElement, childReferenceKey) {
+function _createDuplicateChildElement(
+    childReference,
+    childElementGuidMap,
+    childElementNameMap,
+    createChildElement,
+    childReferenceKey
+) {
     const childElement = getElementByGuid(childReference[childReferenceKey]);
     const duplicatedChildElement = createChildElement(childElement);
     return Object.assign(duplicatedChildElement, {
@@ -98,8 +118,22 @@ function _createDuplicateChildElement(childReference, childElementGuidMap, child
  * @returns {Object} Returns the object containing the duplicated canvas element, duplicated child elements, updated child
  * references and available connections
  */
-export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, newName, childElementGuidMap, childElementNameMap, createChildElement, childReferencesKey, childReferenceKey, defaultAvailableConnections = []) {
-    const { duplicatedElement } = duplicateCanvasElement(canvasElement, newGuid, newName);
+export function duplicateCanvasElementWithChildElements(
+    canvasElement,
+    newGuid,
+    newName,
+    childElementGuidMap,
+    childElementNameMap,
+    createChildElement,
+    childReferencesKey,
+    childReferenceKey,
+    defaultAvailableConnections = []
+) {
+    const { duplicatedElement } = duplicateCanvasElement(
+        canvasElement,
+        newGuid,
+        newName
+    );
     const childReferences = canvasElement[childReferencesKey];
 
     const additionalAvailableConnections = [];
@@ -108,9 +142,17 @@ export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, 
     // Iterating over existing child references to create duplicate child elements and updating available connections.
     // Also using the duplicated guids to create the updated childReferences for the duplicated element
     const updatedChildReferences = childReferences.map(childReference => {
-        const duplicatedChildElement = _createDuplicateChildElement(childReference, childElementGuidMap, childElementNameMap, createChildElement, childReferenceKey);
+        const duplicatedChildElement = _createDuplicateChildElement(
+            childReference,
+            childElementGuidMap,
+            childElementNameMap,
+            createChildElement,
+            childReferenceKey
+        );
 
-        duplicatedChildElements[duplicatedChildElement.guid] = duplicatedChildElement;
+        duplicatedChildElements[
+            duplicatedChildElement.guid
+        ] = duplicatedChildElement;
 
         additionalAvailableConnections.push({
             type: CONNECTOR_TYPE.REGULAR,
@@ -122,8 +164,16 @@ export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, 
         };
     });
 
-    const availableConnections = [...defaultAvailableConnections, ...additionalAvailableConnections];
-    return { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections };
+    const availableConnections = [
+        ...defaultAvailableConnections,
+        ...additionalAvailableConnections
+    ];
+    return {
+        duplicatedElement,
+        duplicatedChildElements,
+        updatedChildReferences,
+        availableConnections
+    };
 }
 
 /**
@@ -134,10 +184,14 @@ export function duplicateCanvasElementWithChildElements(canvasElement, newGuid, 
 export function createCondition(condition = {}) {
     let newCondition = {};
     if (condition.hasOwnProperty('leftValueReference')) {
-        const ferov = createFEROV(condition.rightValue, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
+        const ferov = createFEROV(
+            condition.rightValue,
+            RHS_PROPERTY,
+            RHS_DATA_TYPE_PROPERTY
+        );
         newCondition = Object.assign({}, ferov, {
-            leftHandSide : condition.leftValueReference,
-            operator : condition.operator
+            leftHandSide: condition.leftValueReference,
+            operator: condition.operator
         });
 
         newCondition = createListRowItem(newCondition);
@@ -166,21 +220,34 @@ export function createCondition(condition = {}) {
  * @return {ChildElement}
  */
 export function baseChildElement(childElement = {}, elementType) {
-    if (elementType !== ELEMENT_TYPE.OUTCOME && elementType !== ELEMENT_TYPE.WAIT_EVENT) {
-        throw new Error('baseChildElement should only be used for outcomes and wait events');
-    } else if (childElement.dataType && childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value) {
-        throw new Error(`dataType ${childElement.dataType} is invalid for baseChildElement`);
+    if (
+        elementType !== ELEMENT_TYPE.OUTCOME &&
+        elementType !== ELEMENT_TYPE.WAIT_EVENT
+    ) {
+        throw new Error(
+            'baseChildElement should only be used for outcomes and wait events'
+        );
+    } else if (
+        childElement.dataType &&
+        childElement.dataType !== FLOW_DATA_TYPE.BOOLEAN.value
+    ) {
+        throw new Error(
+            `dataType ${childElement.dataType} is invalid for baseChildElement`
+        );
     }
     const newChildElement = baseElement(childElement);
     const { label = '' } = childElement;
     return Object.assign(newChildElement, {
         label,
         elementType,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value
     });
 }
 
-export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) {
+export function baseCanvasElementsArrayToMap(
+    elementList = [],
+    connectors = []
+) {
     const elements = baseElementsArrayToMap(elementList);
     return Object.assign(elements, {
         connectors
@@ -189,7 +256,7 @@ export function baseCanvasElementsArrayToMap(elementList = [], connectors = []) 
 
 export function baseElementsArrayToMap(elementList = []) {
     const elements = elementList.reduce((acc, element) => {
-        return Object.assign(acc, {[element.guid]: element});
+        return Object.assign(acc, { [element.guid]: element });
     }, {});
     return {
         elements
@@ -198,8 +265,8 @@ export function baseElementsArrayToMap(elementList = []) {
 
 export function baseElement(element = {}) {
     const { guid = generateGuid(), name = '' } = element;
-    return ({
+    return {
         guid,
         name
-    });
+    };
 }

@@ -1,4 +1,4 @@
-import { Store } from "builder_platform_interaction/storeLib";
+import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
  * Fetches the element from the store for the input element guid.
@@ -6,7 +6,7 @@ import { Store } from "builder_platform_interaction/storeLib";
  * @param {string} guid for the element
  * @return {*} store element or undefined if the guid does not exists.
  */
-export const getElementByGuid = (guid) => {
+export const getElementByGuid = guid => {
     return Store.getStore().getCurrentState().elements[guid];
 };
 
@@ -44,11 +44,21 @@ export const getElementByDevName = (devName, caseSensitive = false) => {
  * @param {string[]} listOfGuidsToSkip
  * @returns {Object[]} matchingElements Object list
  */
-export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listOfGuidsToSkip = []) => {
-    return elements && Object.values(elements).filter(element =>
-        !listOfGuidsToSkip.includes(element.guid)
-        && nameToBeTested !== '' // no need to run the validation in case of empty string
-        && (element.name && element.name.toLowerCase()) === (nameToBeTested && nameToBeTested.toLowerCase()));
+export const getDuplicateDevNameElements = (
+    elements = {},
+    nameToBeTested,
+    listOfGuidsToSkip = []
+) => {
+    return (
+        elements &&
+        Object.values(elements).filter(
+            element =>
+                !listOfGuidsToSkip.includes(element.guid) &&
+                nameToBeTested !== '' && // no need to run the validation in case of empty string
+                (element.name && element.name.toLowerCase()) ===
+                    (nameToBeTested && nameToBeTested.toLowerCase())
+        )
+    );
 };
 
 /**
@@ -61,7 +71,12 @@ export const getDuplicateDevNameElements = (elements = {}, nameToBeTested, listO
 export const isDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
-    const matches = getDuplicateDevNameElements(elements, nameToBeTested, listOfGuidsToSkip) || [];
+    const matches =
+        getDuplicateDevNameElements(
+            elements,
+            nameToBeTested,
+            listOfGuidsToSkip
+        ) || [];
     return matches.length > 0;
 };
 
@@ -72,10 +87,16 @@ export const isDevNameInStore = (nameToBeTested, listOfGuidsToSkip = []) => {
  * @param {string[]} listOfGuidsToSkip - for checking against uniqueness
  * @returns {boolean}
  */
-export const isOrderNumberInStore = (orderNumberToBeTested, listOfGuidsToSkip = []) => {
+export const isOrderNumberInStore = (
+    orderNumberToBeTested,
+    listOfGuidsToSkip = []
+) => {
     const currentState = Store.getStore().getCurrentState();
     const elements = currentState.elements;
-    const matches = Object.values(elements).filter(element =>
-        !listOfGuidsToSkip.includes(element.guid) && (element.stageOrder) === orderNumberToBeTested);
+    const matches = Object.values(elements).filter(
+        element =>
+            !listOfGuidsToSkip.includes(element.guid) &&
+            element.stageOrder === orderNumberToBeTested
+    );
     return matches.length > 0;
 };

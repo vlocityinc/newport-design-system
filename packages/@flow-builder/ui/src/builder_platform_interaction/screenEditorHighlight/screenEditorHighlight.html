@@ -1,34 +1,90 @@
 <template>
-    <div class={classList} onclick={handleSelected} tabindex={tabIndex} draggable={isDraggable} ondragstart={handleDragStart} ondragend={handleDragEnd}>
-        <div class='highlight-header has-box-shadow slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center'>
-            <lightning-icon icon-name='utility:connected_apps' size='x-small' variant='inverse'></lightning-icon>
-            <div class='slds-p-left_xx-small slds-text-body_small slds-truncate'>{title}</div>
+    <div
+        class={classList}
+        onclick={handleSelected}
+        tabindex={tabIndex}
+        draggable={isDraggable}
+        ondragstart={handleDragStart}
+        ondragend={handleDragEnd}
+    >
+        <div
+            class="highlight-header has-box-shadow slds-is-absolute slds-p-horizontal_x-small slds-align_absolute-center"
+        >
+            <lightning-icon
+                icon-name="utility:connected_apps"
+                size="x-small"
+                variant="inverse"
+            ></lightning-icon>
+            <div
+                class="slds-p-left_xx-small slds-text-body_small slds-truncate"
+            >
+                {title}
+            </div>
         </div>
-        
-        <div if:false={shouldPreventEvents} class='highlight-frame has-box-shadow'>
-            <slot name='screen-element'></slot>
-            <div if:true={shouldDisplayIcons} class='highlight-icons-container slds-grid slds-is-absolute'>
-                <div class='highlight-icon-container slds-text-align_center'>                    
-                    <lightning-button-icon class='highlight-icon left' icon-name='utility:move' variant='bare-inverse' size='small'></lightning-button-icon>
+
+        <div
+            if:false={shouldPreventEvents}
+            class="highlight-frame has-box-shadow"
+        >
+            <slot name="screen-element"></slot>
+            <div
+                if:true={shouldDisplayIcons}
+                class="highlight-icons-container slds-grid slds-is-absolute"
+            >
+                <div class="highlight-icon-container slds-text-align_center">
+                    <lightning-button-icon
+                        class="highlight-icon left"
+                        icon-name="utility:move"
+                        variant="bare-inverse"
+                        size="small"
+                    ></lightning-button-icon>
                 </div>
-                <div class='highlight-icon-container slds-text-align_center'>
-                    <lightning-button-icon class='highlight-icon right has-box-shadow' icon-name='utility:delete' variant='bare-inverse' size='small' alternative-text={labels.deleteAlternativeText} onclick={handleDelete}></lightning-button-icon>
-                </div>                    
-            </div>            
+                <div class="highlight-icon-container slds-text-align_center">
+                    <lightning-button-icon
+                        class="highlight-icon right has-box-shadow"
+                        icon-name="utility:delete"
+                        variant="bare-inverse"
+                        size="small"
+                        alternative-text={labels.deleteAlternativeText}
+                        onclick={handleDelete}
+                    ></lightning-button-icon>
+                </div>
+            </div>
         </div>
-        
-        <div if:true={shouldPreventEvents} class='slds-grid slds-is-relative'>
-            <slot name='screen-element'></slot>
-            <div class='slds-size_full highlight-frame has-box-shadow slds-is-absolute'>
-                <div if:true={shouldDisplayIcons} class='highlight-icons-container slds-grid slds-is-relative slds-float_right'>
-                    <div class='highlight-icon-container slds-text-align_center'>                    
-                        <lightning-button-icon class='highlight-icon left' icon-name='utility:move' variant='bare-inverse' size='small'></lightning-button-icon>
+
+        <div if:true={shouldPreventEvents} class="slds-grid slds-is-relative">
+            <slot name="screen-element"></slot>
+            <div
+                class="slds-size_full highlight-frame has-box-shadow slds-is-absolute"
+            >
+                <div
+                    if:true={shouldDisplayIcons}
+                    class="highlight-icons-container slds-grid slds-is-relative slds-float_right"
+                >
+                    <div
+                        class="highlight-icon-container slds-text-align_center"
+                    >
+                        <lightning-button-icon
+                            class="highlight-icon left"
+                            icon-name="utility:move"
+                            variant="bare-inverse"
+                            size="small"
+                        ></lightning-button-icon>
                     </div>
-                    <div class='highlight-icon-container slds-text-align_center'>
-                        <lightning-button-icon class='highlight-icon right has-box-shadow' icon-name='utility:delete' variant='bare-inverse' size='small' alternative-text={labels.deleteAlternativeText} onclick={handleDelete}></lightning-button-icon>
-                    </div>     
+                    <div
+                        class="highlight-icon-container slds-text-align_center"
+                    >
+                        <lightning-button-icon
+                            class="highlight-icon right has-box-shadow"
+                            icon-name="utility:delete"
+                            variant="bare-inverse"
+                            size="small"
+                            alternative-text={labels.deleteAlternativeText}
+                            onclick={handleDelete}
+                        ></lightning-button-icon>
+                    </div>
                 </div>
-            </div> 
-        </div>            
+            </div>
+        </div>
     </div>
 </template>

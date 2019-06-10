@@ -4,16 +4,24 @@ import { variableConstantReducer } from '../variableConstantReducer';
 import VariableConstantEditor from '../variableConstantEditor';
 import * as mockStoreData from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
-import { createAction, PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
+import {
+    createAction,
+    PROPERTY_EDITOR_ACTION
+} from 'builder_platform_interaction/actions';
 
-jest.mock('builder_platform_interaction/ferovResourcePicker', () => require('builder_platform_interaction_mocks/ferovResourcePicker'));
+jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
+    require('builder_platform_interaction_mocks/ferovResourcePicker')
+);
 
-const setupComponentUnderTest = (props) => {
-    const element = createElement('builder_platform_interaction-variable-constant-editor', {
-        is: VariableConstantEditor,
-    });
+const setupComponentUnderTest = props => {
+    const element = createElement(
+        'builder_platform_interaction-variable-constant-editor',
+        {
+            is: VariableConstantEditor
+        }
+    );
     element.node = props;
-    element.node.defaultValueIndex = {value: 'guid', error: null};
+    element.node.defaultValueIndex = { value: 'guid', error: null };
     document.body.appendChild(element);
     return element;
 };
@@ -30,12 +38,22 @@ describe('variable/constant reducer', () => {
     let updatedEditor;
 
     beforeEach(() => {
-        stringVariable = deepCopy(mockStoreData.mutatedVariablesAndConstants[mockStoreData.stringVariableGuid]);
+        stringVariable = deepCopy(
+            mockStoreData.mutatedVariablesAndConstants[
+                mockStoreData.stringVariableGuid
+            ]
+        );
         variableConstantEditor = setupComponentUnderTest(stringVariable);
 
-        updateAction = (errorValue) => {
-            const action = createAction(PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY, { propertyName, value, error: errorValue });
-            updatedEditor = variableConstantReducer(variableConstantEditor, action);
+        updateAction = errorValue => {
+            const action = createAction(
+                PROPERTY_EDITOR_ACTION.UPDATE_ELEMENT_PROPERTY,
+                { propertyName, value, error: errorValue }
+            );
+            updatedEditor = variableConstantReducer(
+                variableConstantEditor,
+                action
+            );
         };
 
         spy = jest.spyOn(variableConstantValidation, 'validateProperty');

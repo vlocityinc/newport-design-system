@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { format } from "builder_platform_interaction/commonUtils";
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class ConnectorPicker extends LightningElement {
     // eslint-disable-next-line @lwc/lwc/valid-api

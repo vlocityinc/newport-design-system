@@ -1,9 +1,9 @@
-import { LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class ButtonBanner extends LightningElement {
     @api
-    link
+    link;
 
     @api
-    label
+    label;
 }

@@ -1,15 +1,25 @@
-import { LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { recordDeleteReducer } from './recordDeleteReducer';
 import { LABELS } from './recordDeleteEditorLabels';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { PropertyChangedEvent } from "builder_platform_interaction/events";
-import { NUMBER_RECORDS_TO_STORE, RECORD_FILTER_CRITERIA } from "builder_platform_interaction/recordEditorLib";
-import { ENTITY_TYPE, getDeletableEntities, fetchFieldsForEntity} from "builder_platform_interaction/sobjectLib";
-import { FLOW_DATA_TYPE } from "builder_platform_interaction/dataTypeLib";
-import { getRulesForElementType, RULE_TYPES } from "builder_platform_interaction/ruleLib";
-import BaseResourcePicker from "builder_platform_interaction/baseResourcePicker";
+import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import {
+    NUMBER_RECORDS_TO_STORE,
+    RECORD_FILTER_CRITERIA
+} from 'builder_platform_interaction/recordEditorLib';
+import {
+    ENTITY_TYPE,
+    getDeletableEntities,
+    fetchFieldsForEntity
+} from 'builder_platform_interaction/sobjectLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    getRulesForElementType,
+    RULE_TYPES
+} from 'builder_platform_interaction/ruleLib';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 /**
  * Record Delete Editor class
@@ -19,25 +29,27 @@ export default class RecordDeleteEditor extends LightningElement {
 
     @track
     state = {
-        recordDeleteElement : {},
+        recordDeleteElement: {},
         entityFields: {}
     };
 
     /**
      * element specific rules
      */
-    rules = getRulesForElementType(RULE_TYPES.ASSIGNMENT, ELEMENT_TYPE.RECORD_DELETE);
+    rules = getRulesForElementType(
+        RULE_TYPES.ASSIGNMENT,
+        ELEMENT_TYPE.RECORD_DELETE
+    );
 
     /**
      * CRUD filter in place nothing but "DELETABLE" entities allowed
      */
-    crudFilterType = ENTITY_TYPE.DELETABLE
+    crudFilterType = ENTITY_TYPE.DELETABLE;
 
     /**
      * element type of the current editor
      */
     elementType = ELEMENT_TYPE.RECORD_DELETE;
-
 
     /**
      * only "All criteria" allowed for the conditions to met filtering
@@ -73,7 +85,9 @@ export default class RecordDeleteEditor extends LightningElement {
      * @returns {string} storing options in place
      */
     get numberRecordsToStoreValue() {
-        return this.state.recordDeleteElement.useSobject ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
+        return this.state.recordDeleteElement.useSobject
+            ? NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+            : NUMBER_RECORDS_TO_STORE.ALL_RECORDS;
     }
 
     /**
@@ -104,7 +118,8 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     get entityDisplayText() {
         const entityToDisplay = getDeletableEntities().find(
-                entity => entity.apiName === this.recordEntityName);
+            entity => entity.apiName === this.recordEntityName
+        );
         return (entityToDisplay && entityToDisplay.entityLabel) || '';
     }
 
@@ -126,18 +141,18 @@ export default class RecordDeleteEditor extends LightningElement {
     }
 
     /**
-    * @returns {Object} config to pass to entity-resource-picker component
-    */
+     * @returns {Object} config to pass to entity-resource-picker component
+     */
     get entityComboboxConfig() {
-            return BaseResourcePicker.getComboboxConfig(
-                this.labels.object,
-                this.labels.objectPlaceholder,
-                this.state.recordDeleteElement.object.error,
-                false, // literalsAllowed?
-                true, // required?
-                false, // disabled?
-                FLOW_DATA_TYPE.SOBJECT.value
-            );
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.object,
+            this.labels.objectPlaceholder,
+            this.state.recordDeleteElement.object.error,
+            false, // literalsAllowed?
+            true, // required?
+            false, // disabled?
+            FLOW_DATA_TYPE.SOBJECT.value
+        );
     }
 
     /**
@@ -146,11 +161,13 @@ export default class RecordDeleteEditor extends LightningElement {
     updateFields() {
         this.state.entityFields = {};
         if (this.recordEntityName) {
-            fetchFieldsForEntity(this.recordEntityName).then(fields => {
-                this.state.entityFields = fields;
-            }).catch(() => {
-                // fetchFieldsForEntity displays an error message
-            });
+            fetchFieldsForEntity(this.recordEntityName)
+                .then(fields => {
+                    this.state.entityFields = fields;
+                })
+                .catch(() => {
+                    // fetchFieldsForEntity displays an error message
+                });
         }
     }
 
@@ -163,9 +180,18 @@ export default class RecordDeleteEditor extends LightningElement {
      * @param {string} oldValue - old value
      */
     updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
-        const propChangedEvent = new PropertyChangedEvent(propertyName, newValue, error, null, oldValue);
+        const propChangedEvent = new PropertyChangedEvent(
+            propertyName,
+            newValue,
+            error,
+            null,
+            oldValue
+        );
         propChangedEvent.detail.ignoreValidate = ignoreValidate;
-        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, propChangedEvent);
+        this.state.recordDeleteElement = recordDeleteReducer(
+            this.state.recordDeleteElement,
+            propChangedEvent
+        );
     }
 
     /**
@@ -174,8 +200,10 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     @api
     validate() {
-        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, { type: VALIDATE_ALL,
-            isSObjectMode : this.isSObjectMode });
+        this.state.recordDeleteElement = recordDeleteReducer(
+            this.state.recordDeleteElement,
+            { type: VALIDATE_ALL, isSObjectMode: this.isSObjectMode }
+        );
         return getErrorsFromHydratedElement(this.state.recordDeleteElement);
     }
 
@@ -184,8 +212,12 @@ export default class RecordDeleteEditor extends LightningElement {
      * @param {object} event
      */
     handleInputReferenceChangedEvent(event) {
-         event.stopPropagation();
-         this.updateProperty('inputReference', event.detail.value, event.detail.error);
+        event.stopPropagation();
+        this.updateProperty(
+            'inputReference',
+            event.detail.value,
+            event.detail.error
+        );
     }
 
     /**
@@ -194,7 +226,10 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     handleRecordStoreOptionChanged(event) {
         event.stopPropagation();
-        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, event);
+        this.state.recordDeleteElement = recordDeleteReducer(
+            this.state.recordDeleteElement,
+            event
+        );
     }
 
     /**
@@ -203,10 +238,17 @@ export default class RecordDeleteEditor extends LightningElement {
     handleResourceChanged(event) {
         event.stopPropagation();
         const oldRecordEntityName = this.recordEntityName;
-        const newRecordEntityName = (event.detail.item && event.detail.item.value) || '';
+        const newRecordEntityName =
+            (event.detail.item && event.detail.item.value) || '';
 
         if (newRecordEntityName !== oldRecordEntityName) {
-            this.updateProperty('object', newRecordEntityName, event.detail.error, false, oldRecordEntityName);
+            this.updateProperty(
+                'object',
+                newRecordEntityName,
+                event.detail.error,
+                false,
+                oldRecordEntityName
+            );
             this.recordEntityName = newRecordEntityName;
         }
     }
@@ -217,6 +259,9 @@ export default class RecordDeleteEditor extends LightningElement {
      */
     handlePropertyOrListItemChanged(event) {
         event.stopPropagation();
-        this.state.recordDeleteElement = recordDeleteReducer(this.state.recordDeleteElement, event);
+        this.state.recordDeleteElement = recordDeleteReducer(
+            this.state.recordDeleteElement,
+            event
+        );
     }
 }

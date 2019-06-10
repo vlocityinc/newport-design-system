@@ -1,6 +1,5 @@
 const eventName = 'deletewaitevent';
 
-
 export class DeleteWaitEventEvent {
     constructor(guid) {
         return new CustomEvent(eventName, {

@@ -1,26 +1,54 @@
 <template>
-    <div class='screen-palette-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical' aria-hidden='false'>
-        	<div class='slds-panel__header slds-shrink-none'>
-        		<h2 class='slds-panel__header-title slds-text-heading_small'>{labels.paletteTitle}</h2>
-        	</div>
-            <div class='slds-shrink-none slds-grid_vertical-align-end slds-p-horizontal_small slds-p-top_small'>
-                <div class='slds-form-element slds-m-right_xx-small'>
-                    <label class='slds-form-element__label slds-assistive-text' for='filter-input'>{labels.paletteSearch}</label>
-                    <div class='slds-form-element__control slds-input-has-icon slds-input-has-icon_right'>
-                        <input id='filter-input' type='text' class='slds-input palette-search-input' placeholder={labels.paletteSearchPlaceholder} oninput={handleSearch}>
-                        <lightning-icon class='slds-input__icon slds-input__icon_left' icon-name='utility:search' size='xx-small'></lightning-icon>
-                    </div>
+    <div
+        class="screen-palette-container slds-size_small slds-panel slds-panel_drawer slds-border_right slds-panel_docked-left slds-grid slds-grid_vertical"
+        aria-hidden="false"
+    >
+        <div class="slds-panel__header slds-shrink-none">
+            <h2 class="slds-panel__header-title slds-text-heading_small">
+                {labels.paletteTitle}
+            </h2>
+        </div>
+        <div
+            class="slds-shrink-none slds-grid_vertical-align-end slds-p-horizontal_small slds-p-top_small"
+        >
+            <div class="slds-form-element slds-m-right_xx-small">
+                <label
+                    class="slds-form-element__label slds-assistive-text"
+                    for="filter-input"
+                    >{labels.paletteSearch}</label
+                >
+                <div
+                    class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"
+                >
+                    <input
+                        id="filter-input"
+                        type="text"
+                        class="slds-input palette-search-input"
+                        placeholder={labels.paletteSearchPlaceholder}
+                        oninput={handleSearch}
+                    />
+                    <lightning-icon
+                        class="slds-input__icon slds-input__icon_left"
+                        icon-name="utility:search"
+                        size="xx-small"
+                    ></lightning-icon>
                 </div>
             </div>
-        	<div class='slds-scrollable_y slds-grid slds-grid_vertical slds-grow'>
-                <builder_platform_interaction-palette data={types}
-                                                      items-draggable='true'
-                                                      icon-size='x-small'
-                                                      onpaletteitemclicked={handlePaletteItemClickedEvent}
-                                                      ondragstart={handleDragStart}
-                                                      show-section-item-count='true'>
-                </builder_platform_interaction-palette>
-        	</div>
-            <builder_platform_interaction-button-banner label={labels.appExchangeButtonLabel} link={appExchangeLink}></builder_platform_interaction-button-banner>
+        </div>
+        <div class="slds-scrollable_y slds-grid slds-grid_vertical slds-grow">
+            <builder_platform_interaction-palette
+                data={types}
+                items-draggable="true"
+                icon-size="x-small"
+                onpaletteitemclicked={handlePaletteItemClickedEvent}
+                ondragstart={handleDragStart}
+                show-section-item-count="true"
+            >
+            </builder_platform_interaction-palette>
+        </div>
+        <builder_platform_interaction-button-banner
+            label={labels.appExchangeButtonLabel}
+            link={appExchangeLink}
+        ></builder_platform_interaction-button-banner>
     </div>
 </template>

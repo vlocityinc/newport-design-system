@@ -3,7 +3,7 @@ import absoluteTimeLabel from '@salesforce/label/FlowBuilderWaitEditor.absoluteT
 import directRecordTimeLabel from '@salesforce/label/FlowBuilderWaitEditor.directRecordTimeLabel';
 import resumeTimeHeader from '@salesforce/label/FlowBuilderWaitEditor.resumeTimeHeader';
 import eventDeliveryStatusLabel from '@salesforce/label/FlowBuilderWaitEditor.eventDeliveryStatusLabel';
-import baseTimeLabel from  '@salesforce/label/FlowBuilderWaitEditor.baseTimeLabel';
+import baseTimeLabel from '@salesforce/label/FlowBuilderWaitEditor.baseTimeLabel';
 import offsetNumberLabel from '@salesforce/label/FlowBuilderWaitEditor.offsetNumberLabel';
 import baseTimeoffsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.baseTimeoffsetNumberHelpText';
 import fieldOffsetNumberHelpText from '@salesforce/label/FlowBuilderWaitEditor.fieldOffsetNumberHelpText';

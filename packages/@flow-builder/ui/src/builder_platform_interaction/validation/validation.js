@@ -1,18 +1,22 @@
-import * as ValidationRules from "builder_platform_interaction/validationRules";
-import { updateProperties, set, getValueFromHydratedItem } from "builder_platform_interaction/dataMutationLib";
-import { getDuplicateDevNameElements } from "builder_platform_interaction/storeUtils";
+import * as ValidationRules from 'builder_platform_interaction/validationRules';
+import {
+    updateProperties,
+    set,
+    getValueFromHydratedItem
+} from 'builder_platform_interaction/dataMutationLib';
+import { getDuplicateDevNameElements } from 'builder_platform_interaction/storeUtils';
 
 /**
  * @constant defaultRules - map of propertyName to validation rules
  * @type {Object}
  */
 export const defaultRules = {
-    'label' : [
+    label: [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.maximumCharactersLimit(255)
     ],
-    'name' : [
+    name: [
         ValidationRules.shouldNotBeBlank,
         ValidationRules.shouldNotBeNullOrUndefined,
         ValidationRules.shouldNotBeginOrEndWithUnderscores,
@@ -27,7 +31,9 @@ export class Validation {
     finalizedRules;
 
     constructor(additionalRules = defaultRules, isOverride = false) {
-        this.finalizedRules = isOverride ? additionalRules : this.getMergedRules(defaultRules, additionalRules);
+        this.finalizedRules = isOverride
+            ? additionalRules
+            : this.getMergedRules(defaultRules, additionalRules);
     }
 
     /**
@@ -36,9 +42,19 @@ export class Validation {
      * @param {string} guidToBeValidated
      * @returns {string|null} errorString or null
      */
-    validateDevNameUniquenessLocally = (guidToNameList = [], devNameToBeValidated, guidToBeValidated) => {
-        const matches = getDuplicateDevNameElements(guidToNameList, devNameToBeValidated, [guidToBeValidated]);
-        return matches && matches.length > 0 ? ValidationRules.LABELS.fieldNotUnique : null;
+    validateDevNameUniquenessLocally = (
+        guidToNameList = [],
+        devNameToBeValidated,
+        guidToBeValidated
+    ) => {
+        const matches = getDuplicateDevNameElements(
+            guidToNameList,
+            devNameToBeValidated,
+            [guidToBeValidated]
+        );
+        return matches && matches.length > 0
+            ? ValidationRules.LABELS.fieldNotUnique
+            : null;
     };
     /**
      * @param {object} existingRules - default/common rules for the fields specified
@@ -54,7 +70,10 @@ export class Validation {
                 if (Array.isArray(value) && Array.isArray(finalRules[key])) {
                     finalRules[key] = finalRules[key].concat(value);
                 } else {
-                    finalRules[key] = this.getMergedRules(finalRules[key], value);
+                    finalRules[key] = this.getMergedRules(
+                        finalRules[key],
+                        value
+                    );
                 }
             } else {
                 finalRules[key] = value;
@@ -87,7 +106,8 @@ export class Validation {
      * @returns {string|null} error - error string or null based on if the field value is valid or not
      */
     validateProperty(propName, value, overrideRules) {
-        const rulesForField = overrideRules || this.finalizedRules[propName] || [];
+        const rulesForField =
+            overrideRules || this.finalizedRules[propName] || [];
         return this.runRulesOnData(rulesForField, value);
     }
 
@@ -97,26 +117,57 @@ export class Validation {
      * @returns {Object} nodeElement - updated Node element after all the rules are run on respective data values.
      */
     validateAll(nodeElement, overrideRules) {
-        const rulesForTheNodeElement = overrideRules || this.finalizedRules || [];
-        const flattenedRulesForNodeElement = Object.entries(rulesForTheNodeElement);
-        for (let i = 0, ln = flattenedRulesForNodeElement.length; i < ln; i++) { // Go through each rule (eg: key: label, rules: [rule1, rule2])
+        const rulesForTheNodeElement =
+            overrideRules || this.finalizedRules || [];
+        const flattenedRulesForNodeElement = Object.entries(
+            rulesForTheNodeElement
+        );
+        for (let i = 0, ln = flattenedRulesForNodeElement.length; i < ln; i++) {
+            // Go through each rule (eg: key: label, rules: [rule1, rule2])
             const [key, rules] = flattenedRulesForNodeElement[i];
-            if (nodeElement.hasOwnProperty(key) && nodeElement[key]) { // find out if the key exists in the top level object itself
+            if (nodeElement.hasOwnProperty(key) && nodeElement[key]) {
+                // find out if the key exists in the top level object itself
                 const nodeElementValueObject = nodeElement[key];
-                if (Array.isArray(rules)) { // if there is an array of rules, evaluate it
-                    const errorReturnedFromRule = this.runRulesOnData(rules, getValueFromHydratedItem(nodeElementValueObject), nodeElement);
+                if (Array.isArray(rules)) {
+                    // if there is an array of rules, evaluate it
+                    const errorReturnedFromRule = this.runRulesOnData(
+                        rules,
+                        getValueFromHydratedItem(nodeElementValueObject),
+                        nodeElement
+                    );
                     if (errorReturnedFromRule !== null) {
                         nodeElement = updateProperties(nodeElement, {
-                            [key] : { value: nodeElementValueObject.value, error: errorReturnedFromRule }
+                            [key]: {
+                                value: nodeElementValueObject.value,
+                                error: errorReturnedFromRule
+                            }
                         });
                     }
                     // if you have a function, and the value object is an array, calling that function with each object of the array should return you the array of rules for that object
-                } else if (rules instanceof Function && Array.isArray(nodeElementValueObject)) {
-                    for (let j = 0, len = nodeElementValueObject.length; j < len; j++) {
-                        nodeElement = set(nodeElement, [key, j], this.validateAll(updateProperties(nodeElementValueObject[j]), rules(nodeElementValueObject[j])));
+                } else if (
+                    rules instanceof Function &&
+                    Array.isArray(nodeElementValueObject)
+                ) {
+                    for (
+                        let j = 0, len = nodeElementValueObject.length;
+                        j < len;
+                        j++
+                    ) {
+                        nodeElement = set(
+                            nodeElement,
+                            [key, j],
+                            this.validateAll(
+                                updateProperties(nodeElementValueObject[j]),
+                                rules(nodeElementValueObject[j])
+                            )
+                        );
                     }
                 } else {
-                    nodeElement = set(nodeElement, [key], this.validateAll(nodeElementValueObject, rules));
+                    nodeElement = set(
+                        nodeElement,
+                        [key],
+                        this.validateAll(nodeElementValueObject, rules)
+                    );
                 }
             }
         }

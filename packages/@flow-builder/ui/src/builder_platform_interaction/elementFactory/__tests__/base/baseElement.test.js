@@ -7,9 +7,13 @@ import {
     baseCanvasElementsArrayToMap,
     createCondition,
     DUPLICATE_ELEMENT_XY_OFFSET
-} from "../../base/baseElement";
-import { CONDITION_LOGIC, ELEMENT_TYPE, CONNECTOR_TYPE } from "builder_platform_interaction/flowMetadata";
-import {FLOW_DATA_TYPE} from "../../../dataTypeLib/dataTypeLib";
+} from '../../base/baseElement';
+import {
+    CONDITION_LOGIC,
+    ELEMENT_TYPE,
+    CONNECTOR_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from '../../../dataTypeLib/dataTypeLib';
 import * as baseList from '../../base/baseList';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
@@ -58,27 +62,33 @@ const mockCondition2 = {
     operator: 'bar'
 };
 
-const elementList = [{
-    guid: '1',
-    name: 'decision 1'
-}, {
-    guid: '2',
-    name: 'decision 2'
-}];
+const elementList = [
+    {
+        guid: '1',
+        name: 'decision 1'
+    },
+    {
+        guid: '2',
+        name: 'decision 2'
+    }
+];
 
-const connectors = [{
-    guid: '3',
-    label: 'connector 1'
-}, {
-    guid: '4',
-    label: 'connector 2'
-}];
+const connectors = [
+    {
+        guid: '3',
+        label: 'connector 1'
+    },
+    {
+        guid: '4',
+        label: 'connector 2'
+    }
+];
 
 describe('Base resource function', () => {
     it('returns a new resource object with default values when no argument is passed', () => {
         const expectedResult = {
             name: '',
-            description: '',
+            description: ''
         };
         const actualResult = baseResource();
         expect(actualResult).toMatchObject(expectedResult);
@@ -86,7 +96,7 @@ describe('Base resource function', () => {
     it('returns a new resource object when existing resource object is passed as argument', () => {
         const expectedResult = {
             name: 'var1',
-            description: 'This is description for variable 1',
+            description: 'This is description for variable 1'
         };
         const actualResult = baseResource(resource);
         expect(actualResult).not.toBe(expectedResult);
@@ -94,7 +104,7 @@ describe('Base resource function', () => {
     it('returns a new resource object with same value when existing resource object is passed as argument', () => {
         const expectedResult = {
             name: 'var1',
-            description: 'This is description for variable 1',
+            description: 'This is description for variable 1'
         };
         const actualResult = baseResource(resource);
         expect(actualResult).toMatchObject(expectedResult);
@@ -168,15 +178,21 @@ describe('Duplicate Base Canvas Element Function', () => {
     const duplicatedCanvasElement = {
         guid: 'duplicateElement',
         name: 'Assignment1_0',
-        locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
-        locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-        config: {isSelected: true, isHighlighted: false},
+        locationX:
+            originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
+        locationY:
+            originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
+        config: { isSelected: true, isHighlighted: false },
         connectorCount: 0,
         maxConnections: 1,
         elementType: ELEMENT_TYPE.ASSIGNMENT
     };
 
-    const { duplicatedElement } = duplicateCanvasElement(originalCanvasElement, 'duplicateElement', 'Assignment1_0');
+    const { duplicatedElement } = duplicateCanvasElement(
+        originalCanvasElement,
+        'duplicateElement',
+        'Assignment1_0'
+    );
 
     it('The duplicated element should contain updated properties', () => {
         expect(duplicatedElement).toEqual(duplicatedCanvasElement);
@@ -185,11 +201,11 @@ describe('Duplicate Base Canvas Element Function', () => {
 
 describe('Duplicate Canvas Element With Child Elements Function', () => {
     const childElementGuidMap = {
-        'originalChildElement': 'duplicateChildElement'
+        originalChildElement: 'duplicateChildElement'
     };
 
     const childElementNameMap = {
-        'childElement1': 'childElement1_0'
+        childElement1: 'childElement1_0'
     };
 
     const createChildElement = function (originalChildElement) {
@@ -204,32 +220,55 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             locationY: 20,
             maxConnections: 2,
             elementType: ELEMENT_TYPE.DECISION,
-            outcomeReferences: [{
-                outcomeReference: 'originalChildElement'
-            }]
+            outcomeReferences: [
+                {
+                    outcomeReference: 'originalChildElement'
+                }
+            ]
         };
 
-        const defaultAvailableConnections = [{
-            type: CONNECTOR_TYPE.DEFAULT
-        }];
+        const defaultAvailableConnections = [
+            {
+                type: CONNECTOR_TYPE.DEFAULT
+            }
+        ];
 
-        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } = duplicateCanvasElementWithChildElements(originalCanvasElement, 'duplicateElement',
-            'Decision1_0', childElementGuidMap, childElementNameMap, createChildElement, 'outcomeReferences',
-            'outcomeReference', defaultAvailableConnections);
+        const {
+            duplicatedElement,
+            duplicatedChildElements,
+            updatedChildReferences,
+            availableConnections
+        } = duplicateCanvasElementWithChildElements(
+            originalCanvasElement,
+            'duplicateElement',
+            'Decision1_0',
+            childElementGuidMap,
+            childElementNameMap,
+            createChildElement,
+            'outcomeReferences',
+            'outcomeReference',
+            defaultAvailableConnections
+        );
 
         it('The duplicated element should have updated properties', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Decision1_0',
-                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
-                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-                config: {isSelected: true, isHighlighted: false},
+                locationX:
+                    originalCanvasElement.locationX +
+                    DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY:
+                    originalCanvasElement.locationY +
+                    DUPLICATE_ELEMENT_XY_OFFSET,
+                config: { isSelected: true, isHighlighted: false },
                 connectorCount: 0,
                 maxConnections: 2,
                 elementType: ELEMENT_TYPE.DECISION,
-                outcomeReferences: [{
-                    outcomeReference: 'originalChildElement'
-                }]
+                outcomeReferences: [
+                    {
+                        outcomeReference: 'originalChildElement'
+                    }
+                ]
             };
 
             expect(duplicatedElement).toEqual(newElement);
@@ -245,18 +284,23 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
         });
 
         it('updatedChildReferences should be an array containing the updated Child References', () => {
-            expect(updatedChildReferences).toEqual([{
-                outcomeReference: 'duplicateChildElement'
-            }]);
+            expect(updatedChildReferences).toEqual([
+                {
+                    outcomeReference: 'duplicateChildElement'
+                }
+            ]);
         });
 
         it('availableConenctions should have both default and child referenced available connections', () => {
-            expect(availableConnections).toEqual([{
-                type: CONNECTOR_TYPE.DEFAULT
-            }, {
-                type: CONNECTOR_TYPE.REGULAR,
-                childReference: 'duplicateChildElement'
-            }]);
+            expect(availableConnections).toEqual([
+                {
+                    type: CONNECTOR_TYPE.DEFAULT
+                },
+                {
+                    type: CONNECTOR_TYPE.REGULAR,
+                    childReference: 'duplicateChildElement'
+                }
+            ]);
         });
     });
 
@@ -271,18 +315,33 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
             fieldReferences: []
         };
 
-        const { duplicatedElement, duplicatedChildElements, updatedChildReferences, availableConnections } =
-            duplicateCanvasElementWithChildElements(originalCanvasElement, 'duplicateElement', 'Screen1_0',
-                childElementGuidMap, childElementNameMap, createChildElement, 'fieldReferences',
-                'fieldReference');
+        const {
+            duplicatedElement,
+            duplicatedChildElements,
+            updatedChildReferences,
+            availableConnections
+        } = duplicateCanvasElementWithChildElements(
+            originalCanvasElement,
+            'duplicateElement',
+            'Screen1_0',
+            childElementGuidMap,
+            childElementNameMap,
+            createChildElement,
+            'fieldReferences',
+            'fieldReference'
+        );
 
         it('The duplicated element should have updated properties', () => {
             const newElement = {
                 guid: 'duplicateElement',
                 name: 'Screen1_0',
-                locationX: originalCanvasElement.locationX + DUPLICATE_ELEMENT_XY_OFFSET,
-                locationY: originalCanvasElement.locationY + DUPLICATE_ELEMENT_XY_OFFSET,
-                config: {isSelected: true, isHighlighted: false},
+                locationX:
+                    originalCanvasElement.locationX +
+                    DUPLICATE_ELEMENT_XY_OFFSET,
+                locationY:
+                    originalCanvasElement.locationY +
+                    DUPLICATE_ELEMENT_XY_OFFSET,
+                config: { isSelected: true, isHighlighted: false },
                 connectorCount: 0,
                 maxConnections: 1,
                 elementType: ELEMENT_TYPE.SCREEN,
@@ -308,51 +367,69 @@ describe('Duplicate Canvas Element With Child Elements Function', () => {
 
 describe('Base child element function', () => {
     it('throws an Error if no element type specified', () => {
-        expect(() => baseChildElement()).toThrow('baseChildElement should only be used for outcomes and wait events');
+        expect(() => baseChildElement()).toThrow(
+            'baseChildElement should only be used for outcomes and wait events'
+        );
     });
     it('throws an Error if invalid element type specified', () => {
-        expect(() => baseChildElement(childElement, ELEMENT_TYPE.ACTION_CALL)).toThrow('baseChildElement should only be used for outcomes and wait events');
+        expect(() =>
+            baseChildElement(childElement, ELEMENT_TYPE.ACTION_CALL)
+        ).toThrow(
+            'baseChildElement should only be used for outcomes and wait events'
+        );
     });
     it('returns a new child element object when existing resource child element is passed as argument', () => {
-        const expectedResult =  {
+        const expectedResult = {
             label: 'foo',
-            elementType: ELEMENT_TYPE.OUTCOME,
+            elementType: ELEMENT_TYPE.OUTCOME
         };
 
-        const actualResult = baseChildElement(childElement, ELEMENT_TYPE.OUTCOME);
+        const actualResult = baseChildElement(
+            childElement,
+            ELEMENT_TYPE.OUTCOME
+        );
         expect(actualResult).not.toBe(expectedResult);
     });
     it('returns a new child element object with same value when existing child element object is passed as argument', () => {
-        const mockOutcome =  {
+        const mockOutcome = {
             label: 'foo',
-            elementType: ELEMENT_TYPE.OUTCOME,
+            elementType: ELEMENT_TYPE.OUTCOME
         };
 
-        const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
+        const actualResult = baseChildElement(
+            mockOutcome,
+            ELEMENT_TYPE.OUTCOME
+        );
         expect(actualResult).toMatchObject(mockOutcome);
     });
 
     it('child element returned has data type BOOLEAN even if no data type specified', () => {
-        const mockOutcome =  {
+        const mockOutcome = {
             label: 'foo',
-            elementType: ELEMENT_TYPE.OUTCOME,
+            elementType: ELEMENT_TYPE.OUTCOME
         };
 
-        const actualResult = baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME);
+        const actualResult = baseChildElement(
+            mockOutcome,
+            ELEMENT_TYPE.OUTCOME
+        );
         expect(actualResult.dataType).toEqual(FLOW_DATA_TYPE.BOOLEAN.value);
     });
 
     it('throws an Error if data type other than BOOLEAN specified', () => {
-        const mockOutcome =  {
+        const mockOutcome = {
             conditionLogic: CONDITION_LOGIC.OR,
-            conditions: [
-                mockCondition1,
-                mockCondition2,
-            ],
-            dataType: FLOW_DATA_TYPE.STRING.value,
+            conditions: [mockCondition1, mockCondition2],
+            dataType: FLOW_DATA_TYPE.STRING.value
         };
 
-        expect(() => baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME)).toThrow(`dataType ${FLOW_DATA_TYPE.STRING.value} is invalid for baseChildElement`);
+        expect(() =>
+            baseChildElement(mockOutcome, ELEMENT_TYPE.OUTCOME)
+        ).toThrow(
+            `dataType ${
+                FLOW_DATA_TYPE.STRING.value
+            } is invalid for baseChildElement`
+        );
     });
 });
 
@@ -364,12 +441,16 @@ describe('createCondition', () => {
     });
 
     it('calls createListRowItem when given a condition from the store', () => {
-        const mockCondition = { leftValueReference: '{!foo}', rightValue: { stringValue: 'bar' }, operator: 'fizzBuzz' };
+        const mockCondition = {
+            leftValueReference: '{!foo}',
+            rightValue: { stringValue: 'bar' },
+            operator: 'fizzBuzz'
+        };
         const expectedParam = {
             leftHandSide: mockCondition.leftValueReference,
             rightHandSide: mockCondition.rightValue.stringValue,
             rightHandSideDataType: FLOW_DATA_TYPE.STRING.value,
-            operator: mockCondition.operator,
+            operator: mockCondition.operator
         };
         createCondition(mockCondition);
         expect(createListRowItemSpy).toHaveBeenCalledWith(expectedParam);
@@ -380,7 +461,7 @@ describe('createCondition', () => {
             leftHandSide: 'foo',
             rightHandSide: 'bar',
             rightHandSideDataType: FLOW_DATA_TYPE.STRING.value,
-            operator: 'fizzBuzz',
+            operator: 'fizzBuzz'
         };
         const condition = createCondition(mockCondition);
         expect(createListRowItemSpy).toHaveBeenCalledWith(mockCondition);
@@ -403,11 +484,17 @@ describe('createCondition', () => {
 
 describe('Base elements with connectors function returns a new object combining elements and connectors', () => {
     it('and have same element object as element in element list', () => {
-        const actualResult = baseCanvasElementsArrayToMap(elementList, connectors);
+        const actualResult = baseCanvasElementsArrayToMap(
+            elementList,
+            connectors
+        );
         expect(actualResult.elements['1']).toBe(elementList[0]);
     });
     it('and have same connector array in new object as connector', () => {
-        const actualResult = baseCanvasElementsArrayToMap(elementList, connectors);
+        const actualResult = baseCanvasElementsArrayToMap(
+            elementList,
+            connectors
+        );
         expect(actualResult.connectors).toBe(connectors);
     });
 });

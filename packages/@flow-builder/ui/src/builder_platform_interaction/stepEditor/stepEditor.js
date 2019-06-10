@@ -1,13 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './stepEditorLabels';
-import { getErrorsFromHydratedElement } from "builder_platform_interaction/dataMutationLib";
+import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 export default class StepEditor extends LightningElement {
     labels = LABELS;
 
     /**
      * Internal state for the step editor
-    */
+     */
     @track
     stepElement = {};
 

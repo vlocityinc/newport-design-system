@@ -1,5 +1,9 @@
 import { LightningElement, api } from 'lwc';
-import { getIconForParameter, getFerovTypeFromTypeName, EXTENSION_PARAM_PREFIX } from "builder_platform_interaction/screenEditorUtils";
+import {
+    getIconForParameter,
+    getFerovTypeFromTypeName,
+    EXTENSION_PARAM_PREFIX
+} from 'builder_platform_interaction/screenEditorUtils';
 
 /*
  * Property editor for screen extensions attributes.
@@ -33,7 +37,13 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
     get resourcePickerConfig() {
         const collection = this.descriptor.maxOccurs > 1;
         const config = {
-            allowLiterals: this.isInput && !collection && this.descriptor.dataType && !['sobject', 'apex'].includes(this.descriptor.dataType.toLowerCase()),
+            allowLiterals:
+                this.isInput &&
+                !collection &&
+                this.descriptor.dataType &&
+                !['sobject', 'apex'].includes(
+                    this.descriptor.dataType.toLowerCase()
+                ),
             collection,
             elementConfig: null,
             hideGlobalConstants: this.isOutput,
@@ -53,7 +63,11 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
 
     get value() {
         if (this.isInput) {
-            return this.attribute ? this.attribute.value : (this.descriptor.hasDefaultValue ? this.descriptor.defaultValue : null);
+            return this.attribute
+                ? this.attribute.value
+                : this.descriptor.hasDefaultValue
+                ? this.descriptor.defaultValue
+                : null;
         }
 
         return this.attribute ? this.attribute.value : null;
@@ -71,14 +85,18 @@ export default class ScreenExtensionAttributeEditor extends LightningElement {
      * Prepend output for the screen-reducer to know it is handling with the output version of the attribute
      * @param {Event} event - The property change event
      */
-    handlePropertyChanged = (event) => {
+    handlePropertyChanged = event => {
         const input = this.isInput;
-        const prefix = input ? EXTENSION_PARAM_PREFIX.INPUT : EXTENSION_PARAM_PREFIX.OUTPUT;
+        const prefix = input
+            ? EXTENSION_PARAM_PREFIX.INPUT
+            : EXTENSION_PARAM_PREFIX.OUTPUT;
         event.detail.propertyName = prefix + '.' + event.detail.propertyName;
-        event.detail.valueDataType = getFerovTypeFromTypeName(this.descriptor.dataType) || this.descriptor.dataType;
+        event.detail.valueDataType =
+            getFerovTypeFromTypeName(this.descriptor.dataType) ||
+            this.descriptor.dataType;
         event.detail.required = input && this.descriptor.isRequired;
         if (!input && this.attributeIndex > 0) {
             event.detail.attributeIndex = this.attributeIndex;
         }
-    }
+    };
 }

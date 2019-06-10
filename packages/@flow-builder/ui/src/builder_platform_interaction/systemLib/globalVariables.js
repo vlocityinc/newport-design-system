@@ -7,16 +7,17 @@ let globalVariables;
  * @param {Array}
  *            data raw type data from the server
  */
-const convertTypeData = (data) => data.reduce((acc, obj) => {
-    const type = {
-        durableId: obj.durableId,
-        label: obj.label,
-        name: obj.name
-    };
+const convertTypeData = data =>
+    data.reduce((acc, obj) => {
+        const type = {
+            durableId: obj.durableId,
+            label: obj.label,
+            name: obj.name
+        };
 
-    acc[obj.name] = type;
-    return acc;
-}, {});
+        acc[obj.name] = type;
+        return acc;
+    }, {});
 
 /**
  * Converts serialized GlobalVariables to a form usable by menus.
@@ -24,24 +25,25 @@ const convertTypeData = (data) => data.reduce((acc, obj) => {
  * @param {Array}
  *            data raw variable data from the server
  */
-const convertData = (data, types) => data.reduce((acc, obj) => {
-    const type = types[obj.type.name];
-    const name = `${type.name}.${obj.name}`;
-    // TODO: Need to figure out dataType for the icon, it's not coming back from
-    // the service.
-    const variable = {
-        guid: name,
-        label: obj.name,
-        name,
-        apiName: obj.name,
-    };
+const convertData = (data, types) =>
+    data.reduce((acc, obj) => {
+        const type = types[obj.type.name];
+        const name = `${type.name}.${obj.name}`;
+        // TODO: Need to figure out dataType for the icon, it's not coming back from
+        // the service.
+        const variable = {
+            guid: name,
+            label: obj.name,
+            name,
+            apiName: obj.name
+        };
 
-    if (!acc[type.name]) {
-        acc[type.name] = {};
-    }
-    acc[type.name][name] = variable;
-    return acc;
-}, {});
+        if (!acc[type.name]) {
+            acc[type.name] = {};
+        }
+        acc[type.name][name] = variable;
+        return acc;
+    }, {});
 
 /**
  * Sets the global variable types and variables. This should be done during app
@@ -50,7 +52,7 @@ const convertData = (data, types) => data.reduce((acc, obj) => {
  * @param {Object}
  *            data the data returned by the service
  */
-export const setGlobalVariables = (data) => {
+export const setGlobalVariables = data => {
     const parsedTypes = JSON.parse(data.globalVariableTypes);
     let allTypes;
     if (Array.isArray(parsedTypes)) {
@@ -62,7 +64,7 @@ export const setGlobalVariables = (data) => {
         globalVariables = convertData(parsedVariables, allTypes);
     }
     globalVariableTypes = {};
-    Object.keys(allTypes).forEach((type) => {
+    Object.keys(allTypes).forEach(type => {
         if (globalVariables[type]) {
             globalVariableTypes[type] = allTypes[type];
         }
@@ -87,7 +89,7 @@ export const getGlobalVariableTypes = () => {
  *            typeName name of the global variable type to get variables for
  * @returns {Object} global variables usable in menus
  */
-export const getGlobalVariables = (typeName) => {
+export const getGlobalVariables = typeName => {
     return globalVariables && globalVariables[typeName];
 };
 
@@ -97,7 +99,7 @@ export const getGlobalVariables = (typeName) => {
  * @param {String} id      string with the format $____.______
  * @returns {Object|null}  object representing the global variable if this id is valid
  */
-export const getGlobalVariable = (id) => {
+export const getGlobalVariable = id => {
     const ref = id.split('.');
     if (globalVariables && globalVariables[ref[0]]) {
         return globalVariables[ref[0]][ref[1]];

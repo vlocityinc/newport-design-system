@@ -1,17 +1,23 @@
-import { baseResourceMetadataObject, baseChildElementMetadataObject, baseCanvasElementMetadataObject } from "../../base/baseMetadata";
-import {CONDITION_LOGIC} from "builder_platform_interaction/flowMetadata";
-import { createConditionMetadataObject } from "../../base/baseMetadata";
+import {
+    baseResourceMetadataObject,
+    baseChildElementMetadataObject,
+    baseCanvasElementMetadataObject
+} from '../../base/baseMetadata';
+import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { createConditionMetadataObject } from '../../base/baseMetadata';
 import { createFEROVMetadataObject } from '../../ferov';
 import { RHS_DATA_TYPE_PROPERTY, RHS_PROPERTY } from '../../base/baseList';
 
 jest.mock('../../ferov', () => {
     return {
-        createFEROVMetadataObject: jest.fn((condition) => {
-            return {
-                value: 'someRHSValueFrom' + condition
-            };
-        }).mockName('createFEROVMetadataObject'),
-        getDataTypeKey: require.requireActual('../../ferov.js').getDataTypeKey,
+        createFEROVMetadataObject: jest
+            .fn(condition => {
+                return {
+                    value: 'someRHSValueFrom' + condition
+                };
+            })
+            .mockName('createFEROVMetadataObject'),
+        getDataTypeKey: require.requireActual('../../ferov.js').getDataTypeKey
     };
 });
 
@@ -28,7 +34,7 @@ const childElement = {
 };
 
 const canvasElement = {
-    guid: 'guid_1',
+    guid: 'guid1',
     name: 'Assignment 1',
     description: 'This is description for assignment 1',
     label: 'Assignment 1',
@@ -45,7 +51,7 @@ describe('Base resource metadata function', () => {
     it('returns a new resource object with default values when no argument is passed', () => {
         const expectedResult = {
             name: '',
-            description: '',
+            description: ''
         };
         const actualResult = baseResourceMetadataObject();
         expect(actualResult).toMatchObject(expectedResult);
@@ -53,7 +59,7 @@ describe('Base resource metadata function', () => {
     it('returns a new resource object when existing resource object is passed as argument', () => {
         const expectedResult = {
             name: 'var1',
-            description: 'This is description for variable 1',
+            description: 'This is description for variable 1'
         };
         const actualResult = baseResourceMetadataObject(resource);
         expect(actualResult).not.toBe(expectedResult);
@@ -61,7 +67,7 @@ describe('Base resource metadata function', () => {
     it('returns a new resource object with same value when existing resource object is passed as argument', () => {
         const expectedResult = {
             name: 'var1',
-            description: 'This is description for variable 1',
+            description: 'This is description for variable 1'
         };
         const actualResult = baseResourceMetadataObject(resource);
         expect(actualResult).toMatchObject(expectedResult);
@@ -80,7 +86,7 @@ describe('Base child element metadata function', () => {
     it('returns a new child element object when existing resource child element is passed as argument', () => {
         const expectedResult = {
             name: 'Outcome_1',
-            label: 'Outcome 1',
+            label: 'Outcome 1'
         };
         const actualResult = baseChildElementMetadataObject(childElement);
         expect(actualResult).not.toBe(expectedResult);
@@ -88,7 +94,7 @@ describe('Base child element metadata function', () => {
     it('returns a new child element object with same value when existing child element object is passed as argument', () => {
         const expectedResult = {
             name: 'Outcome_1',
-            label: 'Outcome 1',
+            label: 'Outcome 1'
         };
         const actualResult = baseChildElementMetadataObject(childElement);
         expect(actualResult).toMatchObject(expectedResult);
@@ -102,7 +108,7 @@ describe('Base canvas element metadata function', () => {
             label: '',
             description: '',
             locationX: 0,
-            locationY: 0,
+            locationY: 0
         };
         const actualResult = baseCanvasElementMetadataObject();
         expect(actualResult).toMatchObject(expectedResult);
@@ -113,7 +119,7 @@ describe('Base canvas element metadata function', () => {
             description: 'This is description for assignment 1',
             label: 'Assignment 1',
             locationX: 10,
-            locationY: 20,
+            locationY: 20
         };
         const actualResult = baseCanvasElementMetadataObject(canvasElement);
         expect(actualResult).not.toBe(expectedResult);
@@ -124,7 +130,7 @@ describe('Base canvas element metadata function', () => {
             description: 'This is description for assignment 1',
             label: 'Assignment 1',
             locationX: 10,
-            locationY: 20,
+            locationY: 20
         };
         const actualResult = baseCanvasElementMetadataObject(canvasElement);
         expect(actualResult).toMatchObject(expectedResult);
@@ -136,11 +142,13 @@ describe('Base canvas element metadata function', () => {
                 translateY: 20
             },
             connectorMap: {
-                'guid_1': [{
-                    type: 'REGULAR',
-                    source: 'guid_1',
-                    target: 'guid_2'
-                }]
+                guid1: [
+                    {
+                        type: 'REGULAR',
+                        source: 'guid1',
+                        target: 'guid2'
+                    }
+                ]
             }
         };
         const expectedResult = {
@@ -150,11 +158,14 @@ describe('Base canvas element metadata function', () => {
             locationX: 20,
             locationY: 40,
             connector: {
-                targetReference: 'guid_2'
+                targetReference: 'guid2'
             }
         };
 
-        const actualResult = baseCanvasElementMetadataObject(canvasElement, config);
+        const actualResult = baseCanvasElementMetadataObject(
+            canvasElement,
+            config
+        );
         expect(actualResult).toMatchObject(expectedResult);
     });
 });
@@ -171,9 +182,13 @@ describe('createConditionMetadataObject', () => {
     });
 
     it('calls createFEROVMetadataObject with the given condition', () => {
-        const condition = { foo: 'bar'};
+        const condition = { foo: 'bar' };
         createConditionMetadataObject(condition);
-        expect(createFEROVMetadataObject).toHaveBeenCalledWith(condition, RHS_PROPERTY, RHS_DATA_TYPE_PROPERTY);
+        expect(createFEROVMetadataObject).toHaveBeenCalledWith(
+            condition,
+            RHS_PROPERTY,
+            RHS_DATA_TYPE_PROPERTY
+        );
     });
 
     it('creates a metadata condition', () => {
@@ -184,7 +199,7 @@ describe('createConditionMetadataObject', () => {
         expect(result).toMatchObject({
             leftValueReference: condition.leftHandSide,
             operator: condition.operator,
-            rightValue: mockRightValue,
+            rightValue: mockRightValue
         });
     });
 });

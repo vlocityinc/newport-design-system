@@ -1,11 +1,23 @@
 <template>
     <div if:true={listSectionHeader} class="test-list-section-header">
-        <div class='slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small test-list-header-title'>{listSectionHeader}</div>
-        <ul if:true={listSectionItems} class='slds-has-block-links test-list-section-items'>
-            <template for:each={listSectionItems} for:item='listItem'>
-                <li key={listItem.guid} class='slds-p-vertical_x-small test-list-section-item'>
-                    <builder_platform_interaction-used-by-content-item list-item={listItem}
-                                                                       show-locator-icon={isResourceDetails}>
+        <div
+            class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small test-list-header-title"
+        >
+            {listSectionHeader}
+        </div>
+        <ul
+            if:true={listSectionItems}
+            class="slds-has-block-links test-list-section-items"
+        >
+            <template for:each={listSectionItems} for:item="listItem">
+                <li
+                    key={listItem.guid}
+                    class="slds-p-vertical_x-small test-list-section-item"
+                >
+                    <builder_platform_interaction-used-by-content-item
+                        list-item={listItem}
+                        show-locator-icon={isResourceDetails}
+                    >
                     </builder_platform_interaction-used-by-content-item>
                 </li>
             </template>

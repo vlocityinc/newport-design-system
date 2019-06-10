@@ -38,5 +38,5 @@ export const LABELS = {
     variable,
     variablePlaceholder,
     helpSObjectCollAltText,
-    filterRhsLabel,
+    filterRhsLabel
 };

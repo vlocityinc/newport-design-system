@@ -1,20 +1,20 @@
 /* Labels */
-import findRecords from "@salesforce/label/FlowBuilderRecordEditor.findRecords";
-import ruleFindingRecords from "@salesforce/label/FlowBuilderRecordEditor.ruleFindingRecords";
-import addCriteria from "@salesforce/label/FlowBuilderRecordEditor.addCriteria";
-import filterLhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterLhsLabel";
-import filterOperatorLabel from "@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel";
-import filterRhsLabel from "@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel";
-import filterNoCriteriaGet from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaGet";
-import filterNoCriteriaUpdate from "@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate";
-import filterLhsPlaceholder from "@salesforce/label/FlowBuilderRecordEditor.filterLhsPlaceholder";
-import filterOperatorPlaceholder from "@salesforce/label/FlowBuilderRecordEditor.filterOperatorPlaceholder";
-import filterAllCriterias from "@salesforce/label/FlowBuilderRecordEditor.filterAllCriterias";
-import filterPrefix from "@salesforce/label/FlowBuilderRecordEditor.filterPrefix";
-import criteriaMatchingRecords from "@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords";
-import updateAllRecords from "@salesforce/label/FlowBuilderRecordEditor.updateAllRecords";
-import warning from "@salesforce/label/FlowBuilderRecordEditor.warning";
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
+import findRecords from '@salesforce/label/FlowBuilderRecordEditor.findRecords';
+import ruleFindingRecords from '@salesforce/label/FlowBuilderRecordEditor.ruleFindingRecords';
+import addCriteria from '@salesforce/label/FlowBuilderRecordEditor.addCriteria';
+import filterLhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterLhsLabel';
+import filterOperatorLabel from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorLabel';
+import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
+import filterNoCriteriaGet from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaGet';
+import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.filterNoCriteriaUpdate';
+import filterLhsPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterLhsPlaceholder';
+import filterOperatorPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorPlaceholder';
+import filterAllCriterias from '@salesforce/label/FlowBuilderRecordEditor.filterAllCriterias';
+import filterPrefix from '@salesforce/label/FlowBuilderRecordEditor.filterPrefix';
+import criteriaMatchingRecords from '@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords';
+import updateAllRecords from '@salesforce/label/FlowBuilderRecordEditor.updateAllRecords';
+import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export const LABELS = {
     findRecords,
     ruleFindingRecords,
@@ -30,7 +30,7 @@ export const LABELS = {
     filterPrefix,
     criteriaMatchingRecords,
     updateAllRecords,
-    warning,
+    warning
 };
 
 export const CRITERIA_RECORDS_LABELS = {
@@ -43,7 +43,6 @@ export const CRITERIA_RECORDS_LABELS = {
 export const WARNING_LABELS = {
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.updateAllRecords
 };
-
 
 export const NO_CRITERIA_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterNoCriteriaGet,

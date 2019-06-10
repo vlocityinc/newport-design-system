@@ -1,6 +1,5 @@
 const eventName = 'cannotretrievetemplates';
 
-
 export class CannotRetrieveTemplatesEvent {
     constructor() {
         return new CustomEvent(eventName, {

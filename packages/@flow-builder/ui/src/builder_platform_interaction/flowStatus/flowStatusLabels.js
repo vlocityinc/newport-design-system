@@ -11,5 +11,5 @@ export const LABELS = {
     activeLabel,
     activeTitle,
     deactivatedLabel,
-    deactivatedTitle,
+    deactivatedTitle
 };

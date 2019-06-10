@@ -1,6 +1,5 @@
 const eventName = 'deleteoutcome';
 
-
 export class DeleteOutcomeEvent {
     constructor(guid) {
         return new CustomEvent(eventName, {

@@ -1,6 +1,9 @@
-import { ELEMENT_TYPE } from "builder_platform_interaction/flowMetadata";
-import { baseCanvasElement, baseCanvasElementsArrayToMap } from "./base/baseElement";
-import { baseCanvasElementMetadataObject } from "./base/baseMetadata";
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    baseCanvasElement,
+    baseCanvasElementsArrayToMap
+} from './base/baseElement';
+import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
 
 const elementType = ELEMENT_TYPE.STEP;

@@ -2,23 +2,34 @@ import { createParameterListRowItem } from './base/baseList';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 export function createOutputParameter(outputParameter = {}) {
-    const { name, assignToReference, value, valueDataType, rowIndex } = outputParameter;
+    const {
+        name,
+        assignToReference,
+        value,
+        valueDataType,
+        rowIndex
+    } = outputParameter;
 
     let valueFerov;
     if (!valueDataType) {
-        valueFerov = Object.assign({}, {
-            name,
-            value: assignToReference,
-            valueDataType: FEROV_DATA_TYPE.REFERENCE
-        });
+        valueFerov = Object.assign(
+            {},
+            {
+                name,
+                value: assignToReference,
+                valueDataType: FEROV_DATA_TYPE.REFERENCE
+            }
+        );
     }
-    const newOutputParameter = Object.assign({
-        name,
-        value,
-        valueDataType,
-        rowIndex,
-    },
-    valueFerov);
+    const newOutputParameter = Object.assign(
+        {
+            name,
+            value,
+            valueDataType,
+            rowIndex
+        },
+        valueFerov
+    );
     return createParameterListRowItem(newOutputParameter);
 }
 
@@ -29,8 +40,11 @@ export function createOutputParameterMetadataObject(outputParameter) {
 
     const { name, value } = outputParameter;
 
-    return Object.assign({}, {
-        name,
-        assignToReference: value
-    });
+    return Object.assign(
+        {},
+        {
+            name,
+            assignToReference: value
+        }
+    );
 }

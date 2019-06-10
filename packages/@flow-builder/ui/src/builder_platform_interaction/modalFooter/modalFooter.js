@@ -6,11 +6,14 @@ export default class ModalFooter extends LightningElement {
 
     @track state = {
         buttonOneDisabled: false,
-        buttonTwoDisabled: false,
+        buttonTwoDisabled: false
     };
 
     closeModal = (closeCallback = true) => {
-        if (typeof this.closeModalCallback === 'function' && closeCallback === true) {
+        if (
+            typeof this.closeModalCallback === 'function' &&
+            closeCallback === true
+        ) {
             this.closeModalCallback();
         }
     };

@@ -26,5 +26,5 @@ export const LABELS = {
     lhsPlaceholder,
     operatorLabel,
     operatorPlaceholder,
-    rhsLabel,
+    rhsLabel
 };

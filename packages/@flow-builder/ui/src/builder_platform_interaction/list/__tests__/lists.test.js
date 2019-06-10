@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import List from '../list';
-import {deepCopy} from "builder_platform_interaction/storeLib";
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 function createComponentForTest() {
     const el = createElement('builder_platform_interaction-list', { is: List });
@@ -9,11 +9,16 @@ function createComponentForTest() {
 }
 
 // TODO should come from some kind of item factory
-const size1 = [{
-    assignToReference: {value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0', error: null},
-    assignmentOperatorType: {value: 'Assign', error: null},
-    value: {value: 'xyz', error: null},
-}];
+const size1 = [
+    {
+        assignToReference: {
+            value: '1bdec16ccb-1919d-1868a-1bb1b-1f2881327c187d0',
+            error: null
+        },
+        assignmentOperatorType: { value: 'Assign', error: null },
+        value: { value: 'xyz', error: null }
+    }
+];
 
 describe('list', () => {
     it('handles the property changed event and updates the property', () => {
