@@ -77,6 +77,22 @@ export default class ConditionList extends LightningElement {
     @api
     fields;
 
+    /**
+     * Specifies the size of the condition logic input
+     * @type string (small | large)
+     */
+    @api conditionLogicInputSize;
+
+    get conditionLogicContainerClasses() {
+        const classes = ['slds-form-element', 'slds-m-bottom_small'];
+
+        if (this.conditionLogicInputSize !== 'large') {
+            classes.push('slds-size_1-of-3');
+        }
+
+        return classes.join(' ');
+    }
+
     processConditionLogic(value) {
         this.state.conditionLogicComboBoxValue = value;
         this.state.showCustomLogicInput = false;

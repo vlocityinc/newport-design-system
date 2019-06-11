@@ -18,6 +18,20 @@ export default class Row extends LightningElement {
     @api showPrefix;
     @api showDelete;
 
+    /**
+     * @returns {boolean} Whether to show the delete button
+     */
+    @api
+    get showDeleteButton() {
+        return this._showDeleteButton;
+    }
+
+    set showDeleteButton(showDeleteButton) {
+        this._showDeleteButton = showDeleteButton;
+    }
+
+    _showDeleteButton = true;
+
     get disableDelete() {
         return !this.showDelete;
     }

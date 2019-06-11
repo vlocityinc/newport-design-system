@@ -63,23 +63,40 @@ const selectors = {
         'builder_platform_interaction-field-to-ferov-expression-builder'
 };
 
-const createComponentUnderTest = conditionList => {
+const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-condition-list', {
         is: ConditionList
     });
-    document.body.appendChild(el);
 
-    el.containerElementType = conditionList.containerElementType;
-    el.conditions = conditionList.conditions;
-    el.conditionLogicOptions = conditionList.conditionLogicOptions;
-    el.conditionLogic = conditionList.conditionLogic;
-    el.parentGuid = conditionList.parentGuid;
     el.containerElementType = ELEMENT_TYPE.DECISION;
+    Object.assign(el, props);
 
+    document.body.appendChild(el);
     return el;
 };
 
 describe('Condition List', () => {
+    describe('conditionLogicInputSize', () => {
+        it('size_1_of_3 absent when large', () => {
+            const element = createComponentUnderTest({
+                ...listWithThreeConditionals,
+                conditionLogicInputSize: 'large'
+            });
+            expect(
+                element.shadowRoot.querySelector('div.size_1_of_3')
+            ).toBeNull();
+        });
+
+        it('size_1_of_3 present by default', () => {
+            const element = createComponentUnderTest({
+                ...listWithThreeConditionals
+            });
+            expect(
+                element.shadowRoot.querySelector('div.size_1_of_3')
+            ).toBeNull();
+        });
+    });
+
     describe('handleAddCondition', () => {
         it('fires addConditionEvent with current outcome GUID', () => {
             const element = createComponentUnderTest(listWithThreeConditionals);

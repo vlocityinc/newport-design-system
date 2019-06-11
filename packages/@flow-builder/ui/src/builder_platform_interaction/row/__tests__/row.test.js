@@ -5,21 +5,13 @@ import { DeleteListItemEvent } from 'builder_platform_interaction/events';
 const prefix = 'myAwesomePrefix';
 const itemIndex = 3;
 
-const createComponentUnderTest = showDel => {
+const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-row', {
         is: Row
     });
-    el.showDelete = showDel;
-    document.body.appendChild(el);
-    return el;
-};
 
-const createComponentUnderTestWithPrefix = (showPrefix, itemPrefix) => {
-    const el = createElement('builder_platform_interaction-row', {
-        is: Row
-    });
-    el.showPrefix = showPrefix;
-    el.itemPrefix = itemPrefix;
+    Object.assign(el, props);
+
     document.body.appendChild(el);
     return el;
 };
@@ -39,7 +31,7 @@ describe('Row delete button', () => {
         expect(deleteButton.disabled).toBeTruthy();
     });
     it('check delete button is disabled when showDelete specified to false', () => {
-        const myrowElement = createComponentUnderTest(false);
+        const myrowElement = createComponentUnderTest({ showDelete: false });
         const deleteButton = myrowElement.shadowRoot.querySelector(
             selectors.deleteButton
         );
@@ -47,35 +39,51 @@ describe('Row delete button', () => {
         expect(deleteButton.disabled).toBeTruthy();
     });
     it('check delete button enabled when showDelete specified to true', () => {
-        const myrowElement = createComponentUnderTest(true);
+        const myrowElement = createComponentUnderTest({ showDelete: true });
         const deleteButton = myrowElement.shadowRoot.querySelector(
             selectors.deleteButton
         );
         expect(deleteButton).not.toBeNull();
         expect(deleteButton.disabled).toBeFalsy();
     });
+
+    it('check delete button not rendered when showDeleteButton specified to false', () => {
+        const myrowElement = createComponentUnderTest({
+            showDeleteButton: false
+        });
+        const deleteButton = myrowElement.shadowRoot.querySelector(
+            selectors.deleteButton
+        );
+        expect(deleteButton).toBeNull();
+    });
 });
 
 describe('Row prefix', () => {
     it('check prefix is displayed when showprefix true and prefix is given', () => {
-        const myrowElement = createComponentUnderTestWithPrefix(true, prefix);
+        const myrowElement = createComponentUnderTest({
+            showPrefix: true,
+            itemPrefix: prefix
+        });
         const firstRow = myrowElement.shadowRoot.querySelector(
             selectors.prefix
         );
         expect(firstRow.textContent).toMatch(prefix);
     });
     it('check prefix is not displayed when showprefix false and prefix is given', () => {
-        const myrowElement = createComponentUnderTestWithPrefix(false, prefix);
+        const myrowElement = createComponentUnderTest({
+            showPrefix: false,
+            itemPrefix: prefix
+        });
         const firstRow = myrowElement.shadowRoot.querySelector(
             selectors.prefix
         );
         expect(firstRow).toBeNull();
     });
     it('check prefix is not displayed when showprefix undefined and prefix is given', () => {
-        const myrowElement = createComponentUnderTestWithPrefix(
-            undefined,
-            prefix
-        );
+        const myrowElement = createComponentUnderTest({
+            showPrefix: undefined,
+            itemPrefix: prefix
+        });
         const firstRow = myrowElement.shadowRoot.querySelector(
             selectors.prefix
         );
