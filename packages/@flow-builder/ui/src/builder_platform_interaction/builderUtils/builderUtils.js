@@ -255,6 +255,18 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
     return desc[mode];
 };
 
+const invokeModalWithComponentsOnCreate = (modal, data) => {
+    const modalFooter = modal.get('v.footer')[0];
+    if (data.closeModalCallback) {
+        modalFooter.set('v.closeModalCallback', () => {
+            data.closeModalCallback(modal);
+        });
+    } else {
+        modalFooter.set('v.closeModalCallback', modal.close);
+    }
+    return modalFooter;
+};
+
 /**
  * Gets the property editor config
  * @param {string} mode based on the event type
@@ -436,12 +448,14 @@ export function invokePropertyEditor(cmpName, attributes) {
  * @param modalHeaderPromise - the promise for the header.
  * @param modalBodyPromise - the promise for the body.
  * @param modalFooterPromise - the promise for footer.
+ * @param onCreate - function to apply specific behavior on create
  */
 export const invokeModalWithComponents = (
     data,
     modalHeaderPromise,
     modalBodyPromise,
-    modalFooterPromise
+    modalFooterPromise,
+    onCreate = invokeModalWithComponentsOnCreate
 ) => {
     Promise.all([modalHeaderPromise, modalBodyPromise, modalFooterPromise])
         .then(newComponents => {
@@ -465,16 +479,7 @@ export const invokeModalWithComponents = (
                     }
                 },
                 onCreate: modal => {
-                    const modalFooter = modal.get('v.footer')[0];
-                    if (data.closeModalCallback) {
-                        modalFooter.set('v.closeModalCallback', () => {
-                            data.closeModalCallback(modal);
-                        });
-                    } else {
-                        modalFooter.set('v.closeModalCallback', modal.close);
-                    }
-                    const panelBody = modal.get('v.body')[0];
-                    panelBody.set('v.footer', modalFooter);
+                    onCreate(modal, data);
                 }
             };
             dispatchGlobalEvent(UI_CREATE_PANEL, createPanelEventAttributes);
@@ -511,7 +516,8 @@ export const invokeModal = data => {
         data,
         modalHeaderPromise,
         modalBodyPromise,
-        modalFooterPromise
+        modalFooterPromise,
+        invokeModalWithComponentsOnCreate
     );
 };
 
@@ -543,7 +549,8 @@ export const invokeModalInternalData = data => {
         data,
         modalHeaderPromise,
         modalBodyPromise,
-        modalFooterPromise
+        modalFooterPromise,
+        invokeModalWithComponentsOnCreate
     );
 };
 
@@ -583,6 +590,13 @@ export const invokeNewFlowModal = (
             }
         }
     );
+
+    const invokeModalWithComponentsOnCreateOverride = (modal, data) => {
+        const modalFooter = invokeModalWithComponentsOnCreate(modal, data);
+        const panelBody = modal.get('v.body')[0];
+        panelBody.set('v.footer', modalFooter);
+    };
+
     invokeModalWithComponents(
         {
             bodyClass: 'slds-p-around_none slds-is-relative',
@@ -592,7 +606,8 @@ export const invokeNewFlowModal = (
         },
         modalHeaderPromise,
         modalBodyPromise,
-        modalFooterPromise
+        modalFooterPromise,
+        invokeModalWithComponentsOnCreateOverride
     );
 };
 
