@@ -607,15 +607,16 @@ function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
     describeExtension(element.extensionName, refreshCache, (desc, err) => {
         if (err) {
             callback([]);
+        } else {
+            callback(
+                desc.outputParameters.map(parameter => ({
+                    apiName: parameter.apiName,
+                    dataType: getFlowDataType(parameter.dataType),
+                    isCollection: parameter.maxOccurs > 1,
+                    label: parameter.label
+                }))
+            );
         }
-        callback(
-            desc.outputParameters.map(parameter => ({
-                apiName: parameter.apiName,
-                dataType: getFlowDataType(parameter.dataType),
-                isCollection: parameter.maxOccurs > 1,
-                label: parameter.label
-            }))
-        );
     });
 }
 

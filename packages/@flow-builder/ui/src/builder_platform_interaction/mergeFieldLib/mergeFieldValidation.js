@@ -20,6 +20,7 @@ import {
     getDataType
 } from 'builder_platform_interaction/ruleLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { getCachedExtensions } from 'builder_platform_interaction/screenEditorUtils';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -39,6 +40,11 @@ const VALIDATION_ERROR_TYPE = {
 
 /**
  * Validate merge fields.
+ *
+ * Validation is best-effort only : no false negatives but there can be false positives. This is because some validations
+ * are not yet supported and because validateMergeField is synchronous which means data (field descriptions ...) must
+ * already have been retrieved from server for validation.
+ *
  * Cross-Object field references ({!sObjectVariable.objectName1.objectName2.fieldName}) are not supported.
  */
 export class MergeFieldsValidation {
@@ -57,34 +63,6 @@ export class MergeFieldsValidation {
      * @property {Number} startIndex start index in the text where the error occurred
      * @property {Number} endIndex end index in the text where the error occurred
      */
-
-    /**
-     * Validate text with merge fields
-     *
-     * @param {string}
-     *            textWithMergeFields text with merge fields (ex :
-     *            '{!variable1.Name} == {!variable2.Name}')
-     * @returns {ValidationError[]} The validation errors
-     */
-    validateTextWithMergeFields(textWithMergeFields) {
-        const results = [];
-        let match;
-        try {
-            while (
-                (match = MERGEFIELD_REGEX.exec(textWithMergeFields)) !== null
-            ) {
-                results.push(
-                    this._validateMergeFieldReferenceValue(
-                        match[1],
-                        match.index + 2
-                    )
-                );
-            }
-            return [].concat.apply([], results);
-        } finally {
-            MERGEFIELD_REGEX.lastIndex = 0;
-        }
-    }
 
     /**
      * Validate a merge field
@@ -239,12 +217,14 @@ export class MergeFieldsValidation {
             );
             return [validationError];
         }
-        if (this.allowedParamTypes) {
-            return this._validateForAllowedParamTypes(
-                globalConstant,
+        if (!this._isElementValidForAllowedParamTypes(globalConstant)) {
+            const validationError = this._validationError(
+                VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE,
+                LABELS.invalidDataType,
                 index,
                 endIndex
             );
+            return [validationError];
         }
         return [];
     }
@@ -269,12 +249,14 @@ export class MergeFieldsValidation {
             );
             return [validationError];
         }
-        if (this.allowedParamTypes) {
-            return this._validateForAllowedParamTypes(
-                systemVariable,
+        if (!this._isElementValidForAllowedParamTypes(systemVariable)) {
+            const validationError = this._validationError(
+                VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE,
+                LABELS.invalidDataType,
                 index,
                 endIndex
             );
+            return [validationError];
         }
         return [];
     }
@@ -285,6 +267,9 @@ export class MergeFieldsValidation {
     }
 
     _isElementValidForAllowedParamTypes(element) {
+        if (!this.allowedParamTypes) {
+            return true;
+        }
         return isElementAllowed(
             this.allowedParamTypes,
             elementToParam(element)
@@ -309,24 +294,33 @@ export class MergeFieldsValidation {
         }
 
         if (this.allowedParamTypes) {
-            return this._validateForAllowedParamTypes(element, index, endIndex);
-        }
-        const elementType = this._getElementType(element);
-        if (
-            elementType.dataType === null ||
-            (!this.allowCollectionVariables && elementType.isCollection)
-        ) {
-            const validationErrorLabel = format(
-                LABELS.resourceCannotBeUsedAsMergeField,
-                mergeFieldReferenceValue
-            );
-            const validationError = this._validationError(
-                VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE,
-                validationErrorLabel,
-                index,
-                endIndex
-            );
-            return [validationError];
+            if (!this._isElementValidForAllowedParamTypes(element)) {
+                const validationError = this._validationError(
+                    VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE,
+                    LABELS.invalidDataType,
+                    index,
+                    endIndex
+                );
+                return [validationError];
+            }
+        } else {
+            const elementType = this._getElementType(element);
+            if (
+                elementType.dataType === null ||
+                (!this.allowCollectionVariables && elementType.isCollection)
+            ) {
+                const validationErrorLabel = format(
+                    LABELS.resourceCannotBeUsedAsMergeField,
+                    mergeFieldReferenceValue
+                );
+                const validationError = this._validationError(
+                    VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE,
+                    validationErrorLabel,
+                    index,
+                    endIndex
+                );
+                return [validationError];
+            }
         }
         return [];
     }
@@ -396,52 +390,69 @@ export class MergeFieldsValidation {
             );
             return [validationError];
         }
-
-        const field = this._getFieldForComplexType(
-            element.dataType,
-            element.subtype,
-            fieldName
-        );
-        let errors = [];
-        if (!field) {
-            const validationErrorLabel = format(
-                LABELS.unknownRecordField,
-                fieldName,
-                element.subtype
-            );
-            errors = [
-                this._validationError(
-                    VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD,
-                    validationErrorLabel,
-                    index,
-                    endIndex
-                )
-            ];
-        } else if (this.allowedParamTypes) {
-            errors = this._validateForAllowedParamTypes(field, index, endIndex);
-        }
-        return errors;
-    }
-
-    _getFieldForComplexType(dataType, entityName, fieldName) {
-        fieldName = fieldName.toLowerCase();
-        const fetchFieldsFn =
-            dataType === FLOW_DATA_TYPE.SOBJECT.value
-                ? sobjectLib.getFieldsForEntity
-                : getPropertiesForClass;
-        const fields = fetchFieldsFn(entityName);
-        for (const apiName in fields) {
-            if (fields.hasOwnProperty(apiName)) {
-                if (fieldName === apiName.toLowerCase()) {
-                    return fields[apiName];
+        let field;
+        if (element.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            field = this._getFieldForEntity(element.subtype, fieldName);
+            if (!field) {
+                const validationErrorLabel = format(
+                    LABELS.unknownRecordField,
+                    fieldName,
+                    element.subtype
+                );
+                return [
+                    this._validationError(
+                        VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD,
+                        validationErrorLabel,
+                        index,
+                        endIndex
+                    )
+                ];
+            }
+        } else if (element.dataType === FLOW_DATA_TYPE.APEX.value) {
+            field = this._getPropertyForApexClass(element.subtype, fieldName);
+            if (!field) {
+                const validationErrorLabel = format(
+                    LABELS.unknownRecordField,
+                    fieldName,
+                    element.subtype
+                );
+                return [
+                    this._validationError(
+                        VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD,
+                        validationErrorLabel,
+                        index,
+                        endIndex
+                    )
+                ];
+            }
+        } else if (
+            element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+        ) {
+            // this lib is synchronous, we check the field only if already cached.
+            const extensions = getCachedExtensions([element.extensionName]);
+            if (extensions != null) {
+                field = this._getOutputParameterForExtension(
+                    extensions[0],
+                    fieldName
+                );
+                if (!field) {
+                    const validationErrorLabel = format(
+                        LABELS.unknownRecordField,
+                        fieldName,
+                        element.extensionName
+                    );
+                    return [
+                        this._validationError(
+                            VALIDATION_ERROR_TYPE.UNKNOWN_MERGE_FIELD,
+                            validationErrorLabel,
+                            index,
+                            endIndex
+                        )
+                    ];
                 }
             }
         }
-        return undefined;
-    }
-
-    _validateForAllowedParamTypes(element, index, endIndex) {
-        if (!this._isElementValidForAllowedParamTypes(element)) {
+        if (field && !this._isElementValidForAllowedParamTypes(field)) {
             const validationError = this._validationError(
                 VALIDATION_ERROR_TYPE.WRONG_DATA_TYPE,
                 LABELS.invalidDataType,
@@ -452,8 +463,49 @@ export class MergeFieldsValidation {
         }
         return [];
     }
+
+    _getOutputParameterForExtension(extension, parameterName) {
+        parameterName = parameterName.toLowerCase();
+        return extension.outputParameters.find(
+            param => parameterName === param.apiName.toLowerCase()
+        );
+    }
+
+    _getFieldForEntity(entityName, fieldName) {
+        fieldName = fieldName.toLowerCase();
+        const fields = sobjectLib.getFieldsForEntity(entityName);
+        for (const apiName in fields) {
+            if (fields.hasOwnProperty(apiName)) {
+                if (fieldName === apiName.toLowerCase()) {
+                    return fields[apiName];
+                }
+            }
+        }
+        return undefined;
+    }
+
+    _getPropertyForApexClass(apexClassName, propertyName) {
+        propertyName = propertyName.toLowerCase();
+        const properties = getPropertiesForClass(apexClassName);
+        for (const apiName in properties) {
+            if (properties.hasOwnProperty(apiName)) {
+                if (propertyName === apiName.toLowerCase()) {
+                    return properties[apiName];
+                }
+            }
+        }
+        return undefined;
+    }
 }
 
+/**
+ * Validate text with merge fields
+ *
+ * @param {string}
+ *            textWithMergeFields text with merge fields (ex :
+ *            '{!variable1.Name} == {!variable2.Name}')
+ * @returns {ValidationError[]} The validation errors
+ */
 export function validateTextWithMergeFields(
     textWithMergeFields,
     { allowGlobalConstants = true, allowCollectionVariables = false } = {}
@@ -461,7 +513,22 @@ export function validateTextWithMergeFields(
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
     validation.allowCollectionVariables = allowCollectionVariables;
-    return validation.validateTextWithMergeFields(textWithMergeFields);
+
+    const results = [];
+    let match;
+    try {
+        while ((match = MERGEFIELD_REGEX.exec(textWithMergeFields)) !== null) {
+            results.push(
+                validation._validateMergeFieldReferenceValue(
+                    match[1],
+                    match.index + 2
+                )
+            );
+        }
+        return [].concat.apply([], results);
+    } finally {
+        MERGEFIELD_REGEX.lastIndex = 0;
+    }
 }
 
 export function validateMergeField(

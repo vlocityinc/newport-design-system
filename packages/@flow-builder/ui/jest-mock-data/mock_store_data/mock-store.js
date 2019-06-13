@@ -28,6 +28,7 @@ export const lookupRecordAutomaticOutputGuid = 'guid23';
 export const lookupRecordOutputReferenceGuid = 'guid24';
 export const lookupRecordCollectionAutomaticOutputGuid = 'guid25';
 export const emailScreenFieldAutomaticOutputGuid = 'guid26';
+export const emailScreenFieldGuid = 'guid27';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -56,6 +57,7 @@ export const lookupRecordAutomaticOutputDevName = 'lookupRecord1';
 export const lookupRecordOutputReferenceDevName = 'lookupRecord2';
 export const lookupRecordCollectionAutomaticOutputDevName = 'lookupRecord3';
 export const emailScreenFieldAutomaticOutputDevName = 'emailScreenFieldAutomatic';
+export const emailScreenFieldDevName = 'emailScreenField';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -497,7 +499,47 @@ export const elements = {
           conditions: []
         },
         storeOutputAutomatically: true
-    }
+    },
+    [emailScreenFieldGuid]: {
+        guid: emailScreenFieldGuid,
+        name: emailScreenFieldDevName,
+        choiceReferences: [],
+        defaultValue: "",
+        defaultValueIndex: "7e851e43-3a62-4ac4-bd9c-ccf350440902",
+        validationRule: {
+          formulaExpression: null,
+          errorMessage: null
+        },
+        extensionName: "flowruntime:email",
+        fieldType: "ComponentInstance",
+        fieldText: "",
+        helpText: "",
+        inputParameters: [
+          {
+            rowIndex: "61da689d-ece8-447a-9da2-88f863fc0e2e",
+            name: "placeholder",
+            value: "your email address",
+            valueDataType: "String"
+          }
+        ],
+        isNewField: false,
+        isRequired: true,
+        outputParameters: [],
+        scale: "0",
+        type: {
+          name: "flowruntime:email",
+          fieldType: "ComponentInstance",
+          label: "flowruntime:email",
+          icon: "standard:lightning_component",
+          source: "local"
+        },
+        elementType: "SCREEN_FIELD",
+        visibility: {
+          conditionLogic: "no_conditions",
+          conditions: []
+        },
+        storeOutputAutomatically: false
+      }
 };
 
 export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,
