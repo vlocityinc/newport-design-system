@@ -32,7 +32,9 @@ describe('Connector Utils', () => {
             maxX: 100,
             maxY: 101,
             flowWidth: 149,
-            flowHeight: 195
+            flowHeight: 195,
+            flowCenterX: 73.5,
+            flowCenterY: 99.5
         });
     });
 

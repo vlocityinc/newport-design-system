@@ -114,6 +114,32 @@ const _setElementAsSource = canvasElementContainer => {
 };
 
 /**
+ * Check if canvas element selected state (updated in the store) has been changed from the previous one
+ * (canvasElementContainer contains the jtk-drag-selected class when the canvas element is selected), if so then
+ * update its properties, otherwise skip updating the style and making heavy call from Jsplumb
+ *
+ * @param {Boolean} isCanvasElementSelected - New isSelected state of the canvas element
+ * @param {Object} canvasElementContainer - Canvas element container
+ * @returns {Boolean} true if canvas element selected state has changed
+ */
+const _hasCanvasElementSelectionChanged = (
+    isCanvasElementSelected,
+    canvasElementContainer
+) => {
+    if (!canvasElementContainer) {
+        throw new Error(
+            'canvasElementContainer is not defined. It must be defined.'
+        );
+    }
+    return (
+        isCanvasElementSelected !==
+        (canvasElementContainer &&
+            canvasElementContainer.classList &&
+            canvasElementContainer.classList.contains('jtk-drag-selected'))
+    );
+};
+
+/**
  * Helper function to update the drag selection based on the isSelected and addToDragSelection config.
  *
  * @param {Object} canvasElementContainer - Container of the canvas element
@@ -131,12 +157,19 @@ const _updateDragSelection = (
     }
 
     if (
-        canvasElementConfig.isSelected ||
-        canvasElementConfig.addToDragSelection
+        _hasCanvasElementSelectionChanged(
+            canvasElementConfig.isSelected,
+            canvasElementContainer
+        )
     ) {
-        lib.addToDragSelection(canvasElementContainer);
-    } else {
-        lib.removeFromDragSelection(canvasElementContainer);
+        if (
+            canvasElementConfig.isSelected ||
+            canvasElementConfig.addToDragSelection
+        ) {
+            lib.addToDragSelection(canvasElementContainer);
+        } else {
+            lib.removeFromDragSelection(canvasElementContainer);
+        }
     }
 };
 
@@ -190,6 +223,30 @@ const _setJsPlumbConnection = (
 };
 
 /**
+ * Check if connector selected state (updated in the store) has been changed from the previous one
+ * (jsPlumbConnector contains the connector-selected class when the connector is selected), if so then
+ * update its properties, otherwise skip updating the style and making heavy call from Jsplumb
+ *
+ * @param {Boolean} isConnectorSelected - New isSelected state of the connector
+ * @param {Object} jsPlumbConnector - JsPlumb Connector
+ * @returns {Boolean} true if connector selected state has changed
+ */
+const _hasConnectorSelectionChanged = (
+    isConnectorSelected,
+    jsPlumbConnector
+) => {
+    if (!jsPlumbConnector) {
+        throw new Error('jsPlumbConnector is not defined. It must be defined.');
+    }
+    return (
+        isConnectorSelected !==
+        (jsPlumbConnector &&
+            jsPlumbConnector.getClass() &&
+            jsPlumbConnector.getClass().includes('connector-selected'))
+    );
+};
+
+/**
  * Helper function to update the styling of the connector based on it's selected state.
  *
  * @param {Object} connector - Object containing the connector data
@@ -205,10 +262,17 @@ const _updateConnectorStyling = (connector, jsPlumbConnector) => {
         throw new Error('jsPlumbConnector is not defined. It must be defined.');
     }
 
-    if (connector.config.isSelected) {
-        lib.selectConnector(jsPlumbConnector, connector.type);
-    } else {
-        lib.deselectConnector(jsPlumbConnector, connector.type);
+    if (
+        _hasConnectorSelectionChanged(
+            connector.config.isSelected,
+            jsPlumbConnector
+        )
+    ) {
+        if (connector.config.isSelected) {
+            lib.selectConnector(jsPlumbConnector, connector.type);
+        } else {
+            lib.deselectConnector(jsPlumbConnector, connector.type);
+        }
     }
 };
 

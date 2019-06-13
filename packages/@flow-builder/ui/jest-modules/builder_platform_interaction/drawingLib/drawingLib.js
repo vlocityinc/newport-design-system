@@ -24,7 +24,7 @@ let mock = {
         removeFromDragSelection: jest.fn(),
         removeNodeFromLib : jest.fn(),
         removeConnectorFromLib : jest.fn(),
-        repaintEverything: jest.fn()
+        revalidate: jest.fn()
     };
 
 export const setConnectionDecorator = jest.fn();

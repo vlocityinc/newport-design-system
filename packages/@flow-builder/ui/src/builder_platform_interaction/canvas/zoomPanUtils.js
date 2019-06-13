@@ -172,31 +172,29 @@ export const getScaleAndOffsetValuesOnZoom = (
         const fitHeight = viewportDimensions.viewportHeight - VIEWPORT_SPACING;
 
         // Calculating the flow width and height along with the minimum and maximum bounds
-        const flowBounds = getFlowBounds(canvasElements);
+        const {
+            flowWidth,
+            flowHeight,
+            flowCenterX,
+            flowCenterY
+        } = getFlowBounds(canvasElements);
 
         // Calculating the width and height ratio between the viewport and the flow.
-        const widthRatio = fitWidth / flowBounds.flowWidth;
-        const heightRatio = fitHeight / flowBounds.flowHeight;
+        const widthRatio = fitWidth / flowWidth;
+        const heightRatio = fitHeight / flowHeight;
 
         // If the flow goes beyond the viewport then deciding the zoom level based on the width and height ratios, else
         // maintaining the same zoom level.
-        if (
-            flowBounds.flowWidth > fitWidth ||
-            flowBounds.flowHeight > fitHeight
-        ) {
+        if (flowWidth > fitWidth || flowHeight > fitHeight) {
             newScale = Math.min(widthRatio, heightRatio);
         }
 
         // Calculating the required innerCanvas offset to fit the flow into the viewport (on new scale)
-        const halfFlowWidth = flowBounds.flowWidth / 2;
-        const halfFlowHeight = flowBounds.flowHeight / 2;
         newScaledOffsetLeft =
-            (viewportDimensions.viewportCenterPoint[0] -
-                (flowBounds.minX + halfFlowWidth)) *
+            (viewportDimensions.viewportCenterPoint[0] - flowCenterX) *
             newScale;
         newScaledOffsetTop =
-            (viewportDimensions.viewportCenterPoint[1] -
-                (flowBounds.minY + halfFlowHeight)) *
+            (viewportDimensions.viewportCenterPoint[1] - flowCenterY) *
             newScale;
     } else if (action === ZOOM_ACTION.ZOOM_TO_VIEW) {
         newScale = SCALE_BOUNDS.MAX_SCALE;

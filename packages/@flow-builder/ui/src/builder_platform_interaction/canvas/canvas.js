@@ -64,6 +64,9 @@ export default class Canvas extends LightningElement {
     canvasArea;
     innerCanvasArea;
 
+    // Canvas area offset position
+    canvasAreaOffsets = [0, 0];
+
     // Center of our canvas viewport ([canvasWidth / 2, canvasHeight / 2])
     viewportCenterPoint;
 
@@ -462,8 +465,8 @@ export default class Canvas extends LightningElement {
      * @private
      */
     _getMousePoint = event => {
-        const mousePointX = event && event.clientX - this.canvasArea.offsetLeft;
-        const mousePointY = event && event.clientY - this.canvasArea.offsetTop;
+        const mousePointX = event && event.clientX - this.canvasAreaOffsets[0];
+        const mousePointY = event && event.clientY - this.canvasAreaOffsets[1];
 
         return [mousePointX, mousePointY];
     };
@@ -642,7 +645,9 @@ export default class Canvas extends LightningElement {
             lib.setZoom(this.currentScale);
 
             // Updating the scale and left and top properties of the canvas
-            this.innerCanvasArea.style.transform = `scale(${this.currentScale})`;
+            this.innerCanvasArea.style.transform = `scale(${
+                this.currentScale
+            })`;
             this._updateInnerCanvasPosition(
                 newScaledOffsetLeft,
                 newScaledOffsetTop
@@ -669,6 +674,23 @@ export default class Canvas extends LightningElement {
                 this.canvasArea.focus();
             }
         }
+    };
+
+    /**
+     * Helper method to set up the canvas elements and connectors
+     */
+    _setupCanvasElementsAndConnectors = () => {
+        const canvasElements = this.template.querySelectorAll(
+            'builder_platform_interaction-node'
+        );
+        const connectors = this.template.querySelectorAll(
+            'builder_platform_interaction-connector'
+        );
+
+        this.canvasElementGuidToContainerMap = setupCanvasElements(
+            canvasElements
+        );
+        setupConnectors(connectors, this.canvasElementGuidToContainerMap);
     };
 
     /**
@@ -735,23 +757,19 @@ export default class Canvas extends LightningElement {
                 SELECTORS.INNER_CANVAS
             );
             lib.setContainer(this.innerCanvasArea);
+            this.canvasAreaOffsets = [
+                this.canvasArea.offsetLeft,
+                this.canvasArea.offsetTop
+            ];
+
+            // Only suspend drawing before performing the bulk operation like loading data on page load
+            lib.setSuspendDrawing(true);
+            this._setupCanvasElementsAndConnectors();
+            lib.setSuspendDrawing(false, true);
+        } else {
+            this._setupCanvasElementsAndConnectors();
         }
-        const canvasElements = this.template.querySelectorAll(
-            'builder_platform_interaction-node'
-        );
-        const connectors = this.template.querySelectorAll(
-            'builder_platform_interaction-connector'
-        );
 
-        lib.setSuspendDrawing(true);
-
-        this.canvasElementGuidToContainerMap = setupCanvasElements(
-            canvasElements
-        );
-        setupConnectors(connectors, this.canvasElementGuidToContainerMap);
-
-        lib.setSuspendDrawing(false, true);
-        lib.repaintEverything(); // This repaint is needed otherwise sometimes the connector is not updated while doing undo/redo.
         logPerfMarkEnd(canvas, { numOfNodes: this.nodes && this.nodes.length });
     }
 }

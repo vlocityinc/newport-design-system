@@ -6,6 +6,7 @@ import {
     EditElementEvent,
     DeleteElementEvent
 } from 'builder_platform_interaction/events';
+import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './nodeLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import startElement from './startElement.html';
@@ -266,5 +267,16 @@ export default class Node extends LightningElement {
             return startElement;
         }
         return nodeElement;
+    }
+
+    renderedCallback() {
+        const canvasContainer = this.template.querySelector(
+            '.element-container'
+        );
+
+        // revalidate the specific canvas element when it is being rendered (in case the canvas element's location has been programmatically updated)
+        if (canvasContainer && lib.getContainer()) {
+            lib.revalidate(canvasContainer);
+        }
     }
 }

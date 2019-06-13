@@ -397,10 +397,11 @@ class DrawingLib {
     };
 
     /**
-     * Reapaints everything on jsplumb canvas after recalculating the position of all nodes, endpoints and connectors.
+     * Revalidate specific element
+     * @param {Object} canvasElementContainer - The canvas element container
      */
-    repaintEverything = () => {
-        instance.repaintEverything();
+    revalidate = canvasElementContainer => {
+        instance.revalidate(canvasElementContainer);
     };
 }
 

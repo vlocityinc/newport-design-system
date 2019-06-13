@@ -10,6 +10,7 @@ function lib(){
      * 5) Line 1437 & 6534 - CL 16825093
      * 6) Line 5114 - CL 1751084 - Expose unmanage function on instance (For complete deletion of nodeId data on instance)
      * 7) Line 5662 - CL 18048675 - To avoid usage of document.getElementById when adding endpoint on mouseDown
+     * 8) Line 5952 & 6541 - CL 18252962  - Passing element itself instead of element id to update the offsets; Change elId -> elOrElId as it could be both
      */
     /**
      * jsBezier
@@ -5948,7 +5949,7 @@ function lib(){
                     _currentInstance.updateOffset({ elId: elId, recalc: true, timestamp:timestamp });
                     var dm = _currentInstance.getDragManager();
                     if (dm) {
-                        dm.updateOffsets(elId);
+                        dm.updateOffsets(el);
                     }
                     _currentInstance.repaint(_el);
                 });
@@ -6537,10 +6538,10 @@ function lib(){
             };
 
             // refresh the offsets for child elements of this element.
-            this.updateOffsets = function (elId, childOffsetOverrides) {
-                if (elId != null) {
+            this.updateOffsets = function (elOrElId, childOffsetOverrides) {
+                if (elOrElId != null) {
                     childOffsetOverrides = childOffsetOverrides || {};
-                    var domEl = jsPlumb.getElement(elId),
+                    var domEl = jsPlumb.getElement(elOrElId),
                         id = _currentInstance.getId(domEl),
                         children = _delements[id],
                         parentOffset = _currentInstance.getOffset(domEl);

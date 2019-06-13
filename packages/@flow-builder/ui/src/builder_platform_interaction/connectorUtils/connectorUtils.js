@@ -51,6 +51,9 @@ export const getFlowBounds = canvasElements => {
     flowBounds.flowHeight =
         flowBounds.maxY + CANVAS_ELEMENT_HEIGHT_SPACING - flowBounds.minY;
 
+    flowBounds.flowCenterX = flowBounds.minX + (flowBounds.flowWidth / 2);
+    flowBounds.flowCenterY = flowBounds.minY + (flowBounds.flowHeight / 2);
+
     return flowBounds;
 };
 

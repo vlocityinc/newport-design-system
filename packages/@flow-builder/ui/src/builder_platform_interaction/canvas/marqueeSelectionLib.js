@@ -89,23 +89,25 @@ const _getElementLocationRelativeToViewportCenter = (
     scaledOffsetsOnMarqueeStart,
     viewportCenterPoint
 ) => {
+    // Calculating the canvas element's coordinates relative to the viewport center on scale 1
+    const relativeElementLocationX = locationX - viewportCenterPoint[0];
+    const relativeElementLocationY = locationY - viewportCenterPoint[1];
+
     // Calculating the canvas element's coordinates relative to the viewport center (keeping in mind the current scale and scaled center offsets)
-    const newScaledX = currentScale + scaledOffsetsOnMarqueeStart[0];
-    const newScaledY = currentScale + scaledOffsetsOnMarqueeStart[1];
-    const relativeElementLocationX =
-        (locationX - viewportCenterPoint[0]) * newScaledX;
-    const relativeElementLocationY =
-        (locationY - viewportCenterPoint[1]) * newScaledY;
+    const scaledRelativeElementLocationX =
+        (relativeElementLocationX * currentScale) + scaledOffsetsOnMarqueeStart[0];
+    const scaledRelativeElementLocationY =
+        (relativeElementLocationY * currentScale) + scaledOffsetsOnMarqueeStart[1];
 
     // Calculating the start and end point of the canvas element using the element dimensions and current scale
     const relativeElementStartPoint = [
-        relativeElementLocationX,
-        relativeElementLocationY
+        scaledRelativeElementLocationX,
+        scaledRelativeElementLocationY
     ];
     const scaledNodeLength = NODE_LENGTH * currentScale;
     const relativeElementEndPoint = [
-        relativeElementLocationX + scaledNodeLength,
-        relativeElementLocationY + scaledNodeLength
+        scaledRelativeElementLocationX + scaledNodeLength,
+        scaledRelativeElementLocationY + scaledNodeLength
     ];
 
     return { relativeElementStartPoint, relativeElementEndPoint };
