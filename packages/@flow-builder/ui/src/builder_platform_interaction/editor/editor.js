@@ -240,7 +240,8 @@ export default class Editor extends LightningElement {
                 {
                     crudType: 'ALL',
                     flowProcessType: currentState.properties.processType
-                }
+                },
+                { background: true }
             )
                 .then(data => {
                     logPerfTransactionEnd(
@@ -266,8 +267,32 @@ export default class Editor extends LightningElement {
                     );
                 })
                 .catch(() => {});
-
             this.propertyEditorBlockerCalls.push(getProcessTypeFeatureCall);
+
+            // Get Actions
+            fetchOnce(
+                SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
+                {
+                    flowProcessType: currentState.properties.processType
+                },
+                { background: true }
+            ).catch(() => {});
+
+            // Get Apex Plugins
+            fetchOnce(
+                SERVER_ACTION_TYPE.GET_APEX_PLUGINS,
+                {},
+                { background: true }
+            ).catch(() => {});
+
+            // Get Subflows
+            fetchOnce(
+                SERVER_ACTION_TYPE.GET_SUBFLOWS,
+                {
+                    flowProcessType: currentState.properties.processType
+                },
+                { background: true }
+            ).catch(() => {});
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
