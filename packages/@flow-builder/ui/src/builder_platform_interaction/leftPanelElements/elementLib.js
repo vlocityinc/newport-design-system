@@ -42,30 +42,34 @@ function sortElementTypes(unsortedElementTypes = []) {
  */
 const mutateElements = elements =>
     elements.reduce((acc, { elementType }) => {
-        const { nodeConfig, labels } = getConfigForElementType(elementType);
-        const {
-            iconName,
-            dragImageSrc,
-            iconBackgroundColor,
-            section,
-            description
-        } = nodeConfig;
-        const { leftPanel: label } = labels;
-
-        if (section) {
-            if (!acc[section]) {
-                acc[section] = [];
-            }
-            const item = {
-                guid: generateGuid(),
+        try {
+            const {nodeConfig, labels} = getConfigForElementType(elementType);
+            const {
                 iconName,
                 dragImageSrc,
                 iconBackgroundColor,
-                label,
-                description,
-                elementType
-            };
-            acc[section].push(item);
+                section,
+                description
+            } = nodeConfig;
+            const {leftPanel: label} = labels;
+
+            if (section) {
+                if (!acc[section]) {
+                    acc[section] = [];
+                }
+                const item = {
+                    guid: generateGuid(),
+                    iconName,
+                    dragImageSrc,
+                    iconBackgroundColor,
+                    label,
+                    description,
+                    elementType
+                };
+                acc[section].push(item);
+            }
+        } catch (e) {
+            // skip malformed elements
         }
         return acc;
     }, {});
