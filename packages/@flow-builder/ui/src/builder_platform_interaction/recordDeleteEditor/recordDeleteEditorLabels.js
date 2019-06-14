@@ -3,7 +3,7 @@ import recordDeleteTitle from '@salesforce/label/FlowBuilderRecordEditor.recordD
 import recordVariableOrRecordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVariableOrRecordCollectionVariable';
 import helpIdFieldPopulatedWithTextForDelete from '@salesforce/label/FlowBuilderRecordEditor.helpIdFieldPopulatedWithTextForDelete';
 import helpSObjectRecordDeleteAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectRecordDeleteAltText';
-import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
+import selectRecordsToDelete from '@salesforce/label/FlowBuilderRecordEditor.selectRecordsToDelete';
 import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
@@ -13,7 +13,7 @@ export const LABELS = {
     recordDeleteTitle,
     helpIdFieldPopulatedWithTextForDelete,
     helpSObjectRecordDeleteAltText,
-    selectsObjectOrsObjectCollectionVariable,
+    selectRecordsToDelete,
     sObjectVariablePlaceholder,
     objectPlaceholder,
     object,

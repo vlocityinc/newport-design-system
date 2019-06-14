@@ -3,7 +3,7 @@ import recordVariableOrRecordCollectionVariable from '@salesforce/label/FlowBuil
 import recordUpdateTitle from '@salesforce/label/FlowBuilderRecordEditor.recordUpdateTitle';
 import helpIdFieldPopulatedWithTextForUpdate from '@salesforce/label/FlowBuilderRecordEditor.helpIdFieldPopulatedWithTextForUpdate';
 import helpSObjectRecordUpdateAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectRecordUpdateAltText';
-import selectsObjectOrsObjectCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.selectsObjectOrsObjectCollectionVariable';
+import selectRecordsToUpdate from '@salesforce/label/FlowBuilderRecordEditor.selectRecordsToUpdate';
 import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
 import updateRecordOfThisObject from '@salesforce/label/FlowBuilderRecordEditor.updateRecordOfThisObject';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
@@ -17,7 +17,7 @@ export const LABELS = {
     recordUpdateTitle,
     helpIdFieldPopulatedWithTextForUpdate,
     helpSObjectRecordUpdateAltText,
-    selectsObjectOrsObjectCollectionVariable,
+    selectRecordsToUpdate,
     sObjectVariablePlaceholder,
     updateRecordOfThisObject,
     objectPlaceholder,
