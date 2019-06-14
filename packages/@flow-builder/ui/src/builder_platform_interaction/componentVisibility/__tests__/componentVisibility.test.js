@@ -31,8 +31,8 @@ const CONDITION = {
 
 const selectors = {
     conditionList: 'builder_platform_interaction-condition-list',
-    firstCondition:
-        'builder_platform_interaction-row:nth-child(1) div.condition-container'
+    firstCondition: 'builder_platform_interaction-row:nth-child(1)',
+    secondCondition: 'div.condition-container'
 };
 
 function getVisibility(
@@ -89,7 +89,11 @@ describe('Component Visibility', () => {
         const firstCondition = element.shadowRoot.querySelector(
             selectors.firstCondition
         );
-        firstCondition.dispatchEvent(
+        const secondCondition = firstCondition.querySelector(
+            selectors.secondCondition
+        );
+
+        secondCondition.dispatchEvent(
             new Event('click', {
                 bubbles: true,
                 cancelable: true

@@ -40,6 +40,7 @@
                         key={filter.rowIndex}
                     >
                         <builder_platform_interaction-row
+                            show-prefix="false"
                             item-index={filterIndex}
                             show-delete={showDelete}
                         >
@@ -78,6 +79,7 @@
                     <builder_platform_interaction-parameter-item
                         item={outputParameterItem}
                         element-type={elementType}
+                        is-input="false"
                     >
                     </builder_platform_interaction-parameter-item>
                 </ul>
