@@ -270,13 +270,16 @@ export default class Node extends LightningElement {
     }
 
     renderedCallback() {
-        const canvasContainer = this.template.querySelector(
+        const canvasElementContainer = this.template.querySelector(
             '.element-container'
         );
 
         // revalidate the specific canvas element when it is being rendered (in case the canvas element's location has been programmatically updated)
-        if (canvasContainer && lib.getContainer()) {
-            lib.revalidate(canvasContainer);
+        if (
+            canvasElementContainer &&
+            canvasElementContainer.getAttribute('id')
+        ) {
+            lib.revalidate(canvasElementContainer);
         }
     }
 }
