@@ -1,12 +1,4 @@
 import {
-    resourceFilter,
-    canvasElementFilter
-} from 'builder_platform_interaction/filterLib';
-import {
-    labelComparator,
-    nameComparator
-} from 'builder_platform_interaction/sortLib';
-import {
     getResourceSections,
     getElementSections,
     getResourceIconName
@@ -19,6 +11,23 @@ import {
     lookupRecordCollectionAutomaticOutputGuid,
     apexSampleVariableGuid
 } from 'mock/storeData';
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
+    () => {
+        return { default: '{0} from {1}' };
+    },
+    { virtual: true }
+);
+
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const mockEntities = require('mock/serverEntityData').mockEntities;
+    return {
+        getEntity: jest.fn().mockImplementation(apiName => {
+            return mockEntities.find(entity => entity.apiName === apiName);
+        })
+    };
+});
 
 const forEachSection = (sections, func) => {
     for (let i = 0; i < sections.length; i++) {
@@ -113,25 +122,39 @@ const getSection = (sections, elementGuid) => {
     return result;
 };
 
+const getAllItems = sections => {
+    const result = [];
+    forEachSection(sections, section => {
+        forEachItemInSection(section, item => {
+            result.push(item);
+        });
+    });
+    return result;
+};
+
+const getItem = (sections, elementGuid) => {
+    let result;
+    forEachSection(sections, section => {
+        forEachItemInSection(section, item => {
+            if (item.guid === elementGuid) {
+                result = item;
+            }
+        });
+    });
+    return result;
+};
+
 describe('resource-lib', () => {
     describe('getResourceSection', () => {
         it('should be empty when flow is empty', () => {
             const elementsForEmptyFlow = {
                 [startElementGuid]: elements[startElementGuid]
             };
-            const resourceSections = getResourceSections(
-                elementsForEmptyFlow,
-                resourceFilter(),
-                nameComparator
-            );
+            const resourceSections = getResourceSections(elementsForEmptyFlow);
             expect(resourceSections).toHaveLength(0);
         });
         test('sections and items have required properties', () => {
-            const sections = getResourceSections(
-                elements,
-                resourceFilter(),
-                nameComparator
-            );
+            const sections = getResourceSections(elements);
             forEachSection(sections, section => {
                 expect(section.guid).toBeDefined();
                 expect(section._children).toBeDefined();
@@ -144,27 +167,15 @@ describe('resource-lib', () => {
             });
         });
         it('should return sections and items sorted in ascending order', () => {
-            const sections = getResourceSections(
-                elements,
-                resourceFilter(),
-                nameComparator
-            );
+            const sections = getResourceSections(elements);
             expect(sections).toHaveSectionsAndItemsSortedInAscendingOrder();
         });
         it('should not return empty sections', () => {
-            const sections = getResourceSections(
-                elements,
-                resourceFilter(),
-                nameComparator
-            );
+            const sections = getResourceSections(elements);
             expect(sections).toNotHaveEmptySection();
         });
         it('should set an icon for all resources except stage', () => {
-            const sections = getResourceSections(
-                elements,
-                resourceFilter(),
-                nameComparator
-            );
+            const sections = getResourceSections(elements);
             forEachSection(sections, section => {
                 forEachItemInSection(section, item => {
                     if (item.elementType === ELEMENT_TYPE.STAGE) {
@@ -175,6 +186,17 @@ describe('resource-lib', () => {
                 });
             });
         });
+        it('should only display items with label containing the searchString', () => {
+            const sections = getResourceSections(elements, 'from lookup');
+            expect(sections).toNotHaveEmptySection();
+            expect(getAllItems(sections)).toHaveLength(2);
+            expect(
+                getItem(sections, lookupRecordAutomaticOutputGuid)
+            ).toBeDefined();
+            expect(
+                getItem(sections, lookupRecordCollectionAutomaticOutputGuid)
+            ).toBeDefined();
+        });
         it.each`
             elementGuid                                  | sectionLabel
             ${lookupRecordAutomaticOutputGuid}           | ${'FlowBuilderElementConfig.sObjectPluralLabel'}
@@ -183,11 +205,7 @@ describe('resource-lib', () => {
         `(
             'section for $elementGuid should be $sectionLabel',
             ({ elementGuid, sectionLabel }) => {
-                const sections = getResourceSections(
-                    elements,
-                    resourceFilter(),
-                    nameComparator
-                );
+                const sections = getResourceSections(elements);
                 const section = getSection(sections, elementGuid);
                 expect(section.label).toBe(sectionLabel);
             }
@@ -198,19 +216,11 @@ describe('resource-lib', () => {
             const elementsForEmptyFlow = {
                 [startElementGuid]: elements[startElementGuid]
             };
-            const elementSections = getElementSections(
-                elementsForEmptyFlow,
-                canvasElementFilter(),
-                labelComparator
-            );
+            const elementSections = getElementSections(elementsForEmptyFlow);
             expect(elementSections).toHaveLength(0);
         });
         test('sections and items have required properties', () => {
-            const sections = getResourceSections(
-                elements,
-                canvasElementFilter(),
-                nameComparator
-            );
+            const sections = getResourceSections(elements);
             forEachSection(sections, section => {
                 expect(section.guid).toBeDefined();
                 expect(section._children).toBeDefined();
@@ -223,19 +233,11 @@ describe('resource-lib', () => {
             });
         });
         it('should return sections and items sorted in ascending order', () => {
-            const sections = getElementSections(
-                elements,
-                canvasElementFilter(),
-                nameComparator
-            );
+            const sections = getElementSections(elements);
             expect(sections).toHaveSectionsAndItemsSortedInAscendingOrder();
         });
         it('should not set an icon for canvas elements', () => {
-            const sections = getElementSections(
-                elements,
-                canvasElementFilter(),
-                nameComparator
-            );
+            const sections = getElementSections(elements);
             forEachSection(sections, section => {
                 forEachItemInSection(section, item => {
                     expect(item.iconName).toBeUndefined();
@@ -249,21 +251,13 @@ describe('resource-lib', () => {
         `(
             'section for $elementGuid should be $sectionLabel',
             ({ elementGuid, sectionLabel }) => {
-                const sections = getElementSections(
-                    elements,
-                    canvasElementFilter(),
-                    nameComparator
-                );
+                const sections = getElementSections(elements);
                 const section = getSection(sections, elementGuid);
                 expect(section.label).toBe(sectionLabel);
             }
         );
         test('all elements in a section should have the same element type', () => {
-            const sections = getElementSections(
-                elements,
-                canvasElementFilter(),
-                nameComparator
-            );
+            const sections = getElementSections(elements);
             forEachSection(sections, section => {
                 let expectedElementType;
                 forEachItemInSection(section, item => {

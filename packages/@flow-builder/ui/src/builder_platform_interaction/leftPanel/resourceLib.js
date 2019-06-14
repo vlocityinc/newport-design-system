@@ -7,6 +7,11 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import {
+    canvasElementFilter,
+    resourceFilter
+} from 'builder_platform_interaction/filterLib';
+import { escapeForRegExp } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Helper function to return the dataType associated with a screen field
@@ -27,24 +32,27 @@ const getScreenFieldDataType = (screenFieldObject = {}) => {
  *
  * @param {Object}
  *            elements list of all the elements
+ * @param {string}
+ *            [searchRegex] the regular expression the item label need to match
  * @returns {Object} a mapping of element type to a list of
  *          lightning-tree-grid-items
  */
-const mutateElements = elements =>
-    Object.values(elements).reduce((acc, element) => {
-        const resourceElement = {
-            elementType: element.elementType,
-            guid: element.guid,
-            label: element.name
-        };
+const mutateElements = (elements, searchRegex) =>
+    Object.values(elements).reduce((mutatedElements, element) => {
+        if (!searchRegex || searchRegex.test(element.name)) {
+            const resourceElement = {
+                elementType: element.elementType,
+                guid: element.guid,
+                label: element.name
+            };
 
-        const category = getElementCategory(element);
-        if (!acc[category]) {
-            acc[category] = [];
+            const category = getElementCategory(element);
+            if (!mutatedElements[category]) {
+                mutatedElements[category] = [];
+            }
+            mutatedElements[category].push(resourceElement);
         }
-        acc[category].push(resourceElement);
-
-        return acc;
+        return mutatedElements;
     }, {});
 
 /**
@@ -65,23 +73,23 @@ export const getResourceIconName = element => {
     return undefined;
 };
 
-const mutateResources = elements =>
-    Object.values(elements).reduce((acc, element) => {
-        const resourceElement = {
-            elementType: element.elementType,
-            guid: element.guid,
-            label: getResourceLabel(element)
-        };
-
-        resourceElement.iconName = getResourceIconName(element);
-
-        const category = getResourceCategory(element);
-        if (!acc[category]) {
-            acc[category] = [];
+const mutateResources = (elements, searchRegex) =>
+    Object.values(elements).reduce((mutatedElements, element) => {
+        const label = getResourceLabel(element);
+        if (!searchRegex || searchRegex.test(label)) {
+            const resourceElement = {
+                elementType: element.elementType,
+                guid: element.guid,
+                label,
+                iconName: getResourceIconName(element)
+            };
+            const category = getResourceCategory(element);
+            if (!mutatedElements[category]) {
+                mutatedElements[category] = [];
+            }
+            mutatedElements[category].push(resourceElement);
         }
-        acc[category].push(resourceElement);
-
-        return acc;
+        return mutatedElements;
     }, {});
 
 const getElementSectionsFromElementMap = elementMap => {
@@ -95,7 +103,7 @@ const getElementSectionsFromElementMap = elementMap => {
             const section = {
                 guid: generateGuid(),
                 label: category,
-                _children: elementMap[category]
+                _children: elementMap[category].sort(labelComparator)
             };
             return section;
         });
@@ -104,26 +112,31 @@ const getElementSectionsFromElementMap = elementMap => {
     return elementSections;
 };
 
+const getSearchRegExp = searchString => {
+    return searchString
+        ? new RegExp(escapeForRegExp(searchString), 'i')
+        : undefined;
+};
+
 /**
  * Combines elements into their respective groupings in a form that is usable by
  * lightning-tree-grid.
  *
  * @param {Object}
  *            elements list of all the elements
- * @param {Function}
- *            filter function to use for resource filtering
- * @param {Function}
- *            sort function to use for resource ordering
+ * @param {string}
+ *            [searchString] the search string if any
  * @returns {Array} collection of lightning-tree-grid items
  */
-export const getElementSections = (elements, filter, sort) => {
+export const getElementSections = (elements, searchString) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
-    const filteredElements = Object.values(elements)
-        .filter(filter)
-        .sort(sort);
-    const elementMap = mutateElements(filteredElements);
+    const filteredElements = Object.values(elements).filter(
+        canvasElementFilter()
+    );
+    const searchRegExp = getSearchRegExp(searchString);
+    const elementMap = mutateElements(filteredElements, searchRegExp);
     return getElementSectionsFromElementMap(elementMap);
 };
 
@@ -133,19 +146,16 @@ export const getElementSections = (elements, filter, sort) => {
  *
  * @param {Object[]}
  *            elements list of all the elements
- * @param {Function}
- *            filter function to use for resource filtering
- * @param {Function}
- *            sort function to use for resource ordering
+ * @param {string}
+ *            [searchString] the search string if any
  * @returns {Array} collection of lightning-tree-grid items
  */
-export const getResourceSections = (elements, filter, sort) => {
+export const getResourceSections = (elements, searchString) => {
     if (!elements || Object.keys(elements).length === 0) {
         return [];
     }
-    const filteredElements = Object.values(elements)
-        .filter(filter)
-        .sort(sort);
-    const resourceMap = mutateResources(filteredElements);
+    const filteredElements = Object.values(elements).filter(resourceFilter());
+    const searchRegExp = getSearchRegExp(searchString);
+    const resourceMap = mutateResources(filteredElements, searchRegExp);
     return getElementSectionsFromElementMap(resourceMap);
 };

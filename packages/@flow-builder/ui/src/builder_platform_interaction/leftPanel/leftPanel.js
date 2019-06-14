@@ -5,17 +5,12 @@ import {
     DeleteElementEvent,
     NewResourceEvent
 } from 'builder_platform_interaction/events';
-import {
-    canvasElementFilter,
-    resourceFilter
-} from 'builder_platform_interaction/filterLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     isChildElement,
     getConfigForElementType
 } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { nameComparator } from 'builder_platform_interaction/sortLib';
 import { LABELS } from './leftPanelLabels';
 import {
     getResourceSections,
@@ -74,15 +69,10 @@ export default class LeftPanel extends LightningElement {
             elements = {}
         } = storeInstance.getCurrentState();
         const { processType: flowProcessType } = properties;
-        this.canvasElements = getElementSections(
-            elements,
-            canvasElementFilter(this.searchString),
-            nameComparator
-        );
+        this.canvasElements = getElementSections(elements, this.searchString);
         this.nonCanvasElements = getResourceSections(
             elements,
-            resourceFilter(this.searchString),
-            nameComparator
+            this.searchString
         );
         if (this.showResourceDetailsPanel) {
             const currentElementState =
@@ -187,13 +177,11 @@ export default class LeftPanel extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.canvasElements = getElementSections(
             currentState.elements,
-            canvasElementFilter(this.searchString),
-            nameComparator
+            this.searchString
         );
         this.nonCanvasElements = getResourceSections(
             currentState.elements,
-            resourceFilter(this.searchString),
-            nameComparator
+            this.searchString
         );
     }
 
