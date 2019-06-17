@@ -1,24 +1,26 @@
-import { LightningElement, api, track } from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 import {
-    isEmptyArray,
-    getNodesFromStore,
-    getConnectorsFromStore,
-    updateStoreOnSelection,
-    hasOneAvailableConnection,
-    createConnectorWhenOneConnectionAvailable,
-    shouldCreateStartConnection,
     addConnection,
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
+    createConnectorWhenOneConnectionAvailable,
+    getConnectorsFromStore,
+    getNodesFromStore,
+    hasOneAvailableConnection,
+    isEmptyArray,
     openConnectorSelectionModal,
+    shouldCreateStartConnection,
     shouldOpenConnectorSelectionModal,
-    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance
+    updateStoreOnSelection
 } from './canvasContainerUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
 import {
     deselectOnCanvas,
     marqueeSelectOnCanvas,
     updateCanvasElementLocation
 } from 'builder_platform_interaction/actions';
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+
+export { calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from './canvasContainerUtils';
 
 /** Private singleton variables */
 let storeInstance;
