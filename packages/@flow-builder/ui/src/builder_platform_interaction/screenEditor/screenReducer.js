@@ -7,6 +7,7 @@ import {
     VALIDATE_ALL,
     isUniqueDevNameInStore
 } from 'builder_platform_interaction/validationRules';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import {
     updateProperties,
     set,
@@ -19,7 +20,11 @@ import {
     ReorderListEvent,
     PropertyChangedEvent,
     ValidationRuleChangedEvent,
-    SCREEN_EDITOR_EVENT_NAME
+    SCREEN_EDITOR_EVENT_NAME,
+    AddConditionEvent,
+    UpdateConditionLogicEvent,
+    DeleteConditionEvent,
+    UpdateConditionEvent
 } from 'builder_platform_interaction/events';
 import { createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
@@ -36,6 +41,68 @@ import {
     EXTENSION_PARAM_PREFIX
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+
+const updateFieldInScreen = (screen, field, newField) => {
+    // Replace the field in the screen
+    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
+    const updatedItems = replaceItem(screen.fields, newField, fieldPosition);
+
+    // Replace the fields in the screen
+    return set(screen, 'fields', updatedItems);
+};
+
+const updateField = (screen, field, properties) => {
+    const updatedField = updateProperties(field, properties);
+    return updateFieldInScreen(screen, field, updatedField);
+};
+
+/**
+ * Update the visibility condition logic
+ * @param {*} screen - The screen.
+ * @param {*} field - The field
+ * @param {*} event - The UpdateConditionLogicEvent
+ */
+const updateConditionLogic = (state, field, event) => {
+    const visibility = conditionListReducer(field.visibility, event);
+    return updateField(state, field, { visibility });
+};
+
+/**
+ * Update a visibility condition
+ * @param {*} screen - The screen.
+ * @param {*} field - The field
+ * @param {*} event - The UpdateConditionEvent
+ */
+const updateCondition = (screen, field, event) => {
+    const visibility = conditionListReducer(
+        field.visibility,
+        event,
+        new Map(),
+        ''
+    );
+    return updateField(screen, field, { visibility });
+};
+
+/**
+ * Delete a visibility condition
+ * @param {*} screen - The screen.
+ * @param {*} field - The field
+ * @param {*} event - The DeleteConditionEvent
+ */
+const deleteCondition = (screen, field, event) => {
+    const visibility = conditionListReducer(field.visibility, event);
+    return updateField(screen, field, { visibility });
+};
+
+/**
+ * Add a visibility condition
+ * @param {*} screen - The screen.
+ * @param {*} field - The field
+ */
+const addCondition = (screen, field, event) => {
+    const visibility = conditionListReducer(field.visibility, event);
+    return updateField(screen, field, { visibility });
+};
 
 const isHydrated = value => {
     return (
@@ -410,15 +477,6 @@ const handleExtensionFieldPropertyChange = (data, attributeIndex) => {
     return set(field, parametersPropName, updatedParams);
 };
 
-const updateFieldInScreen = (screen, field, newField) => {
-    // Replace the field in the screen
-    const fieldPosition = screen.getFieldIndexByGUID(field.guid);
-    const updatedItems = replaceItem(screen.fields, newField, fieldPosition);
-
-    // Replace the fields in the screen
-    return set(screen, 'fields', updatedItems);
-};
-
 /**
  * Handles changes in properties in a screenfield.
  * @param {object} screen - The screen or node
@@ -650,6 +708,18 @@ export const screenReducer = (state, event, selectedNode) => {
 
         case VALIDATE_ALL:
             return screenValidation.validateAll(state);
+
+        case AddConditionEvent.EVENT_NAME:
+            return addCondition(state, selectedNode, event);
+
+        case UpdateConditionLogicEvent.EVENT_NAME:
+            return updateConditionLogic(state, selectedNode, event);
+
+        case DeleteConditionEvent.EVENT_NAME:
+            return deleteCondition(state, selectedNode, event);
+
+        case UpdateConditionEvent.EVENT_NAME:
+            return updateCondition(state, selectedNode, event);
 
         default:
             return state;

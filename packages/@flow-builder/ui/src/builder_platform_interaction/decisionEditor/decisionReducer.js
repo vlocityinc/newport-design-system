@@ -2,8 +2,6 @@ import { decisionValidation } from './decisionValidation';
 import {
     updateProperties,
     addItem,
-    deleteItem,
-    replaceItem,
     hydrateWithErrors
 } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -14,19 +12,17 @@ import {
     DeleteConditionEvent,
     UpdateConditionEvent
 } from 'builder_platform_interaction/events';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 import { createOutcome } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { PROPERTY_EDITOR_ACTION } from 'builder_platform_interaction/actions';
-import {
-    EXPRESSION_PROPERTY_TYPE,
-    checkExpressionForDeletedElem
-} from 'builder_platform_interaction/expressionUtils';
+
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
     usedByStoreAndElementState,
     invokeUsedByAlertModal
 } from 'builder_platform_interaction/usedByLib';
+
 import { LABELS } from './decisionEditorLabels';
 
 let deletedOutcomeGuids;
@@ -89,26 +85,8 @@ const reorderOutcomes = (state, event) => {
 
 const addCondition = (state, event) => {
     const outcomes = state.outcomes.map(outcome => {
-        const newCondition = {
-            [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                value: '',
-                error: null
-            },
-            [EXPRESSION_PROPERTY_TYPE.OPERATOR]: { value: '', error: null },
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-                value: '',
-                error: null
-            },
-            [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
-                value: '',
-                error: null
-            },
-            rowIndex: generateGuid()
-        };
         return outcome.guid === event.detail.parentGUID
-            ? updateProperties(outcome, {
-                  conditions: addItem(outcome.conditions, newCondition)
-              })
+            ? conditionListReducer(outcome, event)
             : outcome;
     });
 
@@ -118,9 +96,7 @@ const addCondition = (state, event) => {
 const deleteCondition = (state, event) => {
     const outcomes = state.outcomes.map(outcome => {
         return outcome.guid === event.detail.parentGUID
-            ? updateProperties(outcome, {
-                  conditions: deleteItem(outcome.conditions, event.detail.index)
-              })
+            ? conditionListReducer(outcome, event)
             : outcome;
     });
 
@@ -130,22 +106,12 @@ const deleteCondition = (state, event) => {
 const updateCondition = (state, event) => {
     const outcomes = state.outcomes.map(outcome => {
         if (outcome.guid === event.detail.parentGUID) {
-            const newCondition = updateProperties(
-                outcome.conditions[event.detail.index],
-                event.detail.value
-            );
-            checkExpressionForDeletedElem(
+            return conditionListReducer(
+                outcome,
+                event,
                 deletedOutcomeGuids,
-                newCondition,
                 LABELS.decisionSingularLabel
             );
-            return updateProperties(outcome, {
-                conditions: replaceItem(
-                    outcome.conditions,
-                    newCondition,
-                    event.detail.index
-                )
-            });
         }
 
         return outcome;

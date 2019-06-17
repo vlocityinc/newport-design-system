@@ -43,8 +43,8 @@ import {
     CONDITION_LOGIC,
     WAIT_TIME_EVENT_PARAMETER_NAMES
 } from 'builder_platform_interaction/flowMetadata';
-import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from './waitEditorLabels';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 
 let lastValidWaitEventInputParameters = [];
 let lastValidWaitEventOutputParameters = [];
@@ -147,7 +147,12 @@ const reorderWaitEvents = (state, event) => {
 const waitEventReducer = (state, event, waitEventOperation) => {
     const mapEvents = waitEvent => {
         if (waitEvent.guid === event.detail.parentGUID) {
-            return waitEventOperation(waitEvent, event);
+            return waitEventOperation(
+                waitEvent,
+                event,
+                deletedWaitEventGuids,
+                LABELS.waitSingularLabel
+            );
         }
         return waitEvent;
     };
@@ -162,55 +167,33 @@ const waitEventReducer = (state, event, waitEventOperation) => {
  * @property {Function} operation callback that when invoked will change a waitEvent's property with a given event payload
  * @returns {Function} function that is called by waitEventReducer and passes in the chosen waitEvent and event payload to modify event
  */
-const waitEventOperation = (property, operation) => {
+const waitEventOperation = (
+    property,
+    operation,
+    deletedGuids,
+    waitSingularLabel
+) => {
     return (waitEvent, event) => {
-        const results = operation(waitEvent[property], event);
+        const results = operation(
+            waitEvent[property],
+            event,
+            deletedGuids,
+            waitSingularLabel
+        );
         return Object.assign({}, waitEvent, { [property]: results });
     };
 };
 
-const addWaitCondition = function (state, event) {
-    const addCondition = conditions => {
-        const newCondition = hydrateWithErrors(createCondition());
-        return addItem(conditions, newCondition);
-    };
-    return waitEventReducer(
-        state,
-        event,
-        waitEventOperation('conditions', addCondition)
-    );
+const addWaitCondition = (state, event) => {
+    return waitEventReducer(state, event, conditionListReducer);
 };
 
-const deleteWaitCondition = function (state, event) {
-    const deleteCondition = conditions => {
-        return deleteItem(conditions, event.detail.index);
-    };
-    return waitEventReducer(
-        state,
-        event,
-        waitEventOperation('conditions', deleteCondition)
-    );
+const deleteWaitCondition = (state, event) => {
+    return waitEventReducer(state, event, conditionListReducer);
 };
 
-const updateWaitCondition = function (state, event) {
-    const updateCondition = conditions => {
-        const updatedCondition = Object.assign(
-            {},
-            conditions[event.detail.index],
-            event.detail.value
-        );
-        checkExpressionForDeletedElem(
-            deletedWaitEventGuids,
-            updatedCondition,
-            LABELS.waitSingularLabel
-        );
-        return replaceItem(conditions, updatedCondition, event.detail.index);
-    };
-    return waitEventReducer(
-        state,
-        event,
-        waitEventOperation('conditions', updateCondition)
-    );
+const updateWaitCondition = (state, event) => {
+    return waitEventReducer(state, event, conditionListReducer);
 };
 
 const configureConditionsByLogic = (waitEvent, event) => {
@@ -403,9 +386,7 @@ const addWaitEventParameter = (state, event) => {
         }
         // output param without name
         throw new Error(
-            `Attempting to add output event parameter with no name ${
-                event.detail.name
-            }`
+            `Attempting to add output event parameter with no name ${event.detail.name}`
         );
     };
     return waitEventReducer(
