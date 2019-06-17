@@ -5,6 +5,13 @@ import apexCollectionVariablePluralLabel from '@salesforce/label/FlowBuilderElem
 import sObjectPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel';
 import apexVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel';
 import screenFieldPluralLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel';
+import collectionVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariableSingularLabel';
+import sObjectCollectionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionSingularLabel';
+import apexCollectionVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.apexCollectionVariableSingularLabel';
+import sObjectSingularLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectSingularLabel';
+import apexVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.apexVariableSingularLabel';
+import screenFieldSingularLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel';
+
 import lightningComponentScreenFieldAsResourceText from '@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText';
 
 export const LABELS = {
@@ -14,6 +21,12 @@ export const LABELS = {
     apexCollectionVariablePluralLabel,
     sObjectPluralLabel,
     apexVariablePluralLabel,
+    collectionVariableSingularLabel,
+    sObjectCollectionSingularLabel,
+    apexCollectionVariableSingularLabel,
+    sObjectSingularLabel,
+    apexVariableSingularLabel,
     lightningComponentScreenFieldAsResourceText,
-    screenFieldPluralLabel
+    screenFieldPluralLabel,
+    screenFieldSingularLabel
 };

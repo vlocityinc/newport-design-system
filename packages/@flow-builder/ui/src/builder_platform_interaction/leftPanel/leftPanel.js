@@ -6,10 +6,7 @@ import {
     NewResourceEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    isChildElement,
-    getConfigForElementType
-} from 'builder_platform_interaction/elementConfig';
+import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { LABELS } from './leftPanelLabels';
 import {
@@ -25,7 +22,11 @@ import {
     fetch,
     SERVER_ACTION_TYPE
 } from 'builder_platform_interaction/serverDataLib';
-import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
+import {
+    getResourceLabel,
+    getElementTypeLabel,
+    getResourceTypeLabel
+} from 'builder_platform_interaction/elementLabelLib';
 
 let storeInstance;
 let unsubscribeStore;
@@ -194,7 +195,9 @@ export default class LeftPanel extends LightningElement {
             let editable = !isChildElement(currentElementState.elementType);
             let description = currentElementState.description;
             let title;
+            let typeLabel;
             if (asResource) {
+                typeLabel = getResourceTypeLabel(currentElementState);
                 typeIconName = getResourceIconName(currentElementState);
                 title = getResourceLabel(currentElementState);
                 if (currentElementState.storeOutputAutomatically) {
@@ -207,14 +210,13 @@ export default class LeftPanel extends LightningElement {
                 }
             } else {
                 title = currentElementState.name;
+                typeLabel = getElementTypeLabel(currentElementState);
             }
             this.resourceDetails = {
                 title,
                 elementType: currentElementState.elementType,
                 elementGuid: currentElementState.guid,
-                typeLabel: getConfigForElementType(
-                    currentElementState.elementType
-                ).labels.singular,
+                typeLabel,
                 typeIconName,
                 description,
                 apiName: currentElementState.name,

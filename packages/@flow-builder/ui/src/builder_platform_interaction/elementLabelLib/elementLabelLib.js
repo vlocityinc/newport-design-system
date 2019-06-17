@@ -69,6 +69,22 @@ export function getElementCategory({ elementType }) {
 }
 
 /**
+ * Get element type label for an element
+ *
+ * @param {String}
+ *            elementType the element type of an element
+ * @returns {String} the type label for this element
+ */
+export function getElementTypeLabel({ elementType }) {
+    let categoryLabel = '';
+    const config = getConfigForElementType(elementType);
+    if (config && config.labels && config.labels.singular) {
+        categoryLabel = config.labels.singular;
+    }
+    return categoryLabel;
+}
+
+/**
  * Get category label for the element (if possible, considered as a resource that can be used in a merge field)
  *
  * @param {String}
@@ -107,4 +123,45 @@ export function getResourceCategory({
         categoryLabel = LABELS.screenFieldPluralLabel;
     }
     return categoryLabel;
+}
+
+/**
+ * Get resource type label for the element (if possible, considered as a resource that can be used in a merge field)
+ *
+ * @param {String}
+ *            elementType the element type of the element
+ * @param {String}
+ *            dataType the datatype of the element
+ * @param {Boolean}
+ *            [isCollection=false] whether or not that element is a collection
+ * @returns {String} the type label for this element
+ */
+export function getResourceTypeLabel({
+    elementType,
+    dataType,
+    isCollection = false
+}) {
+    let typeLabel;
+    if (!isComplexType(dataType)) {
+        if (!isCollection) {
+            const config = getConfigForElementType(elementType);
+            if (config && config.labels && config.labels.singular) {
+                typeLabel = config.labels.singular;
+            }
+        } else {
+            typeLabel = LABELS.collectionVariableSingularLabel;
+        }
+    } else if (isCollection) {
+        typeLabel =
+            dataType === SOBJECT_TYPE
+                ? LABELS.sObjectCollectionSingularLabel
+                : LABELS.apexCollectionVariableSingularLabel;
+    } else if (dataType === SOBJECT_TYPE) {
+        typeLabel = LABELS.sObjectSingularLabel;
+    } else if (dataType === APEX_TYPE) {
+        typeLabel = LABELS.apexVariableSingularLabel;
+    } else if (dataType === LIGHTNING_COMPONENT_OUTPUT_TYPE) {
+        typeLabel = LABELS.screenFieldSingularLabel;
+    }
+    return typeLabel;
 }
