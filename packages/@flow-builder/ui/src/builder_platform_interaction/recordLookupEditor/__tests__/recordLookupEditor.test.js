@@ -19,7 +19,8 @@ import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
-    SObjectReferenceChangedEvent
+    SObjectReferenceChangedEvent,
+    UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
@@ -39,12 +40,6 @@ const OTHER_PROCESS_TYPE = 'other';
 class ToggleOnChangeEvent extends CustomEvent {
     constructor() {
         super('change', { detail: { checked: true } });
-    }
-}
-
-class ToggleOffChangeEvent extends CustomEvent {
-    constructor() {
-        super('change', { detail: { checked: false } });
     }
 }
 
@@ -324,9 +319,15 @@ const getInputOutputAssignments = recordLookupEditor => {
     );
 };
 
-const getAdvancedOptionCheckbox = recordLookupEditor => {
-    const useAdvancedOptionComponent = recordLookupEditor.shadowRoot.querySelector(
+const getUseAdvancedOptionComponent = recordLookupEditor => {
+    return recordLookupEditor.shadowRoot.querySelector(
         selectors.useAdvancedOptionsCheckboxComponent
+    );
+};
+
+const getAdvancedOptionCheckbox = recordLookupEditor => {
+    const useAdvancedOptionComponent = getUseAdvancedOptionComponent(
+        recordLookupEditor
     );
     return useAdvancedOptionComponent.shadowRoot.querySelector(
         selectors.lightningInput
@@ -857,6 +858,37 @@ describe('record-lookup-editor', () => {
                     );
                 });
             });
+            describe('select Use Advanced Options', () => {
+                describe('select a variable', () => {
+                    it('should not remove the 2 selected fields', () => {
+                        const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                            recordLookupEditor
+                        );
+                        advancedOptionCheckbox.dispatchEvent(
+                            new ToggleOnChangeEvent()
+                        );
+                        return Promise.resolve().then(() => {
+                            const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                                recordLookupEditor
+                            );
+                            const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                                recordSobjectAndQueryFields
+                            );
+                            sObjectOrSObjectCollectionPicker.dispatchEvent(
+                                new SObjectReferenceChangedEvent(
+                                    store.accountSObjectVariableGuid
+                                )
+                            );
+                            return Promise.resolve().then(() => {
+                                expect(
+                                    recordSobjectAndQueryFields.queriedFields[1]
+                                        .field.value
+                                ).toBe('Name');
+                            });
+                        });
+                    });
+                });
+            });
             describe('Advanced Option checkbox', () => {
                 it('Should be displayed', () => {
                     const advancedOptionCheckbox = getAdvancedOptionCheckbox(
@@ -910,14 +942,14 @@ describe('record-lookup-editor', () => {
                         expect(advancedOptionCheckbox.checked).toBe(true);
                     });
                     it('Should not display the advanced option when unchecked', async () => {
-                        const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                        const useAdvancedOptionComponent = getUseAdvancedOptionComponent(
                             recordLookupEditor
                         );
                         expect(
                             recordLookupEditor.node.storeOutputAutomatically
                         ).toBeFalsy();
-                        advancedOptionCheckbox.dispatchEvent(
-                            new ToggleOffChangeEvent()
+                        useAdvancedOptionComponent.dispatchEvent(
+                            new UseAdvancedOptionsSelectionChangedEvent(false)
                         );
                         return Promise.resolve().then(() => {
                             expect(

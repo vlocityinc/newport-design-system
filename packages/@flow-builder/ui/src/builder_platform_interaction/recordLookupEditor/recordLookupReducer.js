@@ -177,7 +177,7 @@ const updateRecordFieldAssignment = (state, event) => {
 };
 
 const resetQueriedFields = state => {
-    // reset queriedFields: create one empty query field item + Id
+    // reset queriedFields: Id query field item and one empty query field item
     return set(
         state,
         PROPS.queriedFields,
@@ -193,7 +193,7 @@ const updateOutputReferenceAndQueriedFields = (state, value, error) => {
     state = updateProperties(state, {
         [PROPS.outputReference]: { value, error }
     });
-    // reset queriedFields: create one empty query item + Id
+    // reset queriedFields: Id query field item and one empty query field item
     return resetQueriedFields(state);
 };
 
@@ -292,6 +292,9 @@ const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
     state = updateProperties(state, {
         [PROPS.storeOutputAutomatically]: !useAdvancedOptions
     });
+    if (useAdvancedOptions) {
+        return state;
+    }
     state = resetWayToStoreFields(state);
     return resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
 };
@@ -349,7 +352,11 @@ const managePropertyChanged = (
         if (propertyName === PROPS.object) {
             state = resetSubSections(state);
         } else if (propertyName === PROPS.outputReference) {
-            state = resetQueriedFields(state);
+            // The first time we don't need to reset the queried fields.
+            // It is usefull if the user select multiple fields in automatic and then use Advanced option
+            if (oldValue !== '') {
+                state = resetQueriedFields(state);
+            }
         } else if (propertyName === PROPS.sortOrder) {
             state = updateProperties(state, { [propertyName]: value });
             // if set to no sorting: reset error if any, and preserve value
@@ -364,6 +371,11 @@ const managePropertyChanged = (
                 // reset errors in filters if any, and preserve values
                 state = resetFilters(state);
             }
+        } else if (propertyName === PROPS.wayToStoreFields) {
+            state = updateProperties(state, { [propertyName]: value });
+            // reset outputReference and queried fields
+            state = updateOutputReferenceAndQueriedFields(state, '', null);
+            state = resetOutputAssignments(state);
         } else if (
             propertyName === PROPS.assignNullValuesIfNoRecordsFound ||
             propertyName === PROPS.storeOutputAutomatically
