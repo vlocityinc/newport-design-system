@@ -609,12 +609,15 @@ function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
             callback([]);
         } else {
             callback(
-                desc.outputParameters.map(parameter => ({
-                    apiName: parameter.apiName,
-                    dataType: getFlowDataType(parameter.dataType),
-                    isCollection: parameter.maxOccurs > 1,
-                    label: parameter.label
-                }))
+                desc.outputParameters.reduce((properties, parameter) => {
+                    properties[parameter.apiName] = {
+                        apiName: parameter.apiName,
+                        dataType: getFlowDataType(parameter.dataType),
+                        isCollection: parameter.maxOccurs > 1,
+                        label: parameter.label
+                    };
+                    return properties;
+                }, {})
             );
         }
     });

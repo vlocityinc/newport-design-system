@@ -39,6 +39,7 @@ import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariables } from 'mock/systemGlobalVars';
 import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
+import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -110,7 +111,11 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     return {
-        describeExtension: jest.fn()
+        describeExtension: jest
+            .fn()
+            .mockImplementation((name, refreshCache, callback) =>
+                callback(mockFlowRuntimeEmailFlowExtensionDescription)
+            )
     };
 });
 
@@ -156,6 +161,7 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
         FLOW_DATA_TYPE: actual.FLOW_DATA_TYPE,
         FEROV_DATA_TYPE: actual.FEROV_DATA_TYPE,
         isComplexType: actual.isComplexType,
+        getFlowDataType: actual.getFlowDataType,
         getResourceTypes: jest.fn().mockImplementation(() => {
             return [
                 { name: elementType.VARIABLE },
@@ -166,7 +172,24 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/elementLabelLib', () => {
+    const actual = require.requireActual(
+        '../../elementLabelLib/elementLabelLib.js'
+    );
+    return {
+        getResourceLabel: jest
+            .fn()
+            .mockImplementation(resource => resource.name),
+        getResourceCategory: actual.getResourceCategory
+    };
+});
+
 describe('Menu data retrieval', () => {
+    afterEach(() => {
+        selectorsMock.writableElementsSelector.mockReset();
+        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReset();
+        selectorsMock.readableElementsSelector.mockReset();
+    });
     it('should sort alphabetically by category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
             store.elements[store.numberVariableGuid],
@@ -182,7 +205,6 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].label).toBe(collectionVariable);
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[2].label).toBe(variablePluralLabel.toUpperCase());
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should sort alphabetically within category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -200,7 +222,6 @@ describe('Menu data retrieval', () => {
         expect(collectionVariables.items[1].text).toBe(
             store.stringCollectionVariable2DevName
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should filter by allowed types', () => {
         jest.mock('builder_platform_interaction/ruleLib', () => {
@@ -227,7 +248,6 @@ describe('Menu data retrieval', () => {
         expect(allowedVariables[0].items[0].displayText).toBe(
             addCurlyBraces(store.numberVariableDevName)
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should preserve devName in text & value field', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -241,7 +261,6 @@ describe('Menu data retrieval', () => {
         expect(copiedElement.displayText).toBe(
             addCurlyBraces(store.numberVariableDevName)
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should set subText to subtype for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -252,7 +271,6 @@ describe('Menu data retrieval', () => {
             shouldBeWritable: true
         })[0].items[0];
         expect(copiedElement.subText).toBe(store.account);
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should set subText to label if there is a label', () => {
         selectorsMock.readableElementsSelector.mockReturnValue([
@@ -263,7 +281,6 @@ describe('Menu data retrieval', () => {
             shouldBeWritable: true
         })[0].items[0];
         expect(copiedElement.subText).toBe(store.outcomeDevName);
-        selectorsMock.readableElementsSelector.mockClear();
     });
     it('should set subText to dataType label if no subtype or label', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -274,7 +291,6 @@ describe('Menu data retrieval', () => {
             shouldBeWritable: true
         })[0].items[0];
         expect(copiedElement.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
-        selectorsMock.writableElementsSelector.mockClear();
     });
 
     it('should have New Resource as first element', () => {
@@ -294,14 +310,16 @@ describe('Menu data retrieval', () => {
             'FlowBuilderExpressionUtils.newResourceLabel'
         );
         expect(allowedVariables[0].value).toBe('%%NewResource%%');
-        selectorsMock.writableElementsSelector.mockClear();
     });
-    it('should include sobject & apex non-collection vars when fields are allowed', () => {
+    it('should include complex objects (non-collection) when fields are allowed', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
             store.elements[store.accountSObjectVariableGuid],
             store.elements[store.accountSObjectCollectionVariableGuid],
             store.elements[store.apexSampleVariableGuid],
-            store.elements[store.apexSampleCollectionVariableGuid]
+            store.elements[store.apexSampleCollectionVariableGuid],
+            store.elements[store.emailScreenFieldAutomaticOutputGuid],
+            store.elements[store.lookupRecordAutomaticOutputGuid],
+            store.elements[store.lookupRecordCollectionAutomaticOutputGuid]
         ]);
         const primitivesWithObjects = getElementsForMenuData(
             {
@@ -313,7 +331,35 @@ describe('Menu data retrieval', () => {
             true,
             false
         );
-        expect(primitivesWithObjects).toHaveLength(2);
+        expect(primitivesWithObjects).toEqual([
+            {
+                label: 'FLOWBUILDERELEMENTCONFIG.APEXVARIABLEPLURALLABEL',
+                items: [
+                    expect.objectContaining({
+                        value: store.apexSampleVariableGuid
+                    })
+                ]
+            },
+            {
+                label: 'FLOWBUILDERELEMENTCONFIG.SCREENFIELDPLURALLABEL',
+                items: [
+                    expect.objectContaining({
+                        value: store.emailScreenFieldAutomaticOutputGuid
+                    })
+                ]
+            },
+            {
+                label: 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
+                items: [
+                    expect.objectContaining({
+                        value: store.accountSObjectVariableGuid
+                    }),
+                    expect.objectContaining({
+                        value: store.lookupRecordAutomaticOutputGuid
+                    })
+                ]
+            }
+        ]);
         const primitivesNoObjects = getElementsForMenuData(
             {
                 elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -325,7 +371,6 @@ describe('Menu data retrieval', () => {
             true
         );
         expect(primitivesNoObjects).toHaveLength(0);
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have only sobject variables', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
@@ -344,7 +389,6 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].items[0].value).toEqual(
             store.accountSObjectVariableGuid
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have only sobject collection variables', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
@@ -363,7 +407,6 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].items[0].value).toEqual(
             store.accountSObjectCollectionVariableGuid
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have one sobject variable and one sobject collection variable', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
@@ -390,7 +433,6 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].items[0].value).toEqual(
             store.accountSObjectVariableGuid
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have only sobject variables (record Update)', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
@@ -409,7 +451,6 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].items[0].value).toEqual(
             store.accountSObjectVariableGuid
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have only sobject collection variables  (record Update)', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
@@ -428,7 +469,6 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].items[0].value).toEqual(
             store.accountSObjectCollectionVariableGuid
         );
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have dataType populated for number variable', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -440,7 +480,6 @@ describe('Menu data retrieval', () => {
         })[0].items[0];
         expect(copiedElement.dataType).toBe(store.numberDataType);
         expect(copiedElement.subtype).toBeNull();
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have dataType and subtype populated for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -452,7 +491,6 @@ describe('Menu data retrieval', () => {
         })[0].items[0];
         expect(copiedElement.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
         expect(copiedElement.subtype).toBe('Account');
-        selectorsMock.writableElementsSelector.mockClear();
     });
     it('should have the iconName and iconSize populated', () => {
         selectorsMock.writableElementsSelector.mockReturnValueOnce([
@@ -551,7 +589,6 @@ describe('Menu data retrieval', () => {
             expect(menuData).toContainEqual(
                 expect.objectContaining({ items: expect.any(Array) })
             );
-            selectorsMock.writableElementsSelector.mockClear();
         });
     });
     describe('global constants', () => {
@@ -579,7 +616,6 @@ describe('Menu data retrieval', () => {
                 expect.objectContaining({ items: expect.any(Array) })
             );
             expect(menuData[0].items).toHaveLength(1);
-            selectorsMock.readableElementsSelector.mockClear();
         });
         it('true and false should show in menuData when allowed', () => {
             // all global constants returned from selector
@@ -605,7 +641,6 @@ describe('Menu data retrieval', () => {
                 expect.objectContaining({ items: expect.any(Array) })
             );
             expect(menuData[0].items).toHaveLength(2);
-            selectorsMock.readableElementsSelector.mockClear();
         });
     });
     describe('entities menu data', () => {
@@ -760,13 +795,18 @@ describe('Menu data retrieval', () => {
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
         });
         it('should fetch ouput parameters for LC screen field with automatic handling', () => {
+            const callback = jest.fn();
             const mockConfig = { elementType: ELEMENT_TYPE.SCREEN };
             getSecondLevelItems(
                 mockConfig,
                 parentLightningComponentScreenFieldItem,
-                jest.fn()
+                callback
             );
             expect(describeExtension).toHaveBeenCalledTimes(1);
+            const secondLevelItems = callback.mock.calls[0][0];
+            expect(Object.keys(secondLevelItems)).toEqual(
+                expect.arrayContaining(['label', 'value'])
+            );
         });
     });
 
