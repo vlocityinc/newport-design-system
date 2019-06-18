@@ -24,6 +24,10 @@ export {
     ZOOM_ACTION,
     MARQUEE_ACTION
 } from './canvasEvents/canvasEvents.js';
+export { DragNodeEvent } from './canvasEvents/dragNodeEvent';
+export { DragNodeStopEvent } from './canvasEvents/dragNodeStopEvent';
+export { NodeMouseDownEvent } from './canvasEvents/nodeMouseDownEvent';
+export { SelectNodeEvent } from './canvasEvents/selectNodeEvent';
 export { CanvasMouseUpEvent } from './canvasEvents/canvasMouseUpEvent';
 export { AddConnectionEvent } from './canvasEvents/addConnectionEvent';
 export { ConnectorSelectedEvent } from './canvasEvents/connectorSelectedEvent';

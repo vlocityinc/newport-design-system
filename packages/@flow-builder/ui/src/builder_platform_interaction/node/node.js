@@ -2,7 +2,10 @@ import { LightningElement, api } from 'lwc';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    CANVAS_EVENT,
+    DragNodeEvent,
+    DragNodeStopEvent,
+    NodeMouseDownEvent,
+    SelectNodeEvent,
     EditElementEvent,
     DeleteElementEvent
 } from 'builder_platform_interaction/events';
@@ -134,17 +137,9 @@ export default class Node extends LightningElement {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
         if (!this.node.config.isSelected || !this.isNodeDragging) {
-            const nodeSelectedEvent = new CustomEvent(
-                CANVAS_EVENT.NODE_SELECTED,
-                {
-                    bubbles: true,
-                    composed: true,
-                    cancelable: true,
-                    detail: {
-                        canvasElementGUID: this.node.guid,
-                        isMultiSelectKeyPressed
-                    }
-                }
+            const nodeSelectedEvent = new SelectNodeEvent(
+                this.node.guid,
+                isMultiSelectKeyPressed
             );
             this.dispatchEvent(nodeSelectedEvent);
         }
@@ -163,7 +158,8 @@ export default class Node extends LightningElement {
     };
 
     /**
-     * Fires an event to delete the node.
+     * Fires an event to delete the node. We are passing the guid as an array
+     * since multiple elements can be deleted using the delete key.
      * @param {object} event - trash can click event
      */
     handleTrashClick = event => {
@@ -183,15 +179,7 @@ export default class Node extends LightningElement {
      * @param {object} event - node mousedown event
      */
     handleMouseDown = () => {
-        const mouseDownEvent = new CustomEvent(CANVAS_EVENT.NODE_MOUSE_DOWN, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID: this.node.guid
-            }
-        });
-
+        const mouseDownEvent = new NodeMouseDownEvent(this.node.guid);
         this.dispatchEvent(mouseDownEvent);
     };
 
@@ -204,17 +192,9 @@ export default class Node extends LightningElement {
         this.isNodeDragging = true;
         if (!this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
-            const nodeSelectedEvent = new CustomEvent(
-                CANVAS_EVENT.NODE_SELECTED,
-                {
-                    bubbles: true,
-                    composed: true,
-                    cancelable: true,
-                    detail: {
-                        canvasElementGUID: this.node.guid,
-                        isMultiSelectKeyPressed
-                    }
-                }
+            const nodeSelectedEvent = new SelectNodeEvent(
+                this.node.guid,
+                isMultiSelectKeyPressed
             );
             this.dispatchEvent(nodeSelectedEvent);
         }
@@ -229,17 +209,12 @@ export default class Node extends LightningElement {
             event.finalPos[0] !== this.node.locationX ||
             event.finalPos[1] !== this.node.locationY
         ) {
-            const dragStopEvent = new CustomEvent(CANVAS_EVENT.DRAG_STOP, {
-                bubbles: true,
-                composed: true,
-                cancelable: true,
-                detail: {
-                    canvasElementGUID: this.node.guid,
-                    elementType: this.node.elementType,
-                    locationX: event.finalPos[0],
-                    locationY: event.finalPos[1]
-                }
-            });
+            const dragStopEvent = new DragNodeStopEvent(
+                this.node.guid,
+                this.node.elementType,
+                event.finalPos[0],
+                event.finalPos[1]
+            );
             this.dispatchEvent(dragStopEvent);
         }
     };
@@ -249,16 +224,11 @@ export default class Node extends LightningElement {
      * @param {object} event - drag event
      */
     @api drag = event => {
-        const dragNodeEvent = new CustomEvent(CANVAS_EVENT.DRAG_NODE, {
-            bubbles: true,
-            composed: true,
-            cancelable: true,
-            detail: {
-                canvasElementGUID: this.node.guid,
-                locationX: event.pos[0],
-                locationY: event.pos[1]
-            }
-        });
+        const dragNodeEvent = new DragNodeEvent(
+            this.node.guid,
+            event.pos[0],
+            event.pos[1]
+        );
         this.dispatchEvent(dragNodeEvent);
     };
 

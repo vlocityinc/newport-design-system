@@ -2,11 +2,15 @@ import { createElement } from 'lwc';
 import {
     EditElementEvent,
     DeleteElementEvent,
-    CANVAS_EVENT
+    SelectNodeEvent
 } from 'builder_platform_interaction/events';
 import Node from 'builder_platform_interaction/node';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
+jest.mock('builder_platform_interaction/drawingLib', () =>
+    require('builder_platform_interaction_mocks/drawingLib')
+);
 
 const createComponentUnderTest = (isSelected, isHighlighted) => {
     const el = createElement('builder_platform_interaction-node', {
@@ -64,7 +68,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(
-                CANVAS_EVENT.NODE_SELECTED,
+                SelectNodeEvent.EVENT_NAME,
                 callback
             );
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
@@ -77,7 +81,7 @@ describe('node', () => {
         return Promise.resolve().then(() => {
             const callback = jest.fn();
             nodeComponent.addEventListener(
-                CANVAS_EVENT.NODE_SELECTED,
+                SelectNodeEvent.EVENT_NAME,
                 callback
             );
             nodeComponent.shadowRoot.querySelector(selectors.icon).click();
