@@ -54,7 +54,7 @@ export default class WaitPlatformEvent extends LightningElement {
         this.outputParameterItem = Object.assign(
             {},
             outputParam,
-            { objectType: this.eventTypeValue, name: this.eventTypeValue },
+            { subtype: this.eventTypeValue, name: this.eventTypeValue },
             OUTPUT_PARAMETER_DEFINITION
         );
     }
@@ -219,7 +219,7 @@ export default class WaitPlatformEvent extends LightningElement {
      */
     updateOutputParameterItemEventType() {
         Object.assign(this.outputParameterItem, {
-            objectType: this.eventTypeValue,
+            subtype: this.eventTypeValue,
             name: this.eventTypeValue
         });
     }

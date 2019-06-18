@@ -500,7 +500,7 @@ describe('wait-platform-event', () => {
     describe('parameter output', () => {
         const platformEventName = 'foo__e';
         const expectedParameterItem = {
-            objectType: platformEventName,
+            subtype: platformEventName,
             name: platformEventName,
             label: LABELS.platformEventOutputLabel,
             iconName: 'utility:events',
@@ -582,7 +582,7 @@ describe('wait-platform-event', () => {
                     SELECTORS.PARAMETER_ITEM
                 );
                 expect(parameterItemUpdated).not.toBeNull();
-                expect(parameterItemUpdated.item.objectType).toEqual(
+                expect(parameterItemUpdated.item.subtype).toEqual(
                     updatedPlatformEventName
                 );
                 expect(parameterItemUpdated.item.name).toEqual(
