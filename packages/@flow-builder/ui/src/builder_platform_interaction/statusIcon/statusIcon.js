@@ -2,7 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 import {
     isPopoverOpen,
     hidePopover,
-    showPopover
+    showPopover,
+    getPopoverReferenceElement
 } from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from './statusIconLabels';
@@ -28,10 +29,6 @@ export default class StatusIcon extends LightningElement {
 
     set messages(msgs) {
         this.createSections(msgs);
-        // Closing the panel if it was previously open and errors got updated
-        if (isPopoverOpen()) {
-            hidePopover();
-        }
 
         if (this.allCount > 0) {
             this.isIconVisible = true;
@@ -125,10 +122,23 @@ export default class StatusIcon extends LightningElement {
     }
 
     /**
+     * @returns {Object} the reference element for the popover
+     */
+    getReferenceElement() {
+        return this.template.querySelector(
+            dotPrefixForClass + this.classForIcon
+        );
+    }
+
+    /**
      * Handle Icon click : event handler for clicking on icon button. Acts as a toggle to show/hide the panel and create it for the very first time.
      */
     handleIconClick() {
-        if (isPopoverOpen()) {
+        if (
+            isPopoverOpen() &&
+            this.getReferenceElement() === getPopoverReferenceElement()
+        ) {
+            // if the popover is open for the same reference element, close it
             hidePopover();
         } else {
             this.createPanel();
@@ -140,6 +150,11 @@ export default class StatusIcon extends LightningElement {
      */
     @api
     createPanel() {
+        // if the popover is already open, close it so that its contents get refreshed
+        if (isPopoverOpen()) {
+            hidePopover();
+        }
+
         const header = this.headerforsummary;
         const sections = this.internalMessages;
         const type = this.type;
@@ -148,9 +163,7 @@ export default class StatusIcon extends LightningElement {
         const showTotalCounts = this.showTotalCounts;
         const showSections = this.showSections;
         const direction = this.direction;
-        const referenceElement = this.template.querySelector(
-            dotPrefixForClass + this.classForIcon
-        );
+        const referenceElement = this.getReferenceElement();
         const handleClickCallback = hidePopover;
         showPopover(
             'builder_platform_interaction:statusIconSummary',

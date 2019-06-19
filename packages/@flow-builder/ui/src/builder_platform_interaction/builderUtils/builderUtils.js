@@ -410,15 +410,15 @@ function onCreatePopover(panelInstance) {
 /**
  * Callback invoked when the popover is destroyed
  */
-function onDestroyPopover() {
+function onDestroyPopover(panel) {
     if (popoverState) {
-        const { panelInstance, onClose } = popoverState;
+        const { onClose } = popoverState;
 
         if (onClose) {
-            onClose();
+            onClose(panel);
         }
 
-        panelInstance.close();
+        panel.close();
         popoverState = null;
     }
 }
@@ -673,6 +673,13 @@ export function hideHover(hoverId) {
 }
 
 /**
+ * @returns {Object} The DOM element that is used to anchor the popover
+ */
+export function getPopoverReferenceElement() {
+    return isPopoverOpen() ? popoverState.referenceElement : null;
+}
+
+/**
  * Checks if the popover singleton is opened
  * @return {boolean} - whether the popover is open
  */
@@ -685,7 +692,7 @@ export function isPopoverOpen() {
  */
 export function hidePopover() {
     if (isPopoverOpen()) {
-        onDestroyPopover();
+        onDestroyPopover(popoverState.panelInstance);
     }
 }
 
@@ -713,7 +720,8 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
         direction,
         onClose,
         referenceElement,
-        closeOnClickOut
+        closeOnClickOut,
+        showCloseButton
     } = popoverProps;
 
     popoverState = {
@@ -731,11 +739,14 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
                 visible: true,
                 panelConfig: {
                     body: newComponent,
+                    flavor: 'popover',
                     direction,
                     showPointer: true,
                     referenceElement,
                     closeAction: onDestroyPopover,
-                    closeOnClickOut: !!closeOnClickOut
+                    closeOnClickOut: !!closeOnClickOut,
+                    titleDisplay: false,
+                    showCloseButton
                 },
                 onCreate: onCreatePopover
             };
