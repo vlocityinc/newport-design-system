@@ -1,6 +1,7 @@
 <template>
     <div class="zoom-panel slds-is-fixed slds-p-around_large">
         <lightning-button-icon-stateful
+            if:true={showMarqueeButton}
             variant="border-filled"
             selected={isMarqueeModeOn}
             icon-name="utility:drag"

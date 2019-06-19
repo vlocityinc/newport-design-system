@@ -14,10 +14,20 @@ import { LABELS } from './zoomPanelLabels';
  * @since 214
  */
 export default class ZoomPanel extends LightningElement {
-    @api isMarqueeModeOn;
-    @api isZoomOutDisabled;
-    @api isZoomToView;
-    @api isZoomInDisabled;
+    @api
+    showMarqueeButton;
+
+    @api
+    isMarqueeModeOn;
+
+    @api
+    isZoomOutDisabled;
+
+    @api
+    isZoomToView;
+
+    @api
+    isZoomInDisabled;
 
     get labels() {
         return LABELS;

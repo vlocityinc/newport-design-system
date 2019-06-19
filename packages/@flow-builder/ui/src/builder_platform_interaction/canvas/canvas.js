@@ -51,15 +51,32 @@ const CURSOR_STYLE_GRABBING = 'grabbing';
 const CURSOR_STYLE_CROSSHAIR = 'crosshair';
 
 export default class Canvas extends LightningElement {
-    @api nodes = [];
-    @api connectors = [];
+    @api
+    nodes = [];
 
-    @track isMarqueeModeOn = false;
-    @track isMarqueeInProgress = false;
-    @track marqueeEndPoint = [0, 0];
-    @track isZoomOutDisabled = false;
-    @track isZoomInDisabled = true;
-    @track isZoomToView = true;
+    @api
+    connectors = [];
+
+    @api
+    showMarqueeButton = false;
+
+    @track
+    isMarqueeModeOn = false;
+
+    @track
+    isMarqueeInProgress = false;
+
+    @track
+    marqueeEndPoint = [0, 0];
+
+    @track
+    isZoomOutDisabled = false;
+
+    @track
+    isZoomInDisabled = true;
+
+    @track
+    isZoomToView = true;
 
     canvasArea;
     innerCanvasArea;
