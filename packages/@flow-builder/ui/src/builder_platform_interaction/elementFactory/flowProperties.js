@@ -40,6 +40,7 @@ export function createFlowProperties(flowProperties = {}) {
         description = '',
         interviewLabel = '',
         isTemplate = false,
+        inlineResource = null,
         processType = null,
         status,
         processMetadataValues,
@@ -81,7 +82,8 @@ export function createFlowProperties(flowProperties = {}) {
         elementType,
         isLightningFlowBuilder,
         isCreatedOutsideLfb,
-        hasUnsavedChanges
+        hasUnsavedChanges,
+        inlineResource
     };
 }
 

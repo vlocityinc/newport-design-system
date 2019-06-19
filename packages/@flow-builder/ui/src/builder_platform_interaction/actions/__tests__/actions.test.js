@@ -1,9 +1,11 @@
 import {
     addElement,
+    removeLastCreatedResource,
     updateElement,
     ADD_DECISION_WITH_OUTCOMES,
     MODIFY_DECISION_WITH_OUTCOMES,
-    UPDATE_VARIABLE_CONSTANT
+    UPDATE_VARIABLE_CONSTANT,
+    REMOVE_LAST_CREATED_RESOURCE
 } from '../actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -48,5 +50,11 @@ describe('addElement', () => {
 
         expect(action.type).toEqual(ADD_DECISION_WITH_OUTCOMES);
         expect(action.payload).toEqual(payload);
+    });
+    describe('remove last created resource ', () => {
+        expect(removeLastCreatedResource.payload).toEqual({});
+        expect(removeLastCreatedResource.type).toBe(
+            REMOVE_LAST_CREATED_RESOURCE
+        );
     });
 });

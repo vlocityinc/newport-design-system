@@ -53,6 +53,8 @@ export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
 
 export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
 
+export const REMOVE_LAST_CREATED_RESOURCE = 'REMOVE_LAST_CREATED_RESOURCE';
+
 export const PROPERTY_EDITOR_ACTION = {
     UPDATE_ELEMENT_PROPERTY: 'UPDATE_ELEMENT_PROPERTY',
     ADD_ASSIGNMENT_ITEM: 'ADD_ASSIGNMENT_ITEM',
@@ -83,7 +85,6 @@ export const createAction = (type, payload = {}) => ({ type, payload });
 /**
  * Action for updating flow information in the store.
  * To be used when we get flow metadata from backend or when we create a new flow.
- *
  * @param {Object} payload - contains new flow information
  * @returns {Object} action new action based on type and payload
  */
@@ -190,7 +191,6 @@ export const addElement = payload => {
                 if (isCanvasElement(payload.elementType)) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);
                 }
-
                 // Added to support strategy builder non-canvas elements
                 return createAction(ADD_RESOURCE, payload);
         }
@@ -333,3 +333,7 @@ export const highlightOnCanvas = payload =>
  */
 export const updateCanvasElementLocation = payload =>
     createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
+
+export const removeLastCreatedResource = createAction(
+    REMOVE_LAST_CREATED_RESOURCE
+);

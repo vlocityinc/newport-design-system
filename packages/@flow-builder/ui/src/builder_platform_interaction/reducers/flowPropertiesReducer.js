@@ -1,6 +1,8 @@
 import {
+    ADD_RESOURCE,
     ADD_START_ELEMENT,
     DESELECT_ON_CANVAS,
+    REMOVE_LAST_CREATED_RESOURCE,
     SELECT_ON_CANVAS,
     TOGGLE_ON_CANVAS,
     UPDATE_FLOW,
@@ -38,6 +40,16 @@ export default function flowPropertiesReducer(
     { payload, type }
 ) {
     switch (type) {
+        case ADD_RESOURCE:
+            return {
+                ...state,
+                inlineResource: payload.guid
+            };
+        case REMOVE_LAST_CREATED_RESOURCE:
+            return {
+                ...state,
+                inlineResource: null
+            };
         case UPDATE_FLOW:
             return {
                 ...state,
