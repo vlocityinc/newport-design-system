@@ -51,7 +51,7 @@ function cloneDescription(desc) {
     return {
         name: desc.name,
         inputParameters: desc.inputParameters.slice(0),
-        outputParameters: desc.inputParameters.slice(0)
+        outputParameters: desc.outputParameters.slice(0)
     };
 }
 
