@@ -71,6 +71,8 @@ function createDescription(name, data) {
             hasDefaultValue: param.hasDefaultValue,
             isRequired: param.isRequired,
             label: param.label,
+            isInput: param.isInput,
+            isOutput: param.isOutput,
             maxOccurs: param.maxOccurs
         };
 

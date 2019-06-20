@@ -47,38 +47,42 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         if (this._extensionDescription && fieldName && extName !== fieldName) {
             this.inputParameters = this.createParametersMapping(
                 'inputParameters',
+                'isInput',
                 true
             );
             this.outputParameters = this.createParametersMapping(
                 'outputParameters',
+                'isOutput',
                 false
             );
         }
     };
 
-    createParametersMapping = (name, sortByRequiredness) => {
+    createParametersMapping = (name, filteringProperty, sortByRequiredness) => {
         const params = [];
         for (let i = 0; i < this._extensionDescription[name].length; i++) {
             const descriptor = this._extensionDescription[name][i];
-            const attributes = this.field[name].filter(
-                param => descriptor.apiName === param.name.value
-            );
-            if (attributes && attributes.length > 0) {
-                for (let j = 0; j < attributes.length; j++) {
+            if (descriptor[filteringProperty]) {
+                const attributes = this.field[name].filter(
+                    param => descriptor.apiName === param.name.value
+                );
+                if (attributes && attributes.length > 0) {
+                    for (let j = 0; j < attributes.length; j++) {
+                        params.push({
+                            attribute: attributes[j],
+                            descriptor,
+                            index: j + 1,
+                            rowIndex: attributes[j].rowIndex,
+                            key: descriptor.apiName + j
+                        });
+                    }
+                } else {
                     params.push({
-                        attribute: attributes[j],
+                        attribute: undefined,
                         descriptor,
-                        index: j + 1,
-                        rowIndex: attributes[j].rowIndex,
-                        key: descriptor.apiName + j
+                        key: descriptor.apiName
                     });
                 }
-            } else {
-                params.push({
-                    attribute: undefined,
-                    descriptor,
-                    key: descriptor.apiName
-                });
             }
         }
 
