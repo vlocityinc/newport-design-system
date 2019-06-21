@@ -1,6 +1,6 @@
 import { isPlainObject } from './isPlainObject';
-import { deepFreeze } from './deepFreeze';
 import { isDevMode } from 'builder_platform_interaction/contextLib';
+import { readonly } from 'lwc';
 
 /**
  * Library for UI state management
@@ -100,11 +100,9 @@ export class Store {
             throw new Error('Type of action is not defined');
         }
 
-        // Using deepFreeze has a performance impact which is why we only use
-        // it in development mode.
         currentState = currentReducer(currentState, action);
         if (isDevMode()) {
-            currentState = deepFreeze(currentState);
+            currentState = readonly(currentState);
         }
         // once state is changes, executing all the listeners
         currentListeners.forEach(listener => {

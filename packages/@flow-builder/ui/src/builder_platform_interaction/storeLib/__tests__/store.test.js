@@ -9,6 +9,10 @@ const canvasElementsReducer = jest
         }
     });
 
+jest.mock('builder_platform_interaction/contextLib', () => ({
+    isDevMode: () => true
+}));
+
 describe('Store class', () => {
     let storeInstance;
     let Store;
@@ -29,6 +33,11 @@ describe('Store class', () => {
 
         it('initial state is empty', () => {
             expect(storeInstance.getCurrentState()).toHaveLength(0);
+        });
+        it('return a store instance with a readonly state in dev mode', () => {
+            expect(() => {
+                storeInstance.getCurrentState().prop = 'value';
+            }).toThrow(Error);
         });
     });
 
