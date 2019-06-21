@@ -30,19 +30,19 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    function getCurrentState() {
         return {
             properties: {
                 processType: 'flow'
             },
             elements: {}
         };
-    };
-    const getStore = function () {
+    }
+    function getStore() {
         return {
             getCurrentState
         };
-    };
+    }
     const storeLib = require('builder_platform_interaction_mocks/storeLib');
     // Overriding mock storeLib to have custom getStore function
     storeLib.Store.getStore = getStore;
@@ -90,7 +90,8 @@ const createComponentUnderTest = props => {
 
 jest.mock('builder_platform_interaction/builderUtils', () => {
     return {
-        invokeModal: jest.fn()
+        invokeModal: jest.fn(),
+        hidePopover: jest.fn()
     };
 });
 

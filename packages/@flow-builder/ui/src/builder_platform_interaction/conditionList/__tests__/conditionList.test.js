@@ -76,11 +76,11 @@ const createComponentUnderTest = props => {
 };
 
 describe('Condition List', () => {
-    describe('conditionLogicInputSize', () => {
+    describe('variant', () => {
         it('size_1_of_3 absent when large', () => {
             const element = createComponentUnderTest({
                 ...listWithThreeConditionals,
-                conditionLogicInputSize: 'large'
+                variant: 'narrow'
             });
             expect(
                 element.shadowRoot.querySelector('div.size_1_of_3')

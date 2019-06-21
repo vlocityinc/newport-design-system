@@ -1,1 +1,12 @@
-<template> </template>
+<template>
+    <div class="container" onrowcontentschanged={handleUpdateCondition}>
+        <div class="footer">
+            <lightning-button
+                variant="Neutral"
+                label="Done"
+                title="Done"
+                onclick={handleDoneEditing}
+            ></lightning-button>
+        </div>
+    </div>
+</template>

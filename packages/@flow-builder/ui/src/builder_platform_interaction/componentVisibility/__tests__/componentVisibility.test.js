@@ -8,16 +8,13 @@ import {
     AddConditionEvent,
     DeleteConditionEvent,
     UpdateConditionLogicEvent,
+    UpdateConditionEvent,
     PropertyChangedEvent
 } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
+import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 
-jest.mock('builder_platform_interaction/builderUtils', () => {
-    return {
-        showPopover: jest.fn().mockName('showPopover'),
-        hidePopover: jest.fn().mockName('hidePopover')
-    };
-});
+jest.mock('builder_platform_interaction/builderUtils');
 
 const NEW_CONDITION = {
     rowIndex: 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e4',
@@ -26,13 +23,18 @@ const NEW_CONDITION = {
 
 const CONDITION = {
     rowIndex: 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e5',
-    leftHandSide: { value: 'xyz' }
+    leftHandSide: { value: 'condition1' }
+};
+
+const CONDITION_2 = {
+    rowIndex: 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e6',
+    leftHandSide: { value: 'condtion2' }
 };
 
 const selectors = {
     conditionList: 'builder_platform_interaction-condition-list',
-    firstCondition: 'builder_platform_interaction-row:nth-child(1)',
-    secondCondition: 'div.condition-container'
+    firstCondition:
+        'builder_platform_interaction-row:nth-child(1) div.condition-container'
 };
 
 function getVisibility(
@@ -60,28 +62,29 @@ const createComponentUnderTest = props => {
         }
     );
 
+    function reducer(event) {
+        el.visibility = conditionListReducer(el.visibility, event);
+    }
+
+    const events = [
+        UpdateConditionLogicEvent.EVENT_NAME,
+        AddConditionEvent.EVENT_NAME,
+        DeleteConditionEvent.EVENT_NAME,
+        UpdateConditionEvent.EVENT_NAME
+    ];
+
+    events.map(event => el.addEventListener(event, reducer));
+
     document.body.appendChild(el);
     return el;
 };
 
+function getConditionList(element) {
+    return element.shadowRoot.querySelector(selectors.conditionList);
+}
+
 describe('Component Visibility', () => {
-    it('shows popover when new condition', () => {
-        createComponentUnderTest({
-            visibility: getVisibility(CONDITION_LOGIC.AND, [NEW_CONDITION])
-        });
-
-        expect(showPopover).toHaveBeenCalled();
-    });
-
-    it('doesnt show popover when condition is not new', () => {
-        createComponentUnderTest({
-            visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION])
-        });
-
-        expect(showPopover).not.toHaveBeenCalled();
-    });
-
-    it('shows popover when click condition', () => {
+    it('when click condition, shows popover', () => {
         const element = createComponentUnderTest({
             visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION])
         });
@@ -89,11 +92,8 @@ describe('Component Visibility', () => {
         const firstCondition = element.shadowRoot.querySelector(
             selectors.firstCondition
         );
-        const secondCondition = firstCondition.querySelector(
-            selectors.secondCondition
-        );
 
-        secondCondition.dispatchEvent(
+        firstCondition.dispatchEvent(
             new Event('click', {
                 bubbles: true,
                 cancelable: true
@@ -101,11 +101,16 @@ describe('Component Visibility', () => {
         );
 
         expect(showPopover).toHaveBeenCalled();
+        expect(showPopover.mock.calls[0][1]).toMatchObject({
+            condition: CONDITION
+        });
     });
 
-    describe('update condition logic', () => {
-        it('when switching to AND and no conditions are present, should emit AddCondition and UpdateConditionLogic events', () => {
-            const element = createComponentUnderTest();
+    describe('when update condition logic', () => {
+        it('emits an UpdateConditionLogic event, hides popover', () => {
+            const element = createComponentUnderTest({
+                visibility: getVisibility(CONDITION_LOGIC.OR, [CONDITION])
+            });
 
             const updateConditionLogicCallback = jest.fn();
             element.addEventListener(
@@ -113,17 +118,8 @@ describe('Component Visibility', () => {
                 updateConditionLogicCallback
             );
 
-            const addConditionCallback = jest.fn();
-            element.addEventListener(
-                UpdateConditionLogicEvent.EVENT_NAME,
-                addConditionCallback
-            );
-
-            const conditionList = element.shadowRoot.querySelector(
-                selectors.conditionList
-            );
-            conditionList.dispatchEvent(
-                new PropertyChangedEvent('conditionlogic', CONDITION_LOGIC.AND)
+            getConditionList(element).dispatchEvent(
+                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND)
             );
 
             expect(updateConditionLogicCallback).toHaveBeenCalled();
@@ -135,43 +131,49 @@ describe('Component Visibility', () => {
                 }
             );
 
-            expect(addConditionCallback).toHaveBeenCalled();
+            expect(hidePopover).toHaveBeenCalled();
         });
 
-        it('when switching to NO_CONDITIONS, should emit an UpdateConditionLogic event', () => {
+        it('from NO_CONDITIONS to AND, adds a new condition and shows the popover for it', () => {
+            const element = createComponentUnderTest();
+
+            getConditionList(element).dispatchEvent(
+                new PropertyChangedEvent('conditionLogic', CONDITION_LOGIC.AND)
+            );
+
+            return Promise.resolve().then(() => {
+                expect(showPopover).toHaveBeenCalled();
+                expect(showPopover.mock.calls[0][1]).toMatchObject({
+                    condition: element.visibility.conditions[0]
+                });
+            });
+        });
+
+        it('from AND to NO_CONDITIONS, removes all conditions', () => {
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.AND)
+                visibility: getVisibility(CONDITION_LOGIC.OR, [
+                    CONDITION,
+                    CONDITION_2
+                ])
             });
 
-            const updateConditionLogicCallback = jest.fn();
-            element.addEventListener(
-                UpdateConditionLogicEvent.EVENT_NAME,
-                updateConditionLogicCallback
-            );
-
-            const conditionList = element.shadowRoot.querySelector(
-                selectors.conditionList
-            );
-            conditionList.dispatchEvent(
+            getConditionList(element).dispatchEvent(
                 new PropertyChangedEvent(
-                    'conditionlogic',
+                    'conditionLogic',
                     CONDITION_LOGIC.NO_CONDITIONS
                 )
             );
 
-            expect(updateConditionLogicCallback).toHaveBeenCalled();
-            expect(updateConditionLogicCallback.mock.calls[0][0]).toMatchObject(
-                {
-                    detail: {
-                        value: CONDITION_LOGIC.NO_CONDITIONS
-                    }
-                }
-            );
+            return Promise.resolve().then(() => {
+                expect(element.visibility.conditions).toHaveLength(0);
+                expect(showPopover).not.toHaveBeenCalled();
+            });
         });
     });
 
-    describe('delete condition', () => {
-        it('should emit a DeleteConditionEvent', () => {
+    describe('when delete condition', () => {
+        it('emits a DeleteConditionEvent and popover is hidden', () => {
+            const indexOfItemToDelete = 0;
             const element = createComponentUnderTest({
                 visibility: getVisibility(CONDITION_LOGIC.AND, [
                     CONDITION,
@@ -185,75 +187,49 @@ describe('Component Visibility', () => {
                 eventCallback
             );
 
-            const conditionList = element.shadowRoot.querySelector(
-                selectors.conditionList
-            );
-            conditionList.dispatchEvent(
-                new DeleteConditionEvent(element.guid, 0)
+            getConditionList(element).dispatchEvent(
+                new DeleteConditionEvent(element.guid, indexOfItemToDelete)
             );
 
-            // expect(element.hidePopover).toHaveBeenCalled();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0]).toMatchObject({
                 detail: {
-                    index: 0
+                    index: indexOfItemToDelete
                 }
             });
 
             expect(hidePopover).toHaveBeenCalled();
         });
+    });
 
-        it('when no conditions left, should change condition logic to NO_CONDITIONS', () => {
+    describe('when add condition', () => {
+        it('emits AddConditionEvent and popover is hidden and then shown again for the new condition', () => {
             const element = createComponentUnderTest({
                 visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION])
             });
-
-            const deleteConditionCallback = jest.fn();
-            element.addEventListener(
-                DeleteConditionEvent.EVENT_NAME,
-                deleteConditionCallback
-            );
-
-            const updateConditionLogicCallback = jest.fn();
-            element.addEventListener(
-                UpdateConditionLogicEvent.EVENT_NAME,
-                updateConditionLogicCallback
-            );
-
-            const conditionList = element.shadowRoot.querySelector(
-                selectors.conditionList
-            );
-            conditionList.dispatchEvent(
-                new DeleteConditionEvent(element.guid, 0)
-            );
-
-            expect(deleteConditionCallback).toHaveBeenCalled();
-            expect(updateConditionLogicCallback).toHaveBeenCalled();
-
-            expect(hidePopover).toHaveBeenCalled();
-        });
-    });
-
-    describe('add condition', () => {
-        it('should emit an add condition event', () => {
-            const element = createComponentUnderTest();
 
             const eventCallback = jest.fn();
             element.addEventListener(
                 AddConditionEvent.EVENT_NAME,
                 eventCallback
             );
-            const conditionList = element.shadowRoot.querySelector(
-                selectors.conditionList
-            );
 
-            conditionList.dispatchEvent(new AddConditionEvent());
+            const addConditionEvent = new AddConditionEvent();
+            getConditionList(element).dispatchEvent(addConditionEvent);
             expect(eventCallback).toHaveBeenCalled();
-
             expect(hidePopover).toHaveBeenCalled();
+
+            // after the reducer has processed the event, and the component got re-rendered
+            return Promise.resolve().then(() => {
+                expect(showPopover).toHaveBeenCalled();
+                expect(element.visibility.conditions).toHaveLength(2);
+                expect(showPopover.mock.calls[0][1]).toMatchObject({
+                    condition: element.visibility.conditions[1]
+                });
+            });
         });
 
-        it('noop when last condition isNew', () => {
+        it('noop when last condition isNew: popover is not hidden, no conditions is added', () => {
             const element = createComponentUnderTest({
                 visibility: getVisibility(CONDITION_LOGIC.AND, [NEW_CONDITION])
             });
@@ -263,6 +239,7 @@ describe('Component Visibility', () => {
                 AddConditionEvent.EVENT_NAME,
                 eventCallback
             );
+
             const conditionList = element.shadowRoot.querySelector(
                 selectors.conditionList
             );
@@ -270,6 +247,10 @@ describe('Component Visibility', () => {
             conditionList.dispatchEvent(new AddConditionEvent());
 
             expect(eventCallback).not.toHaveBeenCalled();
+            expect(hidePopover).not.toHaveBeenCalled();
+            return Promise.resolve().then(() => {
+                expect(element.visibility.conditions).toHaveLength(1);
+            });
         });
     });
 });

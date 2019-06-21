@@ -9,6 +9,8 @@
         ondeletecondition={handleDeleteCondition}
         onaddcondition={handleAddCondition}
         onpropertychanged={handlePropertyChanged}
+        variant="narrow"
+        onclick={handleOnClick}
     >
         <template if:true={showConditions}>
             <div slot="conditions">
@@ -26,6 +28,7 @@
                             show-prefix
                             item-index={conditionIndex}
                             show-delete={showDeleteCondition}
+                            show-delete-button={showDeleteConditionButton}
                             key={conditionWithPrefix.condition.rowIndex}
                         >
                             <div slot="rowBody">

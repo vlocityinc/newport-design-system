@@ -1,0 +1,9 @@
+.container {
+    padding: 10px;
+    width: 300px;
+}
+
+.footer {
+    padding: var(--lwc-spacingSmall, 0.75rem) 0;
+    float: right;
+}

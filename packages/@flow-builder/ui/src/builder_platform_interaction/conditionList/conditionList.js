@@ -78,15 +78,16 @@ export default class ConditionList extends LightningElement {
     fields;
 
     /**
-     * Specifies the size of the condition logic input
-     * @type string (small | large)
+     * Specifies the variant of the condition list component
+     * @type string (narrow | default)
      */
-    @api conditionLogicInputSize;
+    @api
+    variant;
 
     get conditionLogicContainerClasses() {
         const classes = ['slds-form-element', 'slds-m-bottom_small'];
 
-        if (this.conditionLogicInputSize !== 'large') {
+        if (this.variant !== 'narrow') {
             classes.push('slds-size_1-of-3');
         }
 
