@@ -34,7 +34,7 @@ export const PROCESS_TYPES_ICONS = {
             'utility:inspector_panel'
         ],
         [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause'],
-        [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:events']
+        [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:macros']
     ])
 };
 
