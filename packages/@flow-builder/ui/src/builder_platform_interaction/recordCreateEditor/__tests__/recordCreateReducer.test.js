@@ -7,6 +7,7 @@ import {
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
+import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
 
 const recordCreateUsingFieldsTemplate = () => ({
     assignRecordIdToReference: { value: 'varToStoreId', error: null },
@@ -240,7 +241,7 @@ describe('record-create-reducer using fields', () => {
             });
         });
     });
-    describe('handle property changed event', () => {
+    describe('numberRecordsToStore', () => {
         describe('update numberRecordsToStore from All Records to First Record', () => {
             let newState;
             beforeAll(() => {
@@ -281,6 +282,82 @@ describe('record-create-reducer using fields', () => {
             });
             it('should reset inputReference', () => {
                 expect(newState.inputReference.value).toBe('');
+            });
+        });
+    });
+    describe('wayToStoreFields', () => {
+        describe('update wayToStoreFields from SOBJECT_VARIABLE to SEPARATE_VARIABLES', () => {
+            let newState;
+            beforeAll(() => {
+                originalState = recordCreateUsingSobjectTemplate();
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
+                    true,
+                    WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
+                    false
+                );
+                newState = recordCreateReducer(
+                    originalState,
+                    recordStoreOptionChangedEvent
+                );
+            });
+            it('should reset inputReference', () => {
+                expect(newState.inputReference).toEqual({
+                    value: '',
+                    error: null
+                });
+            });
+            it('should reset assignRecordIdToReference', () => {
+                expect(newState.assignRecordIdToReference).toEqual({
+                    value: '',
+                    error: null
+                });
+            });
+            it('should reset inputAssignments', () => {
+                expect(newState.inputAssignments).toEqual([
+                    {
+                        leftHandSide: { error: null, value: '' },
+                        rightHandSide: { error: null, value: '' },
+                        rightHandSideDataType: { error: null, value: '' },
+                        rowIndex: expect.any(String)
+                    }
+                ]);
+            });
+        });
+        describe('update wayToStoreFields from SEPARATE_VARIABLES to SOBJECT_VARIABLE', () => {
+            let newState;
+            beforeAll(() => {
+                originalState = recordCreateUsingFieldsTemplate();
+                const recordStoreOptionChangedEvent = new RecordStoreOptionChangedEvent(
+                    true,
+                    WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+                    false
+                );
+                newState = recordCreateReducer(
+                    originalState,
+                    recordStoreOptionChangedEvent
+                );
+            });
+            it('should reset inputReference', () => {
+                expect(newState.inputReference).toEqual({
+                    value: '',
+                    error: null
+                });
+            });
+            it('should reset assignRecordIdToReference', () => {
+                expect(newState.assignRecordIdToReference).toEqual({
+                    value: '',
+                    error: null
+                });
+            });
+            it('should reset inputAssignments', () => {
+                expect(newState.inputAssignments).toEqual([
+                    {
+                        leftHandSide: { error: null, value: '' },
+                        rightHandSide: { error: null, value: '' },
+                        rightHandSideDataType: { error: null, value: '' },
+                        rowIndex: expect.any(String)
+                    }
+                ]);
             });
         });
     });

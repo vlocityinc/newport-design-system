@@ -68,10 +68,7 @@ export default class RecordCreateEditor extends LightningElement {
      * @returns {Object[]} list of errors
      */
     @api validate() {
-        const event = {
-            type: VALIDATE_ALL,
-            wayToStoreFields: this.state.wayToStoreFields
-        };
+        const event = new CustomEvent(VALIDATE_ALL);
         this.state.recordCreateElement = recordCreateReducer(
             this.state.recordCreateElement,
             event

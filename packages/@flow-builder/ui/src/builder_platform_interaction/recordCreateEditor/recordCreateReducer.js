@@ -106,7 +106,8 @@ const recordStoreOptionAndWayToStoreChanged = (
         });
         return resetRecordCreate(state, true);
     } else if (state.wayToStoreFields !== wayToStoreFields) {
-        return updateProperties(state, { wayToStoreFields });
+        state = updateProperties(state, { wayToStoreFields });
+        return resetRecordCreate(state, true);
     }
     return state;
 };
@@ -156,7 +157,7 @@ export const recordCreateReducer = (state, event) => {
         case VALIDATE_ALL: {
             return recordCreateValidation.validateAll(
                 state,
-                getRules(state, event.wayToStoreFields)
+                getRules(state, state.wayToStoreFields)
             );
         }
         default:
