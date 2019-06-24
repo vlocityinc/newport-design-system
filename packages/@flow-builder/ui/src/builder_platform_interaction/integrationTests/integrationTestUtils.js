@@ -120,6 +120,24 @@ export const getGroupedComboboxItemInGroup = (
     }
     return undefined;
 };
+
+export const getGroupedComboboxItemInGroupByDisplayText = (
+    groupedCombobox,
+    groupLabel,
+    displayText
+) => {
+    for (const item of groupedCombobox.items) {
+        if (item.label === groupLabel && item.items) {
+            for (const subItem of item.items) {
+                if (subItem.displayText === displayText) {
+                    return subItem;
+                }
+            }
+        }
+    }
+    return undefined;
+};
+
 export const getGroupedComboboxItem = (groupedCombobox, itemText) => {
     for (const item of groupedCombobox.items) {
         if (item.text === itemText) {
