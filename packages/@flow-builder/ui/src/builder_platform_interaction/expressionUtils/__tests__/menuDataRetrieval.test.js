@@ -40,6 +40,7 @@ import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib'
 import { systemVariables } from 'mock/systemGlobalVars';
 import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
+import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -110,12 +111,17 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 });
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = require.requireActual(
+        '../../screenEditorUtils/screenEditorUtils.js'
+    );
     return {
         describeExtension: jest
             .fn()
-            .mockImplementation((name, refreshCache, callback) =>
-                callback(mockFlowRuntimeEmailFlowExtensionDescription)
-            )
+            .mockImplementation(() =>
+                Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
+            ),
+        getExtensionParamDescriptionAsComplexTypeFieldDescription:
+            actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
     };
 });
 
@@ -794,7 +800,7 @@ describe('Menu data retrieval', () => {
             getSecondLevelItems(mockConfig, parentApexItem, jest.fn());
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
         });
-        it('should fetch ouput parameters for LC screen field with automatic handling', () => {
+        it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
             const callback = jest.fn();
             const mockConfig = { elementType: ELEMENT_TYPE.SCREEN };
             getSecondLevelItems(
@@ -803,6 +809,9 @@ describe('Menu data retrieval', () => {
                 callback
             );
             expect(describeExtension).toHaveBeenCalledTimes(1);
+            await untilNoFailure(() => {
+                expect(callback).toHaveBeenCalledTimes(1);
+            });
             const secondLevelItems = callback.mock.calls[0][0];
             expect(Object.keys(secondLevelItems)).toEqual(
                 expect.arrayContaining(['label', 'value'])

@@ -23,6 +23,10 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
+import {
+    getCachedExtension,
+    getExtensionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/screenEditorUtils';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -125,6 +129,31 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     };
 };
 
+const retrieveResourceComplexTypeFields = flowResource => {
+    let fields;
+    if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+        fields = sobjectLib.getFieldsForEntity(flowResource.subtype);
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.APEX.value) {
+        fields = apexTypeLib.getPropertiesForClass(flowResource.subtype);
+    } else if (
+        flowResource.dataType ===
+        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+    ) {
+        const extension = getCachedExtension(flowResource.extensionName);
+        fields =
+            extension &&
+            extension.outputParameters.reduce((acc, parameter) => {
+                acc[
+                    parameter.apiName
+                ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
+                    parameter
+                );
+                return acc;
+            }, {});
+    }
+    return fields;
+};
+
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
@@ -142,11 +171,7 @@ export const normalizeFEROV = identifier => {
         if (!fieldName) {
             rhs.itemOrDisplayText = item;
         } else {
-            const retrieveFieldsFn =
-                flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value
-                    ? sobjectLib.getFieldsForEntity
-                    : apexTypeLib.getPropertiesForClass;
-            const fields = retrieveFieldsFn(flowElement.subtype);
+            const fields = retrieveResourceComplexTypeFields(flowElement);
             const field = fields && fields[fieldName];
             if (field && fieldName.indexOf('.') === -1) {
                 rhs.itemOrDisplayText = mutateFieldToComboboxShape(

@@ -500,3 +500,19 @@ function getErrorFromChoice(choice) {
     }
     return null;
 }
+
+/**
+ * Get the extension parameter description as a complex type field description
+ *
+ * @param {object} extensionParamDescription - the extension parameter description as returned by describeExtensions
+ * @returns {object} - the extension parameter description as a complex type field description (as expected by menudata or merge field validation)
+ */
+export function getExtensionParamDescriptionAsComplexTypeFieldDescription(
+    extensionParamDescription
+) {
+    return {
+        ...extensionParamDescription,
+        dataType: getFlowDataTypeByName(extensionParamDescription.dataType),
+        isCollection: extensionParamDescription.maxOccurs > 1
+    };
+}

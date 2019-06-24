@@ -20,7 +20,10 @@ import {
     getDataType
 } from 'builder_platform_interaction/ruleLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import { getCachedExtensions } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getCachedExtension,
+    getExtensionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/screenEditorUtils';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -429,10 +432,10 @@ export class MergeFieldsValidation {
             element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
         ) {
             // this lib is synchronous, we check the field only if already cached.
-            const extensions = getCachedExtensions([element.extensionName]);
-            if (extensions != null) {
+            const extension = getCachedExtension(element.extensionName);
+            if (extension) {
                 field = this._getOutputParameterForExtension(
-                    extensions[0],
+                    extension,
                     fieldName
                 );
                 if (!field) {
@@ -466,8 +469,14 @@ export class MergeFieldsValidation {
 
     _getOutputParameterForExtension(extension, parameterName) {
         parameterName = parameterName.toLowerCase();
-        return extension.outputParameters.find(
+        const outputParam = extension.outputParameters.find(
             param => parameterName === param.apiName.toLowerCase()
+        );
+        return (
+            outputParam &&
+            getExtensionParamDescriptionAsComplexTypeFieldDescription(
+                outputParam
+            )
         );
     }
 

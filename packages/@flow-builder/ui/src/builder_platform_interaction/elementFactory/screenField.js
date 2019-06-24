@@ -206,7 +206,6 @@ export function createScreenFieldMetadataObject(screenField) {
     const {
         extensionName,
         defaultValue,
-        dataType,
         helpText,
         isRequired,
         fieldText,
@@ -216,6 +215,7 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultSelectedChoiceReference
     } = screenField;
     let {
+        dataType,
         scale,
         inputParameters,
         outputParameters,
@@ -244,6 +244,7 @@ export function createScreenFieldMetadataObject(screenField) {
         );
         if (storeOutputAutomatically) {
             outputParameters = [];
+            dataType = undefined;
         } else {
             outputParameters = outputParameters.map(outputParameter =>
                 createOutputParameterMetadataObject(outputParameter)

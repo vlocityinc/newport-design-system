@@ -8,6 +8,7 @@ import {
     FLOW_DATA_TYPE
 } from 'builder_platform_interaction/dataTypeLib';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { readonly } from 'lwc';
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
@@ -18,42 +19,6 @@ let _retriever; // Retrieves extensions list and notifies all callbacks that reg
 
 export const EXTENSION_TYPE_SOURCE = { LOCAL: 'local', SERVER: 'server' };
 export const COMPONENT_INSTANCE = 'ComponentInstance';
-
-// Makes the object read only
-function freeze(obj) {
-    if (obj) {
-        for (const prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                const type = typeof prop;
-                if (type === 'object') {
-                    freeze(obj);
-                } else {
-                    const val = obj[prop];
-                    delete obj[prop];
-                    Object.defineProperty(obj, prop, {
-                        get() {
-                            return val;
-                        },
-                        set() {
-                            throw new Error('Immutable Object');
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    return obj;
-}
-
-// Returns a copy of the description with a shallow copy of the parameter arrays
-function cloneDescription(desc) {
-    return {
-        name: desc.name,
-        inputParameters: desc.inputParameters.slice(0),
-        outputParameters: desc.outputParameters.slice(0)
-    };
-}
 
 function createDescription(name, data) {
     const desc = {
@@ -79,19 +44,15 @@ function createDescription(name, data) {
         if (param.hasDefaultValue) {
             newParam.defaultValue = transformDefaultValue(param.defaultValue);
         }
-
         if (param.isInput) {
             desc.inputParameters.push(newParam);
         }
-
         if (param.isOutput) {
             desc.outputParameters.push(newParam);
         }
-
-        freeze(newParam);
     }
 
-    return desc;
+    return readonly(desc);
 }
 
 function transformDefaultValue(value) {
@@ -160,7 +121,7 @@ function getListExtensionsRetriever(flowProcessType) {
                                 flowProcessTypeCache = flowProcessType;
                                 for (const extension of data) {
                                     extensionCache.push(
-                                        freeze({
+                                        readonly({
                                             name: extension.qualifiedApiName,
                                             fieldType: COMPONENT_INSTANCE,
                                             label: extension.label
@@ -216,35 +177,17 @@ export function getCachedFlowProcessType() {
  *      {apiName, dataType, description, hasDefaultValue, isRequired, label, maxOccurs}
  *
  * @param {String} name - The FQN of the component
- * @param {Boolean} refreshCache - Refresh the cache for the specified component (data will be retrieved form the server)
- * @param {Function} callback - The callback to execute to notify, fn(data, error)
+ * @returns {Promise} A promise to the extension description
  */
-export function describeExtension(name, refreshCache, callback) {
-    if (name) {
-        if (!refreshCache && extensionDescriptionCache[name] !== undefined) {
-            callback(cloneDescription(extensionDescriptionCache[name]), null);
-            return;
-        }
-
-        fetch(
-            SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_PARAMS,
-            ({ data, error }) => {
-                if (error) {
-                    callback(null, error);
-                } else {
-                    extensionDescriptionCache[name] = createDescription(
-                        name,
-                        data
-                    );
-                    callback(
-                        cloneDescription(extensionDescriptionCache[name]),
-                        null
-                    );
-                }
-            },
-            { name }
-        );
-    }
+export function describeExtension(
+    name,
+    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+) {
+    return describeExtensions([name], {
+        background,
+        disableErrorModal,
+        messageForErrorModal
+    }).then(descriptions => descriptions[0]);
 }
 
 /**
@@ -257,13 +200,22 @@ export function getCachedExtensions(names) {
     for (const name of names) {
         const description = extensionDescriptionCache[name];
         if (description) {
-            descriptions.push(cloneDescription(description));
+            descriptions.push(description);
         } else {
             return null;
         }
     }
 
     return descriptions;
+}
+
+/**
+ * Returns the description of provided extension from the cache
+ * @param {string} name - The extension name
+ * @returns {ExtensionDescriptor} - The description of the extension or undefined if not found
+ */
+export function getCachedExtension(name) {
+    return extensionDescriptionCache[name];
 }
 
 /**
@@ -274,40 +226,51 @@ export function getCachedExtensions(names) {
  *      {apiName, dataType, description, hasDefaultValue, isRequired, label, maxOccurs}
  *
  * @param {String[]} names - The FQN of the components
- * @param {Boolean} refreshCache - Refresh the cache for the specified component (data will be retrieved form the server)
- * @param {Function} callback - The callback to execute to notify, fn(descriptors[], error)
+ * @returns {Promise} - A promise to the extensions descriptions
  */
-export function describeExtensions(names, refreshCache, callback) {
-    // Check if all descriptions are cached
-    if (!refreshCache) {
-        const cachedDescs = getCachedExtensions(names);
-        if (cachedDescs) {
-            callback(cachedDescs, null);
-            return;
-        }
-    }
-
-    fetch(
-        SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS,
-        ({ data, error }) => {
-            if (error) {
-                callback(null, error);
-            } else {
-                const descs = [];
-                for (const name of names) {
-                    extensionDescriptionCache[name] = createDescription(
-                        name,
-                        data[name]
-                    );
-                    descs.push(
-                        cloneDescription(extensionDescriptionCache[name])
-                    );
+export function describeExtensions(
+    names = [],
+    { background = false, disableErrorModal = false, messageForErrorModal } = {}
+) {
+    const extensionNamesToFetch = names.filter(
+        name => !extensionDescriptionCache[name]
+    );
+    let promise;
+    if (extensionNamesToFetch.length === 0) {
+        promise = Promise.resolve([]);
+    } else {
+        promise = new Promise((resolve, reject) => {
+            fetch(
+                SERVER_ACTION_TYPE.GET_FLOW_EXTENSION_LIST_PARAMS,
+                ({ data, error }) => {
+                    if (error) {
+                        reject(new Error(error));
+                    } else {
+                        for (const name of extensionNamesToFetch) {
+                            if (!extensionDescriptionCache[name]) {
+                                extensionDescriptionCache[
+                                    name
+                                ] = createDescription(name, data[name]);
+                            }
+                        }
+                        resolve(
+                            extensionNamesToFetch.map(
+                                name => extensionDescriptionCache[name]
+                            )
+                        );
+                    }
+                },
+                { names: extensionNamesToFetch },
+                {
+                    background,
+                    disableErrorModal,
+                    messageForErrorModal
                 }
-
-                callback(descs, null);
-            }
-        },
-        { names }
+            );
+        });
+    }
+    return promise.then(() =>
+        names.map(name => extensionDescriptionCache[name])
     );
 }
 
@@ -376,14 +339,12 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
     if (callback) {
         // Async, go to server if necessary
         // Get the descriptions
-        describeExtensions(extensions, false, (descs, error) => {
-            if (error) {
-                callback({ error });
-            } else {
+        describeExtensions(extensions)
+            .then(descs => {
                 processFn(descs);
-                callback({ error, screen });
-            }
-        });
+                callback({ screen });
+            })
+            .catch(error => callback({ error: error.message }));
     } else {
         // Use cached descriptors
         const descs = getCachedExtensions(extensions);

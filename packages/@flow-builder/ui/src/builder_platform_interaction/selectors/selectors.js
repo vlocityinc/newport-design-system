@@ -7,5 +7,6 @@ export {
     sObjectOrSObjectCollectionByEntitySelector,
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,
-    apexScalarVariablesSelector
+    apexScalarVariablesSelector,
+    componentInstanceScreenFieldsSelector
 } from './menuDataSelector';

@@ -43,8 +43,10 @@ import {
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
-import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import {
+    describeExtension,
+    getExtensionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/screenEditorUtils';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -603,24 +605,20 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
 
 function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
     const element = getElementByGuid(resourceGuid);
-    const refreshCache = false;
-    describeExtension(element.extensionName, refreshCache, (desc, err) => {
-        if (err) {
-            callback([]);
-        } else {
+    describeExtension(element.extensionName)
+        .then(desc => {
             callback(
                 desc.outputParameters.reduce((properties, parameter) => {
-                    properties[parameter.apiName] = {
-                        apiName: parameter.apiName,
-                        dataType: getFlowDataType(parameter.dataType),
-                        isCollection: parameter.maxOccurs > 1,
-                        label: parameter.label
-                    };
+                    properties[
+                        parameter.apiName
+                    ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
+                        parameter
+                    );
                     return properties;
                 }, {})
             );
-        }
-    });
+        })
+        .catch(() => callback([]));
 }
 
 /**

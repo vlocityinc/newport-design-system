@@ -105,20 +105,16 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     fetchDescription() {
         this.displaySpinner = true;
         const node = this.node; // closure
-        screenEditorUtils.describeExtension(
-            node.extensionName.value,
-            false,
-            (desc, error) => {
+        screenEditorUtils
+            .describeExtension(node.extensionName.value)
+            .then(desc => {
                 this.displaySpinner = false;
                 if (this.node === node) {
-                    // Let's make sure the user didn't change the selection
-                    if (error) {
-                        throw error;
-                    } else {
-                        this.extendedInfo = desc;
-                    }
+                    this.extendedInfo = desc;
                 }
-            }
-        );
+            })
+            .catch(() => {
+                this.displaySpinner = false;
+            });
     }
 }

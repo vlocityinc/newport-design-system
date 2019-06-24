@@ -10,7 +10,7 @@ import {
     apexClassParam
 } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { getCachedExtensions } from 'builder_platform_interaction/screenEditorUtils';
+import { getCachedExtension } from 'builder_platform_interaction/screenEditorUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -85,14 +85,22 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => ({
         )
 }));
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
-    getCachedExtensions: jest
-        .fn()
-        .mockImplementation(() => [
-            require('mock/flowExtensionsData')
-                .mockFlowRuntimeEmailFlowExtensionDescription
-        ])
-}));
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = require.requireActual(
+        '../../screenEditorUtils/screenEditorUtils.js'
+    );
+    return {
+        getCachedExtension: jest
+            .fn()
+            .mockImplementation(
+                () =>
+                    require('mock/flowExtensionsData')
+                        .mockFlowRuntimeEmailFlowExtensionDescription
+            ),
+        getExtensionParamDescriptionAsComplexTypeFieldDescription:
+            actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
+    };
+});
 
 jest.mock(
     '@salesforce/label/FlowBuilderMergeFieldValidation.notAValidMergeField',
@@ -498,7 +506,7 @@ describe('Merge field validation', () => {
                 ]);
             });
             it('Returns no validation error even for non existing LC param when the extension description is not in the cache', () => {
-                getCachedExtensions.mockReturnValueOnce(null);
+                getCachedExtension.mockReturnValueOnce(undefined);
                 const validationErrors = validateMergeField(
                     '{!emailScreenFieldAutomatic.nonExisting}'
                 );

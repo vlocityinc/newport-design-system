@@ -7,6 +7,7 @@ import {
     getDeletableEntities,
     getUpdateableEntities
 } from 'builder_platform_interaction/sobjectLib';
+import { COMPONENT_INSTANCE } from 'builder_platform_interaction/screenEditorUtils';
 
 const elementsSelector = state => state.elements;
 
@@ -182,5 +183,14 @@ export const apexScalarVariablesSelector = createSelector(
             element.elementType === ELEMENT_TYPE.VARIABLE &&
             element.dataType === FLOW_DATA_TYPE.APEX.value &&
             !element.isCollection
+    )
+);
+
+export const componentInstanceScreenFieldsSelector = createSelector(
+    [elementsSelector],
+    getFilteredElements(
+        element =>
+            element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
+            element.fieldType === COMPONENT_INSTANCE
     )
 );
