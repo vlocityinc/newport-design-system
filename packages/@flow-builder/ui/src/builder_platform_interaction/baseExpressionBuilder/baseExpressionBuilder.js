@@ -56,6 +56,8 @@ const LHS_FILTERED_MENU_DATA = 'lhsFilteredMenuData';
 const RHS_FULL_MENU_DATA = 'rhsFullMenuData';
 const RHS_FILTERED_MENU_DATA = 'rhsFilteredMenuData';
 
+const VARIANT_NARROW = 'narrow';
+
 let storeInstance;
 
 export default class BaseExpressionBuilder extends LightningElement {
@@ -389,7 +391,8 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Set it to true to hide display the expression builder vertically instead of horizontally inline
      * @type {Boolean}
      */
-    @api useVerticalLayout;
+    @api
+    variant;
 
     _containerElement;
     _objectType;
@@ -408,22 +411,26 @@ export default class BaseExpressionBuilder extends LightningElement {
     _hideSystemVariables = false;
 
     get containerClasses() {
-        return this.useVerticalLayout
+        return this.variant === VARIANT_NARROW
             ? ''
             : 'slds-grid slds-gutters slds-grid_vertical-align-start slds-gutters_xx-small';
     }
     get lhsClasses() {
-        return this.useVerticalLayout ? 'lhs' : 'lhs slds-col slds-grow';
+        return this.variant === VARIANT_NARROW
+            ? 'lhs'
+            : 'lhs slds-col slds-grow';
     }
 
     get operatorClasses() {
-        return this.useVerticalLayout
+        return this.variant === VARIANT_NARROW
             ? 'operator'
             : 'operator slds-col slds-grow slds-size_x-small';
     }
 
     get rhsClasses() {
-        return this.useVerticalLayout ? 'rhs' : 'rhs slds-col slds-grow';
+        return this.variant === VARIANT_NARROW
+            ? 'rhs'
+            : 'rhs slds-col slds-grow';
     }
 
     get showOperatorIcon() {

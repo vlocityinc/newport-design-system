@@ -1,10 +1,21 @@
 <template>
     <div class="container" onrowcontentschanged={handleUpdateCondition}>
+        <builder_platform_interaction-fer-to-ferov-expression-builder
+            container-element={containerElement}
+            rules={rules}
+            expression={condition}
+            lhs-label={labels.lhsLabel}
+            operator-label={labels.operatorLabel}
+            rhs-label={labels.rhsLabel}
+            default-operator={defaultOperator}
+            variant="narrow"
+        >
+        </builder_platform_interaction-fer-to-ferov-expression-builder>
         <div class="footer">
             <lightning-button
                 variant="Neutral"
-                label="Done"
-                title="Done"
+                label={labels.doneLabel}
+                title={labels.doneLabel}
                 onclick={handleDoneEditing}
             ></lightning-button>
         </div>

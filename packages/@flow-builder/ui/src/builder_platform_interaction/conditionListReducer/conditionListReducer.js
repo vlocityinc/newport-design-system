@@ -51,7 +51,10 @@ const deleteCondition = (conditionList, event) => {
 
     if (conditionList.conditions.length === 0) {
         conditionList = updateProperties(conditionList, {
-            conditionLogic: { value: CONDITION_LOGIC.NO_CONDITIONS }
+            conditionLogic: {
+                value: CONDITION_LOGIC.NO_CONDITIONS,
+                error: null
+            }
         });
     }
 
@@ -90,7 +93,7 @@ const updateConditionLogic = (conditionList, event) => {
     }
 
     return updateProperties(conditionList, {
-        conditionLogic: { value: event.detail.value }
+        conditionLogic: { value: newConditionLogic, error: null }
     });
 };
 
@@ -98,7 +101,7 @@ const updateConditionLogic = (conditionList, event) => {
  * ConditionList reducer performs changes and validation on a conditionList and returns the updated (new) conditionList
  * @param {Object} state - condition list node
  * @param {Event} event - object containing type and payload
- * @returns {Object} the update condition list
+ * @returns {Object} the updated condition list
  */
 export const conditionListReducer = (state, event, deletedGuids, label) => {
     switch (event.type) {

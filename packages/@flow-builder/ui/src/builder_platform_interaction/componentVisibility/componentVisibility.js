@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import {
+    UpdateConditionEvent,
     UpdateConditionLogicEvent,
     DeleteConditionEvent
 } from 'builder_platform_interaction/events';
@@ -19,14 +20,14 @@ import { LABELS } from './componentVisibilityLabels';
 // const MAX_CONDITIONS = 10;
 
 /**
- * Component displeyd in the "Component Visibility" screen editor section.
+ * Component displayed in the "Component Visibility" screen editor section.
  *
  * Displays a "narrow" version of the condition list component.
- * See
  */
 export default class ComponentVisibility extends LightningElement {
     @api
     guid;
+
     @api
     visibility;
 
@@ -48,11 +49,11 @@ export default class ComponentVisibility extends LightningElement {
         }
     ];
 
-    // Used to tract the index of the displayed popover.
-    // If the popover is not displayed, then the value will be -1.
+    // used to display the popover at a given index after rendering
     _popoverIndex = -1;
 
-    // Workaround to deal with the onclick event of the "Add Condition" button which bubbles up
+    // Workaround to deal with the onclick event of the "Add Condition" button which bubbles out
+    // of the ConditionList component
     _addConditionClicked = false;
 
     get conditionLogic() {
@@ -76,21 +77,24 @@ export default class ComponentVisibility extends LightningElement {
         );
     }
 
+    /**
+     * Displays the popover on render if we have a popover index
+     */
     renderedCallback() {
-        // when rendering, display the popover at the right index if applicable
         if (this._popoverIndex !== -1) {
             this.displayPopover(this._popoverIndex);
         }
     }
 
+    /**
+     * Hides the popover when the component is removed
+     */
     disconnectedCallback() {
-        // hide the popover when the component is unmounted
         hidePopover();
     }
 
     /**
-     * Called when a condition is deleted.
-     * Hide the popover and let the delete event bubble up.
+     * Hides the popover when we click on the delete button for a condition
      */
     handleDeleteCondition = () => {
         this._popoverIndex = -1;
@@ -98,10 +102,11 @@ export default class ComponentVisibility extends LightningElement {
     };
 
     /**
-     * The onclick of the add button bubbles up so we need to handle it so that doesn't get closed.
-     * @param {event} the onclick event
+     * Cancels the onclick event fired when clicking on the add button.
+     * @param {Event} event onclick event that is fired when clicking on the component
      */
     handleOnClick = event => {
+        // hack to prevent the onclick event generated when clicking the add button from hiding the popover
         if (this._addConditionClicked) {
             this._addConditionClicked = false;
             event.stopPropagation();
@@ -109,92 +114,99 @@ export default class ComponentVisibility extends LightningElement {
     };
 
     /**
-     * The onclick of the add button bubbles up so we need to handle it so that doesn't get closed.
-     * @param {AddConditionEvent} the add condition event
+     * Handles when the "Add Condition" button is clicked.
+     * Displays the popover for the new condition.
+     * @param {AddConditionEvent} event the condition logic change event
      */
     handleAddCondition = event => {
         if (this.isLastConditionNew()) {
-            // cancel the event we we already are displaying a new condition
+            // if we already have a "New Condition", don't do anything
             event.stopPropagation();
         } else {
-            // add +1 to the popoverIndex to account for the "New Condition" that will be created by the reducer
+            //  displays the popover for the "New Condition" that will be added by the reducer
             this._popoverIndex = this.visibility.conditions.length;
             hidePopover();
         }
+
+        // hack to deal with the onclick event that is fired when clicking on the add button
         this._addConditionClicked = true;
     };
 
     /**
-     * Called when the condition logic property changes
+     * Handles changes to the condition logic value.
+     * @param {PropertyChangedEvent} event the condition logic change event
+     * @fires UpdateConditionLogicEvent
      */
     handlePropertyChanged = event => {
-        const { propertyName, value } = event.detail;
+        event.stopPropagation();
 
-        if (propertyName === 'conditionLogic') {
-            event.stopPropagation();
+        const conditionLogic = event.detail.value;
 
-            const conditionLogic = value;
-
-            if (!this.showConditions) {
-                // if we are not displaying conditions, then the reducer will add a "New Condition", and
-                //  we need to display the popover for it
-                this._popoverIndex = 0;
-            } else if (conditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
-                // hide the popover when we dont' display conditions
-                this._popoverIndex = -1;
-            }
-
-            hidePopover();
-
-            this.dispatchEvent(
-                new UpdateConditionLogicEvent(this.guid, conditionLogic)
-            );
+        if (!this.showConditions) {
+            // automatically display the popover for the "New Condition" that will be added by the reducer
+            this._popoverIndex = 0;
+        } else if (conditionLogic === CONDITION_LOGIC.NO_CONDITIONS) {
+            // hides the popover if we switch to no conditions
+            this._popoverIndex = -1;
         }
+
+        // makes sure the popover is redisplayed
+        hidePopover();
+
+        this.dispatchEvent(
+            new UpdateConditionLogicEvent(this.guid, conditionLogic)
+        );
     };
 
     /**
-     * Called when the user clicks on a condition
+     * Displays the popover for the condition that was clicked on.
+     * @param {Event} event the onclick event
+     * @fires DeleteConditionEvent when a "New Condition" was displayed
      */
     handleClickCondition = event => {
         event.stopPropagation();
 
+        // only do something when we clicked on a different condition
         const index = parseInt(event.currentTarget.dataset.index, 10);
-
-        // if the popover is opened and we clicked on another condition, display that condition
-        // if the current condition in the popover is new, remove it
         if (index !== this._popoverIndex) {
             this._popoverIndex = index;
             this.displayPopover(this._popoverIndex);
 
-            this.removeNewCondition();
+            // delete any new condtion that was present
+            this.deleteNewCondition();
         }
     };
 
     /**
-     * Called when the user presses "Done" in the popover
+     * Handles when the user clicks "Done" in the ConditionEditorPopover.
+     * The popover guarantees this is only invoked if the condition doesn't have any errors.
+     * @param {number} index the index of the edited condition
+     * @param {Object} condition the condition that was edited
+     * @fires UpdateConditionEvent
      */
-    handleDone = (/* index, condition */) => {
-        // this.dispatchEvent(
-        //     new UpdateConditionEvent(this.guid, index, condition)
-        // );
-        // this._popoverIndex = -1;
-        // hidePopover();
+    handleDone = (index, condition) => {
+        this.dispatchEvent(
+            new UpdateConditionEvent(this.guid, index, condition)
+        );
+        this._popoverIndex = -1;
+        hidePopover();
     };
 
     /**
-     * Called when the popover is closed
+     * Handles then case when the popover is closed by clicking out.
+     * Deletes any "New Condition" that was being edited.
+     * @fires DeleteConditionEvent
      */
     handleClosePopover = panel => {
-        // if the popover was closed by clicking out, we need to update the _popoverIndex variable
-        // and remove the new condition displayed if applicable
         if (panel.closedBy === 'closeOnClickOut') {
-            this.removeNewCondition();
+            this.deleteNewCondition();
             this._popoverIndex = -1;
         }
     };
 
     /**
-     * @returns true if the last condition is a "New Condition"
+     * Checks if the last condition is new
+     * @returns true if the last condition is new
      */
     isLastConditionNew() {
         const { conditions } = this.visibility;
@@ -204,17 +216,19 @@ export default class ComponentVisibility extends LightningElement {
     }
 
     /**
-     * Deletes a condition by firing a DeleteConditionEvent
-     * @param {*} index the index of the condition to delete
+     * Deletes a condition at a given index
+     * @param {number} index of the condition to delete
+     * @fires DeleteConditionEvent
      */
     deleteCondition(index) {
         this.dispatchEvent(new DeleteConditionEvent(this.guid, index));
     }
 
     /**
-     * This removes the "New Condition" if it is present.
+     * Deletes the new condition if it is present
+     * @fires DeleteConditionEvent
      */
-    removeNewCondition() {
+    deleteNewCondition() {
         if (this.isLastConditionNew()) {
             const lastIndex = this.visibility.conditions.length - 1;
             this.deleteCondition(lastIndex);
@@ -222,20 +236,22 @@ export default class ComponentVisibility extends LightningElement {
     }
 
     /**
-     * Checks if the condition is a "New Condition".  A new condition is a condition that has not yet
-     * been validated.
-     * @return true if the condition is a "New Condition"
+     * Checks if a condition is new
+     * @param {Object} condition the condition to check
+     * @returns true if the condition is new
      */
     isConditionNew(condition) {
         return condition[EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE].value === '';
     }
 
     /**
-     * Displays the popover at for a given condition index
-     * @param {number} index the index of the condition we want to display the popover for
+     * Displays the ConditionEditorPopover
+     * @param {number} index of condition used to anchor the popover
      */
     displayPopover(index) {
+        // hide the popover if it is alreay opened
         hidePopover();
+
         const nth = index + 1;
         const referenceElement = this.template.querySelector(
             '.slds-list__item:nth-child(' + nth + ') div.condition-container'
@@ -251,8 +267,7 @@ export default class ComponentVisibility extends LightningElement {
                 referenceElement,
                 direction: 'west',
                 closeOnClickOut: true,
-                onClose: this.handleClosePopover,
-                showCloseButton: false
+                onClose: this.handleClosePopover
             }
         );
     }

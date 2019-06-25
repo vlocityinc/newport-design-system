@@ -33,4 +33,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     @api
     rules;
+
+    @api
+    variant;
 }

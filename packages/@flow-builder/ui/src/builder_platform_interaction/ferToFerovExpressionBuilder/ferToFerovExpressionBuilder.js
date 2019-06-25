@@ -62,7 +62,7 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
     rhsIsFer = false;
 
     @api
-    useVerticalLayout;
+    variant;
 
     @api
     get expression() {

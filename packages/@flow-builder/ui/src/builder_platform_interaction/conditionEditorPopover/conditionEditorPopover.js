@@ -1,9 +1,18 @@
 import { LightningElement, api } from 'lwc';
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    getRulesForElementType,
+    RULE_TYPES,
+    RULE_OPERATOR
+} from 'builder_platform_interaction/ruleLib';
 
-const LABELS = {};
+import { conditionEditorValidation } from './conditionEditorValidation';
+import { LABELS } from './conditionEditorPopoverLabels';
 
 export default class ConditionEditorPopover extends LightningElement {
+    containerElement = ELEMENT_TYPE.SCREEN;
+
     @api
     condition;
 
@@ -11,11 +20,28 @@ export default class ConditionEditorPopover extends LightningElement {
     handleDone;
 
     labels = LABELS;
+    defaultOperator = RULE_OPERATOR.EQUAL_TO;
+
+    get rules() {
+        return getRulesForElementType(RULE_TYPES.COMPARISON);
+    }
 
     handleDoneEditing = event => {
         event.stopPropagation();
 
-        this.handleDone(this.condition);
+        const validatedCondition = conditionEditorValidation.validateAll({
+            condition: [this.condition]
+        }).condition[0];
+
+        this.condition = updateProperties(this.condition, validatedCondition);
+
+        const { leftHandSide, operator, rightHandSide } = this.condition;
+        const hasError =
+            leftHandSide.error || operator.error || rightHandSide.error;
+
+        if (!hasError) {
+            this.handleDone(this.condition);
+        }
     };
 
     handleUpdateCondition = event => {
