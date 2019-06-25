@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Resource Details parameters Extension (ie: ligthning component) screenfield in automatic outputs mode No fetch exception Parameters fetch server call OK and NO error check UI: icon names, tooltip, labels...(snapshot) parameters displayed 1`] = `
+<builder_platform_interaction-resource-details-parameters>
+  #shadow-root(open)
+    <div
+      class="resource-detail-parameters-body"
+    >
+      <div
+        class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small"
+      >
+        FlowBuilderResourceDetailsParameters.header
+      </div>
+      <ul
+        class="slds-has-block-links test-list-section-items"
+      >
+        <li
+          class="slds-item slds-truncate_container"
+        >
+          <lightning-icon
+            class="slds-m-right_xx-small"
+          >
+            #shadow-root(open)
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:crossfilter"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+          </lightning-icon>
+          <span
+            class="slds-text-body_regular slds-align-middle slds-truncate"
+            title="Prevents the user from modifying or copying the value."
+          >
+            Disabled
+          </span>
+        </li>
+        <li
+          class="slds-item slds-truncate_container"
+        >
+          <lightning-icon
+            class="slds-m-right_xx-small"
+          >
+            #shadow-root(open)
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:text"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+          </lightning-icon>
+          <span
+            class="slds-text-body_regular slds-align-middle slds-truncate"
+            title="The label that appears above the email field."
+          >
+            Label
+          </span>
+        </li>
+        <li
+          class="slds-item slds-truncate_container"
+        >
+          <lightning-icon
+            class="slds-m-right_xx-small"
+          >
+            #shadow-root(open)
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:text"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+          </lightning-icon>
+          <span
+            class="slds-text-body_regular slds-align-middle slds-truncate"
+            title="Text that appears in the field when it's empty. Use placeholder text to give users a hint about what to enter in the field."
+          >
+            Placeholder Text
+          </span>
+        </li>
+        <li
+          class="slds-item slds-truncate_container"
+        >
+          <lightning-icon
+            class="slds-m-right_xx-small"
+          >
+            #shadow-root(open)
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:crossfilter"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+          </lightning-icon>
+          <span
+            class="slds-text-body_regular slds-align-middle slds-truncate"
+            title="Prevents the user from modifying the value, but not from copying it."
+          >
+            Read Only
+          </span>
+        </li>
+        <li
+          class="slds-item slds-truncate_container"
+        >
+          <lightning-icon
+            class="slds-m-right_xx-small"
+          >
+            #shadow-root(open)
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:crossfilter"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+          </lightning-icon>
+          <span
+            class="slds-text-body_regular slds-align-middle slds-truncate"
+            title="Requires the user to enter a value."
+          >
+            Required
+          </span>
+        </li>
+        <li
+          class="slds-item slds-truncate_container"
+        >
+          <lightning-icon
+            class="slds-m-right_xx-small"
+          >
+            #shadow-root(open)
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:text"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+          </lightning-icon>
+          <span
+            class="slds-text-body_regular slds-align-middle slds-truncate"
+            title="To provide a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable."
+          >
+            Value
+          </span>
+        </li>
+      </ul>
+    </div>
+</builder_platform_interaction-resource-details-parameters>
+`;
+
+exports[`Resource Details parameters Extension (ie: ligthning component) screenfield in automatic outputs mode No fetch exception Parameters fetch server call OK but error check UI: icon names, tooltip, labels (snapshot) no parameters displayed 1`] = `
+<builder_platform_interaction-resource-details-parameters>
+  #shadow-root(open)
+</builder_platform_interaction-resource-details-parameters>
+`;

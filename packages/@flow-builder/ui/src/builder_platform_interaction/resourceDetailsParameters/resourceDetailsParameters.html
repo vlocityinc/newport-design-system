@@ -1,0 +1,41 @@
+<template>
+    <div
+        if:true={state.displaySpinner}
+        class="slds-is-relative full-height slds-shrink"
+    >
+        <lightning-spinner
+            alternative-text={labels.spinnerAlternativeText}
+            size="medium"
+            variant="brand"
+            class="spinner"
+        ></lightning-spinner>
+    </div>
+    <div if:true={state.hasParameters} class="resource-detail-parameters-body">
+        <div
+            class="slds-text-title_caps slds-text-color_weak slds-p-vertical_x-small"
+        >
+            {labels.header}
+        </div>
+        <ul class="slds-has-block-links test-list-section-items">
+            <template for:each={parameters} for:item="parameter">
+                <li
+                    key={parameter.apiName}
+                    class="slds-item slds-truncate_container"
+                >
+                    <lightning-icon
+                        if:true={parameter.typeIconName}
+                        class="slds-m-right_xx-small"
+                        icon-name={parameter.typeIconName}
+                        size="xx-small"
+                        alternative-text={parameter.dataType}
+                    ></lightning-icon>
+                    <span
+                        class="slds-text-body_regular slds-align-middle slds-truncate"
+                        title={parameter.description}
+                        >{parameter.label}</span
+                    >
+                </li>
+            </template>
+        </ul>
+    </div>
+</template>

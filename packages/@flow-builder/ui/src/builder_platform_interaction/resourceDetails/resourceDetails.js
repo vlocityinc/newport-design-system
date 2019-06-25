@@ -1,12 +1,21 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import {
     EditElementEvent,
     DeleteResourceEvent
 } from 'builder_platform_interaction/events';
+import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
 import { LABELS } from './resourceDetailsLabels';
 
 export default class ResourceDetails extends LightningElement {
     @api resourceDetails;
+
+    @track
+    state = {
+        hasAutomaticOutputParameters: false
+    };
+    _isAutomaticOutputParametersSupported = undefined;
+    _automaticOuputParameters = [];
+    labels = LABELS;
 
     get hasIcon() {
         return !!this.resourceDetails.typeIconName;
@@ -31,6 +40,7 @@ export default class ResourceDetails extends LightningElement {
         return this.resourceDetails.createdByElement != null;
     }
 
+    @api
     get createdByElements() {
         return this.hasCreatedByElement
             ? [this.resourceDetails.createdByElement]
@@ -41,8 +51,15 @@ export default class ResourceDetails extends LightningElement {
         return this.resourceDetails.editable && this.resourceDetails.deletable;
     }
 
-    get labels() {
-        return LABELS;
+    get isAutomaticOutputParametersSupported() {
+        if (this._isAutomaticOutputParametersSupported === undefined) {
+            this._isAutomaticOutputParametersSupported =
+                this.resourceDetails.storeOutputAutomatically &&
+                RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION[
+                    this.resourceDetails.elementType
+                ];
+        }
+        return this._isAutomaticOutputParametersSupported;
     }
 
     handleEditButtonClicked(event) {

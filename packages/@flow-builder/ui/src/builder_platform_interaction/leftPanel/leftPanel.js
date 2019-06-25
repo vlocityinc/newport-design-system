@@ -227,7 +227,9 @@ export default class LeftPanel extends LightningElement {
                     [currentElementState.guid],
                     storeElements
                 ),
-                asResource
+                asResource,
+                storeOutputAutomatically:
+                    currentElementState.storeOutputAutomatically
             };
         } else {
             this.showResourceDetailsPanel = false;

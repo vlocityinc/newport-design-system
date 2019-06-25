@@ -44,7 +44,19 @@
                 >
             </li>
         </ul>
-        <div if:true={hasCreatedByElement} class="slds-p-horizontal_small">
+        <div
+            if:true={isAutomaticOutputParametersSupported}
+            class="slds-p-horizontal_small"
+        >
+            <builder_platform_interaction-resource-details-parameters
+                resource-details={resourceDetails}
+            >
+            </builder_platform_interaction-resource-details-parameters>
+        </div>
+        <div
+            if:true={hasCreatedByElement}
+            class="slds-p-horizontal_small test-created-by-section"
+        >
             <builder_platform_interaction-used-by-content
                 list-section-items={createdByElements}
                 list-section-header={labels.createdByText}
@@ -52,7 +64,10 @@
             >
             </builder_platform_interaction-used-by-content>
         </div>
-        <div if:true={hasUsedByContent} class="slds-p-horizontal_small">
+        <div
+            if:true={hasUsedByContent}
+            class="slds-p-horizontal_small test-used-by-section"
+        >
             <builder_platform_interaction-used-by-content
                 list-section-items={resourceDetails.usedByElements}
                 list-section-header={labels.usageText}

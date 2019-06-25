@@ -168,6 +168,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Disabled",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "$GlobalConstant.False"
     },
@@ -178,6 +180,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: true,
       label: "Label",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "Email"
     },
@@ -189,6 +193,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Placeholder Text",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "you@example.com"
     },
@@ -200,6 +206,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Read Only",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "$GlobalConstant.False"
     },
@@ -210,6 +218,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Required",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "$GlobalConstant.False"
     },
@@ -221,6 +231,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Value",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1
     }
   ],
@@ -232,6 +244,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Disabled",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "$GlobalConstant.False"
     },
@@ -242,6 +256,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: true,
       label: "Label",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "Email"
     },
@@ -253,6 +269,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Placeholder Text",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "you@example.com"
     },
@@ -264,6 +282,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Read Only",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "$GlobalConstant.False"
     },
@@ -274,6 +294,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Required",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1,
       defaultValue: "$GlobalConstant.False"
     },
@@ -285,6 +307,8 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
       hasDefaultValue: true,
       isRequired: false,
       label: "Value",
+      isInput: true,
+      isOutput: true,
       maxOccurs: 1
     }
   ]
