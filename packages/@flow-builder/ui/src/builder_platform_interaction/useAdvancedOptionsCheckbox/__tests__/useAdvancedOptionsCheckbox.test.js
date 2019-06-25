@@ -1,12 +1,12 @@
 import { createElement } from 'lwc';
-import RecordUseAdvancedOptionsCheckbox from '../recordUseAdvancedOptionsCheckbox';
-import { LABELS } from '../recordUseAdvancedOptionsCheckboxLabels';
+import UseAdvancedOptionsCheckbox from '../useAdvancedOptionsCheckbox';
+import { LABELS } from '../useAdvancedOptionsCheckboxLabels';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
 function createComponentForTest(isAdvancedMode) {
     const el = createElement(
-        'builder_platform_interaction-record-use-advanced-options-checkbox',
-        { is: RecordUseAdvancedOptionsCheckbox }
+        'builder_platform_interaction-use-advanced-options-checkbox',
+        { is: UseAdvancedOptionsCheckbox }
     );
     Object.assign(el, { isAdvancedMode });
     document.body.appendChild(el);
@@ -35,23 +35,23 @@ const selectors = {
     lightningInput: 'lightning-input'
 };
 
-const getAdvancedOptionCheckbox = recordUseAdvancedOptionsCheckboxElement => {
-    return recordUseAdvancedOptionsCheckboxElement.shadowRoot.querySelector(
+const getAdvancedOptionCheckbox = useAdvancedOptionsCheckboxElement => {
+    return useAdvancedOptionsCheckboxElement.shadowRoot.querySelector(
         selectors.lightningInput
     );
 };
 
-describe('Record-use-advanced-options-checkbox', () => {
-    let recordUseAdvancedOptionsCheckboxElement;
+describe('Use-advanced-options-checkbox', () => {
+    let useAdvancedOptionsCheckboxElement;
     describe('On uncheck', () => {
         beforeEach(() => {
-            recordUseAdvancedOptionsCheckboxElement = createComponentForTest(
+            useAdvancedOptionsCheckboxElement = createComponentForTest(
                 true
             );
         });
         it('should display an alert', () => {
             const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                recordUseAdvancedOptionsCheckboxElement
+                useAdvancedOptionsCheckboxElement
             );
             advancedOptionCheckbox.dispatchEvent(new ToggleOffChangeEvent());
             return Promise.resolve().then(() => {
@@ -73,13 +73,13 @@ describe('Record-use-advanced-options-checkbox', () => {
     });
     describe('On check', () => {
         beforeEach(() => {
-            recordUseAdvancedOptionsCheckboxElement = createComponentForTest(
+            useAdvancedOptionsCheckboxElement = createComponentForTest(
                 false
             );
         });
         it('should not display an alert', () => {
             const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                recordUseAdvancedOptionsCheckboxElement
+                useAdvancedOptionsCheckboxElement
             );
             advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
             return Promise.resolve().then(() => {

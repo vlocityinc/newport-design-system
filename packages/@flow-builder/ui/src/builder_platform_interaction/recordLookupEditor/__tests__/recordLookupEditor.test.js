@@ -126,7 +126,7 @@ const selectors = {
     sObjectOrSObjectCollectionPicker:
         'builder_platform_interaction-sobject-or-sobject-collection-picker',
     useAdvancedOptionsCheckboxComponent:
-        'builder_platform_interaction-record-use-advanced-options-checkbox'
+        'builder_platform_interaction-use-advanced-options-checkbox'
 };
 
 const filterElement = {

@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-import { LABELS } from './recordUseAdvancedOptionsCheckboxLabels';
+import { LABELS } from './useAdvancedOptionsCheckboxLabels';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 
@@ -33,7 +33,7 @@ function confirmationModalParameter(event) {
     };
 }
 
-export default class RecordUseAdvancedOptionsCheckbox extends LightningElement {
+export default class UseAdvancedOptionsCheckbox extends LightningElement {
     labels = LABELS;
 
     @api
