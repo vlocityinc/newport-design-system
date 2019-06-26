@@ -3,13 +3,17 @@
     padding: 0.75rem;
 }
 
+.nds-form-container .nds-form-element__control-animated-label {
+	width: 100%;
+}
+
 .nds-form-element c-tooltip {
 	position: absolute;
     right: 0;
     width: 1rem;
     z-index: 1;
     line-height: 1;
-    top: 6px;
+    top: 1.125rem;
 }
 
 c-tooltip section.nds-popover {
@@ -37,4 +41,20 @@ c-input .nds-form-element {
 
 .nds-radio-relative-tooltip c-tooltip {
 	top: -3px;
+}
+
+input[type=text].vlocity-input.nds-input,
+input[type=tel].vlocity-input.nds-input {
+	color: transparent;
+}
+
+input[type=text].vlocity-input.nds-input:focus,
+input[type=tel].vlocity-input.nds-input:focus {
+	color: inherit;
+	transition: all 0.3s ease-out;
+}
+
+input[type=text].vlocity-input.nds-input.vlocity-not-empty,
+input[type=tel].vlocity-input.nds-input.vlocity-not-empty {
+	color: inherit;
 }
