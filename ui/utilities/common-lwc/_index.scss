@@ -1,0 +1,40 @@
+.nds-form-container {
+	margin-bottom: 0.5rem;
+    padding: 0.75rem;
+}
+
+.nds-form-element c-tooltip {
+	position: absolute;
+    right: 0;
+    width: 1rem;
+    z-index: 1;
+    line-height: 1;
+    top: 6px;
+}
+
+c-tooltip section.nds-popover {
+	position: absolute;
+}
+
+c-input .nds-form-element {
+	display: flex;
+}
+
+.nds-relative-tooltip c-tooltip,
+.nds-radio-relative-tooltip c-tooltip {
+	position: relative;
+	order: 2;
+}
+
+.nds-relative-tooltip div.nds-form-element__control,
+.nds-radio-relative-tooltip div.nds-form-element__control {
+	order: 1;
+}
+
+.nds-relative-tooltip c-tooltip {
+	top: 0;
+}
+
+.nds-radio-relative-tooltip c-tooltip {
+	top: -3px;
+}
