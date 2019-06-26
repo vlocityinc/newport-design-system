@@ -29,7 +29,7 @@ export default class ComponentVisibility extends LightningElement {
     guid;
 
     @api
-    visibility;
+    visibilityRule;
 
     labels = LABELS;
     showDeleteConditionButton = false;
@@ -56,23 +56,19 @@ export default class ComponentVisibility extends LightningElement {
     // of the ConditionList component
     _addConditionClicked = false;
 
-    get conditionLogic() {
-        return this.visibility.conditionLogic;
-    }
-
     get conditionsWithPrefixes() {
-        const { conditions, conditionLogic } = this.visibility;
+        const { conditions, conditionLogic } = this.visibilityRule;
         const res = getConditionsWithPrefixes(conditionLogic, conditions);
         return res;
     }
 
     get showDeleteCondition() {
-        return showDeleteCondition(this.visibility.conditions);
+        return showDeleteCondition(this.visibilityRule.conditions);
     }
 
     get showConditions() {
         return (
-            this.visibility.conditionLogic.value !==
+            this.visibilityRule.conditionLogic.value !==
             CONDITION_LOGIC.NO_CONDITIONS
         );
     }
@@ -124,7 +120,7 @@ export default class ComponentVisibility extends LightningElement {
             event.stopPropagation();
         } else {
             //  displays the popover for the "New Condition" that will be added by the reducer
-            this._popoverIndex = this.visibility.conditions.length;
+            this._popoverIndex = this.visibilityRule.conditions.length;
             hidePopover();
         }
 
@@ -209,7 +205,7 @@ export default class ComponentVisibility extends LightningElement {
      * @returns true if the last condition is new
      */
     isLastConditionNew() {
-        const { conditions } = this.visibility;
+        const { conditions } = this.visibilityRule;
         const lastCondition =
             conditions.length > 0 ? conditions[conditions.length - 1] : null;
         return lastCondition && this.isConditionNew(lastCondition);
@@ -230,7 +226,7 @@ export default class ComponentVisibility extends LightningElement {
      */
     deleteNewCondition() {
         if (this.isLastConditionNew()) {
-            const lastIndex = this.visibility.conditions.length - 1;
+            const lastIndex = this.visibilityRule.conditions.length - 1;
             this.deleteCondition(lastIndex);
         }
     }
@@ -260,7 +256,7 @@ export default class ComponentVisibility extends LightningElement {
         showPopover(
             'builder_platform_interaction:conditionEditorPopover',
             {
-                condition: this.visibility.conditions[index],
+                condition: this.visibilityRule.conditions[index],
                 handleDone: condition => this.handleDone(index, condition)
             },
             {

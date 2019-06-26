@@ -37,7 +37,7 @@ const selectors = {
         'builder_platform_interaction-row:nth-child(1) div.condition-container'
 };
 
-function getVisibility(
+function getVisibilityRule(
     conditionLogic = CONDITION_LOGIC.NO_CONDITIONS,
     conditions = []
 ) {
@@ -58,12 +58,12 @@ const createComponentUnderTest = props => {
     Object.assign(
         el,
         props || {
-            visibility: getVisibility()
+            visibilityRule: getVisibilityRule()
         }
     );
 
     function reducer(event) {
-        el.visibility = conditionListReducer(el.visibility, event);
+        el.visibilityRule = conditionListReducer(el.visibilityRule, event);
     }
 
     const events = [
@@ -86,7 +86,7 @@ function getConditionList(element) {
 describe('Component Visibility', () => {
     it('when click condition, shows popover', () => {
         const element = createComponentUnderTest({
-            visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION])
+            visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [CONDITION])
         });
 
         const firstCondition = element.shadowRoot.querySelector(
@@ -109,7 +109,9 @@ describe('Component Visibility', () => {
     describe('when update condition logic', () => {
         it('emits an UpdateConditionLogic event, hides popover', () => {
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.OR, [CONDITION])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [
+                    CONDITION
+                ])
             });
 
             const updateConditionLogicCallback = jest.fn();
@@ -144,14 +146,14 @@ describe('Component Visibility', () => {
             return Promise.resolve().then(() => {
                 expect(showPopover).toHaveBeenCalled();
                 expect(showPopover.mock.calls[0][1]).toMatchObject({
-                    condition: element.visibility.conditions[0]
+                    condition: element.visibilityRule.conditions[0]
                 });
             });
         });
 
         it('from AND to NO_CONDITIONS, removes all conditions', () => {
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.OR, [
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.OR, [
                     CONDITION,
                     CONDITION_2
                 ])
@@ -165,7 +167,7 @@ describe('Component Visibility', () => {
             );
 
             return Promise.resolve().then(() => {
-                expect(element.visibility.conditions).toHaveLength(0);
+                expect(element.visibilityRule.conditions).toHaveLength(0);
                 expect(showPopover).not.toHaveBeenCalled();
             });
         });
@@ -175,7 +177,7 @@ describe('Component Visibility', () => {
         it('emits a DeleteConditionEvent and popover is hidden', () => {
             const indexOfItemToDelete = 0;
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.AND, [
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
                     CONDITION,
                     NEW_CONDITION
                 ])
@@ -205,7 +207,9 @@ describe('Component Visibility', () => {
     describe('when add condition', () => {
         it('emits AddConditionEvent and popover is hidden and then shown again for the new condition', () => {
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.AND, [CONDITION])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
+                    CONDITION
+                ])
             });
 
             const eventCallback = jest.fn();
@@ -222,16 +226,18 @@ describe('Component Visibility', () => {
             // after the reducer has processed the event, and the component got re-rendered
             return Promise.resolve().then(() => {
                 expect(showPopover).toHaveBeenCalled();
-                expect(element.visibility.conditions).toHaveLength(2);
+                expect(element.visibilityRule.conditions).toHaveLength(2);
                 expect(showPopover.mock.calls[0][1]).toMatchObject({
-                    condition: element.visibility.conditions[1]
+                    condition: element.visibilityRule.conditions[1]
                 });
             });
         });
 
         it('noop when last condition isNew: popover is not hidden, no conditions is added', () => {
             const element = createComponentUnderTest({
-                visibility: getVisibility(CONDITION_LOGIC.AND, [NEW_CONDITION])
+                visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
+                    NEW_CONDITION
+                ])
             });
 
             const eventCallback = jest.fn();
@@ -249,7 +255,7 @@ describe('Component Visibility', () => {
             expect(eventCallback).not.toHaveBeenCalled();
             expect(hidePopover).not.toHaveBeenCalled();
             return Promise.resolve().then(() => {
-                expect(element.visibility.conditions).toHaveLength(1);
+                expect(element.visibilityRule.conditions).toHaveLength(1);
             });
         });
     });

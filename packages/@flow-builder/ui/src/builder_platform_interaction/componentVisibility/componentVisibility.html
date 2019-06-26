@@ -1,9 +1,9 @@
 <template>
     <builder_platform_interaction-condition-list
         parent-guid={guid}
-        conditions={visibility.conditions}
+        conditions={visibilityRule.conditions}
         condition-logic-options={conditionLogicOptions}
-        condition-logic={conditionLogic}
+        condition-logic={visibilityRule.conditionLogic}
         logic-combobox-label={labels.logicComboboxLabel}
         container-element-type={elementType}
         ondeletecondition={handleDeleteCondition}

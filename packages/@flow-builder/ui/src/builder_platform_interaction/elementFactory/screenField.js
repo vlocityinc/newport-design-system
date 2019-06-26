@@ -17,6 +17,9 @@ import {
     createOutputParameterMetadataObject
 } from './outputParameter';
 import { baseElement, createCondition } from './base/baseElement';
+
+import { createConditionMetadataObject } from './base/baseMetadata';
+
 import {
     CONDITION_LOGIC,
     ELEMENT_TYPE
@@ -54,8 +57,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         isVisible,
         outputParameters,
         choiceReferences = [],
-        visibility,
-        storeOutputAutomatically
+        storeOutputAutomatically,
+        visibilityRule
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -125,7 +128,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         validationRule = { formulaExpression: null, errorMessage: null };
     }
 
-    visibility = createVisibilityObject(visibility);
+    visibilityRule = createVisibilityRuleObject(visibilityRule);
 
     if (screenField.hasOwnProperty('isVisible')) {
         isVisible = screenField.isVisible;
@@ -153,7 +156,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             type,
             elementType,
             defaultSelectedChoiceReference,
-            visibility
+            visibilityRule
         },
         storeOutputAutomatically !== undefined
             ? { storeOutputAutomatically }
@@ -212,7 +215,8 @@ export function createScreenFieldMetadataObject(screenField) {
         fieldType,
         name,
         validationRule,
-        defaultSelectedChoiceReference
+        defaultSelectedChoiceReference,
+        visibilityRule
     } = screenField;
     let {
         dataType,
@@ -277,6 +281,20 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultValueMetadataObject
     );
 
+    let { conditions } = visibilityRule;
+
+    if (conditions.length > 0) {
+        conditions = conditions.map(condition =>
+            createConditionMetadataObject(condition)
+        );
+        Object.assign(mdScreenField, {
+            visibilityRule: {
+                conditionLogic: visibilityRule.conditionLogic,
+                conditions
+            }
+        });
+    }
+
     // Only allowed when the field type is extension.
     if (isExtensionField(screenField)) {
         mdScreenField.extensionName = extensionName;
@@ -316,15 +334,15 @@ function createChoiceReferenceMetadatObject(choiceReferenceObject) {
     return name;
 }
 
-function createVisibilityObject(visibility) {
-    if (!visibility) {
+function createVisibilityRuleObject(visibilityRule) {
+    if (!visibilityRule) {
         return {
             conditionLogic: CONDITION_LOGIC.NO_CONDITIONS,
             conditions: []
         };
     }
 
-    const { conditions, conditionLogic } = visibility;
+    const { conditions, conditionLogic } = visibilityRule;
     return {
         conditions: conditions.map(condition => createCondition(condition)),
         conditionLogic

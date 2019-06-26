@@ -57,51 +57,51 @@ const updateField = (screen, field, properties) => {
 };
 
 /**
- * Update the visibility condition logic
+ * Update the visibilityRule condition logic
  * @param {*} screen - The screen.
  * @param {*} field - The field
  * @param {*} event - The UpdateConditionLogicEvent
  */
 const updateConditionLogic = (state, field, event) => {
-    const visibility = conditionListReducer(field.visibility, event);
-    return updateField(state, field, { visibility });
+    const visibilityRule = conditionListReducer(field.visibilityRule, event);
+    return updateField(state, field, { visibilityRule });
 };
 
 /**
- * Update a visibility condition
+ * Update a visibilityRule condition
  * @param {*} screen - The screen.
  * @param {*} field - The field
  * @param {*} event - The UpdateConditionEvent
  */
 const updateCondition = (screen, field, event) => {
-    const visibility = conditionListReducer(
-        field.visibility,
+    const visibilityRule = conditionListReducer(
+        field.visibilityRule,
         event,
         new Map(),
         ''
     );
-    return updateField(screen, field, { visibility });
+    return updateField(screen, field, { visibilityRule });
 };
 
 /**
- * Delete a visibility condition
+ * Delete a visibilityRule condition
  * @param {*} screen - The screen.
  * @param {*} field - The field
  * @param {*} event - The DeleteConditionEvent
  */
 const deleteCondition = (screen, field, event) => {
-    const visibility = conditionListReducer(field.visibility, event);
-    return updateField(screen, field, { visibility });
+    const visibilityRule = conditionListReducer(field.visibilityRule, event);
+    return updateField(screen, field, { visibilityRule });
 };
 
 /**
- * Add a visibility condition
+ * Add a visibilityRule condition
  * @param {*} screen - The screen.
  * @param {*} field - The field
  */
 const addCondition = (screen, field, event) => {
-    const visibility = conditionListReducer(field.visibility, event);
-    return updateField(screen, field, { visibility });
+    const visibilityRule = conditionListReducer(field.visibilityRule, event);
+    return updateField(screen, field, { visibilityRule });
 };
 
 const isHydrated = value => {

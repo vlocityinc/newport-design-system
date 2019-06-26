@@ -494,7 +494,7 @@ export const elements = {
           source: "local"
         },
         elementType: "SCREEN_FIELD",
-        visibility: {
+        visibilityRule: {
           conditionLogic: "no_conditions",
           conditions: []
         },
@@ -534,7 +534,7 @@ export const elements = {
           source: "local"
         },
         elementType: "SCREEN_FIELD",
-        visibility: {
+        visibilityRule: {
           conditionLogic: "no_conditions",
           conditions: []
         },
