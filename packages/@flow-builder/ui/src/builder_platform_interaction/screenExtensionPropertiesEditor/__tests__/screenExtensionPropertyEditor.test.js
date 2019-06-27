@@ -54,7 +54,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: true,
         label: undefined,
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     },
     {
         apiName: 'dateAttr',
@@ -65,7 +67,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: true,
         label: 'Date Attribute',
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     },
     {
         apiName: 'datetimeAttr',
@@ -75,7 +79,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: true,
         label: 'Datetime Attribute',
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     },
     {
         apiName: 'ZZZATTR',
@@ -85,7 +91,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: true,
         label: 'Uppercase attribute',
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     },
     {
         apiName: 'zzzzAttr',
@@ -95,7 +103,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: true,
         label: 'Camelcase attribute',
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     },
     {
         apiName: 'aNotRequired',
@@ -105,7 +115,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: false,
         label: undefined,
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     },
     {
         apiName: 'bRequired',
@@ -115,7 +127,9 @@ const DESCRIPTOR_PARAMETERS = [
         isRequired: true,
         label: undefined,
         maxOccurs: 1,
-        objectType: undefined
+        objectType: undefined,
+        isInput: true,
+        isOutput: true
     }
 ];
 
