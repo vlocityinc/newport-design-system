@@ -12,7 +12,7 @@ jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
+jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
     describeExtension: jest.fn(() =>
         Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
     )

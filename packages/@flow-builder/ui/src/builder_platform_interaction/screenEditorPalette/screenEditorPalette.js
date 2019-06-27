@@ -1,9 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { labelFilter } from 'builder_platform_interaction/filterLib';
-import {
-    getAllScreenFieldTypes,
-    getAllCachedExtensionTypes
-} from 'builder_platform_interaction/screenEditorUtils';
+import { getAllCachedExtensionTypes } from 'builder_platform_interaction/flowExtensionLib';
+import { getAllScreenFieldTypes } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { createAddScreenFieldEvent } from 'builder_platform_interaction/events';

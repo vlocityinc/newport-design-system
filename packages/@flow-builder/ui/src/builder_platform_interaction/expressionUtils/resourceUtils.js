@@ -23,10 +23,8 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
-import {
-    getCachedExtension,
-    getExtensionParamDescriptionAsComplexTypeFieldDescription
-} from 'builder_platform_interaction/screenEditorUtils';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',

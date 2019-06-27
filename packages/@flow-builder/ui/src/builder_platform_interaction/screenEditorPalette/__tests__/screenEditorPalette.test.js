@@ -13,61 +13,62 @@ function createComponentForTest() {
     return el;
 }
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    return {
-        getAllScreenFieldTypes: () => {
-            return [
-                {
-                    name: 'TextBox',
-                    fieldType: 'InputField',
-                    dataType: 'String',
-                    label: 'Text Input',
-                    icon: 'utility:type_tool',
-                    category: 'Input'
-                },
-                {
-                    name: 'LargeTextArea',
-                    fieldType: 'LargeTextArea',
-                    dataType: undefined,
-                    label: 'Text Area',
-                    icon: 'utility:type_tool',
-                    category: 'Input'
-                },
-                {
-                    name: 'ZNumber', // For testing sorting, to ensure we sort by label
-                    fieldType: 'InputField',
-                    dataType: 'Number',
-                    label: 'Number',
-                    icon: 'utility:topic2',
-                    category: 'Input'
-                }
-            ];
-        },
-        getAllCachedExtensionTypes: () => {
-            const componentInstanceFieldType = require.requireActual(
-                '../../screenEditorUtils/screenEditorUtils.js'
-            ).COMPONENT_INSTANCE;
-            return [
-                {
-                    name: 'flowruntime:fileUpload',
-                    fieldType: componentInstanceFieldType,
-                    dataType: undefined,
-                    label: 'File Upload',
-                    icon: 'utility:type_tool',
-                    category: 'Input'
-                },
-                {
-                    name: 'orgns:customComp',
-                    fieldType: componentInstanceFieldType,
-                    dataType: undefined,
-                    label: 'Custom Comp',
-                    icon: 'utility:type_tool',
-                    category: 'Custom'
-                }
-            ];
-        }
-    };
-});
+jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
+    getAllCachedExtensionTypes: () => {
+        const componentInstanceFieldType = require.requireActual(
+            '../../screenEditorUtils/screenEditorUtils.js'
+        ).COMPONENT_INSTANCE;
+        return [
+            {
+                name: 'flowruntime:fileUpload',
+                fieldType: componentInstanceFieldType,
+                dataType: undefined,
+                label: 'File Upload',
+                icon: 'utility:type_tool',
+                category: 'Input'
+            },
+            {
+                name: 'orgns:customComp',
+                fieldType: componentInstanceFieldType,
+                dataType: undefined,
+                label: 'Custom Comp',
+                icon: 'utility:type_tool',
+                category: 'Custom'
+            }
+        ];
+    }
+}));
+
+jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
+    getAllScreenFieldTypes: () => {
+        return [
+            {
+                name: 'TextBox',
+                fieldType: 'InputField',
+                dataType: 'String',
+                label: 'Text Input',
+                icon: 'utility:type_tool',
+                category: 'Input'
+            },
+            {
+                name: 'LargeTextArea',
+                fieldType: 'LargeTextArea',
+                dataType: undefined,
+                label: 'Text Area',
+                icon: 'utility:type_tool',
+                category: 'Input'
+            },
+            {
+                name: 'ZNumber', // For testing sorting, to ensure we sort by label
+                fieldType: 'InputField',
+                dataType: 'Number',
+                label: 'Number',
+                icon: 'utility:topic2',
+                category: 'Input'
+            }
+        ];
+    }
+}));
 
 describe('Screen Editor Palette', () => {
     let element;

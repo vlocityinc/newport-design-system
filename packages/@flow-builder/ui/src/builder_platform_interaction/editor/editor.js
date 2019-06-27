@@ -92,7 +92,7 @@ import {
     setProcessTypes,
     setProcessTypeFeature
 } from 'builder_platform_interaction/systemLib';
-import { describeExtensions } from 'builder_platform_interaction/screenEditorUtils';
+import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 
 let unsubscribeStore;
 let storeInstance;

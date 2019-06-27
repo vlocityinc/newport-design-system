@@ -38,7 +38,6 @@ import { setSystemVariables } from '../../../../jest-modules/builder_platform_in
 import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariables } from 'mock/systemGlobalVars';
-import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 
@@ -110,16 +109,21 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    return {
+        getCachedExtension: jest
+            .fn()
+            .mockImplementation(
+                () => mockFlowRuntimeEmailFlowExtensionDescription
+            )
+    };
+});
+
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = require.requireActual(
         '../../screenEditorUtils/screenEditorUtils.js'
     );
     return {
-        describeExtension: jest
-            .fn()
-            .mockImplementation(() =>
-                Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
-            ),
         getExtensionParamDescriptionAsComplexTypeFieldDescription:
             actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
     };
@@ -808,7 +812,6 @@ describe('Menu data retrieval', () => {
                 parentLightningComponentScreenFieldItem,
                 callback
             );
-            expect(describeExtension).toHaveBeenCalledTimes(1);
             await untilNoFailure(() => {
                 expect(callback).toHaveBeenCalledTimes(1);
             });

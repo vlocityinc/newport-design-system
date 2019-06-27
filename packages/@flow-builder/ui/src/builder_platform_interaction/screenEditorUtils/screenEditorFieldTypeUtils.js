@@ -1,14 +1,12 @@
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
-    COMPONENT_INSTANCE,
-    EXTENSION_TYPE_SOURCE,
     getAllCachedExtensionTypes,
-    listExtensions,
-    getCachedFlowProcessType
-} from './screenEditorExtensionUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+    COMPONENT_INSTANCE,
+    EXTENSION_TYPE_SOURCE
+} from 'builder_platform_interaction/flowExtensionLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const FEROV_TYPES = {
     String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
@@ -150,37 +148,6 @@ const screenFieldTypes = [
         type: 'String'
     }
 ];
-
-/**
- * Returns a Promise that will be resolved once the extension field types have been retrieved.
- *
- * @Returns {Promise} - The promise
- */
-export function getExtensionFieldTypes(flowProcessType) {
-    const cachedFields = getAllCachedExtensionTypes();
-    // It's a short term fix to enable process type filtering. FetchOnce should be used to cache the data.
-    // After refactoring, the screen property editor will be using the same mechanism to cache as other places in the flow builder.
-    // Work item: https://gus.lightning.force.com/lightning/r/ADM_Work__c/a07B0000006Qf9JIAS/view
-    const cachedFlowProcessType = getCachedFlowProcessType();
-    if (
-        cachedFields &&
-        cachedFields.length &&
-        cachedFlowProcessType &&
-        cachedFlowProcessType === flowProcessType
-    ) {
-        return Promise.resolve(cachedFields);
-    }
-
-    return new Promise((resolve, reject) => {
-        listExtensions(flowProcessType, true, (data, error) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(data);
-            }
-        });
-    });
-}
 
 /**
  * Returns all screen field types (excluding extensions), including name, fieldType, dataType, label (localized), icon and category (localized)

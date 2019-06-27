@@ -43,10 +43,8 @@ import {
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import {
-    describeExtension,
-    getExtensionParamDescriptionAsComplexTypeFieldDescription
-} from 'builder_platform_interaction/screenEditorUtils';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -605,20 +603,21 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
 
 function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
     const element = getElementByGuid(resourceGuid);
-    describeExtension(element.extensionName)
-        .then(desc => {
-            callback(
-                desc.outputParameters.reduce((properties, parameter) => {
-                    properties[
-                        parameter.apiName
-                    ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
-                        parameter
-                    );
-                    return properties;
-                }, {})
-            );
-        })
-        .catch(() => callback([]));
+    const extension = getCachedExtension(element.extensionName);
+    if (extension) {
+        callback(
+            extension.outputParameters.reduce((properties, parameter) => {
+                properties[
+                    parameter.apiName
+                ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
+                    parameter
+                );
+                return properties;
+            }, {})
+        );
+    } else {
+        callback([]);
+    }
 }
 
 /**

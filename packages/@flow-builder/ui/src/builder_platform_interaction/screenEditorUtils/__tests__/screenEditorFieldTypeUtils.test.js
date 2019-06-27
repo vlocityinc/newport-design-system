@@ -6,7 +6,7 @@ import {
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('../screenEditorExtensionUtils', () => {
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     const componentInstanceFieldType = require.requireActual(
         '../screenEditorExtensionUtils'
     ).COMPONENT_INSTANCE;

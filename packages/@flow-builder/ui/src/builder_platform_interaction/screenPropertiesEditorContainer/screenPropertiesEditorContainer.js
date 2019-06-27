@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
+import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -105,8 +106,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     fetchDescription() {
         this.displaySpinner = true;
         const node = this.node; // closure
-        screenEditorUtils
-            .describeExtension(node.extensionName.value)
+        describeExtension(node.extensionName.value)
             .then(desc => {
                 this.displaySpinner = false;
                 if (this.node === node) {

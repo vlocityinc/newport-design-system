@@ -10,7 +10,7 @@ import {
     apexClassParam
 } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { getCachedExtension } from 'builder_platform_interaction/screenEditorUtils';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -85,10 +85,7 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => ({
         )
 }));
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = require.requireActual(
-        '../../screenEditorUtils/screenEditorUtils.js'
-    );
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {
         getCachedExtension: jest
             .fn()
@@ -96,7 +93,15 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
                 () =>
                     require('mock/flowExtensionsData')
                         .mockFlowRuntimeEmailFlowExtensionDescription
-            ),
+            )
+    };
+});
+
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = require.requireActual(
+        '../../screenEditorUtils/screenEditorUtils.js'
+    );
+    return {
         getExtensionParamDescriptionAsComplexTypeFieldDescription:
             actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
     };

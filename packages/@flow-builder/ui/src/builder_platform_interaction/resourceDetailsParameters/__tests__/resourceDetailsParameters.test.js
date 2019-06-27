@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
+import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
 import { mockExtensionScreenfieldAutomaticOutputsModeResourceDetails } from 'mock/resourceDetailsData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
@@ -16,7 +16,7 @@ const createComponentUnderTest = resourceDetails => {
     return el;
 };
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => ({
+jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
     describeExtension: jest.fn(() =>
         Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
     )

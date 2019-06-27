@@ -3,10 +3,10 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import {
     isScreen,
     getAllScreenFieldTypes,
-    getExtensionFieldTypes,
     processScreenExtensionTypes,
     processRequiredParamsForExtensionsInScreen
 } from 'builder_platform_interaction/screenEditorUtils';
+import { getExtensionFieldTypes } from 'builder_platform_interaction/flowExtensionLib';
 import { screenReducer } from './screenReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';

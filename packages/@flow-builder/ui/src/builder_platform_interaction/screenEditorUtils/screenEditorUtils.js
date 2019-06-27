@@ -2,8 +2,6 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export * from './screenEditorFieldTypeUtils.js';
 export * from './screenEditorExtensionUtils.js';
 
-// export {translateCFDtoQuill} from './rich-text-utils.js'; TODO - W-4947234
-
 export const CURRENCY_FORMAT = 'currency';
 
 export const LIGHTNING_INPUT_TYPES = {

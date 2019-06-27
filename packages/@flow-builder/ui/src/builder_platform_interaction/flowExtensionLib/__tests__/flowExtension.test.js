@@ -1,7 +1,4 @@
-import {
-    describeExtensions,
-    clearExtensionsCache
-} from '../screenEditorExtensionUtils';
+import { describeExtensions, clearExtensionsCache } from '../flowExtension';
 import { mockFlowExtensionListParams } from 'mock/flowExtensionsData';
 import { fetch } from 'builder_platform_interaction/serverDataLib';
 
@@ -25,7 +22,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-describe('screenEditorExtensionUtils', () => {
+describe('flowExtension', () => {
     beforeEach(() => {
         clearExtensionsCache();
     });

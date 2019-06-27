@@ -20,10 +20,8 @@ import {
     getDataType
 } from 'builder_platform_interaction/ruleLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import {
-    getCachedExtension,
-    getExtensionParamDescriptionAsComplexTypeFieldDescription
-} from 'builder_platform_interaction/screenEditorUtils';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';

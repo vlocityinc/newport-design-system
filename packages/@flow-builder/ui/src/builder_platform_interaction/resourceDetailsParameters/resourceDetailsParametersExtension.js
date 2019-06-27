@@ -1,7 +1,7 @@
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { describeExtension } from 'builder_platform_interaction/screenEditorUtils';
+import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 
 /**
  * Parameters adapter used to meet the following expected shape:

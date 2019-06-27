@@ -3,8 +3,9 @@ import {
     Validation,
     defaultRules
 } from 'builder_platform_interaction/validation';
+
+import { getCachedExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import {
-    getCachedExtensions,
     isExtensionField,
     isChoiceField
 } from 'builder_platform_interaction/screenEditorUtils';
