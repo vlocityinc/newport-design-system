@@ -42,7 +42,7 @@
 .nds-form-element__control.nds-form-element__control-animated-label textarea:focus~label,
 .nds-form-element__control.nds-form-element__control-animated-label textarea.nds-has-value:not(:focus):valid~label,
 .nds-form-element__control.nds-form-element__control-animated-label textarea.ng-not-empty.ng-dirty~label,
-.nds-form-element__control.nds-form-element__control-animated-label textarea.vlocity-not-empty.vlocity-dirty~label,
+.nds-form-element__control.nds-form-element__control-animated-label textarea.nds-not-empty.nds-dirty~label,
 .nds-form-element__control.nds-form-element__control-animated-label textarea[cloned="dirty"]+label {
   transform: translate3d(0, -1.2rem, 0);
   transition-duration: 300ms;

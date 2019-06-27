@@ -53,8 +53,8 @@ input[placeholder]::placeholder {
 .nds-form-element__control.nds-form-element__control-animated-label input.nds-input[cloned='dirty']~label,
 .nds-form-element__control.nds-form-element__control-animated-label input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]~label,
 .nds-form-element__control.nds-form-element__control-animated-label input.ng-touched.ng-not-empty.td-input+label,
-.nds-form-element__control.nds-form-element__control-animated-label input.vlocity-dirty.vlocity-not-empty~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.vlocity-dirty.vlocity-not-empty+label {
+.nds-form-element__control.nds-form-element__control-animated-label input.nds-dirty.nds-not-empty~label,
+.nds-form-element__control.nds-form-element__control-animated-label input.nds-dirty.nds-not-empty+label {
   -webkit-transform: translate3d(0, -1.2rem, 0);
   transform: translate3d(0, -1.2rem, 0);
   -webkit-transition-duration: 300ms;
