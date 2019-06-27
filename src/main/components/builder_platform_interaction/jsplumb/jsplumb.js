@@ -11,6 +11,7 @@ function lib(){
      * 6) Line 5114 - CL 1751084 - Expose unmanage function on instance (For complete deletion of nodeId data on instance)
      * 7) Line 5662 - CL 18048675 - To avoid usage of document.getElementById when adding endpoint on mouseDown
      * 8) Line 5952 & 6541 - CL 18252962  - Passing element itself instead of element id to update the offsets; Change elId -> elOrElId as it could be both
+     * 9) Line 12010 & 12015 - CL - 18351928 - Use textContent instead of innerHTML to set a label to avoid XSS issues
      */
     /**
      * jsBezier
@@ -12007,12 +12008,12 @@ function lib(){
             update: function () {
                 if (typeof this.label === "function") {
                     var lt = this.label(this);
-                    this.getElement().innerHTML = lt.replace(/\r\n/g, "<br/>");
+                    this.getElement().textContent = lt;
                 }
                 else {
                     if (this.labelText == null) {
                         this.labelText = this.label;
-                        this.getElement().innerHTML = this.labelText.replace(/\r\n/g, "<br/>");
+                        this.getElement().textContent = this.labelText;
                     }
                 }
             },
