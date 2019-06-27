@@ -16,7 +16,7 @@
     top: 1.125rem;
 }
 
-c-tooltip section.nds-popover {
+.nds-lwc-tooltip section.nds-popover {
 	position: absolute;
 }
 
@@ -24,8 +24,8 @@ c-input .nds-form-element {
 	display: flex;
 }
 
-.nds-relative-tooltip c-tooltip,
-.nds-radio-relative-tooltip c-tooltip {
+.nds-relative-tooltip .nds-lwc-tooltip,
+.nds-radio-relative-tooltip .nds-lwc-tooltip {
 	position: relative;
 	order: 2;
 }
@@ -35,26 +35,26 @@ c-input .nds-form-element {
 	order: 1;
 }
 
-.nds-relative-tooltip c-tooltip {
+.nds-relative-tooltip .nds-lwc-tooltip {
 	top: 0;
 }
 
-.nds-radio-relative-tooltip c-tooltip {
+.nds-radio-relative-tooltip .nds-lwc-tooltip {
 	top: -3px;
 }
 
-input[type=text].vlocity-input.nds-input,
-input[type=tel].vlocity-input.nds-input {
+input[type=text].nds-lwc-input.nds-input,
+input[type=tel].nds-lwc-input.nds-input {
 	color: transparent;
 }
 
-input[type=text].vlocity-input.nds-input:focus,
-input[type=tel].vlocity-input.nds-input:focus {
+input[type=text].nds-lwc-input.nds-input:focus,
+input[type=tel].nds-lwc-input.nds-input:focus {
 	color: inherit;
 	transition: all 0.3s ease-out;
 }
 
-input[type=text].vlocity-input.nds-input.vlocity-not-empty,
-input[type=tel].vlocity-input.nds-input.vlocity-not-empty {
+input[type=text].nds-lwc-input.nds-input.nds-not-empty,
+input[type=tel].nds-lwc-input.nds-input.nds-not-empty {
 	color: inherit;
 }
