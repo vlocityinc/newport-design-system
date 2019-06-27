@@ -1,5 +1,6 @@
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Helper function to set the id on the canvas element container.
@@ -59,8 +60,12 @@ const _setElementAsDraggable = (
     }
 
     const { dragStart, dragStop, drag } = canvasElementContainerTemplate;
+    const isDraggable = getPropertyOrDefaultToTrue(
+        getConfigForElementType(elementType).nodeConfig,
+        'isDraggable'
+    );
 
-    if (elementType !== ELEMENT_TYPE.START_ELEMENT) {
+    if (isDraggable) {
         lib.setDraggable(canvasElementContainer, {
             start: dragStart,
             stop: dragStop,
@@ -87,10 +92,12 @@ const _setElementAsTarget = (canvasElementContainer, elementType) => {
         throw new Error('elementType is not defined. It must be defined.');
     }
 
-    if (
-        elementType !== ELEMENT_TYPE.START_ELEMENT &&
-        !lib.isTarget(canvasElementContainer)
-    ) {
+    const canBeTarget = getPropertyOrDefaultToTrue(
+        getConfigForElementType(elementType).nodeConfig,
+        'canBeConnectorTarget'
+    );
+
+    if (canBeTarget && !lib.isTarget(canvasElementContainer)) {
         lib.makeTarget(canvasElementContainer);
     }
 };
@@ -101,14 +108,23 @@ const _setElementAsTarget = (canvasElementContainer, elementType) => {
  * @param {Object} canvasElementContainer - Container of the canvas element
  * @private
  */
-const _setElementAsSource = canvasElementContainer => {
+const _setElementAsSource = (canvasElementContainer, elementType) => {
     if (!canvasElementContainer) {
         throw new Error(
             'canvasElementContainer is not defined. It must be defined.'
         );
     }
 
-    if (!lib.isSource(canvasElementContainer)) {
+    if (!elementType) {
+        throw new Error('elementType is not defined. It must be defined.');
+    }
+
+    const canBeSource = getPropertyOrDefaultToTrue(
+        getConfigForElementType(elementType).nodeConfig,
+        'canBeConnectorSource'
+    );
+
+    if (canBeSource && !lib.isSource(canvasElementContainer)) {
         lib.makeSource(canvasElementContainer);
     }
 };
@@ -347,7 +363,7 @@ export const setupCanvasElements = canvasElementTemplates => {
             elementType
         );
         _setElementAsTarget(canvasElementContainer, elementType);
-        _setElementAsSource(canvasElementContainer);
+        _setElementAsSource(canvasElementContainer, elementType);
 
         const canvasElementConfig =
             canvasElementContainerTemplate &&

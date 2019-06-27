@@ -11,7 +11,7 @@ describe('Start element', () => {
             const expectedResult = {
                 name: '',
                 description: '',
-                label: 'FlowBuilderCanvas.startElementLabel',
+                label: '',
                 locationX: 50,
                 locationY: 50,
                 isCanvasElement: true,

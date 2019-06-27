@@ -38,6 +38,7 @@ import recordDeleteSingularLabel from '@salesforce/label/FlowBuilderElementConfi
 import recordDeletePluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordDeletePluralLabel';
 import recordUpdateSingularLabel from '@salesforce/label/FlowBuilderElementConfig.recordUpdateSingularLabel';
 import recordUpdatePluralLabel from '@salesforce/label/FlowBuilderElementConfig.recordUpdatePluralLabel';
+import startElementSingularLabel from '@salesforce/label/FlowBuilderElementConfig.startElementSingularLabel';
 import variableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.variableSingularLabel';
 import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 import constantSingularLabel from '@salesforce/label/FlowBuilderElementConfig.constantSingularLabel';
@@ -137,6 +138,7 @@ import editChoiceLabel from '@salesforce/label/FlowBuilderElementConfig.editChoi
 import editRecordChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editRecordChoiceSetLabel';
 import editPicklistChoiceSetLabel from '@salesforce/label/FlowBuilderElementConfig.editPicklistChoiceSetLabel';
 import editStage from '@salesforce/label/FlowBuilderElementConfig.editStage';
+import editStartElementLabel from '@salesforce/label/FlowBuilderElementConfig.editStartElementLabel';
 import newScreenLabel from '@salesforce/label/FlowBuilderElementConfig.newScreenLabel';
 import newActionLabel from '@salesforce/label/FlowBuilderElementConfig.newActionLabel';
 import newSubflowLabel from '@salesforce/label/FlowBuilderElementConfig.newSubflowLabel';
@@ -224,6 +226,7 @@ export const LABELS = {
     picklistChoiceSetPluralLabel,
     screenFieldSingularLabel,
     screenFieldPluralLabel,
+    startElementSingularLabel,
     flowControlLogicLabel,
     flowControlDataOperationsLabel,
     flowControlFlowComponentsLabel,
@@ -293,6 +296,7 @@ export const LABELS = {
     editRecordChoiceSetLabel,
     editPicklistChoiceSetLabel,
     editStage,
+    editStartElementLabel,
     newScreenLabel,
     newActionLabel,
     newSubflowLabel,

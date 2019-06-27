@@ -1,13 +1,23 @@
 import { LightningElement, api } from 'lwc';
+import { ICON_SHAPE } from 'builder_platform_interaction/elementConfig';
 
 export default class ElementIcon extends LightningElement {
-    @api iconName;
-    @api iconSize;
-    @api isCanvasElementIcon = false;
-    @api isDraggable = false;
-    @api title = '';
-    @api alternativeText = '';
-    @api backgroundColor;
+    @api
+    iconName;
+    @api
+    iconSize;
+    @api
+    iconShape;
+    @api
+    isCanvasElementIcon = false;
+    @api
+    isDraggable = false;
+    @api
+    title = '';
+    @api
+    alternativeText = '';
+    @api
+    backgroundColor = '';
 
     @api
     get iconElement() {
@@ -29,6 +39,10 @@ export default class ElementIcon extends LightningElement {
         return baseClasses;
     }
 
+    get iconVariant() {
+        return this.iconName === 'utility:right' ? 'inverse' : '';
+    }
+
     get containerClass() {
         if (this.iconName === 'standard:decision') {
             const baseClasses =
@@ -47,19 +61,17 @@ export default class ElementIcon extends LightningElement {
         let commonClasses;
         if (this.iconName === 'standard:decision') {
             commonClasses = 'rotate-icon-svg';
-        } else if (this.backgroundColor) {
-            commonClasses = 'slds-m-right_x-small';
-            commonClasses = this.updateClassesForNonCanvasElements(
-                'background-' + this.backgroundColor,
-                commonClasses
-            );
         } else {
-            commonClasses = 'slds-m-right_x-small';
             commonClasses = this.updateClassesForNonCanvasElements(
-                '',
-                commonClasses
+                this.backgroundColor,
+                'slds-m-right_x-small'
             );
+
+            if (this.iconShape === ICON_SHAPE.CIRCLE) {
+                commonClasses = `${commonClasses} slds-icon__container_circle`;
+            }
         }
+
         return commonClasses;
     }
 }

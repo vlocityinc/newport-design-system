@@ -141,5 +141,17 @@ export function isReference(value) {
     );
 }
 
+/**
+ * Checks if a property is set on a given object, and returns it's value if so; else, return true by default
+ * @param {Object} object
+ * @param {String} propertyName
+ */
+export function getPropertyOrDefaultToTrue(object, propertyName) {
+    return object.hasOwnProperty(propertyName) &&
+        object[propertyName] !== undefined
+        ? object[propertyName]
+        : true;
+}
+
 export const APP_EXCHANGE_LINK =
     'https://appexchange.salesforce.com/appxStore?type=Flow';

@@ -1,3 +1,6 @@
+import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+
 const NODE_LENGTH = 48;
 
 /**
@@ -95,19 +98,23 @@ const _getElementLocationRelativeToViewportCenter = (
 
     // Calculating the canvas element's coordinates relative to the viewport center (keeping in mind the current scale and scaled center offsets)
     const scaledRelativeElementLocationX =
-        (relativeElementLocationX * currentScale) + scaledOffsetsOnMarqueeStart[0];
+        relativeElementLocationX * currentScale;
     const scaledRelativeElementLocationY =
-        (relativeElementLocationY * currentScale) + scaledOffsetsOnMarqueeStart[1];
+        relativeElementLocationY * currentScale;
+    const relativeStartPointX =
+        scaledRelativeElementLocationX + scaledOffsetsOnMarqueeStart[0];
+    const relativeStartPointY =
+        scaledRelativeElementLocationY + scaledOffsetsOnMarqueeStart[1];
 
     // Calculating the start and end point of the canvas element using the element dimensions and current scale
     const relativeElementStartPoint = [
-        scaledRelativeElementLocationX,
-        scaledRelativeElementLocationY
+        relativeStartPointX,
+        relativeStartPointY
     ];
     const scaledNodeLength = NODE_LENGTH * currentScale;
     const relativeElementEndPoint = [
-        scaledRelativeElementLocationX + scaledNodeLength,
-        scaledRelativeElementLocationY + scaledNodeLength
+        relativeStartPointX + scaledNodeLength,
+        relativeStartPointY + scaledNodeLength
     ];
 
     return { relativeElementStartPoint, relativeElementEndPoint };
@@ -176,11 +183,15 @@ const _getCanvasElementGuidsToSelectAndDeselect = (
             const wasCanvasElementOriginallySelected =
                 config && config.isSelected;
 
-            // TODO: Without this check will throw exception when marquee select 'START_ELEMENT' and duplicate, can remove it once the refactoring of element config happens
+            const isSelectable = getPropertyOrDefaultToTrue(
+                getConfigForElementType(elementType).nodeConfig,
+                'isSelectable'
+            );
+
             if (
                 !wasCanvasElementOriginallySelected &&
                 isMarqueeOverlappingCanvasElement &&
-                elementType !== 'START_ELEMENT'
+                isSelectable
             ) {
                 // Adding canvas elements that were not originally selected but overlap with the marquee box to both
                 // canvasElementGuidsToSelect and allSelectedCanvasElementGuids

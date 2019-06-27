@@ -178,7 +178,15 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 jest.mock('builder_platform_interaction/elementConfig', () => {
     return {
-        getConfigForElementType: jest.fn()
+        getConfigForElementType: jest.fn().mockImplementation(elementType => {
+            return elementType === 'START_ELEMENT'
+                ? {
+                      canBeDuplicated: false,
+                      isDeletable: false,
+                      nodeConfig: { isSelectable: false }
+                  }
+                : {};
+        })
     };
 });
 
@@ -193,6 +201,14 @@ describe('Editor Utils Test', () => {
             getCurrentState = jest.fn().mockImplementation(() => {
                 return {
                     elements: {
+                        startElement: {
+                            guid: 'startElement',
+                            elementType: ELEMENT_TYPE.START_ELEMENT,
+                            config: {
+                                isSelected: true,
+                                isHighlighted: false
+                            }
+                        },
                         canvasElement1: {
                             guid: 'canvasElement1',
                             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -243,6 +259,13 @@ describe('Editor Utils Test', () => {
                         },
                         {
                             source: 'canvasElement2',
+                            target: 'canvasElement4',
+                            config: {
+                                isSelected: true
+                            }
+                        },
+                        {
+                            source: 'startElement',
                             target: 'canvasElement4',
                             config: {
                                 isSelected: true
@@ -338,6 +361,13 @@ describe('Editor Utils Test', () => {
                     },
                     {
                         source: 'canvasElement2',
+                        target: 'canvasElement4',
+                        config: {
+                            isSelected: true
+                        }
+                    },
+                    {
+                        source: 'startElement',
                         target: 'canvasElement4',
                         config: {
                             isSelected: true
@@ -703,7 +733,7 @@ describe('Editor Utils Test', () => {
             const canvasElementsInStore = ['guid1', 'guid2'];
             const elementsInStore = {
                 guid1: {
-                    config: { isSelected: false, isHighlighted: false },
+                    config: { isSelected: true, isHighlighted: false },
                     connectorCount: 0,
                     elementType: 'START_ELEMENT',
                     guid: 'guid1',
@@ -714,6 +744,13 @@ describe('Editor Utils Test', () => {
                     connectorCount: 0,
                     elementType: 'SCREEN',
                     guid: 'guid2',
+                    isCanvasElement: true
+                },
+                guid3: {
+                    config: { isSelected: false, isHighlighted: false },
+                    connectorCount: 0,
+                    elementType: 'SCREEN',
+                    guid: 'guid3',
                     isCanvasElement: true
                 }
             };

@@ -12,7 +12,26 @@ jest.mock('builder_platform_interaction/drawingLib', () =>
     require('builder_platform_interaction_mocks/drawingLib')
 );
 
-const createComponentUnderTest = (isSelected, isHighlighted) => {
+const elementConfig = require.requireActual(
+    '../../elementConfig/elementConfig.js'
+);
+elementConfig.getConfigForElementType = jest
+    .fn()
+    .mockImplementation(elementType => {
+        return elementType === ELEMENT_TYPE.START_ELEMENT
+            ? {
+                  isDeletable: false,
+                  nodeConfig: { isSelectable: false },
+                  labels: {}
+              }
+            : elementConfig.elementTypeToConfigMap[elementType];
+    });
+
+const createComponentUnderTest = (
+    isSelected,
+    isHighlighted,
+    elementType = ELEMENT_TYPE.ASSIGNMENT
+) => {
     const el = createElement('builder_platform_interaction-node', {
         is: Node
     });
@@ -20,7 +39,7 @@ const createComponentUnderTest = (isSelected, isHighlighted) => {
         guid: '1',
         locationX: '20px',
         locationY: '40px',
-        elementType: ELEMENT_TYPE.ASSIGNMENT,
+        elementType,
         label: 'First Node',
         description: 'My first test node',
         config: { isSelected, isHighlighted }
@@ -89,6 +108,23 @@ describe('node', () => {
         });
     });
 
+    it('Checks if node selected event is not dispatched when element that is configured to be non-selectable is clicked', () => {
+        const nodeComponent = createComponentUnderTest(
+            false,
+            false,
+            ELEMENT_TYPE.START_ELEMENT
+        );
+        return Promise.resolve().then(() => {
+            const callback = jest.fn();
+            nodeComponent.addEventListener(
+                SelectNodeEvent.EVENT_NAME,
+                callback
+            );
+            nodeComponent.shadowRoot.querySelector(selectors.icon).click();
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
     it('Checks if a selected node has the right styling', () => {
         const nodeComponent = createComponentUnderTest(true);
         expect(
@@ -123,6 +159,23 @@ describe('node', () => {
         });
     });
 
+    it('Checks that EditElementEvent is not dispatched when element configured to be non-selectable is double clicked', () => {
+        const nodeComponent = createComponentUnderTest(
+            false,
+            false,
+            ELEMENT_TYPE.START_ELEMENT
+        );
+        return Promise.resolve().then(() => {
+            const callback = jest.fn();
+            nodeComponent.addEventListener(
+                EditElementEvent.EVENT_NAME,
+                callback
+            );
+            dblClick(nodeComponent);
+            expect(callback).not.toHaveBeenCalled();
+        });
+    });
+
     it('Checks if node delete event is dispatched when trash is clicked', () => {
         const nodeComponent = createComponentUnderTest(true, false);
         return Promise.resolve().then(() => {
@@ -133,6 +186,20 @@ describe('node', () => {
             );
             nodeComponent.shadowRoot.querySelector(selectors.trash).click();
             expect(callback).toHaveBeenCalled();
+        });
+    });
+
+    it('Checks that trash icon is not displayed when element configured to be non-deletable is clicked', () => {
+        const nodeComponent = createComponentUnderTest(
+            false,
+            false,
+            ELEMENT_TYPE.START_ELEMENT
+        );
+        return Promise.resolve().then(() => {
+            nodeComponent.shadowRoot.querySelector(selectors.icon).click();
+            expect(
+                nodeComponent.shadowRoot.querySelector(selectors.trash)
+            ).toBeNull();
         });
     });
 

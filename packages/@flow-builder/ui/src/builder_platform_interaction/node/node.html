@@ -10,7 +10,7 @@
                 <button
                     title={nodeIconTitle}
                     tabindex="0"
-                    class="icon"
+                    class={buttonClass}
                     onfocus={handleNodeClick}
                     onmousedown={handleMouseDown}
                     onclick={handleNodeClick}
@@ -18,7 +18,8 @@
                 >
                     <builder_platform_interaction-element-icon
                         icon-name={iconName}
-                        icon-size="large"
+                        icon-size={iconSize}
+                        icon-shape={iconShape}
                         background-color={iconBackgroundColor}
                         is-canvas-element-icon
                     >
@@ -36,7 +37,7 @@
 
             <!--Trash can-->
             <lightning-button-icon
-                if:true={isSelected}
+                if:true={showTrashIcon}
                 tabindex="0"
                 icon-name="utility:delete"
                 variant="bare"

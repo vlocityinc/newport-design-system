@@ -1,6 +1,8 @@
 import { LightningElement, api } from 'lwc';
-import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    getConfigForElementType,
+    ICON_SHAPE
+} from 'builder_platform_interaction/elementConfig';
 import {
     DragNodeEvent,
     DragNodeStopEvent,
@@ -11,10 +13,12 @@ import {
 } from 'builder_platform_interaction/events';
 import { drawingLibInstance as lib } from 'builder_platform_interaction/drawingLib';
 import { LABELS } from './nodeLabels';
-import { format } from 'builder_platform_interaction/commonUtils';
-import startElement from './startElement.html';
-import nodeElement from './node.html';
+import {
+    format,
+    getPropertyOrDefaultToTrue
+} from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Node component for flow builder.
@@ -35,7 +39,7 @@ export default class Node extends LightningElement {
     get nodeClasses() {
         let classes = 'icon-section slds-align_absolute-center';
 
-        if (this.node.elementType === ELEMENT_TYPE.DECISION) {
+        if (this.getIconShape() === ICON_SHAPE.DIAMOND) {
             classes = `${classes} decision-icon-section`;
         }
 
@@ -47,29 +51,43 @@ export default class Node extends LightningElement {
     }
 
     get rotateIconClass() {
-        let rotateIconClass = '';
-        if (this.node.elementType === ELEMENT_TYPE.DECISION) {
-            rotateIconClass = 'rotate-icon';
-        }
-        return rotateIconClass;
+        return this.getIconShape() === ICON_SHAPE.DIAMOND ? 'rotate-icon' : '';
+    }
+
+    get buttonClass() {
+        return this.getIconShape() === ICON_SHAPE.CIRCLE
+            ? `icon slds-icon__container_circle`
+            : `icon slds-icon_container`;
     }
 
     get iconName() {
-        return getConfigForElementType(this.node.elementType).nodeConfig
-            .iconName;
+        return this.getNodeConfig().iconName;
+    }
+
+    get iconShape() {
+        return this.getIconShape();
+    }
+
+    get iconSize() {
+        return this.getNodeConfig().iconSize || 'large';
     }
 
     get iconBackgroundColor() {
-        return getConfigForElementType(this.node.elementType).nodeConfig
-            .iconBackgroundColor;
+        return this.getNodeConfig().iconBackgroundColor;
     }
 
     get hasAvailableConnections() {
         return this.node.maxConnections !== this.node.connectorCount;
     }
 
-    get isSelected() {
-        return this.node.config.isSelected;
+    get showTrashIcon() {
+        return (
+            this.node.config.isSelected &&
+            getPropertyOrDefaultToTrue(
+                getConfigForElementType(this.node.elementType),
+                'isDeletable'
+            )
+        );
     }
 
     get nodeIconTitle() {
@@ -93,7 +111,9 @@ export default class Node extends LightningElement {
     }
 
     get nodeLabel() {
-        return this.node.label;
+        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'showLabel')
+            ? this.node.label
+            : '';
     }
 
     get nodeTypeLabel() {
@@ -104,8 +124,11 @@ export default class Node extends LightningElement {
      * Build main parent template div class adding some "test mode only" value to it to ease up Selenium effort
      */
     get parentDivComputedClass() {
-        let classes =
-            'element-container node-container slds-is-absolute slds-text-align_center';
+        let classes = 'node-container slds-is-absolute slds-text-align_center';
+
+        if (!this.isSelectable()) {
+            classes = `${classes} nonselectable-cursor-style`;
+        }
 
         if (this.node.config.isHighlighted) {
             classes = `${classes} highlighted-container`;
@@ -136,7 +159,11 @@ export default class Node extends LightningElement {
     handleNodeClick = event => {
         event.stopPropagation();
         const isMultiSelectKeyPressed = this.isMultiSelect(event);
-        if (!this.node.config.isSelected || !this.isNodeDragging) {
+
+        if (
+            this.isSelectable() &&
+            (!this.node.config.isSelected || !this.isNodeDragging)
+        ) {
             const nodeSelectedEvent = new SelectNodeEvent(
                 this.node.guid,
                 isMultiSelectKeyPressed
@@ -152,9 +179,15 @@ export default class Node extends LightningElement {
      */
     handleDblClick = event => {
         event.stopPropagation();
-        const canvasElementGUID = this.node.guid;
-        const editElementEvent = new EditElementEvent(canvasElementGUID);
-        this.dispatchEvent(editElementEvent);
+
+        if (
+            this.isSelectable() &&
+            this.node.elementType !== ELEMENT_TYPE.START_ELEMENT // TODO Remove this start element check once the property editor work is complete
+        ) {
+            const canvasElementGUID = this.node.guid;
+            const editElementEvent = new EditElementEvent(canvasElementGUID);
+            this.dispatchEvent(editElementEvent);
+        }
     };
 
     /**
@@ -190,7 +223,7 @@ export default class Node extends LightningElement {
      */
     @api dragStart = event => {
         this.isNodeDragging = true;
-        if (!this.node.config.isSelected) {
+        if (this.isSelectable() && !this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
             const nodeSelectedEvent = new SelectNodeEvent(
                 this.node.guid,
@@ -232,16 +265,9 @@ export default class Node extends LightningElement {
         this.dispatchEvent(dragNodeEvent);
     };
 
-    render() {
-        if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            return startElement;
-        }
-        return nodeElement;
-    }
-
     renderedCallback() {
         const canvasElementContainer = this.template.querySelector(
-            '.element-container'
+            '.node-container'
         );
 
         // revalidate the specific canvas element when it is being rendered (in case the canvas element's location has been programmatically updated)
@@ -251,5 +277,17 @@ export default class Node extends LightningElement {
         ) {
             lib.revalidate(canvasElementContainer);
         }
+    }
+
+    getNodeConfig() {
+        return getConfigForElementType(this.node.elementType).nodeConfig;
+    }
+
+    isSelectable() {
+        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'isSelectable');
+    }
+
+    getIconShape() {
+        return this.getNodeConfig().iconShape;
     }
 }

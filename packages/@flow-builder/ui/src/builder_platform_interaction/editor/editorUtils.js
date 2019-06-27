@@ -33,6 +33,7 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -81,6 +82,19 @@ const selectedCanvasElementGuids = (canvasElements = []) => {
         .map(canvasElement => {
             return canvasElement.guid;
         });
+};
+
+/** This function returns an array of deletable canvas elements
+ * @param {Array} canvasElements list of canvas elements
+ * @return {Array} array of deletable canvas elements
+ */
+const deletableCanvasElements = (canvasElements = []) => {
+    return canvasElements.filter(canvasElement => {
+        return getPropertyOrDefaultToTrue(
+            getConfigForElementType(canvasElement.elementType),
+            'isDeletable'
+        );
+    });
 };
 
 /**
@@ -132,32 +146,26 @@ export const getElementsToBeDeleted = (
     { selectedElementGUID, selectedElementType }
 ) => {
     const isMultiElementDelete = !selectedElementGUID;
-    let canvasElementGuidsToDelete = [];
-    let connectorsToDelete = [];
     const currentState = storeInstance.getCurrentState();
     const connectors = currentState.connectors;
-    const elementType = selectedElementType;
 
-    if (isMultiElementDelete) {
-        const canvasElements = canvasSelector(currentState);
-        canvasElementGuidsToDelete = selectedCanvasElementGuids(canvasElements);
-        connectorsToDelete = connectorsToBeDeleted(
-            canvasElementGuidsToDelete,
-            connectors,
-            true
-        );
-    } else {
-        canvasElementGuidsToDelete = [...selectedElementGUID];
-        connectorsToDelete = connectorsToBeDeleted(
-            canvasElementGuidsToDelete,
-            connectors
-        );
-    }
+    const canvasElementGuidsToDelete = isMultiElementDelete
+        ? selectedCanvasElementGuids(
+              deletableCanvasElements(canvasSelector(currentState))
+          )
+        : [...selectedElementGUID];
+
+    const connectorsToDelete = connectorsToBeDeleted(
+        canvasElementGuidsToDelete,
+        connectors,
+        isMultiElementDelete
+    );
+
     doDeleteOrInvokeAlert(
         storeInstance,
         canvasElementGuidsToDelete,
         connectorsToDelete,
-        elementType
+        selectedElementType
     );
 };
 
@@ -339,10 +347,18 @@ const shouldDuplicateElement = canvasElement => {
         throw new Error('canvasElement is not defined');
     }
 
+    if (!canvasElement.elementType) {
+        throw new Error('element type is not defined');
+    }
+
+    const canBeDuplicated = getPropertyOrDefaultToTrue(
+        getConfigForElementType(canvasElement.elementType),
+        'canBeDuplicated'
+    );
+
     return (
         canvasElement.guid &&
-        canvasElement.elementType &&
-        canvasElement.elementType !== ELEMENT_TYPE.STEP &&
+        canBeDuplicated &&
         canvasElement.config &&
         canvasElement.config.isSelected
     );

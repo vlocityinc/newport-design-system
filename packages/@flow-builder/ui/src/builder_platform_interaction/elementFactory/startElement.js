@@ -1,5 +1,4 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LABELS } from './elementFactoryLabels';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap
@@ -19,7 +18,7 @@ const elementType = ELEMENT_TYPE.START_ELEMENT;
  */
 export function createStartElement() {
     const newStartElement = baseCanvasElement({
-        label: LABELS.startElementLabel,
+        label: '',
         locationX: START_ELEMENT_LOCATION.x,
         locationY: START_ELEMENT_LOCATION.y
     });

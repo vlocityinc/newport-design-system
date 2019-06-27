@@ -18,3 +18,7 @@
 .background-gray {
     background-color: var(--lwc-colorGray8);
 }
+
+.background-green {
+    background-color: #53b6b4;
+}

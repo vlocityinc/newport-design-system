@@ -1,21 +1,26 @@
-.element-container {
+.node-container {
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 200;
 }
 
-.node-container {
-    cursor: pointer;
+.nonselectable-cursor-style button {
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
 }
 
-.node-container.jtk-drag-selected, .node-container.jtk-drag.jtk-dragged, .node-container.highlighted-container {
+.node-container.jtk-drag-selected,
+.node-container.jtk-drag.jtk-dragged,
+.node-container.highlighted-container {
     z-index: 400;
 }
 
 .targetHover .icon {
     transform: scale(1.05);
-    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection),
+        0 0 6px 3px var(--lwc-colorBorderSelection);
 }
 
 .icon:hover {
@@ -28,7 +33,8 @@
 
 .icon-section.selected .icon {
     transform: scale(1.1);
-    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection), 0 0 6px 3px var(--lwc-colorBorderSelection);
+    box-shadow: 0 0 0 2px white, 0 0 0 3px var(--lwc-colorBorderSelection),
+        0 0 6px 3px var(--lwc-colorBorderSelection);
 }
 
 .decision-icon-section.selected .rotate-icon .icon {
@@ -47,11 +53,10 @@
 /*TODO: Need to reduce the size of the decision icon to 2.75rem (W-5584839)*/
 
 .icon {
-    transition: transform 0.12s ease, box-shadow .1s ease-in;
+    transition: transform 0.12s ease, box-shadow 0.1s ease-in;
     transform-origin: 50% 100%;
     padding: var(--lwc-spacingNone);
     border: none;
-    border-radius: var(--lwc-borderRadiusMedium);
 }
 
 .rotate-icon .icon {
@@ -80,8 +85,10 @@
     transform: scale(1.1);
 }
 
-.end-point:active,.end-point:focus {
-    box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBrandDark), var(--lwc-shadowButtonFocus);
+.end-point:active,
+.end-point:focus {
+    box-shadow: inset 0px 0px 0px 2px var(--lwc-colorBrandDark),
+        var(--lwc-shadowButtonFocus);
     transform: scale(1.2);
 }
 
@@ -117,7 +124,7 @@
 .highlighted-container .text-container:after {
     content: '';
     position: absolute;
-    transition: opacity .15s ease;
+    transition: opacity 0.15s ease;
     width: 100%;
     height: 140px;
     top: 50%;
@@ -125,7 +132,7 @@
     transform: translate(-50%, -110px);
     padding: 0 50px;
     box-shadow: 0 0 0 1px #ff9a3c;
-    background: rgba(255,251,205,var(--lwc-opacity5));
+    background: rgba(255, 251, 205, var(--lwc-opacity5));
     z-index: -1;
     border-radius: var(--lwc-borderRadiusMedium);
 }

@@ -112,6 +112,16 @@ export const MODAL_SIZE = {
 };
 
 /**
+ * @constant
+ * @type {string} ICON_SHAPE diamond, circle, or square (default)
+ */
+export const ICON_SHAPE = {
+    DIAMOND: 'diamond', // Example, Decision
+    CIRCLE: 'circle', // Example, Start Element
+    SQUARE: 'square'
+};
+
+/**
  * @constant elementTypeToComponentMap - Map of different element types to their
  *                                       respective components
  * @type {object}
@@ -135,14 +145,27 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.START_ELEMENT]: {
+        descriptor: 'builder_platform_interaction:assignmentEditor',
+        modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
             iconName: 'utility:right',
+            iconShape: ICON_SHAPE.CIRCLE,
+            iconSize: 'medium',
+            iconBackgroundColor: 'background-green',
+            canBeConnectorTarget: false,
             maxConnections: 1
         },
         canvasElement: true,
+        isDeletable: false,
+        canBeDuplicated: false,
         factory: {
             propertyEditor: createStartElement,
             flowToUi: createStartElementWithConnectors
+        },
+        labels: {
+            singular: LABELS.startElementSingularLabel,
+            newModal: LABELS.editStartElementLabel,
+            editModal: LABELS.editStartElementLabel
         }
     },
     [ELEMENT_TYPE.SUBFLOW]: {
@@ -156,7 +179,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:flow',
             utilityIconName: 'utility:flow',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.SUBFLOW],
-            iconBackgroundColor: 'navy',
+            iconBackgroundColor: 'background-navy',
             maxConnections: 2,
             section: LABELS.flowInteractionComponentsLabel,
             description: LABELS.subflowFlowComponentDescription
@@ -191,7 +214,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.ACTION_CALL],
-            iconBackgroundColor: 'navy',
+            iconBackgroundColor: 'background-navy',
             maxConnections: 2,
             section: LABELS.flowInteractionComponentsLabel,
             description: LABELS.actionFlowComponentDescription
@@ -231,7 +254,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:custom_notification',
             utilityIconName: 'utility:fallback',
             dragImageSrc: ICONS_LARGE.ACTION_CALL,
-            iconBackgroundColor: 'navy',
+            iconBackgroundColor: 'background-navy',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -265,7 +288,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:apex_plugin',
             utilityIconName: 'utility:apex_plugin',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.APEX_PLUGIN_CALL],
-            iconBackgroundColor: 'navy',
+            iconBackgroundColor: 'background-navy',
             maxConnections: 2
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -297,7 +320,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:apex',
             utilityIconName: 'utility:apex',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.APEX_CALL],
-            iconBackgroundColor: 'navy',
+            iconBackgroundColor: 'background-navy',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -330,7 +353,7 @@ export const elementTypeToConfigMap = {
             iconName: 'standard:email',
             utilityIconName: 'utility:email',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.EMAIL_ALERT],
-            iconBackgroundColor: 'navy',
+            iconBackgroundColor: 'background-navy',
             maxConnections: 1
         },
         modalSize: MODAL_SIZE.MEDIUM,
@@ -429,6 +452,7 @@ export const elementTypeToConfigMap = {
         descriptor: 'builder_platform_interaction:decisionEditor',
         nodeConfig: {
             iconName: 'standard:decision',
+            iconShape: ICON_SHAPE.DIAMOND,
             utilityIconName: 'utility:signpost',
             dragImageSrc: ICONS_LARGE[ELEMENT_TYPE.DECISION],
             maxConnections: 1,
@@ -878,6 +902,7 @@ export const elementTypeToConfigMap = {
             editModal: LABELS.editStepLabel
         },
         canvasElement: true,
+        canBeDuplicated: false,
         bodyCssClass: 'slds-p-around_none',
         factory: {
             propertyEditor: createStep,

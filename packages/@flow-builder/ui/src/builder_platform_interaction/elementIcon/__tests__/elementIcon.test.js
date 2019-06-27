@@ -80,7 +80,7 @@ describe('Element Icon', () => {
         it('Should add the css class to set the background color when backgroundColor is non-empty', () => {
             const elementIcon = createComponentForTest({
                 iconName: ICON_NAMES.subflow,
-                backgroundColor: 'navy'
+                backgroundColor: 'background-navy'
             });
             const lightningIcon = getLightningIcon(elementIcon);
             expect(lightningIcon.classList).toContain('background-navy');
