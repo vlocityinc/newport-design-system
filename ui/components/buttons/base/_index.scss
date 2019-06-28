@@ -361,3 +361,7 @@ a.nds-button--inverse:focus {
 .nds-button__icon--right {
   margin-#{$left}: $spacing-x-small;
 }
+
+svg.nds-button__icon {
+  fill: $color-input-font-kashmiri-blue;
+}

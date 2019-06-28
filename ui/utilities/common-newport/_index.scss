@@ -7,6 +7,10 @@ ng-form {
   }
 }
 
+ng-form.nds-m-bottom_large {
+  margin-bottom: 0.5rem;
+}
+
 section.nds-page-header {
   border: none;
   box-shadow: none;
@@ -30,34 +34,8 @@ p[vlc-bind-html] {
   }
 }
 
-div.noUISlider[vlc-range-slider-generated] {
-  margin: 0 0.9rem;
-}
-
 .vlc-typeahead-newopt-displaynone {
   display: none;
-}
-
-.noUi-horizontal {
-  .noUi-handle {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-}
-
-.noUi-horizontal {
-
-  .noUi-handle-lower,
-  .noUi-handle {
-    .noUi-tooltip {
-      top: 1rem;
-      font-size: 1rem;
-    }
-  }
-}
-
-div.noUISlider[vlc-range-slider] {
-  margin: 0 1rem;
 }
 
 .vlc-typeahead-gmap {
@@ -127,6 +105,39 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
       top: -3.5rem;
     }
   }
+
+  .nds-form-element__control a[vlc-slds-tool-tip],
+  .nds-select-wrapper a[vlc-slds-tool-tip],
+  .nds-form--multi-input__container a[vlc-slds-tool-tip] {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            line-height: 1rem;
+            text-align: center;
+
+            & + .vlc-slds--tooltip,
+            & + .vlc-slds_tooltip {
+                display: none;
+            }
+
+            &:hover + .vlc-slds--tooltip,
+            &:hover + .vlc-slds_tooltip {
+                display: block;
+            }
+
+            @media screen and (max-width: 50em) {
+                width: 1.5rem;
+                height: 1.5rem;
+                line-height: 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .nds-form--multi-input__container a[vlc-slds-tool-tip],
+        .nds-select-wrapper a[vlc-slds-tool-tip],
+        .nds-typeahead-block-container a[vlc-slds-tool-tip] {
+          height: 2rem;
+        }
 }
 
 .nds-control-action__container {
@@ -176,7 +187,7 @@ ul.nds-dropdown-list {
 }
 
 .nds-form--multi-input__container .nds-control-action__container {
-  top: 0.85rem;
+  top: 0.35rem;
 }
 
 .nds-popover.nds-popover_tooltip .nds-popover__body {
@@ -703,4 +714,8 @@ form {
 .nds-inline-help-text .nds-is-absolute {
   #{$right}: -0.8rem;
   top: -3rem;
+}
+.nds-line_break {
+  max-height: 0;
+  line-height: 0;
 }

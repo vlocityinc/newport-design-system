@@ -7,13 +7,9 @@ Once you have Newport installed the next step is build a copy of it to deploy to
 ```
 npm run build
 npm run dist
-cd .dist
-rm -rf __internal
-zip -rq9 ../newport-design-system.zip .
-cd ..
 ```
 
-These commands will generated the css and also turn it into a zip file ready to upload into your org.
+These commands will generated the css and also turn it into a zip file in `dist/newport-design-system.zip` ready to upload into your org.
 
 ## 2. Upload zip into static resources
 

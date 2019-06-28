@@ -703,17 +703,15 @@ storiesOf(`${base}`, module)
                             <fieldset class="nds-form-element">
                               <legend class="nds-form-element__legend nds-form-element__label nds-form-element__control-help">
                                 <span class="ng-binding">Radio7</span>
-                                <div class="nds-tooltip_container ng-scope">
+                                <a class="nds-tooltip_container ng-scope" vlc-slds-tool-tip="test" nubbin-direction="auto top-left" ng-show="true" tabindex="0" aria-hidden="false">
                                   <div class="nds-nonfocused_control nds-inline-help-text ng-scope">
-                                    <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'info'" viewBox="0 0 52 52" alt="info">
-                                      <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
+                                    <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" sprite="'utility'" icon="'info'" size="'small'" viewBox="0 0 52 52" alt="info">
+                                        <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
                                     </svg>
-                                    <div class="nds-is-absolute">
-                                      <div class="nds-popover nds-popover_tooltip nds-nubbin_bottom-right" role="tooltip">
-                                        <div class="nds-popover__body ng-binding">This is a Radio picklist</div>
-                                      </div>
-                                    </div>
                                   </div>
+                                </a>
+                                <div class="nds-popover nds-nubbin--bottom-left nds-popover_tooltip vlc-slds--tooltip nds-is-absolute" role="tooltip" style="display: block; visibility: visible; min-width: 85px; top: -50px; left: 38px;">
+                                    <div class="nds-popover__body ng-binding">This is a Radio picklist</div>
                                 </div>
                                 <div class="nds-control-action__container">
                                   <svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium nds-button__icon nds-button__icon_medium " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'add'" role="button" aria-disabled="false"
@@ -749,36 +747,32 @@ storiesOf(`${base}`, module)
                           <form name="loopform" class="nds-form-element nds-m-bottom_large nds-p-around_small vlc-slds-range-control ng-valid ng-scope ng-valid-min ng-valid-max ng-valid-step ng-valid-required ng-dirty">
                             <div class="nds-form-element__control nds-m-bottom_medium">
                               <label class="nds-form-element__label">
-                                <span class="ng-binding">Range1</span>
-                                <div class="nds-tooltip_container ng-scope">
-                                  <div class="nds-nonfocused_control nds-inline-help-text ng-scope">
-                                    <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'info'" viewBox="0 0 52 52" alt="info">
-                                      <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
-                                    </svg>
-                                    <div class="nds-is-absolute">
-                                      <div class="nds-popover nds-popover_tooltip nds-nubbin_bottom-right" role="tooltip">
-                                        <div class="nds-popover__body ng-binding">This is a Range slider</div>
-                                      </div>
+                              <span class="nds-slider-label">
+                                  <span class="nds-slider-label__label ng-binding">Range1</span>
+                                  <a class="nds-tooltip_container ng-scope" vlc-slds-tool-tip="test" nubbin-direction="auto top-left" ng-show="true" tabindex="0" aria-hidden="false">
+                                    <div class="nds-nonfocused_control nds-inline-help-text ng-scope">
+                                      <svg aria-hidden="true" class="slds-icon slds-icon--small nds-icon nds-icon_small " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" sprite="'utility'" icon="'info'" size="'small'" viewBox="0 0 52 52" alt="info">
+                                          <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
+                                      </svg>
                                     </div>
+                                  </a>
+                                  <div class="nds-popover nds-nubbin--bottom-left nds-popover_tooltip vlc-slds--tooltip nds-is-absolute" role="tooltip" style="display: block; visibility: visible; min-width: 85px; top: -50px; left: 38px;">
+                                      <div class="nds-popover__body ng-binding">This is a Range slider</div>
                                   </div>
-                                </div>
-                                <div class="nds-control-action__container">
-                                  <svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium nds-button__icon nds-button__icon_medium " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'add'" role="button" aria-disabled="false"
-                                    viewBox="0 0 52 52" alt="add">
-                                    <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m30 29h16.5c0.8 0 1.5-0.7 1.5-1.5v-3c0-0.8-0.7-1.5-1.5-1.5h-16.5c-0.6 0-1-0.4-1-1v-16.5c0-0.8-0.7-1.5-1.5-1.5h-3c-0.8 0-1.5 0.7-1.5 1.5v16.5c0 0.6-0.4 1-1 1h-16.5c-0.8 0-1.5 0.7-1.5 1.5v3c0 0.8 0.7 1.5 1.5 1.5h16.5c0.6 0 1 0.4 1 1v16.5c0 0.8 0.7 1.5 1.5 1.5h3c0.8 0 1.5-0.7 1.5-1.5v-16.5c0-0.6 0.4-1 1-1z"></path>
-                                  </svg>
-                                </div>
+                                  <div class="nds-control-action__container">
+                                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--medium nds-button__icon nds-button__icon_medium " xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" icon="'add'" role="button" aria-disabled="false"
+                                      viewBox="0 0 52 52" alt="add">
+                                      <path fill="inherit" xmlns="http://www.w3.org/2000/svg" d="m30 29h16.5c0.8 0 1.5-0.7 1.5-1.5v-3c0-0.8-0.7-1.5-1.5-1.5h-16.5c-0.6 0-1-0.4-1-1v-16.5c0-0.8-0.7-1.5-1.5-1.5h-3c-0.8 0-1.5 0.7-1.5 1.5v16.5c0 0.6-0.4 1-1 1h-16.5c-0.8 0-1.5 0.7-1.5 1.5v3c0 0.8 0.7 1.5 1.5 1.5h16.5c0.6 0 1 0.4 1 1v16.5c0 0.8 0.7 1.5 1.5 1.5h3c0.8 0 1.5-0.7 1.5-1.5v-16.5c0-0.6 0.4-1 1-1z"></path>
+                                    </svg>
+                                  </div>
+                                </span>
                               </label>
                               <div class="vlc-control-wrapper">
-                                <input type="range" step="1" min="5" max="100" id="Range1" name="loopname" mask="" class="ng-valid ng-valid-min ng-valid-max ng-valid-step ng-valid-required ng-touched ng-dirty ng-not-empty" aria-valuemin="5" aria-valuemax="100"
-                                  aria-valuenow="20" aria-invalid="false" style="display: none;">
-                                <div class="noUISlider noUi-target noUi-ltr noUi-horizontal">
-                                  <div class="noUi-base">
-                                    <div class="noUi-origin" style="left: 15.7895%;">
-                                      <div class="noUi-handle noUi-handle-lower" data-handle="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="100.0" aria-valuenow="15.8" aria-valuetext="20" style="z-index: 4;">
-                                        <div class="noUi-tooltip">20</div>
-                                      </div>
-                                    </div>
+                                <div class="nds-form-element__control">
+                                  <div class="nds-slider">
+                                    <input type="range" step="1" min="5" max="100" id="Range1" name="loopname" class="nds-slider__range">
+                                    <span class="nds-slider__value"
+                                      aria-hidden="true">20</span>
                                   </div>
                                 </div>
                               </div>

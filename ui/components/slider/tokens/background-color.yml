@@ -9,20 +9,27 @@ global:
   - 'border*'
   - box-shadow
 imports:
+- "../../../../design-tokens/vlocity-newport-skin/aliases/color.yml"
 - "../../../../design-tokens/force-base/aliases/color.yml"
 - "../../../../design-tokens/color-palettes.yml"
 props:
   SLIDER_HANDLE_COLOR_BACKGROUND:
-    value: '{!AZURE}'
+    value: '{!WHITE}'
   SLIDER_HANDLE_COLOR_BACKGROUND_HOVER:
-    value: '{!SCIENCE_BLUE}'
+    value: '{!WHITE}'
   SLIDER_HANDLE_COLOR_BACKGROUND_FOCUS:
-    value: '{!SCIENCE_BLUE}'
+    value: '{!WHITE}'
   SLIDER_HANDLE_COLOR_BACKGROUND_ACTIVE:
-    value: '{!SCIENCE_BLUE}'
+    value: '{!WHITE}'
+  SLIDER_HANDLE_COLOR_BORDER:
+    value: '{!NEWPORT_BORDER_GRAY}'
+  SLIDER_HANDLE_COLOR_BORDER_ACTIVE:
+    value: '{!NEWPORT_COLOR_BRAND_ORANGE}'
+  SLIDER_HANDLE_COLOR_BORDER_FOCUS:
+    value: '{!NEWPORT_COLOR_BRAND_ORANGE}'
   SLIDER_TRACK_COLOR_BACKGROUND:
-    value: '{!PALETTE_GRAY_4}'
+    value: '{!NEWPORT_BLUE_TEXT_SECONDARY}'
   SLIDER_TRACK_COLOR_BACKGROUND_FILL:
-    value: '{!AZURE}'
+    value: '{!WHITE}'
   SLIDER_COLOR_BACKGROUND_DISABLED:
     value: '{!PALETTE_GRAY_4}'
