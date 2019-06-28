@@ -19,7 +19,6 @@ const additionalRules = {
         ValidationRules.shouldAcceptOnlyAlphanumericCharacters,
         ValidationRules.maximumCharactersLimit(80)
     ],
-    processType: [ValidationRules.shouldNotBeNullOrUndefined],
     interviewLabel: [
         ValidationRules.maximumCharactersLimit(1000),
         ValidationRules.isValidResourcedTextArea

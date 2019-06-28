@@ -26,19 +26,6 @@
             onpropertychanged={handleEvent}
         >
         </builder_platform_interaction-label-description>
-        <lightning-combobox
-            class="process-type slds-col slds-grow"
-            label={labels.processTypeLabel}
-            options={processTypes}
-            value={processType}
-            required
-            disabled={savingExistingFlow}
-            placeholder={labels.processTypePlaceholderLabel}
-            message-when-value-missing={labels.processTypeRequiredLabel}
-            dropdown-alignment="auto"
-            onchange={handleProcessTypeChange}
-        >
-        </lightning-combobox>
 
         <div class="slds-m-top_small">
             <lightning-button
@@ -60,14 +47,29 @@
         </div>
 
         <div if:true={isAdvancedShown} class="advanced">
-            <builder_platform_interaction-resourced-textarea
-                label={labels.instanceLabel}
-                value={flowProperties.interviewLabel}
-                onblur={handleInstanceLabelChanged}
-                onchange={handleInstanceLabelChanged}
-                help-text={labels.instanceLabelHelpText}
+            <lightning-combobox
+                class="process-type slds-col slds-grow"
+                label={labels.processTypeLabel}
+                options={processTypes}
+                value={processType}
+                required
+                disabled={savingExistingFlow}
+                placeholder={labels.processTypePlaceholderLabel}
+                dropdown-alignment="auto"
+                onchange={handleProcessTypeChange}
             >
-            </builder_platform_interaction-resourced-textarea>
+            </lightning-combobox>
+
+            <div class="slds-m-top_small">
+                <builder_platform_interaction-resourced-textarea
+                    label={labels.instanceLabel}
+                    value={flowProperties.interviewLabel}
+                    onblur={handleInstanceLabelChanged}
+                    onchange={handleInstanceLabelChanged}
+                    help-text={labels.instanceLabelHelpText}
+                >
+                </builder_platform_interaction-resourced-textarea>
+            </div>
 
             <div if:true={savingExistingFlow} class="slds-m-top_small">
                 <div>{labels.lastModified}</div>

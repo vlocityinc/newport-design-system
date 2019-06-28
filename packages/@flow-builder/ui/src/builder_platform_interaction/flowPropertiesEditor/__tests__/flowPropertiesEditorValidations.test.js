@@ -13,14 +13,6 @@ jest.mock('builder_platform_interaction/mergeFieldLib', () => {
 
 describe('FlowPropertiesValidations', () => {
     describe('Process Type property', () => {
-        it('should return an error if null.', () => {
-            expect(
-                flowPropertiesEditorValidation.validateProperty(
-                    'processType',
-                    null
-                )
-            ).toBe(LABELS.cannotBeBlank);
-        });
         it('should not return an error if valid processType is entered.', () => {
             expect(
                 flowPropertiesEditorValidation.validateProperty(

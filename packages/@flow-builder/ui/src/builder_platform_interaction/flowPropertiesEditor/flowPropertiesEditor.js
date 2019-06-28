@@ -40,8 +40,6 @@ export default class FlowPropertiesEditor extends LightningElement {
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
         }
-
-        this.isAdvancedShown = this.flowProperties.saveType === SaveType.UPDATE;
     }
 
     /**

@@ -171,20 +171,18 @@ describe('FlowPropertiesEditor', () => {
                 expect(labelDescription.description.error).toBeNull();
             });
             it('handles the property changed event and updates the property', () => {
-                return Promise.resolve().then(() => {
-                    const event = new PropertyChangedEvent(
-                        'description',
-                        'new desc',
-                        null
-                    );
-                    const labelDescription = getLabelDescription(
-                        flowPropertiesEditor
-                    );
-                    labelDescription.dispatchEvent(event);
-                    expect(flowPropertiesEditor.node.description.value).toBe(
-                        'new desc'
-                    );
-                });
+                const event = new PropertyChangedEvent(
+                    'description',
+                    'new desc',
+                    null
+                );
+                const labelDescription = getLabelDescription(
+                    flowPropertiesEditor
+                );
+                labelDescription.dispatchEvent(event);
+                expect(flowPropertiesEditor.node.description.value).toBe(
+                    'new desc'
+                );
             });
             describe('Updating the flow label', () => {
                 it('should update the interview label if it is blank', () => {
@@ -220,11 +218,6 @@ describe('FlowPropertiesEditor', () => {
                 });
             });
         });
-        it('Process Type Drop down', () => {
-            const flowTypeDropDown = getProcessType(flowPropertiesEditor);
-            expect(flowTypeDropDown).toBeDefined();
-            expect(flowTypeDropDown.value).toBe('process type');
-        });
         describe('Advanced Properties', () => {
             it('HIDE Advanced Properties', () => {
                 const showAdvancedButton = getShowAdvancedButton(
@@ -233,41 +226,38 @@ describe('FlowPropertiesEditor', () => {
                 expect(showAdvancedButton.label).toBe(LABELS.showAdvanced);
                 expect(getHideAdvancedButton(flowPropertiesEditor)).toBeNull();
                 expect(getAdvancedProperties(flowPropertiesEditor)).toBeNull();
+                expect(getProcessType(flowPropertiesEditor)).toBeNull();
                 expect(getResourceTextArea(flowPropertiesEditor)).toBeNull();
             });
             it('SHOW Advanced Properties', () => {
                 const showAdvancedButton = getShowAdvancedButton(
                     flowPropertiesEditor
                 );
+                showAdvancedButton.click();
                 return Promise.resolve().then(() => {
-                    showAdvancedButton.click();
-                    return Promise.resolve().then(() => {
-                        expect(
-                            getShowAdvancedButton(flowPropertiesEditor)
-                        ).toBeNull();
-                        expect(
-                            getHideAdvancedButton(flowPropertiesEditor).label
-                        ).toBe(LABELS.hideAdvanced);
-                        expect(
-                            getAdvancedProperties(flowPropertiesEditor)
-                        ).not.toBeNull();
-                        expect(
-                            getResourceTextArea(flowPropertiesEditor).value
-                                .value
-                        ).toBe('');
-                        expect(
-                            getResourceTextArea(flowPropertiesEditor).value
-                                .error
-                        ).toBeNull();
-                    });
+                    expect(
+                        getShowAdvancedButton(flowPropertiesEditor)
+                    ).toBeNull();
+                    expect(
+                        getHideAdvancedButton(flowPropertiesEditor).label
+                    ).toBe(LABELS.hideAdvanced);
+                    expect(
+                        getAdvancedProperties(flowPropertiesEditor)
+                    ).not.toBeNull();
+                    expect(getProcessType(flowPropertiesEditor)).toBeDefined();
+                    expect(getProcessType(flowPropertiesEditor).value).toBe(
+                        'process type'
+                    );
+                    expect(
+                        getResourceTextArea(flowPropertiesEditor).value.value
+                    ).toBe('');
+                    expect(
+                        getResourceTextArea(flowPropertiesEditor).value.error
+                    ).toBeNull();
                 });
             });
             it('Last Modified Information should NOT be shown for saveType CREATE', () => {
-                return Promise.resolve().then(() => {
-                    expect(
-                        getLastModifiedDetails(flowPropertiesEditor)
-                    ).toBeNull();
-                });
+                expect(getLastModifiedDetails(flowPropertiesEditor)).toBeNull();
             });
         });
     });
@@ -305,17 +295,15 @@ describe('FlowPropertiesEditor', () => {
         });
         describe('Advanced Properties', () => {
             it('SHOW Advanced Properties', () => {
+                expect(
+                    getShowAdvancedButton(flowPropertiesEditor)
+                ).toBeDefined();
+                expect(getHideAdvancedButton(flowPropertiesEditor)).toBeNull();
+                expect(getShowAdvancedButton(flowPropertiesEditor).label).toBe(
+                    LABELS.showAdvanced
+                );
+                getShowAdvancedButton(flowPropertiesEditor).click();
                 return Promise.resolve().then(() => {
-                    getHideAdvancedButton(flowPropertiesEditor).click();
-                    expect(
-                        getHideAdvancedButton(flowPropertiesEditor)
-                    ).toBeDefined();
-                    expect(
-                        getShowAdvancedButton(flowPropertiesEditor)
-                    ).toBeNull();
-                    expect(
-                        getHideAdvancedButton(flowPropertiesEditor).label
-                    ).toBe(LABELS.hideAdvanced);
                     expect(
                         getAdvancedProperties(flowPropertiesEditor)
                     ).not.toBeNull();
@@ -326,6 +314,7 @@ describe('FlowPropertiesEditor', () => {
             });
             describe('Last Modified Information', () => {
                 it('returns the localized label with the correct user name and last modified date/time', () => {
+                    getShowAdvancedButton(flowPropertiesEditor).click();
                     return Promise.resolve().then(() => {
                         expect(
                             getLastModifiedDetails(flowPropertiesEditor)
@@ -334,6 +323,7 @@ describe('FlowPropertiesEditor', () => {
                     });
                 });
                 it('calls normalizeDateTime with the the last modified datetime', () => {
+                    getShowAdvancedButton(flowPropertiesEditor).click();
                     return Promise.resolve().then(() => {
                         expect(
                             normalizeDateTime.normalizeDateTime
@@ -344,6 +334,7 @@ describe('FlowPropertiesEditor', () => {
                     });
                 });
                 it('calls format with the label, user and datetime', () => {
+                    getShowAdvancedButton(flowPropertiesEditor).click();
                     return Promise.resolve().then(() => {
                         expect(format.format).toHaveBeenCalledWith(
                             LABELS.lastModifiedText,
@@ -369,6 +360,7 @@ describe('FlowPropertiesEditor', () => {
                 saveType: SaveType.UPDATE
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
+            getShowAdvancedButton(flowPropertiesEditor).click();
             return Promise.resolve().then(() => {
                 expect(
                     getLastProcessType(flowPropertiesEditor).textContent
@@ -390,6 +382,7 @@ describe('FlowPropertiesEditor', () => {
                 saveType: SaveType.UPDATE
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
+            getShowAdvancedButton(flowPropertiesEditor).click();
             return Promise.resolve().then(() => {
                 expect(
                     getLastProcessType(flowPropertiesEditor).textContent
@@ -416,6 +409,7 @@ describe('FlowPropertiesEditor', () => {
 
             it('is shown when save type is UPDATE', () => {
                 const component = createComponentUnderTest(defaultNode);
+                getShowAdvancedButton(component).click();
                 return Promise.resolve().then(() => {
                     expect(
                         component.shadowRoot.querySelector(
@@ -428,10 +422,7 @@ describe('FlowPropertiesEditor', () => {
             it('is shown when save type is NEW_VERSION', () => {
                 defaultNode.saveType = SaveType.NEW_VERSION;
                 const component = createComponentUnderTest(defaultNode);
-                const button = component.shadowRoot.querySelector(
-                    selectors.SHOW_ADVANCED
-                );
-                button.dispatchEvent(new CustomEvent('click'));
+                getShowAdvancedButton(component).click();
                 return Promise.resolve().then(() => {
                     expect(
                         component.shadowRoot.querySelector(
@@ -459,49 +450,41 @@ describe('FlowPropertiesEditor', () => {
 
             it('restores the original flow property values when toggling back to New Version', () => {
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
-                return Promise.resolve().then(() => {
-                    const event = new PropertyChangedEvent(
-                        'interviewLabel',
-                        'new label',
-                        null
-                    );
-                    const labelDescription = getLabelDescription(
-                        flowPropertiesEditor
-                    );
-                    labelDescription.dispatchEvent(event);
-                    // This first expect is to ensure the test is not a false positive
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
-                        'new label'
-                    );
-                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
-                        new CustomEvent('change', {
-                            detail: { value: SaveType.NEW_VERSION }
-                        })
-                    );
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
-                        'interviewLabel'
-                    );
-                });
+                const event = new PropertyChangedEvent(
+                    'interviewLabel',
+                    'new label',
+                    null
+                );
+                const labelDescription = getLabelDescription(
+                    flowPropertiesEditor
+                );
+                labelDescription.dispatchEvent(event);
+                // This first expect is to ensure the test is not a false positive
+                expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                    'new label'
+                );
+                getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: SaveType.NEW_VERSION }
+                    })
+                );
+                expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
+                    'interviewLabel'
+                );
             });
 
             it('clears the label, name, description, interview label flow properties when toggling to New Flow', () => {
                 defaultNode.saveType = SaveType.NEW_VERSION;
                 flowPropertiesEditor = createComponentUnderTest(defaultNode);
-                return Promise.resolve().then(() => {
-                    getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
-                        new CustomEvent('change', {
-                            detail: { value: SaveType.NEW_DEFINITION }
-                        })
-                    );
-                    expect(flowPropertiesEditor.node.label.value).toBe('');
-                    expect(flowPropertiesEditor.node.name.value).toBe('');
-                    expect(flowPropertiesEditor.node.description.value).toBe(
-                        ''
-                    );
-                    expect(flowPropertiesEditor.node.interviewLabel.value).toBe(
-                        ''
-                    );
-                });
+                getSaveAsToggle(flowPropertiesEditor).dispatchEvent(
+                    new CustomEvent('change', {
+                        detail: { value: SaveType.NEW_DEFINITION }
+                    })
+                );
+                expect(flowPropertiesEditor.node.label.value).toBe('');
+                expect(flowPropertiesEditor.node.name.value).toBe('');
+                expect(flowPropertiesEditor.node.description.value).toBe('');
+                expect(flowPropertiesEditor.node.interviewLabel.value).toBe('');
             });
         });
     });
