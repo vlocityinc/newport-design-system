@@ -12,7 +12,12 @@
 
 .nds-subnav__wrapper {
   position: relative;
-
+   background: $card_color_background;
+  border-bottom: 1px solid rgba($color-black-primary, 0.1);
+  img{
+    pointer-events: none;
+    height: 3.75rem;
+  }
   .nds-subnav__fullWidth {
     width: 100%;
   }
@@ -20,7 +25,6 @@
   .nds-subnav__active {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     height: 100%;
     border-right: 0.0625rem solid rgba($color-black-primary, 0.1);
     border-left: 0;
@@ -32,7 +36,7 @@
 
     &.nds-subnav__tabSelected {
       border-left: 0.0625rem solid rgba($color-black-primary, 0.1);
-      background: $color-brand;
+      background: $color-blue-text-primary;
       border-bottom: 0;
       color: $color-border-tab-active;
 
@@ -108,10 +112,9 @@
   }
 
   .nds-subnav__inner {
-    background: $card_color_background;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    border-bottom: 1px solid rgba($color-black-primary, 0.1);
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
 
     .nds-subnav__theme:first-child {
       border-left: 1px solid rgba($color-black-primary, 0.1);
@@ -122,15 +125,14 @@
   .nds-subnav__theme {
     position: relative;
     width: 100%;
-    min-width: 140px;
     height: 173px;
     text-decoration: none;
     min-width: 140px;
 
     &.active {
       border-left: 1px solid rgba($color-black-primary, 0.1);
-      box-shadow: 0px 10px 0px 0px $color-brand;
-      background: $color-brand;
+      box-shadow: 0px 10px 0px 0px $color-blue-text-primary;
+      background: $color-blue-text-primary;
 
       img {
         filter: brightness(255);
