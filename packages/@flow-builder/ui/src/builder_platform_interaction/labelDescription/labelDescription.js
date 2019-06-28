@@ -253,7 +253,7 @@ export default class LabelDescription extends LightningElement {
             inputElement.value = newLabel;
         }
         const error =
-            inputElement.value === '' ? this.showErrorMessageIfBlank : null;
+            inputElement.value === '' && this.labelRequired ? this.showErrorMessageIfBlank : null;
         this.updateStateAndDispatch(newLabel, 'label', error);
 
         // Update devName if it is present, enabled, and blank
