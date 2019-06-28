@@ -127,7 +127,13 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     };
 };
 
-const retrieveResourceComplexTypeFields = flowResource => {
+/**
+ * Returns the fields for given complex resource (dataType SObject, apex or lightning component output)
+ *
+ * @param {Object} flowResource the resource
+ * @returns {Object} the fields descriptions as a complex type field descriptions (as expected by menudata or merge field validation)
+ */
+export const retrieveResourceComplexTypeFields = flowResource => {
     let fields;
     if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         fields = sobjectLib.getFieldsForEntity(flowResource.subtype);

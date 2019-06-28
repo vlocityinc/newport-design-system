@@ -4,7 +4,8 @@ import {
     getResourceByUniqueIdentifier,
     getFerovInfoAndErrorFromEvent,
     checkExpressionForDeletedElem,
-    EXPRESSION_PROPERTY_TYPE
+    EXPRESSION_PROPERTY_TYPE,
+    retrieveResourceComplexTypeFields
 } from '../resourceUtils';
 import * as store from 'mock/storeData';
 import {
@@ -23,6 +24,8 @@ import {
     SYSTEM_VARIABLE_PREFIX
 } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
+import { mockCarApexTypeProperties } from 'mock/apexTypesData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -52,18 +55,9 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest
-            .fn()
-            .mockImplementation((entityName, callback) => {
-                const fields =
-                    entityName === 'Account'
-                        ? require('mock/serverEntityData')
-                              .mockAccountFieldWithPicklist
-                        : undefined;
-                if (callback) {
-                    callback(fields);
-                }
-            })
+        getFieldsForEntity: jest.fn().mockImplementation(() => {
+            return require('mock/serverEntityData').mockAccountFields;
+        })
     };
 });
 
@@ -86,7 +80,20 @@ jest.mock('../menuDataGenerator', () => {
 
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
     return {
-        getPropertiesForClass: jest.fn().mockName('getPropertiesForClass')
+        getPropertiesForClass: jest
+            .fn()
+            .mockName('getPropertiesForClass')
+            .mockImplementation(() => mockCarApexTypeProperties)
+    };
+});
+
+jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    return {
+        getCachedExtension: jest
+            .fn()
+            .mockImplementation(
+                () => mockFlowRuntimeEmailFlowExtensionDescription
+            )
     };
 });
 
@@ -345,5 +352,36 @@ describe('checkExpressionForDeletedElem', () => {
             addCurlyBraces(store.elements[store.numberVariableGuid].name)
         );
         expect(updatedValues.error).toEqual(anError);
+    });
+});
+describe('retrieveResourceComplexTypeFields', () => {
+    const expectComplexTypeFieldDescription = field => {
+        // need a dataType and apiName. isCollection and label optional
+        expect(field.dataType).toBeDefined();
+        expect(field.apiName).toBeDefined();
+    };
+    const expectFieldsAreComplexTypeFieldDescriptions = fields => {
+        for (const fieldName in fields) {
+            if (Object.prototype.hasOwnProperty.call(fields, fieldName)) {
+                const field = fields[fieldName];
+                expectComplexTypeFieldDescription(field);
+            }
+        }
+    };
+    it('returns fields for entity when element data type is SObject', () => {
+        const element = store.elements[store.accountSObjectVariableGuid];
+        const fields = retrieveResourceComplexTypeFields(element);
+        expectFieldsAreComplexTypeFieldDescriptions(fields);
+    });
+    it('returns properties for apex class when element data type is Apex', () => {
+        const element = store.elements[store.apexSampleVariableGuid];
+        const fields = retrieveResourceComplexTypeFields(element);
+        expectFieldsAreComplexTypeFieldDescriptions(fields);
+    });
+    it('returns extension parameters when element data type is LIGHTNING_COMPONENT_OUTPUT', () => {
+        const element =
+            store.elements[store.emailScreenFieldAutomaticOutputGuid];
+        const fields = retrieveResourceComplexTypeFields(element);
+        expectFieldsAreComplexTypeFieldDescriptions(fields);
     });
 });

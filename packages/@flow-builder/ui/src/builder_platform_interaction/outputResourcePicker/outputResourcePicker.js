@@ -3,7 +3,8 @@ import {
     getMenuData,
     getResourceByUniqueIdentifier,
     mutateFieldToComboboxShape,
-    mutateFlowResourceToComboboxShape
+    mutateFlowResourceToComboboxShape,
+    retrieveResourceComplexTypeFields
 } from 'builder_platform_interaction/expressionUtils';
 import {
     getOutputRules,
@@ -15,9 +16,6 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 
 let storeInstance;
 
@@ -240,7 +238,7 @@ export default class OutputResourcePicker extends LightningElement {
 
     /**
      * This function handles any identifier that may be passed to the picker,
-     * such as GUIDs for flow elements, and returns what the
+     * such as GUIDs for flow elements, and returns what
      * the expression builder will need to use to work with that.
      *
      * @param {String} identifier    Used to identify the value (e.g. GUID for flow elements)
@@ -253,11 +251,7 @@ export default class OutputResourcePicker extends LightningElement {
         if (flowElement) {
             const fieldName = sanitizeGuid(identifier).fieldName;
             if (fieldName) {
-                const retrieveFieldsFn =
-                    flowElement.dataType === FLOW_DATA_TYPE.SOBJECT.value
-                        ? sobjectLib.getFieldsForEntity
-                        : apexTypeLib.getPropertiesForClass;
-                const fields = retrieveFieldsFn(flowElement.subtype);
+                const fields = retrieveResourceComplexTypeFields(flowElement);
                 const field = fields && fields[fieldName];
                 if (field) {
                     field.isCollection = !!field.isCollection;

@@ -15,9 +15,8 @@ import {
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/expressionUtils';
 import * as store from 'mock/storeData';
-import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -74,17 +73,14 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
             .mockName('getMenuData'),
         getResourceByUniqueIdentifier: jest.fn(),
         mutateFlowResourceToComboboxShape: jest.fn(),
-        mutateFieldToComboboxShape: jest.fn()
-    };
-});
-
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    return {
-        getFieldsForEntity: jest.fn().mockImplementation(objectType => {
-            return objectType === 'Account'
-                ? require('mock/serverEntityData').mockAccountFields
-                : undefined;
-        })
+        mutateFieldToComboboxShape: jest.fn(),
+        retrieveResourceComplexTypeFields: jest
+            .fn()
+            .mockImplementation(element => {
+                return element.subtype === 'Account'
+                    ? require('mock/serverEntityData').mockAccountFields
+                    : undefined;
+            })
     };
 });
 
@@ -318,7 +314,7 @@ describe('output-resource-picker', () => {
                 value: 'someSobject.Name'
             };
             getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
-            getFieldsForEntity.mockReturnValueOnce({});
+            retrieveResourceComplexTypeFields.mockReturnValueOnce({});
 
             setupComponentUnderTest(props);
 
@@ -335,7 +331,7 @@ describe('output-resource-picker', () => {
                 value: 'someSobject.Name'
             };
             getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
-            getFieldsForEntity.mockReturnValueOnce({
+            retrieveResourceComplexTypeFields.mockReturnValueOnce({
                 Description: 'some field value'
             });
 
@@ -349,7 +345,7 @@ describe('output-resource-picker', () => {
             });
         });
 
-        describe('normlizing valid fields', () => {
+        describe('normalizing valid fields', () => {
             const fieldName = 'Name';
             let guid;
             let storeElement;
@@ -381,7 +377,6 @@ describe('output-resource-picker', () => {
             });
             it('does not overwrite apex field isCollection values', () => {
                 configureForGuid(store.apexSampleVariableGuid);
-                getFieldsForEntity.mockReturnValueOnce(undefined);
                 mutateFieldToComboboxShape.mockImplementationOnce(
                     ({ isCollection }) => {
                         return {
@@ -389,7 +384,7 @@ describe('output-resource-picker', () => {
                         };
                     }
                 );
-                getPropertiesForClass.mockReturnValueOnce({
+                retrieveResourceComplexTypeFields.mockReturnValueOnce({
                     [fieldName]: {
                         isCollection: true
                     }
@@ -405,18 +400,19 @@ describe('output-resource-picker', () => {
             it('fetches property data when normalizing property on apex class', () => {
                 const output = 'result';
                 configureForGuid(store.apexSampleVariableGuid);
-                getFieldsForEntity.mockReturnValueOnce(undefined);
                 mutateFieldToComboboxShape.mockReturnValueOnce(output);
-                getPropertiesForClass.mockImplementationOnce(className => {
-                    if (className === storeElement.subtype) {
-                        return {
-                            [fieldName]: {
-                                apiName: 'aName'
-                            }
-                        };
+                retrieveResourceComplexTypeFields.mockImplementationOnce(
+                    element => {
+                        if (element.subtype === storeElement.subtype) {
+                            return {
+                                [fieldName]: {
+                                    apiName: 'aName'
+                                }
+                            };
+                        }
+                        return undefined;
                     }
-                    return undefined;
-                });
+                );
                 const outputResourcePicker = setupComponentUnderTest(props);
 
                 return Promise.resolve().then(() => {
