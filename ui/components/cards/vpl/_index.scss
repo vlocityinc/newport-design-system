@@ -28,6 +28,12 @@
     z-index: 1;
     background: $color_background_selago;
   }
+  .nds-summary__details-label{
+      font-weight:$font-weight-bold;
+  }
+  .nds-summary__details-value{
+    font-weight:$font-weight-light;
+  }
 }
 
 @media (max-width: 30em) and (min-width: 10em) {
