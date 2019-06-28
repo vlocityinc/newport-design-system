@@ -592,7 +592,7 @@ describe('Menu data retrieval', () => {
                 disableHasNext,
                 activePicklistValues
             );
-            const picklistLabel = 'Picklist Values';
+            const picklistLabel = 'FlowBuilderExpressionUtils.picklistValuesLabel';
             expect(menuData).toContainEqual(
                 expect.objectContaining({ label: picklistLabel })
             );

@@ -1,5 +1,7 @@
 import { createElement } from 'lwc';
-import Combobox from 'builder_platform_interaction/combobox';
+import Combobox, {
+    MENU_DATA_PAGE_SIZE
+} from 'builder_platform_interaction/combobox';
 import { comboboxInitialConfig, secondLevelMenuData } from 'mock/comboboxData';
 import {
     FilterMatchesEvent,
@@ -109,11 +111,7 @@ const createCombobox = props => {
     combobox = createElement(SELECTORS.COMBOBOX_PATH, {
         is: Combobox
     });
-
-    if (props) {
-        Object.assign(combobox, props);
-    }
-
+    Object.assign(combobox, props);
     document.body.appendChild(combobox);
     groupedCombobox = combobox.shadowRoot.querySelector(
         SELECTORS.GROUPED_COMBOBOX
@@ -131,17 +129,17 @@ describe('Combobox Tests', () => {
         }
     });
 
-    const getTextInputEvent = function (inputValue) {
+    function getTextInputEvent(inputValue) {
         return new CustomEvent('textinput', {
             detail: { text: inputValue }
         });
-    };
+    }
 
-    const getSelectEvent = function (inputValue) {
+    function getSelectEvent(inputValue) {
         return new CustomEvent('select', {
             detail: { value: inputValue }
         });
-    };
+    }
 
     describe('Property sanity checks', () => {
         beforeEach(() => {
@@ -1676,6 +1674,140 @@ describe('Combobox Tests', () => {
 
             return Promise.resolve().then(() => {
                 expect(getFormat).not.toHaveBeenCalled();
+            });
+        });
+    });
+
+    /*
+     * Generate a 200x3 + 3 grouped menu, render it and then scroll down several times until the end of the menu is reached
+     * and the menu is fully present in the dropdown list.
+     */
+    describe('incremental rendering', () => {
+        function generateMenu(length, itemBase = {}) {
+            const result = [];
+            for (let i = 0; i < length; i++) {
+                const suffix = '_' + i;
+                const item = Object.assign({}, itemBase, {
+                    text: '' + (itemBase.text || '') + suffix,
+                    displayText: '' + (itemBase.displayText || '') + suffix,
+                    value: '' + (itemBase.value || '') + suffix
+                });
+                result.push(item);
+            }
+            return result;
+        }
+
+        function generateGroupedMenu(
+            groupCount,
+            groupSize,
+            groupBase = {},
+            groupItemBase = {}
+        ) {
+            const result = [];
+            for (let i = 0; i < groupCount; i++) {
+                const suffix = '_' + i;
+                const item = Object.assign({}, groupBase, {
+                    value: '' + (groupBase.value || '') + suffix
+                });
+                item.items = generateMenu(
+                    groupSize,
+                    Object.assign({}, groupItemBase, {
+                        value: 'g_' + i + '_' + (groupItemBase.value || '')
+                    })
+                );
+                result.push(item);
+            }
+            return result;
+        }
+
+        let longMenu;
+
+        beforeAll(() => {
+            longMenu = generateGroupedMenu(
+                3,
+                MENU_DATA_PAGE_SIZE * 4,
+                { value: 'g_' },
+                { value: 'i' }
+            );
+
+            createCombobox({
+                menuData: longMenu,
+                renderIncrementally: true
+            });
+        });
+
+        it('should render a subset of items initially', () => {
+            expect(combobox.menuData).toEqual(longMenu);
+            expect(combobox.renderIncrementally).toEqual(true);
+            const groupItem0 = Object.assign({}, longMenu[0]);
+            // One page worth of subitems minus the top item (the group header item)
+            groupItem0.items = groupItem0.items.slice(
+                0,
+                MENU_DATA_PAGE_SIZE - 1
+            );
+            expect(groupedCombobox.items).toEqual([groupItem0]);
+        });
+
+        it('should render the next set of items upon scrolling to the end', () => {
+            groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
+            return Promise.resolve().then(() => {
+                const groupItem0 = Object.assign({}, longMenu[0]);
+                // Two pages worth of subitems minus the top item
+                groupItem0.items = groupItem0.items.slice(0, (2 * MENU_DATA_PAGE_SIZE) - 1);
+                expect(combobox.currentMenuData).toEqual([groupItem0]);
+            });
+        });
+
+        it('should render yet the next set of items upon scrolling to the bottom', () => {
+            groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
+            return Promise.resolve().then(() => {
+                const groupItem0 = Object.assign({}, longMenu[0]);
+                // Three pages worth of subitems minus the top item
+                groupItem0.items = groupItem0.items.slice(0, (3 * MENU_DATA_PAGE_SIZE) - 1);
+                expect(combobox.currentMenuData).toEqual([groupItem0]);
+            });
+        });
+
+        it('should render yet more sets of items upon scrolling to the bottom', () => {
+            groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
+            groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
+            return Promise.resolve().then(() => {
+                const groupItem1 = Object.assign({}, longMenu[1]);
+                // One page worth of subitems minus the top header items for the first and the second groups
+                groupItem1.items = groupItem1.items.slice(
+                    0,
+                    MENU_DATA_PAGE_SIZE - 2
+                );
+                // The first group + a part of the second group
+                expect(combobox.currentMenuData).toEqual([
+                    longMenu[0],
+                    groupItem1
+                ]);
+            });
+        });
+
+        it('should render almost all menu items, having reached the list bottom a few more times', () => {
+            for (let i = 0; i < 7; i++) {
+                groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
+            }
+            return Promise.resolve().then(() => {
+                const groupItem2 = Object.assign({}, longMenu[2]);
+                // Fours pages worth of subitems from the last group minus the top items for the three groups
+                groupItem2.items = groupItem2.items.slice(0, (4 * MENU_DATA_PAGE_SIZE) - 3);
+                // The first and the second groups + a part of the last group
+                expect(combobox.currentMenuData).toEqual([
+                    longMenu[0],
+                    longMenu[1],
+                    groupItem2
+                ]);
+            });
+        });
+
+        it('should render completely all menu items by now', () => {
+            // This should add the remaining three subitems from the last group
+            groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
+            return Promise.resolve().then(() => {
+                expect(combobox.currentMenuData).toEqual(longMenu);
             });
         });
     });

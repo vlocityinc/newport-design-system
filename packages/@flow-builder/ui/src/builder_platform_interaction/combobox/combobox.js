@@ -38,6 +38,12 @@ import {
     getFormat
 } from 'builder_platform_interaction/dateTimeUtils';
 
+import {
+    sliceMenu,
+    getMenuLength,
+    setSelectableMenuItem
+} from './utils';
+
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox'
 };
@@ -76,7 +82,32 @@ const isMatchWithTrailingSeparator = (
 
 const MENU_DATA_MAX_LEVEL_DEFAULT_VALUE = 2;
 
+/**
+ * The maximum number of items to add to the grouped combobox at a time: initially and as the item list gets scrolled.
+ * TODO: Make this a property of the component and deprecate the property renderIncrementally.
+ * */
+export const MENU_DATA_PAGE_SIZE = 50;
+
+
+/**
+ * Lightning grouped combobox wrapper.
+ *
+ * Incremental listbox rendering.
+ * The grouped combobox is sensitive to the number of items it displays: the more items it has to
+ * display the longer it will take to render the list initially. General observations indicate 100 items is
+ * a reasonable maximum when the rendering delay is hardly noticeable. To address the issue when the number
+ * of menu items provided is large, the combobox can perform incremental rendering of the menu items.
+ * With the incremental rendering enabled (see the property renderIncrementally), the combobox initially picks
+ * only a few items from the start and shows just those. Later on more items get added as the user scrolls
+ * down through the list and reaches the bottom.
+ */
 export default class Combobox extends LightningElement {
+    /**
+     * @property {Array} menuData - A full list of combobox items.
+     * @property {number} menuLength - Total number of items in a flattened menu.
+     * @property {number} currentMenuData - A list of items to display in the combobox. A subset of the full list of items.
+     * @property {Array} currentMenuLength - Total number of items in a flattened current menu.
+     */
     @track
     state = {
         displayText: '',
@@ -84,6 +115,9 @@ export default class Combobox extends LightningElement {
         forceShowActivityIndicator: false,
         inputIcon: 'utility:search',
         menuData: [],
+        menuLength: 0,
+        currentMenuData: [],
+        currentMenuLength: 0,
         disabled: false
     };
 
@@ -324,6 +358,7 @@ export default class Combobox extends LightningElement {
      */
     set menuData(data) {
         this.state.menuData = data;
+        this._setCurrentMenuData();
         this.state.showActivityIndicator = false;
         if (this._waitingForMenuDataDropDown) {
             const combobox = this.template.querySelector(
@@ -337,6 +372,16 @@ export default class Combobox extends LightningElement {
     @api
     get menuData() {
         return this.state.menuData;
+    }
+
+    @api
+    get currentMenuData() {
+        return this.state.currentMenuData;
+    }
+
+    @api
+    get currentMenuLength() {
+        return this.state.currentMenuLength;
     }
 
     set disabled(disabled) {
@@ -413,6 +458,24 @@ export default class Combobox extends LightningElement {
      * @type {Object}
      */
     @api allowedParamTypes = null;
+
+    // Enables incremental menu rendering when a limited number of items is rendered initially and more items get added
+    // as the user scrolls down in the list. This is a temporary property and will be removed once the feature is
+    // approved for broad use.
+    _renderIncrementally = false;
+    set renderIncrementally(value) {
+        value = !!value;
+        if (this._renderIncrementally !== value) {
+            this._renderIncrementally = value;
+            this._setCurrentMenuData();
+        }
+    }
+
+    @api
+    get renderIncrementally() {
+        return this._renderIncrementally;
+    }
+
 
     /**
      * Returns the literal value of the combobox (could be different from the displayed value)
@@ -569,8 +632,11 @@ export default class Combobox extends LightningElement {
     /* ********************** */
 
     /**
-     * Fires an event to filter the current menu data
+     * Fires an event to filter the current menu data.
      * @param {Object} event - Event fired from grouped-combobox
+     *
+     * @fires FilterMatchesEvent
+     * @fires FetchMenuDataEvent
      */
     handleTextInput(event) {
         // Do nothing if the event is fired with undefined.  This is catching an issue with IE11 where textinput events
@@ -623,7 +689,7 @@ export default class Combobox extends LightningElement {
                 this._isMergeField
             );
         } else {
-            this.state.menuData = [];
+            this._clearMenuData();
         }
     }
 
@@ -725,6 +791,19 @@ export default class Combobox extends LightningElement {
         }
     }
 
+    /**
+     * Add more items to display in the combobox once the bottom of the list is reached while scrolling.
+     */
+    handleEndReached(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        // Add more menu items to display, if the menu list shown is partial.
+        if (this._renderIncrementally) {
+            this._sliceMenuNext();
+        }
+    }
+
     /* **************************** */
     /*    Private Helper methods    */
     /* **************************** */
@@ -753,13 +832,7 @@ export default class Combobox extends LightningElement {
      * @param {Boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
      */
     setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
-        if (isReference(value)) {
-            this._isMergeField = isStrictMode
-                ? !this.isExpressionIdentifierLiteral(value, true)
-                : true;
-        } else {
-            this._isMergeField = false;
-        }
+        this._isMergeField = isReference(value) && (!isStrictMode || !this.isExpressionIdentifierLiteral(value, true));
     }
 
     /**
@@ -831,7 +904,7 @@ export default class Combobox extends LightningElement {
             ) {
                 this._mergeFieldLevel--;
             }
-            this.state.menuData = [];
+            this._clearMenuData();
             const fetchMenuDataEvent = new FetchMenuDataEvent(item);
             this.dispatchEvent(fetchMenuDataEvent);
             this.state.showActivityIndicator = true;
@@ -1347,5 +1420,46 @@ export default class Combobox extends LightningElement {
             }
         }
         return literal;
+    }
+
+    _clearMenuData() {
+        this.state.menuData = [];
+        this.state.menuDataLength = 0;
+        this.state.currentMenuData = [];
+        this.state.currentMenuLength = 0;
+    }
+
+    _setCurrentMenuData() {
+        // If there are too many items to display, pick a few from the start and show only those.
+        if (this.renderIncrementally) {
+            this._sliceMenuFirst();
+        } else {
+            this.state.currentMenuData = this.state.menuData;
+        }
+    }
+
+    _sliceMenuFirst() {
+        this.state.menuLength = getMenuLength(this.state.menuData);
+        if (MENU_DATA_PAGE_SIZE < this.state.menuLength) {
+            const result = sliceMenu(this.state.menuData, MENU_DATA_PAGE_SIZE);
+            this.state.currentMenuData = result.menu;
+            this.state.currentMenuLength = result.length;
+        } else {
+            this.state.currentMenuData = this.state.menuData;
+            this.state.currentMenuLength = this.state.menuLength;
+        }
+    }
+
+    _sliceMenuNext() {
+        if (this.state.menuData && this.state.currentMenuLength < this.state.menuLength) {
+            const result = sliceMenu(this.state.menuData, this.state.currentMenuLength + MENU_DATA_PAGE_SIZE);
+            // Highlight a very first item in new menu items to ensure the grouped combobox scrolls to it.
+            // This is based on the current behavior of the grouped combobox, which always scrolls to a highlighted item
+            // each time combobox items get updated. Highlighting of a specific menu item overrides the default combobox
+            // behavior, which is to highlight and scroll to a first item in the list.
+            setSelectableMenuItem(result.menu, this.state.currentMenuLength, item => Object.assign({ highlight: true }, unwrap(item)));
+            this.state.currentMenuLength = result.length;
+            this.state.currentMenuData = result.menu;
+        }
     }
 }

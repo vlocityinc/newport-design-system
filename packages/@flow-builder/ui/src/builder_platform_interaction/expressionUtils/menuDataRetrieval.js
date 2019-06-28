@@ -32,6 +32,7 @@ import {
     COMBOBOX_ITEM_DISPLAY_TYPE
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
+import picklistValuesLabel from '@salesforce/label/FlowBuilderExpressionUtils.picklistValuesLabel';
 import {
     GLOBAL_CONSTANT_OBJECTS,
     getSystemVariables,
@@ -45,6 +46,7 @@ import { getConfigForElementType } from 'builder_platform_interaction/elementCon
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -388,7 +390,7 @@ export const getPicklistMenuData = picklist => {
             `Picklist field values must be an array but instead was: ${typeof picklist}`
         );
     }
-    const picklistLabel = 'Picklist Values';
+    const picklistLabel = format(picklistValuesLabel, '' + picklist.length);
     const picklistGroup = {
         label: picklistLabel,
         items: []

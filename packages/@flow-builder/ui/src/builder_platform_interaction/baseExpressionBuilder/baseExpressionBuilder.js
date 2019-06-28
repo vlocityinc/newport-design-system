@@ -72,7 +72,8 @@ export default class BaseExpressionBuilder extends LightningElement {
         [LHS_FULL_MENU_DATA]: undefined,
         [LHS_FILTERED_MENU_DATA]: undefined,
         [RHS_FULL_MENU_DATA]: undefined,
-        [RHS_FILTERED_MENU_DATA]: undefined
+        [RHS_FILTERED_MENU_DATA]: undefined,
+        rhsRenderIncrementally: false
     };
 
     /**
@@ -734,6 +735,9 @@ export default class BaseExpressionBuilder extends LightningElement {
         const picklistValues = this.rhsIsFer
             ? null
             : this.lhsActivePicklistValues;
+
+        // Display picklist values incrementally in the combobox. See W-5731108.
+        this.state.rhsRenderIncrementally = !!picklistValues && picklistValues.length > 0;
 
         this.populateMenuData(
             getFields,

@@ -1,7 +1,7 @@
 <template>
     <lightning-grouped-combobox
         label={label}
-        items={menuData}
+        items={state.currentMenuData}
         value={state.displayText}
         variant={variant}
         input-text={state.displayText}
@@ -13,6 +13,7 @@
         ontextinput={handleTextInput}
         onblur={handleBlur}
         onselect={handleSelect}
+        onendreached={handleEndReached}
         required={required}
         field-level-help={fieldLevelHelp}
         message-when-value-missing={messageWhenValueMissing}
