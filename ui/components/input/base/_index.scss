@@ -311,3 +311,19 @@
       }
     }
 }
+
+input[type=text].nds-input_mask.nds-input,
+input[type=tel].nds-input_mask.nds-input {
+  color: transparent;
+}
+
+input[type=text].nds-input_mask.nds-input:focus,
+input[type=tel].nds-input_mask.nds-input:focus {
+  color: inherit;
+  transition: all 0.3s ease-out;
+}
+
+input[type=text].nds-input_mask.nds-input.nds-not-empty,
+input[type=tel].nds-input_mask.nds-input.nds-not-empty {
+  color: inherit;
+}

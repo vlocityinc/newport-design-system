@@ -50,3 +50,7 @@ coverage
 
 # Legacy folders
 /git_modules
+
+scripts/sfdc/staticresources/newport.resource
+
+dist
