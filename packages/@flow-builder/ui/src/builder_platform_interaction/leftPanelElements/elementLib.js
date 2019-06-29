@@ -1,6 +1,7 @@
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { logMetricsServiceErrorTransaction } from 'builder_platform_interaction/loggingUtils';
 
 /**
  * Sort element types from service side based on the custom ordering list
@@ -69,7 +70,8 @@ const mutateElements = elements =>
                 acc[section].push(item);
             }
         } catch (e) {
-            // skip malformed elements
+            // if an element is invalid, just log it but don't stop the rest from loading
+            logMetricsServiceErrorTransaction(JSON.stringify(e, Object.getOwnPropertyNames(e)));
         }
         return acc;
     }, {});
