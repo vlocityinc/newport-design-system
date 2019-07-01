@@ -15,6 +15,7 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     @track displaySpinner;
 
     labels = LABELS;
+    processTypeValue = '';
 
     set node(value) {
         if (this._node && this._node.guid !== value.guid) {
@@ -86,6 +87,15 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
             classes = `${classes} slds-p-top_xxx-small`;
         }
         return classes;
+    }
+
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
     }
 
     handleToggleExpand = (/* event */) => {

@@ -22,6 +22,10 @@ import {
     SObjectReferenceChangedEvent,
     UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
+import {
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -316,21 +320,6 @@ const getsObjectOrSObjectCollectionPicker = recordSobjectAndQueryFields => {
 const getInputOutputAssignments = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
         selectors.inputOutputAssignments
-    );
-};
-
-const getUseAdvancedOptionComponent = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(
-        selectors.useAdvancedOptionsCheckboxComponent
-    );
-};
-
-const getAdvancedOptionCheckbox = recordLookupEditor => {
-    const useAdvancedOptionComponent = getUseAdvancedOptionComponent(
-        recordLookupEditor
-    );
-    return useAdvancedOptionComponent.shadowRoot.querySelector(
-        selectors.lightningInput
     );
 };
 

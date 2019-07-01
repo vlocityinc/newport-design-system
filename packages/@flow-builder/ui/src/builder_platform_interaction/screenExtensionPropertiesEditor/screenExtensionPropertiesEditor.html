@@ -44,13 +44,23 @@
                     >
                     </builder_platform_interaction-component-visibility>
                 </lightning-accordion-section>
+
+                <div if:true={isAutomaticOutputHandlingSupported}>
+                    <builder_platform_interaction-use-advanced-options-checkbox
+                        is-advanced-mode={isAdvancedMode}
+                        onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+                    >
+                    </builder_platform_interaction-use-advanced-options-checkbox>
+                </div>
+
                 <!--  validation text -->
                 <lightning-accordion-section
+                    if:true={isDisplayManualOutput}
                     name="outputsSection"
                     label={labels.extensionOutputsHeader}
                 >
                     <template
-                        for:each={outputParameters}
+                        for:each={state.editor.outputParameters}
                         for:item="param"
                         for:index="index"
                     >

@@ -28,6 +28,7 @@ export default class ScreenEditor extends LightningElement {
 
     @track screenFieldTypes;
     @track extensionTypes;
+    processTypeValue = '';
 
     labels = LABELS;
 
@@ -78,6 +79,15 @@ export default class ScreenEditor extends LightningElement {
 
     get flowLabel() {
         return Store.getStore().getCurrentState().properties.label;
+    }
+
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
     }
 
     /**

@@ -2,8 +2,12 @@ import { createElement } from 'lwc';
 import ScreenExtensionPropertiesEditor from 'builder_platform_interaction/screenExtensionPropertiesEditor';
 import {
     query,
-    createTestScreenField
+    createTestScreenField,
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
 } from 'builder_platform_interaction/builderTestUtils';
+import { screenExtensionPropertiesReducer } from '../screenExtensionPropertiesReducer';
+import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -30,6 +34,29 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
     };
 });
 
+jest.mock('../screenExtensionPropertiesReducer.js', () => {
+    return {
+        screenExtensionPropertiesReducer: jest.fn()
+    };
+});
+
+let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(processType => {
+    return processType === 'flow' ? 'Supported' : 'Unsupported';
+});
+
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    const FLOW_AUTOMATIC_OUTPUT_HANDLING =
+        actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
+    return {
+        FLOW_AUTOMATIC_OUTPUT_HANDLING,
+        getProcessTypeAutomaticOutPutHandlingSupport: processType =>
+            mockGetProcessTypeAutomaticOutPutHandlingSupport(processType)
+    };
+});
+
 const SELECTORS = {
     CONTAINER_DIV: 'div.container',
     NAME_FIELD:
@@ -53,10 +80,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: false,
         isRequired: true,
         label: undefined,
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     },
     {
         apiName: 'dateAttr',
@@ -66,10 +93,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: true,
         isRequired: true,
         label: 'Date Attribute',
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     },
     {
         apiName: 'datetimeAttr',
@@ -78,10 +105,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: false,
         isRequired: true,
         label: 'Datetime Attribute',
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     },
     {
         apiName: 'ZZZATTR',
@@ -90,10 +117,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: false,
         isRequired: true,
         label: 'Uppercase attribute',
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     },
     {
         apiName: 'zzzzAttr',
@@ -102,10 +129,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: false,
         isRequired: true,
         label: 'Camelcase attribute',
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     },
     {
         apiName: 'aNotRequired',
@@ -114,10 +141,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: false,
         isRequired: false,
         label: undefined,
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     },
     {
         apiName: 'bRequired',
@@ -126,10 +153,10 @@ const DESCRIPTOR_PARAMETERS = [
         hasDefaultValue: false,
         isRequired: true,
         label: undefined,
-        maxOccurs: 1,
-        objectType: undefined,
         isInput: true,
-        isOutput: true
+        isOutput: true,
+        maxOccurs: 1,
+        objectType: undefined
     }
 ];
 
@@ -173,6 +200,28 @@ const parametersComparator = (p1, p2, forInputs) => {
     return p1Label.localeCompare(p2Label);
 };
 
+const createField = properties => {
+    properties.field = createTestScreenField(
+        'lcField',
+        'Extension',
+        DESCRIPTOR_NAME
+    );
+    properties.field.inputParameters = JSON.parse(
+        JSON.stringify(INPUT_PARAMETERS)
+    );
+    properties.field.outputParameters = JSON.parse(
+        JSON.stringify(OUTPUT_PARAMETERS)
+    );
+};
+
+const createDescription = properties => {
+    properties.extensionDescription = {
+        name: DESCRIPTOR_NAME,
+        inputParameters: JSON.parse(JSON.stringify(DESCRIPTOR_PARAMETERS)), // Hacky deep cloning
+        outputParameters: JSON.parse(JSON.stringify(DESCRIPTOR_PARAMETERS)) // Hacky deep cloning
+    };
+};
+
 function createComponentForTest(properties) {
     const el = createElement(
         'builder_platform_interaction-screen-extension-properties-editor',
@@ -183,33 +232,33 @@ function createComponentForTest(properties) {
     return el;
 }
 
+const createComponentForTestWithProperties = () => {
+    const el = createElement(
+        'builder_platform_interaction-screen-extension-properties-editor',
+        { is: ScreenExtensionPropertiesEditor }
+    );
+    const properties = {};
+    createField(properties);
+    createDescription(properties);
+    Object.assign(el, { processType: 'something' });
+    Object.assign(el, properties);
+    document.body.appendChild(el);
+    return el;
+};
+
 const runTest = (
-    createField,
-    createDescription,
+    createFieldRequired,
+    createDescriptionRequired,
     propertiesProcessor,
     testCallback
 ) => {
     const properties = {};
-    if (createField) {
-        properties.field = createTestScreenField(
-            'lcField',
-            'Extension',
-            DESCRIPTOR_NAME
-        );
-        properties.field.inputParameters = JSON.parse(
-            JSON.stringify(INPUT_PARAMETERS)
-        );
-        properties.field.outputParameters = JSON.parse(
-            JSON.stringify(OUTPUT_PARAMETERS)
-        );
+    if (createFieldRequired) {
+        createField(properties);
     }
 
-    if (createDescription) {
-        properties.extensionDescription = {
-            name: DESCRIPTOR_NAME,
-            inputParameters: JSON.parse(JSON.stringify(DESCRIPTOR_PARAMETERS)), // Hacky deep cloning
-            outputParameters: JSON.parse(JSON.stringify(DESCRIPTOR_PARAMETERS)) // Hacky deep cloning
-        };
+    if (createDescriptionRequired) {
+        createDescription(properties);
     }
 
     if (propertiesProcessor) {
@@ -363,5 +412,66 @@ describe('Screen Extension Properties Editor', () => {
 
     it('sets the right attributes to outputs', () => {
         return testEditors(SELECTORS.OUTPUT_EDITOR, 'outputParameters');
+    });
+    describe('Automated output', () => {
+        it('shows up Use Advanced Options when Automated Output enabled', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => {
+                return 'Supported';
+            });
+            const extensionEditor = createComponentForTestWithProperties();
+
+            return Promise.resolve().then(() => {
+                const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(
+                    extensionEditor
+                );
+                expect(useAdvancedOptionsCheckbox).toBeDefined();
+                expect(useAdvancedOptionsCheckbox.checked).toBe(false);
+            });
+        });
+        it('does not show up Use Advanced Options when Automated Output disabled', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => {
+                return 'Unsupported';
+            });
+            const extensionEditor = createComponentForTestWithProperties();
+
+            return Promise.resolve().then(() => {
+                expect(
+                    getUseAdvancedOptionComponent(extensionEditor)
+                ).toBeNull();
+            });
+        });
+        it('handles use advanced option checkbox event', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => {
+                return 'Supported';
+            });
+            const extensionEditor = createComponentForTestWithProperties();
+            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(
+                true
+            );
+
+            return Promise.resolve().then(async () => {
+                getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(
+                    expectedEvent
+                );
+
+                await Promise.resolve();
+                expect(screenExtensionPropertiesReducer).toHaveBeenCalled();
+                expect(
+                    screenExtensionPropertiesReducer.mock.calls[0][0]
+                ).toMatchObject({
+                    extensionDescription: {
+                        inputParameters: expect.anything(),
+                        outputParameters: expect.anything()
+                    },
+                    outputParameters: expect.anything(),
+                    storeOutputAutomatically: true
+                });
+                expect(
+                    screenExtensionPropertiesReducer.mock.calls[0][1].detail
+                ).toMatchObject({
+                    useAdvancedOptions: true
+                });
+            });
+        });
     });
 });
