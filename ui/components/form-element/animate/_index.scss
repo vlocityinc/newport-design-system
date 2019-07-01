@@ -159,3 +159,15 @@ input[placeholder]::placeholder {
 .nds-form-container .nds-form-element__control-animated-label {
   width: 100%;
 }
+
+.nds-input_mask:focus::placeholder {
+  color: inherit !important;
+}
+
+textarea[placeholder]::placeholder {
+  color: transparent;
+}
+
+textarea:focus::placeholder {
+  color: inherit;
+}
