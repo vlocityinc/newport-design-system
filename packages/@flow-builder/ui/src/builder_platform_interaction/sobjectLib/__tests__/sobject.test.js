@@ -16,9 +16,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetchOnce: jest
             .fn()
-            .mockImplementation(() =>
-                Promise.resolve(JSON.stringify(mockAccountFields))
-            ),
+            .mockImplementation(() => Promise.resolve(mockAccountFields)),
         SERVER_ACTION_TYPE: require.requireActual(
             '../../serverDataLib/serverDataLib.js'
         ).SERVER_ACTION_TYPE

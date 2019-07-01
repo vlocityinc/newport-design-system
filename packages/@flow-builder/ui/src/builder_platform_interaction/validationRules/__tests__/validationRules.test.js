@@ -46,7 +46,7 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn().mockImplementation((actionType, callback) => {
             callback({
-                data: JSON.stringify(mockAccountFields)
+                data: mockAccountFields
             });
         }),
         SERVER_ACTION_TYPE: require.requireActual(

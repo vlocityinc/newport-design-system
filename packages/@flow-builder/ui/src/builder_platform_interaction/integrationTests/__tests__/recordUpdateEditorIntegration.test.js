@@ -78,7 +78,7 @@ describe('Record Update Editor', () => {
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': () => ({
-                    data: JSON.stringify(mockAccountFields)
+                    data: mockAccountFields
                 })
             })
         );

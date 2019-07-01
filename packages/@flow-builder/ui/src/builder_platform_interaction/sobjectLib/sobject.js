@@ -11,7 +11,7 @@ const createableEntities = [];
 const deletableEntities = [];
 const updateableEntities = [];
 
-const cachedEntityFields = {};
+let cachedEntityFields = {};
 
 export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
@@ -116,6 +116,9 @@ export const fetchFieldsForEntity = (
     entityName,
     { background = false, disableErrorModal = false, messageForErrorModal } = {}
 ) => {
+    if (cachedEntityFields[entityName]) {
+        return Promise.resolve(cachedEntityFields[entityName]);
+    }
     const params = {
         entityApiName: entityName
     };
@@ -123,8 +126,7 @@ export const fetchFieldsForEntity = (
         background,
         disableErrorModal,
         messageForErrorModal
-    }).then(data => {
-        const fields = JSON.parse(data);
+    }).then(fields => {
         cachedEntityFields[entityName] = fields;
         return fields;
     });
@@ -137,3 +139,5 @@ export const fetchFieldsForEntity = (
 export const getFieldsForEntity = entityName => {
     return cachedEntityFields[entityName];
 };
+
+export const clearEntityFieldsCache = () => (cachedEntityFields = {});

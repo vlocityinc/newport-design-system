@@ -108,7 +108,7 @@ const filterElement = {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetchOnce: () => {
-            return Promise.resolve(JSON.stringify(mockAccountFields));
+            return Promise.resolve(mockAccountFields);
         },
         SERVER_ACTION_TYPE: require.requireActual(
             '../../serverDataLib/serverDataLib.js'

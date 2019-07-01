@@ -4,6 +4,7 @@ import RecordSortResult from 'builder_platform_interaction/recordSort';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { until } from 'builder_platform_interaction/builderTestUtils';
+import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 
 let mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
 
@@ -60,6 +61,7 @@ const getFilterHelpText = recordSortResultComponent => {
 describe('recordSort', () => {
     afterEach(() => {
         mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
+        clearEntityFieldsCache();
     });
     describe('default', () => {
         let recordSortResultComponent, sortOrderCmb;
@@ -237,7 +239,7 @@ describe('recordSort', () => {
             const options = await until(
                 () => getFilterCombobox(recordSortResultComponent).fields
             );
-            const mockAccFieldsArr = JSON.parse(mockAccountFields);
+            const mockAccFieldsArr = mockAccountFields;
             Object.values(options).forEach(option => {
                 expect(
                     mockAccFieldsArr.find(
