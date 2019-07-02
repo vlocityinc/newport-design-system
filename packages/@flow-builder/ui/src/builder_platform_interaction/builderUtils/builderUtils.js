@@ -690,9 +690,13 @@ export function isPopoverOpen() {
 /**
  * Hides the popover singleton
  */
-export function hidePopover() {
+export function hidePopover({ closedBy } = {}) {
     if (isPopoverOpen()) {
-        onDestroyPopover(popoverState.panelInstance);
+        const panelInstance = popoverState.panelInstance;
+        if (closedBy) {
+            panelInstance.closedBy = closedBy;
+        }
+        onDestroyPopover(panelInstance);
     }
 }
 

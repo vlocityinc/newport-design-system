@@ -17,6 +17,7 @@ import {
 } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { hidePopover } from 'builder_platform_interaction/builderUtils';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -61,6 +62,7 @@ export default class ScreenEditor extends LightningElement {
      * @returns {object} list of errors
      */
     @api validate() {
+        this.hidePopover();
         const event = { type: VALIDATE_ALL };
         processRequiredParamsForExtensionsInScreen(unwrap(this.screen));
         this.screen = screenReducer(this.screen, event);
@@ -234,6 +236,7 @@ export default class ScreenEditor extends LightningElement {
      * @param {event} event - The event
      */
     handleSelectScreenElement = event => {
+        this.hidePopover();
         const elem = event.screenElement;
         if (elem && elem.guid !== this.screen.guid) {
             this.setSelectedNode(this.screen.getFieldByGUID(elem.guid));
@@ -246,6 +249,7 @@ export default class ScreenEditor extends LightningElement {
      * Handler for the deselect screen element event, sets the selected node to the screen and clears the selection in the canvas
      */
     handleDeselectScreenElement = (/* event */) => {
+        this.hidePopover();
         this.setSelectedNode(this.screen);
         this.selectedItemGuid = null;
     };
@@ -258,4 +262,11 @@ export default class ScreenEditor extends LightningElement {
         this.screen = screenReducer(this.screen, event);
         event.stopPropagation();
     };
+
+    /**
+     * Hide the popover on actions that results in it losing focus
+     */
+    hidePopover() {
+        hidePopover({ closedBy: 'closeOnClickOut' });
+    }
 }
