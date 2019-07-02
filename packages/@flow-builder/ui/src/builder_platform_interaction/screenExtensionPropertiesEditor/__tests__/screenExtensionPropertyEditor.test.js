@@ -40,6 +40,10 @@ jest.mock('../screenExtensionPropertiesReducer.js', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(processType => {
     return processType === 'flow' ? 'Supported' : 'Unsupported';
 });
@@ -320,14 +324,6 @@ describe('Screen Extension Properties Editor', () => {
     it('renders its container when the field is set', () => {
         return runTest(true, true, null, editor => {
             expect(query(editor, SELECTORS.CONTAINER_DIV)).not.toBeNull();
-        });
-    });
-
-    it('component visiblity section is present when the field is set', () => {
-        return runTest(true, true, null, editor => {
-            expect(
-                query(editor, SELECTORS.COMPONENT_VISIBILITY)
-            ).not.toBeNull();
         });
     });
 

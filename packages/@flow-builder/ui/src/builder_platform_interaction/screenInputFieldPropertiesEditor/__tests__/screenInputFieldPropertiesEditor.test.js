@@ -16,6 +16,10 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 const SELECTORS = {
     NAME_AND_LABEL_FIELD: 'builder_platform_interaction-label-description',
     SCALE_FIELD:
@@ -32,7 +36,7 @@ const SELECTORS = {
         'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
     COMPONENT_VISIBILITY:
-        'lightning-accordion-section[name="componentVisibility"]'
+        'builder_platform_interaction-screen-component-visibility-section'
 };
 
 const fieldName = 'input1';

@@ -16,13 +16,21 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 const SELECTORS = {
     NAME_FIELD:
         'builder_platform_interaction-screen-property-field[name="name"]',
     VALUE_FIELD:
         'builder_platform_interaction-screen-property-field[name="fieldText"]',
     COMPONENT_VISIBILITY:
-        'lightning-accordion-section[name="componentVisibility"]'
+        'builder_platform_interaction-screen-component-visibility-section'
 };
 
 const fieldName = 'display1';

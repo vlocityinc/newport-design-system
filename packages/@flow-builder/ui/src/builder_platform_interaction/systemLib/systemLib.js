@@ -67,3 +67,8 @@ export {
     getProcessFeatures,
     setProcessTypeFeature
 } from './processTypes';
+
+export {
+    getSupportedFeatures,
+    setSupportedFeatures
+} from './supportedFeatures';

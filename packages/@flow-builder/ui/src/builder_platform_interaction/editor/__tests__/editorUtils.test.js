@@ -149,7 +149,8 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     return {
         setProcessTypes: jest.fn(),
         setGlobalVariables: jest.fn(),
-        setSystemVariables: jest.fn()
+        setSystemVariables: jest.fn(),
+        setSupportedFeatures: jest.fn()
     };
 });
 

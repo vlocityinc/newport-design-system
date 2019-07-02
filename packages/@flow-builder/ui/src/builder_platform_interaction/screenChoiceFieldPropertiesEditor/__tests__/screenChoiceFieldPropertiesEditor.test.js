@@ -20,6 +20,10 @@ jest.mock('builder_platform_interaction/selectors', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const {
         ELEMENT_TYPE
@@ -56,7 +60,7 @@ const SELECTORS = {
     HELP_TEXT:
         'builder_platform_interaction-screen-property-field[name="helpText"]',
     COMPONENT_VISIBILITY:
-        'lightning-accordion-section[name="componentVisibility"]'
+        'builder_platform_interaction-screen-component-visibility-section'
 };
 
 const fieldName = 'field1';

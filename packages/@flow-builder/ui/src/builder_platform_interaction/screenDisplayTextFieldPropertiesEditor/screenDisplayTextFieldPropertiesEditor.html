@@ -23,16 +23,10 @@
                 allow-multiple-sections-open
                 class="slds-has-divider slds-p-top_none"
             >
-                <lightning-accordion-section
-                    name="componentVisibility"
-                    label={labels.componentVisbilitySectionTitle}
+                <builder_platform_interaction-screen-component-visibility-section
+                    field={field}
                 >
-                    <builder_platform_interaction-component-visibility
-                        visibility-rule={field.visibilityRule}
-                        guid={field.guid}
-                    >
-                    </builder_platform_interaction-component-visibility>
-                </lightning-accordion-section>
+                </builder_platform_interaction-screen-component-visibility-section>
             </lightning-accordion>
         </div>
     </div>

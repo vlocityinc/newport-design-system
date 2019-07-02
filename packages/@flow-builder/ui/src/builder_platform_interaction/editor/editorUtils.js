@@ -22,7 +22,8 @@ import {
 } from 'builder_platform_interaction/sobjectLib';
 import {
     setGlobalVariables,
-    setSystemVariables
+    setSystemVariables,
+    setSupportedFeatures
 } from 'builder_platform_interaction/systemLib';
 import {
     getFlowSystemVariableComboboxItem,
@@ -320,7 +321,8 @@ export const setPeripheralDataForPropertyEditor = ({
     eventTypes,
     globalVariables,
     systemVariables,
-    entities
+    entities,
+    supportedFeatures
 }) => {
     setRules(rules);
     setOperators(operators);
@@ -329,6 +331,13 @@ export const setPeripheralDataForPropertyEditor = ({
     setGlobalVariableAndUpdateCache(globalVariables);
     setSystemVariableAndUpdateCache(systemVariables);
     setEntities(entities);
+
+    const supportedFeaturesSet = (supportedFeatures || []).reduce(
+        (acc, feature) => acc.add(feature),
+        new Set()
+    );
+
+    setSupportedFeatures(supportedFeaturesSet);
 };
 
 export const setApexClassesForPropertyEditor = apexTypes => {

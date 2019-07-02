@@ -10,6 +10,10 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements))
@@ -28,7 +32,7 @@ const SELECTORS = {
         'builder_platform_interaction-resourced-textarea[name="formulaExpression"]',
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
     COMPONENT_VISIBILITY:
-        'lightning-accordion-section[name="componentVisibility"]'
+        'builder_platform_interaction-screen-component-visibility-section'
 };
 
 const fieldName = 'input1';

@@ -276,3 +276,7 @@ export const FLOW_STATUS = {
     DRAFT: 'Draft',
     INVALID_DRAFT: 'InvalidDraft'
 };
+
+export const FLOW_SUPPORTED_FEATURES = {
+    CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility'
+};
