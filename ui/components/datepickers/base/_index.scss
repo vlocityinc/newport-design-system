@@ -135,3 +135,12 @@
 .nds-disabled-text {
   color: $color-text-button-default-disabled;
 }
+
+.nds-dropdown-trigger.nds-dropdown-trigger_click {
+  margin-bottom: .5rem;
+  padding: .75rem;
+}
+
+.nds-dropdown-trigger.nds-dropdown-trigger_click .nds-tooltip_container {
+  padding-left: 0.5rem;
+}
