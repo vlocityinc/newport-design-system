@@ -19,6 +19,12 @@ export default class ConditionEditorPopover extends LightningElement {
     @api
     handleDone;
 
+    @api
+    lhsLabelHelpText;
+
+    @api
+    rhsLabelHelpText;
+
     labels = LABELS;
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
