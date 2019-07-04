@@ -17,10 +17,7 @@ import {
     EXPRESSION_PROPERTY_TYPE,
     LHS_DISPLAY_OPTION
 } from 'builder_platform_interaction/expressionUtils';
-import {
-    mockAccountFields,
-    mockAccountFieldWithPicklist
-} from 'mock/serverEntityData';
+import { mockAccountFields } from 'mock/serverEntityData';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     GLOBAL_CONSTANTS,
@@ -72,8 +69,7 @@ function createMockPopulatedExpression() {
 
 const numberVariable = elements[numberVariableGuid];
 const picklistField = 'AccountSource';
-const accountField = mockAccountFieldWithPicklist.AccountSource;
-accountField.isCollection = false;
+const accountField = mockAccountFields.AccountSource;
 const accountVariableComboboxShape = mutateFlowResourceToComboboxShape(
     elements[accountSObjectVariableGuid]
 );
@@ -271,7 +267,7 @@ describe('fer-to-ferov-expression-builder', () => {
                 );
                 expect(
                     baseExpressionBuilder.lhsActivePicklistValues
-                ).toMatchObject(accountField.picklistValues);
+                ).toMatchObject(accountField.activePicklistValues);
                 expect(baseExpressionBuilder.lhsDisplayOption).toBe(
                     LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE
                 );

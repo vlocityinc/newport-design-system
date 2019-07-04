@@ -138,7 +138,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
                 if (callback) {
                     callback(
                         require.requireActual('mock/serverEntityData')
-                            .mockAccountFieldWithPicklist
+                            .mockAccountFields
                     );
                 }
             }),
@@ -592,7 +592,8 @@ describe('Menu data retrieval', () => {
                 disableHasNext,
                 activePicklistValues
             );
-            const picklistLabel = 'FlowBuilderExpressionUtils.picklistValuesLabel';
+            const picklistLabel =
+                'FlowBuilderExpressionUtils.picklistValuesLabel';
             expect(menuData).toContainEqual(
                 expect.objectContaining({ label: picklistLabel })
             );

@@ -567,9 +567,10 @@ describe('Record Update Editor', () => {
                     const baseExpressionBuilder = getBaseExpressionBuilder(
                         fieldToFerovExpressionBuilder[0]
                     );
-                    expect(baseExpressionBuilder.lhsValue).toBe(
-                        'Contract.Name'
-                    );
+                    expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                        displayText: 'Name',
+                        value: 'Contract.Name'
+                    });
                     expect(baseExpressionBuilder.operatorValue).toBeUndefined();
                     expect(baseExpressionBuilder.rhsValue).toMatchObject({
                         displayText: '{!newNameVar}',

@@ -84,14 +84,18 @@ describe('SObject Lib Tests', () => {
     describe('fetchFieldsForEntity', () => {
         it('Returns fields for the entity', async () => {
             const fields = await fetchFieldsForEntity('Account');
-            expect(Object.keys(fields)).toHaveLength(45);
+            expect(Object.keys(fields)).toHaveLength(
+                Object.keys(mockAccountFields).length
+            );
         });
     });
 
     describe('getFieldsForEntity', () => {
         it('Verify Fields Returned', () => {
             const fields = getFieldsForEntity('Account');
-            expect(Object.keys(fields)).toHaveLength(45);
+            expect(Object.keys(fields)).toHaveLength(
+                Object.keys(mockAccountFields).length
+            );
         });
     });
 });

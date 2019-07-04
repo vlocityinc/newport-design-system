@@ -17,10 +17,7 @@ import {
 import * as rulesMock from 'builder_platform_interaction/ruleLib';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    mockAccountFields,
-    mockAccountFieldWithPicklist
-} from 'mock/serverEntityData';
+import { mockAccountFields } from 'mock/serverEntityData';
 import { dateCollectionParam, dateParam } from 'mock/ruleService';
 import {
     FLOW_DATA_TYPE,
@@ -948,7 +945,7 @@ describe('base expression builder', () => {
         const accountVariable = expressionUtilsMock.mutateFlowResourceToComboboxShape(
             elements[accountSObjectVariableGuid]
         );
-        const accountField = mockAccountFieldWithPicklist.AccountSource;
+        const accountField = mockAccountFields.AccountSource;
 
         const picklistLabel = 'Picklist Values';
         const picklistApiValue = 'AccountSource';
@@ -972,7 +969,7 @@ describe('base expression builder', () => {
                 lhsParam: rulesMock.elementToParam(accountField),
                 lhsIsField: true,
                 lhsFields: mockAccountFields,
-                lhsActivePicklistValues: accountField.picklistValues,
+                lhsActivePicklistValues: accountField.activePicklistValues,
                 showLhsAsFieldReference: true,
                 operatorValue: rulesMock.RULE_OPERATOR.ASSIGN,
                 rhsValue: null,
@@ -982,10 +979,10 @@ describe('base expression builder', () => {
             });
             const item = {
                 value:
-                    accountField.picklistValues[0].value +
+                    accountField.activePicklistValues[0].value +
                     '-' +
-                    accountField.picklistValues[0].label,
-                displayText: accountField.picklistValues[0].value
+                    accountField.activePicklistValues[0].label,
+                displayText: accountField.activePicklistValues[0].value
             };
             const eventCallback = jest.fn();
             expressionBuilder.addEventListener(
