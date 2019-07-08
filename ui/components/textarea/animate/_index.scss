@@ -11,34 +11,10 @@
  * @variant
  */
 
-.nds-form-element__control-animated-label {
-  font-size: 0.875rem;
-  position: relative;
-}
-
 .nds-textarea {
   padding-top: 0;
   margin-top: 0.25rem;
   letter-spacing: 1px;
   font-size: $font-size-medium-a;
   font-weight: 400;
-}
-
-
-.nds-form-element__control.nds-form-element__control-animated-label textarea:focus~label,
-.nds-form-element__control.nds-form-element__control-animated-label textarea.nds-has-value:not(:focus):valid~label,
-.nds-form-element__control.nds-form-element__control-animated-label textarea.ng-not-empty.ng-dirty~label,
-.nds-form-element__control.nds-form-element__control-animated-label textarea.nds-not-empty.nds-is-dirty~label,
-.nds-form-element__control.nds-form-element__control-animated-label textarea[cloned="dirty"]+label {
-  transform: translate3d(0, -1.2rem, 0);
-  transition-duration: 300ms;
-  z-index: 0;
-  font-size: 0.75rem;
-  font-weight: 300;
-  top: 0.25rem;
-  #{$left}: 0;
-}
-
-.nds-form-element__control.nds-form-element__control-animated-label textarea:focus~label {
-  color: $color-border-input-active;
 }
