@@ -1,0 +1,26 @@
+<template>
+    <div class="slds-box slds-box_xx-small">
+        <div class="slds-grid slds-wrap">
+            <div
+                class="text-container slds-col slds-grow-none
+                slds-p-top_xxx-small slds-size_5-of-6"
+            >
+                <span>{formattedLhs} </span>
+                <span class="operator-bold">{formattedOperator} </span>
+                <span>{formattedRhs} </span>
+            </div>
+            <div class="slds-col slds-size_1-of-6">
+                <span class="slds-float_right"
+                    ><lightning-button-icon
+                        disabled={deleteable}
+                        onclick={handleDelete}
+                        icon-name="utility:delete"
+                        size="x-small"
+                        variant="container"
+                    >
+                    </lightning-button-icon
+                ></span>
+            </div>
+        </div>
+    </div>
+</template>

@@ -15,6 +15,9 @@ import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { conditionListReducer } from 'builder_platform_interaction/conditionListReducer';
 
 jest.mock('builder_platform_interaction/builderUtils');
+jest.mock('builder_platform_interaction/conditionListItem', () =>
+    require('builder_platform_interaction_mocks/conditionListItem')
+);
 
 const NEW_CONDITION = {
     rowIndex: 'a9015c2f-4ac2-48b7-8d7a-5bda7a5046e4',

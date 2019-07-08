@@ -1,0 +1,9 @@
+.text-container {
+    color: var(--lwc-colorTextBrand);
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+.text-container .operator-bold {
+    font-weight: var(--lwc-fontWeightBold);
+}
