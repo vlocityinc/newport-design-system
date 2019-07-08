@@ -82,12 +82,12 @@ const mockOriginalState = {
 };
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
+    const getCurrentState = () => {
         return {
             elements: mockOriginalState
         };
     };
-    const getStore = function () {
+    const getStore = () => {
         return {
             getCurrentState
         };
@@ -1086,7 +1086,7 @@ describe('elements-reducer', () => {
             };
             const updatedElements = {
                 guid1: getElementWithConfigProp('guid1', true, true, false),
-                guid2: getElementWithConfigProp('guid2', true, true, false),
+                guid2: getElementWithConfigProp('guid2', true, true, true),
                 guid3: getElementWithConfigProp('guid3', true, false, false)
             };
             const newElementState = elementReducer(oldElement, {
@@ -1109,7 +1109,7 @@ describe('elements-reducer', () => {
             };
             const updatedElements = {
                 guid1: getElementWithConfigProp('guid1', true, false, false),
-                guid2: getElementWithConfigProp('guid2', true, false, false),
+                guid2: getElementWithConfigProp('guid2', true, false, true),
                 guid3: getElementWithConfigProp('guid3', true, false, false)
             };
             const newElementState = elementReducer(oldElement, {
@@ -1133,9 +1133,9 @@ describe('elements-reducer', () => {
             };
             const updatedElements = {
                 guid1: getElementWithConfigProp('guid1', true, true, false),
-                guid2: getElementWithConfigProp('guid2', true, true, false),
+                guid2: getElementWithConfigProp('guid2', true, true, true),
                 guid3: getElementWithConfigProp('guid3', true, false, false),
-                guid4: getElementWithConfigProp('guid4', true, false, false)
+                guid4: getElementWithConfigProp('guid4', true, false, true)
             };
             const newElementState = elementReducer(oldElement, {
                 type: MARQUEE_SELECT_ON_CANVAS,

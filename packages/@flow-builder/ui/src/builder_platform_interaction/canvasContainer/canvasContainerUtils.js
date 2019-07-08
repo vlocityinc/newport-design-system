@@ -303,8 +303,20 @@ export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (
     updatedCanvasElements,
     canvasTemplate
 ) => {
+    if (!existingCanvasElements) {
+        throw new Error(
+            'existingCanvasElements is not defined. It must be defined.'
+        );
+    }
+
+    if (!updatedCanvasElements) {
+        throw new Error(
+            'updatedCanvasElements is not defined. It must be defined.'
+        );
+    }
+
     if (
-        existingCanvasElements !== 0 &&
+        existingCanvasElements.length !== 0 &&
         updatedCanvasElements.length < existingCanvasElements.length
     ) {
         const existingCanvasElementGuids = existingCanvasElements.map(
@@ -325,4 +337,52 @@ export const calculateDeletedNodeIdsAndCleanUpDrawingLibInstance = (
             lib.removeNodeFromLib(canvasElementGuid, canvasElementContainer);
         }
     }
+};
+
+/**
+ * Calculates the deleted connector guids by comparing existingConnectors and updatedConnectors.
+ * Sends them drawing lib Instance for calling cleanup methods on the ids and delete them from the JsPlumbConnectorMap.
+ * @param {Object[]} existingConnectors existing array of connector objects from canvas container internal state
+ * @param {Object[]} updatedConnectors updated array of connector objects from store
+ * @param {Object} canvasTemplate template of the canvas
+ */
+export const calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance = (
+    existingConnectors,
+    updatedConnectors,
+    canvasTemplate
+) => {
+    if (!existingConnectors) {
+        throw new Error(
+            'existingConnectors is not defined. It must be defined.'
+        );
+    }
+
+    if (!updatedConnectors) {
+        throw new Error(
+            'updatedConnectors is not defined. It must be defined.'
+        );
+    }
+
+    const existingConnectorGuids = existingConnectors.map(
+        connector => connector.guid
+    );
+    const updatedConnectorGuids = updatedConnectors.map(
+        connector => connector.guid
+    );
+    const connectorGuidsToBeDeleted = existingConnectorGuids.filter(
+        guid => !updatedConnectorGuids.includes(guid)
+    );
+    connectorGuidsToBeDeleted.forEach(connectorGuid => {
+        // remove jsPlumbConnector instance from drawingLib
+        const connectorToBeDeleted =
+            canvasTemplate &&
+            canvasTemplate.getJsPlumbConnectorFromMap &&
+            canvasTemplate.getJsPlumbConnectorFromMap(connectorGuid);
+        lib.removeConnectorFromLib(connectorToBeDeleted);
+
+        // remove jsPlumbConnector from the map
+        if (canvasTemplate && canvasTemplate.deleteJsPlumbConnectorFromMap) {
+            canvasTemplate.deleteJsPlumbConnectorFromMap(connectorGuid);
+        }
+    });
 };

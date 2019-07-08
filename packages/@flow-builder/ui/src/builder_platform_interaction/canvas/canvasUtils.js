@@ -192,7 +192,6 @@ const _updateDragSelection = (
 /**
  * Helper function to set up a jsPlumb Connection.
  *
- * @param {Object} connectorTemplate - Connector's Template object
  * @param {Object} connector - Object containing the connector data
  * @param {Object} sourceElementContainer - Container div of the source element
  * @param {Object} targetElementContainer - Container div of the target element
@@ -200,17 +199,10 @@ const _updateDragSelection = (
  * @private
  */
 const _setJsPlumbConnection = (
-    connectorTemplate,
     connector,
     sourceElementContainer,
     targetElementContainer
 ) => {
-    if (!connectorTemplate) {
-        throw new Error(
-            'connectorTemplate is not defined. It must be defined.'
-        );
-    }
-
     if (!connector) {
         throw new Error('connector is not defined. It must be defined.');
     }
@@ -234,7 +226,6 @@ const _setJsPlumbConnection = (
         connector.guid,
         connector.type
     );
-    connectorTemplate.setJsPlumbConnector(jsPlumbConnector);
     return jsPlumbConnector;
 };
 
@@ -378,29 +369,40 @@ export const setupCanvasElements = canvasElementTemplates => {
 /**
  * Helper function to set the jsPlumb properties on the connectors along with updating the styling of the connectors.
  *
- * @param {Object[]} connectorTemplates - Array of connector templates
+ * @param {String[]} connectors - Array of store connector guids
+ * @param {Object} jsPlumbConnectorMap - Map of Guid to jsPlumbConnector instance
  * @param {Object} canvasElementGuidToContainerMap - Map of Guid to Canvas Element Container
+ *
+ * @returns {Object} - Map of Guid to jsPlumbConnector
  */
 export const setupConnectors = (
-    connectorTemplates,
+    connectors,
+    jsPlumbConnectorMap,
     canvasElementGuidToContainerMap
 ) => {
+    if (!connectors) {
+        throw new Error('connectors is not defined. It must be defined.');
+    }
+
+    if (!jsPlumbConnectorMap) {
+        throw new Error(
+            'jsPlumbConnectorMap is not defined. It must be defined.'
+        );
+    }
+
     if (!canvasElementGuidToContainerMap) {
         throw new Error(
             'canvasElementGuidToContainerMap is not defined. It must be defined.'
         );
     }
 
-    const connectorTemplatesLength =
-        connectorTemplates && connectorTemplates.length;
-    for (let index = 0; index < connectorTemplatesLength; index++) {
-        const connectorTemplate = connectorTemplates[index];
-        const connector = connectorTemplate && connectorTemplate.connector;
+    // This contains all the newly added connectors
+    const additionJsPlumbConnectorMap = {};
 
-        let jsPlumbConnector =
-            connectorTemplate &&
-            connectorTemplate.getJsPlumbConnector &&
-            connectorTemplate.getJsPlumbConnector();
+    connectors.forEach(connector => {
+        const connectorGuid = connector.guid;
+
+        let jsPlumbConnector = jsPlumbConnectorMap[connectorGuid];
 
         if (!jsPlumbConnector) {
             const sourceElementContainer =
@@ -408,11 +410,13 @@ export const setupConnectors = (
             const targetElementContainer =
                 canvasElementGuidToContainerMap[connector.target];
             jsPlumbConnector = _setJsPlumbConnection(
-                connectorTemplate,
                 connector,
                 sourceElementContainer,
                 targetElementContainer
             );
+
+            additionJsPlumbConnectorMap[connectorGuid] = jsPlumbConnector;
+
             if (connector.config && connector.config.isSelected) {
                 lib.selectConnector(jsPlumbConnector, connector.type);
             }
@@ -420,5 +424,7 @@ export const setupConnectors = (
             _updateConnectorStyling(connector, jsPlumbConnector);
             _setConnectorLabel(connector, jsPlumbConnector);
         }
-    }
+    });
+
+    return { ...additionJsPlumbConnectorMap, ...jsPlumbConnectorMap };
 };

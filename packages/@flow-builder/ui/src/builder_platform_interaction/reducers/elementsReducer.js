@@ -459,7 +459,7 @@ function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
         newState[guid] = updateProperties(newState[guid], {
             config: {
                 isSelected: true,
-                isHighlighted: false
+                isHighlighted: newState[guid].config.isHighlighted
             }
         });
         hasStateChanged = true;
@@ -470,7 +470,7 @@ function _marqueeSelect(elements, guidsToSelect, guidsToDeselect) {
         newState[guid] = updateProperties(newState[guid], {
             config: {
                 isSelected: false,
-                isHighlighted: false
+                isHighlighted: newState[guid].config.isHighlighted
             }
         });
         hasStateChanged = true;

@@ -44,14 +44,6 @@
                     key={node.guid}
                 ></builder_platform_interaction-node>
             </template>
-
-            <!--Iterating over the connectors-->
-            <template for:each={connectors} for:item="connector">
-                <builder_platform_interaction-connector
-                    connector={connector}
-                    key={connector.guid}
-                ></builder_platform_interaction-connector>
-            </template>
         </div>
 
         <!--Zoom Panel-->

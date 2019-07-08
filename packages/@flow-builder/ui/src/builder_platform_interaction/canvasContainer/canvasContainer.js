@@ -2,6 +2,7 @@ import { api, LightningElement, track } from 'lwc';
 import {
     addConnection,
     calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
+    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance,
     createConnectorWhenOneConnectionAvailable,
     getConnectorsFromStore,
     getNodesFromStore,
@@ -20,7 +21,10 @@ import {
 import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 
-export { calculateDeletedNodeIdsAndCleanUpDrawingLibInstance } from './canvasContainerUtils';
+export {
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
+    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
+} from './canvasContainerUtils';
 
 /** Private singleton variables */
 let storeInstance;
@@ -183,15 +187,33 @@ export default class CanvasContainer extends LightningElement {
     mapCanvasStateToStore = () => {
         const currentState = storeInstance.getCurrentState();
         const updatedCanvasElementsFromStore = getNodesFromStore(currentState);
+        const updatedConnectorsFromStore = getConnectorsFromStore(currentState);
         const canvasTemplate = this.template.querySelector(
             'builder_platform_interaction-canvas'
         );
+
         calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
             this.nodes,
             updatedCanvasElementsFromStore,
             canvasTemplate
         );
+
+        // The if check is not moved into the calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance as what the
+        // calculateDeletedNodeIdsAndCleanUpDrawingLibInstance does since it won't work correctly for Strategy Builder,
+        // where dragging the nodes would also require the connectors to be updated.
+        if (
+            this.connectors &&
+            this.connectors.length !== 0 &&
+            updatedConnectorsFromStore.length < this.connectors.length
+        ) {
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                this.connectors,
+                updatedConnectorsFromStore,
+                canvasTemplate
+            );
+        }
+
         this.nodes = updatedCanvasElementsFromStore;
-        this.connectors = getConnectorsFromStore(currentState);
+        this.connectors = updatedConnectorsFromStore;
     };
 }

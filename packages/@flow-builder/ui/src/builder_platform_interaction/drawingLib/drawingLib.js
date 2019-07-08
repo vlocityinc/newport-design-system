@@ -393,6 +393,10 @@ class DrawingLib {
      * @param {Object} connector - jsPlumb connector instance
      */
     removeConnectorFromLib = connector => {
+        if (!connector) {
+            throw new Error('connector is not defined. It must be defined.');
+        }
+
         instance.deleteConnection(connector);
     };
 

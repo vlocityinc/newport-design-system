@@ -90,6 +90,9 @@ export default class Canvas extends LightningElement {
     // Map of canvas element guids to canvas element container
     canvasElementGuidToContainerMap = {};
 
+    // Map of connector guids to jsPlumbConnetor instance
+    jsPlumbConnectorMap = {};
+
     // Scaling variable used for zooming
     currentScale = 1.0;
 
@@ -700,14 +703,16 @@ export default class Canvas extends LightningElement {
         const canvasElements = this.template.querySelectorAll(
             'builder_platform_interaction-node'
         );
-        const connectors = this.template.querySelectorAll(
-            'builder_platform_interaction-connector'
-        );
 
         this.canvasElementGuidToContainerMap = setupCanvasElements(
             canvasElements
         );
-        setupConnectors(connectors, this.canvasElementGuidToContainerMap);
+
+        this.jsPlumbConnectorMap = setupConnectors(
+            this.connectors,
+            this.jsPlumbConnectorMap,
+            this.canvasElementGuidToContainerMap
+        );
     };
 
     /**
@@ -716,8 +721,30 @@ export default class Canvas extends LightningElement {
      * @param {String} guid - Guid of the canvas element for which we need the container
      * @returns {Object} Returns the canvasElementContainer associated with a given guid
      */
-    @api getCanvasElementContainer(guid) {
+    @api
+    getCanvasElementContainer(guid) {
         return this.canvasElementGuidToContainerMap[guid];
+    }
+
+    /**
+     * Public function to access the jsPlumbConnector. This is used in deletion of connector from drawingLib.
+     *
+     * @param {String} guid - Guid of the connector for which we need the container
+     * @returns {Object} Returns the jsPlumbConnector associated with a given guid
+     */
+    @api
+    getJsPlumbConnectorFromMap(guid) {
+        return this.jsPlumbConnectorMap[guid];
+    }
+
+    /**
+     * Public function to delete the jsPlumbConnector from the map.
+     *
+     * @param {String} guid - Guid for which we need for the deletion of jsPlumbConnector from the map
+     */
+    @api
+    deleteJsPlumbConnectorFromMap(guid) {
+        delete this.jsPlumbConnectorMap[guid];
     }
 
     /**
@@ -725,7 +752,8 @@ export default class Canvas extends LightningElement {
      *
      * @param {String} canvasElementGuid - Guid of the element that needs to be searched and highlighted
      */
-    @api panElementToViewIfNeeded = (canvasElementGuid = '') => {
+    @api
+    panElementToViewIfNeeded = (canvasElementGuid = '') => {
         const searchedElementArray = this.nodes.filter(
             node => node.guid === canvasElementGuid
         );

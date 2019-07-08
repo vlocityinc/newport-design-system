@@ -10,7 +10,8 @@ import {
     getSourceAndTargetElement,
     createConnectorWhenOneConnectionAvailable,
     openConnectorSelectionModal,
-    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance
+    calculateDeletedNodeIdsAndCleanUpDrawingLibInstance,
+    calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance
 } from '../canvasContainerUtils';
 jest.mock('builder_platform_interaction/drawingLib', () =>
     require('builder_platform_interaction_mocks/drawingLib')
@@ -500,6 +501,24 @@ describe('Canvas container utils test', () => {
         });
     });
     describe('calculateDeletedNodeIdsAndCleanUpDrawingLibInstance function', () => {
+        it('throws an error if existingCanvasElements is undefined', () => {
+            expect(() => {
+                calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
+                    undefined,
+                    [],
+                    {}
+                );
+            }).toThrow();
+        });
+        it('throws an error if updatedCanvasElements is undefined', () => {
+            expect(() => {
+                calculateDeletedNodeIdsAndCleanUpDrawingLibInstance(
+                    [],
+                    undefined,
+                    {}
+                );
+            }).toThrow();
+        });
         it('should not call the removeNodeFromLib in the init phase when existing nodes list is empty', () => {
             const existingCanvasElements = [];
             const updatedCanvasElements = [{ guid: 'guid1' }];
@@ -556,6 +575,75 @@ describe('Canvas container utils test', () => {
             expect(drawingLibInstance.removeNodeFromLib).toHaveBeenCalledTimes(
                 2
             );
+        });
+    });
+
+    describe('calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance function', () => {
+        it('throws an error if existingConnectors is undefined', () => {
+            expect(() => {
+                calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                    undefined,
+                    [],
+                    {}
+                );
+            }).toThrow();
+        });
+        it('throws an error if updatedConnectors is undefined', () => {
+            expect(() => {
+                calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                    [],
+                    undefined,
+                    {}
+                );
+            }).toThrow();
+        });
+        it('should not call the removeConnectorFromLib in the init phase when existing connector list is empty', () => {
+            const existingConnectors = [];
+            const updatedConnectors = [{ guid: 'guid1' }];
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                existingConnectors,
+                updatedConnectors,
+                {}
+            );
+            expect(
+                drawingLibInstance.removeConnectorFromLib
+            ).not.toHaveBeenCalled();
+        });
+        it('should not call the removeConnectorFromLib when new connectors are added', () => {
+            const existingConnectors = [{ guid: 'guid1' }];
+            const updatedConnectors = [{ guid: 'guid1' }, { guid: 'guid2' }];
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                existingConnectors,
+                updatedConnectors,
+                {}
+            );
+            expect(
+                drawingLibInstance.removeConnectorFromLib
+            ).not.toHaveBeenCalled();
+        });
+        it('deleting a single connector - calls the drawing libs removeConnectorFromLib fn once', () => {
+            const existingConnectors = [{ guid: 'guid1' }, { guid: 'guid2' }];
+            const updatedConnectors = [{ guid: 'guid1' }];
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                existingConnectors,
+                updatedConnectors,
+                {}
+            );
+            expect(
+                drawingLibInstance.removeConnectorFromLib
+            ).toHaveBeenCalledTimes(1);
+        });
+        it('deleting n connectors - calls the drawing libs removeConnectorFromLib fn n times', () => {
+            const existingConnectors = [{ guid: 'guid1' }, { guid: 'guid2' }];
+            const updatedConnectors = [];
+            calculateDeletedConnectorIdsAndCleanUpDrawingLibInstance(
+                existingConnectors,
+                updatedConnectors,
+                {}
+            );
+            expect(
+                drawingLibInstance.removeConnectorFromLib
+            ).toHaveBeenCalledTimes(2);
         });
     });
 });
