@@ -27,22 +27,6 @@
 }
 
 
-.nds-form-element__control.nds-form-element__control-animated-label.nds-form-element__label {
-  top: 0.25rem;
-  #{$left}: 0;
-  position: absolute;
-  width: 100%;
-  #{$right}: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-  white-space: nowrap;
-  font-weight: 400;
-  font-size: 0.875rem;
-  letter-spacing: 1px;
-  color: $color-input-font-kashmiri-blue;
-}
-
 .nds-form-element__control.nds-form-element__control-animated-label select:focus~label,
 .nds-form-element__control.nds-form-element__control-animated-label select.nds-has-value:not(:focus):valid~label,
 .nds-form-element__control.nds-form-element__control-animated-label select.ng-dirty.ng-not-empty~label,
@@ -55,8 +39,6 @@
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
   z-index: 0;
-  font-size: 0.75rem;
-  font-weight: 300;
   top: 0.4rem;
   #{$left}: 0;
 }
