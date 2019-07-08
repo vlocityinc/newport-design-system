@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -14,7 +14,7 @@ import {
     getFieldToFerovExpressionBuilders,
     getBaseExpressionBuilder,
     getRadioGroup
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,

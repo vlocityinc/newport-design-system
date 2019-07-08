@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
@@ -20,7 +20,7 @@ import {
     changeInputValue,
     changeComboboxValue,
     newFilterItem
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,

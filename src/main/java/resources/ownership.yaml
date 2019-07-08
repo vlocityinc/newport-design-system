@@ -13,51 +13,48 @@ module:
   isTest: false
 
 ownership:
-- team: Automation Builder Core
+  - team: Automation Builder Core
 
-- team: Automation Builder Simplification
-  paths:
-  - modules/builder_platform_interaction/actionSelector/**
-  - modules/builder_platform_interaction/apexPluginEditor/**
-  - modules/builder_platform_interaction/baseCalloutEditor/**
-  - modules/builder_platform_interaction/calloutEditor/**
-  - modules/builder_platform_interaction/calloutEditorContainer/**
-  - modules/builder_platform_interaction/calloutEditorLib/**
-  - modules/builder_platform_interaction/formulaEditor/**  
-  - modules/builder_platform_interaction/getTemplatesTile/**
-  - modules/builder_platform_interaction/goneCamping/**
-  - modules/builder_platform_interaction/integrationTests/__tests__/formulaEditorIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/invocableActionEditorIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/newFlowModalBodyIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/recordCreateEditorIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/recordDeleteEditorIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/recordLookupEditorIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/recordUpdateEditorIntegration.test.js
-  - modules/builder_platform_interaction/integrationTests/__tests__/subflowEditorIntegration.test.js
-  - modules/builder_platform_interaction/invocableActionEditor/**
-  - modules/builder_platform_interaction/mergeFieldLib/**
-  - modules/builder_platform_interaction/newFlowModalBody/**
-  - modules/builder_platform_interaction/parameterItem/**  
-  - modules/builder_platform_interaction/parameterList/**
-  - modules/builder_platform_interaction/processTypeLib/**
-  - modules/builder_platform_interaction/processTypeTemplates/**
-  - modules/builder_platform_interaction/processTypesVerticalNavigation/**
-  - modules/builder_platform_interaction/recordCreateEditor/**
-  - modules/builder_platform_interaction/recordDeleteEditor/**
-  - modules/builder_platform_interaction/recordEditorLib/**
-  - modules/builder_platform_interaction/recordFilter/**
-  - modules/builder_platform_interaction/recordInputOutputAssignments/**
-  - modules/builder_platform_interaction/recordLookupEditor/**
-  - modules/builder_platform_interaction/recordNumberRecordToStore/**
-  - modules/builder_platform_interaction/recordQueryFields/**
-  - modules/builder_platform_interaction/recordSobjectAndQueryFields/**
-  - modules/builder_platform_interaction/recordSort/**
-  - modules/builder_platform_interaction/recordStoreOptions/**
-  - modules/builder_platform_interaction/recordUpdateEditor/**
-  - modules/builder_platform_interaction/resourcedRichTextEditor/**
-  - modules/builder_platform_interaction/richLabel/**
-  - modules/builder_platform_interaction/row/**
-  - modules/builder_platform_interaction/subflowEditor/**
-  - modules/builder_platform_interaction/useAdvancedOptionsCheckbox/**
-  - modules/builder_platform_interaction/visualPickerItem/**
-  - modules/builder_platform_interaction/visualPickerList/**
+  - team: Automation Builder Simplification
+    paths:
+      - modules/builder_platform_interaction/actionSelector/**
+      - modules/builder_platform_interaction/apexPluginEditor/**
+      - modules/builder_platform_interaction/baseCalloutEditor/**
+      - modules/builder_platform_interaction/calloutEditor/**
+      - modules/builder_platform_interaction/calloutEditorContainer/**
+      - modules/builder_platform_interaction/calloutEditorLib/**
+      - modules/builder_platform_interaction/formulaEditor/**
+      - modules/builder_platform_interaction/getTemplatesTile/**
+      - modules/builder_platform_interaction/goneCamping/**
+      - modules/builder_platform_interaction/integrationTests/__tests__/action/**
+      - modules/builder_platform_interaction/integrationTests/__tests__/clud/**
+      - modules/builder_platform_interaction/integrationTests/__tests__/formula/**
+      - modules/builder_platform_interaction/integrationTests/__tests__/newFlowModalBody/**
+      - modules/builder_platform_interaction/integrationTests/__tests__/subflow/**
+      - modules/builder_platform_interaction/invocableActionEditor/**
+      - modules/builder_platform_interaction/mergeFieldLib/**
+      - modules/builder_platform_interaction/newFlowModalBody/**
+      - modules/builder_platform_interaction/parameterItem/**
+      - modules/builder_platform_interaction/parameterList/**
+      - modules/builder_platform_interaction/processTypeLib/**
+      - modules/builder_platform_interaction/processTypesTemplates/**
+      - modules/builder_platform_interaction/processTypesVerticalNavigation/**
+      - modules/builder_platform_interaction/recordCreateEditor/**
+      - modules/builder_platform_interaction/recordDeleteEditor/**
+      - modules/builder_platform_interaction/recordEditorLib/**
+      - modules/builder_platform_interaction/recordFilter/**
+      - modules/builder_platform_interaction/recordInputOutputAssignments/**
+      - modules/builder_platform_interaction/recordLookupEditor/**
+      - modules/builder_platform_interaction/recordNumberRecordToStore/**
+      - modules/builder_platform_interaction/recordQueryFields/**
+      - modules/builder_platform_interaction/recordSobjectAndQueryFields/**
+      - modules/builder_platform_interaction/recordSort/**
+      - modules/builder_platform_interaction/recordStoreOptions/**
+      - modules/builder_platform_interaction/recordUpdateEditor/**
+      - modules/builder_platform_interaction/resourcedRichTextEditor/**
+      - modules/builder_platform_interaction/richLabel/**
+      - modules/builder_platform_interaction/row/**
+      - modules/builder_platform_interaction/subflowEditor/**
+      - modules/builder_platform_interaction/useAdvancedOptionsCheckbox/**
+      - modules/builder_platform_interaction/visualPickerItem/**
+      - modules/builder_platform_interaction/visualPickerList/**

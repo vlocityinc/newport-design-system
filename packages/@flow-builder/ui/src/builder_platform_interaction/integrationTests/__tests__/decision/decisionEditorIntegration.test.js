@@ -2,12 +2,12 @@ import { createElement, unwrap } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { ReorderListEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
     const originalCreateSelector = require.requireActual(
-        '../../storeLib/storeLib.js'
+        'builder_platform_interaction/storeLib'
     ).createSelector;
     const partialStoreLibMock = Object.assign({}, mockStoreLib);
     partialStoreLibMock.createSelector = originalCreateSelector;
@@ -23,7 +23,9 @@ jest.mock('builder_platform_interaction/loggingUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const ruleLib = require.requireActual('../../ruleLib/ruleLib.js');
+    const ruleLib = require.requireActual(
+        'builder_platform_interaction/ruleLib'
+    );
     return Object.assign({}, ruleLib);
 });
 

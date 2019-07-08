@@ -17,7 +17,7 @@ import {
     newFilterItem,
     changeComboboxValue,
     changeInputValue
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { mockEntities } from 'mock/serverEntityData';
 import { setRules } from 'builder_platform_interaction/ruleLib';
@@ -42,7 +42,7 @@ import {
 } from 'mock/systemGlobalVars';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 
 const createComponentForTest = node => {

@@ -14,12 +14,12 @@ import {
     apexSampleCollectionVariableDevName,
     lookupRecordAutomaticOutputDevName
 } from 'mock/storeData';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
     const originalCreateSelector = require.requireActual(
-        '../../storeLib/storeLib.js'
+        'builder_platform_interaction/storeLib'
     ).createSelector;
     const partialStoreLibMock = Object.assign({}, mockStoreLib);
     partialStoreLibMock.createSelector = originalCreateSelector;

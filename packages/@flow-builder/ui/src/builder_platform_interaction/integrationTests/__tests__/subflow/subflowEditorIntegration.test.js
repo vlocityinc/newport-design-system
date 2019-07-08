@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import SubflowEditor from 'builder_platform_interaction/subflowEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
@@ -24,7 +24,7 @@ import {
     textInputEvent,
     blurEvent,
     changeComboboxValue
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -45,7 +45,7 @@ import {
     findParameterElement,
     filterParameterElements,
     getElementGuid
-} from '../baseCalloutEditorTestUtils';
+} from '../../baseCalloutEditorTestUtils';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import { mockAllRules } from 'mock/ruleService';
 

@@ -24,7 +24,7 @@ import {
     getGroupedComboboxItemInGroup,
     getGroupedComboboxItem,
     auraFetch
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity

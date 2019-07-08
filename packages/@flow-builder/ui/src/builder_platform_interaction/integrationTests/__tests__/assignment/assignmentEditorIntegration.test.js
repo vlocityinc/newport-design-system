@@ -7,13 +7,13 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { auraFetch } from '../integrationTestUtils';
+import { auraFetch } from '../../integrationTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity
@@ -33,7 +33,7 @@ import {
     expectGroupedComboboxItem,
     getGroupedComboboxItem,
     getGroupedComboboxItemInGroupByDisplayText
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {

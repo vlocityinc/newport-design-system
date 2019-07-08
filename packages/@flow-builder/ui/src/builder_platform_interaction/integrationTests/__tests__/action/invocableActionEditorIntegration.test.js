@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import { resolveRenderCycles } from '../resolveRenderCycles';
+import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
@@ -25,7 +25,7 @@ import {
     textInputEvent,
     blurEvent,
     auraFetch
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -48,7 +48,7 @@ import {
     filterParameterElements,
     findIndex,
     getElementGuid
-} from '../baseCalloutEditorTestUtils';
+} from '../../baseCalloutEditorTestUtils';
 import {
     mockAllTypesActionParameters,
     mockActions,

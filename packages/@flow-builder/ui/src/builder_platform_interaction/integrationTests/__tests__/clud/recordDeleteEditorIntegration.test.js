@@ -17,7 +17,7 @@ import {
     changeInputValue,
     getBaseExpressionBuilder,
     getFieldToFerovExpressionBuilders
-} from '../integrationTestUtils';
+} from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { mockEntities } from 'mock/serverEntityData';
 import { setRules } from 'builder_platform_interaction/ruleLib';
