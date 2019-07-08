@@ -39,8 +39,8 @@ input[placeholder]::placeholder {
   text-overflow: ellipsis;
   pointer-events: none;
   white-space: nowrap;
-  font-weight: 400;
-  font-size: 0.875rem;
+  font-weight: $form-label-pre-animate-font-weight;
+  font-size: $form-label-pre-animate-font-size;
   letter-spacing: 1px;
   color: $color-input-font-kashmiri-blue;
 }
@@ -60,8 +60,8 @@ input[placeholder]::placeholder {
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
   z-index: 0;
-  font-size: 0.75rem;
-  font-weight: 300;
+  font-size: $form-label-font-size;
+  font-weight: $form-label-font-weight;
   top: 0.4rem;
   #{$left}: 0;
 }
