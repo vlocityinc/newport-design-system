@@ -265,7 +265,7 @@ const resetSubSections = state => {
     state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
     // reset filters & filterType
     state = updateProperties(state, {
-        [PROPS.filterType]: RECORD_FILTER_CRITERIA.NONE
+        [PROPS.filterType]: RECORD_FILTER_CRITERIA.ALL
     });
     state = resetFilters(state);
     // reset storing options

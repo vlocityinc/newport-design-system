@@ -297,7 +297,7 @@ describe('record-lookup-reducer', () => {
                 expect(newState.sortField.value).toBe('');
             });
             it('should reset "filterType"', () => {
-                expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
+                expect(newState.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
             });
             it('should reset "filters"', () => {
                 expect(newState.filters).toHaveLength(1);
