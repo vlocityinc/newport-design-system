@@ -20,30 +20,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     processTypeValue = '';
     automaticOutputHandlingSupported = false;
 
-    /**
-     * Screen node getter
-     * @returns {object} The screen
-     */
-    @api get node() {
-        return this.state.editor;
-    }
-
-    /**
-     * Screen node setter, sets the value and initializes the selectedNode
-     * @param {object} newValue - The new screen
-     */
-    set node(newValue) {
-        this.state.editor = newValue;
-    }
-
-    /**
-     * public api function to return the node
-     * @returns {object} node - node
-     */
-    @api getNode() {
-        return this.state.editor;
-    }
-
     set field(value) {
         this._field = value;
         this.checkState();
@@ -74,9 +50,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         this.automaticOutputHandlingSupported =
             getProcessTypeAutomaticOutPutHandlingSupport(newValue) !==
             FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
-        if (this.state.editor.storeOutputAutomatically === undefined) {
-            this.state.editor.storeOutputAutomatically = true;
-        }
     }
 
     /**
@@ -103,7 +76,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         return !this.state.editor.storeOutputAutomatically;
     }
 
-    get isDisplayManualOutput() {
+    get isManualOutputDisplayed() {
         return !this.isAutomaticOutputHandlingSupported || this.isAdvancedMode;
     }
 
@@ -115,7 +88,12 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
             ? this.state.editor.extensionDescription.name
             : null;
         const fieldName = this._field ? this._field.name : null;
-
+        if (
+            this._field &&
+            this.state.editor.storeOutputAutomatically === undefined
+        ) {
+            this.state.editor.storeOutputAutomatically = this._field.storeOutputAutomatically;
+        }
         if (
             this.state.editor.extensionDescription &&
             fieldName &&
@@ -194,7 +172,6 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      * @param {Object} event - event
      */
     handleAdvancedOptionsSelectionChange(event) {
-        event.stopPropagation();
         this.state.editor = screenExtensionPropertiesReducer(
             this.state.editor,
             event

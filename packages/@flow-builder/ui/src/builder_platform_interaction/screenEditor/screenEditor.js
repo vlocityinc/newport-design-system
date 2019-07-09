@@ -79,6 +79,10 @@ export default class ScreenEditor extends LightningElement {
         return this.selectedNode;
     }
 
+    @api getSelectedItemGuid() {
+        return this.selectedItemGuid;
+    }
+
     get flowLabel() {
         return Store.getStore().getCurrentState().properties.label;
     }

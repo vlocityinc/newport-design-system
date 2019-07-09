@@ -208,7 +208,9 @@ const createField = properties => {
     properties.field = createTestScreenField(
         'lcField',
         'Extension',
-        DESCRIPTOR_NAME
+        DESCRIPTOR_NAME,
+        {},
+        true
     );
     properties.field.inputParameters = JSON.parse(
         JSON.stringify(INPUT_PARAMETERS)

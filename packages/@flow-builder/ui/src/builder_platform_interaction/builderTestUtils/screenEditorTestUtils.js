@@ -183,9 +183,16 @@ function createScreen(name, fieldsProducer, config = {}) {
  *   if the defaultValue should not be set.
  * @param {object} config - {required = false, validation = true, defaultValueType = static, hydrateValues = true,
  * includeNonMDValues = true, valueType = STATIC, dataType = undefined, createChoices = false}
+ * @param {boolean} storeOutputAutomatically - Whether or not this field uses automatic output. Defaulted to false
  * @returns {object} - The screen field
  */
-export function createTestScreenField(name, type, value, config = {}) {
+export function createTestScreenField(
+    name,
+    type,
+    value,
+    config = {},
+    storeOutputAutomatically = false
+) {
     const hydrateValues = booleanValue(config, 'hydrateValues', true);
     const fieldType =
         type === 'Extension'
@@ -238,6 +245,7 @@ export function createTestScreenField(name, type, value, config = {}) {
                 processMetadataValues: []
             }
         ];
+        field.storeOutputAutomatically = storeOutputAutomatically;
     } else if (value !== SCREEN_NO_DEF_VALUE) {
         if (value === SCREEN_NULL_DEF_VALUE) {
             field.defaultValue = null;

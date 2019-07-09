@@ -1,6 +1,7 @@
 import {
     createTestScreen,
-    createTestScreenField
+    createTestScreenField,
+    createTestScreenWithFields
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenReducer } from '../screenReducer';
 
@@ -10,6 +11,7 @@ import {
     createScreenElementDeletedEvent,
     createAddScreenFieldEvent
 } from 'builder_platform_interaction/events';
+import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -273,5 +275,30 @@ describe('screen reducer', () => {
 
         const newScreen = screenReducer(screen, event);
         expect(newScreen.fields).toEqual(screen.fields);
+    });
+    describe('on UseAdvancedOptionsSelectionChanged', () => {
+        it('updates screen field with expected option', () => {
+            const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(
+                true
+            );
+            const field = createTestScreenField(
+                'fieldName',
+                'Extension',
+                'fieldValue',
+                {},
+                true
+            );
+            const screen = createTestScreenWithFields(
+                'screenName',
+                [field],
+                {}
+            );
+
+            const updatedScreen = screenReducer(screen, expectedEvent, field);
+
+            expect(updatedScreen.fields[0].storeOutputAutomatically).toBe(
+                false
+            );
+        });
     });
 });

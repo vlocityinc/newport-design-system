@@ -24,7 +24,8 @@ import {
     AddConditionEvent,
     UpdateConditionLogicEvent,
     DeleteConditionEvent,
-    UpdateConditionEvent
+    UpdateConditionEvent,
+    UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
 import { createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
@@ -673,6 +674,17 @@ const validationRuleChanged = (screen, event, selectedNode) => {
     return screen;
 };
 
+const useAdvancedOptionsSelectionChanged = (
+    state,
+    selectedNode,
+    { useAdvancedOptions }
+) => {
+    const updatedField = updateProperties(selectedNode, {
+        storeOutputAutomatically: !useAdvancedOptions
+    });
+    return updateFieldInScreen(state, selectedNode, updatedField);
+};
+
 /**
  * Screen reducer function, performs changes and validation on a screen and returns the updated (new) screen element
  * @param {object} state - element / screen node
@@ -721,6 +733,12 @@ export const screenReducer = (state, event, selectedNode) => {
         case UpdateConditionEvent.EVENT_NAME:
             return updateCondition(state, selectedNode, event);
 
+        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+            return useAdvancedOptionsSelectionChanged(
+                state,
+                selectedNode,
+                event.detail
+            );
         default:
             return state;
     }

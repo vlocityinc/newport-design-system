@@ -74,6 +74,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             outputParameters = [];
         } else {
             storeOutputAutomatically = false;
+            dataType = undefined;
             outputParameters = screenField.outputParameters.map(
                 outputParameter => createOutputParameter(outputParameter)
             );
@@ -184,7 +185,8 @@ export function createEmptyScreenFieldOfType(typeName) {
         validationRule: {
             formulaExpression: '',
             errorMessage: ''
-        }
+        },
+        storeOutputAutomatically: true
     };
 
     // Always add a placeholder choice for any choice based fields.
