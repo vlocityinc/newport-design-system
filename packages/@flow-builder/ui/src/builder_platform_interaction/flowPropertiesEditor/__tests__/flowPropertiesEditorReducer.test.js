@@ -15,6 +15,7 @@ const state = {
     lastModifiedDate: '2018-11-25T00:10:34.000Z',
     name: 'X423sd',
     processType: 'AutoLaunchedFlow',
+    runInSystemMode: false,
     status: 'InvalidDraft',
     versionNumber: 1
 };

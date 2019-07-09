@@ -46,6 +46,7 @@ export function createFlowProperties(flowProperties = {}) {
         position = null,
         processMetadataValues,
         processType = null,
+        runInSystemMode = false,
         status
     } = flowProperties.metadata || flowProperties;
 
@@ -85,6 +86,7 @@ export function createFlowProperties(flowProperties = {}) {
         name,
         position,
         processType,
+        runInSystemMode,
         status,
         versionNumber
     };
@@ -106,6 +108,7 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         isTemplate,
         label,
         processType,
+        runInSystemMode,
         status
     } = flowProperties;
 
@@ -119,6 +122,7 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         label,
         processMetadataValues,
         processType,
+        runInSystemMode,
         status
     };
 }

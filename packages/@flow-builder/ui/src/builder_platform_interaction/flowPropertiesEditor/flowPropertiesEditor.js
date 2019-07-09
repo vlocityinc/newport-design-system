@@ -102,6 +102,10 @@ export default class FlowPropertiesEditor extends LightningElement {
         { label: LABELS.saveAsNewFlowTypeLabel, value: SaveType.NEW_DEFINITION }
     ];
 
+    get runInSystemMode() {
+        return this.flowProperties.runInSystemMode;
+    }
+
     /**
      * The value of the currently selected process type
      */
@@ -271,6 +275,15 @@ export default class FlowPropertiesEditor extends LightningElement {
     handleProcessTypeChange(event) {
         event.stopPropagation();
         this.updateProperty('processType', event.detail.value);
+    }
+
+    handleRunInSystemModeChange(event) {
+        event.stopPropagation();
+        this.updateProperty(
+            'runInSystemMode',
+            event.detail.checked,
+            null
+        );
     }
 
     handleAdvancedToggle(event) {

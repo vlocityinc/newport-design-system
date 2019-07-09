@@ -47,6 +47,13 @@
         </div>
 
         <div if:true={isAdvancedShown} class="advanced">
+            <lightning-input
+                 class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+                 type="checkbox"
+                 label={labels.runInSystemModeLabel}
+                 checked={runInSystemMode}
+                 onchange={handleRunInSystemModeChange}
+            ></lightning-input>
             <lightning-combobox
                 class="process-type slds-col slds-grow"
                 label={labels.processTypeLabel}
