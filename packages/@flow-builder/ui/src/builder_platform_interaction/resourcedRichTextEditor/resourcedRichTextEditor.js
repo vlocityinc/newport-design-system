@@ -145,6 +145,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     handleChangeEvent(event) {
         event.stopPropagation();
         let value = event.detail.value;
+
         if (!this.isHTMLSanitized) {
             // when inputRichText is activated we get a change event
             // except if html text is empty
@@ -207,15 +208,24 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     handleResourcePickerSelection(event) {
         event.stopPropagation();
-        const text = event.detail.item.displayText;
+        const text = event.detail.item.displayText
+            ? event.detail.item.displayText
+            : `{!${event.detail.item.name}}`;
         if (text) {
             const inputRichText = this.template.querySelector(
                 SELECTORS.INPUT_RICH_TEXT
             );
-            inputRichText.insertTextAtCursor(text);
-            inputRichText.focus();
+            if (inputRichText) {
+                inputRichText.insertTextAtCursor(text);
+                inputRichText.focus();
+            }
         }
     }
+
+    handleNewInlineResource = e => {
+        e.stopPropagation();
+        this.handleResourcePickerSelection(e);
+    };
 
     renderedCallback() {
         if (!this.state.isPlainTextMode) {

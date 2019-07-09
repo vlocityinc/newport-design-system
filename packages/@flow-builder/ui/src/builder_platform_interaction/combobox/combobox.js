@@ -38,11 +38,7 @@ import {
     getFormat
 } from 'builder_platform_interaction/dateTimeUtils';
 
-import {
-    sliceMenu,
-    getMenuLength,
-    setSelectableMenuItem
-} from './utils';
+import { sliceMenu, getMenuLength, setSelectableMenuItem } from './utils';
 
 const SELECTORS = {
     GROUPED_COMBOBOX: 'lightning-grouped-combobox'
@@ -88,7 +84,6 @@ const MENU_DATA_MAX_LEVEL_DEFAULT_VALUE = 2;
  * */
 export const MENU_DATA_PAGE_SIZE = 50;
 
-
 /**
  * Lightning grouped combobox wrapper.
  *
@@ -108,6 +103,7 @@ export default class Combobox extends LightningElement {
      * @property {number} currentMenuData - A list of items to display in the combobox. A subset of the full list of items.
      * @property {Array} currentMenuLength - Total number of items in a flattened current menu.
      */
+
     @track
     state = {
         displayText: '',
@@ -120,6 +116,9 @@ export default class Combobox extends LightningElement {
         currentMenuLength: 0,
         disabled: false
     };
+
+    @api
+    position = null;
 
     @api
     fieldLevelHelp;
@@ -137,6 +136,23 @@ export default class Combobox extends LightningElement {
             this.state.forceShowActivityIndicator ||
             this.state.showActivityIndicator
         );
+    }
+
+    set inlineItem(item) {
+        let newItem = item;
+        if (item) {
+            if (!item.value) {
+                newItem = { ...item, value: item.guid };
+            }
+            this.value = newItem;
+            this.template.querySelector('lightning-grouped-combobox').focus();
+            this.fireComboboxStateChangedEvent();
+        }
+    }
+
+    @api
+    get inlineItem() {
+        return this._item;
     }
 
     /**
@@ -187,7 +203,9 @@ export default class Combobox extends LightningElement {
             }
 
             throw new Error(
-                `Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`
+                `Variant must either be '${
+                    LIGHTNING_INPUT_VARIANTS.STANDARD
+                }' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`
             );
         }
     }
@@ -260,17 +278,15 @@ export default class Combobox extends LightningElement {
                 this._mergeFieldLevel = 1;
                 const item = unwrap(itemOrDisplayText);
                 displayText = this.syncValueAndDisplayText(item);
-
                 const foundItem = this.findItem(itemOrDisplayText.value);
                 // TODO: W-5314359 remove once loop editor change is done
                 if (foundItem) {
-                    this._item = Object.assign({}, foundItem);
+                    this._item = { ...foundItem };
                 } else {
-                    this._item = Object.assign({}, item);
+                    this._item = { ...item };
                 }
 
                 this._item.displayText = displayText;
-
                 // set the base value to parent for fetching previous level
                 if (itemOrDisplayText.parent) {
                     this._base = itemOrDisplayText.parent.displayText;
@@ -457,7 +473,8 @@ export default class Combobox extends LightningElement {
      * The allowed param types based on the rule service. Used for the merge field validation if present.
      * @type {Object}
      */
-    @api allowedParamTypes = null;
+    @api
+    allowedParamTypes = null;
 
     // Enables incremental menu rendering when a limited number of items is rendered initially and more items get added
     // as the user scrolls down in the list. This is a temporary property and will be removed once the feature is
@@ -475,7 +492,6 @@ export default class Combobox extends LightningElement {
     get renderIncrementally() {
         return this._renderIncrementally;
     }
-
 
     /**
      * Returns the literal value of the combobox (could be different from the displayed value)
@@ -523,20 +539,23 @@ export default class Combobox extends LightningElement {
     /**
      * If set to true, will allow fetching of different levels of menu data
      */
-    @api enableFieldDrilldown = false;
+    @api
+    enableFieldDrilldown = false;
 
     /**
      * Blocks all the data validation on the component.
      * @type {boolean}
      */
-    @api blockValidation = false;
+    @api
+    blockValidation = false;
 
     /**
      * Separator for multi-level menu data traversal.
      * Defaults to period.
      * @type {String}
      */
-    @api separator = '.';
+    @api
+    separator = '.';
 
     /**
      * Run validation on this combobox again
@@ -699,7 +718,7 @@ export default class Combobox extends LightningElement {
      */
     handleSelect(event) {
         if (event.detail.value === COMBOBOX_NEW_RESOURCE_VALUE) {
-            this.fireNewResourceEvent();
+            this.fireNewResourceEvent(this.position);
             return;
         }
 
@@ -832,7 +851,9 @@ export default class Combobox extends LightningElement {
      * @param {Boolean} isStrictMode whether or not merge fields should be strictly evaluated (should be true for validation)
      */
     setMergeFieldState(value = this.state.displayText, isStrictMode = false) {
-        this._isMergeField = isReference(value) && (!isStrictMode || !this.isExpressionIdentifierLiteral(value, true));
+        this._isMergeField =
+            isReference(value) &&
+            (!isStrictMode || !this.isExpressionIdentifierLiteral(value, true));
     }
 
     /**
@@ -931,7 +952,8 @@ export default class Combobox extends LightningElement {
             this._item,
             this.literalValue,
             this._errorMessage,
-            this._isMergeField
+            this._isMergeField,
+            this.position
         );
         this.dispatchEvent(comboboxStateChangedEvent);
     }
@@ -940,7 +962,7 @@ export default class Combobox extends LightningElement {
      * Fire new resource event.
      */
     fireNewResourceEvent() {
-        const newResourceEvent = new NewResourceEvent();
+        const newResourceEvent = new NewResourceEvent(this.position);
         this.dispatchEvent(newResourceEvent);
     }
 
@@ -1136,7 +1158,7 @@ export default class Combobox extends LightningElement {
      */
     setErrorMessage(customErrorMessage) {
         const groupedCombobox = this.getGroupedCombobox();
-        if (groupedCombobox) {
+        if (groupedCombobox && !this._item) {
             groupedCombobox.setCustomValidity(customErrorMessage);
             groupedCombobox.showHelpMessageIfInvalid();
             this._isInitialErrorMessageSet = true;
@@ -1451,13 +1473,23 @@ export default class Combobox extends LightningElement {
     }
 
     _sliceMenuNext() {
-        if (this.state.menuData && this.state.currentMenuLength < this.state.menuLength) {
-            const result = sliceMenu(this.state.menuData, this.state.currentMenuLength + MENU_DATA_PAGE_SIZE);
+        if (
+            this.state.menuData &&
+            this.state.currentMenuLength < this.state.menuLength
+        ) {
+            const result = sliceMenu(
+                this.state.menuData,
+                this.state.currentMenuLength + MENU_DATA_PAGE_SIZE
+            );
             // Highlight a very first item in new menu items to ensure the grouped combobox scrolls to it.
             // This is based on the current behavior of the grouped combobox, which always scrolls to a highlighted item
             // each time combobox items get updated. Highlighting of a specific menu item overrides the default combobox
             // behavior, which is to highlight and scroll to a first item in the list.
-            setSelectableMenuItem(result.menu, this.state.currentMenuLength, item => Object.assign({ highlight: true }, unwrap(item)));
+            setSelectableMenuItem(
+                result.menu,
+                this.state.currentMenuLength,
+                item => Object.assign({ highlight: true }, unwrap(item))
+            );
             this.state.currentMenuLength = result.length;
             this.state.currentMenuData = result.menu;
         }

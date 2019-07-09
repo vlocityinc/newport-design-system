@@ -6,8 +6,9 @@ const elementType = ELEMENT_TYPE.FLOW_PROPERTIES;
  * The top level process metadata values to save with each flow. This includes the BuilderType
  * which helps us identify flow versions created by the Lightning Flow Builder.
  */
-const LIGHTNING_FLOW_BUILDER = 'LightningFlowBuilder';
+
 const BUILDER_TYPE = 'BuilderType';
+const LIGHTNING_FLOW_BUILDER = 'LightningFlowBuilder';
 const ORIGIN_BUILDER_TYPE = 'OriginBuilderType';
 
 /**
@@ -29,22 +30,23 @@ export function createFlowPropertiesForEditor(flowProperties = {}) {
 export function createFlowProperties(flowProperties = {}) {
     const name = flowProperties.fullName || flowProperties.name || '';
     const {
-        versionNumber = null,
         lastModifiedDate = null,
-        manageableState = null
+        manageableState = null,
+        versionNumber = null
     } = flowProperties;
     const lastModifiedBy = getLastModifiedBy(flowProperties.lastModifiedBy);
 
     const {
-        label = '',
         description = '',
+        hasUnsavedChanges = false,
         interviewLabel = '',
-        isTemplate = false,
         inlineResource = null,
-        processType = null,
-        status,
+        isTemplate = false,
+        label = '',
+        position = null,
         processMetadataValues,
-        hasUnsavedChanges = false
+        processType = null,
+        status
     } = flowProperties.metadata || flowProperties;
 
     let {
@@ -68,22 +70,23 @@ export function createFlowProperties(flowProperties = {}) {
     }
 
     return {
-        label,
-        name,
+        canOnlySaveAsNewDefinition,
         description,
-        versionNumber,
-        lastModifiedDate,
-        lastModifiedBy,
+        elementType,
+        hasUnsavedChanges,
+        inlineResource,
         interviewLabel,
+        isCreatedOutsideLfb,
+        isLightningFlowBuilder,
         isTemplate,
+        label,
+        lastModifiedBy,
+        lastModifiedDate,
+        name,
+        position,
         processType,
         status,
-        canOnlySaveAsNewDefinition,
-        elementType,
-        isLightningFlowBuilder,
-        isCreatedOutsideLfb,
-        hasUnsavedChanges,
-        inlineResource
+        versionNumber
     };
 }
 
@@ -97,26 +100,26 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         throw new Error('Flow Properties is not defined');
     }
     const {
-        label,
         description,
         interviewLabel,
+        isCreatedOutsideLfb,
         isTemplate,
+        label,
         processType,
-        status,
-        isCreatedOutsideLfb
+        status
     } = flowProperties;
 
     // Adding a bit to make sure that flow is a saved/created in flow builder.
     const processMetadataValues = setProcessMetadataValue(isCreatedOutsideLfb);
 
     return {
-        label,
         description,
         interviewLabel,
         isTemplate,
+        label,
+        processMetadataValues,
         processType,
-        status,
-        processMetadataValues
+        status
     };
 }
 

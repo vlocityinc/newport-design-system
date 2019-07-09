@@ -4,6 +4,7 @@ import {
     DESELECT_ON_CANVAS,
     REMOVE_LAST_CREATED_RESOURCE,
     SELECT_ON_CANVAS,
+    SET_COMBOBOX_POSITION,
     TOGGLE_ON_CANVAS,
     UPDATE_FLOW,
     UPDATE_PROPERTIES,
@@ -13,6 +14,7 @@ import {
     UPDATE_PROPERTIES_AFTER_SAVING
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
+
 /**
  * Reducer for properties
  * @param {Object} state properties object in the store
@@ -49,6 +51,11 @@ export default function flowPropertiesReducer(
             return {
                 ...state,
                 inlineResource: null
+            };
+        case SET_COMBOBOX_POSITION:
+            return {
+                ...state,
+                comboboxPosition: payload.position
             };
         case UPDATE_FLOW:
             return {

@@ -2,30 +2,33 @@
     <div class={containerClasses}>
         <builder_platform_interaction-combobox
             class={lhsClasses}
-            label={lhsLabel}
-            value={lhsValue}
+            enable-field-drilldown
+            error-message={lhsError}
             field-level-help={lhsLabelHelpText}
+            inline-item={_lhsInlineResource}
+            label={lhsLabel}
+            literals-allowed="false"
             menu-data={state.lhsFilteredMenuData}
             placeholder={lhsPlaceholder}
-            error-message={lhsError}
-            literals-allowed="false"
+            position="left"
+            value={lhsValue}
+            onaddnewresource={handleAddNewResource}
             oncomboboxstatechanged={handleLhsValueChanged}
             onfiltermatches={handleFilterLhsMatches}
             onfetchmenudata={handleFetchLhsMenuData}
             onitemselected={handleLhsItemSelected}
-            enable-field-drilldown
         >
         </builder_platform_interaction-combobox>
         <lightning-combobox
             if:false={hideOperator}
             class={operatorClasses}
-            label={operatorLabel}
-            value={operator}
-            placeholder={operatorPlaceholder}
-            options={operatorMenuData}
-            onchange={handleOperatorChanged}
-            dropdown-alignment="auto"
             disabled={state.operatorAndRhsDisabled}
+            dropdown-alignment="auto"
+            label={operatorLabel}
+            options={operatorMenuData}
+            placeholder={operatorPlaceholder}
+            value={operator}
+            onchange={handleOperatorChanged}
         >
         </lightning-combobox>
         <div if:true={showOperatorIcon} class="slds-col slds-grow-none">
@@ -38,23 +41,26 @@
             </div>
         </div>
         <builder_platform_interaction-combobox
-            class={rhsClasses}
-            label={rhsLabel}
-            value={rhsValue}
-            field-level-help={rhsLabelHelpText}
             allowed-param-types={rhsParamTypes}
+            block-validation={blockRhsValidation}
+            class={rhsClasses}
+            disabled={state.operatorAndRhsDisabled}
+            enable-field-drilldown
+            error-message={rhsError}
+            inline-item={_rhsInlineResource}
+            label={rhsLabel}
+            literals-allowed={rhsLiteralsAllowed}
             menu-data={state.rhsFilteredMenuData}
             placeholder={rhsPlaceholder}
-            literals-allowed={rhsLiteralsAllowed}
-            error-message={rhsError}
+            position="right"
+            render-incrementally={state.rhsRenderIncrementally}
+            field-level-help={rhsLabelHelpText}
             type={rhsDataType}
+            value={rhsValue}
+            onaddnewresource={handleAddNewResource}
             oncomboboxstatechanged={handleRhsValueChanged}
             onfiltermatches={handleFilterRhsMatches}
             onfetchmenudata={handleFetchRhsMenuData}
-            disabled={state.operatorAndRhsDisabled}
-            block-validation={blockRhsValidation}
-            enable-field-drilldown
-            render-incrementally={state.rhsRenderIncrementally}
         >
         </builder_platform_interaction-combobox>
     </div>

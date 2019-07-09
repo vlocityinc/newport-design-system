@@ -10,6 +10,12 @@ import {
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { InlineResourceEvent } from 'builder_platform_interaction/events';
+
+import {
+    removeLastCreatedResource,
+    setComboboxPosition
+} from 'builder_platform_interaction/actions';
 
 let storeInstance;
 
@@ -35,11 +41,15 @@ export default class FerovResourcePicker extends LightningElement {
     @track
     paramTypes = null;
 
+    @api
+    inlineItem = null;
+
     /**
      * A unique id for this resource picker(guid)
      * Required if you want validation on done
      * @type {String}
      */
+
     @api
     rowIndex;
 
@@ -263,6 +273,12 @@ export default class FerovResourcePicker extends LightningElement {
         this.populateMenuData();
     };
 
+    handleAddInlineResource = e => {
+        storeInstance.dispatch(
+            setComboboxPosition({ position: e.detail.position })
+        );
+    };
+
     populateParamTypes = () => {
         this.paramTypes = this.elementConfig
             ? null
@@ -275,8 +291,28 @@ export default class FerovResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
+    findNewResource = () => {
+        const inlineResourceId = storeInstance.getCurrentState().properties
+            .inlineResource;
+        return storeInstance.getCurrentState().elements[inlineResourceId];
+    };
+
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
+            if (
+                storeInstance.getCurrentState().properties.comboboxPosition ===
+                'ferovInlineResource'
+            ) {
+                const newResource = this.findNewResource();
+                if (newResource) {
+                    this.handleItemSelected({ detail: newResource });
+                    const newResourceEvent = new InlineResourceEvent(
+                        newResource
+                    );
+                    this.dispatchEvent(newResourceEvent);
+                    storeInstance.dispatch(removeLastCreatedResource);
+                }
+            }
             this._baseResourcePicker.setMenuData(
                 getMenuData(
                     this.elementConfig,

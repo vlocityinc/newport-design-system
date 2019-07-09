@@ -44,6 +44,9 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
 
     element = undefined;
 
+    @track
+    inlineItem = null;
+
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
      */
@@ -124,14 +127,23 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
      * @param {Object} event the comboboxstatechanged event
      */
     handleSObjectVariableChanged(event) {
-        event.stopPropagation();
         const newValue = event.detail.item
-            ? event.detail.item.value
+            ? event.detail.item.value || event.detail.item.guid
             : event.detail.displayText;
+
         const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
             newValue,
             event.detail.error
         );
         this.dispatchEvent(sObjectReferenceChangedEvent);
     }
+
+    /**
+     * handle event for selecting an inline item
+     * @param {Object} event the add new resource event
+     */
+    handleNewInlineResource = event => {
+        this.inlineItem = event.detail.item;
+        this.handleSObjectVariableChanged(event);
+    };
 }

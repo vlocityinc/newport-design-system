@@ -5,11 +5,14 @@
 const eventName = 'addnewresource';
 
 export class NewResourceEvent {
-    constructor() {
+    constructor(position = null) {
         return new CustomEvent(eventName, {
             cancelable: true,
             composed: true,
-            bubbles: true
+            bubbles: true,
+            detail: {
+                position
+            }
         });
     }
 

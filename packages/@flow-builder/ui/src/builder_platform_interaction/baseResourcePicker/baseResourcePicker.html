@@ -1,20 +1,22 @@
 <template>
     <builder_platform_interaction-combobox
-        label={comboboxConfig.label}
-        placeholder={comboboxConfig.placeholder}
+        allowed-param-types={allowedParamTypes}
+        disabled={comboboxConfig.disabled}
+        enable-field-drilldown={comboboxConfig.enableFieldDrilldown}
         error-message={errorMessage}
         field-level-help={comboboxConfig.fieldLevelHelp}
-        disabled={comboboxConfig.disabled}
-        value={value}
-        menu-data={state.menuData}
-        required={comboboxConfig.required}
+        inline-item={inlineItem}
+        label={comboboxConfig.label}
         literals-allowed={literalsAllowed}
-        type={comboboxConfig.type}
-        variant={comboboxConfig.variant}
-        allowed-param-types={allowedParamTypes}
-        enable-field-drilldown={comboboxConfig.enableFieldDrilldown}
-        onfiltermatches={handleFilterMatches}
+        menu-data={state.menuData}
+        placeholder={comboboxConfig.placeholder}
+        position="ferovInlineResource"
+        required={comboboxConfig.required}
         show-activity-indicator={showActivityIndicator}
+        type={comboboxConfig.type}
+        value={value}
+        variant={comboboxConfig.variant}
+        onfiltermatches={handleFilterMatches}
     >
     </builder_platform_interaction-combobox>
 </template>

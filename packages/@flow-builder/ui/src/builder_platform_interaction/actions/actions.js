@@ -53,6 +53,8 @@ export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
 
 export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
 
+export const SET_COMBOBOX_POSITION = 'SET_COMBOBOX_POSITION';
+
 export const REMOVE_LAST_CREATED_RESOURCE = 'REMOVE_LAST_CREATED_RESOURCE';
 
 export const PROPERTY_EDITOR_ACTION = {
@@ -334,6 +336,19 @@ export const highlightOnCanvas = payload =>
 export const updateCanvasElementLocation = payload =>
     createAction(UPDATE_CANVAS_ELEMENT_LOCATION, payload);
 
+/**
+ * Action for resetting the inline resource to null.
+ * @returns {Object} action new action based on type
+ */
 export const removeLastCreatedResource = createAction(
     REMOVE_LAST_CREATED_RESOURCE
 );
+
+/**
+ * Action for setting the combobox position. This is used so that the expressionBuilder
+ * knows weather we are creating an inline resource for the left or right combobox
+ * @param {Object} payload - contains a string `left` or `right` or null.
+ * @returns {Object} action - setComboboxPosition action
+ */
+export const setComboboxPosition = payload =>
+    createAction(SET_COMBOBOX_POSITION, payload);

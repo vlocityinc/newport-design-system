@@ -34,6 +34,10 @@ import {
 import { saveExpression } from 'builder_platform_interaction/expressionValidator';
 import { Store } from 'builder_platform_interaction/storeLib';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import {
+    removeLastCreatedResource,
+    setComboboxPosition
+} from 'builder_platform_interaction/actions';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -57,10 +61,18 @@ const RHS_FULL_MENU_DATA = 'rhsFullMenuData';
 const RHS_FILTERED_MENU_DATA = 'rhsFilteredMenuData';
 
 const VARIANT_NARROW = 'narrow';
+const LEFT = 'left';
+const RIGHT = 'right';
 
 let storeInstance;
 
 export default class BaseExpressionBuilder extends LightningElement {
+    @track
+    _lhsInlineResource = null;
+
+    @track
+    _rhsInlineResource = null;
+
     @track
     state = {
         operatorAndRhsDisabled: true,
@@ -392,7 +404,8 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Set it to true to hide 'New Resource' option in combobox menu data.
      * @type {Boolean}
      */
-    @api hideNewResource = false;
+    @api
+    hideNewResource = false;
 
     /**
      * Set it to true to hide display the expression builder vertically instead of horizontally inline
@@ -624,8 +637,16 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Callback from the store for changes in store.
      */
     handleStoreChange = () => {
-        this.setLhsMenuData();
-        this.setRhsMenuData();
+        const position = storeInstance.getCurrentState().properties
+            .comboboxPosition;
+        if (!position) {
+            this.setLhsMenuData();
+            this.setRhsMenuData();
+        } else if (position === RIGHT) {
+            this.setRhsMenuData();
+        } else if (position === LEFT) {
+            this.setLhsMenuData();
+        }
     };
 
     /**
@@ -635,7 +656,6 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     handleLhsItemSelected(event) {
         this.state.operatorAndRhsDisabled = false;
-
         if (!this._operatorMenuData || !this._operatorMenuData.length) {
             const selectedLhs = this.getElementOrField(
                 event.detail.item.value,
@@ -712,7 +732,6 @@ export default class BaseExpressionBuilder extends LightningElement {
     populateLhsMenuData(getFields, parentMenuItem) {
         const isDisplayedAsFieldReference =
             this.lhsDisplayOption !== LHS_DISPLAY_OPTION.SOBJECT_FIELD;
-
         this.populateMenuData(
             getFields,
             parentMenuItem,
@@ -741,9 +760,9 @@ export default class BaseExpressionBuilder extends LightningElement {
         const picklistValues = this.rhsIsFer
             ? null
             : this.lhsActivePicklistValues;
-
         // Display picklist values incrementally in the combobox. See W-5731108.
-        this.state.rhsRenderIncrementally = !!picklistValues && picklistValues.length > 0;
+        this.state.rhsRenderIncrementally =
+            !!picklistValues && picklistValues.length > 0;
 
         this.populateMenuData(
             getFields,
@@ -756,6 +775,35 @@ export default class BaseExpressionBuilder extends LightningElement {
             isDisplayedAsFieldReference,
             !this.rhsIsFer,
             picklistValues
+        );
+    }
+
+    setInlineResource = (position, resource) => {
+        const menu =
+            position === LEFT ? LHS_FULL_MENU_DATA : RHS_FULL_MENU_DATA;
+        const inlineItem = this.state[menu].reduce(
+            (item, itemGroup) =>
+                (itemGroup.items != null &&
+                    itemGroup.items.find(
+                        currentItem => currentItem.value === resource
+                    )) ||
+                item,
+
+            null
+        );
+
+        if (position === LEFT) {
+            this._lhsInlineResource = inlineItem;
+        } else if (position === RIGHT) {
+            this._rhsInlineResource = inlineItem;
+        }
+    };
+
+    handleAddNewResource(event) {
+        storeInstance.dispatch(
+            setComboboxPosition({
+                position: event.detail.position
+            })
         );
     }
 
@@ -839,6 +887,20 @@ export default class BaseExpressionBuilder extends LightningElement {
                 picklistValues,
                 !this.hideSystemVariables
             );
+        }
+
+        const newResource = storeInstance.getCurrentState().properties
+            .inlineResource;
+        if (newResource != null) {
+            this.state = {
+                ...this.state,
+                operatorAndRhsDisabled: false
+            };
+            this.setInlineResource(
+                storeInstance.getCurrentState().properties.comboboxPosition,
+                newResource
+            );
+            storeInstance.dispatch(removeLastCreatedResource);
         }
     }
 
