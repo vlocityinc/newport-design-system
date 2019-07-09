@@ -188,3 +188,7 @@ textarea[placeholder]::placeholder {
 textarea:focus::placeholder {
   color: inherit;
 }
+
+.nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out {
+  transition: transform 200ms ease-out, font-size 200ms ease-out
+}
