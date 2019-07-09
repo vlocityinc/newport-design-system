@@ -8,6 +8,7 @@ import operatorLabel from '@salesforce/label/FlowBuilderConditionList.operatorLa
 import operatorPlaceholder from '@salesforce/label/FlowBuilderConditionList.operatorPlaceholder';
 import rhsLabel from '@salesforce/label/FlowBuilderConditionList.rhsLabel';
 import cannotBeBlankError from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
+import maxConditionsLabel from '@salesforce/label/FlowBuilderConditionList.maxConditionsLabel';
 
 export const LABELS = {
     customLogicLabel,
@@ -18,5 +19,6 @@ export const LABELS = {
     operatorLabel,
     operatorPlaceholder,
     rhsLabel,
-    cannotBeBlankError
+    cannotBeBlankError,
+    maxConditionsLabel
 };

@@ -36,4 +36,10 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     @api
     variant;
+
+    @api
+    lhsLabelHelpText;
+
+    @api
+    rhsLabelHelpText;
 }

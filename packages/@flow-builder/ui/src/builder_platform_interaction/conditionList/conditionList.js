@@ -63,6 +63,9 @@ export default class ConditionList extends LightningElement {
     }
 
     @api
+    maxConditions;
+
+    @api
     parentGuid;
 
     @api

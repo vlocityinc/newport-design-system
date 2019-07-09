@@ -31,6 +31,8 @@
         onupdatelistitem={handleUpdateCondition}
         ondeletelistitem={handleDeleteCondition}
         add-label={labels.addConditionsLabel}
+        max-items={maxConditions}
+        max-items-label={labels.maxConditionsLabel}
     >
         <div slot="listBody">
             <slot name="conditions">

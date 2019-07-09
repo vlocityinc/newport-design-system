@@ -3,11 +3,15 @@
         <slot name="listBody"> </slot>
         <div class="slds-m-top_small">
             <lightning-button
+                disabled={hasMaxItems}
                 label={addLabel}
                 icon-name="utility:add"
                 onclick={handleAddClicked}
             >
             </lightning-button>
+            <div if:true={hasMaxItems} class="slds-text-color_weak">
+                {maxItemsHelpText}
+            </div>
         </div>
     </div>
 </template>

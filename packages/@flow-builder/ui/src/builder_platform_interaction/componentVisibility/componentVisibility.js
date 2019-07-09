@@ -16,8 +16,8 @@ import {
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
 import { LABELS } from './componentVisibilityLabels';
 
-// TODO:
-// const MAX_CONDITIONS = 10;
+// maximum number of visibility conditions allowed
+const MAX_CONDITIONS = 10;
 
 /**
  * Component displayed in the "Component Visibility" screen editor section.
@@ -71,6 +71,10 @@ export default class ComponentVisibility extends LightningElement {
             this.visibilityRule.conditionLogic.value !==
             CONDITION_LOGIC.NO_CONDITIONS
         );
+    }
+
+    get maxConditions() {
+        return MAX_CONDITIONS;
     }
 
     /**
