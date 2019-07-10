@@ -172,3 +172,19 @@ textarea:focus::placeholder {
   color: inherit;
 }
 
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
+  padding-left: 0;
+}
+
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly]:focus {
+  box-shadow: none;
+}
+
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] ~ label {
+      transform: none;
+}
+
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly]:focus ~ label,
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly].nds-input.nds-not-empty.nds-is-dirty ~ label {
+      transform: translate3d(0px, -1.2rem, 0px);
+}
