@@ -243,13 +243,15 @@ describe('record-filter', () => {
 
     describe('Warning message', () => {
         let element;
-        it('Should not display warning icon for record lookup if "no conditions" filtering', () => {
+        it('Should display warning icon and message for record lookup if "no conditions" filtering', () => {
             element = createComponentUnderTest(
                 ELEMENT_TYPE.RECORD_LOOKUP,
                 RECORD_FILTER_CRITERIA.NONE
             );
-            expect(getWarningIcon(element)).toBeNull();
-            expect(getWarningMessage(element)).toBeNull();
+            expect(getWarningIcon(element)).toBeDefined();
+            expect(getWarningMessage(element).label).toBe(
+                'FlowBuilderRecordEditor.getAllRecords'
+            );
         });
         it('Should display warning icon and message for record update if "no conditions" filtering', () => {
             element = createComponentUnderTestForRecordUpdate(

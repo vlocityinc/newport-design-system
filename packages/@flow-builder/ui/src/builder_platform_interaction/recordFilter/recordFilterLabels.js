@@ -13,6 +13,7 @@ import filterAllCriterias from '@salesforce/label/FlowBuilderRecordEditor.filter
 import filterPrefix from '@salesforce/label/FlowBuilderRecordEditor.filterPrefix';
 import criteriaMatchingRecords from '@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords';
 import updateAllRecords from '@salesforce/label/FlowBuilderRecordEditor.updateAllRecords';
+import getAllRecords from '@salesforce/label/FlowBuilderRecordEditor.getAllRecords';
 import warning from '@salesforce/label/FlowBuilderRecordEditor.warning';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 export const LABELS = {
@@ -30,6 +31,7 @@ export const LABELS = {
     filterPrefix,
     criteriaMatchingRecords,
     updateAllRecords,
+    getAllRecords,
     warning
 };
 
@@ -41,7 +43,8 @@ export const CRITERIA_RECORDS_LABELS = {
 };
 
 export const WARNING_LABELS = {
-    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.updateAllRecords
+    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.updateAllRecords,
+    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.getAllRecords
 };
 
 export const NO_CRITERIA_LABELS = {

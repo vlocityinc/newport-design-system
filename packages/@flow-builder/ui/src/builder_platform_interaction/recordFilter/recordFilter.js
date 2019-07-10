@@ -148,7 +148,8 @@ export default class RecordFilter extends LightningElement {
 
     get showWarningMessage() {
         return (
-            (this.elementType === ELEMENT_TYPE.RECORD_UPDATE ||
+            (this.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
+                this.elementType === ELEMENT_TYPE.RECORD_UPDATE ||
                 this.elementType === ELEMENT_TYPE.RECORD_DELETE) &&
             this.selectedFilter === RECORD_FILTER_CRITERIA.NONE
         );
