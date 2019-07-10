@@ -175,22 +175,24 @@ storiesOf(`${base}`, module)
   .add('Field Level Help (examples)', () => {
     return withExample(`<div class="demo-only" style="padding-top: 5rem;">
   <div class="nds-form-element">
-    <label class="nds-form-element__label nds-align-middle" for="form-help">Text Label</label>
-    <div class="nds-form-element__icon">
-      <button aria-describedby="help" class="nds-button nds-button_icon">
-        <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
-          <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
-        </svg>
-        <span class="nds-assistive-text">Help</span>
-      </button>
-    </div>
-    <div class="nds-form-element__control">
+    <div class="nds-form-element__control nds-form-element__control-animated-label">
       <input type="text" class="nds-input" id="form-help" placeholder="Field Level Help">
-    </div>
-  </div>
-  <div class="nds-popover nds-popover_tooltip nds-nubbin_bottom-left" id="help" role="tooltip" style="position: absolute; top: 15px; left: 72px; margin-left: -1rem; width: 20rem;">
-    <div class="nds-popover__body nds-text-longform">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci facere eligendi reiciendis obcaecati.</p>
+      <div class="nds-form-element__label nds-align-middle" for="form-help">
+        <label>Text Label</label>
+        <div class="nds-form-element__icon">
+          <button aria-describedby="help" class="nds-button nds-button_icon">
+            <svg class="nds-icon nds-icon_x-small nds-icon-text-default" aria-hidden="true">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+            </svg>
+            <span class="nds-assistive-text">Help</span>
+          </button>
+          <div class="nds-popover nds-popover_tooltip nds-nubbin_bottom-left" id="help" role="tooltip" style="position: absolute; top: -41px; left: 1px; margin-left: -1rem; width: 20rem;">
+            <div class="nds-popover__body nds-text-longform">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci facere eligendi reiciendis obcaecati.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>`);
