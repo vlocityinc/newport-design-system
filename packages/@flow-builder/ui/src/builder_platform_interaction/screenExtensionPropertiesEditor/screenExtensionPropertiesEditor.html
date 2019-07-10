@@ -1,7 +1,7 @@
 <template>
     <div if:true={field} class="container full-height">
         <div if:true={extensionDescription}>
-            <section class="slds-p-horizontal_small slds-p-bottom_small">
+            <section class="slds-p-horizontal_small">
                 <builder_platform_interaction-screen-property-field
                     label={labels.apiNameLabel}
                     name="name"
@@ -32,26 +32,44 @@
                 if:true={hasOutputs}
                 allow-multiple-sections-open
                 active-section-name="outputsSection"
-                class="slds-has-divider slds-p-top_none"
+                class="slds-has-divider slds-p-top_none slds-border_bottom"
             >
-                <builder_platform_interaction-screen-component-visibility-section
-                    field={field}
-                >
-                </builder_platform_interaction-screen-component-visibility-section>
-
-                <div if:true={isAutomaticOutputHandlingSupported}>
-                    <builder_platform_interaction-use-advanced-options-checkbox
-                        is-advanced-mode={isAdvancedMode}
-                        onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
-                    >
-                    </builder_platform_interaction-use-advanced-options-checkbox>
-                </div>
-
-                <!--  validation text -->
                 <lightning-accordion-section
-                    if:true={isManualOutputDisplayed}
-                    name="outputsSection"
-                    label={labels.extensionOutputsHeader}
+                    name="componentVisibility"
+                    label={labels.componentVisbilitySectionTitle}
+                >
+                    <builder_platform_interaction-component-visibility
+                        visibility-rule={field.visibilityRule}
+                        guid={field.guid}
+                    >
+                    </builder_platform_interaction-component-visibility>
+                </lightning-accordion-section>
+            </lightning-accordion>
+
+            <!--  validation text -->
+
+            <div
+                if:true={isAutomaticOutputHandlingSupported}
+                class="slds-m-top_small"
+            >
+                <builder_platform_interaction-use-advanced-options-checkbox
+                    is-advanced-mode={isAdvancedMode}
+                    onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+                >
+                </builder_platform_interaction-use-advanced-options-checkbox>
+            </div>
+            <div
+                if:true={isManualOutputDisplayed}
+                class="slds-m-bottom_small slds-m-top_small"
+            >
+                <h3
+                    class="slds-p-left_medium"
+                    style="font-size:3;font-weight:bold"
+                >
+                    {labels.extensionOutputsHeader}
+                </h3>
+                <div
+                    class="slds-p-left_medium slds-p-right_small slds-m-top_small"
                 >
                     <template
                         for:each={state.editor.outputParameters}
@@ -69,8 +87,8 @@
                         >
                         </builder_platform_interaction-screen-extension-attribute-editor>
                     </template>
-                </lightning-accordion-section>
-            </lightning-accordion>
+                </div>
+            </div>
         </div>
     </div>
 </template>
