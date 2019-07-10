@@ -20,12 +20,9 @@ import {
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
     SObjectReferenceChangedEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    NumberRecordToStoreChangedEvent
 } from 'builder_platform_interaction/events';
-import {
-    getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
-} from 'builder_platform_interaction/builderTestUtils';
+import { getAdvancedOptionCheckbox } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -38,8 +35,8 @@ jest.mock('builder_platform_interaction/fieldPicker', () =>
 );
 
 const MOCK_GUID = '515fa22c-c633-48fe-a97e-4fd3c272cc24';
-const FLOW_PROCESS_TYPE = 'flow';
-const OTHER_PROCESS_TYPE = 'other';
+const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
+const MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE = 'other';
 
 class ToggleOnChangeEvent extends CustomEvent {
     constructor() {
@@ -50,7 +47,7 @@ class ToggleOnChangeEvent extends CustomEvent {
 function createComponentForTest(
     node,
     mode = EditElementEvent.EVENT_NAME,
-    processType = OTHER_PROCESS_TYPE
+    processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
 ) {
     const el = createElement(
         'builder_platform_interaction-record-lookup-editor',
@@ -61,24 +58,17 @@ function createComponentForTest(
     return el;
 }
 
-const defaultValueItem = { item: { value: 'guid1', displayText: 'var 1' } },
-    eventDetailObjectWithError = (displayText, error) => ({
-        item: null,
-        displayText,
-        error
-    });
-
-function getComboboxStateChangedEvent(detail = defaultValueItem) {
+const defaultValueItem = { item: { value: 'guid1', displayText: 'var 1' } };
+const eventDetailObjectWithError = (displayText, error) => ({
+    item: null,
+    displayText,
+    error
+});
+const getComboboxStateChangedEvent = (detail = defaultValueItem) => {
     return new CustomEvent('comboboxstatechanged', {
         detail
     });
-}
-
-function getComboboxItemSelectedEvent() {
-    return new CustomEvent('itemselected', {
-        detail: defaultValueItem
-    });
-}
+};
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
@@ -89,7 +79,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(processType => {
-            return processType === 'flow'
+            return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
                 : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
         })
@@ -109,7 +99,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 
-const selectors = {
+const SELECTORS = {
     entityResourcePicker: 'builder_platform_interaction-entity-resource-picker',
     fieldToFerovExBuilder:
         'builder_platform_interaction-field-to-ferov-expression-builder',
@@ -130,7 +120,9 @@ const selectors = {
     sObjectOrSObjectCollectionPicker:
         'builder_platform_interaction-sobject-or-sobject-collection-picker',
     useAdvancedOptionsCheckboxComponent:
-        'builder_platform_interaction-use-advanced-options-checkbox'
+        'builder_platform_interaction-use-advanced-options-checkbox',
+    assignNullIfNoRecordFoundsInput:
+        'lightning-input.test-assign-null-if-no-records-found'
 };
 
 const filterElement = {
@@ -147,14 +139,13 @@ const lookupField = {
     rowIndex: 'f972abcb-1df5-41f1-9d31-f5076cbc8'
 };
 
-const defaultRecordLookupElement = () => ({
+const defaultNewRecordLookupElement = () => ({
     description: { value: '', error: null },
-    elementType: 'RECORD_LOOKUP',
-    guid: 'RECORDLOOKUP_1',
+    elementType: 'RecordQuery',
+    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
     isCanvasElement: true,
     label: { value: '', error: null },
     name: { value: '', error: null },
-    outputReference: { value: '', error: null },
     outputReferenceIndex: { value: MOCK_GUID, error: null },
     sortField: { value: '', error: null },
     sortOrder: SORT_ORDER.NOT_SORTED,
@@ -164,15 +155,35 @@ const defaultRecordLookupElement = () => ({
     object: { value: '', error: null },
     objectIndex: { value: 'guid', error: null },
     filterType: RECORD_FILTER_CRITERIA.NONE,
-    filters: [],
-    getFirstRecordOnly: true,
-    storeOutputAutomatically: true
+    filters: [
+        {
+            rowIndex: 'a0e8a02d-60fb-4481-8165-10a01fe7031c',
+            leftHandSide: {
+                value: '',
+                error: null
+            },
+            rightHandSide: {
+                value: '',
+                error: null
+            },
+            rightHandSideDataType: {
+                value: '',
+                error: null
+            },
+            operator: {
+                value: '',
+                error: null
+            }
+        }
+    ],
+    getFirstRecordOnly: true
 });
 
 const recordLookupElementWithSObject = () => ({
     description: { value: '', error: null },
-    elementType: 'RECORD_LOOKUP',
-    guid: 'RECORDLOOKUP_1',
+    elementType: 'RecordQuery',
+    dataType: { value: 'Boolean', error: null },
+    guid: '426e1b1a-7235-487f-9b44-38db56af4a45',
     isCanvasElement: true,
     label: { value: 'testRecord', error: null },
     name: { value: 'testRecord', error: null },
@@ -180,7 +191,7 @@ const recordLookupElementWithSObject = () => ({
     outputReferenceIndex: { value: MOCK_GUID, error: null },
     sortField: { value: '', error: null },
     sortOrder: SORT_ORDER.NOT_SORTED,
-    assignNullValuesIfNoRecordsFound: false,
+    assignNullValuesIfNoRecordsFound: true,
     outputAssignments: [],
     queriedFields: [
         {
@@ -196,13 +207,14 @@ const recordLookupElementWithSObject = () => ({
     objectIndex: { value: 'guid', error: null },
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
-    getFirstRecordOnly: true
+    getFirstRecordOnly: true,
+    storeOutputAutomatically: false
 });
 
 const recordLookupElementWithSObjectAndFilters = () => ({
     description: { value: '', error: null },
-    elementType: 'RECORD_LOOKUP',
-    guid: 'RECORDLOOKUP_1',
+    elementType: 'RecordQuery',
+    guid: '7326e1b1a-7235-487f-9b44-38db56af4a45',
     isCanvasElement: true,
     label: { value: 'testRecord', error: null },
     name: { value: 'testRecord', error: null },
@@ -230,8 +242,9 @@ const recordLookupElementWithSObjectAndFilters = () => ({
 
 const recordLookupElementWithFields = () => ({
     description: { value: '', error: null },
-    elementType: 'RECORD_LOOKUP',
-    guid: 'RECORDLOOKUP_1',
+    elementType: 'RecordQuery',
+    dataType: { value: 'Boolean', error: null },
+    guid: '8326e1b1a-7235-487f-9b44-38db56af4a45',
     isCanvasElement: true,
     label: { value: 'testRecordWithFields', error: null },
     name: { value: 'testRecordWithFields', error: null },
@@ -239,18 +252,19 @@ const recordLookupElementWithFields = () => ({
     outputAssignments: [lookupField],
     sortField: { value: '', error: null },
     sortOrder: SORT_ORDER.NOT_SORTED,
-    assignNullValuesIfNoRecordsFound: false,
+    assignNullValuesIfNoRecordsFound: true,
     object: { value: 'Account', error: '' },
     objectIndex: { value: 'guid', error: null },
     filterType: RECORD_FILTER_CRITERIA.NONE,
     filters: [],
-    getFirstRecordOnly: true
+    getFirstRecordOnly: true,
+    storeOutputAutomatically: false
 });
 
-const recordLookupElementWithSObjectAutomaticOutputHandling = () => ({
+const recordLookupElementAutomaticSingleRecord = () => ({
     description: { value: '', error: null },
-    elementType: 'RECORD_LOOKUP',
-    guid: 'RECORDLOOKUP_1',
+    elementType: 'RecordQuery',
+    guid: '9326e1b1a-7235-487f-9b44-38db56af4a45',
     isCanvasElement: true,
     label: { value: 'testRecord', error: null },
     name: { value: 'testRecord', error: null },
@@ -279,6 +293,125 @@ const recordLookupElementWithSObjectAutomaticOutputHandling = () => ({
     subType: 'Account'
 });
 
+const recordLookupElementAutomaticSCollectionRecord = () => ({
+    guid: '8aae1ef5-4508-4b5f-8c3e-58667ce1758e',
+    name: {
+        value: 'accounts_auto',
+        error: null
+    },
+    description: {
+        value: '',
+        error: null
+    },
+    label: {
+        value: 'accounts auto',
+        error: null
+    },
+    locationX: 231,
+    locationY: 63,
+    isCanvasElement: true,
+    connectorCount: 0,
+    config: {
+        isSelected: true,
+        isHighlighted: false
+    },
+    object: {
+        value: 'Account',
+        error: null
+    },
+    objectIndex: {
+        value: 'b65d14d1-3db0-4682-b56f-5a8f752ad441',
+        error: null
+    },
+    filterType: 'all',
+    filters: [
+        {
+            rowIndex: '91c24311-2f5b-4bc0-9ca0-7e20d46231b1',
+            leftHandSide: {
+                value: 'Account.BillingCity',
+                error: null
+            },
+            rightHandSide: {
+                value: 'paris',
+                error: null
+            },
+            rightHandSideDataType: {
+                value: 'String',
+                error: null
+            },
+            operator: {
+                value: 'EqualTo',
+                error: null
+            }
+        },
+        {
+            rowIndex: 'e3ea4c10-6da4-44c9-8203-3d94da8fa3c9',
+            leftHandSide: {
+                value: 'Account.BillingPostalCode',
+                error: null
+            },
+            rightHandSide: {
+                value: '75015',
+                error: null
+            },
+            rightHandSideDataType: {
+                value: 'String',
+                error: null
+            },
+            operator: {
+                value: 'EqualTo',
+                error: null
+            }
+        }
+    ],
+    queriedFields: [
+        {
+            field: {
+                value: 'Id',
+                error: null
+            },
+            rowIndex: '937120eb-0cdd-460d-9ee4-8602c047423d'
+        },
+        {
+            field: {
+                value: 'Name',
+                error: null
+            },
+            rowIndex: 'bcf38351-19d7-47bd-ba41-1dd2ace65eb4'
+        }
+    ],
+    sortOrder: 'Desc',
+    sortField: {
+        value: 'BillingCity',
+        error: null
+    },
+    maxConnections: 2,
+    availableConnections: [
+        {
+            type: 'REGULAR'
+        },
+        {
+            type: 'FAULT'
+        }
+    ],
+    elementType: 'RecordQuery',
+    outputReferenceIndex: {
+        value: '70c9b8c3-d474-4bae-a9cd-b54bffedd792',
+        error: null
+    },
+    dataType: {
+        value: 'SObject',
+        error: null
+    },
+    isCollection: true,
+    subtype: {
+        value: 'Account',
+        error: null
+    },
+    storeOutputAutomatically: true,
+    getFirstRecordOnly: false
+});
+
 const outputAssignmentElement = {
     leftHandSide: { value: 'Account.Address', error: null },
     rightHandSide: { value: 'myAddress', error: null },
@@ -287,671 +420,563 @@ const outputAssignmentElement = {
 
 const getRecordStoreOption = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
-        selectors.recordStoreOption
+        SELECTORS.recordStoreOption
     );
 };
 
 const getEntityResourcePicker = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
-        selectors.entityResourcePicker
+        SELECTORS.entityResourcePicker
     );
 };
 
 const getRecordFilter = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(selectors.recordFilter);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordFilter);
 };
 
 const getRecordSort = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(selectors.recordSort);
+    return recordLookupEditor.shadowRoot.querySelector(SELECTORS.recordSort);
 };
 
 const getRecordSobjectAndQueryFields = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
-        selectors.recordSobjectAndQueryFields
+        SELECTORS.recordSobjectAndQueryFields
     );
 };
 
 const getsObjectOrSObjectCollectionPicker = recordSobjectAndQueryFields => {
     return recordSobjectAndQueryFields.shadowRoot.querySelector(
-        selectors.sObjectOrSObjectCollectionPicker
+        SELECTORS.sObjectOrSObjectCollectionPicker
     );
 };
 
 const getInputOutputAssignments = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
-        selectors.inputOutputAssignments
+        SELECTORS.inputOutputAssignments
+    );
+};
+
+const getNumberRecordToStoreComponent = recordLookupEditor => {
+    return recordLookupEditor.shadowRoot.querySelector(
+        SELECTORS.recordNumberOfRecordToStore
     );
 };
 
 const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
-    const numberRecordToStoreComponent = recordLookupEditor.shadowRoot.querySelector(
-        selectors.recordNumberOfRecordToStore
-    );
-    return numberRecordToStoreComponent.shadowRoot.querySelector(
-        selectors.lightningRadioGroup
+    return getNumberRecordToStoreComponent(
+        recordLookupEditor
+    ).shadowRoot.querySelector(SELECTORS.lightningRadioGroup);
+};
+
+const getAutomaticWayToStoresRadioGroup = recordLookupEditor => {
+    return recordLookupEditor.shadowRoot.querySelector(
+        SELECTORS.lightningRadioGroup
     );
 };
 
 const getAutomaticQueryFields = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
-        selectors.recordQueryFields
+        SELECTORS.recordQueryFields
     );
 };
 
 const getAutomaticWayToStoreFields = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
-        selectors.lightningRadioGroup
-    );
-};
-
-const getAllInteractionRows = component => {
-    return component.shadowRoot.querySelectorAll(selectors.interactionRow);
-};
-
-const getFieldToFerovExBuilder = (component, index = 0) => {
-    return getAllInteractionRows(component)[index].querySelector(
-        selectors.fieldToFerovExBuilder
+        SELECTORS.lightningRadioGroup
     );
 };
 
 describe('record-lookup-editor', () => {
-    let recordLookupEditor;
-    describe('with default values', () => {
-        beforeEach(() => {
-            recordLookupEditor = createComponentForTest(
-                defaultRecordLookupElement(),
-                AddElementEvent.EVENT_NAME
-            );
-        });
-        it('contains an entity resource picker for sobject', () => {
-            const entityResourcePicker = getEntityResourcePicker(
-                recordLookupEditor
-            );
-            expect(entityResourcePicker).not.toBeNull();
-        });
-        it('Other elements should not be visible', () => {
-            expect(getRecordFilter(recordLookupEditor)).toBeNull();
-            expect(getRecordStoreOption(recordLookupEditor)).toBeNull();
-            expect(getRecordSort(recordLookupEditor)).toBeNull();
-            expect(
-                getRecordSobjectAndQueryFields(recordLookupEditor)
-            ).toBeNull();
-        });
-        it('should show other elements when changing the resource', () => {
-            const entityResourcePicker = getEntityResourcePicker(
-                recordLookupEditor
-            );
-            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            return Promise.resolve().then(() => {
-                expect(getRecordFilter(recordLookupEditor)).not.toBeNull();
-                expect(getRecordStoreOption(recordLookupEditor)).not.toBeNull();
-                expect(getRecordSort(recordLookupEditor)).not.toBeNull();
-                expect(
-                    getRecordSobjectAndQueryFields(recordLookupEditor)
-                ).not.toBeNull();
-            });
-        });
-        it('should show other elements when selecting the resource', () => {
-            const entityResourcePicker = getEntityResourcePicker(
-                recordLookupEditor
-            );
-            entityResourcePicker.dispatchEvent(getComboboxItemSelectedEvent());
-            return Promise.resolve().then(() => {
-                expect(getRecordFilter(recordLookupEditor)).not.toBeNull();
-                expect(getRecordStoreOption(recordLookupEditor)).not.toBeNull();
-                expect(getRecordSort(recordLookupEditor)).not.toBeNull();
-                expect(
-                    getRecordSobjectAndQueryFields(recordLookupEditor)
-                ).not.toBeNull();
-            });
-        });
-    });
-    describe('Existing record element remove "object"', () => {
-        beforeEach(() => {
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithSObject()
-            );
-            const entityResourcePicker = getEntityResourcePicker(
-                recordLookupEditor
-            );
-            entityResourcePicker.dispatchEvent(
-                getComboboxStateChangedEvent(
-                    eventDetailObjectWithError('', 'A value is required.')
-                )
-            );
-        });
-        it('"recordFilter" should NOT be visible', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter).toBeNull();
-        });
-        it('"recordStoreOption" should NOT be visible', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption).toBeNull();
-        });
-        it('"recordSort" should NOT be visible', () => {
-            const recordSort = getRecordSort(recordLookupEditor);
-            expect(recordSort).toBeNull();
-        });
-        it('"recordQueryField" should NOT be visible', () => {
-            const recordQueryField = getRecordSobjectAndQueryFields(
-                recordLookupEditor
-            );
-            expect(recordQueryField).toBeNull();
-        });
-        it('"recordInputOutputAssignments" should NOT be visible', () => {
-            const recordOutputAssignments = getInputOutputAssignments(
-                recordLookupEditor
-            );
-            expect(recordOutputAssignments).toBeNull();
-        });
-    });
-    describe('Existing record element typing invalid "object"', () => {
-        let entityResourcePicker;
-        beforeEach(() => {
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithSObject()
-            );
-            entityResourcePicker = getEntityResourcePicker(recordLookupEditor);
-            entityResourcePicker.dispatchEvent(
-                getComboboxStateChangedEvent(
-                    eventDetailObjectWithError(
-                        'invalidEntityName',
-                        'Enter a valid value.'
-                    )
-                )
-            );
-        });
-        it('"recordFilter" should NOT be visible', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter).toBeNull();
-        });
-        it('"recordStoreOption" should NOT be visible', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption).toBeNull();
-        });
-        it('"recordSort" should NOT be visible', () => {
-            const recordSort = getRecordSort(recordLookupEditor);
-            expect(recordSort).toBeNull();
-        });
-        it('"recordQueryField" should NOT be visible', () => {
-            const recordQueryField = getRecordSobjectAndQueryFields(
-                recordLookupEditor
-            );
-            expect(recordQueryField).toBeNull();
-        });
-        it('"recordInputOutputAssignments" should NOT be visible', () => {
-            const recordOutputAssignments = getInputOutputAssignments(
-                recordLookupEditor
-            );
-            expect(recordOutputAssignments).toBeNull();
-        });
-        it('"object" picker value should be set to empty string', () => {
-            expect(entityResourcePicker.value).toBe('');
-        });
-    });
-    describe('Edit existing record element using sObject', () => {
-        beforeEach(() => {
-            const sobjectVariableElement =
-                store.elements[store.accountSObjectVariableGuid];
-            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                sobjectVariableElement
-            );
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithSObject()
-            );
-        });
-        it('record filter should be visible', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter).not.toBeNull();
-        });
-        it('recordStoreOption should be visible', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption).not.toBeNull();
-        });
-        it('recordSort should be visible', () => {
-            const recordSort = getRecordSort(recordLookupEditor);
-            expect(recordSort).not.toBeNull();
-        });
-        it('recordQueryField should be visible', () => {
-            const recordQueryField = getRecordSobjectAndQueryFields(
-                recordLookupEditor
-            );
-            expect(recordQueryField).not.toBeNull();
-        });
-        it('Number of record to store should be firstRecord', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption.numberOfRecordsToStore).toBe(
-                NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-            );
-        });
-        it('Way to store fields should be sObjectVariable', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption.wayToStoreFields).toBe(
-                WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-            );
-        });
-        it('sortOrder should be Not sorted', () => {
-            const recordSort = getRecordSort(recordLookupEditor);
-            expect(recordSort.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
-        });
-        it('record filter type should be "none" ', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
-        });
-        it('record inputOutPutAssignments should not be visible', () => {
-            const recordOutputAssignments = getInputOutputAssignments(
-                recordLookupEditor
-            );
-            expect(recordOutputAssignments).toBeNull();
-        });
-    });
-    describe('Edit existing record element using Fields', () => {
-        beforeEach(() => {
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithFields()
-            );
-        });
-        it('record filter should be visible', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter).not.toBeNull();
-        });
-        it('recordStoreOption should be visible', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption).not.toBeNull();
-        });
-        it('recordSort should be visible', () => {
-            const recordSort = getRecordSort(recordLookupEditor);
-            expect(recordSort).not.toBeNull();
-        });
-        it('record inputOutPutAssignments should be visible', () => {
-            const recordOutputAssignments = getInputOutputAssignments(
-                recordLookupEditor
-            );
-            expect(recordOutputAssignments).not.toBeNull();
-        });
-        it('Number of record to store should be firstRecord', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption.numberOfRecordsToStore).toBe(
-                NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-            );
-        });
-        it('Way to store fields should be separateVariables', () => {
-            const recordStoreOption = getRecordStoreOption(recordLookupEditor);
-            expect(recordStoreOption.wayToStoreFields).toBe(
-                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
-            );
-        });
-        it('sortOrder should be Not sorted', () => {
-            const recordSort = getRecordSort(recordLookupEditor);
-            expect(recordSort.sortOrder).toBe(SORT_ORDER.NOT_SORTED);
-        });
-        it('recordQueryField should be null', () => {
-            const recordQueryField = getRecordSobjectAndQueryFields(
-                recordLookupEditor
-            );
-            expect(recordQueryField).toBeNull();
-        });
-        it('record filterType should be "none" ', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.NONE);
-        });
-    });
-    describe('Handle Events (using SObject)', () => {
-        beforeEach(() => {
-            const sObjectVariableElement =
-                store.elements[store.accountSObjectVariableGuid];
-            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                sObjectVariableElement
-            );
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithSObject()
-            );
-        });
-        it('handles flow combobox value changed event', () => {
-            let entityResourcePicker = getEntityResourcePicker(
-                recordLookupEditor
-            );
-            entityResourcePicker.dispatchEvent(getComboboxStateChangedEvent());
-            return Promise.resolve().then(() => {
-                entityResourcePicker = getEntityResourcePicker(
-                    recordLookupEditor
-                );
-                expect(entityResourcePicker.value).toBe('guid1');
-            });
-        });
-        it('handle sortOrder Changed should changed the record lookup sortOrder value', () => {
-            const event = new CustomEvent('change', {
-                detail: { sortOrder: SORT_ORDER.ASC, fieldApiName: '' }
-            });
-            getRecordSort(recordLookupEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const recordSort = getRecordSort(recordLookupEditor);
-                expect(recordSort.sortOrder).toBe(SORT_ORDER.ASC);
-                expect(recordLookupEditor.node.sortOrder).toBe(SORT_ORDER.ASC);
-            });
-        });
-        it('change number record to store to All records, sObject picker should changed', () => {
-            const event = new RecordStoreOptionChangedEvent(false, '', false);
-            getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
-                    recordLookupEditor
-                );
-                const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                    recordSobjectAndQueryFields
-                );
-                expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
-                    'FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder'
-                );
-                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-            });
-        });
-        it('handle RecordStoreOptionChangedEvent should set assignNullValuesIfNoRecordsFound to true', () => {
-            const event = new RecordStoreOptionChangedEvent(true, '', true);
-            getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                expect(
-                    recordLookupEditor.node.assignNullValuesIfNoRecordsFound
-                ).toBe(true); // We want the exact value true
-            });
-        });
-        it('handle UpdateRecordFilterEvent should update the filter element', () => {
-            const updateRecordFilterEvent = new UpdateRecordFilterEvent(
-                0,
-                filterElement,
-                null
-            );
-            getRecordFilter(recordLookupEditor).dispatchEvent(
-                updateRecordFilterEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.filters[0]).toMatchObject(
-                    filterElement
-                );
-            });
-        });
-        it('handle AddRecordFilterEvent should add a filter element', () => {
-            const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordLookupEditor).dispatchEvent(
-                addRecordFilterEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.filters).toHaveLength(1);
-            });
-        });
-        it('handle record filter type Change event', () => {
-            const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(
-                RECORD_FILTER_CRITERIA.ALL
-            );
-            getRecordFilter(recordLookupEditor).dispatchEvent(
-                recordFilterTypeChangedEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.filterType).toBe(
-                    RECORD_FILTER_CRITERIA.ALL
-                );
-            });
-        });
-        it('reselect same "outputReference" should not reset query fields', () => {
-            const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
-                recordLookupEditor
-            );
-            const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                recordSobjectAndQueryFields
-            );
-            sObjectOrSObjectCollectionPicker.dispatchEvent(
-                new SObjectReferenceChangedEvent(
-                    store.accountSObjectVariableGuid
-                )
-            );
-            return Promise.resolve().then(() => {
-                expect(
-                    recordSobjectAndQueryFields.queriedFields[1].field.value
-                ).toBe('Name');
-            });
-        });
-    });
-    describe('Handle Events for existing element with filters', () => {
-        beforeEach(() => {
-            const sObjectVariableElement =
-                store.elements[store.accountSObjectVariableGuid];
-            expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                sObjectVariableElement
-            );
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithSObjectAndFilters()
-            );
-        });
-        it('record filter criteria should be all ', () => {
-            const recordFilter = getRecordFilter(recordLookupEditor);
-            expect(recordFilter.filterType).toBe(RECORD_FILTER_CRITERIA.ALL);
-        });
-        it('record filter fire DeleteRecordFilterEvent', () => {
-            const deleteRecordFilterEvent = new DeleteRecordFilterEvent(0); // This is using the numerical rowIndex not the property rowIndex
-            getRecordFilter(recordLookupEditor).dispatchEvent(
-                deleteRecordFilterEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.filters).toHaveLength(0);
-            });
-        });
-    });
-    describe('Handle Events for element using fields', () => {
-        beforeEach(() => {
-            recordLookupEditor = createComponentForTest(
-                recordLookupElementWithFields()
-            );
-        });
-        it('change number record to store to All records, sObject picker should changed', () => {
-            const event = new RecordStoreOptionChangedEvent(
-                true,
-                WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
-                false
-            );
-            getRecordStoreOption(recordLookupEditor).dispatchEvent(event);
-            return Promise.resolve().then(() => {
-                const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
-                    recordLookupEditor
-                );
-                const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                    recordSobjectAndQueryFields
-                );
-                expect(sObjectOrSObjectCollectionPicker.value).toBe('');
-            });
-        });
-        it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
-            const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
-            getInputOutputAssignments(recordLookupEditor).dispatchEvent(
-                addRecordFieldAssignmentEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.outputAssignments).toHaveLength(
-                    2
-                );
-            });
-        });
-        it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
-            const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
-                0,
-                outputAssignmentElement,
-                null
-            );
-            getInputOutputAssignments(recordLookupEditor).dispatchEvent(
-                updateRecordFieldAssignmentEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(
-                    recordLookupEditor.node.outputAssignments[0]
-                ).toMatchObject(outputAssignmentElement);
-            });
-        });
-        it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
-            const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
-                0
-            ); // This is using the numerical rowIndex not the property rowIndex
-            getInputOutputAssignments(recordLookupEditor).dispatchEvent(
-                deleteRecordFieldAssignmentEvent
-            );
-            return Promise.resolve().then(() => {
-                expect(recordLookupEditor.node.outputAssignments).toHaveLength(
-                    0
-                );
-            });
-        });
-    });
-    describe('With automatic output handling enable', () => {
-        describe('Without advanced option', () => {
+    let recordLookupEditor, entityResourcePicker;
+    describe('Process type NOT supporting the automatic mode', () => {
+        describe('Adding element', () => {
             beforeEach(() => {
                 recordLookupEditor = createComponentForTest(
-                    recordLookupElementWithSObjectAutomaticOutputHandling(),
-                    EditElementEvent.EVENT_NAME,
-                    FLOW_PROCESS_TYPE
+                    defaultNewRecordLookupElement(),
+                    AddElementEvent.EVENT_NAME,
+                    MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
                 );
             });
-            it('record filter should be visible', () => {
-                const recordFilter = getRecordFilter(recordLookupEditor);
-                expect(recordFilter).not.toBeNull();
+            test('check UI - child components displayed or not (snapshot)', () => {
+                expect(recordLookupEditor).toMatchSnapshot();
             });
-            it('Number of record to store should be firstRecord', () => {
-                const recordStoreOption = getAutomaticRecordStoreOptionsRadioGroup(
-                    recordLookupEditor
-                );
-                expect(recordStoreOption.value).toBe(
-                    NUMBER_RECORDS_TO_STORE.FIRST_RECORD
-                );
-            });
-            it('Should display the fields selection', () => {
-                const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                    recordLookupEditor
-                );
-                expect(advancedOptionCheckbox).toBeDefined();
-                expect(advancedOptionCheckbox.type).toBe('checkbox');
-                expect(advancedOptionCheckbox.checked).toBe(false);
-            });
-            describe('Record query fields', () => {
-                it('should be displayed', () => {
-                    const recordQueryFields = getAutomaticQueryFields(
+            describe('After entity (object) is selected', () => {
+                beforeEach(() => {
+                    entityResourcePicker = getEntityResourcePicker(
                         recordLookupEditor
                     );
-                    expect(recordQueryFields).toBeDefined();
-                });
-                it('should have 2 fields', () => {
-                    const recordQueryFields = getAutomaticQueryFields(
-                        recordLookupEditor
-                    );
-                    expect(recordQueryFields.queriedFields[0].field.value).toBe(
-                        'Id'
-                    );
-                    expect(recordQueryFields.queriedFields[1].field.value).toBe(
-                        'Name'
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent()
                     );
                 });
-            });
-            describe('select Use Advanced Options', () => {
-                describe('select a variable', () => {
-                    it('should not remove the 2 selected fields', () => {
-                        const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                            recordLookupEditor
-                        );
-                        advancedOptionCheckbox.dispatchEvent(
-                            new ToggleOnChangeEvent()
-                        );
-                        return Promise.resolve().then(() => {
-                            const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
-                                recordLookupEditor
-                            );
-                            const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
-                                recordSobjectAndQueryFields
-                            );
-                            sObjectOrSObjectCollectionPicker.dispatchEvent(
-                                new SObjectReferenceChangedEvent(
-                                    store.accountSObjectVariableGuid
-                                )
-                            );
-                            return Promise.resolve().then(() => {
-                                expect(
-                                    recordSobjectAndQueryFields.queriedFields[1]
-                                        .field.value
-                                ).toBe('Name');
-                            });
-                        });
-                    });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
                 });
-            });
-            describe('Advanced Option checkbox', () => {
-                it('Should be displayed', () => {
-                    const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                        recordLookupEditor
-                    );
-                    expect(advancedOptionCheckbox).toBeDefined();
-                    expect(advancedOptionCheckbox.type).toBe('checkbox');
-                    expect(advancedOptionCheckbox.checked).toBe(false);
-                });
-                it('Should display the advanced option when checked', async () => {
-                    const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                        recordLookupEditor
-                    );
+                it(`entity picker (object) value should be "${
+                    defaultValueItem.item.value
+                }"`, () => {
                     expect(
-                        recordLookupEditor.node.storeOutputAutomatically
-                    ).toBe(true);
-                    advancedOptionCheckbox.dispatchEvent(
-                        new ToggleOnChangeEvent()
-                    );
-                    return Promise.resolve().then(() => {
-                        expect(
-                            recordLookupEditor.node.storeOutputAutomatically
-                        ).toBe(false);
-                        const wayToStoreFields = getAutomaticWayToStoreFields(
-                            recordLookupEditor
-                        );
-                        expect(wayToStoreFields).toBeDefined();
-                        expect(wayToStoreFields.value).toBe(
-                            WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
-                        );
-                    });
+                        getEntityResourcePicker(recordLookupEditor).value
+                    ).toBe(defaultValueItem.item.value);
                 });
             });
         });
-        describe('With advanced option', () => {
-            describe('using sObject', () => {
+        describe('Edit element (Sobject mode)', () => {
+            describe('No actions', () => {
+                beforeEach(() => {
+                    const sobjectVariableElement =
+                        store.elements[store.accountSObjectVariableGuid];
+                    expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                        sobjectVariableElement
+                    );
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject(),
+                        EditElementEvent.EVENT_NAME,
+                        MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+                it('entity picker (object) value should be "Account" ', () => {
+                    expect(
+                        getEntityResourcePicker(recordLookupEditor).value
+                    ).toBe('Account');
+                });
+                it('Store options (nuber of records) should be "firstRecord"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .numberOfRecordsToStore
+                    ).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+                });
+                it('Store options (Way to store) should be "sObjectVariable"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .wayToStoreFields
+                    ).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
+                });
+                it('assign null if no records found should be "true" ', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .assignNullValuesIfNoRecordsFound
+                    ).toBe(true);
+                });
+                it('sortOrder should NOT be sorted', () => {
+                    expect(getRecordSort(recordLookupEditor).sortOrder).toBe(
+                        SORT_ORDER.NOT_SORTED
+                    );
+                });
+                it('record filter type should be "none" ', () => {
+                    expect(getRecordFilter(recordLookupEditor).filterType).toBe(
+                        RECORD_FILTER_CRITERIA.NONE
+                    );
+                });
+            });
+            describe('remove "object"', () => {
                 beforeEach(() => {
                     recordLookupEditor = createComponentForTest(
                         recordLookupElementWithSObject(),
                         EditElementEvent.EVENT_NAME,
-                        FLOW_PROCESS_TYPE
+                        MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
+                    );
+
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent(
+                            eventDetailObjectWithError(
+                                '',
+                                'A value is required.'
+                            )
+                        )
                     );
                 });
-                describe('Advanced Option checkbox', () => {
-                    it('Should be displayed and checked', () => {
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+            });
+            describe('invalid "object"', () => {
+                beforeEach(() => {
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject(),
+                        EditElementEvent.EVENT_NAME,
+                        MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
+                    );
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent(
+                            eventDetailObjectWithError(
+                                'invalidEntityName',
+                                'Enter a valid value.'
+                            )
+                        )
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+                it('"object" picker value should be set to empty string', () => {
+                    expect(entityResourcePicker.value).toBe('');
+                });
+            });
+            describe('Handle Events', () => {
+                beforeEach(() => {
+                    const sObjectVariableElement =
+                        store.elements[store.accountSObjectVariableGuid];
+                    expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                        sObjectVariableElement
+                    );
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject(),
+                        EditElementEvent.EVENT_NAME,
+                        MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
+                    );
+                });
+                it('handles "entityResourcePicker" value changed event', () => {
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent()
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(entityResourcePicker.value).toBe('guid1');
+                    });
+                });
+                it('handle "sortOrder" Changed should changed the record lookup sortOrder value', () => {
+                    const event = new CustomEvent('change', {
+                        detail: {
+                            sortOrder: SORT_ORDER.ASC,
+                            fieldApiName: ''
+                        }
+                    });
+                    getRecordSort(recordLookupEditor).dispatchEvent(event);
+                    return Promise.resolve().then(() => {
+                        const recordSort = getRecordSort(recordLookupEditor);
+                        expect(recordSort.sortOrder).toBe(SORT_ORDER.ASC);
+                        expect(recordLookupEditor.node.sortOrder).toBe(
+                            SORT_ORDER.ASC
+                        );
+                    });
+                });
+                it('change number record to store to All records, sObject picker should changed', () => {
+                    const event = new RecordStoreOptionChangedEvent(
+                        false,
+                        '',
+                        false
+                    );
+                    getRecordStoreOption(recordLookupEditor).dispatchEvent(
+                        event
+                    );
+                    return Promise.resolve().then(() => {
+                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                            recordLookupEditor
+                        );
+                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                            recordSobjectAndQueryFields
+                        );
+                        expect(
+                            sObjectOrSObjectCollectionPicker.placeholder
+                        ).toBe(
+                            'FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder'
+                        );
+                        expect(sObjectOrSObjectCollectionPicker.value).toBe('');
+                    });
+                });
+                it('handle UpdateRecordFilterEvent should update the filter element', () => {
+                    const updateRecordFilterEvent = new UpdateRecordFilterEvent(
+                        0,
+                        filterElement,
+                        null
+                    );
+                    getRecordFilter(recordLookupEditor).dispatchEvent(
+                        updateRecordFilterEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.filters[0]
+                        ).toMatchObject(filterElement);
+                    });
+                });
+                it('handle AddRecordFilterEvent should add a filter element', () => {
+                    const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
+                    getRecordFilter(recordLookupEditor).dispatchEvent(
+                        addRecordFilterEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(recordLookupEditor.node.filters).toHaveLength(1);
+                    });
+                });
+                it('handle record filter type Change event', () => {
+                    const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(
+                        RECORD_FILTER_CRITERIA.ALL
+                    );
+                    getRecordFilter(recordLookupEditor).dispatchEvent(
+                        recordFilterTypeChangedEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(recordLookupEditor.node.filterType).toBe(
+                            RECORD_FILTER_CRITERIA.ALL
+                        );
+                    });
+                });
+                it('reselect same "outputReference" should not reset query fields', () => {
+                    const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                        recordLookupEditor
+                    );
+                    const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    sObjectOrSObjectCollectionPicker.dispatchEvent(
+                        new SObjectReferenceChangedEvent(
+                            store.accountSObjectVariableGuid
+                        )
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordSobjectAndQueryFields.queriedFields[1].field
+                                .value
+                        ).toBe('Name');
+                    });
+                });
+                describe('Filters', () => {
+                    beforeEach(() => {
+                        const sObjectVariableElement =
+                            store.elements[store.accountSObjectVariableGuid];
+                        expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                            sObjectVariableElement
+                        );
+                        recordLookupEditor = createComponentForTest(
+                            recordLookupElementWithSObjectAndFilters()
+                        );
+                    });
+                    it('record filter criteria should be all ', () => {
+                        const recordFilter = getRecordFilter(
+                            recordLookupEditor
+                        );
+                        expect(recordFilter.filterType).toBe(
+                            RECORD_FILTER_CRITERIA.ALL
+                        );
+                    });
+                    it('record filter fire DeleteRecordFilterEvent', () => {
+                        const deleteRecordFilterEvent = new DeleteRecordFilterEvent(
+                            0
+                        ); // This is using the numerical rowIndex not the property rowIndex
+                        getRecordFilter(recordLookupEditor).dispatchEvent(
+                            deleteRecordFilterEvent
+                        );
+                        return Promise.resolve().then(() => {
+                            expect(
+                                recordLookupEditor.node.filters
+                            ).toHaveLength(0);
+                        });
+                    });
+                });
+            });
+        });
+        describe('Edit element (Fields mode)', () => {
+            describe('no actions', () => {
+                beforeEach(() => {
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithFields(),
+                        EditElementEvent.EVENT_NAME,
+                        MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+                it('entity picker (object) value should be "Account" ', () => {
+                    expect(
+                        getEntityResourcePicker(recordLookupEditor).value
+                    ).toBe('Account');
+                });
+                it('Store options (number of records to store) value should be "firstRecord"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .numberOfRecordsToStore
+                    ).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+                });
+                it('Store options (way to store) should be "separateVariables"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .wayToStoreFields
+                    ).toBe(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+                });
+                it('Store options (assign null if records not found) should be "true"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .assignNullValuesIfNoRecordsFound
+                    ).toBe(true);
+                });
+                it('sortOrder should be Not sorted', () => {
+                    expect(getRecordSort(recordLookupEditor).sortOrder).toBe(
+                        SORT_ORDER.NOT_SORTED
+                    );
+                });
+                it('record filterType should be "none" ', () => {
+                    expect(getRecordFilter(recordLookupEditor).filterType).toBe(
+                        RECORD_FILTER_CRITERIA.NONE
+                    );
+                });
+            });
+            describe('Handle Events', () => {
+                beforeEach(() => {
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithFields()
+                    );
+                });
+                it('change number record to store to All records, sObject picker should changed', () => {
+                    getNumberRecordToStoreComponent(
+                        recordLookupEditor
+                    ).dispatchEvent(new NumberRecordToStoreChangedEvent(false));
+                    return Promise.resolve().then(() => {
+                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                            recordLookupEditor
+                        );
+                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                            recordSobjectAndQueryFields
+                        );
+                        expect(sObjectOrSObjectCollectionPicker.value).toBe('');
+                    });
+                });
+                it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
+                    const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
+                    getInputOutputAssignments(recordLookupEditor).dispatchEvent(
+                        addRecordFieldAssignmentEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.outputAssignments
+                        ).toHaveLength(2);
+                    });
+                });
+                it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
+                    const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
+                        0,
+                        outputAssignmentElement,
+                        null
+                    );
+                    getInputOutputAssignments(recordLookupEditor).dispatchEvent(
+                        updateRecordFieldAssignmentEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.outputAssignments[0]
+                        ).toMatchObject(outputAssignmentElement);
+                    });
+                });
+                it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
+                    const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
+                        0
+                    ); // This is using the numerical rowIndex not the property rowIndex
+                    getInputOutputAssignments(recordLookupEditor).dispatchEvent(
+                        deleteRecordFieldAssignmentEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.outputAssignments
+                        ).toHaveLength(0);
+                    });
+                });
+            });
+        });
+    });
+    describe('Process type supporting the automatic mode', () => {
+        describe('Adding element', () => {
+            beforeEach(() => {
+                recordLookupEditor = createComponentForTest(
+                    defaultNewRecordLookupElement(),
+                    AddElementEvent.EVENT_NAME
+                );
+            });
+            test('check UI - child components displayed or not (snapshot)', () => {
+                expect(recordLookupEditor).toMatchSnapshot();
+            });
+            describe('After entity (object) is selected', () => {
+                beforeEach(() => {
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent()
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+                it(`entity picker (object) value should be "${
+                    defaultValueItem.item.value
+                }"`, () => {
+                    expect(
+                        getEntityResourcePicker(recordLookupEditor).value
+                    ).toBe(defaultValueItem.item.value);
+                });
+                it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
+                    return Promise.resolve().then(() => {
                         const advancedOptionCheckbox = getAdvancedOptionCheckbox(
                             recordLookupEditor
                         );
                         expect(advancedOptionCheckbox).toBeDefined();
                         expect(advancedOptionCheckbox.type).toBe('checkbox');
-                        expect(advancedOptionCheckbox.checked).toBe(true);
-                    });
-                    it('Should not display the advanced option when unchecked', async () => {
-                        const useAdvancedOptionComponent = getUseAdvancedOptionComponent(
-                            recordLookupEditor
-                        );
-                        expect(
-                            recordLookupEditor.node.storeOutputAutomatically
-                        ).toBeFalsy();
-                        useAdvancedOptionComponent.dispatchEvent(
-                            new UseAdvancedOptionsSelectionChangedEvent(false)
-                        );
-                        return Promise.resolve().then(() => {
-                            expect(
-                                recordLookupEditor.node.storeOutputAutomatically
-                            ).toBe(true);
-                            const wayToStoreFields = getAutomaticWayToStoreFields(
-                                recordLookupEditor
-                            );
-                            expect(wayToStoreFields).toBeNull();
-                        });
+                        expect(advancedOptionCheckbox.checked).toBe(false);
                     });
                 });
-                it('Should display the sobject value', () => {
+            });
+        });
+        describe('Edit element (sobject mode)', () => {
+            describe('No actions', () => {
+                beforeEach(() => {
+                    const sobjectVariableElement =
+                        store.elements[store.accountSObjectVariableGuid];
+                    expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                        sobjectVariableElement
+                    );
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject()
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+                it('entity picker (object) value should be "Account" ', () => {
+                    expect(
+                        getEntityResourcePicker(recordLookupEditor).value
+                    ).toBe('Account');
+                });
+                it('Number of records to store should be "firstRecord"', () => {
+                    expect(
+                        getNumberRecordToStoreComponent(recordLookupEditor)
+                            .numberRecordsToStoreValue
+                    ).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+                });
+                it('Way to store fields should be "sObjectVariable"', () => {
+                    expect(
+                        getAutomaticWayToStoresRadioGroup(recordLookupEditor)
+                            .value
+                    ).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
+                });
+                it('sortOrder should NOT be sorted', () => {
+                    expect(getRecordSort(recordLookupEditor).sortOrder).toBe(
+                        SORT_ORDER.NOT_SORTED
+                    );
+                });
+                it('record filter type should be "none" ', () => {
+                    expect(getRecordFilter(recordLookupEditor).filterType).toBe(
+                        RECORD_FILTER_CRITERIA.NONE
+                    );
+                });
+                it('"useAdvancedOptionsCheckbox" should be checked', () => {
+                    const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                        recordLookupEditor
+                    );
+                    expect(advancedOptionCheckbox).toBeDefined();
+                    expect(advancedOptionCheckbox.checked).toBe(true);
+                });
+                it('Should display the sobject placeholder and value', () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
                         recordLookupEditor
                     );
@@ -965,7 +990,7 @@ describe('record-lookup-editor', () => {
                         'guid2'
                     );
                 });
-                it('should display the 2 fields', () => {
+                it('should display the 2 query fields', () => {
                     const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
                         recordLookupEditor
                     );
@@ -977,77 +1002,551 @@ describe('record-lookup-editor', () => {
                     ).toBe('Name');
                 });
             });
-            describe('using fields', () => {
+            describe('remove "object"', () => {
+                beforeEach(() => {
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject()
+                    );
+
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent(
+                            eventDetailObjectWithError(
+                                '',
+                                'A value is required.'
+                            )
+                        )
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
+                });
+            });
+            describe('invalid "object"', () => {
+                beforeEach(() => {
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject()
+                    );
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent(
+                            eventDetailObjectWithError(
+                                'invalidEntityName',
+                                'Enter a valid value.'
+                            )
+                        )
+                    );
+                });
+                it('"recordFilter" should NOT be visible', () => {
+                    const recordFilter = getRecordFilter(recordLookupEditor);
+                    expect(recordFilter).toBeNull();
+                });
+                it('"recordStoreOption" should NOT be visible', () => {
+                    const recordStoreOption = getRecordStoreOption(
+                        recordLookupEditor
+                    );
+                    expect(recordStoreOption).toBeNull();
+                });
+                it('"recordSort" should NOT be visible', () => {
+                    const recordSort = getRecordSort(recordLookupEditor);
+                    expect(recordSort).toBeNull();
+                });
+                it('"recordQueryField" should NOT be visible', () => {
+                    const recordQueryField = getRecordSobjectAndQueryFields(
+                        recordLookupEditor
+                    );
+                    expect(recordQueryField).toBeNull();
+                });
+                it('"recordInputOutputAssignments" should NOT be visible', () => {
+                    const recordOutputAssignments = getInputOutputAssignments(
+                        recordLookupEditor
+                    );
+                    expect(recordOutputAssignments).toBeNull();
+                });
+                it('"object" picker value should be set to empty string', () => {
+                    expect(entityResourcePicker.value).toBe('');
+                });
+            });
+
+            describe('Handle Events', () => {
+                beforeEach(() => {
+                    const sObjectVariableElement =
+                        store.elements[store.accountSObjectVariableGuid];
+                    expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                        sObjectVariableElement
+                    );
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithSObject()
+                    );
+                });
+                it('handles "entityResourcePicker" value changed event', () => {
+                    entityResourcePicker = getEntityResourcePicker(
+                        recordLookupEditor
+                    );
+                    entityResourcePicker.dispatchEvent(
+                        getComboboxStateChangedEvent()
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(entityResourcePicker.value).toBe('guid1');
+                    });
+                });
+                it('handle "sortOrder" Changed should changed the record lookup sortOrder value', () => {
+                    const event = new CustomEvent('change', {
+                        detail: {
+                            sortOrder: SORT_ORDER.ASC,
+                            fieldApiName: ''
+                        }
+                    });
+                    getRecordSort(recordLookupEditor).dispatchEvent(event);
+                    return Promise.resolve().then(() => {
+                        const recordSort = getRecordSort(recordLookupEditor);
+                        expect(recordSort.sortOrder).toBe(SORT_ORDER.ASC);
+                        expect(recordLookupEditor.node.sortOrder).toBe(
+                            SORT_ORDER.ASC
+                        );
+                    });
+                });
+                it('change number record to store to "All records", sObject picker should change and storing radio group hidden', () => {
+                    getNumberRecordToStoreComponent(
+                        recordLookupEditor
+                    ).dispatchEvent(new NumberRecordToStoreChangedEvent(false));
+                    return Promise.resolve().then(() => {
+                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                            recordLookupEditor
+                        );
+                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                            recordSobjectAndQueryFields
+                        );
+                        expect(
+                            sObjectOrSObjectCollectionPicker.placeholder
+                        ).toBe(
+                            'FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder'
+                        );
+                        expect(sObjectOrSObjectCollectionPicker.value).toBe('');
+                        expect(
+                            getAutomaticWayToStoresRadioGroup(
+                                recordLookupEditor
+                            )
+                        ).toBeNull();
+                    });
+                });
+                it('handle UpdateRecordFilterEvent should update the filter element', () => {
+                    const updateRecordFilterEvent = new UpdateRecordFilterEvent(
+                        0,
+                        filterElement,
+                        null
+                    );
+                    getRecordFilter(recordLookupEditor).dispatchEvent(
+                        updateRecordFilterEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.filters[0]
+                        ).toMatchObject(filterElement);
+                    });
+                });
+                it('handle AddRecordFilterEvent should add a filter element', () => {
+                    const addRecordFilterEvent = new AddRecordFilterEvent(); // This is using the numerical rowIndex not the property rowIndex
+                    getRecordFilter(recordLookupEditor).dispatchEvent(
+                        addRecordFilterEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(recordLookupEditor.node.filters).toHaveLength(1);
+                    });
+                });
+                it('handle record filter type Change event', () => {
+                    const recordFilterTypeChangedEvent = new RecordFilterTypeChangedEvent(
+                        RECORD_FILTER_CRITERIA.ALL
+                    );
+                    getRecordFilter(recordLookupEditor).dispatchEvent(
+                        recordFilterTypeChangedEvent
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(recordLookupEditor.node.filterType).toBe(
+                            RECORD_FILTER_CRITERIA.ALL
+                        );
+                    });
+                });
+                it('reselect same "outputReference" should not reset query fields', () => {
+                    const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                        recordLookupEditor
+                    );
+                    const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    );
+                    sObjectOrSObjectCollectionPicker.dispatchEvent(
+                        new SObjectReferenceChangedEvent(
+                            store.accountSObjectVariableGuid
+                        )
+                    );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordSobjectAndQueryFields.queriedFields[1].field
+                                .value
+                        ).toBe('Name');
+                    });
+                });
+                describe('Filters', () => {
+                    beforeEach(() => {
+                        const sObjectVariableElement =
+                            store.elements[store.accountSObjectVariableGuid];
+                        expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                            sObjectVariableElement
+                        );
+                        recordLookupEditor = createComponentForTest(
+                            recordLookupElementWithSObjectAndFilters()
+                        );
+                    });
+                    it('record filter criteria should be all ', () => {
+                        const recordFilter = getRecordFilter(
+                            recordLookupEditor
+                        );
+                        expect(recordFilter.filterType).toBe(
+                            RECORD_FILTER_CRITERIA.ALL
+                        );
+                    });
+                    it('record filter fire DeleteRecordFilterEvent', () => {
+                        const deleteRecordFilterEvent = new DeleteRecordFilterEvent(
+                            0
+                        ); // This is using the numerical rowIndex not the property rowIndex
+                        getRecordFilter(recordLookupEditor).dispatchEvent(
+                            deleteRecordFilterEvent
+                        );
+                        return Promise.resolve().then(() => {
+                            expect(
+                                recordLookupEditor.node.filters
+                            ).toHaveLength(0);
+                        });
+                    });
+                });
+            });
+        });
+        describe('Edit element (fields mode)', () => {
+            describe('no actions', () => {
                 beforeEach(() => {
                     recordLookupEditor = createComponentForTest(
                         recordLookupElementWithFields(),
                         EditElementEvent.EVENT_NAME,
-                        FLOW_PROCESS_TYPE
+                        MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
                     );
                 });
-                it('Should have Advanced Option checkbox displayed and checked', () => {
-                    const advancedOptionCheckbox = getAdvancedOptionCheckbox(
-                        recordLookupEditor
-                    );
-                    expect(advancedOptionCheckbox).toBeDefined();
-                    expect(advancedOptionCheckbox.type).toBe('checkbox');
-                    expect(advancedOptionCheckbox.checked).toBe(true);
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    expect(recordLookupEditor).toMatchSnapshot();
                 });
-                it('Should have Number of record to store be SeparateValue', () => {
-                    const wayToStoreFields = getAutomaticWayToStoreFields(
-                        recordLookupEditor
-                    );
-                    expect(wayToStoreFields.value).toBe(
-                        WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
+                it('entity picker (object) value should be "Account" ', () => {
+                    expect(
+                        getEntityResourcePicker(recordLookupEditor).value
+                    ).toBe('Account');
+                });
+                it('Store options (number of records) value should be "firstRecord"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .numberOfRecordsToStore
+                    ).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+                });
+                it('Store options (way to store) should be "separateVariables"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .wayToStoreFields
+                    ).toBe(WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES);
+                });
+                it('Store options (assign null if records not found) should be "true"', () => {
+                    expect(
+                        getRecordStoreOption(recordLookupEditor)
+                            .assignNullValuesIfNoRecordsFound
+                    ).toBe(true);
+                });
+                it('sortOrder should be Not sorted', () => {
+                    expect(getRecordSort(recordLookupEditor).sortOrder).toBe(
+                        SORT_ORDER.NOT_SORTED
                     );
                 });
-                it('Should have Way to Store Fields be firstRecord', () => {
-                    const recordStoreOption = getAutomaticRecordStoreOptionsRadioGroup(
-                        recordLookupEditor
-                    );
-                    expect(recordStoreOption.value).toBe(
-                        NUMBER_RECORDS_TO_STORE.FIRST_RECORD
+                it('record filterType should be "none" ', () => {
+                    expect(getRecordFilter(recordLookupEditor).filterType).toBe(
+                        RECORD_FILTER_CRITERIA.NONE
                     );
                 });
-                it('Should have the fields displayed', () => {
-                    const recordOutputAssignments = getInputOutputAssignments(
+                it('Output assignments', () => {
+                    expect(
+                        getInputOutputAssignments(recordLookupEditor)
+                            .inputOutputAssignmentsItems
+                    ).toEqual([lookupField]);
+                });
+            });
+            describe('Handle Events', () => {
+                beforeEach(() => {
+                    recordLookupEditor = createComponentForTest(
+                        recordLookupElementWithFields()
+                    );
+                });
+                it('change number record to store to All records, sObject picker should changed', () => {
+                    getNumberRecordToStoreComponent(
                         recordLookupEditor
+                    ).dispatchEvent(new NumberRecordToStoreChangedEvent(false));
+                    return Promise.resolve().then(() => {
+                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                            recordLookupEditor
+                        );
+                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                            recordSobjectAndQueryFields
+                        );
+                        expect(sObjectOrSObjectCollectionPicker.value).toBe('');
+                    });
+                });
+                it('handle AddRecordFieldAssignmentEvent should add an input Assignments element', () => {
+                    const addRecordFieldAssignmentEvent = new AddRecordFieldAssignmentEvent();
+                    getInputOutputAssignments(recordLookupEditor).dispatchEvent(
+                        addRecordFieldAssignmentEvent
                     );
-                    const fieldRows = getAllInteractionRows(
-                        recordOutputAssignments
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.outputAssignments
+                        ).toHaveLength(2);
+                    });
+                });
+                it('handle UpdateRecordFieldAssignmentEvent should update the input Assignments element', () => {
+                    const updateRecordFieldAssignmentEvent = new UpdateRecordFieldAssignmentEvent(
+                        0,
+                        outputAssignmentElement,
+                        null
                     );
-                    expect(fieldRows).toHaveLength(1);
-                    const fieldToFerovExpBuilder = getFieldToFerovExBuilder(
-                        recordOutputAssignments
+                    getInputOutputAssignments(recordLookupEditor).dispatchEvent(
+                        updateRecordFieldAssignmentEvent
                     );
-                    expect(fieldToFerovExpBuilder.expression).toMatchObject(
-                        lookupField
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.outputAssignments[0]
+                        ).toMatchObject(outputAssignmentElement);
+                    });
+                });
+                it('handle DeleteRecordFieldAssignmentEvent should delete the input assignment', () => {
+                    const deleteRecordFieldAssignmentEvent = new DeleteRecordFieldAssignmentEvent(
+                        0
+                    ); // This is using the numerical rowIndex not the property rowIndex
+                    getInputOutputAssignments(recordLookupEditor).dispatchEvent(
+                        deleteRecordFieldAssignmentEvent
                     );
+                    return Promise.resolve().then(() => {
+                        expect(
+                            recordLookupEditor.node.outputAssignments
+                        ).toHaveLength(0);
+                    });
                 });
             });
         });
-        describe('dragged from canvas', () => {
+        describe('Edit element (automatic mode - single record)', () => {
             beforeEach(() => {
                 recordLookupEditor = createComponentForTest(
-                    defaultRecordLookupElement(),
-                    AddElementEvent.EVENT_NAME,
-                    FLOW_PROCESS_TYPE
+                    recordLookupElementAutomaticSingleRecord(),
+                    EditElementEvent.EVENT_NAME,
+                    MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 );
             });
-            it('Should have Advanced Option checkbox displayed and unchecked', () => {
-                const entityResourcePicker = getEntityResourcePicker(
+            test('check UI - child components displayed or not (snapshot)', () => {
+                expect(recordLookupEditor).toMatchSnapshot();
+            });
+            it('Number of record to store should be "firstRecord"', () => {
+                expect(
+                    getAutomaticRecordStoreOptionsRadioGroup(recordLookupEditor)
+                        .value
+                ).toBe(NUMBER_RECORDS_TO_STORE.FIRST_RECORD);
+            });
+            it('Use advanced mode checkbox should be unchecked', () => {
+                const advancedOptionCheckbox = getAdvancedOptionCheckbox(
                     recordLookupEditor
                 );
-                entityResourcePicker.dispatchEvent(
-                    getComboboxStateChangedEvent()
+                expect(advancedOptionCheckbox).toBeDefined();
+                expect(advancedOptionCheckbox.checked).toBe(false);
+            });
+            it('"recordQuery" fields', () => {
+                const recordQueryFields = getAutomaticQueryFields(
+                    recordLookupEditor
                 );
-                return Promise.resolve().then(() => {
-                    const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                expect(recordQueryFields.queriedFields[0].field.value).toBe(
+                    'Id'
+                );
+                expect(recordQueryFields.queriedFields[1].field.value).toBe(
+                    'Name'
+                );
+            });
+            describe('Check Use Advanced Options checkbox', () => {
+                let advancedOptionCheckbox;
+                beforeEach(() => {
+                    advancedOptionCheckbox = getAdvancedOptionCheckbox(
                         recordLookupEditor
                     );
-                    expect(advancedOptionCheckbox).toBeDefined();
-                    expect(advancedOptionCheckbox.type).toBe('checkbox');
-                    expect(advancedOptionCheckbox.checked).toBe(false);
+                    advancedOptionCheckbox.dispatchEvent(
+                        new ToggleOnChangeEvent()
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    return Promise.resolve().then(() => {
+                        expect(recordLookupEditor).toMatchSnapshot();
+                    });
+                });
+                it('Use adavanced checkbox should be checked', () => {
+                    return Promise.resolve().then(() => {
+                        expect(advancedOptionCheckbox.checked).toBe(true);
+                    });
+                });
+                describe('re uncheck "use advanced mode" checkbox to move back to automatic mode ', () => {
+                    beforeEach(() => {
+                        advancedOptionCheckbox.dispatchEvent(
+                            new ToggleOnChangeEvent()
+                        );
+                    });
+                    test('check UI - child components displayed or not (snapshot)', () => {
+                        return Promise.resolve().then(() => {
+                            expect(recordLookupEditor).toMatchSnapshot();
+                        });
+                    });
+                    it('Use adavanced checkbox should be unchecked', () => {
+                        return Promise.resolve().then(() => {
+                            expect(advancedOptionCheckbox.checked).toBe(false);
+                        });
+                    });
+                });
+                it('should not reset query fields in place once you select an sobject variable', () => {
+                    return Promise.resolve().then(() => {
+                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                            recordLookupEditor
+                        );
+                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                            recordSobjectAndQueryFields
+                        );
+                        sObjectOrSObjectCollectionPicker.dispatchEvent(
+                            new SObjectReferenceChangedEvent(
+                                store.accountSObjectVariableGuid
+                            )
+                        );
+                        return Promise.resolve().then(() => {
+                            expect(
+                                recordSobjectAndQueryFields.queriedFields[1]
+                                    .field.value
+                            ).toBe('Name');
+                        });
+                    });
+                });
+                it('"way to store" value should be "sobjectvariable"', () => {
+                    return Promise.resolve().then(() => {
+                        const wayToStoreFields = getAutomaticWayToStoreFields(
+                            recordLookupEditor
+                        );
+                        expect(wayToStoreFields).toBeDefined();
+                        expect(wayToStoreFields.value).toBe(
+                            WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
+                        );
+                    });
+                });
+            });
+        });
+        describe('Edit element (automatic mode - collection record)', () => {
+            beforeEach(() => {
+                recordLookupEditor = createComponentForTest(
+                    recordLookupElementAutomaticSCollectionRecord(),
+                    EditElementEvent.EVENT_NAME,
+                    MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+                );
+            });
+            test('check UI - child components displayed or not (snapshot)', () => {
+                expect(recordLookupEditor).toMatchSnapshot();
+            });
+            it('Number of record to store should be "AllRecords"', () => {
+                expect(
+                    getAutomaticRecordStoreOptionsRadioGroup(recordLookupEditor)
+                        .value
+                ).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
+            });
+            it('Use advanced mode checkbox should be unchecked', () => {
+                const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                    recordLookupEditor
+                );
+                expect(advancedOptionCheckbox).toBeDefined();
+                expect(advancedOptionCheckbox.checked).toBe(false);
+            });
+            it('"recordQuery" fields', () => {
+                const recordQueryFields = getAutomaticQueryFields(
+                    recordLookupEditor
+                );
+                expect(recordQueryFields.queriedFields[0].field.value).toBe(
+                    'Id'
+                );
+                expect(recordQueryFields.queriedFields[1].field.value).toBe(
+                    'Name'
+                );
+            });
+            describe('Check Use Advanced Options checkbox', () => {
+                let advancedOptionCheckbox;
+                beforeEach(() => {
+                    advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                        recordLookupEditor
+                    );
+                    advancedOptionCheckbox.dispatchEvent(
+                        new ToggleOnChangeEvent()
+                    );
+                });
+                test('check UI - child components displayed or not (snapshot)', () => {
+                    return Promise.resolve().then(() => {
+                        expect(recordLookupEditor).toMatchSnapshot();
+                    });
+                });
+                it('Use adavanced checkbox should be checked', () => {
+                    return Promise.resolve().then(() => {
+                        expect(advancedOptionCheckbox.checked).toBe(true);
+                    });
+                });
+                describe('re uncheck "use advanced mode" checkbox to move back to automatic mode ', () => {
+                    beforeEach(() => {
+                        advancedOptionCheckbox.dispatchEvent(
+                            new ToggleOnChangeEvent()
+                        );
+                    });
+                    test('check UI - child components displayed or not (snapshot)', () => {
+                        return Promise.resolve().then(() => {
+                            expect(recordLookupEditor).toMatchSnapshot();
+                        });
+                    });
+                    it('Use adavanced checkbox should be unchecked', () => {
+                        return Promise.resolve().then(() => {
+                            expect(advancedOptionCheckbox.checked).toBe(false);
+                        });
+                    });
+                });
+                it('should not reset query fields in place once you select an sobject variable', () => {
+                    return Promise.resolve().then(() => {
+                        const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                            recordLookupEditor
+                        );
+                        const sObjectOrSObjectCollectionPicker = getsObjectOrSObjectCollectionPicker(
+                            recordSobjectAndQueryFields
+                        );
+                        sObjectOrSObjectCollectionPicker.dispatchEvent(
+                            new SObjectReferenceChangedEvent(
+                                store.accountSObjectVariableGuid
+                            )
+                        );
+                        return Promise.resolve().then(() => {
+                            expect(
+                                recordSobjectAndQueryFields.queriedFields[1]
+                                    .field.value
+                            ).toBe('Name');
+                        });
+                    });
+                });
+                it('store option (number to store) value should be "AllRecords"', () => {
+                    return Promise.resolve().then(() => {
+                        const numberRecordToStoreComponent = getNumberRecordToStoreComponent(
+                            recordLookupEditor
+                        );
+                        expect(numberRecordToStoreComponent).toBeDefined();
+                        expect(
+                            numberRecordToStoreComponent.numberRecordsToStoreValue
+                        ).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
+                    });
                 });
             });
         });

@@ -7,7 +7,9 @@ import {
     RECORD_FILTER_CRITERIA,
     WAY_TO_STORE_FIELDS
 } from 'builder_platform_interaction/recordEditorLib';
+import { recordLookupReducer } from '../recordLookupReducer';
 import { LABELS } from 'builder_platform_interaction/validationRules';
+import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -122,6 +124,49 @@ const recordLookupElementWithValidSObject = () => ({
         getFirstRecordOnly: true,
         storeOutputAutomatically: false,
         wayToStoreFields: WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
+    }),
+    recordLookupAutomaticModeSingle = () => ({
+        description: { value: '', error: null },
+        elementType: 'RecordQuery',
+        guid: 'adce5e2b-6966-4574-a5a5-3e34eb8f33de',
+        isCanvasElement: true,
+        label: { value: 'testRecordAutomaticSingle', error: null },
+        name: { value: 'testRecordAutomaticSingle', error: null },
+        outputReferenceIndex: { value: 'guid', error: null },
+        sortField: { value: 'Name', error: null },
+        sortOrder: SORT_ORDER.ASC,
+        assignNullValuesIfNoRecordsFound: false,
+        queriedFields: [
+            {
+                field: { value: 'Id', error: null },
+                rowIndex: '72cb7e19-9f98-4b59-9fdd-a276f216ddcf'
+            },
+            {
+                field: { value: 'BillingAddress', error: null },
+                rowIndex: '73cb7e19-9f98-4b59-9fdd-a276f216ddcf'
+            }
+        ],
+        dataType: {
+            value: 'SObject',
+            error: null
+        },
+        object: { value: 'Account', error: null },
+        objectIndex: { value: 'guid', error: null },
+        filterType: RECORD_FILTER_CRITERIA.ALL,
+        filters: [
+            {
+                leftHandSide: { value: 'Account.BillingAddress', error: null },
+                operator: { value: 'EqualTo', error: null },
+                rightHandSide: { value: 'my address', error: null },
+                rightHandSideDataType: { value: 'String', error: null },
+                rowIndex: '74cb7e19-9f98-4b59-9fdd-a276f216ddcf'
+            }
+        ],
+        getFirstRecordOnly: true,
+        isCollection: false,
+        storeOutputAutomatically: true,
+        outputAssignments: [],
+        wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
     });
 
 describe('Record Lookup Validation', () => {
@@ -394,6 +439,24 @@ describe('Record Lookup Validation using Fields', () => {
             expect(errors).toHaveLength(1);
             expect(errors[0].key).toBe('leftHandSide');
             expect(errors[0].errorString).toBe(LABELS.cannotBeBlank);
+        });
+    });
+});
+describe('Record Lookup Validation (automatic mode single record)', () => {
+    it('Switching from automatic to advanced (manual) mode should cause validation errors ("outputReference" required field error message)', () => {
+        const event = {
+            type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+            detail: {
+                useAdvancedOptions: true
+            }
+        };
+        const originalState = recordLookupAutomaticModeSingle();
+        const newState = recordLookupReducer(originalState, event);
+        const errors = validate(newState);
+        expect(errors).toHaveLength(1);
+        expect(errors[0]).toEqual({
+            key: 'outputReference',
+            errorString: 'FlowBuilderValidation.cannotBeBlank'
         });
     });
 });

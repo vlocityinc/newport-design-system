@@ -1,0 +1,4080 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`record-lookup-editor Process type NOT supporting the automatic mode Adding element After entity (object) is selected check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            >
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-store-options>
+          #shadow-root(open)
+            <div
+              class="slds-border_top"
+            >
+              <div
+                class="slds-form_stacked slds-p-around_small slds-no-flex"
+              >
+                <div>
+                  <builder_platform_interaction-rich-label
+                    class="slds-text-body_regular"
+                  >
+                    #shadow-root(open)
+                      FlowBuilderRecordEditor.storeFieldsSelectionLabel
+                  </builder_platform_interaction-rich-label>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                </div>
+                <div>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                  <lightning-input
+                    class="property-input slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-input>
+                </div>
+              </div>
+            </div>
+        </builder_platform_interaction-record-store-options>
+        <builder_platform_interaction-record-sobject-and-query-fields>
+          #shadow-root(open)
+            <div
+              class="slds-m-bottom_small slds-border_top"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.selectVariableToStore
+              </h3>
+              <div
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+              >
+                <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                  #shadow-root(open)
+                    <builder_platform_interaction-ferov-resource-picker>
+                      #shadow-root(open)
+                    </builder_platform_interaction-ferov-resource-picker>
+                </builder_platform_interaction-sobject-or-sobject-collection-picker>
+              </div>
+            </div>
+        </builder_platform_interaction-record-sobject-and-query-fields>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type NOT supporting the automatic mode Adding element check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Fields mode) no actions check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-store-options>
+          #shadow-root(open)
+            <div
+              class="slds-border_top"
+            >
+              <div
+                class="slds-form_stacked slds-p-around_small slds-no-flex"
+              >
+                <div>
+                  <builder_platform_interaction-rich-label
+                    class="slds-text-body_regular"
+                  >
+                    #shadow-root(open)
+                      FlowBuilderRecordEditor.storeFieldsSelectionLabel
+                  </builder_platform_interaction-rich-label>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                </div>
+                <div>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                  <lightning-input
+                    class="property-input slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-input>
+                </div>
+              </div>
+            </div>
+        </builder_platform_interaction-record-store-options>
+        <builder_platform_interaction-record-input-output-assignments>
+          #shadow-root(open)
+            <div
+              class="slds-m-bottom_small slds-border_top"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.lookupAssignmentTitleFormat
+              </h3>
+              <div
+                class="slds-p-horizontal_small"
+              >
+                <builder_platform_interaction-list>
+                  #shadow-root(open)
+                    <div
+                      class="slds-list_vertical-space"
+                    >
+                      <slot
+                        name="listBody"
+                      />
+                      <div
+                        class="slds-m-top_small"
+                      >
+                        <lightning-button>
+                          #shadow-root(open)
+                        </lightning-button>
+                      </div>
+                    </div>
+                  <div
+                    slot="listBody"
+                  >
+                    <div
+                      class="slds-list__item slds-is-relative"
+                    >
+                      <builder_platform_interaction-row>
+                        #shadow-root(open)
+                          <fieldset>
+                            <div
+                              class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                            >
+                              <div
+                                class="slds-col"
+                              >
+                                <slot
+                                  name="rowBody"
+                                />
+                              </div>
+                              <div
+                                class="slds-col slds-grow-none"
+                              >
+                                <span
+                                  class="slds-form-element__label slds-is-visually-empty"
+                                >
+                                   
+                                </span>
+                                <div
+                                  class="slds-form-element__control"
+                                >
+                                  <lightning-button-icon>
+                                    #shadow-root(open)
+                                  </lightning-button-icon>
+                                </div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        <div
+                          slot="rowBody"
+                        >
+                          <builder_platform_interaction-field-to-ferov-expression-builder>
+                            #shadow-root(open)
+                          </builder_platform_interaction-field-to-ferov-expression-builder>
+                        </div>
+                      </builder_platform_interaction-row>
+                    </div>
+                  </div>
+                </builder_platform_interaction-list>
+              </div>
+            </div>
+        </builder_platform_interaction-record-input-output-assignments>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Sobject mode) No actions check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-store-options>
+          #shadow-root(open)
+            <div
+              class="slds-border_top"
+            >
+              <div
+                class="slds-form_stacked slds-p-around_small slds-no-flex"
+              >
+                <div>
+                  <builder_platform_interaction-rich-label
+                    class="slds-text-body_regular"
+                  >
+                    #shadow-root(open)
+                      FlowBuilderRecordEditor.storeFieldsSelectionLabel
+                  </builder_platform_interaction-rich-label>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                </div>
+                <div>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                  <lightning-input
+                    class="property-input slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-input>
+                </div>
+              </div>
+            </div>
+        </builder_platform_interaction-record-store-options>
+        <builder_platform_interaction-record-sobject-and-query-fields>
+          #shadow-root(open)
+            <div
+              class="slds-m-bottom_small slds-border_top"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.selectVariableToStore
+              </h3>
+              <div
+                class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+              >
+                <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                  #shadow-root(open)
+                    <builder_platform_interaction-ferov-resource-picker>
+                      #shadow-root(open)
+                    </builder_platform_interaction-ferov-resource-picker>
+                </builder_platform_interaction-sobject-or-sobject-collection-picker>
+              </div>
+            </div>
+            <div
+              class="slds-m-bottom_small slds-border_top"
+            >
+              <builder_platform_interaction-record-query-fields>
+                #shadow-root(open)
+                  <div
+                    class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+                  >
+                    <h3
+                      class="slds-text-heading_small slds-p-top_small"
+                    >
+                      FlowBuilderRecordEditor.selectFields
+                    </h3>
+                    <builder_platform_interaction-combobox>
+                      #shadow-root(open)
+                        <lightning-grouped-combobox>
+                          #shadow-root(open)
+                            <lightning-base-combobox>
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                            <lightning-base-combobox
+                              data-id="lookup"
+                            >
+                              #shadow-root(open)
+                                <input />
+                            </lightning-base-combobox>
+                        </lightning-grouped-combobox>
+                    </builder_platform_interaction-combobox>
+                    <builder_platform_interaction-list>
+                      #shadow-root(open)
+                        <div
+                          class="slds-list_vertical-space"
+                        >
+                          <slot
+                            name="listBody"
+                          />
+                          <div
+                            class="slds-m-top_small"
+                          >
+                            <lightning-button>
+                              #shadow-root(open)
+                            </lightning-button>
+                          </div>
+                        </div>
+                      <div
+                        slot="listBody"
+                      >
+                        <div
+                          class="slds-list__item slds-is-relative"
+                        >
+                          <builder_platform_interaction-record-field-picker-row>
+                            #shadow-root(open)
+                          </builder_platform_interaction-record-field-picker-row>
+                        </div>
+                        <div
+                          class="slds-list__item slds-is-relative"
+                        >
+                          <builder_platform_interaction-record-field-picker-row>
+                            #shadow-root(open)
+                              <builder_platform_interaction-row>
+                                #shadow-root(open)
+                                  <fieldset>
+                                    <div
+                                      class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                                    >
+                                      <div
+                                        class="slds-col"
+                                      >
+                                        <slot
+                                          name="rowBody"
+                                        />
+                                      </div>
+                                      <div
+                                        class="slds-col slds-grow-none"
+                                      >
+                                        <span
+                                          class="slds-form-element__label slds-is-visually-empty"
+                                        >
+                                           
+                                        </span>
+                                        <div
+                                          class="slds-form-element__control"
+                                        >
+                                          <lightning-button-icon>
+                                            #shadow-root(open)
+                                          </lightning-button-icon>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </fieldset>
+                                <div
+                                  slot="rowBody"
+                                >
+                                  <builder_platform_interaction-field-picker>
+                                    #shadow-root(open)
+                                  </builder_platform_interaction-field-picker>
+                                </div>
+                              </builder_platform_interaction-row>
+                          </builder_platform_interaction-record-field-picker-row>
+                        </div>
+                      </div>
+                    </builder_platform_interaction-list>
+                  </div>
+              </builder_platform_interaction-record-query-fields>
+            </div>
+        </builder_platform_interaction-record-sobject-and-query-fields>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Sobject mode) invalid "object" check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type NOT supporting the automatic mode Edit element (Sobject mode) remove "object" check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Adding element After entity (object) is selected check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            >
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-record-query-fields>
+          #shadow-root(open)
+            <div
+              class="slds-p-left_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-top_small"
+              >
+                FlowBuilderRecordEditor.selectFields
+              </h3>
+              <builder_platform_interaction-combobox>
+                #shadow-root(open)
+                  <lightning-grouped-combobox>
+                    #shadow-root(open)
+                      <lightning-base-combobox>
+                        #shadow-root(open)
+                          <input />
+                      </lightning-base-combobox>
+                      <lightning-base-combobox
+                        data-id="lookup"
+                      >
+                        #shadow-root(open)
+                          <input />
+                      </lightning-base-combobox>
+                  </lightning-grouped-combobox>
+              </builder_platform_interaction-combobox>
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-record-field-picker-row>
+                      #shadow-root(open)
+                    </builder_platform_interaction-record-field-picker-row>
+                  </div>
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-record-field-picker-row>
+                      #shadow-root(open)
+                        <builder_platform_interaction-row>
+                          #shadow-root(open)
+                            <fieldset>
+                              <div
+                                class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                              >
+                                <div
+                                  class="slds-col"
+                                >
+                                  <slot
+                                    name="rowBody"
+                                  />
+                                </div>
+                                <div
+                                  class="slds-col slds-grow-none"
+                                >
+                                  <span
+                                    class="slds-form-element__label slds-is-visually-empty"
+                                  >
+                                     
+                                  </span>
+                                  <div
+                                    class="slds-form-element__control"
+                                  >
+                                    <lightning-button-icon>
+                                      #shadow-root(open)
+                                    </lightning-button-icon>
+                                  </div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          <div
+                            slot="rowBody"
+                          >
+                            <builder_platform_interaction-field-picker>
+                              #shadow-root(open)
+                            </builder_platform_interaction-field-picker>
+                          </div>
+                        </builder_platform_interaction-row>
+                    </builder_platform_interaction-record-field-picker-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+        </builder_platform_interaction-record-query-fields>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Adding element check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (automatic mode - collection record) Check Use Advanced Options checkbox check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            >
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <builder_platform_interaction-field-picker
+                  class="sortField slds-m-left_small slds-size_small types"
+                >
+                  #shadow-root(open)
+                </builder_platform_interaction-field-picker>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+        <div
+          class="slds-p-left_xx-large slds-p-right_small"
+        >
+          <builder_platform_interaction-rich-label
+            class="slds-text-body_regular"
+          >
+            #shadow-root(open)
+              FlowBuilderRecordEditor.storeFieldsSelectionLabel
+          </builder_platform_interaction-rich-label>
+          <builder_platform_interaction-record-sobject-and-query-fields>
+            #shadow-root(open)
+              <div>
+                <h3
+                  class="slds-text-heading_small slds-p-top_small"
+                >
+                  FlowBuilderRecordEditor.selectVariableToStoreRecords
+                </h3>
+                <div
+                  class="slds-form-element slds-size_1-of-2"
+                >
+                  <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                    #shadow-root(open)
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                  </builder_platform_interaction-sobject-or-sobject-collection-picker>
+                </div>
+              </div>
+          </builder_platform_interaction-record-sobject-and-query-fields>
+          <lightning-input
+            class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+          >
+            #shadow-root(open)
+          </lightning-input>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (automatic mode - collection record) Check Use Advanced Options checkbox re uncheck "use advanced mode" checkbox to move back to automatic mode  check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            >
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <builder_platform_interaction-field-picker
+                  class="sortField slds-m-left_small slds-size_small types"
+                >
+                  #shadow-root(open)
+                </builder_platform_interaction-field-picker>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+        <div
+          class="slds-p-left_xx-large slds-p-right_small"
+        >
+          <builder_platform_interaction-rich-label
+            class="slds-text-body_regular"
+          >
+            #shadow-root(open)
+              FlowBuilderRecordEditor.storeFieldsSelectionLabel
+          </builder_platform_interaction-rich-label>
+          <builder_platform_interaction-record-sobject-and-query-fields>
+            #shadow-root(open)
+              <div>
+                <h3
+                  class="slds-text-heading_small slds-p-top_small"
+                >
+                  FlowBuilderRecordEditor.selectVariableToStoreRecords
+                </h3>
+                <div
+                  class="slds-form-element slds-size_1-of-2"
+                >
+                  <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                    #shadow-root(open)
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                  </builder_platform_interaction-sobject-or-sobject-collection-picker>
+                </div>
+              </div>
+          </builder_platform_interaction-record-sobject-and-query-fields>
+          <lightning-input
+            class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+          >
+            #shadow-root(open)
+          </lightning-input>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (automatic mode - collection record) check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            >
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-row>
+                      #shadow-root(open)
+                        <fieldset>
+                          <div
+                            class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                          >
+                            <div
+                              class="slds-col"
+                            >
+                              <slot
+                                name="rowBody"
+                              />
+                            </div>
+                            <div
+                              class="slds-col slds-grow-none"
+                            >
+                              <span
+                                class="slds-form-element__label slds-is-visually-empty"
+                              >
+                                 
+                              </span>
+                              <div
+                                class="slds-form-element__control"
+                              >
+                                <lightning-button-icon>
+                                  #shadow-root(open)
+                                </lightning-button-icon>
+                              </div>
+                            </div>
+                          </div>
+                        </fieldset>
+                      <div
+                        slot="rowBody"
+                      >
+                        <builder_platform_interaction-field-to-ferov-expression-builder>
+                          #shadow-root(open)
+                        </builder_platform_interaction-field-to-ferov-expression-builder>
+                      </div>
+                    </builder_platform_interaction-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <builder_platform_interaction-field-picker
+                  class="sortField slds-m-left_small slds-size_small types"
+                >
+                  #shadow-root(open)
+                </builder_platform_interaction-field-picker>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-record-query-fields>
+          #shadow-root(open)
+            <div
+              class="slds-p-left_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-top_small"
+              >
+                FlowBuilderRecordEditor.selectFields
+              </h3>
+              <builder_platform_interaction-combobox>
+                #shadow-root(open)
+                  <lightning-grouped-combobox>
+                    #shadow-root(open)
+                      <lightning-base-combobox>
+                        #shadow-root(open)
+                          <input />
+                      </lightning-base-combobox>
+                      <lightning-base-combobox
+                        data-id="lookup"
+                      >
+                        #shadow-root(open)
+                          <input />
+                      </lightning-base-combobox>
+                  </lightning-grouped-combobox>
+              </builder_platform_interaction-combobox>
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-record-field-picker-row>
+                      #shadow-root(open)
+                    </builder_platform_interaction-record-field-picker-row>
+                  </div>
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-record-field-picker-row>
+                      #shadow-root(open)
+                        <builder_platform_interaction-row>
+                          #shadow-root(open)
+                            <fieldset>
+                              <div
+                                class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                              >
+                                <div
+                                  class="slds-col"
+                                >
+                                  <slot
+                                    name="rowBody"
+                                  />
+                                </div>
+                                <div
+                                  class="slds-col slds-grow-none"
+                                >
+                                  <span
+                                    class="slds-form-element__label slds-is-visually-empty"
+                                  >
+                                     
+                                  </span>
+                                  <div
+                                    class="slds-form-element__control"
+                                  >
+                                    <lightning-button-icon>
+                                      #shadow-root(open)
+                                    </lightning-button-icon>
+                                  </div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          <div
+                            slot="rowBody"
+                          >
+                            <builder_platform_interaction-field-picker>
+                              #shadow-root(open)
+                            </builder_platform_interaction-field-picker>
+                          </div>
+                        </builder_platform_interaction-row>
+                    </builder_platform_interaction-record-field-picker-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+        </builder_platform_interaction-record-query-fields>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (automatic mode - single record) Check Use Advanced Options checkbox check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+        <div
+          class="slds-p-left_xx-large slds-p-right_small"
+        >
+          <builder_platform_interaction-rich-label
+            class="slds-text-body_regular"
+          >
+            #shadow-root(open)
+              FlowBuilderRecordEditor.storeFieldsSelectionLabel
+          </builder_platform_interaction-rich-label>
+          <lightning-radio-group
+            class="slds-m-top_x-small"
+          >
+            #shadow-root(open)
+          </lightning-radio-group>
+          <builder_platform_interaction-record-sobject-and-query-fields>
+            #shadow-root(open)
+              <div>
+                <h3
+                  class="slds-text-heading_small slds-p-top_small"
+                >
+                  FlowBuilderRecordEditor.selectVariableToStore
+                </h3>
+                <div
+                  class="slds-form-element slds-size_1-of-2"
+                >
+                  <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                    #shadow-root(open)
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                  </builder_platform_interaction-sobject-or-sobject-collection-picker>
+                </div>
+              </div>
+          </builder_platform_interaction-record-sobject-and-query-fields>
+          <lightning-input
+            class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+          >
+            #shadow-root(open)
+          </lightning-input>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (automatic mode - single record) Check Use Advanced Options checkbox re uncheck "use advanced mode" checkbox to move back to automatic mode  check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+        <div
+          class="slds-p-left_xx-large slds-p-right_small"
+        >
+          <builder_platform_interaction-rich-label
+            class="slds-text-body_regular"
+          >
+            #shadow-root(open)
+              FlowBuilderRecordEditor.storeFieldsSelectionLabel
+          </builder_platform_interaction-rich-label>
+          <lightning-radio-group
+            class="slds-m-top_x-small"
+          >
+            #shadow-root(open)
+          </lightning-radio-group>
+          <builder_platform_interaction-record-sobject-and-query-fields>
+            #shadow-root(open)
+              <div>
+                <h3
+                  class="slds-text-heading_small slds-p-top_small"
+                >
+                  FlowBuilderRecordEditor.selectVariableToStore
+                </h3>
+                <div
+                  class="slds-form-element slds-size_1-of-2"
+                >
+                  <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                    #shadow-root(open)
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                  </builder_platform_interaction-sobject-or-sobject-collection-picker>
+                </div>
+              </div>
+          </builder_platform_interaction-record-sobject-and-query-fields>
+          <lightning-input
+            class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+          >
+            #shadow-root(open)
+          </lightning-input>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (automatic mode - single record) check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-record-query-fields>
+          #shadow-root(open)
+            <div
+              class="slds-p-left_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-top_small"
+              >
+                FlowBuilderRecordEditor.selectFields
+              </h3>
+              <builder_platform_interaction-combobox>
+                #shadow-root(open)
+                  <lightning-grouped-combobox>
+                    #shadow-root(open)
+                      <lightning-base-combobox>
+                        #shadow-root(open)
+                          <input />
+                      </lightning-base-combobox>
+                      <lightning-base-combobox
+                        data-id="lookup"
+                      >
+                        #shadow-root(open)
+                          <input />
+                      </lightning-base-combobox>
+                  </lightning-grouped-combobox>
+              </builder_platform_interaction-combobox>
+              <builder_platform_interaction-list>
+                #shadow-root(open)
+                  <div
+                    class="slds-list_vertical-space"
+                  >
+                    <slot
+                      name="listBody"
+                    />
+                    <div
+                      class="slds-m-top_small"
+                    >
+                      <lightning-button>
+                        #shadow-root(open)
+                      </lightning-button>
+                    </div>
+                  </div>
+                <div
+                  slot="listBody"
+                >
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-record-field-picker-row>
+                      #shadow-root(open)
+                    </builder_platform_interaction-record-field-picker-row>
+                  </div>
+                  <div
+                    class="slds-list__item slds-is-relative"
+                  >
+                    <builder_platform_interaction-record-field-picker-row>
+                      #shadow-root(open)
+                        <builder_platform_interaction-row>
+                          #shadow-root(open)
+                            <fieldset>
+                              <div
+                                class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                              >
+                                <div
+                                  class="slds-col"
+                                >
+                                  <slot
+                                    name="rowBody"
+                                  />
+                                </div>
+                                <div
+                                  class="slds-col slds-grow-none"
+                                >
+                                  <span
+                                    class="slds-form-element__label slds-is-visually-empty"
+                                  >
+                                     
+                                  </span>
+                                  <div
+                                    class="slds-form-element__control"
+                                  >
+                                    <lightning-button-icon>
+                                      #shadow-root(open)
+                                    </lightning-button-icon>
+                                  </div>
+                                </div>
+                              </div>
+                            </fieldset>
+                          <div
+                            slot="rowBody"
+                          >
+                            <builder_platform_interaction-field-picker>
+                              #shadow-root(open)
+                            </builder_platform_interaction-field-picker>
+                          </div>
+                        </builder_platform_interaction-row>
+                    </builder_platform_interaction-record-field-picker-row>
+                  </div>
+                </div>
+              </builder_platform_interaction-list>
+            </div>
+        </builder_platform_interaction-record-query-fields>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (fields mode) no actions check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-store-options>
+          #shadow-root(open)
+            <div
+              class="slds-border_top"
+            >
+              <div
+                class="slds-form_stacked slds-p-around_small slds-no-flex"
+              >
+                <div>
+                  <builder_platform_interaction-rich-label
+                    class="slds-text-body_regular"
+                  >
+                    #shadow-root(open)
+                      FlowBuilderRecordEditor.storeFieldsSelectionLabel
+                  </builder_platform_interaction-rich-label>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                </div>
+                <div>
+                  <lightning-radio-group
+                    class="slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-radio-group>
+                  <lightning-input
+                    class="property-input slds-m-top_x-small"
+                  >
+                    #shadow-root(open)
+                  </lightning-input>
+                </div>
+              </div>
+            </div>
+        </builder_platform_interaction-record-store-options>
+        <builder_platform_interaction-record-input-output-assignments>
+          #shadow-root(open)
+            <div
+              class="slds-m-bottom_small slds-border_top"
+            >
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.lookupAssignmentTitleFormat
+              </h3>
+              <div
+                class="slds-p-horizontal_small"
+              >
+                <builder_platform_interaction-list>
+                  #shadow-root(open)
+                    <div
+                      class="slds-list_vertical-space"
+                    >
+                      <slot
+                        name="listBody"
+                      />
+                      <div
+                        class="slds-m-top_small"
+                      >
+                        <lightning-button>
+                          #shadow-root(open)
+                        </lightning-button>
+                      </div>
+                    </div>
+                  <div
+                    slot="listBody"
+                  >
+                    <div
+                      class="slds-list__item slds-is-relative"
+                    >
+                      <builder_platform_interaction-row>
+                        #shadow-root(open)
+                          <fieldset>
+                            <div
+                              class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                            >
+                              <div
+                                class="slds-col"
+                              >
+                                <slot
+                                  name="rowBody"
+                                />
+                              </div>
+                              <div
+                                class="slds-col slds-grow-none"
+                              >
+                                <span
+                                  class="slds-form-element__label slds-is-visually-empty"
+                                >
+                                   
+                                </span>
+                                <div
+                                  class="slds-form-element__control"
+                                >
+                                  <lightning-button-icon>
+                                    #shadow-root(open)
+                                  </lightning-button-icon>
+                                </div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        <div
+                          slot="rowBody"
+                        >
+                          <builder_platform_interaction-field-to-ferov-expression-builder>
+                            #shadow-root(open)
+                          </builder_platform_interaction-field-to-ferov-expression-builder>
+                        </div>
+                      </builder_platform_interaction-row>
+                    </div>
+                  </div>
+                </builder_platform_interaction-list>
+              </div>
+            </div>
+        </builder_platform_interaction-record-input-output-assignments>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (sobject mode) No actions check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+    <div>
+      <builder_platform_interaction-record-filter>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-around_small"
+            >
+              FlowBuilderRecordEditor.findRecords
+            </h3>
+            <div
+              class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+            >
+              <lightning-combobox>
+                #shadow-root(open)
+              </lightning-combobox>
+            </div>
+            <div
+              class="slds-p-horizontal_small slds-m-top_xx-small slds-grid slds-grid_vertical-align-center"
+            >
+              <lightning-icon
+                class="slds-m-right_xx-small"
+              >
+                #shadow-root(open)
+                  <lightning-primitive-icon>
+                    #shadow-root(open)
+                      <svg
+                        data-key="utility:warning"
+                      >
+                        <use />
+                      </svg>
+                  </lightning-primitive-icon>
+              </lightning-icon>
+              <builder_platform_interaction-rich-label
+                class="slds-m-left_xx-small slds-m-top_xx-small"
+              >
+                #shadow-root(open)
+                  FlowBuilderRecordEditor.getAllRecords
+              </builder_platform_interaction-rich-label>
+            </div>
+            <div
+              class="slds-p-horizontal_small"
+            />
+          </div>
+      </builder_platform_interaction-record-filter>
+      <builder_platform_interaction-record-sort>
+        #shadow-root(open)
+          <div
+            class="slds-m-bottom_small slds-border_top"
+          >
+            <h3
+              class="slds-text-heading_small slds-p-left_small slds-p-top_small"
+            >
+              FlowBuilderRecordEditor.sortTabHeader
+            </h3>
+            <div
+              class="slds-card slds-no-flex"
+            >
+              <div
+                class="slds-grid slds-p-around_small"
+              >
+                <lightning-combobox
+                  class="slds-size_x-small types"
+                >
+                  #shadow-root(open)
+                </lightning-combobox>
+                <div
+                  class="slds-m-left_small slds-p-top_x-large slds-text-body_small slds-text-color_weak helpText"
+                >
+                  <lightning-icon
+                    class="slds-m-right_x-small"
+                  >
+                    #shadow-root(open)
+                      <lightning-primitive-icon>
+                        #shadow-root(open)
+                          <svg
+                            data-key="utility:warning"
+                          >
+                            <use />
+                          </svg>
+                      </lightning-primitive-icon>
+                  </lightning-icon>
+                  FlowBuilderRecordEditor.sortOrderNotSortedHelp
+                </div>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-record-sort>
+      <div>
+        <builder_platform_interaction-record-number-record-to-store>
+          #shadow-root(open)
+            <div
+              class="slds-border_top slds-form_stacked slds-p-top_small slds-p-left_small slds-no-flex"
+            >
+              <lightning-radio-group
+                class="slds-m-top_x-small"
+              >
+                #shadow-root(open)
+              </lightning-radio-group>
+            </div>
+        </builder_platform_interaction-record-number-record-to-store>
+        <builder_platform_interaction-use-advanced-options-checkbox>
+          #shadow-root(open)
+            <div
+              class="slds-form_stacked slds-p-left_small"
+            >
+              <lightning-input>
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+        <div
+          class="slds-p-left_xx-large slds-p-right_small"
+        >
+          <builder_platform_interaction-rich-label
+            class="slds-text-body_regular"
+          >
+            #shadow-root(open)
+              FlowBuilderRecordEditor.storeFieldsSelectionLabel
+          </builder_platform_interaction-rich-label>
+          <lightning-radio-group
+            class="slds-m-top_x-small"
+          >
+            #shadow-root(open)
+          </lightning-radio-group>
+          <builder_platform_interaction-record-sobject-and-query-fields>
+            #shadow-root(open)
+              <div>
+                <h3
+                  class="slds-text-heading_small slds-p-top_small"
+                >
+                  FlowBuilderRecordEditor.selectVariableToStore
+                </h3>
+                <div
+                  class="slds-form-element slds-size_1-of-2"
+                >
+                  <builder_platform_interaction-sobject-or-sobject-collection-picker>
+                    #shadow-root(open)
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                  </builder_platform_interaction-sobject-or-sobject-collection-picker>
+                </div>
+              </div>
+              <div>
+                <builder_platform_interaction-record-query-fields>
+                  #shadow-root(open)
+                    <div
+                      class="slds-form-element slds-size_1-of-2 slds-m-bottom_small"
+                    >
+                      <h3
+                        class="slds-text-heading_small slds-p-top_small"
+                      >
+                        FlowBuilderRecordEditor.selectFields
+                      </h3>
+                      <builder_platform_interaction-combobox>
+                        #shadow-root(open)
+                          <lightning-grouped-combobox>
+                            #shadow-root(open)
+                              <lightning-base-combobox>
+                                #shadow-root(open)
+                                  <input />
+                              </lightning-base-combobox>
+                              <lightning-base-combobox
+                                data-id="lookup"
+                              >
+                                #shadow-root(open)
+                                  <input />
+                              </lightning-base-combobox>
+                          </lightning-grouped-combobox>
+                      </builder_platform_interaction-combobox>
+                      <builder_platform_interaction-list>
+                        #shadow-root(open)
+                          <div
+                            class="slds-list_vertical-space"
+                          >
+                            <slot
+                              name="listBody"
+                            />
+                            <div
+                              class="slds-m-top_small"
+                            >
+                              <lightning-button>
+                                #shadow-root(open)
+                              </lightning-button>
+                            </div>
+                          </div>
+                        <div
+                          slot="listBody"
+                        >
+                          <div
+                            class="slds-list__item slds-is-relative"
+                          >
+                            <builder_platform_interaction-record-field-picker-row>
+                              #shadow-root(open)
+                            </builder_platform_interaction-record-field-picker-row>
+                          </div>
+                          <div
+                            class="slds-list__item slds-is-relative"
+                          >
+                            <builder_platform_interaction-record-field-picker-row>
+                              #shadow-root(open)
+                                <builder_platform_interaction-row>
+                                  #shadow-root(open)
+                                    <fieldset>
+                                      <div
+                                        class="slds-grid slds-grid_horizontal slds-grid_vertical-align-start slds-gutters slds-gutters_xx-small"
+                                      >
+                                        <div
+                                          class="slds-col"
+                                        >
+                                          <slot
+                                            name="rowBody"
+                                          />
+                                        </div>
+                                        <div
+                                          class="slds-col slds-grow-none"
+                                        >
+                                          <span
+                                            class="slds-form-element__label slds-is-visually-empty"
+                                          >
+                                             
+                                          </span>
+                                          <div
+                                            class="slds-form-element__control"
+                                          >
+                                            <lightning-button-icon>
+                                              #shadow-root(open)
+                                            </lightning-button-icon>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </fieldset>
+                                  <div
+                                    slot="rowBody"
+                                  >
+                                    <builder_platform_interaction-field-picker>
+                                      #shadow-root(open)
+                                    </builder_platform_interaction-field-picker>
+                                  </div>
+                                </builder_platform_interaction-row>
+                            </builder_platform_interaction-record-field-picker-row>
+                          </div>
+                        </div>
+                      </builder_platform_interaction-list>
+                    </div>
+                </builder_platform_interaction-record-query-fields>
+              </div>
+          </builder_platform_interaction-record-sobject-and-query-fields>
+          <lightning-input
+            class="property-input slds-m-top_x-small slds-m-bottom_x-small"
+          >
+            #shadow-root(open)
+          </lightning-input>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;
+
+exports[`record-lookup-editor Process type supporting the automatic mode Edit element (sobject mode) remove "object" check UI - child components displayed or not (snapshot) 1`] = `
+<builder_platform_interaction-record-lookup-editor>
+  #shadow-root(open)
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      FlowBuilderRecordEditor.recordLookupTitle
+    </div>
+    <div
+      class="slds-p-horizontal_small slds-p-top_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col label slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+              <lightning-input
+                class="slds-col devName slds-size_1-of-2"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+    </div>
+    <div
+      class="slds-m-bottom_small slds-border_top"
+    >
+      <h3
+        class="slds-text-heading_small slds-p-around_small"
+      >
+        FlowBuilderRecordEditor.getRecordsOfObjectType
+      </h3>
+      <div
+        class="slds-p-horizontal_small slds-form-element slds-size_1-of-2"
+      >
+        <builder_platform_interaction-entity-resource-picker>
+          #shadow-root(open)
+            <builder_platform_interaction-base-resource-picker>
+              #shadow-root(open)
+                <builder_platform_interaction-combobox>
+                  #shadow-root(open)
+                    <lightning-grouped-combobox>
+                      #shadow-root(open)
+                        <lightning-base-combobox>
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                        <lightning-base-combobox
+                          data-id="lookup"
+                        >
+                          #shadow-root(open)
+                            <input />
+                        </lightning-base-combobox>
+                    </lightning-grouped-combobox>
+                </builder_platform_interaction-combobox>
+            </builder_platform_interaction-base-resource-picker>
+        </builder_platform_interaction-entity-resource-picker>
+      </div>
+    </div>
+</builder_platform_interaction-record-lookup-editor>
+`;

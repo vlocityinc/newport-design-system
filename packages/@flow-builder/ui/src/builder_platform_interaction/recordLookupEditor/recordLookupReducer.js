@@ -290,7 +290,8 @@ const numberRecordToStoreChanged = (state, { getFirstRecordOnly }) => {
  */
 const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
     state = updateProperties(state, {
-        [PROPS.storeOutputAutomatically]: !useAdvancedOptions
+        [PROPS.storeOutputAutomatically]: !useAdvancedOptions,
+        [PROPS.outputReference]: { value: '', error: null }
     });
     if (useAdvancedOptions) {
         return state;
