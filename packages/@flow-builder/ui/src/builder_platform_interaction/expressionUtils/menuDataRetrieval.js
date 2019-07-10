@@ -144,10 +144,14 @@ export function isElementAllowed(
     showComplexObjectsForFields = false
 ) {
     const isElementMatchForProperty = property => {
-        return (
-            allowedParamTypes.hasOwnProperty(property) &&
-            elementMatchesRule(allowedParamTypes[property], element)
-        );
+        if (!property) {
+            return false;
+        }
+        const paramTypeKey = Object.keys(allowedParamTypes).find(key => {
+            return key.toLowerCase() === property.toLowerCase();
+        });
+        const allowedType = paramTypeKey ? allowedParamTypes[paramTypeKey] : undefined;
+        return (allowedType && elementMatchesRule(allowedType, element));
     };
 
     return (
