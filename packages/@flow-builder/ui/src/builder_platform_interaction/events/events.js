@@ -111,3 +111,4 @@ export {
     UseAdvancedOptionsSelectionChangedEvent
 } from './useAdvancedOptionsSelectionChangedEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
+export { InlineResourceEvent } from './inlineResourceEvent';
