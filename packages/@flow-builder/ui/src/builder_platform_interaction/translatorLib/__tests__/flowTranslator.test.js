@@ -90,6 +90,7 @@ export const modifyExpected = (given, expected, callback, path = []) => {
 const isEmpty = value =>
     value === '' ||
     value == null ||
+    value === undefined ||
     (Array.isArray(value) && value.length === 0);
 
 const all = callbacks => (
@@ -274,7 +275,9 @@ describe('Getting flow metadata, calling flow-to-ui translation and calling ui-t
         store = Store.getStore(reducer);
     });
     SAMPLE_FLOWS.forEach(metadataFlow => {
-        it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
+        it(`returns the same metadata for sample flow ${
+            metadataFlow.fullName
+        }`, () => {
             const uiFlow = translateFlowToUIModel(metadataFlow);
             expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
             store.dispatch(updateFlow(uiFlow));

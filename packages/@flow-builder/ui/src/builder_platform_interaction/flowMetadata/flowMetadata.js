@@ -88,6 +88,7 @@ export const ACTION_TYPE = {
 };
 
 export const METADATA_KEY = {
+    START: 'start',
     ACTION_CALLS: 'actionCalls',
     APEX_PLUGIN_CALLS: 'apexPluginCalls',
     ASSIGNMENTS: 'assignments',

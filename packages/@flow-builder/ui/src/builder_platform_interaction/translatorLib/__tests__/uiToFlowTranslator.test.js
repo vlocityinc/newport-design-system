@@ -33,7 +33,8 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
             START_ELEMENT: 'startElement'
         },
         METADATA_KEY: {
-            DUMMY_METADATA: 'dummyMetadata'
+            DUMMY_METADATA: 'dummyMetadata',
+            START: 'start'
         },
         TEMPLATE_FIELDS: new Set(),
         REFERENCE_FIELDS: new Set(),
@@ -56,7 +57,14 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                 };
             } else if (elementType === 'startElement') {
                 return {
-                    factory: {}
+                    metadataKey: 'start',
+                    factory: {
+                        uiToFlow: () => {
+                            return {
+                                name: 'startElementName'
+                            };
+                        }
+                    }
                 };
             } else if (elementType === 'flowProperties') {
                 return {
@@ -97,17 +105,17 @@ describe('UI to Flow Translation', () => {
             expect(fullName).toBe('flow name');
         });
         describe('return metadata', () => {
-            it('with start element reference', () => {
+            it('with start element', () => {
                 const { metadata } = translateUIModelToFlow(uiModel);
-                const { startElementReference } = metadata;
-                expect(startElementReference).toBe('dummyElementName');
+                const { start } = metadata;
+                expect(start.name).toBe('startElementName');
             });
-            it('with one element', () => {
+            it('with regular element', () => {
                 const { metadata } = translateUIModelToFlow(uiModel);
                 const { dummyMetadataKey } = metadata;
                 expect(dummyMetadataKey).toHaveLength(1);
             });
-            it('with one element having name property', () => {
+            it('with regular element having name property', () => {
                 const { metadata } = translateUIModelToFlow(uiModel);
                 const { dummyMetadataKey } = metadata;
                 expect(dummyMetadataKey[0].name).toBe('dummyElementName');

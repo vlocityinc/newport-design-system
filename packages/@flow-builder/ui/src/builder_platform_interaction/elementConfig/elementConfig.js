@@ -98,7 +98,8 @@ import {
     createDuplicateScreen,
     createScreenWithFieldReferencesWhenUpdatingFromPropertyEditor,
     createScreenWithFieldReferences,
-    createScreenField
+    createScreenField,
+    createStartElementMetadataObject
 } from 'builder_platform_interaction/elementFactory';
 
 /**
@@ -158,9 +159,11 @@ export const elementTypeToConfigMap = {
         canvasElement: true,
         isDeletable: false,
         canBeDuplicated: false,
+        metadataKey: METADATA_KEY.START,
         factory: {
             propertyEditor: createStartElement,
-            flowToUi: createStartElementWithConnectors
+            flowToUi: createStartElementWithConnectors,
+            uiToFlow: createStartElementMetadataObject
         },
         labels: {
             singular: LABELS.startElementSingularLabel,

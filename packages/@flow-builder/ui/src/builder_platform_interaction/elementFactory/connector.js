@@ -159,6 +159,7 @@ export const createConnectorMetadataObjects = (
     for (let i = 0; i < connectors.length; i++) {
         const connector = connectors[i];
         switch (connector.type) {
+            case CONNECTOR_TYPE.START:
             case CONNECTOR_TYPE.REGULAR: {
                 const connectorObject = createConnectorMetadataObject(
                     connector

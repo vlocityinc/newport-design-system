@@ -3,10 +3,7 @@ import {
     ELEMENT_TYPE,
     METADATA_KEY
 } from 'builder_platform_interaction/flowMetadata';
-import {
-    createStartElementWithConnectors,
-    createFlowProperties
-} from 'builder_platform_interaction/elementFactory';
+import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 
 /**
@@ -28,21 +25,17 @@ export const getFlowStartElementReference = flow =>
 export function translateFlowToUIModel(flow) {
     // Construct flow properties object
     const properties = createFlowProperties(flow);
-    // Create start element
-    const { elements, connectors } = createStartElementWithConnectors(
-        getFlowStartElementReference(flow)
-    );
+
     // Create elements, connectors and location translation config from flow Metadata
     const storeDataAndConfig = createElementsUsingFlowMetadata(
-        flow.metadata || flow
+        flow.metadata || flow,
+        getFlowStartElementReference(flow)
     );
 
-    let { storeElements = {}, storeConnectors = [] } = storeDataAndConfig;
+    let { storeElements = {} } = storeDataAndConfig;
+    const { storeConnectors = [] } = storeDataAndConfig;
 
     const { translateX } = storeDataAndConfig;
-
-    storeElements = updateStoreElements(elements, storeElements);
-    storeConnectors = updateStoreConnectors(connectors, storeConnectors);
 
     const {
         nameToGuid,
@@ -116,7 +109,7 @@ function updateCanvasElementGuidsAndNameToGuidMap(
             nameToGuid[devname] = element.guid;
         }
 
-        // Construct arrays of all canvas element and variable guids
+        // Construct arrays of all canvas element guids
         if (element.isCanvasElement) {
             canvasElementGuids = [...canvasElementGuids, element.guid];
 
@@ -201,7 +194,7 @@ function updateCanvasElementLocation(element = {}, translateX = 0) {
  * @param {Object} metadata flow metadata
  * @returns {Object} Object containing updated storeConnectors, storeElements and translateX
  */
-function createElementsUsingFlowMetadata(metadata) {
+function createElementsUsingFlowMetadata(metadata, startElementReference) {
     const EXTRA_SPACING = 180;
 
     let storeElements, storeConnectors;
@@ -219,12 +212,14 @@ function createElementsUsingFlowMetadata(metadata) {
         i++
     ) {
         const metadataKey = metadataKeyList[i];
-        const metadataElementsList = metadata[metadataKey];
-        for (
-            let j = 0, metadataElementsListLen = metadataElementsList.length;
-            j < metadataElementsListLen;
-            j++
-        ) {
+        const metadataElementsList =
+            metadataKey === METADATA_KEY.START
+                ? [metadata[metadataKey]]
+                : metadata[metadataKey];
+        const metadataElementsListLen = metadataElementsList
+            ? metadataElementsList.length
+            : 0;
+        for (let j = 0; j < metadataElementsListLen; j++) {
             const metadataElementsListItem = metadataElementsList[j];
 
             if (
@@ -235,9 +230,15 @@ function createElementsUsingFlowMetadata(metadata) {
                 minX = metadataElementsListItem.locationX;
             }
 
-            const { elements, connectors } = metadataKeyToFlowToUiFunctionMap[
-                metadataKey
-            ](metadataElementsListItem);
+            const elementFactoryFunction =
+                metadataKeyToFlowToUiFunctionMap[metadataKey];
+            const { elements, connectors } =
+                metadataKey === METADATA_KEY.START
+                    ? elementFactoryFunction(
+                          metadataElementsListItem,
+                          startElementReference
+                      )
+                    : elementFactoryFunction(metadataElementsListItem);
             if (elements) {
                 storeElements = updateStoreElements(storeElements, elements);
             }

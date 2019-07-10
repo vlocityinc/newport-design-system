@@ -4,7 +4,7 @@ import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 
 const getXYTranslate = canvasElements => {
-    const EXTRA_SPACING = 180;
+    const EXTRA_SPACING = 50;
 
     const flowBounds = getFlowBounds(canvasElements);
 
@@ -66,10 +66,9 @@ export function translateUIModelToFlow(uiModel) {
         }
 
         if (element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            const startConnectors = connectorMap[element.guid];
-            if (startConnectors && startConnectors.length > 0) {
-                startElementId = startConnectors[0].target;
-            }
+            metadata[
+                elementInfo.metadataKey
+            ] = getElementForUiToFlowTranslation(element, config);
         } else if (elementInfo.metadataKey) {
             if (!metadata[elementInfo.metadataKey]) {
                 metadata[elementInfo.metadataKey] = [];

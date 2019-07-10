@@ -5,6 +5,7 @@ import {
 
 const flowWithDummyElement = {
     metadata: {
+        start: {},
         dummyMetadata: [
             {
                 name: 'dummyElementName'
@@ -20,18 +21,6 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
                 name: 'Test Flow'
             };
         }),
-        createStartElementWithConnectors: jest.fn().mockImplementation(() => {
-            const guid = 'guid2';
-            return {
-                elements: {
-                    [guid]: {
-                        name: 'startElementName',
-                        isCanvasElement: true,
-                        guid
-                    }
-                }
-            };
-        }),
         getDataTypeKey: require.requireActual(
             '../../elementFactory/elementFactory.js'
         ).getDataTypeKey
@@ -41,10 +30,12 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
 jest.mock('builder_platform_interaction/flowMetadata', () => {
     return {
         ELEMENT_TYPE: {
-            DUMMY: 'dummy'
+            DUMMY: 'dummy',
+            START_ELEMENT: 'startElement'
         },
         METADATA_KEY: {
-            DUMMY_METADATA: 'dummyMetadata'
+            DUMMY_METADATA: 'dummyMetadata',
+            START: 'start'
         },
         TEMPLATE_FIELDS: new Set(),
         REFERENCE_FIELDS: new Set(),
@@ -64,7 +55,8 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                             elements: {
                                 [guid]: {
                                     guid,
-                                    name
+                                    name,
+                                    isCanvasElement: true
                                 }
                             },
                             connectors: [
@@ -72,6 +64,24 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                                     guid: 'connector1'
                                 }
                             ]
+                        };
+                    }
+                }
+            },
+            startElement: {
+                metadataKey: 'start',
+                factory: {
+                    flowToUi: () => {
+                        const guid = 'startGuid';
+                        return {
+                            elements: {
+                                [guid]: {
+                                    guid,
+                                    name: 'startElementName',
+                                    isCanvasElement: true
+                                }
+                            },
+                            connectors: []
                         };
                     }
                 }
@@ -109,8 +119,8 @@ describe('Flow to ui translator tests', () => {
                 const { elements } = translateFlowToUIModel(
                     flowWithDummyElement
                 );
-                const { guid2 } = elements;
-                expect(guid2.name).toBe('startElementName');
+                const { startGuid } = elements;
+                expect(startGuid.name).toBe('startElementName');
             });
         });
         describe('return connectors array', () => {
@@ -133,7 +143,7 @@ describe('Flow to ui translator tests', () => {
                 const { canvasElements } = translateFlowToUIModel(
                     flowWithDummyElement
                 );
-                expect(canvasElements).toHaveLength(1);
+                expect(canvasElements).toHaveLength(2);
             });
         });
     });
