@@ -2,11 +2,25 @@
     init: function (cmp) {
         var bodyComponent = cmp.get('v.bodyComponent');
         if (bodyComponent){
+            var loggingUtils = cmp.find('loggingUtils');
+            loggingUtils.logPerfTransactionStart(bodyComponent.desc);
             $A.createComponent(bodyComponent.desc, bodyComponent.attr, function(newCmp, status, errorMessage){
                 if (status === 'SUCCESS') {
                     var body = cmp.find('body-content');
                     body && body.set('v.body', newCmp); // setting the newly created assignment editor here in body
-                } else if (status === 'ERROR') {                    
+                    loggingUtils.logPerfTransactionEnd(bodyComponent.desc, {context: {
+                        action: "Load",
+                        target: "builder_platform_interaction:propertyEditor",
+                        gusTeamId: "a00B00000019ubOIAQ",
+                        message: "Property editor body created successfully"
+                    }});
+                } else if (status === 'ERROR') { 
+                    loggingUtils.logPerfTransactionEnd(bodyComponent.desc, {context: {
+                        action: "Load",
+                        target: "builder_platform_interaction:propertyEditor",
+                        gusTeamId: "a00B00000019ubOIAQ",
+                        message: "Error creating the property editor body"
+                    }});
                     throw new Error('Error creating the property editor: ' + errorMessage);
                 }              
             });

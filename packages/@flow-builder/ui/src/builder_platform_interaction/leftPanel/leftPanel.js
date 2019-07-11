@@ -27,16 +27,21 @@ import {
     getElementTypeLabel,
     getResourceTypeLabel
 } from 'builder_platform_interaction/elementLabelLib';
+import {
+    logPerfTransactionStart,
+    logPerfTransactionEnd
+} from 'builder_platform_interaction/loggingUtils';
 
 let storeInstance;
 let unsubscribeStore;
+const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 
 export default class LeftPanel extends LightningElement {
     @track showResourceDetailsPanel = false;
     @track resourceDetails;
     @track canvasElements = [];
     @track nonCanvasElements = [];
-    @track elements = {};
+    @track elements = [];
 
     labels = LABELS;
     searchString;
@@ -85,6 +90,7 @@ export default class LeftPanel extends LightningElement {
         }
         if (this.processType !== flowProcessType) {
             this.processType = flowProcessType;
+            logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
             fetch(
                 SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS,
                 this.setElements,
@@ -238,5 +244,13 @@ export default class LeftPanel extends LightningElement {
 
     disconnectedCallback() {
         unsubscribeStore();
+    }
+
+    renderedCallback() {
+        if (this.elements.length) {
+            logPerfTransactionEnd(LEFT_PANEL_ELEMENTS, {
+                numOfElements: this.elements.length
+            });
+        }
     }
 }

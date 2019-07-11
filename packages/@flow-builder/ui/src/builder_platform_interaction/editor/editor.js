@@ -52,7 +52,9 @@ import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     logPerfTransactionStart,
-    logPerfTransactionEnd
+    logPerfTransactionEnd,
+    setAppName,
+    logInteraction
 } from 'builder_platform_interaction/loggingUtils';
 import {
     EditElementEvent,
@@ -101,6 +103,7 @@ const RUN = 'run';
 const DEBUG = 'debug';
 
 const EDITOR = 'EDITOR';
+const APP_NAME = 'FLOW_BUILDER';
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -148,7 +151,8 @@ export default class Editor extends LightningElement {
 
     constructor() {
         super();
-        // Initialising store
+        // Setting the app name to differenciate between FLOW_BUILDER or STRATEGY_BUILDER
+        setAppName(APP_NAME);
         logPerfTransactionStart(EDITOR);
         const blacklistedActionsForUndoRedoLib = [
             INIT,
@@ -163,6 +167,7 @@ export default class Editor extends LightningElement {
             MARQUEE_SELECT_ON_CANVAS, // is dispatched when the user is marquee selecting on the canvas.
             UPDATE_CANVAS_ELEMENT_LOCATION // is dispatched when elements are moved on canvas.
         ];
+        // Initialising store
         storeInstance = Store.getStore(
             undoRedo(reducer, {
                 blacklistedActions: blacklistedActionsForUndoRedoLib,
@@ -1006,17 +1011,19 @@ export default class Editor extends LightningElement {
      * @param modal the flow modal
      */
     createFlowFromTemplateCallback = modal => {
-        const selectedTemplate = getSelectedTemplate(modal);
-        if (selectedTemplate.templateId) {
+        const { templateId, processType } = getSelectedTemplate(modal);
+        if (templateId) {
+            logInteraction('create-new-flow-button', 'editor-component', templateId, 'click', 'user');
             // create the flow from the template
-            this.createFlowFromTemplate(selectedTemplate.templateId, modal);
+            this.createFlowFromTemplate(templateId, modal);
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
-            if (selectedTemplate.processType) {
+            if (processType) {
                 // create the empty flow for the selected process type
+                logInteraction('create-new-flow-button', 'editor-component', processType, 'click', 'user');
                 this.spinners.showFlowMetadataSpinner = true;
-                this.createFlowFromProcessType(selectedTemplate.processType);
+                this.createFlowFromProcessType(processType);
                 this.spinners.showFlowMetadataSpinner = false;
             }
             modal.close();

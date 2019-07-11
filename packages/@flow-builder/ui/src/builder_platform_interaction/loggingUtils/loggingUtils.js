@@ -1,5 +1,21 @@
 import * as metricsService from 'instrumentation/service';
-const APP_NAME = 'FLOW_BUILDER';
+
+let appName = 'FLOW_BUILDER';
+
+/**
+ * Function to set the builder name e.g FLOW_BUILDER or STRATEGY_BUILDER
+ * @param {String} name
+ */
+export const setAppName = name => {
+    appName = name;
+};
+
+/**
+ * Function to get the builder name
+ */
+const getAppName = () => {
+    return appName;
+};
 
 /**
  * Wrapper function for logging Error transaction in metrics service
@@ -15,7 +31,7 @@ export const logMetricsServiceErrorTransaction = errorMessage => {
  * @param {Object} config - payload of the transaction.
  */
 export const logPerfTransactionStart = (name, config) => {
-    metricsService.perfStart(APP_NAME + ':' + name, config);
+    metricsService.perfStart(getAppName() + ':' + name, config);
 };
 
 /**
@@ -24,7 +40,7 @@ export const logPerfTransactionStart = (name, config) => {
  * @param {Object} config - payload of the transaction.
  */
 export const logPerfTransactionEnd = (name, config) => {
-    metricsService.perfEnd(APP_NAME + ':' + name, config);
+    metricsService.perfEnd(getAppName() + ':' + name, config);
 };
 
 /**
@@ -34,7 +50,7 @@ export const logPerfTransactionEnd = (name, config) => {
  * Note: A mark will only appear in the log line if it falls inside the time range of an existing transaction
  */
 export const logPerfMarkStart = (name, context) => {
-    metricsService.markStart(APP_NAME, name, context);
+    metricsService.markStart(getAppName(), name, context);
 };
 
 /**
@@ -44,7 +60,7 @@ export const logPerfMarkStart = (name, context) => {
  * Note: A mark will only appear in the log line if it falls inside the time range of an existing transaction.
  */
 export const logPerfMarkEnd = (name, context) => {
-    metricsService.markEnd(APP_NAME, name, context);
+    metricsService.markEnd(getAppName(), name, context);
 };
 
 /**

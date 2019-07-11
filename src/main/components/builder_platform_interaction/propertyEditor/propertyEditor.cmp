@@ -11,6 +11,8 @@
     <!-- Handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
     <aura:handler name="change" value="{!v.panelInstance}" action="{!c.panelInstanceChange}"/>
+    <!-- Logging Util  -->
+    <builder_platform_interaction:loggingUtils aura:id="loggingUtils"></builder_platform_interaction:loggingUtils>
     <!-- Body -->
     
     <div id="modal-content-id" aura:id="body-content" 
