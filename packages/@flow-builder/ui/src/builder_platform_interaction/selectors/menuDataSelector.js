@@ -7,7 +7,7 @@ import {
     getDeletableEntities,
     getUpdateableEntities
 } from 'builder_platform_interaction/sobjectLib';
-import { COMPONENT_INSTANCE } from 'builder_platform_interaction/screenEditorUtils';
+import { COMPONENT_INSTANCE } from 'builder_platform_interaction/flowExtensionLib';
 
 const elementsSelector = state => state.elements;
 
