@@ -254,7 +254,6 @@ export default class OutputResourcePicker extends LightningElement {
                 const fields = retrieveResourceComplexTypeFields(flowElement);
                 const field = fields && fields[fieldName];
                 if (field) {
-                    field.isCollection = !!field.isCollection;
                     const fieldParent = mutateFlowResourceToComboboxShape(
                         flowElement
                     );

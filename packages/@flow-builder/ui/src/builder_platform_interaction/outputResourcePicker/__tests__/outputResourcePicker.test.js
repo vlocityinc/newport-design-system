@@ -358,23 +358,6 @@ describe('output-resource-picker', () => {
                 storeElement = store.elements[guid];
                 getResourceByUniqueIdentifier.mockReturnValueOnce(storeElement);
             };
-            it('sets sobject field isCollection to false', () => {
-                configureForGuid(store.accountSObjectVariableGuid);
-                mutateFieldToComboboxShape.mockImplementationOnce(
-                    ({ isCollection }) => {
-                        return {
-                            isCollection
-                        };
-                    }
-                );
-                const outputResourcePicker = setupComponentUnderTest(props);
-
-                return Promise.resolve().then(() => {
-                    expect(outputResourcePicker.value.isCollection).toEqual(
-                        false
-                    );
-                });
-            });
             it('does not overwrite apex field isCollection values', () => {
                 configureForGuid(store.apexSampleVariableGuid);
                 mutateFieldToComboboxShape.mockImplementationOnce(
