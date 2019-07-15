@@ -778,24 +778,32 @@ export default class BaseExpressionBuilder extends LightningElement {
         );
     }
 
+    /**
+     * Helper function to set the newly created inline resource in LHS or RHS
+     *
+     * @param {String} position position of the resource (LHS or RHS)
+     * @param {Object} resource the newly created inline resource
+     */
     setInlineResource = (position, resource) => {
-        const menu =
-            position === LEFT ? LHS_FULL_MENU_DATA : RHS_FULL_MENU_DATA;
-        const inlineItem = this.state[menu].reduce(
-            (item, itemGroup) =>
-                (itemGroup.items != null &&
-                    itemGroup.items.find(
-                        currentItem => currentItem.value === resource
-                    )) ||
-                item,
+        if (position) {
+            const menu =
+                position === LEFT ? LHS_FULL_MENU_DATA : RHS_FULL_MENU_DATA;
+            const inlineItem = this.state[menu].reduce(
+                (item, itemGroup) =>
+                    (itemGroup.items != null &&
+                        itemGroup.items.find(
+                            currentItem => currentItem.value === resource
+                        )) ||
+                    item,
 
-            null
-        );
+                null
+            );
 
-        if (position === LEFT) {
-            this._lhsInlineResource = inlineItem;
-        } else if (position === RIGHT) {
-            this._rhsInlineResource = inlineItem;
+            if (position === LEFT) {
+                this._lhsInlineResource = inlineItem;
+            } else if (position === RIGHT) {
+                this._rhsInlineResource = inlineItem;
+            }
         }
     };
 
