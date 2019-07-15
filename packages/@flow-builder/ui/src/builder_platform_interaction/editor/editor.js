@@ -242,7 +242,7 @@ export default class Editor extends LightningElement {
             currentState.properties.processType !== this.properties.processType
         ) {
             logPerfTransactionStart(
-                SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_BY_PROCESS_TYPE
+                SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
             );
             const getPeripheralDataForPropertyEditor = fetchOnce(
                 SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR,
