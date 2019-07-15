@@ -1,0 +1,67 @@
+<template>
+    <div class="slds-p-horizontal_small slds-p-top_small">
+        <h3 class="slds-text-heading_small slds-p-bottom_small">
+            {labels.triggerTypeSectionHeader}
+        </h3>
+        <div class="slds-text-body_small">
+            {labels.triggerTypeSectionDescription}
+        </div>
+        <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
+            <lightning-combobox
+                class="triggerType slds-form-element slds-col slds-grow"
+                dropdown-alignment="auto"
+                label={labels.triggerTypeInputLabel}
+                name="triggerType"
+                onchange={handleTriggerTypeChange}
+                options={triggerTypeOptions}
+                value={triggerType}
+            ></lightning-combobox>
+        </div>
+    </div>
+
+    <div
+        class="scheduleSection slds-border_top slds-p-around_small"
+        if:true={showScheduleSection}
+    >
+        <h3 class="slds-text-heading_small slds-p-bottom_small">
+            {labels.scheduleSectionHeader}
+        </h3>
+
+        <div class="slds-form slds-grid slds-gutters slds-gutters_xx-small">
+            <lightning-input
+                class="startDate slds-col slds-form-element slds-size_1-of-4"
+                label={labels.startDateInputLabel}
+                message-when-value-missing={labels.cannotBeBlank}
+                name="startDate"
+                onchange={handleStartDateChange}
+                placeholder={labels.startDateInputPlaceholder}
+                required
+                type="date"
+                value={startDate}
+            ></lightning-input>
+
+            <lightning-input
+                class="startTime slds-col slds-form-element slds-size_1-of-4"
+                field-level-help={startTimeInputHelp}
+                label={labels.startTimeInputLabel}
+                name="startTime"
+                onchange={handleStartTimeChange}
+                placeholder={labels.startTimeInputPlaceholder}
+                required
+                type="time"
+                value={startTime}
+            ></lightning-input>
+        </div>
+
+        <lightning-combobox
+            class="frequency slds-form-element slds-size_1-of-2 slds-col slds-grow"
+            dropdown-alignment="auto"
+            field-level-help={frequencyInputHelp}
+            label={labels.frequencyInputLabel}
+            name="frequency"
+            onchange={handleFrequencyChange}
+            options={frequencyOptions}
+            value={frequency}
+        ></lightning-combobox>
+    </div>
+</template>

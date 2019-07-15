@@ -11,6 +11,7 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getDataTypeKey } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 // check to enable guid to devname swapping for referencefields. While opening property editor, only template fields guids need to be swapped with dev name.
 let checkReferenceFields = true;
@@ -246,8 +247,10 @@ export const swapDevNamesToGuids = (elementUidMap, flow) => {
     const nameToUid = {};
     for (let i = 0; i < elementGuids.length; i++) {
         const element = elementUidMap[elementGuids[i]];
-        const devname = element.name.toLowerCase();
-        nameToUid[devname] = element.guid;
+        if (element.elementType !== ELEMENT_TYPE.START_ELEMENT) {
+            const devname = element.name.toLowerCase();
+            nameToUid[devname] = element.guid;
+        }
     }
     swapDevNamesToUids(nameToUid, flow);
 };

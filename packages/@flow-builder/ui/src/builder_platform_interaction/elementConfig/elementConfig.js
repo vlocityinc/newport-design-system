@@ -146,7 +146,7 @@ export const elementTypeToConfigMap = {
         }
     },
     [ELEMENT_TYPE.START_ELEMENT]: {
-        descriptor: 'builder_platform_interaction:assignmentEditor',
+        descriptor: 'builder_platform_interaction:startEditor',
         modalSize: MODAL_SIZE.MEDIUM,
         nodeConfig: {
             iconName: 'utility:right',

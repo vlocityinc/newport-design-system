@@ -281,3 +281,20 @@ export const FLOW_STATUS = {
 export const FLOW_SUPPORTED_FEATURES = {
     CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility'
 };
+
+export const FLOW_TRIGGER_TYPE = {
+    SCHEDULED: 'Scheduled'
+};
+
+export const FLOW_TRIGGER_FREQUENCY = {
+    ONCE: 'Once',
+    DAILY: 'Daily',
+    WEEKLY: 'Weekly'
+};
+
+export const START_ELEMENT_FIELDS = {
+    TRIGGER_TYPE: 'triggerType',
+    FREQUENCY: 'frequency',
+    START_DATE: 'startDate',
+    START_TIME: 'startTime'
+};

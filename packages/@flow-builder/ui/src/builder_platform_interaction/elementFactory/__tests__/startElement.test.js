@@ -27,9 +27,7 @@ describe('Start element', () => {
     describe('createStartElement function', () => {
         it('with empty base start element object', () => {
             const expectedResult = {
-                name: '',
                 description: '',
-                label: '',
                 locationX: START_ELEMENT_LOCATION.x,
                 locationY: START_ELEMENT_LOCATION.y,
                 filterType: RECORD_FILTER_CRITERIA.ALL,
@@ -49,7 +47,6 @@ describe('Start element', () => {
 
         it('with non-empty start element object', () => {
             const startElement = {
-                label: 'startLabel',
                 locationX: 10,
                 locationY: 20,
                 filterType: RECORD_FILTER_CRITERIA.NONE,
@@ -61,9 +58,7 @@ describe('Start element', () => {
                 startTime: '18:00:00'
             };
             const expectedResult = {
-                name: '',
                 description: '',
-                label: 'startLabel',
                 locationX: 10,
                 locationY: 20,
                 filterType: RECORD_FILTER_CRITERIA.NONE,
@@ -88,7 +83,6 @@ describe('Start element', () => {
 
         it('with no filter type specified on the start element object', () => {
             const startElement = {
-                label: 'startLabel',
                 locationX: 10,
                 locationY: 20,
                 filters: [],
@@ -101,9 +95,7 @@ describe('Start element', () => {
                 }
             };
             const expectedResult = {
-                name: '',
                 description: '',
-                label: 'startLabel',
                 locationX: 10,
                 locationY: 20,
                 filterType: RECORD_FILTER_CRITERIA.NONE,
@@ -159,7 +151,6 @@ describe('Start element', () => {
 
         it('creates start element metadata object', () => {
             const startElement = {
-                label: 'startLabel',
                 filterType: RECORD_FILTER_CRITERIA.ALL,
                 filters: [],
                 object: 'Account',
@@ -189,7 +180,6 @@ describe('Start element', () => {
 
         it('creates start element metadata object with filters', () => {
             const startElement = {
-                label: 'startLabel',
                 filterType: RECORD_FILTER_CRITERIA.ALL,
                 filters: [{ leftHandSide: 'foo' }],
                 object: 'Account',
@@ -219,7 +209,6 @@ describe('Start element', () => {
 
         it('creates start element metadata object with no schedule set', () => {
             const startElement = {
-                label: 'startLabel',
                 filterType: RECORD_FILTER_CRITERIA.ALL,
                 filters: [{ leftHandSide: 'foo' }],
                 object: 'Account',

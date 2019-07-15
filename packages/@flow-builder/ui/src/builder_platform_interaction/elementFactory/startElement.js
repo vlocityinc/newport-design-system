@@ -28,6 +28,7 @@ const elementType = ELEMENT_TYPE.START_ELEMENT;
  */
 export function createStartElement(startElement = {}) {
     const newStartElement = baseCanvasElement(startElement);
+
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
@@ -132,7 +133,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         label: undefined,
         name: undefined,
         description: undefined,
-        triggerType,
+        triggerType: triggerType === '' ? undefined : triggerType,
         schedule,
         object,
         filters: recordFilters

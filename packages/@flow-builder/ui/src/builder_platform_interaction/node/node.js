@@ -18,7 +18,11 @@ import {
     getPropertyOrDefaultToTrue
 } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_PROCESS_TYPE
+} from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 /**
  * Node component for flow builder.
@@ -182,7 +186,9 @@ export default class Node extends LightningElement {
 
         if (
             this.isSelectable() &&
-            this.node.elementType !== ELEMENT_TYPE.START_ELEMENT // TODO Remove this start element check once the property editor work is complete
+            (this.node.elementType !== ELEMENT_TYPE.START_ELEMENT ||
+                Store.getStore().getCurrentState().properties.processType ===
+                    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
         ) {
             const canvasElementGUID = this.node.guid;
             const editElementEvent = new EditElementEvent(canvasElementGUID);
