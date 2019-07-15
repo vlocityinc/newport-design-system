@@ -8,7 +8,9 @@
 // Reserved for mixins, functions, variables
 // Importing this file MUST NOT output any CSS
 
-@import 'design-tokens';
+@import 'variables/index';
+@import 'design-tokens.fixed.v3';
+@import 'icons';
 @import 'config';
 @import 'vendor/deprecate';
 @import 'vendor/directional';

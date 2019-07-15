@@ -49,39 +49,40 @@ input[placeholder]::placeholder {
     color: $color-input-font-kashmiri-blue;
   }
 
-  input:focus~.nds-form-element__label,
-  input.nds-has-value:not(:focus):valid~.nds-form-element__label,
-  input[cloned='dirty']+.nds-form-element__label,
-  input.nds-input[cloned='dirty']~.nds-form-element__label,
-  input.nds-is-dirty.nds-not-empty~.nds-form-element__label,
-  input.nds-is-dirty.nds-not-empty+.nds-form-element__label,
-  select:focus~.nds-form-element__label,
-  select.nds-has-value:not(:focus):valid~.nds-form-element__label,
-  select[cloned='dirty']+.nds-form-element__label,
-  select.nds-select[cloned='dirty']~.nds-form-element__label,
-  textarea:focus~.nds-form-element__label,
-  textarea.nds-has-value:not(:focus):valid~.nds-form-element__label,
-  textarea.nds-not-empty.nds-is-dirty~.nds-form-element__label,
-  textarea[cloned="dirty"]+.nds-form-element__label,
-  input.ng-dirty.ng-not-empty~.nds-form-element__label,
-  input.ng-dirty.ng-not-empty+.nds-form-element__label,
-  input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]~.nds-form-element__label,
-  input.ng-touched.ng-not-empty.td-input+.nds-form-element__label
-  select.ng-dirty.ng-not-empty~.nds-form-element__label,
-  select.ng-dirty.ng-not-empty+.nds-form-element__label,
-  select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]~.nds-form-element__label,
-  textarea.ng-not-empty.ng-dirty~.nds-form-element__label
+  input:focus,
+  input.nds-has-value:not(:focus):valid,
+  input[cloned='dirty'],
+  input.nds-input[cloned='dirty'],
+  input.nds-is-dirty.nds-not-empty,
+  select:focus,
+  select.nds-has-value:not(:focus):valid,
+  select[cloned='dirty'],
+  select.nds-select[cloned='dirty'],
+  textarea:focus,
+  textarea.nds-has-value:not(:focus):valid,
+  textarea.nds-not-empty.nds-is-dirty,
+  textarea[cloned="dirty"],
+  input.ng-dirty.ng-not-empty,
+  input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
+  input.ng-touched.ng-not-empty.td-input
+  select.ng-dirty.ng-not-empty,
+  select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]
+  textarea.ng-not-empty.ng-dirty
   {
-    transform: translate3d(0, -1.2rem, 0);
-    transition-duration: 300ms;
-    z-index: 0;
-    top: 0.4rem;
-    #{$left}: 0;
-
-    label,
-    &label {
-      font-size: $form-label-font-size;
-      font-weight: $form-label-font-weight;
+    ~.nds-form-element__label,
+    +.nds-form-element__label {
+      transform: translate3d(0, -1.2rem, 0);
+      transition-duration: 300ms;
+      z-index: 0;
+      top: 0.4rem;
+      #{$left}: 0;
+    }
+    ~.nds-form-element__label label,
+    ~label.nds-form-element__label,
+    +.nds-form-element__label label,
+    +label.nds-form-element__label{
+        font-size: $form-label-font-size;
+        font-weight: $form-label-font-weight;
     }
   }
 

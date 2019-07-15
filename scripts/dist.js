@@ -200,55 +200,6 @@ async.series(
         .on('finish', done);
     },
 
-    // //////////////////////////////////
-    // Swatches
-    // //////////////////////////////////
-
-    /**
-     * Copy the swatches
-     */
-    done => {
-      gulp
-        .src('downloads/swatches/**', {
-          cwd: paths.assets
-        })
-        .pipe(gulp.dest(distPath('swatches')))
-        .on('error', done)
-        .on('finish', done);
-    },
-
-    // //////////////////////////////////
-    // Design Tokens
-    // //////////////////////////////////
-
-    /**
-     * Move design tokens
-     */
-    done => {
-      gulp
-        .src('**/*.*', {
-          base: `${paths.designTokens}`,
-          cwd: `${paths.designTokens}`
-        })
-        .pipe(gulp.dest(distPath('design-tokens')))
-        .on('error', done)
-        .on('finish', done);
-    },
-
-    /**
-     * Move component design tokens
-     */
-    done => {
-      gulp
-        .src('components/**/tokens/**/*.yml', {
-          base: path.resolve(paths.ui),
-          cwd: path.resolve(paths.ui)
-        })
-        .pipe(gulp.dest(distPath('ui')))
-        .on('error', done)
-        .on('finish', done);
-    },
-
     /**
      * Build design system and vf css from the scss files. The big one!
      */
@@ -369,12 +320,6 @@ async.series(
      */
     done => {
       rimraf(distPath('README-dist.md'), done);
-    },
-    done => {
-      rimraf(distPath('swatches'), done);
-    },
-    done => {
-      rimraf(distPath('design-tokens'), done);
     },
     done => {
       rimraf(distPath('ui'), done);
