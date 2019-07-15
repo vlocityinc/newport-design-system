@@ -200,3 +200,22 @@ textarea:focus::placeholder {
 .nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out {
   transition: transform 200ms ease-out, font-size 200ms ease-out
 }
+
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
+  padding-left: 0;
+
+  &:focus {
+    box-shadow: none;
+    & ~ label {
+      transform: translate3d(0px, -1.2rem, 0px);
+    }
+  }
+
+  & ~ label {
+    transform: none;
+  }
+
+  &.nds-input.nds-not-empty.nds-is-dirty ~ label {
+        transform: translate3d(0px, -1.2rem, 0px);
+  }
+}
