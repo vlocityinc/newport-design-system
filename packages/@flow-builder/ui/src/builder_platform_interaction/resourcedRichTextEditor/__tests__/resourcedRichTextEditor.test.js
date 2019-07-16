@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import ResourcedRichTextEditor from '../resourcedRichTextEditor';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
+import { RichTextPlainTextSwitchChangedEvent } from 'builder_platform_interaction/events';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -18,14 +19,9 @@ const createComponentUnderTest = props => {
 };
 
 const focusoutEvent = new FocusEvent('focusout', {
-        bubbles: true,
-        cancelable: true
-    }),
-    toggleChangeEvent = checked => {
-        return new CustomEvent('change', {
-            detail: { checked }
-        });
-    };
+    bubbles: true,
+    cancelable: true
+});
 
 jest.mock('builder_platform_interaction/mergeFieldLib', () => {
     return {
@@ -47,7 +43,8 @@ const SELECTORS = {
     INPUT_RICH_TEXT: 'lightning-input-rich-text',
     FEROV_RESOURCE_PICKER: 'builder_platform_interaction-ferov-resource-picker',
     RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
-    INPUT_TOGGLE_PLAIN_TEXT: 'lightning-input'
+    RICH_TEXT_PLAIN_TEXT_SWITCH:
+        'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const getChildElement = ({ shadowRoot: richTextEditorShadowRoot }, selector) =>
@@ -324,53 +321,34 @@ describe('ResourcedRichTextEditor', () => {
         });
         describe('Change mode via API', () => {
             it('Enable it', () => {
-                buildAndFetchComponents({
+                resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true,
                     isPlainTextMode: true
                 });
-                expect(inputRichTextElement).toBeNull();
-                expect(richTextEditorResourcePicker).toBeNull();
-                expect(inputPlainTextResourcedTextArea).not.toBeNull();
+                expect(resourcedRichTextEditor).toMatchSnapshot();
             });
             it('Disable it', () => {
-                buildAndFetchComponents({
+                resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true,
                     isPlainTextMode: false
                 });
-                expect(inputRichTextElement).not.toBeNull();
-                expect(richTextEditorResourcePicker).not.toBeNull();
-                expect(inputPlainTextResourcedTextArea).toBeNull();
+                expect(resourcedRichTextEditor).toMatchSnapshot();
             });
         });
-        describe('Change mode via UI (toggle)', () => {
+        describe('Change mode via UI (button menu)', () => {
             it('Enable it', () => {
                 resourcedRichTextEditor = createComponentUnderTest({
                     plainTextAvailable: true
                 });
-                const inputTogglePlainText = getChildElement(
+                const richTextPlainTextSwitchCompo = getChildElement(
                     resourcedRichTextEditor,
-                    SELECTORS.INPUT_TOGGLE_PLAIN_TEXT
+                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
                 );
-                inputTogglePlainText.dispatchEvent(toggleChangeEvent(true));
+                richTextPlainTextSwitchCompo.dispatchEvent(
+                    new RichTextPlainTextSwitchChangedEvent(true)
+                );
                 return Promise.resolve().then(() => {
-                    expect(
-                        getChildElement(
-                            resourcedRichTextEditor,
-                            SELECTORS.INPUT_RICH_TEXT
-                        )
-                    ).toBeNull();
-                    expect(
-                        getChildElement(
-                            resourcedRichTextEditor,
-                            SELECTORS.FEROV_RESOURCE_PICKER
-                        )
-                    ).toBeNull();
-                    expect(
-                        getChildElement(
-                            resourcedRichTextEditor,
-                            SELECTORS.RESOURCED_TEXTAREA
-                        )
-                    ).not.toBeNull();
+                    expect(resourcedRichTextEditor).toMatchSnapshot();
                 });
             });
             it('Disable it', () => {
@@ -378,30 +356,19 @@ describe('ResourcedRichTextEditor', () => {
                     plainTextAvailable: true,
                     isPlainTextMode: true
                 });
-                const inputTogglePlainText = getChildElement(
+                const resourcedTextarea = getChildElement(
                     resourcedRichTextEditor,
-                    SELECTORS.INPUT_TOGGLE_PLAIN_TEXT
+                    SELECTORS.RESOURCED_TEXTAREA
                 );
-                inputTogglePlainText.dispatchEvent(toggleChangeEvent(false));
+                const richTextPlainTextSwitchCompo = getChildElement(
+                    resourcedTextarea,
+                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+                );
+                richTextPlainTextSwitchCompo.dispatchEvent(
+                    new RichTextPlainTextSwitchChangedEvent(false)
+                );
                 return Promise.resolve().then(() => {
-                    expect(
-                        getChildElement(
-                            resourcedRichTextEditor,
-                            SELECTORS.INPUT_RICH_TEXT
-                        )
-                    ).not.toBeNull();
-                    expect(
-                        getChildElement(
-                            resourcedRichTextEditor,
-                            SELECTORS.FEROV_RESOURCE_PICKER
-                        )
-                    ).not.toBeNull();
-                    expect(
-                        getChildElement(
-                            resourcedRichTextEditor,
-                            SELECTORS.RESOURCED_TEXTAREA
-                        )
-                    ).toBeNull();
+                    expect(resourcedRichTextEditor).toMatchSnapshot();
                 });
             });
         });

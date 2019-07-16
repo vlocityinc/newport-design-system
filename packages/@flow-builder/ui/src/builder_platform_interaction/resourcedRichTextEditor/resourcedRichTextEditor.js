@@ -46,6 +46,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
     @api helpText;
     @api required = false;
     @api showGlobalVariables = false;
+    // does support or not the plain text mode?
     @api plainTextAvailable = false;
 
     // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
@@ -89,7 +90,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     /**
      * True if editor in plain text mode, false otherwise for rich text mode
-     * @type {boolean}
+     * @returns {boolean} true if editor in plain text mode, false otherwise for rich text mode
      */
     @api get isPlainTextMode() {
         return this.state.isPlainTextMode;
@@ -97,7 +98,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     /**
      * Set editor plain text mode
-     * @param {boolean} val - true to switch in plain text, false to switch in rich text mode
+     * @param {boolean} val - true to switch to plain text, false to switch to rich text mode
      */
     set isPlainTextMode(val) {
         this.state.isPlainTextMode = val;
@@ -137,6 +138,16 @@ export default class ResourcedRichTextEditor extends LightningElement {
         );
     }
 
+    /**
+     * Depending on the plain text mode support change via CSS the width of the resource picker
+     * to allow mode selection button menu if needed
+     */
+    get computedDivResourcePickerClass() {
+        return this.plainTextAvailable
+            ? 'divResourcePickerPartialWidth'
+            : 'divResourcePickerFulllWidth';
+    }
+
     // Replace new line with <br /> tag as done at runtime (see _createOutput in factory.js)
     replaceNewLinesWithBrTags(value) {
         return value.replace(/\n/g, '<br />');
@@ -159,15 +170,6 @@ export default class ResourcedRichTextEditor extends LightningElement {
         const errors = this.validateMergeFields(value);
         const error = errors.length > 0 ? errors[0].message : null;
         this.fireChangeEvent(value, error);
-    }
-
-    /**
-     * handle the toggle mode changed event
-     * @param {Object} event event fired from input toggle
-     */
-    handleTogglePlainTextChanged(event) {
-        event.stopPropagation();
-        this.isPlainTextMode = event.detail.checked;
     }
 
     handleBlurEvent() {
@@ -226,6 +228,16 @@ export default class ResourcedRichTextEditor extends LightningElement {
         e.stopPropagation();
         this.handleResourcePickerSelection(e);
     };
+
+    /**
+     * Handler on plain/rich text mode change
+     * @param {Object} event - event of @see RichTextPlainTextSwitchChangedEvent type
+     * @param {boolean} event.detail.isPlainText - true if set to plain text mode false otherwise
+     */
+    handleRichTextPlainTextSwitchChange(event) {
+        event.stopPropagation();
+        this.isPlainTextMode = event.detail.isPlainText;
+    }
 
     renderedCallback() {
         if (!this.state.isPlainTextMode) {

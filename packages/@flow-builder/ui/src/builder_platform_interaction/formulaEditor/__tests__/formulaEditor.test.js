@@ -16,18 +16,25 @@ const createComponentUnderTest = node => {
     return el;
 };
 
-const selectors = {
+const SELECTORS = {
     dataTypePicker: 'builder_platform_interaction-data-type-picker',
-    formulaTextArea: 'builder_platform_interaction-resourced-textarea'
+    resourcedTextArea: 'builder_platform_interaction-resourced-textarea',
+    richTextPlainTextSwitch:
+        'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const getDataTypePicker = formulaEditor => {
-    return formulaEditor.shadowRoot.querySelector(selectors.dataTypePicker);
+    return formulaEditor.shadowRoot.querySelector(SELECTORS.dataTypePicker);
 };
 
 const getFormulaTextArea = formulaEditor => {
-    return formulaEditor.shadowRoot.querySelector(selectors.formulaTextArea);
+    return formulaEditor.shadowRoot.querySelector(SELECTORS.resourcedTextArea);
 };
+
+const getRichTextPlainTextSwitch = rexourdedTextArea =>
+    rexourdedTextArea.shadowRoot.querySelector(
+        SELECTORS.richTextPlainTextSwitch
+    );
 
 describe('formula-editor', () => {
     let formulaResource;
@@ -64,6 +71,12 @@ describe('formula-editor', () => {
         it('Expression textarea should have the proper value', () => {
             const formulaTextArea = getFormulaTextArea(formulaEditor);
             expect(formulaTextArea.value.value).toBe('2+2');
+        });
+        it('"Rich text plain text selection menu" should not be displayed as no plain text supported', () => {
+            const richTextPlainTextComponent = getRichTextPlainTextSwitch(
+                getFormulaTextArea(formulaEditor)
+            );
+            expect(richTextPlainTextComponent).toBeNull();
         });
     });
     describe('Edit new formula', () => {

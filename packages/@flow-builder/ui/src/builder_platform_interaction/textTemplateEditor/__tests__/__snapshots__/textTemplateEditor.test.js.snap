@@ -1,0 +1,129 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode checked by default and correct css class for resource picker 1`] = `
+<builder_platform_interaction-text-template-editor>
+  #shadow-root(open)
+    <div
+      class="slds-form slds-form_compound slds-p-around_small"
+    >
+      <builder_platform_interaction-label-description>
+        #shadow-root(open)
+          <span
+            class="slds-hide"
+          >
+            HACK TO FORCE RERENDER:
+          </span>
+          <div
+            class="slds-form slds-form_compound"
+          >
+            <div
+              class="container slds-form-element__group slds-grid slds-gutters slds-gutters_xx-small slds-m-bottom_x-small"
+            >
+              <lightning-input
+                class="slds-col devName"
+              >
+                #shadow-root(open)
+              </lightning-input>
+            </div>
+            <div
+              class="slds-form-element__group slds-form-element__row"
+            >
+              <lightning-textarea
+                class="slds-size_1-of-1 description"
+              >
+                #shadow-root(open)
+              </lightning-textarea>
+            </div>
+          </div>
+      </builder_platform_interaction-label-description>
+      <builder_platform_interaction-resourced-rich-text-editor>
+        #shadow-root(open)
+          <div
+            class="property-input slds-form-element"
+          >
+            <div
+              class="slds-grid slds-grid_vertical"
+            >
+              <div
+                class="slds-col slds-order_1 slds-size_1-of-2"
+              >
+                <span
+                  class="slds-form-element__label"
+                  id="resourcedRichTextEditorLabel-5"
+                >
+                  <abbr
+                    class="slds-required"
+                    title="FlowBuilderResourcedRichTextEditor.inputRequiredTitle"
+                  >
+                    *
+                  </abbr>
+                  FlowBuilderTextTemplateEditor.textTemplateLabel
+                </span>
+                <lightning-helptext
+                  class="slds-form-element"
+                >
+                  #shadow-root(open)
+                </lightning-helptext>
+              </div>
+            </div>
+            <div
+              aria-labelledby="resourcedRichTextEditorLabel-5"
+              class="container slds-grid slds-grid_vertical"
+            >
+              <div>
+                <div
+                  class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+                >
+                  <div
+                    class="divResourcePickerPartialWidth"
+                  >
+                    <builder_platform_interaction-ferov-resource-picker>
+                      #shadow-root(open)
+                    </builder_platform_interaction-ferov-resource-picker>
+                  </div>
+                  <builder_platform_interaction-rich-text-plain-text-switch>
+                    #shadow-root(open)
+                      <div
+                        class="divButtonMenuPlainRichText"
+                      >
+                        <lightning-button-menu>
+                          #shadow-root(open)
+                            <slot />
+                          <lightning-menu-item>
+                            #shadow-root(open)
+                              <span
+                                class="slds-truncate"
+                              >
+                                <lightning-primitive-icon>
+                                  #shadow-root(open)
+                                    <svg
+                                      data-key="utility:check"
+                                    >
+                                      <use />
+                                    </svg>
+                                </lightning-primitive-icon>
+                                FlowBuilderResourcedRichTextEditor.richText
+                              </span>
+                          </lightning-menu-item>
+                          <lightning-menu-item>
+                            #shadow-root(open)
+                              <span
+                                class="slds-truncate"
+                              >
+                                FlowBuilderResourcedRichTextEditor.plainText
+                              </span>
+                          </lightning-menu-item>
+                        </lightning-button-menu>
+                      </div>
+                  </builder_platform_interaction-rich-text-plain-text-switch>
+                </div>
+                <lightning-input-rich-text>
+                  #shadow-root(open)
+                </lightning-input-rich-text>
+              </div>
+            </div>
+          </div>
+      </builder_platform_interaction-resourced-rich-text-editor>
+    </div>
+</builder_platform_interaction-text-template-editor>
+`;

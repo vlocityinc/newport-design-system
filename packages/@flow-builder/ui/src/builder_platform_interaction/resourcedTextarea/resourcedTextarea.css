@@ -10,9 +10,19 @@
     border-right: none;
     border-bottom: none;
     border-top: var(--lwc-borderWidthThin) solid var(--lwc-colorGray5);
-    border-radius: 0 0 var(--lwc-borderRadiusMedium) var(--lwc-borderRadiusMedium);
+    border-radius: 0 0 var(--lwc-borderRadiusMedium)
+        var(--lwc-borderRadiusMedium);
 }
 
 .has-error {
     border: var(--lwc-borderWidthThick) solid var(--lwc-colorBorderError);
+}
+.divParentResourcePickerModeOptions {
+    width: 100%;
+}
+.divResourcePickerPartialWidth {
+    width: 99%;
+}
+.divResourcePickerFulllWidth {
+    width: 100%;
 }

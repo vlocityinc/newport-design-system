@@ -20,33 +20,35 @@
                     content={helpText}
                 ></lightning-helptext>
             </div>
-            <div class="slds-col slds-order_2 slds-size_1-of-2">
-                <lightning-input
-                    if:true={plainTextAvailable}
-                    type="toggle"
-                    label={labels.togglePlainTextTitle}
-                    message-toggle-active={labels.togglePlainTextActive}
-                    message-toggle-inactive={labels.togglePlainTextInactive}
-                    onchange={handleTogglePlainTextChanged}
-                >
-                </lightning-input>
-            </div>
         </div>
-        <div class={classList} aria-labelledby="resourcedRichTextEditorLabel">
+        <div
+            class={classList}
+            aria-labelledby="resourcedRichTextEditorLabel"
+            onrichtextplaintextswitchchanged={handleRichTextPlainTextSwitchChange}
+        >
             <div if:false={isPlainTextMode}>
-                <div class="slds-p-around_x-small slds-p-bottom_xx-small">
-                    <builder_platform_interaction-ferov-resource-picker
-                        combobox-config={resourceComboBoxConfig}
-                        element-config={elementConfig}
-                        hide-global-constants
-                        show-global-variables={showGlobalVariables}
-                        hide-new-resource={hideNewResource}
-                        onfocusout={handleResourcePickerFocusout}
-                        onitemselected={handleResourcePickerSelection}
-                        onnewinlineresource={handleNewInlineResource}
+                <div
+                    class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+                >
+                    <div class={computedDivResourcePickerClass}>
+                        <builder_platform_interaction-ferov-resource-picker
+                            combobox-config={resourceComboBoxConfig}
+                            element-config={elementConfig}
+                            hide-global-constants
+                            show-global-variables={showGlobalVariables}
+                            hide-new-resource={hideNewResource}
+                            onfocusout={handleResourcePickerFocusout}
+                            onitemselected={handleResourcePickerSelection}
+                            onnewinlineresource={handleNewInlineResource}
+                        >
+                        </builder_platform_interaction-ferov-resource-picker>
+                    </div>
+                    <builder_platform_interaction-rich-text-plain-text-switch
+                        if:true={plainTextAvailable}
                     >
-                    </builder_platform_interaction-ferov-resource-picker>
+                    </builder_platform_interaction-rich-text-plain-text-switch>
                 </div>
+
                 <lightning-input-rich-text
                     formats={formats}
                     value={inputRichTextValue}
@@ -60,6 +62,7 @@
                 <builder_platform_interaction-resourced-textarea
                     value={inputRichTextValue}
                     hide-new-resource={hideNewResource}
+                    plain-text-available
                 >
                 </builder_platform_interaction-resourced-textarea>
             </div>

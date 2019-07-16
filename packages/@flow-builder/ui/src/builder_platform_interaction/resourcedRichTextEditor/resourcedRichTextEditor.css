@@ -8,3 +8,16 @@
 .has-error {
     border: var(--lwc-borderWidthThick) solid var(--lwc-colorBorderError);
 }
+.slds-rich-text-editor.slds-has-focus {
+    border-color: #1589ee;
+    box-shadow: 0 0 3px #0070d2;
+}
+.divParentResourcePickerModeOptions {
+    width: 100%;
+}
+.divResourcePickerPartialWidth {
+    width: 99%;
+}
+.divResourcePickerFulllWidth {
+    width: 100%;
+}

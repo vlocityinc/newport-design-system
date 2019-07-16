@@ -67,7 +67,7 @@ const createComponentUnderTest = node => {
     return el;
 };
 
-const selectors = {
+const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     FLOW_TYPE: 'lightning-combobox',
     SAVE_AS_TOGGLE: 'lightning-radio-group',
@@ -77,60 +77,67 @@ const selectors = {
     LAST_PROCESS_TYPE: 'div.lastProcessType',
     LAST_MODIFIED: 'div.lastModified',
     VERSION_NUMBER: 'div.versionNumber',
-    RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea'
+    RESOURCE_TEXT_AREA: 'builder_platform_interaction-resourced-textarea',
+    RICH_TEXT_PLAIN_TEXT_SWITCH:
+        'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const getLabelDescription = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.LABEL_DESCRIPTION
+        SELECTORS.LABEL_DESCRIPTION
     );
 };
 
 const getProcessType = flowPropertiesEditor => {
-    return flowPropertiesEditor.shadowRoot.querySelector(selectors.FLOW_TYPE);
+    return flowPropertiesEditor.shadowRoot.querySelector(SELECTORS.FLOW_TYPE);
 };
 
 const getShowAdvancedButton = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.SHOW_ADVANCED
+        SELECTORS.SHOW_ADVANCED
     );
 };
 
 const getHideAdvancedButton = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.HIDE_ADVANCED
+        SELECTORS.HIDE_ADVANCED
     );
 };
 
 const getAdvancedProperties = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.ADVANCED_PROPERTIES
+        SELECTORS.ADVANCED_PROPERTIES
     );
 };
 
 const getLastModifiedDetails = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.LAST_MODIFIED
+        SELECTORS.LAST_MODIFIED
     );
 };
 
 const getResourceTextArea = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.RESOURCE_TEXT_AREA
+        SELECTORS.RESOURCE_TEXT_AREA
     );
 };
 
 const getLastProcessType = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.LAST_PROCESS_TYPE
+        SELECTORS.LAST_PROCESS_TYPE
     );
 };
 
 const getSaveAsToggle = flowPropertiesEditor => {
     return flowPropertiesEditor.shadowRoot.querySelector(
-        selectors.SAVE_AS_TOGGLE
+        SELECTORS.SAVE_AS_TOGGLE
     );
 };
+
+const getRichTextPlainTextSwitch = rexourdedTextArea =>
+    rexourdedTextArea.shadowRoot.querySelector(
+        SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+    );
 
 const dispatchLabelChangedEvent = (
     flowPropertiesEditor,
@@ -248,11 +255,13 @@ describe('FlowPropertiesEditor', () => {
                     expect(getProcessType(flowPropertiesEditor).value).toBe(
                         'process type'
                     );
+                    const recourcedTextArea = getResourceTextArea(
+                        flowPropertiesEditor
+                    );
+                    expect(recourcedTextArea.value.value).toBe('');
+                    expect(recourcedTextArea.value.error).toBeNull();
                     expect(
-                        getResourceTextArea(flowPropertiesEditor).value.value
-                    ).toBe('');
-                    expect(
-                        getResourceTextArea(flowPropertiesEditor).value.error
+                        getRichTextPlainTextSwitch(recourcedTextArea)
                     ).toBeNull();
                 });
             });
@@ -307,9 +316,15 @@ describe('FlowPropertiesEditor', () => {
                     expect(
                         getAdvancedProperties(flowPropertiesEditor)
                     ).not.toBeNull();
+                    const resourcedTextArea = getResourceTextArea(
+                        flowPropertiesEditor
+                    );
+                    expect(resourcedTextArea.value.value).toBe(
+                        flowProperties.interviewLabel.value
+                    );
                     expect(
-                        getResourceTextArea(flowPropertiesEditor).value.value
-                    ).toBe(flowProperties.interviewLabel.value);
+                        getRichTextPlainTextSwitch(resourcedTextArea)
+                    ).toBeNull();
                 });
             });
             describe('Last Modified Information', () => {
@@ -413,7 +428,7 @@ describe('FlowPropertiesEditor', () => {
                 return Promise.resolve().then(() => {
                     expect(
                         component.shadowRoot.querySelector(
-                            selectors.VERSION_NUMBER
+                            SELECTORS.VERSION_NUMBER
                         )
                     ).not.toBeNull();
                 });
@@ -426,7 +441,7 @@ describe('FlowPropertiesEditor', () => {
                 return Promise.resolve().then(() => {
                     expect(
                         component.shadowRoot.querySelector(
-                            selectors.VERSION_NUMBER
+                            SELECTORS.VERSION_NUMBER
                         )
                     ).not.toBeNull();
                 });

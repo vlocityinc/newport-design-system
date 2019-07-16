@@ -5,7 +5,6 @@ import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeF
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
-
 const label = 'Help Text';
 const changeEventName = 'change';
 const itemText = '{!var}';
@@ -36,23 +35,6 @@ const selectors = {
     ferovResourcePicker: 'builder_platform_interaction-ferov-resource-picker'
 };
 
-describe('Resourced text area label', () => {
-    it('Should have the asterisk when required', () => {
-        const element = createComponentUnderTest({ required: true, label });
-        const fullLabel = element.shadowRoot.querySelector(selectors.label);
-        expect(fullLabel.textContent).toMatch(label);
-        const asterisk = fullLabel.querySelector(selectors.abbr);
-        expect(asterisk.textContent).toMatch('*');
-    });
-    it('Should not have the asterisk when not required', () => {
-        const element = createComponentUnderTest({ required: false, label });
-        const fullLabel = element.shadowRoot.querySelector(selectors.label);
-        expect(fullLabel.textContent).toMatch(label);
-        const asterisk = fullLabel.querySelector(selectors.abbr);
-        expect(asterisk).toBeFalsy();
-    });
-});
-
 function verifyItemInsertion(
     existingText,
     selectionStart,
@@ -82,6 +64,51 @@ function verifyItemInsertion(
         expect(changeEventCallback).toHaveBeenCalled();
     });
 }
+
+describe('Resourced text area label', () => {
+    it('Should have the asterisk when required', () => {
+        const resourcedTextareaComponent = createComponentUnderTest({
+            required: true,
+            label
+        });
+        const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(
+            selectors.label
+        );
+        expect(fullLabel.textContent).toMatch(label);
+        const asterisk = fullLabel.querySelector(selectors.abbr);
+        expect(asterisk.textContent).toMatch('*');
+    });
+    it('Should not have the asterisk when not required', () => {
+        const resourcedTextareaComponent = createComponentUnderTest({
+            required: false,
+            label
+        });
+        const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(
+            selectors.label
+        );
+        expect(fullLabel.textContent).toMatch(label);
+        const asterisk = fullLabel.querySelector(selectors.abbr);
+        expect(asterisk).toBeFalsy();
+    });
+});
+describe('Resourced text area "rich text/ plain text mode switch"', () => {
+    it('NOT displayed by default (snapshot)', () => {
+        const resourcedTextareaComponent = createComponentUnderTest();
+        expect(resourcedTextareaComponent).toMatchSnapshot();
+    });
+    it('displayed if "plainTextAvailable" API set to true', () => {
+        const resourcedTextareaComponent = createComponentUnderTest({
+            plainTextAvailable: true
+        });
+        expect(resourcedTextareaComponent).toMatchSnapshot();
+    });
+    it('NOT displayed if "plainTextAvailable" API set to false', () => {
+        const resourcedTextareaComponent = createComponentUnderTest({
+            plainTextAvailable: false
+        });
+        expect(resourcedTextareaComponent).toMatchSnapshot();
+    });
+});
 
 describe('Item selection from the resource picker', () => {
     it('Should insert the item when there is no text', () => {

@@ -75,6 +75,13 @@ describe('text-template-editor', () => {
         );
     });
 
+    test('check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode checked by default and correct css class for resource picker', () => {
+        const textTemplateEditor = setupComponentUnderTest(
+            textTemplateResource
+        );
+        expect(textTemplateEditor).toMatchSnapshot();
+    });
+
     it('contains a text template element', () => {
         const textTemplateEditor = setupComponentUnderTest(
             textTemplateResource

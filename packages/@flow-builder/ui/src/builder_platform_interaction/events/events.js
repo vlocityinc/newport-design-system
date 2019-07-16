@@ -112,3 +112,6 @@ export {
 } from './useAdvancedOptionsSelectionChangedEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
 export { InlineResourceEvent } from './inlineResourceEvent';
+export {
+    RichTextPlainTextSwitchChangedEvent
+} from './richTextPlainTextSwitchChangedEvent';

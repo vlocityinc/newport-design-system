@@ -1,0 +1,339 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 1`] = `
+<builder_platform_interaction-resourced-rich-text-editor>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="slds-grid slds-grid_vertical"
+      >
+        <div
+          class="slds-col slds-order_1 slds-size_1-of-2"
+        >
+          <span
+            class="slds-form-element__label"
+            id="resourcedRichTextEditorLabel-48"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="resourcedRichTextEditorLabel-48"
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div>
+          <div
+            class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+          >
+            <div
+              class="divResourcePickerPartialWidth"
+            >
+              <builder_platform_interaction-ferov-resource-picker>
+                #shadow-root(open)
+              </builder_platform_interaction-ferov-resource-picker>
+            </div>
+            <builder_platform_interaction-rich-text-plain-text-switch>
+              #shadow-root(open)
+                <div
+                  class="divButtonMenuPlainRichText"
+                >
+                  <lightning-button-menu>
+                    #shadow-root(open)
+                      <slot />
+                    <lightning-menu-item>
+                      #shadow-root(open)
+                        <span
+                          class="slds-truncate"
+                        >
+                          <lightning-primitive-icon>
+                            #shadow-root(open)
+                              <svg
+                                data-key="utility:check"
+                              >
+                                <use />
+                              </svg>
+                          </lightning-primitive-icon>
+                          FlowBuilderResourcedRichTextEditor.richText
+                        </span>
+                    </lightning-menu-item>
+                    <lightning-menu-item>
+                      #shadow-root(open)
+                        <span
+                          class="slds-truncate"
+                        >
+                          FlowBuilderResourcedRichTextEditor.plainText
+                        </span>
+                    </lightning-menu-item>
+                  </lightning-button-menu>
+                </div>
+            </builder_platform_interaction-rich-text-plain-text-switch>
+          </div>
+          <lightning-input-rich-text>
+            #shadow-root(open)
+          </lightning-input-rich-text>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-resourced-rich-text-editor>
+`;
+
+exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1`] = `
+<builder_platform_interaction-resourced-rich-text-editor>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="slds-grid slds-grid_vertical"
+      >
+        <div
+          class="slds-col slds-order_1 slds-size_1-of-2"
+        >
+          <span
+            class="slds-form-element__label"
+            id="resourcedRichTextEditorLabel-40"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="resourcedRichTextEditorLabel-40"
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div>
+          <builder_platform_interaction-resourced-textarea>
+            #shadow-root(open)
+              <div
+                class="property-input slds-form-element"
+              >
+                <div
+                  class="container slds-grid slds-grid_vertical"
+                >
+                  <div
+                    class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+                  >
+                    <div
+                      class="divResourcePickerPartialWidth"
+                    >
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                    </div>
+                    <builder_platform_interaction-rich-text-plain-text-switch>
+                      #shadow-root(open)
+                        <div
+                          class="divButtonMenuPlainRichText"
+                        >
+                          <lightning-button-menu>
+                            #shadow-root(open)
+                              <slot />
+                            <lightning-menu-item>
+                              #shadow-root(open)
+                                <span
+                                  class="slds-truncate"
+                                >
+                                  FlowBuilderResourcedRichTextEditor.richText
+                                </span>
+                            </lightning-menu-item>
+                            <lightning-menu-item>
+                              #shadow-root(open)
+                                <span
+                                  class="slds-truncate"
+                                >
+                                  <lightning-primitive-icon>
+                                    #shadow-root(open)
+                                      <svg
+                                        data-key="utility:check"
+                                      >
+                                        <use />
+                                      </svg>
+                                  </lightning-primitive-icon>
+                                  FlowBuilderResourcedRichTextEditor.plainText
+                                </span>
+                            </lightning-menu-item>
+                          </lightning-button-menu>
+                        </div>
+                    </builder_platform_interaction-rich-text-plain-text-switch>
+                  </div>
+                  <textarea
+                    class="slds-textarea slds-input textarea-input"
+                  >
+                    
+                  </textarea>
+                </div>
+              </div>
+          </builder_platform_interaction-resourced-textarea>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-resourced-rich-text-editor>
+`;
+
+exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu) Disable it 1`] = `
+<builder_platform_interaction-resourced-rich-text-editor>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="slds-grid slds-grid_vertical"
+      >
+        <div
+          class="slds-col slds-order_1 slds-size_1-of-2"
+        >
+          <span
+            class="slds-form-element__label"
+            id="resourcedRichTextEditorLabel-71"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="resourcedRichTextEditorLabel-71"
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div>
+          <div
+            class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+          >
+            <div
+              class="divResourcePickerPartialWidth"
+            >
+              <builder_platform_interaction-ferov-resource-picker>
+                #shadow-root(open)
+              </builder_platform_interaction-ferov-resource-picker>
+            </div>
+            <builder_platform_interaction-rich-text-plain-text-switch>
+              #shadow-root(open)
+                <div
+                  class="divButtonMenuPlainRichText"
+                >
+                  <lightning-button-menu>
+                    #shadow-root(open)
+                      <slot />
+                    <lightning-menu-item>
+                      #shadow-root(open)
+                        <span
+                          class="slds-truncate"
+                        >
+                          <lightning-primitive-icon>
+                            #shadow-root(open)
+                              <svg
+                                data-key="utility:check"
+                              >
+                                <use />
+                              </svg>
+                          </lightning-primitive-icon>
+                          FlowBuilderResourcedRichTextEditor.richText
+                        </span>
+                    </lightning-menu-item>
+                    <lightning-menu-item>
+                      #shadow-root(open)
+                        <span
+                          class="slds-truncate"
+                        >
+                          FlowBuilderResourcedRichTextEditor.plainText
+                        </span>
+                    </lightning-menu-item>
+                  </lightning-button-menu>
+                </div>
+            </builder_platform_interaction-rich-text-plain-text-switch>
+          </div>
+          <lightning-input-rich-text>
+            #shadow-root(open)
+          </lightning-input-rich-text>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-resourced-rich-text-editor>
+`;
+
+exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu) Enable it 1`] = `
+<builder_platform_interaction-resourced-rich-text-editor>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="slds-grid slds-grid_vertical"
+      >
+        <div
+          class="slds-col slds-order_1 slds-size_1-of-2"
+        >
+          <span
+            class="slds-form-element__label"
+            id="resourcedRichTextEditorLabel-56"
+          />
+        </div>
+      </div>
+      <div
+        aria-labelledby="resourcedRichTextEditorLabel-56"
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div>
+          <builder_platform_interaction-resourced-textarea>
+            #shadow-root(open)
+              <div
+                class="property-input slds-form-element"
+              >
+                <div
+                  class="container slds-grid slds-grid_vertical"
+                >
+                  <div
+                    class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+                  >
+                    <div
+                      class="divResourcePickerPartialWidth"
+                    >
+                      <builder_platform_interaction-ferov-resource-picker>
+                        #shadow-root(open)
+                      </builder_platform_interaction-ferov-resource-picker>
+                    </div>
+                    <builder_platform_interaction-rich-text-plain-text-switch>
+                      #shadow-root(open)
+                        <div
+                          class="divButtonMenuPlainRichText"
+                        >
+                          <lightning-button-menu>
+                            #shadow-root(open)
+                              <slot />
+                            <lightning-menu-item>
+                              #shadow-root(open)
+                                <span
+                                  class="slds-truncate"
+                                >
+                                  FlowBuilderResourcedRichTextEditor.richText
+                                </span>
+                            </lightning-menu-item>
+                            <lightning-menu-item>
+                              #shadow-root(open)
+                                <span
+                                  class="slds-truncate"
+                                >
+                                  <lightning-primitive-icon>
+                                    #shadow-root(open)
+                                      <svg
+                                        data-key="utility:check"
+                                      >
+                                        <use />
+                                      </svg>
+                                  </lightning-primitive-icon>
+                                  FlowBuilderResourcedRichTextEditor.plainText
+                                </span>
+                            </lightning-menu-item>
+                          </lightning-button-menu>
+                        </div>
+                    </builder_platform_interaction-rich-text-plain-text-switch>
+                  </div>
+                  <textarea
+                    class="slds-textarea slds-input textarea-input"
+                  >
+                    
+                  </textarea>
+                </div>
+              </div>
+          </builder_platform_interaction-resourced-textarea>
+        </div>
+      </div>
+    </div>
+</builder_platform_interaction-resourced-rich-text-editor>
+`;

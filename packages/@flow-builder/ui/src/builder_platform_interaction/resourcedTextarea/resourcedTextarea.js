@@ -7,6 +7,7 @@ import {
     booleanAttributeValue
 } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from './resourcedTextareaLabels';
+import { TEXT_MODES } from 'builder_platform_interaction/richTextPlainTextSwitch';
 
 const SELECTORS = {
     TEXTAREA: 'textarea',
@@ -14,6 +15,8 @@ const SELECTORS = {
 };
 
 export default class ResourcedTextarea extends LightningElement {
+    textModes = TEXT_MODES;
+
     elementConfig = {
         elementType: ELEMENT_TYPE.SCREEN
     };
@@ -38,6 +41,7 @@ export default class ResourcedTextarea extends LightningElement {
     @api maxLength;
     @api spinnerAlternativeText;
     @api showGlobalVariables = false;
+    @api plainTextAvailable = false;
 
     // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
     // in the call to invokePropertyEditor in editor.js
@@ -86,6 +90,16 @@ export default class ResourcedTextarea extends LightningElement {
 
     get isRequired() {
         return booleanAttributeValue(this, 'required');
+    }
+
+    /**
+     * @returns {string} - Different css width rendering for recource picker div to display rich/plain text selection
+     * if supported
+     */
+    get computedDivResourcePickerClass() {
+        return this.plainTextAvailable
+            ? 'divResourcePickerPartialWidth'
+            : 'divResourcePickerFulllWidth';
     }
 
     handleResourcePickerSelection = event => {

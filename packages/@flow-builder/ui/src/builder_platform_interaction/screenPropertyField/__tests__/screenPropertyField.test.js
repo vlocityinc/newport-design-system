@@ -46,44 +46,63 @@ const createComponentUnderTest = props => {
     return el;
 };
 
-const fieldName = 'field1';
-const TEXT_AREA_SELECTOR = 'builder_platform_interaction-resourced-textarea';
-const INPUT_SELECTOR = 'lightning-input';
-const RICH_TEXT = 'lightning-input-rich-text';
+const FIELD_NAME = 'field1';
+const SELECTORS = {
+    TEXT_AREA_SELECTOR: 'builder_platform_interaction-resourced-textarea',
+    INPUT_SELECTOR: 'lightning-input',
+    RICH_TEXT: 'lightning-input-rich-text',
+    RESOURCE_RICH_TEXT_EDITOR:
+        'builder_platform_interaction-resourced-rich-text-editor',
+    RICH_TEXT_PLAIN_TEXT_SWITCH:
+        'builder_platform_interaction-rich-text-plain-text-switch'
+};
 
 describe('screen-property-field', () => {
-    it('long string renders text area field type', () => {
+    it('long string renders text area field type without rich text/ plain text switch', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'long_string'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                TEXT_AREA_SELECTOR
+            const resourcedTextAreaComponent = screenPropertyFieldElement.shadowRoot.querySelector(
+                SELECTORS.TEXT_AREA_SELECTOR
             );
-            expect(elem).toBeDefined();
+            expect(resourcedTextAreaComponent).not.toBeNull();
+            expect(
+                resourcedTextAreaComponent.shadowRoot.querySelector(
+                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+                )
+            ).toBeNull();
         });
     });
-    it('rich string field renders rich input field type', () => {
+    it('rich string field renders rich input field type rich text/ plain text switch ', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'rich_string'
         });
         return Promise.resolve().then(() => {
-            const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                RICH_TEXT
+            const richTextComponent = screenPropertyFieldElement.shadowRoot.querySelector(
+                SELECTORS.RICH_TEXT
             );
-            expect(elem).toBeDefined();
+            expect(richTextComponent).toBeDefined();
+            const resourcedRichTextEditor = screenPropertyFieldElement.shadowRoot.querySelector(
+                SELECTORS.RESOURCE_RICH_TEXT_EDITOR
+            );
+            expect(
+                resourcedRichTextEditor.shadowRoot.querySelector(
+                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+                )
+            ).toBeNull();
         });
     });
     it('number field renders input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'number'
         });
         return Promise.resolve().then(() => {
             const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                INPUT_SELECTOR
+                SELECTORS.INPUT_SELECTOR
             );
             expect(elem).toBeDefined();
             expect(elem.type).toBe('number');
@@ -91,12 +110,12 @@ describe('screen-property-field', () => {
     });
     it('boolean field renders input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'boolean'
         });
         return Promise.resolve().then(() => {
             const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                INPUT_SELECTOR
+                SELECTORS.INPUT_SELECTOR
             );
             expect(elem).toBeDefined();
             expect(elem.type).toBe('checkbox');
@@ -104,12 +123,12 @@ describe('screen-property-field', () => {
     });
     it('string field renders input field type', () => {
         const screenPropertyFieldElement = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'string'
         });
         return Promise.resolve().then(() => {
             const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                INPUT_SELECTOR
+                SELECTORS.INPUT_SELECTOR
             );
             expect(elem).toBeDefined();
             expect(elem.type).toBe('text');
@@ -118,13 +137,13 @@ describe('screen-property-field', () => {
     it('field with help string', () => {
         const helpValue = 'enter stuff';
         const screenPropertyFieldElement = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'string',
             helpText: helpValue
         });
         return Promise.resolve().then(() => {
             const elem = screenPropertyFieldElement.shadowRoot.querySelector(
-                INPUT_SELECTOR
+                SELECTORS.INPUT_SELECTOR
             );
             expect(elem).toBeDefined();
             expect(elem.fieldLevelHelp).toBe(helpValue);
@@ -133,7 +152,7 @@ describe('screen-property-field', () => {
 
     it('calls getRulesForElementType to fetch rules for resource picker', () => {
         createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'string',
             allowResourcesForParameter: true,
             resourcePickerConfig: {}
@@ -150,7 +169,7 @@ describe('screen-property-field', () => {
         const mockRules = ['foo'];
         getRulesForElementType.mockReturnValueOnce(mockRules);
         const screenPropertyField = createComponentUnderTest({
-            name: fieldName,
+            name: FIELD_NAME,
             type: 'string',
             allowResourcesForParameter: true,
             resourcePickerConfig: {}

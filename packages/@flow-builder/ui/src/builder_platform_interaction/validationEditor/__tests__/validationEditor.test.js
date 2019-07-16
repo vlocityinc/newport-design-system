@@ -13,9 +13,11 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 const SELECTORS = {
-    ERROR_MESSAGE: 'builder_platform_interaction-resourced-rich-text-editor',
-    FORMULA_EXPRESSION:
-        'builder_platform_interaction-resourced-textarea[name="formulaExpression"]'
+    RESOURCED_RICH_TEXT_EDITOR:
+        'builder_platform_interaction-resourced-rich-text-editor',
+    RESOURCED_TEXTAREA: 'builder_platform_interaction-resourced-textarea',
+    RICH_TEXT_PLAIN_TEXT_SWITCH:
+        'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const createComponentUnderTest = props => {
@@ -41,22 +43,22 @@ describe('validationEditor with no validation rule', () => {
     });
     it('Error message should be empty', () => {
         return Promise.resolve().then(() => {
-            const errorMessageInput = query(
+            const resourcedRichTextEditorComponent = query(
                 validationEditorElement,
-                SELECTORS.ERROR_MESSAGE
+                SELECTORS.RESOURCED_RICH_TEXT_EDITOR
             );
-            expect(errorMessageInput).toBeDefined();
-            expect(errorMessageInput.value.value).toBeNull();
+            expect(resourcedRichTextEditorComponent).not.toBeNull();
+            expect(resourcedRichTextEditorComponent.value.value).toBeNull();
         });
     });
     it('Formula expression should be empty', () => {
         return Promise.resolve().then(() => {
-            const formulaExpressionField = query(
+            const resourcedTextareaComponent = query(
                 validationEditorElement,
-                SELECTORS.FORMULA_EXPRESSION
+                SELECTORS.RESOURCED_TEXTAREA
             );
-            expect(formulaExpressionField).toBeDefined();
-            expect(formulaExpressionField.value.value).toBeNull();
+            expect(resourcedTextareaComponent).not.toBeNull();
+            expect(resourcedTextareaComponent.value.value).toBeNull();
         });
     });
 });
@@ -76,22 +78,54 @@ describe('validationEditor with validation rule', () => {
     });
     it('Error message should be displayed correctly', () => {
         return Promise.resolve().then(() => {
-            const errorMessageInput = query(
+            const resourcedRichTextEditorComponent = query(
                 validationEditorElement,
-                SELECTORS.ERROR_MESSAGE
+                SELECTORS.RESOURCED_RICH_TEXT_EDITOR
             );
-            expect(errorMessageInput).toBeDefined();
-            expect(errorMessageInput.value.value).toBe(ERROR_MESSAGE);
+            expect(resourcedRichTextEditorComponent).not.toBeNull();
+            expect(resourcedRichTextEditorComponent.value.value).toBe(
+                ERROR_MESSAGE
+            );
+        });
+    });
+    it('"rich text/plain text switch" NOT displayed inside the resourced rich text editor', () => {
+        return Promise.resolve().then(() => {
+            const resourcedRichTextEditorComponent = query(
+                validationEditorElement,
+                SELECTORS.RESOURCED_RICH_TEXT_EDITOR
+            );
+            expect(resourcedRichTextEditorComponent).not.toBeNull();
+            expect(resourcedRichTextEditorComponent.value.value).toBe(
+                ERROR_MESSAGE
+            );
+            expect(
+                resourcedRichTextEditorComponent.shadowRoot.querySelector(
+                    SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+                )
+            ).toBeNull();
         });
     });
     it('Formula expression should be displayed correctly', () => {
         return Promise.resolve().then(() => {
-            const formulaExpressionField = query(
+            const resourcedTextareaComponent = query(
                 validationEditorElement,
-                SELECTORS.FORMULA_EXPRESSION
+                SELECTORS.RESOURCED_TEXTAREA
             );
-            expect(formulaExpressionField).toBeDefined();
-            expect(formulaExpressionField.value.value).toBe(FORMULA_EXPRESSION);
+            expect(resourcedTextareaComponent).not.toBeNull();
+            expect(resourcedTextareaComponent.value.value).toBe(
+                FORMULA_EXPRESSION
+            );
         });
+    });
+    it('"rich text/plain text switch" NOT displayed inside the resourced text area', () => {
+        const resourcedTextareaComponent = query(
+            validationEditorElement,
+            SELECTORS.RESOURCED_TEXTAREA
+        );
+        expect(
+            resourcedTextareaComponent.shadowRoot.querySelector(
+                SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+            )
+        ).toBeNull();
     });
 });

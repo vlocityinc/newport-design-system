@@ -34,7 +34,9 @@ const SELECTORS = {
     VALIDATION_EDITOR: 'builder_platform_interaction-validation-editor',
     RESOURCE_RICH_TEXT_EDITOR:
         'builder_platform_interaction-resourced-rich-text-editor',
-    LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text'
+    LIGHTNING_INPUT_RICH_TEXT: 'lightning-input-rich-text',
+    RICH_TEXT_PLAIN_TEXT_SWITCH:
+        'builder_platform_interaction-rich-text-plain-text-switch'
 };
 
 const setupComponentUnderTest = choiceObject => {
@@ -180,6 +182,17 @@ describe('choice-editor', () => {
         });
     });
 
+    it('"rich text/plain text switch" NOT displayed inside the resourced rich text editor', () => {
+        const choiceEditor = setupComponentUnderTest(defaultChoiceObject);
+        const choiceTextResourcedRichText = choiceEditor.shadowRoot.querySelector(
+            SELECTORS.RESOURCE_RICH_TEXT_EDITOR
+        );
+        expect(
+            choiceTextResourcedRichText.shadowRoot.querySelector(
+                SELECTORS.RICH_TEXT_PLAIN_TEXT_SWITCH
+            )
+        ).toBeNull();
+    });
     it('Handles the property changed event and updates the property', () => {
         const choiceEditor = setupComponentUnderTest(defaultChoiceObject);
         return Promise.resolve().then(() => {

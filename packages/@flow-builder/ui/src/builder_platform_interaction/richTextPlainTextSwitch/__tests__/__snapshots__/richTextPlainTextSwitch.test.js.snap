@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plain-text-mode-select By default "RichText" mode selected check UI (snapshot) - menu items details: label, checked status 1`] = `
+<builder_platform_interaction-rich-text-plain-text-switch>
+  #shadow-root(open)
+    <div
+      class="divButtonMenuPlainRichText"
+    >
+      <lightning-button-menu>
+        #shadow-root(open)
+          <slot />
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:check"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+              FlowBuilderResourcedRichTextEditor.richText
+            </span>
+        </lightning-menu-item>
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              FlowBuilderResourcedRichTextEditor.plainText
+            </span>
+        </lightning-menu-item>
+      </lightning-button-menu>
+    </div>
+</builder_platform_interaction-rich-text-plain-text-switch>
+`;
+
+exports[`plain-text-mode-select Select "PlainText" mode select "plain text" mode via API 1`] = `
+<builder_platform_interaction-rich-text-plain-text-switch>
+  #shadow-root(open)
+    <div
+      class="divButtonMenuPlainRichText"
+    >
+      <lightning-button-menu>
+        #shadow-root(open)
+          <slot />
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              FlowBuilderResourcedRichTextEditor.richText
+            </span>
+        </lightning-menu-item>
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:check"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+              FlowBuilderResourcedRichTextEditor.plainText
+            </span>
+        </lightning-menu-item>
+      </lightning-button-menu>
+    </div>
+</builder_platform_interaction-rich-text-plain-text-switch>
+`;
+
+exports[`plain-text-mode-select Select "PlainText" mode select "plain text" mode via UI 1`] = `
+<builder_platform_interaction-rich-text-plain-text-switch>
+  #shadow-root(open)
+    <div
+      class="divButtonMenuPlainRichText"
+    >
+      <lightning-button-menu>
+        #shadow-root(open)
+          <slot />
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              FlowBuilderResourcedRichTextEditor.richText
+            </span>
+        </lightning-menu-item>
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:check"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+              FlowBuilderResourcedRichTextEditor.plainText
+            </span>
+        </lightning-menu-item>
+      </lightning-button-menu>
+    </div>
+</builder_platform_interaction-rich-text-plain-text-switch>
+`;
+
+exports[`plain-text-mode-select Select "RichText" mode select "rich text" mode via API 1`] = `
+<builder_platform_interaction-rich-text-plain-text-switch>
+  #shadow-root(open)
+    <div
+      class="divButtonMenuPlainRichText"
+    >
+      <lightning-button-menu>
+        #shadow-root(open)
+          <slot />
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:check"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+              FlowBuilderResourcedRichTextEditor.richText
+            </span>
+        </lightning-menu-item>
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              FlowBuilderResourcedRichTextEditor.plainText
+            </span>
+        </lightning-menu-item>
+      </lightning-button-menu>
+    </div>
+</builder_platform_interaction-rich-text-plain-text-switch>
+`;
+
+exports[`plain-text-mode-select Select "RichText" mode select "rich text" mode via UI 1`] = `
+<builder_platform_interaction-rich-text-plain-text-switch>
+  #shadow-root(open)
+    <div
+      class="divButtonMenuPlainRichText"
+    >
+      <lightning-button-menu>
+        #shadow-root(open)
+          <slot />
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              <lightning-primitive-icon>
+                #shadow-root(open)
+                  <svg
+                    data-key="utility:check"
+                  >
+                    <use />
+                  </svg>
+              </lightning-primitive-icon>
+              FlowBuilderResourcedRichTextEditor.richText
+            </span>
+        </lightning-menu-item>
+        <lightning-menu-item>
+          #shadow-root(open)
+            <span
+              class="slds-truncate"
+            >
+              FlowBuilderResourcedRichTextEditor.plainText
+            </span>
+        </lightning-menu-item>
+      </lightning-button-menu>
+    </div>
+</builder_platform_interaction-rich-text-plain-text-switch>
+`;

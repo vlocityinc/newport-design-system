@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Resourced text area "rich text/ plain text mode switch" NOT displayed by default (snapshot) 1`] = `
+<builder_platform_interaction-resourced-textarea>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div
+          class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+        >
+          <div
+            class="divResourcePickerFulllWidth"
+          >
+            <builder_platform_interaction-ferov-resource-picker>
+              #shadow-root(open)
+            </builder_platform_interaction-ferov-resource-picker>
+          </div>
+        </div>
+        <textarea
+          class="slds-textarea slds-input textarea-input"
+        />
+      </div>
+    </div>
+</builder_platform_interaction-resourced-textarea>
+`;
+
+exports[`Resourced text area "rich text/ plain text mode switch" NOT displayed if "plainTextAvailable" API set to false 1`] = `
+<builder_platform_interaction-resourced-textarea>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div
+          class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+        >
+          <div
+            class="divResourcePickerFulllWidth"
+          >
+            <builder_platform_interaction-ferov-resource-picker>
+              #shadow-root(open)
+            </builder_platform_interaction-ferov-resource-picker>
+          </div>
+        </div>
+        <textarea
+          class="slds-textarea slds-input textarea-input"
+        />
+      </div>
+    </div>
+</builder_platform_interaction-resourced-textarea>
+`;
+
+exports[`Resourced text area "rich text/ plain text mode switch" displayed if "plainTextAvailable" API set to true 1`] = `
+<builder_platform_interaction-resourced-textarea>
+  #shadow-root(open)
+    <div
+      class="property-input slds-form-element"
+    >
+      <div
+        class="container slds-grid slds-grid_vertical"
+      >
+        <div
+          class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
+        >
+          <div
+            class="divResourcePickerPartialWidth"
+          >
+            <builder_platform_interaction-ferov-resource-picker>
+              #shadow-root(open)
+            </builder_platform_interaction-ferov-resource-picker>
+          </div>
+          <builder_platform_interaction-rich-text-plain-text-switch>
+            #shadow-root(open)
+              <div
+                class="divButtonMenuPlainRichText"
+              >
+                <lightning-button-menu>
+                  #shadow-root(open)
+                    <slot />
+                  <lightning-menu-item>
+                    #shadow-root(open)
+                      <span
+                        class="slds-truncate"
+                      >
+                        FlowBuilderResourcedRichTextEditor.richText
+                      </span>
+                  </lightning-menu-item>
+                  <lightning-menu-item>
+                    #shadow-root(open)
+                      <span
+                        class="slds-truncate"
+                      >
+                        <lightning-primitive-icon>
+                          #shadow-root(open)
+                            <svg
+                              data-key="utility:check"
+                            >
+                              <use />
+                            </svg>
+                        </lightning-primitive-icon>
+                        FlowBuilderResourcedRichTextEditor.plainText
+                      </span>
+                  </lightning-menu-item>
+                </lightning-button-menu>
+              </div>
+          </builder_platform_interaction-rich-text-plain-text-switch>
+        </div>
+        <textarea
+          class="slds-textarea slds-input textarea-input"
+        />
+      </div>
+    </div>
+</builder_platform_interaction-resourced-textarea>
+`;
