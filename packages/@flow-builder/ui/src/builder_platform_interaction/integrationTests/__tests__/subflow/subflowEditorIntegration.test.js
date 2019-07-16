@@ -6,10 +6,7 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    setAuraFetch,
-    resetFetchOnceCache
-} from 'builder_platform_interaction/serverDataLib';
+import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -48,8 +45,9 @@ import {
 } from '../../baseCalloutEditorTestUtils';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import { mockAllRules } from 'mock/ruleService';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-const createComponentForTest = (node, { isNewMode = false } = {}) => {
+const createComponentForTest = (node, isNewMode = false) => {
     const el = createElement('builder_platform_interaction-subflow-editor', {
         is: SubflowEditor
     });
@@ -61,7 +59,6 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
 const itSkip = it.skip;
 
 describe('Subflow Editor', () => {
-    let store;
     beforeAll(() => {
         setRules(JSON.stringify(mockAllRules));
         setAuraFetch(
@@ -73,38 +70,30 @@ describe('Subflow Editor', () => {
             })
         );
         OutputResourcePicker.RULES = getOutputRules();
-        store = Store.getStore(reducer);
+        const store = Store.getStore(reducer);
         const uiFlow = translateFlowToUIModel(flowWithSubflows);
         store.dispatch(updateFlow(uiFlow));
     });
-    afterAll(() => {
-        store.dispatch({ type: 'INIT' });
-        setRules();
-        setAuraFetch();
-        resetFetchOnceCache();
-        OutputResourcePicker.RULES = [];
-    });
     let subflowNode;
-    beforeEach(() => {
+    beforeAll(() => {
         const element = getElementByDevName('Flow_With_All_Types_Variables');
         subflowNode = getElementForPropertyEditor(element);
     });
     describe('name and dev name', () => {
-        it('do not change devName if it already exists after the user modifies the name', () => {
+        it('do not change devName if it already exists after the user modifies the name', async () => {
             const newLabel = 'new label';
             const subflowElement = createComponentForTest(subflowNode);
+            await ticks(2);
+            const labelInput = getLabelDescriptionLabelElement(
+                getBaseCalloutElement(subflowElement)
+            );
+            labelInput.mockUserInput(newLabel);
+            labelInput.dispatchEvent(focusoutEvent);
             return resolveRenderCycles(() => {
-                const labelInput = getLabelDescriptionLabelElement(
-                    getBaseCalloutElement(subflowElement)
+                expect(subflowElement.node.label.value).toBe(newLabel);
+                expect(subflowElement.node.name.value).toBe(
+                    'Flow_With_All_Types_Variables'
                 );
-                labelInput.mockUserInput(newLabel);
-                labelInput.dispatchEvent(focusoutEvent);
-                return resolveRenderCycles(() => {
-                    expect(subflowElement.node.label.value).toBe(newLabel);
-                    expect(subflowElement.node.name.value).toBe(
-                        'Flow_With_All_Types_Variables'
-                    );
-                });
             });
         });
         it('modify the dev name', () => {
@@ -157,11 +146,10 @@ describe('Subflow Editor', () => {
     describe('input tab', () => {
         describe('valid cases', () => {
             let subflowElement, inputAssignments;
-            beforeEach(() => {
+            beforeAll(async () => {
                 subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    inputAssignments = getInputParameterItems(subflowElement);
-                });
+                await ticks(2);
+                inputAssignments = getInputParameterItems(subflowElement);
             });
             it('show all input parameters (sorted)', () => {
                 verifyOptionalInputParameterNoValue(
@@ -564,7 +552,11 @@ describe('Subflow Editor', () => {
                     });
                 });
             });
-            it('show combobox when toggle is set ON', () => {
+            it('show combobox when toggle is set ON', async () => {
+                subflowElement = createComponentForTest(subflowNode);
+                await ticks(2);
+                inputAssignments = getInputParameterItems(subflowElement);
+
                 const boolParameterElement = findParameterElement(
                     inputAssignments,
                     'inputBoolColVar'
@@ -579,19 +571,21 @@ describe('Subflow Editor', () => {
                     );
                 });
             });
-            it('hide combobox when toggle is set OFF', () => {
+            it('hide combobox when toggle is set OFF', async () => {
+                subflowElement = createComponentForTest(subflowNode);
+                await ticks(2);
+                inputAssignments = getInputParameterItems(subflowElement);
                 const inputBoolElement = findParameterElement(
                     inputAssignments,
                     'inputOutputBoolVar'
                 );
                 const toggle = getLightningInputToggle(inputBoolElement);
                 toggle.dispatchEvent(toggleChangeEvent(false));
-                return resolveRenderCycles(() => {
-                    verifyOptionalInputParameterNoValue(
-                        inputBoolElement,
-                        'inputOutputBoolVar'
-                    );
-                });
+                await ticks(2);
+                verifyOptionalInputParameterNoValue(
+                    inputBoolElement,
+                    'inputOutputBoolVar'
+                );
             });
             it('preserve value when toggle is set OFF then ON', () => {
                 const accountElement = findParameterElement(
@@ -614,11 +608,10 @@ describe('Subflow Editor', () => {
         });
         describe('error cases', () => {
             let inputAssignments;
-            beforeEach(() => {
+            beforeEach(async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    inputAssignments = getInputParameterItems(subflowElement);
-                });
+                await ticks(2);
+                inputAssignments = getInputParameterItems(subflowElement);
             });
             it('show the error if entering the string for the Number Parameter', () => {
                 const numberParameterElement = findParameterElement(
@@ -790,17 +783,14 @@ describe('Subflow Editor', () => {
         describe('warning cases', () => {
             describe('duplicated parameters', () => {
                 let subflowElement, inputAssignments, numberParameterItems;
-                beforeEach(() => {
+                beforeAll(async () => {
                     subflowElement = createComponentForTest(subflowNode);
-                    return resolveRenderCycles(() => {
-                        inputAssignments = getInputParameterItems(
-                            subflowElement
-                        );
-                        numberParameterItems = filterParameterElements(
-                            inputAssignments,
-                            'inputOutputNumberVar'
-                        );
-                    });
+                    await ticks(2);
+                    inputAssignments = getInputParameterItems(subflowElement);
+                    numberParameterItems = filterParameterElements(
+                        inputAssignments,
+                        'inputOutputNumberVar'
+                    );
                 });
                 it('show duplicated Number Parameter parameters', () => {
                     expect(numberParameterItems).toHaveLength(2);
@@ -817,40 +807,44 @@ describe('Subflow Editor', () => {
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });
                 });
-                it('delete duplicated parameter and update the row after deleting when clicking the delete button', () => {
+                it('delete duplicated parameter and update the row after deleting when clicking the delete button', async () => {
                     // delete the second Number Parameter
+                    subflowElement = createComponentForTest(subflowNode);
+                    await ticks(2);
+                    inputAssignments = getInputParameterItems(subflowElement);
+                    numberParameterItems = filterParameterElements(
+                        inputAssignments,
+                        'inputOutputNumberVar'
+                    );
                     const deleteBtn = getDeleteButton(numberParameterItems[1]);
                     deleteBtn.click();
-                    return resolveRenderCycles(() => {
-                        inputAssignments = getInputParameterItems(
-                            subflowElement
-                        );
-                        numberParameterItems = filterParameterElements(
-                            inputAssignments,
-                            'inputOutputNumberVar'
-                        );
-                        expect(numberParameterItems).toHaveLength(1);
-                        verifyOptionalInputParameterWithValue(
-                            numberParameterItems[0],
-                            'inputOutputNumberVar',
-                            '{!numberVariable}'
-                        );
-                    });
+                    await ticks(2);
+
+                    inputAssignments = getInputParameterItems(subflowElement);
+                    numberParameterItems = filterParameterElements(
+                        inputAssignments,
+                        'inputOutputNumberVar'
+                    );
+                    expect(numberParameterItems).toHaveLength(1);
+                    verifyOptionalInputParameterWithValue(
+                        numberParameterItems[0],
+                        'inputOutputNumberVar',
+                        '{!numberVariable}'
+                    );
                 });
             });
             describe('not available parameters', () => {
                 let notAvailableItem;
-                beforeEach(() => {
+                beforeAll(async () => {
                     const subflowElement = createComponentForTest(subflowNode);
-                    return resolveRenderCycles(() => {
-                        const inputAssignments = getInputParameterItems(
-                            subflowElement
-                        );
-                        notAvailableItem = findParameterElement(
-                            inputAssignments,
-                            'inputNotAvailableParam'
-                        );
-                    });
+                    await ticks(2);
+                    const inputAssignments = getInputParameterItems(
+                        subflowElement
+                    );
+                    notAvailableItem = findParameterElement(
+                        inputAssignments,
+                        'inputNotAvailableParam'
+                    );
                 });
                 it('show delete button', () => {
                     const deleteBtn = getDeleteButton(notAvailableItem);
@@ -893,18 +887,14 @@ describe('Subflow Editor', () => {
         });
         describe('variables in active version but not in latest version', () => {
             // inputOutputStringColVar is in active version but isn't in latest version
-            let inputAssignments, stringColElement;
-            beforeEach(() => {
+            it('show warning icon', async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    inputAssignments = getInputParameterItems(subflowElement);
-                    stringColElement = findParameterElement(
-                        inputAssignments,
-                        'inputOutputStringColVar'
-                    );
-                });
-            });
-            it('show warning icon', () => {
+                await ticks(2);
+                const inputAssignments = getInputParameterItems(subflowElement);
+                const stringColElement = findParameterElement(
+                    inputAssignments,
+                    'inputOutputStringColVar'
+                );
                 const statusIcon = getWarningIcon(stringColElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -928,16 +918,15 @@ describe('Subflow Editor', () => {
         });
         describe('variables in latest version but not in active version', () => {
             // latestInputOutputStringColVar is in latest version but isn't in active version
-            let inputAssignments, stringColElement;
-            beforeEach(() => {
+            let stringColElement;
+            beforeAll(async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    inputAssignments = getInputParameterItems(subflowElement);
-                    stringColElement = findParameterElement(
-                        inputAssignments,
-                        'latestInputOutputStringColVar'
-                    );
-                });
+                await ticks(2);
+                const inputAssignments = getInputParameterItems(subflowElement);
+                stringColElement = findParameterElement(
+                    inputAssignments,
+                    'latestInputOutputStringColVar'
+                );
             });
             it('show warning icon', () => {
                 const statusIcon = getWarningIcon(stringColElement);
@@ -971,18 +960,14 @@ describe('Subflow Editor', () => {
         });
         describe('data type changed', () => {
             // inputCurrencyColVar's data type is currency type in active version but is text type in latest version
-            let inputAssignments, currencyColElement;
-            beforeEach(() => {
+            it('show warning icon', async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    inputAssignments = getInputParameterItems(subflowElement);
-                    currencyColElement = findParameterElement(
-                        inputAssignments,
-                        'inputCurrencyColVar'
-                    );
-                });
-            });
-            it('show warning icon', () => {
+                await ticks(2);
+                const inputAssignments = getInputParameterItems(subflowElement);
+                const currencyColElement = findParameterElement(
+                    inputAssignments,
+                    'inputCurrencyColVar'
+                );
                 const statusIcon = getWarningIcon(currencyColElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -1008,11 +993,10 @@ describe('Subflow Editor', () => {
     describe('output tab', () => {
         describe('valid cases', () => {
             let subflowElement, outputAssignments;
-            beforeEach(() => {
+            beforeAll(async () => {
                 subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    outputAssignments = getOutputParameterItems(subflowElement);
-                });
+                await ticks(2);
+                outputAssignments = getOutputParameterItems(subflowElement);
             });
             it('show all output parameters (sorted)', () => {
                 verifyOutputParameter(
@@ -1327,11 +1311,10 @@ describe('Subflow Editor', () => {
         });
         describe('error cases', () => {
             let outputAssignments;
-            beforeEach(() => {
+            beforeEach(async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    outputAssignments = getOutputParameterItems(subflowElement);
-                });
+                await ticks(2);
+                outputAssignments = getOutputParameterItems(subflowElement);
             });
             it('show error when setting the litteral string to the String Parameter', () => {
                 const stringParameterElement = findParameterElement(
@@ -1590,18 +1573,17 @@ describe('Subflow Editor', () => {
         });
         describe('warning cases', () => {
             describe('duplicated parameters', () => {
-                let subflowElement, outputAssignments, numberParameterItems;
-                beforeEach(() => {
-                    subflowElement = createComponentForTest(subflowNode);
-                    return resolveRenderCycles(() => {
-                        outputAssignments = getOutputParameterItems(
-                            subflowElement
-                        );
-                        numberParameterItems = filterParameterElements(
-                            outputAssignments,
-                            'inputOutputNumberVar'
-                        );
-                    });
+                let numberParameterItems;
+                beforeAll(async () => {
+                    const subflowElement = createComponentForTest(subflowNode);
+                    await ticks(2);
+                    const outputAssignments = getOutputParameterItems(
+                        subflowElement
+                    );
+                    numberParameterItems = filterParameterElements(
+                        outputAssignments,
+                        'inputOutputNumberVar'
+                    );
                 });
                 it('show duplicated Number Parameter parameters', () => {
                     expect(numberParameterItems).toHaveLength(2);
@@ -1618,40 +1600,45 @@ describe('Subflow Editor', () => {
                         expect(deleteBtn.iconName).toEqual('utility:delete');
                     });
                 });
-                it('delete duplicated parameter and update the row after deleting when clicking the delete button', () => {
+                it('delete duplicated parameter and update the row after deleting when clicking the delete button', async () => {
                     // delete the second Number Parameter
+                    const subflowElement = createComponentForTest(subflowNode);
+                    await ticks(2);
+                    let outputAssignments = getOutputParameterItems(
+                        subflowElement
+                    );
+                    numberParameterItems = filterParameterElements(
+                        outputAssignments,
+                        'inputOutputNumberVar'
+                    );
                     const deleteBtn = getDeleteButton(numberParameterItems[1]);
                     deleteBtn.click();
-                    return resolveRenderCycles(() => {
-                        outputAssignments = getOutputParameterItems(
-                            subflowElement
-                        );
-                        numberParameterItems = filterParameterElements(
-                            outputAssignments,
-                            'inputOutputNumberVar'
-                        );
-                        expect(numberParameterItems).toHaveLength(1);
-                        verifyOutputParameter(
-                            numberParameterItems[0],
-                            'inputOutputNumberVar',
-                            '{!numberVariable}'
-                        );
-                    });
+                    await ticks(2);
+                    outputAssignments = getOutputParameterItems(subflowElement);
+                    numberParameterItems = filterParameterElements(
+                        outputAssignments,
+                        'inputOutputNumberVar'
+                    );
+                    expect(numberParameterItems).toHaveLength(1);
+                    verifyOutputParameter(
+                        numberParameterItems[0],
+                        'inputOutputNumberVar',
+                        '{!numberVariable}'
+                    );
                 });
             });
             describe('not available parameters', () => {
                 let notAvailableItem;
-                beforeEach(() => {
+                beforeAll(async () => {
                     const subflowElement = createComponentForTest(subflowNode);
-                    return resolveRenderCycles(() => {
-                        const outputAssignments = getOutputParameterItems(
-                            subflowElement
-                        );
-                        notAvailableItem = findParameterElement(
-                            outputAssignments,
-                            'outputNotAvailableParam'
-                        );
-                    });
+                    await ticks(2);
+                    const outputAssignments = getOutputParameterItems(
+                        subflowElement
+                    );
+                    notAvailableItem = findParameterElement(
+                        outputAssignments,
+                        'outputNotAvailableParam'
+                    );
                 });
                 it('show delete button', () => {
                     const deleteBtn = getDeleteButton(notAvailableItem);
@@ -1694,18 +1681,16 @@ describe('Subflow Editor', () => {
         });
         describe('variables in active version but not in latest version', () => {
             // inputOutputStringColVar is in active version but isn't in latest version
-            let outputAssignments, stringColElement;
-            beforeEach(() => {
+            it('show warning icon', async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    outputAssignments = getOutputParameterItems(subflowElement);
-                    stringColElement = findParameterElement(
-                        outputAssignments,
-                        'inputOutputStringColVar'
-                    );
-                });
-            });
-            it('show warning icon', () => {
+                await ticks(2);
+                const outputAssignments = getOutputParameterItems(
+                    subflowElement
+                );
+                const stringColElement = findParameterElement(
+                    outputAssignments,
+                    'inputOutputStringColVar'
+                );
                 const statusIcon = getWarningIcon(stringColElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
@@ -1729,16 +1714,17 @@ describe('Subflow Editor', () => {
         });
         describe('variables in latest version but not in active version', () => {
             // latestInputOutputStringColVar is in latest version but isn't in active version
-            let outputAssignments, stringColElement;
-            beforeEach(() => {
+            let stringColElement;
+            beforeAll(async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    outputAssignments = getOutputParameterItems(subflowElement);
-                    stringColElement = findParameterElement(
-                        outputAssignments,
-                        'latestInputOutputStringColVar'
-                    );
-                });
+                await ticks(2);
+                const outputAssignments = getOutputParameterItems(
+                    subflowElement
+                );
+                stringColElement = findParameterElement(
+                    outputAssignments,
+                    'latestInputOutputStringColVar'
+                );
             });
             it('show warning icon', () => {
                 const statusIcon = getWarningIcon(stringColElement);
@@ -1772,18 +1758,16 @@ describe('Subflow Editor', () => {
         });
         describe('data type changed', () => {
             // inputOutputAccountVar's object type is Account in active version but is Case in latest version
-            let outputAssignments, accountElement;
-            beforeEach(() => {
+            it('show warning icon', async () => {
                 const subflowElement = createComponentForTest(subflowNode);
-                return resolveRenderCycles(() => {
-                    outputAssignments = getOutputParameterItems(subflowElement);
-                    accountElement = findParameterElement(
-                        outputAssignments,
-                        'inputOutputAccountVar'
-                    );
-                });
-            });
-            it('show warning icon', () => {
+                await ticks(2);
+                const outputAssignments = getOutputParameterItems(
+                    subflowElement
+                );
+                const accountElement = findParameterElement(
+                    outputAssignments,
+                    'inputOutputAccountVar'
+                );
                 const statusIcon = getWarningIcon(accountElement);
                 expect(statusIcon).not.toBeNull();
                 expect(statusIcon.type).toBe('warning');
