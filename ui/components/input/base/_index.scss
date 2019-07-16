@@ -29,7 +29,7 @@
     border-bottom: 1px solid $color-border-input;
   }
 
-  &[type="search"]::-ms-clear {
+  &[type="search"]:-ms-clear {
     display: none;
     width: 0;
     height: 0;
@@ -75,15 +75,17 @@
   /**
    * @summary Use on input container to hide placeholder when there's no focus in Microsoft Edge
    *
-   * @selector :focus::-ms-input-placeholder
+   * @selector :focus:-ms-input-placeholder
    */
-  &::-ms-input-placeholder {
-    opacity:0;
-  }
-  &:focus::-ms-input-placeholder {
-    opacity:100;
+  /* stylelint-disable selector-no-vendor-prefix */
+  &:-ms-input-placeholder {
+    opacity: 0;
   }
 
+  &:focus:-ms-input-placeholder {
+    opacity: 100;
+  }
+  /* stylelint-enable selector-no-vendor-prefix */
 }
 
 /**
@@ -304,26 +306,30 @@
 
 
 @media all and (max-width: 480px) {
-    .nds-form--multi-input__container {
-      .nds-form-element__control-animated-label.nds-size_2-of-3 {
-          width: 50%;
-          max-width: 50%;
-      }
+
+  .nds-form--multi-input__container {
+
+    .nds-form-element__control-animated-label.nds-size_2-of-3 {
+      width: 50%;
+      max-width: 50%;
     }
+  }
 }
 
-input[type=text].nds-input_mask.nds-input,
-input[type=tel].nds-input_mask.nds-input {
+input[type="text"].nds-input_mask.nds-input,
+input[type="tel"].nds-input_mask.nds-input {
   color: transparent;
 }
 
-input[type=text].nds-input_mask.nds-input:focus,
-input[type=tel].nds-input_mask.nds-input:focus {
+input[type="text"].nds-input_mask.nds-input:focus,
+input[type="tel"].nds-input_mask.nds-input:focus {
   color: inherit;
+  /* stylelint-disable declaration-property-value-blacklist */
   transition: all 0.3s ease-out;
+  /* stylelint-enable declaration-property-value-blacklist */
 }
 
-input[type=text].nds-input_mask.nds-input.nds-not-empty,
-input[type=tel].nds-input_mask.nds-input.nds-not-empty {
+input[type="text"].nds-input_mask.nds-input.nds-not-empty,
+input[type="tel"].nds-input_mask.nds-input.nds-not-empty {
   color: inherit;
 }

@@ -12,12 +12,13 @@
 
 .nds-card_custom {
   box-shadow: none;
-  border: none;
+  border: 0;
   background: none;
 }
 
 .nds-summary__details {
   background: $color-background-selago;
+
   img {
     height: auto;
     max-width: 50px;
@@ -28,30 +29,39 @@
     z-index: 1;
     background: $color_background_selago;
   }
-  .nds-summary__details-label{
-      font-weight:$font-weight-bold;
+
+  .nds-summary__details-label {
+    font-weight: $font-weight-bold;
   }
-  .nds-summary__details-value{
-    font-weight:$font-weight-light;
+
+  .nds-summary__details-value {
+    font-weight: $font-weight-light;
   }
 }
 
 @media (max-width: 30em) and (min-width: 10em) {
+
   .nds-summary__details {
+
     img {
       margin-top: -19px;
     }
+
     h3 {
       text-align: center;
     }
+
+    // stylelint-disable-next-line selector-class-pattern
     .slds-media__figure {
       top: -10px;
       position: relative;
     }
+
     .nds-summary__details-icon {
       width: 100%;
       text-align: center;
       position: relative;
+
       &:after {
         content: "";
         border: 1px solid rgba($color-black-primary, 0.05);

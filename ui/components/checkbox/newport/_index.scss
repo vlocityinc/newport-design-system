@@ -12,7 +12,7 @@
 
 .nds-checkbox_custom-group {
   position: relative;
-  border: none;
+  border: 0;
 }
 
 .nds-checkbox_button-group,
@@ -23,12 +23,10 @@
 
 .nds-checkbox_custom-group {
 
-
   .nds-checkbox_button,
   .nds-checkbox--button {
     display: flex;
     border: 0;
-    border-radius: 0;
     background-clip: padding-box;
     margin-#{$right}: 1.25rem;
     border-radius: 0.25rem;
@@ -40,19 +38,17 @@
       vertical-align: middle;
     }
 
-
     +.nds-checkbox_button,
     +.nds-checkbox--button {
       margin: 0;
       margin-#{$right}: 1.25rem;
       margin-bottom: 2.5rem;
-      border-#{$left}: none;
+      border-#{$left}: 0;
 
       .nds-checkbox_button__label {
         width: 100%;
         border: 1px solid $button-color-border-primary;
       }
-
     }
 
     // Dealing with box shadows on specific n children
@@ -85,7 +81,6 @@
       overflow: hidden;
       padding: 0;
       position: absolute;
-
 
       &:checked+.nds-checkbox_faux,
       &:checked+.nds-checkbox--faux,
@@ -191,9 +186,11 @@
     white-space: initial;
     line-height: 1em;
     max-height: 4em;
+    /* stylelint-disable value-no-vendor-prefix,property-no-vendor-prefix */
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
+    /* stylelint-enable value-no-vendor-prefix,property-no-vendor-prefix */
   }
 
   /**
@@ -213,7 +210,6 @@
       cursor: pointer;
     }
   }
-
 }
 
 fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
@@ -239,5 +235,5 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
 
 .nds-form-element__control.nds-vertical_checkbox .nds-checkbox,
 .nds-form-element__control.nds-horizontal_checkbox .nds-checkbox {
-  margin: 0 1rem .5rem 0;
+  margin: 0 1rem 0.5rem 0;
 }

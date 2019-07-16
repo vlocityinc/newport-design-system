@@ -9,11 +9,11 @@ const stylelint = require('gulp-stylelint');
 
 gulp.task('lint:sass', () =>
   gulp
-    .src(['site/assets/styles/**/*.scss', 'ui/**/*.scss'])
+    .src('ui/**/*.scss')
     .pipe(cache('stylelint'))
     .pipe(
       stylelint({
-        fix: false,
+        fix: true,
         reporters: [
           {
             formatter: 'string',
@@ -33,12 +33,12 @@ gulp.task('lint:spaces', () =>
       '!LICENSE-icons-images.txt',
       '!CONTRIBUTING.md',
       'ui/**/*.*',
-      'site/**/*.{js,jsx,sh,scss,md,xml}',
-      'scripts/**/*.{js,sh,jsx}'
+      'scripts/**/*.{js}'
     ])
     .pipe(cache('lintspaces'))
     .pipe(
       lintspaces({
+        fix: true,
         editorconfig: '.editorconfig',
         ignores: [
           /\/\*[\s\S]*?\*\//g // Ignore comments

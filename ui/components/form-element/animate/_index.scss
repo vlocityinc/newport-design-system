@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
@@ -26,10 +27,13 @@
 }
 
 input[placeholder]::placeholder {
+  /* stylelint-disable declaration-no-important */
   color: transparent !important;
+  /* stylelint-enable declaration-no-important */
 }
 
 .nds-form-element__control.nds-form-element__control-animated-label {
+
   .nds-form-element__label {
     top: 0.25rem;
     #{$left}: 0;
@@ -67,8 +71,8 @@ input[placeholder]::placeholder {
   input.ng-touched.ng-not-empty.td-input
   select.ng-dirty.ng-not-empty,
   select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]
-  textarea.ng-not-empty.ng-dirty
-  {
+  textarea.ng-not-empty.ng-dirty {
+
     ~.nds-form-element__label,
     +.nds-form-element__label {
       transform: translate3d(0, -1.2rem, 0);
@@ -77,12 +81,13 @@ input[placeholder]::placeholder {
       top: 0.4rem;
       #{$left}: 0;
     }
+
     ~.nds-form-element__label label,
     ~label.nds-form-element__label,
     +.nds-form-element__label label,
-    +label.nds-form-element__label{
-        font-size: $form-label-font-size;
-        font-weight: $form-label-font-weight;
+    +label.nds-form-element__label {
+      font-size: $form-label-font-size;
+      font-weight: $form-label-font-weight;
     }
   }
 
@@ -93,7 +98,6 @@ input[placeholder]::placeholder {
   textarea:focus~.nds-form-element__label {
     color: $color-border-input-active;
   }
-
 }
 
 
@@ -152,7 +156,7 @@ input[placeholder]::placeholder {
   top: 0.25rem;
 }
 
-.nds-control-action__container svg[disabled=disabled] {
+.nds-control-action__container svg[disabled="disabled"] {
   pointer-events: none;
   opacity: 0.5;
 }
@@ -186,7 +190,9 @@ input[placeholder]::placeholder {
 }
 
 .nds-input_mask:focus::placeholder {
+  /* stylelint-disable declaration-no-important */
   color: inherit !important;
+  /* stylelint-enable declaration-no-important */
 }
 
 textarea[placeholder]::placeholder {
@@ -198,7 +204,7 @@ textarea:focus::placeholder {
 }
 
 .nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out {
-  transition: transform 200ms ease-out, font-size 200ms ease-out
+  transition: transform 200ms ease-out, font-size 200ms ease-out;
 }
 
 .nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
@@ -206,16 +212,18 @@ textarea:focus::placeholder {
 
   &:focus {
     box-shadow: none;
-    & ~ label {
-      transform: translate3d(0px, -1.2rem, 0px);
+
+    ~ label {
+      transform: translate3d(0, -1.2rem, 0);
     }
   }
 
-  & ~ label {
+  ~ label {
     transform: none;
   }
 
   &.nds-input.nds-not-empty.nds-is-dirty ~ label {
-        transform: translate3d(0px, -1.2rem, 0px);
+    transform: translate3d(0, -1.2rem, 0);
   }
 }
+/* stylelint-enable selector-class-pattern */

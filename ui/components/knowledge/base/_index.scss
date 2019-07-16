@@ -10,28 +10,35 @@
  * @required
  * @variant
  */
- @if & {
+@if & {
+
+  // stylelint-disable-next-line selector-class-pattern
   .iframeresizer--child & .nds-knowledge-block {
-      position: absolute;
-      .nds-right_panel {
-          height: auto;
-      }
+    position: absolute;
+
+    .nds-right_panel {
+      height: auto;
+    }
   }
 } @else {
+
+  // stylelint-disable-next-line selector-class-pattern
   .iframeresizer--child .nds-knowledge-block {
-      position: absolute;
-      .nds-right_panel {
-          height: auto;
-      }
+    position: absolute;
+
+    .nds-right_panel {
+      height: auto;
+    }
   }
 }
+
 
 .nds-knowledge-block {
   position: fixed;
   top: 10.625rem;
   #{$right}: 0;
   width: 30%;
-  background: #ffffff;
+  background: $white;
   bottom: 0;
 
   .nds-right_panel {
@@ -64,8 +71,9 @@
     }
 
     .nds-input-has-icon_left {
+
       input#vlcKnowledgeKeyword {
-        border-bottom: none;
+        border-bottom: 0;
         border: 1px solid $color-border-input;
         border-radius: 0.25rem;
         padding-#{$left}: 2rem;
@@ -78,8 +86,11 @@
     }
 
     .nds-knowledge-item {
+
       .nds-item .nds-knowledge-list-item {
+
         a.nds-knowledge-item_popup {
+
           &:focus {
             outline: none;
           }
@@ -89,9 +100,11 @@
             width: 1rem;
             height: 1rem;
 
+            /* stylelint-disable max-nesting-depth */
             &:hover+small {
               display: inline;
             }
+            /* stylelint-enable max-nesting-depth */
           }
 
           small {
@@ -115,6 +128,7 @@
             font-size: 1rem;
             cursor: pointer;
 
+            /* stylelint-disable max-nesting-depth */
             &:hover {
               text-decoration: underline;
             }
@@ -122,6 +136,7 @@
             &:focus {
               outline: none;
             }
+            /* stylelint-enable max-nesting-depth */
           }
         }
       }
@@ -163,7 +178,6 @@
       font-size: 0.875rem;
       margin-bottom: 1rem;
     }
-
   }
 }
 
@@ -176,6 +190,7 @@
 }
 
 .nds-modal_knowledge {
+
   .nds-icon_small {
     position: absolute;
     #{$right}: 1rem;
@@ -186,13 +201,15 @@
   }
 
   .nds-modal__container {
+
     .nds-modal__header {
       background-color: $card-color-background;
       color: $color-blue-font;
       border-top-right-radius: 0;
       border-top-left-radius: 0;
-      border-bottom: none;
+      border-bottom: 0;
 
+      // stylelint-disable-next-line selector-class-pattern
       .modal-title {
         font-size: 1.375rem;
         text-align: #{$left};
@@ -201,11 +218,12 @@
     }
 
     .nds-modal__footer {
-      border-top: none;
+      border-top: 0;
       border-bottom-right-radius: 0;
       border-bottom-left-radius: 0;
       background-color: $color-border-tab-active;
 
+      // stylelint-disable-next-line selector-class-pattern
       button.btn-primary {
         background-color: $color-blue-font;
         color: $color-border-tab-active;
