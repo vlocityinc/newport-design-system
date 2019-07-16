@@ -12,11 +12,12 @@
  */
 
 .nds-file-custom-selector {
+
   .nds-file-selector__dropzone {
     width: inherit;
     padding: 0;
     border: 1px solid $color-border-input;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     background-color: $card-color-background;
 
     .nds-file-selector__input {
@@ -31,11 +32,13 @@
 
     .nds-file-selector__body {
       top: -1rem;
-      height: 0px;
+      height: 0;
     }
 
     .nds-file-icon {
+      /* stylelint-disable declaration-no-important */
       padding: 2px !important;
+      /* stylelint-enable declaration-no-important */
     }
   }
 
@@ -50,7 +53,7 @@
 
     .nds-file-selector__button {
       background-color: $card-color-background;
-      border: none;
+      border: 0;
       color: $color-input-icon-blue-hue;
       font-size: 0.75rem;
       overflow: hidden;
@@ -88,11 +91,11 @@
       height: 2.15rem;
       margin: 0.5rem 0;
       border: 1px solid $color-border-input;
-      background-color: white;
+      background-color: $white;
       border-radius: 0.25rem;
 
       .nds-button.nds-button_neutral {
-        border: none;
+        border: 0;
         color: $color-text-highlight;
         font-size: 0.75rem;
         width: 85%;
@@ -128,7 +131,7 @@
 }
 
 .nds-file-custom-selector.nds-file-selector_files {
-  width: 100%
+  width: 100%;
 }
 
 .nds-file-custom-selector.nds-file-selector_files+.nds-tooltip_container {
@@ -142,8 +145,9 @@
 }
 
 /* for iPhone 5S issue */
-@media screen and (device-aspect-ratio: 40/71) {
-  .nds-file-custom-selector .nds-file-selector__body span.nds-file-icon {
+@media screen and (device-aspect-ratio: 40 / 71) {
+
+  .nds-file-custom-selector  .nds-file-selector__body span.nds-file-icon {
     top: -0.8125rem;
   }
 }

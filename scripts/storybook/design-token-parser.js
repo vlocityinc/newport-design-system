@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import yaml from 'js-yaml';
 
 export function generateDesignTokenDocs(yamlText) {

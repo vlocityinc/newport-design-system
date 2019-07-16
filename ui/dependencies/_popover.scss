@@ -6,15 +6,19 @@
   &:#{$location} {
     @include square($size);
     position: absolute;
+
     @if $position == left {
       transform: rotate(if-ltr(45deg, 225deg));
     }
+
     @else if $position == right {
       transform: rotate(if-ltr(45deg, 225deg));
     }
+
     @else {
       transform: rotate(45deg);
     }
+
     content: '';
     background-color: $color;
 

@@ -20,6 +20,7 @@
   top: 0.35rem;
 }
 
+// stylelint-disable-next-line selector-class-pattern
 .nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control svg.slds-icon {
   margin-top: 18px;
   width: 1.2rem;
@@ -35,8 +36,8 @@
   top: -1.6875rem;
 }
 
-.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
-.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after {
+.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom:before,
+.nds-select-wrapper .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom:after {
   width: 1rem;
   height: 1rem;
   position: absolute;

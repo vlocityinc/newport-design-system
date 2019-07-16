@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
@@ -12,12 +14,14 @@
 
 .nds-subnav__wrapper {
   position: relative;
-   background: $card_color_background;
+  background: $card_color_background;
   border-bottom: 1px solid rgba($color-black-primary, 0.1);
-  img{
+
+  img {
     pointer-events: none;
     height: 3.75rem;
   }
+
   .nds-subnav__fullWidth {
     width: 100%;
   }
@@ -66,7 +70,7 @@
   .nds-subnav__active {
 
     .nds-subnav__cardValues h2 {
-      font-size: 0.625rem
+      font-size: 0.625rem;
     }
 
     .nds-subnav__cardValues h2:first-child {
@@ -85,26 +89,30 @@
   }
 
   .nds-subnav__overview-card {
-    animation: ndsOpacityAnimation 0.55s forwards;
+    animation: ndsopacityanimation 0.55s forwards;
     max-width: 9.375rem;
     width: 5.625rem;
     max-height: 10.8125rem;
   }
 
-  @keyframes ndsOpacityAnimation {
+  @keyframes ndsopacityanimation {
+
     0% {
       opacity: 0;
     }
+
     90% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
     }
   }
 
   .cfp-hotkeys-container.fade {
-    display: none !important
+    // stylelint-disable-next-line declaration-no-important
+    display: none !important;
   }
 
   .fullWidth {
@@ -131,7 +139,7 @@
 
     &.active {
       border-left: 1px solid rgba($color-black-primary, 0.1);
-      box-shadow: 0px 10px 0px 0px $color-blue-text-primary;
+      box-shadow: 0 10px 0 0 $color-blue-text-primary;
       background: $color-blue-text-primary;
 
       img {
@@ -146,13 +154,17 @@
   }
 
   @media only screen and (max-width:767px) {
+
     .nds-subnav__inner {
+      // stylelint-disable-next-line declaration-no-important
       padding-left: 0.625rem !important;
+      // stylelint-disable-next-line declaration-no-important
       padding-right: 0.625rem !important;
     }
   }
 
   @media only screen and (max-width:767px) {
+
     .nds-subnav__theme {
       min-width: 100px;
       width: inherit;
