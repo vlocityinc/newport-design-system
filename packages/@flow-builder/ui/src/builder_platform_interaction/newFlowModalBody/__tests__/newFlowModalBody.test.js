@@ -15,6 +15,7 @@ import {
     MOCK_SCREEN_TEMPLATE_2
 } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const mockAllProcessTypes = {
     processTypes: JSON.stringify(MOCK_ALL_PROCESS_TYPES)
@@ -306,7 +307,7 @@ describe('process types loading server error cases', () => {
     });
     it('should show process types error message', async () => {
         newFlowModalBody = createComponentForTest();
-        await Promise.resolve();
+        await ticks(2);
 
         const errorMessage = newFlowModalBody.errorMessage;
         expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);

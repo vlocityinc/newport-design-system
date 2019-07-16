@@ -16,6 +16,7 @@ import {
     MOCK_SCREEN_TEMPLATE_2
 } from 'mock/templates';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
@@ -235,7 +236,7 @@ describe('templates load server error', () => {
             eventCallback
         );
         createComponentForTest();
-        await Promise.resolve();
+        await ticks(2);
         expect(eventCallback).toHaveBeenCalled();
         document.removeEventListener(
             CannotRetrieveTemplatesEvent.EVENT_NAME,
