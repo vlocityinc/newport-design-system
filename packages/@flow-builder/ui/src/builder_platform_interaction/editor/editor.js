@@ -763,6 +763,7 @@ export default class Editor extends LightningElement {
      */
     handleAddCanvasElement = event => {
         if (event && event.type && event.detail) {
+            logPerfTransactionStart("PropertyEditor");
             const mode = event.type;
             const node = getElementForPropertyEditor({
                 locationX: event.detail.locationX,
@@ -791,6 +792,7 @@ export default class Editor extends LightningElement {
      */
     handleEditElement = event => {
         if (event && event.detail && event.type) {
+            logPerfTransactionStart("PropertyEditor");
             const mode = event.type;
             const guid = event.detail.canvasElementGUID;
             const node = getElementForPropertyEditor(
