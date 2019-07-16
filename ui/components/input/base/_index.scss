@@ -75,14 +75,14 @@
   /**
    * @summary Use on input container to hide placeholder when there's no focus in Microsoft Edge
    *
-   * @selector :focus:-ms-input-placeholder
+   * @selector :focus::-ms-input-placeholder
    */
   /* stylelint-disable selector-no-vendor-prefix */
-  &:-ms-input-placeholder {
+  &::-ms-input-placeholder {
     opacity: 0;
   }
 
-  &:focus:-ms-input-placeholder {
+  &::focus:-ms-input-placeholder {
     opacity: 100;
   }
   /* stylelint-enable selector-no-vendor-prefix */

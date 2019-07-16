@@ -319,6 +319,8 @@
 
 .nds-product__category-card {
   background: $color-border-tab-active;
+  color: $color-blue-text-secondary;
+  overflow: hidden;
 
   .nds-button {
 
@@ -362,8 +364,6 @@
 
   .nds-product__action-link {
     font-size: 36px;
-    color: $color-blue-text-secondary;
-    overflow: hidden;
 
     a {
       color: $color-blue-text-secondary;
