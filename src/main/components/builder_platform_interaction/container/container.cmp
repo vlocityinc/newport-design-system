@@ -21,7 +21,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:propertyEditorFooter" type="COMPONENT" />
     <aura:dependency resource="markup://lightning:overlayInteropWrapper" type="COMPONENT" />
 
-    
+
     <!-- Editors must be included here because the dependency chain isn't being enforced by default
      All ( or most ) other modules are included by default because they're referenced by either
      lwc templates or lwc javascript files.
@@ -32,6 +32,7 @@
     <aura:dependency resource="markup://builder_platform_interaction:assignmentEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:decisionEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:waitEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:screenEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:loopEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:calloutEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:invocableActionEditor" type="MODULE" />
@@ -43,8 +44,8 @@
     <aura:dependency resource="markup://builder_platform_interaction:recordDeleteEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:variableConstantEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:resourceEditor" type="MODULE" />
-    <aura:dependency resource="markup://builder_platform_interaction:formulaEditor" type="MODULE" />    
-    <aura:dependency resource="markup://builder_platform_interaction:screenEditor" type="MODULE" />     
+    <aura:dependency resource="markup://builder_platform_interaction:formulaEditor" type="MODULE" />
+    <aura:dependency resource="markup://builder_platform_interaction:screenEditor" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalHeader" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalBody" type="MODULE" />
     <aura:dependency resource="markup://builder_platform_interaction:modalFooter" type="MODULE" />
@@ -53,7 +54,7 @@
 
    <!-- Events -->
    <aura:registerEvent name="ui:createPanel" type="markup://ui:createPanel" />
-   
+
     <div class="flow-builder-container">
         <builder_platform_interaction:editor flowId="{!v.flowId}" flowDefId="{!v.flowDefId}"/>
     </div>
