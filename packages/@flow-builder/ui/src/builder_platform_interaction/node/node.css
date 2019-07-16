@@ -104,6 +104,8 @@
 .text-container {
     top: 57px;
     max-width: 132px;
+    min-width: 132px;
+    overflow: hidden;
 }
 
 .text-container .text-label {

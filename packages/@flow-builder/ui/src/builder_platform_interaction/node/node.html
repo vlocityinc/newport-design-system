@@ -50,12 +50,15 @@
 
         <!--Label and description-->
         <div class="text-container slds-is-absolute">
-            <div class="text-label slds-text-body_regular slds-truncate">
-                {nodeLabel}
-            </div>
-            <div class="text-element-type slds-text-body_regular slds-truncate">
+            <div
+                class="text-label text-element-type slds-text-body_regular slds-truncate"
+            >
                 {nodeTypeLabel}
             </div>
+            <div
+                lwc:dom="manual"
+                class=" slds-text-body_regular text-label_width label-wrapper"
+            ></div>
         </div>
     </div>
 </template>

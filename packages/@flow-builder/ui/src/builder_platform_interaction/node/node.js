@@ -23,6 +23,7 @@ import {
     FLOW_PROCESS_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { clamp } from 'builder_platform_interaction/clampLib';
 
 /**
  * Node component for flow builder.
@@ -32,6 +33,8 @@ import { Store } from 'builder_platform_interaction/storeLib';
  */
 
 export default class Node extends LightningElement {
+    currentNodeLabel = null;
+
     @api node = {
         config: {}
     };
@@ -282,6 +285,14 @@ export default class Node extends LightningElement {
             canvasElementContainer.getAttribute('id')
         ) {
             lib.revalidate(canvasElementContainer);
+        }
+
+        const labelWrapper = this.template.querySelector('.label-wrapper');
+        if (labelWrapper && this.nodeLabel !== this.currentNodeLabel) {
+            clamp(labelWrapper, {
+                label: this.nodeLabel
+            });
+            this.currentNodeLabel = this.nodeLabel;
         }
     }
 
