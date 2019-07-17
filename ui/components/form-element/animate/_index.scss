@@ -29,6 +29,7 @@
 input[placeholder]::placeholder {
   /* stylelint-disable declaration-no-important */
   color: transparent !important;
+  font-weight: $form-placeholder-weight;
   /* stylelint-enable declaration-no-important */
 }
 
@@ -197,6 +198,7 @@ input[placeholder]::placeholder {
 
 textarea[placeholder]::placeholder {
   color: transparent;
+  font-weight: $form-placeholder-weight;
 }
 
 textarea:focus::placeholder {
