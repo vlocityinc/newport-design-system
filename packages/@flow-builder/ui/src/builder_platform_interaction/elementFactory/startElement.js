@@ -139,7 +139,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         description: undefined,
         triggerType: triggerType === '' ? undefined : triggerType,
         schedule,
-        object: triggerType === '' ? undefined : object,
+        object: object === '' ? undefined : object,
         filters: recordFilters
     });
 }

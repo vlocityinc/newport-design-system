@@ -18,11 +18,11 @@ export const startValidation = new Validation(defaultRules);
  * @param {string} nodeElement.filterType - current element's filterType
  * @return {Object} the overridden rules
  */
-export const getRules = ({ filterType }) => {
+export const getRules = ({ filterType, object }) => {
     const overriddenRules = {};
 
     // validate filters if filter type is ALL
-    if (filterType === RECORD_FILTER_CRITERIA.ALL) {
+    if (filterType === RECORD_FILTER_CRITERIA.ALL && object.value !== '') {
         overriddenRules.filters = validateFilter();
     }
     return overriddenRules;
