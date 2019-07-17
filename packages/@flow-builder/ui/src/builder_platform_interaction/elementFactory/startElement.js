@@ -13,6 +13,7 @@ import {
     createFilterMetadataObject
 } from './base/baseRecordElement';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -33,7 +34,8 @@ export function createStartElement(startElement = {}) {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
         triggerType,
-        object,
+        object = '',
+        objectIndex = generateGuid(),
         filters = []
     } = startElement;
     const { startDate, startTime, frequency } =
@@ -65,6 +67,7 @@ export function createStartElement(startElement = {}) {
         startTime,
         frequency,
         object,
+        objectIndex,
         filters: recordFilters
     });
 
@@ -113,13 +116,14 @@ export function createStartElementMetadataObject(startElement, config = {}) {
     );
 
     const {
+        object,
         triggerType,
         startDate,
         startTime,
         frequency,
-        object,
         filters = []
     } = startElement;
+
     const recordFilters =
         filters.length > 0 && filters[0].leftHandSide
             ? filters.map(filter => createFilterMetadataObject(filter))
@@ -135,7 +139,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         description: undefined,
         triggerType: triggerType === '' ? undefined : triggerType,
         schedule,
-        object,
+        object: triggerType === '' ? undefined : object,
         filters: recordFilters
     });
 }

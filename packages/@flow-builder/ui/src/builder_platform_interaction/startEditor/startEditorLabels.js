@@ -1,3 +1,4 @@
+import chooseObjectAndRecord from '@salesforce/label/FlowBuilderStartEditor.chooseObjectAndRecord';
 import triggerTypeSectionHeader from '@salesforce/label/FlowBuilderStartEditor.triggerTypeSectionHeader';
 import triggerTypeSectionDescription from '@salesforce/label/FlowBuilderStartEditor.triggerTypeSectionDescription';
 import triggerTypeInputLabel from '@salesforce/label/FlowBuilderStartEditor.triggerTypeInputLabel';
@@ -6,6 +7,9 @@ import triggerTypeScheduled from '@salesforce/label/FlowBuilderStartEditor.trigg
 import scheduleSectionHeader from '@salesforce/label/FlowBuilderStartEditor.scheduleSectionHeader';
 import frequencyInputLabel from '@salesforce/label/FlowBuilderStartEditor.frequencyInputLabel';
 import frequencyInputHelp from '@salesforce/label/FlowBuilderStartEditor.frequencyInputHelp';
+import object from '@salesforce/label/FlowBuilderRecordEditor.object';
+import objectInputHelp from '@salesforce/label/FlowBuilderStartEditor.objectInputHelp';
+import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
 import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
 import triggerFrequencyWeekly from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyWeekly';
@@ -18,6 +22,7 @@ import startTimeInputHelp from '@salesforce/label/FlowBuilderStartEditor.startTi
 import cannotBeBlank from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 
 export const LABELS = {
+    chooseObjectAndRecord,
     triggerTypeSectionHeader,
     triggerTypeSectionDescription,
     triggerTypeInputLabel,
@@ -26,6 +31,9 @@ export const LABELS = {
     scheduleSectionHeader,
     frequencyInputLabel,
     frequencyInputHelp,
+    object,
+    objectInputHelp,
+    objectPlaceholder,
     triggerFrequencyOnce,
     triggerFrequencyDaily,
     triggerFrequencyWeekly,

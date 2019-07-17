@@ -50,5 +50,6 @@ export const WARNING_LABELS = {
 export const NO_CRITERIA_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterNoCriteriaGet,
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterNoCriteriaUpdate,
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterNoCriteriaGet
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterNoCriteriaGet,
+    [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterNoCriteriaGet
 };

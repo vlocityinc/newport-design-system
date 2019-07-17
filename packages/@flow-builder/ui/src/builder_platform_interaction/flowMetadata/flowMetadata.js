@@ -296,5 +296,6 @@ export const START_ELEMENT_FIELDS = {
     TRIGGER_TYPE: 'triggerType',
     FREQUENCY: 'frequency',
     START_DATE: 'startDate',
-    START_TIME: 'startTime'
+    START_TIME: 'startTime',
+    FILTER_TYPE: 'filterType'
 };

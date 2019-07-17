@@ -39,6 +39,9 @@ export default class RecordFilter extends LightningElement {
     @api
     hideNewResource = false;
 
+    @api
+    hideTitle = false;
+
     get rules() {
         return this.elementType
             ? getRulesForElementType(RULE_TYPES.COMPARISON, this.elementType)
@@ -108,6 +111,10 @@ export default class RecordFilter extends LightningElement {
         return this.filterItems.length > 1;
     }
 
+    get showTitle() {
+        return !this.hideTitle;
+    }
+
     get filterOptions() {
         // "No criteria" not allowed for record delete element
         // (throwing error during flow saving process at metadata API validation level)
@@ -139,6 +146,9 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterLabel() {
+        if (this.hideTitle) {
+            return format(this.labels.findRecords, this.resourceDisplayText);
+        }
         return CRITERIA_RECORDS_LABELS[this.elementType];
     }
 

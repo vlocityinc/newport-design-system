@@ -3,14 +3,21 @@ import { LightningElement, api, track } from 'lwc';
 import { getLocale } from 'lightning/internalLocalizationService';
 import { format } from 'builder_platform_interaction/commonUtils';
 import {
+    fetchFieldsForEntity,
+    getAllEntities
+} from 'builder_platform_interaction/sobjectLib';
+import {
+    ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
     FLOW_TRIGGER_FREQUENCY,
     START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { startReducer } from './startReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 
 import { LABELS } from './startEditorLabels';
 
@@ -31,6 +38,9 @@ export default class StartEditor extends LightningElement {
     @track
     startElement;
 
+    @track
+    fields;
+
     labels = LABELS;
 
     @api
@@ -40,6 +50,7 @@ export default class StartEditor extends LightningElement {
 
     set node(newValue) {
         this.startElement = newValue || {};
+        this.updateFields();
     }
 
     /**
@@ -66,6 +77,10 @@ export default class StartEditor extends LightningElement {
         this._validateInput(SELECTORS.START_TIME, errors);
 
         return errors;
+    }
+
+    get elementType() {
+        return ELEMENT_TYPE.START_ELEMENT;
     }
 
     get showScheduleSection() {
@@ -130,6 +145,62 @@ export default class StartEditor extends LightningElement {
         return format(this.labels.startTimeInputHelp, getLocale().timezone);
     }
 
+    get objectInputHelp() {
+        return this.labels.objectInputHelp;
+    }
+
+    /**
+     * @returns {Object} configuration to pass to entity-resource-picker component
+     */
+    get entityComboboxConfig() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.object, // Label
+            this.labels.objectPlaceholder, // Placeholder
+            this.startElement.object.error, // errorMessage
+            false, // literalsAllowed
+            false, // required
+            false, // disabled
+            FLOW_DATA_TYPE.SOBJECT.value
+        );
+    }
+
+    /**
+     * @returns {string} entity label if any found for current selected entity empty string otherwise
+     */
+    get resourceDisplayText() {
+        const entityToDisplay = getAllEntities().find(
+            entity => entity.apiName === this.recordEntityName
+        );
+        return entityToDisplay ? entityToDisplay.entityLabel : '';
+    }
+
+    get hideTitleOrNewResource() {
+        return true;
+    }
+
+    /**
+     * set the entity name (object) and load fields accordingly
+     * @param {string} newValue - new entity name
+     */
+    set recordEntityName(newValue) {
+        this.startElement.object.value = newValue;
+        this.updateFields();
+    }
+
+    /**
+     * @returns {string} entity name (object)
+     */
+    get recordEntityName() {
+        return this.startElement.object.value;
+    }
+
+    /**
+     * @returns {Object} the entity fields
+     */
+    get recordFields() {
+        return this.fields;
+    }
+
     handleTriggerTypeChange = event => {
         this._updateField(
             START_ELEMENT_FIELDS.TRIGGER_TYPE,
@@ -148,6 +219,50 @@ export default class StartEditor extends LightningElement {
     handleStartTimeChange = event => {
         this._updateField(START_ELEMENT_FIELDS.START_TIME, event.detail.value);
     };
+
+    /**
+     * @param {Object} event - comboboxstatechanged event from entity-resource-picker component. The property name depends on the record node
+     */
+    handleResourceChanged(event) {
+        event.stopPropagation();
+        const { item, error } = event.detail;
+        const oldRecordEntityName = this.recordEntityName;
+        const newRecordEntityName = (item && item.value) || '';
+        if (newRecordEntityName !== oldRecordEntityName) {
+            this.updateProperty(
+                'object',
+                newRecordEntityName,
+                error,
+                false,
+                oldRecordEntityName
+            );
+            this.recordEntityName = newRecordEntityName;
+        }
+    }
+
+    /**
+     * Handle filterType change and via reducer update element's state accordingly
+     * @param {Object} event - event
+     */
+    handleFilterTypeChanged(event) {
+        event.stopPropagation();
+        const { filterType, error } = event.detail;
+        this.updateProperty(
+            'filterType',
+            filterType,
+            error,
+            true,
+            this.startElement.filterType
+        );
+    }
+
+    /**
+     * @param {Object} event - property changed event coming from label-description component or the list item changed events (add/update/delete)
+     */
+    handlePropertyOrListItemChanged(event) {
+        event.stopPropagation();
+        this.startElement = startReducer(this.startElement, event);
+    }
 
     /**
      * Updates a field by creating a PropertyChangedEvent and passing it to the reducer
@@ -169,5 +284,41 @@ export default class StartEditor extends LightningElement {
         if (input && !input.reportValidity()) {
             errors.push({ key: input.name, errorString: '' });
         }
+    }
+
+    /**
+     * update the fields of the selected entity
+     */
+    updateFields() {
+        this.fields = {};
+        if (this.recordEntityName) {
+            fetchFieldsForEntity(this.recordEntityName)
+                .then(fields => {
+                    this.fields = fields;
+                })
+                .catch(() => {
+                    // fetchFieldsForEntity displays an error message
+                });
+        }
+    }
+
+    /**
+     * Instantiates property changed event based to handle property change and updating via element's reducer state accordingly
+     * @param {string} propertyName - name of the property changed
+     * @param {Object|string|boolean} newValue - new value to be passed to property
+     * @param {string} error - error on property
+     * @param {boolean} ignoreValidate - true if we do not want to have specific property validation
+     * @param {Object|string|boolean} oldValue - property's previous value
+     */
+    updateProperty(propertyName, newValue, error, ignoreValidate, oldValue) {
+        const propChangedEvent = new PropertyChangedEvent(
+            propertyName,
+            newValue,
+            error,
+            null,
+            oldValue
+        );
+        propChangedEvent.detail.ignoreValidate = ignoreValidate;
+        this.startElement = startReducer(this.startElement, propChangedEvent);
     }
 }

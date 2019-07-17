@@ -1,7 +1,8 @@
 import {
     ACTION_TYPE,
     METADATA_KEY,
-    ELEMENT_TYPE
+    ELEMENT_TYPE,
+    START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
 import { ICONS_LARGE } from 'builder_platform_interaction/imageLib';
 import { LABELS } from './elementConfigLabels';
@@ -157,6 +158,7 @@ export const elementTypeToConfigMap = {
             maxConnections: 1
         },
         canvasElement: true,
+        nonHydratableProperties: [START_ELEMENT_FIELDS.FILTER_TYPE],
         isDeletable: false,
         canBeDuplicated: false,
         metadataKey: METADATA_KEY.START,

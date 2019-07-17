@@ -1,8 +1,10 @@
 <template>
     <div class="slds-m-bottom_small slds-border_top">
-        <h3 class="slds-text-heading_small slds-p-around_small">
-            {filterRecordsTitle}
-        </h3>
+        <div if:true={showTitle}>
+            <h3 class="slds-text-heading_small slds-p-around_small">
+                {filterRecordsTitle}
+            </h3>
+        </div>
         <div
             class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
         >
