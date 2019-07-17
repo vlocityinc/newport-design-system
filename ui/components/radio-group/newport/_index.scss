@@ -295,3 +295,94 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.nds-radio_custom-group {
+  margin-right: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nds-radio_custom-group.nds-static-wrapper input[type="radio"]:checked+.nds-img_select-container {
+  border: 2px solid #05a6df;
+}
+
+.nds-radio_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
+  cursor: pointer;
+}
+
+.nds-radio_custom-group.nds-img-wrapper_cont input[type="radio"]:checked+label.nds-img_no-width-height {
+  border: 2px solid #05a6df;
+}
+
+.nds-img_select-container {
+  position: relative;
+  display: inline-block;
+  margin: .5rem 1rem .5rem 0;
+}
+
+.nds-radio_custom-group.nds-static-wrapper .nds-img_select-container .nds-img-item_select-container.nds-img_option-width-height {
+  width: 100%;
+  height: 100%;
+}
+
+.nds-img-wrapper_cont {
+  position: relative;
+}
+
+.nds-radio_custom-group.nds-static-wrapper .nds-radio__label.nds-img_select-container {
+  border: 2px solid #d8dde6;
+}
+
+.nds-img-item {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-img-item-caption {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-radio_custom-group .nds-img-item_select-container {
+  cursor: pointer;
+}
+
+.nds-radio_custom-group.nds-img-wrapper_cont .nds-img_no-width-height .nds-img-item_select-container {
+  width: 100%;
+  height: 100%;
+}
+
+.nds-img_option-width-height {
+  display: inline-block;
+  height: inherit;
+  width: inherit;
+  border-radius: 0.1875rem;
+  position: relative;
+}
+
+.nds-img_no-width-height {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 30px;
+  border: 2px solid #d8dde6;
+}
+
+.nds-caption-out_cont {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: inherit;
+  padding-top: 10px;
+}
