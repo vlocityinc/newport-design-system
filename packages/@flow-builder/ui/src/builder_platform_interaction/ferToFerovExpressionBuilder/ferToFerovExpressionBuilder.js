@@ -34,6 +34,13 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
         }
     };
 
+    /**
+     * Set to true to hide the 'New Resource' option in combobox menu data
+     * @type {Boolean}
+     */
+    @api
+    hideNewResource;
+
     @api
     lhsLabelHelpText;
 
