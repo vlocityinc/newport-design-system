@@ -31,7 +31,8 @@ export const SERVER_ACTION_TYPE = {
     GET_APEX_TYPES: 'getApexTypes',
     GET_TEMPLATES: 'getTemplates',
     GET_TEMPLATE_DATA: 'getTemplateData',
-    GET_PROCESS_TYPE_FEATURES: 'getSupportedFeaturesList'
+    GET_PROCESS_TYPE_FEATURES: 'getSupportedFeaturesList',
+    TOGGLE_FLOW_STATUS: 'toggleFlowStatus'
 };
 
 const actionConfig = {
@@ -71,7 +72,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: 'c.getApexTypes',
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: 'c.getTemplates',
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: 'c.getTemplateData',
-    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: 'c.getSupportedFeaturesList'
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: 'c.getSupportedFeaturesList',
+    [SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS]: 'c.toggleFlowStatus'
 };
 
 let auraFetch;

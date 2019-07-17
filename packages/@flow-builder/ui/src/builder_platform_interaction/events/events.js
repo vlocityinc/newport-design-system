@@ -115,3 +115,4 @@ export { InlineResourceEvent } from './inlineResourceEvent';
 export {
     RichTextPlainTextSwitchChangedEvent
 } from './richTextPlainTextSwitchChangedEvent';
+export { ToggleFlowStatusEvent } from './toolbarEvents/toggleFlowStatusEvent';

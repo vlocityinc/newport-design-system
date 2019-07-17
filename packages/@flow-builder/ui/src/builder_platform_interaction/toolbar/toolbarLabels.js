@@ -7,6 +7,7 @@ import savedStatus from '@salesforce/label/FlowBuilderToolbar.savedStatus';
 import runTitle from '@salesforce/label/FlowBuilderToolbar.runTitle';
 import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
 import diffFlowTitle from '@salesforce/label/FlowBuilderToolbar.diffFlowTitle';
+import activateTitle from '@salesforce/label/FlowBuilderToolbar.activateTitle';
 import saveTitle from '@salesforce/label/FlowBuilderToolbar.saveTitle';
 import saveAsTitle from '@salesforce/label/FlowBuilderToolbar.saveAsTitle';
 import errorPopOverHeader from '@salesforce/label/FlowBuilderValidation.errorPopOverHeader';
@@ -22,6 +23,7 @@ export const LABELS = {
     runTitle,
     debugTitle,
     diffFlowTitle,
+    activateTitle,
     saveTitle,
     saveAsTitle,
     errorPopOverHeader,

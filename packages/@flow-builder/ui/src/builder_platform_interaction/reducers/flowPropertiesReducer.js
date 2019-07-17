@@ -11,7 +11,8 @@ import {
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
-    UPDATE_PROPERTIES_AFTER_SAVING
+    UPDATE_PROPERTIES_AFTER_SAVING,
+    UPDATE_PROPERTIES_AFTER_ACTIVATION
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 
@@ -63,6 +64,7 @@ export default function flowPropertiesReducer(
                 ...payload.properties,
                 hasUnsavedChanges: false
             };
+        case UPDATE_PROPERTIES_AFTER_ACTIVATION:
         case UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE:
         case UPDATE_PROPERTIES_AFTER_SAVING:
             return {

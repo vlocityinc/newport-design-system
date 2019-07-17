@@ -7,7 +7,8 @@ import {
     DiffFlowEvent,
     UndoEvent,
     RedoEvent,
-    DuplicateEvent
+    DuplicateEvent,
+    ToggleFlowStatusEvent
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
@@ -35,6 +36,7 @@ export default class Toolbar extends LightningElement {
     @api flowErrorsAndWarnings;
     @api isUndoDisabled;
     @api isRedoDisabled;
+    @api isActivateDisabled;
 
     labels = LABELS;
 
@@ -60,6 +62,10 @@ export default class Toolbar extends LightningElement {
             this.canOnlySaveAsNewDefinition ||
             !this.hasUnsavedChanges
         );
+    }
+
+    get activateDisabled() {
+        return (!this.flowStatus || this.flowStatus === FLOW_STATUS.INVALID_DRAFT || this.flowStatus === FLOW_STATUS.ACTIVE || this.hasUnsavedChanges);
     }
 
     get isDiffFlowAllowed() {
@@ -130,5 +136,11 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const diffEvent = new DiffFlowEvent();
         this.dispatchEvent(diffEvent);
+    }
+
+    handleToggleFlowStatus(event) {
+        event.preventDefault();
+        const toggleFlowStatusEvent = new ToggleFlowStatusEvent();
+        this.dispatchEvent(toggleFlowStatusEvent);
     }
 }

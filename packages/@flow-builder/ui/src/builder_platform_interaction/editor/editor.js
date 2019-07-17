@@ -21,6 +21,7 @@ import {
     clearUndoRedo,
     updatePropertiesAfterCreatingFlowFromTemplate,
     updatePropertiesAfterCreatingFlowFromProcessType,
+    updatePropertiesAfterActivation,
     UPDATE_PROPERTIES_AFTER_SAVING,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
@@ -114,6 +115,7 @@ const APP_NAME = 'FLOW_BUILDER';
  * @since 214
  */
 export default class Editor extends LightningElement {
+    @track flowStatus;
     currentFlowId;
     currentFlowDefId;
     runDebugUrl;
@@ -140,6 +142,7 @@ export default class Editor extends LightningElement {
     };
     @track hasNotBeenSaved = true;
     @track disableSave = true;
+    @track disableActivate = true;
     @track saveStatus;
     @track saveType;
     @track retrievedHeaderUrls = false;
@@ -237,6 +240,7 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         this.isUndoDisabled = !isUndoAvailable();
         this.isRedoDisabled = !isRedoAvailable();
+        this.flowStatus = currentState.properties.status;
         if (
             currentState.properties.processType &&
             currentState.properties.processType !== this.properties.processType
@@ -417,9 +421,10 @@ export default class Editor extends LightningElement {
      * This is called once the flow has been loaded, so that sobjects in the flow have their fields loaded and cached
      */
     loadFieldsForSobjectsInFlow() {
+        const currentState = storeInstance.getCurrentState();
         // Only gets elements with sObject datatype (no collections)
         const sobjects = getSObjectOrSObjectCollectionByEntityElements(
-            storeInstance.getCurrentState().elements
+            currentState.elements
         );
         for (let i = 0; i < sobjects.length; i++) {
             // add sobject element to combobox cache in required shape
@@ -725,6 +730,31 @@ export default class Editor extends LightningElement {
                 this.getFlowCallbackAndDiff,
                 params
             );
+        }
+    };
+
+
+    /**
+     * Handles the toggle flow status event fired by a toolbar. Changes the flow status from obsolete or
+     * draft to active or vice versa.
+     */
+    handleToggleFlowStatus = () => {
+        const params = {flowId: this.flowId};
+        fetch(SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS, this.toggleFlowStatusCallBack, params);
+    };
+
+    /**
+     * Callback which gets executed after activating a flow using the in-editor activate button
+     *
+     * @param {Object} has error property if there is error fetching the data else has data property
+     */
+    toggleFlowStatusCallBack = ({data, error}) => {
+        if (error) {
+            // Handle error case here if something is needed beyond our automatic generic error modal popup
+        } else if (!data.isSuccess) {
+            this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
+        } else {
+            storeInstance.dispatch(updatePropertiesAfterActivation({status: data.status}));
         }
     };
 

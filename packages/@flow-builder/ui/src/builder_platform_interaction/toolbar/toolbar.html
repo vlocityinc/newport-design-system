@@ -69,14 +69,6 @@
                 >
                 </builder_platform_interaction-toolbar-status-icons>
             </div>
-            <div
-                if:true={flowStatus}
-                class="inline-display slds-align-middle slds-m-left_xx-small"
-            >
-                <builder_platform_interaction-flow-status
-                    flow-status={flowStatus}
-                ></builder_platform_interaction-flow-status>
-            </div>
             <lightning-button-group class="slds-m-left_xx-small">
                 <lightning-button
                     label={labels.runTitle}
@@ -100,12 +92,24 @@
                 >
                 </lightning-button>
             </lightning-button-group>
+            
+            <lightning-button 
+                    id="toggleFlowStatusButton"
+                    label={labels.activateTitle}
+                    title={labels.activateTitle}
+                    onclick={handleToggleFlowStatus}
+                    disabled={activateDisabled}
+                    class="slds-m-left_xx-small"
+            >
+            </lightning-button>
+            
             <lightning-button
                 label={labels.saveAsTitle}
                 title={labels.saveAsTitle}
                 onclick={handleSaveAs}
                 disabled={isSaveAsDisabled}
-                class="test-toolbar-saveas slds-m-left_xx-small"
+                class="test-toolbar-saveas
+                       slds-m-left_xx-small"
             >
             </lightning-button>
             <lightning-button
