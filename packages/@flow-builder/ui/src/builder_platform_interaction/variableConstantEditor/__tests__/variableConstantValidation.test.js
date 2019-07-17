@@ -1,6 +1,9 @@
 import { createElement } from 'lwc';
 import VariableConstantEditor from '../variableConstantEditor';
-import { variableConstantValidation } from '../variableConstantValidation.js';
+import {
+    variableConstantValidation,
+    getRules
+} from '../variableConstantValidation.js';
 import * as mockStoreData from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
@@ -27,7 +30,7 @@ describe('Variable Validation', () => {
 
     const validate = node => {
         return getErrorsFromHydratedElement(
-            variableConstantValidation.validateAll(node)
+            variableConstantValidation.validateAll(node, getRules(node))
         );
     };
 
