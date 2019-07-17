@@ -40,10 +40,11 @@ export function createFlowProperties(flowProperties = {}) {
         description = '',
         hasUnsavedChanges = false,
         interviewLabel = '',
-        inlineResource = null,
         isTemplate = false,
         label = '',
-        position = null,
+        lastInlineResourceGuid = null,
+        lastInlineResourcePosition = null,
+        lastInlineResourceRowIndex = null,
         processMetadataValues,
         processType = null,
         runInSystemMode = false,
@@ -69,13 +70,12 @@ export function createFlowProperties(flowProperties = {}) {
             processMetadataValues
         );
     }
-
+    // TODO: make an object that contains lastInlineResourceGuid, lastInlineResourcePosition and lastInlineResourceRowIndex
     return {
         canOnlySaveAsNewDefinition,
         description,
         elementType,
         hasUnsavedChanges,
-        inlineResource,
         interviewLabel,
         isCreatedOutsideLfb,
         isLightningFlowBuilder,
@@ -83,8 +83,10 @@ export function createFlowProperties(flowProperties = {}) {
         label,
         lastModifiedBy,
         lastModifiedDate,
+        lastInlineResourceGuid,
+        lastInlineResourcePosition,
+        lastInlineResourceRowIndex,
         name,
-        position,
         processType,
         runInSystemMode,
         status,

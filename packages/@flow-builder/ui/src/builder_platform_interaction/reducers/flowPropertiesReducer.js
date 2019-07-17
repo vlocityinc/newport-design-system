@@ -2,9 +2,9 @@ import {
     ADD_RESOURCE,
     ADD_START_ELEMENT,
     DESELECT_ON_CANVAS,
-    REMOVE_LAST_CREATED_RESOURCE,
+    REMOVE_LAST_CREATED_INLINE_RESOURCE,
     SELECT_ON_CANVAS,
-    SET_COMBOBOX_POSITION,
+    UPDATE_INLINE_RESOURCE_PROPERTIES,
     TOGGLE_ON_CANVAS,
     UPDATE_FLOW,
     UPDATE_PROPERTIES,
@@ -46,17 +46,18 @@ export default function flowPropertiesReducer(
         case ADD_RESOURCE:
             return {
                 ...state,
-                inlineResource: payload.guid
+                lastInlineResourceGuid: payload.guid
             };
-        case REMOVE_LAST_CREATED_RESOURCE:
+        case REMOVE_LAST_CREATED_INLINE_RESOURCE:
             return {
                 ...state,
-                inlineResource: null
+                lastInlineResourceGuid: null
             };
-        case SET_COMBOBOX_POSITION:
+        case UPDATE_INLINE_RESOURCE_PROPERTIES:
             return {
                 ...state,
-                comboboxPosition: payload.position
+                lastInlineResourcePosition: payload.lastInlineResourcePosition,
+                lastInlineResourceRowIndex: payload.lastInlineResourceRowIndex
             };
         case UPDATE_FLOW:
             return {

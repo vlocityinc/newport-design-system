@@ -54,9 +54,9 @@ export const MODIFY_SCREEN_WITH_FIELDS = 'MODIFY_SCREEN_WITH_FIELDS';
 
 export const ADD_START_ELEMENT = 'ADD_START_ELEMENT';
 
-export const SET_COMBOBOX_POSITION = 'SET_COMBOBOX_POSITION';
+export const UPDATE_INLINE_RESOURCE_PROPERTIES = 'UPDATE_INLINE_RESOURCE_PROPERTIES';
 
-export const REMOVE_LAST_CREATED_RESOURCE = 'REMOVE_LAST_CREATED_RESOURCE';
+export const REMOVE_LAST_CREATED_INLINE_RESOURCE = 'REMOVE_LAST_CREATED_INLINE_RESOURCE';
 
 export const PROPERTY_EDITOR_ACTION = {
     UPDATE_ELEMENT_PROPERTY: 'UPDATE_ELEMENT_PROPERTY',
@@ -349,15 +349,16 @@ export const updateCanvasElementLocation = payload =>
  * Action for resetting the inline resource to null.
  * @returns {Object} action new action based on type
  */
-export const removeLastCreatedResource = createAction(
-    REMOVE_LAST_CREATED_RESOURCE
+export const removeLastCreatedInlineResource = createAction(
+    REMOVE_LAST_CREATED_INLINE_RESOURCE
 );
 
 /**
- * Action for setting the combobox position. This is used so that the expressionBuilder
- * knows weather we are creating an inline resource for the left or right combobox
- * @param {Object} payload - contains a string `left` or `right` or null.
- * @returns {Object} action - setComboboxPosition action
+ * Action for setting the newly created inline resource properties. This is used so that the expressionBuilder knows:
+ * 1. we are creating an inline resource for the left or right combobox
+ * 2. which expressionBuilder to add the resource to when there are multiple conditions
+ * @param {Object} payload - contains a string `left` or `right` or null & the row index of the condition
+ * @returns {Object} action - updateInlineResourceProperties action
  */
-export const setComboboxPosition = payload =>
-    createAction(SET_COMBOBOX_POSITION, payload);
+export const updateInlineResourceProperties = payload =>
+    createAction(UPDATE_INLINE_RESOURCE_PROPERTIES, payload);

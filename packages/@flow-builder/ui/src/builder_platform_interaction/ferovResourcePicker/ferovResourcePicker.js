@@ -13,8 +13,8 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { InlineResourceEvent } from 'builder_platform_interaction/events';
 
 import {
-    removeLastCreatedResource,
-    setComboboxPosition
+    removeLastCreatedInlineResource,
+    updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 
 let storeInstance;
@@ -275,7 +275,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     handleAddInlineResource = e => {
         storeInstance.dispatch(
-            setComboboxPosition({ position: e.detail.position })
+            updateInlineResourceProperties({ lastInlineResourcePosition: e.detail.position })
         );
     };
 
@@ -293,14 +293,14 @@ export default class FerovResourcePicker extends LightningElement {
 
     findNewResource = () => {
         const inlineResourceId = storeInstance.getCurrentState().properties
-            .inlineResource;
+            .lastInlineResourceGuid;
         return storeInstance.getCurrentState().elements[inlineResourceId];
     };
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
             if (
-                storeInstance.getCurrentState().properties.comboboxPosition ===
+                storeInstance.getCurrentState().properties.lastInlineResourcePosition ===
                 'ferovInlineResource'
             ) {
                 const newResource = this.findNewResource();
@@ -310,7 +310,7 @@ export default class FerovResourcePicker extends LightningElement {
                         newResource
                     );
                     this.dispatchEvent(newResourceEvent);
-                    storeInstance.dispatch(removeLastCreatedResource);
+                    storeInstance.dispatch(removeLastCreatedInlineResource);
                 }
             }
             this._baseResourcePicker.setMenuData(

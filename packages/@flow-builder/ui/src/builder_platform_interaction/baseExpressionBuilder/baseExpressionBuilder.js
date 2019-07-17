@@ -35,8 +35,8 @@ import { saveExpression } from 'builder_platform_interaction/expressionValidator
 import { Store } from 'builder_platform_interaction/storeLib';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import {
-    removeLastCreatedResource,
-    setComboboxPosition
+    removeLastCreatedInlineResource,
+    updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
@@ -638,7 +638,7 @@ export default class BaseExpressionBuilder extends LightningElement {
      */
     handleStoreChange = () => {
         const position = storeInstance.getCurrentState().properties
-            .comboboxPosition;
+            .lastInlineResourcePosition;
         if (!position) {
             this.setLhsMenuData();
             this.setRhsMenuData();
@@ -808,11 +808,13 @@ export default class BaseExpressionBuilder extends LightningElement {
     };
 
     handleAddNewResource(event) {
-        storeInstance.dispatch(
-            setComboboxPosition({
-                position: event.detail.position
-            })
-        );
+        if (event && event.detail) {
+            const payload = {
+                lastInlineResourcePosition: event.detail.position,
+                lastInlineResourceRowIndex: this.rowIndex
+            };
+            storeInstance.dispatch(updateInlineResourceProperties(payload));
+        }
     }
 
     /**
@@ -897,18 +899,18 @@ export default class BaseExpressionBuilder extends LightningElement {
             );
         }
 
-        const newResource = storeInstance.getCurrentState().properties
-            .inlineResource;
-        if (newResource != null) {
+        const { lastInlineResourceGuid : newResourceGuid, lastInlineResourceRowIndex: newResourceRowIndex} = storeInstance.getCurrentState().properties;
+
+        if (newResourceGuid != null && this.rowIndex === newResourceRowIndex) {
             this.state = {
                 ...this.state,
                 operatorAndRhsDisabled: false
             };
             this.setInlineResource(
-                storeInstance.getCurrentState().properties.comboboxPosition,
-                newResource
+                storeInstance.getCurrentState().properties.lastInlineResourcePosition,
+                newResourceGuid
             );
-            storeInstance.dispatch(removeLastCreatedResource);
+            storeInstance.dispatch(removeLastCreatedInlineResource);
         }
     }
 
