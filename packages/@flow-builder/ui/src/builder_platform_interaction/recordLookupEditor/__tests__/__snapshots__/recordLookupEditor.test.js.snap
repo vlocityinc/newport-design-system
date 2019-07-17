@@ -88,11 +88,13 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -450,11 +452,13 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -743,11 +747,13 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -1254,11 +1260,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Adding 
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -1682,11 +1690,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -1988,11 +1998,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -2294,11 +2306,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -2667,11 +2681,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -2906,11 +2922,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -3145,11 +3163,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -3446,11 +3466,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
@@ -3739,11 +3761,13 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
           <div
             class="slds-m-bottom_small slds-border_top"
           >
-            <h3
-              class="slds-text-heading_small slds-p-around_small"
-            >
-              FlowBuilderRecordEditor.findRecords
-            </h3>
+            <div>
+              <h3
+                class="slds-text-heading_small slds-p-around_small"
+              >
+                FlowBuilderRecordEditor.findRecords
+              </h3>
+            </div>
             <div
               class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
