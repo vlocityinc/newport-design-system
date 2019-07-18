@@ -5,6 +5,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
 import { LABELS } from './resourceDetailsLabels';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export default class ResourceDetails extends LightningElement {
     @api resourceDetails;
@@ -22,7 +23,10 @@ export default class ResourceDetails extends LightningElement {
     }
 
     get hasApiName() {
-        return !!this.resourceDetails.apiName;
+        return (
+            !!this.resourceDetails.apiName &&
+            !this.isAutomaticOutputFromGetRecord()
+        );
     }
 
     get hasDescription() {
@@ -77,5 +81,12 @@ export default class ResourceDetails extends LightningElement {
             this.resourceDetails.elementType
         );
         this.dispatchEvent(deleteEvent);
+    }
+
+    isAutomaticOutputFromGetRecord() {
+        return (
+            this.resourceDetails.elementType === ELEMENT_TYPE.RECORD_LOOKUP &&
+            this.resourceDetails.storeOutputAutomatically
+        );
     }
 }

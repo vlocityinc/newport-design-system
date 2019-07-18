@@ -40,12 +40,22 @@ const SELECTORS = {
     createdByList: 'builder_platform_interaction-used-by-content',
     usedByList: 'builder_platform_interaction-used-by-content',
     resourceDetailsParameters:
-        'builder_platform_interaction-resource-details-parameters'
+        'builder_platform_interaction-resource-details-parameters',
+    detailsSectionLi: '.resource-detail-panel-body li'
 };
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
+
+const getApiNameLineTextContent = resourceDetailsComponent =>
+    Array.from(
+        resourceDetailsComponent.shadowRoot.querySelectorAll(
+            SELECTORS.detailsSectionLi
+        )
+    )
+        .map(li => li.textContent)
+        .find(textContent => textContent && textContent.includes('uniqueName'));
 
 describe('Resource Details', () => {
     describe('For elements', () => {
@@ -158,6 +168,11 @@ describe('Resource Details', () => {
                 );
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
+            it('should not display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+
+                expect(apiName).not.toBeDefined();
+            });
         });
         describe('Extension (ie: lightning component) screenfield as a resource', () => {
             let resourceDetailsComponent;
@@ -197,6 +212,11 @@ describe('Resource Details', () => {
                 );
                 expect(resourceDetailsParametersComponent).not.toBeNull();
             });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+
+                expect(apiName).toContain('email1');
+            });
         });
     });
     describe("'Resource NOT in automatic output handling mode", () => {
@@ -214,6 +234,11 @@ describe('Resource Details', () => {
                 );
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+
+                expect(apiName).toContain('myGetAccount2');
+            });
         });
         describe('Extension (ie: lightning component) screenfield as a resource', () => {
             beforeAll(() => {
@@ -226,6 +251,11 @@ describe('Resource Details', () => {
                     SELECTORS.resourceDetailsParameters
                 );
                 expect(resourceDetailsParametersComponent).toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+
+                expect(apiName).toContain('email1');
             });
         });
         describe('"Account record variable as a resource', () => {
@@ -248,6 +278,11 @@ describe('Resource Details', () => {
                 expect(resourceDetailsComponent.createdByElements).toHaveLength(
                     0
                 );
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+
+                expect(apiName).toContain('vAccount');
             });
         });
     });
