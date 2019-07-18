@@ -29,7 +29,7 @@
     border: 0;
     background-clip: padding-box;
     margin-#{$right}: 1.25rem;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
     margin-bottom: 2.5rem;
 
     .nds-checkbox_faux,
@@ -58,7 +58,7 @@
     &:first-child>.nds-checkbox_button__label,
     &:first-child>.nds-checkbox--button__label {
       border: 1px solid $button-color-border-primary;
-      border-radius: 0.25rem;
+      border-radius: $border-radius-medium;
       width: 100%;
     }
 
@@ -69,7 +69,7 @@
     &:last-child>.nds-checkbox_button__label,
     &:last-child>.nds-checkbox--button__label {
       width: 100%;
-      border-radius: 0.25rem;
+      border-radius: $border-radius-medium;
     }
 
 
@@ -202,7 +202,7 @@
   .nds-checkbox_button__label,
   .nds-checkbox--button__label {
     background-color: transparent;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
     width: 100%;
 
     &:hover,
@@ -248,15 +248,11 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
 }
 
 .nds-checkbox_custom-group input[type="checkbox"]:checked+.nds-img_select-cont .nds-img-item_select-container {
-  border: 2px solid #05a6df;
+  border: 2px solid $color-border-input-active;
 }
 
 .nds-checkbox_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
   cursor: pointer;
-}
-
-.nds-checkbox_custom-group.nds-img-wrapper_cont input[type="checkbox"]:checked+label.nds-img_no-width-height {
-  border: 2px solid #05a6df;
 }
 
 .nds-img_select-cont {
@@ -288,7 +284,7 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
 
 .nds-checkbox_custom-group .nds-img-item_select-container {
   cursor: pointer;
-  border: 2px solid #d8dde6;
+  border: 2px solid $newport-gray-border-primary;
   position: relative;
   height: 100%;
   width: 100%;
@@ -304,17 +300,17 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
   margin: 0.5rem 1rem 0.5rem 0px;
   height: inherit;
   width: inherit;
-  border-radius: 0.1875rem;
+  border-radius: $border-radius-medium;
   position: relative;
 }
 
-.nds-img_no-width-height {
+.nds-checkbox_custom-group .nds-img_no-width-height {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 }
 
 .nds-caption-out_cont {
@@ -324,5 +320,5 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
   text-overflow: ellipsis;
   text-align: center;
   width: inherit;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 }
