@@ -64,7 +64,10 @@ export function createStartElement(startElement = {}) {
         triggerType,
         filterType,
         startDate,
-        startTime,
+        startTime:
+            startTime && startTime.timeInMillis
+                ? getISOTimeFromMillis(startTime.timeInMillis)
+                : startTime,
         frequency,
         object,
         objectIndex,
@@ -142,4 +145,13 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object: object === '' ? undefined : object,
         filters: recordFilters
     });
+}
+
+function getISOTimeFromMillis(timeinMillis) {
+    const date = new Date(timeinMillis);
+    // ISO Time is in this format: 2008-09-15T15:53:00Z, and we just care about the latter time portion minus the Z
+    return date
+        .toISOString()
+        .slice(0, -1)
+        .split('T')[1];
 }
