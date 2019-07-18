@@ -41,7 +41,7 @@
     background-clip: padding-box;
     margin-#{$right}: 1.25rem;
     margin-bottom: 2.5rem;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
 
     /**
      * Create styled button when adjacent to the input[radio] element
@@ -91,7 +91,7 @@
     .nds-button--last>.nds-radio--faux,
     &:last-child>.nds-radio_button__label,
     &:last-child>.nds-radio--button__label {
-      border-radius: 0.25rem;
+      border-radius: $border-radius-medium;
       width: 100%;
     }
 
@@ -226,7 +226,7 @@
   .nds-radio_button__label,
   .nds-radio--button__label {
     background-color: transparent;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
     padding: 0;
     width: 100%;
 
@@ -303,7 +303,7 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
 }
 
 .nds-radio_custom-group.nds-static-wrapper input[type="radio"]:checked+.nds-img_select-container {
-  border: 2px solid #05a6df;
+  border: 2px solid $color-border-input-active;
 }
 
 .nds-radio_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
@@ -311,7 +311,7 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
 }
 
 .nds-radio_custom-group.nds-img-wrapper_cont input[type="radio"]:checked+label.nds-img_no-width-height {
-  border: 2px solid #05a6df;
+  border: 2px solid $color-border-input-active;
 }
 
 .nds-img_select-container {
@@ -364,18 +364,18 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   display: inline-block;
   height: inherit;
   width: inherit;
-  border-radius: 0.1875rem;
+  border-radius: $border-radius-medium;
   position: relative;
 }
 
-.nds-img_no-width-height {
+.nds-radio_custom_container .nds-img_no-width-height {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  margin-bottom: 30px;
-  border: 2px solid #d8dde6;
+  margin-bottom: 1.875rem;
+  border: 2px solid $newport-gray-border-primary;
 }
 
 .nds-caption-out_cont {
@@ -385,5 +385,5 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   text-overflow: ellipsis;
   text-align: center;
   width: inherit;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 }
