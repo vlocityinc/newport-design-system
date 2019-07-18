@@ -47,7 +47,6 @@ export function createFlowProperties(flowProperties = {}) {
         lastInlineResourceRowIndex = null,
         processMetadataValues,
         processType = null,
-        runInSystemMode = false,
         status
     } = flowProperties.metadata || flowProperties;
 
@@ -88,7 +87,6 @@ export function createFlowProperties(flowProperties = {}) {
         lastInlineResourceRowIndex,
         name,
         processType,
-        runInSystemMode,
         status,
         versionNumber
     };
@@ -110,7 +108,6 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         isTemplate,
         label,
         processType,
-        runInSystemMode,
         status
     } = flowProperties;
 
@@ -124,7 +121,6 @@ export function createFlowPropertiesMetadataObject(flowProperties) {
         label,
         processMetadataValues,
         processType,
-        runInSystemMode,
         status
     };
 }
