@@ -95,6 +95,7 @@ import {
     setProcessTypes,
     setProcessTypeFeature
 } from 'builder_platform_interaction/systemLib';
+import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 
 let unsubscribeStore;
@@ -733,14 +734,17 @@ export default class Editor extends LightningElement {
         }
     };
 
-
     /**
      * Handles the toggle flow status event fired by a toolbar. Changes the flow status from obsolete or
      * draft to active or vice versa.
      */
     handleToggleFlowStatus = () => {
-        const params = {flowId: this.flowId};
-        fetch(SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS, this.toggleFlowStatusCallBack, params);
+        const params = { flowId: this.flowId };
+        fetch(
+            SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS,
+            this.toggleFlowStatusCallBack,
+            params
+        );
     };
 
     /**
@@ -748,13 +752,15 @@ export default class Editor extends LightningElement {
      *
      * @param {Object} has error property if there is error fetching the data else has data property
      */
-    toggleFlowStatusCallBack = ({data, error}) => {
+    toggleFlowStatusCallBack = ({ data, error }) => {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else if (!data.isSuccess) {
             this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
         } else {
-            storeInstance.dispatch(updatePropertiesAfterActivation({status: data.status}));
+            storeInstance.dispatch(
+                updatePropertiesAfterActivation({ status: data.status })
+            );
         }
     };
 
@@ -793,7 +799,7 @@ export default class Editor extends LightningElement {
      */
     handleAddCanvasElement = event => {
         if (event && event.type && event.detail) {
-            logPerfTransactionStart("PropertyEditor");
+            logPerfTransactionStart('PropertyEditor');
             const mode = event.type;
             const node = getElementForPropertyEditor({
                 locationX: event.detail.locationX,
@@ -822,7 +828,6 @@ export default class Editor extends LightningElement {
      */
     handleEditElement = event => {
         if (event && event.detail && event.type) {
-            logPerfTransactionStart("PropertyEditor");
             const mode = event.type;
             const guid = event.detail.canvasElementGUID;
             const node = getElementForPropertyEditor(
@@ -831,19 +836,25 @@ export default class Editor extends LightningElement {
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
-            this.queueOpenPropertyEditor({
-                mode,
-                nodeUpdate,
-                node,
-                newResourceCallback,
-                processType
-            });
-            if (node && node.isCanvasElement) {
-                storeInstance.dispatch(
-                    selectOnCanvas({
-                        guid
-                    })
-                );
+            if (
+                node.elementType !== ELEMENT_TYPE.START_ELEMENT ||
+                isConfigurableStartSupported(processType)
+            ) {
+                logPerfTransactionStart('PropertyEditor');
+                this.queueOpenPropertyEditor({
+                    mode,
+                    nodeUpdate,
+                    node,
+                    newResourceCallback,
+                    processType
+                });
+                if (node && node.isCanvasElement) {
+                    storeInstance.dispatch(
+                        selectOnCanvas({
+                            guid
+                        })
+                    );
+                }
             }
         }
     };
@@ -1045,7 +1056,13 @@ export default class Editor extends LightningElement {
     createFlowFromTemplateCallback = modal => {
         const { templateId, processType } = getSelectedTemplate(modal);
         if (templateId) {
-            logInteraction('create-new-flow-button', 'editor-component', templateId, 'click', 'user');
+            logInteraction(
+                'create-new-flow-button',
+                'editor-component',
+                templateId,
+                'click',
+                'user'
+            );
             // create the flow from the template
             this.createFlowFromTemplate(templateId, modal);
             this.isFlowServerCallInProgress = true;
@@ -1053,7 +1070,13 @@ export default class Editor extends LightningElement {
         } else {
             if (processType) {
                 // create the empty flow for the selected process type
-                logInteraction('create-new-flow-button', 'editor-component', processType, 'click', 'user');
+                logInteraction(
+                    'create-new-flow-button',
+                    'editor-component',
+                    processType,
+                    'click',
+                    'user'
+                );
                 this.spinners.showFlowMetadataSpinner = true;
                 this.createFlowFromProcessType(processType);
                 this.spinners.showFlowMetadataSpinner = false;

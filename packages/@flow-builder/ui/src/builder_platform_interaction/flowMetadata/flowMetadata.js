@@ -279,7 +279,8 @@ export const FLOW_STATUS = {
 };
 
 export const FLOW_SUPPORTED_FEATURES = {
-    CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility'
+    CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility',
+    CONFIGURABLE_START: 'ConfigurableStart'
 };
 
 export const FLOW_TRIGGER_TYPE = {

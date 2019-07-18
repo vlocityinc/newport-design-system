@@ -18,11 +18,6 @@ import {
     getPropertyOrDefaultToTrue
 } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
-import {
-    ELEMENT_TYPE,
-    FLOW_PROCESS_TYPE
-} from 'builder_platform_interaction/flowMetadata';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
 
 /**
@@ -38,6 +33,22 @@ export default class Node extends LightningElement {
     @api node = {
         config: {}
     };
+
+    getNodeConfig() {
+        return getConfigForElementType(this.node.elementType).nodeConfig;
+    }
+
+    isSelectable() {
+        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'isSelectable');
+    }
+
+    isEditable() {
+        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'isEditable');
+    }
+
+    getIconShape() {
+        return this.getNodeConfig().iconShape;
+    }
 
     get nodeLocation() {
         return `left: ${this.node.locationX}px; top: ${this.node.locationY}px`;
@@ -187,12 +198,7 @@ export default class Node extends LightningElement {
     handleDblClick = event => {
         event.stopPropagation();
 
-        if (
-            this.isSelectable() &&
-            (this.node.elementType !== ELEMENT_TYPE.START_ELEMENT ||
-                Store.getStore().getCurrentState().properties.processType ===
-                    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
-        ) {
+        if (this.isEditable()) {
             const canvasElementGUID = this.node.guid;
             const editElementEvent = new EditElementEvent(canvasElementGUID);
             this.dispatchEvent(editElementEvent);
@@ -294,17 +300,5 @@ export default class Node extends LightningElement {
             });
             this.currentNodeLabel = this.nodeLabel;
         }
-    }
-
-    getNodeConfig() {
-        return getConfigForElementType(this.node.elementType).nodeConfig;
-    }
-
-    isSelectable() {
-        return getPropertyOrDefaultToTrue(this.getNodeConfig(), 'isSelectable');
-    }
-
-    getIconShape() {
-        return this.getNodeConfig().iconShape;
     }
 }

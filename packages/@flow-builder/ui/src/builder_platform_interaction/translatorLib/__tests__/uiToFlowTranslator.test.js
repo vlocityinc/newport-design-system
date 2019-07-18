@@ -38,7 +38,14 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
         },
         TEMPLATE_FIELDS: new Set(),
         REFERENCE_FIELDS: new Set(),
-        SPECIAL_REFERENCE_FIELDS: new Set()
+        SPECIAL_REFERENCE_FIELDS: new Set(),
+        FLOW_PROCESS_TYPE: {
+            AUTO_LAUNCHED_FLOW: 'AutoLaunchedFlow'
+        },
+        FLOW_SUPPORTED_FEATURES: {
+            CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility',
+            CONFIGURABLE_START: 'ConfigurableStart'
+        }
     };
 });
 jest.mock('builder_platform_interaction/elementConfig', () => {

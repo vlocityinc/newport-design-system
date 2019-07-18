@@ -21,7 +21,7 @@ elementConfig.getConfigForElementType = jest
         return elementType === ELEMENT_TYPE.START_ELEMENT
             ? {
                   isDeletable: false,
-                  nodeConfig: { isSelectable: false },
+                  nodeConfig: { isSelectable: false, isEditable: false },
                   labels: {}
               }
             : elementConfig.elementTypeToConfigMap[elementType];
@@ -159,7 +159,7 @@ describe('node', () => {
         });
     });
 
-    it('Checks that EditElementEvent is not dispatched when element configured to be non-selectable is double clicked', () => {
+    it('Checks that EditElementEvent is not dispatched when element configured to be non-editable is double clicked', () => {
         const nodeComponent = createComponentUnderTest(
             false,
             false,

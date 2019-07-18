@@ -1,7 +1,7 @@
 export * from './actionCall';
 export * from './apexPlugin';
 export * from './assignment';
-export { createCondition } from './base/baseElement';
+export { createCondition, baseCanvasElement } from './base/baseElement';
 export * from './base/dynamicChoiceSet';
 export { createFilter } from './base/baseRecordElement';
 export { createOutputAssignment } from './base/outputAssignments';

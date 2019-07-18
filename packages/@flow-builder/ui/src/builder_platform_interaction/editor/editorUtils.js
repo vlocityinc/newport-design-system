@@ -8,7 +8,8 @@ import {
     updateProperties,
     updatePropertiesAfterSaveFailed,
     highlightOnCanvas,
-    addElement
+    addElement,
+    updateElement
 } from 'builder_platform_interaction/actions';
 import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
@@ -25,6 +26,7 @@ import {
     setSystemVariables,
     setSupportedFeatures
 } from 'builder_platform_interaction/systemLib';
+import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import {
     getFlowSystemVariableComboboxItem,
     getGlobalVariableTypeComboboxItems
@@ -35,6 +37,10 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getPropertyOrDefaultToTrue } from 'builder_platform_interaction/commonUtils';
+import {
+    baseCanvasElement,
+    createStartElement as createBasicStartElement
+} from 'builder_platform_interaction/elementFactory';
 
 /**
  * Helper method to determine if the connector is an associated connector or not
@@ -133,6 +139,19 @@ const doDeleteOrInvokeAlert = (
             selectedElementGUIDs,
             elementType,
             storeElements
+        );
+    }
+};
+
+const resetStartElementIfNeeded = (storeInstance, processType) => {
+    if (!isConfigurableStartSupported(processType)) {
+        const startElement = Object.values(
+            storeInstance.getCurrentState().elements
+        ).find(element => element.elementType === ELEMENT_TYPE.START_ELEMENT);
+        storeInstance.dispatch(
+            updateElement(
+                createBasicStartElement(baseCanvasElement(startElement))
+            )
         );
     }
 };
@@ -297,6 +316,7 @@ export const saveAsFlowCallback = (
     }
     const { saveType } = flowProperties;
     flowPropertiesCallback(storeInstance)(flowProperties);
+    resetStartElementIfNeeded(storeInstance, flowProperties.processType);
     saveFlowFn(saveType);
 };
 
