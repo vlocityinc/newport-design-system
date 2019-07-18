@@ -162,6 +162,7 @@ export const writableElementsSelector = createSelector(
     getFilteredElements(
         element =>
             element.elementType === ELEMENT_TYPE.VARIABLE ||
+            (element.elementType === ELEMENT_TYPE.START_ELEMENT && !!element.object) ||
             element.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
             element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
     )
@@ -169,7 +170,7 @@ export const writableElementsSelector = createSelector(
 export const readableElementsSelector = createSelector(
     [elementsSelector],
     getFilteredElements(
-        element => element.elementType !== ELEMENT_TYPE.START_ELEMENT
+        element => element.elementType !== ELEMENT_TYPE.START_ELEMENT || !!element.object
     )
 );
 export const collectionElementsSelector = createSelector(

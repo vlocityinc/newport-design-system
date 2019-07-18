@@ -33,6 +33,7 @@ import {
 } from './menuDataGenerator';
 import newResourceLabel from '@salesforce/label/FlowBuilderExpressionUtils.newResourceLabel';
 import picklistValuesLabel from '@salesforce/label/FlowBuilderExpressionUtils.picklistValuesLabel';
+import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import {
     GLOBAL_CONSTANT_OBJECTS,
     getSystemVariables,
@@ -467,9 +468,12 @@ export function filterAndMutateMenuData(
         menuDataElements.push(...Object.values(GLOBAL_CONSTANT_OBJECTS));
     }
 
+    // Create menu items from flow elements, sort them and group by their category.
     const menuData = menuDataElements
         .filter(element =>
-            isElementAllowed(allowedParamTypes, element, !disableHasNext)
+            isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
+            // exclude the start element so that it is easier to add back as a global var below
+            element.elementType !== ELEMENT_TYPE.START_ELEMENT
         )
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
@@ -482,18 +486,56 @@ export function filterAndMutateMenuData(
         .sort(compareElementsByCategoryThenDevName)
         .reduce(sortIntoCategories, []);
 
+    // Add system and global variables, if requested
+    let systemAndGlobalVariableMenuItem;
     const systemVariablesAllowed =
         showSystemVariables &&
         (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
     if (systemVariablesAllowed || showGlobalVariables) {
-        menuData.push(
-            getSystemAndGlobalVariableMenuData(
+        const systemAndGlobalVariableMenuData = getSystemAndGlobalVariableMenuData(
                 systemVariablesAllowed,
-                showGlobalVariables
-            )
-        );
+                showGlobalVariables);
+        if (systemAndGlobalVariableMenuData) {
+            systemAndGlobalVariableMenuItem = {
+                label: systemGlobalVariableCategoryLabel,
+                items: systemAndGlobalVariableMenuData
+            };
+            menuData.push(systemAndGlobalVariableMenuItem);
+        }
     }
 
+    // Add the start element as $Record under Global Variables
+    const startElement = menuDataElements.find(element =>
+            isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
+            // exclude the start element so that it is easier to add back as a global var below
+            element.elementType === ELEMENT_TYPE.START_ELEMENT
+        );
+    if (startElement) {
+        // Create a menu item for the start element
+        const startElementMenuItem = mutateFlowResourceToComboboxShape(startElement);
+        if (disableHasNext) {
+            startElementMenuItem.hasNext = false;
+            startElementMenuItem.rightIconName = '';
+        }
+
+        // Add the start element menu item either to the existing Global Variables menu group or create a new group
+        if (systemAndGlobalVariableMenuItem) {
+            systemAndGlobalVariableMenuItem.items.push(startElementMenuItem);
+        } else {
+            // Create a new menu group Global Variables
+            menuData.push({
+                label: systemGlobalVariableCategoryLabel,
+                items: [startElementMenuItem]
+            });
+        }
+    }
+
+    // Sort menu items in the Global Variables menu group
+    if (systemAndGlobalVariableMenuItem && systemAndGlobalVariableMenuItem.items) {
+        systemAndGlobalVariableMenuItem.items.sort((a, b) => a.displayText - b.displayText);
+    }
+
+    // Add picklist values to the top of the menu under the Picklist Values category
     if (
         activePicklistValues &&
         activePicklistValues.length > 0 &&
@@ -504,6 +546,7 @@ export function filterAndMutateMenuData(
         menuData.unshift(picklistMenuData);
     }
 
+    // Add the New Resource entry as the top entry, if requested
     if (includeNewResource) {
         menuData.unshift(getNewResourceItem());
     }

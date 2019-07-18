@@ -10,7 +10,10 @@ import {
 } from './menuDataGenerator';
 import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
-import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
+import {
+    getElementByGuid,
+    getElementByDevName
+} from 'builder_platform_interaction/storeUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
 import {
     FEROV_DATA_TYPE,
@@ -70,14 +73,14 @@ export const getItemOrDisplayText = event => {
  * @return {Object|undefined}    element or resource if the identifier is valid, otherwise undefined
  */
 export const getResourceByUniqueIdentifier = identifier => {
-    const complexGuid = sanitizeGuid(identifier);
-    let resource =
-        getElementByGuid(complexGuid.guidOrLiteral) ||
-        getGlobalConstantOrSystemVariable(identifier);
-    if (!resource && identifier && identifier.startsWith('$')) {
-        resource = getGlobalVariable(identifier);
+    if (identifier) {
+        const complexGuid = sanitizeGuid(identifier);
+        return getElementByGuid(complexGuid.guidOrLiteral) ||
+            getGlobalConstantOrSystemVariable(identifier) ||
+            getGlobalVariable(identifier) ||
+            getElementByDevName(complexGuid.guidOrLiteral);
     }
-    return resource;
+    return null;
 };
 
 /**

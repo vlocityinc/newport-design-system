@@ -25,6 +25,8 @@ jest.mock('builder_platform_interaction/systemLib', () => {
             EMPTY_STRING: emptyString
         },
         GLOBAL_CONSTANT_PREFIX: '$GlobalConstant',
+        SYSTEM_VARIABLE_PREFIX: '$Flow',
+        SYSTEM_VARIABLE_CLIENT_PREFIX: '$Client',
         getGlobalConstantOrSystemVariable: id => {
             if (id === currentDateSystemVariable) {
                 return {

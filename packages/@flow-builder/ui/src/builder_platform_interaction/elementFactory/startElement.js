@@ -14,6 +14,8 @@ import {
 } from './base/baseRecordElement';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -73,6 +75,17 @@ export function createStartElement(startElement = {}) {
         objectIndex,
         filters: recordFilters
     });
+
+    // If the start element is linked to an sobject, then make the element look like a data element.
+    if (object) {
+        Object.assign(newStartElement, {
+            name: SYSTEM_VARIABLE_RECORD_PREFIX,
+            dataType: FLOW_DATA_TYPE.SOBJECT.value,
+            subtype: object,
+            isCollection: false,
+            isAssignable: true
+        });
+    }
 
     return newStartElement;
 }

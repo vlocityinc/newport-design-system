@@ -8,6 +8,8 @@ import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './mergeFieldValidationLabels';
 import {
     GLOBAL_CONSTANT_PREFIX,
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
     getGlobalConstantOrSystemVariable
 } from 'builder_platform_interaction/systemLib';
 import {
@@ -26,10 +28,7 @@ import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'build
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
 // This regex does not support Cross-Object field references
-const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+)\}/g;
-
-const SYSTEM_VARIABLE_PREFIX = '$Flow.';
-const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client.';
+const MERGEFIELD_REGEX = /\{!(\$\w+\.\w+|\w+\.\w+|\w+|\$Record)\}/gi;
 
 const VALIDATION_ERROR_TYPE = {
     INVALID_MERGEFIELD: 'notAValidMergeField',
@@ -137,13 +136,15 @@ export class MergeFieldsValidation {
     }
 
     _isSystemVariableMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_PREFIX);
+        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_PREFIX + '.');
     }
 
     _isSystemVariableClientMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(
-            SYSTEM_VARIABLE_CLIENT_PREFIX
-        );
+        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_CLIENT_PREFIX + '.');
+    }
+
+    _isSystemVariableRecordMergeField(mergeFieldReferenceValue) {
+        return /^\$Record/i.test(mergeFieldReferenceValue);
     }
 
     _isGlobalVariableMergeField(mergeFieldReferenceValue) {
@@ -151,7 +152,8 @@ export class MergeFieldsValidation {
             mergeFieldReferenceValue.startsWith('$') &&
             !this._isGlobalConstantMergeField(mergeFieldReferenceValue) &&
             !this._isSystemVariableMergeField(mergeFieldReferenceValue) &&
-            !this._isSystemVariableClientMergeField(mergeFieldReferenceValue)
+            !this._isSystemVariableClientMergeField(mergeFieldReferenceValue) &&
+            !this._isSystemVariableRecordMergeField(mergeFieldReferenceValue)
         );
     }
 

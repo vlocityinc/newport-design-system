@@ -6,8 +6,11 @@ import { removeCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import {
     getSystemVariables,
     SYSTEM_VARIABLE_PREFIX,
-    SYSTEM_VARIABLE_CLIENT_PREFIX
+    SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PREFIX
 } from './systemVariables';
+
+const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [GLOBAL_CONSTANT_PREFIX, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX];
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -16,19 +19,9 @@ import {
  * @param {String} id             id to check
  * @returns {Boolean}    true if the id might point to a non-element resource, false otherwise
  */
-export const isGlobalConstantOrSystemVariableId = id => {
-    if (!id) {
-        return false;
-    }
-    const prefix = removeCurlyBraces(id).split('.')[0];
-    return (
-        [
-            GLOBAL_CONSTANT_PREFIX,
-            SYSTEM_VARIABLE_PREFIX,
-            SYSTEM_VARIABLE_CLIENT_PREFIX
-        ].indexOf(prefix) >= 0
-    );
-};
+export const isGlobalConstantOrSystemVariableId = (id) => !!id && GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
+export const isRecordSystemVariableIdentifier = (id) => !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
+export const isRecordSystemVariableCompositeIdentifier = (id) => !!id && typeof id === 'string' && isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
 
 /**
  * Returns Global Constant or System Variable referenced by id
@@ -51,8 +44,10 @@ export {
 export {
     setSystemVariables,
     getSystemVariables,
+    isSystemVariablesCategoryNotEmpty,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
+    SYSTEM_VARIABLE_RECORD_PREFIX,
     SYSTEM_VARIABLES
 } from './systemVariables';
 export {

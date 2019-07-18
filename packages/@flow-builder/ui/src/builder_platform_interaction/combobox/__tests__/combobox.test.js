@@ -66,7 +66,8 @@ jest.mock('builder_platform_interaction/systemLib', () => {
                 id.startsWith(globalConstantPrefix) ||
                 id.startsWith(systemVariablePrefix)
             );
-        }
+        },
+        isRecordSystemVariableIdentifier: id => id.startsWith('$Record')
     };
 });
 

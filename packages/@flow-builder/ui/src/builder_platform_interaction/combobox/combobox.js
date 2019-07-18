@@ -28,7 +28,10 @@ import {
     isTextWithMergeFields
 } from 'builder_platform_interaction/mergeFieldLib';
 import { getElementFromParentElementCache } from 'builder_platform_interaction/comboboxCache';
-import { isGlobalConstantOrSystemVariableId } from 'builder_platform_interaction/systemLib';
+import {
+    isGlobalConstantOrSystemVariableId,
+    isRecordSystemVariableIdentifier
+} from 'builder_platform_interaction/systemLib';
 import {
     normalizeDateTime,
     createMetadataDateTime,
@@ -1409,6 +1412,11 @@ export default class Combobox extends LightningElement {
             );
             let i = 0;
             while (regexResult && i < mergeFieldArray.length) {
+                // Let the check proceed, if the first part is $Record. This is necessary because $Record isn't
+                // a system variable such as the others.
+                if (i === 0 && isRecordSystemVariableIdentifier(mergeFieldArray[i])) {
+                    regexResult = true;
+                } else
                 // don't execute regex on empty strings
                 if (mergeFieldArray[i]) {
                     regexResult = MERGE_FIELD_REGEX.exec(mergeFieldArray[i]);

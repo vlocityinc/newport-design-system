@@ -73,6 +73,7 @@ jest.mock('builder_platform_interaction/storeUtils', () => {
             // getElementByGuid returns undefined if no element can be found, this is by design
             return undefined;
         },
+        getElementByDevName: jest.fn(),
         getDuplicateDevNameElements: jest.fn(),
         isDevNameInStore: jest.fn()
     };

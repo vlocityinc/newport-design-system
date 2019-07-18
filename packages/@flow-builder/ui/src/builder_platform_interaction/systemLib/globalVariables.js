@@ -100,9 +100,11 @@ export const getGlobalVariables = typeName => {
  * @returns {Object|null}  object representing the global variable if this id is valid
  */
 export const getGlobalVariable = id => {
-    const ref = id.split('.');
-    if (globalVariables && globalVariables[ref[0]]) {
-        return globalVariables[ref[0]][ref[1]];
+    if (id) {
+        const ref = id.split('.');
+        if (globalVariables && globalVariables[ref[0]]) {
+            return globalVariables[ref[0]][ref[1]];
+        }
     }
     return null;
 };

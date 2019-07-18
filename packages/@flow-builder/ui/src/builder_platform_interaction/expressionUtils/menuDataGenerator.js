@@ -7,8 +7,9 @@ import {
     isGlobalConstantOrSystemVariableId,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
-    getSystemVariables,
-    getGlobalVariableTypes
+    SYSTEM_VARIABLE_RECORD_PREFIX,
+    getGlobalVariableTypes,
+    isSystemVariablesCategoryNotEmpty
 } from 'builder_platform_interaction/systemLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import {
@@ -20,6 +21,7 @@ import { isComplexType } from 'builder_platform_interaction/dataTypeLib';
 import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory';
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
@@ -92,7 +94,7 @@ function getSubText(dataType, subtype, label) {
  * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
  * @returns {MenuItem}  the generated menu item
  */
-export const createMenuItem = (
+const createMenuItem = (
     type,
     text,
     subText,
@@ -102,8 +104,7 @@ export const createMenuItem = (
     parent,
     dataType,
     subtype
-) => {
-    return {
+) => ({
         type,
         text,
         subText,
@@ -114,8 +115,7 @@ export const createMenuItem = (
         parent,
         dataType,
         subtype
-    };
-};
+    });
 
 /**
  * Determines whether to show the dataType as the subtext or not
@@ -193,22 +193,35 @@ export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {
         iconSize: ICON_SIZE
     };
-    const isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
-    const resourceLabel = resource.type ? resource.type.label : resource.label;
-    const resourceIcon = resource.type ? resource.type.icon : resource.iconName;
-    const resourceDataType = getDataType(resource);
-    const elementCategory = getResourceCategory({
-        elementType: resource.elementType,
-        dataType: resourceDataType,
-        isCollection: resource.isCollection
-    });
 
-    newElement.text = getResourceLabel(resource);
+    let resourceIcon;
+    const resourceDataType = getDataType(resource);
+    const resourceLabel = resource.type ? resource.type.label : resource.label;
+    let elementCategory;
+    let isNonElement;
+
+    if (resource.elementType === ELEMENT_TYPE.START_ELEMENT) {
+        resourceIcon = ICON_TYPE + ':system_and_global_variable';
+        elementCategory = systemGlobalVariableCategoryLabel;
+        newElement.text = SYSTEM_VARIABLE_RECORD_PREFIX;
+        newElement.value = SYSTEM_VARIABLE_RECORD_PREFIX;
+        isNonElement = false;
+    } else {
+        resourceIcon = resource.type ? resource.type.icon : resource.iconName;
+        elementCategory = getResourceCategory({
+            elementType: resource.elementType,
+            dataType: resourceDataType,
+            isCollection: resource.isCollection
+        });
+        newElement.text = getResourceLabel(resource);
+        newElement.value = resource.guid;
+        isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
+    }
+    newElement.displayText = addCurlyBraces(resource.name);
     newElement.subText = isNonElement
         ? resource.description
         : getSubText(resourceDataType, resource.subtype, resourceLabel);
-    newElement.value = resource.guid;
-    newElement.displayText = addCurlyBraces(resource.name);
+
     newElement.hasNext =
         isComplexType(resourceDataType) && !resource.isCollection;
     newElement.category =
@@ -352,11 +365,7 @@ export const getFlowSystemVariableComboboxItem = () => {
  *
  * @return {MenuDataItem[]} menu data for $Client
  */
-export const getFlowSystemClientVariableComboboxItem = () => {
-    return mutateSystemAndGlobalVariablesToComboboxShape(
-        SYSTEM_VARIABLE_CLIENT_PREFIX
-    );
-};
+const getFlowSystemClientVariableComboboxItem = () => mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_CLIENT_PREFIX);
 
 /**
  * Menu data for system and/or global variables.
@@ -372,23 +381,12 @@ export const getSystemAndGlobalVariableMenuData = (
     const categories = [];
     if (showSystemVariables) {
         categories.push(getFlowSystemVariableComboboxItem());
-        if (
-            Object.keys(getSystemVariables(SYSTEM_VARIABLE_CLIENT_PREFIX))
-                .length > 0
-        ) {
+        if (isSystemVariablesCategoryNotEmpty(SYSTEM_VARIABLE_CLIENT_PREFIX)) {
             categories.push(getFlowSystemClientVariableComboboxItem());
         }
     }
     if (showGlobalVariables) {
         categories.push(...getGlobalVariableTypeComboboxItems());
     }
-    categories.sort((a, b) => {
-        return a.displayText - b.displayText;
-    });
-    const globalVariableCategory = {
-        label: systemGlobalVariableCategoryLabel,
-        items: categories
-    };
-
-    return globalVariableCategory;
+    return categories;
 };
