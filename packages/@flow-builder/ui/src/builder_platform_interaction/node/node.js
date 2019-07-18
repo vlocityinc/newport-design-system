@@ -293,9 +293,9 @@ export default class Node extends LightningElement {
             lib.revalidate(canvasElementContainer);
         }
 
-        const labelWrapper = this.template.querySelector('.label-wrapper');
-        if (labelWrapper && this.nodeLabel !== this.currentNodeLabel) {
-            clamp(labelWrapper, {
+        const textElementLabel = this.template.querySelector('.text-element-label');
+        if (textElementLabel && this.nodeLabel !== this.currentNodeLabel) {
+            clamp(textElementLabel, {
                 label: this.nodeLabel
             });
             this.currentNodeLabel = this.nodeLabel;

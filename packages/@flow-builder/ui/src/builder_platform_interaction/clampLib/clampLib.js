@@ -67,7 +67,7 @@ const getNextDelimiter = delimiters => {
 export const clamp = (
     element,
     {
-        delimiters = [' '],
+        delimiters = [],
         label = '',
         lineHeight = 20,
         lines = 2,
