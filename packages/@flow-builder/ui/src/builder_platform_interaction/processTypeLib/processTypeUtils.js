@@ -1,8 +1,5 @@
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
-import {
-    FLOW_PROCESS_TYPE,
-    FLOW_SUPPORTED_FEATURES
-} from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getProcessFeatures } from 'builder_platform_interaction/systemLib';
 
 export const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
@@ -114,9 +111,6 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = processType => {
  * @returns {Boolean}
  */
 export const isConfigurableStartSupported = processType => {
-    const supportedFeatures = getProcessFeatures(processType);
-    return (
-        supportedFeatures &&
-        supportedFeatures.includes(FLOW_SUPPORTED_FEATURES.CONFIGURABLE_START)
-    );
+    // TODO: Determine whether configurable start is supported through a service W-6356800
+    return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
 };

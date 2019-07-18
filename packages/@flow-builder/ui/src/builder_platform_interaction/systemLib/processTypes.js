@@ -1,16 +1,5 @@
-import {
-    FLOW_PROCESS_TYPE,
-    FLOW_SUPPORTED_FEATURES
-} from 'builder_platform_interaction/flowMetadata';
-
 let processTypes;
-// TODO: Determine whether configurable start is supported through a service W-6356800
-const processTypesFeatures = new Map([
-    [
-        FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-        [FLOW_SUPPORTED_FEATURES.CONFIGURABLE_START]
-    ]
-]);
+const processTypesFeatures = new Map();
 
 /**
  * Sets the process types. This should be done during app initialization.
