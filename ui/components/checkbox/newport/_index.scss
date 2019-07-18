@@ -29,7 +29,7 @@
     border: 0;
     background-clip: padding-box;
     margin-#{$right}: 1.25rem;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
     margin-bottom: 2.5rem;
 
     .nds-checkbox_faux,
@@ -58,7 +58,7 @@
     &:first-child>.nds-checkbox_button__label,
     &:first-child>.nds-checkbox--button__label {
       border: 1px solid $button-color-border-primary;
-      border-radius: 0.25rem;
+      border-radius: $border-radius-medium;
       width: 100%;
     }
 
@@ -69,7 +69,7 @@
     &:last-child>.nds-checkbox_button__label,
     &:last-child>.nds-checkbox--button__label {
       width: 100%;
-      border-radius: 0.25rem;
+      border-radius: $border-radius-medium;
     }
 
 
@@ -202,7 +202,7 @@
   .nds-checkbox_button__label,
   .nds-checkbox--button__label {
     background-color: transparent;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
     width: 100%;
 
     &:hover,
@@ -236,4 +236,89 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
 .nds-form-element__control.nds-vertical_checkbox .nds-checkbox,
 .nds-form-element__control.nds-horizontal_checkbox .nds-checkbox {
   margin: 0 1rem 0.5rem 0;
+}
+
+.nds-form-element__control.nds-grid {
+  width: 100%;
+}
+
+.nds-checkbox_custom-group {
+  margin-right: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nds-checkbox_custom-group input[type="checkbox"]:checked+.nds-img_select-cont .nds-img-item_select-container {
+  border: 2px solid $color-border-input-active;
+}
+
+.nds-checkbox_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
+  cursor: pointer;
+}
+
+.nds-img_select-cont {
+  position: relative;
+  display: inline-block;
+}
+
+.nds-img-wrapper_cont {
+  position: relative;
+}
+
+.nds-img-item {
+  max-width: 100%;
+  max-height: 100%;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-img-item-caption {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-checkbox_custom-group .nds-img-item_select-container {
+  cursor: pointer;
+  border: 2px solid $newport-gray-border-primary;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.nds-checkbox_custom-group.nds-img-wrapper_cont .nds-img_no-width-height .nds-img-item_select-container {
+  width: 100%;
+  height: 100%;
+}
+
+.nds-img_option-width-height {
+  display: inline-block;
+  margin: 0.5rem 1rem 0.5rem 0px;
+  height: inherit;
+  width: inherit;
+  border-radius: $border-radius-medium;
+  position: relative;
+}
+
+.nds-checkbox_custom-group .nds-img_no-width-height {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 1.875rem;
+}
+
+.nds-caption-out_cont {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: inherit;
+  padding-top: 0.625rem;
 }

@@ -41,7 +41,7 @@
     background-clip: padding-box;
     margin-#{$right}: 1.25rem;
     margin-bottom: 2.5rem;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
 
     /**
      * Create styled button when adjacent to the input[radio] element
@@ -91,7 +91,7 @@
     .nds-button--last>.nds-radio--faux,
     &:last-child>.nds-radio_button__label,
     &:last-child>.nds-radio--button__label {
-      border-radius: 0.25rem;
+      border-radius: $border-radius-medium;
       width: 100%;
     }
 
@@ -226,7 +226,7 @@
   .nds-radio_button__label,
   .nds-radio--button__label {
     background-color: transparent;
-    border-radius: 0.25rem;
+    border-radius: $border-radius-medium;
     padding: 0;
     width: 100%;
 
@@ -295,4 +295,95 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.nds-radio_custom-group {
+  margin-right: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.nds-radio_custom-group.nds-static-wrapper input[type="radio"]:checked+.nds-img_select-container {
+  border: 2px solid $color-border-input-active;
+}
+
+.nds-radio_custom-group.nds-img-wrapper_cont label.nds-img_no-width-height {
+  cursor: pointer;
+}
+
+.nds-radio_custom-group.nds-img-wrapper_cont input[type="radio"]:checked+label.nds-img_no-width-height {
+  border: 2px solid $color-border-input-active;
+}
+
+.nds-img_select-container {
+  position: relative;
+  display: inline-block;
+  margin: .5rem 1rem .5rem 0;
+}
+
+.nds-radio_custom-group.nds-static-wrapper .nds-img_select-container .nds-img-item_select-container.nds-img_option-width-height {
+  width: 100%;
+  height: 100%;
+}
+
+.nds-img-wrapper_cont {
+  position: relative;
+}
+
+.nds-radio_custom-group.nds-static-wrapper .nds-radio__label.nds-img_select-container {
+  border: 2px solid #d8dde6;
+}
+
+.nds-img-item {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-img-item-caption {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.nds-radio_custom-group .nds-img-item_select-container {
+  cursor: pointer;
+}
+
+.nds-radio_custom-group.nds-img-wrapper_cont .nds-img_no-width-height .nds-img-item_select-container {
+  width: 100%;
+  height: 100%;
+}
+
+.nds-img_option-width-height {
+  display: inline-block;
+  height: inherit;
+  width: inherit;
+  border-radius: $border-radius-medium;
+  position: relative;
+}
+
+.nds-radio_custom_container .nds-img_no-width-height {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-bottom: 1.875rem;
+  border: 2px solid $newport-gray-border-primary;
+}
+
+.nds-caption-out_cont {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: inherit;
+  padding-top: 0.625rem;
 }
