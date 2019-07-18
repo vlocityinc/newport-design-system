@@ -8,6 +8,7 @@ import {
 } from 'builder_platform_interaction/ruleLib';
 
 import { conditionEditorValidation } from './conditionEditorValidation';
+import { isTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { LABELS } from './conditionEditorPopoverLabels';
 
 export default class ConditionEditorPopover extends LightningElement {
@@ -29,7 +30,10 @@ export default class ConditionEditorPopover extends LightningElement {
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
 
     get rules() {
-        return getRulesForElementType(RULE_TYPES.COMPARISON);
+        return getRulesForElementType(
+            RULE_TYPES.COMPARISON,
+            this.containerElement
+        );
     }
 
     handleDoneEditing = event => {
@@ -42,6 +46,14 @@ export default class ConditionEditorPopover extends LightningElement {
         this.condition = updateProperties(this.condition, validatedCondition);
 
         const { leftHandSide, operator, rightHandSide } = this.condition;
+
+        if (
+            !rightHandSide.error &&
+            isTextWithMergeFields(rightHandSide.value)
+        ) {
+            rightHandSide.error = this.labels.stringWithMergeFieldsNotAllowedLabel;
+        }
+
         const hasError =
             leftHandSide.error || operator.error || rightHandSide.error;
 
