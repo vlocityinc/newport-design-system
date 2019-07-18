@@ -18,7 +18,6 @@ module.exports = {
 
   assets: path.resolve(root, "assets"),
   ui: path.resolve(root, "ui"),
-  designTokens: path.resolve(root, "design-tokens"),
 
   icons: path.resolve(
     node_modules,

@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import parse from 'comment-parser';
 let id = 0;
 

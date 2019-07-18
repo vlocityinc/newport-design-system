@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import { storiesOf } from '@storybook/html';
 import base from 'paths.macro';
 import notes from './doc.md';

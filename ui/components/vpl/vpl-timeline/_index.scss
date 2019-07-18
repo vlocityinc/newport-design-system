@@ -19,26 +19,30 @@
 
   .nds-activity-feed-timeline__label {
     margin-left: 9.375rem;
-    margin-top:-1.875rem;
+    margin-top: -1.875rem;
     border-color: $color_palette_cool_gray_5;
     align-items: center;
-    p{
-      font-weight:$font-weight-light;
-      strong{
-      font-weight: $font-weight-regular;
+
+    p {
+      font-weight: $font-weight-light;
+
+      strong {
+        font-weight: $font-weight-regular;
       }
     }
-    .nds-activity-feed-timeline__status{
+
+    .nds-activity-feed-timeline__status {
       font-weight: $font-weight-bold;
     }
-
   }
 
   ul {
 
+    /* stylelint-disable selector-class-pattern */
     &.nds-hid__Line:before {
       display: none;
     }
+    /* stylelint-enable selector-class-pattern */
 
     &:before {
       content: '';

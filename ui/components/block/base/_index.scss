@@ -11,8 +11,7 @@
  * @variant
  */
 
-@mixin forIE11AndUp() {
-
+@mixin forie11andup() {
   @media all and (-ms-high-contrast: none),
     (-ms-high-contrast: active) {
     @content;
@@ -26,7 +25,7 @@
     display: inline-block;
     width: 100%;
 
-    @include forIE11AndUp() {
+    @include forie11andup() {
       flex: 0 1 100%;
       display: inline-block;
       width: 100%;
@@ -43,12 +42,12 @@
     color: $color-background-brand-primary;
 
     > span {
-      display: inline-block; //rtl
+      display: inline-block; // rtl
       padding: 0 5px;
       border-#{$left}: 2px solid $color-shadow-overflow;
 
       &:first-child {
-        border-#{$left}: none;
+        border-#{$left}: 0;
       }
 
       &:last-child {
@@ -57,7 +56,7 @@
     }
   }
 
-  //block indentation
+  // block indentation
   label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-elem='visible'] {
     font-size: 1rem;
     padding-top: 1.5rem;
@@ -67,6 +66,7 @@
   }
 
   div[vlc-slds-toggle-elem='visible'] {
+
     > .nds-control-action__container {
       display: block;
       text-align: $right;
@@ -74,14 +74,15 @@
     }
   }
 
-  label[vlc-slds-toggle=toggle]~div[vlc-slds-toggle-cust-elem=visible].toggleElement {
+  // stylelint-disable-next-line selector-class-pattern
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'].toggleElement {
     max-height: 0;
     overflow: hidden;
     transition: opacity 1s, max-height 1s ease-out;
     opacity: 0;
   }
 
-  label[vlc-slds-toggle=toggle]~div[vlc-slds-toggle-cust-elem=visible] {
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'] {
     padding-top: 1.5rem;
     padding-#{$left}: 2.5rem;
     max-height: 1000rem;
@@ -95,7 +96,7 @@
     }
   }
 
-  .nds-control-action__container span[disabled=disabled] {
+  .nds-control-action__container span[disabled='disabled'] {
     pointer-events: none;
     opacity: 0.5;
   }
@@ -103,7 +104,7 @@
 
 .nds-expand {
   display: none;
-  transform: rotate(180Deg); //per daniel's input
+  transform: rotate(180Deg); // per daniel's input
   background: $color-border-tab-active;
   fill: $color-input-icon-blue-hue;
 }
@@ -114,39 +115,39 @@
   border-radius: 100%;
   padding: 2px;
   fill: $color-input-icon-blue-hue;
-  transform: if-rtl(rotate(90Deg), rotate(-90Deg)); //per daniel's input
-  -ms-transform: if-rtl(rotate(-90Deg), rotate(-90Deg)); //per daniel's input
+  transform: if-rtl(rotate(90Deg), rotate(-90Deg)); // per daniel's input
 }
 
 label[vlc-slds-toggle] {
-  font-size: 1rem; //half the size of the step title
+  font-size: 1rem; // half the size of the step title
   display: flex;
   font-weight: 300;
   min-height: 0;
-  margin-#{$right}: 0; //remove slds padding
+  margin-#{$right}: 0; // remove slds padding
 
   .nds-icon {
     fill: $color-midnight-blue;
   }
 
+  // stylelint-disable-next-line selector-class-pattern
   .nds-form-element__label_toggleText {
     flex-grow: 1;
-    padding-#{$left}: 10px; //this will add up 30px + 10
+    padding-#{$left}: 10px; // this will add up 30px + 10
     color: $color-background-brand-primary;
-    font-weight: 300;
     font-weight: 400;
     font-size: 1rem;
-
   }
 }
 
+/* stylelint-disable selector-class-pattern */
 .clicked {
-  &>.nds-expand {
+
+  > .nds-expand {
     display: block;
     padding: 2px;
   }
 
-  &>.nds-collapse {
+  > .nds-collapse {
     display: none;
   }
 
@@ -154,18 +155,21 @@ label[vlc-slds-toggle] {
 
     .nds-expand,
     .nds-expand {
-      display: none
+      display: none;
     }
   }
 }
+/* stylelint-enable selector-class-pattern */
 
 .nds-control-action__container {
+
   span {
     cursor: pointer;
   }
 }
 
 .nds-block_container {
+
   .nds-form-element__label {
     width: 100%;
     display: flex;

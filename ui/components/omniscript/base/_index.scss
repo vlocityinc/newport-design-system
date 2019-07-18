@@ -15,6 +15,7 @@
 
 @media (min-width: 30em) and (max-width: 48em) {
 
+  // stylelint-disable-next-line selector-class-pattern
   .via-nds .nds-omniscript_stepform {
     width: 83.3333333%;
     flex: 0 0 83.3333333%;
