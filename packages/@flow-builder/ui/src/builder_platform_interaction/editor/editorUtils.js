@@ -314,9 +314,9 @@ export const saveAsFlowCallback = (
     if (!saveFlowFn) {
         throw new Error('Save flow function is not defined');
     }
-    const { saveType } = flowProperties;
+    const { saveType, processType } = flowProperties;
     flowPropertiesCallback(storeInstance)(flowProperties);
-    resetStartElementIfNeeded(storeInstance, flowProperties.processType);
+    resetStartElementIfNeeded(storeInstance, processType.value || processType);
     saveFlowFn(saveType);
 };
 
