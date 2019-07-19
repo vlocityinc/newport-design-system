@@ -15,7 +15,8 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_ICON: 'lightning-icon',
     LIGHTNING_TAB: 'lightning-tab',
-    LIGHTNING_RADIO_GROUP: 'lightning-radio-group'
+    LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
+    LIGHTNING_INPUT: 'lightning-input'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {

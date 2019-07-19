@@ -157,7 +157,7 @@ export const mockFlowExtensionListParams = {
   ]
 };
 
-// see screenEditorExtensionUtils.createDescription
+// see flowExtension.createdescription
 export const mockFlowRuntimeEmailFlowExtensionDescription = {
   name: "flowruntime:email",
   inputParameters: [
@@ -313,3 +313,168 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
     }
   ]
 };
+
+// as returned by getFlowExtensionParams([''flowruntime:address'])
+export const mockRuntimeAddressFlowExtensionListParams = {
+    "flowruntime:address": [
+    {
+        apiName:'city',
+        dataType:'string',
+        description:"To give City a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'City Value',
+        maxOccurs:'1',
+    },
+    {
+        apiName:'inputCountryOptions',
+        dataType:'string',
+        description:"The active countries configured in state and country picklists. To override the options, set this attribute to a comma-delimited set of countries.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'Country Options',
+        maxOccurs:'1',
+    },
+    {
+        apiName:'country',
+        dataType:'string',
+        description:"To gi1ve Country a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'Country Value',
+        maxOccurs:'1',
+    },
+    {
+        apiName:'addressLabel',
+        dataType:'string',
+        defaultValue:'Address',
+        description:"Label for the heading that appears above the group of address fields.",
+        hasDefaultValue:true,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'Label',
+        maxOccurs:'1',
+    },
+    {
+        apiName:'postalCode',
+        dataType:'string',
+        description:"To give Postal Code a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'Postal Code Value',
+        maxOccurs:'1'
+    },
+    {
+        apiName:'inputProvinceOptions',
+        dataType:'string',
+        description:"The active states configured in state and country picklists. To override the options, set this attribute to a comma-delimited set of states.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'State/Province Options',
+        maxOccurs:'1'
+    },
+    {
+        apiName:'province',
+        dataType:'string',
+        description:"To give State a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'State/Province Value',
+        maxOccurs:'1'
+    },
+    {
+        apiName:'street',
+        dataType:'string',
+        description:"To give Street a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable.",
+        hasDefaultValue:false,
+        isInput:true,
+        isOutput:true,
+        isRequired:false,
+        label:'Street Value',
+        maxOccurs:'1'
+    }
+  ]
+};
+
+// as returned by getFlowExtensions()
+export const mockFlowExtensions = [
+    {
+      description:'Address Component',
+      label:'Address',
+      qualifiedApiName:'flowruntime:address',
+      source:'Standard',
+    },
+    {
+      description:'Dependent Picklists',
+      label:'Dependent Picklists',
+      qualifiedApiName:'flowruntime:dependentPicklists',
+      source:'Standard',
+    },
+    {
+      description:'Email Component',
+      label:'Email',
+      qualifiedApiName:'flowruntime:email',
+      source:'Standard',
+    },
+    {
+      description:'Display Image',
+      label:'Display Image',
+      qualifiedApiName:'flowruntime:image',
+      source:'Standard',
+    },
+    {
+      description:'Lookup Component',
+      label:'Lookup',
+      qualifiedApiName:'flowruntime:lookup',
+      source:'Standard',
+    },
+    {
+      description:'Name Component',
+      label:'Name',
+      qualifiedApiName:'flowruntime:name',
+      source:'Standard',
+    },
+    {
+      description:'Phone',
+      label:'Phone',
+      qualifiedApiName:'flowruntime:phone',
+      source:'Standard',
+    },
+    {
+      description:'Slider Component',
+      label:'Slider',
+      qualifiedApiName:'flowruntime:slider',
+      source:'Standard',
+    },
+    {
+      description:'Toggle',
+      label:'Toggle',
+      qualifiedApiName:'flowruntime:toggle',
+      source:'Standard',
+    },
+    {
+      description:'URL Component',
+      label:'URL',
+      qualifiedApiName:'flowruntime:url',
+      source:'Standard',
+    },
+    {
+      description:'Upload and attach files to records.',
+      label:'File Upload',
+      qualifiedApiName:'forceContent:fileUpload',
+      source:'Standard'
+    }
+];
