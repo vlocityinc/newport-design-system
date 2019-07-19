@@ -29,7 +29,8 @@ import {
     DESELECT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
     UPDATE_CANVAS_ELEMENT_LOCATION,
-    UPDATE_PROPERTIES_AFTER_SAVE_FAILED
+    UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
+    updateApexClasses
 } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -1103,9 +1104,8 @@ export default class Editor extends LightningElement {
             {},
             { background: true }
         ).then(data => {
+            storeInstance.dispatch(updateApexClasses(data));
             setApexClassesForPropertyEditor(data);
-            // this is used for indicating if the apex info is fetched.
-            this.apexInfoFetched = true;
         });
     };
 }

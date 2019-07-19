@@ -155,3 +155,48 @@ export function getPropertyOrDefaultToTrue(object, propertyName) {
 
 export const APP_EXCHANGE_LINK =
     'https://appexchange.salesforce.com/appxStore?type=Flow';
+
+/**
+ * Simple memoizer, which holds on to a most recent successful invocation and its result.
+ * @param {Function} func The function to memoize.
+ */
+export function memoize(func) {
+    if (!(typeof func === 'function')) {
+        throw new Error('Not a function');
+    }
+
+    let everInvoked = false;
+    let lastArguments;
+    let lastResult;
+    return function () {
+        // Invoke the memoized function, but only if never invoked or if the arguments are different.
+        if (everInvoked === false || !equalArguments(lastArguments, arguments)) {
+            lastResult = func.apply(null, arguments);
+            lastArguments = arguments;
+            everInvoked = true;
+        }
+        return lastResult;
+    };
+}
+
+/**
+ * Compares two arrays for equality. For the two arrays to be equal they should either be
+ * the same arrays or they should contain exact same elements and in the same order.
+ * @param {Array} left One array to compare.
+ * @param {Array} right Another array to compare.
+ * @returns {boolean} Returns 'true' if the arrays are equal. Otherwise - 'false'.
+ */
+function equalArguments(left, right) {
+    if (left === null || left === undefined || left.length !== right.length) {
+        return false;
+    }
+
+    for (let i = 0; i < right.length; i++) {
+        if (left[i] !== right[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+

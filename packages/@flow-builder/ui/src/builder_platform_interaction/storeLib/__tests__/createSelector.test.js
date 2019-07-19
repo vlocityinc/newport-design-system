@@ -107,4 +107,66 @@ describe('Create Selectors', () => {
             done();
         }
     });
+
+    describe('memoized selectors and tranforms', () => {
+        const selectorCounter = [0, 0];
+        let transformCounter = 0;
+
+        function selector0(v) {
+            selectorCounter[0]++;
+            return 'sel0_' + (typeof v === 'string' ? v : v.sel0);
+        }
+
+        function selector1(v) {
+            selectorCounter[1]++;
+            return 'sel1_' + (typeof v === 'string' ? v : v.sel1);
+        }
+
+        const selector = createSelector(
+                [selector0, selector1],
+                (v0, v1) => {
+                    transformCounter++;
+                    return '' + v0 + '_' + v1;
+                },
+                true
+            );
+
+        it('invokes original selectors and the transform (functions) if invoked for the first time', () => {
+            const result = selector('0');
+            expect(result).toEqual('sel0_0_sel1_0');
+            expect(selectorCounter).toEqual([1, 1]);
+            expect(transformCounter).toEqual(1);
+        });
+
+        it('invokes original functions if invoked with different arguments', () => {
+            const result = selector('1');
+            expect(result).toEqual('sel0_1_sel1_1');
+            expect(selectorCounter).toEqual([2, 2]);
+            expect(transformCounter).toEqual(2);
+        });
+
+        it('does not invoke original functions, if the arguments did not change', () => {
+            const result = selector('1');
+            expect(result).toEqual('sel0_1_sel1_1');
+            expect(selectorCounter).toEqual([2, 2]);
+            expect(transformCounter).toEqual(2);
+        });
+
+        it('invokes original functions if invoked with different arguments after invocation with same arguments', () => {
+            const result = selector('2');
+            expect(result).toEqual('sel0_2_sel1_2');
+            expect(selectorCounter).toEqual([3, 3]);
+            expect(transformCounter).toEqual(3);
+        });
+
+        it('invokes original selectors and does not invoke the transform if invoked with different arguments and selectors produce the same set of results', () => {
+            const result = selector({
+                sel0: '2',
+                sel1: '2'
+            });
+            expect(result).toEqual('sel0_2_sel1_2');
+            expect(selectorCounter).toEqual([4, 4]);
+            expect(transformCounter).toEqual(3);
+        });
+    });
 });

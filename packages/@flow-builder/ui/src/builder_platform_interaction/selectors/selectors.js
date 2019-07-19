@@ -10,3 +10,7 @@ export {
     apexScalarVariablesSelector,
     componentInstanceScreenFieldsSelector
 } from './menuDataSelector';
+
+export {
+    apexClassesSelector
+} from './peripheralDataSelectors';

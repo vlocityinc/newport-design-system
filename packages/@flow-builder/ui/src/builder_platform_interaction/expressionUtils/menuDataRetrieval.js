@@ -27,7 +27,6 @@ import {
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
     mutateEventTypesToComboboxShape,
-    mutateApexClassesToComboboxShape,
     getSystemAndGlobalVariableMenuData,
     COMBOBOX_ITEM_DISPLAY_TYPE
 } from './menuDataGenerator';
@@ -725,8 +724,4 @@ export const getEventTypesMenuData = () => {
         _eventTypesCache = mutateEventTypesToComboboxShape(eventTypes);
     }
     return _eventTypesCache;
-};
-
-export const getApexClassMenuData = () => {
-    return mutateApexClassesToComboboxShape(apexTypeLib.getApexClasses());
 };

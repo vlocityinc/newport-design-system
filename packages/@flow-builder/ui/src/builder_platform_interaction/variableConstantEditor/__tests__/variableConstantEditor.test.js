@@ -143,7 +143,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getItemOrDisplayText: actual.getItemOrDisplayText,
         getSecondLevelItems: actual.getSecondLevelItems,
         getFerovInfoAndErrorFromEvent: actual.getFerovInfoAndErrorFromEvent,
-        getApexClassMenuData: actual.getApexClassMenuData
+        apexClassesMenuDataSelector: jest.fn()
     };
 });
 

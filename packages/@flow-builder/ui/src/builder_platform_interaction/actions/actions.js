@@ -76,6 +76,8 @@ export const PROPERTY_EDITOR_ACTION = {
     UPDATE_OUTPUT_ASSIGNMENTS_BEFORE_CLOSE: 'updateoutputassignmentbeforeclose'
 };
 
+export const UPDATE_APEX_CLASSES = 'UPDATE_APEX_CLASSES';
+
 /**
  * Helper function to create actions.
  *
@@ -362,3 +364,8 @@ export const removeLastCreatedInlineResource = createAction(
  */
 export const updateInlineResourceProperties = payload =>
     createAction(UPDATE_INLINE_RESOURCE_PROPERTIES, payload);
+
+/**
+ * Action for updating a list of all apex classes.
+ */
+export const updateApexClasses = payload => createAction(UPDATE_APEX_CLASSES, payload);

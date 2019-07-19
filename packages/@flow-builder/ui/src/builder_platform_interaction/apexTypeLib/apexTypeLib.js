@@ -1,4 +1,4 @@
-let apexClasses = [];
+let apexClasses = null;
 const apexFieldsForClass = {};
 
 /**
@@ -38,18 +38,12 @@ export const setApexClasses = classes => {
     apexClasses = classes;
 };
 
-export const getApexClasses = () => {
-    return apexClasses;
-};
-
 /**
  * Caches properties & inner types of an apex class so they can be used for menu data, etc
  * @param {String} name     name of the apex class
  */
 export const cachePropertiesForClass = name => {
-    const apexClass = apexClasses.find(clazz => {
-        return clazz.durableId === name;
-    });
+    const apexClass = (apexClasses || []).find(clazz => clazz.durableId === name);
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
         apexClass.properties.records.forEach(prop => {

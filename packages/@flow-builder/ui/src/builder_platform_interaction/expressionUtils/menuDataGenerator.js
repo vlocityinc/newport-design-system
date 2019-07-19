@@ -22,6 +22,8 @@ import systemGlobalVariableCategoryLabel from '@salesforce/label/FlowBuilderSyst
 import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { apexClassesSelector } from 'builder_platform_interaction/selectors';
+import { createSelector } from 'builder_platform_interaction/storeLib';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
@@ -274,6 +276,13 @@ export const mutateApexClassesToComboboxShape = classes => {
         );
     });
 };
+
+export const apexClassesMenuDataSelector = createSelector(
+        [apexClassesSelector],
+        apexClasses => {
+            return apexClasses ? mutateApexClassesToComboboxShape(apexClasses) : null;
+        }
+);
 
 /**
  * Mutates one picklist value into a combobox menu item
