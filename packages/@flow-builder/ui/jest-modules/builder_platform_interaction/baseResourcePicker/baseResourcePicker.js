@@ -1,38 +1,68 @@
-import { LightningElement, api } from 'lwc';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
-const baseResourcePicker = require('builder_platform_interaction/baseResourcePicker').default;
+import { LightningElement, api } from "lwc";
+import { generateGuid } from "builder_platform_interaction/storeLib";
+const baseResourcePicker = require("builder_platform_interaction/baseResourcePicker")
+  .default;
 
 export default class BaseResourcePicker extends LightningElement {
-    static SELECTOR = 'builder_platform_interaction-base-resource-picker';
-    @api
-    comboboxConfig;
+  static SELECTOR = "builder_platform_interaction-base-resource-picker";
+  @api
+  comboboxConfig;
 
-    @api
-    value;
+  @api
+  value;
 
-    @api
-    errorMessage;
+  @api
+  errorMessage;
 
-    @api
-    rowIndex = generateGuid();
+  @api
+  focus;
 
-    @api
-    setMenuData(newMenuData) {
-        this._fullMenuData = newMenuData;
-    }
+  @api
+  position;
 
-    @api
-    get fullMenuData() {
-        return this._fullMenuData;
-    }
+  @api
+  rowIndex = generateGuid();
 
-    static getComboboxConfig = (label, placeholder, errorMessage, literalsAllowed, required, disabled, type, enableFieldDrilldown, variant) => {
-        return baseResourcePicker.getComboboxConfig(label, placeholder, errorMessage, literalsAllowed, required, disabled, type, enableFieldDrilldown, variant);
-    };
+  @api
+  elementType;
 
-    @api
-    allowedParamTypes;
-    
-    @api
-    showActivityIndicator;
+  @api
+  setMenuData(newMenuData) {
+    this._fullMenuData = newMenuData;
+  }
+
+  @api
+  get fullMenuData() {
+    return this._fullMenuData;
+  }
+
+  static getComboboxConfig = (
+    label,
+    placeholder,
+    errorMessage,
+    literalsAllowed,
+    required,
+    disabled,
+    type,
+    enableFieldDrilldown,
+    variant
+  ) => {
+    return baseResourcePicker.getComboboxConfig(
+      label,
+      placeholder,
+      errorMessage,
+      literalsAllowed,
+      required,
+      disabled,
+      type,
+      enableFieldDrilldown,
+      variant
+    );
+  };
+
+  @api
+  allowedParamTypes;
+
+  @api
+  showActivityIndicator;
 }

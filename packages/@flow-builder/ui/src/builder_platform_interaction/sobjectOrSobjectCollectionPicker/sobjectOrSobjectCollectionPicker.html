@@ -1,8 +1,10 @@
 <template>
+    <!-- TODO: W-6359264 Update element-type to row-index to determine uniqueness if possible -->
     <builder_platform_interaction-ferov-resource-picker
         value={sobjectVariableItemOrDisplayText}
         row-index={rowIndex}
         inline-item={inlineItem}
+        element-type={elementType}
         element-config={sobjectVariableElementConfig}
         error-message={state.errorMessage}
         combobox-config={sobjectVariableComboboxConfig}

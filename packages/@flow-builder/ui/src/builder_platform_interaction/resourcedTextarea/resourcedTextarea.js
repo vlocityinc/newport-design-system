@@ -33,32 +33,57 @@ export default class ResourcedTextarea extends LightningElement {
         LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN // variant
     );
 
-    @api name;
-    @api label;
-    @api required = false;
-    @api readOnly = false;
-    @api helpText;
-    @api maxLength;
-    @api spinnerAlternativeText;
-    @api showGlobalVariables = false;
-    @api plainTextAvailable = false;
+    @api
+    elementType;
+
+    @api
+    label;
+
+    @api
+    required = false;
+
+    @api
+    readOnly = false;
+
+    @api
+    helpText;
+
+    @api
+    maxLength;
+
+    @api
+    spinnerAlternativeText;
+
+    @api
+    showGlobalVariables = false;
+
+    @api
+    plainTextAvailable = false;
 
     // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
     // in the call to invokePropertyEditor in editor.js
-    @api hideNewResource = false;
+    @api
+    hideNewResource = false;
 
-    @track error;
-    @track spinnerActive;
+    @track
+    error;
+
+    @track
+    spinnerActive;
+
     @track _value;
 
     labels = LABELS;
+
     _hydrated;
 
-    @api setCustomValidity(message) {
+    @api
+    setCustomValidity(message) {
         this.error = message;
     }
 
-    @api get value() {
+    @api
+    get value() {
         return this._hydrated
             ? { value: this._value, error: this.error }
             : this._value;
@@ -105,6 +130,7 @@ export default class ResourcedTextarea extends LightningElement {
     handleResourcePickerSelection = event => {
         event.stopPropagation();
         const text = event.detail.item.displayText;
+        const inlineItem = event.detail.item.name;
         if (text && !event.detail.item.hasNext) {
             // Insert the item at cursor position and notify up
             const textarea = this.template.querySelector(SELECTORS.TEXTAREA);
@@ -125,6 +151,8 @@ export default class ResourcedTextarea extends LightningElement {
                     SELECTORS.FEROV_RESOURCE_PICKER
                 ).value = null;
             });
+        } else if (inlineItem) {
+            this.fireEvent(`{${inlineItem}}`, null);
         }
     };
 

@@ -21,6 +21,7 @@
                 <builder_platform_interaction-ferov-resource-picker
                     class="test-loop-collection"
                     value={collectionVariable}
+                    element-type={collectionVariableSelect}
                     error-message={loopElement.collectionReference.error}
                     row-index={loopElement.collectionReferenceIndex.value}
                     combobox-config={collectionVariableComboboxConfig}
@@ -28,6 +29,7 @@
                     element-config={collectionVariableElementConfig}
                     oncomboboxstatechanged={handleCollectionVariablePropertyChanged}
                     onitemselected={handleCollectionVariablePropertyChanged}
+                    onnewinlineresource={handleCollectionVariablePropertyChanged}
                     hide-global-constants
                     hide-system-variables
                 >
@@ -63,12 +65,14 @@
                 class="test-loop-variable"
                 value={loopVariable}
                 error-message={loopElement.assignNextValueToReference.error}
+                element-type={loopVariableSelect}
                 row-index={loopElement.assignNextValueToReferenceIndex.value}
                 combobox-config={loopVariableComboboxConfig}
                 property-editor-element-type={loopElement.elementType}
                 element-config={loopVariableElementConfig}
                 oncomboboxstatechanged={handleLoopVariablePropertyChanged}
                 onitemselected={handleLoopVariablePropertyChanged}
+                onnewinlineresource={handleLoopVariablePropertyChanged}
                 hide-global-constants
                 hide-system-variables
             >

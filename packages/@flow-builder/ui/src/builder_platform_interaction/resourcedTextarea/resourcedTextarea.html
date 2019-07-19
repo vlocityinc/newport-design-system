@@ -5,7 +5,11 @@
         alternative-text={spinnerAlternativeText}
     ></lightning-spinner>
     <div class="property-input slds-form-element">
-        <label if:true={label} for={name} class="slds-form-element__label">
+        <label
+            if:true={label}
+            for={elementType}
+            class="slds-form-element__label"
+        >
             <abbr
                 if:true={isRequired}
                 title={labels.required}
@@ -25,13 +29,16 @@
                 class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
             >
                 <div class={computedDivResourcePickerClass}>
+                    <!-- TODO: W-6359264 Update element-type to row-index to determine uniqueness if possible -->
                     <builder_platform_interaction-ferov-resource-picker
                         combobox-config={resourceComboBoxConfig}
                         element-config={elementConfig}
                         hide-global-constants
+                        element-type={elementType}
                         show-global-variables={showGlobalVariables}
                         hide-new-resource={hideNewResource}
                         onitemselected={handleResourcePickerSelection}
+                        onnewinlineresource={handleResourcePickerSelection}
                     >
                     </builder_platform_interaction-ferov-resource-picker>
                 </div>
@@ -43,13 +50,13 @@
             </div>
             <textarea
                 class="slds-textarea slds-input textarea-input"
-                name={name}
+                name={elementType}
                 onblur={handleEvent}
                 onchange={handleEvent}
                 maxlength={maxLength}
             >
-{_value}</textarea
-            >
+            {_value}
+            </textarea>
         </div>
         <div if:true={error} class="slds-has-error">
             <div role="alert" class="slds-form-element__help">{error}</div>

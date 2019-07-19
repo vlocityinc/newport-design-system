@@ -40,6 +40,10 @@ const COLLECTION_VAR_ELEMENT_CONFIG = {
 export default class LoopEditor extends LightningElement {
     labels = LABELS;
 
+    collectionVariableSelect = 'collectionVariableSelect';
+
+    loopVariableSelect = 'loopVariableSelect';
+
     /**
      * internal state for the loop editor
      */
@@ -240,7 +244,7 @@ export default class LoopEditor extends LightningElement {
         event.stopPropagation();
         let loopVariableError = event.detail.error ? event.detail.error : null;
         const loopVariableValue = event.detail.item
-            ? event.detail.item.value
+            ? event.detail.item.value || event.detail.item.name
             : null;
         const isDataTypeErrorMessageApplied =
             getErrorFromHydratedItem(
@@ -336,7 +340,7 @@ export default class LoopEditor extends LightningElement {
      */
     mutateComboboxItem(item) {
         return {
-            name: removeCurlyBraces(item.displayText),
+            name: removeCurlyBraces(item.displayText) || item.name,
             guid: item.value,
             dataType: item.dataType,
             subtype: item.subtype ? item.subtype : null

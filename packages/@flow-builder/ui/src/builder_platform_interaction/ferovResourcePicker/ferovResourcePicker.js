@@ -17,6 +17,8 @@ import {
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 
+const LOOP = 'Loop';
+
 let storeInstance;
 
 export default class FerovResourcePicker extends LightningElement {
@@ -52,6 +54,9 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     rowIndex;
+
+    @api
+    elementType;
 
     /**
      * The current value of the picker
@@ -168,6 +173,9 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     showGlobalVariables = false;
 
+    @track
+    focusOnInput = false;
+
     get parentItem() {
         return this.value && this.value.parent;
     }
@@ -275,7 +283,9 @@ export default class FerovResourcePicker extends LightningElement {
 
     handleAddInlineResource = e => {
         storeInstance.dispatch(
-            updateInlineResourceProperties({ lastInlineResourcePosition: e.detail.position })
+            updateInlineResourceProperties({
+                lastInlineResourcePosition: e.detail.position
+            })
         );
     };
 
@@ -294,23 +304,48 @@ export default class FerovResourcePicker extends LightningElement {
     findNewResource = () => {
         const inlineResourceId = storeInstance.getCurrentState().properties
             .lastInlineResourceGuid;
-        return storeInstance.getCurrentState().elements[inlineResourceId];
+        let resource = storeInstance.getCurrentState().elements[
+            inlineResourceId
+        ];
+
+        if (
+            resource &&
+            this.elementConfig &&
+            this.elementConfig.elementType === LOOP
+        ) {
+            // collection variables need a value
+            resource = {
+                ...resource,
+                value: `${resource.guid}`,
+                displayText: `{${resource.name}}`,
+                textNoHighlight: `${resource.name}`
+            };
+        }
+        return resource;
     };
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
+            // TODO: Update this.elementType to rowIndex to determine uniqueness
             if (
-                storeInstance.getCurrentState().properties.lastInlineResourcePosition ===
-                'ferovInlineResource'
+                storeInstance.getCurrentState().properties
+                    .lastInlineResourcePosition === this.elementType
             ) {
                 const newResource = this.findNewResource();
+
                 if (newResource) {
                     this.handleItemSelected({ detail: newResource });
-                    const newResourceEvent = new InlineResourceEvent(
+                    const inlineResourceEvent = new InlineResourceEvent(
                         newResource
                     );
-                    this.dispatchEvent(newResourceEvent);
+                    this.dispatchEvent(inlineResourceEvent);
                     storeInstance.dispatch(removeLastCreatedInlineResource);
+                    if (
+                        this.elementConfig &&
+                        this.elementConfig.elementType === LOOP
+                    ) {
+                        this.focusOnInput = true;
+                    }
                 }
             }
             this._baseResourcePicker.setMenuData(

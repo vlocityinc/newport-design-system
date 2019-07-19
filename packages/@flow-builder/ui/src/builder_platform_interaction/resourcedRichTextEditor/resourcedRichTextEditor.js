@@ -42,18 +42,31 @@ const SELECTORS = {
  * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'video'.
  */
 export default class ResourcedRichTextEditor extends LightningElement {
-    @api label;
-    @api helpText;
-    @api required = false;
-    @api showGlobalVariables = false;
+    @api
+    label;
+
+    @api
+    elementType;
+
+    @api
+    helpText;
+
+    @api
+    required = false;
+
+    @api
+    showGlobalVariables = false;
     // does support or not the plain text mode?
-    @api plainTextAvailable = false;
+    @api
+    plainTextAvailable = false;
 
     // IMPORTANT: For new resource to work, the containing property editor must have newResourcesCallback included
     // in the call to invokePropertyEditor in editor.js
-    @api hideNewResource = false;
+    @api
+    hideNewResource = false;
 
-    @track state = {
+    @track
+    state = {
         value: '',
         error: null,
         isPlainTextMode: false
@@ -92,7 +105,8 @@ export default class ResourcedRichTextEditor extends LightningElement {
      * True if editor in plain text mode, false otherwise for rich text mode
      * @returns {boolean} true if editor in plain text mode, false otherwise for rich text mode
      */
-    @api get isPlainTextMode() {
+    @api
+    get isPlainTextMode() {
         return this.state.isPlainTextMode;
     }
 
@@ -104,7 +118,8 @@ export default class ResourcedRichTextEditor extends LightningElement {
         this.state.isPlainTextMode = val;
     }
 
-    @api get value() {
+    @api
+    get value() {
         return this.hydrated
             ? { value: this.state.value, error: this.state.error }
             : this.state.value;

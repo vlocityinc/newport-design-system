@@ -20,6 +20,12 @@ export default class BaseResourcePicker extends LightningElement {
     @api
     inlineItem = null;
 
+    @api
+    focus = false;
+
+    @api
+    elementType = null;
+
     /**
      * the actual value of the combobox item (contains text, value, and id)
      * @typedef {Object} item

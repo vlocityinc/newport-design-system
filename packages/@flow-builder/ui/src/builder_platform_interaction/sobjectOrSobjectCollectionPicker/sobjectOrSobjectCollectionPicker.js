@@ -47,6 +47,8 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     @track
     inlineItem = null;
 
+    elementType = 'sobjectDropdown';
+
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
      */

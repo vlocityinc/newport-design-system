@@ -126,6 +126,21 @@ export default class Combobox extends LightningElement {
     @api
     fieldLevelHelp;
 
+    @api
+    focus = false;
+
+    get focus() {
+        return this.focus;
+    }
+
+    set focus(focus) {
+        if (focus) {
+            const box = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
+            box.focus();
+            box.blur();
+        }
+    }
+
     /**
      * Force the activity indicator
      */
@@ -148,7 +163,7 @@ export default class Combobox extends LightningElement {
                 newItem = { ...item, value: item.guid };
             }
             this.value = newItem;
-            this.template.querySelector('lightning-grouped-combobox').focus();
+            this.template.querySelector(SELECTORS.GROUPED_COMBOBOX).focus();
             this.fireComboboxStateChangedEvent();
         }
     }

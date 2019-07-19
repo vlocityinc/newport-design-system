@@ -9,7 +9,8 @@ const EXPANDED_SECTION_NAMES = ['containerOptions'];
  * Screen element property editor
  */
 export default class ScreenPropertiesEditor extends LightningElement {
-    @api screen;
+    @api
+    screen;
     labels = LABELS;
 
     get expandedSectionNames() {

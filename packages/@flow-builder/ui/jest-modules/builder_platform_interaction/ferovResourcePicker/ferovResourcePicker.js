@@ -3,31 +3,51 @@ import { api, LightningElement } from "lwc";
 export default class FerovResourcePicker extends LightningElement {
   static SELECTOR = "builder_platform_interaction-ferov-resource-picker";
 
-  @api elementConfig;
+  @api
+  elementConfig;
 
-  @api propertyEditorElementType;
+  @api
+  propertyEditorElementType;
 
-  @api value;
+  @api
+  value;
 
-  @api comboboxConfig;
+  @api
+  comboboxConfig;
 
-  @api elementParam;
+  @api
+  elementParam;
 
-  @api hideNewResource;
+  @api
+  hideNewResource;
 
-  @api hideGlobalConstants;
+  @api
+  hideGlobalConstants;
 
-  @api errorMessage;
+  @api
+  errorMessage;
 
-  @api rules;
+  @api
+  rules;
 
-  @api hideSystemVariables;
+  @api
+  hideSystemVariables;
 
-  @api showGlobalVariables;
+  @api
+  showGlobalVariables;
 
-  @api rowIndex;
+  @api
+  rowIndex;
 
-  @api inlineItem;
+  @api
+  focus;
 
-  @api setCustomValidity = jest.fn();
+  @api
+  inlineItem;
+
+  @api
+  elementType;
+
+  @api
+  setCustomValidity = jest.fn();
 }
