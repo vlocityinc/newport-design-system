@@ -18,6 +18,8 @@ import {
 } from 'builder_platform_interaction/actions';
 
 const LOOP = 'Loop';
+const MEMBER_ID = 'memberId';
+const RELATED_RECORD_ID = 'relatedRecordId';
 
 let storeInstance;
 
@@ -326,10 +328,16 @@ export default class FerovResourcePicker extends LightningElement {
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
+            // if (this.elementType === 'choice') {
+            //     this.elementType = this.rowIndex;
+            // }
+            // debugger;
             // TODO: Update this.elementType to rowIndex to determine uniqueness
+            const inlinePosition = storeInstance.getCurrentState().properties
+                .lastInlineResourcePosition;
             if (
-                storeInstance.getCurrentState().properties
-                    .lastInlineResourcePosition === this.elementType
+                inlinePosition === this.elementType ||
+                inlinePosition === this.rowIndex
             ) {
                 const newResource = this.findNewResource();
 
@@ -341,8 +349,13 @@ export default class FerovResourcePicker extends LightningElement {
                     this.dispatchEvent(inlineResourceEvent);
                     storeInstance.dispatch(removeLastCreatedInlineResource);
                     if (
-                        this.elementConfig &&
-                        this.elementConfig.elementType === LOOP
+                        (this.elementConfig &&
+                            this.elementConfig.elementType === LOOP) ||
+                        (this.elementConfig &&
+                            this.elementConfig.elementType === MEMBER_ID) ||
+                        (this.elementConfig &&
+                            this.elementConfig.elementType ===
+                                RELATED_RECORD_ID)
                     ) {
                         this.focusOnInput = true;
                     }

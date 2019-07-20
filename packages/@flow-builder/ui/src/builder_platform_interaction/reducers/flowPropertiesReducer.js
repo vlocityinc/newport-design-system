@@ -52,7 +52,8 @@ export default function flowPropertiesReducer(
         case REMOVE_LAST_CREATED_INLINE_RESOURCE:
             return {
                 ...state,
-                lastInlineResourceGuid: null
+                lastInlineResourceGuid: null,
+                lastInlineResourcePosition: null
             };
         case UPDATE_INLINE_RESOURCE_PROPERTIES:
             return {

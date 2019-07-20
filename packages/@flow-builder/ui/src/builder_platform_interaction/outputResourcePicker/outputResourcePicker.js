@@ -16,11 +16,18 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import {
+    removeLastCreatedInlineResource,
+    updateInlineResourceProperties
+} from 'builder_platform_interaction/actions';
 
 let storeInstance;
 
 export default class OutputResourcePicker extends LightningElement {
     static RULES = getOutputRules();
+
+    @track
+    inlineItem = null;
 
     @track
     _customValidity;
@@ -45,6 +52,9 @@ export default class OutputResourcePicker extends LightningElement {
      */
     @api
     rowIndex;
+
+    @track
+    focusOnInput = false;
 
     /**
      * The current value of the picker
@@ -160,6 +170,14 @@ export default class OutputResourcePicker extends LightningElement {
         this.value = event.detail.item || event.detail.displayText;
     }
 
+    handleAddInlineResource = e => {
+        storeInstance.dispatch(
+            updateInlineResourceProperties({
+                lastInlineResourcePosition: e.detail.position
+            })
+        );
+    };
+
     handleFetchMenuData(event) {
         const selectedItem = event.detail.item;
         this.populateMenuData(selectedItem);
@@ -218,9 +236,44 @@ export default class OutputResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
+    handleItemSelected(event) {
+        this.value = event.detail.item;
+    }
+
+    findNewResource = () => {
+        const inlineResourceId = storeInstance.getCurrentState().properties
+            .lastInlineResourceGuid;
+        let resource = storeInstance.getCurrentState().elements[
+            inlineResourceId
+        ];
+
+        if (resource) {
+            resource = {
+                ...resource,
+                value: `${resource.guid}`,
+                displayText: `{${resource.name}}`,
+                textNoHighlight: `${resource.name}`
+            };
+        }
+
+        return resource;
+    };
+
     populateMenuData = parentItem => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
+            if (
+                storeInstance.getCurrentState().properties
+                    .lastInlineResourcePosition === this.rowIndex
+            ) {
+                const newResource = this.findNewResource();
+
+                if (newResource) {
+                    this.inlineItem = newResource;
+                    this.focusOnInput = true;
+                    storeInstance.dispatch(removeLastCreatedInlineResource);
+                }
+            }
             this._baseResourcePicker.setMenuData(
                 getMenuData(
                     this.elementConfig,
