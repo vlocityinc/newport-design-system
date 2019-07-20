@@ -1,45 +1,48 @@
 import { LightningElement, api } from "lwc";
 
 export default class FerToFerovExpressionBuilder extends LightningElement {
-    @api
-    lhsLabel;
+  @api
+  lhsLabel;
 
-    @api
-    lhsPlaceholder;
+  @api
+  lhsPlaceholder;
 
-    @api
-    operatorLabel;
+  @api
+  operatorLabel;
 
-    @api
-    operatorPlaceholder;
+  @api
+  operatorPlaceholder;
 
-    @api
-    defaultOperator;
+  @api
+  defaultOperator;
 
-    @api
-    rhsLabel;
+  @api
+  rhsLabel;
 
-    @api
-    rhsPlaceholder;
+  @api
+  rhsPlaceholder;
 
-    @api
-    containerElement;
+  @api
+  containerElement;
 
-    @api
-    expression;
+  @api
+  expression;
 
-    @api
-    objectType;
+  @api
+  objectType;
 
-    @api
-    lhsFields;
+  @api
+  lhsFields;
 
-    @api
-    rules;
+  @api
+  rules;
 
-    @api
-    hideNewResource;
-    
-    @api
-    operatorIconName;
+  @api
+  hideNewResource;
+
+  @api
+  operatorIconName;
+
+  @api
+  hideSystemVariables;
 }

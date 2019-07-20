@@ -4,7 +4,8 @@ import {
     LABELS,
     CRITERIA_RECORDS_LABELS,
     WARNING_LABELS,
-    NO_CRITERIA_LABELS
+    NO_CRITERIA_LABELS,
+    ALL_CRITERIA_LABELS
 } from './recordFilterLabels';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
@@ -19,6 +20,8 @@ import {
     UpdateRecordFilterEvent,
     RecordFilterTypeChangedEvent
 } from 'builder_platform_interaction/events';
+
+const VARIANT_START = 'startElement';
 
 export default class RecordFilter extends LightningElement {
     defaultOperator = RULE_OPERATOR.EQUAL_TO;
@@ -40,7 +43,16 @@ export default class RecordFilter extends LightningElement {
     hideNewResource = false;
 
     @api
+    hideSystemVariables = false;
+
+    @api
     hideTitle = false;
+
+    @api
+    showPrefix = false;
+
+    @api
+    variant;
 
     get rules() {
         return this.elementType
@@ -107,6 +119,12 @@ export default class RecordFilter extends LightningElement {
         return this.entityFields;
     }
 
+    get containerClasses() {
+        return this.variant === VARIANT_START
+            ? 'slds-m-bottom_small'
+            : 'slds-m-bottom_small slds-border_top';
+    }
+
     get showDeleteFilter() {
         return this.filterItems.length > 1;
     }
@@ -135,7 +153,7 @@ export default class RecordFilter extends LightningElement {
                 value: RECORD_FILTER_CRITERIA.NONE
             },
             {
-                label: LABELS.filterAllCriterias,
+                label: ALL_CRITERIA_LABELS[this.elementType],
                 value: RECORD_FILTER_CRITERIA.ALL
             }
         ];
@@ -146,9 +164,6 @@ export default class RecordFilter extends LightningElement {
     }
 
     get filterLabel() {
-        if (this.hideTitle) {
-            return format(this.labels.findRecords, this.resourceDisplayText);
-        }
         return CRITERIA_RECORDS_LABELS[this.elementType];
     }
 

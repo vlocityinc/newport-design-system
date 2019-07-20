@@ -5,10 +5,10 @@ import triggerTypeInputLabel from '@salesforce/label/FlowBuilderStartEditor.trig
 import triggerTypeAutomatically from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAutomatically';
 import triggerTypeScheduled from '@salesforce/label/FlowBuilderStartEditor.triggerTypeScheduled';
 import scheduleSectionHeader from '@salesforce/label/FlowBuilderStartEditor.scheduleSectionHeader';
+import filterRecordsDescription from '@salesforce/label/FlowBuilderStartEditor.filterRecordsDescription';
 import frequencyInputLabel from '@salesforce/label/FlowBuilderStartEditor.frequencyInputLabel';
 import frequencyInputHelp from '@salesforce/label/FlowBuilderStartEditor.frequencyInputHelp';
 import object from '@salesforce/label/FlowBuilderRecordEditor.object';
-import objectInputHelp from '@salesforce/label/FlowBuilderStartEditor.objectInputHelp';
 import objectPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.objectPlaceholder';
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
 import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
@@ -29,10 +29,10 @@ export const LABELS = {
     triggerTypeAutomatically,
     triggerTypeScheduled,
     scheduleSectionHeader,
+    filterRecordsDescription,
     frequencyInputLabel,
     frequencyInputHelp,
     object,
-    objectInputHelp,
     objectPlaceholder,
     triggerFrequencyOnce,
     triggerFrequencyDaily,

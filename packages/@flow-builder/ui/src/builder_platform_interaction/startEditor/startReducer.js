@@ -94,7 +94,6 @@ const resetFilters = state => {
 const clearAllProperties = state => {
     state[PROPS.object] = { value: '', error: null };
     state[PROPS.filterType] = {};
-    resetFilters(state);
     clearScheduledProperties(state);
 };
 
@@ -144,7 +143,7 @@ const startPropertyChanged = (state, event) => {
                 setDefaultScheduledProperties(state);
             } else {
                 // clear all scheduled properties if trigger type is not 'Scheduled'
-                // clearScheduledProperties(state);
+                state = resetFilters(state);
                 clearAllProperties(state);
             }
         } else if (event.detail.propertyName === PROPS.object) {

@@ -64,16 +64,20 @@
             value={frequency}
         ></lightning-combobox>
     </div>
+
     <!-- choose object & record condtions -->
     <div
         if:true={showScheduleSection}
-        class=" slds-border_top slds-p-around_small"
+        class="slds-m-bottom_small slds-border_top"
     >
-        <h3 class="slds-text-heading_small slds-p-bottom_small">
+        <h3 class="slds-text-heading_small slds-p-around_small">
             {labels.chooseObjectAndRecord}
-            <lightning-helptext content={objectInputHelp}></lightning-helptext>
         </h3>
-
+        <div
+            class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-left_small"
+        >
+            {labels.filterRecordsDescription}
+        </div>
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
             <builder_platform_interaction-entity-resource-picker
                 combobox-config={entityComboboxConfig}
@@ -85,22 +89,26 @@
             >
             </builder_platform_interaction-entity-resource-picker>
         </div>
-        <div if:true={recordEntityName}>
-            <builder_platform_interaction-record-filter
-                element-type={elementType}
-                filter-items={startElement.filters}
-                record-entity-name={recordEntityName}
-                resource-display-text={resourceDisplayText}
-                record-fields={recordFields}
-                filter-type={startElement.filterType}
-                onrecordfiltertypechanged={handleFilterTypeChanged}
-                onaddrecordfilter={handlePropertyOrListItemChanged}
-                onupdaterecordfilter={handlePropertyOrListItemChanged}
-                ondeleterecordfilter={handlePropertyOrListItemChanged}
-                hide-title={hideTitleOrNewResource}
-                hide-new-resource={hideTitleOrNewResource}
-            >
-            </builder_platform_interaction-record-filter>
-        </div>
+    </div>
+
+    <div if:true={recordEntityName}>
+        <builder_platform_interaction-record-filter
+            element-type={elementType}
+            filter-items={startElement.filters}
+            record-entity-name={recordEntityName}
+            resource-display-text={resourceDisplayText}
+            record-fields={recordFields}
+            filter-type={startElement.filterType}
+            onrecordfiltertypechanged={handleFilterTypeChanged}
+            onaddrecordfilter={handlePropertyOrListItemChanged}
+            onupdaterecordfilter={handlePropertyOrListItemChanged}
+            ondeleterecordfilter={handlePropertyOrListItemChanged}
+            hide-title
+            hide-new-resource
+            hide-system-variables
+            show-prefix
+            variant="startElement"
+        >
+        </builder_platform_interaction-record-filter>
     </div>
 </template>

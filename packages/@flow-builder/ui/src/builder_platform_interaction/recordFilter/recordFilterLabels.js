@@ -10,6 +10,7 @@ import filterNoCriteriaUpdate from '@salesforce/label/FlowBuilderRecordEditor.fi
 import filterLhsPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterLhsPlaceholder';
 import filterOperatorPlaceholder from '@salesforce/label/FlowBuilderRecordEditor.filterOperatorPlaceholder';
 import filterAllCriterias from '@salesforce/label/FlowBuilderRecordEditor.filterAllCriterias';
+import filterAllCriteriasAnd from '@salesforce/label/FlowBuilderRecordEditor.filterAllCriteriasAnd';
 import filterPrefix from '@salesforce/label/FlowBuilderRecordEditor.filterPrefix';
 import criteriaMatchingRecords from '@salesforce/label/FlowBuilderRecordEditor.criteriaMatchingRecords';
 import updateAllRecords from '@salesforce/label/FlowBuilderRecordEditor.updateAllRecords';
@@ -28,6 +29,7 @@ export const LABELS = {
     filterLhsPlaceholder,
     filterOperatorPlaceholder,
     filterAllCriterias,
+    filterAllCriteriasAnd,
     filterPrefix,
     criteriaMatchingRecords,
     updateAllRecords,
@@ -39,7 +41,8 @@ export const CRITERIA_RECORDS_LABELS = {
     [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.ruleFindingRecords,
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.criteriaMatchingRecords,
     [ELEMENT_TYPE.RECORD_DELETE]: LABELS.criteriaMatchingRecords,
-    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.criteriaMatchingRecords
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.criteriaMatchingRecords,
+    [ELEMENT_TYPE.START_ELEMENT]: LABELS.ruleFindingRecords
 };
 
 export const WARNING_LABELS = {
@@ -52,4 +55,11 @@ export const NO_CRITERIA_LABELS = {
     [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterNoCriteriaUpdate,
     [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterNoCriteriaGet,
     [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterNoCriteriaGet
+};
+
+export const ALL_CRITERIA_LABELS = {
+    [ELEMENT_TYPE.RECORD_LOOKUP]: LABELS.filterAllCriterias,
+    [ELEMENT_TYPE.RECORD_UPDATE]: LABELS.filterAllCriterias,
+    [ELEMENT_TYPE.RECORD_CHOICE_SET]: LABELS.filterAllCriterias,
+    [ELEMENT_TYPE.START_ELEMENT]: LABELS.filterAllCriteriasAnd
 };

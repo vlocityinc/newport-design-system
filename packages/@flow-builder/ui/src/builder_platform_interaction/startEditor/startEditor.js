@@ -1,6 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-
-import { getLocale } from 'lightning/internalLocalizationService';
+import getLocale from '@salesforce/i18n/timeZone';
 import { format } from 'builder_platform_interaction/commonUtils';
 import {
     fetchFieldsForEntity,
@@ -142,11 +141,7 @@ export default class StartEditor extends LightningElement {
     }
 
     get startTimeInputHelp() {
-        return format(this.labels.startTimeInputHelp, getLocale().timezone);
-    }
-
-    get objectInputHelp() {
-        return this.labels.objectInputHelp;
+        return format(this.labels.startTimeInputHelp, getLocale);
     }
 
     /**
@@ -172,10 +167,6 @@ export default class StartEditor extends LightningElement {
             entity => entity.apiName === this.recordEntityName
         );
         return entityToDisplay ? entityToDisplay.entityLabel : '';
-    }
-
-    get hideTitleOrNewResource() {
-        return true;
     }
 
     /**
