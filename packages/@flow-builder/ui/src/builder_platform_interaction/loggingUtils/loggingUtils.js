@@ -74,7 +74,7 @@ export const logPerfMarkEnd = (name, context) => {
 export const logInteraction = (
     target,
     scope,
-    context,
+    context, // make sure context is an object otherwise it'll fail
     eventSource,
     eventType = 'user'
 ) => {

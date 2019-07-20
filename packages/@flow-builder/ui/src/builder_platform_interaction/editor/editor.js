@@ -1060,7 +1060,7 @@ export default class Editor extends LightningElement {
             logInteraction(
                 'create-new-flow-button',
                 'editor-component',
-                templateId,
+                { devNameOrId: templateId },
                 'click',
                 'user'
             );
@@ -1070,14 +1070,14 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner = true;
         } else {
             if (processType) {
-                // create the empty flow for the selected process type
                 logInteraction(
                     'create-new-flow-button',
                     'editor-component',
-                    processType,
+                    { devNameOrId: processType },
                     'click',
                     'user'
                 );
+                // create the empty flow for the selected process type
                 this.spinners.showFlowMetadataSpinner = true;
                 this.createFlowFromProcessType(processType);
                 this.spinners.showFlowMetadataSpinner = false;
