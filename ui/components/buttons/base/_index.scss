@@ -365,3 +365,14 @@ a.nds-button--inverse:focus {
 svg.nds-button__icon {
   fill: $color-input-font-kashmiri-blue;
 }
+
+/**
+ * @summary Creates a button style for 100% width that maintains current styling
+ * @selector .nds-button_stretch
+ * @restrict .nds-button
+ * @modifier
+ * @group size
+ */
+.nds-button_stretch {
+    width: 100%;
+}
