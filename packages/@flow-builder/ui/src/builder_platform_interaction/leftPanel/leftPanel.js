@@ -88,7 +88,7 @@ export default class LeftPanel extends LightningElement {
                 this.resourceDetails.asResource
             );
         }
-        if (this.processType !== flowProcessType) {
+        if (flowProcessType && this.processType !== flowProcessType) {
             this.processType = flowProcessType;
             logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
             fetch(
