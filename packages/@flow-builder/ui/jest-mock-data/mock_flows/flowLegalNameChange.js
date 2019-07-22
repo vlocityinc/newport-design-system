@@ -725,7 +725,6 @@ export const flowLegalNameChange = {
         processMetadataValues: []
       }
     ],
-    runInSystemMode: false,
     screens: [
       {
         allowBack: true,

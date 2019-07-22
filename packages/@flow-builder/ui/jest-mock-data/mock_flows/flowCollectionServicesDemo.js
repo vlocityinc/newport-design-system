@@ -482,7 +482,6 @@ export const flowCollectionServicesDemo = {
       }
     ],
     recordUpdates: [],
-    runInSystemMode: true,
     screens: [
       {
         allowBack: true,

@@ -28,7 +28,6 @@ export const flowWithVariables = {
     recordDeletes: [],
     recordLookups: [],
     recordUpdates: [],
-    runInSystemMode: false,
     screens: [],
     stages: [],
     start: {

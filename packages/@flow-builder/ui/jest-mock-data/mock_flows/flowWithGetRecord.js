@@ -366,7 +366,6 @@ export const flowWithGetRecordUsingSObjectSingleAutomatedOutput = {
       }
     ],
     recordUpdates: [],
-    runInSystemMode: false,
     screens: [],
     stages: [],
     status: "InvalidDraft",

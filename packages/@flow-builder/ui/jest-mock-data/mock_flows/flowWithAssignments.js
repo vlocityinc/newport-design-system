@@ -65,7 +65,6 @@ export const flowWithAssignments = {
     recordDeletes: [],
     recordLookups: [],
     recordUpdates: [],
-    runInSystemMode: false,
     screens: [],
     stages: [],
     start: {
