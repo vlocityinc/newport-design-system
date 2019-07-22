@@ -31,12 +31,11 @@
                     class="divParentResourcePickerModeOptions slds-p-around_x-small slds-p-bottom_xx-small slds-button-group-list"
                 >
                     <div class={computedDivResourcePickerClass}>
-                        <!-- TODO: W-6359264 Update element-type to row-index to determine uniqueness if possible -->
                         <builder_platform_interaction-ferov-resource-picker
                             combobox-config={resourceComboBoxConfig}
                             element-config={elementConfig}
                             hide-global-constants
-                            element-type={elementType}
+                            row-index={_ferovId}
                             show-global-variables={showGlobalVariables}
                             hide-new-resource={hideNewResource}
                             onfocusout={handleResourcePickerFocusout}
@@ -64,6 +63,7 @@
                 <builder_platform_interaction-resourced-textarea
                     value={inputRichTextValue}
                     hide-new-resource={hideNewResource}
+                    row-index={_textAreaId}
                     plain-text-available
                 >
                 </builder_platform_interaction-resourced-textarea>

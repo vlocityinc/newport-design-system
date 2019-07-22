@@ -251,7 +251,7 @@ export default class OutputResourcePicker extends LightningElement {
             resource = {
                 ...resource,
                 value: `${resource.guid}`,
-                displayText: `{${resource.name}}`,
+                displayText: `{!${resource.name}}`,
                 textNoHighlight: `${resource.name}`
             };
         }

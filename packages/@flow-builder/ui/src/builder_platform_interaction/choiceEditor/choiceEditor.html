@@ -15,6 +15,7 @@
                 label={labels.choiceTextInputLabel}
                 required
                 value={choiceResource.choiceText}
+                row-index={_rteId}
                 onchange={handleChoiceLabelChanged}
                 onblur={handleChoiceLabelBlur}
                 class="choice-label"
@@ -43,8 +44,8 @@
                     <builder_platform_interaction-ferov-resource-picker
                         value={storedValue}
                         hide-new-resource={hideNewResourceButton}
+                        row-index={_ferovPickerId}
                         error-message={choiceResource.storedValue.error}
-                        row-index={choiceResource.storedValueIndex.value}
                         combobox-config={storedValueComboboxConfig}
                         property-editor-element-type={choiceResource.elementType}
                         element-param={choiceParam}

@@ -16,11 +16,18 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /*
  * A property editor
  */
 export default class ScreenPropertyField extends LightningElement {
+    _uniqueId = generateGuid();
+    _ferovPickerId = `${this._uniqueId}ferov`;
+    _outputPickerId = `${this._uniqueId}output`;
+    _textAreaId = `${this._uniqueId}textArea`;
+    _rteId = `${this._uniqueId}rte`;
+
     @api
     name;
 

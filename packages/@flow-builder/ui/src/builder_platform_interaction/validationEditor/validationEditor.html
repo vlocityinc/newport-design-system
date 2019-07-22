@@ -1,12 +1,12 @@
 <template>
     <div class="slds-form-element">
-        <!-- TODO: W-6359264 Update element-type to row-index to determine uniqueness if possible -->
         <builder_platform_interaction-resourced-rich-text-editor
             class="property-input errorMessage"
             label={labels.errorMessage}
             element-type="validateErrorMessage"
             value={element.errorMessage}
             required={required}
+            row-index={_ferovPickerId}
             hide-new-resource={hideNewResource}
             onchange={handleErrorMessageValueChanged}
         >
@@ -14,13 +14,13 @@
 
         <p class="slds-p-top_small"></p>
         <!-- TODO: W-5183123 - change this to formula-editor component -->
-        <!-- TODO: W-6359264 Update element-type to row-index to determine uniqueness if possible -->
         <builder_platform_interaction-resourced-textarea
             class="property-input formulaExpression"
             element-type="formulaExpression"
             label={labels.formulaLabel}
             value={element.formulaExpression}
             required={required}
+            row-index={_rteId}
             show-global-variables
             hide-new-resource={hideNewResource}
             onblur={handleFormulaExpressionValueChanged}

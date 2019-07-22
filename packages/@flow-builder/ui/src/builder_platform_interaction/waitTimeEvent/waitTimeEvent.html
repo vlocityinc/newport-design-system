@@ -32,6 +32,7 @@
                 element-param={dateTimeElementParam}
                 rules={timeEventParameterRules}
                 oncomboboxstatechanged={handleAbsoluteBaseTimeChange}
+                onnewinlineresource={handleAbsoluteBaseTimeChange}
             >
             </builder_platform_interaction-ferov-resource-picker>
         </div>
@@ -75,8 +76,10 @@
                     property-editor-element-type={elementType}
                     element-param={recordIdElementParam}
                     onitemselected={handleRecordIdChanged}
+                    element-config={inlineRecordIdConfig}
                     rules={timeEventParameterRules}
                     oncomboboxstatechanged={handleRecordIdChanged}
+                    onnewinlineresource={handleRecordIdChanged}
                 >
                 </builder_platform_interaction-ferov-resource-picker>
             </div>

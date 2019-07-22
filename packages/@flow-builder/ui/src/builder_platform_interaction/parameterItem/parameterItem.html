@@ -85,14 +85,13 @@
                                     if:true={state.isInput}
                                     class={comboboxClass}
                                     error-message={errorMessage}
-                                    element-type={itemIndex}
                                     element-config={memberIdElementConfig}
                                     value={parameterValue}
                                     combobox-config={parameterComboboxConfig}
                                     element-param={elementParam}
                                     property-editor-element-type={elementType}
                                     rules={rules}
-                                    row-index={state.parameterItem.rowIndex}
+                                    row-index={ferovId}
                                     oncomboboxstatechanged={handleUpdateParameter}
                                     onnewinlineresource={handleInlineResource}
                                 >
@@ -102,9 +101,9 @@
                                     class={comboboxClass}
                                     value={parameterValue}
                                     combobox-config={parameterComboboxConfig}
-                                    row-index={state.parameterItem.rowIndex}
                                     element-param={elementParam}
                                     property-editor-element-type={elementType}
+                                    row-index={outputId}
                                     error-message={errorMessage}
                                     oncomboboxstatechanged={handleUpdateParameter}
                                     onnewinlineresource={handleInlineResource}

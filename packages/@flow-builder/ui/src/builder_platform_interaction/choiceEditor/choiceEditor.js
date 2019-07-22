@@ -16,6 +16,7 @@ import {
     RULE_TYPES
 } from 'builder_platform_interaction/ruleLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const flowDataTypeChoiceMenuItems = [
     FLOW_DATA_TYPE.STRING,
@@ -43,6 +44,9 @@ const CHOICE_FIELDS = {
 };
 
 export default class ChoiceEditor extends LightningElement {
+    _uniqueId = generateGuid();
+    _ferovPickerId = `${this._uniqueId}ferov`;
+    _rteId = `${this._uniqueId}rte`;
     /**
      * Internal state for the choice editor
      */

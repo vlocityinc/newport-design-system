@@ -55,6 +55,12 @@ const inputParameterArrayToMap = (parameters = []) => {
 };
 
 export default class WaitTimeEvent extends LightningElement {
+    _recordIdElementType = 'waitTimeRecordId';
+
+    inlineRecordIdConfig = {
+        elementType: this._recordIdElementType
+    };
+
     @track
     resumeTimeParametersMap = new Map();
 
@@ -325,10 +331,19 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
+        let { value, error } = getFerovInfoAndErrorFromEvent(
             event,
             literalDataType
         );
+        const { dataType } = getFerovInfoAndErrorFromEvent(
+            event,
+            literalDataType
+        );
+        if (value === undefined) {
+            value = event.detail.item.guid;
+            error = null;
+        }
+
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
             null,

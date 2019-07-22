@@ -1,12 +1,17 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './validationEditorLabels';
 import { ValidationRuleChangedEvent } from 'builder_platform_interaction/events';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /*
  * Common component that can be used in various property editors where a Validation Rule
  * is used.
  */
 export default class ValidationEditor extends LightningElement {
+    _uniqueId = generateGuid();
+    _ferovPickerId = `${this._uniqueId}ferov`;
+    _rteId = `${this._uniqueId}rte`;
+
     @api element;
     @api required = false;
     @api hideNewResource = false;

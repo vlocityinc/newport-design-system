@@ -1,10 +1,8 @@
 <template>
     <div class={computedClass}>
-        <!-- TODO: W-6359264 Update element-type to row-index to determine uniqueness if possible -->
         <builder_platform_interaction-ferov-resource-picker
             if:true={isFerov}
             class="property-input"
-            element-type={name}
             combobox-config={resourceComboBoxConfig}
             element-config={resourcePickerConfig.elementConfig}
             element-param={elementParam}
@@ -13,7 +11,7 @@
             property-editor-element-type={propertyEditorElementType}
             rules={resourcePickerRules}
             hide-new-resource={resourcePickerConfig.hideNewResource}
-            row-index={rowIndex}
+            row-index={_ferovPickerId}
             value={propertyValue}
             oncomboboxstatechanged={handleComboboxChanged}
             onitemselected={handleComboboxChanged}
@@ -28,7 +26,7 @@
             element-param={elementParam}
             property-editor-element-type={propertyEditorElementType}
             value={propertyValue}
-            row-index={rowIndex}
+            row-index={_outputPickerId}
             oncomboboxstatechanged={handleComboboxChanged}
             onitemselected={handleComboboxChanged}
         >
@@ -65,6 +63,7 @@
             class="property-input"
             help-text={helpText}
             label={label}
+            row-index={_textAreaId}
             element-type={name}
             required={required}
             value={value}
@@ -79,6 +78,7 @@
             help-text={helpText}
             label={label}
             required={required}
+            row-index={_rteId}
             value={value}
             element-type={name}
             onblur={handleEvent}

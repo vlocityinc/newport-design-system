@@ -16,13 +16,18 @@ import {
     DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
 import { LABELS } from './parameterItemLabels';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 export default class ParameterItem extends LightningElement {
     labels = LABELS;
 
     memberId = 'memberId';
 
-    feedItemId = 'feedItemId';
+    _rowIndex = generateGuid();
+
+    ferovId = `${this._rowIndex}ferov`;
+
+    outputId = `${this._rowIndex}output`;
 
     @track state = {
         toggleStatus: false,
@@ -35,10 +40,6 @@ export default class ParameterItem extends LightningElement {
 
     memberIdElementConfig = {
         elementType: this.memberId
-    };
-
-    relatedRecordElementConfig = {
-        elementType: this.feedItemId
     };
 
     /**
@@ -302,7 +303,7 @@ export default class ParameterItem extends LightningElement {
     handleInlineResource = event => {
         if (event.detail && event.detail.item) {
             const { name, dataType } = event.detail.item;
-            this.dispatchParameterEvent(`!{${name}}`, dataType, null);
+            this.dispatchParameterEvent(`${name}`, dataType, null);
         }
     };
 

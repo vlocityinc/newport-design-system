@@ -42,6 +42,25 @@ const SELECTORS = {
  * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'video'.
  */
 export default class ResourcedRichTextEditor extends LightningElement {
+    _rowIndex;
+
+    @track
+    _ferovId;
+
+    @track
+    _textAreaId;
+
+    @api
+    set rowIndex(idx) {
+        this._rowIndex = idx;
+        this._ferovId = `${idx}ferov`;
+        this._textAreaId = `${idx}textArea`;
+    }
+
+    get rowIndex() {
+        return this._rowIndex;
+    }
+
     @api
     label;
 

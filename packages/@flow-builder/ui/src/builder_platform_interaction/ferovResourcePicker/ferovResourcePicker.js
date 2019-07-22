@@ -20,6 +20,7 @@ import {
 const LOOP = 'Loop';
 const MEMBER_ID = 'memberId';
 const RELATED_RECORD_ID = 'relatedRecordId';
+const WAIT_TIME_RECORD_ID = 'waitTimeRecordId';
 
 let storeInstance;
 
@@ -56,9 +57,6 @@ export default class FerovResourcePicker extends LightningElement {
 
     @api
     rowIndex;
-
-    @api
-    elementType;
 
     /**
      * The current value of the picker
@@ -319,7 +317,7 @@ export default class FerovResourcePicker extends LightningElement {
             resource = {
                 ...resource,
                 value: `${resource.guid}`,
-                displayText: `{${resource.name}}`,
+                displayText: `{!${resource.name}}`,
                 textNoHighlight: `${resource.name}`
             };
         }
@@ -328,17 +326,9 @@ export default class FerovResourcePicker extends LightningElement {
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
-            // if (this.elementType === 'choice') {
-            //     this.elementType = this.rowIndex;
-            // }
-            // debugger;
-            // TODO: Update this.elementType to rowIndex to determine uniqueness
             const inlinePosition = storeInstance.getCurrentState().properties
                 .lastInlineResourcePosition;
-            if (
-                inlinePosition === this.elementType ||
-                inlinePosition === this.rowIndex
-            ) {
+            if (inlinePosition === this.rowIndex) {
                 const newResource = this.findNewResource();
 
                 if (newResource) {
@@ -353,9 +343,12 @@ export default class FerovResourcePicker extends LightningElement {
                             this.elementConfig.elementType === LOOP) ||
                         (this.elementConfig &&
                             this.elementConfig.elementType === MEMBER_ID) ||
-                        (this.elementConfig &&
+                        ((this.elementConfig &&
                             this.elementConfig.elementType ===
-                                RELATED_RECORD_ID)
+                                RELATED_RECORD_ID) ||
+                            (this.elementConfig &&
+                                this.elementConfig.elementType ===
+                                    WAIT_TIME_RECORD_ID))
                     ) {
                         this.focusOnInput = true;
                     }

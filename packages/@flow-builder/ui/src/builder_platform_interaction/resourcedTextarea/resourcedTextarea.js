@@ -37,6 +37,9 @@ export default class ResourcedTextarea extends LightningElement {
     elementType;
 
     @api
+    rowIndex;
+
+    @api
     label;
 
     @api
@@ -152,7 +155,7 @@ export default class ResourcedTextarea extends LightningElement {
                 ).value = null;
             });
         } else if (inlineItem) {
-            this.fireEvent(`{${inlineItem}}`, null);
+            this.fireEvent(`{!${inlineItem}}`, null);
         }
     };
 
