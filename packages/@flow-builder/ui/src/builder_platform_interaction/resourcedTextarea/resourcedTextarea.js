@@ -142,14 +142,15 @@ export default class ResourcedTextarea extends LightningElement {
             const end = textarea.selectionEnd || start;
             const pre = val.substring(0, start);
             const post = val.substring(end, val.length);
-            const newTextAreaValue = `${pre}${((text && !event.detail.item.hasNext) ? text : `{!${inlineItem}}`)}${post}`;
+            const insertedValue =
+                text && !event.detail.item.hasNext ? text : `{!${inlineItem}}`;
 
-            textarea.value = newTextAreaValue;
+            textarea.value = `${pre}${insertedValue}${post}`;
             textarea.setSelectionRange(
-                newTextAreaValue.length,
-                newTextAreaValue.length
+                start + insertedValue.length,
+                start + insertedValue.length
             );
-            this.fireEvent(newTextAreaValue, null);
+            this.fireEvent(textarea.value, null);
 
             Promise.resolve().then(() => {
                 this.template.querySelector(
