@@ -18,6 +18,9 @@ import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expr
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
+const REFERENCE = 'reference';
+const NEW_INLINE_RESOURCE = 'newinlineresource';
+
 /*
  * A property editor
  */
@@ -379,6 +382,7 @@ export default class ScreenPropertyField extends LightningElement {
 
         const error =
             event.detail && event.detail.error ? event.detail.error : null;
+
         this.dispatchEvent(
             new PropertyChangedEvent(
                 this.name,
@@ -387,7 +391,7 @@ export default class ScreenPropertyField extends LightningElement {
                 newGuid,
                 currentValue,
                 this.listIndex,
-                ferovDataType
+                event.type === NEW_INLINE_RESOURCE ? REFERENCE : ferovDataType
             )
         );
     };
