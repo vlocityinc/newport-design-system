@@ -98,6 +98,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
+import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 
 let unsubscribeStore;
 let storeInstance;
@@ -799,6 +800,13 @@ export default class Editor extends LightningElement {
      * @param {Object} event canvas element drop event
      */
     handleAddCanvasElement = event => {
+        if (
+            storeInstance &&
+            storeInstance.getCurrentState().properties.lastInlineResourceGuid
+        ) {
+            storeInstance.dispatch(removeLastCreatedInlineResource);
+        }
+
         if (event && event.type && event.detail) {
             logPerfTransactionStart('PropertyEditor');
             const mode = event.type;

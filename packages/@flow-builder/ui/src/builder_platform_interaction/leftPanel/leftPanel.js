@@ -32,6 +32,8 @@ import {
     logPerfTransactionEnd
 } from 'builder_platform_interaction/loggingUtils';
 
+import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
+
 let storeInstance;
 let unsubscribeStore;
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
@@ -46,6 +48,8 @@ export default class LeftPanel extends LightningElement {
     labels = LABELS;
     searchString;
     processType;
+
+    _addInlineResourceFromManagerTab = false;
 
     constructor() {
         super();
@@ -165,6 +169,7 @@ export default class LeftPanel extends LightningElement {
         event.stopPropagation();
         const handleOnClickEvent = new NewResourceEvent();
         this.dispatchEvent(handleOnClickEvent);
+        this._addInlineResourceFromManagerTab = true;
     };
 
     handleResourceDetailsBackLinkClicked() {
@@ -247,6 +252,10 @@ export default class LeftPanel extends LightningElement {
     }
 
     renderedCallback() {
+        if (this._addInlineResourceFromManagerTab && storeInstance) {
+            this._addInlineResourceFromManagerTab = false;
+            storeInstance.dispatch(removeLastCreatedInlineResource);
+        }
         if (this.elements.length) {
             logPerfTransactionEnd(LEFT_PANEL_ELEMENTS, {
                 numOfElements: this.elements.length
