@@ -102,6 +102,13 @@ export default class FlowPropertiesEditor extends LightningElement {
         { label: LABELS.saveAsNewFlowTypeLabel, value: SaveType.NEW_DEFINITION }
     ];
 
+    isSavingExistingFlow() {
+        return (
+            this.node.saveType === SaveType.NEW_VERSION ||
+            this.node.saveType === SaveType.UPDATE
+        );
+    }
+
     get runInSystemMode() {
         return this.flowProperties.runInSystemMode;
     }
@@ -136,10 +143,7 @@ export default class FlowPropertiesEditor extends LightningElement {
      * Indicates whether we are saving an existing to an existing flow definition (updating or saving as new version)
      */
     get savingExistingFlow() {
-        return (
-            this.node.saveType === SaveType.NEW_VERSION ||
-            this.node.saveType === SaveType.UPDATE
-        );
+        return this.isSavingExistingFlow();
     }
 
     get showSaveAsTypePicker() {
@@ -181,6 +185,14 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.flowProperties.lastModifiedBy.value,
             normalizeDateTime(this.flowProperties.lastModifiedDate.value, true)
         );
+    }
+
+    /**
+     * Returns field level help text for the process type selector if saving as a new flow
+     * @param {string}
+     */
+    get processTypeFieldLevelHelp() {
+        return this.isSavingExistingFlow() ? '' : LABELS.processTypeHelpText;
     }
 
     /**
@@ -279,11 +291,7 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     handleRunInSystemModeChange(event) {
         event.stopPropagation();
-        this.updateProperty(
-            'runInSystemMode',
-            event.detail.checked,
-            null
-        );
+        this.updateProperty('runInSystemMode', event.detail.checked, null);
     }
 
     handleAdvancedToggle(event) {

@@ -3,6 +3,7 @@ import uniqueNameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.u
 import runInSystemModeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.runInSystemModeLabel';
 import processTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypeLabel';
 import processTypePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypePlaceholderLabel';
+import processTypeHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypeHelpText';
 import processTypeRequiredLabel from '@salesforce/label/FlowBuilderValidation.cannotBeBlank';
 import saveAsNewVersionTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsNewVersionTypeLabel';
 import saveAsNewFlowTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveAsNewFlowTypeLabel';
@@ -24,6 +25,7 @@ export const LABELS = {
     runInSystemModeLabel,
     processTypeLabel,
     processTypePlaceholderLabel,
+    processTypeHelpText,
     processTypeRequiredLabel,
     saveAsNewVersionTypeLabel,
     saveAsNewFlowTypeLabel,
