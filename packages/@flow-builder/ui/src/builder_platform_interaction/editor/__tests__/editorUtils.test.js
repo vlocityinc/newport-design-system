@@ -141,7 +141,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     return {
-        setResourceTypes: jest.fn()
+        setResourceTypes: jest.fn(),
+        FEROV_DATA_TYPE: {},
+        FLOW_DATA_TYPE: {
+            APEX: '',
+            SOBJECT: ''
+        }
     };
 });
 
@@ -631,7 +636,8 @@ describe('Editor Utils Test', () => {
                 dispatch
             };
             const flowProperties = {
-                saveType: SaveType.CREATE
+                saveType: SaveType.CREATE,
+                processType: 'AutoLaunchedFlow'
             };
             const mocksaveFlowFn = jest.fn(saveType => saveType);
             saveAsFlowCallback(storeInstance, mocksaveFlowFn)(flowProperties);
