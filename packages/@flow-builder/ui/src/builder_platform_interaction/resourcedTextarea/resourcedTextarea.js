@@ -134,7 +134,7 @@ export default class ResourcedTextarea extends LightningElement {
         event.stopPropagation();
         const text = event.detail.item.displayText;
         const inlineItem = event.detail.item.name;
-        if (text && !event.detail.item.hasNext) {
+        if ((text && !event.detail.item.hasNext) || inlineItem) {
             // Insert the item at cursor position and notify up
             const textarea = this.template.querySelector(SELECTORS.TEXTAREA);
             const val = textarea.value;
@@ -142,20 +142,20 @@ export default class ResourcedTextarea extends LightningElement {
             const end = textarea.selectionEnd || start;
             const pre = val.substring(0, start);
             const post = val.substring(end, val.length);
-            textarea.value = pre + text + post;
+            const newTextAreaValue = `${pre}${((text && !event.detail.item.hasNext) ? text : `{!${inlineItem}}`)}${post}`;
+
+            textarea.value = newTextAreaValue;
             textarea.setSelectionRange(
-                start + text.length,
-                start + text.length
+                newTextAreaValue.length,
+                newTextAreaValue.length
             );
-            this.fireEvent(textarea.value, null);
+            this.fireEvent(newTextAreaValue, null);
 
             Promise.resolve().then(() => {
                 this.template.querySelector(
                     SELECTORS.FEROV_RESOURCE_PICKER
                 ).value = null;
             });
-        } else if (inlineItem) {
-            this.fireEvent(`{!${inlineItem}}`, null);
         }
     };
 
