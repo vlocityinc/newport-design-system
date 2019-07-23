@@ -16,6 +16,10 @@ import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEdito
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
+import {
+    formatDateTimeUTC,
+    getDayOfTheWeek
+} from 'builder_platform_interaction/dateTimeUtils';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -58,6 +62,13 @@ export function createStartElement(startElement = {}) {
             ? createRecordFilters(filters, object)
             : [];
 
+    const isoStartTime =
+        startTime && startTime.timeInMillis
+            ? getISOTimeFromMillis(startTime.timeInMillis)
+            : startTime;
+
+    const label = getLabel(startDate, isoStartTime, frequency);
+
     Object.assign(newStartElement, {
         elementType,
         locationX,
@@ -66,14 +77,12 @@ export function createStartElement(startElement = {}) {
         triggerType,
         filterType,
         startDate,
-        startTime:
-            startTime && startTime.timeInMillis
-                ? getISOTimeFromMillis(startTime.timeInMillis)
-                : startTime,
+        startTime: isoStartTime,
         frequency,
         object,
         objectIndex,
-        filters: recordFilters
+        filters: recordFilters,
+        label
     });
 
     // If the start element is linked to an sobject, then make the element look like a data element.
@@ -167,4 +176,24 @@ function getISOTimeFromMillis(timeinMillis) {
         .toISOString()
         .slice(0, -1)
         .split('T')[1];
+}
+
+function getLabel(startDate, startTime, frequency) {
+    let label;
+    if (startDate && startTime) {
+        const startDateTime = new Date(startDate);
+        const parts = startTime.split(':');
+        if (parts.length > 1) {
+            startDateTime.setUTCHours(parts[0]);
+            startDateTime.setUTCMinutes(parts[1]);
+        }
+        label =
+            getDayOfTheWeek(startDateTime) +
+            ', ' +
+            formatDateTimeUTC(startDateTime) +
+            ', ' +
+            frequency;
+    }
+
+    return label;
 }

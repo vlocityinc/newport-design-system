@@ -185,3 +185,24 @@ export const formatDateTime = (literal, isDateTime = false) => {
     }
     return dateLiteral;
 };
+
+/**
+ * Formats a UTC datetime into the user's default locale format
+ * Use this when you want to transform a UTC datetime into the user's locale format
+ * @param {Date} datetime to format
+ * @returns {String} datetime text in user's locale format.
+ */
+export const formatDateTimeUTC = date => {
+    return getLocalizationService().formatDateTimeUTC(date);
+};
+
+/**
+ * Formats a UTC datetime into the user's default locale format and extracts the day of the week
+ * Use this when you want to get the day of the week from a UTC datetime, according to the user's locale
+ * @param {Date} datetime to format
+ * @returns {String} text containing the abbreviated version of the day of the week, according to the
+ * user's locale format.
+ */
+export const getDayOfTheWeek = date => {
+    return getLocalizationService().formatDateTimeUTC(date, 'EEE');
+};
