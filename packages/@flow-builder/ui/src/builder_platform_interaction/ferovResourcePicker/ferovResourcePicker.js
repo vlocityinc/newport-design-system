@@ -326,6 +326,15 @@ export default class FerovResourcePicker extends LightningElement {
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
+            // TODO: Refactor this implementation so that we aren't using the elementType for this check
+            const inlineElementTypeForFocus =
+                (this.elementConfig &&
+                    this.elementConfig.elementType === MEMBER_ID) ||
+                ((this.elementConfig &&
+                    this.elementConfig.elementType === RELATED_RECORD_ID) ||
+                    (this.elementConfig &&
+                        this.elementConfig.elementType ===
+                            WAIT_TIME_RECORD_ID));
             const inlinePosition = storeInstance.getCurrentState().properties
                 .lastInlineResourcePosition;
             if (inlinePosition === this.rowIndex) {
@@ -339,16 +348,9 @@ export default class FerovResourcePicker extends LightningElement {
                     this.dispatchEvent(inlineResourceEvent);
                     storeInstance.dispatch(removeLastCreatedInlineResource);
                     if (
+                        inlineElementTypeForFocus ||
                         (this.elementConfig &&
-                            this.elementConfig.elementType === LOOP) ||
-                        (this.elementConfig &&
-                            this.elementConfig.elementType === MEMBER_ID) ||
-                        ((this.elementConfig &&
-                            this.elementConfig.elementType ===
-                                RELATED_RECORD_ID) ||
-                            (this.elementConfig &&
-                                this.elementConfig.elementType ===
-                                    WAIT_TIME_RECORD_ID))
+                            this.elementConfig.elementType === LOOP)
                     ) {
                         this.focusOnInput = true;
                     }
@@ -356,7 +358,9 @@ export default class FerovResourcePicker extends LightningElement {
             }
             this._baseResourcePicker.setMenuData(
                 getMenuData(
-                    this.elementConfig,
+                    inlineElementTypeForFocus
+                        ? { elementType: this.propertyEditorElementType }
+                        : this.elementConfig,
                     this.propertyEditorElementType,
                     this.populateParamTypes,
                     !this.hideGlobalConstants,
