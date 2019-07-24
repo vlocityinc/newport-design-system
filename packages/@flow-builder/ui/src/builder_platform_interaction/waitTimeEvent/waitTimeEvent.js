@@ -331,14 +331,12 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
-        let { value, error } = getFerovInfoAndErrorFromEvent(
+        const ferovInfoAndError = getFerovInfoAndErrorFromEvent(
             event,
             literalDataType
         );
-        const { dataType } = getFerovInfoAndErrorFromEvent(
-            event,
-            literalDataType
-        );
+        let { value, error } = ferovInfoAndError;
+        const { dataType } = ferovInfoAndError;
         if (value === undefined) {
             value = event.detail.item.guid;
             error = null;
