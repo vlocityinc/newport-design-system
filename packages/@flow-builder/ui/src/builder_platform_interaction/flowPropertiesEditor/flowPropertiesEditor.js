@@ -16,6 +16,8 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { getProcessTypesMenuData } from 'builder_platform_interaction/expressionUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
+
 /**
  * Flow Properties property editor for Flow Builder
  *
@@ -25,6 +27,8 @@ import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
  */
 
 export default class FlowPropertiesEditor extends LightningElement {
+    _instanceLabelId = generateGuid();
+
     @api
     get node() {
         return this.flowProperties;

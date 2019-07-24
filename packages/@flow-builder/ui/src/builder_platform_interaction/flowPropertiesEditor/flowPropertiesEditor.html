@@ -63,11 +63,12 @@
 
             <div class="slds-m-top_small">
                 <builder_platform_interaction-resourced-textarea
+                    help-text={labels.instanceLabelHelpText}
                     label={labels.instanceLabel}
+                    row-index={_instanceLabelId}
                     value={flowProperties.interviewLabel}
                     onblur={handleInstanceLabelChanged}
                     onchange={handleInstanceLabelChanged}
-                    help-text={labels.instanceLabelHelpText}
                 >
                 </builder_platform_interaction-resourced-textarea>
             </div>
