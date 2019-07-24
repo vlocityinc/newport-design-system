@@ -31,10 +31,7 @@ import {
     addItem
 } from 'builder_platform_interaction/dataMutationLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
 /**
  * Reducer for elements.
@@ -261,37 +258,7 @@ function _addOrUpdateCanvasElementWithChildElements(
 function _addOrUpdateElement(state, guid, element) {
     const newState = updateProperties(state);
     newState[guid] = updateProperties(newState[guid], element);
-
-    if (element && element.elementType === ELEMENT_TYPE.START_ELEMENT) {
-        newState[guid] = _updateStartElementProperties(newState[guid], element);
-    }
-
     return newState;
-}
-
-function _updateStartElementProperties(state, element) {
-    let dataElement;
-    if (element && element.object) {
-        dataElement = {
-            name: SYSTEM_VARIABLE_RECORD_PREFIX,
-            dataType: FLOW_DATA_TYPE.SOBJECT.value,
-            subtype: element.object,
-            isCollection: false,
-            isAssignable: true
-        };
-        fetchFieldsForEntity(element.object, {
-            disableErrorModal: true
-        }).catch(() => {});
-    } else {
-        dataElement = {
-            name: undefined,
-            dataType: undefined,
-            subtype: undefined,
-            isCollection: undefined,
-            isAssignable: undefined
-        };
-    }
-    return updateProperties(state, dataElement);
 }
 
 /**

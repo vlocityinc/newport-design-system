@@ -82,19 +82,14 @@ export function createStartElement(startElement = {}) {
         object,
         objectIndex,
         filters: recordFilters,
-        label
+        label,
+        // If the start element is linked to an sobject, then make the element look like a data element.
+        name: object ? SYSTEM_VARIABLE_RECORD_PREFIX : undefined,
+        dataType: object ? FLOW_DATA_TYPE.SOBJECT.value : undefined,
+        subtype: object ? object : undefined,
+        isCollection: object ? false : undefined,
+        isAssignable: object ? true : undefined
     });
-
-    // If the start element is linked to an sobject, then make the element look like a data element.
-    if (object) {
-        Object.assign(newStartElement, {
-            name: SYSTEM_VARIABLE_RECORD_PREFIX,
-            dataType: FLOW_DATA_TYPE.SOBJECT.value,
-            subtype: object,
-            isCollection: false,
-            isAssignable: true
-        });
-    }
 
     return newStartElement;
 }
