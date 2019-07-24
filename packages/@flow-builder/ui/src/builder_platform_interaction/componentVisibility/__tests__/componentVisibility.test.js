@@ -181,8 +181,7 @@ describe('Component Visibility', () => {
             const indexOfItemToDelete = 0;
             const element = createComponentUnderTest({
                 visibilityRule: getVisibilityRule(CONDITION_LOGIC.AND, [
-                    CONDITION,
-                    NEW_CONDITION
+                    CONDITION
                 ])
             });
 

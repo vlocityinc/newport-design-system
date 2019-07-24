@@ -98,6 +98,8 @@ export default class ComponentVisibility extends LightningElement {
      */
     handleDeleteCondition = () => {
         this._popoverIndex = -1;
+        // delete any new condition that might be present
+        this.deleteNewCondition();
         hidePopover();
     };
 
