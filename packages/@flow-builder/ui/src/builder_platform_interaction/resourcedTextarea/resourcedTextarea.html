@@ -7,7 +7,7 @@
     <div class="property-input slds-form-element">
         <label
             if:true={label}
-            for={elementType}
+            for={name}
             class="slds-form-element__label"
         >
             <abbr
@@ -49,7 +49,7 @@
             </div>
             <textarea
                 class="slds-textarea slds-input textarea-input"
-                name={elementType}
+                name={name}
                 onblur={handleEvent}
                 onchange={handleEvent}
                 maxlength={maxLength}

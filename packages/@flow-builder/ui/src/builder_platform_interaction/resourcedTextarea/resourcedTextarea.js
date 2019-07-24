@@ -34,7 +34,7 @@ export default class ResourcedTextarea extends LightningElement {
     );
 
     @api
-    elementType;
+    name;
 
     @api
     rowIndex;

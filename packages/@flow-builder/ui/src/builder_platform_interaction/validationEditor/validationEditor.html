@@ -3,7 +3,6 @@
         <builder_platform_interaction-resourced-rich-text-editor
             class="property-input errorMessage"
             label={labels.errorMessage}
-            element-type="validateErrorMessage"
             value={element.errorMessage}
             required={required}
             row-index={_ferovPickerId}
@@ -16,7 +15,7 @@
         <!-- TODO: W-5183123 - change this to formula-editor component -->
         <builder_platform_interaction-resourced-textarea
             class="property-input formulaExpression"
-            element-type="formulaExpression"
+            name="formulaExpression"
             label={labels.formulaLabel}
             value={element.formulaExpression}
             required={required}
