@@ -1,4 +1,7 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_FREQUENCY
+} from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap
@@ -20,6 +23,7 @@ import {
     formatDateTimeUTC,
     getDayOfTheWeek
 } from 'builder_platform_interaction/dateTimeUtils';
+import { LABELS } from './elementFactoryLabels';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -182,12 +186,20 @@ function getLabel(startDate, startTime, frequency) {
             startDateTime.setUTCHours(parts[0]);
             startDateTime.setUTCMinutes(parts[1]);
         }
+        let frequencyLabel;
+        if (frequency === FLOW_TRIGGER_FREQUENCY.ONCE) {
+            frequencyLabel = LABELS.triggerFrequencyOnce;
+        } else if (frequency === FLOW_TRIGGER_FREQUENCY.DAILY) {
+            frequencyLabel = LABELS.triggerFrequencyDaily;
+        } else if (frequency === FLOW_TRIGGER_FREQUENCY.WEEKLY) {
+            frequencyLabel = LABELS.triggerFrequencyWeekly;
+        }
         label =
             getDayOfTheWeek(startDateTime) +
             ', ' +
             formatDateTimeUTC(startDateTime) +
             ', ' +
-            frequency;
+            frequencyLabel;
     }
 
     return label;
