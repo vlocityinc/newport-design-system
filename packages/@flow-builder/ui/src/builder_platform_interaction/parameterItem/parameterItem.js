@@ -20,14 +20,9 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 export default class ParameterItem extends LightningElement {
     labels = LABELS;
-
     memberId = 'memberId';
-
-    _rowIndex = generateGuid();
-
-    ferovId = `${this._rowIndex}ferov`;
-
-    outputId = `${this._rowIndex}output`;
+    ferovId = generateGuid();
+    outputId = generateGuid();
 
     @track state = {
         toggleStatus: false,

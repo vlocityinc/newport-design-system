@@ -11,6 +11,7 @@ import { formulaReducer } from './formulaReducer';
 import { LABELS } from './formulaEditorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const dataTypes = [
     FLOW_DATA_TYPE.STRING,
@@ -22,6 +23,7 @@ const dataTypes = [
 ];
 
 export default class FormulaEditor extends LightningElement {
+    _formulaLabelId = generateGuid();
     @track
     formulaResource;
 

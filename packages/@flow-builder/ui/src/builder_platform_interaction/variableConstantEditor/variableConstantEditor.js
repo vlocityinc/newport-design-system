@@ -28,6 +28,7 @@ import {
     RULE_TYPES
 } from 'builder_platform_interaction/ruleLib';
 import { DEFAULT_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 // the property names in a variable element (after mutation), a subset of these are also constant properties
 const VARIABLE_CONSTANT_FIELDS = {
@@ -108,6 +109,8 @@ const fieldLevelHelp = {
  * @since 216
  */
 export default class VariableConstantEditor extends LightningElement {
+    _ferovUniqueId = generateGuid();
+    _entityUniqueId = generateGuid();
     // previous value of external access input output checkbox. Used to assess warning.
     _externalAccessPreviousValues = new Set();
 
@@ -531,11 +534,13 @@ export default class VariableConstantEditor extends LightningElement {
      */
     updateDefaultValue(event) {
         event.stopPropagation();
-
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
-            event,
-            this.dataType
-        );
+        const info = getFerovInfoAndErrorFromEvent(event, this.dataType);
+        const { dataType } = info;
+        let { value, error } = info;
+        if (!value && event.detail.item) {
+            value = event.detail.item.guid;
+            error = null;
+        }
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(
             VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE,

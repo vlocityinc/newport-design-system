@@ -44,9 +44,8 @@ const CHOICE_FIELDS = {
 };
 
 export default class ChoiceEditor extends LightningElement {
-    _uniqueId = generateGuid();
-    _ferovPickerId = `${this._uniqueId}ferov`;
-    _rteId = `${this._uniqueId}rte`;
+    _ferovPickerId = generateGuid();
+    _rteId = generateGuid();
     /**
      * Internal state for the choice editor
      */
@@ -287,19 +286,34 @@ export default class ChoiceEditor extends LightningElement {
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, displayText, error);
     }
 
+    updatePropertiesWithResource(dataType, error, value) {
+        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
+        this.updateProperty(CHOICE_FIELDS.STORED_VALUE, value, error);
+    }
+
     /**
      * Handles addition/updation of storedValue
      * @param {object} event - oncomboboxstatechanged event coming from ferov-resource-picker
      */
     handleStoredValuePropertyChanged(event) {
         event.stopPropagation();
-
-        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
+        const { dataType, error, value } = getFerovInfoAndErrorFromEvent(
             event,
             this.dataType
         );
-        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
-        this.updateProperty(CHOICE_FIELDS.STORED_VALUE, value, error);
+        this.updatePropertiesWithResource(dataType, error, value);
+    }
+
+    /**
+     * Handles a choice added as an inline item
+     * @param {object} event - newinlinereource event
+     */
+    handleInlineItem(event) {
+        event.stopPropagation();
+        const dataType = 'reference';
+        const error = null;
+        const value = event.detail.item.guid;
+        this.updatePropertiesWithResource(dataType, error, value);
     }
 
     /**

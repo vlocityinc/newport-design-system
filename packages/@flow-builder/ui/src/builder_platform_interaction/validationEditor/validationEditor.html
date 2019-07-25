@@ -5,7 +5,6 @@
             label={labels.errorMessage}
             value={element.errorMessage}
             required={required}
-            row-index={_ferovPickerId}
             hide-new-resource={hideNewResource}
             onchange={handleErrorMessageValueChanged}
         >
@@ -19,7 +18,7 @@
             label={labels.formulaLabel}
             value={element.formulaExpression}
             required={required}
-            row-index={_rteId}
+            row-index={_ferovPickerId}
             show-global-variables
             hide-new-resource={hideNewResource}
             onblur={handleFormulaExpressionValueChanged}

@@ -25,11 +25,9 @@ const NEW_INLINE_RESOURCE = 'newinlineresource';
  * A property editor
  */
 export default class ScreenPropertyField extends LightningElement {
-    _uniqueId = generateGuid();
-    _ferovPickerId = `${this._uniqueId}ferov`;
-    _outputPickerId = `${this._uniqueId}output`;
-    _textAreaId = `${this._uniqueId}textArea`;
-    _rteId = `${this._uniqueId}rte`;
+    _ferovPickerId = generateGuid();
+    _outputPickerId = generateGuid();
+    _textAreaId = generateGuid();
 
     @api
     name;
@@ -382,7 +380,6 @@ export default class ScreenPropertyField extends LightningElement {
 
         const error =
             event.detail && event.detail.error ? event.detail.error : null;
-
         this.dispatchEvent(
             new PropertyChangedEvent(
                 this.name,

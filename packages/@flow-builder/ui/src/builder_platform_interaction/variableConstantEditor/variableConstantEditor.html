@@ -32,7 +32,7 @@
                     class="slds-size_1-of-1"
                     value={defaultValue}
                     error-message={variableConstantResource.defaultValue.error}
-                    row-index={variableConstantResource.defaultValueIndex.value}
+                    row-index={_ferovUniqueId}
                     combobox-config={defaultValueComboboxConfig}
                     property-editor-element-type={variableConstantResource.elementType}
                     element-param={defaultValueElementParam}
@@ -40,6 +40,7 @@
                     hide-system-variables={isConstant}
                     hide-new-resource={hideNewResourceButton}
                     oncomboboxstatechanged={handleDefaultValuePropertyChanged}
+                    onnewinlineresource={handleDefaultValuePropertyChanged}
                 >
                 </builder_platform_interaction-ferov-resource-picker>
             </div>
@@ -49,7 +50,7 @@
                     class="slds-form-element slds-size_1-of-2"
                     combobox-config={entityComboboxConfig}
                     value={subtype}
-                    row-index={variableConstantResource.subtypeIndex.value}
+                    row-index={_entityUniqueId}
                     mode={entityMode}
                     oncomboboxstatechanged={handleSubtypeChange}
                     onitemselected={handleSubtypeSelect}

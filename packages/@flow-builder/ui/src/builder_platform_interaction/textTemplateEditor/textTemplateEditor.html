@@ -10,13 +10,14 @@
         </builder_platform_interaction-label-description>
 
         <builder_platform_interaction-resourced-rich-text-editor
-            label={labels.textTemplateLabel}
             help-text={labels.textTemplateHelpText}
-            value={textTemplateResource.text}
-            onchange={handleResourceTextAreaChanged}
             hide-new-resource={hideNewResourceButton}
+            label={labels.textTemplateLabel}
             plain-text-available
             required
+            value={textTemplateResource.text}
+            onchange={handleResourceTextAreaChanged}
+            onnewinlineresource={handleResourceTextAreaChanged}
         >
         </builder_platform_interaction-resourced-rich-text-editor>
     </div>

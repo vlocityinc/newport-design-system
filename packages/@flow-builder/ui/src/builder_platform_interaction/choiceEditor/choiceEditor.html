@@ -15,7 +15,6 @@
                 label={labels.choiceTextInputLabel}
                 required
                 value={choiceResource.choiceText}
-                row-index={_rteId}
                 onchange={handleChoiceLabelChanged}
                 onblur={handleChoiceLabelBlur}
                 class="choice-label"
@@ -42,15 +41,16 @@
                 <!--Choice Value -->
                 <div class="default-value slds-col slds-grow slds-size_1-of-2">
                     <builder_platform_interaction-ferov-resource-picker
-                        value={storedValue}
-                        hide-new-resource={hideNewResourceButton}
-                        row-index={_ferovPickerId}
-                        error-message={choiceResource.storedValue.error}
                         combobox-config={storedValueComboboxConfig}
-                        property-editor-element-type={choiceResource.elementType}
                         element-param={choiceParam}
+                        error-message={choiceResource.storedValue.error}
+                        hide-new-resource={hideNewResourceButton}
+                        property-editor-element-type={choiceResource.elementType}
+                        row-index={_ferovPickerId}
                         rules={rulesForChoiceDefaultValue}
+                        value={storedValue}
                         oncomboboxstatechanged={handleStoredValuePropertyChanged}
+                        onnewinlineresource={handleInlineItem}
                     >
                     </builder_platform_interaction-ferov-resource-picker>
                 </div>

@@ -22,13 +22,14 @@
         </builder_platform_interaction-data-type-picker>
 
         <builder_platform_interaction-resourced-textarea
+            hide-new-resource={hideNewResourceButton}
             label={labels.formulaLabel}
+            required
+            row-index={_formulaLabelId}
+            show-global-variables
             spinner-alternative-text={labels.formulaValidationSpinnerAlternativeText}
             value={formulaResource.expression}
-            hide-new-resource={hideNewResourceButton}
             onchange={handleFormulaExpressionChanged}
-            show-global-variables
-            required
         >
         </builder_platform_interaction-resourced-textarea>
     </div>

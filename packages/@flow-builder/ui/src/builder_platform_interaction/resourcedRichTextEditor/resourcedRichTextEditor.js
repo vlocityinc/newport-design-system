@@ -6,6 +6,7 @@ import { convertHTMLToQuillHTML } from './richTextConverter';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 // all formats except 'strike' and 'video'
 const RTE_FORMATS = [
@@ -42,24 +43,9 @@ const SELECTORS = {
  * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'video'.
  */
 export default class ResourcedRichTextEditor extends LightningElement {
-    _rowIndex;
+    _ferovId = generateGuid();
 
-    @track
-    _ferovId;
-
-    @track
-    _textAreaId;
-
-    @api
-    set rowIndex(idx) {
-        this._rowIndex = idx;
-        this._ferovId = `${idx}ferov`;
-        this._textAreaId = `${idx}textArea`;
-    }
-
-    get rowIndex() {
-        return this._rowIndex;
-    }
+    _textAreaId = generateGuid();
 
     @api
     label;

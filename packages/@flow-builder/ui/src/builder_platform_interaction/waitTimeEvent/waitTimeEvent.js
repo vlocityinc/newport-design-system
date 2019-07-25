@@ -331,16 +331,10 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
-        const ferovInfoAndError = getFerovInfoAndErrorFromEvent(
+        const { dataType, error, value } = getFerovInfoAndErrorFromEvent(
             event,
             literalDataType
         );
-        let { value, error } = ferovInfoAndError;
-        const { dataType } = ferovInfoAndError;
-        if (value === undefined) {
-            value = event.detail.item.guid;
-            error = null;
-        }
 
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
@@ -368,6 +362,33 @@ export default class WaitTimeEvent extends LightningElement {
             event.target.error
         );
         this.dispatchEvent(updateParameterItem);
+    }
+
+    handleInlineResource(event, propertyName) {
+        const isInput = true;
+        const value = event.detail.item.guid;
+        const dataType = 'reference';
+        const error = null;
+
+        const updateParameterItem = new UpdateParameterItemEvent(
+            isInput,
+            null,
+            propertyName,
+            value,
+            dataType,
+            error
+        );
+        this.dispatchEvent(updateParameterItem);
+    }
+
+    handleNewBaseTimeInlineResource(event) {
+        const propertyName = WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME;
+        this.handleInlineResource(event, propertyName);
+    }
+
+    handleNewRecordInlineResource(event) {
+        const propertyName = WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID;
+        this.handleInlineResource(event, propertyName);
     }
 
     handleRecordIdChanged(event) {
