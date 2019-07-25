@@ -1,6 +1,7 @@
 import {
     getGlobalConstantOrSystemVariable,
     getGlobalVariable,
+    isRecordSystemVariableIdentifier,
     GLOBAL_CONSTANT_OBJECTS
 } from 'builder_platform_interaction/systemLib';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
@@ -78,7 +79,7 @@ export const getResourceByUniqueIdentifier = identifier => {
         return getElementByGuid(complexGuid.guidOrLiteral) ||
             getGlobalConstantOrSystemVariable(identifier) ||
             getGlobalVariable(identifier) ||
-            getElementByDevName(complexGuid.guidOrLiteral);
+            (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) && getElementByDevName(complexGuid.guidOrLiteral));
     }
     return null;
 };
