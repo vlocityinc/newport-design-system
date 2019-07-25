@@ -8,6 +8,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { screenExtensionPropertiesReducer } from '../screenExtensionPropertiesReducer';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { deepCopy } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -204,7 +205,11 @@ const parametersComparator = (p1, p2, forInputs) => {
     return p1Label.localeCompare(p2Label);
 };
 
-const createField = properties => {
+const createField = (
+    properties,
+    inputParameters = deepCopy(INPUT_PARAMETERS),
+    outputParameters = deepCopy(OUTPUT_PARAMETERS)
+) => {
     properties.field = createTestScreenField(
         'lcField',
         'Extension',
@@ -212,19 +217,19 @@ const createField = properties => {
         {},
         true
     );
-    properties.field.inputParameters = JSON.parse(
-        JSON.stringify(INPUT_PARAMETERS)
-    );
-    properties.field.outputParameters = JSON.parse(
-        JSON.stringify(OUTPUT_PARAMETERS)
-    );
+    properties.field.inputParameters = inputParameters;
+    properties.field.outputParameters = outputParameters;
 };
 
-const createDescription = properties => {
+const createDescription = (
+    properties,
+    inputParam = deepCopy(DESCRIPTOR_PARAMETERS),
+    outputParam = deepCopy(DESCRIPTOR_PARAMETERS)
+) => {
     properties.extensionDescription = {
         name: DESCRIPTOR_NAME,
-        inputParameters: JSON.parse(JSON.stringify(DESCRIPTOR_PARAMETERS)), // Hacky deep cloning
-        outputParameters: JSON.parse(JSON.stringify(DESCRIPTOR_PARAMETERS)) // Hacky deep cloning
+        inputParameters: inputParam,
+        outputParameters: outputParam
     };
 };
 
@@ -246,6 +251,20 @@ const createComponentForTestWithProperties = () => {
     const properties = {};
     createField(properties);
     createDescription(properties);
+    Object.assign(el, { processType: 'something' });
+    Object.assign(el, properties);
+    document.body.appendChild(el);
+    return el;
+};
+
+const createComponentForTestWithNoOutput = () => {
+    const el = createElement(
+        'builder_platform_interaction-screen-extension-properties-editor',
+        { is: ScreenExtensionPropertiesEditor }
+    );
+    const properties = {};
+    createField(properties, INPUT_PARAMETERS, []);
+    createDescription(properties, DESCRIPTOR_PARAMETERS, []);
     Object.assign(el, { processType: 'something' });
     Object.assign(el, properties);
     document.body.appendChild(el);
@@ -413,9 +432,9 @@ describe('Screen Extension Properties Editor', () => {
     });
     describe('Automated output', () => {
         it('shows up Use Advanced Options when Automated Output enabled', () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => {
-                return 'Supported';
-            });
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
+                () => 'Supported'
+            );
             const extensionEditor = createComponentForTestWithProperties();
 
             return Promise.resolve().then(() => {
@@ -427,9 +446,9 @@ describe('Screen Extension Properties Editor', () => {
             });
         });
         it('does not show up Use Advanced Options when Automated Output disabled', () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => {
-                return 'Unsupported';
-            });
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
+                () => 'Unsupported'
+            );
             const extensionEditor = createComponentForTestWithProperties();
 
             return Promise.resolve().then(() => {
@@ -439,9 +458,9 @@ describe('Screen Extension Properties Editor', () => {
             });
         });
         it('handles use advanced option checkbox event', () => {
-            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(() => {
-                return 'Supported';
-            });
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
+                () => 'Supported'
+            );
             const extensionEditor = createComponentForTestWithProperties();
             const expectedEvent = new UseAdvancedOptionsSelectionChangedEvent(
                 true
@@ -469,6 +488,18 @@ describe('Screen Extension Properties Editor', () => {
                 ).toMatchObject({
                     useAdvancedOptions: true
                 });
+            });
+        });
+        it('does not show the checkbox up when screen field has no output', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
+                () => 'Supported'
+            );
+            const extensionEditor = createComponentForTestWithNoOutput();
+
+            return Promise.resolve().then(() => {
+                expect(
+                    getUseAdvancedOptionComponent(extensionEditor)
+                ).toBeNull();
             });
         });
     });

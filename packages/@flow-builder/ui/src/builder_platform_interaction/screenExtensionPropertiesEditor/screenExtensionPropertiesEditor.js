@@ -52,6 +52,10 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
             FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
     }
 
+    get isAdvancedCheckboxDisplayed() {
+        return this.isAutomaticOutputHandlingSupported && this.hasOutputs;
+    }
+
     /**
      * @return {Boolean} : whether or not the process type supports the automatic output handling
      */
