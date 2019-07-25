@@ -17,6 +17,7 @@ const createComponentUnderTest = (props = {}) => {
 
     el.lastModifiedDate = props.lastModifiedDate;
     el.saveStatus = props.saveStatus;
+    el.flowStatus = props.flowStatus;
 
     document.body.appendChild(el);
     return el;
@@ -28,7 +29,8 @@ const selectors = {
     save: '.test-toolbar-save',
     lastSave: '.test-toolbar-last-saved',
     duplicate: '.test-toolbar-duplicate',
-    activate: '.test-toolbar-activate'
+    activate: '.test-toolbar-activate',
+    relativedatetime: 'lightning-relative-date-time'
 };
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
@@ -118,7 +120,9 @@ describe('toolbar', () => {
                 ToggleFlowStatusEvent.EVENT_NAME,
                 eventCallback
             );
-            toolbarComponent.shadowRoot.querySelector(selectors.activate).click();
+            toolbarComponent.shadowRoot
+                .querySelector(selectors.activate)
+                .click();
             expect(eventCallback).toHaveBeenCalled();
         });
     });
@@ -139,48 +143,242 @@ describe('toolbar', () => {
         });
     });
 
-    it('Displays "Saving..." in the toolbar when saveStatus is set to the same', () => {
-        const toolbarComponent = createComponentUnderTest({
-            saveStatus: LABELS.savingStatus
+    describe('Flow Status Indicator', () => {
+        it('Displays "Inactive: Saved {relative time}" in the toolbar when saveStatus is set to "Saved" and flow status is Draft', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savedStatus,
+                flowStatus: FLOW_STATUS.DRAFT
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.draftLabel + ':' + LABELS.savedStatus
+                );
+                expect(relativeDateTimeComponent).not.toBeNull();
+                expect(relativeDateTimeComponent.value).toEqual(currentDate);
+                expect(parseMetadataDateTime).toHaveBeenCalledWith(
+                    currentDate.toISOString(),
+                    true
+                );
+            });
         });
 
-        return Promise.resolve().then(() => {
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.lastSave
-            );
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                'lightning-relative-date-time'
-            );
-            expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
-            expect(relativeDateTimeComponent).toBeNull();
-        });
-    });
+        it('Displays "Inactive: Saved {relative time}" in the toolbar when saveStatus is set to "Saved" and flow status is Invalid Draft', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savedStatus,
+                flowStatus: FLOW_STATUS.INVALID_DRAFT
+            });
 
-    it('Displays "Saved {relative time}" in the toolbar when saveStatus is set to "Saved"', () => {
-        const currentDate = new Date();
-        parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
-        const toolbarComponent = createComponentUnderTest({
-            lastModifiedDate: currentDate.toISOString(),
-            saveStatus: LABELS.savedStatus,
-            flowStatus: FLOW_STATUS.ACTIVE
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.draftLabel + ':' + LABELS.savedStatus
+                );
+                expect(relativeDateTimeComponent).not.toBeNull();
+            });
         });
 
-        return Promise.resolve().then(() => {
-            const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                selectors.lastSave
-            );
-            const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                'lightning-relative-date-time'
-            );
-            expect(lastSavedButton.textContent.trim()).toEqual(
-                LABELS.savedStatus
-            );
-            expect(relativeDateTimeComponent).not.toBeNull();
-            expect(relativeDateTimeComponent.value).toEqual(currentDate);
-            expect(parseMetadataDateTime).toHaveBeenCalledWith(
-                currentDate.toISOString(),
-                true
-            );
+        it('Displays "Active: Saved {relative time}" in the toolbar when saveStatus is set to "Saved" and flow status is Active', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savedStatus,
+                flowStatus: FLOW_STATUS.ACTIVE
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.activeLabel + ':' + LABELS.savedStatus
+                );
+                expect(relativeDateTimeComponent).not.toBeNull();
+            });
+        });
+
+        it('Displays "Deactivated: Saved {relative time}" in the toolbar when saveStatus is set to "Saved" and flow status is Obsolete', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savedStatus,
+                flowStatus: FLOW_STATUS.OBSOLETE
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.deactivatedLabel + ':' + LABELS.savedStatus
+                );
+                expect(relativeDateTimeComponent).not.toBeNull();
+            });
+        });
+
+        it('Displays "Activating ..." in the toolbar when saveStatus is set to "Saved" and flow status is Activating', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savedStatus,
+                flowStatus: FLOW_STATUS.ACTIVATING
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.activating
+                );
+                expect(relativeDateTimeComponent).toBeNull();
+            });
+        });
+
+        it('Displays "Saving..." in the toolbar when saveStatus is set to the same and flow status is not defined', () => {
+            const toolbarComponent = createComponentUnderTest({
+                saveStatus: LABELS.savingStatus
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+                expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
+                expect(relativeDateTimeComponent).toBeNull();
+            });
+        });
+
+        it('Displays "Saving ..." in the toolbar when saveStatus is set to "Saving" and flow status is Draft', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savingStatus,
+                flowStatus: FLOW_STATUS.DRAFT
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.savingStatus
+                );
+                expect(relativeDateTimeComponent).toBeNull();
+            });
+        });
+
+        it('Displays "Saving ..." in the toolbar when saveStatus is set to "Saving" and flow status is Invalid Draft', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savingStatus,
+                flowStatus: FLOW_STATUS.INVALID_DRAFT
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.savingStatus
+                );
+                expect(relativeDateTimeComponent).toBeNull();
+            });
+        });
+
+        it('Displays "Saving ..." in the toolbar when saveStatus is set to "Saving" and flow status is Active', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savingStatus,
+                flowStatus: FLOW_STATUS.ACTIVE
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.savingStatus
+                );
+                expect(relativeDateTimeComponent).toBeNull();
+            });
+        });
+
+        it('Displays "Saving ..." in the toolbar when saveStatus is set to "Saving" and flow status is Obsolete', () => {
+            const currentDate = new Date();
+            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
+            const toolbarComponent = createComponentUnderTest({
+                lastModifiedDate: currentDate.toISOString(),
+                saveStatus: LABELS.savingStatus,
+                flowStatus: FLOW_STATUS.OBSOLETE
+            });
+
+            return Promise.resolve().then(() => {
+                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
+                    selectors.lastSave
+                );
+                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
+                    selectors.relativedatetime
+                );
+
+                expect(lastSavedButton.textContent.trim()).toEqual(
+                    LABELS.savingStatus
+                );
+                expect(relativeDateTimeComponent).toBeNull();
+            });
         });
     });
 });
