@@ -3,6 +3,7 @@ import {
     getConfigForElementType,
     ICON_SHAPE
 } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     DragNodeEvent,
     DragNodeStopEvent,
@@ -109,6 +110,13 @@ export default class Node extends LightningElement {
     }
 
     get nodeIconTitle() {
+        // Special case if elementType equals START_ELEMENT
+        if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
+            if (this.node.triggerType) {
+                return LABELS.nodeIconTitleStartScheduled;
+            }
+            return LABELS.nodeIconTitleStartDefault;
+        }
         return format(
             LABELS.nodeIconTitle,
             getConfigForElementType(this.node.elementType).labels.singular,
@@ -293,7 +301,9 @@ export default class Node extends LightningElement {
             lib.revalidate(canvasElementContainer);
         }
 
-        const textElementLabel = this.template.querySelector('.text-element-label');
+        const textElementLabel = this.template.querySelector(
+            '.text-element-label'
+        );
         if (textElementLabel && this.nodeLabel !== this.currentNodeLabel) {
             clamp(textElementLabel, {
                 label: this.nodeLabel
