@@ -12,7 +12,7 @@ import { clearExtensionsCache } from 'builder_platform_interaction/flowExtension
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     auraFetch
-} from '../../integrationTestUtils';
+} from '../../../integrationTestUtils';
 import {
     mockRuntimeAddressFlowExtensionListParams,
     mockFlowExtensions
@@ -54,7 +54,7 @@ class ToggleOnChangeEvent extends CustomEvent {
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     const FLOW_AUTOMATIC_OUTPUT_HANDLING =
         actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;

@@ -30,7 +30,7 @@ ownership:
       - modules/builder_platform_interaction/integrationTests/__tests__/clud/**
       - modules/builder_platform_interaction/integrationTests/__tests__/formula/**
       - modules/builder_platform_interaction/integrationTests/__tests__/newFlowModalBody/**
-      - modules/builder_platform_interaction/integrationTests/__tests__/screen/screenEditorAutomaticOutputIntegration.test.js
+      - modules/builder_platform_interaction/integrationTests/__tests__/screen/automaticOutputs/**
       - modules/builder_platform_interaction/integrationTests/__tests__/subflow/**
       - modules/builder_platform_interaction/invocableActionEditor/**
       - modules/builder_platform_interaction/mergeFieldLib/**
