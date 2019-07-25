@@ -20,7 +20,8 @@ import {
     focusoutEvent,
     textInputEvent,
     blurEvent,
-    changeComboboxValue
+    changeComboboxValue,
+    resetState
 } from '../../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -78,6 +79,9 @@ describe('Subflow Editor', () => {
     beforeAll(() => {
         const element = getElementByDevName('Flow_With_All_Types_Variables');
         subflowNode = getElementForPropertyEditor(element);
+    });
+    afterAll(() => {
+        resetState();
     });
     describe('name and dev name', () => {
         it('do not change devName if it already exists after the user modifies the name', async () => {

@@ -2,17 +2,11 @@ import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
-import {
-    setAuraFetch,
-    resetFetchOnceCache
-} from 'builder_platform_interaction/serverDataLib';
-import { auraFetch } from '../../integrationTestUtils';
+import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import { auraFetch, resetState } from '../../integrationTestUtils';
 import { MOCK_RAW_PROCESS_TYPES } from 'mock/processTypesData';
 import { MOCK_RAW_TEMPLATE_LIST } from 'mock/templates';
-import {
-    ALL_PROCESS_TYPE,
-    resetCacheTemplates
-} from 'builder_platform_interaction/processTypeLib';
+import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
@@ -93,9 +87,7 @@ describe('new Flow Modal Body', () => {
             newFlowModalBody = createComponentForTest();
         });
         afterAll(() => {
-            setAuraFetch();
-            resetFetchOnceCache();
-            resetCacheTemplates();
+            resetState();
         });
         describe('Process Types', () => {
             it('should have "all" select by default', () => {
@@ -197,9 +189,7 @@ describe('new Flow Modal Body', () => {
             newFlowModalBody = createComponentForTest();
         });
         afterAll(() => {
-            setAuraFetch();
-            resetFetchOnceCache();
-            resetCacheTemplates();
+            resetState();
         });
         it('should display the process types templates', () => {
             return resolveRenderCycles(() => {

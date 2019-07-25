@@ -16,7 +16,8 @@ import {
     changeComboboxValue,
     changeInputValue,
     getBaseExpressionBuilder,
-    getFieldToFerovExpressionBuilders
+    getFieldToFerovExpressionBuilders,
+    resetState
 } from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { mockEntities } from 'mock/serverEntityData';
@@ -80,10 +81,7 @@ describe('Record Delete Editor', () => {
         store = Store.getStore(reducer);
     });
     afterAll(() => {
-        setRules();
-        setEntities();
-        setSystemVariables();
-        setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
+        resetState();
     });
     describe('name and dev name', () => {
         let newLabel, newDevName;

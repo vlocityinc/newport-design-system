@@ -6,10 +6,7 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import {
-    setAuraFetch,
-    resetFetchOnceCache
-} from 'builder_platform_interaction/serverDataLib';
+import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -24,7 +21,8 @@ import {
     focusoutEvent,
     textInputEvent,
     blurEvent,
-    auraFetch
+    auraFetch,
+    resetState
 } from '../../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -88,11 +86,7 @@ describe('Invocable Action Editor', () => {
         store = Store.getStore(reducer);
     });
     afterAll(() => {
-        store.dispatch({ type: 'INIT' });
-        setRules();
-        setAuraFetch();
-        resetFetchOnceCache();
-        OutputResourcePicker.RULES = [];
+        resetState();
     });
     describe('Flow with an apex action with all types', () => {
         beforeAll(() => {

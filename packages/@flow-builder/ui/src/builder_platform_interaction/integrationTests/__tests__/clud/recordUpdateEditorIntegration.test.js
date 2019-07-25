@@ -16,7 +16,8 @@ import {
     getEntityResourcePickerChildGroupedComboboxComponent,
     newFilterItem,
     changeComboboxValue,
-    changeInputValue
+    changeInputValue,
+    resetState
 } from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { mockEntities } from 'mock/serverEntityData';
@@ -85,10 +86,7 @@ describe('Record Update Editor', () => {
         store = Store.getStore(reducer);
     });
     afterAll(() => {
-        setRules();
-        setEntities();
-        setSystemVariables();
-        setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
+        resetState();
     });
     describe('name and dev name', () => {
         let newLabel, newDevName;

@@ -13,7 +13,7 @@ import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { auraFetch } from '../../integrationTestUtils';
+import { auraFetch, resetState } from '../../integrationTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity
@@ -78,11 +78,7 @@ describe('Assignment Editor', () => {
         );
     });
     afterAll(() => {
-        setRules();
-        setEntities();
-        setSystemVariables();
-        setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
-        setAuraFetch();
+        resetState();
     });
     describe('Automated ouput in combobox', () => {
         let store, assignment, assignmentForPropertyEditor;

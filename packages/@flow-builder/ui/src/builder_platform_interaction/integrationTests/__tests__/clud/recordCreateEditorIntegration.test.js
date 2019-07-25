@@ -13,7 +13,8 @@ import {
     getEntityResourcePicker,
     getFieldToFerovExpressionBuilders,
     getBaseExpressionBuilder,
-    getRadioGroup
+    getRadioGroup,
+    resetState
 } from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
@@ -147,12 +148,7 @@ describe('Record Create Editor', () => {
         store = Store.getStore(reducer);
     });
     afterAll(() => {
-        // reset rules
-        setRules();
-        // TODO : fix setEntities (currently does not reset)
-        setEntities();
-        setSystemVariables();
-        setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
+        resetState();
     });
     describe('name and dev name', () => {
         beforeAll(() => {

@@ -4,12 +4,12 @@ import {
     SERVER_ACTION_TYPE
 } from 'builder_platform_interaction/serverDataLib';
 
-const allEntities = [];
-const allEntitiesMap = {};
-const queryableEntities = [];
-const createableEntities = [];
-const deletableEntities = [];
-const updateableEntities = [];
+let allEntities = [];
+let allEntitiesMap = {};
+let queryableEntities = [];
+let createableEntities = [];
+let deletableEntities = [];
+let updateableEntities = [];
 
 let cachedEntityFields = {};
 
@@ -25,6 +25,12 @@ export const ENTITY_TYPE = {
  * @param {String} entities - String object of all SObjects
  */
 export const setEntities = (entities = null) => {
+    allEntities = [];
+    allEntitiesMap = {};
+    queryableEntities = [];
+    createableEntities = [];
+    deletableEntities = [];
+    updateableEntities = [];
     const unfilteredEntities = JSON.parse(entities);
 
     if (unfilteredEntities) {

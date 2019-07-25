@@ -1,4 +1,21 @@
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    setEntities,
+    clearEntityFieldsCache
+} from 'builder_platform_interaction/sobjectLib';
+import {
+    setAuraFetch,
+    resetFetchOnceCache
+} from 'builder_platform_interaction/serverDataLib';
+import {
+    setGlobalVariables,
+    setSystemVariables
+} from 'builder_platform_interaction/systemLib';
+import { setRules } from 'builder_platform_interaction/ruleLib';
+import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { reducer } from 'builder_platform_interaction/reducers';
+import { resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -256,3 +273,20 @@ export const newFilterItem = (
         error: null
     }
 });
+
+/**
+ * Reset the state (to be called in afterAll)
+ */
+export const resetState = () => {
+    setEntities();
+    clearEntityFieldsCache();
+    setSystemVariables('[]');
+    setGlobalVariables({ globalVariableTypes: '[]', globalVariables: '[]' });
+    setAuraFetch();
+    resetFetchOnceCache();
+    const store = Store.getStore(reducer);
+    store.dispatch({ type: 'INIT' });
+    setRules();
+    OutputResourcePicker.RULES = [];
+    resetCacheTemplates();
+};

@@ -23,7 +23,8 @@ import {
     expectGroupedComboboxItemInGroup,
     getGroupedComboboxItemInGroup,
     getGroupedComboboxItem,
-    auraFetch
+    auraFetch,
+    resetState
 } from '../../integrationTestUtils';
 import {
     setEntities,
@@ -116,11 +117,7 @@ describe('Formula Editor', () => {
         );
     });
     afterAll(() => {
-        // TODO : fix setEntities (currently does not reset)
-        setEntities();
-        setSystemVariables();
-        setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
-        setAuraFetch();
+        resetState();
     });
     describe('Edit mode', () => {
         let formulaNode;
