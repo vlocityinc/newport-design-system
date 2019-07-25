@@ -42,7 +42,10 @@ export default class ComponentVisibility extends LightningElement {
             value: CONDITION_LOGIC.AND,
             label: this.labels.andConditionLogicLabel
         },
-        { value: CONDITION_LOGIC.OR, label: this.labels.orConditionLogicLabel },
+        {
+            value: CONDITION_LOGIC.OR,
+            label: this.labels.orConditionLogicLabel
+        },
         {
             value: CONDITION_LOGIC.CUSTOM_LOGIC,
             label: this.labels.customConditionLogicLabel
