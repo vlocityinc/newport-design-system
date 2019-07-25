@@ -53,14 +53,14 @@
         <div class="slds-builder-toolbar__actions">
             <button
                 if:true={showLastSavedPill}
-                title={saveStatus}
                 class="slds-button test-toolbar-last-saved"
             >
-                <span>{saveStatus}</span>
+                <span if:false={showSaving} class={activationClass}>{activationStatus}</span>
+                <span if:false={showActivating}>{saveStatus}</span>
                 <span if:true={showDate}
-                    >&nbsp;<lightning-relative-date-time
+                >&nbsp;<lightning-relative-date-time
                         value={currentDate}
-                    ></lightning-relative-date-time
+                ></lightning-relative-date-time
                 ></span>
             </button>
             <div class="inline-display slds-m-left_xx-small">
@@ -95,11 +95,12 @@
             
             <lightning-button 
                     id="toggleFlowStatusButton"
-                    label={labels.activateTitle}
-                    title={labels.activateTitle}
+                    label={activateButtonText}
+                    title={activateButtonText}
                     onclick={handleToggleFlowStatus}
                     disabled={activateDisabled}
-                    class="slds-m-left_xx-small"
+                    class="test-toolbar-activate
+                            slds-m-left_xx-small"
             >
             </lightning-button>
             

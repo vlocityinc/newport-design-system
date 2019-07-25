@@ -21,7 +21,7 @@ import {
     clearUndoRedo,
     updatePropertiesAfterCreatingFlowFromTemplate,
     updatePropertiesAfterCreatingFlowFromProcessType,
-    updatePropertiesAfterActivation,
+    updatePropertiesAfterActivateButtonPress,
     UPDATE_PROPERTIES_AFTER_SAVING,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
@@ -32,7 +32,10 @@ import {
     UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
     updateApexClasses
 } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_STATUS
+} from 'builder_platform_interaction/flowMetadata';
 import {
     fetch,
     fetchOnce,
@@ -747,6 +750,9 @@ export default class Editor extends LightningElement {
             this.toggleFlowStatusCallBack,
             params
         );
+        storeInstance.dispatch(
+            updatePropertiesAfterActivateButtonPress({ status: FLOW_STATUS.ACTIVATING })
+        );
     };
 
     /**
@@ -761,7 +767,7 @@ export default class Editor extends LightningElement {
             this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
         } else {
             storeInstance.dispatch(
-                updatePropertiesAfterActivation({ status: data.status })
+                updatePropertiesAfterActivateButtonPress({ status: data.status })
             );
         }
     };

@@ -2,11 +2,13 @@ import { createElement } from 'lwc';
 import {
     EditFlowPropertiesEvent,
     SaveFlowEvent,
-    DuplicateEvent
+    DuplicateEvent,
+    ToggleFlowStatusEvent
 } from 'builder_platform_interaction/events';
 import Toolbar from 'builder_platform_interaction/toolbar';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { LABELS } from '../toolbarLabels';
+import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {
@@ -25,7 +27,8 @@ const selectors = {
     saveas: '.test-toolbar-saveas',
     save: '.test-toolbar-save',
     lastSave: '.test-toolbar-last-saved',
-    duplicate: '.test-toolbar-duplicate'
+    duplicate: '.test-toolbar-duplicate',
+    activate: '.test-toolbar-activate'
 };
 
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
@@ -106,6 +109,20 @@ describe('toolbar', () => {
         });
     });
 
+    it('fires toggle flow status event when activate button is clicked', () => {
+        const toolbarComponent = createComponentUnderTest();
+
+        return Promise.resolve().then(() => {
+            const eventCallback = jest.fn();
+            toolbarComponent.addEventListener(
+                ToggleFlowStatusEvent.EVENT_NAME,
+                eventCallback
+            );
+            toolbarComponent.shadowRoot.querySelector(selectors.activate).click();
+            expect(eventCallback).toHaveBeenCalled();
+        });
+    });
+
     it('fires duplicate event when duplicate element button is clicked', () => {
         const toolbarComponent = createComponentUnderTest();
 
@@ -144,7 +161,8 @@ describe('toolbar', () => {
         parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
         const toolbarComponent = createComponentUnderTest({
             lastModifiedDate: currentDate.toISOString(),
-            saveStatus: LABELS.savedStatus
+            saveStatus: LABELS.savedStatus,
+            flowStatus: FLOW_STATUS.ACTIVE
         });
 
         return Promise.resolve().then(() => {

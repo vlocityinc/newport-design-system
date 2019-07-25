@@ -40,12 +40,50 @@ export default class Toolbar extends LightningElement {
 
     labels = LABELS;
 
+    statusLabelFromStatus = {
+        [FLOW_STATUS.ACTIVE]: {
+            label: this.labels.activeLabel,
+        },
+        [FLOW_STATUS.OBSOLETE]: {
+            label: this.labels.deactivatedLabel,
+        },
+        [FLOW_STATUS.DRAFT]: {
+            label: this.labels.draftLabel,
+        },
+        [FLOW_STATUS.INVALID_DRAFT]: {
+            label: this.labels.draftLabel,
+        }
+    };
+
     get showLastSavedPill() {
         return !!this.saveStatus;
     }
 
+    get showSaving() {
+       return this.saveStatus === this.labels.savingStatus;
+    }
+
+    get activationClass() {
+        let classes = '';
+        if (this.flowStatus !== FLOW_STATUS.ACTIVATING) {
+            classes = 'bolded-activation-status slds-m-right_xx-small';
+        }
+        return classes;
+    }
+
+    get activationStatus() {
+        if (this.flowStatus === FLOW_STATUS.ACTIVATING) {
+            return this.labels.activating;
+        }
+        return this.statusLabelFromStatus[this.flowStatus].label + ':';
+    }
+
+    get showActivating() {
+        return this.flowStatus === FLOW_STATUS.ACTIVATING;
+    }
+
     get showDate() {
-        return this.saveStatus === LABELS.savedStatus && this.lastModifiedDate;
+        return this.saveStatus === LABELS.savedStatus && this.lastModifiedDate && !this.showActivating;
     }
 
     get currentDate() {
@@ -66,6 +104,13 @@ export default class Toolbar extends LightningElement {
 
     get activateDisabled() {
         return (!this.flowStatus || this.flowStatus === FLOW_STATUS.INVALID_DRAFT || this.flowStatus === FLOW_STATUS.ACTIVE || this.hasUnsavedChanges);
+    }
+
+    get activateButtonText() {
+        if (this.flowStatus === FLOW_STATUS.ACTIVE) {
+            return this.labels.activeLabel;
+        }
+        return this.labels.activateTitle;
     }
 
     get isDiffFlowAllowed() {
