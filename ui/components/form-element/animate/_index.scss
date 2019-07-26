@@ -28,6 +28,7 @@
 
 input[placeholder]::placeholder {
   /* stylelint-disable declaration-no-important */
+  font-size: 0.875rem;
   color: transparent !important;
   font-weight: $form-placeholder-weight;
   /* stylelint-enable declaration-no-important */
