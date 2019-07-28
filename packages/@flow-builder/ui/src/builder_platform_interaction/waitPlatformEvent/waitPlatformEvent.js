@@ -113,20 +113,18 @@ export default class WaitPlatformEvent extends LightningElement {
             for (let i = 0; i < parameterItems.length; i++) {
                 const inputParameter = parameterItems[i];
                 const filter = {
-                    expression: {
-                        leftHandSide: {
-                            // Expression builder needs to have the field value prefixed with event type name.
-                            value: this.addEventTypePrefix(inputParameter.name),
-                            error: inputParameter.name.error
-                        },
-                        rightHandSide: {
-                            value: inputParameter.value.value,
-                            error: inputParameter.value.error
-                        },
-                        rightHandSideDataType: {
-                            value: inputParameter.valueDataType.value,
-                            error: inputParameter.valueDataType.error
-                        }
+                    leftHandSide: {
+                        // Expression builder needs to have the field value prefixed with event type name.
+                        value: this.addEventTypePrefix(inputParameter.name),
+                        error: inputParameter.name.error
+                    },
+                    rightHandSide: {
+                        value: inputParameter.value.value,
+                        error: inputParameter.value.error
+                    },
+                    rightHandSideDataType: {
+                        value: inputParameter.valueDataType.value,
+                        error: inputParameter.valueDataType.error
                     },
                     rowIndex: inputParameter.rowIndex
                 };

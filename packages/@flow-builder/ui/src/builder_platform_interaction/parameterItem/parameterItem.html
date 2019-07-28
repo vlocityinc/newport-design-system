@@ -85,7 +85,6 @@
                                     if:true={state.isInput}
                                     class={comboboxClass}
                                     error-message={errorMessage}
-                                    element-config={memberIdElementConfig}
                                     value={parameterValue}
                                     combobox-config={parameterComboboxConfig}
                                     element-param={elementParam}
@@ -93,7 +92,6 @@
                                     rules={rules}
                                     row-index={ferovId}
                                     oncomboboxstatechanged={handleUpdateParameter}
-                                    onnewinlineresource={handleInlineResource}
                                 >
                                 </builder_platform_interaction-ferov-resource-picker>
                                 <builder_platform_interaction-output-resource-picker
@@ -106,7 +104,6 @@
                                     row-index={outputId}
                                     error-message={errorMessage}
                                     oncomboboxstatechanged={handleUpdateParameter}
-                                    onnewinlineresource={handleInlineResource}
                                 >
                                 </builder_platform_interaction-output-resource-picker>
                             </div>

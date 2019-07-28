@@ -132,31 +132,31 @@ export default class ResourcedTextarea extends LightningElement {
 
     handleResourcePickerSelection = event => {
         event.stopPropagation();
-        const text = event.detail.item.displayText;
-        const inlineItem = event.detail.item.name;
-        if ((text && !event.detail.item.hasNext) || inlineItem) {
-            // Insert the item at cursor position and notify up
-            const textarea = this.template.querySelector(SELECTORS.TEXTAREA);
-            const val = textarea.value;
-            const start = textarea.selectionStart || 0;
-            const end = textarea.selectionEnd || start;
-            const pre = val.substring(0, start);
-            const post = val.substring(end, val.length);
-            const insertedValue =
-                text && !event.detail.item.hasNext ? text : `{!${inlineItem}}`;
+        if (event && event.detail && event.detail.item) {
+            const text = event.detail.item.displayText;
+            if (text && !event.detail.item.hasNext) {
+                // Insert the item at cursor position and notify up
+                const textarea = this.template.querySelector(
+                    SELECTORS.TEXTAREA
+                );
+                const val = textarea.value;
+                const start = textarea.selectionStart || 0;
+                const end = textarea.selectionEnd || start;
+                const pre = val.substring(0, start);
+                const post = val.substring(end, val.length);
+                textarea.value = pre + text + post;
+                textarea.setSelectionRange(
+                    start + text.length,
+                    start + text.length
+                );
+                this.fireEvent(textarea.value, null);
 
-            textarea.value = `${pre}${insertedValue}${post}`;
-            textarea.setSelectionRange(
-                start + insertedValue.length,
-                start + insertedValue.length
-            );
-            this.fireEvent(textarea.value, null);
-
-            Promise.resolve().then(() => {
-                this.template.querySelector(
-                    SELECTORS.FEROV_RESOURCE_PICKER
-                ).value = null;
-            });
+                Promise.resolve().then(() => {
+                    this.template.querySelector(
+                        SELECTORS.FEROV_RESOURCE_PICKER
+                    ).value = null;
+                });
+            }
         }
     };
 

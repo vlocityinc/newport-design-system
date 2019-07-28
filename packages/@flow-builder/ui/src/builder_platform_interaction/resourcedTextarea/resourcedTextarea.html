@@ -5,11 +5,7 @@
         alternative-text={spinnerAlternativeText}
     ></lightning-spinner>
     <div class="property-input slds-form-element">
-        <label
-            if:true={label}
-            for={name}
-            class="slds-form-element__label"
-        >
+        <label if:true={label} for={name} class="slds-form-element__label">
             <abbr
                 if:true={isRequired}
                 title={labels.required}
@@ -37,7 +33,7 @@
                         show-global-variables={showGlobalVariables}
                         hide-new-resource={hideNewResource}
                         onitemselected={handleResourcePickerSelection}
-                        onnewinlineresource={handleResourcePickerSelection}
+                        oncomboboxstatechanged={handleResourcePickerSelection}
                     >
                     </builder_platform_interaction-ferov-resource-picker>
                 </div>

@@ -55,12 +55,6 @@ const inputParameterArrayToMap = (parameters = []) => {
 };
 
 export default class WaitTimeEvent extends LightningElement {
-    _recordIdElementType = 'waitTimeRecordId';
-
-    inlineRecordIdConfig = {
-        elementType: this._recordIdElementType
-    };
-
     @track
     resumeTimeParametersMap = new Map();
 
@@ -331,11 +325,10 @@ export default class WaitTimeEvent extends LightningElement {
     }
 
     handleFerovParameterChange(event, propertyName, literalDataType, isInput) {
-        const { dataType, error, value } = getFerovInfoAndErrorFromEvent(
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
             event,
             literalDataType
         );
-
         const updateParameterItem = new UpdateParameterItemEvent(
             isInput,
             null,
@@ -362,33 +355,6 @@ export default class WaitTimeEvent extends LightningElement {
             event.target.error
         );
         this.dispatchEvent(updateParameterItem);
-    }
-
-    handleInlineResource(event, propertyName) {
-        const isInput = true;
-        const value = event.detail.item.guid;
-        const dataType = 'reference';
-        const error = null;
-
-        const updateParameterItem = new UpdateParameterItemEvent(
-            isInput,
-            null,
-            propertyName,
-            value,
-            dataType,
-            error
-        );
-        this.dispatchEvent(updateParameterItem);
-    }
-
-    handleNewBaseTimeInlineResource(event) {
-        const propertyName = WAIT_TIME_EVENT_PARAMETER_NAMES.ABSOLUTE_BASE_TIME;
-        this.handleInlineResource(event, propertyName);
-    }
-
-    handleNewRecordInlineResource(event) {
-        const propertyName = WAIT_TIME_EVENT_PARAMETER_NAMES.RECORD_ID;
-        this.handleInlineResource(event, propertyName);
     }
 
     handleRecordIdChanged(event) {

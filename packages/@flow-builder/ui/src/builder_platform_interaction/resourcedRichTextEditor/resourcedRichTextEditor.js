@@ -6,7 +6,6 @@ import { convertHTMLToQuillHTML } from './richTextConverter';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 // all formats except 'strike' and 'video'
 const RTE_FORMATS = [
@@ -43,9 +42,8 @@ const SELECTORS = {
  * Rich text editor with a combobox to insert a resource. This component supports all quill formats except 'video'.
  */
 export default class ResourcedRichTextEditor extends LightningElement {
-    _ferovId = generateGuid();
-
-    _textAreaId = generateGuid();
+    @api
+    rowIndex;
 
     @api
     label;
@@ -173,7 +171,6 @@ export default class ResourcedRichTextEditor extends LightningElement {
     handleChangeEvent(event) {
         event.stopPropagation();
         let value = event.detail.value;
-
         if (!this.isHTMLSanitized) {
             // when inputRichText is activated we get a change event
             // except if html text is empty
@@ -227,24 +224,17 @@ export default class ResourcedRichTextEditor extends LightningElement {
 
     handleResourcePickerSelection(event) {
         event.stopPropagation();
-        const text = event.detail.item.displayText
-            ? event.detail.item.displayText
-            : `{!${event.detail.item.name}}`;
-        if (text) {
-            const inputRichText = this.template.querySelector(
-                SELECTORS.INPUT_RICH_TEXT
-            );
-            if (inputRichText) {
+        if (event && event.detail && event.detail.item) {
+            const text = event.detail.item.displayText;
+            if (text) {
+                const inputRichText = this.template.querySelector(
+                    SELECTORS.INPUT_RICH_TEXT
+                );
                 inputRichText.insertTextAtCursor(text);
                 inputRichText.focus();
             }
         }
     }
-
-    handleNewInlineResource = e => {
-        e.stopPropagation();
-        this.handleResourcePickerSelection(e);
-    };
 
     /**
      * Handler on plain/rich text mode change

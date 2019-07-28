@@ -44,11 +44,6 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
 
     element = undefined;
 
-    @track
-    inlineItem = null;
-
-    elementType = 'sobjectDropdown';
-
     /**
      * @param {String} entityName the selected entity name (from select object combobox)
      */
@@ -130,7 +125,7 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
      */
     handleSObjectVariableChanged(event) {
         const newValue = event.detail.item
-            ? event.detail.item.value || event.detail.item.guid
+            ? event.detail.item.value
             : event.detail.displayText;
 
         const sObjectReferenceChangedEvent = new SObjectReferenceChangedEvent(
@@ -139,13 +134,4 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
         );
         this.dispatchEvent(sObjectReferenceChangedEvent);
     }
-
-    /**
-     * handle event for selecting an inline item
-     * @param {Object} event the add new resource event
-     */
-    handleNewInlineResource = event => {
-        this.inlineItem = event.detail.item;
-        this.handleSObjectVariableChanged(event);
-    };
 }

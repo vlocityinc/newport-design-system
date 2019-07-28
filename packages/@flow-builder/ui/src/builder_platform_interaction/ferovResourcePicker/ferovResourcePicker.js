@@ -10,17 +10,12 @@ import {
 import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { InlineResourceEvent } from 'builder_platform_interaction/events';
 
 import {
     removeLastCreatedInlineResource,
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
-
-const LOOP = 'Loop';
-const MEMBER_ID = 'memberId';
-const RELATED_RECORD_ID = 'relatedRecordId';
-const WAIT_TIME_RECORD_ID = 'waitTimeRecordId';
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 
 let storeInstance;
 
@@ -46,7 +41,7 @@ export default class FerovResourcePicker extends LightningElement {
     @track
     paramTypes = null;
 
-    @api
+    @track
     inlineItem = null;
 
     /**
@@ -54,7 +49,6 @@ export default class FerovResourcePicker extends LightningElement {
      * Required if you want validation on done
      * @type {String}
      */
-
     @api
     rowIndex;
 
@@ -173,9 +167,6 @@ export default class FerovResourcePicker extends LightningElement {
     @api
     showGlobalVariables = false;
 
-    @track
-    focusOnInput = false;
-
     get parentItem() {
         return this.value && this.value.parent;
     }
@@ -246,6 +237,31 @@ export default class FerovResourcePicker extends LightningElement {
         );
     }
 
+    /**
+     * Callback from the store for changes in store.
+     */
+    handleStoreChange = () => {
+        this.populateMenuData();
+    };
+
+    /**
+     * Handler for when a user clicks on new resource button from the combobox
+     * Update the store and save the rowIndex of the comobobox
+     */
+    handleAddInlineResource = event => {
+        if (
+            event &&
+            event.detail &&
+            event.detail.position &&
+            typeof event.detail.position === 'string'
+        ) {
+            storeInstance.dispatch(
+                updateInlineResourceProperties({
+                    lastInlineResourceRowIndex: event.detail.position
+                })
+            );
+        }
+    };
     disconnectedCallback() {
         if (typeof this._unsubscribeStore === 'function') {
             this._unsubscribeStore();
@@ -274,21 +290,6 @@ export default class FerovResourcePicker extends LightningElement {
         this._isInitialized = true;
     };
 
-    /**
-     * Callback from the store for changes in store.
-     */
-    handleStoreChange = () => {
-        this.populateMenuData();
-    };
-
-    handleAddInlineResource = e => {
-        storeInstance.dispatch(
-            updateInlineResourceProperties({
-                lastInlineResourcePosition: e.detail.position
-            })
-        );
-    };
-
     populateParamTypes = () => {
         this.paramTypes = this.elementConfig
             ? null
@@ -301,78 +302,37 @@ export default class FerovResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
-    findNewResource = () => {
-        const inlineResourceId = storeInstance.getCurrentState().properties
-            .lastInlineResourceGuid;
-        let resource = storeInstance.getCurrentState().elements[
-            inlineResourceId
-        ];
-
-        if (
-            resource &&
-            this.elementConfig &&
-            this.elementConfig.elementType === LOOP
-        ) {
-            // collection variables need a value
-            resource = {
-                ...resource,
-                value: `${resource.guid}`,
-                displayText: `{!${resource.name}}`,
-                textNoHighlight: `${resource.name}`
-            };
-        }
-        return resource;
-    };
-
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
-            // TODO: Refactor this implementation so that we aren't using the elementType for this check
-            const inlineElementTypeForFocus =
-                (this.elementConfig &&
-                    this.elementConfig.elementType === MEMBER_ID) ||
-                ((this.elementConfig &&
-                    this.elementConfig.elementType === RELATED_RECORD_ID) ||
-                    (this.elementConfig &&
-                        this.elementConfig.elementType ===
-                            WAIT_TIME_RECORD_ID));
-            const inlinePosition = storeInstance.getCurrentState().properties
-                .lastInlineResourcePosition;
-            if (inlinePosition === this.rowIndex) {
-                const newResource = this.findNewResource();
-
-                if (newResource) {
-                    this.handleItemSelected({ detail: newResource });
-                    const inlineResourceEvent = new InlineResourceEvent(
-                        newResource
-                    );
-                    this.dispatchEvent(inlineResourceEvent);
-                    storeInstance.dispatch(removeLastCreatedInlineResource);
-                    if (
-                        inlineElementTypeForFocus ||
-                        (this.elementConfig &&
-                            this.elementConfig.elementType === LOOP)
-                    ) {
-                        this.focusOnInput = true;
-                    }
-                }
-            }
-            this._baseResourcePicker.setMenuData(
-                getMenuData(
-                    inlineElementTypeForFocus
-                        ? { elementType: this.propertyEditorElementType }
-                        : this.elementConfig,
-                    this.propertyEditorElementType,
-                    this.populateParamTypes,
-                    !this.hideGlobalConstants,
-                    this.enableFieldDrilldown,
-                    storeInstance,
-                    !this.hideNewResource,
-                    parentItem,
-                    fields,
-                    !this.hideSystemVariables,
-                    this.showGlobalVariables
-                )
+            const menuData = getMenuData(
+                this.elementConfig,
+                this.propertyEditorElementType,
+                this.populateParamTypes,
+                !this.hideGlobalConstants,
+                this.enableFieldDrilldown,
+                storeInstance,
+                !this.hideNewResource,
+                parentItem,
+                fields,
+                !this.hideSystemVariables,
+                this.showGlobalVariables
             );
+            this._baseResourcePicker.setMenuData(menuData);
+            this.setInlineResource(menuData);
+        }
+    };
+
+    setInlineResource = menuData => {
+        const {
+            lastInlineResourceRowIndex: inlineResourceRowIndex,
+            lastInlineResourceGuid: inlineGuid
+        } = storeInstance.getCurrentState().properties;
+        if (inlineGuid && inlineResourceRowIndex === this.rowIndex) {
+            const inlineResource = getInlineResource(inlineGuid, menuData);
+            if (inlineResource) {
+                this.inlineItem = inlineResource;
+                storeInstance.dispatch(removeLastCreatedInlineResource);
+            }
         }
     };
 }

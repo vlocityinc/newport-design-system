@@ -286,11 +286,6 @@ export default class ChoiceEditor extends LightningElement {
         this.updateProperty(CHOICE_FIELDS.STORED_VALUE, displayText, error);
     }
 
-    updatePropertiesWithResource(dataType, error, value) {
-        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
-        this.updateProperty(CHOICE_FIELDS.STORED_VALUE, value, error);
-    }
-
     /**
      * Handles addition/updation of storedValue
      * @param {object} event - oncomboboxstatechanged event coming from ferov-resource-picker
@@ -301,19 +296,8 @@ export default class ChoiceEditor extends LightningElement {
             event,
             this.dataType
         );
-        this.updatePropertiesWithResource(dataType, error, value);
-    }
-
-    /**
-     * Handles a choice added as an inline item
-     * @param {object} event - newinlinereource event
-     */
-    handleInlineItem(event) {
-        event.stopPropagation();
-        const dataType = 'reference';
-        const error = null;
-        const value = event.detail.item.guid;
-        this.updatePropertiesWithResource(dataType, error, value);
+        this.updateProperty(STORED_VALUE_DATA_TYPE_PROPERTY, dataType, null);
+        this.updateProperty(CHOICE_FIELDS.STORED_VALUE, value, error);
     }
 
     /**

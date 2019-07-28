@@ -18,9 +18,6 @@ import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expr
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
-const REFERENCE = 'reference';
-const NEW_INLINE_RESOURCE = 'newinlineresource';
-
 /*
  * A property editor
  */
@@ -28,54 +25,25 @@ export default class ScreenPropertyField extends LightningElement {
     _ferovPickerId = generateGuid();
     _outputPickerId = generateGuid();
     _textAreaId = generateGuid();
+    _rteId = generateGuid();
+    @api name;
+    @api value;
+    @api label;
+    @api type;
+    @api required = false;
+    @api readOnly = false;
+    @api helpText;
+    @api allowResourcesForParameter = false;
+    @api allowResourcesForContext = false;
+    @api allowResourcesForOutput = false;
 
-    @api
-    name;
+    @api resourcePickerConfig;
+    @api disabled = false;
+    @api listIndex;
+    @api listChoices;
+    @api rowIndex;
 
-    @api
-    value;
-
-    @api
-    label;
-
-    @api
-    type;
-
-    @api
-    required = false;
-
-    @api
-    readOnly = false;
-
-    @api
-    helpText;
-
-    @api
-    allowResourcesForParameter = false;
-
-    @api
-    allowResourcesForContext = false;
-
-    @api
-    allowResourcesForOutput = false;
-
-    @api
-    resourcePickerConfig;
-
-    @api
-    disabled = false;
-
-    @api
-    listIndex;
-
-    @api
-    listChoices;
-
-    @api
-    rowIndex;
-
-    @api
-    hideTopPadding = false;
+    @api hideTopPadding = false;
 
     currentError;
     labels = LABELS;
@@ -303,20 +271,30 @@ export default class ScreenPropertyField extends LightningElement {
         );
     };
 
-    getNewValues = event => {
+    handleEvent = event => {
+        event.stopPropagation();
+
+        // If this is a change event, we don't want to always handle it, because it can
+        // be too noisy.
+        if (
+            event.type === 'change' &&
+            !this.isBoolean &&
+            !this.isList &&
+            !this.isLongString &&
+            !this.isRichString
+        ) {
+            return;
+        }
+
         let newValue = null,
             newGuid = null,
+            currentValue = null,
             ferovDataType = null;
+
         if (event.detail && event.detail.item && this.allowsResources) {
-            const {
-                displayText = null,
-                value = null,
-                name = null,
-                guid = null
-            } = event.detail.item;
             // And it contains a ferov
-            newValue = displayText || name;
-            newGuid = value || guid;
+            newValue = event.detail.item.displayText;
+            newGuid = event.detail.item.value;
         } else if (this.isList && event.detail.value) {
             // And it contains a ferov from a static list
             newGuid = event.detail.value;
@@ -333,32 +311,6 @@ export default class ScreenPropertyField extends LightningElement {
         } else {
             newValue = this.domValue;
         }
-        return {
-            newValue,
-            newGuid,
-            ferovDataType
-        };
-    };
-
-    handleEvent = event => {
-        event.stopPropagation();
-
-        // If this is a change event, we don't want to always handle it, because it can
-        // be too noisy.
-        if (
-            event.type === 'change' &&
-            !this.isBoolean &&
-            !this.isList &&
-            !this.isLongString &&
-            !this.isRichString
-        ) {
-            return;
-        }
-
-        let currentValue = null;
-
-        let { newValue } = this.getNewValues(event);
-        const { newGuid, ferovDataType } = this.getNewValues(event);
 
         currentValue = this.value;
 
@@ -388,7 +340,7 @@ export default class ScreenPropertyField extends LightningElement {
                 newGuid,
                 currentValue,
                 this.listIndex,
-                event.type === NEW_INLINE_RESOURCE ? REFERENCE : ferovDataType
+                ferovDataType
             )
         );
     };

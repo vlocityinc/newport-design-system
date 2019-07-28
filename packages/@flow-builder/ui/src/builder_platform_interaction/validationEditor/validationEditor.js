@@ -9,6 +9,7 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  */
 export default class ValidationEditor extends LightningElement {
     _ferovPickerId = generateGuid();
+    _rteId = generateGuid();
 
     @api element;
     @api required = false;

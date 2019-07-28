@@ -534,13 +534,10 @@ export default class VariableConstantEditor extends LightningElement {
      */
     updateDefaultValue(event) {
         event.stopPropagation();
-        const info = getFerovInfoAndErrorFromEvent(event, this.dataType);
-        const { dataType } = info;
-        let { value, error } = info;
-        if (!value && event.detail.item) {
-            value = event.detail.item.guid;
-            error = null;
-        }
+        const { value, dataType, error } = getFerovInfoAndErrorFromEvent(
+            event,
+            this.dataType
+        );
         this.updateProperty(DEFAULT_VALUE_DATA_TYPE_PROPERTY, dataType, null);
         this.updateProperty(
             VARIABLE_CONSTANT_FIELDS.DEFAULT_VALUE,

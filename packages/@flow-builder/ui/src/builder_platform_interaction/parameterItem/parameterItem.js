@@ -20,7 +20,6 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 export default class ParameterItem extends LightningElement {
     labels = LABELS;
-    memberId = 'memberId';
     ferovId = generateGuid();
     outputId = generateGuid();
 
@@ -32,10 +31,6 @@ export default class ParameterItem extends LightningElement {
 
     @api
     itemIndex = 0;
-
-    memberIdElementConfig = {
-        elementType: this.memberId
-    };
 
     /**
      * element type: ActionCall or ApexPlugin or Subflow (ELEMENT_TYPE.ACTION_CALL, ELEMENT_TYPE.APEX_PLUGIN_CALL, ELEMENT_TYPE.SUBFLOW)
@@ -294,13 +289,6 @@ export default class ParameterItem extends LightningElement {
         }
         this.dispatchParameterEvent(value, dataType, error);
     }
-
-    handleInlineResource = event => {
-        if (event.detail && event.detail.item) {
-            const { name, dataType } = event.detail.item;
-            this.dispatchParameterEvent(`${name}`, dataType, null);
-        }
-    };
 
     /**
      * handle update parameter's value

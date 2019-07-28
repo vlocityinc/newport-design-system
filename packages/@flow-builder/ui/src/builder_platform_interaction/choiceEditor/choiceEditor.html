@@ -19,6 +19,7 @@
                 onchange={handleChoiceLabelChanged}
                 onblur={handleChoiceLabelBlur}
                 class="choice-label"
+                row-index={_rteId}
             >
             </builder_platform_interaction-resourced-rich-text-editor>
 
@@ -51,7 +52,6 @@
                         rules={rulesForChoiceDefaultValue}
                         value={storedValue}
                         oncomboboxstatechanged={handleStoredValuePropertyChanged}
-                        onnewinlineresource={handleInlineItem}
                     >
                     </builder_platform_interaction-ferov-resource-picker>
                 </div>

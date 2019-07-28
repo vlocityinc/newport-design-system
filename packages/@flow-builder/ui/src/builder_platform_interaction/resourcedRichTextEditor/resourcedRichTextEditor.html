@@ -35,12 +35,12 @@
                             combobox-config={resourceComboBoxConfig}
                             element-config={elementConfig}
                             hide-global-constants
-                            row-index={_ferovId}
+                            row-index={rowIndex}
                             show-global-variables={showGlobalVariables}
                             hide-new-resource={hideNewResource}
                             onfocusout={handleResourcePickerFocusout}
                             onitemselected={handleResourcePickerSelection}
-                            onnewinlineresource={handleNewInlineResource}
+                            oncomboboxstatechanged={handleResourcePickerSelection}
                         >
                         </builder_platform_interaction-ferov-resource-picker>
                     </div>
@@ -63,7 +63,7 @@
                 <builder_platform_interaction-resourced-textarea
                     value={inputRichTextValue}
                     hide-new-resource={hideNewResource}
-                    row-index={_textAreaId}
+                    row-index={rowIndex}
                     plain-text-available
                 >
                 </builder_platform_interaction-resourced-textarea>

@@ -20,14 +20,12 @@ import {
     removeLastCreatedInlineResource,
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 
 let storeInstance;
 
 export default class OutputResourcePicker extends LightningElement {
     static RULES = getOutputRules();
-
-    @track
-    inlineItem = null;
 
     @track
     _customValidity;
@@ -54,7 +52,7 @@ export default class OutputResourcePicker extends LightningElement {
     rowIndex;
 
     @track
-    focusOnInput = false;
+    inlineItem = null;
 
     /**
      * The current value of the picker
@@ -170,18 +168,29 @@ export default class OutputResourcePicker extends LightningElement {
         this.value = event.detail.item || event.detail.displayText;
     }
 
-    handleAddInlineResource = e => {
-        storeInstance.dispatch(
-            updateInlineResourceProperties({
-                lastInlineResourcePosition: e.detail.position
-            })
-        );
-    };
-
     handleFetchMenuData(event) {
         const selectedItem = event.detail.item;
         this.populateMenuData(selectedItem);
     }
+
+    /**
+     * Handler for when a user clicks on new resource button from the combobox
+     * Update the store and save the rowIndex of the comobobox
+     */
+    handleAddInlineResource = event => {
+        if (
+            event &&
+            event.detail &&
+            event.detail.position &&
+            typeof event.detail.position === 'string'
+        ) {
+            storeInstance.dispatch(
+                updateInlineResourceProperties({
+                    lastInlineResourceRowIndex: event.detail.position
+                })
+            );
+        }
+    };
 
     constructor() {
         super();
@@ -236,56 +245,38 @@ export default class OutputResourcePicker extends LightningElement {
         return this.paramTypes;
     };
 
-    handleItemSelected(event) {
-        this.value = event.detail.item;
-    }
-
-    findNewResource = () => {
-        const inlineResourceId = storeInstance.getCurrentState().properties
-            .lastInlineResourceGuid;
-        let resource = storeInstance.getCurrentState().elements[
-            inlineResourceId
-        ];
-
-        if (resource) {
-            resource = {
-                ...resource,
-                value: `${resource.guid}`,
-                displayText: `{!${resource.name}}`,
-                textNoHighlight: `${resource.name}`
-            };
-        }
-
-        return resource;
-    };
-
     populateMenuData = parentItem => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
-            if (
-                storeInstance.getCurrentState().properties
-                    .lastInlineResourcePosition === this.rowIndex
-            ) {
-                const newResource = this.findNewResource();
-
-                if (newResource) {
-                    this.inlineItem = newResource;
-                    this.focusOnInput = true;
-                    storeInstance.dispatch(removeLastCreatedInlineResource);
-                }
-            }
-            this._baseResourcePicker.setMenuData(
-                getMenuData(
-                    this.elementConfig,
-                    this.propertyEditorElementType,
-                    this.populateParamTypes,
-                    false,
-                    this.enableFieldDrilldown,
-                    storeInstance,
-                    showNewResource,
-                    parentItem
-                )
+            const menuData = getMenuData(
+                this.elementConfig,
+                this.propertyEditorElementType,
+                this.populateParamTypes,
+                false,
+                this.enableFieldDrilldown,
+                storeInstance,
+                showNewResource,
+                parentItem
             );
+            this._baseResourcePicker.setMenuData(menuData);
+            this.setInlineResource(menuData);
+        }
+    };
+
+    /**
+     * set the newly created resource in the combobox
+     */
+    setInlineResource = menuData => {
+        const {
+            lastInlineResourceRowIndex: inlineResourceRowIndex,
+            lastInlineResourceGuid: inlineGuid
+        } = storeInstance.getCurrentState().properties;
+        if (inlineGuid && inlineResourceRowIndex === this.rowIndex) {
+            const inlineResource = getInlineResource(inlineGuid, menuData);
+            if (inlineResource) {
+                this.inlineItem = inlineResource;
+                storeInstance.dispatch(removeLastCreatedInlineResource);
+            }
         }
     };
 

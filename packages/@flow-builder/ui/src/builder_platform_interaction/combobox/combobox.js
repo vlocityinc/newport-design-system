@@ -664,6 +664,12 @@ export default class Combobox extends LightningElement {
      */
     _needsValidationOnEnable = false;
 
+    /**
+     * This variable is used to stop firing oncomboboxstatechanged when a user selected a new inline resource
+     * option from the menudata. It is set to true when handleSelect is fired and set back to false in handleBlur
+     */
+    _isNewInlineResourceSelected = false;
+
     /* ********************** */
     /*     Event handlers     */
     /* ********************** */
@@ -736,6 +742,7 @@ export default class Combobox extends LightningElement {
      */
     handleSelect(event) {
         if (event.detail.value === COMBOBOX_NEW_RESOURCE_VALUE) {
+            this._isNewInlineResourceSelected = true;
             this.fireNewResourceEvent(this.position);
             return;
         }
@@ -775,6 +782,10 @@ export default class Combobox extends LightningElement {
      * fires an event to validate combobox value
      */
     handleBlur() {
+        if (this._isNewInlineResourceSelected) {
+            this._isNewInlineResourceSelected = false;
+            return;
+        }
         this.setMergeFieldState(this.state.displayText, true);
 
         // Remove the last dot from the expression & get the updated menudata
@@ -1429,11 +1440,13 @@ export default class Combobox extends LightningElement {
             while (regexResult && i < mergeFieldArray.length) {
                 // Let the check proceed, if the first part is $Record. This is necessary because $Record isn't
                 // a system variable such as the others.
-                if (i === 0 && isRecordSystemVariableIdentifier(mergeFieldArray[i])) {
+                if (
+                    i === 0 &&
+                    isRecordSystemVariableIdentifier(mergeFieldArray[i])
+                ) {
                     regexResult = true;
-                } else
-                // don't execute regex on empty strings
-                if (mergeFieldArray[i]) {
+                } else if (mergeFieldArray[i]) {
+                    // don't execute regex on empty strings
                     regexResult = MERGE_FIELD_REGEX.exec(mergeFieldArray[i]);
                 }
                 i++;

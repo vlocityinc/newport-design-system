@@ -38,6 +38,7 @@ import {
     removeLastCreatedInlineResource,
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -788,17 +789,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         if (position) {
             const menu =
                 position === LEFT ? LHS_FULL_MENU_DATA : RHS_FULL_MENU_DATA;
-            const inlineItem = this.state[menu].reduce(
-                (item, itemGroup) =>
-                    (itemGroup.items != null &&
-                        itemGroup.items.find(
-                            currentItem => currentItem.value === resource
-                        )) ||
-                    item,
-
-                null
-            );
-
+            const inlineItem = getInlineResource(resource, this.state[menu]);
             if (position === LEFT) {
                 this._lhsInlineResource = inlineItem;
             } else if (position === RIGHT) {
@@ -899,17 +890,18 @@ export default class BaseExpressionBuilder extends LightningElement {
             );
         }
 
-        const { lastInlineResourceGuid : newResourceGuid, lastInlineResourceRowIndex: newResourceRowIndex} = storeInstance.getCurrentState().properties;
+        const {
+            lastInlineResourceGuid: newResourceGuid,
+            lastInlineResourceRowIndex: newResourceRowIndex,
+            lastInlineResourcePosition: newResourcePosition
+        } = storeInstance.getCurrentState().properties;
 
-        if (newResourceGuid != null && this.rowIndex === newResourceRowIndex) {
+        if (newResourceGuid && this.rowIndex === newResourceRowIndex) {
             this.state = {
                 ...this.state,
                 operatorAndRhsDisabled: false
             };
-            this.setInlineResource(
-                storeInstance.getCurrentState().properties.lastInlineResourcePosition,
-                newResourceGuid
-            );
+            this.setInlineResource(newResourcePosition, newResourceGuid);
             storeInstance.dispatch(removeLastCreatedInlineResource);
         }
     }

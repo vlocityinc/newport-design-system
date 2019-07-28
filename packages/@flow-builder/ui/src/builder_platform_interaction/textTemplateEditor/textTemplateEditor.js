@@ -7,6 +7,7 @@ import {
 import { textTemplateReducer } from './textTemplateReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { LABELS } from './textTemplateEditorLabels';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * Text template property editor for Flow Builder
@@ -16,6 +17,8 @@ import { LABELS } from './textTemplateEditorLabels';
  * @since 218
  */
 export default class TextTemplateEditor extends LightningElement {
+    _rteId = generateGuid();
+
     labels = LABELS;
     /**
      * Internal state for the text template editor
