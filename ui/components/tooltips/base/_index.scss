@@ -94,16 +94,12 @@
   }
 }
 
-.nds-form-element .nds-tooltip_container {
+.nds-form-element .nds-tooltip__container {
   position: absolute;
-  right: 0;
-  width: 1rem;
   z-index: 1;
-  line-height: 1;
-  top: 1.25rem;
 }
 
-.nds-tooltip_container section.nds-popover {
+.nds-tooltip__container section.nds-popover {
   position: absolute;
 }
 
@@ -111,8 +107,8 @@
   display: flex;
 }
 
-.nds-relative-tooltip .nds-tooltip_container,
-.nds-radio-relative-tooltip .nds-tooltip_container {
+.nds-relative-tooltip .nds-tooltip__container,
+.nds-radio-relative-tooltip .nds-tooltip__container {
   position: relative;
   order: 2;
 }
@@ -122,15 +118,19 @@
   order: 1;
 }
 
-.nds-relative-tooltip .nds-tooltip_container {
+.nds-relative-tooltip .nds-tooltip__container {
   top: 0;
 }
 
-.nds-radio-relative-tooltip .nds-tooltip_container {
+.nds-radio-relative-tooltip .nds-tooltip__container {
   top: -3px;
 }
 
 .nds-datetime-tooltip span {
   position: relative;
   top: 1.25rem;
+}
+
+.nds-tooltip__container .nds-button_icon {
+  pointer-events: visible;
 }
