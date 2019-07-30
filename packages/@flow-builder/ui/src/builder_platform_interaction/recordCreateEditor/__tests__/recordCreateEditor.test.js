@@ -119,6 +119,9 @@ const recordCreateElementWithFields = () => ({
     inputReference: { value: '', error: null },
     inputReferenceIndex: { value: 'guid', error: null },
     getFirstRecordOnly: true,
+    assignRecordIdToReferenceIndex: {
+        value: 'test'
+    },
     inputAssignments: [
         {
             leftHandSide: { value: 'Account.BillingCountry', error: null },
