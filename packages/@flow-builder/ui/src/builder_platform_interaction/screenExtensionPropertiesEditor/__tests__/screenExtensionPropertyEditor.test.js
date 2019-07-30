@@ -9,6 +9,7 @@ import {
 import { screenExtensionPropertiesReducer } from '../screenExtensionPropertiesReducer';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
+import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -72,7 +73,8 @@ const SELECTORS = {
         'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
     OUTPUTS_SECTION: 'lightning-accordion[activeSectionName="outputsSection"]',
     COMPONENT_VISIBILITY:
-        'lightning-accordion-section[name="componentVisibility"]'
+        'lightning-accordion-section[name="componentVisibility"]',
+    H3: 'h3'
 };
 
 const DESCRIPTOR_NAME = 'c:requiredAttTestComponent';
@@ -195,6 +197,10 @@ const OUTPUT_PARAMETERS = [
         valueDataType: 'reference'
     }
 ];
+const getStoreOutputVariableTitleElement = extensionEditor =>
+    Array.from(extensionEditor.shadowRoot.querySelectorAll(SELECTORS.H3)).find(
+        h3 => h3.textContent && h3.textContent === LABELS.extensionOutputsHeader
+    );
 
 const parametersComparator = (p1, p2, forInputs) => {
     if (forInputs && p1.isRequired !== p2.isRequired) {
@@ -208,14 +214,15 @@ const parametersComparator = (p1, p2, forInputs) => {
 const createField = (
     properties,
     inputParameters = deepCopy(INPUT_PARAMETERS),
-    outputParameters = deepCopy(OUTPUT_PARAMETERS)
+    outputParameters = deepCopy(OUTPUT_PARAMETERS),
+    storeOutputAutomatically = true
 ) => {
     properties.field = createTestScreenField(
         'lcField',
         'Extension',
         DESCRIPTOR_NAME,
         {},
-        true
+        storeOutputAutomatically
     );
     properties.field.inputParameters = inputParameters;
     properties.field.outputParameters = outputParameters;
@@ -263,7 +270,7 @@ const createComponentForTestWithNoOutput = () => {
         { is: ScreenExtensionPropertiesEditor }
     );
     const properties = {};
-    createField(properties, INPUT_PARAMETERS, []);
+    createField(properties, INPUT_PARAMETERS, [], false);
     createDescription(properties, DESCRIPTOR_PARAMETERS, []);
     Object.assign(el, { processType: 'something' });
     Object.assign(el, properties);
@@ -500,6 +507,18 @@ describe('Screen Extension Properties Editor', () => {
                 expect(
                     getUseAdvancedOptionComponent(extensionEditor)
                 ).toBeNull();
+            });
+        });
+        it('does not show the store output variable section when screen field has no output', () => {
+            mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
+                () => 'Supported'
+            );
+            const extensionEditor = createComponentForTestWithNoOutput();
+
+            return Promise.resolve().then(() => {
+                expect(
+                    getStoreOutputVariableTitleElement(extensionEditor)
+                ).not.toBeDefined();
             });
         });
     });

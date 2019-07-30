@@ -81,7 +81,10 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
     }
 
     get isManualOutputDisplayed() {
-        return !this.isAutomaticOutputHandlingSupported || this.isAdvancedMode;
+        return (
+            this.hasOutputs &&
+            (!this.isAutomaticOutputHandlingSupported || this.isAdvancedMode)
+        );
     }
 
     /**
