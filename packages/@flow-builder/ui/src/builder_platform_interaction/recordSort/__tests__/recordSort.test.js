@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { mockAccountFields, mockAccountExpectedFields } from 'mock/recordData';
+import { mockAccountFields } from 'mock/serverEntityData';
 import RecordSortResult from 'builder_platform_interaction/recordSort';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
@@ -11,7 +11,7 @@ let mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
-        '../../serverDataLib/serverDataLib.js'
+        'builder_platform_interaction/serverDataLib'
     );
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
@@ -34,7 +34,7 @@ const createComponentUnderTest = props => {
     return el;
 };
 
-const selectors = {
+const SELECTORS = {
     lightningCombobox: 'lightning-combobox',
     filterHelpText: '.helpText',
     fieldPicker: 'builder_platform_interaction-field-picker'
@@ -42,19 +42,19 @@ const selectors = {
 
 const getSortOrderCombobox = recordSortResultComponent => {
     return recordSortResultComponent.shadowRoot.querySelector(
-        selectors.lightningCombobox
+        SELECTORS.lightningCombobox
     );
 };
 
 const getFilterCombobox = recordSortResultComponent => {
     return recordSortResultComponent.shadowRoot.querySelector(
-        selectors.fieldPicker
+        SELECTORS.fieldPicker
     );
 };
 
 const getFilterHelpText = recordSortResultComponent => {
     return recordSortResultComponent.shadowRoot.querySelector(
-        selectors.filterHelpText
+        SELECTORS.filterHelpText
     );
 };
 
@@ -100,10 +100,14 @@ describe('recordSort', () => {
             expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(
                 SORT_ORDER.ASC
             );
-            expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
-            expect(
-                Object.keys(getFilterCombobox(recordSortResultComponent).fields)
-            ).toHaveLength(mockAccountExpectedFields.length);
+            const options = await getFilterCombobox(recordSortResultComponent);
+            expect(options).toBeDefined();
+            const sortableExpectedFields = Object.values(
+                mockAccountFields
+            ).filter(field => field.sortable);
+            expect(Object.keys(options.fields)).toHaveLength(
+                Object.keys(sortableExpectedFields).length
+            );
         });
         it('"Description" as value, sort field should be populated', () => {
             expect(getFilterCombobox(recordSortResultComponent).value).toEqual(
