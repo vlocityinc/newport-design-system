@@ -7,6 +7,7 @@ import recordVariable from '@salesforce/label/FlowBuilderRecordEditor.recordVari
 import recordCollectionVariable from '@salesforce/label/FlowBuilderRecordEditor.recordCollectionVariable';
 import selectFields from '@salesforce/label/FlowBuilderRecordEditor.selectFields';
 import field from '@salesforce/label/FlowBuilderRecordEditor.field';
+import addFieldButtonLabel from '@salesforce/label/FlowBuilderRecordEditor.addFieldButtonLabel';
 export const LABELS = {
     selectVariableToStore,
     selectVariableToStoreRecords,
@@ -15,5 +16,6 @@ export const LABELS = {
     recordVariable,
     recordCollectionVariable,
     selectFields,
-    field
+    field,
+    addFieldButtonLabel
 };
