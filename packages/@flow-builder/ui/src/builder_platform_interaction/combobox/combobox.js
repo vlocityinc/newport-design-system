@@ -1189,7 +1189,12 @@ export default class Combobox extends LightningElement {
         const groupedCombobox = this.getGroupedCombobox();
         if (groupedCombobox) {
             groupedCombobox.setCustomValidity(customErrorMessage);
-            groupedCombobox.showHelpMessageIfInvalid();
+
+            // W-6359316: Make sure not to use the commented line below as it will force a sync refresh
+            // of the error message instead of letting lwc handle it correctly asynchronously
+
+            // groupedCombobox.showHelpMessageIfInvalid();
+
             this._isInitialErrorMessageSet = true;
         }
         this._errorMessage = customErrorMessage;
