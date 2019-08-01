@@ -54,8 +54,10 @@
             <button
                 if:true={showLastSavedPill}
                 class="slds-button test-toolbar-last-saved"
+                title={activationStatus}
             >
-                <span if:false={showSaving} class={activationClass}>{activationStatus}</span>
+                <span if:false={showSaving}>{activationStatus}</span>
+                <span if:true={showEmDash}>&mdash;</span>
                 <span if:false={showActivating}>{saveStatus}</span>
                 <span if:true={showDate}
                 >&nbsp;<lightning-relative-date-time

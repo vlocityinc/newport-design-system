@@ -1,7 +1,3 @@
 .inline-display {
     display: inline-flex;
 }
-
-.bolded-activation-status {
-    font-weight: var(--lwc-fontWeightBold);
-}

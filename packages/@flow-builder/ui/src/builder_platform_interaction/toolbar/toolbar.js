@@ -52,6 +52,9 @@ export default class Toolbar extends LightningElement {
         },
         [FLOW_STATUS.INVALID_DRAFT]: {
             label: this.labels.draftLabel,
+        },
+        [undefined]: {
+            label: undefined,
         }
     };
 
@@ -59,23 +62,19 @@ export default class Toolbar extends LightningElement {
         return !!this.saveStatus;
     }
 
-    get showSaving() {
-       return this.saveStatus === this.labels.savingStatus;
+    get showEmDash() {
+        return !(this.showSaving || this.showActivating);
     }
 
-    get activationClass() {
-        let classes = '';
-        if (this.flowStatus !== FLOW_STATUS.ACTIVATING) {
-            classes = 'bolded-activation-status slds-m-right_xx-small';
-        }
-        return classes;
+    get showSaving() {
+       return this.saveStatus === this.labels.savingStatus;
     }
 
     get activationStatus() {
         if (this.flowStatus === FLOW_STATUS.ACTIVATING) {
             return this.labels.activating;
         }
-        return this.statusLabelFromStatus[this.flowStatus].label + ':';
+        return this.statusLabelFromStatus[this.flowStatus].label;
     }
 
     get showActivating() {
