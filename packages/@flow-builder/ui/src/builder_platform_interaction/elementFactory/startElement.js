@@ -23,6 +23,9 @@ import {
     formatDateTimeUTC,
     getDayOfTheWeek
 } from 'builder_platform_interaction/dateTimeUtils';
+import {
+    isUndefinedOrNull
+} from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 
 export const START_ELEMENT_LOCATION = {
@@ -67,7 +70,7 @@ export function createStartElement(startElement = {}) {
             : [];
 
     const isoStartTime =
-        startTime && startTime.timeInMillis
+        startTime && !isUndefinedOrNull(startTime.timeInMillis)
             ? getISOTimeFromMillis(startTime.timeInMillis)
             : startTime;
 
