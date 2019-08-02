@@ -68,6 +68,10 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/screenComponentVisibilitySection', () =>
+    require('builder_platform_interaction_mocks/screenComponentVisibilitySection')
+);
+
 const getScreenPropertiesEditorContainerElement = screenEditor => {
     return screenEditor.shadowRoot.querySelector(
         SELECTORS.SCREEN_PROPERTIES_EDITOR_CONTAINER

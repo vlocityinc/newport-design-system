@@ -71,7 +71,6 @@ const SELECTORS = {
         'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
     OUTPUT_EDITOR:
         'builder_platform_interaction-screen-extension-attribute-editor[attributeType="output"]',
-    OUTPUTS_SECTION: 'lightning-accordion[activeSectionName="outputsSection"]',
     COMPONENT_VISIBILITY:
         'lightning-accordion-section[name="componentVisibility"]',
     H3: 'h3'
@@ -368,21 +367,9 @@ describe('Screen Extension Properties Editor', () => {
             expect(query(editor, SELECTORS.INPUT_EDITOR, true)).toHaveLength(
                 DESCRIPTOR_PARAMETERS.length
             );
-            expect(query(editor, SELECTORS.OUTPUTS_SECTION)).not.toBeNull();
             expect(query(editor, SELECTORS.OUTPUT_EDITOR, true)).toHaveLength(
                 DESCRIPTOR_PARAMETERS.length
             );
-        });
-    });
-
-    it('does not render the outputs section if the component does not have any output attributes', () => {
-        const propertiesProcessor = properties => {
-            properties.extensionDescription.outputParameters = [];
-            properties.field.outputParameters = [];
-        };
-
-        return runTest(true, true, propertiesProcessor, editor => {
-            expect(query(editor, SELECTORS.OUTPUTS_SECTION)).toBeNull();
         });
     });
 
@@ -424,7 +411,6 @@ describe('Screen Extension Properties Editor', () => {
         };
 
         return runTest(true, true, propertiesProcessor, editor => {
-            expect(query(editor, SELECTORS.OUTPUTS_SECTION)).not.toBeNull();
             const outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
             expect(outputs).toHaveLength(DESCRIPTOR_PARAMETERS.length + 1);
         });
