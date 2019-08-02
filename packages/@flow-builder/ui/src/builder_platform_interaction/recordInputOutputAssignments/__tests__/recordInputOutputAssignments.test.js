@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 import {
@@ -23,7 +23,7 @@ const mockDefaultRecordInputAssignment = {
             rowIndex: 'RECORDCREATEASSIGNMENTFIELD_1'
         }
     ],
-    recordFields: mockAccountFields,
+    recordFields: accountFields,
     elementType: ELEMENT_TYPE.RECORD_CREATE,
     rhsLabel: 'Value'
 };

@@ -37,7 +37,7 @@ import {
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
 import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import { systemVariables } from 'mock/systemGlobalVars';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 
@@ -138,7 +138,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
                 if (callback) {
                     callback(
                         require.requireActual('mock/serverEntityData')
-                            .mockAccountFields
+                            .accountFields
                     );
                 }
             }),

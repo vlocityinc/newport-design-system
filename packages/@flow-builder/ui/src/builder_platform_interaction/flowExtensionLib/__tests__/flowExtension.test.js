@@ -1,5 +1,6 @@
 import { describeExtensions, clearExtensionsCache } from '../flowExtension';
-import { mockFlowExtensionListParams } from 'mock/flowExtensionsData';
+import { flowExtensionListParams as mockFlowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
+
 import { fetch } from 'builder_platform_interaction/serverDataLib';
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {

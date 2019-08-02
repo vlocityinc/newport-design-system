@@ -20,9 +20,9 @@ import {
     resetState
 } from '../../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { mockEntities } from 'mock/serverEntityData';
+import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -31,16 +31,13 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import * as FLOWS_WITH_UPDATE_RECORDS from 'mock/flows/flowWithUpdateRecord';
-import { mockAllRules } from 'mock/ruleService';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import {
-    globalVariableTypes,
-    globalVariables,
-    systemVariables
-} from 'mock/systemGlobalVars';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
@@ -72,14 +69,14 @@ const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT =
 describe('Record Update Editor', () => {
     let recordUpdateNode, recordUpdateComponent, store, uiFlow;
     beforeAll(() => {
-        setRules(JSON.stringify(mockAllRules));
-        setEntities(JSON.stringify(mockEntities));
-        setGlobalVariables({ globalVariableTypes, globalVariables });
-        setSystemVariables(systemVariables);
+        setRules(rules);
+        setEntities(allEntities);
+        setGlobalVariables(globalVariablesForFlow);
+        setSystemVariables(systemVariablesForFlow);
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': () => ({
-                    data: mockAccountFields
+                    data: accountFields
                 })
             })
         );
@@ -371,12 +368,17 @@ describe('Record Update Editor', () => {
                     const comboboxItems = getEntityResourcePickerChildGroupedComboboxComponent(
                         entityResourcePicker
                     ).items;
-                    expect(comboboxItems).toHaveLength(2);
                     expect(comboboxItems).toContainEqual(
                         expect.objectContaining({ displayText: 'Contract' })
                     );
+                    expect(comboboxItems).toContainEqual(
+                        expect.objectContaining({ displayText: 'Contact' })
+                    );
                     expect(comboboxItems).not.toContainEqual(
-                        expect.objectContaining({ displayText: 'Case' })
+                        expect.objectContaining({ displayText: 'Account Feed' })
+                    );
+                    expect(comboboxItems).not.toContainEqual(
+                        expect.objectContaining({ displayText: 'Bookmark' })
                     );
                 });
                 describe('Enter invalid value', () => {

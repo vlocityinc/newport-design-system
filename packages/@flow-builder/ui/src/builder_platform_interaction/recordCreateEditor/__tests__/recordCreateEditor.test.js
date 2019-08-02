@@ -6,7 +6,7 @@ import {
     NUMBER_RECORDS_TO_STORE,
     WAY_TO_STORE_FIELDS
 } from 'builder_platform_interaction/recordEditorLib';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     RecordStoreOptionChangedEvent,
     SObjectReferenceChangedEvent,

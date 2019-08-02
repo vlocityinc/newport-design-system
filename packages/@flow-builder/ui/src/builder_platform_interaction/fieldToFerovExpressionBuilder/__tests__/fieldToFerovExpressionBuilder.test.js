@@ -16,7 +16,7 @@ import {
     EXPRESSION_PROPERTY_TYPE,
     LHS_DISPLAY_OPTION
 } from 'builder_platform_interaction/expressionUtils';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     GLOBAL_CONSTANTS,
@@ -25,7 +25,7 @@ import {
     getSystemVariables
 } from 'builder_platform_interaction/systemLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { systemVariables } from 'mock/systemGlobalVars';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 

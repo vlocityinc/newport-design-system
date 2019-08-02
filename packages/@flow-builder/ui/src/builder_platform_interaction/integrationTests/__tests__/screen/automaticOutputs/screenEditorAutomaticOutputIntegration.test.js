@@ -13,11 +13,9 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     auraFetch
 } from '../../../integrationTestUtils';
-import {
-    mockRuntimeAddressFlowExtensionListParams,
-    mockFlowExtensions
-} from 'mock/flowExtensionsData';
+import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -135,8 +133,11 @@ describe('ScreenEditor', () => {
         beforeAll(() => {
             setAuraFetch(
                 auraFetch({
-                    'c.getFlowExtensionListParams': () => ({
-                        data: mockRuntimeAddressFlowExtensionListParams
+                    'c.getFlowExtensionListParams': params => ({
+                        data: params.names.reduce((obj, name) => {
+                            obj[name] = flowExtensionListParams[name];
+                            return obj;
+                        }, {})
                     }),
                     'c.getFlowExtensions': () => ({
                         data: mockFlowExtensions

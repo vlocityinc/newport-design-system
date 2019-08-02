@@ -6,7 +6,7 @@ import {
     getRulesForElementType,
     RULE_TYPES
 } from 'builder_platform_interaction/ruleLib';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as store from 'mock/storeData';

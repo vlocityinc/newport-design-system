@@ -17,6 +17,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/expressionUtils';
 import * as store from 'mock/storeData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -78,7 +79,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
             .fn()
             .mockImplementation(element => {
                 return element.subtype === 'Account'
-                    ? require('mock/serverEntityData').mockAccountFields
+                    ? mockAccountFields
                     : undefined;
             })
     };

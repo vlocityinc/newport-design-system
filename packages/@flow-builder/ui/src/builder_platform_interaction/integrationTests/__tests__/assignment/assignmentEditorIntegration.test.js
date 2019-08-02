@@ -19,15 +19,12 @@ import {
     fetchFieldsForEntity
 } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import {
-    globalVariableTypes,
-    globalVariables,
-    systemVariables
-} from 'mock/systemGlobalVars';
-import { mockEntities } from 'mock/serverEntityData';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { allEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
-import { mockAllRules } from 'mock/ruleService';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
     selectEvent,
     expectGroupedComboboxItem,
@@ -65,14 +62,14 @@ const getComboBox = (assignment, comboSelector) => {
 
 describe('Assignment Editor', () => {
     beforeAll(() => {
-        setRules(JSON.stringify(mockAllRules));
-        setGlobalVariables({ globalVariableTypes, globalVariables });
-        setSystemVariables(systemVariables);
-        setEntities(JSON.stringify(mockEntities));
+        setRules(rules);
+        setGlobalVariables(globalVariablesForFlow);
+        setSystemVariables(systemVariablesForFlow);
+        setEntities(allEntities);
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': () => ({
-                    data: mockAccountFields
+                    data: accountFields
                 })
             })
         );

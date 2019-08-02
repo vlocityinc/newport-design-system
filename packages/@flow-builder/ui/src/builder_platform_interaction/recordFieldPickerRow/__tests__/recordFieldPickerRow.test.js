@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     ComboboxStateChangedEvent,
     UpdateRecordLookupFieldEvent
@@ -33,7 +33,7 @@ const createComponentUnderTest = ({
     return el;
 };
 
-let mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+let mockAccountFieldsPromise = Promise.resolve(accountFields);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest
@@ -43,7 +43,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => ({
 
 describe('record-field-picker-row', () => {
     beforeEach(() => {
-        mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+        mockAccountFieldsPromise = Promise.resolve(accountFields);
     });
     describe('Load all fields', () => {
         let recordFieldPickerRow, fieldPicker;
@@ -58,9 +58,7 @@ describe('record-field-picker-row', () => {
 
         it('retrieves fields menu data on initial load', () => {
             const fields = Object.keys(fieldPicker.fields);
-            expect(fields).toHaveLength(
-                Object.keys(mockAccountFields).length - 1
-            ); // exclude 'Id'
+            expect(fields).toHaveLength(Object.keys(accountFields).length - 1); // exclude 'Id'
             expect(fields).toEqual(expect.not.arrayContaining([ID_FIELD]));
         });
     });
@@ -114,7 +112,7 @@ describe('record-field-picker-row', () => {
             const fields = Object.keys(fieldPicker.fields);
             expect(fieldPicker.value).toEqual('Description');
             expect(fields).toHaveLength(
-                Object.keys(mockAccountFields).length - queriedFields.length
+                Object.keys(accountFields).length - queriedFields.length
             );
             expect(
                 fields.some(

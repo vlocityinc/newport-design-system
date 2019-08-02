@@ -47,12 +47,9 @@ import {
     findIndex,
     getElementGuid
 } from '../../baseCalloutEditorTestUtils';
-import {
-    mockAllTypesActionParameters,
-    mockActions,
-    submitForApprovalActionParameters
-} from 'mock/calloutData';
-import { mockAllRules } from 'mock/ruleService';
+import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
+import { submitForApprovalActionParameters } from 'serverData/GetInvocableActionParameters/submitForApprovalActionParameters.json';
 
 const getInvocableActionParameters = invocableActionParameters => params => {
     let invocableActionParametersForAction;
@@ -81,7 +78,7 @@ describe('Invocable Action Editor', () => {
     let store;
     let actionNode;
     beforeAll(() => {
-        setRules(JSON.stringify(mockAllRules));
+        setRules(rules);
         OutputResourcePicker.RULES = getOutputRules();
         store = Store.getStore(reducer);
     });

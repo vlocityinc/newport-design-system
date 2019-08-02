@@ -1,5 +1,5 @@
 import { createElement } from 'lwc';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
@@ -33,7 +33,7 @@ const mockDefaultRecordFilter = (
     filterType,
     recordEntityName: 'Account',
     filterItems,
-    recordFields: mockAccountFields,
+    recordFields: accountFields,
     elementType
 });
 

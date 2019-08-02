@@ -17,11 +17,7 @@ import {
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-const mockAllProcessTypes = {
-    processTypes: JSON.stringify(MOCK_ALL_PROCESS_TYPES)
-};
-
-let mockProcessTypesPromise = Promise.resolve(mockAllProcessTypes);
+let mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
 
 const mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
@@ -92,8 +88,7 @@ const getProcessType = processTypeName =>
         processType => processType.name === processTypeName
     );
 
-const resetProcessTypesCache = () =>
-    setProcessTypes({ processTypes: JSON.stringify([]) });
+const resetProcessTypesCache = () => setProcessTypes([]);
 
 describe('new-flow-modal-body', () => {
     describe('process types navigation', () => {
@@ -302,12 +297,12 @@ describe('process types loading server error cases', () => {
         mockProcessTypesPromise = Promise.reject();
     });
     afterEach(() => {
-        mockProcessTypesPromise = Promise.resolve(mockAllProcessTypes);
+        mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
         resetProcessTypesCache();
     });
     it('should show process types error message', async () => {
         newFlowModalBody = createComponentForTest();
-        await ticks(2);
+        await ticks(10);
 
         const errorMessage = newFlowModalBody.errorMessage;
         expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);

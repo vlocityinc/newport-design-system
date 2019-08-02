@@ -1,12 +1,12 @@
 import { createElement } from 'lwc';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import RecordSortResult from 'builder_platform_interaction/recordSort';
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { until } from 'builder_platform_interaction/builderTestUtils';
 import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
 
-let mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
+let mockEntityFieldsPromise = Promise.resolve(accountFields);
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -60,7 +60,7 @@ const getFilterHelpText = recordSortResultComponent => {
 
 describe('recordSort', () => {
     afterEach(() => {
-        mockEntityFieldsPromise = Promise.resolve(mockAccountFields);
+        mockEntityFieldsPromise = Promise.resolve(accountFields);
         clearEntityFieldsCache();
     });
     describe('default', () => {
@@ -100,13 +100,12 @@ describe('recordSort', () => {
             expect(getSortOrderCombobox(recordSortResultComponent).value).toBe(
                 SORT_ORDER.ASC
             );
-            const options = await getFilterCombobox(recordSortResultComponent);
-            expect(options).toBeDefined();
-            const sortableExpectedFields = Object.values(
-                mockAccountFields
-            ).filter(field => field.sortable);
-            expect(Object.keys(options.fields)).toHaveLength(
-                Object.keys(sortableExpectedFields).length
+            expect(getFilterCombobox(recordSortResultComponent)).toBeDefined();
+            expect(
+                Object.keys(getFilterCombobox(recordSortResultComponent).fields)
+            ).toHaveLength(
+                Object.values(accountFields).filter(field => field.sortable)
+                    .length
             );
         });
         it('"Description" as value, sort field should be populated', () => {
@@ -243,7 +242,7 @@ describe('recordSort', () => {
             const options = await until(
                 () => getFilterCombobox(recordSortResultComponent).fields
             );
-            const mockAccFieldsArr = mockAccountFields;
+            const mockAccFieldsArr = accountFields;
             Object.values(options).forEach(option => {
                 expect(
                     mockAccFieldsArr.find(

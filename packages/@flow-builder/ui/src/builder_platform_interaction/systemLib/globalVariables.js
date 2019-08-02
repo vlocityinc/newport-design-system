@@ -53,15 +53,12 @@ const convertData = (data, types) =>
  *            data the data returned by the service
  */
 export const setGlobalVariables = data => {
-    const parsedTypes = JSON.parse(data.globalVariableTypes);
     let allTypes;
-    if (Array.isArray(parsedTypes)) {
-        allTypes = convertTypeData(parsedTypes);
+    if (Array.isArray(data.globalVariableTypes)) {
+        allTypes = convertTypeData(data.globalVariableTypes);
     }
-
-    const parsedVariables = JSON.parse(data.globalVariables);
-    if (Array.isArray(parsedVariables)) {
-        globalVariables = convertData(parsedVariables, allTypes);
+    if (Array.isArray(data.globalVariables)) {
+        globalVariables = convertData(data.globalVariables, allTypes);
     }
     globalVariableTypes = {};
     Object.keys(allTypes).forEach(type => {

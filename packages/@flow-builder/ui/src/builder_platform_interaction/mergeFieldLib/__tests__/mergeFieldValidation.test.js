@@ -11,6 +11,7 @@ import {
 } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -74,9 +75,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation(() => {
-        return require('mock/serverEntityData').mockAccountFields;
-    })
+    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
 }));
 
 jest.mock('builder_platform_interaction/apexTypeLib', () => ({

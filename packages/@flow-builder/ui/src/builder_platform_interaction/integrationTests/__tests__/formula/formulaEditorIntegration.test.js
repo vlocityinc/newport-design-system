@@ -11,6 +11,8 @@ import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -35,13 +37,8 @@ import {
     resetFetchOnceCache
 } from 'builder_platform_interaction/serverDataLib';
 import { flowWithFormula } from 'mock/flows/flowWithFormula';
-import {
-    globalVariableTypes,
-    globalVariables,
-    systemVariables
-} from 'mock/systemGlobalVars';
-import { mockEntities } from 'mock/serverEntityData';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { allEntities } from 'serverData/GetEntities/allEntities.json';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-formula-editor', {
@@ -104,14 +101,14 @@ const getResourceGroupedCombobox = editor => {
 describe('Formula Editor', () => {
     let store;
     beforeAll(() => {
-        setGlobalVariables({ globalVariableTypes, globalVariables });
-        setSystemVariables(systemVariables);
-        setEntities(JSON.stringify(mockEntities));
+        setGlobalVariables(globalVariablesForFlow);
+        setSystemVariables(systemVariablesForFlow);
+        setEntities(allEntities);
         store = Store.getStore(reducer);
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': () => ({
-                    data: mockAccountFields
+                    data: accountFields
                 })
             })
         );

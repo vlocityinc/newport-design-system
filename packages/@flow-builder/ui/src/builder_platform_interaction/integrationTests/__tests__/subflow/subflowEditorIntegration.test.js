@@ -45,7 +45,7 @@ import {
     getElementGuid
 } from '../../baseCalloutEditorTestUtils';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
-import { mockAllRules } from 'mock/ruleService';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = (node, isNewMode = false) => {
@@ -61,7 +61,7 @@ const itSkip = it.skip;
 
 describe('Subflow Editor', () => {
     beforeAll(() => {
-        setRules(JSON.stringify(mockAllRules));
+        setRules(rules);
         setAuraFetch(
             auraFetch({
                 'c.getSubflows': () => ({ data: mockSubflows }),

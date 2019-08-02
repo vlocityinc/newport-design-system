@@ -5,7 +5,7 @@ import {
     stageGuid,
     stageOrderNumber
 } from 'mock/storeData';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from '../validationRulesLabels';
 import { format } from 'builder_platform_interaction/commonUtils';

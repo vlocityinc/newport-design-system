@@ -17,7 +17,7 @@ import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { mutateFieldToComboboxShape } from '../menuDataGenerator';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
-import { systemVariables } from 'mock/systemGlobalVars';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import {
     GLOBAL_CONSTANTS,
     GLOBAL_CONSTANT_OBJECTS,
@@ -26,6 +26,7 @@ import {
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { mockCarApexTypeProperties } from 'mock/apexTypesData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -55,9 +56,9 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest.fn().mockImplementation(() => {
-            return require('mock/serverEntityData').mockAccountFields;
-        })
+        getFieldsForEntity: jest
+            .fn()
+            .mockImplementation(() => mockAccountFields)
     };
 });
 

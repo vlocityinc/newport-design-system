@@ -21,7 +21,7 @@ import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
-import { mockEntities } from 'mock/serverEntityData';
+import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
 import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -34,16 +34,13 @@ import {
     flowWithCreateRecordUsingSObjectCollection,
     flowWithCreateRecordUsingFields
 } from 'mock/flows/flowWithCreateRecord';
-import { mockAllRules } from 'mock/ruleService';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import {
-    globalVariableTypes,
-    globalVariables,
-    systemVariables
-} from 'mock/systemGlobalVars';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SELECTORS = {
@@ -141,10 +138,10 @@ describe('Record Create Editor', () => {
     let store;
     let uiFlow;
     beforeAll(() => {
-        setRules(JSON.stringify(mockAllRules));
-        setEntities(JSON.stringify(mockEntities));
-        setGlobalVariables({ globalVariableTypes, globalVariables });
-        setSystemVariables(systemVariables);
+        setRules(rules);
+        setEntities(allEntities);
+        setGlobalVariables(globalVariablesForFlow);
+        setSystemVariables(systemVariablesForFlow);
         store = Store.getStore(reducer);
     });
     afterAll(() => {
@@ -428,7 +425,7 @@ describe('Record Create Editor', () => {
                     const entityResourcePicker = getEntityResourcePicker(
                         recordCreateElement
                     );
-                    expect(entityResourcePicker.value).toBe(
+                    expect(entityResourcePicker.value.value).toBe(
                         recordCreateElement.node.object.value
                     );
                 });

@@ -6,7 +6,7 @@ import {
     EditElementEvent,
     SObjectReferenceChangedEvent
 } from 'builder_platform_interaction/events';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     RecordStoreOptionChangedEvent,
     AddRecordFilterEvent,

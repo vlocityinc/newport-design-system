@@ -281,7 +281,7 @@ export const resetState = () => {
     setEntities();
     clearEntityFieldsCache();
     setSystemVariables('[]');
-    setGlobalVariables({ globalVariableTypes: '[]', globalVariables: '[]' });
+    setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
     setAuraFetch();
     resetFetchOnceCache();
     const store = Store.getStore(reducer);

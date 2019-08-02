@@ -3,7 +3,7 @@ import RecordUpdateEditor from '../recordUpdateEditor';
 import * as storeMockedData from 'mock/storeData';
 import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     RecordStoreOptionChangedEvent,

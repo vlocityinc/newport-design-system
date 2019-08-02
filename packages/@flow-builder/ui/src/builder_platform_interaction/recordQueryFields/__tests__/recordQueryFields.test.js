@@ -6,7 +6,7 @@ import {
     DeleteRecordLookupFieldEvent
 } from 'builder_platform_interaction/events';
 import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as store from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>

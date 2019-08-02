@@ -1,4 +1,5 @@
-import { mockEntities, mockAccountFields } from 'mock/serverEntityData';
+import { mockEntities } from 'mock/serverEntityData';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     setEntities,
     getAllEntities,
@@ -38,37 +39,52 @@ describe('SObject Lib Tests', () => {
 
     describe('Get Entity Types Tests', () => {
         it('Get All Entities', () => {
-            expect(getAllEntities()).toHaveLength(5);
+            expect(getAllEntities()).toHaveLength(
+                Object.keys(mockEntities).length
+            );
         });
 
         it('Get Queryable Entities', () => {
             const queryableEntities = getQueryableEntities();
-            expect(queryableEntities).toHaveLength(3);
-            expect(queryableEntities[0].apiName).toEqual(
-                'AcceptedEventRelation'
+            expect(queryableEntities).toContainEqual(
+                expect.objectContaining({ apiName: 'AcceptedEventRelation' })
             );
-            expect(queryableEntities[1].apiName).toEqual('Account');
-            expect(queryableEntities[2].apiName).toEqual('Case');
+            expect(queryableEntities).toContainEqual(
+                expect.objectContaining({ apiName: 'Account' })
+            );
+            expect(queryableEntities).not.toContainEqual(
+                expect.objectContaining({ apiName: 'AccountChangeEvent' })
+            );
         });
 
         it('Get Creatable Entities', () => {
             const createableEntities = getCreateableEntities();
-            expect(createableEntities).toHaveLength(1);
-            expect(createableEntities[0].apiName).toEqual('Case');
+            expect(createableEntities).toContainEqual(
+                expect.objectContaining({ apiName: 'Account' })
+            );
+            expect(createableEntities).not.toContainEqual(
+                expect.objectContaining({ apiName: 'AcceptedEventRelation' })
+            );
         });
 
         it('Get Deletable Entities', () => {
             const deletableEntities = getDeletableEntities();
-            expect(deletableEntities).toHaveLength(2);
-            expect(deletableEntities[0].apiName).toEqual('Account');
-            expect(deletableEntities[1].apiName).toEqual('Case');
+            expect(deletableEntities).toContainEqual(
+                expect.objectContaining({ apiName: 'Account' })
+            );
+            expect(deletableEntities).not.toContainEqual(
+                expect.objectContaining({ apiName: 'AcceptedEventRelation' })
+            );
         });
 
         it('Get Updatable Entities', () => {
             const updateableEntities = getUpdateableEntities();
-            expect(updateableEntities).toHaveLength(2);
-            expect(updateableEntities[0].apiName).toEqual('Contact');
-            expect(updateableEntities[1].apiName).toEqual('Contract');
+            expect(updateableEntities).toContainEqual(
+                expect.objectContaining({ apiName: 'Account' })
+            );
+            expect(updateableEntities).not.toContainEqual(
+                expect.objectContaining({ apiName: 'AcceptedEventRelation' })
+            );
         });
         it('Get existing entity description', () => {
             const entity = getEntity('Account');

@@ -8,7 +8,7 @@ import {
     getDataTypeIcons
 } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     SYSTEM_VARIABLE_PREFIX,
@@ -153,7 +153,7 @@ describe('menuDataGenerator', () => {
             expect(mutatedProperty.subText).toEqual(label);
         };
         it('should use label for subtext for sobject fields', () => {
-            const mockField = mockAccountFields.AccountSource;
+            const mockField = accountFields.AccountSource;
             const mutatedField = mutateFieldToComboboxShape(
                 mockField,
                 parentSObjectItem,

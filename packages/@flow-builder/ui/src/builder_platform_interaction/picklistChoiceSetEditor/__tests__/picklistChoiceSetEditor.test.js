@@ -11,7 +11,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
@@ -51,7 +51,7 @@ jest.mock('../picklistChoiceSetReducer', () => {
     };
 });
 
-const mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+const mockAccountFieldsPromise = Promise.resolve(accountFields);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
@@ -266,8 +266,8 @@ describe('picklist-choice-set-editor', () => {
         });
 
         it('fields should be defined and have the right length', () => {
-            // There are 5 picklist fields in the mock entity data
-            expect(Object.keys(fieldPicker.fields)).toHaveLength(5);
+            // There are 13 picklist fields in the mock entity data
+            expect(Object.keys(fieldPicker.fields)).toHaveLength(13);
         });
 
         it('fields should have the field we expect', () => {

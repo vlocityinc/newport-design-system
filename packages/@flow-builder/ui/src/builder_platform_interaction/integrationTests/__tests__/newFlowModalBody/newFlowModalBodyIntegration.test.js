@@ -4,9 +4,9 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { auraFetch, resetState } from '../../integrationTestUtils';
-import { MOCK_RAW_PROCESS_TYPES } from 'mock/processTypesData';
 import { MOCK_RAW_TEMPLATE_LIST } from 'mock/templates';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
@@ -75,9 +75,7 @@ describe('new Flow Modal Body', () => {
             setAuraFetch(
                 auraFetch({
                     'c.getProcessTypes': () => ({
-                        data: {
-                            processTypes: JSON.stringify(MOCK_RAW_PROCESS_TYPES)
-                        }
+                        data: processTypes
                     }),
                     'c.getTemplates': () => ({ data: MOCK_RAW_TEMPLATE_LIST })
                 })
@@ -100,7 +98,7 @@ describe('new Flow Modal Body', () => {
                     newFlowModalBody
                 );
                 expect(processTypesNavigationItems).toHaveLength(
-                    MOCK_RAW_PROCESS_TYPES.length + 1
+                    processTypes.length + 1
                 );
             });
             it('should shows the correct number of templates in navigation', () => {
@@ -177,9 +175,7 @@ describe('new Flow Modal Body', () => {
             setAuraFetch(
                 auraFetch({
                     'c.getProcessTypes': () => ({
-                        data: {
-                            processTypes: JSON.stringify(MOCK_RAW_PROCESS_TYPES)
-                        }
+                        data: processTypes
                     }),
                     'c.getTemplates': () => ({ data: [] })
                 })

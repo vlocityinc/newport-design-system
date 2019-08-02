@@ -27,9 +27,8 @@ import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
-import { mockEntities } from 'mock/serverEntityData';
+import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
-import { mockAccountFields } from 'mock/serverEntityData';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
@@ -42,18 +41,16 @@ import {
     flowWithGetRecordUsingSObjectCollection,
     flowWithGetRecordUsingFields
 } from 'mock/flows/flowWithGetRecord';
-import { mockAllRules } from 'mock/ruleService';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import {
-    globalVariableTypes,
-    globalVariables,
-    systemVariables
-} from 'mock/systemGlobalVars';
+import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 const SELECTORS = {
     RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT:
@@ -167,14 +164,14 @@ const createComponentForTest = (
 describe('Record Lookup Editor', () => {
     let recordLookupNode, store, uiFlow;
     beforeAll(() => {
-        setRules(JSON.stringify(mockAllRules));
-        setEntities(JSON.stringify(mockEntities));
-        setGlobalVariables({ globalVariableTypes, globalVariables });
-        setSystemVariables(systemVariables);
+        setRules(rules);
+        setEntities(allEntities);
+        setGlobalVariables(globalVariablesForFlow);
+        setSystemVariables(systemVariablesForFlow);
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': () => ({
-                    data: mockAccountFields
+                    data: accountFields
                 })
             })
         );

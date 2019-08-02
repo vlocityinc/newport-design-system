@@ -17,7 +17,7 @@ import {
 import * as rulesMock from 'builder_platform_interaction/ruleLib';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { dateCollectionParam, dateParam } from 'mock/ruleService';
 import {
     FLOW_DATA_TYPE,
@@ -28,8 +28,8 @@ import {
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-import { systemVariables } from 'mock/systemGlobalVars';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -945,7 +945,7 @@ describe('base expression builder', () => {
         const accountVariable = expressionUtilsMock.mutateFlowResourceToComboboxShape(
             elements[accountSObjectVariableGuid]
         );
-        const accountField = mockAccountFields.AccountSource;
+        const accountField = accountFields.AccountSource;
 
         const picklistLabel = 'Picklist Values';
         const picklistApiValue = 'AccountSource';
@@ -968,7 +968,7 @@ describe('base expression builder', () => {
                 ),
                 lhsParam: rulesMock.elementToParam(accountField),
                 lhsIsField: true,
-                lhsFields: mockAccountFields,
+                lhsFields: accountFields,
                 lhsActivePicklistValues: accountField.activePicklistValues,
                 showLhsAsFieldReference: true,
                 operatorValue: rulesMock.RULE_OPERATOR.ASSIGN,

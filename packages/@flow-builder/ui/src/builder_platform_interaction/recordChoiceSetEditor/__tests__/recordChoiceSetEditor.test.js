@@ -17,7 +17,7 @@ import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib';
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
-import { mockAccountFields } from 'mock/serverEntityData';
+import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -66,7 +66,7 @@ jest.mock('../recordChoiceSetReducer', () => {
     };
 });
 
-const mockAccountFieldsPromise = Promise.resolve(mockAccountFields);
+const mockAccountFieldsPromise = Promise.resolve(accountFields);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
     const mockSobjectLib = Object.assign({}, sobjectLib);
@@ -306,7 +306,7 @@ describe('record-choice-set-editor', () => {
 
         it('field-picker fields should be defined', () => {
             expect(Object.keys(fieldPicker.fields)).toHaveLength(
-                Object.keys(mockAccountFields).length
+                Object.keys(accountFields).length
             );
         });
     });

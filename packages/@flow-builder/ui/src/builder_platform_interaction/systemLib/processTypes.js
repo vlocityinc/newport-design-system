@@ -8,9 +8,8 @@ const processTypesFeatures = new Map();
  *            data the data returned by the service
  */
 export const setProcessTypes = data => {
-    const parsedTypes = JSON.parse(data.processTypes);
-    if (Array.isArray(parsedTypes)) {
-        processTypes = parsedTypes;
+    if (Array.isArray(data)) {
+        processTypes = data;
     }
 };
 
