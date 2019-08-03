@@ -16,6 +16,7 @@
                     onclick={handleNodeClick}
                     ondblclick={handleDblClick}
                 >
+                    <span class="hiddenText">{nodeIconA11yTitle}</span>
                     <builder_platform_interaction-element-icon
                         icon-name={iconName}
                         icon-size={iconSize}
@@ -33,7 +34,9 @@
                 title={endPointTitle}
                 tabindex="0"
                 class="end-point slds-is-absolute"
-            ></button>
+            >
+                <span class="hiddenText">{endPointA11yTitle}</span>
+            </button>
 
             <!--Trash can-->
             <lightning-button-icon
@@ -50,9 +53,7 @@
 
         <!--Label and description-->
         <div class="text-container slds-is-absolute">
-            <div
-                class="text-element-type slds-text-body_regular slds-truncate"
-            >
+            <div class="text-element-type slds-text-body_regular slds-truncate">
                 {nodeTypeLabel}
             </div>
             <div

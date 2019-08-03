@@ -128,6 +128,14 @@ export default class Node extends LightningElement {
         return LABELS.endPointTitle;
     }
 
+    get endPointA11yTitle() {
+        return LABELS.endPointTitleA11yText;
+    }
+
+    get nodeIconA11yTitle() {
+        return LABELS.nodeIconA11yText;
+    }
+
     get trashCanAlternativeText() {
         return format(
             LABELS.trashCanAlternativeText,
