@@ -243,7 +243,6 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
 }
 
 .nds-checkbox_custom-group {
-  margin-right: 1.25rem;
   margin-bottom: 2rem;
 }
 
@@ -295,7 +294,7 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
   height: 100%;
 }
 
-.nds-img_option-width-height {
+.nds-checkbox_custom-group .nds-img_option-width-height {
   display: inline-block;
   margin: 0.5rem 1rem 0.5rem 0px;
   height: inherit;
@@ -311,6 +310,7 @@ fieldset.nds-form-element+.nds-has-error.nds-grid div:first-child small {
   right: 0;
   bottom: 0;
   margin-bottom: 1.875rem;
+  margin-right: 1.25rem;
 }
 
 .nds-caption-out_cont {
