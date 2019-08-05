@@ -298,7 +298,6 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
 }
 
 .nds-radio_custom-group {
-  margin-right: 1.25rem;
   margin-bottom: 2rem;
 }
 
@@ -360,7 +359,7 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   height: 100%;
 }
 
-.nds-img_option-width-height {
+.nds-radio_custom-group .nds-img_option-width-height {
   display: inline-block;
   height: inherit;
   width: inherit;
@@ -376,6 +375,7 @@ fieldset.nds-form-element+.nds-has-error div div.nds-has-error small:first-child
   bottom: 0;
   margin-bottom: 1.875rem;
   border: 2px solid $newport-gray-border-primary;
+  margin-right: 1.25rem;
 }
 
 .nds-caption-out_cont {
