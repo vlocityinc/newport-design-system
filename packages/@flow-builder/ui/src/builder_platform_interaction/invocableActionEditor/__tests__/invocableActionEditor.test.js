@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import InvocableActionEditor from '../invocableActionEditor';
-import { mockActionParameters, mockActions } from 'mock/calloutData';
+import { mockActions } from 'mock/calloutData';
+import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,

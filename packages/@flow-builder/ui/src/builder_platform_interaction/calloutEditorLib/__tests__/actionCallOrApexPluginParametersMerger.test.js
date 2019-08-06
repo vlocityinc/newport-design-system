@@ -2,7 +2,7 @@ import {
     mergeInputOutputParameters,
     MERGE_WARNING_TYPE
 } from '../calloutEditorLib';
-import { mockActionParameters } from 'mock/calloutData';
+import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -31,18 +31,6 @@ const nodeInputParameters = [
         },
         value: {
             value: 'This is a message',
-            error: null
-        },
-        valueDataType: 'String'
-    },
-    {
-        rowIndex: mockGuid,
-        name: {
-            value: 'apexClassParam',
-            error: null
-        },
-        value: {
-            value: '578b0f58-zfe1-4ddb-9d7e-fdfe6ab5703f',
             error: null
         },
         valueDataType: 'String'
@@ -95,11 +83,11 @@ const mergedInputs = [
     {
         dataType: 'String',
         isRequired: false,
-        label: 'Community Id',
+        label: 'Community ID',
         maxOccurs: 1,
         name: 'communityId',
         rowIndex: mockGuid,
-        subtype: undefined
+        subtype: null
     },
     {
         dataType: 'String',
@@ -113,7 +101,7 @@ const mergedInputs = [
             error: null
         },
         valueDataType: 'reference',
-        subtype: undefined
+        subtype: null
     },
     {
         dataType: 'String',
@@ -127,39 +115,25 @@ const mergedInputs = [
             error: null
         },
         valueDataType: 'String',
-        subtype: undefined
+        subtype: null
     },
     {
-        dataType: 'SObject',
+        dataType: 'Picklist',
         isRequired: false,
-        label: 'Account',
+        label: 'Target Type',
         maxOccurs: 1,
-        name: 'account',
-        subtype: 'Account',
-        rowIndex: mockGuid
+        name: 'type',
+        rowIndex: 'mockGuid',
+        subtype: null
     },
     {
-        dataType: 'SObject',
+        dataType: 'Picklist',
         isRequired: false,
-        label: 'Account List',
-        maxOccurs: 2000,
-        name: 'accountList',
-        subtype: 'Account',
-        rowIndex: mockGuid
-    },
-    {
-        dataType: 'Apex',
-        isRequired: false,
-        label: 'Apex Class Param',
+        label: 'Visibility',
         maxOccurs: 1,
-        name: 'apexClassParam',
-        subtype: 'ApexClass',
-        rowIndex: mockGuid,
-        value: {
-            value: '578b0f58-zfe1-4ddb-9d7e-fdfe6ab5703f',
-            error: null
-        },
-        valueDataType: 'String'
+        name: 'visibility',
+        rowIndex: 'mockGuid',
+        subtype: null
     }
 ];
 
@@ -171,6 +145,7 @@ const mergedOutputs = [
         maxOccurs: 1,
         name: 'feedItemId',
         rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
+        subtype: null,
         value: {
             value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
             error: null
@@ -187,6 +162,7 @@ const duplicatedMergedOutputs = [
         maxOccurs: 1,
         name: 'feedItemId',
         rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
+        subtype: null,
         value: {
             value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
             error: null
@@ -201,6 +177,7 @@ const duplicatedMergedOutputs = [
         maxOccurs: 1,
         name: 'feedItemId',
         rowIndex: 'abd34jhb-5858-474c-8f87-0fc38a5c7ebf',
+        subtype: null,
         value: {
             value: 'dh78nd45-afd1-4ddb-9d7e-fdfe6ab5703f',
             error: null

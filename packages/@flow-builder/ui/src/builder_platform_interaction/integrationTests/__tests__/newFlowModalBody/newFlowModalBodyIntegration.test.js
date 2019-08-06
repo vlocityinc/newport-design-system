@@ -4,9 +4,9 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { auraFetch, resetState } from '../../integrationTestUtils';
-import { MOCK_RAW_TEMPLATE_LIST } from 'mock/templates';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
+import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
@@ -77,7 +77,9 @@ describe('new Flow Modal Body', () => {
                     'c.getProcessTypes': () => ({
                         data: processTypes
                     }),
-                    'c.getTemplates': () => ({ data: MOCK_RAW_TEMPLATE_LIST })
+                    'c.getTemplates': () => ({
+                        data: templatesForFlowAndAutoLaunchedFlow
+                    })
                 })
             );
         });
@@ -112,7 +114,7 @@ describe('new Flow Modal Body', () => {
                     );
                     const templateItems = getTemplateItems(templatesTiles);
                     expect(templateItems).toHaveLength(
-                        MOCK_RAW_TEMPLATE_LIST.length
+                        templatesForFlowAndAutoLaunchedFlow.length
                     );
                 });
             });
@@ -134,12 +136,16 @@ describe('new Flow Modal Body', () => {
                         SELECTORS.TEMPLATES_SECTION
                     );
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(2);
-                    expect(getTemplateItemTitle(templateItems[0])).toBe(
-                        'myFlowTemplateGetAccount'
+                    expect(templateItems).toHaveLength(1);
+
+                    const templateItemTitles = Array.from(templateItems).map(
+                        templateItem => getTemplateItemTitle(templateItem)
                     );
-                    expect(getTemplateItemTitle(templateItems[1])).toBe(
-                        'myAutoLaunchedFlow'
+                    expect(templateItemTitles).toContain(
+                        'FTEST-TestFileBasedT'
+                    );
+                    expect(templateItemTitles).not.toContain(
+                        'FTest-TestFileBasedScreen'
                     );
                 });
                 it('should only display screen flow templates', async () => {
@@ -159,12 +165,15 @@ describe('new Flow Modal Body', () => {
                         SELECTORS.TEMPLATES_SECTION
                     );
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(2);
-                    expect(getTemplateItemTitle(templateItems[0])).toBe(
-                        'myScreenFlowTemplateGetAccount'
+                    expect(templateItems).toHaveLength(4);
+                    const templateItemTitles = Array.from(templateItems).map(
+                        templateItem => getTemplateItemTitle(templateItem)
                     );
-                    expect(getTemplateItemTitle(templateItems[1])).toBe(
-                        'screenFlowAddAccount'
+                    expect(templateItemTitles).not.toContain(
+                        'FTEST-TestFileBasedT'
+                    );
+                    expect(templateItemTitles).toContain(
+                        'FTest-TestFileBasedScreen'
                     );
                 });
             });

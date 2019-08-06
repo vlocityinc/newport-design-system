@@ -4,7 +4,7 @@ import {
     REMOVE_UNSET_PARAMETERS,
     MERGE_WARNING_TYPE
 } from 'builder_platform_interaction/calloutEditorLib';
-import { mockActionParameters } from 'mock/calloutData';
+import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent
@@ -92,7 +92,7 @@ describe('invocable-action-reducer', () => {
             newState = invocableActionReducer(originalState, event);
         });
         it('should merge input parameters', () => {
-            expect(newState.inputParameters).toHaveLength(6);
+            expect(newState.inputParameters).toHaveLength(5);
         });
         it('should merge output parameters', () => {
             expect(newState.outputParameters).toHaveLength(2);
