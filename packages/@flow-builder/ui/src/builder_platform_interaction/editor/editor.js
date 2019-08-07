@@ -30,7 +30,9 @@ import {
     MARQUEE_SELECT_ON_CANVAS,
     UPDATE_CANVAS_ELEMENT_LOCATION,
     UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
-    updateApexClasses
+    updateApexClasses,
+    ADD_START_ELEMENT,
+    UPDATE_APEX_CLASSES
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -165,6 +167,8 @@ export default class Editor extends LightningElement {
         logPerfTransactionStart(EDITOR);
         const blacklistedActionsForUndoRedoLib = [
             INIT,
+            UPDATE_APEX_CLASSES,
+            ADD_START_ELEMENT,
             UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
             UPDATE_PROPERTIES_AFTER_SAVE_FAILED, // Called after save callback returns with errors from server
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
@@ -751,7 +755,9 @@ export default class Editor extends LightningElement {
             params
         );
         storeInstance.dispatch(
-            updatePropertiesAfterActivateButtonPress({ status: FLOW_STATUS.ACTIVATING })
+            updatePropertiesAfterActivateButtonPress({
+                status: FLOW_STATUS.ACTIVATING
+            })
         );
     };
 
@@ -767,7 +773,9 @@ export default class Editor extends LightningElement {
             this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
         } else {
             storeInstance.dispatch(
-                updatePropertiesAfterActivateButtonPress({ status: data.status })
+                updatePropertiesAfterActivateButtonPress({
+                    status: data.status
+                })
             );
         }
     };
