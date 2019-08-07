@@ -109,7 +109,7 @@ const deletableCanvasElements = (canvasElements = []) => {
  *
  * @param {Object} storeInstance instance of the store
  * @param {String[]} selectedElementGUIDs - Contains GUIDs of all the selected canvas elements
- * @param {String[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
+ * @param {Object[]} connectorsToDelete - Contains all the selected and associated connectors that need to be deleted
  * @param {String} elementType - Type of the element being deleted
  */
 const doDeleteOrInvokeAlert = (
@@ -181,12 +181,17 @@ export const getElementsToBeDeleted = (
         isMultiElementDelete
     );
 
-    doDeleteOrInvokeAlert(
-        storeInstance,
-        canvasElementGuidsToDelete,
-        connectorsToDelete,
-        selectedElementType
-    );
+    if (
+        (canvasElementGuidsToDelete && canvasElementGuidsToDelete.length > 0) ||
+        (connectorsToDelete && connectorsToDelete.length > 0)
+    ) {
+        doDeleteOrInvokeAlert(
+            storeInstance,
+            canvasElementGuidsToDelete,
+            connectorsToDelete,
+            selectedElementType
+        );
+    }
 };
 
 /**
