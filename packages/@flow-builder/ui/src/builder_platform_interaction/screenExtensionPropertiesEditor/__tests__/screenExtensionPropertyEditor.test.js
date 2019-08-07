@@ -403,6 +403,25 @@ describe('Screen Extension Properties Editor', () => {
         });
     });
 
+    it('does not render the outputs section if the component does not have any output attributes', () => {
+        const propertiesProcessor = properties => {
+            properties.extensionDescription.outputParameters = [];
+            properties.field.outputParameters = [];
+        };
+
+        return runTest(true, true, propertiesProcessor, editor => {
+            expect(
+                getStoreOutputVariableTitleElement(editor)
+            ).not.toBeDefined();
+        });
+    });
+
+    it('does render the outputs section if the component does have output attributes', () => {
+        return runTest(true, true, null, editor => {
+            expect(getStoreOutputVariableTitleElement(editor)).toBeDefined();
+        });
+    });
+
     it('can handle multiple mappings for an output parameter', () => {
         const propertiesProcessor = properties => {
             properties.field.outputParameters.push(
