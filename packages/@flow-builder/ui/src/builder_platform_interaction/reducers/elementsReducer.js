@@ -50,7 +50,8 @@ export default function elementsReducer(state = {}, action) {
                 state,
                 action.payload.canvasElementGuidMap,
                 action.payload.childElementGuidMap,
-                action.payload.connectorsToDuplicate
+                action.payload.connectorsToDuplicate,
+                action.payload.unduplicatedCanvasElementsGuids
             );
         case ADD_CANVAS_ELEMENT:
         case ADD_START_ELEMENT:
@@ -138,7 +139,8 @@ function _duplicateElement(
     state,
     canvasElementGuidMap = {},
     childElementGuidMap = {},
-    connectorsToDuplicate = []
+    connectorsToDuplicate = [],
+    unduplicatedCanvasElementsGuids = []
 ) {
     let newState = Object.assign({}, state);
 
@@ -152,25 +154,15 @@ function _duplicateElement(
     );
     blacklistNames.push(Object.values(childElementNameMap));
 
+    // Deselect all the unduplicated elements
+    unduplicatedCanvasElementsGuids.forEach(guid =>
+        _deselectElement(newState[guid], newState)
+    );
+
     for (let i = 0; i < elementGuidsToDuplicate.length; i++) {
         const selectedElement = newState[elementGuidsToDuplicate[i]];
         // Deselect each element to be duplicated (since the duplicated elements will now be selected)
-        if (
-            selectedElement &&
-            selectedElement.config &&
-            selectedElement.config.isSelected
-        ) {
-            newState[selectedElement.guid] = Object.assign(
-                {},
-                selectedElement,
-                {
-                    config: {
-                        isSelected: false,
-                        isHighlighted: selectedElement.config.isHighlighted
-                    }
-                }
-            );
-        }
+        _deselectElement(selectedElement, newState);
 
         // Figure out a unique name for the element to be duplicated
         const duplicateElementGuid = canvasElementGuidMap[selectedElement.guid];
@@ -208,6 +200,29 @@ function _duplicateElement(
     );
 
     return newState;
+}
+
+/**
+ * Helper function to deselect an element
+ *
+ * @param {Object} selectedElement - a canvas element that's selected
+ * @param {Object} state to update - the state
+ *
+ * @private
+ */
+function _deselectElement(selectedElement, state) {
+    if (
+        selectedElement &&
+        selectedElement.config &&
+        selectedElement.config.isSelected
+    ) {
+        state[selectedElement.guid] = Object.assign({}, selectedElement, {
+            config: {
+                isSelected: false,
+                isHighlighted: selectedElement.config.isHighlighted
+            }
+        });
+    }
 }
 
 /**

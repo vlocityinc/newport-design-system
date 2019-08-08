@@ -611,7 +611,8 @@ export default class Editor extends LightningElement {
         const currentState = storeInstance.getCurrentState();
         const {
             canvasElementGuidMap,
-            childElementGuidMap
+            childElementGuidMap,
+            unduplicatedCanvasElementsGuids
         } = getDuplicateElementGuidMaps(
             currentState.canvasElements,
             currentState.elements
@@ -629,7 +630,8 @@ export default class Editor extends LightningElement {
             const payload = {
                 canvasElementGuidMap,
                 childElementGuidMap,
-                connectorsToDuplicate
+                connectorsToDuplicate,
+                unduplicatedCanvasElementsGuids
             };
             storeInstance.dispatch(doDuplicate(payload));
         }

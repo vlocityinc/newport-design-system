@@ -765,8 +765,14 @@ describe('Editor Utils Test', () => {
             const canvasElementGuidMap = {
                 guid2: 'rand_guid'
             };
+
+            const unduplicatedCanvasElementsGuids = ['guid1'];
             const childElementGuidMap = {};
-            const res = { canvasElementGuidMap, childElementGuidMap };
+            const res = {
+                canvasElementGuidMap,
+                childElementGuidMap,
+                unduplicatedCanvasElementsGuids
+            };
             expect(
                 getDuplicateElementGuidMaps(
                     canvasElementsInStore,

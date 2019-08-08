@@ -399,6 +399,20 @@ const shouldDuplicateElement = canvasElement => {
 };
 
 /**
+ * Checks if a canvas element is selected
+ *
+ * @param {Object} canvasElement - canvas element being duplicated
+ * @returns {Boolean} Returns true if the canvas element is selected
+ */
+const isSelected = canvasElement => {
+    if (!canvasElement) {
+        throw new Error('canvasElement is not defined');
+    }
+
+    return canvasElement.config && canvasElement.config.isSelected;
+};
+
+/**
  * Checks if the canvas element being duplicated can have any child elements associated with it or not. Only Decision,
  * Screen and wait (Pause) element can have child elements.
  *
@@ -475,6 +489,7 @@ export const getDuplicateElementGuidMaps = (
 
     const canvasElementGuidMap = {};
     let childElementGuidMap = {};
+    const unduplicatedCanvasElementsGuids = [];
 
     const nodesLength = canvasElementsInStore.length;
     for (let i = 0; i < nodesLength; i++) {
@@ -489,10 +504,16 @@ export const getDuplicateElementGuidMaps = (
                     ...setupChildElementGuidMap(canvasElement)
                 };
             }
+        } else if (isSelected(canvasElement)) {
+            unduplicatedCanvasElementsGuids.push(canvasElement.guid);
         }
     }
 
-    return { canvasElementGuidMap, childElementGuidMap };
+    return {
+        canvasElementGuidMap,
+        childElementGuidMap,
+        unduplicatedCanvasElementsGuids
+    };
 };
 
 /**
