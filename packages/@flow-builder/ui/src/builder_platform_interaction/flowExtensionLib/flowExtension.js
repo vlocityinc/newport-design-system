@@ -14,6 +14,17 @@ let _retriever; // Retrieves extensions list and notifies all callbacks that reg
 
 export const COMPONENT_INSTANCE = 'ComponentInstance';
 export const EXTENSION_TYPE_SOURCE = { LOCAL: 'local', SERVER: 'server' };
+const screenFieldLabelToIconMapping = {
+        'Address': 'standard:address',
+        'Dependent Picklists': 'standard:picklist_type',
+        'Display Image': 'utility:image',
+        'Email': 'standard:email',
+        'Lookup': 'standard:record_lookup',
+        'Name': 'standard:contact',
+        'Phone': 'standard:call',
+        'Time':  'standard:date_time',
+        'URL': 'standard:link'
+};
 
 /**
  * Returns a list of all the available lightning components implementing a flow marker interface with the following shape.
@@ -59,6 +70,7 @@ function getListExtensionsRetriever(flowProcessType) {
                                 }
                             } else {
                                 flowProcessTypeCache = flowProcessType;
+                                const defaultIcon = 'standard:lightning_component';
                                 for (const extension of data) {
                                     extensionCache.push(
                                         readonly({
@@ -67,8 +79,7 @@ function getListExtensionsRetriever(flowProcessType) {
                                             label: extension.label
                                                 ? extension.label
                                                 : extension.qualifiedApiName,
-                                            icon:
-                                                'standard:lightning_component',
+                                            icon: screenFieldLabelToIconMapping[extension.label] || defaultIcon,
                                             category:
                                                 extension.source === 'Standard'
                                                     ? LABELS.fieldCategoryInput
