@@ -24,6 +24,7 @@ import { getResourceLabel } from 'builder_platform_interaction/elementLabelLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { apexClassesSelector } from 'builder_platform_interaction/selectors';
 import { createSelector } from 'builder_platform_interaction/storeLib';
+import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
@@ -209,7 +210,12 @@ export function mutateFlowResourceToComboboxShape(resource) {
         newElement.value = SYSTEM_VARIABLE_RECORD_PREFIX;
         isNonElement = false;
     } else {
-        resourceIcon = resource.type ? resource.type.icon : resource.iconName;
+        // For screen fields fetch icon based on data type instead of screen field type.
+        if (resource.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
+            resourceIcon = getIconNameFromDataType(resource.type.dataType);
+        } else {
+            resourceIcon = resource.type ? resource.type.icon : resource.iconName;
+        }
         elementCategory = getResourceCategory({
             elementType: resource.elementType,
             dataType: resourceDataType,

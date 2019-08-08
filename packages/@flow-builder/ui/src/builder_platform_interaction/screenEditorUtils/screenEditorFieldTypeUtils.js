@@ -362,6 +362,34 @@ export function getFlowDataTypeByName(dataType) {
 }
 
 /**
+ * @param {string} dataType - The dataType to look up.
+ * @returns {string} The corresponding iconName. Returns null there is no match.
+ */
+export function getIconNameFromDataType(dataType) {
+    if (dataType) {
+        // Lightning Component attributes support field types in various number flavors, which all map to number
+        // in Flow metadata.
+        let lcType = dataType.toUpperCase();
+        if (
+            lcType === 'DECIMAL' ||
+            lcType === 'DOUBLE' ||
+            lcType === 'INTEGER' ||
+            lcType === 'LONG' ||
+            lcType === 'INT'
+        ) {
+            lcType = 'NUMBER';
+        }
+
+        for (const typeName in FLOW_DATA_TYPE) {
+            if (FLOW_DATA_TYPE[typeName].value.toUpperCase() === lcType) {
+                return FLOW_DATA_TYPE[typeName].iconName;
+            }
+        }
+    }
+    return null;
+}
+
+/**
  * Returns the ferov type from a field type
  * @param {FieldType} fieldType - The field type
  * @returns {String} - The type
