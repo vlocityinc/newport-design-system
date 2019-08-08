@@ -3,7 +3,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     AddRecordLookupFieldEvent,
     UpdateRecordLookupFieldEvent,
-    DeleteRecordLookupFieldEvent
+    DeleteRecordLookupFieldEvent,
+    AddListItemEvent,
+    UpdateListItemEvent,
+    DeleteListItemEvent
 } from 'builder_platform_interaction/events';
 import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
@@ -100,6 +103,10 @@ describe('record-store-fields', () => {
             recordQueryFields = createComponentUnderTest({
                 outputReference: store.accountSObjectVariableGuid
             });
+            expect(recordQueryFields.outputReference).toBe(
+                store.accountSObjectVariableGuid
+            );
+
             expect(getFieldList(recordQueryFields)).not.toBeNull();
             const fieldPickers = getRecordFieldPickers(recordQueryFields);
             expect(fieldPickers).toHaveLength(1);
@@ -139,7 +146,7 @@ describe('record-store-fields', () => {
                     AddRecordLookupFieldEvent.EVENT_NAME,
                     eventCallback
                 );
-                fieldList.dispatchEvent(new AddRecordLookupFieldEvent());
+                fieldList.dispatchEvent(new AddListItemEvent());
                 expect(eventCallback).toHaveBeenCalled();
             });
         });
@@ -156,10 +163,7 @@ describe('record-store-fields', () => {
                     eventCallback
                 );
                 fieldList.dispatchEvent(
-                    new UpdateRecordLookupFieldEvent(
-                        updateData.index,
-                        updateData.value
-                    )
+                    new UpdateListItemEvent(updateData.index, updateData.value)
                 );
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
@@ -179,9 +183,7 @@ describe('record-store-fields', () => {
                     DeleteRecordLookupFieldEvent.EVENT_NAME,
                     eventCallback
                 );
-                fieldList.dispatchEvent(
-                    new DeleteRecordLookupFieldEvent(deleteIndex)
-                );
+                fieldList.dispatchEvent(new DeleteListItemEvent(deleteIndex));
                 expect(eventCallback).toHaveBeenCalled();
                 expect(eventCallback.mock.calls[0][0]).toMatchObject({
                     detail: {

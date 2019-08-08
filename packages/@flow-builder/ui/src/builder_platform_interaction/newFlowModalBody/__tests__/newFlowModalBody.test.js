@@ -5,7 +5,10 @@ import {
     ProcessTypeSelectedEvent,
     TemplateChangedEvent
 } from 'builder_platform_interaction/events';
-import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
+import {
+    ALL_PROCESS_TYPE,
+    resetCacheTemplates
+} from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import {
@@ -18,8 +21,7 @@ import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 let mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
-
-const mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
+let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
@@ -58,7 +60,8 @@ const SELECTORS = {
     FEATURED_SECTION: '.featured',
     TEMPLATES_SECTION: '.templates',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
-    ERROR_MESSAGE: '.errorMessage .slds-notify__content'
+    ERROR_MESSAGE: '.errorMessage .slds-notify__content',
+    ERROR_CLOSING_BUTTON: 'lightning-button-icon'
 };
 
 const getProcessTypesNavigation = modalBody => {
@@ -81,6 +84,10 @@ const getTemplates = (processTypeTemplates, section) => {
 
 const getErrorMessage = modalBody => {
     return modalBody.shadowRoot.querySelector(SELECTORS.ERROR_MESSAGE);
+};
+
+const getErrorClosingButton = modalBody => {
+    return modalBody.shadowRoot.querySelector(SELECTORS.ERROR_CLOSING_BUTTON);
 };
 
 const getProcessType = processTypeName =>
@@ -176,6 +183,7 @@ describe('new-flow-modal-body', () => {
             const processTypesTemplates = getProcessTypesTemplates(
                 newFlowModalBody
             );
+            expect(newFlowModalBody.isProcessType).toBe(true);
             expect(processTypesTemplates.processType).toEqual(
                 ALL_PROCESS_TYPE.name
             );
@@ -266,6 +274,7 @@ describe('new-flow-modal-body', () => {
             const processTypesNavigation = getProcessTypesNavigation(
                 newFlowModalBody
             );
+            newFlowModalBody.selectedTemplate = MOCK_SCREEN_TEMPLATE_2.EnumOrId;
             processTypesNavigation.dispatchEvent(
                 new ProcessTypeSelectedEvent(
                     FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
@@ -285,26 +294,62 @@ describe('new-flow-modal-body', () => {
                 new TemplateChangedEvent(MOCK_AUTO_TEMPLATE.EnumOrId, false)
             );
             await Promise.resolve();
+            expect(newFlowModalBody.selectedTemplate).toBe(
+                MOCK_AUTO_TEMPLATE.EnumOrId
+            );
             errorMessage = getErrorMessage(newFlowModalBody);
             expect(errorMessage).toBeNull();
         });
     });
 });
 
-describe('process types loading server error cases', () => {
+describe('fetch server data error cases', () => {
     let newFlowModalBody;
-    beforeEach(() => {
-        mockProcessTypesPromise = Promise.reject();
-    });
-    afterEach(() => {
-        mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
-        resetProcessTypesCache();
-    });
-    it('should show process types error message', async () => {
-        newFlowModalBody = createComponentForTest();
-        await ticks(10);
+    describe('process types', () => {
+        beforeAll(() => {
+            mockProcessTypesPromise = Promise.reject();
+        });
+        beforeEach(async () => {
+            newFlowModalBody = createComponentForTest();
+            await ticks(10);
+        });
+        afterAll(() => {
+            mockProcessTypesPromise = Promise.resolve(MOCK_ALL_PROCESS_TYPES);
+            resetProcessTypesCache();
+        });
+        it('should show process types error message', async () => {
+            const errorMessage = newFlowModalBody.errorMessage;
+            expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);
+        });
 
-        const errorMessage = newFlowModalBody.errorMessage;
-        expect(errorMessage).toEqual(LABELS.errorLoadingProcessTypes);
+        it('should show process types error close button that when clicked reset errors', async () => {
+            const errorClosingButton = getErrorClosingButton(newFlowModalBody);
+            expect(errorClosingButton).toBeDefined();
+            errorClosingButton.dispatchEvent(new CustomEvent('click'));
+            expect(newFlowModalBody.errorMessage).toHaveLength(0);
+        });
+    });
+    describe('templates', () => {
+        beforeAll(() => {
+            resetCacheTemplates();
+            mockTemplatesPromise = Promise.reject();
+        });
+        beforeEach(async () => {
+            newFlowModalBody = createComponentForTest();
+            await ticks(10);
+        });
+        afterAll(() => {
+            mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
+        });
+        it('should show templates error message', async () => {
+            const errorMessage = newFlowModalBody.errorMessage;
+            expect(errorMessage).toEqual(LABELS.errorLoadingTemplates);
+        });
+        it('should show templates error close button that when clicked reset errors', async () => {
+            const errorClosingButton = getErrorClosingButton(newFlowModalBody);
+            expect(errorClosingButton).toBeDefined();
+            errorClosingButton.dispatchEvent(new CustomEvent('click'));
+            expect(newFlowModalBody.errorMessage).toHaveLength(0);
+        });
     });
 });
