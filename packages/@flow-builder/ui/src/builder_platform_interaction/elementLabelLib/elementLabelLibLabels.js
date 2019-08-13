@@ -11,8 +11,9 @@ import apexCollectionVariableSingularLabel from '@salesforce/label/FlowBuilderEl
 import sObjectSingularLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectSingularLabel';
 import apexVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.apexVariableSingularLabel';
 import screenFieldSingularLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel';
-
 import lightningComponentScreenFieldAsResourceText from '@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText';
+import actionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.actionPluralLabel';
+import actionAsResourceText from '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText';
 
 export const LABELS = {
     recordLookupAsResourceText,
@@ -28,5 +29,7 @@ export const LABELS = {
     apexVariableSingularLabel,
     lightningComponentScreenFieldAsResourceText,
     screenFieldPluralLabel,
-    screenFieldSingularLabel
+    screenFieldSingularLabel,
+    actionAsResourceText,
+    actionPluralLabel
 };

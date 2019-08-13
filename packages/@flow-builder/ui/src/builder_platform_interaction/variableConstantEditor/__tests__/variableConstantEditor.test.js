@@ -269,8 +269,8 @@ describe('variable-constant-editor', () => {
                         'builder_platform_interaction-data-type-picker'
                     )
                     .shadowRoot.querySelector('lightning-combobox');
-                // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT
-                const expectedLength = Object.values(FLOW_DATA_TYPE).length - 1;
+                // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT nor ACTION_OUTPUT
+                const expectedLength = Object.values(FLOW_DATA_TYPE).length - 2;
                 expect(dataTypePicker.options).toHaveLength(expectedLength);
             });
         });

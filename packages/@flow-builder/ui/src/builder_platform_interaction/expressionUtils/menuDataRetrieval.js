@@ -47,6 +47,10 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
 import { format } from 'builder_platform_interaction/commonUtils';
+import {
+    getParametersForInvocableAction,
+    getInvocableActionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/invocableActionLib';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -150,8 +154,10 @@ export function isElementAllowed(
         const paramTypeKey = Object.keys(allowedParamTypes).find(key => {
             return key.toLowerCase() === property.toLowerCase();
         });
-        const allowedType = paramTypeKey ? allowedParamTypes[paramTypeKey] : undefined;
-        return (allowedType && elementMatchesRule(allowedType, element));
+        const allowedType = paramTypeKey
+            ? allowedParamTypes[paramTypeKey]
+            : undefined;
+        return allowedType && elementMatchesRule(allowedType, element);
     };
 
     return (
@@ -469,10 +475,11 @@ export function filterAndMutateMenuData(
 
     // Create menu items from flow elements, sort them and group by their category.
     const menuData = menuDataElements
-        .filter(element =>
-            isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
-            // exclude the start element so that it is easier to add back as a global var below
-            element.elementType !== ELEMENT_TYPE.START_ELEMENT
+        .filter(
+            element =>
+                isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
+                // exclude the start element so that it is easier to add back as a global var below
+                element.elementType !== ELEMENT_TYPE.START_ELEMENT
         )
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
@@ -492,8 +499,9 @@ export function filterAndMutateMenuData(
         (!allowedParamTypes || allowedParamTypes[SYSTEM_VARIABLE_REQUIREMENT]);
     if (systemVariablesAllowed || showGlobalVariables) {
         const systemAndGlobalVariableMenuData = getSystemAndGlobalVariableMenuData(
-                systemVariablesAllowed,
-                showGlobalVariables);
+            systemVariablesAllowed,
+            showGlobalVariables
+        );
         if (systemAndGlobalVariableMenuData) {
             systemAndGlobalVariableMenuItem = {
                 label: systemGlobalVariableCategoryLabel,
@@ -504,14 +512,17 @@ export function filterAndMutateMenuData(
     }
 
     // Add the start element as $Record under Global Variables
-    const startElement = menuDataElements.find(element =>
+    const startElement = menuDataElements.find(
+        element =>
             isElementAllowed(allowedParamTypes, element, !disableHasNext) &&
             // exclude the start element so that it is easier to add back as a global var below
             element.elementType === ELEMENT_TYPE.START_ELEMENT
-        );
+    );
     if (startElement) {
         // Create a menu item for the start element
-        const startElementMenuItem = mutateFlowResourceToComboboxShape(startElement);
+        const startElementMenuItem = mutateFlowResourceToComboboxShape(
+            startElement
+        );
         if (disableHasNext) {
             startElementMenuItem.hasNext = false;
             startElementMenuItem.rightIconName = '';
@@ -530,8 +541,13 @@ export function filterAndMutateMenuData(
     }
 
     // Sort menu items in the Global Variables menu group
-    if (systemAndGlobalVariableMenuItem && systemAndGlobalVariableMenuItem.items) {
-        systemAndGlobalVariableMenuItem.items.sort((a, b) => a.displayText - b.displayText);
+    if (
+        systemAndGlobalVariableMenuItem &&
+        systemAndGlobalVariableMenuItem.items
+    ) {
+        systemAndGlobalVariableMenuItem.items.sort(
+            (a, b) => a.displayText - b.displayText
+        );
     }
 
     // Add picklist values to the top of the menu under the Picklist Values category
@@ -644,8 +660,31 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
             topLevelItem.value,
             callback
         );
+    } else if (dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        fetchOutputParametersForInvocableAction(topLevelItem.value, callback);
     } else {
         callback(apexTypeLib.getPropertiesForClass(subtype));
+    }
+}
+
+function fetchOutputParametersForInvocableAction(resourceGuid, callback) {
+    const element = getElementByGuid(resourceGuid);
+    const parameters = getParametersForInvocableAction(element);
+    if (parameters) {
+        callback(
+            parameters
+                .filter(parameter => parameter.isOutput)
+                .reduce((properties, parameter) => {
+                    properties[
+                        parameter.name
+                    ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
+                        parameter
+                    );
+                    return properties;
+                }, {})
+        );
+    } else {
+        callback([]);
     }
 }
 

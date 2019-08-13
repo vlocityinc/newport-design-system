@@ -23,8 +23,7 @@ const flowInputParameterWithDefaultValueAsString = {
     name: 'text',
     value: {
         stringValue: 'This is message'
-    },
-    processMetadataValues: []
+    }
 };
 
 const storeInputParameterWithDefaultValueAsString = {
@@ -38,8 +37,7 @@ const flowInputParameterWithDefaultValueAsReference = {
     name: 'subjectNameOrId',
     value: {
         elementReference: 'var_text'
-    },
-    processMetadataValues: []
+    }
 };
 
 const storeInputParameterWithDefaultValueAsReference = {
@@ -51,8 +49,7 @@ const storeInputParameterWithDefaultValueAsReference = {
 
 const flowOutputParameterWithDefaultValue = {
     name: 'feedId',
-    assignToReference: 'var_text',
-    processMetadataValues: []
+    assignToReference: 'var_text'
 };
 
 const storeOutputParameterWithDefaultValue = {
@@ -73,8 +70,7 @@ const actionCallMetaData = {
     locationX: 353,
     locationY: 57,
     name: 'My_Post_to_Chatter',
-    outputParameters: [flowOutputParameterWithDefaultValue],
-    processMetadataValues: []
+    outputParameters: [flowOutputParameterWithDefaultValue]
 };
 
 const actionCallInStore = {
@@ -121,6 +117,55 @@ const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
             assignToReference: param.assignToReference
         };
     });
+};
+
+const actionCallAutomaticOutputMetadata = {
+    actionName: 'chatterPost',
+    actionType: 'chatterPost',
+    inputParameters: [
+        flowInputParameterWithDefaultValueAsString,
+        flowInputParameterWithDefaultValueAsReference
+    ],
+    label: 'postToChatter',
+    locationX: 442,
+    locationY: 256,
+    name: 'postToChatter',
+    outputParameters: [],
+    storeOutputAutomatically: true
+};
+
+const actionCallAutomaticOutputInStore = {
+    guid: 'c6ae58ae-32d6-47d2-bad3-56d614450301',
+    name: 'postToChatter',
+    description: '',
+    label: 'postToChatter',
+    locationX: 442,
+    locationY: 256,
+    isCanvasElement: true,
+    connectorCount: 0,
+    config: {
+        isSelected: false,
+        isHighlighted: false
+    },
+    actionType: 'chatterPost',
+    actionName: 'chatterPost',
+    inputParameters: [
+        storeInputParameterWithDefaultValueAsString,
+        storeInputParameterWithDefaultValueAsReference
+    ],
+    outputParameters: [],
+    availableConnections: [
+        {
+            type: 'REGULAR'
+        },
+        {
+            type: 'FAULT'
+        }
+    ],
+    maxConnections: 2,
+    elementType: 'ActionCall',
+    dataType: 'ActionOutput',
+    storeOutputAutomatically: true
 };
 
 describe('actionCall', () => {
@@ -237,6 +282,32 @@ describe('actionCall', () => {
                 );
             });
         });
+
+        describe('when metadata action call with automatic output handling is passed', () => {
+            beforeEach(() => {
+                actionCall = createActionCall(
+                    actionCallAutomaticOutputMetadata
+                );
+            });
+            it('has no common mutable object with action metadata passed as parameter', () => {
+                expect(actionCall).toHaveNoCommonMutableObjectWith(
+                    actionCallAutomaticOutputMetadata
+                );
+            });
+            it('"outputParameters" should be an empty array', () => {
+                expect(actionCall.outputParameters).toEqual([]);
+            });
+            it('should have a ACTION_OUTPUT datatype', () => {
+                expect(actionCall.dataType).toBe(
+                    FLOW_DATA_TYPE.ACTION_OUTPUT.value
+                );
+                expect(actionCall.isCollection).toBeFalsy();
+                expect(actionCall.subtype).toBeFalsy();
+            });
+            it('"storeOutputAutomatically" should be true', () => {
+                expect(actionCall.storeOutputAutomatically).toBe(true);
+            });
+        });
     });
 
     describe('createDuplicateActionCall function', () => {
@@ -342,6 +413,25 @@ describe('actionCall', () => {
                         actionCallMetaData.outputParameters,
                         false
                     )
+                );
+            });
+        });
+        describe('when store actionCall with automatic output handling is passed', () => {
+            it('convert to flow metadata', () => {
+                const actualResult = createActionCallMetadataObject(
+                    actionCallAutomaticOutputInStore
+                );
+
+                expect(actualResult).toMatchObject(
+                    actionCallAutomaticOutputMetadata
+                );
+            });
+            it('has no common mutable object with actionCall from store passed as parameter', () => {
+                const actualResult = createActionCallMetadataObject(
+                    actionCallAutomaticOutputInStore
+                );
+                expect(actualResult).toHaveNoCommonMutableObjectWith(
+                    actionCallAutomaticOutputInStore
                 );
             });
         });

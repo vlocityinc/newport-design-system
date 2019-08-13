@@ -40,6 +40,7 @@ import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib'
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
+import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -103,6 +104,12 @@ const parentLightningComponentScreenFieldItem = {
     value: store.emailScreenFieldAutomaticOutputGuid
 };
 
+const parentActionItem = {
+    dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+    displayText: 'action',
+    value: store.actionCallAutomaticAutomaticOutputGuid
+};
+
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
     return {
         getPropertiesForClass: jest.fn()
@@ -126,6 +133,19 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     return {
         getExtensionParamDescriptionAsComplexTypeFieldDescription:
             actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
+    };
+});
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => {
+    const actual = require.requireActual(
+        '../../invocableActionLib/invocableActionLib.js'
+    );
+    return {
+        getInvocableActionParamDescriptionAsComplexTypeFieldDescription:
+            actual.getInvocableActionParamDescriptionAsComplexTypeFieldDescription,
+        getParametersForInvocableAction: jest
+            .fn()
+            .mockImplementation(() => mockChatterPostActionParameters)
     };
 });
 
@@ -819,6 +839,18 @@ describe('Menu data retrieval', () => {
             const secondLevelItems = callback.mock.calls[0][0];
             expect(Object.keys(secondLevelItems)).toEqual(
                 expect.arrayContaining(['label', 'value'])
+            );
+        });
+        it('should fetch ouput parameters for action with automatic handling', async () => {
+            const callback = jest.fn();
+            const mockConfig = { elementType: ELEMENT_TYPE.ACTION_CALL };
+            getSecondLevelItems(mockConfig, parentActionItem, callback);
+            await untilNoFailure(() => {
+                expect(callback).toHaveBeenCalledTimes(1);
+            });
+            const secondLevelItems = callback.mock.calls[0][0];
+            expect(Object.keys(secondLevelItems)).toEqual(
+                expect.arrayContaining(['feedItemId'])
             );
         });
     });

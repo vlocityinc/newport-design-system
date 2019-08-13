@@ -73,6 +73,12 @@ const FLOW_DATA_TYPE = {
         value: 'LightningComponentOutput',
         iconName: 'standard:lightning_component',
         utilityIconName: 'utility:connected_apps'
+    },
+    ACTION_OUTPUT: {
+        label: DATA_TYPE_LABELS.actionOutputDataTypeLabel,
+        value: 'ActionOutput',
+        iconName: 'standard:output',
+        utilityIconName: 'utility:fallback'
     }
 };
 
@@ -88,7 +94,8 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.MULTI_PICKLIST.value]: 'MULTI_PICKLIST',
     [FLOW_DATA_TYPE.APEX.value]: 'APEX',
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]:
-        'LIGHTNING_COMPONENT_OUTPUT'
+        'LIGHTNING_COMPONENT_OUTPUT',
+    [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: 'ACTION_OUTPUT'
 };
 
 export const SCALE_RANGE = {
@@ -127,7 +134,8 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.APEX.value]: ['apex'],
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: [
         'lightningComponentOutput'
-    ]
+    ],
+    [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: ['actionOutput']
 };
 
 export const STAGE_ORDER_RANGE = {
@@ -317,6 +325,7 @@ export function isComplexType(type) {
     return [
         FLOW_DATA_TYPE.SOBJECT.value,
         FLOW_DATA_TYPE.APEX.value,
-        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
+        FLOW_DATA_TYPE.ACTION_OUTPUT.value
     ].includes(type);
 }

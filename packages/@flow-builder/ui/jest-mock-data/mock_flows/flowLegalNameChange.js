@@ -45,6 +45,7 @@ export const flowLegalNameChange = {
             processMetadataValues: []
           }
         ],
+        storeOutputAutomatically: false,
         processMetadataValues: []
       }
     ],

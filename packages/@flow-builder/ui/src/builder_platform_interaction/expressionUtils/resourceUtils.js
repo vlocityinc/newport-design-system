@@ -29,6 +29,10 @@ import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericEr
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
+import {
+    getParametersForInvocableAction,
+    getInvocableActionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/invocableActionLib';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -76,10 +80,13 @@ export const getItemOrDisplayText = event => {
 export const getResourceByUniqueIdentifier = identifier => {
     if (identifier) {
         const complexGuid = sanitizeGuid(identifier);
-        return getElementByGuid(complexGuid.guidOrLiteral) ||
+        return (
+            getElementByGuid(complexGuid.guidOrLiteral) ||
             getGlobalConstantOrSystemVariable(identifier) ||
             getGlobalVariable(identifier) ||
-            (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) && getElementByDevName(complexGuid.guidOrLiteral));
+            (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
+                getElementByDevName(complexGuid.guidOrLiteral))
+        );
     }
     return null;
 };
@@ -154,6 +161,17 @@ export const retrieveResourceComplexTypeFields = flowResource => {
                 acc[
                     parameter.apiName
                 ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
+                    parameter
+                );
+                return acc;
+            }, {});
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        fields = getParametersForInvocableAction(flowResource)
+            .filter(parameter => parameter.isOutput)
+            .reduce((acc, parameter) => {
+                acc[
+                    parameter.name
+                ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
                     parameter
                 );
                 return acc;

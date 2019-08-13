@@ -69,7 +69,9 @@ const DATATYPES_WITH_NO_DEFAULT_VALUE = [
     FLOW_DATA_TYPE.APEX.value
 ];
 const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE).filter(
-    type => type !== FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT
+    type =>
+        type !== FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT &&
+        type !== FLOW_DATA_TYPE.ACTION_OUTPUT
 );
 const flowDataTypeConstantMenuItems = [
     FLOW_DATA_TYPE.STRING,

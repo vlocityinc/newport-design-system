@@ -8,9 +8,8 @@ export {
     getSObjectOrSObjectCollectionByEntityElements,
     choiceSelector,
     apexScalarVariablesSelector,
-    componentInstanceScreenFieldsSelector
+    componentInstanceScreenFieldsSelector,
+    byElementTypeElementsSelector
 } from './menuDataSelector';
 
-export {
-    apexClassesSelector
-} from './peripheralDataSelectors';
+export { apexClassesSelector } from './peripheralDataSelectors';

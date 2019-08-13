@@ -9,7 +9,8 @@ import {
     lookupRecordOutputReferenceGuid,
     lookupRecordAutomaticOutputGuid,
     lookupRecordCollectionAutomaticOutputGuid,
-    emailScreenFieldAutomaticOutputGuid
+    emailScreenFieldAutomaticOutputGuid,
+    actionCallAutomaticAutomaticOutputGuid
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -46,7 +47,13 @@ jest.mock(
     },
     { virtual: true }
 );
-
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText',
+    () => {
+        return { default: 'Outputs from {0}' };
+    },
+    { virtual: true }
+);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
@@ -96,6 +103,11 @@ describe('elementLabelLib', () => {
             const label = getResourceLabel(element);
             expect(label).toEqual('Outputs from emailScreenFieldAutomatic');
         });
+        it('returns "Outputs" from [ActionName]" for action with automatic handling mode', () => {
+            const element = elements[actionCallAutomaticAutomaticOutputGuid];
+            const label = getResourceLabel(element);
+            expect(label).toEqual('Outputs from actionCallAutomatic');
+        });
     });
     describe('getElementCategory', () => {
         it('for elements', () => {
@@ -136,6 +148,17 @@ describe('elementLabelLib', () => {
                         )
                     )
                 ).toEqual('FlowBuilderElementConfig.screenFieldPluralLabel');
+            });
+            it('for action as record resource', () => {
+                expect(
+                    getElementCategory(
+                        createElement(
+                            ELEMENT_TYPE.ACTION_CALL,
+                            FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+                            false
+                        )
+                    )
+                ).toEqual('FlowBuilderElementConfig.actionPluralLabel');
             });
         });
         it('for collections variables', () => {
@@ -225,7 +248,7 @@ describe('elementLabelLib', () => {
             });
             it('for lightning component screen field as record resource', () => {
                 expect(
-                    getElementCategory(
+                    getResourceCategory(
                         createElement(
                             ELEMENT_TYPE.SCREEN_FIELD,
                             FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
@@ -233,6 +256,17 @@ describe('elementLabelLib', () => {
                         )
                     )
                 ).toEqual('FlowBuilderElementConfig.screenFieldPluralLabel');
+            });
+            it('for action as record resource', () => {
+                expect(
+                    getResourceCategory(
+                        createElement(
+                            ELEMENT_TYPE.ACTION_CALL,
+                            FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+                            false
+                        )
+                    )
+                ).toEqual('FlowBuilderElementConfig.actionPluralLabel');
             });
         });
         it('for collections variables', () => {

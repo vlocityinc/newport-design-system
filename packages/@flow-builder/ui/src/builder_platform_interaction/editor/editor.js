@@ -8,7 +8,8 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     getSObjectOrSObjectCollectionByEntityElements,
-    componentInstanceScreenFieldsSelector
+    componentInstanceScreenFieldsSelector,
+    byElementTypeElementsSelector
 } from 'builder_platform_interaction/selectors';
 import {
     updateFlow,
@@ -104,6 +105,10 @@ import {
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
+import {
+    fetchParametersForInvocableAction,
+    setInvocableActions
+} from 'builder_platform_interaction/invocableActionLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -299,7 +304,9 @@ export default class Editor extends LightningElement {
                     flowProcessType: currentState.properties.processType
                 },
                 { background: true }
-            ).catch(() => {});
+            )
+                .then(data => setInvocableActions(data))
+                .catch(() => {});
 
             // Get Apex Plugins
             fetchOnce(
@@ -345,6 +352,7 @@ export default class Editor extends LightningElement {
             this.setOriginalFlowValues();
             this.loadFieldsForSobjectsInFlow();
             this.loadFieldsForExtensionsInFlow();
+            this.loadParametersForInvocableActionsInFlow();
         }
         this.isFlowServerCallInProgress = false;
     };
@@ -471,6 +479,32 @@ export default class Editor extends LightningElement {
                 disableErrorModal: true,
                 background: true
             }).catch(() => {})
+        );
+    }
+
+    /**
+     * This is called once the flow has been loaded, so that actions in the flow have their fields loaded and cached.
+     * We only consider actions in automatic output handling mode.
+     */
+    loadParametersForInvocableActionsInFlow() {
+        const actionCallsSelector = byElementTypeElementsSelector(
+            ELEMENT_TYPE.ACTION_CALL
+        );
+        const actionCallNamesAndTypes = actionCallsSelector(
+            storeInstance.getCurrentState()
+        )
+            .filter(actionCall => actionCall.storeOutputAutomatically === true)
+            .map(actionCall => ({
+                actionName: actionCall.actionName,
+                actionType: actionCall.actionType
+            }));
+        actionCallNamesAndTypes.forEach(actionCallNameAndType =>
+            this.propertyEditorBlockerCalls.push(
+                fetchParametersForInvocableAction(actionCallNameAndType, {
+                    disableErrorModal: true,
+                    background: true
+                }).catch(() => {})
+            )
         );
     }
 

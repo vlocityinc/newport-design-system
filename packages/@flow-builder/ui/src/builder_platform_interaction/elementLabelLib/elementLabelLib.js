@@ -12,6 +12,7 @@ const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
 const LIGHTNING_COMPONENT_OUTPUT_TYPE =
     FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
+const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
 
 /**
  * Get the label for the element (if possible, considered as a resource that can be used in a merge field)
@@ -45,6 +46,9 @@ export function getResourceLabel(resource) {
                 LABELS.lightningComponentScreenFieldAsResourceText,
                 resource.name
             );
+        } else if (resource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+            // "Outputs from myAction
+            label = format(LABELS.actionAsResourceText, resource.name);
         }
     }
     return label;
@@ -121,6 +125,8 @@ export function getResourceCategory({
         categoryLabel = LABELS.apexVariablePluralLabel;
     } else if (dataType === LIGHTNING_COMPONENT_OUTPUT_TYPE) {
         categoryLabel = LABELS.screenFieldPluralLabel;
+    } else if (dataType === ACTION_OUTPUT_TYPE) {
+        categoryLabel = LABELS.actionPluralLabel;
     }
     return categoryLabel;
 }

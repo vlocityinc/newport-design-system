@@ -37,18 +37,29 @@ export function createActionCall(
     elementType = ELEMENT_TYPE.ACTION_CALL
 ) {
     const newActionCall = baseCanvasElement(actionCall);
-    const { actionType = '', actionName = '' } = actionCall;
+    const {
+        actionType = '',
+        actionName = '',
+        storeOutputAutomatically = false
+    } = actionCall;
     let {
         inputParameters = [],
         outputParameters = [],
         availableConnections = getDefaultAvailableConnections()
     } = actionCall;
+    let dataType;
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameter(inputParameter)
     );
-    outputParameters = outputParameters.map(outputParameter =>
-        createOutputParameter(outputParameter)
-    );
+    if (storeOutputAutomatically) {
+        dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
+        outputParameters = [];
+    } else {
+        dataType = FLOW_DATA_TYPE.BOOLEAN.value;
+        outputParameters = outputParameters.map(outputParameter =>
+            createOutputParameter(outputParameter)
+        );
+    }
     availableConnections = availableConnections.map(availableConnection =>
         createAvailableConnection(availableConnection)
     );
@@ -61,7 +72,8 @@ export function createActionCall(
         availableConnections,
         maxConnections,
         elementType,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value
+        dataType,
+        storeOutputAutomatically
     });
 
     return actionCallObject;
@@ -109,20 +121,25 @@ export function createActionCallMetadataObject(actionCall, config) {
         actionCall,
         config
     );
-    const { actionType, actionName } = actionCall;
+    const { actionType, actionName, storeOutputAutomatically } = actionCall;
     let { inputParameters = [], outputParameters = [] } = actionCall;
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameterMetadataObject(inputParameter)
     );
-    outputParameters = outputParameters.map(outputParameter =>
-        createOutputParameterMetadataObject(outputParameter)
-    );
+    if (storeOutputAutomatically) {
+        outputParameters = [];
+    } else {
+        outputParameters = outputParameters.map(outputParameter =>
+            createOutputParameterMetadataObject(outputParameter)
+        );
+    }
 
     return Object.assign(actionCallMetadata, {
         actionType,
         actionName,
         inputParameters,
-        outputParameters
+        outputParameters,
+        storeOutputAutomatically
     });
 }
 

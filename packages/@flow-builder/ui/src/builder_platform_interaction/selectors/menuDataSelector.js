@@ -156,21 +156,26 @@ export const choiceSelector = dataType => {
 };
 
 // Only variables and automatic output from GetRecord elements are writable.
-// Lightning components screen fields in automatic handling mode have writable fields.
+// Lightning components screen fields in automatic handling mode and Actions in automatic handling mode have writable fields.
 export const writableElementsSelector = createSelector(
     [elementsSelector],
     getFilteredElements(
         element =>
             element.elementType === ELEMENT_TYPE.VARIABLE ||
-            (element.elementType === ELEMENT_TYPE.START_ELEMENT && !!element.object) ||
+            (element.elementType === ELEMENT_TYPE.START_ELEMENT &&
+                !!element.object) ||
             element.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-            element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+            element.dataType ===
+                FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
+            element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
     )
 );
 export const readableElementsSelector = createSelector(
     [elementsSelector],
     getFilteredElements(
-        element => element.elementType !== ELEMENT_TYPE.START_ELEMENT || !!element.object
+        element =>
+            element.elementType !== ELEMENT_TYPE.START_ELEMENT ||
+            !!element.object
     )
 );
 export const collectionElementsSelector = createSelector(
@@ -195,3 +200,9 @@ export const componentInstanceScreenFieldsSelector = createSelector(
             element.fieldType === COMPONENT_INSTANCE
     )
 );
+
+export const byElementTypeElementsSelector = elementType =>
+    createSelector(
+        [elementsSelector],
+        getFilteredElements(element => element.elementType === elementType)
+    );

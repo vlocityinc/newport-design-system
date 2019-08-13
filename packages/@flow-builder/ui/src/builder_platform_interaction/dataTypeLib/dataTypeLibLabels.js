@@ -9,6 +9,7 @@ import picklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.pickli
 import multiPicklistDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.multiPicklistDataTypeLabel';
 import apexDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.apexDataTypeLabel';
 import lightningComponentOutputDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.lightningComponentOutputDataTypeLabel';
+import actionOutputDataTypeLabel from '@salesforce/label/FlowBuilderDataTypes.actionOutputDataTypeLabel';
 
 export const LABELS = {
     textDataTypeLabel,
@@ -21,5 +22,6 @@ export const LABELS = {
     picklistDataTypeLabel,
     multiPicklistDataTypeLabel,
     apexDataTypeLabel,
-    lightningComponentOutputDataTypeLabel
+    lightningComponentOutputDataTypeLabel,
+    actionOutputDataTypeLabel
 };

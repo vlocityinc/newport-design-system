@@ -29,6 +29,7 @@ export const lookupRecordOutputReferenceGuid = 'guid24';
 export const lookupRecordCollectionAutomaticOutputGuid = 'guid25';
 export const emailScreenFieldAutomaticOutputGuid = 'guid26';
 export const emailScreenFieldGuid = 'guid27';
+export const actionCallAutomaticAutomaticOutputGuid = 'guid28';
 
 export const assignmentElementName = 'assignment1';
 export const numberVariableDevName = 'numVar1';
@@ -58,6 +59,7 @@ export const lookupRecordOutputReferenceDevName = 'lookupRecord2';
 export const lookupRecordCollectionAutomaticOutputDevName = 'lookupRecord3';
 export const emailScreenFieldAutomaticOutputDevName = 'emailScreenFieldAutomatic';
 export const emailScreenFieldDevName = 'emailScreenField';
+export const actionCallAutomaticAutomaticOutputDevName = 'actionCallAutomatic';
 
 export const numberDataType = 'Number';
 export const sobjectDataType = 'SObject';
@@ -539,6 +541,49 @@ export const elements = {
           conditions: []
         },
         storeOutputAutomatically: false
+      },
+      [actionCallAutomaticAutomaticOutputGuid] : {
+    	guid: actionCallAutomaticAutomaticOutputGuid,
+    	name: actionCallAutomaticAutomaticOutputDevName,
+    	description: "",
+    	label: actionCallAutomaticAutomaticOutputDevName,
+    	locationX: 442,
+    	locationY: 256,
+    	isCanvasElement: true,
+    	connectorCount: 0,
+    	config: {
+    		isSelected: false,
+    		isHighlighted: false
+    	},
+    	actionType: "chatterPost",
+    	actionName: "chatterPost",
+    	inputParameters: [
+    		{
+    			rowIndex: "e9a2f94b-276a-4183-86ac-3ae6a5593e0b",
+    			name: "text",
+    			value: "This is my message",
+    			valueDataType: "String"
+    		},
+    		{
+    			rowIndex: "517619c9-0e3d-4584-80c3-45b7c3625a0b",
+    			name: "subjectNameOrId",
+    			value: "jsmith@salesforce.com",
+    			valueDataType: "String"
+    		}
+    	],
+    	outputParameters: [],
+    	availableConnections: [
+    		{
+    			"type": "REGULAR"
+    		},
+    		{
+    			"type": "FAULT"
+    		}
+    	],
+    	maxConnections: 2,
+    	elementType: "ActionCall",
+    	dataType: "ActionOutput",
+    	storeOutputAutomatically: true
       }
 };
 

@@ -44,12 +44,13 @@ const dataTypes = [
     'currency',
     'sobject',
     'apex',
-    'lightningComponentOutput'
+    'lightningComponentOutput',
+    'actionOutput'
 ];
 
 describe('dataTypeLib', () => {
     describe('getDataTypeLabel', () => {
-        it('thows an error when given an invalid data type api name', () => {
+        it('throws an error when given an invalid data type api name', () => {
             const invalidDataType = 'fooDataType';
             expect(() => getDataTypeLabel(invalidDataType)).toThrow();
         });
