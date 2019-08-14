@@ -132,7 +132,10 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     );
     return {
         getExtensionParamDescriptionAsComplexTypeFieldDescription:
-            actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
+            actual.getExtensionParamDescriptionAsComplexTypeFieldDescription,
+            getIconNameFromDataType: jest.fn().mockImplementation(() => {
+                return "standard:email";
+            })
     };
 });
 
