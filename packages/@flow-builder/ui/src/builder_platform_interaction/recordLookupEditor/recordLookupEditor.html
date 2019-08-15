@@ -110,7 +110,7 @@
         <!-- Automatic output is supported -->
         <div if:true={isAutomaticOutputHandlingSupported}>
             <builder_platform_interaction-record-number-record-to-store
-                label={numberRecordsToStoreLabel}
+                label={labels.numberRecordsToStoreLabel}
                 record-store-options={recordStoreOptions}
                 number-records-to-store-value={numberRecordsToStoreValue}
                 onnumberrecordtostorechanged={handleNumberRecordsToStoreChange}
@@ -139,7 +139,10 @@
             >
             </builder_platform_interaction-use-advanced-options-checkbox>
 
-            <div if:true={isAdvancedMode} class="slds-p-left_xx-large slds-p-right_small">
+            <div
+                if:true={isAdvancedMode}
+                class="slds-p-left_xx-large slds-p-right_small"
+            >
                 <builder_platform_interaction-rich-label
                     label={labels.storeFieldsSelectionLabel}
                     args={resourceDisplayText}
@@ -150,7 +153,7 @@
                 <lightning-radio-group
                     if:false={isCollection}
                     name="wayToStoreFieldsRadioGroup"
-                    label={labels.wayToStoreRecordLabel}
+                    label={labels.wayToStoreFieldsLabel}
                     options={wayToStoreFieldsOptions}
                     value={wayToStoreFieldsValue}
                     onchange={handleWayToStoreFieldsChange}

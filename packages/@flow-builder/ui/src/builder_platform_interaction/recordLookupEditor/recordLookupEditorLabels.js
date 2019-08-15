@@ -16,6 +16,7 @@ import separateVariable from '@salesforce/label/FlowBuilderRecordEditor.separate
 import storeFieldsSelectionLabel from '@salesforce/label/FlowBuilderRecordEditor.storeFieldsSelectionLabel';
 import wayToStoreFieldsLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel';
 import assignNullValuesIfNoRecordsFoundLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel';
+import numberRecordsToStoreLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionHowManyRecordsToStoreLabel';
 
 export const LABELS = {
     getRecordsOfObjectType,
@@ -30,7 +31,8 @@ export const LABELS = {
     separateVariable,
     storeFieldsSelectionLabel,
     wayToStoreFieldsLabel,
-    assignNullValuesIfNoRecordsFoundLabel
+    assignNullValuesIfNoRecordsFoundLabel,
+    numberRecordsToStoreLabel
 };
 
 export const NUMBER_RECORDS_OPTIONS = [
