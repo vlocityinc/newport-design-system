@@ -6,6 +6,7 @@ export const FLOW_PROCESS_TYPE = {
     CHECKOUT_FLOW: 'CheckoutFlow',
     CONTACT_REQUEST_FLOW: 'ContactRequestFlow',
     CUSTOM_EVENT: 'CustomEvent',
+    DIGITAL_FORM: 'DigitalForm',
     FIELD_SERVICE_MOBILE: 'FieldServiceMobile',
     FIELD_SERVICE_WEB: 'FieldServiceWeb',
     FLOW: 'Flow',

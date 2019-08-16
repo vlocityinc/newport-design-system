@@ -79,7 +79,8 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
                         uiToFlow: () => {
                             return {
                                 versionNumber: 1,
-                                name: 'flow name'
+                                name: 'flow name',
+                                processType: 'AutoLaunchedFlow'
                             };
                         }
                     }
