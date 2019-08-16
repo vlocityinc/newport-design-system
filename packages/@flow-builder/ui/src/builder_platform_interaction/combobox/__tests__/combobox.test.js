@@ -643,6 +643,9 @@ describe('Combobox Tests', () => {
         expect(combobox.errorMessage).toEqual('');
         combobox.errorMessage = null;
         expect(combobox.errorMessage).toEqual(null);
+        expect(groupedCombobox.showHelpMessageIfInvalid).toHaveBeenCalledTimes(
+            3
+        );
     });
 
     describe('menuDataMaxLevel setter/getter tests', () => {
