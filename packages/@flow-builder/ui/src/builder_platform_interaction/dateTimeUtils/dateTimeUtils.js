@@ -1,9 +1,12 @@
 import {
     parseDateTimeUTC,
     syncUTCToWallTime,
-    syncWallTimeToUTC,
-    getLocale
+    syncWallTimeToUTC
 } from 'lightning/internalLocalizationService';
+
+import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
+import shortDateFormat from '@salesforce/i18n/dateTime.shortDateFormat';
+import timeZone from '@salesforce/i18n/timeZone';
 
 import { getLocalizationService } from 'lightning/configProvider';
 
@@ -14,9 +17,9 @@ import { getLocalizationService } from 'lightning/configProvider';
  */
 export const getFormat = (isDateTime = false) => {
     if (isDateTime) {
-        return getLocale().shortDatetimeFormat;
+        return shortDateTimeFormat;
     }
-    return getLocale().shortDateFormat;
+    return shortDateFormat;
 };
 
 /**
@@ -123,7 +126,7 @@ export const normalizeDateTime = (literal, isDateTime = false) => {
 
     if (date) {
         if (isDateTime) {
-            const timezone = getLocale().timezone;
+            const timezone = timeZone;
             const wallDate = syncUTCToWallTime(date, timezone);
             return getLocalizationService().formatDateTimeUTC(
                 wallDate.toISOString(),
@@ -151,7 +154,7 @@ export const createMetadataDateTime = (literal, isDateTime = false) => {
 
     if (date) {
         if (isDateTime) {
-            const timezone = getLocale().timezone;
+            const timezone = timeZone;
             const utcDate = syncWallTimeToUTC(date, timezone);
             return utcDate.toISOString();
         }

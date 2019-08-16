@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import getLocale from '@salesforce/i18n/timeZone';
+import timeZone from '@salesforce/i18n/timeZone';
 import { format } from 'builder_platform_interaction/commonUtils';
 import {
     fetchFieldsForEntity,
@@ -141,7 +141,7 @@ export default class StartEditor extends LightningElement {
     }
 
     get startTimeInputHelp() {
-        return format(this.labels.startTimeInputHelp, getLocale);
+        return format(this.labels.startTimeInputHelp, timeZone);
     }
 
     /**

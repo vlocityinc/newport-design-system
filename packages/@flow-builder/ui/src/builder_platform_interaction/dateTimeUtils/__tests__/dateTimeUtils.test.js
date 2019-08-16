@@ -11,32 +11,26 @@ import {
 import {
     parseDateTimeUTC,
     syncUTCToWallTime,
-    syncWallTimeToUTC,
-    getLocale
+    syncWallTimeToUTC
 } from 'lightning/internalLocalizationService';
 import { getLocalizationService } from 'lightning/configProvider';
+
+import shortDateTimeFormat from '@salesforce/i18n/dateTime.shortDateTimeFormat';
+import shortDateFormat from '@salesforce/i18n/dateTime.shortDateFormat';
+import timeZone from '@salesforce/i18n/timeZone';
 
 describe('date-time-utils', () => {
     const localizationService = getLocalizationService();
 
     describe('getFormat', () => {
-        const mockLocale = {
-            shortDatetimeFormat: 'mm/dd/yyyy hh:mm:ss',
-            shortDateFormat: 'mm/dd/yyyy'
-        };
-
-        beforeAll(() => {
-            getLocale.mockReturnValue(mockLocale);
-        });
-
         it('gets the short datetime format when isDateTime is true', () => {
             const format = getFormat(true);
-            expect(format).toEqual(mockLocale.shortDatetimeFormat);
+            expect(format).toEqual(shortDateTimeFormat);
         });
 
         it('gets the short date format by default', () => {
             const format = getFormat();
-            expect(format).toEqual(mockLocale.shortDateFormat);
+            expect(format).toEqual(shortDateFormat);
         });
     });
 
@@ -168,11 +162,6 @@ describe('date-time-utils', () => {
         });
 
         it('returns a javascript date object for date property when given a valid literal', () => {
-            const mockLocale = {
-                shortDatetimeFormat: 'mm/dd/yyyy hh:mm:ss',
-                shortDateFormat: 'mm/dd/yyyy'
-            };
-            getLocale.mockReturnValueOnce(mockLocale);
             const mockDate = new Date();
             const literal = '12/31/1999';
             localizationService.parseDateTimeUTC.mockReturnValueOnce(mockDate);
@@ -182,7 +171,7 @@ describe('date-time-utils', () => {
             expect(date).toBe(mockDate);
             expect(localizationService.parseDateTimeUTC).toHaveBeenCalledWith(
                 literal,
-                mockLocale.shortDatetimeFormat
+                shortDateTimeFormat
             );
         });
     });
@@ -228,12 +217,6 @@ describe('date-time-utils', () => {
     });
 
     describe('normalizeDateTime', () => {
-        const mockLocale = {
-            timezone: 'America/LosAngeles',
-            shortDatetimeFormat: 'mm/dd/yyyy hh:mm:ss',
-            shortDateFormat: 'mm/dd/yyyy'
-        };
-
         it('throws an error if the literal is not a string', () => {
             expect(() => {
                 normalizeDateTime(42, true);
@@ -258,13 +241,12 @@ describe('date-time-utils', () => {
             const result = normalizeDateTime(dateLiteral);
             expect(localizationService.formatDateUTC).toHaveBeenCalledWith(
                 mockDate.toISOString(),
-                mockLocale.shortDateFormat
+                shortDateFormat
             );
             expect(result).toEqual(mockFormattedDate);
         });
 
         it('returns a formatted date time string when given a valid literal', () => {
-            getLocale.mockReturnValueOnce(mockLocale);
             const mockDatetime = new Date();
             parseDateTimeUTC.mockReturnValue(mockDatetime);
             const mockWallTime = new Date();
@@ -279,20 +261,16 @@ describe('date-time-utils', () => {
             expect(result).toEqual(mockFormattedDatetime);
             expect(syncUTCToWallTime).toHaveBeenCalledWith(
                 mockDatetime,
-                mockLocale.timezone
+                timeZone
             );
             expect(localizationService.formatDateTimeUTC).toHaveBeenCalledWith(
                 mockWallTime.toISOString(),
-                mockLocale.shortDatetimeFormat
+                shortDateTimeFormat
             );
         });
     });
 
     describe('createMetadataDateTime', () => {
-        const mockLocale = {
-            timezone: 'America/LosAngeles'
-        };
-
         it('throws an error if the literal is not a string', () => {
             expect(() => {
                 createMetadataDateTime(42, true);
@@ -315,7 +293,6 @@ describe('date-time-utils', () => {
         });
 
         it('returns an ISO 8601 date time string when given a valid date time literal', () => {
-            getLocale.mockReturnValue(mockLocale);
             const datetimeLiteral = '12/31/1999 11:59 pm';
             const mockDate = new Date('1999-12-31T23:59:00.000+0000');
             localizationService.parseDateTimeUTC.mockReturnValueOnce(mockDate);
@@ -324,27 +301,11 @@ describe('date-time-utils', () => {
 
             const result = createMetadataDateTime(datetimeLiteral, true);
             expect(result).toEqual(utcDate.toISOString());
-            expect(syncWallTimeToUTC).toHaveBeenCalledWith(
-                mockDate,
-                mockLocale.timezone
-            );
+            expect(syncWallTimeToUTC).toHaveBeenCalledWith(mockDate, timeZone);
         });
     });
 
     describe('formatDateTime', () => {
-        const mockLocale = {
-            shortDatetimeFormat: 'mm/dd/yyyy hh:mm:ss',
-            shortDateFormat: 'mm/dd/yyyy'
-        };
-
-        beforeAll(() => {
-            getLocale.mockReturnValue(mockLocale);
-        });
-
-        afterAll(() => {
-            getLocale.mockReset();
-        });
-
         it('throws an error if the literal is not a string', () => {
             expect(() => {
                 formatDateTime(42, true);
@@ -367,7 +328,7 @@ describe('date-time-utils', () => {
             expect(result).toEqual(dateLiteral);
             expect(localizationService.formatDateUTC).toHaveBeenCalledWith(
                 mockDate.toISOString(),
-                mockLocale.shortDateFormat
+                shortDateFormat
             );
         });
 
@@ -383,7 +344,7 @@ describe('date-time-utils', () => {
             expect(result).toEqual(datetimeLiteral);
             expect(localizationService.formatDateTimeUTC).toHaveBeenCalledWith(
                 mockDate.toISOString(),
-                mockLocale.shortDatetimeFormat
+                shortDateTimeFormat
             );
         });
     });
