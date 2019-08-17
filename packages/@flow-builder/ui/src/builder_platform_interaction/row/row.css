@@ -1,0 +1,4 @@
+.row-vertical {
+    transform: translate(0, -50%);
+    top: 50%;
+}

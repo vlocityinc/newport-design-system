@@ -17,6 +17,7 @@ export default class Row extends LightningElement {
     @api itemPrefix;
     @api showPrefix;
     @api showDelete;
+    @api isVertical;
 
     /**
      * @returns {boolean} Whether to show the delete button
@@ -47,6 +48,12 @@ export default class Row extends LightningElement {
             contentsClass = 'slds-m-left_x-large ' + contentsClass;
         }
         return contentsClass;
+    }
+
+    get rowClass() {
+        return this.isVertical
+            ? 'slds-is-absolute row-vertical'
+            : 'slds-is-absolute slds-p-top_large slds-m-top_xx-small';
     }
 
     handleRowContentsChanged(event) {
