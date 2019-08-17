@@ -72,7 +72,7 @@ function resourceToDisplayText(unformattedValue, comboxShape) {
             returnText = '{!' + comboxShape.text + rxMatch[2] + '}';
         }
     }
-    return returnText.replace('$', '');
+    return returnText;
 }
 
 /**
