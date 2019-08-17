@@ -126,21 +126,6 @@ export default class Combobox extends LightningElement {
     @api
     fieldLevelHelp;
 
-    @api
-    focus = false;
-
-    get focus() {
-        return this.focus;
-    }
-
-    set focus(focus) {
-        if (focus) {
-            const box = this.template.querySelector(SELECTORS.GROUPED_COMBOBOX);
-            box.focus();
-            box.blur();
-        }
-    }
-
     /**
      * Force the activity indicator
      */

@@ -1,23 +1,22 @@
 <template>
     <builder_platform_interaction-combobox
-        allowed-param-types={allowedParamTypes}
-        disabled={comboboxConfig.disabled}
-        enable-field-drilldown={comboboxConfig.enableFieldDrilldown}
+        label={comboboxConfig.label}
+        placeholder={comboboxConfig.placeholder}
         error-message={errorMessage}
         field-level-help={comboboxConfig.fieldLevelHelp}
-        focus={focus}
-        inline-item={inlineItem}
-        label={comboboxConfig.label}
-        menu-data={state.menuData}
-        placeholder={comboboxConfig.placeholder}
-        position={rowIndex}
-        required={comboboxConfig.required}
-        show-activity-indicator={showActivityIndicator}
-        type={comboboxConfig.type}
+        disabled={comboboxConfig.disabled}
         value={value}
-        variant={comboboxConfig.variant}
-        onfiltermatches={handleFilterMatches}
+        menu-data={state.menuData}
+        required={comboboxConfig.required}
         literals-allowed={literalsAllowed}
+        type={comboboxConfig.type}
+        variant={comboboxConfig.variant}
+        allowed-param-types={allowedParamTypes}
+        enable-field-drilldown={comboboxConfig.enableFieldDrilldown}
+        onfiltermatches={handleFilterMatches}
+        show-activity-indicator={showActivityIndicator}
+        position={rowIndex}
+        inline-item={inlineItem}
     >
     </builder_platform_interaction-combobox>
 </template>

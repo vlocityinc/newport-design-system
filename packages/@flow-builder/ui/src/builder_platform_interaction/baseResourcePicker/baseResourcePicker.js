@@ -21,9 +21,6 @@ export default class BaseResourcePicker extends LightningElement {
     inlineItem = null;
 
     @api
-    focus = false;
-
-    @api
     elementType = null;
 
     /**
