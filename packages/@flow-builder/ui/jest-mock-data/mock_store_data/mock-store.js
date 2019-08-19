@@ -46,18 +46,19 @@ export const stageOrderNumber = 12;
 export const stageCollectionOrderNumber = 14;
 export const stageCollectionDevName = 'stageCollectionVar1';
 export const accountSObjectCollectionVariableDevName = 'accCollectionVar1';
-export const actionCallElementDevName = "actionCall1";
-export const outcomeDevName = "outcome1";
-export const decisionDevName = "decision1";
+export const actionCallElementDevName = 'actionCall1';
+export const outcomeDevName = 'outcome1';
+export const decisionDevName = 'decision1';
 export const caseSObjectCollectionVariableDevName = 'caseCollectionVar1';
 export const textTemplateDevName = 'textTemplate1';
-export const waitEventDevName = "waitEvent1";
+export const waitEventDevName = 'waitEvent1';
 export const apexSampleVariableDevName = 'apexVariable1';
 export const apexSampleCollectionVariableDevName = 'apexCollectionVariable1';
 export const lookupRecordAutomaticOutputDevName = 'lookupRecord1';
 export const lookupRecordOutputReferenceDevName = 'lookupRecord2';
 export const lookupRecordCollectionAutomaticOutputDevName = 'lookupRecord3';
-export const emailScreenFieldAutomaticOutputDevName = 'emailScreenFieldAutomatic';
+export const emailScreenFieldAutomaticOutputDevName =
+    'emailScreenFieldAutomatic';
 export const emailScreenFieldDevName = 'emailScreenField';
 export const actionCallAutomaticAutomaticOutputDevName = 'actionCallAutomatic';
 
@@ -85,11 +86,15 @@ export const textTemplate = ELEMENT_TYPE.TEXT_TEMPLATE;
 export const waitEvent = ELEMENT_TYPE.WAIT_EVENT;
 export const decision = ELEMENT_TYPE.DECISION;
 
+export const properties = {
+    lastInlineResourcePosition: null
+};
+
 export const elements = {
     [startElementGuid]: {
         guid: startElementGuid,
         elementType: ELEMENT_TYPE.START_ELEMENT,
-        label: "Start",
+        label: 'Start',
         locationX: 50,
         locationY: 50,
         isCanvasElement: true,
@@ -109,7 +114,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: numberVariableDevName,
-        subtype: null,
+        subtype: null
     },
     [stringVariableGuid]: {
         dataType: stringDataType,
@@ -123,8 +128,8 @@ export const elements = {
         name: stringVariableDevName,
         subtype: null,
         value: {
-            stringValue: 'fooDefault',
-        },
+            stringValue: 'fooDefault'
+        }
     },
     [currencyVariableGuid]: {
         dataType: currencyDataType,
@@ -137,7 +142,7 @@ export const elements = {
         isOutput: false,
         name: currencyVariableDevName,
         scale: 2,
-        subtype: null,
+        subtype: null
     },
     [accountSObjectVariableGuid]: {
         dataType: sobjectDataType,
@@ -149,7 +154,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: accountSObjectVariableDevName,
-        subtype: account,
+        subtype: account
     },
     [accountSObjectCollectionVariableGuid]: {
         dataType: sobjectDataType,
@@ -161,7 +166,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: accountSObjectCollectionVariableDevName,
-        subtype: account,
+        subtype: account
     },
     [caseSObjectCollectionVariableGuid]: {
         dataType: sobjectDataType,
@@ -173,7 +178,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: caseSObjectCollectionVariableDevName,
-        subtype: caseObjectType,
+        subtype: caseObjectType
     },
     [stringCollectionVariable1Guid]: {
         dataType: stringDataType,
@@ -185,7 +190,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: stringCollectionVariable1DevName,
-        subtype: null,
+        subtype: null
     },
     [stringCollectionVariable2Guid]: {
         dataType: stringDataType,
@@ -197,7 +202,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: stringCollectionVariable2DevName,
-        subtype: null,
+        subtype: null
     },
     [choiceGuid]: {
         dataType: numberDataType,
@@ -206,7 +211,7 @@ export const elements = {
         guid: choiceGuid,
         isCanvasElement: false,
         name: choiceDevName,
-        label: choiceLabel,
+        label: choiceLabel
     },
     [dateVariableGuid]: {
         dataType: dateDataType,
@@ -216,7 +221,7 @@ export const elements = {
         isCanvasElement: false,
         isCollection: false,
         name: dateVariableDevName,
-        subtype: null,
+        subtype: null
     },
     [dateCollectionVariableGuid]: {
         dataType: dateDataType,
@@ -226,7 +231,7 @@ export const elements = {
         isCanvasElement: false,
         isCollection: true,
         name: dateVariableDevName,
-        subtype: null,
+        subtype: null
     },
     [stageCollectionGuid]: {
         elementType: stageElementType,
@@ -247,13 +252,15 @@ export const elements = {
         description: ''
     },
     [assignmentElementGuid]: {
-        assignmentItems: [{
-            assignToReference: stringVariableGuid,
-            operator: "Assign",
-            processMetadataValues: [],
-            value: {elementReference: numberVariableGuid},
-        }],
-        config: {isSelected: false},
+        assignmentItems: [
+            {
+                assignToReference: stringVariableGuid,
+                operator: 'Assign',
+                processMetadataValues: [],
+                value: { elementReference: numberVariableGuid }
+            }
+        ],
+        config: { isSelected: false },
         connectorCount: 0,
         elementType: assignment,
         guid: assignmentElementGuid,
@@ -262,11 +269,11 @@ export const elements = {
         locationX: 379,
         locationY: 149,
         maxConnections: 1,
-        name: assignmentElementName,
+        name: assignmentElementName
     },
     [actionCallElementGuid]: {
-        actionName: "LogACall",
-        actionType: "quickAction",
+        actionName: 'LogACall',
+        actionType: 'quickAction',
         inputParameters: [],
         label: actionCallElementDevName,
         locationX: 592,
@@ -277,34 +284,34 @@ export const elements = {
         elementType: actionCall,
         guid: actionCallElementGuid,
         isCanvasElement: true,
-        config: {isSelected: false},
+        config: { isSelected: false },
         availableConnections: [],
         connectorCount: 2,
         maxConnections: 2,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value
     },
     [outcomeGuid]: {
-        conditionLogic: "and",
+        conditionLogic: 'and',
         conditions: [
             {
                 leftValueReference: stringVariableDevName,
-                operator: "EqualTo",
+                operator: 'EqualTo',
                 processMetadataValues: [],
                 rightValue: {
-                    stringValue: "text"
+                    stringValue: 'text'
                 }
             }
         ],
         label: outcomeDevName,
         name: outcomeDevName,
         processMetadataValues: [],
-        dataType: "Boolean",
+        dataType: 'Boolean',
         elementType: outcome,
         guid: outcomeGuid,
         isCanvasElement: false
     },
     [decisionGuid]: {
-        defaultConnectorLabel: "[Default Outcome]",
+        defaultConnectorLabel: '[Default Outcome]',
         label: decisionDevName,
         locationX: 275,
         locationY: 413,
@@ -313,7 +320,7 @@ export const elements = {
         elementType: decision,
         guid: decisionGuid,
         isCanvasElement: true,
-        config: {isSelected: false},
+        config: { isSelected: false },
         outcomeReferences: [
             {
                 outcomeReference: outcomeGuid
@@ -321,25 +328,25 @@ export const elements = {
         ],
         availableConnections: [
             {
-                type: "REGULAR",
+                type: 'REGULAR',
                 childReference: outcomeGuid
             },
             {
-                type: "DEFAULT"
+                type: 'DEFAULT'
             }
         ],
         connectorCount: 0,
         maxConnections: 2
     },
     [waitEventGuid]: {
-        conditionLogic: "and",
+        conditionLogic: 'and',
         conditions: [
             {
                 leftValueReference: stringVariableDevName,
-                operator: "EqualTo",
+                operator: 'EqualTo',
                 processMetadataValues: [],
                 rightValue: {
-                    stringValue: "text"
+                    stringValue: 'text'
                 }
             }
         ],
@@ -352,7 +359,7 @@ export const elements = {
         guid: waitEventGuid,
         isCanvasElement: false,
         inputParameters: [],
-        outputParameters: [],
+        outputParameters: []
     },
     [textTemplateGuid]: {
         description: 'text template random description',
@@ -361,7 +368,7 @@ export const elements = {
         isCanvasElement: false,
         name: textTemplateDevName,
         text: 'Hello {!World}',
-        dataType: FLOW_DATA_TYPE.STRING.value,
+        dataType: FLOW_DATA_TYPE.STRING.value
     },
     [apexSampleVariableGuid]: {
         dataType: apexDataType,
@@ -373,7 +380,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: apexSampleVariableDevName,
-        subtype: apexClass,
+        subtype: apexClass
     },
     [apexSampleCollectionVariableGuid]: {
         dataType: apexDataType,
@@ -385,7 +392,7 @@ export const elements = {
         isInput: false,
         isOutput: false,
         name: apexSampleCollectionVariableDevName,
-        subtype: apexClass,
+        subtype: apexClass
     },
     [lookupRecordAutomaticOutputGuid]: {
         guid: lookupRecordAutomaticOutputGuid,
@@ -396,20 +403,20 @@ export const elements = {
         locationY: 232,
         isCanvasElement: true,
         connectorCount: 0,
-        config: {isSelected: false, isHighlighted: false},
-        object: "Account",
-        numberRecordsToStore: "firstRecord",
-        filterType: "none",
+        config: { isSelected: false, isHighlighted: false },
+        object: 'Account',
+        numberRecordsToStore: 'firstRecord',
+        filterType: 'none',
         filters: [],
         queriedFields: [],
-        sortOrder: "NotSorted",
-        sortField: "",
+        sortOrder: 'NotSorted',
+        sortField: '',
         maxConnections: 2,
-        availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
-        elementType: "RecordQuery",
+        availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
+        elementType: 'RecordQuery',
         storeOutputAutomatically: true,
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
-        subtype: "Account",
+        subtype: 'Account',
         isCollection: false
     },
     [lookupRecordOutputReferenceGuid]: {
@@ -421,20 +428,20 @@ export const elements = {
         locationY: 232,
         isCanvasElement: true,
         connectorCount: 0,
-        config: {isSelected: false, isHighlighted: false},
-        object: "Account",
-        numberRecordsToStore: "firstRecord",
-        filterType: "none",
+        config: { isSelected: false, isHighlighted: false },
+        object: 'Account',
+        numberRecordsToStore: 'firstRecord',
+        filterType: 'none',
         filters: [],
         queriedFields: [],
-        sortOrder: "NotSorted",
-        sortField: "",
+        sortOrder: 'NotSorted',
+        sortField: '',
         maxConnections: 2,
-        availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
-        elementType: "RecordQuery",
+        availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
+        elementType: 'RecordQuery',
         outputReference: accountSObjectVariableDevName,
         storeOutputAutomatically: false,
-        dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+        dataType: FLOW_DATA_TYPE.BOOLEAN.value
     },
     [lookupRecordCollectionAutomaticOutputGuid]: {
         guid: lookupRecordCollectionAutomaticOutputGuid,
@@ -445,60 +452,60 @@ export const elements = {
         locationY: 232,
         isCanvasElement: true,
         connectorCount: 0,
-        config: {isSelected: false, isHighlighted: false},
-        object: "Account",
-        numberRecordsToStore: "allRecords",
-        filterType: "none",
+        config: { isSelected: false, isHighlighted: false },
+        object: 'Account',
+        numberRecordsToStore: 'allRecords',
+        filterType: 'none',
         filters: [],
         queriedFields: [],
-        sortOrder: "NotSorted",
-        sortField: "",
+        sortOrder: 'NotSorted',
+        sortField: '',
         maxConnections: 2,
-        availableConnections: [{ type: "REGULAR" }, { type: "FAULT" }],
-        elementType: "RecordQuery",
+        availableConnections: [{ type: 'REGULAR' }, { type: 'FAULT' }],
+        elementType: 'RecordQuery',
         storeOutputAutomatically: true,
         dataType: FLOW_DATA_TYPE.SOBJECT.value,
-        subtype: "Account",
+        subtype: 'Account',
         isCollection: true
     },
     [emailScreenFieldAutomaticOutputGuid]: {
         guid: emailScreenFieldAutomaticOutputGuid,
         name: emailScreenFieldAutomaticOutputDevName,
         choiceReferences: [],
-        dataType: "LightningComponentOutput",
-        defaultValue: "",
-        defaultValueIndex: "5d457ada-a9de-41b0-8225-847942f4f69b",
+        dataType: 'LightningComponentOutput',
+        defaultValue: '',
+        defaultValueIndex: '5d457ada-a9de-41b0-8225-847942f4f69b',
         validationRule: {
-          formulaExpression: null,
-          errorMessage: null
+            formulaExpression: null,
+            errorMessage: null
         },
-        extensionName: "flowruntime:email",
-        fieldType: "ComponentInstance",
-        fieldText: "",
-        helpText: "",
+        extensionName: 'flowruntime:email',
+        fieldType: 'ComponentInstance',
+        fieldText: '',
+        helpText: '',
         inputParameters: [
-          {
-            rowIndex: "9950e933-80b8-4352-b1d1-3c186f502765",
-            name: "placeholder",
-            value: "your email address",
-            valueDataType: "String"
-          }
+            {
+                rowIndex: '9950e933-80b8-4352-b1d1-3c186f502765',
+                name: 'placeholder',
+                value: 'your email address',
+                valueDataType: 'String'
+            }
         ],
         isNewField: false,
         isRequired: true,
         outputParameters: [],
-        scale: "0",
+        scale: '0',
         type: {
-          name: "flowruntime:email",
-          fieldType: "ComponentInstance",
-          label: "flowruntime:email",
-          icon: "standard:lightning_component",
-          source: "local"
+            name: 'flowruntime:email',
+            fieldType: 'ComponentInstance',
+            label: 'flowruntime:email',
+            icon: 'standard:lightning_component',
+            source: 'local'
         },
-        elementType: "SCREEN_FIELD",
+        elementType: 'SCREEN_FIELD',
         visibilityRule: {
-          conditionLogic: "no_conditions",
-          conditions: []
+            conditionLogic: 'no_conditions',
+            conditions: []
         },
         storeOutputAutomatically: true
     },
@@ -506,95 +513,103 @@ export const elements = {
         guid: emailScreenFieldGuid,
         name: emailScreenFieldDevName,
         choiceReferences: [],
-        defaultValue: "",
-        defaultValueIndex: "7e851e43-3a62-4ac4-bd9c-ccf350440902",
+        defaultValue: '',
+        defaultValueIndex: '7e851e43-3a62-4ac4-bd9c-ccf350440902',
         validationRule: {
-          formulaExpression: null,
-          errorMessage: null
+            formulaExpression: null,
+            errorMessage: null
         },
-        extensionName: "flowruntime:email",
-        fieldType: "ComponentInstance",
-        fieldText: "",
-        helpText: "",
+        extensionName: 'flowruntime:email',
+        fieldType: 'ComponentInstance',
+        fieldText: '',
+        helpText: '',
         inputParameters: [
-          {
-            rowIndex: "61da689d-ece8-447a-9da2-88f863fc0e2e",
-            name: "placeholder",
-            value: "your email address",
-            valueDataType: "String"
-          }
+            {
+                rowIndex: '61da689d-ece8-447a-9da2-88f863fc0e2e',
+                name: 'placeholder',
+                value: 'your email address',
+                valueDataType: 'String'
+            }
         ],
         isNewField: false,
         isRequired: true,
         outputParameters: [],
-        scale: "0",
+        scale: '0',
         type: {
-          name: "flowruntime:email",
-          fieldType: "ComponentInstance",
-          label: "flowruntime:email",
-          icon: "standard:lightning_component",
-          source: "local"
+            name: 'flowruntime:email',
+            fieldType: 'ComponentInstance',
+            label: 'flowruntime:email',
+            icon: 'standard:lightning_component',
+            source: 'local'
         },
-        elementType: "SCREEN_FIELD",
+        elementType: 'SCREEN_FIELD',
         visibilityRule: {
-          conditionLogic: "no_conditions",
-          conditions: []
+            conditionLogic: 'no_conditions',
+            conditions: []
         },
         storeOutputAutomatically: false
-      },
-      [actionCallAutomaticAutomaticOutputGuid] : {
-    	guid: actionCallAutomaticAutomaticOutputGuid,
-    	name: actionCallAutomaticAutomaticOutputDevName,
-    	description: "",
-    	label: actionCallAutomaticAutomaticOutputDevName,
-    	locationX: 442,
-    	locationY: 256,
-    	isCanvasElement: true,
-    	connectorCount: 0,
-    	config: {
-    		isSelected: false,
-    		isHighlighted: false
-    	},
-    	actionType: "chatterPost",
-    	actionName: "chatterPost",
-    	inputParameters: [
-    		{
-    			rowIndex: "e9a2f94b-276a-4183-86ac-3ae6a5593e0b",
-    			name: "text",
-    			value: "This is my message",
-    			valueDataType: "String"
-    		},
-    		{
-    			rowIndex: "517619c9-0e3d-4584-80c3-45b7c3625a0b",
-    			name: "subjectNameOrId",
-    			value: "jsmith@salesforce.com",
-    			valueDataType: "String"
-    		}
-    	],
-    	outputParameters: [],
-    	availableConnections: [
-    		{
-    			"type": "REGULAR"
-    		},
-    		{
-    			"type": "FAULT"
-    		}
-    	],
-    	maxConnections: 2,
-    	elementType: "ActionCall",
-    	dataType: "ActionOutput",
-    	storeOutputAutomatically: true
-      }
+    },
+    [actionCallAutomaticAutomaticOutputGuid]: {
+        guid: actionCallAutomaticAutomaticOutputGuid,
+        name: actionCallAutomaticAutomaticOutputDevName,
+        description: '',
+        label: actionCallAutomaticAutomaticOutputDevName,
+        locationX: 442,
+        locationY: 256,
+        isCanvasElement: true,
+        connectorCount: 0,
+        config: {
+            isSelected: false,
+            isHighlighted: false
+        },
+        actionType: 'chatterPost',
+        actionName: 'chatterPost',
+        inputParameters: [
+            {
+                rowIndex: 'e9a2f94b-276a-4183-86ac-3ae6a5593e0b',
+                name: 'text',
+                value: 'This is my message',
+                valueDataType: 'String'
+            },
+            {
+                rowIndex: '517619c9-0e3d-4584-80c3-45b7c3625a0b',
+                name: 'subjectNameOrId',
+                value: 'jsmith@salesforce.com',
+                valueDataType: 'String'
+            }
+        ],
+        outputParameters: [],
+        availableConnections: [
+            {
+                type: 'REGULAR'
+            },
+            {
+                type: 'FAULT'
+            }
+        ],
+        maxConnections: 2,
+        elementType: 'ActionCall',
+        dataType: 'ActionOutput',
+        storeOutputAutomatically: true
+    }
 };
 
-export const variableGuids = [numberVariableGuid, accountSObjectVariableGuid, stringCollectionVariable1Guid,
-    stringCollectionVariable2Guid, choiceGuid, dateVariableGuid, stageGuid, apexSampleVariableGuid];
+export const variableGuids = [
+    numberVariableGuid,
+    accountSObjectVariableGuid,
+    stringCollectionVariable1Guid,
+    stringCollectionVariable2Guid,
+    choiceGuid,
+    dateVariableGuid,
+    stageGuid,
+    apexSampleVariableGuid
+];
 
 export const hydratedElements = {
     [stringVariableGuid]: {
         dataType: { value: stringDataType, error: null },
         description: 'random description',
-        elementType: { value: variable, error: null},
+        elementType: { value: variable, error: null },
         guid: numberVariableGuid,
         isCanvasElement: false,
         isCollection: false,
@@ -603,8 +618,8 @@ export const hydratedElements = {
         name: { value: numberVariableDevName, error: 'Invalid name.' },
         subtype: null,
         value: {
-            stringValue: 'fooDefault',
-        },
+            stringValue: 'fooDefault'
+        }
     }
 };
 
@@ -672,7 +687,7 @@ export const mutatedVariablesAndConstants = {
         }
     },
     [accountSObjectVariableGuid]: {
-        dataType: { value : sobjectDataType, error: null },
+        dataType: { value: sobjectDataType, error: null },
         description: '',
         elementType: variable,
         guid: accountSObjectVariableGuid,
@@ -681,10 +696,10 @@ export const mutatedVariablesAndConstants = {
         isInput: false,
         isOutput: false,
         name: accountSObjectVariableDevName,
-        subtype: { value : account, error: null },
+        subtype: { value: account, error: null },
         defaultValue: {
             value: null,
-            error: null,
+            error: null
         }
     },
     [stringConstantGuid]: {
@@ -709,6 +724,6 @@ export const textTemplates = {
         isCanvasElement: false,
         name: { value: textTemplateDevName, error: null },
         text: { value: 'Hello {!World}', error: null },
-        dataType: FLOW_DATA_TYPE.STRING.value,
+        dataType: FLOW_DATA_TYPE.STRING.value
     }
 };

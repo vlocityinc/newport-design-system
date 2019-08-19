@@ -1754,7 +1754,8 @@ describe('Combobox Tests', () => {
             return Promise.resolve().then(() => {
                 const groupItem0 = Object.assign({}, longMenu[0]);
                 // Two pages worth of subitems minus the top item
-                groupItem0.items = groupItem0.items.slice(0, (2 * MENU_DATA_PAGE_SIZE) - 1);
+                const itemCount = 2 * MENU_DATA_PAGE_SIZE;
+                groupItem0.items = groupItem0.items.slice(0, itemCount - 1);
                 expect(combobox.currentMenuData).toEqual([groupItem0]);
             });
         });
@@ -1764,7 +1765,8 @@ describe('Combobox Tests', () => {
             return Promise.resolve().then(() => {
                 const groupItem0 = Object.assign({}, longMenu[0]);
                 // Three pages worth of subitems minus the top item
-                groupItem0.items = groupItem0.items.slice(0, (3 * MENU_DATA_PAGE_SIZE) - 1);
+                const itemCount = 3 * MENU_DATA_PAGE_SIZE;
+                groupItem0.items = groupItem0.items.slice(0, itemCount - 1);
                 expect(combobox.currentMenuData).toEqual([groupItem0]);
             });
         });
@@ -1794,7 +1796,8 @@ describe('Combobox Tests', () => {
             return Promise.resolve().then(() => {
                 const groupItem2 = Object.assign({}, longMenu[2]);
                 // Fours pages worth of subitems from the last group minus the top items for the three groups
-                groupItem2.items = groupItem2.items.slice(0, (4 * MENU_DATA_PAGE_SIZE) - 3);
+                const itemCount = 4 * MENU_DATA_PAGE_SIZE;
+                groupItem2.items = groupItem2.items.slice(0, itemCount - 3);
                 // The first and the second groups + a part of the last group
                 expect(combobox.currentMenuData).toEqual([
                     longMenu[0],
@@ -1809,6 +1812,75 @@ describe('Combobox Tests', () => {
             groupedCombobox.dispatchEvent(new CustomEvent('endreached'));
             return Promise.resolve().then(() => {
                 expect(combobox.currentMenuData).toEqual(longMenu);
+            });
+        });
+    });
+    describe('inline resources ', () => {
+        it('should set the inline resource when passed in', () => {
+            const comboboxValue = {
+                displayText: 'display text',
+                guid: 123,
+                value: 'test',
+                parent: {
+                    displayText: 'parent display txt'
+                }
+            };
+            combobox.inlineItem = comboboxValue;
+            return Promise.resolve().then(() => {
+                expect(combobox.value).toEqual(comboboxValue);
+            });
+        });
+        it('should fire the comboboxstatechanged event ', () => {
+            const comboboxStateChangedHandler = jest.fn();
+            combobox.addEventListener(
+                ComboboxStateChangedEvent.EVENT_NAME,
+                comboboxStateChangedHandler
+            );
+            const comboboxValue = {
+                displayText: 'display text',
+                guid: 123,
+                value: 'test',
+                parent: {
+                    displayText: 'parent display txt'
+                }
+            };
+            combobox.inlineItem = comboboxValue;
+            return Promise.resolve().then(() => {
+                expect(comboboxStateChangedHandler).toHaveBeenCalled();
+            });
+        });
+        it('should set the guid to the value if the inline item doesnt have a value ', () => {
+            const comboboxValue = {
+                displayText: 'display text',
+                guid: 123,
+                parent: {
+                    displayText: 'parent display txt'
+                }
+            };
+            combobox.inlineItem = comboboxValue;
+            return Promise.resolve().then(() => {
+                expect(combobox.value).toEqual({
+                    displayText: 'display text',
+                    guid: 123,
+                    value: 123,
+                    parent: {
+                        displayText: 'parent display txt'
+                    }
+                });
+            });
+        });
+        it('should fire a new resource event with the correct position ', done => {
+            const LEFT = 'LEFT';
+            const selectEvent = getSelectEvent('%%NewResource%%');
+            const newResourceCallback = function (event) {
+                expect(event.detail.position).toEqual(LEFT);
+                done();
+            };
+            combobox.addEventListener('addnewresource', newResourceCallback);
+            combobox.position = LEFT;
+            groupedCombobox.dispatchEvent(selectEvent);
+            return Promise.resolve().then(() => {
+                expect(newResourceCallback).toHaveBeenCalled();
             });
         });
     });
