@@ -13,6 +13,7 @@ export const UPDATE_PROPERTIES_AFTER_SAVE_FAILED =
     'UPDATE_PROPERTIES_AFTER_SAVE_FAILED';
 export const UPDATE_PROPERTIES_AFTER_SAVING = 'UPDATE_PROPERTIES_AFTER_SAVING';
 export const UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS = 'UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS';
+export const UPDATE_PROPERTIES_AFTER_SAVE_BUTTON_PRESS = 'UPDATE_PROPERTIES_AFTER_SAVE_BUTTON_PRESS';
 export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE =
     'UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE';
 export const UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE =
@@ -145,6 +146,14 @@ export const updatePropertiesAfterSaving = payload =>
  */
 export const updatePropertiesAfterActivateButtonPress = payload =>
     createAction(UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS, payload);
+/**
+ * Action for updating flow properties in the store after pressing the save button.
+ *
+ * @param {Object} payload - contains new flow status
+ * @returns {Object} action new action based on type and payload
+ */
+export const updatePropertiesAfterSaveButtonPress = payload =>
+    createAction(UPDATE_PROPERTIES_AFTER_SAVE_BUTTON_PRESS, payload);
 /**
  * Action for updating flow properties in the store after creating a flow from template.
  *

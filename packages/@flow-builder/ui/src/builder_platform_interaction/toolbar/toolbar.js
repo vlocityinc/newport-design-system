@@ -53,8 +53,11 @@ export default class Toolbar extends LightningElement {
         [FLOW_STATUS.INVALID_DRAFT]: {
             label: this.labels.draftLabel,
         },
-        [undefined]: {
-            label: undefined,
+        [FLOW_STATUS.ACTIVATING]: {
+            label: this.labels.activating,
+        },
+        [FLOW_STATUS.SAVING]: {
+            label: this.labels.savingStatus,
         }
     };
 
@@ -62,27 +65,20 @@ export default class Toolbar extends LightningElement {
         return !!this.saveStatus;
     }
 
-    get showEmDash() {
-        return !(this.showSaving || this.showActivating);
-    }
-
-    get showSaving() {
-       return this.saveStatus === this.labels.savingStatus;
+    get statusIndicatorTitle() {
+        return this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
     }
 
     get activationStatus() {
-        if (this.flowStatus === FLOW_STATUS.ACTIVATING) {
-            return this.labels.activating;
+        const activationStatusLabel = this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
+        if (activationStatusLabel === this.labels.activating || activationStatusLabel === this.labels.savingStatus) {
+            return activationStatusLabel;
         }
-        return this.statusLabelFromStatus[this.flowStatus].label;
-    }
-
-    get showActivating() {
-        return this.flowStatus === FLOW_STATUS.ACTIVATING;
+        return activationStatusLabel && `${activationStatusLabel}\u2014`;
     }
 
     get showDate() {
-        return this.saveStatus === LABELS.savedStatus && this.lastModifiedDate && !this.showActivating;
+        return this.saveStatus === LABELS.savedStatus && this.lastModifiedDate && !(this.flowStatus === FLOW_STATUS.ACTIVATING) && !(this.flowStatus === FLOW_STATUS.SAVING);
     }
 
     get currentDate() {
@@ -102,7 +98,7 @@ export default class Toolbar extends LightningElement {
     }
 
     get activateDisabled() {
-        return (!this.flowStatus || this.flowStatus === FLOW_STATUS.INVALID_DRAFT || this.flowStatus === FLOW_STATUS.ACTIVE || this.hasUnsavedChanges);
+        return (!this.flowStatus || this.flowStatus === FLOW_STATUS.INVALID_DRAFT || this.flowStatus === FLOW_STATUS.ACTIVE || this.flowStatus === FLOW_STATUS.SAVING || this.hasUnsavedChanges);
     }
 
     get activateButtonText() {

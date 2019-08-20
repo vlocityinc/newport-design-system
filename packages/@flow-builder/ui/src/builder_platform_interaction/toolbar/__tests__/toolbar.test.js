@@ -342,9 +342,10 @@ describe('toolbar', () => {
             });
         });
 
-        it('Displays "Saving..." in the toolbar when saveStatus is set to the same and flow status is not defined', () => {
+        it('Displays "Saving..." in the toolbar when flowStatus is set to the same', () => {
             const toolbarComponent = createComponentUnderTest({
-                saveStatus: LABELS.savingStatus
+                saveStatus: LABELS.savedStatus,
+                flowStatus: FLOW_STATUS.SAVING
             });
 
             return Promise.resolve().then(() => {
@@ -355,102 +356,6 @@ describe('toolbar', () => {
                     selectors.relativedatetime
                 );
                 expect(lastSavedButton.textContent).toBe(LABELS.savingStatus);
-                expect(relativeDateTimeComponent).toBeNull();
-            });
-        });
-
-        it('Displays "Saving..." in the toolbar when saveStatus is set to "Saving" and flow status is Draft', () => {
-            const currentDate = new Date();
-            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
-            const toolbarComponent = createComponentUnderTest({
-                lastModifiedDate: currentDate.toISOString(),
-                saveStatus: LABELS.savingStatus,
-                flowStatus: FLOW_STATUS.DRAFT
-            });
-
-            return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
-
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.savingStatus
-                );
-                expect(relativeDateTimeComponent).toBeNull();
-            });
-        });
-
-        it('Displays "Saving..." in the toolbar when saveStatus is set to "Saving" and flow status is Invalid Draft', () => {
-            const currentDate = new Date();
-            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
-            const toolbarComponent = createComponentUnderTest({
-                lastModifiedDate: currentDate.toISOString(),
-                saveStatus: LABELS.savingStatus,
-                flowStatus: FLOW_STATUS.INVALID_DRAFT
-            });
-
-            return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
-
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.savingStatus
-                );
-                expect(relativeDateTimeComponent).toBeNull();
-            });
-        });
-
-        it('Displays "Saving..." in the toolbar when saveStatus is set to "Saving" and flow status is Active', () => {
-            const currentDate = new Date();
-            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
-            const toolbarComponent = createComponentUnderTest({
-                lastModifiedDate: currentDate.toISOString(),
-                saveStatus: LABELS.savingStatus,
-                flowStatus: FLOW_STATUS.ACTIVE
-            });
-
-            return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
-
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.savingStatus
-                );
-                expect(relativeDateTimeComponent).toBeNull();
-            });
-        });
-
-        it('Displays "Saving..." in the toolbar when saveStatus is set to "Saving" and flow status is Obsolete', () => {
-            const currentDate = new Date();
-            parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
-            const toolbarComponent = createComponentUnderTest({
-                lastModifiedDate: currentDate.toISOString(),
-                saveStatus: LABELS.savingStatus,
-                flowStatus: FLOW_STATUS.OBSOLETE
-            });
-
-            return Promise.resolve().then(() => {
-                const lastSavedButton = toolbarComponent.shadowRoot.querySelector(
-                    selectors.lastSave
-                );
-                const relativeDateTimeComponent = toolbarComponent.shadowRoot.querySelector(
-                    selectors.relativedatetime
-                );
-
-                expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.savingStatus
-                );
                 expect(relativeDateTimeComponent).toBeNull();
             });
         });

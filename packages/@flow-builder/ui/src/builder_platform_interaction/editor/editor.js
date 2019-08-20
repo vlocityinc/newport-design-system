@@ -23,6 +23,7 @@ import {
     updatePropertiesAfterCreatingFlowFromTemplate,
     updatePropertiesAfterCreatingFlowFromProcessType,
     updatePropertiesAfterActivateButtonPress,
+    updatePropertiesAfterSaveButtonPress,
     UPDATE_PROPERTIES_AFTER_SAVING,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
@@ -977,6 +978,11 @@ export default class Editor extends LightningElement {
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;
         this.saveStatus = LABELS.savingStatus;
+        storeInstance.dispatch(
+            updatePropertiesAfterSaveButtonPress({
+                status: FLOW_STATUS.SAVING
+            })
+        );
         this.hasNotBeenSaved = true;
         this.disableSave = true;
     };
