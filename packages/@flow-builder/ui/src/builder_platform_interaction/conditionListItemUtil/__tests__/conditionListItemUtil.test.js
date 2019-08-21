@@ -57,7 +57,7 @@ describe('formatLhs', () => {
             comboboxShapeMockValue
         );
         const { displayText, dataType } = formatLhs(lhs);
-        expect(displayText).toEqual('{!Flow.CurrentDateTime}');
+        expect(displayText).toEqual('{!$Flow.CurrentDateTime}');
         expect(dataType).toEqual('DateTime');
     });
 });
@@ -122,6 +122,6 @@ describe('formatRhs', () => {
             comboboxShapeMockValue
         );
         const formattedRhs = formatRhs(rhs);
-        expect(formattedRhs).toEqual('{!Flow.CurrentDateTime}');
+        expect(formattedRhs).toEqual('{!$Flow.CurrentDateTime}');
     });
 });
