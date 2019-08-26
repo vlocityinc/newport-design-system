@@ -43,6 +43,14 @@ input[placeholder]::placeholder {
     width: 100%;
     #{$right}: 0;
     pointer-events: none;
+
+    .nds-button_icon {
+      border: 0;
+    }
+  }
+
+  .nds-form-element__icon  {
+    vertical-align: text-bottom;
   }
 
   label {
@@ -53,6 +61,7 @@ input[placeholder]::placeholder {
     font-size: $form-label-pre-animate-font-size;
     letter-spacing: 1px;
     color: $color-input-font-kashmiri-blue;
+    padding: 0 0.5rem 0 0;
   }
 
   input:focus,
@@ -90,6 +99,7 @@ input[placeholder]::placeholder {
     +label.nds-form-element__label {
       font-size: $form-label-font-size;
       font-weight: $form-label-font-weight;
+      padding: 0 8px 0 0;
     }
   }
 
