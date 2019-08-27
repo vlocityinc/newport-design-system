@@ -25,6 +25,10 @@ export function getUserPreferences() {
     return context.userPrefs;
 }
 
+export function getOrgId() {
+    return context.orgId;
+}
+
 export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
 }

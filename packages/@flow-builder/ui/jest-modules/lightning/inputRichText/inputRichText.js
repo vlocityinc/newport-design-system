@@ -14,6 +14,7 @@ export default class LightningInputRichText extends LightningElement {
     @api formats;
     @api value;
     @api variant;
+    @api shareWithEntityId;
 
     @api mockUserInput = (textEntered) => {
         Object.defineProperty(this, 'value', {

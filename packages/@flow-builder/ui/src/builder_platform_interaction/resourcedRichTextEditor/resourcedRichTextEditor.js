@@ -6,6 +6,7 @@ import { convertHTMLToQuillHTML } from './richTextConverter';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getOrgId } from 'builder_platform_interaction/contextLib';
 
 // all formats except 'strike' and 'video'
 const RTE_FORMATS = [
@@ -161,6 +162,10 @@ export default class ResourcedRichTextEditor extends LightningElement {
         return this.plainTextAvailable
             ? 'divResourcePickerPartialWidth'
             : 'divResourcePickerFulllWidth';
+    }
+
+    get orgId() {
+        return getOrgId();
     }
 
     // Replace new line with <br /> tag as done at runtime (see _createOutput in factory.js)
