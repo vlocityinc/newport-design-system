@@ -88,6 +88,16 @@
   /* stylelint-enable selector-no-vendor-prefix */
 }
 
+.nds-read-only  {
+  .nds-input {
+    @include form-input-disabled;
+  }
+  .nds-form-element__label {
+    color: $color-text-input-disabled;
+    opacity: 0.5;
+  }
+}
+
 /**
  * @summary Modifier to allow a [readonly] input to have borders
  *
