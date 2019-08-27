@@ -143,6 +143,40 @@
   }
 }
 
+.nds-read-only {
+  .nds-slider__range {
+
+    &::-webkit-slider-thumb {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-webkit-slider-runnable-track {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-moz-range-thumb {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-moz-range-track {
+      background-color: $slider-color-background-disabled;
+    }
+
+    &::-ms-thumb {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-ms-track {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+  }
+}
+
 /**
  * @summary Element that contains value of input range
  *
@@ -181,6 +215,13 @@
  */
 .nds-slider-label__range {
   // Hook for adding a11y class to hide
+}
+
+.nds-read-only {
+  .nds-slider-label__range {
+    color: $color-text-input-disabled;
+    opacity: 0.5;
+  }
 }
 
 
