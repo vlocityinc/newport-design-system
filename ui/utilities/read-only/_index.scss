@@ -1,11 +1,7 @@
 .nds-read-only {
   cursor: not-allowed;
-  filter: brightness(0.9);
 }
 
-.nds-read-only .nds-form-element {
-  background-color: $white-primary;
-}
 
 .nds-read-only [data-omni-input=true] {
   pointer-events: none;
