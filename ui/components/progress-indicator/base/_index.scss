@@ -101,6 +101,11 @@
     fill: $color-blue-text-primary;
   }
 
+  &.nds-is-nonpristine .nds-progress__marker {
+    background: $progress-color-border-active;
+    border-color: $progress-color-background;
+  }
+
   &.nds-is-completed .nds-progress__marker,
   &.nds-is-active .nds-progress__marker {
     background: $progress-color-background;
