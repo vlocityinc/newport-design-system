@@ -29,7 +29,8 @@ jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
         getConditionsWithPrefixes: jest
             .fn()
-            .mockName('getConditionsWithPrefixes'),
+            .mockName('getConditionsWithPrefixes')
+            .mockReturnValue([]),
         showDeleteCondition: jest.fn().mockName('showDeleteCondition')
     };
 });
@@ -50,12 +51,14 @@ const waitEventWithInputParameters = {
     name: { value: 'Test Dev Name' },
     guid: { value: '123' },
     conditionLogic: { value: '1' },
+    conditions: [{ name: 'condition1', rowIndex: 0 }],
     eventType: { value: 'mockEventType' },
     inputParameters: [
         {
             name: { value: 'foo', error: null },
             value: { value: 'bar', error: null },
-            valueDataType: { value: 'vdt', error: null }
+            valueDataType: { value: 'vdt', error: null },
+            rowIndex: '123'
         }
     ],
     outputParameters: {}
@@ -466,7 +469,8 @@ describe('Wait Event', () => {
             const inputParameterWithError = {
                 name: { value: 'foo', error: null },
                 value: { value: 'bar', error: 'some error' },
-                valueDataType: { value: 'vdt', error: null }
+                valueDataType: { value: 'vdt', error: null },
+                rowIndex: '123'
             };
             const waitEventWithErrorInputParameters = Object.assign(
                 {},
@@ -486,7 +490,8 @@ describe('Wait Event', () => {
             const outputParameterWithError = {
                 name: { value: 'foo', error: null },
                 value: { value: 'bar', error: 'some error' },
-                valueDataType: { value: 'vdt', error: null }
+                valueDataType: { value: 'vdt', error: null },
+                rowIndex: '12345'
             };
             const waitEventWithErrorOutputParameters = Object.assign(
                 {},
@@ -525,7 +530,8 @@ describe('Wait Event', () => {
             const inputParameterWithNoError = {
                 name: { value: 'foo', error: null },
                 value: { value: 'bar', error: null },
-                valueDataType: { value: 'vdt', error: null }
+                valueDataType: { value: 'vdt', error: null },
+                rowIndex: '123'
             };
             const outputParameterWithNoError = {
                 name: { value: 'foo', error: null },

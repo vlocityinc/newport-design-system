@@ -44,7 +44,8 @@ jest.mock('builder_platform_interaction/conditionListUtils', () => {
     return {
         getConditionsWithPrefixes: jest
             .fn()
-            .mockName('getConditionsWithPrefixes'),
+            .mockName('getConditionsWithPrefixes')
+            .mockReturnValue([]),
         showDeleteCondition: jest.fn().mockName('showDeleteCondition')
     };
 });
@@ -140,7 +141,8 @@ describe('Outcome', () => {
             getConditionsWithPrefixes.mockReturnValueOnce([
                 {
                     prefix: 'foo',
-                    condition: { rowIndex: 'bar' }
+                    condition: { rowIndex: 'bar' },
+                    conditionLogic: { value: '1' }
                 }
             ]);
             element.outcome = outcomeWithOneConditional;
@@ -157,15 +159,18 @@ describe('Outcome', () => {
             getConditionsWithPrefixes.mockReturnValue([
                 {
                     prefix: 'foo',
-                    condition: { rowIndex: 'bar' }
+                    condition: { rowIndex: 'bar' },
+                    conditionLogic: { value: '1' }
                 },
                 {
                     prefix: 'fizz',
-                    condition: { rowIndex: 'buzz' }
+                    condition: { rowIndex: 'buzz' },
+                    conditionLogic: { value: '1' }
                 },
                 {
                     prefix: 'dunder',
-                    condition: { rowIndex: 'mifflin' }
+                    condition: { rowIndex: 'mifflin' },
+                    conditionLogic: { value: '1' }
                 }
             ]);
             element.outcome = outcomeWithThreeConditionals;
@@ -182,7 +187,8 @@ describe('Outcome', () => {
             getConditionsWithPrefixes.mockReturnValueOnce([
                 {
                     prefix: 'foo',
-                    condition: { rowIndex: 'bar' }
+                    condition: { rowIndex: 'bar' },
+                    conditionLogic: { value: '1' }
                 }
             ]);
             element.outcome = outcomeWithOneConditional;
@@ -196,28 +202,4 @@ describe('Outcome', () => {
             });
         });
     });
-    // describe('prefix', () => {
-    // it('show-prefix is always true', () => {
-    //     const element = createComponentUnderTest(listWithThreeConditionals);
-    //
-    //     return Promise.resolve().then(() => {
-    //         const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
-    //
-    //         expect(rowsArray[0].showPrefix).toBeTruthy();
-    //         expect(rowsArray[1].showPrefix).toBeTruthy();
-    //         expect(rowsArray[2].showPrefix).toBeTruthy();
-    //     });
-    // });
-    //     it('show-prefix is always true', () => {
-    //         const element = createComponentUnderTest(listWithThreeConditionals);
-    //
-    //         return Promise.resolve().then(() => {
-    //             const rowsArray = element.shadowRoot.querySelectorAll(selectors.row);
-    //
-    //             expect(rowsArray[0].showPrefix).toBeTruthy();
-    //             expect(rowsArray[1].showPrefix).toBeTruthy();
-    //             expect(rowsArray[2].showPrefix).toBeTruthy();
-    //         });
-    //     });
-    // });
 });
