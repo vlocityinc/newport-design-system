@@ -122,7 +122,8 @@ describe('getFieldChoiceData function', () => {
                     value: choiceNameMergeField
                 },
                 name: 'choiceName',
-                value: choice1Guid
+                value: choice1Guid,
+                guid: choice1Guid
             },
             {
                 defaultValueOption: false,
@@ -131,7 +132,8 @@ describe('getFieldChoiceData function', () => {
                     value: null
                 },
                 name: '',
-                value: ''
+                value: '',
+                guid: ''
             },
             {
                 defaultValueOption: true,
@@ -140,7 +142,8 @@ describe('getFieldChoiceData function', () => {
                     value: choiceNameMergeField
                 },
                 name: 'choiceName',
-                value: choice3Guid
+                value: choice3Guid,
+                guid: choice3Guid
             },
             {
                 defaultValueOption: false,
@@ -149,7 +152,8 @@ describe('getFieldChoiceData function', () => {
                     value: null
                 },
                 name: '',
-                value: ''
+                value: '',
+                guid: ''
             },
             {
                 defaultValueOption: false,
@@ -158,7 +162,8 @@ describe('getFieldChoiceData function', () => {
                     value: null
                 },
                 name: '',
-                value: ''
+                value: '',
+                guid: ''
             }
         ];
         const data = getFieldChoiceData(mockField);

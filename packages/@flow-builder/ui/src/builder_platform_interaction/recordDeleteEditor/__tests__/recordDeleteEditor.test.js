@@ -101,7 +101,8 @@ const filterElement = {
     operator: { value: 'EqualTo', error: null },
     rightHandSide: { value: '{!myFormula1}', error: null },
     rightHandSideDataType: { value: 'reference', error: null },
-    rightHandSideGuid: { value: 'FORMULA_8', error: null }
+    rightHandSideGuid: { value: 'FORMULA_8', error: null },
+    rowIndex: '123'
 };
 
 // Mocking out the fetch function to return Account fields

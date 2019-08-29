@@ -467,6 +467,7 @@ export function getFieldChoiceData(field) {
 
                 return {
                     value: choiceElement.guid,
+                    guid: choiceElement.guid,
                     label: {
                         value: '{!' + choiceElement.name + '}',
                         error: getErrorFromChoice(choice)
@@ -480,6 +481,7 @@ export function getFieldChoiceData(field) {
             // no data for the choice yet. In that case, display this placeholder data.
             return {
                 value: '',
+                guid: '',
                 label: { value: null, error: getErrorFromChoice(choice) },
                 name: '',
                 defaultValueOption: false
