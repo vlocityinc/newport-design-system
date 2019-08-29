@@ -203,7 +203,9 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Add
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -474,7 +476,9 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -523,7 +527,9 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -767,7 +773,9 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -816,7 +824,9 @@ exports[`record-lookup-editor Process type NOT supporting the automatic mode Edi
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -1369,7 +1379,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Adding 
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -2691,7 +2703,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -2740,7 +2754,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -2930,7 +2946,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -2979,7 +2997,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -3169,7 +3189,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -3218,7 +3240,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -3470,7 +3494,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -3519,7 +3545,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>
@@ -3763,7 +3791,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                       <svg
                         data-key="utility:warning"
                       >
-                        <use />
+                        <use
+                          xlink:href="null"
+                        />
                       </svg>
                   </lightning-primitive-icon>
               </lightning-icon>
@@ -3812,7 +3842,9 @@ exports[`record-lookup-editor Process type supporting the automatic mode Edit el
                           <svg
                             data-key="utility:warning"
                           >
-                            <use />
+                            <use
+                              xlink:href="null"
+                            />
                           </svg>
                       </lightning-primitive-icon>
                   </lightning-icon>

@@ -101,7 +101,9 @@ exports[`Resourced text area "rich text/ plain text mode switch" displayed if "p
                             <svg
                               data-key="utility:check"
                             >
-                              <use />
+                              <use
+                                xlink:href="null"
+                              />
                             </svg>
                         </lightning-primitive-icon>
                         FlowBuilderResourcedRichTextEditor.plainText

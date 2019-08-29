@@ -26,7 +26,9 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
                   <svg
                     data-key="utility:crossfilter"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
           </lightning-icon>
@@ -49,7 +51,9 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
                   <svg
                     data-key="utility:text"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
           </lightning-icon>
@@ -72,7 +76,9 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
                   <svg
                     data-key="utility:text"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
           </lightning-icon>
@@ -95,7 +101,9 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
                   <svg
                     data-key="utility:crossfilter"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
           </lightning-icon>
@@ -118,7 +126,9 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
                   <svg
                     data-key="utility:crossfilter"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
           </lightning-icon>
@@ -141,7 +151,9 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
                   <svg
                     data-key="utility:text"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
           </lightning-icon>

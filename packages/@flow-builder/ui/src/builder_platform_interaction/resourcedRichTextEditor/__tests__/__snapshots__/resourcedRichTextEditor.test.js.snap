@@ -51,7 +51,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
                               <svg
                                 data-key="utility:check"
                               >
-                                <use />
+                                <use
+                                  xlink:href="null"
+                                />
                               </svg>
                           </lightning-primitive-icon>
                           FlowBuilderResourcedRichTextEditor.richText
@@ -145,7 +147,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
                                       <svg
                                         data-key="utility:check"
                                       >
-                                        <use />
+                                        <use
+                                          xlink:href="null"
+                                        />
                                       </svg>
                                   </lightning-primitive-icon>
                                   FlowBuilderResourcedRichTextEditor.plainText
@@ -220,7 +224,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                               <svg
                                 data-key="utility:check"
                               >
-                                <use />
+                                <use
+                                  xlink:href="null"
+                                />
                               </svg>
                           </lightning-primitive-icon>
                           FlowBuilderResourcedRichTextEditor.richText
@@ -314,7 +320,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                                       <svg
                                         data-key="utility:check"
                                       >
-                                        <use />
+                                        <use
+                                          xlink:href="null"
+                                        />
                                       </svg>
                                   </lightning-primitive-icon>
                                   FlowBuilderResourcedRichTextEditor.plainText

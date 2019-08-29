@@ -99,7 +99,9 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
                                     <svg
                                       data-key="utility:check"
                                     >
-                                      <use />
+                                      <use
+                                        xlink:href="null"
+                                      />
                                     </svg>
                                 </lightning-primitive-icon>
                                 FlowBuilderResourcedRichTextEditor.richText

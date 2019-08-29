@@ -19,7 +19,9 @@ exports[`plain-text-mode-select By default "RichText" mode selected check UI (sn
                   <svg
                     data-key="utility:check"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
               FlowBuilderResourcedRichTextEditor.richText
@@ -65,7 +67,9 @@ exports[`plain-text-mode-select Select "PlainText" mode select "plain text" mode
                   <svg
                     data-key="utility:check"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
               FlowBuilderResourcedRichTextEditor.plainText
@@ -103,7 +107,9 @@ exports[`plain-text-mode-select Select "PlainText" mode select "plain text" mode
                   <svg
                     data-key="utility:check"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
               FlowBuilderResourcedRichTextEditor.plainText
@@ -133,7 +139,9 @@ exports[`plain-text-mode-select Select "RichText" mode select "rich text" mode v
                   <svg
                     data-key="utility:check"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
               FlowBuilderResourcedRichTextEditor.richText
@@ -171,7 +179,9 @@ exports[`plain-text-mode-select Select "RichText" mode select "rich text" mode v
                   <svg
                     data-key="utility:check"
                   >
-                    <use />
+                    <use
+                      xlink:href="null"
+                    />
                   </svg>
               </lightning-primitive-icon>
               FlowBuilderResourcedRichTextEditor.richText
