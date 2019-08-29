@@ -31,7 +31,8 @@ const testObj = {
                 error: null
             },
             rightHandSide: { value: 'xyz', error: null },
-            inputDataType: { value: '', error: null }
+            inputDataType: { value: '', error: null },
+            rowIndex: 10
         }
     ],
     description: { value: '', error: null },
@@ -51,7 +52,8 @@ const size1 = [
             error: null
         },
         operator: { value: 'Assign', error: null },
-        rightHandSide: { value: 'xyz', error: null }
+        rightHandSide: { value: 'xyz', error: null },
+        rowIndex: 20
     }
 ];
 
@@ -62,7 +64,8 @@ const size2 = [
             error: null
         },
         operator: { value: 'Assign', error: null },
-        rightHandSide: { value: 'xyz', error: null }
+        rightHandSide: { value: 'xyz', error: null },
+        rowIndex: 30
     },
     {
         leftHandSide: {
@@ -70,7 +73,8 @@ const size2 = [
             error: null
         },
         operator: { value: 'Assign', error: null },
-        rightHandSide: { value: 'xyz', error: null }
+        rightHandSide: { value: 'xyz', error: null },
+        rowIndex: 40
     }
 ];
 

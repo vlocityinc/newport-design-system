@@ -69,6 +69,7 @@ describe('Resourced text area label', () => {
     it('Should have the asterisk when required', () => {
         const resourcedTextareaComponent = createComponentUnderTest({
             required: true,
+            name: 'test',
             label
         });
         const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(
@@ -81,6 +82,7 @@ describe('Resourced text area label', () => {
     it('Should not have the asterisk when not required', () => {
         const resourcedTextareaComponent = createComponentUnderTest({
             required: false,
+            name: 'test',
             label
         });
         const fullLabel = resourcedTextareaComponent.shadowRoot.querySelector(

@@ -196,11 +196,11 @@ const recordLookupElementWithSObject = () => ({
     queriedFields: [
         {
             field: { value: 'Id', error: null },
-            rowIndex: MOCK_GUID
+            rowIndex: 1
         },
         {
             field: { value: 'Name', error: null },
-            rowIndex: MOCK_GUID
+            rowIndex: 2
         }
     ],
     object: { value: 'Account', error: '' },
@@ -276,11 +276,11 @@ const recordLookupElementAutomaticSingleRecord = () => ({
     queriedFields: [
         {
             field: { value: 'Id', error: null },
-            rowIndex: MOCK_GUID
+            rowIndex: 3
         },
         {
             field: { value: 'Name', error: null },
-            rowIndex: MOCK_GUID
+            rowIndex: 4
         }
     ],
     object: { value: 'Account', error: '' },

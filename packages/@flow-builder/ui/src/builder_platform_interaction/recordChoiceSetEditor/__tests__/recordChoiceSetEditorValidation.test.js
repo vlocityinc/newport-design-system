@@ -86,7 +86,8 @@ describe('Record Choice Set Validation', () => {
                 leftHandSide: { value: '', error: null },
                 operator: { value: '', error: null },
                 rightHandSide: { value: '', error: null },
-                rightHandSideDataType: ''
+                rightHandSideDataType: '',
+                rowIndex: 1
             }
         ],
         sortField: {
@@ -111,6 +112,7 @@ describe('Record Choice Set Validation', () => {
         },
         outputAssignments: [
             {
+                rowIndex: 44,
                 leftHandSide: {
                     value: 'lhs',
                     error: null

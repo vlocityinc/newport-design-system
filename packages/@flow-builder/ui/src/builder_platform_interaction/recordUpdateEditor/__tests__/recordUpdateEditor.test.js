@@ -120,7 +120,8 @@ const filterElement = {
     operator: { value: 'EqualTo', error: null },
     rightHandSide: { value: '{!myFormula1}', error: null },
     rightHandSideDataType: { value: 'reference', error: null },
-    rightHandSideGuid: { value: 'FORMULA_8', error: null }
+    rightHandSideGuid: { value: 'FORMULA_8', error: null },
+    rowIndex: '112'
 };
 
 const inputAssignmentElement = {
