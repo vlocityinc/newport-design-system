@@ -30,8 +30,12 @@ import {
 } from './variable';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createValidationRuleObject } from './base/baseValidationInput';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { Store, generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -173,6 +177,13 @@ export function createScreenField(screenField = {}, isNewField = false) {
  */
 export function createEmptyScreenFieldOfType(typeName) {
     const type = getScreenFieldTypeByName(typeName);
+
+    const processType = Store.getStore().getCurrentState().properties
+        .processType;
+    const automaticOutputHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+        processType
+    );
+
     const newScreenField = {
         isRequired: type.dataType === 'Boolean' ? true : false,
         defaultValue: '',
@@ -186,8 +197,14 @@ export function createEmptyScreenFieldOfType(typeName) {
             formulaExpression: '',
             errorMessage: ''
         },
-        storeOutputAutomatically: true
+        storeOutputAutomatically:
+            automaticOutputHandlingSupport ===
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
     };
+
+    newScreenField.storeOutputAutomatically =
+        automaticOutputHandlingSupport ===
+        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
 
     // Always add a placeholder choice for any choice based fields.
     if (
@@ -229,6 +246,12 @@ export function createScreenFieldMetadataObject(screenField) {
         storeOutputAutomatically
     } = screenField;
 
+    const processType = Store.getStore().getCurrentState().properties
+        .processType;
+    const automaticOutputHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+        processType
+    );
+
     // Convert scale back to number. MD expects this to be a number, but within FlowBuilder, we want it to be a string.
     if (scale != null && typeof scale === 'string') {
         scale = Number(scale);
@@ -248,8 +271,22 @@ export function createScreenFieldMetadataObject(screenField) {
         inputParameters = inputParameters.map(inputParameter =>
             createInputParameterMetadataObject(inputParameter)
         );
-        if (storeOutputAutomatically) {
+        if (
+            storeOutputAutomatically &&
+            automaticOutputHandlingSupport ===
+                FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+        ) {
             outputParameters = [];
+            dataType = undefined;
+        } else if (
+            storeOutputAutomatically &&
+            automaticOutputHandlingSupport ===
+                FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
+        ) {
+            // if the user save the flow and change the process type which doesn't support the automatic output handling,
+            // then we need to set the property storeOutputAutomatically to undefined.
+            outputParameters = [];
+            storeOutputAutomatically = undefined;
             dataType = undefined;
         } else {
             outputParameters = outputParameters.map(outputParameter =>
