@@ -15,9 +15,6 @@ export default class BaseResourcePicker extends LightningElement {
   errorMessage;
 
   @api
-  focus;
-
-  @api
   position;
 
   @api

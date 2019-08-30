@@ -40,9 +40,6 @@ export default class FerovResourcePicker extends LightningElement {
   rowIndex;
 
   @api
-  focus;
-
-  @api
   inlineItem;
 
   @api
