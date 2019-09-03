@@ -44,7 +44,9 @@ import {
 import { sliceMenu, getMenuLength, setSelectableMenuItem } from './utils';
 
 const SELECTORS = {
-    GROUPED_COMBOBOX: 'lightning-grouped-combobox'
+    GROUPED_COMBOBOX: 'lightning-grouped-combobox',
+    BASE_COMBOBOX: 'lightning-base-combobox',
+    INPUT: 'input'
 };
 
 /**
@@ -206,9 +208,7 @@ export default class Combobox extends LightningElement {
             }
 
             throw new Error(
-                `Variant must either be '${
-                    LIGHTNING_INPUT_VARIANTS.STANDARD
-                }' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`
+                `Variant must either be '${LIGHTNING_INPUT_VARIANTS.STANDARD}' or '${LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN}'!`
             );
         }
     }
@@ -1084,15 +1084,25 @@ export default class Combobox extends LightningElement {
     }
 
     /**
+     * Returns the input element.
+     * @returns {Object} the input element.
+     */
+
+    getInputElement() {
+        const combobox = this.getGroupedCombobox();
+        const input = combobox.shadowRoot
+            .querySelector(SELECTORS.BASE_COMBOBOX)
+            .shadowRoot.querySelector(SELECTORS.INPUT);
+        return input;
+    }
+
+    /**
      * Sets the dot for next level and places the cursor before the closing brace
      * @param {String} value the value to set
-     * @param {String} hasNextLevel whether or not the selected item has a next level
+     * @param {boolean} hasNextLevel whether or not the selected item has a next level
      */
     setValueAndCursor(value, hasNextLevel = false) {
-        const combobox = this.template.querySelector(
-            SELECTORS.GROUPED_COMBOBOX
-        );
-        const input = combobox.getElementsByTagName('input')[0];
+        const input = this.getInputElement();
 
         // Add a separator to the end if selected value has a next level
         if (hasNextLevel) {
