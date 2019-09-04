@@ -3,6 +3,7 @@ import {
     EditElementEvent,
     DeleteResourceEvent
 } from 'builder_platform_interaction/events';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION } from 'builder_platform_interaction/resourceDetailsParameters';
 import { LABELS } from './resourceDetailsLabels';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -72,6 +73,16 @@ export default class ResourceDetails extends LightningElement {
             this.resourceDetails.elementGuid
         );
         this.dispatchEvent(editElementEvent);
+        logInteraction(
+            'edit-element',
+            'resource-details',
+            {
+                elementType: this.resourceDetails.elementType,
+                typeLabel: this.resourceDetails.typeLabel,
+                usedByElementsCount: this.resourceDetails.usedByElements.length
+            },
+            'click'
+        );
     }
 
     handleDeleteButtonClicked(event) {
@@ -81,6 +92,16 @@ export default class ResourceDetails extends LightningElement {
             this.resourceDetails.elementType
         );
         this.dispatchEvent(deleteEvent);
+        logInteraction(
+            'delete-element',
+            'resource-details',
+            {
+                elementType: this.resourceDetails.elementType,
+                typeLabel: this.resourceDetails.typeLabel,
+                usedByElementsCount: this.resourceDetails.usedByElements.length
+            },
+            'click'
+        );
     }
 
     isAutomaticOutputFromGetRecord() {
