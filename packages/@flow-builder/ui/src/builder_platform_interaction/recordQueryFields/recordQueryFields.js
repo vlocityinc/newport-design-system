@@ -14,8 +14,7 @@ export default class RecordQueryFields extends LightningElement {
     state = {
         recordEntityName: '',
         outputReference: '',
-        queriedFields: [],
-        isCollection: false
+        queriedFields: []
     };
 
     /**
@@ -29,13 +28,6 @@ export default class RecordQueryFields extends LightningElement {
 
     @api
     resourceDisplayText;
-
-    /**
-     * Unique guid for the output reference picker
-     * @type {String}
-     */
-    @api
-    outputReferenceIndex;
 
     @api
     globalCss =
@@ -69,18 +61,6 @@ export default class RecordQueryFields extends LightningElement {
     }
 
     /**
-     * @param {Boolean} isCollection true if select from sObject collection variables
-     */
-    set isCollection(isCollection) {
-        this.state.isCollection = isCollection;
-    }
-
-    @api
-    get isCollection() {
-        return this.state.isCollection;
-    }
-
-    /**
      * @param {String[]} fields the selected fields
      */
     set queriedFields(fields) {
@@ -90,30 +70,6 @@ export default class RecordQueryFields extends LightningElement {
     @api
     get queriedFields() {
         return this.state.queriedFields;
-    }
-
-    get sObjectVariablePickerTitle() {
-        return !this.state.isCollection
-            ? format(
-                  this.labels.selectVariableToStore,
-                  this.resourceDisplayText
-              )
-            : format(
-                  this.labels.selectVariableToStoreRecords,
-                  this.resourceDisplayText
-              );
-    }
-
-    get sObjectVariablePickerLabel() {
-        return !this.isCollection
-            ? this.labels.recordVariable
-            : this.labels.recordCollectionVariable;
-    }
-
-    get sObjectVariablePickerPlaceholder() {
-        return !this.state.isCollection
-            ? this.labels.sObjectVariablePlaceholder
-            : this.labels.sObjectCollectionVariablePlaceholder;
     }
 
     get selectFieldsLabel() {

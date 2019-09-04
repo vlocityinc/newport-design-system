@@ -67,14 +67,6 @@ export default class ResourceDetailParameters extends LightningElement {
     }
 
     /**
-     * Resource element type (eg: SCREEN_FIELD)
-     * @returns {string} the resource element type
-     */
-    get resourceElementType() {
-        return this.resourceDetails.elementtype;
-    }
-
-    /**
      * @returns {Function} the given specific  mapper if any (used to shape the aprameter to meet UI requirements) or dummy default mapper otherwise {@link resourceDetailsParameters#FALLBACK_PARAMETER_MAPPER}
      */
     get mapper() {
