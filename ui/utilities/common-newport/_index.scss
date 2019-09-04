@@ -24,11 +24,14 @@ section.nds-page-header {
   display: block;
 }
 
-p[vlc-bind-html] {
+p[vlc-bind-html],
+.nds-text-block {
   color: $color-light-blue-hue;
   word-break: normal;
+  font-family: $font-family; // workaround for LWC overriding styles
 
-  p {
+  p,
+  span {
     font-size: 0.9rem;
     color: $color-midnight-blue;
     font-weight: 300;
