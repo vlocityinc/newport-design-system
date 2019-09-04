@@ -10,6 +10,10 @@ import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtil
 import { LABELS } from '../toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
+
 const createComponentUnderTest = (props = {}) => {
     const el = createElement('builder_platform_interaction-toolbar', {
         is: Toolbar
@@ -235,7 +239,7 @@ describe('toolbar', () => {
                     selectors.relativedatetime
                 );
                 expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.draftLabel + "\u2014" + LABELS.savedStatus
+                    LABELS.draftLabel + '\u2014' + LABELS.savedStatus
                 );
                 expect(relativeDateTimeComponent).not.toBeNull();
                 expect(relativeDateTimeComponent.value).toEqual(currentDate);
@@ -264,7 +268,7 @@ describe('toolbar', () => {
                 );
 
                 expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.draftLabel + "\u2014" + LABELS.savedStatus
+                    LABELS.draftLabel + '\u2014' + LABELS.savedStatus
                 );
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
@@ -288,7 +292,7 @@ describe('toolbar', () => {
                 );
 
                 expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.activeLabel + "\u2014" + LABELS.savedStatus
+                    LABELS.activeLabel + '\u2014' + LABELS.savedStatus
                 );
                 expect(relativeDateTimeComponent).not.toBeNull();
             });
@@ -312,7 +316,7 @@ describe('toolbar', () => {
                 );
 
                 expect(lastSavedButton.textContent.trim()).toEqual(
-                    LABELS.deactivatedLabel + "\u2014" + LABELS.savedStatus
+                    LABELS.deactivatedLabel + '\u2014' + LABELS.savedStatus
                 );
                 expect(relativeDateTimeComponent).not.toBeNull();
             });

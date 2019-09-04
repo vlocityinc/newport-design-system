@@ -12,6 +12,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { parseMetadataDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { orgHasFlowBuilderDebug } from 'builder_platform_interaction/contextLib';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './toolbarLabels';
 import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
 
@@ -23,41 +24,68 @@ import { FLOW_STATUS } from 'builder_platform_interaction/flowMetadata';
  * @since 214
  */
 export default class Toolbar extends LightningElement {
-    @api flowStatus;
-    @api isEditFlowPropertiesDisabled;
-    @api isRunDebugDisabled;
-    @api isSaveDisabled;
-    @api isSaveAsDisabled;
-    @api lastModifiedDate;
-    @api saveStatus;
-    @api isLightningFlowBuilder;
-    @api canOnlySaveAsNewDefinition;
-    @api hasUnsavedChanges;
-    @api flowErrorsAndWarnings;
-    @api isUndoDisabled;
-    @api isRedoDisabled;
-    @api isActivateDisabled;
+    @api
+    flowStatus;
+
+    @api
+    isEditFlowPropertiesDisabled;
+
+    @api
+    isRunDebugDisabled;
+
+    @api
+    isSaveDisabled;
+
+    @api
+    isSaveAsDisabled;
+
+    @api
+    lastModifiedDate;
+
+    @api
+    saveStatus;
+
+    @api
+    isLightningFlowBuilder;
+
+    @api
+    canOnlySaveAsNewDefinition;
+
+    @api
+    hasUnsavedChanges;
+
+    @api
+    flowErrorsAndWarnings;
+
+    @api
+    isUndoDisabled;
+
+    @api
+    isRedoDisabled;
+
+    @api
+    isActivateDisabled;
 
     labels = LABELS;
 
     statusLabelFromStatus = {
         [FLOW_STATUS.ACTIVE]: {
-            label: this.labels.activeLabel,
+            label: this.labels.activeLabel
         },
         [FLOW_STATUS.OBSOLETE]: {
-            label: this.labels.deactivatedLabel,
+            label: this.labels.deactivatedLabel
         },
         [FLOW_STATUS.DRAFT]: {
-            label: this.labels.draftLabel,
+            label: this.labels.draftLabel
         },
         [FLOW_STATUS.INVALID_DRAFT]: {
-            label: this.labels.draftLabel,
+            label: this.labels.draftLabel
         },
         [FLOW_STATUS.ACTIVATING]: {
-            label: this.labels.activating,
+            label: this.labels.activating
         },
         [FLOW_STATUS.SAVING]: {
-            label: this.labels.savingStatus,
+            label: this.labels.savingStatus
         }
     };
 
@@ -66,19 +94,32 @@ export default class Toolbar extends LightningElement {
     }
 
     get statusIndicatorTitle() {
-        return this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
+        return (
+            this.statusLabelFromStatus[this.flowStatus] &&
+            this.statusLabelFromStatus[this.flowStatus].label
+        );
     }
 
     get activationStatus() {
-        const activationStatusLabel = this.statusLabelFromStatus[this.flowStatus] && this.statusLabelFromStatus[this.flowStatus].label;
-        if (activationStatusLabel === this.labels.activating || activationStatusLabel === this.labels.savingStatus) {
+        const activationStatusLabel =
+            this.statusLabelFromStatus[this.flowStatus] &&
+            this.statusLabelFromStatus[this.flowStatus].label;
+        if (
+            activationStatusLabel === this.labels.activating ||
+            activationStatusLabel === this.labels.savingStatus
+        ) {
             return activationStatusLabel;
         }
         return activationStatusLabel && `${activationStatusLabel}\u2014`;
     }
 
     get showDate() {
-        return this.saveStatus === LABELS.savedStatus && this.lastModifiedDate && !(this.flowStatus === FLOW_STATUS.ACTIVATING) && !(this.flowStatus === FLOW_STATUS.SAVING);
+        return (
+            this.saveStatus === LABELS.savedStatus &&
+            this.lastModifiedDate &&
+            !(this.flowStatus === FLOW_STATUS.ACTIVATING) &&
+            !(this.flowStatus === FLOW_STATUS.SAVING)
+        );
     }
 
     get currentDate() {
@@ -98,7 +139,13 @@ export default class Toolbar extends LightningElement {
     }
 
     get activateDisabled() {
-        return (!this.flowStatus || this.flowStatus === FLOW_STATUS.INVALID_DRAFT || this.flowStatus === FLOW_STATUS.ACTIVE || this.flowStatus === FLOW_STATUS.SAVING || this.hasUnsavedChanges);
+        return (
+            !this.flowStatus ||
+            this.flowStatus === FLOW_STATUS.INVALID_DRAFT ||
+            this.flowStatus === FLOW_STATUS.ACTIVE ||
+            this.flowStatus === FLOW_STATUS.SAVING ||
+            this.hasUnsavedChanges
+        );
     }
 
     get activateButtonText() {
@@ -116,17 +163,20 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const undoEvent = new UndoEvent();
         this.dispatchEvent(undoEvent);
+        logInteraction('undo-button', 'toolbar', null, 'click');
     }
 
     handleRedo(event) {
         event.preventDefault();
         const redoEvent = new RedoEvent();
         this.dispatchEvent(redoEvent);
+        logInteraction('redo-button', 'toolbar', null, 'click');
     }
     handleDuplicateButtonClick(event) {
         event.preventDefault();
         const duplicateEvent = new DuplicateEvent();
         this.dispatchEvent(duplicateEvent);
+        logInteraction('duplicate-button', 'toolbar', null, 'click');
     }
 
     handleEditFlowProperties(event) {
@@ -134,6 +184,7 @@ export default class Toolbar extends LightningElement {
         if (!this.isEditFlowPropertiesDisabled) {
             const editFlowPropertiesEvent = new EditFlowPropertiesEvent();
             this.dispatchEvent(editFlowPropertiesEvent);
+            logInteraction('flow-properties-button', 'toolbar', null, 'click');
         }
     }
 
@@ -141,12 +192,14 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const runFlowEvent = new RunFlowEvent();
         this.dispatchEvent(runFlowEvent);
+        logInteraction('run-button', 'toolbar', null, 'click');
     }
 
     handleDebug(event) {
         event.preventDefault();
         const debugFlowEvent = new DebugFlowEvent();
         this.dispatchEvent(debugFlowEvent);
+        logInteraction('debug-button', 'toolbar', null, 'click');
     }
 
     /**
@@ -164,6 +217,7 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const saveAsEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE_AS);
         this.dispatchEvent(saveAsEvent);
+        logInteraction('save-as', 'toolbar', null, 'click');
     }
 
     /**
@@ -182,5 +236,6 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const toggleFlowStatusEvent = new ToggleFlowStatusEvent();
         this.dispatchEvent(toggleFlowStatusEvent);
+        logInteraction('activate-button', 'toolbar', null, 'click');
     }
 }

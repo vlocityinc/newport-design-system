@@ -1,5 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { LABELS } from './headerLabels';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
 export default class Header extends LightningElement {
     @api
@@ -44,5 +45,9 @@ export default class Header extends LightningElement {
             return this.helpUrl;
         }
         return null;
+    }
+
+    handleClickHelp() {
+        logInteraction('help-button', 'header', null, 'click');
     }
 }
