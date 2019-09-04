@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { isUniqueDevNameInStore } from 'builder_platform_interaction/validationRules';
 import { sanitizeDevName } from 'builder_platform_interaction/commonUtils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './labelDescriptionLabels';
 
 const SELECTORS = {
@@ -253,7 +254,9 @@ export default class LabelDescription extends LightningElement {
             inputElement.value = newLabel;
         }
         const error =
-            inputElement.value === '' && this.labelRequired ? this.showErrorMessageIfBlank : null;
+            inputElement.value === '' && this.labelRequired
+                ? this.showErrorMessageIfBlank
+                : null;
         this.updateStateAndDispatch(newLabel, 'label', error);
 
         // Update devName if it is present, enabled, and blank
@@ -289,5 +292,9 @@ export default class LabelDescription extends LightningElement {
 
     handleDescriptionFocusOut(e) {
         this.updateStateAndDispatch(e.target.value, 'description');
+    }
+
+    clickDescription() {
+        logInteraction('label-description', 'element', null, 'click');
     }
 }
