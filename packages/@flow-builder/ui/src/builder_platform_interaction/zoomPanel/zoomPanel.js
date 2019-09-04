@@ -4,6 +4,7 @@ import {
     ClickToZoomEvent,
     ZOOM_ACTION
 } from 'builder_platform_interaction/events';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './zoomPanelLabels';
 
 /**
@@ -39,6 +40,7 @@ export default class ZoomPanel extends LightningElement {
     handleToggleMarqueeOn = () => {
         const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
         this.dispatchEvent(toggleMarqueeOnEvent);
+        logInteraction('marquee', 'zoom-panel', null, 'click');
     };
 
     /**

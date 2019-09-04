@@ -3,6 +3,7 @@ import {
     LocatorIconClickedEvent,
     PaletteItemChevronClickedEvent
 } from 'builder_platform_interaction/events';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { flatten } from './paletteLib';
 import { LABELS } from './paletteLabels';
 
@@ -143,6 +144,7 @@ export default class Palette extends LightningElement {
             iconName
         );
         this.dispatchEvent(paletteItemChevronClickedEvent);
+        logInteraction('element-details', 'manager-tab', null, 'click');
     }
 
     /**

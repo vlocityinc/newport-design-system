@@ -6,6 +6,10 @@ import {
 import Palette from 'builder_platform_interaction/palette';
 import { LABELS } from '../paletteLabels';
 
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
+
 const createComponentUnderTest = (
     data,
     detailsButton,

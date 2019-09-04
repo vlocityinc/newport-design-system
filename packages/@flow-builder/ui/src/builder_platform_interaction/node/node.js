@@ -20,6 +20,7 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { clamp } from 'builder_platform_interaction/clampLib';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
 /**
  * Node component for flow builder.
@@ -31,7 +32,8 @@ import { clamp } from 'builder_platform_interaction/clampLib';
 export default class Node extends LightningElement {
     currentNodeLabel = null;
 
-    @api node = {
+    @api
+    node = {
         config: {}
     };
 
@@ -229,11 +231,15 @@ export default class Node extends LightningElement {
     handleTrashClick = event => {
         event.stopPropagation();
         if (!this.isNodeDragging) {
-            const deleteEvent = new DeleteElementEvent(
-                [this.node.guid],
-                this.node.elementType
-            );
+            const { guid, elementType } = this.node;
+            const deleteEvent = new DeleteElementEvent([guid], elementType);
             this.dispatchEvent(deleteEvent);
+            logInteraction(
+                'trash',
+                'node-icon',
+                { guid, elementType },
+                'click'
+            );
         }
         this.isNodeDragging = false;
     };
@@ -252,7 +258,8 @@ export default class Node extends LightningElement {
      * as soon as drag begins
      * @param {object} event - drag start event
      */
-    @api dragStart = event => {
+    @api
+    dragStart = event => {
         this.isNodeDragging = true;
         if (this.isSelectable() && !this.node.config.isSelected) {
             const isMultiSelectKeyPressed = this.isMultiSelect(event.e);
@@ -268,7 +275,8 @@ export default class Node extends LightningElement {
      * Updates the location of the node once the user stops dragging it on the canvas.
      * @param {object} event - drag stop event
      */
-    @api dragStop = event => {
+    @api
+    dragStop = event => {
         if (
             event.finalPos[0] !== this.node.locationX ||
             event.finalPos[1] !== this.node.locationY
@@ -287,7 +295,8 @@ export default class Node extends LightningElement {
      * Updates the location of the node while the user is dragging it on the canvas.
      * @param {object} event - drag event
      */
-    @api drag = event => {
+    @api
+    drag = event => {
         const dragNodeEvent = new DragNodeEvent(
             this.node.guid,
             event.pos[0],

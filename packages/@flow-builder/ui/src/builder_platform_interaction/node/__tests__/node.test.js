@@ -60,6 +60,10 @@ jest.mock('builder_platform_interaction/contextLib', () => ({
     isTestMode: jest.fn()
 }));
 
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
+
 const dblClick = component => {
     const doubleClickEvent = new Event('dblclick', {
         bubbles: true,
