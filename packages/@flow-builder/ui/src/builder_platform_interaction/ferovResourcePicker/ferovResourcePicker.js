@@ -16,6 +16,7 @@ import {
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
 let storeInstance;
 
@@ -260,6 +261,8 @@ export default class FerovResourcePicker extends LightningElement {
                     lastInlineResourceRowIndex: event.detail.position
                 })
             );
+
+            logInteraction('ferov inline resource', 'combobox', null, 'click');
         }
     };
     disconnectedCallback() {

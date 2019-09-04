@@ -8,6 +8,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './leftPanelLabels';
 import {
     getResourceSections,
@@ -170,6 +171,7 @@ export default class LeftPanel extends LightningElement {
         const handleOnClickEvent = new NewResourceEvent();
         this.dispatchEvent(handleOnClickEvent);
         this._addInlineResourceFromManagerTab = true;
+        logInteraction('New Resource Button', 'left panel', null, 'click');
     };
 
     handleResourceDetailsBackLinkClicked() {

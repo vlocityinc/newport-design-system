@@ -15,6 +15,12 @@ import {
     numberVariableGuid
 } from 'mock/storeData';
 
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn(),
+    logPerfTransactionStart: jest.fn(),
+    logPerfTransactionEnd: jest.fn()
+}));
+
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );

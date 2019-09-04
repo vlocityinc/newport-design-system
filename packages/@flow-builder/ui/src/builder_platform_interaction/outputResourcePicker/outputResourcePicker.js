@@ -21,6 +21,7 @@ import {
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
 let storeInstance;
 
@@ -189,6 +190,7 @@ export default class OutputResourcePicker extends LightningElement {
                     lastInlineResourceRowIndex: event.detail.position
                 })
             );
+            logInteraction('output inline resource', 'combobox', null, 'click');
         }
     };
 

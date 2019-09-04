@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { RowContentsChangedEvent } from 'builder_platform_interaction/events';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getStoreElements,
@@ -805,6 +806,12 @@ export default class BaseExpressionBuilder extends LightningElement {
                 lastInlineResourceRowIndex: this.rowIndex
             };
             storeInstance.dispatch(updateInlineResourceProperties(payload));
+            logInteraction(
+                'base expression builder inline resource',
+                'combobox',
+                null,
+                'click'
+            );
         }
     }
 
