@@ -144,6 +144,9 @@
       fill: $color-input-icon-blue-hue;
       cursor: pointer;
     }
+    .nds-form-element__label.nds-form-element__control-help.nds-checkbox-span{
+      margin-right:.5rem;
+    }
   }
 }
 
