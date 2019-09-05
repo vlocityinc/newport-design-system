@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern */
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
@@ -11,7 +12,7 @@
  * @variant
  */
 .nds-form-element__control-animated-label {
-  font-size: 0.875rem;
+  font-size: .875rem;
   position: relative;
 }
 
@@ -20,56 +21,97 @@
 }
 
 .nds-input {
-  font-size: 0.875rem;
+  font-size: .875rem;
   letter-spacing: 1px;
   font-weight: 400;
 }
 
 input[placeholder]::placeholder {
+  /* stylelint-disable declaration-no-important */
+  font-size: $form-placeholder-font-size;
   color: transparent !important;
+  font-weight: $form-placeholder-weight;
+  /* stylelint-enable declaration-no-important */
 }
 
-.nds-form-element__control.nds-form-element__control-animated-label .nds-form-element__label {
-  top: 0.25rem;
-  #{$left}: 0;
-  position: absolute;
-  width: 100%;
-  #{$right}: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-  white-space: nowrap;
-  font-weight: 400;
-  font-size: 0.875rem;
-  letter-spacing: 1px;
-  color: $color-input-font-kashmiri-blue;
+.nds-form-element__control.nds-form-element__control-animated-label {
+
+  .nds-form-element__label {
+    top: .25rem;
+    #{$left}: 0;
+    position: absolute;
+    width: 100%;
+    #{$right}: 0;
+    pointer-events: none;
+
+    .nds-button_icon {
+      border: 0;
+    }
+  }
+
+  .nds-form-element__icon  {
+    vertical-align: text-bottom;
+  }
+
+  label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: $form-label-pre-animate-font-weight;
+    font-size: $form-label-pre-animate-font-size;
+    letter-spacing: 1px;
+    color: $color-input-font-kashmiri-blue;
+    padding: 0 .5rem 0 0;
+  }
+
+  input:focus,
+  input.nds-has-value:not(:focus):valid,
+  input[cloned='dirty'],
+  input.nds-input[cloned='dirty'],
+  input.nds-is-dirty.nds-not-empty,
+  select:focus,
+  select.nds-has-value:not(:focus):valid,
+  select[cloned='dirty'],
+  select.nds-select[cloned='dirty'],
+  textarea:focus,
+  textarea.nds-has-value:not(:focus):valid,
+  textarea.nds-not-empty.nds-is-dirty,
+  textarea[cloned="dirty"],
+  input.ng-dirty.ng-not-empty,
+  input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
+  input.ng-touched.ng-not-empty.td-input
+  select.ng-dirty.ng-not-empty,
+  select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]
+  textarea.ng-not-empty.ng-dirty {
+
+    ~.nds-form-element__label,
+    +.nds-form-element__label {
+      transform: translate3d(0, -1.2rem, 0);
+      transition-duration: 300ms;
+      z-index: 0;
+      top: .4rem;
+      #{$left}: 0;
+    }
+
+    ~.nds-form-element__label label,
+    ~label.nds-form-element__label,
+    +.nds-form-element__label label,
+    +label.nds-form-element__label {
+      font-size: $form-label-font-size;
+      font-weight: $form-label-font-weight;
+      padding: 0 .5rem 0 0;
+    }
+  }
+
+  input:focus~.nds-form-element__label,
+  input:focus~.nds-form-element__label .nds-required,
+  select:focus~.nds-form-element__label,
+  select:focus~.nds-form-element__label .nds-required,
+  textarea:focus~.nds-form-element__label {
+    color: $color-border-input-active;
+  }
 }
 
-.nds-form-element__control.nds-form-element__control-animated-label input:focus~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.nds-has-value:not(:focus):valid~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.ng-dirty.ng-not-empty~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.ng-dirty.ng-not-empty+label,
-.nds-form-element__control.nds-form-element__control-animated-label input[cloned='dirty']+label,
-.nds-form-element__control.nds-form-element__control-animated-label input.nds-input[cloned='dirty']~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.ng-touched.ng-not-empty.td-input+label,
-.nds-form-element__control.nds-form-element__control-animated-label input.vlocity-dirty.vlocity-not-empty~label,
-.nds-form-element__control.nds-form-element__control-animated-label input.vlocity-dirty.vlocity-not-empty+label {
-  -webkit-transform: translate3d(0, -1.2rem, 0);
-  transform: translate3d(0, -1.2rem, 0);
-  -webkit-transition-duration: 300ms;
-  transition-duration: 300ms;
-  z-index: 0;
-  font-size: 0.75rem;
-  font-weight: 300;
-  top: 0.4rem;
-  #{$left}: 0;
-}
-
-.nds-form-element__control.nds-form-element__control-animated-label input:focus~label,
-.nds-form-element__control.nds-form-element__control-animated-label input:focus~label .nds-required {
-  color: $color-border-input-active;
-}
 
 .nds-form-element__control.nds-input-has-icon svg.nds-icon {
   fill: $color-input-icon-blue-hue;
@@ -89,9 +131,8 @@ input[placeholder]::placeholder {
 }
 
 .nds-form-element__control.nds-form-element__control-animated-label input[readonly]~label {
-  -webkit-transform: translate3d(0, -1.2rem, 0);
   transform: translate3d(0, -1.2rem, 0);
-  top: 0.4rem;
+  top: .4rem;
   #{$left}: 0;
 }
 
@@ -117,19 +158,19 @@ input[placeholder]::placeholder {
 .nds-has-error .nds-form-element__help {
   letter-spacing: 1px;
   color: $color-border-error;
-  font-size: 0.75rem;
+  font-size: .75rem;
   font-weight: 400;
   text-transform: capitalize;
-  margin-top: 0.625rem;
+  margin-top: .625rem;
 }
 
 .nds-form-element__control-animated-label .nds-control-action__container {
-  top: 0.25rem;
+  top: .25rem;
 }
 
-.nds-control-action__container svg[disabled=disabled] {
+.nds-control-action__container svg[disabled="disabled"] {
   pointer-events: none;
-  opacity: 0.5;
+  opacity: .5;
 }
 
 .nds-form-element__control-animated-label+.nds-form-element__control-help,
@@ -138,7 +179,7 @@ input[placeholder]::placeholder {
   visibility: hidden;
   opacity: 0;
   margin-top: -2px;
-  transition: visibility 2s, opacity 0.5s linear;
+  transition: visibility 2s, opacity .5s linear;
   position: absolute;
 }
 
@@ -148,11 +189,12 @@ input[placeholder]::placeholder {
 }
 
 .nds-form-element__control-animated-label .nds-input:disabled+label {
-  opacity: 0.5;
+  opacity: .5;
 }
 
-.nds-input_mask:focus::placeholder {
-  color: inherit !important;
+.nds-form-container {
+  margin-bottom: .5rem;
+  padding: .75rem;
 }
 
 textarea[placeholder]::placeholder {
@@ -163,3 +205,42 @@ textarea:focus::placeholder {
   color: inherit;
 }
 
+.nds-input_mask:focus::placeholder {
+  /* stylelint-disable declaration-no-important */
+  color: inherit !important;
+  /* stylelint-enable declaration-no-important */
+}
+
+textarea[placeholder]::placeholder {
+  color: transparent;
+  font-weight: $form-placeholder-weight;
+}
+
+textarea:focus::placeholder {
+  color: inherit;
+}
+
+.nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out {
+  transition: transform 200ms ease-out, font-size 200ms ease-out;
+}
+
+.nds-combobox_container .nds-combobox__form-element.nds-form-element__control.nds-form-element__control-animated-label input[readonly] {
+  padding-left: 0;
+
+  &:focus {
+    box-shadow: none;
+
+    ~ label {
+      transform: translate3d(0, -1.2rem, 0);
+    }
+  }
+
+  ~ label {
+    transform: none;
+  }
+
+  &.nds-input.nds-not-empty.nds-is-dirty ~ label {
+    transform: translate3d(0, -1.2rem, 0);
+  }
+}
+/* stylelint-enable selector-class-pattern */

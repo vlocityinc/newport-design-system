@@ -2,7 +2,7 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 .nds-spinner_container {
-  position: fixed;
+  position: absolute;
   top: 0;
   #{$right}: 0;
   bottom: 0;
@@ -27,7 +27,6 @@
 .nds-spinner_container.hide {
   display: none;
 }
-
 /* stylelint-enable selector-class-pattern */
 
 /**
@@ -66,6 +65,7 @@
 
 
 @media only screen and (max-width: 30em) {
+
   .nds-spinner {
     #{$left}: 40%;
     top: 40%;
@@ -84,6 +84,7 @@
 
 .nds-spinner_brand,
 .nds-spinner--brand {
+
   svg circle {
     fill: $color-brand;
     stroke: none;
@@ -183,7 +184,7 @@
 /**
  * This is the loading message, specifically for the large spinner
  */
-
+/* stylelint-disable selector-class-pattern */
 .nds-spinner+.vlc-loading-message,
 .nds-spinner+.vlc-loading-message {
   position: absolute;
@@ -191,3 +192,4 @@
   left: 50%;
   transform: translate(-50%, calc(-50% + 2.75rem));
 }
+/* stylelint-enable selector-class-pattern */

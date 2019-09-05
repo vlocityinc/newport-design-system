@@ -17,12 +17,13 @@
 }
 
 .nds-edit-block_gaction_btn {
+
   svg {
     cursor: pointer;
   }
 
   .nds-popover_tooltip {
-    #{$left}: -.56rem;
+    #{$left}: -0.56rem;
     top: 2.6rem;
     white-space: nowrap;
     display: none;
@@ -35,6 +36,7 @@
 
 
 .nds-table_custom {
+
   .nds-table {
     table-layout: fixed;
   }
@@ -60,7 +62,7 @@
     }
 
     td {
-      border-top: none;
+      border-top: 0;
     }
 
     form div {
@@ -77,7 +79,9 @@
   }
 
   .nds-editblock_add-button {
+    /* stylelint-disable declaration-no-important */
     box-shadow: unset !important;
+    /* stylelint-enable declaration-no-important */
     font-size: 14px;
     letter-spacing: 0.5px;
     color: $color-midnight-blue;
@@ -154,12 +158,12 @@
   }
 
   .nds-edit-block_cards-selected-icon {
-    top: -.6rem;
-    #{$left}: -.6rem;
+    top: -0.6rem;
+    #{$left}: -0.6rem;
     visibility: hidden;
 
     .nds-icon_container_circle {
-      padding: .5rem;
+      padding: 0.5rem;
       border-radius: 50%;
       background: $color-background-brand-primary;
     }
@@ -208,8 +212,10 @@
       position: relative;
       width: 3.4rem;
       height: 3.4rem;
-      top: .7rem;
+      top: 0.7rem;
+      /* stylelint-disable declaration-no-important */
       #{$left}: 1rem !important;
+      /* stylelint-enable declaration-no-important */
 
       .nds-icon {
         fill: $color-background-brand-primary;
@@ -226,6 +232,7 @@
   }
 
   .nds-edit-block_longcards-add-icon {
+
     span {
       width: 100%;
       display: inline-block;
@@ -238,12 +245,12 @@
   }
 
   .nds-edit-block_cards-selected-icon {
-    top: -.8rem;
-    #{$left}: .8rem;
+    top: -0.8rem;
+    #{$left}: 0.8rem;
     visibility: hidden;
 
     .nds-icon_container_circle {
-      padding: .5rem;
+      padding: 0.5rem;
       border-radius: 50%;
       background: $color-background-brand-primary;
     }
@@ -257,6 +264,7 @@
 
 
 .nds-edit-block_cards-add-card {
+  /* stylelint-disable declaration-no-important */
   .nds-icon_container_circle {
     border: 3px solid $color-gray-border-primary !important;
     #{$left}: unset !important;
@@ -265,9 +273,11 @@
       fill: $color-gray-border-primary !important;
     }
   }
+  /* stylelint-enable declaration-no-important */
 }
 
 .nds-edit-block_cards-action-container {
+
   .nds-required {
     position: absolute;
     top: 0.2rem;
@@ -279,7 +289,9 @@
 .nds-editblock_action-button {
   width: 2rem;
   border: 1px solid $color-gray-border-primary;
+  /* stylelint-disable declaration-no-important */
   box-shadow: unset !important;
+  /* stylelint-enable declaration-no-important */
   background: inherit;
   z-index: 1;
 
@@ -293,27 +305,28 @@
 .nds-edit-block_form-password {
   width: 100%;
   background: none;
-  border: none;
+  border: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
 @media screen and (max-width: 48em) {
+  /* stylelint-disable selector-class-pattern */
   .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
     overflow: visible;
     position: relative;
     height: 3rem;
   }
+  /* stylelint-enable selector-class-pattern */
 }
 
 
 /**
  * Inline Edit Block
  */
-
-
 .nds-editblock_inline {
+
   .nds-edit-block-edit__container {
     border: 1px solid $color-border-input;
     border-radius: 0.25rem;
@@ -341,7 +354,7 @@
   }
 
   .nds-edit-block_longcards {
-    border: none;
+    border: 0;
     height: auto;
 
     .nds-edit-block_longcards-controls-container {
@@ -367,7 +380,7 @@
       display: inline-block;
     }
 
-    &>div {
+    > div {
       height: 5rem;
 
       &:focus {
@@ -411,7 +424,8 @@
     max-width: 40%;
   }
 
-  @media(max-width: (480/16)+em) {
+  @media(max-width: (480 / 16) + em) {
+
     .nds-edit-block_longcards-controls-container div {
       max-width: 30%;
     }
@@ -430,7 +444,6 @@
       width: auto;
     }
   }
-
 }
 
 .nds-edit-block_cards-add-card.nds-edit-block_longcards {

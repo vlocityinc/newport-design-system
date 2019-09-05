@@ -5,30 +5,20 @@ require('@babel/register');
 
 const del = require('del');
 const gulp = require('gulp');
-const path = require('path');
 const runSequence = require('run-sequence');
 
 const paths = require('./scripts/helpers/paths');
 
 require('./scripts/gulp/icons');
-require('./scripts/gulp/generate-tokens-components');
 require('./scripts/gulp/lint');
 require('./scripts/gulp/styles');
 
 // NOTE: Don't remove reports on purpose.
 // This exception is already fixed on the remove-website branch.
 gulp.task('clean', () =>
-  del.sync([
-    paths.generated,
-    paths.tmp,
-    paths.logs,
-    paths.build,
-    // paths.reports, OMITTED FOR NOW
-    paths.html,
-    path.join(paths.designTokens, 'dist')
-  ])
+  del.sync([paths.generated, paths.tmp, paths.logs, paths.build, paths.html])
 );
 
 gulp.task('build', callback => {
-  runSequence('clean', 'generate:tokens:all', 'styles', 'icons', callback);
+  runSequence('clean', 'styles', 'icons', callback);
 });

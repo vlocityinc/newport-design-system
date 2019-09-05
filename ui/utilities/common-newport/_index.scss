@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 ng-form {
   display: inline-block;
   width: 100%;
@@ -12,7 +14,7 @@ ng-form.nds-m-bottom_large {
 }
 
 section.nds-page-header {
-  border: none;
+  border: 0;
   box-shadow: none;
   background: $color-border-tab-active;
 }
@@ -22,15 +24,18 @@ section.nds-page-header {
   display: block;
 }
 
-p[vlc-bind-html] {
+p[vlc-bind-html],
+.nds-text-block {
   color: $color-light-blue-hue;
   word-break: normal;
+  font-family: $font-family; // workaround for LWC overriding styles
 
-  p {
+  p,
+  span {
     font-size: 0.9rem;
     color: $color-midnight-blue;
     font-weight: 300;
-    padding: 0 0 3px 0;
+    padding: 0 0 3px;
   }
 }
 
@@ -55,7 +60,7 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
   z-index: 9998;
   #{$right}: 1rem;
   font-weight: 400;
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .nds-box.nds-remote-action__container {
@@ -82,6 +87,7 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
 }
 
 .step-step {
+
   .nds-align--absolute-center h1.nds-truncate {
     font-size: 25px;
     font-weight: 600;
@@ -90,14 +96,15 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
 
   .nds-form-element__control-help {
     color: $color-input-font-kashmiri-blue;
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 300;
   }
 
   .nds-form-element__control {
+
     .nds-select_container {
       position: relative;
-      top: -.1rem;
+      top: -0.1rem;
     }
 
     .nds-select_container+label {
@@ -109,35 +116,35 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
   .nds-form-element__control a[vlc-slds-tool-tip],
   .nds-select-wrapper a[vlc-slds-tool-tip],
   .nds-form--multi-input__container a[vlc-slds-tool-tip] {
-            display: inline-block;
-            width: 1rem;
-            height: 1rem;
-            line-height: 1rem;
-            text-align: center;
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
 
-            & + .vlc-slds--tooltip,
-            & + .vlc-slds_tooltip {
-                display: none;
-            }
+    + .vlc-slds--tooltip,
+    + .vlc-slds_tooltip {
+      display: none;
+    }
 
-            &:hover + .vlc-slds--tooltip,
-            &:hover + .vlc-slds_tooltip {
-                display: block;
-            }
+    &:hover + .vlc-slds--tooltip,
+    &:hover + .vlc-slds_tooltip {
+      display: block;
+    }
 
-            @media screen and (max-width: 50em) {
-                width: 1.5rem;
-                height: 1.5rem;
-                line-height: 1.5rem;
-                font-size: 0.9rem;
-            }
-        }
+    @media screen and (max-width: 50em) {
+      width: 1.5rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      font-size: 0.9rem;
+    }
+  }
 
-        .nds-form--multi-input__container a[vlc-slds-tool-tip],
-        .nds-select-wrapper a[vlc-slds-tool-tip],
-        .nds-typeahead-block-container a[vlc-slds-tool-tip] {
-          height: 2rem;
-        }
+  .nds-form--multi-input__container a[vlc-slds-tool-tip],
+  .nds-select-wrapper a[vlc-slds-tool-tip],
+  .nds-typeahead-block-container a[vlc-slds-tool-tip] {
+    height: 2rem;
+  }
 }
 
 .nds-control-action__container {
@@ -156,12 +163,12 @@ a[ng-if="!isPreviewEmbedded && (!isSforce || (isSforce && !sforce.one))"] {
 ul.nds-dropdown-list {
   position: absolute;
   border: 2px solid $color-dropdown-border;
-  border-top: none;
+  border-top: 0;
   z-index: 9999;
   top: 2rem;
   width: 100%;
   border-radius: 0.25rem;
-  box-shadow: 0px 15px 10px -15px $color-dropdown-shadow;
+  box-shadow: 0 15px 10px -15px $color-dropdown-shadow;
 
   li {
     background-color: $color-background-input;
@@ -197,6 +204,7 @@ ul.nds-dropdown-list {
 }
 
 .nds-modal_custom {
+
   .nds-modal {
     outline: none;
 
@@ -242,6 +250,7 @@ ul.nds-dropdown-list {
 }
 
 @media only screen and (max-width: 30em) {
+
   .nds-modal_custom .nds-modal .nds-modal__container .nds-modal__content {
     min-height: 26rem;
   }
@@ -249,6 +258,7 @@ ul.nds-dropdown-list {
 
 .nds-modal .nds-modal__container .nds-theme_info,
 .nds-modal .nds-modal__container .nds-theme_error {
+
   .nds-text-heading_medium {
     color: $color-border-tab-active;
   }
@@ -269,7 +279,7 @@ ul.nds-dropdown-list {
 }
 
 .nds-element_text-font {
-  font-size: .875rem;
+  font-size: 0.875rem;
   letter-spacing: 1px;
   font-weight: 400;
   color: $color-input-font-kashmiri-blue;
@@ -277,14 +287,15 @@ ul.nds-dropdown-list {
 
 .nds-button_text-font {
   letter-spacing: 1px;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 300;
 }
 
 div[msg='Success'] {
+
   .nds-icon_container_circle {
     border: 3px solid $color-success-msz;
-    padding: .2rem;
+    padding: 0.2rem;
 
     .nds-icon {
       fill: $color-success-msz;
@@ -293,9 +304,10 @@ div[msg='Success'] {
 }
 
 div[msg='Warning'] {
+
   .nds-icon_container_circle {
     border: 3px solid $color-warning-msz;
-    padding: .2rem;
+    padding: 0.2rem;
 
     .nds-icon {
       position: relative;
@@ -306,9 +318,10 @@ div[msg='Warning'] {
 }
 
 div[msg='Requirement'] {
+
   .nds-icon_container_circle {
     border: 3px solid $color-requirement-msz;
-    padding: .2rem;
+    padding: 0.2rem;
 
     .nds-icon {
       fill: $color-requirement-msz;
@@ -317,9 +330,10 @@ div[msg='Requirement'] {
 }
 
 div[msg='Comment'] {
+
   .nds-icon_container_circle {
     border: 3px solid $color-comment-msz;
-    padding: .2rem;
+    padding: 0.2rem;
 
     .nds-icon {
       fill: $color-comment-msz;
@@ -327,14 +341,14 @@ div[msg='Comment'] {
   }
 }
 
-/*====== */
+/* ====== */
 
 span[vlc-slds-pop-over] {
   position: relative;
   white-space: normal;
 }
 
-//tooltips
+// tooltips
 .nds-input.ng-pristine~small.helpText,
 .nds-input.ng-valid~small.helpText,
 .nds-textarea.ng-pristine~small.helpText,
@@ -359,11 +373,11 @@ span[vlc-slds-pop-over] {
 
 .vlc-slds--tooltip {
   position: absolute;
-  top: 0rem;
+  top: 0;
   pointer-events: none;
 }
 
-//just for rtl
+// just for rtl
 .nds-nubbin--top-right {
 
   &:before,
@@ -379,23 +393,27 @@ span[vlc-slds-pop-over] {
   color: $color-background-brand-primary;
 }
 
-/*===============*/
+/* =============== */
 
 .typeahead.dropdown-menu {
+  /* stylelint-disable declaration-no-important */
   position: absolute !important;
+  /* stylelint-enable declaration-no-important */
   border: 2px solid $color-dropdown-border;
-  border-top: none;
+  border-top: 0;
   z-index: 9999;
+  /* stylelint-disable declaration-no-important */
   top: 2rem !important;
+  /* stylelint-enable declaration-no-important */
   width: 100%;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   box-shadow: 0 15px 10px -15px $color-dropdown-shadow;
 }
 
 .typeahead.dropdown-menu li {
   background-color: $color-border-tab-active;
   font-weight: 400;
-  padding: .4rem 1rem;
+  padding: 0.4rem 1rem;
   letter-spacing: 1px;
   color: $color-dropdown-text;
   cursor: pointer;
@@ -426,6 +444,7 @@ span[vlc-slds-pop-over] {
 }
 
 .nds-header__mobile-only {
+
   svg {
     fill: $color-background-brand-primary;
     margin-top: -0.1875rem;
@@ -471,6 +490,7 @@ span[vlc-slds-pop-over] {
 }
 
 @media only screen and (max-width: 30em) {
+
   .nds-page-header.nds-m-top_x-small {
     display: none;
   }
@@ -480,6 +500,7 @@ button.nds-step__prev-link:disabled,
 button.nds-step__prev-link[disabled],
 button.nds-step__next-link:disabled,
 button.nds-step__next-link[disabled] {
+
   span {
     color: $color-palette-cool-gray-5;
   }
@@ -508,27 +529,26 @@ button.nds-step__next-link[disabled] {
   }
 }
 
-.nds-file-selector.nds-file-custom-selector+.nds-tooltip_container .nds-nonfocused_control {
-  .nds-is-absolute {
-    .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
-      #{$left}: calc(-100% - 10px);
-      max-width: 30rem;
-      white-space: nowrap;
-      top: -1.6875rem;
+.nds-file-selector.nds-file-custom-selector+.nds-tooltip_container .nds-nonfocused_control .nds-is-absolute {
 
-      &::before,
-      &::after {
-        width: 1rem;
-        height: 1rem;
-        position: absolute;
-        transform: rotate(45deg);
-        content: '';
-        background-color: inherit;
-        #{$left}: 100%;
-        bottom: 0;
-        margin-#{$left}: -9px;
-        top: 25%;
-      }
+  .nds-popover.nds-popover_tooltip.nds-nubbin_bottom {
+    #{$left}: calc(-100% - 10px);
+    max-width: 30rem;
+    white-space: nowrap;
+    top: -1.6875rem;
+
+    &:before,
+    &:after {
+      width: 1rem;
+      height: 1rem;
+      position: absolute;
+      transform: rotate(45deg);
+      content: '';
+      background-color: inherit;
+      #{$left}: 100%;
+      bottom: 0;
+      margin-#{$left}: -9px;
+      top: 25%;
     }
   }
 }
@@ -560,9 +580,7 @@ button.nds-step__next-link[disabled] {
 }
 
 .nds-select_filter-button {
-  -webkit-align-content: flex-start;
   align-content: flex-start;
-  -webkit-flex-direction: row;
   flex-direction: row;
   padding: 15px 0;
 }
@@ -572,29 +590,29 @@ button.nds-step__next-link[disabled] {
   padding: 15px 0;
 }
 
-.nds-multiSelect_filter-control ul[horizontalmode=true] {
+.nds-multiSelect_filter-control ul[horizontalmode='true'] {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding-top: 0;
 }
 
-.nds-multiSelect_filter-control ul[horizontalmode=true]>li {
+.nds-multiSelect_filter-control ul[horizontalmode='true']>li {
   flex-grow: 0;
-  margin: 0.5rem 1rem 0.5rem 0rem;
+  margin: 0.5rem 1rem 0.5rem 0;
 }
 
 .nds-form-element.nds-multiSelect_filter-control .nds-form-element__label {
-  font-size: .875rem;
+  font-size: 0.875rem;
   letter-spacing: 1px;
   font-weight: 400;
   color: $color-input-font-kashmiri-blue;
 }
 
-.nds-multiSelect_filter-control ul[horizontalmode=true] li .nds-checkbox span.nds-form-element__label {
+.nds-multiSelect_filter-control ul[horizontalmode='true'] li .nds-checkbox span.nds-form-element__label {
   letter-spacing: 1px;
   color: $color-input-font-kashmiri-blue;
-  font-size: .75rem;
+  font-size: 0.75rem;
   font-weight: 300;
 }
 
@@ -612,7 +630,7 @@ button.nds-step__next-link[disabled] {
 }
 
 .nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control svg.slds-icon {
-  margin-top: 18px;
+  margin-top: 10px;
   width: 1.2rem;
   height: 1.2rem;
   fill: $color-input-icon-blue-hue;
@@ -632,10 +650,10 @@ button.nds-step__next-link[disabled] {
   top: -1.6875rem;
 }
 
-.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
-.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after,
-.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::before,
-.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom::after {
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom:before,
+.nds-form--multi-input__container .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom:after,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom:before,
+.nds-lookup .nds-tooltip_container .nds-nonfocused_control .nds-is-absolute .nds-popover.nds-popover_tooltip.nds-nubbin_bottom:after {
   width: 1rem;
   height: 1rem;
   position: absolute;
@@ -673,6 +691,7 @@ button.nds-step__next-link[disabled] {
 }
 
 .nds-mob-conf {
+
   svg.nds-icon {
     fill: $color-light-blue-hue;
   }
@@ -698,6 +717,7 @@ button.nds-step__next-link[disabled] {
 }
 
 form {
+
   .ng-valid span.nds-required {
     color: $color-valid-control;
   }
@@ -715,6 +735,7 @@ form {
   #{$right}: -0.8rem;
   top: -3rem;
 }
+
 .nds-line_break {
   max-height: 0;
   line-height: 0;

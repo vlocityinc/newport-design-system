@@ -27,6 +27,7 @@
     }
   }
 
+  // stylelint-disable-next-line selector-class-pattern
   .nds-form-element__control-animated-label.nds-input-has-icon ul.typeahead.dropdown-menu {
     overflow: auto;
     max-height: 300px;

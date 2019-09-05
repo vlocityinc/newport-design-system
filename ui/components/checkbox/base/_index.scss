@@ -54,7 +54,7 @@
     &:checked+.nds-checkbox__label .nds-checkbox_faux,
     &:checked+.nds-checkbox__label .nds-checkbox--faux {
       background: $color-brand;
-      border: none;
+      border: 0;
       outline: unset;
 
       &:after {
@@ -133,6 +133,7 @@
   }
 
   &__label {
+
     .nds-form-element__label.nds-form-element__control-help {
       font-size: 0.875rem;
       font-weight: 400;
@@ -170,6 +171,29 @@
     &:after {
       border-color: $color-background-input;
     }
+  }
+}
+
+.nds-read-only {
+  .nds-checkbox {
+
+    input,
+    input:checked {
+      +.nds-checkbox_faux,
+      +.nds-checkbox--faux,
+      ~.nds-checkbox_faux,
+      ~.nds-checkbox--faux,
+      +.nds-checkbox__label .nds-checkbox_faux,
+      +.nds-checkbox__label .nds-checkbox--faux {
+        background-color: $color-background-input-disabled;
+        border-color: $color-border-input-disabled;
+
+        &:after {
+          border-color: $color-background-input;
+        }
+      }
+    }
+
   }
 }
 

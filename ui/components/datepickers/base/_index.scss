@@ -110,6 +110,7 @@
   &__filter_month,
   &__filter--month {
     padding: side-values(0 $spacing-xx-small 0 0);
+
     .nds-button__icon {
       transform: rotate(if-ltr(0, 180deg));
     }
@@ -134,4 +135,9 @@
  */
 .nds-disabled-text {
   color: $color-text-button-default-disabled;
+}
+
+.nds-dropdown-trigger.nds-dropdown-trigger_click {
+  margin-bottom: 0.5rem;
+  padding: 0.75rem;
 }
