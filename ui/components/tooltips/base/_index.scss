@@ -123,7 +123,7 @@
 }
 
 .nds-radio-relative-tooltip .nds-tooltip__container {
-  top: -3px;
+  top: -2px;
 }
 
 .nds-datetime-tooltip span {
@@ -133,4 +133,8 @@
 
 .nds-tooltip__container .nds-button_icon {
   pointer-events: visible;
+}
+
+.nds-radio-relative-tooltip span{
+  padding-right: .5rem;
 }
