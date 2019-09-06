@@ -811,7 +811,9 @@ export default class Editor extends LightningElement {
         } else {
             storeInstance.dispatch(
                 updatePropertiesAfterActivateButtonPress({
-                    status: data.status
+                    status: data.status,
+                    lastModifiedDate: data.lastModifiedDate,
+                    lastModifiedBy: data.lastModifiedBy
                 })
             );
         }
