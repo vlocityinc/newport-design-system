@@ -979,6 +979,7 @@ export default class Editor extends LightningElement {
         // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;
+        logInteraction('saveas', 'modal', { saveType }, 'click');
         this.saveStatus = LABELS.savingStatus;
         storeInstance.dispatch(
             updatePropertiesAfterSaveButtonPress({
@@ -998,6 +999,12 @@ export default class Editor extends LightningElement {
         // calls on OK doesn't actually work and keeps the proxy wrappers.
         const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(updateElement(nodeForStore));
+        logInteraction(
+            `update node of type ${node.elementType}`,
+            'modal',
+            null,
+            'click'
+        );
     };
 
     deMutateAndAddNodeCollection = node => {
@@ -1007,6 +1014,12 @@ export default class Editor extends LightningElement {
         const nodeForStore = getElementForStore(node);
         this.cacheNewComplexObjectFields(nodeForStore);
         storeInstance.dispatch(addElement(nodeForStore));
+        logInteraction(
+            `add node of type ${node.elementType}`,
+            'modal',
+            null,
+            'click'
+        );
     };
 
     /**
