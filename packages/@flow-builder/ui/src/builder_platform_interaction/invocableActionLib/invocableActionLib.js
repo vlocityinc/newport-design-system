@@ -3,6 +3,10 @@ import {
     SERVER_ACTION_TYPE
 } from 'builder_platform_interaction/serverDataLib';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 const cachedParameters = [];
 let invocableActions = [];
@@ -66,4 +70,14 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
         dataType: getFlowDataType(invocableActionParamDescription.dataType),
         isCollection: invocableActionParamDescription.maxOccurs > 1
     };
+}
+
+export function isAutomaticOutputHandlingSupported(flowProcessType) {
+    const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+        flowProcessType
+    );
+    return (
+        processTypeAutomaticOutPutHandlingSupport ===
+        FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+    );
 }

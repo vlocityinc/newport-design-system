@@ -1,7 +1,7 @@
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderSubflowEditor.subtitle';
-import inputTabHeader from '@salesforce/label/FlowBuilderSubflowEditor.inputTabHeader';
-import outputTabHeader from '@salesforce/label/FlowBuilderSubflowEditor.outputTabHeader';
+import inputHeader from '@salesforce/label/FlowBuilderSubflowEditor.inputHeader';
+import outputHeader from '@salesforce/label/FlowBuilderSubflowEditor.outputHeader';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
 import emptyInputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsBody';
 import emptyOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyOutputsTitle';
@@ -14,11 +14,13 @@ import warningDataTypeChanged from '@salesforce/label/FlowBuilderSubflowEditor.w
 import warningActiveOnly from '@salesforce/label/FlowBuilderSubflowEditor.warningActiveOnly';
 import subflowTypeLabel from '@salesforce/label/FlowBuilderSubflowEditor.subflowTypeLabel';
 import editPropertyEditorTitle from '@salesforce/label/FlowBuilderSubflowEditor.editPropertyEditorTitle';
+import emptyInputsOutputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsBody';
+import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsTitle';
 
 export const LABELS = {
     subtitle,
-    inputTabHeader,
-    outputTabHeader,
+    inputHeader,
+    outputHeader,
     emptyInputsTitle,
     emptyInputsBody,
     emptyOutputsTitle,
@@ -30,5 +32,7 @@ export const LABELS = {
     warningNotAvailable,
     warningDataTypeChanged,
     subflowTypeLabel,
-    editPropertyEditorTitle
+    editPropertyEditorTitle,
+    emptyInputsOutputsBody,
+    emptyInputsOutputsTitle
 };

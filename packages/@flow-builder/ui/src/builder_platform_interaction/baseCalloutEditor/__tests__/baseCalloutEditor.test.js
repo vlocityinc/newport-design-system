@@ -56,11 +56,13 @@ const defaultOutputParameters = [
 ];
 
 const defaultParameterListConfig = {
-    inputTabHeader: 'input tab header',
-    outputTabHeader: 'output tab header',
+    inputHeader: 'input header',
+    outputHeader: 'output header',
     inputs: defaultInputParameters,
     outputs: defaultOutputParameters,
-    warnings: {}
+    warnings: {},
+    storeOutputAutomatically: false,
+    automaticOutputHandlingSupported: false
 };
 
 const defaultBaseCalloutElement = {
@@ -138,18 +140,22 @@ describe('base-callout-editor', () => {
         it('contains parameter list component', () => {
             const parameterListCmp = getParameterList(baseCalloutEditor);
             const {
-                inputTabHeader,
-                outputTabHeader,
+                inputHeader,
+                outputHeader,
                 inputs,
                 outputs,
-                warnings
+                warnings,
+                storeOutputAutomatically,
+                automaticOutputHandlingSupported
             } = parameterListCmp;
             expect({
-                inputTabHeader,
-                outputTabHeader,
+                inputHeader,
+                outputHeader,
                 inputs,
                 outputs,
-                warnings
+                warnings,
+                storeOutputAutomatically,
+                automaticOutputHandlingSupported
             }).toEqual(defaultParameterListConfig);
         });
     });

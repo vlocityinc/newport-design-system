@@ -11,7 +11,6 @@ import {
 } from 'builder_platform_interaction/serverDataLib';
 import { ClosePropertyEditorEvent } from 'builder_platform_interaction/events';
 import { LABELS } from './calloutEditorLabels';
-import { Store } from 'builder_platform_interaction/storeLib';
 
 const CONTAINER_SELECTOR =
     'builder_platform_interaction-callout-editor-container';
@@ -39,10 +38,11 @@ export default class CalloutEditor extends LightningElement {
 
     labels = LABELS;
     location = {};
+    processTypeValue = '';
 
     connectedCallback() {
         fetchOnce(SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS, {
-            flowProcessType: this.flowProcessType
+            flowProcessType: this.processTypeValue
         })
             .then(invocableActions => {
                 this.invocableActionsFetched = true;
@@ -69,10 +69,6 @@ export default class CalloutEditor extends LightningElement {
         ];
     }
 
-    get flowProcessType() {
-        return Store.getStore().getCurrentState().properties.processType;
-    }
-
     @api
     get node() {
         return this.calloutNode;
@@ -90,6 +86,18 @@ export default class CalloutEditor extends LightningElement {
     @api
     getNode() {
         return this.template.querySelector(CONTAINER_SELECTOR).getNode();
+    }
+
+    /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
     }
 
     /**

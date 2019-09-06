@@ -6,6 +6,7 @@ import subflowTemplate from './subflowTemplate.html';
 import noActionTemplate from './noActionTemplate.html';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { LABELS } from './calloutEditorLabels';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const EDITOR_SELECTOR = '.editor_template';
 
@@ -26,6 +27,7 @@ export default class CalloutEditorContainer extends LightningElement {
 
     _filterBy = '';
     _invocableActionsFetched = false;
+    processTypeValue = FLOW_PROCESS_TYPE.FLOW;
 
     /**
      * The node that represents initial state of the currently selected editor
@@ -33,6 +35,18 @@ export default class CalloutEditorContainer extends LightningElement {
      */
     @track
     node = {};
+
+    /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
+    }
 
     _hasActions = false;
 

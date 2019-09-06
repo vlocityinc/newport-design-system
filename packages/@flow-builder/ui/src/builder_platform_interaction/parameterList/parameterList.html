@@ -1,49 +1,57 @@
 <template>
-    <lightning-tabset>
-        <lightning-tab
-            value="tabitem-inputs"
-            class="tabitem-inputs"
-            label={inputTabHeader}
+    <h3
+        if:false={emptyInputs}
+        class="slds-text-heading_small slds-p-around_small inputHeader"
+    >
+        {inputHeader}
+    </h3>
+    <div class="slds-p-horizontal_small inputs">
+        <ul if:false={emptyInputs}>
+            <template
+                for:each={sortedInputsWithWarnings}
+                for:item="input"
+                for:index="index"
+            >
+                <builder_platform_interaction-parameter-item
+                    item={input.item}
+                    is-input="true"
+                    key={input.item.rowIndex}
+                    item-index={index}
+                    element-type={elementType}
+                    rules={inputRules}
+                    warning-badge={input.warning.warningBadge}
+                    warning-message={input.warning.warningMessage}
+                    show-delete={input.warning.shouldBeDeleted}
+                    hide-parameter-icon={input.warning.hideIcon}
+                >
+                </builder_platform_interaction-parameter-item>
+            </template>
+        </ul>
+        <div if:true={emptyInputsWithOutputs} class="emptyInputsMessage">
+            <builder_platform_interaction-gone-camping
+                class="goneCamping"
+                title={emptyInputsTitle}
+                body={emptyInputsBody}
+            >
+            </builder_platform_interaction-gone-camping>
+        </div>
+    </div>
+    <div if:false={emptyOutputs}>
+        <!-- Advance Option selection checkbox -->
+        <builder_platform_interaction-use-advanced-options-checkbox
+            if:true={automaticOutputHandlingSupported}
+            is-advanced-mode={isAdvancedMode}
         >
-            <div class="slds-p-horizontal_small">
-                <ul if:false={emptyInputs}>
-                    <template
-                        for:each={sortedInputsWithWarnings}
-                        for:item="input"
-                        for:index="index"
-                    >
-                        <builder_platform_interaction-parameter-item
-                            item={input.item}
-                            is-input="true"
-                            key={input.item.rowIndex}
-                            item-index={index}
-                            element-type={elementType}
-                            rules={inputRules}
-                            warning-badge={input.warning.warningBadge}
-                            warning-message={input.warning.warningMessage}
-                            show-delete={input.warning.shouldBeDeleted}
-                            hide-parameter-icon={input.warning.hideIcon}
-                        >
-                        </builder_platform_interaction-parameter-item>
-                    </template>
-                </ul>
-                <div if:true={emptyInputs} class="emptyInputsMessage">
-                    <builder_platform_interaction-gone-camping
-                        class="goneCamping"
-                        title={emptyInputsTitle}
-                        body={emptyInputsBody}
-                    >
-                    </builder_platform_interaction-gone-camping>
-                </div>
-            </div>
-        </lightning-tab>
-        <lightning-tab
-            value="tabitem-outputs"
-            class="tabitem-outputs"
-            label={outputTabHeader}
-        >
-            <div class="slds-p-horizontal_small">
-                <ul if:false={emptyOutputs}>
+        </builder_platform_interaction-use-advanced-options-checkbox>
+
+        <div if:true={isAdvancedMode} class={cssDivAdvancedMode}>
+            <h3
+                class="slds-text-heading_small slds-p-around_small outputHeader"
+            >
+                {outputHeader}
+            </h3>
+            <div class="slds-p-horizontal_small outputs">
+                <ul>
                     <template
                         for:each={sortedOutputsWithWarnings}
                         for:item="output"
@@ -63,15 +71,23 @@
                         </builder_platform_interaction-parameter-item>
                     </template>
                 </ul>
-                <div if:true={emptyOutputs} class="emptyOutputsMessage">
-                    <builder_platform_interaction-gone-camping
-                        class="goneCamping"
-                        title={emptyOutputsTitle}
-                        body={emptyOutputsBody}
-                    >
-                    </builder_platform_interaction-gone-camping>
-                </div>
             </div>
-        </lightning-tab>
-    </lightning-tabset>
+        </div>
+    </div>
+    <div if:true={emptyOutputsWithInputs} class="emptyOutputsMessage">
+        <builder_platform_interaction-gone-camping
+            class="goneCamping"
+            title={emptyOutputsTitle}
+            body={emptyOutputsBody}
+        >
+        </builder_platform_interaction-gone-camping>
+    </div>
+    <div if:true={emptyInputsAndOutputs} class="emptyInputsOutputsMessage">
+        <builder_platform_interaction-gone-camping
+            class="goneCamping"
+            title={emptyInputsOutputsTitle}
+            body={emptyInputsOutputsBody}
+        >
+        </builder_platform_interaction-gone-camping>
+    </div>
 </template>

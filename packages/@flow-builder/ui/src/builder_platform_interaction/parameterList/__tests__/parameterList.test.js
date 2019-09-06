@@ -3,6 +3,10 @@ import ParameterList from '../parameterList';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import {
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -11,12 +15,15 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
 
-const defaultInputTabHeader = 'Send to action';
-const defaultOutputTabHeader = 'Received from action';
+const defaultInputHeader = 'Send to action';
+const defaultOutputHeader = 'Received from action';
 const defaultEmptyInputsTitle = 'No inputs';
 const defaultEmptyInputsBody = 'No variables to define';
 const defaultEmptyOutputsTitle = 'No outputs';
 const defaultEmptyOutputsBody = 'This action doesn’t return any data';
+const defaultEmptyInputsOutputsTitle = 'No inputs and No outputs';
+const defaultEmptyInputsOutputsBody =
+    'This action doesn’t have or return any data';
 
 const defaultInputParameters = [
     {
@@ -74,34 +81,63 @@ const defaultOutputParameters = [
     }
 ];
 
-const defaultParameterList = {
+const defaultParameterList = (
+    storeOutputAutomatically = false,
+    automaticOutputHandlingSupported = false
+) => ({
     inputs: defaultInputParameters,
-    outputs: defaultOutputParameters
-};
+    outputs: defaultOutputParameters,
+    storeOutputAutomatically,
+    automaticOutputHandlingSupported
+});
+
+const parameterListWithInputs = (
+    storeOutputAutomatically = false,
+    automaticOutputHandlingSupported = false
+) => ({
+    inputs: defaultInputParameters,
+    outputs: [],
+    storeOutputAutomatically,
+    automaticOutputHandlingSupported
+});
+
+const parameterListWithOutputs = (
+    storeOutputAutomatically = false,
+    automaticOutputHandlingSupported = false
+) => ({
+    inputs: [],
+    outputs: defaultOutputParameters,
+    storeOutputAutomatically,
+    automaticOutputHandlingSupported
+});
 
 const selectors = {
-    lightningTab: 'lightning-tab',
-    inputTab: '.tabitem-inputs',
-    outputTab: '.tabitem-outputs',
+    divInputs: '.inputs',
+    divOutputs: '.outputs',
     emptyInputs: '.emptyInputsMessage',
     emptyOutputs: '.emptyOutputsMessage',
+    inputHeader: '.inputHeader',
+    outputHeader: '.outputHeader',
+    emptyInputsOutputs: '.emptyInputsOutputsMessage',
     goneCamping: '.goneCamping',
     parameterItem: 'builder_platform_interaction-parameter-item'
 };
 
-const getLightningTabs = parameterList => {
-    return parameterList.shadowRoot.querySelectorAll(selectors.lightningTab);
-};
+const getInputsDiv = parameterList =>
+    parameterList.shadowRoot.querySelector(selectors.divInput);
+
+const getOutputsDiv = parameterList =>
+    parameterList.shadowRoot.querySelector(selectors.divOutputs);
 
 const getInputParameterItems = parameterList => {
     return parameterList.shadowRoot
-        .querySelector(selectors.inputTab)
+        .querySelector(selectors.divInputs)
         .querySelectorAll(selectors.parameterItem);
 };
 
 const getOutputParameterItems = parameterList => {
     return parameterList.shadowRoot
-        .querySelector(selectors.outputTab)
+        .querySelector(selectors.divOutputs)
         .querySelectorAll(selectors.parameterItem);
 };
 
@@ -111,86 +147,190 @@ const getEmptyInputs = parameterList => {
         .querySelector(selectors.goneCamping);
 };
 
-const getEmptyOutputs = parameterList => {
+const getEmptyInputsOutputs = parameterList => {
     return parameterList.shadowRoot
-        .querySelector(selectors.emptyOutputs)
+        .querySelector(selectors.emptyInputsOutputs)
         .querySelector(selectors.goneCamping);
 };
 
+const getInputHeader = parameterList =>
+    parameterList.shadowRoot.querySelector(selectors.inputHeader);
+
+const getOutputHeader = parameterList =>
+    parameterList.shadowRoot.querySelector(selectors.outputHeader);
+
 function createComponentForTest({
     elementType = ELEMENT_TYPE.ACTION_CALL,
-    inputTabHeader = defaultInputTabHeader,
-    outputTabHeader = defaultOutputTabHeader,
+    inputHeader = defaultInputHeader,
+    outputHeader = defaultOutputHeader,
     emptyInputsTitle = defaultEmptyInputsTitle,
     emptyOutputsTitle = defaultEmptyOutputsTitle,
     emptyInputsBody = defaultEmptyInputsBody,
     emptyOutputsBody = defaultEmptyOutputsBody,
+    emptyInputsOutputsBody = defaultEmptyInputsOutputsBody,
+    emptyInputsOutputsTitle = defaultEmptyInputsOutputsTitle,
     inputs = [],
     outputs = [],
     sortInputs = true,
-    sortOutputs = true
+    sortOutputs = true,
+    storeOutputAutomatically = false,
+    automaticOutputHandlingSupported = false
 } = {}) {
     const el = createElement('builder_platform_interaction-parameter-list', {
         is: ParameterList
     });
     Object.assign(el, {
         elementType,
-        inputTabHeader,
-        outputTabHeader,
+        inputHeader,
+        outputHeader,
         inputs,
         outputs,
         emptyInputsTitle,
         emptyOutputsTitle,
         emptyInputsBody,
         emptyOutputsBody,
+        emptyInputsOutputsBody,
+        emptyInputsOutputsTitle,
         sortInputs,
-        sortOutputs
+        sortOutputs,
+        storeOutputAutomatically,
+        automaticOutputHandlingSupported
     });
     document.body.appendChild(el);
     return el;
 }
 
 describe('parameter-list', () => {
-    describe('without values', () => {
-        let parameterList;
-        beforeEach(() => {
-            parameterList = createComponentForTest();
+    describe('Automatic output handling not supported', () => {
+        describe('without values', () => {
+            let parameterList;
+            beforeEach(() => {
+                parameterList = createComponentForTest();
+            });
+            it('should not display any input parameters', () => {
+                const inputDiv = getInputsDiv(parameterList);
+                expect(inputDiv).toBeNull();
+            });
+            it('should display the empty inputs and outputs message', () => {
+                const emptyInputsOutputsElement = getEmptyInputsOutputs(
+                    parameterList
+                );
+                expect(emptyInputsOutputsElement.title).toEqual(
+                    defaultEmptyInputsOutputsTitle
+                );
+                expect(emptyInputsOutputsElement.body).toEqual(
+                    defaultEmptyInputsOutputsBody
+                );
+            });
+            it('should not contains input div header', () => {
+                const inputHeader = getInputHeader(parameterList);
+                expect(inputHeader).toBeNull();
+            });
+            it('should not contains output div header', () => {
+                const outputHeader = getOutputHeader(parameterList);
+                expect(outputHeader).toBeNull();
+            });
+            it('should not display the outputs div', () => {
+                const outputsDiv = getOutputsDiv(parameterList);
+                expect(outputsDiv).toBeNull();
+            });
         });
-        it('contains 2 tabs', () => {
-            const lightningTabs = getLightningTabs(parameterList);
-            expect(lightningTabs).toHaveLength(2);
-        });
-        it('should contain empty inputs message in input tab', () => {
-            const nothing = getEmptyInputs(parameterList);
-            expect(nothing.title).toEqual(defaultEmptyInputsTitle);
-            expect(nothing.body).toEqual(defaultEmptyInputsBody);
-        });
-        it('should not contain any input parameters in input tab', () => {
-            const parameterItems = getInputParameterItems(parameterList);
-            expect(parameterItems).toHaveLength(0);
-        });
-        it('should contain empty outputs message in output tab', () => {
-            const nothing = getEmptyOutputs(parameterList);
-            expect(nothing.title).toEqual(defaultEmptyOutputsTitle);
-            expect(nothing.body).toEqual(defaultEmptyOutputsBody);
-        });
-        it('should not contain any output parameters in output tab', () => {
-            const parameterItems = getOutputParameterItems(parameterList);
-            expect(parameterItems).toHaveLength(0);
+        describe('with default values', () => {
+            let parameterList;
+            beforeEach(() => {
+                parameterList = createComponentForTest(defaultParameterList());
+            });
+            it('should contains input div header', () => {
+                const inputHeader = getInputHeader(parameterList);
+                expect(inputHeader).not.toBeNull();
+                expect(inputHeader.firstChild.nodeValue).toEqual(
+                    defaultInputHeader
+                );
+            });
+            it('should contains output div header', () => {
+                const outputHeader = getOutputHeader(parameterList);
+                expect(outputHeader).not.toBeNull();
+                expect(outputHeader.firstChild.nodeValue).toEqual(
+                    defaultOutputHeader
+                );
+            });
+            it('contains input parameters in inputs div', () => {
+                const parameterItems = getInputParameterItems(parameterList);
+                expect(parameterItems).toHaveLength(
+                    defaultInputParameters.length
+                );
+            });
+            it('sorts input parameters by isRequired and label', () => {
+                const parameterItems = getInputParameterItems(parameterList);
+                const expectedInputs = [
+                    { name: 'text', label: 'Message', isRequired: true },
+                    {
+                        name: 'subjectNameOrId',
+                        label: 'Subject Name or Id',
+                        isRequired: true
+                    },
+                    {
+                        name: 'communityId',
+                        label: 'Community ID',
+                        isRequired: false
+                    }
+                ];
+                const inputParameters = [...parameterItems].map(
+                    parameterItem => {
+                        return {
+                            name: getValueFromHydratedItem(
+                                parameterItem.item.name
+                            ),
+                            label: getValueFromHydratedItem(
+                                parameterItem.item.label
+                            ),
+                            isRequired: parameterItem.item.isRequired
+                        };
+                    }
+                );
+                expect(inputParameters).toEqual(expectedInputs);
+            });
+            it('contains output parameters in outputs div', () => {
+                const parameterItems = getOutputParameterItems(parameterList);
+                expect(parameterItems).toHaveLength(
+                    defaultOutputParameters.length
+                );
+            });
+            it('sorts outputs parameters by label', () => {
+                const parameterItems = getOutputParameterItems(parameterList);
+                const expectedOutputs = [
+                    {
+                        name: 'accountId',
+                        label: 'Account ID',
+                        isRequired: false
+                    },
+                    { name: 'feedId', label: 'Feed ID', isRequired: false }
+                ];
+                const outputParameters = [...parameterItems].map(
+                    parameterItem => {
+                        return {
+                            name: getValueFromHydratedItem(
+                                parameterItem.item.name
+                            ),
+                            label: getValueFromHydratedItem(
+                                parameterItem.item.label
+                            ),
+                            isRequired: parameterItem.item.isRequired
+                        };
+                    }
+                );
+                expect(outputParameters).toEqual(expectedOutputs);
+            });
         });
     });
-    describe('with default values', () => {
+    describe('Automatic output handling supported', () => {
         let parameterList;
         beforeEach(() => {
-            parameterList = createComponentForTest(defaultParameterList);
+            parameterList = createComponentForTest(
+                defaultParameterList(true, true)
+            );
         });
-        it('contains 2 tabs: "Send to action" and "Received from action"', () => {
-            const lightningTabs = getLightningTabs(parameterList);
-            expect(lightningTabs).toHaveLength(2);
-            expect(lightningTabs[0].label).toEqual(defaultInputTabHeader);
-            expect(lightningTabs[1].label).toEqual(defaultOutputTabHeader);
-        });
-        it('contains input parameters in input tab', () => {
+        it('contains input parameters in inputs div', () => {
             const parameterItems = getInputParameterItems(parameterList);
             expect(parameterItems).toHaveLength(defaultInputParameters.length);
         });
@@ -218,9 +358,123 @@ describe('parameter-list', () => {
             });
             expect(inputParameters).toEqual(expectedInputs);
         });
-        it('contains output parameters in output tab', () => {
+        it('Does not display the output div', () => {
+            const outputsDiv = getOutputsDiv(parameterList);
+            expect(outputsDiv).toBeNull();
+        });
+        it('Display the Use Advanced Option checkbox', () => {
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                parameterList
+            );
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(false);
+        });
+        it('should not contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).toBeNull();
+        });
+    });
+    describe('Automatic output handling supported with inputs only', () => {
+        let parameterList;
+        beforeEach(() => {
+            parameterList = createComponentForTest(
+                parameterListWithInputs(true, true)
+            );
+        });
+        it('contains input parameters in inputs div', () => {
+            const parameterItems = getInputParameterItems(parameterList);
+            expect(parameterItems).toHaveLength(defaultInputParameters.length);
+        });
+        it('Should not display the Use Advanced Option checkbox', () => {
+            const advancedOptionCheckbox = getUseAdvancedOptionComponent(
+                parameterList
+            );
+            expect(advancedOptionCheckbox).toBeNull();
+        });
+        it('should not contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).toBeNull();
+        });
+    });
+    describe('Automatic output handling supported with outputs only', () => {
+        let parameterList;
+        beforeEach(() => {
+            parameterList = createComponentForTest(
+                parameterListWithOutputs(false, true)
+            );
+        });
+        it('Display the Use Advanced Option checkbox', () => {
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                parameterList
+            );
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(true);
+        });
+        it('should contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).not.toBeNull();
+            expect(outputHeader.firstChild.nodeValue).toEqual(
+                defaultOutputHeader
+            );
+        });
+        it('should not contains input div header', () => {
+            const inputHeader = getInputHeader(parameterList);
+            expect(inputHeader).toBeNull();
+        });
+        it('should contain empty inputs message in input tab', () => {
+            const nothing = getEmptyInputs(parameterList);
+            expect(nothing.title).toEqual(defaultEmptyInputsTitle);
+            expect(nothing.body).toEqual(defaultEmptyInputsBody);
+        });
+    });
+    describe('Automatic output handling supported with advanced option', () => {
+        let parameterList;
+        beforeEach(() => {
+            parameterList = createComponentForTest(
+                defaultParameterList(false, true)
+            );
+        });
+        it('contains input parameters in inputs div', () => {
+            const parameterItems = getInputParameterItems(parameterList);
+            expect(parameterItems).toHaveLength(defaultInputParameters.length);
+        });
+        it('sorts input parameters by isRequired and label', () => {
+            const parameterItems = getInputParameterItems(parameterList);
+            const expectedInputs = [
+                { name: 'text', label: 'Message', isRequired: true },
+                {
+                    name: 'subjectNameOrId',
+                    label: 'Subject Name or Id',
+                    isRequired: true
+                },
+                {
+                    name: 'communityId',
+                    label: 'Community ID',
+                    isRequired: false
+                }
+            ];
+            const inputParameters = [...parameterItems].map(parameterItem => {
+                return {
+                    name: getValueFromHydratedItem(parameterItem.item.name),
+                    label: getValueFromHydratedItem(parameterItem.item.label),
+                    isRequired: parameterItem.item.isRequired
+                };
+            });
+            expect(inputParameters).toEqual(expectedInputs);
+        });
+        it('contains output parameters in outputs div', () => {
             const parameterItems = getOutputParameterItems(parameterList);
             expect(parameterItems).toHaveLength(defaultOutputParameters.length);
+        });
+        it('Display the Use Advanced Option checkbox', () => {
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                parameterList
+            );
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(true);
         });
         it('sorts outputs parameters by label', () => {
             const parameterItems = getOutputParameterItems(parameterList);
@@ -236,6 +490,13 @@ describe('parameter-list', () => {
                 };
             });
             expect(outputParameters).toEqual(expectedOutputs);
+        });
+        it('should contains output div header', () => {
+            const outputHeader = getOutputHeader(parameterList);
+            expect(outputHeader).not.toBeNull();
+            expect(outputHeader.firstChild.nodeValue).toEqual(
+                defaultOutputHeader
+            );
         });
     });
 });

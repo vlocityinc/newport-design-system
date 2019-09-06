@@ -190,8 +190,8 @@ export default class SubflowEditor extends LightningElement {
             : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
-            inputTabHeader: this.labels.inputTabHeader,
-            outputTabHeader: this.labels.outputTabHeader,
+            inputHeader: this.labels.inputHeader,
+            outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
             emptyInputsBody: format(
                 this.labels.emptyInputsBody,
@@ -206,7 +206,9 @@ export default class SubflowEditor extends LightningElement {
             sortOutputs: true,
             inputs,
             outputs,
-            warnings
+            warnings,
+            emptyInputsOutputsBody: this.labels.emptyInputsOutputsBody,
+            emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }
 

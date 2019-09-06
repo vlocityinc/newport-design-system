@@ -22,32 +22,13 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = function () {
-        return {
-            properties: {
-                processType: 'flow'
-            },
-            elements: {}
-        };
-    };
-    const getStore = function () {
-        return {
-            getCurrentState
-        };
-    };
-    const storeLib = require('builder_platform_interaction_mocks/storeLib');
-    // Overriding mock storeLib to have custom getStore function
-    storeLib.Store.getStore = getStore;
-    return storeLib;
-});
-
 jest.mock('builder_platform_interaction/calloutEditorContainer', () =>
     require('builder_platform_interaction_mocks/calloutEditorContainer')
 );
 
 const setupComponentUnderTest = ({
-    node = { elementType: ELEMENT_TYPE.ACTION_CALL }
+    node = { elementType: ELEMENT_TYPE.ACTION_CALL },
+    processType = 'Flow'
 } = {}) => {
     const element = createElement(
         'builder_platform_interaction-callout-editor',
@@ -55,7 +36,7 @@ const setupComponentUnderTest = ({
             is: CalloutEditor
         }
     );
-    Object.assign(element, { node });
+    Object.assign(element, { node, processType });
     document.body.appendChild(element);
     return element;
 };

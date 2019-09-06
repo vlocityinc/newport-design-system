@@ -15,6 +15,26 @@ jest.mock('builder_platform_interaction/baseCalloutEditor', () =>
     require('builder_platform_interaction_mocks/baseCalloutEditor')
 );
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    function getCurrentState() {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    }
+    function getStore() {
+        return {
+            getCurrentState
+        };
+    }
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
+
 const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
 commonUtils.format = jest
     .fn()
@@ -71,7 +91,9 @@ const defaultNode = {
             },
             valueDataType: 'reference'
         }
-    ]
+    ],
+    storeOutputAutomatically: false,
+    automaticOutputHandlingSupported: false
 };
 
 const createComponentUnderTest = (node, { isNewMode = false } = {}) => {

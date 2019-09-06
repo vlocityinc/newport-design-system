@@ -114,8 +114,8 @@ export default class ApexPluginEditor extends LightningElement {
             : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
         return {
-            inputTabHeader: this.labels.inputTabHeader,
-            outputTabHeader: this.labels.outputTabHeader,
+            inputHeader: this.labels.inputHeader,
+            outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
             emptyInputsBody: format(
                 this.labels.emptyInputsBody,
@@ -130,7 +130,11 @@ export default class ApexPluginEditor extends LightningElement {
             sortOutputs: true,
             inputs,
             outputs,
-            warnings
+            warnings,
+            storeOutputAutomatically: false, // automatic output handling are not supported for apex plugin
+            automaticOutputHandlingSupported: false, // automatic output handling are not supported for apex plugin
+            emptyInputsOutputsBody: this.labels.emptyInputsOutputsBody,
+            emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }
 

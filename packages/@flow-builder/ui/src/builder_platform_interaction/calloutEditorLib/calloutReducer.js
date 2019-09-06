@@ -182,3 +182,12 @@ export const deleteParameterItem = (state, param) => {
     state = removeDuplicateWarningIfOnlyOneWithName(state, isInput, name);
     return state;
 };
+
+export const updateUseAdvancedOptionSelection = (
+    state,
+    { useAdvancedOptions }
+) => {
+    return updateProperties(state, {
+        storeOutputAutomatically: !useAdvancedOptions
+    });
+};

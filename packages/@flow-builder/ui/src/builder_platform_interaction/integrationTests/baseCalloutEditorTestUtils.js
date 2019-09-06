@@ -9,8 +9,8 @@ import {
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    INPUT_TAB: '.tabitem-inputs',
-    OUTPUT_TAB: '.tabitem-outputs',
+    INPUT_DIV: '.inputs',
+    OUTPUT_DIV: '.outputs',
     HIDDENT_FEROV_RESOURCE_PICKER:
         'builder_platform_interaction-ferov-resource-picker.slds-hide',
     LIGHTNING_TOGGLE: 'lightning-input',
@@ -32,13 +32,13 @@ const getParameterList = actionEditor => {
 
 export const getInputParameterItems = actionEditor => {
     return getParameterList(actionEditor)
-        .shadowRoot.querySelector(SELECTORS.INPUT_TAB)
+        .shadowRoot.querySelector(SELECTORS.INPUT_DIV)
         .querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
 export const getOutputParameterItems = actionEditor => {
     return getParameterList(actionEditor)
-        .shadowRoot.querySelector(SELECTORS.OUTPUT_TAB)
+        .shadowRoot.querySelector(SELECTORS.OUTPUT_DIV)
         .querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 

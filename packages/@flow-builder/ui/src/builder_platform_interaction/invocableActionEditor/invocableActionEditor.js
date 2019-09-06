@@ -22,6 +22,8 @@ import {
     SetPropertyEditorTitleEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export default class InvocableActionEditor extends LightningElement {
     /**
@@ -35,6 +37,7 @@ export default class InvocableActionEditor extends LightningElement {
 
     labels = LABELS;
     connected = false;
+    processTypeValue = FLOW_PROCESS_TYPE.FLOW;
 
     connectedCallback() {
         this.connected = true;
@@ -82,6 +85,18 @@ export default class InvocableActionEditor extends LightningElement {
             event
         );
         return getErrorsFromHydratedElement(this.actionCallNode);
+    }
+
+    /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
     }
 
     get elementType() {
@@ -192,9 +207,14 @@ export default class InvocableActionEditor extends LightningElement {
             ? this.actionCallNode.outputParameters
             : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
+        const storeOutputAutomatically = this.actionCallNode
+            .storeOutputAutomatically;
+        const automaticOutputHandlingSupported = isAutomaticOutputHandlingSupported(
+            this.processTypeValue
+        );
         return {
-            inputTabHeader: this.labels.inputTabHeader,
-            outputTabHeader: this.labels.outputTabHeader,
+            inputHeader: this.labels.inputHeader,
+            outputHeader: this.labels.outputHeader,
             emptyInputsTitle: this.labels.emptyInputsTitle,
             emptyInputsBody: format(
                 this.labels.emptyInputsBody,
@@ -209,7 +229,11 @@ export default class InvocableActionEditor extends LightningElement {
             sortOutputs: true,
             inputs,
             outputs,
-            warnings
+            warnings,
+            storeOutputAutomatically,
+            automaticOutputHandlingSupported,
+            emptyInputsOutputsBody: this.labels.emptyInputsOutputsBody,
+            emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }
 
@@ -242,5 +266,17 @@ export default class InvocableActionEditor extends LightningElement {
             title
         );
         this.dispatchEvent(setPropertyEditorTitleEvent);
+    }
+
+    /**
+     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * @param {Object} event - event
+     */
+    handleAdvancedOptionsSelectionChange(event) {
+        event.stopPropagation();
+        this.actionCallNode = invocableActionReducer(
+            this.actionCallNode,
+            event
+        );
     }
 }

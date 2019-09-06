@@ -1,7 +1,7 @@
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderInvocableActionEditor.subtitle';
-import inputTabHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputTabHeader';
-import outputTabHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputTabHeader';
+import inputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.inputHeader';
+import outputHeader from '@salesforce/label/FlowBuilderInvocableActionEditor.outputHeader';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
 import emptyInputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsBody';
 import emptyOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyOutputsTitle';
@@ -12,13 +12,15 @@ import coreActionTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEdi
 import apexTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.apexTypeLabel';
 import emailAlertTypeLabel from '@salesforce/label/FlowBuilderInvocableActionEditor.emailAlertTypeLabel';
 import editPropertyEditorTitle from '@salesforce/label/FlowBuilderInvocableActionEditor.editPropertyEditorTitle';
+import emptyInputsOutputsBody from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsBody';
+import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsOutputsTitle';
 
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export const LABELS = {
     subtitle,
-    inputTabHeader,
-    outputTabHeader,
+    inputHeader,
+    outputHeader,
     emptyInputsTitle,
     emptyInputsBody,
     emptyOutputsTitle,
@@ -28,7 +30,9 @@ export const LABELS = {
     coreActionTypeLabel,
     apexTypeLabel,
     emailAlertTypeLabel,
-    editPropertyEditorTitle
+    editPropertyEditorTitle,
+    emptyInputsOutputsBody,
+    emptyInputsOutputsTitle
 };
 
 export const ACTION_TYPE_LABEL = {

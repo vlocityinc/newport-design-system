@@ -76,7 +76,9 @@ describe('Apex Plugin Editor Validation', () => {
                     },
                     valueDataType: 'reference'
                 }
-            ]
+            ],
+            storeOutputAutomatically: false,
+            automaticOutputHandlingSupported: false
         };
     });
     describe('node is valid', () => {
