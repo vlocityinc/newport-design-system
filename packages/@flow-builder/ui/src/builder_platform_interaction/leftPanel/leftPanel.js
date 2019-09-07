@@ -40,11 +40,20 @@ let unsubscribeStore;
 const LEFT_PANEL_ELEMENTS = 'LEFT_PANEL_ELEMENTS';
 
 export default class LeftPanel extends LightningElement {
-    @track showResourceDetailsPanel = false;
-    @track resourceDetails;
-    @track canvasElements = [];
-    @track nonCanvasElements = [];
-    @track elements = [];
+    @track
+    showResourceDetailsPanel = false;
+
+    @track
+    resourceDetails;
+
+    @track
+    canvasElements = [];
+
+    @track
+    nonCanvasElements = [];
+
+    @track
+    elements = [];
 
     labels = LABELS;
     searchString;
@@ -171,7 +180,7 @@ export default class LeftPanel extends LightningElement {
         const handleOnClickEvent = new NewResourceEvent();
         this.dispatchEvent(handleOnClickEvent);
         this._addInlineResourceFromManagerTab = true;
-        logInteraction('New Resource Button', 'left panel', null, 'click');
+        logInteraction(`new-resource-button`, 'left panel', null, 'click');
     };
 
     handleResourceDetailsBackLinkClicked() {

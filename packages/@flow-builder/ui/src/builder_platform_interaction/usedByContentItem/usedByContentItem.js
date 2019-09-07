@@ -4,8 +4,11 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './usedByContentItemLabels';
 
 export default class UsedByContentItem extends LightningElement {
-    @api listItem;
-    @api showLocatorIcon = false;
+    @api
+    listItem;
+
+    @api
+    showLocatorIcon = false;
 
     get showLocatorIconForCanvasElements() {
         return this.showLocatorIcon && this.listItem.isCanvasElement;
@@ -27,6 +30,11 @@ export default class UsedByContentItem extends LightningElement {
             event.currentTarget.dataset.guid;
         const locatorIconEvent = new LocatorIconClickedEvent(guid);
         this.dispatchEvent(locatorIconEvent);
-        logInteraction('find-in-canvas', 'resource-details', null, 'click');
+        logInteraction(
+            `find-in-canvas-button`,
+            'resource-details',
+            null,
+            'click'
+        );
     }
 }

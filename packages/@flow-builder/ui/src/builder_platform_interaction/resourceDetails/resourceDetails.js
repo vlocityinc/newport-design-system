@@ -74,7 +74,7 @@ export default class ResourceDetails extends LightningElement {
         );
         this.dispatchEvent(editElementEvent);
         logInteraction(
-            'edit-element',
+            `edit-element-button`,
             'resource-details',
             {
                 elementType: this.resourceDetails.elementType,
@@ -93,7 +93,7 @@ export default class ResourceDetails extends LightningElement {
         );
         this.dispatchEvent(deleteEvent);
         logInteraction(
-            'delete-element',
+            `delete-element-button`,
             'resource-details',
             {
                 elementType: this.resourceDetails.elementType,

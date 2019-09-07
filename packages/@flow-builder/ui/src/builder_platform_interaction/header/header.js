@@ -48,6 +48,6 @@ export default class Header extends LightningElement {
     }
 
     handleClickHelp() {
-        logInteraction('help-button', 'header', null, 'click');
+        logInteraction(`help-button`, 'header', null, 'click');
     }
 }

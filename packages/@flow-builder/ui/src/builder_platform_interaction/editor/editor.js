@@ -60,10 +60,10 @@ import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
-    logPerfTransactionStart,
+    logInteraction,
     logPerfTransactionEnd,
-    setAppName,
-    logInteraction
+    logPerfTransactionStart,
+    setAppName
 } from 'builder_platform_interaction/loggingUtils';
 import {
     EditElementEvent,
@@ -129,7 +129,9 @@ const APP_NAME = 'FLOW_BUILDER';
  * @since 214
  */
 export default class Editor extends LightningElement {
-    @track flowStatus;
+    @track
+    flowStatus;
+
     currentFlowId;
     currentFlowDefId;
     runDebugUrl;
@@ -148,21 +150,40 @@ export default class Editor extends LightningElement {
         warnings: {}
     };
 
-    @track backUrl;
-    @track helpUrl;
-    @track spinners = {
+    @track
+    backUrl;
+
+    @track
+    helpUrl;
+
+    @track
+    spinners = {
         showFlowMetadataSpinner: false,
         showPropertyEditorSpinner: false
     };
-    @track hasNotBeenSaved = true;
-    @track disableSave = true;
-    @track disableActivate = true;
-    @track saveStatus;
-    @track saveType;
-    @track retrievedHeaderUrls = false;
+    @track
+    hasNotBeenSaved = true;
 
-    @track isUndoDisabled = true;
-    @track isRedoDisabled = true;
+    @track
+    disableSave = true;
+
+    @track
+    disableActivate = true;
+
+    @track
+    saveStatus;
+
+    @track
+    saveType;
+
+    @track
+    retrievedHeaderUrls = false;
+
+    @track
+    isUndoDisabled = true;
+
+    @track
+    isRedoDisabled = true;
 
     propertyEditorBlockerCalls = [];
 
@@ -979,7 +1000,12 @@ export default class Editor extends LightningElement {
         // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;
-        logInteraction('saveas', 'modal', { saveType }, 'click');
+        logInteraction(
+            `saveas-menu-done-button`,
+            'modal',
+            { saveType },
+            'click'
+        );
         this.saveStatus = LABELS.savingStatus;
         storeInstance.dispatch(
             updatePropertiesAfterSaveButtonPress({
@@ -1000,7 +1026,7 @@ export default class Editor extends LightningElement {
         const nodeForStore = getElementForStore(node);
         storeInstance.dispatch(updateElement(nodeForStore));
         logInteraction(
-            `update node of type ${node.elementType}`,
+            `update-node-of-type-${node.elementType}`,
             'modal',
             null,
             'click'
@@ -1015,7 +1041,7 @@ export default class Editor extends LightningElement {
         this.cacheNewComplexObjectFields(nodeForStore);
         storeInstance.dispatch(addElement(nodeForStore));
         logInteraction(
-            `add node of type ${node.elementType}`,
+            `add-node-of-type-${node.elementType}`,
             'modal',
             null,
             'click'
@@ -1137,7 +1163,7 @@ export default class Editor extends LightningElement {
         const { templateId, processType } = getSelectedTemplate(modal);
         if (templateId) {
             logInteraction(
-                'create-new-flow-button',
+                `create-new-flow-button`,
                 'editor-component',
                 { devNameOrId: templateId },
                 'click',
@@ -1150,7 +1176,7 @@ export default class Editor extends LightningElement {
         } else {
             if (processType) {
                 logInteraction(
-                    'create-new-flow-button',
+                    `create-new-flow-button`,
                     'editor-component',
                     { devNameOrId: processType },
                     'click',

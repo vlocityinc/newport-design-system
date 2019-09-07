@@ -235,7 +235,7 @@ export default class Node extends LightningElement {
             const deleteEvent = new DeleteElementEvent([guid], elementType);
             this.dispatchEvent(deleteEvent);
             logInteraction(
-                'trash',
+                `element-trash-can-icon`,
                 'node-icon',
                 { guid, elementType },
                 'click'

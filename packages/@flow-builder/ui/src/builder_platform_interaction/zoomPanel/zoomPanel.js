@@ -40,7 +40,7 @@ export default class ZoomPanel extends LightningElement {
     handleToggleMarqueeOn = () => {
         const toggleMarqueeOnEvent = new ToggleMarqueeOnEvent();
         this.dispatchEvent(toggleMarqueeOnEvent);
-        logInteraction('marquee', 'zoom-panel', null, 'click');
+        logInteraction(`marquee-select-button`, 'zoom-panel', null, 'click');
     };
 
     /**

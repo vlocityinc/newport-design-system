@@ -262,7 +262,7 @@ export default class FerovResourcePicker extends LightningElement {
                 })
             );
 
-            logInteraction('ferov inline resource', 'combobox', null, 'click');
+            logInteraction(`ferov-inline-resource`, 'combobox', null, 'click');
         }
     };
     disconnectedCallback() {

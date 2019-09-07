@@ -163,20 +163,20 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const undoEvent = new UndoEvent();
         this.dispatchEvent(undoEvent);
-        logInteraction('undo-button', 'toolbar', null, 'click');
+        logInteraction(`undo-button`, 'toolbar', null, 'click');
     }
 
     handleRedo(event) {
         event.preventDefault();
         const redoEvent = new RedoEvent();
         this.dispatchEvent(redoEvent);
-        logInteraction('redo-button', 'toolbar', null, 'click');
+        logInteraction(`redo-button`, 'toolbar', null, 'click');
     }
     handleDuplicateButtonClick(event) {
         event.preventDefault();
         const duplicateEvent = new DuplicateEvent();
         this.dispatchEvent(duplicateEvent);
-        logInteraction('duplicate-button', 'toolbar', null, 'click');
+        logInteraction(`duplicate-button`, 'toolbar', null, 'click');
     }
 
     handleEditFlowProperties(event) {
@@ -184,7 +184,7 @@ export default class Toolbar extends LightningElement {
         if (!this.isEditFlowPropertiesDisabled) {
             const editFlowPropertiesEvent = new EditFlowPropertiesEvent();
             this.dispatchEvent(editFlowPropertiesEvent);
-            logInteraction('flow-properties-button', 'toolbar', null, 'click');
+            logInteraction(`flow-properties-button`, 'toolbar', null, 'click');
         }
     }
 
@@ -192,14 +192,14 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const runFlowEvent = new RunFlowEvent();
         this.dispatchEvent(runFlowEvent);
-        logInteraction('run-button', 'toolbar', null, 'click');
+        logInteraction(`run-button`, 'toolbar', null, 'click');
     }
 
     handleDebug(event) {
         event.preventDefault();
         const debugFlowEvent = new DebugFlowEvent();
         this.dispatchEvent(debugFlowEvent);
-        logInteraction('debug-button', 'toolbar', null, 'click');
+        logInteraction(`debug-button`, 'toolbar', null, 'click');
     }
 
     /**
@@ -217,7 +217,7 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const saveAsEvent = new SaveFlowEvent(SaveFlowEvent.Type.SAVE_AS);
         this.dispatchEvent(saveAsEvent);
-        logInteraction('save-as', 'toolbar', null, 'click');
+        logInteraction(`save-as-button`, 'toolbar', null, 'click');
     }
 
     /**
@@ -236,6 +236,6 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const toggleFlowStatusEvent = new ToggleFlowStatusEvent();
         this.dispatchEvent(toggleFlowStatusEvent);
-        logInteraction('activate-button', 'toolbar', null, 'click');
+        logInteraction(`activate-button`, 'toolbar', null, 'click');
     }
 }
