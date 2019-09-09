@@ -239,4 +239,9 @@ textarea:focus::placeholder {
     transform: translate3d(0, -1.2rem, 0);
   }
 }
+
+.nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label{
+  display: inline-block;
+  max-width: calc(100% - .875rem);
+}
 /* stylelint-enable selector-class-pattern */
