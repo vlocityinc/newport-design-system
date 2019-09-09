@@ -25,7 +25,7 @@ const recordDeleteElementWithValidSObject = {
         locationY: 227,
         name: { value: 'record_delete_validation_with_sobject', error: null },
         [INPUT_REFERENCE_PROPERTY_NAME]: {
-            value: storeMockedData.accountSObjectVariableGuid,
+            value: storeMockedData.accountSObjectVariable.guid,
             error: null
         },
         [OBJECT_PROPERTY_NAME]: { value: '', error: null },

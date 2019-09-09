@@ -55,9 +55,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 describe('record-store-fields', () => {
     sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-        jest
-            .fn()
-            .mockReturnValue([store.elements[store.accountSObjectVariableGuid]])
+        jest.fn().mockReturnValue([store.accountSObjectVariable])
     );
     describe('sobject resource picker and fields', () => {
         let recordSobjectAndQueryFields;

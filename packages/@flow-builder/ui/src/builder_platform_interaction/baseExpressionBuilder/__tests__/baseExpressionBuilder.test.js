@@ -5,14 +5,13 @@ import {
     ComboboxStateChangedEvent
 } from 'builder_platform_interaction/events';
 import {
-    numberVariableGuid,
-    numberVariableDevName,
-    stringVariableGuid,
-    dateVariableGuid,
-    currencyVariableGuid,
-    assignmentElementGuid,
-    accountSObjectVariableGuid,
-    elements
+    getElementByGuid,
+    numberVariable,
+    stringVariable,
+    dateVariable,
+    currencyVariable,
+    assignmentElement,
+    accountSObjectVariable
 } from 'mock/storeData';
 import * as rulesMock from 'builder_platform_interaction/ruleLib';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
@@ -47,9 +46,6 @@ function createComponentForTest(props) {
     return el;
 }
 
-const numberVariable = elements[numberVariableGuid];
-const stringVariable = elements[stringVariableGuid];
-
 function createDefaultFerToFerovComponentForTest(
     hideOperator = false,
     rhsIsFer = false
@@ -83,7 +79,7 @@ function createDefaultFerToFerovComponentForTest(
 }
 
 function createMockEmptyRHSExpression(lhsGuid) {
-    const variable = elements[lhsGuid];
+    const variable = getElementByGuid(lhsGuid);
     const expressionBuilder = createComponentForTest({
         lhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(
             variable
@@ -104,7 +100,7 @@ function createMockEmptyRHSExpression(lhsGuid) {
 
 let ourCBChangeEvent;
 
-const newCBValue = numberVariableGuid;
+const newCBValue = numberVariable.guid;
 
 const lightningCBChangeEvent = new CustomEvent('change', {
     detail: {
@@ -113,8 +109,8 @@ const lightningCBChangeEvent = new CustomEvent('change', {
 });
 
 const CBreturnItem = {
-    value: elements[numberVariableGuid].guid,
-    displayText: addCurlyBraces(elements[numberVariableGuid].name)
+    value: numberVariable.guid,
+    displayText: addCurlyBraces(numberVariable.name)
 };
 
 function getComboboxElements(expressionBuilder) {
@@ -180,7 +176,7 @@ const placeholders = [
 ];
 
 describe('base expression builder', () => {
-    beforeEach(() => {
+    beforeAll(() => {
         ourCBChangeEvent = new ComboboxStateChangedEvent(CBreturnItem);
     });
     describe('label sanity checks', () => {
@@ -312,7 +308,7 @@ describe('base expression builder', () => {
                 const expressionUpdates = {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE
                         .LEFT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     }
                 };
@@ -404,7 +400,7 @@ describe('base expression builder', () => {
                 const expressionUpdates = {};
                 expressionUpdates[
                     expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE
-                ] = { value: numberVariableGuid, error: null };
+                ] = { value: numberVariable.guid, error: null };
                 expressionUpdates[
                     expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE
                 ] = { value: FEROV_DATA_TYPE.REFERENCE, error: null };
@@ -473,7 +469,7 @@ describe('base expression builder', () => {
                 const expressionUpdates = {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE
                         .LEFT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     },
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -544,7 +540,7 @@ describe('base expression builder', () => {
                 const expressionUpdates = {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE
                         .LEFT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     },
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE
@@ -580,7 +576,7 @@ describe('base expression builder', () => {
                 const expressionUpdates = {
                     [expressionUtilsMock.EXPRESSION_PROPERTY_TYPE
                         .RIGHT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     }
                 };
@@ -724,7 +720,7 @@ describe('base expression builder', () => {
                         expressionBuilder
                     );
                     expect(lhsCombobox.value.displayText).toEqual(
-                        addCurlyBraces(numberVariableDevName)
+                        addCurlyBraces(numberVariable.name)
                     );
                     expect(operatorCombobox.value).toEqual(
                         rulesMock.RULE_OPERATOR.ADD
@@ -735,7 +731,7 @@ describe('base expression builder', () => {
                         expressionBuilder
                     )[1];
                     expect(rhsCombobox.value.displayText).toEqual(
-                        addCurlyBraces(numberVariableDevName)
+                        addCurlyBraces(numberVariable.name)
                     );
                 });
         });
@@ -943,7 +939,7 @@ describe('base expression builder', () => {
     });
     describe('building expression for picklist values', () => {
         const accountVariable = expressionUtilsMock.mutateFlowResourceToComboboxShape(
-            elements[accountSObjectVariableGuid]
+            accountSObjectVariable
         );
         const accountField = accountFields.AccountSource;
 
@@ -1062,7 +1058,7 @@ describe('base expression builder', () => {
     describe('building expression for system variable', () => {
         it('should know system variables are "reference"', () => {
             setSystemVariables(systemVariables);
-            const strVariable = elements[stringVariableGuid];
+            const strVariable = stringVariable;
             const expressionBuilder = createComponentForTest({
                 lhsValue: expressionUtilsMock.mutateFlowResourceToComboboxShape(
                     strVariable
@@ -1215,7 +1211,7 @@ describe('base expression builder', () => {
 
         it('RHS datatype should be set to String', () => {
             const expressionBuilder = createMockEmptyRHSExpression(
-                stringVariableGuid
+                stringVariable.guid
             );
             // first promise needed to create the component
             return Promise.resolve().then(() => {
@@ -1233,7 +1229,7 @@ describe('base expression builder', () => {
 
         it('RHS datatype should be set to Number', () => {
             const expressionBuilder = createMockEmptyRHSExpression(
-                numberVariableGuid
+                numberVariable.guid
             );
             return Promise.resolve().then(() => {
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
@@ -1250,7 +1246,7 @@ describe('base expression builder', () => {
 
         it('RHS datatype should be set to Currency', () => {
             const expressionBuilder = createMockEmptyRHSExpression(
-                currencyVariableGuid
+                currencyVariable.guid
             );
             return Promise.resolve().then(() => {
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
@@ -1267,7 +1263,7 @@ describe('base expression builder', () => {
 
         it('RHS datatype should be set to Date', () => {
             const expressionBuilder = createMockEmptyRHSExpression(
-                dateVariableGuid
+                dateVariable.guid
             );
 
             return Promise.resolve().then(() => {
@@ -1284,7 +1280,7 @@ describe('base expression builder', () => {
         it('RHS datatype should be set to Element', () => {
             rulesMock.getRHSTypes.mockReturnValue(booleanRHSType);
             const expressionBuilder = createMockEmptyRHSExpression(
-                assignmentElementGuid,
+                assignmentElement.guid,
                 true
             );
 
@@ -1304,7 +1300,7 @@ describe('base expression builder', () => {
         it('RHS datatype should be set to Number regardless of LHS type if options are number and currency', () => {
             rulesMock.getRHSTypes.mockReturnValue(numberAndCurrencyTypes);
             const expressionBuilder = createMockEmptyRHSExpression(
-                dateVariableGuid,
+                dateVariable.guid,
                 true
             );
 

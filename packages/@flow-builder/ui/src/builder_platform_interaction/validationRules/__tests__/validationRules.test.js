@@ -1,10 +1,5 @@
 import * as rules from 'builder_platform_interaction/validationRules';
-import {
-    assignmentElementGuid,
-    assignmentElementName,
-    stageGuid,
-    stageOrderNumber
-} from 'mock/storeData';
+import { assignmentElement, stageElement } from 'mock/storeData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { LABELS } from '../validationRulesLabels';
@@ -373,14 +368,14 @@ describe('isUniqueDevNameInStore method', () => {
     });
     it('returns null when a unique dev name is tested against store data while using the listOfGuidsToSkip param', () => {
         expect(
-            rules.isUniqueDevNameInStore(assignmentElementName, [
-                assignmentElementGuid
+            rules.isUniqueDevNameInStore(assignmentElement.name, [
+                assignmentElement.guid
             ])
         ).toBeNull();
     });
     it('returns an error when the dev name is not unique (uniqueness is case insensitive)', () => {
         expect(
-            rules.isUniqueDevNameInStore(assignmentElementName.toUpperCase())
+            rules.isUniqueDevNameInStore(assignmentElement.name.toUpperCase())
         ).toBe(LABELS.fieldNotUnique);
     });
 });
@@ -393,8 +388,8 @@ describe('checkDevNameUniqueness method', () => {
     });
     it('returns an error if dev name passed is not unique', () => {
         expect(
-            rules.checkDevNameUniqueness(assignmentElementName.toUpperCase(), [
-                assignmentElementGuid
+            rules.checkDevNameUniqueness(assignmentElement.name.toUpperCase(), [
+                assignmentElement.guid
             ])
         ).toBe(LABELS.fieldNotUnique);
     });
@@ -423,11 +418,13 @@ describe('isUniqueOrderNumberInStore method', () => {
     });
     it('returns null when a unique order number is tested against store data while using the listOfGuidsToSkip param', () => {
         expect(
-            rules.isUniqueOrderNumberInStore(stageOrderNumber, [stageGuid])
+            rules.isUniqueOrderNumberInStore(stageElement.stageOrder, [
+                stageElement.guid
+            ])
         ).toBeNull();
     });
     it('returns an error when the order number is not unique', () => {
-        expect(rules.isUniqueOrderNumberInStore(stageOrderNumber)).toBe(
+        expect(rules.isUniqueOrderNumberInStore(stageElement.stageOrder)).toBe(
             LABELS.orderNumberNotUnique
         );
     });

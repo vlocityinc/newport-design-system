@@ -1,7 +1,7 @@
 import { LIGHTNING_COMPONENT_PARAMETERS_RETRIEVAL_CONFIGURATION } from '../resourceDetailsParametersExtension';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
-import { emailScreenFieldAutomaticOutputGuid } from 'mock/storeData';
+import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 
 const elementConfig =
     LIGHTNING_COMPONENT_PARAMETERS_RETRIEVAL_CONFIGURATION[
@@ -39,7 +39,7 @@ describe('resource-details-parameters-extension', () => {
         });
         test('Existing resourceGuid', () => {
             fetchExtensionOutputParameters(
-                emailScreenFieldAutomaticOutputGuid,
+                emailScreenFieldAutomaticOutput.guid,
                 callback
             );
             return Promise.resolve().then(() =>

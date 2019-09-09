@@ -1,11 +1,6 @@
 import { createElement } from 'lwc';
 import FieldToFerovExpressionBuilder from '../fieldToFerovExpressionBuilder.js';
-import {
-    numberVariableGuid,
-    accountSObjectVariableGuid,
-    accountSObjectVariableDevName,
-    elements
-} from 'mock/storeData';
+import { numberVariable, accountSObjectVariable } from 'mock/storeData';
 import {
     elementToParam,
     RULE_OPERATOR
@@ -46,11 +41,10 @@ function createComponentForTest(props) {
 }
 
 const sobject = 'Account';
-const numberVariable = elements[numberVariableGuid];
 const picklistField = 'AccountSource';
 const accountField = mockAccountFields.AccountSource;
 const accountVariableComboboxShape = mutateFlowResourceToComboboxShape(
-    elements[accountSObjectVariableGuid]
+    accountSObjectVariable
 );
 const systemVariableReference = '$Flow.CurrentRecord';
 
@@ -65,7 +59,7 @@ function createMockPopulatedFieldExpression() {
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: accountSObjectVariableGuid + '.' + picklistField,
+            value: accountSObjectVariable.guid + '.' + picklistField,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
@@ -212,7 +206,7 @@ describe('field-to-ferov-expression-builder', () => {
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
                         value: addCurlyBraces(
-                            accountSObjectVariableDevName + '.' + picklistField
+                            accountSObjectVariable.name + '.' + picklistField
                         ),
                         error: null
                     }
@@ -246,7 +240,7 @@ describe('field-to-ferov-expression-builder', () => {
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
                         value: addCurlyBraces(
-                            accountSObjectVariableDevName + '.' + picklistField
+                            accountSObjectVariable.name + '.' + picklistField
                         ),
                         error: null
                     }
@@ -275,7 +269,7 @@ describe('field-to-ferov-expression-builder', () => {
                 lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -283,7 +277,7 @@ describe('field-to-ferov-expression-builder', () => {
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
@@ -309,7 +303,7 @@ describe('field-to-ferov-expression-builder', () => {
                 lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -317,7 +311,7 @@ describe('field-to-ferov-expression-builder', () => {
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-                        value: numberVariableGuid,
+                        value: numberVariable.guid,
                         error: null
                     }
                 }
@@ -357,7 +351,8 @@ describe('field-to-ferov-expression-builder', () => {
                 lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value:
+                            accountSObjectVariable.guid + '.' + picklistField,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -393,7 +388,8 @@ describe('field-to-ferov-expression-builder', () => {
                 lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value:
+                            accountSObjectVariable.guid + '.' + picklistField,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -468,7 +464,8 @@ describe('field-to-ferov-expression-builder', () => {
                 lhsFields: mockAccountFields,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value:
+                            accountSObjectVariable.guid + '.' + picklistField,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {

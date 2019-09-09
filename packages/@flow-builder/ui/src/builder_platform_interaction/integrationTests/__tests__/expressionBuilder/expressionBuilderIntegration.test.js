@@ -80,12 +80,12 @@ let ferToFerovExpressionBuilder;
 
 beforeEach(() => {
     selectorsMock.writableElementsSelector.mockReturnValue([
-        store.elements[store.stringVariableGuid]
+        store.stringVariable
     ]);
     setRules(mockSingleAssignmentRule);
     populatedRHSSObjectFieldExpression = {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            value: store.stringVariableGuid,
+            value: store.stringVariable.guid,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -93,7 +93,7 @@ beforeEach(() => {
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: store.accountSObjectVariableGuid + '.Description',
+            value: store.accountSObjectVariable.guid + '.Description',
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
@@ -117,7 +117,7 @@ describeSkip('Expression Builder', () => {
         )[1];
         expect(rhsCombobox.menuData.length).toBeGreaterThan(0);
         expect(rhsCombobox.menuData[0].value).toBe(
-            store.accountSObjectVariableGuid + '.Description'
+            store.accountSObjectVariable.guid + '.Description'
         );
     });
 });

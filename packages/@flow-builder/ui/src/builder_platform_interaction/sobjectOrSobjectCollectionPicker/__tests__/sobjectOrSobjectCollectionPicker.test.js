@@ -66,24 +66,20 @@ describe('sobject-or-sobject-collection-picker', () => {
     describe('sobject variables', () => {
         beforeAll(() => {
             sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-                jest
-                    .fn()
-                    .mockReturnValue([
-                        store.elements[store.accountSObjectVariableGuid]
-                    ])
+                jest.fn().mockReturnValue([store.accountSObjectVariable])
             );
         });
         it('should set the value', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({
-                    value: store.accountSObjectVariableGuid
+                    value: store.accountSObjectVariable.guid
                 })
             );
             expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectVariableGuid
+                store.accountSObjectVariable.guid
             );
             expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectVariableDevName)
+                addCurlyBraces(store.accountSObjectVariable.name)
             );
         });
     });
@@ -93,24 +89,20 @@ describe('sobject-or-sobject-collection-picker', () => {
             sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
                 jest
                     .fn()
-                    .mockReturnValue([
-                        store.elements[
-                            store.accountSObjectCollectionVariableGuid
-                        ]
-                    ])
+                    .mockReturnValue([store.accountSObjectCollectionVariable])
             );
         });
         it('should set the value', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({
-                    value: store.accountSObjectCollectionVariableGuid
+                    value: store.accountSObjectCollectionVariable.guid
                 })
             );
             expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectCollectionVariableGuid
+                store.accountSObjectCollectionVariable.guid
             );
             expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectCollectionVariableDevName)
+                addCurlyBraces(store.accountSObjectCollectionVariable.name)
             );
         });
     });
@@ -121,38 +113,36 @@ describe('sobject-or-sobject-collection-picker', () => {
                 jest
                     .fn()
                     .mockReturnValue([
-                        store.elements[store.accountSObjectVariableGuid],
-                        store.elements[
-                            store.accountSObjectCollectionVariableGuid
-                        ]
+                        store.accountSObjectVariable,
+                        store.accountSObjectCollectionVariable
                     ])
             );
         });
         it('should set the value as sobject collection variable', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({
-                    value: store.accountSObjectCollectionVariableGuid
+                    value: store.accountSObjectCollectionVariable.guid
                 })
             );
             expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectCollectionVariableGuid
+                store.accountSObjectCollectionVariable.guid
             );
             expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectCollectionVariableDevName)
+                addCurlyBraces(store.accountSObjectCollectionVariable.name)
             );
         });
 
         it('should set the value as sobject variable', () => {
             const ferovPicker = getFerovResourcePicker(
                 createComponentUnderTest({
-                    value: store.accountSObjectVariableGuid
+                    value: store.accountSObjectVariable.guid
                 })
             );
             expect(ferovPicker.value.value).toEqual(
-                store.accountSObjectVariableGuid
+                store.accountSObjectVariable.guid
             );
             expect(ferovPicker.value.displayText).toEqual(
-                addCurlyBraces(store.accountSObjectVariableDevName)
+                addCurlyBraces(store.accountSObjectVariable.name)
             );
         });
     });
@@ -160,10 +150,10 @@ describe('sobject-or-sobject-collection-picker', () => {
     describe('handling value change event from combobox', () => {
         it("should fire 'SObjectVariableChangedEvent'", () => {
             const sobjectPicker = createComponentUnderTest({
-                value: store.accountSObjectCollectionVariableGuid
+                value: store.accountSObjectCollectionVariable.guid
             });
             const ferovResourcePicker = getFerovResourcePicker(sobjectPicker);
-            const newParamValue = store.accountSObjectVariableGuid;
+            const newParamValue = store.accountSObjectVariable.guid;
             return Promise.resolve().then(() => {
                 const eventCallback = jest.fn();
                 sobjectPicker.addEventListener(

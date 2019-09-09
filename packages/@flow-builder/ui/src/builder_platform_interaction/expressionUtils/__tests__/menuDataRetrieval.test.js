@@ -101,13 +101,13 @@ const parentApexItem = {
 const parentLightningComponentScreenFieldItem = {
     dataType: FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
     displayText: 'emailComponent',
-    value: store.emailScreenFieldAutomaticOutputGuid
+    value: store.emailScreenFieldAutomaticOutput.guid
 };
 
 const parentActionItem = {
     dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
     displayText: 'action',
-    value: store.actionCallAutomaticAutomaticOutputGuid
+    value: store.actionCallAutomaticOutput.guid
 };
 
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
@@ -133,9 +133,9 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     return {
         getExtensionParamDescriptionAsComplexTypeFieldDescription:
             actual.getExtensionParamDescriptionAsComplexTypeFieldDescription,
-            getIconNameFromDataType: jest.fn().mockImplementation(() => {
-                return "standard:email";
-            })
+        getIconNameFromDataType: jest.fn().mockImplementation(() => {
+            return 'standard:email';
+        })
     };
 });
 
@@ -225,11 +225,11 @@ describe('Menu data retrieval', () => {
     });
     it('should sort alphabetically by category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.numberVariableGuid],
-            store.elements[store.accountSObjectVariableGuid],
-            store.elements[store.stringCollectionVariable1Guid],
-            store.elements[store.stringCollectionVariable2Guid],
-            store.elements[store.dateVariableGuid]
+            store.numberVariable,
+            store.accountSObjectVariable,
+            store.stringCollectionVariable1,
+            store.stringCollectionVariable2,
+            store.dateVariable
         ]);
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -241,8 +241,8 @@ describe('Menu data retrieval', () => {
     });
     it('should sort alphabetically within category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.stringCollectionVariable1Guid],
-            store.elements[store.stringCollectionVariable2Guid]
+            store.stringCollectionVariable1,
+            store.stringCollectionVariable2
         ]);
         const collectionVariables = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -250,10 +250,10 @@ describe('Menu data retrieval', () => {
         })[0];
         expect(collectionVariables.items).toHaveLength(2);
         expect(collectionVariables.items[0].text).toBe(
-            store.stringCollectionVariable1DevName
+            store.stringCollectionVariable1.name
         );
         expect(collectionVariables.items[1].text).toBe(
-            store.stringCollectionVariable2DevName
+            store.stringCollectionVariable2.name
         );
     });
     it('should filter by allowed types', () => {
@@ -266,8 +266,8 @@ describe('Menu data retrieval', () => {
             };
         });
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.numberVariableGuid],
-            store.elements[store.stringCollectionVariable1Guid]
+            store.numberVariable,
+            store.stringCollectionVariable1
         ]);
         const allowedVariables = getElementsForMenuData(
             {
@@ -279,45 +279,45 @@ describe('Menu data retrieval', () => {
         expect(allowedVariables).toHaveLength(1);
         expect(allowedVariables[0].items).toHaveLength(1);
         expect(allowedVariables[0].items[0].displayText).toBe(
-            addCurlyBraces(store.numberVariableDevName)
+            addCurlyBraces(store.numberVariable.name)
         );
     });
     it('should preserve devName in text & value field', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.numberVariableGuid]
+            store.numberVariable
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.text).toBe(store.numberVariableDevName);
+        expect(copiedElement.text).toBe(store.numberVariable.name);
         expect(copiedElement.displayText).toBe(
-            addCurlyBraces(store.numberVariableDevName)
+            addCurlyBraces(store.numberVariable.name)
         );
     });
     it('should set subText to subtype for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.accountSObjectVariableGuid]
+            store.accountSObjectVariable
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.subText).toBe(store.account);
+        expect(copiedElement.subText).toBe('Account');
     });
     it('should set subText to label if there is a label', () => {
         selectorsMock.readableElementsSelector.mockReturnValue([
-            store.elements[store.outcomeGuid]
+            store.decisionOutcome
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.DECISION,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.subText).toBe(store.outcomeDevName);
+        expect(copiedElement.subText).toBe(store.decisionOutcome.name);
     });
     it('should set subText to dataType label if no subtype or label', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.numberVariableGuid]
+            store.numberVariable
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -328,7 +328,7 @@ describe('Menu data retrieval', () => {
 
     it('should have New Resource as first element', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.numberVariableGuid]
+            store.numberVariable
         ]);
         const allowedVariables = getElementsForMenuData(
             {
@@ -346,13 +346,13 @@ describe('Menu data retrieval', () => {
     });
     it('should include complex objects (non-collection) when fields are allowed', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.accountSObjectVariableGuid],
-            store.elements[store.accountSObjectCollectionVariableGuid],
-            store.elements[store.apexSampleVariableGuid],
-            store.elements[store.apexSampleCollectionVariableGuid],
-            store.elements[store.emailScreenFieldAutomaticOutputGuid],
-            store.elements[store.lookupRecordAutomaticOutputGuid],
-            store.elements[store.lookupRecordCollectionAutomaticOutputGuid]
+            store.accountSObjectVariable,
+            store.accountSObjectCollectionVariable,
+            store.apexSampleVariable,
+            store.apexSampleCollectionVariable,
+            store.emailScreenFieldAutomaticOutput,
+            store.lookupRecordAutomaticOutput,
+            store.lookupRecordCollectionAutomaticOutput
         ]);
         const primitivesWithObjects = getElementsForMenuData(
             {
@@ -369,7 +369,7 @@ describe('Menu data retrieval', () => {
                 label: 'FLOWBUILDERELEMENTCONFIG.APEXVARIABLEPLURALLABEL',
                 items: [
                     expect.objectContaining({
-                        value: store.apexSampleVariableGuid
+                        value: store.apexSampleVariable.guid
                     })
                 ]
             },
@@ -377,7 +377,7 @@ describe('Menu data retrieval', () => {
                 label: 'FLOWBUILDERELEMENTCONFIG.SCREENFIELDPLURALLABEL',
                 items: [
                     expect.objectContaining({
-                        value: store.emailScreenFieldAutomaticOutputGuid
+                        value: store.emailScreenFieldAutomaticOutput.guid
                     })
                 ]
             },
@@ -385,10 +385,10 @@ describe('Menu data retrieval', () => {
                 label: 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
                 items: [
                     expect.objectContaining({
-                        value: store.accountSObjectVariableGuid
+                        value: store.accountSObjectVariable.guid
                     }),
                     expect.objectContaining({
-                        value: store.lookupRecordAutomaticOutputGuid
+                        value: store.lookupRecordAutomaticOutput.guid
                     })
                 ]
             }
@@ -407,11 +407,7 @@ describe('Menu data retrieval', () => {
     });
     it('should have only sobject variables', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-            jest
-                .fn()
-                .mockReturnValue([
-                    store.elements[store.accountSObjectVariableGuid]
-                ])
+            jest.fn().mockReturnValue([store.accountSObjectVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
@@ -420,16 +416,12 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].label).toBe(sobjectVariable);
         expect(menuData[0].items).toHaveLength(1);
         expect(menuData[0].items[0].value).toEqual(
-            store.accountSObjectVariableGuid
+            store.accountSObjectVariable.guid
         );
     });
     it('should have only sobject collection variables', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-            jest
-                .fn()
-                .mockReturnValue([
-                    store.elements[store.accountSObjectCollectionVariableGuid]
-                ])
+            jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
@@ -438,7 +430,7 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].label).toBe(sobjectCollectionVariable);
         expect(menuData[0].items).toHaveLength(1);
         expect(menuData[0].items[0].value).toEqual(
-            store.accountSObjectCollectionVariableGuid
+            store.accountSObjectCollectionVariable.guid
         );
     });
     it('should have one sobject variable and one sobject collection variable', () => {
@@ -446,8 +438,8 @@ describe('Menu data retrieval', () => {
             jest
                 .fn()
                 .mockReturnValue([
-                    store.elements[store.accountSObjectVariableGuid],
-                    store.elements[store.accountSObjectCollectionVariableGuid]
+                    store.accountSObjectVariable,
+                    store.accountSObjectCollectionVariable
                 ])
         );
         const menuData = getElementsForMenuData({
@@ -460,20 +452,16 @@ describe('Menu data retrieval', () => {
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[0].items).toHaveLength(1);
         expect(menuData[0].items[0].value).toEqual(
-            store.accountSObjectCollectionVariableGuid
+            store.accountSObjectCollectionVariable.guid
         );
         expect(menuData[1].items).toHaveLength(1);
         expect(menuData[1].items[0].value).toEqual(
-            store.accountSObjectVariableGuid
+            store.accountSObjectVariable.guid
         );
     });
     it('should have only sobject variables (record Update)', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-            jest
-                .fn()
-                .mockReturnValue([
-                    store.elements[store.accountSObjectVariableGuid]
-                ])
+            jest.fn().mockReturnValue([store.accountSObjectVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
@@ -482,16 +470,12 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].label).toBe(sobjectVariable);
         expect(menuData[0].items).toHaveLength(1);
         expect(menuData[0].items[0].value).toEqual(
-            store.accountSObjectVariableGuid
+            store.accountSObjectVariable.guid
         );
     });
     it('should have only sobject collection variables  (record Update)', () => {
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
-            jest
-                .fn()
-                .mockReturnValue([
-                    store.elements[store.accountSObjectCollectionVariableGuid]
-                ])
+            jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
@@ -500,23 +484,23 @@ describe('Menu data retrieval', () => {
         expect(menuData[0].label).toBe(sobjectCollectionVariable);
         expect(menuData[0].items).toHaveLength(1);
         expect(menuData[0].items[0].value).toEqual(
-            store.accountSObjectCollectionVariableGuid
+            store.accountSObjectCollectionVariable.guid
         );
     });
     it('should have dataType populated for number variable', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.numberVariableGuid]
+            store.numberVariable
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.dataType).toBe(store.numberDataType);
+        expect(copiedElement.dataType).toBe('Number');
         expect(copiedElement.subtype).toBeNull();
     });
     it('should have dataType and subtype populated for sObject var', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
-            store.elements[store.accountSObjectVariableGuid]
+            store.accountSObjectVariable
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -527,7 +511,7 @@ describe('Menu data retrieval', () => {
     });
     it('should have the iconName and iconSize populated', () => {
         selectorsMock.writableElementsSelector.mockReturnValueOnce([
-            store.elements[store.numberVariableGuid]
+            store.numberVariable
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -545,10 +529,8 @@ describe('Menu data retrieval', () => {
                 jest
                     .fn()
                     .mockReturnValue([
-                        store.elements[store.accountSObjectVariableGuid],
-                        store.elements[
-                            store.accountSObjectCollectionVariableGuid
-                        ]
+                        store.accountSObjectVariable,
+                        store.accountSObjectCollectionVariable
                     ])
             );
             const menuData = getElementsForMenuData(
@@ -571,10 +553,8 @@ describe('Menu data retrieval', () => {
                 jest
                     .fn()
                     .mockReturnValue([
-                        store.elements[store.accountSObjectVariableGuid],
-                        store.elements[
-                            store.accountSObjectCollectionVariableGuid
-                        ]
+                        store.accountSObjectVariable,
+                        store.accountSObjectCollectionVariable
                     ])
             );
             const menuData = getElementsForMenuData(
@@ -595,7 +575,7 @@ describe('Menu data retrieval', () => {
     describe('RHS menuData', () => {
         it('should have active picklist values in menu data when LHS is picklist field', () => {
             selectorsMock.writableElementsSelector.mockReturnValue([
-                store.elements[store.accountSObjectVariableGuid]
+                store.accountSObjectVariable
             ]);
             // configuration for menu data retrieval
             const allowedParamTypes = null;
@@ -695,7 +675,7 @@ describe('Menu data retrieval', () => {
         // TODO: W-5470931 more tests for getStoreElements
         it('returns elements based on element type', () => {
             selectorsMock.readableElementsSelector.mockReturnValue([
-                store.elements[store.outcomeGuid]
+                store.outcome
             ]);
             const menuData = getStoreElements(jest.fn(), {
                 elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -708,34 +688,28 @@ describe('Menu data retrieval', () => {
     describe('Filter and mutate menu data', () => {
         it('filters using data type param and returns in format combobox expects', () => {
             const menuData = filterAndMutateMenuData(
-                [
-                    store.elements[store.numberVariableGuid],
-                    store.elements[store.dateVariableGuid]
-                ],
+                [store.numberVariable, store.dateVariable],
                 sampleNumberParamTypes
             );
             expect(menuData).toHaveLength(1);
             expect(menuData[0].items).toHaveLength(1);
             const element = menuData[0].items[0];
-            expect(element.value).toBe(store.numberVariableGuid);
-            expect(element.text).toBe(store.numberVariableDevName);
+            expect(element.value).toBe(store.numberVariable.guid);
+            expect(element.text).toBe(store.numberVariable.name);
             expect(element.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
             expect(element.displayText).toBe(
-                addCurlyBraces(store.numberVariableDevName)
+                addCurlyBraces(store.numberVariable.name)
             );
         });
         it('filters using element type', () => {
             const menuData = filterAndMutateMenuData(
-                [
-                    store.elements[store.stageGuid],
-                    store.elements[store.dateVariableGuid]
-                ],
+                [store.stageElement, store.dateVariable],
                 sampleStageParamTypes
             );
             expect(menuData).toHaveLength(1);
             expect(menuData[0].items).toHaveLength(1);
             const element = menuData[0].items[0];
-            expect(element.value).toBe(store.stageGuid);
+            expect(element.value).toBe(store.stageElement.guid);
         });
     });
 

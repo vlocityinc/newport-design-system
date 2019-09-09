@@ -1,0 +1,132 @@
+{
+  "createdById": "005xx000001X8efAAC",
+  "createdDate": "2019-09-06T13:36:31.000+0000",
+  "definitionId": "300xx000000bsOzAAI",
+  "fieldsToNull": [],
+  "fullName": "autolaunchedFlow",
+  "id": "301xx000003GgHXAA0",
+  "lastModifiedBy": {
+    "fieldsToNull": [],
+    "name": "User User"
+  },
+  "lastModifiedById": "005xx000001X8efAAC",
+  "lastModifiedDate": "2019-09-06T13:36:33.000+0000",
+  "manageableState": "unmanaged",
+  "masterLabel": "autolaunchedFlow",
+  "metadata": {
+    "actionCalls": [],
+    "apexPluginCalls": [],
+    "assignments": [],
+    "choices": [],
+    "constants": [],
+    "decisions": [],
+    "dynamicChoiceSets": [],
+    "formulas": [],
+    "interviewLabel": "flow {!$Flow.CurrentDateTime}",
+    "isAdditionalPermissionRequiredToRun": false,
+    "isTemplate": false,
+    "label": "autolaunchedFlow",
+    "loops": [],
+    "processMetadataValues": [
+      {
+        "name": "BuilderType",
+        "value": {
+          "stringValue": "LightningFlowBuilder"
+        }
+      },
+      {
+        "name": "OriginBuilderType",
+        "value": {
+          "stringValue": "LightningFlowBuilder"
+        }
+      }
+    ],
+    "processType": "AutoLaunchedFlow",
+    "recordCreates": [],
+    "recordDeletes": [],
+    "recordLookups": [
+      {
+        "assignNullValuesIfNoRecordsFound": false,
+        "filters": [],
+        "getFirstRecordOnly": true,
+        "label": "lookupRecord",
+        "locationX": 303,
+        "locationY": 457,
+        "name": "lookupRecord",
+        "object": "Account",
+        "outputAssignments": [],
+        "processMetadataValues": [],
+        "queriedFields": [
+          "Id"
+        ],
+        "storeOutputAutomatically": true
+      }
+    ],
+    "recordUpdates": [],
+    "screens": [],
+    "stages": [],
+    "start": {
+      "connector": {
+        "processMetadataValues": [],
+        "targetReference": "wait1"
+      },
+      "filters": [],
+      "locationX": 50,
+      "locationY": 50,
+      "processMetadataValues": []
+    },
+    "status": "Draft",
+    "steps": [],
+    "subflows": [],
+    "textTemplates": [],
+    "variables": [
+      {
+        "dataType": "String",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "name": "stringVariable",
+        "processMetadataValues": [],
+        "scale": 0
+      }
+    ],
+    "waits": [
+      {
+        "defaultConnectorLabel": "Default Path",
+        "label": "wait1",
+        "locationX": 311,
+        "locationY": 284,
+        "name": "wait1",
+        "processMetadataValues": [],
+        "waitEvents": [
+          {
+            "conditionLogic": "and",
+            "conditions": [
+              {
+                "leftValueReference": "stringVariable",
+                "operator": "EqualTo",
+                "processMetadataValues": [],
+                "rightValue": {
+                  "stringValue": "text"
+                }
+              }
+            ],
+            "connector": {
+              "processMetadataValues": [],
+              "targetReference": "lookupRecord"
+            },
+            "eventType": "FlowExecutionErrorEvent",
+            "inputParameters": [],
+            "label": "waitEvent1",
+            "name": "waitEvent1",
+            "outputParameters": [],
+            "processMetadataValues": []
+          }
+        ]
+      }
+    ]
+  },
+  "processType": "AutoLaunchedFlow",
+  "status": "Draft",
+  "versionNumber": 1
+}

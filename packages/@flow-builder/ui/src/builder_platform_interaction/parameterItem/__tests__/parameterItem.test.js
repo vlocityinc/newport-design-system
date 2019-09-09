@@ -10,7 +10,7 @@ import {
     DeleteParameterItemEvent,
     ComboboxStateChangedEvent
 } from 'builder_platform_interaction/events';
-import { stringVariableDevName, stringVariableGuid } from 'mock/storeData';
+import { stringVariable } from 'mock/storeData';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
@@ -332,7 +332,7 @@ describe('parameter-item', () => {
                     item: createMockParameterItem(
                         false,
                         FLOW_DATA_TYPE.STRING.value,
-                        stringVariableGuid + '.' + stringVariableDevName,
+                        stringVariable.guid + '.' + stringVariable.name,
                         FEROV_DATA_TYPE.REFERENCE
                     ),
                     isInput: false
@@ -347,7 +347,7 @@ describe('parameter-item', () => {
             });
             it('combobox value should be equal to stringVariableGuid.stringVariableDevName', () => {
                 expect(outputResourcePicker.value).toEqual(
-                    stringVariableGuid + '.' + stringVariableDevName
+                    stringVariable.guid + '.' + stringVariable.name
                 );
             });
             it('combobox should not be required', () => {
@@ -717,7 +717,7 @@ describe('parameter-item', () => {
             const item = createMockParameterItem(
                 false,
                 FLOW_DATA_TYPE.STRING.value,
-                stringVariableGuid + '.' + stringVariableDevName,
+                stringVariable.guid + '.' + stringVariable.name,
                 FEROV_DATA_TYPE.REFERENCE
             );
             item.value.error = 'Error message';

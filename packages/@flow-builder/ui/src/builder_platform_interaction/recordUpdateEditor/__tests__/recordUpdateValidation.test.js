@@ -39,7 +39,7 @@ const recordUpdateElementWithValidSObject = {
     name: { value: 'testRecord', error: null },
     useSobject: true,
     inputReference: {
-        value: storeMockedData.accountSObjectVariableGuid,
+        value: storeMockedData.accountSObjectVariable.guid,
         error: null
     },
     object: { value: '', error: null },

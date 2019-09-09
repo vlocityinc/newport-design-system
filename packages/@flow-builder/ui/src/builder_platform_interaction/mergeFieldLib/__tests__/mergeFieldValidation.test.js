@@ -1,3 +1,4 @@
+import { Store } from 'builder_platform_interaction_mocks/storeLib';
 import {
     validateTextWithMergeFields,
     validateMergeField,
@@ -12,6 +13,7 @@ import {
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -159,19 +161,19 @@ const validationError = (startIndex, endIndex, errorType, message) => ({
 
 describe('Merge field validation', () => {
     it('Returns a validation error when it is not a valid merge field', () => {
-        const validationErrors = validateMergeField('{!strVar1');
+        const validationErrors = validateMergeField('{!stringVariable');
         expect(validationErrors).toEqual([
             validationError(
                 0,
-                8,
+                15,
                 'notAValidMergeField',
-                `"{!strVar1" isn't a valid merge field.`
+                `"{!stringVariable" isn't a valid merge field.`
             )
         ]);
     });
     describe('Variables', () => {
         it('Returns no validation error when it references an existing variable', () => {
-            const validationErrors = validateMergeField('{!strVar1}');
+            const validationErrors = validateMergeField('{!stringVariable}');
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns a validation error when it does not reference an existing variable', () => {
@@ -188,20 +190,26 @@ describe('Merge field validation', () => {
             ]);
         });
         it('Returns no validation error when it references an existing variable record field', () => {
-            const validationErrors = validateMergeField('{!accVar1.Name}');
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable.Name}'
+            );
             expect(validationErrors).toHaveLength(0);
         });
         it('is not case-sensitive for field names', () => {
-            const validationErrors = validateMergeField('{!accVar1.NAME}');
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable.NAME}'
+            );
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns a validation error when it does not reference an existing variable record field', () => {
             // we will have the same error if user does not have access to this record field
-            const validationErrors = validateMergeField('{!accVar1.Unknown}');
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable.Unknown}'
+            );
             expect(validationErrors).toEqual([
                 validationError(
                     2,
-                    16,
+                    31,
                     'unknownMergeField',
                     `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
                 )
@@ -221,21 +229,21 @@ describe('Merge field validation', () => {
             ]);
         });
         it('Returns no validation error for datetime param types and date var', () => {
-            const validationErrors = validateMergeField('{!dateVar1}', {
+            const validationErrors = validateMergeField('{!dateVariable}', {
                 allowGlobalConstants: true,
                 allowedParamTypes: datetimeParamTypes
             });
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns validation error for datetime param types and number var', () => {
-            const validationErrors = validateMergeField('{!numVar1}', {
+            const validationErrors = validateMergeField('{!numberVariable}', {
                 allowGlobalConstants: true,
                 allowedParamTypes: datetimeParamTypes
             });
             expect(validationErrors).toEqual([
                 validationError(
                     2,
-                    8,
+                    15,
                     'wrongDataType',
                     `The data type of the resource you entered isn't compatible.`
                 )
@@ -243,7 +251,7 @@ describe('Merge field validation', () => {
         });
         it('Returns no validation error for datetime param types and sobject date field', () => {
             const validationErrors = validateMergeField(
-                '{!accVar1.LastModifiedDate}',
+                '{!accountSObjectVariable.LastModifiedDate}',
                 {
                     allowGlobalConstants: true,
                     allowedParamTypes: datetimeParamTypes
@@ -252,70 +260,79 @@ describe('Merge field validation', () => {
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns validation error for datetime param types and sobject string field', () => {
-            const validationErrors = validateMergeField('{!accVar1.Name}', {
-                allowGlobalConstants: true,
-                allowedParamTypes: datetimeParamTypes
-            });
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable.Name}',
+                {
+                    allowGlobalConstants: true,
+                    allowedParamTypes: datetimeParamTypes
+                }
+            );
             expect(validationErrors).toEqual([
                 validationError(
                     2,
-                    13,
+                    28,
                     'wrongDataType',
                     `The data type of the resource you entered isn't compatible.`
                 )
             ]);
         });
         it('Returns no validation error for collection variables with allowCollectionVariables true', () => {
-            const validationErrors = validateMergeField('{!collStrVar1}', {
-                allowGlobalConstants: true,
-                allowCollectionVariables: true
-            });
+            const validationErrors = validateMergeField(
+                '{!stringCollectionVariable1}',
+                {
+                    allowGlobalConstants: true,
+                    allowCollectionVariables: true
+                }
+            );
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns validation error for sobject collection variables with allowCollectionVariables is not set to true ', () => {
             const validationErrors = validateMergeField(
-                '{!accCollectionVar1}',
+                '{!accountSObjectCollectionVariable}',
                 { allowGlobalConstants: true }
             );
             expect(validationErrors).toEqual([
                 validationError(
                     2,
-                    18,
+                    33,
                     'wrongDataType',
-                    `The "accCollectionVar1" resource can't be used as a merge field.`
+                    `The "accountSObjectCollectionVariable" resource can't be used as a merge field.`
                 )
             ]);
         });
         it('Allows sobject which matches object type', () => {
-            const validationErrors = validateMergeField('{!accVar1}', {
-                allowedParamTypes: accountParam
-            });
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable}',
+                {
+                    allowedParamTypes: accountParam
+                }
+            );
             expect(validationErrors).toHaveLength(0);
         });
         describe('Apex types', () => {
             it('Allows apex which matches class type', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexVariable1}',
+                    '{!apexSampleVariable}',
                     { allowedParamTypes: apexClassParam }
                 );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Allows apex property which matches allowed type', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexVariable1.account}',
+                    '{!apexSampleVariable.account}',
                     { allowedParamTypes: accountParam }
                 );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Returns validation error if apex property does not match allowed type', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexVariable1.model}',
+                    '{!apexSampleVariable.model}',
                     { allowedParamTypes: accountParam }
                 );
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        20,
+                        25,
                         'wrongDataType',
                         `The data type of the resource you entered isn't compatible.`
                     )
@@ -323,16 +340,16 @@ describe('Merge field validation', () => {
             });
             it('Returns validation error if apex property does not exist', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexVariable1.unexisting}',
+                    '{!apexSampleVariable.unexisting}',
                     { allowedParamTypes: accountParam }
                 );
                 // message should be specific for apex properties ?
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        25,
+                        30,
                         'unknownMergeField',
-                        `The "unexisting" field doesn't exist on the "apexClass" object, or you don't have access to the field.`
+                        `The "unexisting" field doesn't exist on the "MyApexClass" object, or you don't have access to the field.`
                     )
                 ]);
             });
@@ -432,6 +449,8 @@ describe('Merge field validation', () => {
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns no validation error when it references a wait event', () => {
+            Store.resetStore();
+            Store.setMockState(autolaunchedFlowUIModel);
             const validationErrors = validateMergeField('{!waitEvent1}');
             expect(validationErrors).toHaveLength(0);
         });
@@ -452,18 +471,18 @@ describe('Merge field validation', () => {
         describe('Automatic output handling mode', () => {
             it('Returns no validation error when it references an existing field', () => {
                 const validationErrors = validateMergeField(
-                    '{!lookupRecord1.Name}'
+                    '{!lookupRecordAutomaticOutput.Name}'
                 );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Returns a validation error when it references a non existing field', () => {
                 const validationErrors = validateMergeField(
-                    '{!lookupRecord1.UnknownField}'
+                    '{!lookupRecordAutomaticOutput.UnknownField}'
                 );
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        27,
+                        41,
                         'unknownMergeField',
                         `The "UnknownField" field doesn't exist on the "Account" object, or you don't have access to the field.`
                     )
@@ -473,19 +492,21 @@ describe('Merge field validation', () => {
         describe('Not in automatic output handling mode', () => {
             it('Returns a validation error when it references a field', () => {
                 const validationErrors = validateMergeField(
-                    '{!lookupRecord2.Name}'
+                    '{!lookupRecordOutputReference.Name}'
                 );
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        19,
+                        33,
                         'wrongDataType',
-                        `The "lookupRecord2.Name" resource can't be used as a merge field.`
+                        `The "lookupRecordOutputReference.Name" resource can't be used as a merge field.`
                     )
                 ]);
             });
             it('Returns no validation error when it references the element', () => {
-                const validationErrors = validateMergeField('{!lookupRecord2}');
+                const validationErrors = validateMergeField(
+                    '{!lookupRecordOutputReference}'
+                );
                 expect(validationErrors).toHaveLength(0);
             });
         });
@@ -494,18 +515,18 @@ describe('Merge field validation', () => {
         describe('Automatic output handling mode', () => {
             it('Returns no validation error when it references an existing LC param', () => {
                 const validationErrors = validateMergeField(
-                    '{!emailScreenFieldAutomatic.value}'
+                    '{!emailScreenFieldAutomaticOutput.value}'
                 );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Returns a validation error when it references a non existing LC param', () => {
                 const validationErrors = validateMergeField(
-                    '{!emailScreenFieldAutomatic.nonExisting}'
+                    '{!emailScreenFieldAutomaticOutput.nonExisting}'
                 );
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        38,
+                        44,
                         'unknownMergeField',
                         `The "nonExisting" field doesn't exist on the "flowruntime:email" object, or you don't have access to the field.`
                     )
@@ -514,7 +535,7 @@ describe('Merge field validation', () => {
             it('Returns no validation error even for non existing LC param when the extension description is not in the cache', () => {
                 getCachedExtension.mockReturnValueOnce(undefined);
                 const validationErrors = validateMergeField(
-                    '{!emailScreenFieldAutomatic.nonExisting}'
+                    '{!emailScreenFieldAutomaticOutput.nonExisting}'
                 );
                 expect(validationErrors).toHaveLength(0);
             });
@@ -553,7 +574,7 @@ describe('Merge field validation', () => {
 describe('Text with merge fields validation', () => {
     it('Returns no validation error when it references existing variables', () => {
         const validationErrors = validateTextWithMergeFields(
-            '{!accVar1.Name} == {!strVar1}'
+            '{!accountSObjectVariable.Name} == {!stringVariable}'
         );
         expect(validationErrors).toHaveLength(0);
     });

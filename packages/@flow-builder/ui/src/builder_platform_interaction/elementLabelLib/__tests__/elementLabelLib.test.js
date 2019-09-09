@@ -5,20 +5,16 @@ import {
 } from '../elementLabelLib';
 import { LABELS } from '../elementLabelLibLabels';
 import {
-    elements,
-    lookupRecordOutputReferenceGuid,
-    lookupRecordAutomaticOutputGuid,
-    lookupRecordCollectionAutomaticOutputGuid,
-    emailScreenFieldAutomaticOutputGuid,
-    actionCallAutomaticAutomaticOutputGuid
+    lookupRecordOutputReference,
+    lookupRecordAutomaticOutput,
+    lookupRecordCollectionAutomaticOutput,
+    emailScreenFieldAutomaticOutput,
+    actionCallAutomaticOutput
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
     () => {
@@ -72,26 +68,26 @@ const createElement = (elementType, dataType, isCollection) => ({
 describe('elementLabelLib', () => {
     describe('getResourceLabel', () => {
         it('returns the resource name in the general case', () => {
-            const element = elements[lookupRecordOutputReferenceGuid];
-            const label = getResourceLabel(element);
-            expect(label).toEqual(element.name);
+            const label = getResourceLabel(lookupRecordOutputReference);
+            expect(label).toEqual(lookupRecordOutputReference.name);
         });
         describe('GetRecord element with automatic handling mode', () => {
             it('returns "[SObject label] from [elementName]"', () => {
-                const element = elements[lookupRecordAutomaticOutputGuid];
-                const label = getResourceLabel(element);
-                expect(label).toEqual('Account from lookupRecord1');
+                const label = getResourceLabel(lookupRecordAutomaticOutput);
+                expect(label).toEqual(
+                    'Account from lookupRecordAutomaticOutput'
+                );
             });
             it('returns "[SObject plural label] from [elementName]" when returning all records', () => {
-                const element =
-                    elements[lookupRecordCollectionAutomaticOutputGuid];
-                const label = getResourceLabel(element);
-                expect(label).toEqual('Accounts from lookupRecord3');
+                const label = getResourceLabel(
+                    lookupRecordCollectionAutomaticOutput
+                );
+                expect(label).toEqual(
+                    'Accounts from lookupRecordCollectionAutomaticOutput'
+                );
             });
             it('returns the resource name if SObject cannot be found', () => {
-                const element = deepCopy(
-                    elements[lookupRecordCollectionAutomaticOutputGuid]
-                );
+                const element = deepCopy(lookupRecordCollectionAutomaticOutput);
                 element.object = 'UnknownRecord';
                 element.subtype = 'UnknownRecord';
                 const label = getResourceLabel(element);
@@ -99,14 +95,14 @@ describe('elementLabelLib', () => {
             });
         });
         it('returns "Outputs" from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
-            const element = elements[emailScreenFieldAutomaticOutputGuid];
-            const label = getResourceLabel(element);
-            expect(label).toEqual('Outputs from emailScreenFieldAutomatic');
+            const label = getResourceLabel(emailScreenFieldAutomaticOutput);
+            expect(label).toEqual(
+                'Outputs from emailScreenFieldAutomaticOutput'
+            );
         });
         it('returns "Outputs" from [ActionName]" for action with automatic handling mode', () => {
-            const element = elements[actionCallAutomaticAutomaticOutputGuid];
-            const label = getResourceLabel(element);
-            expect(label).toEqual('Outputs from actionCallAutomatic');
+            const label = getResourceLabel(actionCallAutomaticOutput);
+            expect(label).toEqual('Outputs from actionCallAutomaticOutput');
         });
     });
     describe('getElementCategory', () => {

@@ -8,9 +8,17 @@ import { flowCollectionServicesDemo } from 'mock/flows/flowCollectionServicesDem
 import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { flowLegalNameChange } from 'mock/flows/flowLegalNameChange';
-import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
+import {
+    deepFindMatchers,
+    goldObjectMatchers
+} from 'builder_platform_interaction/builderTestUtils';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
+import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 
 expect.extend(deepFindMatchers);
+expect.extend(goldObjectMatchers);
 
 const SAMPLE_FLOWS = [
     flowLegalNameChange,
@@ -19,9 +27,26 @@ const SAMPLE_FLOWS = [
     flowWithAssignments
 ];
 
+// 1993 Park-Miller LCG
+const lcg = s => () => {
+    s = Math.imul(48271, s) | 0 % 2147483647;
+    return (s & 2147483647) / 2147483648;
+};
+
+let pseudoRandom = lcg(123);
+
+function mockGenerateGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = (pseudoRandom() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+
 // we want to use the real implementation (and we cannot use unmock ...)
 jest.mock('builder_platform_interaction/storeLib', () => {
-    return require.requireActual('../../storeLib/storeLib.js');
+    const actual = require.requireActual('../../storeLib/storeLib.js');
+    return Object.assign({}, actual, { generateGuid: mockGenerateGuid });
 });
 
 /**
@@ -269,24 +294,41 @@ const getExpectedFlowMetadata = (uiFlow, flowFromMetadataAPI) => {
     );
 };
 
-describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
-    let store;
+describe('Flow Translator', () => {
     beforeEach(() => {
-        store = Store.getStore(reducer);
+        pseudoRandom = lcg(123);
     });
-    SAMPLE_FLOWS.forEach(metadataFlow => {
-        it(`returns the same metadata for sample flow ${
-            metadataFlow.fullName
-        }`, () => {
-            const uiFlow = translateFlowToUIModel(metadataFlow);
-            expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
-            store.dispatch(updateFlow(uiFlow));
-            const newMetadataFlow = translateUIModelToFlow(uiFlow);
-            const expected = getExpectedFlowMetadata(
-                newMetadataFlow,
-                metadataFlow
-            );
-            expect(newMetadataFlow).toEqual(expected);
+    describe('Getting flow metadata, calling flow-to-ui translation and calling ui-to-flow', () => {
+        let store;
+        beforeEach(() => {
+            store = Store.getStore(reducer);
         });
+        SAMPLE_FLOWS.forEach(metadataFlow => {
+            it(`returns the same metadata for sample flow ${metadataFlow.fullName}`, () => {
+                const uiFlow = translateFlowToUIModel(metadataFlow);
+                expect(uiFlow).toHaveNoCommonMutableObjectWith(metadataFlow);
+                store.dispatch(updateFlow(uiFlow));
+                const newMetadataFlow = translateUIModelToFlow(uiFlow);
+                const expected = getExpectedFlowMetadata(
+                    newMetadataFlow,
+                    metadataFlow
+                );
+                expect(newMetadataFlow).toEqual(expected);
+            });
+        });
+    });
+    it('returns expected ui model for a screen flow containing all elements', () => {
+        const uiFlow = translateFlowToUIModel(flowWithAllElements);
+        expect(uiFlow).toEqualGoldObject(
+            flowWithAllElementsUIModel,
+            'flowWithAllElementsUIModel in mock_store_data/flowWithAllElementsUIModel.js'
+        );
+    });
+    it('returns expected ui model for an autolaunched flow', () => {
+        const uiFlow = translateFlowToUIModel(autolaunchedFlow);
+        expect(uiFlow).toEqualGoldObject(
+            autolaunchedFlowUIModel,
+            'autolaunchedFlowUIModel in mock_store_data_autolaunched/autolaunchedFlowUIModel.js'
+        );
     });
 });

@@ -2,8 +2,7 @@ import { createElement } from 'lwc';
 import ConditionEditorPopover from 'builder_platform_interaction/conditionEditorPopover';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
-
-import { numberVariableGuid } from 'mock/storeData';
+import { numberVariable } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/ferToFerovExpressionBuilder')
@@ -12,7 +11,7 @@ jest.mock('builder_platform_interaction/ferToFerovExpressionBuilder', () =>
 function createMockPopulatedExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            value: numberVariableGuid,
+            value: numberVariable.guid,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -20,7 +19,7 @@ function createMockPopulatedExpression() {
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: numberVariableGuid,
+            value: numberVariable.guid,
             error: null
         }
     };

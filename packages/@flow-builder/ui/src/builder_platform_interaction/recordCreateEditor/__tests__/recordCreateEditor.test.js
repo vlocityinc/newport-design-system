@@ -79,7 +79,7 @@ const recordCreateElementWithSObject = {
     locationX: 358,
     locationY: 227,
     name: { value: 'testRecord', error: null },
-    inputReference: { value: store.accountSObjectVariableGuid, error: null },
+    inputReference: { value: store.accountSObjectVariable.guid, error: null },
     inputReferenceIndex: { value: 'guid', error: null },
     inputAssignments: [],
     getFirstRecordOnly: true,
@@ -97,7 +97,7 @@ const recordCreateElementWithSObjectCollection = {
     locationY: 227,
     name: { value: 'testRecord', error: null },
     inputReference: {
-        value: store.accountSObjectCollectionVariableGuid,
+        value: store.accountSObjectCollectionVariable.guid,
         error: null
     },
     inputReferenceIndex: { value: 'guid', error: null },
@@ -205,7 +205,7 @@ describe('record-create-editor', () => {
                 recordCreateEditor
             );
             expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                store.accountSObjectVariableGuid
+                store.accountSObjectVariable.guid
             );
         });
         it('wayToStoreFields should be SOBJECT_VARIABLE', () => {
@@ -227,7 +227,7 @@ describe('record-create-editor', () => {
                 recordCreateEditor
             );
             expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                store.accountSObjectCollectionVariableGuid
+                store.accountSObjectCollectionVariable.guid
             );
         });
         it('inputoutputAssignment component should not be displayed', () => {
@@ -375,10 +375,8 @@ describe('record-create-editor', () => {
     describe('Handle Events with sObject', () => {
         let recordCreateEditor;
         beforeEach(() => {
-            const sObjectVariableElement =
-                store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                sObjectVariableElement
+                store.accountSObjectVariable
             );
             recordCreateEditor = createComponentForTest(
                 recordCreateElementWithSObject

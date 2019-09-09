@@ -140,7 +140,7 @@ export const accountParam = {
 };
 
 export const apexClassParam = {
-    apexClass: [apexParam],
+    MyApexClass: [apexParam],
 };
 
 export const datetimeParamTypes = {

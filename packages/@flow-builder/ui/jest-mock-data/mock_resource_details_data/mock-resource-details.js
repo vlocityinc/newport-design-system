@@ -1,4 +1,4 @@
-import { emailScreenFieldAutomaticOutputGuid } from 'mock/storeData';
+import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 
 /**
  * Extension (ie: Lightning component) screenfield mocked resource details in output automatic mode (email)
@@ -6,7 +6,7 @@ import { emailScreenFieldAutomaticOutputGuid } from 'mock/storeData';
 export const mockExtensionScreenfieldAutomaticOutputsModeResourceDetails = {
     title: 'Outputs from email1',
     elementType: 'SCREEN_FIELD',
-    elementGuid: emailScreenFieldAutomaticOutputGuid,
+    elementGuid: emailScreenFieldAutomaticOutput.guid,
     typeLabel: 'Screen Component',
     typeIconName: 'utility:connected_apps',
     apiName: 'email1',

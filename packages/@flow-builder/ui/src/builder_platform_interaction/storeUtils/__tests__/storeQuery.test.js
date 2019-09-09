@@ -2,7 +2,7 @@ import {
     getElementByDevName,
     getDuplicateDevNameElements
 } from '../storeQuery';
-import { assignmentElementName } from 'mock/storeData';
+import { assignmentElement } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -11,14 +11,14 @@ jest.mock('builder_platform_interaction/storeLib', () =>
 describe('getElementByDevName', () => {
     it('returns element in a case-insensitive way by default', () => {
         const element = getElementByDevName(
-            assignmentElementName.toUpperCase()
+            assignmentElement.name.toUpperCase()
         );
         expect(element).not.toBeUndefined();
-        expect(element.name).toEqual(assignmentElementName);
+        expect(element.name).toEqual(assignmentElement.name);
     });
     it('returns undefined if called with caseSensitive parameter set to true and devName has not the same case', () => {
         const element = getElementByDevName(
-            assignmentElementName.toUpperCase(),
+            assignmentElement.name.toUpperCase(),
             true
         );
         expect(element).toBeUndefined();

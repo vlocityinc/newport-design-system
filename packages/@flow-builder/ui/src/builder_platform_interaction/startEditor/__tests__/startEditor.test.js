@@ -264,10 +264,8 @@ describe('start-editor', () => {
     });
 
     it('record filter type should be "all" ', () => {
-        const sobjectVariableElement =
-            store.elements[store.accountSObjectVariableGuid];
         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-            sobjectVariableElement
+            store.accountSObjectVariable
         );
         const startElement = createComponentForTest(
             scheduledNewStartElementWithFilters()
@@ -280,10 +278,8 @@ describe('start-editor', () => {
     describe('handle events', () => {
         let startElement, entityResourcePicker;
         beforeEach(() => {
-            const sObjectVariableElement =
-                store.elements[store.accountSObjectVariableGuid];
             expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                sObjectVariableElement
+                store.accountSObjectVariable
             );
             startElement = createComponentForTest(
                 scheduledNewStartElementWithFilters()

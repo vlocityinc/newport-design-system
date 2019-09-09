@@ -1,6 +1,5 @@
 import { textTemplateReducer } from '../textTemplateReducer';
 import * as mockStoreData from 'mock/storeData';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     createAction,
     PROPERTY_EDITOR_ACTION
@@ -10,9 +9,7 @@ describe('text-template-reducer', () => {
     let textTemplateResource;
 
     beforeEach(() => {
-        textTemplateResource = deepCopy(
-            mockStoreData.textTemplates[mockStoreData.textTemplateGuid]
-        );
+        textTemplateResource = mockStoreData.textTemplate1ForPropertyEditor();
     });
 
     describe('handles PropertyChangedEvent', () => {

@@ -3,6 +3,7 @@ import {
     usedByStoreAndElementState
 } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { decisionOutcome } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -399,7 +400,7 @@ describe('Used by library', () => {
         });
         it('returns the referencing element if an element is referenced by an element other than the parent', () => {
             const actualResult = usedByStoreAndElementState(
-                'guid15',
+                decisionOutcome.guid,
                 'DECISION_1',
                 []
             );
@@ -425,7 +426,7 @@ describe('Used by library', () => {
         });
         it('returns the referencing screen field element if an element is referenced by any element other than the parent screen element', () => {
             const actualResult = usedByStoreAndElementState(
-                'guid15',
+                decisionOutcome.guid,
                 'SCREEN_1',
                 []
             );

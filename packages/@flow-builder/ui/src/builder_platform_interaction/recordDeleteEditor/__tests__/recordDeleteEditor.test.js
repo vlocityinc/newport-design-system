@@ -69,7 +69,7 @@ const recordDeleteElementWithSObject = () => ({
     locationY: 227,
     name: { value: 'record_delete_editor_with_sobject', error: null },
     inputReference: {
-        value: storeMockedData.accountSObjectVariableGuid,
+        value: storeMockedData.accountSObjectVariable.guid,
         error: null
     },
     inputReferenceIndex: { value: 'guid', error: null },
@@ -166,14 +166,14 @@ describe('Record delete editor', () => {
                     recordDeleteEditor
                 );
                 expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                    storeMockedData.accountSObjectVariableGuid
+                    storeMockedData.accountSObjectVariable.guid
                 );
             });
         });
         describe('Handle Events', () => {
             test('handle "inputReference" changes', () => {
                 const event = new SObjectReferenceChangedEvent(
-                    storeMockedData.accountSObjectVariableGuid,
+                    storeMockedData.accountSObjectVariable.guid,
                     null
                 );
                 let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
@@ -185,7 +185,7 @@ describe('Record delete editor', () => {
                         recordDeleteEditor
                     );
                     expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                        storeMockedData.accountSObjectVariableGuid
+                        storeMockedData.accountSObjectVariable.guid
                     );
                 });
             });

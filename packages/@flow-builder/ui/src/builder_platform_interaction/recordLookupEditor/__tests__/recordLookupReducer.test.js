@@ -29,7 +29,7 @@ const recordLookupUsingSobjectState = () => ({
         label: { value: 'testRecord', error: null },
         name: { value: 'testRecord', error: null },
         outputReference: {
-            value: store.accountSObjectVariableGuid,
+            value: store.accountSObjectVariable.guid,
             error: null
         },
         sortField: { value: 'Name', error: null },
@@ -69,7 +69,7 @@ const recordLookupUsingSobjectState = () => ({
         label: { value: 'testRecordCollection', error: null },
         name: { value: 'testRecordCollection', error: null },
         outputReference: {
-            value: store.accountSObjectCollectionVariableGuid,
+            value: store.accountSObjectCollectionVariable.guid,
             error: null
         },
         sortField: { value: 'Name', error: null },
@@ -721,7 +721,7 @@ describe('record-lookup-reducer', () => {
                 label: { value: 'testRecord', error: null },
                 name: { value: 'testRecord', error: null },
                 outputReference: {
-                    value: store.accountSObjectVariableGuid,
+                    value: store.accountSObjectVariable.guid,
                     error: null
                 },
                 sortField: { value: 'Name', error: null },

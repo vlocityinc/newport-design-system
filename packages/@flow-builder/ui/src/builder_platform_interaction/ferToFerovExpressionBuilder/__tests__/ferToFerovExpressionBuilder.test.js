@@ -1,12 +1,7 @@
 import { createElement } from 'lwc';
 import FerToFerovExpressionBuilder from '../ferToFerovExpressionBuilder.js';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    numberVariableGuid,
-    accountSObjectVariableGuid,
-    accountSObjectVariableDevName,
-    elements
-} from 'mock/storeData';
+import { numberVariable, accountSObjectVariable } from 'mock/storeData';
 import {
     elementToParam,
     RULE_OPERATOR
@@ -49,7 +44,7 @@ function createComponentForTest(props) {
 function createMockPopulatedExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            value: numberVariableGuid,
+            value: numberVariable.guid,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -57,7 +52,7 @@ function createMockPopulatedExpression() {
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: numberVariableGuid,
+            value: numberVariable.guid,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
@@ -67,18 +62,17 @@ function createMockPopulatedExpression() {
     };
 }
 
-const numberVariable = elements[numberVariableGuid];
 const picklistField = 'AccountSource';
 const accountField = mockAccountFields.AccountSource;
 const accountVariableComboboxShape = mutateFlowResourceToComboboxShape(
-    elements[accountSObjectVariableGuid]
+    accountSObjectVariable
 );
 const systemVariableReference = '$Flow.CurrentRecord';
 
 function createMockPopulatedFieldExpression() {
     return {
         [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-            value: accountSObjectVariableGuid + '.' + picklistField,
+            value: accountSObjectVariable.guid + '.' + picklistField,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -86,7 +80,7 @@ function createMockPopulatedFieldExpression() {
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
-            value: accountSObjectVariableGuid + '.' + picklistField,
+            value: accountSObjectVariable.guid + '.' + picklistField,
             error: null
         },
         [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE]: {
@@ -281,7 +275,7 @@ describe('fer-to-ferov-expression-builder', () => {
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression()
             });
-            const displayValue = '{!accVar1.AccountSource}';
+            const displayValue = '{!accountSObjectVariable.AccountSource}';
             const baseExpressionBuilder = getBaseExpressionBuilder(
                 expressionBuilder
             );
@@ -305,7 +299,7 @@ describe('fer-to-ferov-expression-builder', () => {
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
                         value: addCurlyBraces(
-                            accountSObjectVariableDevName + '.' + picklistField
+                            accountSObjectVariable.name + '.' + picklistField
                         ),
                         error: null
                     }
@@ -344,7 +338,7 @@ describe('fer-to-ferov-expression-builder', () => {
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
                         value: addCurlyBraces(
-                            accountSObjectVariableDevName + '.' + picklistField
+                            accountSObjectVariable.name + '.' + picklistField
                         ),
                         error: null
                     }
@@ -378,7 +372,7 @@ describe('fer-to-ferov-expression-builder', () => {
                     },
                     [EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE]: {
                         value: addCurlyBraces(
-                            accountSObjectVariableDevName + '.' + picklistField
+                            accountSObjectVariable.name + '.' + picklistField
                         ),
                         error: null
                     }
@@ -455,7 +449,8 @@ describe('fer-to-ferov-expression-builder', () => {
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value:
+                            accountSObjectVariable.guid + '.' + picklistField,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -482,7 +477,8 @@ describe('fer-to-ferov-expression-builder', () => {
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value:
+                            accountSObjectVariable.guid + '.' + picklistField,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {
@@ -518,7 +514,8 @@ describe('fer-to-ferov-expression-builder', () => {
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: {
                     [EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE]: {
-                        value: accountSObjectVariableGuid + '.' + picklistField,
+                        value:
+                            accountSObjectVariable.guid + '.' + picklistField,
                         error: null
                     },
                     [EXPRESSION_PROPERTY_TYPE.OPERATOR]: {

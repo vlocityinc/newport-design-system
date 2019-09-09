@@ -5,7 +5,6 @@ import {
     getRules
 } from '../variableConstantValidation.js';
 import * as mockStoreData from 'mock/storeData';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
@@ -35,11 +34,7 @@ describe('Variable Validation', () => {
     };
 
     it('returns error for variable with no dataType', () => {
-        stringVar = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.stringVariableGuid
-            ]
-        );
+        stringVar = mockStoreData.stringVariableForPropertyEditor();
         stringVar.dataType.value = undefined;
         const variable = setupComponentUnderTest(stringVar);
         const node = variable.node;
@@ -49,11 +44,7 @@ describe('Variable Validation', () => {
     });
 
     it('returns error for sobject variable with no sobject type', () => {
-        const sobjectVar = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.accountSObjectVariableGuid
-            ]
-        );
+        const sobjectVar = mockStoreData.accountSObjectVariableForPropertyEditor();
         sobjectVar.subtype.value = undefined;
         const variable = setupComponentUnderTest(sobjectVar);
         const errors = validate(variable.node);

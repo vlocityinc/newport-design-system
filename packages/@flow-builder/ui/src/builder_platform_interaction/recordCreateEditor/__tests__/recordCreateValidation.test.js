@@ -45,7 +45,7 @@ const recordCreateElementWithValidSObject = {
     name: { value: 'testRecord', error: null },
     getFirstRecordOnly: true,
     inputReference: {
-        value: storeMockedData.accountSObjectVariableGuid,
+        value: storeMockedData.accountSObjectVariable.guid,
         error: null
     },
     object: { value: '', error: null },
@@ -64,7 +64,7 @@ const recordCreateElementWithValidSObjectCollection = {
     name: { value: 'testRecord', error: null },
     getFirstRecordOnly: false,
     inputReference: {
-        value: storeMockedData.accountSObjectCollectionVariableGuid,
+        value: storeMockedData.accountSObjectCollectionVariable.guid,
         error: null
     },
     object: { value: '', error: null },

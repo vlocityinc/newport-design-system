@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import TextTemplateEditor from '../textTemplateEditor';
 import { textTemplateReducer } from '../textTemplateReducer';
 import * as mockStoreData from 'mock/storeData';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     createAction,
     PROPERTY_EDITOR_ACTION
@@ -10,6 +9,7 @@ import {
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -70,9 +70,7 @@ describe('text-template-editor', () => {
     let textTemplateResource;
 
     beforeEach(() => {
-        textTemplateResource = deepCopy(
-            mockStoreData.textTemplates[mockStoreData.textTemplateGuid]
-        );
+        textTemplateResource = mockStoreData.textTemplate1ForPropertyEditor();
     });
 
     test('check UI (snapshot) - "RichTextPlainTextSwitch" displayed with "richText" mode checked by default and correct css class for resource picker', () => {
@@ -88,7 +86,7 @@ describe('text-template-editor', () => {
         );
         return Promise.resolve().then(() => {
             expect(textTemplateEditor.node.elementType).toEqual(
-                mockStoreData.textTemplate
+                ELEMENT_TYPE.TEXT_TEMPLATE
             );
             expect(textTemplateEditor.getNode()).toEqual(textTemplateResource);
         });

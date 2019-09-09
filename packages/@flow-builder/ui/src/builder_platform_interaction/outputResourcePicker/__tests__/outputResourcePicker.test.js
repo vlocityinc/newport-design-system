@@ -93,7 +93,6 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
 
 describe('output-resource-picker', () => {
     let props;
-
     beforeEach(() => {
         props = {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
@@ -356,11 +355,11 @@ describe('output-resource-picker', () => {
                 props.value = {
                     value: `${guid}.${fieldName}`
                 };
-                storeElement = store.elements[guid];
+                storeElement = store.getElementByGuid(guid);
                 getResourceByUniqueIdentifier.mockReturnValueOnce(storeElement);
             };
             it('does not overwrite apex field isCollection values', () => {
-                configureForGuid(store.apexSampleVariableGuid);
+                configureForGuid(store.apexSampleVariable.guid);
                 mutateFieldToComboboxShape.mockImplementationOnce(
                     ({ isCollection }) => {
                         return {
@@ -383,7 +382,7 @@ describe('output-resource-picker', () => {
             });
             it('fetches property data when normalizing property on apex class', () => {
                 const output = 'result';
-                configureForGuid(store.apexSampleVariableGuid);
+                configureForGuid(store.apexSampleVariable.guid);
                 mutateFieldToComboboxShape.mockReturnValueOnce(output);
                 retrieveResourceComplexTypeFields.mockImplementationOnce(
                     element => {

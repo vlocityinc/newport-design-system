@@ -3,7 +3,6 @@ import { variableConstantValidation } from '../variableConstantValidation';
 import { variableConstantReducer } from '../variableConstantReducer';
 import VariableConstantEditor from '../variableConstantEditor';
 import * as mockStoreData from 'mock/storeData';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     createAction,
     PROPERTY_EDITOR_ACTION
@@ -38,11 +37,7 @@ describe('variable/constant reducer', () => {
     let updatedEditor;
 
     beforeEach(() => {
-        stringVariable = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.stringVariableGuid
-            ]
-        );
+        stringVariable = mockStoreData.stringVariableForPropertyEditor();
         variableConstantEditor = setupComponentUnderTest(stringVariable);
 
         updateAction = errorValue => {

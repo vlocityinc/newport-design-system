@@ -8,11 +8,11 @@ import LeftPanel from 'builder_platform_interaction/leftPanel';
 import backButtonAltText from '@salesforce/label/FlowBuilderResourceDetailsPanel.backButtonAltText';
 import newResourceButtonText from '@salesforce/label/FlowBuilderLeftPanel.newResourceButtonText';
 import {
-    lookupRecordAutomaticOutputGuid,
-    lookupRecordOutputReferenceGuid,
-    lookupRecordCollectionAutomaticOutputGuid,
+    lookupRecordAutomaticOutput,
+    lookupRecordOutputReference,
+    lookupRecordCollectionAutomaticOutput,
     actionCallElementGuid,
-    numberVariableGuid
+    numberVariable
 } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
@@ -76,8 +76,9 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - the panel header should match the transition layout classes.', () => {
             const element = createComponentUnderTest();
-            const guid = 'guid1';
-            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+                numberVariable.guid
+            );
             element.shadowRoot
                 .querySelector(
                     'builder_platform_interaction-left-panel-resources'
@@ -105,9 +106,8 @@ describe('left-panel', () => {
 
             it('when in Flow Resource Details view - the panel header should match the layout classes.', () => {
                 const element = createComponentUnderTest();
-                const guid = 'guid1';
                 const showResourceDetailsEvent = new ShowResourceDetailsEvent(
-                    guid
+                    numberVariable.guid
                 );
                 element.shadowRoot
                     .querySelector(
@@ -137,8 +137,9 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - should have Back Button Utility Icon.', () => {
             const element = createComponentUnderTest();
-            const guid = 'guid1';
-            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+                numberVariable.guid
+            );
             element.shadowRoot
                 .querySelector(
                     'builder_platform_interaction-left-panel-resources'
@@ -155,8 +156,9 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - should handle back-button click.', () => {
             const element = createComponentUnderTest();
-            const guid = 'guid1';
-            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+                numberVariable.guid
+            );
             element.shadowRoot
                 .querySelector(
                     'builder_platform_interaction-left-panel-resources'
@@ -190,8 +192,9 @@ describe('left-panel', () => {
 
         it('when in Flow Resource Details view - should add show-details class.', () => {
             const element = createComponentUnderTest();
-            const guid = 'guid1';
-            const showResourceDetailsEvent = new ShowResourceDetailsEvent(guid);
+            const showResourceDetailsEvent = new ShowResourceDetailsEvent(
+                numberVariable.guid
+            );
             element.shadowRoot
                 .querySelector(
                     'builder_platform_interaction-left-panel-resources'
@@ -251,21 +254,22 @@ describe('left-panel', () => {
                         getSectionItem(elementsSections, {
                             sectionLabel:
                                 'FlowBuilderElementConfig.recordLookupPluralLabel',
-                            elementGuid: lookupRecordAutomaticOutputGuid
+                            elementGuid: lookupRecordAutomaticOutput.guid
                         })
                     ).toBeDefined();
                     expect(
                         getSectionItem(elementsSections, {
                             sectionLabel:
                                 'FlowBuilderElementConfig.recordLookupPluralLabel',
-                            elementGuid: lookupRecordOutputReferenceGuid
+                            elementGuid: lookupRecordOutputReference.guid
                         })
                     ).toBeDefined();
                     expect(
                         getSectionItem(elementsSections, {
                             sectionLabel:
                                 'FlowBuilderElementConfig.recordLookupPluralLabel',
-                            elementGuid: lookupRecordCollectionAutomaticOutputGuid
+                            elementGuid:
+                                lookupRecordCollectionAutomaticOutput.guid
                         })
                     ).toBeDefined();
                     expect(
@@ -277,19 +281,20 @@ describe('left-panel', () => {
                         getSectionItem(resourceSections, {
                             sectionLabel:
                                 'FlowBuilderElementConfig.sObjectCollectionPluralLabel',
-                            elementGuid: lookupRecordCollectionAutomaticOutputGuid
+                            elementGuid:
+                                lookupRecordCollectionAutomaticOutput.guid
                         })
                     ).toBeDefined();
                     expect(
                         getSectionItem(resourceSections, {
                             sectionLabel:
                                 'FlowBuilderElementConfig.sObjectPluralLabel',
-                            elementGuid: lookupRecordAutomaticOutputGuid
+                            elementGuid: lookupRecordAutomaticOutput.guid
                         })
                     ).toBeDefined();
                     expect(
                         getSectionItem(resourceSections, {
-                            elementGuid: numberVariableGuid
+                            elementGuid: numberVariable.guid
                         })
                     ).toBeUndefined();
                 });

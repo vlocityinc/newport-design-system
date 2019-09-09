@@ -187,7 +187,7 @@ const recordLookupElementWithSObject = () => ({
     isCanvasElement: true,
     label: { value: 'testRecord', error: null },
     name: { value: 'testRecord', error: null },
-    outputReference: { value: store.accountSObjectVariableGuid, error: null },
+    outputReference: { value: store.accountSObjectVariable.guid, error: null },
     outputReferenceIndex: { value: MOCK_GUID, error: null },
     sortField: { value: '', error: null },
     sortOrder: SORT_ORDER.NOT_SORTED,
@@ -218,7 +218,7 @@ const recordLookupElementWithSObjectAndFilters = () => ({
     isCanvasElement: true,
     label: { value: 'testRecord', error: null },
     name: { value: 'testRecord', error: null },
-    outputReference: { value: store.accountSObjectVariableGuid, error: null },
+    outputReference: { value: store.accountSObjectVariable.guid, error: null },
     outputReferenceIndex: { value: 'guid', error: null },
     sortField: { value: '', error: null },
     sortOrder: SORT_ORDER.NOT_SORTED,
@@ -512,9 +512,7 @@ describe('record-lookup-editor', () => {
                 test('check UI - child components displayed or not (snapshot)', () => {
                     expect(recordLookupEditor).toMatchSnapshot();
                 });
-                it(`entity picker (object) value should be "${
-                    defaultValueItem.item.value
-                }"`, () => {
+                it(`entity picker (object) value should be "${defaultValueItem.item.value}"`, () => {
                     expect(
                         getEntityResourcePicker(recordLookupEditor).value
                     ).toBe(defaultValueItem.item.value);
@@ -524,10 +522,8 @@ describe('record-lookup-editor', () => {
         describe('Edit element (Sobject mode)', () => {
             describe('No actions', () => {
                 beforeEach(() => {
-                    const sobjectVariableElement =
-                        store.elements[store.accountSObjectVariableGuid];
                     expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                        sobjectVariableElement
+                        store.accountSObjectVariable
                     );
                     recordLookupEditor = createComponentForTest(
                         recordLookupElementWithSObject(),
@@ -624,10 +620,8 @@ describe('record-lookup-editor', () => {
             });
             describe('Handle Events', () => {
                 beforeEach(() => {
-                    const sObjectVariableElement =
-                        store.elements[store.accountSObjectVariableGuid];
                     expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                        sObjectVariableElement
+                        store.accountSObjectVariable
                     );
                     recordLookupEditor = createComponentForTest(
                         recordLookupElementWithSObject(),
@@ -732,7 +726,7 @@ describe('record-lookup-editor', () => {
                     );
                     sObjectOrSObjectCollectionPicker.dispatchEvent(
                         new SObjectReferenceChangedEvent(
-                            store.accountSObjectVariableGuid
+                            store.accountSObjectVariable.guid
                         )
                     );
                     return Promise.resolve().then(() => {
@@ -744,10 +738,8 @@ describe('record-lookup-editor', () => {
                 });
                 describe('Filters', () => {
                     beforeEach(() => {
-                        const sObjectVariableElement =
-                            store.elements[store.accountSObjectVariableGuid];
                         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                            sObjectVariableElement
+                            store.accountSObjectVariable
                         );
                         recordLookupEditor = createComponentForTest(
                             recordLookupElementWithSObjectAndFilters()
@@ -908,9 +900,7 @@ describe('record-lookup-editor', () => {
                 test('check UI - child components displayed or not (snapshot)', () => {
                     expect(recordLookupEditor).toMatchSnapshot();
                 });
-                it(`entity picker (object) value should be "${
-                    defaultValueItem.item.value
-                }"`, () => {
+                it(`entity picker (object) value should be "${defaultValueItem.item.value}"`, () => {
                     expect(
                         getEntityResourcePicker(recordLookupEditor).value
                     ).toBe(defaultValueItem.item.value);
@@ -930,10 +920,8 @@ describe('record-lookup-editor', () => {
         describe('Edit element (sobject mode)', () => {
             describe('No actions', () => {
                 beforeEach(() => {
-                    const sobjectVariableElement =
-                        store.elements[store.accountSObjectVariableGuid];
                     expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                        sobjectVariableElement
+                        store.accountSObjectVariable
                     );
                     recordLookupEditor = createComponentForTest(
                         recordLookupElementWithSObject()
@@ -987,7 +975,7 @@ describe('record-lookup-editor', () => {
                         'FlowBuilderRecordEditor.sObjectVariablePlaceholder'
                     );
                     expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                        'guid2'
+                        store.accountSObjectVariable.guid
                     );
                 });
                 it('should display the 2 query fields', () => {
@@ -1074,10 +1062,8 @@ describe('record-lookup-editor', () => {
 
             describe('Handle Events', () => {
                 beforeEach(() => {
-                    const sObjectVariableElement =
-                        store.elements[store.accountSObjectVariableGuid];
                     expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                        sObjectVariableElement
+                        store.accountSObjectVariable
                     );
                     recordLookupEditor = createComponentForTest(
                         recordLookupElementWithSObject()
@@ -1180,7 +1166,7 @@ describe('record-lookup-editor', () => {
                     );
                     sObjectOrSObjectCollectionPicker.dispatchEvent(
                         new SObjectReferenceChangedEvent(
-                            store.accountSObjectVariableGuid
+                            store.accountSObjectVariable.guid
                         )
                     );
                     return Promise.resolve().then(() => {
@@ -1192,10 +1178,8 @@ describe('record-lookup-editor', () => {
                 });
                 describe('Filters', () => {
                     beforeEach(() => {
-                        const sObjectVariableElement =
-                            store.elements[store.accountSObjectVariableGuid];
                         expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
-                            sObjectVariableElement
+                            store.accountSObjectVariable
                         );
                         recordLookupEditor = createComponentForTest(
                             recordLookupElementWithSObjectAndFilters()
@@ -1420,7 +1404,7 @@ describe('record-lookup-editor', () => {
                         );
                         sObjectOrSObjectCollectionPicker.dispatchEvent(
                             new SObjectReferenceChangedEvent(
-                                store.accountSObjectVariableGuid
+                                store.accountSObjectVariable.guid
                             )
                         );
                         return Promise.resolve().then(() => {
@@ -1526,7 +1510,7 @@ describe('record-lookup-editor', () => {
                         );
                         sObjectOrSObjectCollectionPicker.dispatchEvent(
                             new SObjectReferenceChangedEvent(
-                                store.accountSObjectVariableGuid
+                                store.accountSObjectVariable.guid
                             )
                         );
                         return Promise.resolve().then(() => {

@@ -78,7 +78,7 @@ const recordUpdateElementWithSObject = () => {
         name: { value: 'testRecord', error: null },
         useSobject: true,
         inputReference: {
-            value: storeMockedData.accountSObjectVariableGuid,
+            value: storeMockedData.accountSObjectVariable.guid,
             error: null
         },
         inputReferenceIndex: { value: 'guid', error: null },
@@ -209,7 +209,7 @@ describe('record-update-editor using sObject', () => {
                 recordUpdateEditor
             );
             expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                storeMockedData.accountSObjectVariableGuid
+                storeMockedData.accountSObjectVariable.guid
             );
         });
     });
@@ -219,7 +219,7 @@ describe('record-update-editor using sObject', () => {
                 recordUpdateElementWithSObject()
             );
             const event = new SObjectReferenceChangedEvent(
-                storeMockedData.accountSObjectVariableGuid,
+                storeMockedData.accountSObjectVariable.guid,
                 null
             );
             let sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
@@ -231,7 +231,7 @@ describe('record-update-editor using sObject', () => {
                     recordUpdateEditor
                 );
                 expect(sObjectOrSObjectCollectionPicker.value).toBe(
-                    storeMockedData.accountSObjectVariableGuid
+                    storeMockedData.accountSObjectVariable.guid
                 );
             });
         });

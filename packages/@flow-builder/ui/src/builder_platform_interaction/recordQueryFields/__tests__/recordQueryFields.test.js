@@ -92,7 +92,7 @@ describe('record-store-fields', () => {
         let recordQueryFields;
         it('show disable ID combobox', () => {
             recordQueryFields = createComponentUnderTest({
-                outputReference: store.accountSObjectVariableGuid
+                outputReference: store.accountSObjectVariable.guid
             });
             const idCombobox = getIdCombobox(recordQueryFields);
             expect(idCombobox.value.value).toEqual('Id');
@@ -101,10 +101,10 @@ describe('record-store-fields', () => {
 
         it('show one empty row in fields', () => {
             recordQueryFields = createComponentUnderTest({
-                outputReference: store.accountSObjectVariableGuid
+                outputReference: store.accountSObjectVariable.guid
             });
             expect(recordQueryFields.outputReference).toBe(
-                store.accountSObjectVariableGuid
+                store.accountSObjectVariable.guid
             );
 
             expect(getFieldList(recordQueryFields)).not.toBeNull();
@@ -115,7 +115,7 @@ describe('record-store-fields', () => {
 
         it('show 2 rows in fields', () => {
             recordQueryFields = createComponentUnderTest({
-                outputReference: store.accountSObjectVariableGuid,
+                outputReference: store.accountSObjectVariable.guid,
                 queriedFields: queried2Fields
             });
             const fieldPickers = getRecordFieldPickers(recordQueryFields);
@@ -133,7 +133,7 @@ describe('record-store-fields', () => {
         let recordQueryFields, fieldList;
         beforeEach(() => {
             recordQueryFields = createComponentUnderTest({
-                outputReference: store.accountSObjectVariableGuid,
+                outputReference: store.accountSObjectVariable.guid,
                 queriedFields: queried2Fields
             });
             fieldList = getFieldList(recordQueryFields);

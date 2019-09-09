@@ -160,10 +160,10 @@ function getComboboxStateChangedEvent() {
 
 describe('variable-constant-editor', () => {
     selectorsMock.readableElementsSelector.mockReturnValue([
-        mockStoreData.elements[mockStoreData.numberVariableGuid],
-        mockStoreData.elements[mockStoreData.accountSObjectVariableGuid],
-        mockStoreData.elements[mockStoreData.stringCollectionVariable1Guid],
-        mockStoreData.elements[mockStoreData.dateVariableGuid]
+        mockStoreData.numberVariable,
+        mockStoreData.accountSObjectVariable,
+        mockStoreData.stringCollectionVariable1,
+        mockStoreData.dateVariable
     ]);
 
     let stringVariable;
@@ -173,38 +173,18 @@ describe('variable-constant-editor', () => {
     let sobjectVariable;
 
     beforeEach(() => {
-        stringVariable = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.stringVariableGuid
-            ]
-        );
-        numberVariable = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.numberVariableGuid
-            ]
-        );
-        dateVariable = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.dateVariableGuid
-            ]
-        );
-        stringConstant = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.stringConstantGuid
-            ]
-        );
-        sobjectVariable = deepCopy(
-            mockStoreData.mutatedVariablesAndConstants[
-                mockStoreData.accountSObjectVariableGuid
-            ]
-        );
+        stringVariable = mockStoreData.stringVariableForPropertyEditor();
+        numberVariable = mockStoreData.numberVariableForPropertyEditor();
+        dateVariable = mockStoreData.dateVariableForPropertyEditor();
+        stringConstant = mockStoreData.stringConstantForPropertyEditor();
+        sobjectVariable = mockStoreData.accountSObjectVariableForPropertyEditor();
     });
 
     it('contains a variable element', () => {
         const variableEditor = setupComponentUnderTest(stringVariable);
         return Promise.resolve().then(() => {
             expect(variableEditor.node.elementType).toEqual(
-                mockStoreData.variable
+                ELEMENT_TYPE.VARIABLE
             );
             expect(variableEditor.getNode()).toEqual(stringVariable);
         });
@@ -609,7 +589,7 @@ describe('variable-constant-editor', () => {
 
         it('should not exist for sobject data type', () => {
             const variableEditor = setupComponentUnderTest(
-                mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]
+                mockStoreData.accountSObjectVariable
             );
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = variableEditor.shadowRoot.querySelector(
@@ -621,9 +601,7 @@ describe('variable-constant-editor', () => {
 
         it('should not exist for collection variables', () => {
             const variableEditor = setupComponentUnderTest(
-                mockStoreData.elements[
-                    mockStoreData.stringCollectionVariable1Guid
-                ]
+                mockStoreData.stringCollectionVariable1
             );
             return Promise.resolve().then(() => {
                 const defaultValueCombobox = variableEditor.shadowRoot.querySelector(
@@ -682,7 +660,7 @@ describe('variable-constant-editor', () => {
             const variableEditor = setupComponentUnderTest(stringVariable);
             const selectedMenuItem = {
                 text: '{!someSobjectVar}',
-                value: mockStoreData.accountSObjectVariableGuid,
+                value: mockStoreData.accountSObjectVariable.guid,
                 displayText: '{!someSobjectVar}'
             };
             const expectedUpdatePropPayload = {
@@ -767,9 +745,7 @@ describe('variable-constant-editor', () => {
     describe('sobject type picker', () => {
         let accountVariable;
         beforeEach(() => {
-            accountVariable = deepCopy(
-                mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]
-            );
+            accountVariable = deepCopy(mockStoreData.accountSObjectVariable);
         });
 
         it('contains an entity resource picker for sobject variables', () => {
@@ -811,9 +787,7 @@ describe('variable-constant-editor', () => {
 
     describe('apex class picker', () => {
         it('should show help icon', () => {
-            const apexVariable = deepCopy(
-                mockStoreData.elements[mockStoreData.apexSampleVariableGuid]
-            );
+            const apexVariable = deepCopy(mockStoreData.apexSampleVariable);
             const variableEditor = setupComponentUnderTest(apexVariable);
             return Promise.resolve().then(() => {
                 const entityResourcePicker = variableEditor.shadowRoot.querySelector(
@@ -852,7 +826,7 @@ describe('variable-constant-editor', () => {
 
         it('does not fetch fields for an sobject if there are errors', () => {
             const accountVariable = deepCopy(
-                mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]
+                mockStoreData.accountSObjectVariable
             );
             const variableEditor = setupComponentUnderTest(accountVariable);
             getErrorsFromHydratedElement.mockReturnValueOnce(
@@ -864,7 +838,7 @@ describe('variable-constant-editor', () => {
 
         it('does not fetch fields for an sobject collection variable', () => {
             const accountVariable = deepCopy(
-                mockStoreData.elements[mockStoreData.accountSObjectVariableGuid]
+                mockStoreData.accountSObjectVariable
             );
             accountVariable.isCollection = true;
             const variableEditor = setupComponentUnderTest(accountVariable);
