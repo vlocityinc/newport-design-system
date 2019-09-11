@@ -34,7 +34,8 @@ import {
     UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
     updateApexClasses,
     ADD_START_ELEMENT,
-    UPDATE_APEX_CLASSES
+    UPDATE_APEX_CLASSES,
+    UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS
 } from 'builder_platform_interaction/actions';
 import {
     ELEMENT_TYPE,
@@ -199,7 +200,8 @@ export default class Editor extends LightningElement {
             UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
             UPDATE_PROPERTIES_AFTER_SAVE_FAILED, // Called after save callback returns with errors from server
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
-            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE
+            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
+            UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -539,6 +541,7 @@ export default class Editor extends LightningElement {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else if (data.isSuccess) {
+            this.clearUndoRedoStack();
             this.currentFlowId = data.flowId;
             updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
             updateUrl(this.currentFlowId);
@@ -830,6 +833,7 @@ export default class Editor extends LightningElement {
         } else if (!data.isSuccess) {
             this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
         } else {
+            this.clearUndoRedoStack();
             storeInstance.dispatch(
                 updatePropertiesAfterActivateButtonPress({
                     status: data.status,
@@ -996,7 +1000,6 @@ export default class Editor extends LightningElement {
             flow,
             saveType
         };
-        this.clearUndoRedoStack();
         // Keeping this as fetch because we want to go to the server
         fetch(SERVER_ACTION_TYPE.SAVE_FLOW, this.saveFlowCallback, params);
         this.saveType = saveType;
