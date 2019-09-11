@@ -244,4 +244,13 @@ textarea:focus::placeholder {
   display: inline-block;
   max-width: calc(100% - .875rem);
 }
+.date-picker-parent-div .nds-form-element__control-animated-label .nds-form-element__label label,
+.nds-combobox_container .nds-form-element__control-animated-label .nds-form-element__label label{
+  display: inline-block;
+  max-width: calc(80% - .875rem);
+}
+
+.nds-form-element__control.nds-form-element__control-animated-label .nds-animated-label__ease-out .nds-tooltip__container{
+  top: -2px;
+}
 /* stylelint-enable selector-class-pattern */
