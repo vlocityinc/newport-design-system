@@ -131,8 +131,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
         '../../screenEditorUtils/screenEditorUtils.js'
     );
     return {
-        getExtensionParamDescriptionAsComplexTypeFieldDescription:
-            actual.getExtensionParamDescriptionAsComplexTypeFieldDescription,
+        getFlowDataTypeByName: actual.getFlowDataTypeByName,
         getIconNameFromDataType: jest.fn().mockImplementation(() => {
             return 'standard:email';
         })
@@ -140,12 +139,7 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
 });
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    const actual = require.requireActual(
-        '../../invocableActionLib/invocableActionLib.js'
-    );
     return {
-        getInvocableActionParamDescriptionAsComplexTypeFieldDescription:
-            actual.getInvocableActionParamDescriptionAsComplexTypeFieldDescription,
         getParametersForInvocableAction: jest
             .fn()
             .mockImplementation(() => mockChatterPostActionParameters)
@@ -352,7 +346,8 @@ describe('Menu data retrieval', () => {
             store.apexSampleCollectionVariable,
             store.emailScreenFieldAutomaticOutput,
             store.lookupRecordAutomaticOutput,
-            store.lookupRecordCollectionAutomaticOutput
+            store.lookupRecordCollectionAutomaticOutput,
+            store.actionCallAutomaticOutput
         ]);
         const primitivesWithObjects = getElementsForMenuData(
             {
@@ -365,6 +360,14 @@ describe('Menu data retrieval', () => {
             false
         );
         expect(primitivesWithObjects).toEqual([
+            {
+                label: 'FLOWBUILDERELEMENTCONFIG.ACTIONPLURALLABEL',
+                items: [
+                    expect.objectContaining({
+                        value: store.actionCallAutomaticOutput.guid
+                    })
+                ]
+            },
             {
                 label: 'FLOWBUILDERELEMENTCONFIG.APEXVARIABLEPLURALLABEL',
                 items: [

@@ -23,7 +23,7 @@ import {
 } from 'builder_platform_interaction/ruleLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
+import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/complexTypeLib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -136,11 +136,15 @@ export class MergeFieldsValidation {
     }
 
     _isSystemVariableMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_PREFIX + '.');
+        return mergeFieldReferenceValue.startsWith(
+            SYSTEM_VARIABLE_PREFIX + '.'
+        );
     }
 
     _isSystemVariableClientMergeField(mergeFieldReferenceValue) {
-        return mergeFieldReferenceValue.startsWith(SYSTEM_VARIABLE_CLIENT_PREFIX + '.');
+        return mergeFieldReferenceValue.startsWith(
+            SYSTEM_VARIABLE_CLIENT_PREFIX + '.'
+        );
     }
 
     _isSystemVariableRecordMergeField(mergeFieldReferenceValue) {

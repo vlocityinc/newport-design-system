@@ -9,17 +9,12 @@ import {
     mutateFieldToComboboxShape,
     mutateFlowResourceToComboboxShape
 } from './menuDataGenerator';
-import * as sobjectLib from 'builder_platform_interaction/sobjectLib';
-import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import {
     getElementByGuid,
     getElementByDevName
 } from 'builder_platform_interaction/storeUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
-import {
-    FEROV_DATA_TYPE,
-    FLOW_DATA_TYPE
-} from 'builder_platform_interaction/dataTypeLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     isObject,
     addCurlyBraces,
@@ -27,12 +22,7 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
-import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
-import {
-    getParametersForInvocableAction,
-    getInvocableActionParamDescriptionAsComplexTypeFieldDescription
-} from 'builder_platform_interaction/invocableActionLib';
+import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
@@ -136,48 +126,6 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
         dataType,
         error
     };
-};
-
-/**
- * Returns the fields for given complex resource (dataType SObject, apex or lightning component output)
- *
- * @param {Object} flowResource the resource
- * @returns {Object} the fields descriptions as a complex type field descriptions (as expected by menudata or merge field validation)
- */
-export const retrieveResourceComplexTypeFields = flowResource => {
-    let fields;
-    if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-        fields = sobjectLib.getFieldsForEntity(flowResource.subtype);
-    } else if (flowResource.dataType === FLOW_DATA_TYPE.APEX.value) {
-        fields = apexTypeLib.getPropertiesForClass(flowResource.subtype);
-    } else if (
-        flowResource.dataType ===
-        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-    ) {
-        const extension = getCachedExtension(flowResource.extensionName);
-        fields =
-            extension &&
-            extension.outputParameters.reduce((acc, parameter) => {
-                acc[
-                    parameter.apiName
-                ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
-                    parameter
-                );
-                return acc;
-            }, {});
-    } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
-        fields = getParametersForInvocableAction(flowResource)
-            .filter(parameter => parameter.isOutput)
-            .reduce((acc, parameter) => {
-                acc[
-                    parameter.name
-                ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                    parameter
-                );
-                return acc;
-            }, {});
-    }
-    return fields;
 };
 
 /**

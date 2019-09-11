@@ -24,6 +24,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 export default class InvocableActionEditor extends LightningElement {
     /**
@@ -112,10 +113,7 @@ export default class InvocableActionEditor extends LightningElement {
         };
         this.displaySpinner = true;
         this.invocableActionParametersDescriptor = undefined;
-        fetchOnce(
-            SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS,
-            actionParams
-        )
+        fetchParametersForInvocableAction(actionParams)
             .then(parameters => {
                 if (this.connected) {
                     this.displaySpinner = false;

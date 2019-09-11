@@ -4,8 +4,7 @@ import {
     getResourceByUniqueIdentifier,
     getFerovInfoAndErrorFromEvent,
     checkExpressionForDeletedElem,
-    EXPRESSION_PROPERTY_TYPE,
-    retrieveResourceComplexTypeFields
+    EXPRESSION_PROPERTY_TYPE
 } from '../resourceUtils';
 import * as store from 'mock/storeData';
 import {
@@ -24,7 +23,6 @@ import {
     SYSTEM_VARIABLE_PREFIX
 } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { mockCarApexTypeProperties } from 'mock/apexTypesData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
@@ -85,16 +83,6 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
             .fn()
             .mockName('getPropertiesForClass')
             .mockImplementation(() => mockCarApexTypeProperties)
-    };
-});
-
-jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    return {
-        getCachedExtension: jest
-            .fn()
-            .mockImplementation(
-                () => mockFlowRuntimeEmailFlowExtensionDescription
-            )
     };
 });
 
@@ -356,36 +344,6 @@ describe('ResourceUtils', () => {
                 addCurlyBraces(store.numberVariable.name)
             );
             expect(updatedValues.error).toEqual(anError);
-        });
-    });
-    describe('retrieveResourceComplexTypeFields', () => {
-        const expectComplexTypeFieldDescription = field => {
-            // need a dataType and apiName. isCollection and label optional
-            expect(field.dataType).toBeDefined();
-            expect(field.apiName).toBeDefined();
-        };
-        const expectFieldsAreComplexTypeFieldDescriptions = fields => {
-            for (const fieldName in fields) {
-                if (Object.prototype.hasOwnProperty.call(fields, fieldName)) {
-                    const field = fields[fieldName];
-                    expectComplexTypeFieldDescription(field);
-                }
-            }
-        };
-        it('returns fields for entity when element data type is SObject', () => {
-            const element = store.accountSObjectVariable;
-            const fields = retrieveResourceComplexTypeFields(element);
-            expectFieldsAreComplexTypeFieldDescriptions(fields);
-        });
-        it('returns properties for apex class when element data type is Apex', () => {
-            const element = store.apexSampleVariable;
-            const fields = retrieveResourceComplexTypeFields(element);
-            expectFieldsAreComplexTypeFieldDescriptions(fields);
-        });
-        it('returns extension parameters when element data type is LIGHTNING_COMPONENT_OUTPUT', () => {
-            const element = store.emailScreenFieldAutomaticOutput;
-            const fields = retrieveResourceComplexTypeFields(element);
-            expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
     });
 });

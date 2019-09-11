@@ -12,6 +12,7 @@ import {
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -142,6 +143,9 @@ const getBaseCalloutEditor = actionEditor => {
 };
 
 describe('Invocable Action editor', () => {
+    beforeEach(() => {
+        clearInvocableActionCachedParameters();
+    });
     afterEach(() => {
         mockActionParametersPromise = Promise.resolve(mockActionParameters);
         mockActionsPromise = Promise.resolve(mockActions);

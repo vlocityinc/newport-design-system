@@ -44,13 +44,8 @@ import {
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/screenEditorUtils';
+import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
-import {
-    getParametersForInvocableAction,
-    getInvocableActionParamDescriptionAsComplexTypeFieldDescription
-} from 'builder_platform_interaction/invocableActionLib';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -655,55 +650,15 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
         callback(getGlobalVariables(subtype));
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
         callback(sobjectLib.getFieldsForEntity(subtype));
-    } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
-        fetchPropertiesForLightningComponentOutput(
-            topLevelItem.value,
-            callback
-        );
-    } else if (dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
-        fetchOutputParametersForInvocableAction(topLevelItem.value, callback);
+    } else if (
+        dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
+        dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
+    ) {
+        const resourceGuid = topLevelItem.value;
+        const element = getElementByGuid(resourceGuid);
+        callback(retrieveResourceComplexTypeFields(element));
     } else {
         callback(apexTypeLib.getPropertiesForClass(subtype));
-    }
-}
-
-function fetchOutputParametersForInvocableAction(resourceGuid, callback) {
-    const element = getElementByGuid(resourceGuid);
-    const parameters = getParametersForInvocableAction(element);
-    if (parameters) {
-        callback(
-            parameters
-                .filter(parameter => parameter.isOutput)
-                .reduce((properties, parameter) => {
-                    properties[
-                        parameter.name
-                    ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                        parameter
-                    );
-                    return properties;
-                }, {})
-        );
-    } else {
-        callback([]);
-    }
-}
-
-function fetchPropertiesForLightningComponentOutput(resourceGuid, callback) {
-    const element = getElementByGuid(resourceGuid);
-    const extension = getCachedExtension(element.extensionName);
-    if (extension) {
-        callback(
-            extension.outputParameters.reduce((properties, parameter) => {
-                properties[
-                    parameter.apiName
-                ] = getExtensionParamDescriptionAsComplexTypeFieldDescription(
-                    parameter
-                );
-                return properties;
-            }, {})
-        );
-    } else {
-        callback([]);
     }
 }
 

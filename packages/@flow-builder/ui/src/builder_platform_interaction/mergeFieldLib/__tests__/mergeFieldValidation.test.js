@@ -100,16 +100,6 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/screenEditorUtils', () => {
-    const actual = require.requireActual(
-        '../../screenEditorUtils/screenEditorUtils.js'
-    );
-    return {
-        getExtensionParamDescriptionAsComplexTypeFieldDescription:
-            actual.getExtensionParamDescriptionAsComplexTypeFieldDescription
-    };
-});
-
 jest.mock(
     '@salesforce/label/FlowBuilderMergeFieldValidation.notAValidMergeField',
     () => ({ default: `"{0}" isn't a valid merge field.` }),

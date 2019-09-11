@@ -2,13 +2,12 @@ import {
     fetchOnce,
     SERVER_ACTION_TYPE
 } from 'builder_platform_interaction/serverDataLib';
-import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 
-const cachedParameters = [];
+let cachedParameters = [];
 let invocableActions = [];
 
 export function setInvocableActions(actions) {
@@ -55,23 +54,6 @@ export function getParametersForInvocableAction({ actionName, actionType }) {
     return cachedParameters[key];
 }
 
-/**
- * Get the invocable action parameter description as a complex type field description
- *
- * @param {object} invocableActionParamDescription - the invocable action parameter description as returned by getParametersForInvocableAction
- * @returns {object} - the invocable action parameter description as a complex type field description (as expected by menudata or merge field validation)
- */
-export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-    invocableActionParamDescription
-) {
-    return {
-        ...invocableActionParamDescription,
-        apiName: invocableActionParamDescription.name,
-        dataType: getFlowDataType(invocableActionParamDescription.dataType),
-        isCollection: invocableActionParamDescription.maxOccurs > 1
-    };
-}
-
 export function isAutomaticOutputHandlingSupported(flowProcessType) {
     const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
         flowProcessType
@@ -80,4 +62,8 @@ export function isAutomaticOutputHandlingSupported(flowProcessType) {
         processTypeAutomaticOutPutHandlingSupport ===
         FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
     );
+}
+
+export function clearInvocableActionCachedParameters() {
+    cachedParameters = [];
 }

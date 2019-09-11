@@ -6,11 +6,7 @@ import {
     invokeNewFlowModal
 } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    getSObjectOrSObjectCollectionByEntityElements,
-    componentInstanceScreenFieldsSelector,
-    byElementTypeElementsSelector
-} from 'builder_platform_interaction/selectors';
+import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
 import {
     updateFlow,
     doDuplicate,
@@ -105,12 +101,9 @@ import {
     setProcessTypeFeature
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
-import {
-    fetchParametersForInvocableAction,
-    setInvocableActions
-} from 'builder_platform_interaction/invocableActionLib';
+import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
+import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/complexTypeLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -374,9 +367,8 @@ export default class Editor extends LightningElement {
         } else {
             storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
             this.setOriginalFlowValues();
-            this.loadFieldsForSobjectsInFlow();
-            this.loadFieldsForExtensionsInFlow();
-            this.loadParametersForInvocableActionsInFlow();
+            this.cacheSObjectsInComboboxShape();
+            this.loadFieldsForComplexTypesInFlow();
         }
         this.isFlowServerCallInProgress = false;
     };
@@ -459,10 +451,7 @@ export default class Editor extends LightningElement {
         this.originalFlowInterviewLabel = this.properties.interviewLabel;
     }
 
-    /**
-     * This is called once the flow has been loaded, so that sobjects in the flow have their fields loaded and cached
-     */
-    loadFieldsForSobjectsInFlow() {
+    cacheSObjectsInComboboxShape() {
         const currentState = storeInstance.getCurrentState();
         // Only gets elements with sObject datatype (no collections)
         const sobjects = getSObjectOrSObjectCollectionByEntityElements(
@@ -477,58 +466,16 @@ export default class Editor extends LightningElement {
                 sObjectInComboboxShape.displayText,
                 sObjectInComboboxShape
             );
-            // fetch fields and cache them
-            this.propertyEditorBlockerCalls.push(
-                fetchFieldsForEntity(sobjects[i].subtype, {
-                    disableErrorModal: true
-                }).catch(() => {})
-            );
         }
     }
 
     /**
-     * This is called once the flow has been loaded, so that Lightning component screen fields in the flow have their fields loaded and cached.
-     * We only consider lightning components screen fields in automatic output handling mode.
+     * This is called once the flow has been loaded, so that flow complex types have their fields loaded and cached.
      */
-    loadFieldsForExtensionsInFlow() {
-        const extensionNames = componentInstanceScreenFieldsSelector(
-            storeInstance.getCurrentState()
-        )
-            .filter(
-                screenField => screenField.storeOutputAutomatically === true
-            )
-            .map(screenField => screenField.extensionName);
+    loadFieldsForComplexTypesInFlow() {
+        const currentState = storeInstance.getCurrentState();
         this.propertyEditorBlockerCalls.push(
-            describeExtensions(extensionNames, {
-                disableErrorModal: true,
-                background: true
-            }).catch(() => {})
-        );
-    }
-
-    /**
-     * This is called once the flow has been loaded, so that actions in the flow have their fields loaded and cached.
-     * We only consider actions in automatic output handling mode.
-     */
-    loadParametersForInvocableActionsInFlow() {
-        const actionCallsSelector = byElementTypeElementsSelector(
-            ELEMENT_TYPE.ACTION_CALL
-        );
-        const actionCallNamesAndTypes = actionCallsSelector(
-            storeInstance.getCurrentState()
-        )
-            .filter(actionCall => actionCall.storeOutputAutomatically === true)
-            .map(actionCall => ({
-                actionName: actionCall.actionName,
-                actionType: actionCall.actionType
-            }));
-        actionCallNamesAndTypes.forEach(actionCallNameAndType =>
-            this.propertyEditorBlockerCalls.push(
-                fetchParametersForInvocableAction(actionCallNameAndType, {
-                    disableErrorModal: true,
-                    background: true
-                }).catch(() => {})
-            )
+            loadFieldsForComplexTypesInFlow(currentState)
         );
     }
 
