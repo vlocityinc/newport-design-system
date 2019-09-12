@@ -240,12 +240,12 @@ textarea:focus::placeholder {
   }
 }
 
-.input-parent-div .nds-form-element__control-animated-label .nds-form-element__label label{
+.nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label{
   display: inline-block;
   max-width: calc(100% - .875rem);
 }
-.date-picker-parent-div .nds-form-element__control-animated-label .nds-form-element__label label,
-.combobox-parent-div .nds-form-element__control-animated-label .nds-form-element__label label{
+.nds-date-picker-parent-div .nds-form-element__control-animated-label .nds-form-element__label label,
+.nds-combobox_container .nds-form-element__control-animated-label .nds-form-element__label label{
   display: inline-block;
   max-width: calc(80% - .875rem);
 }
