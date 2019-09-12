@@ -3,6 +3,7 @@ export const MOCK_AUTO_TEMPLATE = {
     EnumOrId: '301xx000003Gblb',
     ProcessType: 'AutoLaunchedFlow',
     Description: 'This is an autolaunched template',
+    EnumOrID: '1'
 };
 
 export const MOCK_SCREEN_TEMPLATE_1 = {
@@ -10,6 +11,7 @@ export const MOCK_SCREEN_TEMPLATE_1 = {
     EnumOrId: '301xx000005Abdh',
     ProcessType: 'Flow',
     Description: 'This is a screen template',
+    EnumOrID: '2'
 };
 
 export const MOCK_SCREEN_TEMPLATE_2 = {
@@ -17,6 +19,11 @@ export const MOCK_SCREEN_TEMPLATE_2 = {
     EnumOrId: '301xx000008jhgn',
     ProcessType: 'Flow',
     Description: 'This is a screen template 2',
+    EnumOrID: '3'
 };
 
-export const MOCK_ALL_TEMPLATES = [MOCK_AUTO_TEMPLATE, MOCK_SCREEN_TEMPLATE_1, MOCK_SCREEN_TEMPLATE_2];
+export const MOCK_ALL_TEMPLATES = [
+    MOCK_AUTO_TEMPLATE,
+    MOCK_SCREEN_TEMPLATE_1,
+    MOCK_SCREEN_TEMPLATE_2
+];
