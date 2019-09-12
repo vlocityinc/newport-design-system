@@ -13,7 +13,7 @@ import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { flowWithApexAction } from 'mock/flows/flowWithApexAction';
+import * as flowWithApexAction from 'mock/flows/flowWithApexAction.json';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
 import {
     getLabelDescriptionNameElement,
@@ -180,7 +180,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
         });
-        describe('input tab', () => {
+        describe('input div', () => {
             describe('valid cases', () => {
                 let coreActionElement, inputParameters;
                 beforeEach(() => {
@@ -771,7 +771,7 @@ describe('Invocable Action Editor', () => {
                 });
             });
         });
-        describe('output tab', () => {
+        describe('output div', () => {
             describe('valid cases', () => {
                 let coreActionElement, outputParameters;
                 beforeEach(() => {

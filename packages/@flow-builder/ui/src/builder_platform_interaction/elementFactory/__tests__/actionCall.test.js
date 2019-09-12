@@ -10,14 +10,49 @@ import {
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
-
-expect.extend(deepFindMatchers);
+const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 
 const mockGuid = 'mockGuid';
+
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    return {
+        FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
+    };
+});
+
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const getCurrentState = function () {
+        return {
+            properties: {
+                processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+            },
+            elements: {
+                mockGuid: {
+                    availableConnections: [],
+                    elementType: 'not start Element'
+                }
+            }
+        };
+    };
+    const getStore = function () {
+        return {
+            getCurrentState
+        };
+    };
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    storeLib.generateGuid = jest.fn().mockReturnValue('mockGuid');
+    return storeLib;
+});
+
+expect.extend(deepFindMatchers);
 
 const flowInputParameterWithDefaultValueAsString = {
     name: 'text',
@@ -70,7 +105,8 @@ const actionCallMetaData = {
     locationX: 353,
     locationY: 57,
     name: 'My_Post_to_Chatter',
-    outputParameters: [flowOutputParameterWithDefaultValue]
+    outputParameters: [flowOutputParameterWithDefaultValue],
+    storeOutputAutomatically: false
 };
 
 const actionCallInStore = {
@@ -101,7 +137,8 @@ const actionCallInStore = {
     ],
     outputParameters: [storeOutputParameterWithDefaultValue],
     maxConnections: 2,
-    elementType: 'ACTION_CALL'
+    elementType: 'ACTION_CALL',
+    storeOutputAutomatically: false
 };
 
 const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
@@ -169,12 +206,13 @@ const actionCallAutomaticOutputInStore = {
 };
 
 describe('actionCall', () => {
-    const storeLib = require('builder_platform_interaction/storeLib');
-    storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
     describe('createActionCall function', () => {
         let actionCall;
         describe('when empty actionCall is created', () => {
             beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    'Unsupported'
+                );
                 actionCall = createActionCall();
             });
 
@@ -199,7 +237,7 @@ describe('actionCall', () => {
             it('has no output parameters by default', () => {
                 expect(actionCall.outputParameters).toHaveLength(0);
             });
-            it('has dataType of boolean', () => {
+            it('has dataType of Boolean', () => {
                 expect(actionCall.dataType).toEqual(
                     FLOW_DATA_TYPE.BOOLEAN.value
                 );
@@ -235,7 +273,7 @@ describe('actionCall', () => {
                     actionCallInStore.outputParameters
                 );
             });
-            it('has dataType of boolean', () => {
+            it('has dataType of ACTION OUTPUT', () => {
                 expect(actionCall.dataType).toEqual(
                     FLOW_DATA_TYPE.BOOLEAN.value
                 );
@@ -285,6 +323,9 @@ describe('actionCall', () => {
 
         describe('when metadata action call with automatic output handling is passed', () => {
             beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    'Supported'
+                );
                 actionCall = createActionCall(
                     actionCallAutomaticOutputMetadata
                 );
@@ -417,6 +458,11 @@ describe('actionCall', () => {
             });
         });
         describe('when store actionCall with automatic output handling is passed', () => {
+            beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    'Supported'
+                );
+            });
             it('convert to flow metadata', () => {
                 const actualResult = createActionCallMetadataObject(
                     actionCallAutomaticOutputInStore

@@ -21,6 +21,11 @@ import {
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 const maxConnections = 2;
 export const getDefaultAvailableConnections = () => [
@@ -37,21 +42,29 @@ export function createActionCall(
     elementType = ELEMENT_TYPE.ACTION_CALL
 ) {
     const newActionCall = baseCanvasElement(actionCall);
-    const {
-        actionType = '',
-        actionName = '',
-        storeOutputAutomatically = false
-    } = actionCall;
+    const { actionType = '', actionName = '' } = actionCall;
     let {
         inputParameters = [],
         outputParameters = [],
-        availableConnections = getDefaultAvailableConnections()
+        availableConnections = getDefaultAvailableConnections(),
+        storeOutputAutomatically = true
     } = actionCall;
     let dataType;
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameter(inputParameter)
     );
-    if (storeOutputAutomatically) {
+
+    const processType = Store.getStore().getCurrentState().properties
+        .processType;
+    const automaticOutputHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+        processType
+    );
+
+    if (
+        storeOutputAutomatically &&
+        automaticOutputHandlingSupport ===
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+    ) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
     } else {
@@ -59,6 +72,7 @@ export function createActionCall(
         outputParameters = outputParameters.map(outputParameter =>
             createOutputParameter(outputParameter)
         );
+        storeOutputAutomatically = false;
     }
     availableConnections = availableConnections.map(availableConnection =>
         createAvailableConnection(availableConnection)
@@ -121,26 +135,55 @@ export function createActionCallMetadataObject(actionCall, config) {
         actionCall,
         config
     );
-    const { actionType, actionName, storeOutputAutomatically } = actionCall;
-    let { inputParameters = [], outputParameters = [] } = actionCall;
+
+    const processType = Store.getStore().getCurrentState().properties
+        .processType;
+    const automaticOutputHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+        processType
+    );
+
+    const { actionType, actionName } = actionCall;
+    let {
+        inputParameters = [],
+        outputParameters = [],
+        storeOutputAutomatically
+    } = actionCall;
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameterMetadataObject(inputParameter)
     );
-    if (storeOutputAutomatically) {
+    if (
+        storeOutputAutomatically &&
+        automaticOutputHandlingSupport ===
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+    ) {
         outputParameters = [];
+    } else if (
+        storeOutputAutomatically &&
+        automaticOutputHandlingSupport ===
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
+    ) {
+        // In this case the user changed the processtype of the flow by one that does not support the automatic output handling
+        // So we need to remove the storeOutputAutomatically property.
+        outputParameters = [];
+        storeOutputAutomatically = undefined;
     } else {
         outputParameters = outputParameters.map(outputParameter =>
             createOutputParameterMetadataObject(outputParameter)
         );
     }
 
-    return Object.assign(actionCallMetadata, {
-        actionType,
-        actionName,
-        inputParameters,
-        outputParameters,
-        storeOutputAutomatically
-    });
+    return Object.assign(
+        actionCallMetadata,
+        {
+            actionType,
+            actionName,
+            inputParameters,
+            outputParameters
+        },
+        storeOutputAutomatically !== undefined
+            ? { storeOutputAutomatically }
+            : {}
+    );
 }
 
 /**

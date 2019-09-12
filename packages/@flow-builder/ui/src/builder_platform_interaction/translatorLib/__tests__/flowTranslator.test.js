@@ -43,10 +43,23 @@ function mockGenerateGuid() {
     });
 }
 
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    return Object.assign({}, actual, {
+        getProcessTypeAutomaticOutPutHandlingSupport: jest
+            .fn()
+            .mockReturnValue('Supported')
+    });
+});
+
 // we want to use the real implementation (and we cannot use unmock ...)
 jest.mock('builder_platform_interaction/storeLib', () => {
     const actual = require.requireActual('../../storeLib/storeLib.js');
-    return Object.assign({}, actual, { generateGuid: mockGenerateGuid });
+    return Object.assign({}, actual, {
+        generateGuid: mockGenerateGuid
+    });
 });
 
 /**
