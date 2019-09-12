@@ -1,6 +1,4 @@
 import { LightningElement, api, track } from 'lwc';
-import timeZone from '@salesforce/i18n/timeZone';
-import { format } from 'builder_platform_interaction/commonUtils';
 import {
     fetchFieldsForEntity,
     getAllEntities
@@ -140,8 +138,10 @@ export default class StartEditor extends LightningElement {
         ];
     }
 
+    // TODO W-6568649
+    // Regex used to remove "({0})" and any leading single whitespace
     get startTimeInputHelp() {
-        return format(this.labels.startTimeInputHelp, timeZone);
+        return this.labels.startTimeInputHelp.replace(/\s?\(\{(\d+)\}\)/gm, '');
     }
 
     /**
