@@ -46,6 +46,7 @@ input[placeholder]::placeholder {
 
     .nds-button_icon {
       border: 0;
+      top: 0.05rem;
     }
   }
 
@@ -91,6 +92,10 @@ input[placeholder]::placeholder {
       z-index: 0;
       top: .4rem;
       #{$left}: 0;
+
+      .nds-button_icon {
+        top: -0.05rem;
+      }
     }
 
     ~.nds-form-element__label label,
@@ -243,5 +248,9 @@ textarea:focus::placeholder {
 .nds-form-container .nds-form-element__control-animated-label .nds-form-element__label label{
   display: inline-block;
   max-width: calc(100% - .875rem);
+}
+
+.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label label{
+  max-width: calc(100% - 2rem);
 }
 /* stylelint-enable selector-class-pattern */

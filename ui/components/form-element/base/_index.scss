@@ -33,6 +33,8 @@
     line-height: $line-height-text;
     margin-#{$right}: $spacing-small;
     margin-bottom: $spacing-xxx-small;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:empty {
       margin: 0;
