@@ -80,9 +80,9 @@ input[placeholder]::placeholder {
   textarea[cloned="dirty"],
   input.ng-dirty.ng-not-empty,
   input.nds-input.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
-  input.ng-touched.ng-not-empty.td-input
+  input.ng-touched.ng-not-empty.td-input,
   select.ng-dirty.ng-not-empty,
-  select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control]
+  select.nds-select.ng-dirty.ng-not-empty.ng-touched[vlc-nds-lookup-control],
   textarea.ng-not-empty.ng-dirty {
 
     ~.nds-form-element__label,
