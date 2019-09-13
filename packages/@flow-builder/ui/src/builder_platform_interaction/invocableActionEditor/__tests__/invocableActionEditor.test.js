@@ -185,7 +185,8 @@ describe('Invocable Action editor', () => {
                 ClosePropertyEditorEvent.EVENT_NAME,
                 eventCallback
             );
-            await mockActionsPromise;
+            await ticks(10);
+
             await mockActionParametersPromise.catch(() => {
                 document.removeEventListener(
                     ClosePropertyEditorEvent.EVENT_NAME,
@@ -235,7 +236,8 @@ describe('Invocable Action editor', () => {
                 CannotRetrieveCalloutParametersEvent.EVENT_NAME,
                 eventCallback
             );
-            await mockActionsPromise;
+            await ticks(10);
+
             await mockActionParametersPromise.catch(() => {
                 document.removeEventListener(
                     CannotRetrieveCalloutParametersEvent.EVENT_NAME,
