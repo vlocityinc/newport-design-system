@@ -57,7 +57,8 @@
   }
 
   // block indentation
-  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-elem='visible'] {
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-elem='visible'],
+  .nds-block_container > label ~ .nds-block_body {
     font-size: 1rem;
     padding-top: 1.5rem;
     font-weight: 300;
@@ -65,7 +66,8 @@
     color: $color-midnight-blue;
   }
 
-  div[vlc-slds-toggle-elem='visible'] {
+  div[vlc-slds-toggle-elem='visible'],
+  .nds-block_body {
 
     > .nds-control-action__container {
       display: block;
@@ -75,14 +77,16 @@
   }
 
   // stylelint-disable-next-line selector-class-pattern
-  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'].toggleElement {
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'].toggleElement,
+  .nds-block_container > label ~ .nds-block_body[aria-expanded='false']  {
     max-height: 0;
     overflow: hidden;
     transition: opacity 1s, max-height 1s ease-out;
     opacity: 0;
   }
 
-  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'] {
+  label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'],
+  .nds-block_container > label ~ .nds-block_body {
     padding-top: 1.5rem;
     padding-#{$left}: 2.5rem;
     max-height: 1000rem;
@@ -90,7 +94,8 @@
     transition: opacity 1s, max-height 1s ease-in;
 
     .nds-wrap ng-form,
-    .nds-wrap form {
+    .nds-wrap form,
+    .nds-wrap > * {
       margin-bottom: 0.5rem;
       padding-top: 0;
     }
@@ -100,6 +105,16 @@
     pointer-events: none;
     opacity: 0.5;
   }
+}
+
+.nds-block__action-icon {
+  margin-top: 0 !important;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+}
+
+.nds-is-open .nds-block__action-icon {
+  transform: rotate(0);
 }
 
 .nds-expand {
@@ -118,7 +133,8 @@
   transform: if-rtl(rotate(90Deg), rotate(-90Deg)); // per daniel's input
 }
 
-label[vlc-slds-toggle] {
+label[vlc-slds-toggle],
+.nds-block_container > label {
   font-size: 1rem; // half the size of the step title
   display: flex;
   font-weight: 300;
@@ -130,7 +146,8 @@ label[vlc-slds-toggle] {
   }
 
   // stylelint-disable-next-line selector-class-pattern
-  .nds-form-element__label_toggleText {
+  .nds-form-element__label_toggleText,
+  .nds-form-element__label_toggle-text {
     flex-grow: 1;
     padding-#{$left}: 10px; // this will add up 30px + 10
     color: $color-background-brand-primary;
@@ -170,7 +187,7 @@ label[vlc-slds-toggle] {
 
 .nds-block_container {
 
-  .nds-form-element__label {
+  > .nds-form-element__label {
     width: 100%;
     display: flex;
     outline: none;
