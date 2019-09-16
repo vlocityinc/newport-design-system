@@ -3222,8 +3222,8 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                   data-omni-key="RadioGroup"
                   class="nds-size_12-of-12 nds-medium-size_12-of-12">
 <slot>
-<fieldset class="nds-form-element nds-form-container nds-m-top_small"><label class="nds-form-element__label nds-form-element__control-help nds-text-heading_small nds-m-bottom_small"><span>Radio Group</span>
-<c-tooltip vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
+<fieldset class="nds-form-element nds-form-container nds-m-top_small"><label class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span>Radio Group</span>
+<c-tooltip class="nds-tooltip__container" vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
         style="position: relative;">
     <c-button vloc_mg-tooltip_tooltip=""
               tabindex="0"

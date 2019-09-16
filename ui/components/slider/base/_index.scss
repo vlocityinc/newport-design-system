@@ -194,7 +194,7 @@
  * @restrict span
  */
 .nds-slider-label {
-  // Hook for adding a11y class if needed to hide
+  display: flex;
 }
 
 /**
