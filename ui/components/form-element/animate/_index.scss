@@ -92,6 +92,7 @@ input[placeholder]::placeholder {
       z-index: 0;
       top: .4rem;
       #{$left}: 0;
+      overflow: visible;
 
       .nds-button_icon {
         top: -0.05rem;
