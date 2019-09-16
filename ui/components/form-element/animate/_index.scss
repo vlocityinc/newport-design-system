@@ -43,6 +43,7 @@ input[placeholder]::placeholder {
     width: 100%;
     #{$right}: 0;
     pointer-events: none;
+    overflow: visible;
 
     .nds-button_icon {
       border: 0;
@@ -92,7 +93,6 @@ input[placeholder]::placeholder {
       z-index: 0;
       top: .4rem;
       #{$left}: 0;
-      overflow: visible;
 
       .nds-button_icon {
         top: -0.05rem;
