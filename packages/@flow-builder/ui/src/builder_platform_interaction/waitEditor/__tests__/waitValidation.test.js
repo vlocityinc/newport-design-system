@@ -14,7 +14,8 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
             leftHandSide: '',
             operator: '',
             rightHandSide: ''
-        })
+        }),
+        createFlowProperties: jest.fn()
     };
 });
 

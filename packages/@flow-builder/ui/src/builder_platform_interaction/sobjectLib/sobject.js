@@ -3,15 +3,13 @@ import {
     isAlreadyFetched,
     SERVER_ACTION_TYPE
 } from 'builder_platform_interaction/serverDataLib';
-
-let allEntities = [];
-let allEntitiesMap = {};
-let queryableEntities = [];
-let createableEntities = [];
-let deletableEntities = [];
-let updateableEntities = [];
+import { updateEntities } from 'builder_platform_interaction/actions';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { reducer } from 'builder_platform_interaction/reducers';
 
 let cachedEntityFields = {};
+
+const storeInstance = Store.getStore(reducer);
 
 export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
@@ -25,12 +23,12 @@ export const ENTITY_TYPE = {
  * @param {String} entities - String object of all SObjects
  */
 export const setEntities = (entities = null) => {
-    allEntities = [];
-    allEntitiesMap = {};
-    queryableEntities = [];
-    createableEntities = [];
-    deletableEntities = [];
-    updateableEntities = [];
+    const allEntities = [];
+    const allEntitiesMap = {};
+    const queryableEntities = [];
+    const createableEntities = [];
+    const deletableEntities = [];
+    const updateableEntities = [];
     const unfilteredEntities = JSON.parse(entities);
 
     if (unfilteredEntities) {
@@ -51,6 +49,21 @@ export const setEntities = (entities = null) => {
             }
         });
     }
+    storeInstance.dispatch(
+        updateEntities({
+            allEntities,
+            allEntitiesMap,
+            queryableEntities,
+            createableEntities,
+            deletableEntities,
+            updateableEntities
+        })
+    );
+};
+
+const getStoredEntities = () => {
+    const peripheralData = storeInstance.getCurrentState().peripheralData;
+    return peripheralData ? peripheralData.entities : undefined;
 };
 
 /**
@@ -58,7 +71,8 @@ export const setEntities = (entities = null) => {
  * @returns {Array} All Entities
  */
 export const getAllEntities = () => {
-    return allEntities;
+    const storedEntities = getStoredEntities();
+    return storedEntities ? storedEntities.allEntities : [];
 };
 
 /**
@@ -67,14 +81,19 @@ export const getAllEntities = () => {
  * @param {string} apiName the api name of the entity
  * @return {Object} the entity description
  */
-export const getEntity = apiName => allEntitiesMap[apiName];
+export const getEntity = apiName => {
+    const storedEntities = getStoredEntities();
+    const map = storedEntities ? storedEntities.allEntitiesMap : undefined;
+    return map ? map[apiName] : undefined;
+};
 
 /**
  * Returns only queryable SObjects
  * @returns {Array} Queryable Entities
  */
 export const getQueryableEntities = () => {
-    return queryableEntities;
+    const storedEntities = getStoredEntities();
+    return storedEntities ? storedEntities.queryableEntities : [];
 };
 
 /**
@@ -82,7 +101,8 @@ export const getQueryableEntities = () => {
  * @returns {Array} Createable Entities
  */
 export const getCreateableEntities = () => {
-    return createableEntities;
+    const storedEntities = getStoredEntities();
+    return storedEntities ? storedEntities.createableEntities : [];
 };
 
 /**
@@ -90,7 +110,8 @@ export const getCreateableEntities = () => {
  * @returns {Array} Deletable Entities
  */
 export const getDeletableEntities = () => {
-    return deletableEntities;
+    const storedEntities = getStoredEntities();
+    return storedEntities ? storedEntities.deletableEntities : [];
 };
 
 /**
@@ -98,7 +119,8 @@ export const getDeletableEntities = () => {
  * @returns {Array} Updateable
  */
 export const getUpdateableEntities = () => {
-    return updateableEntities;
+    const storedEntities = getStoredEntities();
+    return storedEntities ? storedEntities.updateableEntities : [];
 };
 
 export const areFieldsForEntityAlreadyFetched = entityName => {
