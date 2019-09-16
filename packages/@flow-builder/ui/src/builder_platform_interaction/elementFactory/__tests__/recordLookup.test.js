@@ -11,10 +11,23 @@ import {
     CONNECTOR_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
+
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    return Object.assign({}, actual, {
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
+    });
+});
 
 expect.extend(deepFindMatchers);
 
@@ -199,6 +212,24 @@ const recordLookupAutomaticMetadata = (getFirstRecordOnly = true) => ({
     queriedFields: ['BillingCountry'],
     storeOutputAutomatically: true,
     getFirstRecordOnly
+});
+
+const recordLookupAutomaticProcessTypeChangedOnSaveMetadata = () => ({
+    filters: [
+        {
+            field: 'BillingCity',
+            operator: 'EqualTo',
+            value: { elementReference: 'vCity' }
+        }
+    ],
+    label: 'lookup automatic',
+    locationX: 431,
+    locationY: 345,
+    name: 'lookup_automatic',
+    object: 'Account',
+    queriedFields: ['BillingCountry'],
+    outputReference: null,
+    getFirstRecordOnly: true
 });
 
 const recordLookupAutomaticStore = (getFirstRecordOnly = true) => ({
@@ -588,6 +619,11 @@ describe('recordLookup', () => {
             });
         });
         describe('recordLookup function with automatic handled output', () => {
+            beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+                );
+            });
             it('record lookup using automatic handled output', () => {
                 const actualResult = createRecordLookupMetadataObject(
                     recordLookupAutomaticStore()
@@ -612,6 +648,22 @@ describe('recordLookup', () => {
                 expect(actualResult).toHaveNoCommonMutableObjectWith(
                     recordLookupStore
                 );
+            });
+        });
+        describe('recordLookup function with automatic handled output and saved with a process type that does not support automatic output handling', () => {
+            beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
+                );
+            });
+            it('Should not have storeOutputAutomatically', () => {
+                const actualResult = createRecordLookupMetadataObject(
+                    recordLookupAutomaticStore()
+                );
+                expect(actualResult).toMatchObject(
+                    recordLookupAutomaticProcessTypeChangedOnSaveMetadata()
+                );
+                expect(actualResult.storeOutputAutomatically).toBe(undefined);
             });
         });
     });

@@ -7,7 +7,8 @@ import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     createAvailableConnection,
-    duplicateCanvasElement
+    duplicateCanvasElement,
+    automaticOutputHandlingSupport
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import {
@@ -21,11 +22,6 @@ import {
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { Store } from 'builder_platform_interaction/storeLib';
-import {
-    FLOW_AUTOMATIC_OUTPUT_HANDLING,
-    getProcessTypeAutomaticOutPutHandlingSupport
-} from 'builder_platform_interaction/processTypeLib';
 
 const maxConnections = 2;
 export const getDefaultAvailableConnections = () => [
@@ -54,17 +50,7 @@ export function createActionCall(
         createInputParameter(inputParameter)
     );
 
-    const processType = Store.getStore().getCurrentState().properties
-        .processType;
-    const automaticOutputHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
-        processType
-    );
-
-    if (
-        storeOutputAutomatically &&
-        automaticOutputHandlingSupport ===
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-    ) {
+    if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
     } else {
@@ -136,12 +122,6 @@ export function createActionCallMetadataObject(actionCall, config) {
         config
     );
 
-    const processType = Store.getStore().getCurrentState().properties
-        .processType;
-    const automaticOutputHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
-        processType
-    );
-
     const { actionType, actionName } = actionCall;
     let {
         inputParameters = [],
@@ -151,17 +131,9 @@ export function createActionCallMetadataObject(actionCall, config) {
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameterMetadataObject(inputParameter)
     );
-    if (
-        storeOutputAutomatically &&
-        automaticOutputHandlingSupport ===
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
-    ) {
+    if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
         outputParameters = [];
-    } else if (
-        storeOutputAutomatically &&
-        automaticOutputHandlingSupport ===
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
-    ) {
+    } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
         // In this case the user changed the processtype of the flow by one that does not support the automatic output handling
         // So we need to remove the storeOutputAutomatically property.
         outputParameters = [];

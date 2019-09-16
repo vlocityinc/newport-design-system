@@ -3,7 +3,8 @@ import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     duplicateCanvasElement,
-    createAvailableConnection
+    createAvailableConnection,
+    automaticOutputHandlingSupport
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -316,7 +317,7 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         sortField = undefined;
     }
 
-    if (storeOutputAutomatically) {
+    if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
         Object.assign(recordUpdateMetadata, {
             object,
             filters,
@@ -324,6 +325,17 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
             sortOrder,
             sortField,
             storeOutputAutomatically,
+            getFirstRecordOnly
+        });
+    } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
+        Object.assign(recordUpdateMetadata, {
+            object,
+            outputReference: null,
+            assignNullValuesIfNoRecordsFound,
+            filters,
+            queriedFields,
+            sortOrder,
+            sortField,
             getFirstRecordOnly
         });
     } else if (outputReference) {

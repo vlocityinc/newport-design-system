@@ -11,6 +11,8 @@ import {
     RHS_DATA_TYPE_PROPERTY,
     RHS_PROPERTY
 } from './baseList';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { FLOW_AUTOMATIC_OUTPUT_HANDLING, getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 
 export const DUPLICATE_ELEMENT_XY_OFFSET = 75;
 
@@ -270,3 +272,15 @@ export function baseElement(element = {}) {
         name
     };
 }
+
+export const automaticOutputHandlingSupport = () => {
+    const processType = Store.getStore().getCurrentState().properties
+        .processType;
+    const processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+        processType
+    );
+    return (
+        processTypeAutomaticOutPutHandlingSupport !==
+        FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
+    );
+};
