@@ -39,9 +39,7 @@ function createComponentForTest(props) {
         'builder_platform_interaction-base-expression-builder',
         { is: BaseExpressionBuilder }
     );
-    if (props) {
-        Object.assign(el, props);
-    }
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 }
@@ -132,7 +130,9 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         }),
         getRHSTypes: jest.fn(),
         getDataType: actual.getDataType,
-        transformOperatorsForCombobox: jest.fn().mockReturnValue([]),
+        transformOperatorsForCombobox: jest.fn().mockImplementation(values =>
+            values.map(value => ({ label: 'some label', value }))
+        ),
         elementToParam: actual.elementToParam,
         isCollectionRequired: jest
             .fn()
@@ -206,9 +206,6 @@ describe('base expression builder', () => {
     });
 
     describe('basic set up', () => {
-        beforeEach(() => {
-            rulesMock.transformOperatorsForCombobox.mockClear();
-        });
         it('should set lhs menu data based on container element', () => {
             const expressionBuilder = createComponentForTest({
                 rules: [],
@@ -276,15 +273,6 @@ describe('base expression builder', () => {
             expect(operatorCombobox.value).toEqual(defaultOperator);
         });
         it('should pass the default operator as a menu option when the operator value is not set', () => {
-            rulesMock.transformOperatorsForCombobox.mockImplementation(
-                values => {
-                    return values.map(value => ({
-                        label: 'some label',
-                        value
-                    }));
-                }
-            );
-
             const defaultOperator = 'someDefaultValue';
             const expressionBuilder = createComponentForTest({
                 defaultOperator,
@@ -650,6 +638,27 @@ describe('base expression builder', () => {
                     eventCallback.mock.calls[0][0].detail.newValue;
                 expect(actualUpdates).toMatchObject(expressionUpdates);
             });
+        });
+        it('should show the generic error below the LHS if a list of operators is empty', () => {
+            rulesMock.getOperators.mockReturnValueOnce([]);
+            const expressionBuilder = createComponentForTest({
+                containerElement: ELEMENT_TYPE.ASSIGNMENT,
+                rules: [],
+                lhsValue: 'RepairProcedure__c',
+                lhsParam: null,
+                lhsIsField: false,
+                lhsFields: {},
+                lhsActivePicklistValues: null,
+                showLhsAsFieldReference: true,
+                rhsValue: null,
+                rhsIsField: false,
+                rhsFields: null,
+                rhsLiteralsAllowed: true
+            });
+
+            const lhsCombobox = getComboboxElements(expressionBuilder)[0];
+            expect(lhsCombobox.value).toEqual('RepairProcedure__c');
+            expect(lhsCombobox.errorMessage).toEqual(genericErrorMessage);
         });
         it('should add an error if given an RHS that does not exist and no error', () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest(

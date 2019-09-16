@@ -82,6 +82,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         [LHS_FIELDS]: undefined,
         lhsParamTypes: undefined,
         lhsActivePicklistValues: undefined,
+        lhsEmptyOperatorsError: undefined,
         [RHS_FIELDS]: undefined,
         [LHS_FULL_MENU_DATA]: undefined,
         [LHS_FILTERED_MENU_DATA]: undefined,
@@ -146,6 +147,19 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     @api
     lhsError;
+
+    /**
+     * A left hand side error message:, which is either an externally set error message or
+     * the generic error message, if the operator list is empty (W-6371025).
+     */
+    get _lhsEffectiveError() {
+        if (this.lhsError) {
+            return this.lhsError;
+        } else if (this.state.lhsEmptyOperatorsError) {
+            return genericErrorMessage;
+        }
+        return null;
+    }
 
     @api
     operatorIconName = '';
@@ -262,8 +276,17 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @default ''
      * @memberof BaseExpressionBuilder
      */
+    _defaultOperator = '';
+
     @api
-    defaultOperator = '';
+    get defaultOperator() {
+        return this._defaultOperator;
+    }
+
+    set defaultOperator(value) {
+        this._defaultOperator = value;
+        this.setOperatorMenuData();
+    }
 
     /**
      * @param {String} value  operator value for the expression
@@ -276,6 +299,7 @@ export default class BaseExpressionBuilder extends LightningElement {
         ] = undefined;
         this.setRhsMenuData();
         this._rhsDataType = this.getRhsDataType();
+        this.setOperatorMenuData();
     }
 
     @api
@@ -463,10 +487,20 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Sets LHS menu data if all the necessary attributes have been initialized
      */
     setLhsMenuData() {
+        this.setOperatorMenuData();
+
         if (
             !this.areAllDefined([
                 this.containerElement,
-                this.rules,
+                this.rules
+            ])
+        ) {
+            return;
+        }
+        this.lhsParamTypes = getLHSTypes(this.containerElement, this.rules);
+
+        if (
+            !this.areAllDefined([
                 this.lhsFields,
                 this.lhsDisplayOption,
                 this.lhsMustBeWritable
@@ -474,7 +508,6 @@ export default class BaseExpressionBuilder extends LightningElement {
         ) {
             return;
         }
-        this.lhsParamTypes = getLHSTypes(this.containerElement, this.rules);
 
         const isFieldMenuData =
             this.lhsFields &&
@@ -497,6 +530,10 @@ export default class BaseExpressionBuilder extends LightningElement {
      * Sets operator menu data if all the necessary attributes have been initialized
      */
     get operatorMenuData() {
+        return this._operatorMenuData;
+    }
+
+    setOperatorMenuData() {
         if (
             this.areAllDefined([this.containerElement]) &&
             !this._operatorMenuData
@@ -506,15 +543,19 @@ export default class BaseExpressionBuilder extends LightningElement {
                 operators = getOperators(
                     this.containerElement,
                     this.lhsParam,
-                    this._rules
+                    this.rules
                 );
             } else if (this.operator) {
                 // we want to display the current operator
                 operators = [this.operator];
             }
-            this._operatorMenuData = transformOperatorsForCombobox(operators);
+            this.updateOperatorMenuData(operators);
         }
-        return this._operatorMenuData;
+    }
+
+    updateOperatorMenuData(operators) {
+        this._operatorMenuData = transformOperatorsForCombobox(operators);
+        this.state.lhsEmptyOperatorsError = !!this.lhsValue && (!this._operatorMenuData || this._operatorMenuData.length === 0);
     }
 
     /**
@@ -663,9 +704,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 event.detail.item.value,
                 this.lhsFields
             );
-            this._operatorMenuData = transformOperatorsForCombobox(
-                getOperators(this.containerElement, selectedLhs, this._rules)
-            );
+            this.updateOperatorMenuData(getOperators(this.containerElement, selectedLhs, this.rules));
         }
     }
 
