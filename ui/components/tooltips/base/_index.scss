@@ -23,6 +23,7 @@
 
   .nds-popover__body {
     font-size: $font-size-small;
+    font-weight: $font-weight-light;
     color: $color-text-inverse;
   }
 }
@@ -126,6 +127,10 @@
   top: -2px;
 }
 
+.nds-relative-tooltip .nds-form-element__label {
+  overflow: visible;
+}
+
 .nds-datetime-tooltip span {
   position: relative;
   top: 1.25rem;
@@ -137,4 +142,8 @@
 
 .nds-radio-relative-tooltip span{
   margin-right: .5rem;
+}
+
+.nds-radio-relative-tooltip {
+  overflow: visible;
 }
