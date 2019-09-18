@@ -20,7 +20,7 @@ const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
  * @param {Object} resource - the element
  */
 export function getResourceLabel(resource) {
-    let label = resource.name;
+    let label = resource.name.value || resource.name;
     if (resource.storeOutputAutomatically) {
         if (resource.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
             // "Accounts from myGetRecord"
@@ -33,7 +33,7 @@ export function getResourceLabel(resource) {
                     label = format(
                         LABELS.recordLookupAsResourceText,
                         entityLabel,
-                        resource.name
+                        label
                     );
                 }
             }
@@ -44,11 +44,11 @@ export function getResourceLabel(resource) {
             // "Outputs from myLC"
             label = format(
                 LABELS.lightningComponentScreenFieldAsResourceText,
-                resource.name
+                label
             );
         } else if (resource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
             // "Outputs from myAction
-            label = format(LABELS.actionAsResourceText, resource.name);
+            label = format(LABELS.actionAsResourceText, label);
         }
     }
     return label;

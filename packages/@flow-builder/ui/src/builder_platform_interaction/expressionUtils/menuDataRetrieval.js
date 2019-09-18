@@ -46,6 +46,7 @@ import { getConfigForElementType } from 'builder_platform_interaction/elementCon
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { getScreenElement } from './resourceUtils';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -381,6 +382,17 @@ export function getStoreElements(storeInstance, config) {
         elements = selector(storeInstance);
     }
 
+    return addUncommittedElementsFromLocalStorage(elements);
+}
+
+/*
+ * Add uncommitted elements to the list of elements retrieved from store
+ * */
+export function addUncommittedElementsFromLocalStorage(elements) {
+    const screen = getScreenElement();
+    if (screen && screen.fields) {
+        elements = elements.concat(screen.fields.filter(field => field.isNewField && field.name.value !== ""));
+    }
     return elements;
 }
 
@@ -655,7 +667,9 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
         dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
     ) {
         const resourceGuid = topLevelItem.value;
-        const element = getElementByGuid(resourceGuid);
+        const element = getElementByGuid(resourceGuid) || getScreenElement().fields.find(field => {
+            return field.guid === resourceGuid;
+        });
         callback(retrieveResourceComplexTypeFields(element));
     } else {
         callback(apexTypeLib.getPropertiesForClass(subtype));

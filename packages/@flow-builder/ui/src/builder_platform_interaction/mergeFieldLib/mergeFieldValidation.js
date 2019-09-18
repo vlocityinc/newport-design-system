@@ -16,7 +16,7 @@ import {
     format,
     splitStringBySeparator
 } from 'builder_platform_interaction/commonUtils';
-import { isElementAllowed } from 'builder_platform_interaction/expressionUtils';
+import { isElementAllowed, getScreenElement } from 'builder_platform_interaction/expressionUtils';
 import {
     elementToParam,
     getDataType
@@ -285,7 +285,11 @@ export class MergeFieldsValidation {
 
     _validateElementMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
-        const element = getElementByDevName(mergeFieldReferenceValue);
+        // fetch element from store using the devName
+        // if element is not present in store get element from screen variable as it may have been
+        // just created and not yet committed to store (user hasn't pressed 'Done' yet)
+        const element = getElementByDevName(mergeFieldReferenceValue) || this._getUncommittedElement(mergeFieldReferenceValue);
+
         if (!element) {
             const validationErrorLabel = format(
                 LABELS.unknownResource,
@@ -330,6 +334,16 @@ export class MergeFieldsValidation {
             }
         }
         return [];
+    }
+
+    _getUncommittedElement(referenceValue) {
+        const screen = getScreenElement();
+        if (screen && screen.fields) {
+            return screen.fields.find(field => {
+                return field.name.value === referenceValue;
+            });
+        }
+        return null;
     }
 
     _getElementType(element) {

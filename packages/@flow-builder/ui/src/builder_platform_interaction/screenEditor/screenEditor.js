@@ -18,6 +18,7 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { hidePopover } from 'builder_platform_interaction/builderUtils';
+import { setScreenElement } from 'builder_platform_interaction/expressionUtils';
 
 /**
  * Screen editor container and template (3-col layout) for palette, canvas and property editor
@@ -81,6 +82,14 @@ export default class ScreenEditor extends LightningElement {
 
     @api getSelectedItemGuid() {
         return this.selectedItemGuid;
+    }
+
+    renderedCallback() {
+        setScreenElement(this.screen);
+    }
+
+    disconnectedCallback() {
+        setScreenElement(null);
     }
 
     get flowLabel() {

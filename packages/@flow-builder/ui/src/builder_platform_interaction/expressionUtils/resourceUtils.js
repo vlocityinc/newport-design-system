@@ -24,6 +24,21 @@ import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericEr
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
 import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 
+/* Global variable to hold the current state of the screen element.
+ *  This is being populated by the screenEditor component and
+ *   used for accessing screen components added in the current session (which have not yet been committed to the store)
+ *   in resource pickers inside the editor.
+ * */
+let screen = null;
+
+export const  setScreenElement = element => {
+    screen = element;
+};
+
+export const getScreenElement = () => {
+    return screen;
+};
+
 export const EXPRESSION_PROPERTY_TYPE = {
     LEFT_HAND_SIDE: 'leftHandSide',
     OPERATOR: 'operator',
@@ -74,12 +89,25 @@ export const getResourceByUniqueIdentifier = identifier => {
             getElementByGuid(complexGuid.guidOrLiteral) ||
             getGlobalConstantOrSystemVariable(identifier) ||
             getGlobalVariable(identifier) ||
+            getUncommittedResource(identifier) ||
             (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
                 getElementByDevName(complexGuid.guidOrLiteral))
         );
     }
     return null;
 };
+
+// Check if the resource has been added to the screen in the current session.
+// Such a resource will not be present in the source so we need to check in the screen attribute
+export function getUncommittedResource(identifier) {
+    screen = getScreenElement();
+    if (screen && screen.fields) {
+        return screen.fields.find(field => {
+            return field.guid === identifier;
+        });
+    }
+    return null;
+}
 
 /**
  * Gets the data type to determine how this value should be stored in a FEROV if the id belongs to a valid resource.

@@ -225,7 +225,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
         newElement.value = resource.guid;
         isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
     }
-    newElement.displayText = addCurlyBraces(resource.name);
+    newElement.displayText = addCurlyBraces(resource.isNewField ? resource.name.value : resource.name);
     newElement.subText = isNonElement
         ? resource.description
         : getSubText(resourceDataType, resource.subtype, resourceLabel);
