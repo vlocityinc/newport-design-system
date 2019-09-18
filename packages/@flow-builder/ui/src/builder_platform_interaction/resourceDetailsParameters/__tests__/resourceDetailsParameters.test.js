@@ -1,7 +1,12 @@
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { mockSubmitForApprovalActionParameters } from 'mock/calloutData';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
-import { mockExtensionScreenfieldAutomaticOutputsModeResourceDetails } from 'mock/resourceDetailsData';
+import {
+    mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
+    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails
+} from 'mock/resourceDetailsData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 
 const createComponentUnderTest = resourceDetails => {
@@ -19,6 +24,12 @@ const createComponentUnderTest = resourceDetails => {
 jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
     describeExtension: jest.fn(() =>
         Promise.resolve(mockFlowRuntimeEmailFlowExtensionDescription)
+    )
+}));
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => ({
+    fetchParametersForInvocableAction: jest.fn(() =>
+        Promise.resolve(mockSubmitForApprovalActionParameters)
     )
 }));
 
@@ -66,6 +77,41 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_LC_EMAIL_IN_AUTO_MODE = [
         label: 'Value',
         description:
             "To provide a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable.",
+        typeIconName: 'utility:text'
+    }
+];
+
+const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MODE = [
+    {
+        apiName: 'instanceId',
+        label: 'Instance ID',
+        description: 'The ID of the approval process instance.',
+        typeIconName: 'utility:text'
+    },
+    {
+        apiName: 'instanceStatus',
+        label: 'Instance Status',
+        description:
+            'The status of the approval. The valid values are "Approved," "Rejected," "Removed," or "Pending."',
+        typeIconName: 'utility:text'
+    },
+    {
+        apiName: 'newWorkItemIds',
+        label: 'New Work Item IDs',
+        description:
+            'An array of the ID(s) of the work item(s) created for the next step in this approval process.',
+        typeIconName: 'utility:text'
+    },
+    {
+        apiName: 'actorIds',
+        label: 'Next Approver IDs',
+        description: 'An array of the ID(s) of the next approver(s).',
+        typeIconName: 'utility:text'
+    },
+    {
+        apiName: 'entityId',
+        label: 'Record ID',
+        description: 'The ID of the record submitted for approval.',
         typeIconName: 'utility:text'
     }
 ];
@@ -127,6 +173,51 @@ describe('Resource Details parameters', () => {
                     SELECTORS.spinner
                 );
                 expect(spinner).toBeNull();
+            });
+        });
+    });
+
+    describe('Action (core action) in automatic outputs mode (submit for approval)', () => {
+        describe('No fetch exception', () => {
+            beforeEach(() => {
+                resourceDetailsParametersComponent = createComponentUnderTest(
+                    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails
+                );
+            });
+            describe('Parameters fetch server call OK and NO error', () => {
+                test('check "Parameters" details (via API)', () => {
+                    const parameters =
+                        resourceDetailsParametersComponent.parameters;
+                    expect(parameters).toEqual(
+                        EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MODE
+                    );
+                });
+                test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
+                    expect(
+                        resourceDetailsParametersComponent
+                    ).toMatchSnapshot();
+                });
+            });
+            describe('Parameters fetch server call OK but error', () => {
+                beforeAll(() => {
+                    fetchParametersForInvocableAction.mockImplementation(() =>
+                        Promise.reject(
+                            new Error(
+                                'An error occured during extension parameters fetching'
+                            )
+                        )
+                    );
+                });
+                test('check "Parameters" details (via API)', () => {
+                    const parameters =
+                        resourceDetailsParametersComponent.parameters;
+                    expect(parameters).toHaveLength(0);
+                });
+                test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
+                    expect(
+                        resourceDetailsParametersComponent
+                    ).toMatchSnapshot();
+                });
             });
         });
     });

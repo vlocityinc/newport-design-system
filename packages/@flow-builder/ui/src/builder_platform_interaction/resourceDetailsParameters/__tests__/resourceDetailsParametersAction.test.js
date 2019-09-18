@@ -1,4 +1,4 @@
-import ResourceDetailsParametersExtensionConfig from '../resourceDetailsParametersExtension';
+import ResourceDetailsParametersActionConfig from '../resourceDetailsParametersAction';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
 
@@ -12,10 +12,10 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
     )
 }));
 
-describe('resource-details-parameters-extension', () => {
+describe('resource-details-parameters-action', () => {
     const callback = jest.fn();
-    describe('fetchExtensionOutputParameters', () => {
-        const fetchExtensionOutputFetchFunc = ResourceDetailsParametersExtensionConfig.fetch();
+    describe('fetchActionOutputParameters', () => {
+        const fetchActionOutputFectFunc = ResourceDetailsParametersActionConfig.fetch();
         test.each`
             resourceGuid
             ${null}
@@ -23,7 +23,7 @@ describe('resource-details-parameters-extension', () => {
             ${''}
             ${'GUID_NOT_IN_STORE'}
         `('Invalid resourceGuid: "$resourceGuid"', ({ resourceGuid }) => {
-            fetchExtensionOutputFetchFunc(resourceGuid, callback);
+            fetchActionOutputFectFunc(resourceGuid, callback);
             return Promise.resolve().then(() =>
                 expect(callback).toHaveBeenCalledWith(
                     [],
@@ -32,7 +32,7 @@ describe('resource-details-parameters-extension', () => {
             );
         });
         test('Existing resourceGuid', () => {
-            fetchExtensionOutputFetchFunc(
+            fetchActionOutputFectFunc(
                 emailScreenFieldAutomaticOutput.guid,
                 callback
             );
@@ -44,8 +44,8 @@ describe('resource-details-parameters-extension', () => {
             );
         });
     });
-    describe('mapperExtensionOutputParameter', () => {
-        const mapperExtensionOutputMapFunc = ResourceDetailsParametersExtensionConfig.map();
+    describe('mapperActionOutputParameter', () => {
+        const mapperExtensionOutputMapFunc = ResourceDetailsParametersActionConfig.map();
         test.each`
             rawParameter
             ${null}

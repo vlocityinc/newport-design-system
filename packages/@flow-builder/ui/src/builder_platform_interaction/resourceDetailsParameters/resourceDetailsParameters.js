@@ -1,22 +1,22 @@
 import { LightningElement, api, track } from 'lwc';
-import { LIGHTNING_COMPONENT_PARAMETERS_RETRIEVAL_CONFIGURATION } from './resourceDetailsParametersExtension';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import ResourceDetailsParametersExtensionConfig from './resourceDetailsParametersExtension';
+import ResourceDetailsParametersActionConfig from './resourceDetailsParametersAction';
+
 import { LABELS } from './resourceDetailsParametersLabels';
 
 /**
- * @returns {Object} configuration for all element supporting automatic output parameters
+ * @returns {Map} configuration for all element supporting automatic output parameters
  * will provide fetch function and mapping function in order to render parameters as expected
  * To be completed by any other element type supporting automatic output parameters
  */
-export const RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION = {
-    ...LIGHTNING_COMPONENT_PARAMETERS_RETRIEVAL_CONFIGURATION
-};
-
-/**
- * If no specific mapper provided (dummy one used without any transformation)
- * @param {Object} parameter raw parameter to be transformed
- * @returns {Object} the given parameter left unchanged
- */
-const FALLBACK_PARAMETER_MAPPER = parameter => parameter;
+export const RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION = new Map(
+    [
+        [ELEMENT_TYPE.SCREEN_FIELD, ResourceDetailsParametersExtensionConfig],
+        [ELEMENT_TYPE.ACTION_CALL, ResourceDetailsParametersActionConfig],
+        [ELEMENT_TYPE.APEX_CALL, ResourceDetailsParametersActionConfig]
+    ]
+);
 
 export default class ResourceDetailParameters extends LightningElement {
     @api resourceDetails = {};
@@ -27,7 +27,7 @@ export default class ResourceDetailParameters extends LightningElement {
     };
 
     labels = LABELS;
-    _parameters = undefined;
+    _parameters = [];
 
     /**
      * Array of parameters
@@ -38,24 +38,18 @@ export default class ResourceDetailParameters extends LightningElement {
     }
 
     /**
-     * Based on the given map storing fetching specifics ({@link ResourceDetailParameters#ALL_CONFIGURATION})returns for the current resource
-     * element type the properties to retrieve the parameters (ie: fecth function, mapper)
-     */
-    get fetchConfig() {
-        if (this._fetchConfig === undefined) {
-            this._fetchConfig =
-                RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION[
-                    this.resourceDetails.elementType
-                ] || {};
-        }
-        return this._fetchConfig;
-    }
-
-    /**
      * @returns {Function} the fetch function used
      */
     get fetchFunction() {
-        return this.fetchConfig.fetch;
+        if (this._fetchFunction === undefined) {
+            const configurationClass = RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION.get(
+                this.resourceDetails.elementType
+            );
+            this._fetchFunction = configurationClass
+                ? configurationClass.fetch()
+                : undefined;
+        }
+        return this._fetchFunction;
     }
 
     /**
@@ -67,19 +61,6 @@ export default class ResourceDetailParameters extends LightningElement {
     }
 
     /**
-     * @returns {Function} the given specific  mapper if any (used to shape the aprameter to meet UI requirements) or dummy default mapper otherwise {@link resourceDetailsParameters#FALLBACK_PARAMETER_MAPPER}
-     */
-    get mapper() {
-        return typeof this.fetchConfig.mapper === 'function'
-            ? this.fetchConfig.mapper
-            : FALLBACK_PARAMETER_MAPPER;
-    }
-
-    _reshapeParameters(rawParameters = []) {
-        return rawParameters.map(this.mapper);
-    }
-
-    /**
      * Feed the parameters (if empty will reactively hide the section content)
      * @param {Array[Object]} data parameters returned by the fetch function (will be re shaped the given resource element custom mapper if any left untouched if none)
      * @param {Object} error error if any
@@ -88,7 +69,7 @@ export default class ResourceDetailParameters extends LightningElement {
     _setParameters(data, error) {
         this.state.displaySpinner = false;
         this.state.hasParameters = data && data.length > 0;
-        this._parameters = error ? [] : this._reshapeParameters(data);
+        this._parameters = error ? [] : data;
     }
 
     connectedCallback() {

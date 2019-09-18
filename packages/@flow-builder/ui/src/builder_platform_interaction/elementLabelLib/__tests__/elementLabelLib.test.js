@@ -1,7 +1,8 @@
 import {
     getResourceLabel,
     getElementCategory,
-    getResourceCategory
+    getResourceCategory,
+    getResourceTypeLabel
 } from '../elementLabelLib';
 import { LABELS } from '../elementLabelLibLabels';
 import {
@@ -103,6 +104,34 @@ describe('elementLabelLib', () => {
         it('returns "Outputs" from [ActionName]" for action with automatic handling mode', () => {
             const label = getResourceLabel(actionCallAutomaticOutput);
             expect(label).toEqual('Outputs from actionCallAutomaticOutput');
+        });
+    });
+    describe('getResourceTypeLabel', () => {
+        describe('GetRecord element with automatic handling mode', () => {
+            it('returns "Record (Single) Variable"', () => {
+                const typeLabel = getResourceTypeLabel(
+                    lookupRecordAutomaticOutput
+                );
+                expect(typeLabel).toEqual(LABELS.sObjectSingularLabel);
+            });
+            it('returns "Record Collection Variable" when returning all records', () => {
+                const typeLabel = getResourceTypeLabel(
+                    lookupRecordCollectionAutomaticOutput
+                );
+                expect(typeLabel).toEqual(
+                    LABELS.sObjectCollectionSingularLabel
+                );
+            });
+        });
+        it('returns "Screen Component" for LC screen field with automatic handling mode', () => {
+            const typeLabel = getResourceTypeLabel(
+                emailScreenFieldAutomaticOutput
+            );
+            expect(typeLabel).toEqual(LABELS.screenFieldSingularLabel);
+        });
+        it('returns "Action" for action with automatic handling mode', () => {
+            const typeLabel = getResourceTypeLabel(actionCallAutomaticOutput);
+            expect(typeLabel).toEqual(LABELS.actionSingularLabel);
         });
     });
     describe('getElementCategory', () => {

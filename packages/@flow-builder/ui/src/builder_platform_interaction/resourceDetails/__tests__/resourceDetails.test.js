@@ -8,9 +8,18 @@ import {
     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
     mockGetRecordsAutomaticOutputModeResourceDetails,
     mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails,
+    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails,
+    mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails,
+    mockApexActionInAutomaticOutputsModeResourceDetails,
+    mockApexActionNotInAutomaticOutputsModeResourceDetails,
     mockAccountRecordVariable
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
 
 const createComponentUnderTest = details => {
     const el = createElement('builder_platform_interaction-resource-details', {
@@ -29,7 +38,12 @@ const ASSIGNMENT_DETAILS = {
     description: 'Assignment_Desc',
     name: 'guid1',
     editable: true,
-    deletable: true
+    deletable: true,
+    usedByElements: [],
+    storeOutputAutomatically: undefined,
+    title: 'assign1',
+    typeIconName: undefined,
+    typeLabel: 'Assignment'
 };
 
 const SELECTORS = {
@@ -61,13 +75,40 @@ describe('Resource Details', () => {
     describe('For elements', () => {
         it('should display Edit Button', () => {
             const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
-            const footerButtons = element.shadowRoot.querySelectorAll(
+            const editBtn = element.shadowRoot.querySelectorAll(
                 SELECTORS.footerButtons
-            );
-            expect(footerButtons[1].label).toBe(LABELS.editButtonLabel);
-            expect(footerButtons[1].title).toBe(LABELS.editButtonLabel);
+            )[1];
+            expect(editBtn.label).toBe(LABELS.editButtonLabel);
+            expect(editBtn.title).toBe(LABELS.editButtonLabel);
         });
-
+        it('handle edit click and check call to logging made', async () => {
+            const eventCallback = jest.fn();
+            const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
+            element.addEventListener(
+                EditElementEvent.EVENT_NAME,
+                eventCallback
+            );
+            element.shadowRoot
+                .querySelectorAll(SELECTORS.footerButtons)[1]
+                .dispatchEvent(new CustomEvent('click'));
+            await Promise.resolve();
+            expect(eventCallback).toHaveBeenCalled();
+            expect(logInteraction).toHaveBeenCalled();
+        });
+        it('handle delete click and check call to logging made', async () => {
+            const eventCallback = jest.fn();
+            const element = createComponentUnderTest(ASSIGNMENT_DETAILS);
+            element.addEventListener(
+                DeleteResourceEvent.EVENT_NAME,
+                eventCallback
+            );
+            element.shadowRoot
+                .querySelectorAll(SELECTORS.footerButtons)[0]
+                .dispatchEvent(new CustomEvent('click'));
+            await Promise.resolve();
+            expect(eventCallback).toHaveBeenCalled();
+            expect(logInteraction).toHaveBeenCalled();
+        });
         it('handle edit click SHOULD fire EditElementEvent with outcome canvasElementGUID', () => {
             const eventCallback = jest.fn();
             const guid = 'guid1';
@@ -169,7 +210,9 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should not display API Name', () => {
-                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
 
                 expect(apiName).not.toBeDefined();
             });
@@ -213,9 +256,103 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).not.toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
 
                 expect(apiName).toContain('email1');
+            });
+        });
+        describe('Action (core action - submit for approval) as a resource', () => {
+            let resourceDetailsComponent;
+            beforeEach(() => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails
+                );
+            });
+
+            it('should not display "Edit" and "Delete" buttons', () => {
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
+                    SELECTORS.footerButtons
+                );
+                expect(footerButtons).toHaveLength(0);
+            });
+            it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.createdBySection
+                );
+                expect(createdBySection).toBeDefined();
+                const createdByList = createdBySection.querySelector(
+                    SELECTORS.createdByList
+                );
+                expect(createdByList.listSectionHeader).toBe(
+                    'FlowBuilderResourceDetailsPanel.createdByText'
+                );
+                expect(createdByList.listSectionItems).toEqual([
+                    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
+                ]);
+                expect(resourceDetailsComponent.createdByElements).toEqual([
+                    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails.createdByElement
+                ]);
+            });
+            it('should display "Parameters" section (element type supported)', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).not.toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
+
+                expect(apiName).toContain('actionCallAutomaticOutput');
+            });
+        });
+        describe('Action (Apex action) as a resource', () => {
+            let resourceDetailsComponent;
+            beforeEach(() => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    mockApexActionInAutomaticOutputsModeResourceDetails
+                );
+            });
+
+            it('should not display "Edit" and "Delete" buttons', () => {
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
+                    SELECTORS.footerButtons
+                );
+                expect(footerButtons).toHaveLength(0);
+            });
+            it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.createdBySection
+                );
+                expect(createdBySection).toBeDefined();
+                const createdByList = createdBySection.querySelector(
+                    SELECTORS.createdByList
+                );
+                expect(createdByList.listSectionHeader).toBe(
+                    'FlowBuilderResourceDetailsPanel.createdByText'
+                );
+                expect(createdByList.listSectionItems).toEqual([
+                    mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
+                ]);
+                expect(resourceDetailsComponent.createdByElements).toEqual([
+                    mockApexActionInAutomaticOutputsModeResourceDetails.createdByElement
+                ]);
+            });
+            it('should display "Parameters" section (element type supported)', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).not.toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
+
+                expect(apiName).toContain('apex_action1');
             });
         });
     });
@@ -235,7 +372,9 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
 
                 expect(apiName).toContain('myGetAccount2');
             });
@@ -253,9 +392,51 @@ describe('Resource Details', () => {
                 expect(resourceDetailsParametersComponent).toBeNull();
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
 
                 expect(apiName).toContain('email1');
+            });
+        });
+        describe('Action (core action - submit for approval) as a resource', () => {
+            beforeAll(() => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails
+                );
+            });
+            it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
+
+                expect(apiName).toContain('Submit_for_Approval');
+            });
+        });
+        describe('Action (Apex action) as a resource', () => {
+            beforeAll(() => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    mockApexActionNotInAutomaticOutputsModeResourceDetails
+                );
+            });
+            it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
+
+                expect(apiName).toContain('apex_action1');
             });
         });
         describe('"Account record variable as a resource', () => {
@@ -280,7 +461,9 @@ describe('Resource Details', () => {
                 );
             });
             it('should display API Name', () => {
-                const apiName = getApiNameLineTextContent(resourceDetailsComponent);
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
 
                 expect(apiName).toContain('vAccount');
             });

@@ -60,9 +60,9 @@ export default class ResourceDetails extends LightningElement {
         if (this._isAutomaticOutputParametersSupported === undefined) {
             this._isAutomaticOutputParametersSupported =
                 this.resourceDetails.storeOutputAutomatically &&
-                RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION[
+                RESOURCES_TYPE_WITH_AUTOMATIC_OUTPUT_PARAMETERS_CONFIGURATION.get(
                     this.resourceDetails.elementType
-                ];
+                );
         }
         return this._isAutomaticOutputParametersSupported;
     }

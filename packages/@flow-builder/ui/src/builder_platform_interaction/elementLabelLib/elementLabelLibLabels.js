@@ -12,6 +12,7 @@ import sObjectSingularLabel from '@salesforce/label/FlowBuilderElementConfig.sOb
 import apexVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.apexVariableSingularLabel';
 import screenFieldSingularLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldSingularLabel';
 import lightningComponentScreenFieldAsResourceText from '@salesforce/label/FlowBuilderElementLabels.lightningComponentScreenFieldAsResourceText';
+import actionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.actionSingularLabel';
 import actionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.actionPluralLabel';
 import actionAsResourceText from '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText';
 
@@ -30,6 +31,7 @@ export const LABELS = {
     lightningComponentScreenFieldAsResourceText,
     screenFieldPluralLabel,
     screenFieldSingularLabel,
-    actionAsResourceText,
-    actionPluralLabel
+    actionSingularLabel,
+    actionPluralLabel,
+    actionAsResourceText
 };

@@ -168,6 +168,8 @@ export function getResourceTypeLabel({
         typeLabel = LABELS.apexVariableSingularLabel;
     } else if (dataType === LIGHTNING_COMPONENT_OUTPUT_TYPE) {
         typeLabel = LABELS.screenFieldSingularLabel;
+    } else if (dataType === ACTION_OUTPUT_TYPE) {
+        typeLabel = LABELS.actionSingularLabel;
     }
     return typeLabel;
 }
