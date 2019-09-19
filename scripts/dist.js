@@ -12,7 +12,8 @@ const gulprename = require('gulp-rename');
 const postcss = require('gulp-postcss');
 const rimraf = require('rimraf');
 const sass = require('gulp-sass');
-const minifycss = require('gulp-minify-css');
+const cleanCSS = require('gulp-clean-css');
+
 const zip = require('gulp-zip');
 const forceDeploy = require('gulp-jsforce-deploy');
 const packageJSON = require('../package.json');
@@ -255,10 +256,7 @@ async.series(
         .pipe(gulp.dest(distPath()))
         .on('error', done)
         .pipe(
-          minifycss({
-            advanced: false,
-            roundingPrecision: '-1'
-          })
+          cleanCSS()
         )
         .pipe(
           gulprename(function(path) {
