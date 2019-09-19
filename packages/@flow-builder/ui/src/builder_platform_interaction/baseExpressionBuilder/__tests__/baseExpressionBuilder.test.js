@@ -13,6 +13,16 @@ import {
     assignmentElement,
     accountSObjectVariable
 } from 'mock/storeData';
+
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+
+import {
+    removeLastCreatedInlineResource,
+    updateInlineResourceProperties
+} from 'builder_platform_interaction/actions';
+
+import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+
 import * as rulesMock from 'builder_platform_interaction/ruleLib';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -30,9 +40,28 @@ import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 
+import { Store } from 'builder_platform_interaction/storeLib';
+
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
+
+jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
+    return {
+        getInlineResource: jest.fn()
+    };
+});
+
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
+
+jest.mock('builder_platform_interaction/actions', () => {
+    return {
+        removeLastCreatedInlineResource: jest.fn(),
+        updateInlineResourceProperties: jest.fn()
+    };
+});
 
 function createComponentForTest(props) {
     const el = createElement(
@@ -130,9 +159,11 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         }),
         getRHSTypes: jest.fn(),
         getDataType: actual.getDataType,
-        transformOperatorsForCombobox: jest.fn().mockImplementation(values =>
-            values.map(value => ({ label: 'some label', value }))
-        ),
+        transformOperatorsForCombobox: jest
+            .fn()
+            .mockImplementation(values =>
+                values.map(value => ({ label: 'some label', value }))
+            ),
         elementToParam: actual.elementToParam,
         isCollectionRequired: jest
             .fn()
@@ -1316,6 +1347,161 @@ describe('base expression builder', () => {
             return Promise.resolve().then(() => {
                 const rhsCombobox = getComboboxElements(expressionBuilder)[1];
                 expect(rhsCombobox.type).toEqual(FLOW_DATA_TYPE.NUMBER.value);
+            });
+        });
+    });
+    describe('new inline resource ', () => {
+        function handleEmptyAddInlineResource() {
+            return new CustomEvent('addnewresource', {});
+        }
+
+        function handleAddInlineResource() {
+            return new CustomEvent('addnewresource', {
+                detail: {
+                    position: 'left'
+                }
+            });
+        }
+        function handleFetchMenuData() {
+            return new CustomEvent('fetchmenudata', {
+                detail: {
+                    item: {}
+                }
+            });
+        }
+        it('does not dispatch updateInlineResource if there is no event detail ', () => {
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            ).shadowRoot.querySelector('builder_platform_interaction-combobox');
+            const spy = Store.getStore().dispatch;
+            expressionBuilder.dispatchEvent(handleEmptyAddInlineResource());
+            return Promise.resolve().then(() => {
+                expect(spy).not.toHaveBeenCalled();
+            });
+        });
+        it('dispatches updateInlineResourceProperties with correct payload (given detail)', () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            );
+            expressionBuilder.rowIndex = idx;
+            const cmp = expressionBuilder.shadowRoot.querySelector(
+                'builder_platform_interaction-combobox'
+            );
+
+            const spy = Store.getStore().dispatch;
+            cmp.dispatchEvent(handleAddInlineResource());
+            return Promise.resolve().then(() => {
+                expect(spy).toHaveBeenCalled();
+                expect(updateInlineResourceProperties).toHaveBeenCalled();
+                expect(updateInlineResourceProperties).toHaveBeenCalledWith({
+                    lastInlineResourcePosition: handleAddInlineResource().detail
+                        .position,
+                    lastInlineResourceRowIndex: idx
+                });
+            });
+        });
+        it('triggers logging with `logInteraction` function for new inline resource ', () => {
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            ).shadowRoot.querySelector('builder_platform_interaction-combobox');
+            expressionBuilder.dispatchEvent(handleAddInlineResource());
+            return Promise.resolve().then(() => {
+                expect(logInteraction).toHaveBeenCalled();
+            });
+        });
+        it('dispatches removeLastCreatedInlineResource if the rowIndex equals the newResourceRowIndex and getMenuData is triggered', () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            );
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: idx,
+                    lastInlineResourceGuid:
+                        '6f346269-409c-422e-9e8c-3898d164298q'
+                }
+            });
+            expressionBuilder.rowIndex = idx;
+            const cmp = expressionBuilder.shadowRoot.querySelector(
+                'builder_platform_interaction-combobox'
+            );
+
+            const spy = Store.getStore().dispatch;
+            cmp.dispatchEvent(handleFetchMenuData());
+            return Promise.resolve().then(() => {
+                expect(spy).toHaveBeenCalled();
+                expect(spy).toHaveBeenCalledWith(
+                    removeLastCreatedInlineResource
+                );
+            });
+        });
+        it('calls getInlineResource if the rowIndex equals the newResourceRowIndex and there is a position set', () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            );
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: idx,
+                    lastInlineResourceGuid:
+                        '6f346269-409c-422e-9e8c-3898d164298p',
+                    lastInlineResourcePosition: 'left'
+                }
+            });
+            expressionBuilder.rowIndex = idx;
+            const cmp = expressionBuilder.shadowRoot.querySelector(
+                'builder_platform_interaction-combobox'
+            );
+            cmp.dispatchEvent(handleFetchMenuData());
+            return Promise.resolve().then(() => {
+                expect(getInlineResource).toHaveBeenCalled();
+            });
+        });
+        it('does not call getInlineResource if the rowIndex equals the newResourceRowIndex and there is no position set', () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            );
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: idx,
+                    lastInlineResourceGuid:
+                        '6f346269-409c-422e-9e8c-3898d164298n',
+                    lastInlineResourcePosition: null
+                }
+            });
+            expressionBuilder.rowIndex = idx;
+            const cmp = expressionBuilder.shadowRoot.querySelector(
+                'builder_platform_interaction-combobox'
+            );
+            cmp.dispatchEvent(handleFetchMenuData());
+            return Promise.resolve().then(() => {
+                expect(getInlineResource).not.toHaveBeenCalled();
+            });
+        });
+        it('does not dispatch removeLastCreatedInlineResource if the rowIndex does not equal the newResourceRowIndex', () => {
+            const expressionBuilder = createMockEmptyRHSExpression(
+                stringVariable.guid
+            );
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex:
+                        '931204fe-9c9a-45cf-b804-76fc6df47cc9',
+                    lastInlineResourceGuid:
+                        '6f346269-409c-422e-9e8c-3898d164298d',
+                    lastInlineResourcePosition: 'left'
+                }
+            });
+            expressionBuilder.rowIndex = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
+            const cmp = expressionBuilder.shadowRoot.querySelector(
+                'builder_platform_interaction-combobox'
+            );
+            const spy = Store.getStore().dispatch;
+            cmp.dispatchEvent(handleFetchMenuData());
+            return Promise.resolve().then(() => {
+                expect(getInlineResource).not.toHaveBeenCalled();
+                expect(spy).not.toHaveBeenCalled();
             });
         });
     });
