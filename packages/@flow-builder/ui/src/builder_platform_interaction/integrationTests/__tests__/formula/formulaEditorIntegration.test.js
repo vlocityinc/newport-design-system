@@ -25,9 +25,9 @@ import {
     expectGroupedComboboxItemInGroup,
     getGroupedComboboxItemInGroup,
     getGroupedComboboxItem,
-    auraFetch,
     resetState
 } from '../../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity
@@ -107,8 +107,8 @@ describe('Formula Editor', () => {
         store = Store.getStore(reducer);
         setAuraFetch(
             auraFetch({
-                'c.getFieldsForEntity': () => ({
-                    data: accountFields
+                'c.getFieldsForEntity': getFieldsForEntity({
+                    Account: accountFields
                 })
             })
         );

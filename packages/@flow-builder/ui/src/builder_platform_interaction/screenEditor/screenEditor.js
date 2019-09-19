@@ -129,10 +129,7 @@ export default class ScreenEditor extends LightningElement {
     processPaletteExtensions() {
         // Get all screen field types
         this.screenFieldTypes = getAllScreenFieldTypes();
-        const {
-            processType: flowProcessType
-        } = Store.getStore().getCurrentState().properties;
-        getExtensionFieldTypes(flowProcessType)
+        getExtensionFieldTypes(this.processType)
             .then(data => {
                 const rawScreen = unwrap(this.screen);
                 this.extensionTypes = data;

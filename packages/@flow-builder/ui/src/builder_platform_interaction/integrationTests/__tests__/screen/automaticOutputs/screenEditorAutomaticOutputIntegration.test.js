@@ -9,13 +9,12 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    auraFetch
-} from '../../../integrationTestUtils';
+import { LIGHTNING_COMPONENTS_SELECTORS } from '../../../integrationTestUtils';
+import { auraFetch, getFlowExtensions } from '../../../serverDataTestUtils';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -42,7 +41,7 @@ const createComponentUnderTest = props => {
     return el;
 };
 
-const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
+const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = FLOW_PROCESS_TYPE.FLOW;
 
 class ToggleOnChangeEvent extends CustomEvent {
     constructor() {
@@ -139,8 +138,8 @@ describe('ScreenEditor', () => {
                             return obj;
                         }, {})
                     }),
-                    'c.getFlowExtensions': () => ({
-                        data: mockFlowExtensions
+                    'c.getFlowExtensions': getFlowExtensions({
+                        [FLOW_PROCESS_TYPE.FLOW]: mockFlowExtensions
                     })
                 })
             );
@@ -158,8 +157,8 @@ describe('ScreenEditor', () => {
                 const element = getElementByDevName('ScreenFlowAskAdress');
                 screenNode = getElementForPropertyEditor(element);
                 screenEditor = createComponentUnderTest({
-                    node: screenNode,
-                    processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+                    processType: MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE,
+                    node: screenNode
                 });
                 await ticks(50);
                 const addressElement = getCanvasScreenFieldElement(

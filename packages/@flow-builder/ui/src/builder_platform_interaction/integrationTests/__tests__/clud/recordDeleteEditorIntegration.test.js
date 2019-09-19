@@ -4,7 +4,6 @@ import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor'
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    auraFetch,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
@@ -19,6 +18,7 @@ import {
     getFieldToFerovExpressionBuilders,
     resetState
 } from '../../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
@@ -70,8 +70,8 @@ describe('Record Delete Editor', () => {
         setSystemVariables(systemVariablesForFlow);
         setAuraFetch(
             auraFetch({
-                'c.getFieldsForEntity': () => ({
-                    data: accountFields
+                'c.getFieldsForEntity': getFieldsForEntity({
+                    Account: accountFields
                 })
             })
         );

@@ -3,6 +3,7 @@ import SubflowEditor from 'builder_platform_interaction/subflowEditor';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -14,7 +15,6 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
 import {
-    auraFetch,
     getLabelDescriptionNameElement,
     getLabelDescriptionLabelElement,
     focusoutEvent,
@@ -23,6 +23,11 @@ import {
     changeComboboxValue,
     resetState
 } from '../../integrationTestUtils';
+import {
+    auraFetch,
+    getSubflows,
+    getFlowInputOutputVariables
+} from '../../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -48,11 +53,11 @@ import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
-const createComponentForTest = (node, isNewMode = false) => {
+const createComponentForTest = node => {
     const el = createElement('builder_platform_interaction-subflow-editor', {
         is: SubflowEditor
     });
-    Object.assign(el, { node, isNewMode });
+    Object.assign(el, { node, isNewMode: false });
     document.body.appendChild(el);
     return el;
 };
@@ -64,9 +69,11 @@ describe('Subflow Editor', () => {
         setRules(rules);
         setAuraFetch(
             auraFetch({
-                'c.getSubflows': () => ({ data: mockSubflows }),
-                'c.getFlowInputOutputVariables': () => ({
-                    data: mockSubflowAllTypesVariables
+                'c.getSubflows': getSubflows({
+                    [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
+                }),
+                'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
+                    FlowWithAllTypesVariables: mockSubflowAllTypesVariables
                 })
             })
         );

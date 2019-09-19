@@ -1,4 +1,3 @@
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import {
     setEntities,
     clearEntityFieldsCache
@@ -45,7 +44,10 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     INTERACTION_COMBOBOX: 'builder_platform_interaction-combobox',
     OUTPUT_RESOURCE_PICKER:
         'builder_platform_interaction-output-resource-picker',
+    CALLOUT_EDITOR_CONTAINER:
+        'builder_platform_interaction-callout-editor-container',
     BASE_CALLOUT_EDITOR: 'builder_platform_interaction-base-callout-editor',
+    SUBFLOW_EDITOR: 'builder_platform_interaction-subflow-editor',
     COMBOBOX: 'builder_platform_interaction-combobox',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
@@ -187,26 +189,6 @@ export const getRadioGroup = parentElement => {
     return parentElement.shadowRoot.querySelectorAll(
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
     );
-};
-
-export const auraFetch = actions => async (
-    actionName,
-    shouldExecuteCallback,
-    callback,
-    params
-) => {
-    await ticks(10);
-    if (!shouldExecuteCallback()) {
-        return undefined;
-    }
-    let result;
-    if (actions[actionName]) {
-        result = actions[actionName](params);
-    } else {
-        result = { error: 'Unknown actionName' };
-    }
-    callback(result);
-    return undefined;
 };
 
 export const getChildComponent = (parentComponent, childComponentSelector) => {

@@ -13,7 +13,8 @@ import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { auraFetch, resetState } from '../../integrationTestUtils';
+import { resetState } from '../../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity
@@ -68,8 +69,8 @@ describe('Assignment Editor', () => {
         setEntities(allEntities);
         setAuraFetch(
             auraFetch({
-                'c.getFieldsForEntity': () => ({
-                    data: accountFields
+                'c.getFieldsForEntity': getFieldsForEntity({
+                    Account: accountFields
                 })
             })
         );

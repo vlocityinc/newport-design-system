@@ -7,6 +7,7 @@ import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -21,9 +22,12 @@ import {
     focusoutEvent,
     textInputEvent,
     blurEvent,
-    auraFetch,
     resetState
 } from '../../integrationTestUtils';
+import {
+    auraFetch,
+    getAllInvocableActionsForType
+} from '../../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -89,9 +93,9 @@ describe('Invocable Action Editor', () => {
         beforeAll(() => {
             setAuraFetch(
                 auraFetch({
-                    'c.getAllInvocableActionsForType': () => ({
-                        data: mockActions
-                    }),
+                    'c.getAllInvocableActionsForType': getAllInvocableActionsForType(
+                        { [FLOW_PROCESS_TYPE.FLOW]: mockActions }
+                    ),
                     'c.getInvocableActionParameters': getInvocableActionParameters(
                         {
                             apex: {

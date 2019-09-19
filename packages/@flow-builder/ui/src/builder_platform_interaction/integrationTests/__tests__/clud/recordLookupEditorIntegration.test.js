@@ -14,7 +14,6 @@ import {
     getFieldToFerovExpressionBuilders,
     getBaseExpressionBuilder,
     getEntityResourcePicker,
-    auraFetch,
     getRadioGroup,
     getChildComponent,
     changeInputValue,
@@ -22,6 +21,7 @@ import {
     newFilterItem,
     resetState
 } from '../../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
@@ -170,8 +170,8 @@ describe('Record Lookup Editor', () => {
         setSystemVariables(systemVariablesForFlow);
         setAuraFetch(
             auraFetch({
-                'c.getFieldsForEntity': () => ({
-                    data: accountFields
+                'c.getFieldsForEntity': getFieldsForEntity({
+                    Account: accountFields
                 })
             })
         );
