@@ -10,6 +10,31 @@ import * as mockRuleLib from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from '../../dataTypeLib/dataTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import {
+    removeLastCreatedInlineResource,
+    updateInlineResourceProperties
+} from 'builder_platform_interaction/actions';
+
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
+
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
+
+jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
+    return {
+        getInlineResource: jest.fn(() => 'test resource')
+    };
+});
+
+jest.mock('builder_platform_interaction/actions', () => {
+    return {
+        removeLastCreatedInlineResource: jest.fn(),
+        updateInlineResourceProperties: jest.fn(() => 'test response')
+    };
+});
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -63,7 +88,15 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getMenuData: jest
             .fn()
-            .mockReturnValue(['ferovMenuData'])
+            .mockReturnValue([
+                {
+                    items: [
+                        {
+                            value: '1234'
+                        }
+                    ]
+                }
+            ])
             .mockName('getMenuData'),
         normalizeFEROV: jest.fn().mockImplementation(rhsId => {
             return require
@@ -528,6 +561,83 @@ describe('ferov-resource-picker', () => {
                     true,
                     true
                 );
+            });
+        });
+    });
+    describe('inline resource ', () => {
+        function fetchMenuData() {
+            return new CustomEvent('fetchmenudata', {
+                detail: {
+                    item: {
+                        value: 'kl214fea-9c9a-45cf-b804-76fc6df47c23'
+                    }
+                }
+            });
+        }
+        function handleAddInlineResource() {
+            return new CustomEvent('addnewresource', {
+                detail: {
+                    position: 'left'
+                }
+            });
+        }
+        it('dispatches removeLastCreatedInlineResource when there is an inline resource and fetchMenuData is triggered', () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c2v';
+            props.rowIndex = idx;
+            const spy = Store.getStore().dispatch;
+
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: idx,
+                    lastInlineResourceGuid:
+                        '6f346269-409c-422e-9e8c-3898d16429tt'
+                }
+            });
+            const cmp = setupComponentUnderTest(props);
+            const picker = cmp.shadowRoot.querySelector(
+                'builder_platform_interaction-base-resource-picker'
+            );
+            picker.dispatchEvent(fetchMenuData());
+
+            return Promise.resolve().then(() => {
+                expect(spy).toHaveBeenCalledWith(
+                    removeLastCreatedInlineResource
+                );
+            });
+        });
+        it('calls getMenuData when an inline resource is set and fetchMenuData is triggered', () => {
+            const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
+            props.rowIndex = idx;
+            const menuDataSpy = getMenuData;
+            Store.setMockState({
+                properties: {
+                    lastInlineResourceRowIndex: idx,
+                    lastInlineResourceGuid:
+                        '6f346269-409c-422e-9e8c-3898d16429gg'
+                }
+            });
+            const cmp = setupComponentUnderTest(props);
+            const picker = cmp.shadowRoot.querySelector(
+                'builder_platform_interaction-base-resource-picker'
+            );
+            picker.dispatchEvent(fetchMenuData());
+            return Promise.resolve().then(() => {
+                expect(menuDataSpy).toHaveBeenCalled();
+            });
+        });
+        it('dispaches response from updateInlineResourceProperties when dispatching addnewresource', () => {
+            const updateInlineResourceSpy = updateInlineResourceProperties;
+            const spy = Store.getStore().dispatch;
+
+            const cmp = setupComponentUnderTest(props);
+            const picker = cmp.shadowRoot.querySelector(
+                'builder_platform_interaction-base-resource-picker'
+            );
+
+            picker.dispatchEvent(handleAddInlineResource());
+            return Promise.resolve().then(() => {
+                expect(spy).toHaveBeenCalledWith('test response');
+                expect(updateInlineResourceSpy).toHaveBeenCalled();
             });
         });
     });
