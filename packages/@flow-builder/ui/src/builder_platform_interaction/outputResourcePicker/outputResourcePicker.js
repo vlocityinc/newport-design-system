@@ -190,7 +190,7 @@ export default class OutputResourcePicker extends LightningElement {
                     lastInlineResourceRowIndex: event.detail.position
                 })
             );
-            logInteraction(`output-inline-resource`, 'combobox', null, 'click');
+            logInteraction('output-inline-resource', 'combobox', null, 'click');
         }
     };
 

@@ -9,6 +9,11 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
+    updateInlineResourceProperties,
+    removeLastCreatedInlineResource
+} from 'builder_platform_interaction/actions';
+
+import {
     getRHSTypes,
     RULE_OPERATOR
 } from 'builder_platform_interaction/ruleLib';
@@ -22,6 +27,23 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
+
+jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
+    return {
+        getInlineResource: jest.fn(() => 'test resource')
+    };
+});
+
+jest.mock('builder_platform_interaction/loggingUtils', () => ({
+    logInteraction: jest.fn()
+}));
+
+jest.mock('builder_platform_interaction/actions', () => {
+    return {
+        removeLastCreatedInlineResource: jest.fn(),
+        updateInlineResourceProperties: jest.fn(() => 'test response')
+    };
+});
 
 const setupComponentUnderTest = props => {
     const element = createElement(
@@ -400,6 +422,82 @@ describe('output-resource-picker', () => {
 
                 return Promise.resolve().then(() => {
                     expect(outputResourcePicker.value).toEqual(output);
+                });
+            });
+            describe('inline resource ', () => {
+                function fetchMenuData() {
+                    return new CustomEvent('fetchmenudata', {
+                        detail: {
+                            item: {
+                                value: '6f346269-409c-422e-9e8c-3898d164298m'
+                            }
+                        }
+                    });
+                }
+                function handleAddInlineResource() {
+                    return new CustomEvent('addnewresource', {
+                        detail: {
+                            position: 'left'
+                        }
+                    });
+                }
+                it('dispatches removeLastCreatedInlineResource when there is an inline resource and fetchMenuData is triggered', () => {
+                    const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47crr';
+                    props.rowIndex = idx;
+                    const spy = Store.getStore().dispatch;
+                    Store.setMockState({
+                        properties: {
+                            lastInlineResourceRowIndex: idx,
+                            lastInlineResourceGuid:
+                                '6f346269-409c-422e-9e8c-3898d164298q'
+                        }
+                    });
+                    const cmp = setupComponentUnderTest(props);
+                    const picker = cmp.shadowRoot.querySelector(
+                        'builder_platform_interaction-base-resource-picker'
+                    );
+                    picker.dispatchEvent(fetchMenuData());
+
+                    return Promise.resolve().then(() => {
+                        expect(spy).toHaveBeenCalledWith(
+                            removeLastCreatedInlineResource
+                        );
+                    });
+                });
+                it('calls getMenuData when an inline resource is set and fetchMenuData is triggered', () => {
+                    const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+                    props.rowIndex = idx;
+                    const menuDataSpy = getMenuData;
+                    Store.setMockState({
+                        properties: {
+                            lastInlineResourceRowIndex: idx,
+                            lastInlineResourceGuid:
+                                '6f346269-409c-422e-9e8c-3898d164298m'
+                        }
+                    });
+                    const cmp = setupComponentUnderTest(props);
+                    const picker = cmp.shadowRoot.querySelector(
+                        'builder_platform_interaction-base-resource-picker'
+                    );
+                    picker.dispatchEvent(fetchMenuData());
+                    return Promise.resolve().then(() => {
+                        expect(menuDataSpy).toHaveBeenCalled();
+                    });
+                });
+                it('dispaches response from updateInlineResourceProperties when dispatching addnewresource', () => {
+                    const updateInlineResourceSpy = updateInlineResourceProperties;
+                    const spy = Store.getStore().dispatch;
+
+                    const cmp = setupComponentUnderTest(props);
+                    const picker = cmp.shadowRoot.querySelector(
+                        'builder_platform_interaction-base-resource-picker'
+                    );
+
+                    picker.dispatchEvent(handleAddInlineResource());
+                    return Promise.resolve().then(() => {
+                        expect(spy).toHaveBeenCalledWith('test response');
+                        expect(updateInlineResourceSpy).toHaveBeenCalled();
+                    });
                 });
             });
         });
