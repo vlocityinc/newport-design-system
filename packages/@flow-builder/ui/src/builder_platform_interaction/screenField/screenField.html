@@ -11,9 +11,9 @@
         <div if:false={hasErrors}>
             <builder_platform_interaction-screen-field-card
                 if:true={isExtension}
+                icon={screenfield.type.icon}
                 title={displayName}
                 text={labels.fieldExtensionPreviewDescription}
-                icon="custom:custom9"
             >
             </builder_platform_interaction-screen-field-card>
             <builder_platform_interaction-screen-input-field

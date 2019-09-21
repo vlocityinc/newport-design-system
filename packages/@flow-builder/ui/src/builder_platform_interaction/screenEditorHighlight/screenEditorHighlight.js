@@ -16,6 +16,7 @@ import {
  */
 export default class ScreenEditorHighlight extends LightningElement {
     @api screenElement;
+    @api highlighIcon;
     @api property;
     @api preventEvents = false;
     @api displayIcons = false;
@@ -41,6 +42,10 @@ export default class ScreenEditorHighlight extends LightningElement {
 
     get shouldDisplayIcons() {
         return booleanAttributeValue(this, 'displayIcons');
+    }
+
+    connectedCallback() {
+        this.highlightIcon = (this.screenElement && this.screenElement.type && this.screenElement.type.icon) || "utility:connected_apps";
     }
 
     handleSelected = event => {
