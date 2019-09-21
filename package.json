@@ -34,14 +34,13 @@
     "eslint-plugin-node": "4.2.2",
     "eslint-plugin-promise": "3.5.0",
     "eslint-plugin-standard": "3.0.1",
-    "gulp": "3.9.1",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "3.1.1",
     "gulp-cached": "1.1.1",
     "gulp-eslint": "3.0.1",
     "gulp-insert": "0.5.0",
     "gulp-jsforce-deploy": "^1.1.2",
     "gulp-lintspaces": "0.5.0",
-    "gulp-minify-css": "1.2.4",
     "gulp-plumber": "1.1.0",
     "gulp-postcss": "6.4.0",
     "gulp-rename": "1.2.2",
@@ -102,6 +101,7 @@
   "dependencies": {
     "babel-eslint": "^10.0.1",
     "comment-parser": "^0.5.4",
+    "gulp-clean-css": "^4.2.0",
     "highlight.js": "^9.15.6"
   }
 }
