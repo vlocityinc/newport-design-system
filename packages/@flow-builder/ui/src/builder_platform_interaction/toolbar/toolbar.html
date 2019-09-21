@@ -58,9 +58,9 @@
             >
                 <span>{activationStatus}</span>
                 <span if:true={showDate}
-                >{saveStatus}&nbsp;<lightning-relative-date-time
+                    >{saveAndActivatingStatus}&nbsp;<lightning-relative-date-time
                         value={currentDate}
-                ></lightning-relative-date-time
+                    ></lightning-relative-date-time
                 ></span>
             </button>
             <div class="inline-display slds-m-left_xx-small">
@@ -92,25 +92,23 @@
                 >
                 </lightning-button>
             </lightning-button-group>
-            
-            <lightning-button 
-                    id="toggleFlowStatusButton"
-                    label={activateButtonText}
-                    title={activateButtonText}
-                    onclick={handleToggleFlowStatus}
-                    disabled={activateDisabled}
-                    class="test-toolbar-activate
-                            slds-m-left_xx-small"
+
+            <lightning-button
+                id="toggleFlowStatusButton"
+                label={activateButtonText}
+                title={activateButtonText}
+                onclick={handleToggleFlowStatus}
+                disabled={activateDisabled}
+                class="test-toolbar-activate slds-m-left_xx-small"
             >
             </lightning-button>
-            
+
             <lightning-button
                 label={labels.saveAsTitle}
                 title={labels.saveAsTitle}
                 onclick={handleSaveAs}
                 disabled={isSaveAsDisabled}
-                class="test-toolbar-saveas
-                       slds-m-left_xx-small"
+                class="test-toolbar-saveas slds-m-left_xx-small"
             >
             </lightning-button>
             <lightning-button

@@ -43,7 +43,7 @@ export default class Toolbar extends LightningElement {
     lastModifiedDate;
 
     @api
-    saveStatus;
+    saveAndActivatingStatus;
 
     @api
     isLightningFlowBuilder;
@@ -63,9 +63,6 @@ export default class Toolbar extends LightningElement {
     @api
     isRedoDisabled;
 
-    @api
-    isActivateDisabled;
-
     labels = LABELS;
 
     statusLabelFromStatus = {
@@ -80,20 +77,20 @@ export default class Toolbar extends LightningElement {
         },
         [FLOW_STATUS.INVALID_DRAFT]: {
             label: this.labels.draftLabel
-        },
-        [FLOW_STATUS.ACTIVATING]: {
-            label: this.labels.activating
-        },
-        [FLOW_STATUS.SAVING]: {
-            label: this.labels.savingStatus
         }
     };
 
     get showLastSavedPill() {
-        return !!this.saveStatus;
+        return !!this.saveAndActivatingStatus;
     }
 
     get statusIndicatorTitle() {
+        if (
+            this.saveAndActivatingStatus === this.labels.savingStatus ||
+            this.saveAndActivatingStatus === this.labels.activating
+        ) {
+            return this.saveAndActivatingStatus;
+        }
         return (
             this.statusLabelFromStatus[this.flowStatus] &&
             this.statusLabelFromStatus[this.flowStatus].label
@@ -101,24 +98,24 @@ export default class Toolbar extends LightningElement {
     }
 
     get activationStatus() {
+        if (
+            this.saveAndActivatingStatus === this.labels.savingStatus ||
+            this.saveAndActivatingStatus === this.labels.activating
+        ) {
+            return this.saveAndActivatingStatus;
+        }
         const activationStatusLabel =
             this.statusLabelFromStatus[this.flowStatus] &&
             this.statusLabelFromStatus[this.flowStatus].label;
-        if (
-            activationStatusLabel === this.labels.activating ||
-            activationStatusLabel === this.labels.savingStatus
-        ) {
-            return activationStatusLabel;
-        }
         return activationStatusLabel && `${activationStatusLabel}\u2014`;
     }
 
     get showDate() {
         return (
-            this.saveStatus === LABELS.savedStatus &&
+            this.saveAndActivatingStatus === LABELS.savedStatus &&
             this.lastModifiedDate &&
-            !(this.flowStatus === FLOW_STATUS.ACTIVATING) &&
-            !(this.flowStatus === FLOW_STATUS.SAVING)
+            this.saveAndActivatingStatus !== this.labels.savingStatus &&
+            this.saveAndActivatingStatus !== this.labels.activating
         );
     }
 
@@ -143,7 +140,8 @@ export default class Toolbar extends LightningElement {
             !this.flowStatus ||
             this.flowStatus === FLOW_STATUS.INVALID_DRAFT ||
             this.flowStatus === FLOW_STATUS.ACTIVE ||
-            this.flowStatus === FLOW_STATUS.SAVING ||
+            this.saveAndActivatingStatus === this.labels.savingStatus ||
+            this.saveAndActivatingStatus === this.labels.activating ||
             this.hasUnsavedChanges
         );
     }

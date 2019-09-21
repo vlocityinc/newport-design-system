@@ -8,37 +8,36 @@
     <div class="slds-grid slds-grid_vertical slds-is-fixed slds-grid_frame">
         <div class="slds-builder-header_container slds-is-relative">
             <builder_platform_interaction-header
-				flow-name={properties.label}
-				flow-version={properties.versionNumber}
-				help-url={helpUrl}
-				back-url={backUrl}
-				></builder_platform_interaction-header>
-            <builder_platform_interaction-toolbar 
-				onduplicate={handleDuplicate} 
-				oneditflowproperties={handleEditFlowProperties} 
-				onrunflow={handleRunFlow} 
-				ondebugflow={handleDebugFlow} 
-				onsaveas={handleSaveFlow} 
-				onsave={handleSaveFlow} 
-				ondiffflow={handleDiffFlow} 
-				onundo={handleUndo} 
-				onredo={handleRedo} 
-				ontoggleflowstatus={handleToggleFlowStatus}
-                flow-errors-and-warnings={flowErrorsAndWarnings} 
-				save-status={saveStatus} 
-				last-modified-date={properties.lastModifiedDate} 
-				flow-status={flowStatus} 
-				is-edit-flow-properties-disabled={hasNotBeenSaved} 
-				is-run-debug-disabled={isRunDebugDisabled} 
-				is-save-disabled={disableSave} 
-				is-activate-disabled={disableActivate}
-                is-save-as-disabled={hasNotBeenSaved} 
-				is-undo-disabled={isUndoDisabled} 
-				is-redo-disabled={isRedoDisabled} 
-				is-lightning-flow-builder={properties.isLightningFlowBuilder} 
-				can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition} 
-				has-unsaved-changes={properties.hasUnsavedChanges}
-			></builder_platform_interaction-toolbar>
+                flow-name={properties.label}
+                flow-version={properties.versionNumber}
+                help-url={helpUrl}
+                back-url={backUrl}
+            ></builder_platform_interaction-header>
+            <builder_platform_interaction-toolbar
+                onduplicate={handleDuplicate}
+                oneditflowproperties={handleEditFlowProperties}
+                onrunflow={handleRunFlow}
+                ondebugflow={handleDebugFlow}
+                onsaveas={handleSaveFlow}
+                onsave={handleSaveFlow}
+                ondiffflow={handleDiffFlow}
+                onundo={handleUndo}
+                onredo={handleRedo}
+                ontoggleflowstatus={handleToggleFlowStatus}
+                flow-errors-and-warnings={flowErrorsAndWarnings}
+                save-and-activating-status={saveAndActivatingStatus}
+                last-modified-date={properties.lastModifiedDate}
+                flow-status={flowStatus}
+                is-edit-flow-properties-disabled={hasNotBeenSaved}
+                is-run-debug-disabled={isRunDebugDisabled}
+                is-save-disabled={disableSave}
+                is-save-as-disabled={hasNotBeenSaved}
+                is-undo-disabled={isUndoDisabled}
+                is-redo-disabled={isRedoDisabled}
+                is-lightning-flow-builder={properties.isLightningFlowBuilder}
+                can-only-save-as-new-definition={properties.canOnlySaveAsNewDefinition}
+                has-unsaved-changes={properties.hasUnsavedChanges}
+            ></builder_platform_interaction-toolbar>
         </div>
         <div class="slds-col slds-grow slds-grid">
             <builder_platform_interaction-left-panel

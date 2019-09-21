@@ -19,24 +19,17 @@ import {
     updatePropertiesAfterCreatingFlowFromTemplate,
     updatePropertiesAfterCreatingFlowFromProcessType,
     updatePropertiesAfterActivateButtonPress,
-    updatePropertiesAfterSaveButtonPress,
-    UPDATE_PROPERTIES_AFTER_SAVING,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
     UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
     UPDATE_CANVAS_ELEMENT_LOCATION,
-    UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
     updateApexClasses,
     ADD_START_ELEMENT,
-    UPDATE_APEX_CLASSES,
-    UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS
+    UPDATE_APEX_CLASSES
 } from 'builder_platform_interaction/actions';
-import {
-    ELEMENT_TYPE,
-    FLOW_STATUS
-} from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     fetch,
     fetchOnce,
@@ -162,10 +155,7 @@ export default class Editor extends LightningElement {
     disableSave = true;
 
     @track
-    disableActivate = true;
-
-    @track
-    saveStatus;
+    saveAndActivatingStatus;
 
     @track
     saveType;
@@ -190,11 +180,8 @@ export default class Editor extends LightningElement {
             INIT,
             UPDATE_APEX_CLASSES,
             ADD_START_ELEMENT,
-            UPDATE_PROPERTIES_AFTER_SAVING, // Called after successful save callback returns
-            UPDATE_PROPERTIES_AFTER_SAVE_FAILED, // Called after save callback returns with errors from server
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
-            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
-            UPDATE_PROPERTIES_AFTER_ACTIVATE_BUTTON_PRESS
+            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
@@ -488,7 +475,6 @@ export default class Editor extends LightningElement {
         if (error) {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
         } else if (data.isSuccess) {
-            this.clearUndoRedoStack();
             this.currentFlowId = data.flowId;
             updateStoreAfterSaveFlowIsSuccessful(storeInstance, data);
             updateUrl(this.currentFlowId);
@@ -511,12 +497,14 @@ export default class Editor extends LightningElement {
             );
         }
 
+        this.clearUndoRedoStack();
+
         if (this.currentFlowId) {
             this.hasNotBeenSaved = false;
-            this.saveStatus = LABELS.savedStatus;
+            this.saveAndActivatingStatus = LABELS.savedStatus;
         } else {
             this.hasNotBeenSaved = true;
-            this.saveStatus = null;
+            this.saveAndActivatingStatus = null;
         }
         this.disableSave = false;
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
@@ -762,11 +750,10 @@ export default class Editor extends LightningElement {
             this.toggleFlowStatusCallBack,
             params
         );
-        storeInstance.dispatch(
-            updatePropertiesAfterActivateButtonPress({
-                status: FLOW_STATUS.ACTIVATING
-            })
-        );
+        this.saveAndActivatingStatus = LABELS.activating;
+        this.hasNotBeenSaved = true;
+        this.isUndoDisabled = true;
+        this.isRedoDisabled = true;
     };
 
     /**
@@ -780,7 +767,6 @@ export default class Editor extends LightningElement {
         } else if (!data.isSuccess) {
             this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
         } else {
-            this.clearUndoRedoStack();
             storeInstance.dispatch(
                 updatePropertiesAfterActivateButtonPress({
                     status: data.status,
@@ -788,7 +774,10 @@ export default class Editor extends LightningElement {
                     lastModifiedBy: data.lastModifiedBy
                 })
             );
+            this.clearUndoRedoStack();
         }
+        this.saveAndActivatingStatus = LABELS.savedStatus;
+        this.hasNotBeenSaved = false;
     };
 
     queueOpenPropertyEditor = params => {
@@ -956,14 +945,11 @@ export default class Editor extends LightningElement {
             { saveType },
             'click'
         );
-        this.saveStatus = LABELS.savingStatus;
-        storeInstance.dispatch(
-            updatePropertiesAfterSaveButtonPress({
-                status: FLOW_STATUS.SAVING
-            })
-        );
+        this.saveAndActivatingStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
+        this.isUndoDisabled = true;
+        this.isRedoDisabled = true;
     };
 
     /**
@@ -1046,7 +1032,7 @@ export default class Editor extends LightningElement {
             });
 
             if (this.flowId) {
-                this.saveStatus = LABELS.savedStatus;
+                this.saveAndActivatingStatus = LABELS.savedStatus;
                 this.hasNotBeenSaved = false;
             }
             this.disableSave = false;
