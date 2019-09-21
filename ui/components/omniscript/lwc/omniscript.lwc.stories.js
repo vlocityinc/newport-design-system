@@ -1,5 +1,6 @@
 /* eslint-env browser */
 import { storiesOf } from '@storybook/html';
+import { withKnobs, number } from '@storybook/addon-knobs';
 import base from 'paths.macro';
 import notes from './doc.md';
 import scss from '../base/_index.scss';
@@ -9,7 +10,18 @@ import {
   commentToHTML
 } from '../../../../scripts/storybook';
 
+const label = 'Element Widths';
+const defaultValue = 12;
+const options = {
+  range: true,
+  min: 0,
+  max: 12,
+  step: 1
+};
+const groupId = 'GROUP-ID1';
+
 storiesOf(`${base}`, module)
+  .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('LWC Omniscript', () => {
@@ -23,6 +35,7 @@ storiesOf(`${base}`, module)
         }
       });
     });
+    const width = number(label, defaultValue, options, groupId);
     return withExample(`<vloc_mg-omniscript-preview id="a0Z1J00000FGWtHUAX"
     data-aura-rendered-by="6:0"
     vloc_mg-omniscriptpreview_omniscriptpreview_nds-host="">
@@ -125,7 +138,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 <slot>
 <c-omniscript-checkbox vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                data-omni-key="Checkbox"
-               class="nds-size_12-of-12 nds-medium-size_12-of-12">
+               class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-omni-input="true"
      vloc_mg-input_input_nds-host="">
@@ -180,7 +193,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-checkbox>
 <c-omniscript-currency vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                data-omni-key="Currency"
-               class="nds-size_12-of-12 nds-medium-size_12-of-12">
+               class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -219,7 +232,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-currency>
 <c-omniscript-date vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
            data-omni-key="Date"
-           class="nds-size_12-of-12 nds-medium-size_12-of-12">
+           class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-omni-input="true"
      vloc_mg-input_input_nds-host="">
@@ -958,7 +971,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-date>
 <c-omniscript-date-time vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                 data-omni-key="Date/Time"
-                class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-omni-input="true"
      vloc_mg-input_input_nds-host="">
@@ -1741,7 +1754,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-date-time>
 <c-omniscript-email vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
             data-omni-key="Email"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
+            class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-id="Email"
      data-omni-input="true"
@@ -1790,7 +1803,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-email>
 <c-omniscript-lookup vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
              data-omni-key="Lookup"
-             class="nds-size_12-of-12 nds-medium-size_12-of-12">
+             class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <fieldset class="nds-form-element nds-form-container">
 <div class="nds-combobox_container">
@@ -1851,7 +1864,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-lookup>
 <c-omniscript-multiselect vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                   data-omni-key="Multi-select-vertical-manual"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                  class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-checkbox-group data-refresh="false"
               data-omni-input="true"
@@ -1885,8 +1898,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
       </span></c-tooltip>
   </label>
   <div vloc_mg-checkboxgroup_checkboxgroup_nds=""
-       class="nds-form-element__control"
-       style="display:flex; flex-direction: column"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
+       class="nds-form-element__control nds-vertical_checkbox"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
           class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
              type="checkbox"
              id="vlocity-checkbox-0-0-49"
@@ -1927,7 +1939,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-multiselect>
 <c-omniscript-multiselect vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                   data-omni-key="Multi-select-horizontal-manual"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                  class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-checkbox-group data-refresh="false"
               data-omni-input="true"
@@ -1961,7 +1973,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
       </span></c-tooltip>
   </label>
   <div vloc_mg-checkboxgroup_checkboxgroup_nds=""
-       class="nds-form-element__control"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
+       class="nds-form-element__control nds-horizontal_checkbox"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
           class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
              type="checkbox"
              id="vlocity-checkbox-1-0-54"
@@ -2002,7 +2014,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-multiselect>
 <c-omniscript-multiselect vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                   data-omni-key="Multi-select-image-image"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                  class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-checkbox-image-group data-refresh="false"
                     data-omni-input="true">
@@ -2038,7 +2050,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                id="vlocity-checkbox-2-0-59"
                value="One"><label for="vlocity-checkbox-2-0-59"
                class="nds-checkbox__label vlc-img_select-container nds-img_select-cont nds-img_no-width-height">
-          <div class="nds-img-item_select-container"><img src="../servlet/servlet.ImageServer?id=015o0000001iarCAAQ&amp;&amp;docName=Actions_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+          <div class="nds-img-item_select-container"><img src="/assets/images/avatar1.jpg"
                  alt="One"
                  title="One"
                  class="nds-img-item"></div>
@@ -2050,7 +2062,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                id="vlocity-checkbox-2-1-59"
                value="Two"><label for="vlocity-checkbox-2-1-59"
                class="nds-checkbox__label vlc-img_select-container nds-img_select-cont nds-img_no-width-height">
-          <div class="nds-img-item_select-container"><img src="../servlet/servlet.ImageServer?id=015o0000001iarDAAQ&amp;&amp;docName=Admin_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+          <div class="nds-img-item_select-container"><img src="/assets/images/avatar1.jpg"
                  alt="Two"
                  title="Two"
                  class="nds-img-item"></div>
@@ -2062,7 +2074,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                id="vlocity-checkbox-2-2-59"
                value="Three"><label for="vlocity-checkbox-2-2-59"
                class="nds-checkbox__label vlc-img_select-container nds-img_select-cont nds-img_no-width-height">
-          <div class="nds-img-item_select-container"><img src="../servlet/servlet.ImageServer?id=015o0000001iarFAAQ&amp;&amp;docName=AttributesCategory_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+          <div class="nds-img-item_select-container"><img src="/assets/images/avatar1.jpg"
                  alt="Three"
                  title="Three"
                  class="nds-img-item"></div>
@@ -2075,160 +2087,9 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-checkbox-image-group>
 </slot>
 </c-omniscript-multiselect>
-<c-omniscript-multiselect vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-                  data-omni-key="Multi-select-vertical-image"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
-<slot>
-<c-checkbox-group data-refresh="false"
-              data-omni-input="true"
-              vloc_mg-checkboxgroup_checkboxgroup_nds-host="">
-<div vloc_mg-checkboxgroup_checkboxgroup_nds=""
-   class="nds-form-element nds-form-container">
-<fieldset vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-form-element"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-         class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span vloc_mg-checkboxgroup_checkboxgroup_nds="">Multi-select Vertical Image</span>
-    <c-tooltip vloc_mg-checkboxgroup_checkboxgroup_nds=""
-               class="nds-tooltip__container"
-               vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
-            style="position: relative;">
-        <c-button vloc_mg-tooltip_tooltip=""
-                  tabindex="0"
-                  class="nds-button nds-button_icon"><button type="button"
-                  tabindex="-1"
-                  class="nds-button nds-button_icon">
-            <c-icon><svg aria-hidden="true"
-                   class="nds-button__icon nds-icon_xx-small">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                </svg><span class="nds-assistive-text"></span></c-icon>
-          </button></c-button><span vloc_mg-tooltip_tooltip=""
-              role="dialog"
-              aria-label="Help Text"
-              class="nds-popover nds-nubbin_bottom-left nds-popover_tooltip nds-fall-into-ground bottom-left tooltipSection">
-          <div vloc_mg-tooltip_tooltip=""
-               class="nds-popover__body">Help Text</div>
-        </span>
-      </span></c-tooltip>
-  </label>
-  <div vloc_mg-checkboxgroup_checkboxgroup_nds=""
-       class="nds-form-element__control"
-       style="display:flex; flex-direction: column"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             type="checkbox"
-             id="vlocity-checkbox-3-0-64"
-             data-index="0"
-             name="Multi-select-vertical-image"
-             value="One"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             data-index="0"
-             for="vlocity-checkbox-3-0-64"
-             class="nds-checkbox__label"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-checkbox_faux"></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-form-element__label">One</span></label></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             type="checkbox"
-             id="vlocity-checkbox-3-1-64"
-             data-index="1"
-             name="Multi-select-vertical-image"
-             value="Two"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             data-index="1"
-             for="vlocity-checkbox-3-1-64"
-             class="nds-checkbox__label"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-checkbox_faux"></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-form-element__label">Two</span></label></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             type="checkbox"
-             id="vlocity-checkbox-3-2-64"
-             data-index="2"
-             name="Multi-select-vertical-image"
-             value="Three"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             data-index="2"
-             for="vlocity-checkbox-3-2-64"
-             class="nds-checkbox__label"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-checkbox_faux"></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-form-element__label">Three</span></label></span></div>
-</fieldset>
-</div>
-</c-checkbox-group>
-</slot>
-</c-omniscript-multiselect>
-<c-omniscript-multiselect vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-                  data-omni-key="Multi-select-horizontal-image"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
-<slot>
-<c-checkbox-group data-refresh="false"
-              data-omni-input="true"
-              vloc_mg-checkboxgroup_checkboxgroup_nds-host="">
-<div vloc_mg-checkboxgroup_checkboxgroup_nds=""
-   class="nds-form-element nds-form-container">
-<fieldset vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-form-element"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-         class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span vloc_mg-checkboxgroup_checkboxgroup_nds="">Multi-select Vertical Image</span>
-    <c-tooltip vloc_mg-checkboxgroup_checkboxgroup_nds=""
-               class="nds-tooltip__container"
-               vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
-            style="position: relative;">
-        <c-button vloc_mg-tooltip_tooltip=""
-                  tabindex="0"
-                  class="nds-button nds-button_icon"><button type="button"
-                  tabindex="-1"
-                  class="nds-button nds-button_icon">
-            <c-icon><svg aria-hidden="true"
-                   class="nds-button__icon nds-icon_xx-small">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                </svg><span class="nds-assistive-text"></span></c-icon>
-          </button></c-button><span vloc_mg-tooltip_tooltip=""
-              role="dialog"
-              aria-label="Help Text"
-              class="nds-popover nds-nubbin_bottom-left nds-popover_tooltip nds-fall-into-ground bottom-left tooltipSection">
-          <div vloc_mg-tooltip_tooltip=""
-               class="nds-popover__body">Help Text</div>
-        </span>
-      </span></c-tooltip>
-  </label>
-  <div vloc_mg-checkboxgroup_checkboxgroup_nds=""
-       class="nds-form-element__control"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             type="checkbox"
-             id="vlocity-checkbox-4-0-69"
-             data-index="0"
-             name="Multi-select-horizontal-image"
-             value="One"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             data-index="0"
-             for="vlocity-checkbox-4-0-69"
-             class="nds-checkbox__label"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-checkbox_faux"></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-form-element__label">One</span></label></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             type="checkbox"
-             id="vlocity-checkbox-4-1-69"
-             data-index="1"
-             name="Multi-select-horizontal-image"
-             value="Two"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             data-index="1"
-             for="vlocity-checkbox-4-1-69"
-             class="nds-checkbox__label"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-checkbox_faux"></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-form-element__label">Two</span></label></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-          class="nds-checkbox"><input vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             type="checkbox"
-             id="vlocity-checkbox-4-2-69"
-             data-index="2"
-             name="Multi-select-horizontal-image"
-             value="Three"><label vloc_mg-checkboxgroup_checkboxgroup_nds=""
-             data-index="2"
-             for="vlocity-checkbox-4-2-69"
-             class="nds-checkbox__label"><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-checkbox_faux"></span><span vloc_mg-checkboxgroup_checkboxgroup_nds=""
-              class="nds-form-element__label">Three</span></label></span></div>
-</fieldset>
-</div>
-</c-checkbox-group>
-</slot>
-</c-omniscript-multiselect>
 <c-omniscript-number vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
              data-omni-key="Number"
-             class="nds-size_12-of-12 nds-medium-size_12-of-12">
+             class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -2267,7 +2128,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-number>
 <c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
             data-omni-key="Radio-vertical-manual"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
+            class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-radio-group data-refresh="false"
            data-omni-input="true">
@@ -2295,8 +2156,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
         </span>
       </span></c-tooltip>
   </label>
-  <div class="nds-form-element__control"
-       style="display:flex; flex-direction: column"><span class="nds-radio"><input type="radio"
+  <div class="nds-form-element__control nds-vertical_radio"><span class="nds-radio"><input type="radio"
              id="vlocity-radio-0-0-79"
              data-index="0"
              name="Radio-vertical-manual"
@@ -2322,7 +2182,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-radio>
 <c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
             data-omni-key="Radio-horiztonal-manual"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
+            class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-radio-group data-refresh="false"
            data-omni-input="true">
@@ -2350,7 +2210,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
         </span>
       </span></c-tooltip>
   </label>
-  <div class="nds-form-element__control"><span class="nds-radio"><input type="radio"
+  <div class="nds-form-element__control nds-horizontal_radio"><span class="nds-radio"><input type="radio"
              id="vlocity-radio-1-0-84"
              data-index="0"
              name="Radio-horiztonal-manual"
@@ -2376,7 +2236,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-radio>
 <c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
             data-omni-key="Radio-image-image"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
+            class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-radio-image-group data-refresh="false"
                  data-omni-input="true">
@@ -2412,7 +2272,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                id="vlocity-radio-2-0-89"
                value="One"><label for="vlocity-radio-2-0-89"
                class="nds-radio__label vlc-img_select-container nds-img_select-container nds-img_no-width-height">
-          <div class="nds-img-item_select-container nds-img_option-width-height"><img src="../servlet/servlet.ImageServer?id=015o0000001iarCAAQ&amp;&amp;docName=Actions_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+          <div class="nds-img-item_select-container nds-img_option-width-height"><img src="/assets/images/avatar1.jpg"
                  alt="One"
                  title="One"
                  class="nds-img-item"></div>
@@ -2424,7 +2284,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                id="vlocity-radio-2-1-89"
                value="Two"><label for="vlocity-radio-2-1-89"
                class="nds-radio__label vlc-img_select-container nds-img_select-container nds-img_no-width-height">
-          <div class="nds-img-item_select-container nds-img_option-width-height"><img src="../servlet/servlet.ImageServer?id=015o0000001iarDAAQ&amp;&amp;docName=Admin_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+          <div class="nds-img-item_select-container nds-img_option-width-height"><img src="/assets/images/avatar1.jpg"
                  alt="Two"
                  title="Two"
                  class="nds-img-item"></div>
@@ -2436,7 +2296,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                id="vlocity-radio-2-2-89"
                value="Three"><label for="vlocity-radio-2-2-89"
                class="nds-radio__label vlc-img_select-container nds-img_select-container nds-img_no-width-height">
-          <div class="nds-img-item_select-container nds-img_option-width-height"><img src="../servlet/servlet.ImageServer?id=015o0000001iarFAAQ&amp;&amp;docName=AttributesCategory_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+          <div class="nds-img-item_select-container nds-img_option-width-height"><img src="/assets/images/avatar1.jpg"
                  alt="Three"
                  title="Three"
                  class="nds-img-item"></div>
@@ -2450,180 +2310,8 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </slot>
 </c-omniscript-radio>
 <c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-            data-omni-key="Radio-vertical-image"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
-<slot>
-<c-radio-group data-refresh="false"
-           data-omni-input="true">
-<div class="nds-form-element nds-form-container">
-<fieldset><label class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span>Radio Vertical Image</span>
-    <c-tooltip class="nds-tooltip__container"
-               vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
-            style="position: relative;">
-        <c-button vloc_mg-tooltip_tooltip=""
-                  tabindex="0"
-                  class="nds-button nds-button_icon"><button type="button"
-                  tabindex="-1"
-                  class="nds-button nds-button_icon">
-            <c-icon><svg aria-hidden="true"
-                   class="nds-button__icon nds-icon_xx-small">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                </svg><span class="nds-assistive-text"></span></c-icon>
-          </button></c-button><span vloc_mg-tooltip_tooltip=""
-              role="dialog"
-              aria-label="Help Text"
-              class="nds-popover nds-nubbin_bottom-left nds-popover_tooltip nds-fall-into-ground bottom-left tooltipSection">
-          <div vloc_mg-tooltip_tooltip=""
-               class="nds-popover__body">Help Text</div>
-        </span>
-      </span></c-tooltip>
-  </label>
-  <div class="nds-form-element__control"
-       style="display:flex; flex-direction: column"><span class="nds-radio"><input type="radio"
-             id="vlocity-radio-3-0-94"
-             data-index="0"
-             name="Radio-vertical-image"
-             value="One"><label data-index="0"
-             for="vlocity-radio-3-0-94"
-             class="nds-radio__label"><span class="nds-radio_faux"></span><span class="nds-form-element__label">One</span></label></span><span class="nds-radio"><input type="radio"
-             id="vlocity-radio-3-1-94"
-             data-index="1"
-             name="Radio-vertical-image"
-             value="Two"><label data-index="1"
-             for="vlocity-radio-3-1-94"
-             class="nds-radio__label"><span class="nds-radio_faux"></span><span class="nds-form-element__label">Two</span></label></span><span class="nds-radio"><input type="radio"
-             id="vlocity-radio-3-2-94"
-             data-index="2"
-             name="Radio-vertical-image"
-             value="Three"><label data-index="2"
-             for="vlocity-radio-3-2-94"
-             class="nds-radio__label"><span class="nds-radio_faux"></span><span class="nds-form-element__label">Three</span></label></span></div>
-</fieldset>
-</div>
-</c-radio-group>
-</slot>
-</c-omniscript-radio>
-<c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-            data-omni-key="Radio-horizontal-image"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
-<slot>
-<c-radio-group data-refresh="false"
-           data-omni-input="true">
-<div class="nds-form-element nds-form-container">
-<fieldset><label class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span>Radio Horizontal Image</span>
-    <c-tooltip class="nds-tooltip__container"
-               vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
-            style="position: relative;">
-        <c-button vloc_mg-tooltip_tooltip=""
-                  tabindex="0"
-                  class="nds-button nds-button_icon"><button type="button"
-                  tabindex="-1"
-                  class="nds-button nds-button_icon">
-            <c-icon><svg aria-hidden="true"
-                   class="nds-button__icon nds-icon_xx-small">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                </svg><span class="nds-assistive-text"></span></c-icon>
-          </button></c-button><span vloc_mg-tooltip_tooltip=""
-              role="dialog"
-              aria-label="Help Text"
-              class="nds-popover nds-nubbin_bottom-left nds-popover_tooltip nds-fall-into-ground bottom-left tooltipSection">
-          <div vloc_mg-tooltip_tooltip=""
-               class="nds-popover__body">Help Text</div>
-        </span>
-      </span></c-tooltip>
-  </label>
-  <div class="nds-form-element__control"><span class="nds-radio"><input type="radio"
-             id="vlocity-radio-4-0-99"
-             data-index="0"
-             name="Radio-horizontal-image"
-             value="One"><label data-index="0"
-             for="vlocity-radio-4-0-99"
-             class="nds-radio__label"><span class="nds-radio_faux"></span><span class="nds-form-element__label">One</span></label></span><span class="nds-radio"><input type="radio"
-             id="vlocity-radio-4-1-99"
-             data-index="1"
-             name="Radio-horizontal-image"
-             value="Two"><label data-index="1"
-             for="vlocity-radio-4-1-99"
-             class="nds-radio__label"><span class="nds-radio_faux"></span><span class="nds-form-element__label">Two</span></label></span><span class="nds-radio"><input type="radio"
-             id="vlocity-radio-4-2-99"
-             data-index="2"
-             name="Radio-horizontal-image"
-             value="Three"><label data-index="2"
-             for="vlocity-radio-4-2-99"
-             class="nds-radio__label"><span class="nds-radio_faux"></span><span class="nds-form-element__label">Three</span></label></span></div>
-</fieldset>
-</div>
-</c-radio-group>
-</slot>
-</c-omniscript-radio>
-<c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
-            data-omni-key="Radio-segment-image"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
-<slot>
-<c-radio-group data-refresh="false"
-           data-omni-input="true">
-<div class="nds-form-element nds-form-container">
-<fieldset><label class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span>Radio Segment Image</span>
-    <c-tooltip class="nds-tooltip__container"
-               vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
-            style="position: relative;">
-        <c-button vloc_mg-tooltip_tooltip=""
-                  tabindex="0"
-                  class="nds-button nds-button_icon"><button type="button"
-                  tabindex="-1"
-                  class="nds-button nds-button_icon">
-            <c-icon><svg aria-hidden="true"
-                   class="nds-button__icon nds-icon_xx-small">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                </svg><span class="nds-assistive-text"></span></c-icon>
-          </button></c-button><span vloc_mg-tooltip_tooltip=""
-              role="dialog"
-              aria-label="Help Text"
-              class="nds-popover nds-nubbin_bottom-left nds-popover_tooltip nds-fall-into-ground bottom-left tooltipSection">
-          <div vloc_mg-tooltip_tooltip=""
-               class="nds-popover__body">Help Text</div>
-        </span>
-      </span></c-tooltip>
-  </label>
-  <div class="nds-form-element__control"
-       style="display:flex; flex-direction: column">
-    <div class="nds-radio_button-group"><span class="nds-button nds-radio_button"><input type="radio"
-               id="vlocity-radio-5-0-104"
-               data-index="0"
-               name="Radio-segment-image"
-               value="One"><label data-index="0"
-               for="vlocity-radio-5-0-104"
-               class="nds-radio_button__label"><span class="nds-radio_faux">One</span>
-          <div class="nds-radio-overlay"></div>
-        </label></span><span class="nds-button nds-radio_button"><input type="radio"
-               id="vlocity-radio-5-1-104"
-               data-index="1"
-               name="Radio-segment-image"
-               value="Two"><label data-index="1"
-               for="vlocity-radio-5-1-104"
-               class="nds-radio_button__label"><span class="nds-radio_faux">Two</span>
-          <div class="nds-radio-overlay"></div>
-        </label></span><span class="nds-button nds-radio_button"><input type="radio"
-               id="vlocity-radio-5-2-104"
-               data-index="2"
-               name="Radio-segment-image"
-               value="Three"><label data-index="2"
-               for="vlocity-radio-5-2-104"
-               class="nds-radio_button__label"><span class="nds-radio_faux">Three</span>
-          <div class="nds-radio-overlay"></div>
-        </label></span></div>
-  </div>
-</fieldset>
-</div>
-</c-radio-group>
-</slot>
-</c-omniscript-radio>
-<c-omniscript-radio vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
             data-omni-key="Radio-segment-manual"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
+            class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-radio-group data-refresh="false"
            data-omni-input="true">
@@ -2651,8 +2339,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
         </span>
       </span></c-tooltip>
   </label>
-  <div class="nds-form-element__control"
-       style="display:flex; flex-direction: column">
+  <div class="nds-form-element__control nds-vertical_radio">
     <div class="nds-radio_button-group"><span class="nds-button nds-radio_button"><input type="radio"
                id="vlocity-radio-6-0-109"
                data-index="0"
@@ -2686,7 +2373,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-radio>
 <c-omniscript-range vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
             data-omni-key="Range"
-            class="nds-size_12-of-12 nds-medium-size_12-of-12">
+            class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-slider data-omni-input="true"
       vloc_mg-slider_slider_nds-host="">
@@ -2735,7 +2422,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-range>
 <c-omniscript-select vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
              data-omni-key="Select"
-             class="nds-size_12-of-12 nds-medium-size_12-of-12">
+             class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-combobox data-refresh="false"
         data-omni-input="true">
@@ -2797,7 +2484,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-select>
 <c-omniscript-telephone vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                 data-omni-key="Telephone"
-                class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -2836,7 +2523,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-telephone>
 <c-omniscript-text vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
            data-omni-key="Text"
-           class="nds-size_12-of-12 nds-medium-size_12-of-12">
+           class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-omni-input="true"
      vloc_mg-input_input_nds-host="">
@@ -2885,7 +2572,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-text>
 <c-omniscript-textarea vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                data-omni-key="TextArea"
-               class="nds-size_12-of-12 nds-medium-size_12-of-12">
+               class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-textarea data-id="TextArea"
         data-omni-input="true">
@@ -2923,7 +2610,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-textarea>
 <c-omniscript-time vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
            data-omni-key="Time"
-           class="nds-size_12-of-12 nds-medium-size_12-of-12">
+           class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-omni-input="true"
      vloc_mg-input_input_nds-host="">
@@ -2985,7 +2672,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-time>
 <c-omniscript-url vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
           data-omni-key="URL"
-          class="nds-size_12-of-12 nds-medium-size_12-of-12">
+          class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-input data-id="URL"
      data-omni-input="true"
@@ -3034,7 +2721,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-url>
 <c-omniscript-formula vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
               data-omni-key="FormulaBoolean"
-              class="nds-size_12-of-12 nds-medium-size_12-of-12">
+              class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -3053,7 +2740,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-formula>
 <c-omniscript-formula vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
               data-omni-key="FormulaCurrency"
-              class="nds-size_12-of-12 nds-medium-size_12-of-12">
+              class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -3072,7 +2759,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-formula>
 <c-omniscript-formula vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
               data-omni-key="FormulaDate"
-              class="nds-size_12-of-12 nds-medium-size_12-of-12">
+              class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -3091,7 +2778,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-formula>
 <c-omniscript-formula vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
               data-omni-key="FormulaNumber"
-              class="nds-size_12-of-12 nds-medium-size_12-of-12">
+              class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -3110,7 +2797,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-formula>
 <c-omniscript-formula vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
               data-omni-key="FormulaText"
-              class="nds-size_12-of-12 nds-medium-size_12-of-12">
+              class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <c-masked-input data-omni-input="true">
 <div class="nds-form-element nds-form-container">
@@ -3129,7 +2816,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-formula>
 <c-omniscript-preview-block vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                   data-omni-key="Block"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                  class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <div class="nds-size_1-of-1">
 <div class="nds-form-element nds-clearfix nds-block nds-p-around_small nds-is-open">
 <div data-force-refresh="true"
@@ -3148,7 +2835,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
    class="nds-size_1-of-1 nds-block_body">
 <div class="nds-grid nds-wrap nds-grid_pull-padded">
   <c-omniscript-text data-omni-key="TextInBlock"
-                     class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                     class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
     <slot>
       <c-input data-omni-input="true"
                vloc_mg-input_input_nds-host="">
@@ -3197,7 +2884,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
     </slot>
   </c-omniscript-text>
   <c-omniscript-number data-omni-key="NumberInBlock"
-                       class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                       class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
     <slot>
       <c-masked-input data-omni-input="true">
         <div class="nds-form-element nds-form-container">
@@ -3220,7 +2907,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-preview-block>
 <c-omniscript-radio-group vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                   data-omni-key="RadioGroup"
-                  class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                  class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <fieldset class="nds-form-element nds-form-container nds-m-top_small"><label class="nds-form-element__legend nds-form-element__label nds-form-element__control-help nds-radio-relative-tooltip"><span>Radio Group</span>
 <c-tooltip class="nds-tooltip__container" vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
@@ -3291,7 +2978,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
 </c-omniscript-line-break>
 <c-omniscript-text-block vloc_mg-omniscriptpreview_omniscriptpreview_nds=""
                  data-omni-key="TextBlock"
-                 class="nds-size_12-of-12 nds-medium-size_12-of-12">
+                 class="nds-size_12-of-12 nds-medium-size_${width}-of-12">
 <slot>
 <div class="nds-form-element nds-form-container nds-text-block">
 <lightning-formatted-rich-text class="nds-rich-text-editor__output"><span>
