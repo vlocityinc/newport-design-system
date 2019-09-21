@@ -3,7 +3,7 @@
 
 const autoprefixer = require('gulp-autoprefixer');
 const gulp = require('gulp');
-const minifycss = require('gulp-minify-css');
+const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
@@ -26,10 +26,8 @@ gulp.task('styles:sass', [], () =>
     )
     .pipe(autoprefixer({ remove: false }))
     .pipe(
-      minifycss({
-        advanced: false,
-        roundingPrecision: '-1',
-        processImport: false
+      cleanCSS({
+        inline: false
       })
     )
     .pipe(sourcemaps.write('.'))
