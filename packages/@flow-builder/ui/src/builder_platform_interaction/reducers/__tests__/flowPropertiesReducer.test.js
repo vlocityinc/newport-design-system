@@ -1,7 +1,8 @@
 import reducer from '../flowPropertiesReducer';
 import {
     UPDATE_FLOW,
-    UPDATE_PROPERTIES
+    UPDATE_PROPERTIES,
+    UPDATE_APEX_CLASSES
 } from 'builder_platform_interaction/actions';
 
 const defaultProperties = {
@@ -94,5 +95,13 @@ describe('flow-properties-reducer', () => {
             newProperties.processType
         );
         expect(newPropertiesState.hasUnsavedChanges).toBe(false);
+    });
+
+    it('should not set hasUnsavedChanges on UPDATE_APEX_CLASSES', () => {
+        const newState = reducer({ a: 'b' }, {
+            type: UPDATE_APEX_CLASSES,
+            payload: { properties: { some: 'thing' } }
+        });
+        expect(newState.hasUnsavedChanges).toBeUndefined();
     });
 });
