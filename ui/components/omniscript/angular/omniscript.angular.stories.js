@@ -1,5 +1,6 @@
 /* eslint-env browser */
 import { storiesOf } from '@storybook/html';
+import { withKnobs, number } from '@storybook/addon-knobs';
 import base from 'paths.macro';
 import notes from './doc.md';
 import scss from '../base/_index.scss';
@@ -9,7 +10,18 @@ import {
   commentToHTML
 } from '../../../../scripts/storybook';
 
+const label = 'Element Widths';
+const defaultValue = 12;
+const options = {
+  range: true,
+  min: 0,
+  max: 12,
+  step: 1
+};
+const groupId = 'GROUP-ID1';
+
 storiesOf(`${base}`, module)
+  .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
   .add('Angular Omniscript', () => {
@@ -23,6 +35,7 @@ storiesOf(`${base}`, module)
         }
       });
     });
+    const width = number(label, defaultValue, options, groupId);
     return withExample(`<div class="vlocity via-slds via-omni via-nds"
     id="VlocityBP">
  <ng-view autoscroll="true"
@@ -207,7 +220,7 @@ storiesOf(`${base}`, module)
                      <div class="nds-grid nds-wrap nds-grid_pull-padded">
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -289,7 +302,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -364,7 +377,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -443,7 +456,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -518,7 +531,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -578,7 +591,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -628,7 +641,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -719,7 +732,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -811,7 +824,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -914,7 +927,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1014,7 +1027,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1114,7 +1127,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1171,7 +1184,7 @@ storiesOf(`${base}`, module)
 
                                      <span class="nds-checkbox_button__label ">
                                        <img class="imgItem "
-                                            src="../servlet/servlet.ImageServer?id=015o0000001iarCAAQ&amp;&amp;docName=Actions_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+                                            <img src="/assets/images/avatar1.jpg"
                                             alt="One"
                                             title="One">
 
@@ -1188,7 +1201,7 @@ storiesOf(`${base}`, module)
 
                                      <span class="nds-checkbox_button__label ">
                                        <img class="imgItem "
-                                            src="../servlet/servlet.ImageServer?id=015o0000001iarDAAQ&amp;&amp;docName=Admin_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+                                            <img src="/assets/images/avatar1.jpg"
                                             alt="Two"
                                             title="Two">
 
@@ -1205,7 +1218,7 @@ storiesOf(`${base}`, module)
 
                                      <span class="nds-checkbox_button__label ">
                                        <img class="imgItem "
-                                            src="../servlet/servlet.ImageServer?id=015o0000001iarFAAQ&amp;&amp;docName=AttributesCategory_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+                                            <img src="/assets/images/avatar1.jpg"
                                             alt="Three"
                                             title="Three">
 
@@ -1234,207 +1247,10 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
-                              aria-hidden="false">
-                         <div class="nds-size_1-of-1 ">
-
-                           <ng-form name="loopform"
-                                    class="nds-form-element nds-m-bottom_large nds-p-around_small "
-                                    id="Multi-select-vertical-image|0"
-                                    aria-required="false">
-
-                             <div class="nds-form-element">
-                               <div class="nds-form-element__legend nds-form-element__label"
-                                    for="Multi-select-vertical-image|0">
-                                 <span>Multi-select Vertical Image</span>
-
-
-                                 <a class="nds-tooltip_container "
-                                    vlc-slds-tool-tip="test"
-                                    nubbin-direction="auto top-left"
-                                    tabindex="0">
-                                   <div class="nds-nonfocused_control nds-inline-help-text ">
-                                     <svg aria-hidden="true"
-                                          class="slds-icon slds-icon--small nds-icon nds-icon_small "
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          preserveAspectRatio="xMidYMid meet"
-                                          sprite="'utility'"
-                                          icon="'info'"
-                                          size="'small'"
-                                          viewBox="0 0 52 52"
-                                          alt="info">
-                                       <path fill="inherit"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
-                                     </svg>
-                                   </div>
-                                 </a>
-                                 <div class="nds-control-action__container">
 
 
 
-                                 </div>
-                               </div>
-
-
-                               <div class="nds-form-element__control  nds-vertical_checkbox">
-                                 <label class="nds-checkbox ">
-                                   <input id="Multi-select-vertical-image"
-                                          type="checkbox"
-                                          vlc-slds-mu-val-checker="response"
-                                          aria-invalid="false">
-
-                                   <span class="nds-checkbox__label"
-                                         for="Multi-select-vertical-image">
-                                     <span class="nds-checkbox_faux"></span>
-                                     <span class="nds-form-element__label ">One</span>
-                                   </span>
-                                 </label><label class="nds-checkbox ">
-                                   <input id="Multi-select-vertical-image"
-                                          type="checkbox"
-                                          vlc-slds-mu-val-checker="response"
-                                          aria-invalid="false">
-
-                                   <span class="nds-checkbox__label"
-                                         for="Multi-select-vertical-image">
-                                     <span class="nds-checkbox_faux"></span>
-                                     <span class="nds-form-element__label ">Two</span>
-                                   </span>
-                                 </label><label class="nds-checkbox ">
-                                   <input id="Multi-select-vertical-image"
-                                          type="checkbox"
-                                          vlc-slds-mu-val-checker="response"
-                                          aria-invalid="false">
-
-                                   <span class="nds-checkbox__label"
-                                         for="Multi-select-vertical-image">
-                                     <span class="nds-checkbox_faux"></span>
-                                     <span class="nds-form-element__label ">Three</span>
-                                   </span>
-                                 </label>
-                               </div>
-
-
-
-
-                             </div>
-                             <div class="nds-has-error nds-grid">
-                               <div aria-hidden="false">
-                                 <small class="nds-form-element__help  nds-hide"
-                                        aria-hidden="true">Required</small>
-                               </div>
-                               <div aria-hidden="true"
-                                    class="nds-hide">
-                                 <small class="nds-form-element__help  nds-hide"
-                                        aria-hidden="true"></small>
-                               </div>
-                             </div>
-                           </ng-form>
-                         </div>
-                       </child>
-
-
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
-                              aria-hidden="false">
-                         <div class="nds-size_1-of-1 ">
-
-                           <ng-form name="loopform"
-                                    class="nds-form-element nds-m-bottom_large nds-p-around_small "
-                                    id="Multi-select-horizontal-image|0"
-                                    aria-required="false">
-
-                             <div class="nds-form-element">
-                               <div class="nds-form-element__legend nds-form-element__label"
-                                    for="Multi-select-horizontal-image|0">
-                                 <span>Multi-select Vertical Image</span>
-
-
-                                 <a class="nds-tooltip_container "
-                                    vlc-slds-tool-tip="test"
-                                    nubbin-direction="auto top-left"
-                                    tabindex="0">
-                                   <div class="nds-nonfocused_control nds-inline-help-text ">
-                                     <svg aria-hidden="true"
-                                          class="slds-icon slds-icon--small nds-icon nds-icon_small "
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          preserveAspectRatio="xMidYMid meet"
-                                          sprite="'utility'"
-                                          icon="'info'"
-                                          size="'small'"
-                                          viewBox="0 0 52 52"
-                                          alt="info">
-                                       <path fill="inherit"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
-                                     </svg>
-                                   </div>
-                                 </a>
-                                 <div class="nds-control-action__container">
-
-
-
-                                 </div>
-                               </div>
-
-
-                               <div class="nds-form-element__control  nds-horizontal_checkbox">
-                                 <label class="nds-checkbox ">
-                                   <input id="Multi-select-horizontal-image"
-                                          type="checkbox"
-                                          vlc-slds-mu-val-checker="response"
-                                          aria-invalid="false">
-
-                                   <span class="nds-checkbox__label"
-                                         for="Multi-select-horizontal-image">
-                                     <span class="nds-checkbox_faux"></span>
-                                     <span class="nds-form-element__label ">One</span>
-                                   </span>
-                                 </label><label class="nds-checkbox ">
-                                   <input id="Multi-select-horizontal-image"
-                                          type="checkbox"
-                                          vlc-slds-mu-val-checker="response"
-                                          aria-invalid="false">
-
-                                   <span class="nds-checkbox__label"
-                                         for="Multi-select-horizontal-image">
-                                     <span class="nds-checkbox_faux"></span>
-                                     <span class="nds-form-element__label ">Two</span>
-                                   </span>
-                                 </label><label class="nds-checkbox ">
-                                   <input id="Multi-select-horizontal-image"
-                                          type="checkbox"
-                                          vlc-slds-mu-val-checker="response"
-                                          aria-invalid="false">
-
-                                   <span class="nds-checkbox__label"
-                                         for="Multi-select-horizontal-image">
-                                     <span class="nds-checkbox_faux"></span>
-                                     <span class="nds-form-element__label ">Three</span>
-                                   </span>
-                                 </label>
-                               </div>
-
-
-
-
-                             </div>
-                             <div class="nds-has-error nds-grid">
-                               <div aria-hidden="false">
-                                 <small class="nds-form-element__help  nds-hide"
-                                        aria-hidden="true">Required</small>
-                               </div>
-                               <div aria-hidden="true"
-                                    class="nds-hide">
-                                 <small class="nds-form-element__help  nds-hide"
-                                        aria-hidden="true"></small>
-                               </div>
-                             </div>
-                           </ng-form>
-                         </div>
-                       </child>
-
-
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1489,7 +1305,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1541,7 +1357,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1656,7 +1472,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1771,7 +1587,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -1836,7 +1652,7 @@ storiesOf(`${base}`, module)
                                      <span class="nds-radio_button__label "
                                            for="Radio-image-image_0">
                                        <img class="imgItem "
-                                            src="../servlet/servlet.ImageServer?id=015o0000001iarCAAQ&amp;&amp;docName=Actions_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+                                            <img src="/assets/images/avatar1.jpg"
                                             alt="One"
                                             title="One">
 
@@ -1855,7 +1671,7 @@ storiesOf(`${base}`, module)
                                      <span class="nds-radio_button__label "
                                            for="Radio-image-image_1">
                                        <img class="imgItem "
-                                            src="../servlet/servlet.ImageServer?id=015o0000001iarDAAQ&amp;&amp;docName=Admin_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+                                            <img src="/assets/images/avatar1.jpg"
                                             alt="Two"
                                             title="Two">
 
@@ -1874,7 +1690,7 @@ storiesOf(`${base}`, module)
                                      <span class="nds-radio_button__label "
                                            for="Radio-image-image_2">
                                        <img class="imgItem "
-                                            src="../servlet/servlet.ImageServer?id=015o0000001iarFAAQ&amp;&amp;docName=AttributesCategory_2x&amp;&amp;oid=00Do0000000dZ4gEAE"
+                                            <img src="/assets/images/avatar1.jpg"
                                             alt="Three"
                                             title="Three">
 
@@ -1908,352 +1724,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
-                              aria-hidden="false">
-                         <div class="nds-size_1-of-1 ">
-
-                           <ng-form name="loopform"
-                                    id="Radio-vertical-image|0"
-                                    class="nds-form-element nds-p-around_small   nds-m-bottom_large  ">
-
-                             <div class="nds-form-element">
-                               <div class="nds-form-element__legend nds-form-element__label nds-form-element__control-help"
-                                    for="Radio-vertical-image|0">
-                                 <span>Radio Vertical Image</span>
-
-
-
-                                 <a class="nds-tooltip_container "
-                                    vlc-slds-tool-tip="test"
-                                    nubbin-direction="auto top-left"
-                                    tabindex="0">
-                                   <div class="nds-nonfocused_control nds-inline-help-text ">
-                                     <svg aria-hidden="true"
-                                          class="slds-icon slds-icon--small nds-icon nds-icon_small "
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          preserveAspectRatio="xMidYMid meet"
-                                          sprite="'utility'"
-                                          icon="'info'"
-                                          size="'small'"
-                                          viewBox="0 0 52 52"
-                                          alt="info">
-                                       <path fill="inherit"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
-                                     </svg>
-                                   </div>
-                                 </a>
-                                 <div class="nds-control-action__container">
-
-
-
-                                 </div>
-                               </div>
-
-
-                               <div class="nds-form-element__control nds-vertical_radio ">
-                                 <label class="nds-radio ">
-                                   <input id="Radio-vertical-image"
-                                          type="radio"
-                                          vlc-slds-val-checker="response"
-                                          class=" "
-                                          name="273"
-                                          value="One"
-                                          aria-invalid="false">
-                                   <div class="nds-radio__label"
-                                        for="Radio-vertical-image"
-                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                     <span class="nds-radio_faux"></span>
-                                     <span class="nds-form-element__label ">One</span>
-                                   </div>
-                                 </label><label class="nds-radio ">
-                                   <input id="Radio-vertical-image"
-                                          type="radio"
-                                          vlc-slds-val-checker="response"
-                                          class=" "
-                                          name="275"
-                                          value="Two"
-                                          aria-invalid="false">
-                                   <div class="nds-radio__label"
-                                        for="Radio-vertical-image"
-                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                     <span class="nds-radio_faux"></span>
-                                     <span class="nds-form-element__label ">Two</span>
-                                   </div>
-                                 </label><label class="nds-radio ">
-                                   <input id="Radio-vertical-image"
-                                          type="radio"
-                                          vlc-slds-val-checker="response"
-                                          class=" "
-                                          name="277"
-                                          value="Three"
-                                          aria-invalid="false">
-                                   <div class="nds-radio__label"
-                                        for="Radio-vertical-image"
-                                        style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
-                                     <span class="nds-radio_faux"></span>
-                                     <span class="nds-form-element__label ">Three</span>
-                                   </div>
-                                 </label>
-                               </div>
-
-
-
-
-
-
-
-
-                             </div>
-
-
-                             <div class="nds-has-error ">
-                               <div>
-                                 <div class="nds-has-error nds-hide"
-                                      aria-hidden="true">
-                                   <small class="nds-form-element__help "></small>
-                                 </div>
-
-
-                               </div>
-                             </div>
-                           </ng-form>
-
-                         </div>
-                       </child>
-
-
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
-                              aria-hidden="false">
-                         <div class="nds-size_1-of-1 ">
-
-                           <ng-form name="loopform"
-                                    id="Radio-horizontal-image|0"
-                                    class="nds-form-element nds-p-around_small   nds-m-bottom_large  ">
-
-                             <div class="nds-form-element">
-                               <div class="nds-form-element__legend nds-form-element__label nds-form-element__control-help"
-                                    for="Radio-horizontal-image|0">
-                                 <span>Radio Horizontal Image</span>
-
-
-
-                                 <a class="nds-tooltip_container "
-                                    vlc-slds-tool-tip="test"
-                                    nubbin-direction="auto top-left"
-                                    tabindex="0">
-                                   <div class="nds-nonfocused_control nds-inline-help-text ">
-                                     <svg aria-hidden="true"
-                                          class="slds-icon slds-icon--small nds-icon nds-icon_small "
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          preserveAspectRatio="xMidYMid meet"
-                                          sprite="'utility'"
-                                          icon="'info'"
-                                          size="'small'"
-                                          viewBox="0 0 52 52"
-                                          alt="info">
-                                       <path fill="inherit"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
-                                     </svg>
-                                   </div>
-                                 </a>
-                                 <div class="nds-control-action__container">
-
-
-
-                                 </div>
-                               </div>
-
-
-
-
-                               <div class="nds-form-element__control nds-horizontal_radio ">
-                                 <label class="nds-radio ">
-                                   <input id="Radio-horizontal-image"
-                                          type="radio"
-                                          vlc-slds-val-checker="response"
-                                          class=" "
-                                          name="284"
-                                          value="One"
-                                          aria-invalid="false">
-
-                                   <div class="nds-radio__label"
-                                        for="Radio-horizontal-image">
-                                     <span class="nds-radio_faux"></span>
-                                     <span class="nds-form-element__label ">One</span>
-                                   </div>
-                                 </label><label class="nds-radio ">
-                                   <input id="Radio-horizontal-image"
-                                          type="radio"
-                                          vlc-slds-val-checker="response"
-                                          class=" "
-                                          name="286"
-                                          value="Two"
-                                          aria-invalid="false">
-
-                                   <div class="nds-radio__label"
-                                        for="Radio-horizontal-image">
-                                     <span class="nds-radio_faux"></span>
-                                     <span class="nds-form-element__label ">Two</span>
-                                   </div>
-                                 </label><label class="nds-radio ">
-                                   <input id="Radio-horizontal-image"
-                                          type="radio"
-                                          vlc-slds-val-checker="response"
-                                          class=" "
-                                          name="288"
-                                          value="Three"
-                                          aria-invalid="false">
-
-                                   <div class="nds-radio__label"
-                                        for="Radio-horizontal-image">
-                                     <span class="nds-radio_faux"></span>
-                                     <span class="nds-form-element__label ">Three</span>
-                                   </div>
-                                 </label>
-                               </div>
-
-
-
-
-
-
-                             </div>
-
-
-                             <div class="nds-has-error ">
-                               <div>
-                                 <div class="nds-has-error nds-hide"
-                                      aria-hidden="true">
-                                   <small class="nds-form-element__help "></small>
-                                 </div>
-
-
-                               </div>
-                             </div>
-                           </ng-form>
-
-                         </div>
-                       </child>
-
-
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
-                              aria-hidden="false">
-                         <div class="nds-size_1-of-1 ">
-
-                           <ng-form name="loopform"
-                                    id="Radio-segment-image|0"
-                                    class="nds-form-element nds-p-around_small   nds-m-bottom_large  ">
-
-                             <div class="nds-form-element">
-                               <div class="nds-form-element__legend nds-form-element__label nds-form-element__control-help"
-                                    for="Radio-segment-image|0">
-                                 <span>Radio Segment Image</span>
-
-
-
-                                 <a class="nds-tooltip_container "
-                                    vlc-slds-tool-tip="test"
-                                    nubbin-direction="auto top-left"
-                                    tabindex="0">
-                                   <div class="nds-nonfocused_control nds-inline-help-text ">
-                                     <svg aria-hidden="true"
-                                          class="slds-icon slds-icon--small nds-icon nds-icon_small "
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          preserveAspectRatio="xMidYMid meet"
-                                          sprite="'utility'"
-                                          icon="'info'"
-                                          size="'small'"
-                                          viewBox="0 0 52 52"
-                                          alt="info">
-                                       <path fill="inherit"
-                                             xmlns="http://www.w3.org/2000/svg"
-                                             d="m26 2c-13.3 0-24 10.7-24 24s10.7 24 24 24 24-10.7 24-24-10.7-24-24-24z m0 12.1c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z m5 21c0 0.5-0.4 0.9-1 0.9h-8c-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1 0.5 0 1-0.3 1-0.9v-4c0-0.5-0.4-1.1-1-1.1-0.5 0-1-0.3-1-0.9v-2c0-0.5 0.4-1.1 1-1.1h6c0.5 0 1 0.5 1 1.1v8c0 0.5 0.4 0.9 1 0.9 0.5 0 1 0.5 1 1.1v2z"></path>
-                                     </svg>
-                                   </div>
-                                 </a>
-                                 <div class="nds-control-action__container">
-
-
-
-                                 </div>
-                               </div>
-
-
-
-
-
-
-                               <div class="nds-form-element__control nds-radio_horizontal "
-                                    style="position: relative; height: 2.0625rem;">
-                                 <div class="nds-radio_button-group">
-                                   <label class="nds-button nds-radio_button "
-                                          style="width:33.333333333333336%">
-                                     <input id="Radio-segment-image"
-                                            type="radio"
-                                            vlc-slds-val-checker="response"
-                                            class=" "
-                                            name="295"
-                                            value="One"
-                                            aria-invalid="false">
-                                     <span class="nds-radio_button__label">
-                                       <span class="nds-radio_faux ">One</span>
-                                       <div class="nds-radio-overlay"></div>
-                                     </span>
-                                   </label><label class="nds-button nds-radio_button "
-                                          style="width:33.333333333333336%">
-                                     <input id="Radio-segment-image"
-                                            type="radio"
-                                            vlc-slds-val-checker="response"
-                                            class=" "
-                                            name="297"
-                                            value="Two"
-                                            aria-invalid="false">
-                                     <span class="nds-radio_button__label">
-                                       <span class="nds-radio_faux ">Two</span>
-                                       <div class="nds-radio-overlay"></div>
-                                     </span>
-                                   </label><label class="nds-button nds-radio_button "
-                                          style="width:33.333333333333336%">
-                                     <input id="Radio-segment-image"
-                                            type="radio"
-                                            vlc-slds-val-checker="response"
-                                            class=" "
-                                            name="299"
-                                            value="Three"
-                                            aria-invalid="false">
-                                     <span class="nds-radio_button__label">
-                                       <span class="nds-radio_faux ">Three</span>
-                                       <div class="nds-radio-overlay"></div>
-                                     </span>
-                                   </label>
-                                 </div>
-                               </div>
-
-
-
-
-                             </div>
-
-
-                             <div class="nds-has-error ">
-                               <div>
-                                 <div class="nds-has-error nds-hide"
-                                      aria-hidden="true">
-                                   <small class="nds-form-element__help "></small>
-                                 </div>
-
-
-                               </div>
-                             </div>
-                           </ng-form>
-
-                         </div>
-                       </child>
-
-
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2368,7 +1839,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size--1-of-1 ">
 
@@ -2470,7 +1941,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2546,7 +2017,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2598,7 +2069,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2653,7 +2124,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2701,7 +2172,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2752,7 +2223,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2809,7 +2280,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2860,7 +2331,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2931,7 +2402,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -2996,7 +2467,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3062,7 +2533,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3127,7 +2598,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3198,7 +2669,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3269,7 +2740,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3334,7 +2805,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3400,7 +2871,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3465,7 +2936,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3584,7 +3055,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3640,7 +3111,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -3877,7 +3348,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <!-- vlcEditBlock.html -->
                          <div class="nds-col_padded nds-size_1-of-1 nds-element_text-font nds-table_custom  ">
@@ -4365,7 +3836,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -4491,7 +3962,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 
@@ -4530,7 +4001,7 @@ storiesOf(`${base}`, module)
                        </child>
 
 
-                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_12-of-12"
+                       <child class="nds-size_1-of-1 nds-max-small-size_1-of-1 nds-small-size_${width}-of-12"
                               aria-hidden="false">
                          <div class="nds-size_1-of-1 ">
 

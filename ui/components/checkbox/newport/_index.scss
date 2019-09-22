@@ -157,7 +157,7 @@
     font-weight: 400;
     color: $color-background-brand-primary;
     #{$left}: 0;
-    font-size: 0.875rem;
+    font-size: $input-static-font-size;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
