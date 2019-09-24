@@ -24,6 +24,9 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 function createComponentForTest(node) {
     const el = createElement(
