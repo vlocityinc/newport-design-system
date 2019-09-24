@@ -125,6 +125,31 @@ export const flowWithAllElementsUIModel = {
 	      maxConnections: 1,
 	      elementType: "Assignment"
 	    },
+          "297834ec-f5c8-4128-aa38-dc437f0c6a9a": {
+	        guid: "297834ec-f5c8-4128-aa38-dc437f0c6a9a",
+              name: "assignment2",
+              description: "",
+              label: "assignment2Label",
+              locationX: 165,
+              locationY: 177,
+              isCanvasElement: true,
+              connectorCount: 0,
+              config: {
+                  isSelected: false,
+                  isHighlighted: false
+              },
+              assignmentItems: [
+                  {
+                      rowIndex: "2e01b9c4-5144-4db2-9543-7899c5c34329",
+                      leftHandSide: "2bf626b1-9430-49ca-ad02-a75241931b16",
+                      rightHandSide: "85d76151-9bec-4869-b691-791baf964b4f",
+                      rightHandSideDataType: "reference",
+                      operator: "Assign"
+                  }
+              ],
+              maxConnections: 1,
+              elementType: "Assignment"
+          },
 	    "fe30ada4-6781-4ffd-84d1-9efbadaa29ab": {
 	      guid: "fe30ada4-6781-4ffd-84d1-9efbadaa29ab",
 	      name: "decision1",

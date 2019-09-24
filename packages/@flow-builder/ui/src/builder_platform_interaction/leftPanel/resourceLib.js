@@ -39,11 +39,11 @@ const getScreenFieldDataType = (screenFieldObject = {}) => {
  */
 const mutateElements = (elements, searchRegex) =>
     Object.values(elements).reduce((mutatedElements, element) => {
-        if (!searchRegex || searchRegex.test(element.name)) {
+        if (!searchRegex || searchRegex.test(element.name) || searchRegex.test(element.label) || searchRegex.test(element.description)) {
             const resourceElement = {
                 elementType: element.elementType,
                 guid: element.guid,
-                label: element.name
+                label: element.name,
             };
 
             const category = getElementCategory(element);
@@ -76,7 +76,8 @@ export const getResourceIconName = element => {
 const mutateResources = (elements, searchRegex) =>
     Object.values(elements).reduce((mutatedElements, element) => {
         const label = getResourceLabel(element);
-        if (!searchRegex || searchRegex.test(label)) {
+        const description = element.description;
+        if (!searchRegex || searchRegex.test(label) || searchRegex.test(description)) {
             const resourceElement = {
                 elementType: element.elementType,
                 guid: element.guid,

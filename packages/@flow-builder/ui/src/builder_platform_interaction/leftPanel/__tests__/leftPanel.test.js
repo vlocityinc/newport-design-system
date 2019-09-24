@@ -12,7 +12,10 @@ import {
     lookupRecordOutputReference,
     lookupRecordCollectionAutomaticOutput,
     actionCallElementGuid,
-    numberVariable
+    numberVariable,
+    stringConstant,
+    stringVariable,
+    assignmentElement2
 } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
@@ -234,19 +237,23 @@ describe('left-panel', () => {
                 });
             });
             describe('search input', () => {
-                it('should filter the resources and elements', async () => {
+                function searchMock(searchTerm) {
                     const leftPanelComponent = createComponentUnderTest();
                     const searchInput = leftPanelComponent.shadowRoot.querySelector(
                         selectors.searchInput
                     );
                     const changeEvent = new CustomEvent('change', {
-                        detail: { value: 'lookup' }
+                        detail: {value: searchTerm}
                     });
                     searchInput.dispatchEvent(changeEvent);
-                    await Promise.resolve();
                     const leftPanelResources = leftPanelComponent.shadowRoot.querySelector(
                         selectors.leftPanelResources
                     );
+                    return leftPanelResources;
+                }
+                it('should filter the resources and elements by API name', async () => {
+                    const leftPanelResources = searchMock('lookup');
+                    await Promise.resolve();
                     const elementsSections = leftPanelResources.canvasElements;
                     const resourceSections =
                         leftPanelResources.nonCanvasElements;
@@ -269,7 +276,7 @@ describe('left-panel', () => {
                             sectionLabel:
                                 'FlowBuilderElementConfig.recordLookupPluralLabel',
                             elementGuid:
-                                lookupRecordCollectionAutomaticOutput.guid
+                            lookupRecordCollectionAutomaticOutput.guid
                         })
                     ).toBeDefined();
                     expect(
@@ -282,7 +289,7 @@ describe('left-panel', () => {
                             sectionLabel:
                                 'FlowBuilderElementConfig.sObjectCollectionPluralLabel',
                             elementGuid:
-                                lookupRecordCollectionAutomaticOutput.guid
+                            lookupRecordCollectionAutomaticOutput.guid
                         })
                     ).toBeDefined();
                     expect(
@@ -297,6 +304,77 @@ describe('left-panel', () => {
                             elementGuid: numberVariable.guid
                         })
                     ).toBeUndefined();
+                });
+                it('should filter the resources and elements by Label', async () => {
+                    const leftPanelResources = searchMock('Label');
+                    await Promise.resolve();
+                    const elementsSections = leftPanelResources.canvasElements;
+                    const resourceSections =
+                        leftPanelResources.nonCanvasElements;
+                expect(
+                    getSectionItem(elementsSections, {
+                        elementGuid: assignmentElement2.guid
+                    })
+                ).toBeDefined();
+                    expect(
+                        getSectionItem(elementsSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.recordLookupPluralLabel',
+                            elementGuid: lookupRecordAutomaticOutput.guid
+                        })
+                    ).toBeUndefined();
+                    expect(
+                        getSectionItem(resourceSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.sObjectCollectionPluralLabel',
+                            elementGuid: lookupRecordCollectionAutomaticOutput.guid
+                        })
+                    ).toBeUndefined();
+                });
+                it('should filter the resources and elements by Description', async () => {
+                    const leftPanelResources = searchMock('random description');
+                    await Promise.resolve();
+                    const elementsSections =
+                        leftPanelResources.canvasElements;
+                    const resourceSections =
+                        leftPanelResources.nonCanvasElements;
+                    expect(
+                        getSectionItem(resourceSections, {
+                            elementGuid: stringConstant.guid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(resourceSections, {
+                            elementGuid: stringVariable.guid
+                        })
+                    ).toBeDefined();
+                    expect(
+                        getSectionItem(elementsSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.recordLookupPluralLabel',
+                            elementGuid: lookupRecordAutomaticOutput.guid
+                        })
+                    ).toBeUndefined();
+                    expect(
+                        getSectionItem(resourceSections, {
+                            sectionLabel:
+                                'FlowBuilderElementConfig.sObjectCollectionPluralLabel',
+                            elementGuid: lookupRecordCollectionAutomaticOutput.guid
+                        })
+                    ).toBeUndefined();
+                });
+                it('should show no results if search string is not in the flow', async () => {
+                    const leftPanelResources = searchMock('definitleyNotInTheMockFlow');
+                    await Promise.resolve();
+                    const elementsSections = leftPanelResources.canvasElements;
+                    const resourceSections =
+                        leftPanelResources.nonCanvasElements;
+                    expect(
+                        elementsSections
+                    ).toHaveLength(0);
+                    expect(
+                        resourceSections
+                    ).toHaveLength(0);
                 });
             });
             it('handle Palette Item Click Event ', () => {
