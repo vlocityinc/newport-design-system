@@ -109,6 +109,23 @@ export default class RecordLookupEditor extends LightningElement {
                 this.state.recordLookupElement,
                 new UseAdvancedOptionsSelectionChangedEvent(false)
             );
+        } else if (
+            // If the element has none of those properties, it means that the user saved the flow from a processType that supports the automatic output handling
+            // to a process type that does not support automatic output handling. outputReference is undefined but it should be empty to validate it.
+            !this.isInAddElementMode &&
+            !this.isAutomaticOutputHandlingSupported &&
+            !this.hasOutputReference &&
+            !this.hasOutputAssignmentValue
+        ) {
+            this.state.recordLookupElement = Object.assign(
+                {},
+                this.state.recordLookupElement,
+                {
+                    wayToStoreFields: WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE,
+                    storeOutputAutomatically: false,
+                    outputReference: { value: '' }
+                }
+            );
         } else {
             this.state.recordLookupElement = Object.assign(
                 {},

@@ -22,7 +22,10 @@ import {
     SObjectReferenceChangedEvent,
     NumberRecordToStoreChangedEvent
 } from 'builder_platform_interaction/events';
-import { getAdvancedOptionCheckbox } from 'builder_platform_interaction/builderTestUtils';
+import {
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -413,6 +416,40 @@ const recordLookupElementAutomaticSCollectionRecord = () => ({
     },
     storeOutputAutomatically: true,
     getFirstRecordOnly: false
+});
+
+const recordLookupElementWithoutOutputRefNorOutputAssignment = () => ({
+    description: { value: '', error: null },
+    elementType: 'RecordQuery',
+    dataType: { value: 'SObject', error: null },
+    guid: '426e1b1a-7235-487f-9b44-38db56af4a45',
+    isCanvasElement: true,
+    label: { value: 'testRecord', error: null },
+    name: { value: 'testRecord', error: null },
+    outputReferenceIndex: { value: MOCK_GUID, error: null },
+    sortField: { value: '', error: null },
+    sortOrder: SORT_ORDER.NOT_SORTED,
+    assignNullValuesIfNoRecordsFound: true,
+    queriedFields: [
+        {
+            field: { value: 'Id', error: null },
+            rowIndex: 1
+        },
+        {
+            field: { value: 'Name', error: null },
+            rowIndex: 2
+        }
+    ],
+    object: { value: 'Account', error: '' },
+    objectIndex: { value: 'guid', error: null },
+    filterType: RECORD_FILTER_CRITERIA.NONE,
+    filters: [],
+    getFirstRecordOnly: true,
+    subtype: {
+        value: 'Account',
+        error: null
+    },
+    storeOutputAutomatically: true,
 });
 
 const outputAssignmentElement = {
@@ -1535,6 +1572,38 @@ describe('record-lookup-editor', () => {
                         ).toBe(NUMBER_RECORDS_TO_STORE.ALL_RECORDS);
                     });
                 });
+            });
+        });
+        describe('Flow using Automatic output handling saved with a process type that does not support Automatic output handling ', () => {
+            beforeEach(() => {
+                expressionUtilsMock.getResourceByUniqueIdentifier.mockReturnValue(
+                    store.accountSObjectVariable
+                );
+                recordLookupEditor = createComponentForTest(
+                    recordLookupElementWithoutOutputRefNorOutputAssignment(),
+                    EditElementEvent.EVENT_NAME,
+                    MOCK_PROCESS_TYPE_NOT_SUPPORTING_AUTOMATIC_MODE
+                );
+            });
+            test('Advanced Option Component should not be visible', () => {
+                expect(
+                    getUseAdvancedOptionComponent(recordLookupEditor)
+                ).toBeNull();
+            });
+            test('Store options (Way to store) should be "sObjectVariable"', () => {
+                expect(
+                    getRecordStoreOption(recordLookupEditor).wayToStoreFields
+                ).toBe(WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE);
+            });
+            test('sObject picker should be visible"', () => {
+                const recordSobjectAndQueryFields = getRecordSobjectAndQueryFields(
+                    recordLookupEditor
+                );
+                expect(
+                    getsObjectOrSObjectCollectionPicker(
+                        recordSobjectAndQueryFields
+                    )
+                ).not.toBeNull();
             });
         });
     });
