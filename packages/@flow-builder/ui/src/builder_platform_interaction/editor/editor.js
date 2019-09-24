@@ -27,7 +27,8 @@ import {
     UPDATE_CANVAS_ELEMENT_LOCATION,
     updateApexClasses,
     ADD_START_ELEMENT,
-    UPDATE_APEX_CLASSES
+    UPDATE_APEX_CLASSES,
+    UPDATE_ENTITIES
 } from 'builder_platform_interaction/actions';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
@@ -181,7 +182,8 @@ export default class Editor extends LightningElement {
             UPDATE_APEX_CLASSES,
             ADD_START_ELEMENT,
             UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_TEMPLATE,
-            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE
+            UPDATE_PROPERTIES_AFTER_CREATING_FLOW_FROM_PROCESS_TYPE,
+            UPDATE_ENTITIES
         ];
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
