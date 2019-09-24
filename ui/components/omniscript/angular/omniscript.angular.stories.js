@@ -38,6 +38,7 @@ storiesOf(`${base}`, module)
     const width = number(label, defaultValue, options, groupId);
     return withExample(`<div class="vlocity via-slds via-omni via-nds"
     id="VlocityBP">
+<div class="nds-omniscript_wrapper>
  <ng-view autoscroll="true"
           id="VlocityBPView">
 
@@ -4101,7 +4102,8 @@ storiesOf(`${base}`, module)
        </div>
      </div>
    </div>
- </ng-view>
+  </ng-view>
+ </div>
  <div class="modal-backdrop fade in nds-hide"
       aria-hidden="true"></div>
 </div>`);
