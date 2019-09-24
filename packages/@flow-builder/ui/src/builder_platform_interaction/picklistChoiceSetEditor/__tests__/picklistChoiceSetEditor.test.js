@@ -13,6 +13,10 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
+
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
     ENTITY_RESOURCE_PICKER:

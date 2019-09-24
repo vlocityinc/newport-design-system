@@ -5,11 +5,8 @@ import {
 } from 'builder_platform_interaction/serverDataLib';
 import { updateEntities } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 
 let cachedEntityFields = {};
-
-const storeInstance = Store.getStore(reducer);
 
 export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
@@ -49,7 +46,7 @@ export const setEntities = (entities = null) => {
             }
         });
     }
-    storeInstance.dispatch(
+    Store.getStore().dispatch(
         updateEntities({
             allEntities,
             allEntitiesMap,
@@ -62,7 +59,7 @@ export const setEntities = (entities = null) => {
 };
 
 const getStoredEntities = () => {
-    const peripheralData = storeInstance.getCurrentState().peripheralData;
+    const peripheralData = Store.getStore().getCurrentState().peripheralData;
     return peripheralData ? peripheralData.entities : undefined;
 };
 

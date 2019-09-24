@@ -164,6 +164,7 @@ const createComponentForTest = (
 describe('Record Lookup Editor', () => {
     let recordLookupNode, store, uiFlow;
     beforeAll(() => {
+        store = Store.getStore(reducer);
         setRules(rules);
         setEntities(allEntities);
         setGlobalVariables(globalVariablesForFlow);
@@ -175,7 +176,6 @@ describe('Record Lookup Editor', () => {
                 })
             })
         );
-        store = Store.getStore(reducer);
     });
     afterAll(() => {
         resetState();

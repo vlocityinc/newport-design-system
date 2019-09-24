@@ -62,7 +62,9 @@ const getComboBox = (assignment, comboSelector) => {
 };
 
 describe('Assignment Editor', () => {
+    let store;
     beforeAll(() => {
+        store = Store.getStore(reducer);
         setRules(rules);
         setGlobalVariables(globalVariablesForFlow);
         setSystemVariables(systemVariablesForFlow);
@@ -79,9 +81,8 @@ describe('Assignment Editor', () => {
         resetState();
     });
     describe('Automated ouput in combobox', () => {
-        let store, assignment, assignmentForPropertyEditor;
+        let assignment, assignmentForPropertyEditor;
         beforeAll(() => {
-            store = Store.getStore(reducer);
             const uiFlow = translateFlowToUIModel(
                 flowWithGetRecordUsingSObjectSingleAutomatedOutput
             );

@@ -138,11 +138,11 @@ describe('Record Create Editor', () => {
     let store;
     let uiFlow;
     beforeAll(() => {
+        store = Store.getStore(reducer);
         setRules(rules);
         setEntities(allEntities);
         setGlobalVariables(globalVariablesForFlow);
         setSystemVariables(systemVariablesForFlow);
-        store = Store.getStore(reducer);
     });
     afterAll(() => {
         resetState();

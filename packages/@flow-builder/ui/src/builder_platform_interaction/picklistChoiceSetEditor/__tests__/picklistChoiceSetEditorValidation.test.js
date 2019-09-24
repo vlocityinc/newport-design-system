@@ -3,6 +3,10 @@ import PicklistChoiceSetEditor from '../picklistChoiceSetEditor';
 import { picklistChoiceSetValidation } from '../picklistChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
+
 const setupComponentUnderTest = picklistChoiceSetObject => {
     const element = createElement(
         'builder_platform_interaction-picklist-choice-set-editor',

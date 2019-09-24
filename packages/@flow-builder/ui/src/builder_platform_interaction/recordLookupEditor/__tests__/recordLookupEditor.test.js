@@ -33,6 +33,9 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/fieldPicker', () =>
     require('builder_platform_interaction_mocks/fieldPicker')
 );
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const MOCK_GUID = '515fa22c-c633-48fe-a97e-4fd3c272cc24';
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';

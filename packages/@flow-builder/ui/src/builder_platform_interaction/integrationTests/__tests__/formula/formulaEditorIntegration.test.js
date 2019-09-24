@@ -101,10 +101,10 @@ const getResourceGroupedCombobox = editor => {
 describe('Formula Editor', () => {
     let store;
     beforeAll(() => {
+        store = Store.getStore(reducer);
         setGlobalVariables(globalVariablesForFlow);
         setSystemVariables(systemVariablesForFlow);
         setEntities(allEntities);
-        store = Store.getStore(reducer);
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': getFieldsForEntity({

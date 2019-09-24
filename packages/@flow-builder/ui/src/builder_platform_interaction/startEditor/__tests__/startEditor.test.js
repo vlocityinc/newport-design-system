@@ -38,6 +38,9 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         filterMatches: actual.filterMatches
     };
 });
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const SELECTORS = {
     ENTITY_RESOURCE_PICKER:

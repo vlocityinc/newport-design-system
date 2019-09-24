@@ -64,6 +64,7 @@ const DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT =
 describe('Record Delete Editor', () => {
     let recordDeleteNode, recordDeleteComponent, store, uiFlow;
     beforeAll(() => {
+        store = Store.getStore(reducer);
         setRules(rules);
         setEntities(allEntities);
         setGlobalVariables(globalVariablesForFlow);
@@ -75,7 +76,6 @@ describe('Record Delete Editor', () => {
                 })
             })
         );
-        store = Store.getStore(reducer);
     });
     afterAll(() => {
         resetState();

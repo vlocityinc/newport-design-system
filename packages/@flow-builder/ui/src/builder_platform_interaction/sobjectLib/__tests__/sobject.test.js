@@ -24,6 +24,56 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    const mockEntitiesForStore = () => {
+        const allEntities = [];
+        const allEntitiesMap = {};
+        const queryableEntities = [];
+        const createableEntities = [];
+        const deletableEntities = [];
+        const updateableEntities = [];
+        mockEntities.forEach(entity => {
+            allEntities.push(entity);
+            allEntitiesMap[entity.apiName] = entity;
+            if (entity.queryable) {
+                queryableEntities.push(entity);
+            }
+            if (entity.createable) {
+                createableEntities.push(entity);
+            }
+            if (entity.deletable) {
+                deletableEntities.push(entity);
+            }
+            if (entity.updateable) {
+                updateableEntities.push(entity);
+            }
+        });
+        return {
+            allEntities,
+            allEntitiesMap,
+            queryableEntities,
+            createableEntities,
+            deletableEntities,
+            updateableEntities
+        };
+    };
+    const entities = { entities: mockEntitiesForStore() };
+    const getCurrentState = () => {
+        return { peripheralData: entities };
+    };
+    const dispatch = jest.fn();
+    function getStore() {
+        return {
+            dispatch,
+            getCurrentState
+        };
+    }
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
+
 describe('SObject Lib Tests', () => {
     describe('Set Entities Tests', () => {
         it('Set Null Entities', () => {

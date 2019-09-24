@@ -68,6 +68,7 @@ const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT =
 describe('Record Update Editor', () => {
     let recordUpdateNode, recordUpdateComponent, store, uiFlow;
     beforeAll(() => {
+        store = Store.getStore(reducer);
         setRules(rules);
         setEntities(allEntities);
         setGlobalVariables(globalVariablesForFlow);
@@ -80,7 +81,6 @@ describe('Record Update Editor', () => {
                 })
             })
         );
-        store = Store.getStore(reducer);
     });
     afterAll(() => {
         resetState();
