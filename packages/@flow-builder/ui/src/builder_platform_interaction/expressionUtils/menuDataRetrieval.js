@@ -83,8 +83,9 @@ let _eventTypesCache;
  * @returns {Integer} A negative number if elemA comes after elemB, positive number if elemB comes before elemA
  */
 function compareElementsByCategoryThenDevName(elemA, elemB) {
+    const elemAText = elemA.text.value || elemA.text;
     return elemA.category === elemB.category
-        ? -elemA.text.localeCompare(elemB.text, undefined, {
+        ? -elemAText.localeCompare(elemB.text, undefined, {
               sensitivity: 'base'
           })
         : -elemA.category.localeCompare(elemB.category, undefined, {
@@ -388,7 +389,7 @@ export function getStoreElements(storeInstance, config) {
 /*
  * Add uncommitted elements to the list of elements retrieved from store
  * */
-export function addUncommittedElementsFromLocalStorage(elements) {
+function addUncommittedElementsFromLocalStorage(elements) {
     const screen = getScreenElement();
     if (screen && screen.fields) {
         elements = elements.concat(screen.fields.filter(field => field.isNewField && field.name.value !== ""));

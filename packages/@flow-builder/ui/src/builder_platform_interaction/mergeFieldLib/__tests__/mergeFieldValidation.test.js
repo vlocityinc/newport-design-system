@@ -14,6 +14,7 @@ import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { mockScreenElement } from 'mock/calloutData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -142,6 +143,13 @@ jest.mock(
     { virtual: true }
 );
 
+jest.mock('builder_platform_interaction/expressionUtils', () => {
+    return {
+        getScreenElement: jest.fn().mockImplementation(() => mockScreenElement),
+        isElementAllowed: require.requireActual('builder_platform_interaction/expressionUtils').isElementAllowed
+    };
+});
+
 const validationError = (startIndex, endIndex, errorType, message) => ({
     startIndex,
     endIndex,
@@ -161,9 +169,24 @@ describe('Merge field validation', () => {
             )
         ]);
     });
+    it('Returns a validation error when the field in current session (not in store) is not a valid merge field', () => {
+        const validationErrors = validateMergeField('{!invalidMergeFieldScreenElementNotInStore}');
+        expect(validationErrors).toEqual([
+            validationError(
+                2,
+                41,
+                'wrongDataType',
+                'The "invalidMergeFieldScreenElementNotInStore" resource can\'t be used as a merge field.',
+            )
+        ]);
+    });
     describe('Variables', () => {
         it('Returns no validation error when it references an existing variable', () => {
             const validationErrors = validateMergeField('{!stringVariable}');
+            expect(validationErrors).toHaveLength(0);
+        });
+        it('Returns no validation error when it references an existing variable in current session but not in store', () => {
+            const validationErrors = validateMergeField('{!validMergeFieldScreenElementNotInStore}');
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns a validation error when it does not reference an existing variable', () => {

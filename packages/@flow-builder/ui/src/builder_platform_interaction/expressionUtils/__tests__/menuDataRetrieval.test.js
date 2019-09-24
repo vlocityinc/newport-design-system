@@ -41,6 +41,8 @@ import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemV
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { getScreenElement } from '../resourceUtils';
+import { mockScreenElement } from 'mock/calloutData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -49,6 +51,7 @@ jest.mock('builder_platform_interaction/storeLib', () =>
 const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
 const sobjectVariable = LABELS.sObjectPluralLabel.toUpperCase();
 const sobjectCollectionVariable = LABELS.sObjectCollectionPluralLabel.toUpperCase();
+const screenFieldVariable = LABELS.screenFieldPluralLabel.toUpperCase();
 
 /*
     Desired format output from getStoreElements
@@ -211,6 +214,14 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
     };
 });
 
+jest.mock('../resourceUtils', () => {
+    return {
+        getScreenElement: jest
+            .fn()
+            .mockImplementation(() => mockScreenElement)
+    };
+});
+
 describe('Menu data retrieval', () => {
     afterEach(() => {
         selectorsMock.writableElementsSelector.mockReset();
@@ -230,8 +241,9 @@ describe('Menu data retrieval', () => {
             shouldBeWritable: true
         });
         expect(menuData[0].label).toBe(collectionVariable);
-        expect(menuData[1].label).toBe(sobjectVariable);
-        expect(menuData[2].label).toBe(variablePluralLabel.toUpperCase());
+        expect(menuData[1].label).toBe(screenFieldVariable);
+        expect(menuData[2].label).toBe(sobjectVariable);
+        expect(menuData[3].label).toBe(variablePluralLabel.toUpperCase());
     });
     it('should sort alphabetically within category', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([
@@ -283,7 +295,7 @@ describe('Menu data retrieval', () => {
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        })[0].items[0];
+        })[1].items[0];
         expect(copiedElement.text).toBe(store.numberVariable.name);
         expect(copiedElement.displayText).toBe(
             addCurlyBraces(store.numberVariable.name)
@@ -296,7 +308,7 @@ describe('Menu data retrieval', () => {
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        })[0].items[0];
+        })[1].items[0];
         expect(copiedElement.subText).toBe('Account');
     });
     it('should set subText to label if there is a label', () => {
@@ -316,7 +328,7 @@ describe('Menu data retrieval', () => {
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        })[0].items[0];
+        })[1].items[0];
         expect(copiedElement.subText).toBe(FLOW_DATA_TYPE.NUMBER.label);
     });
 
@@ -416,9 +428,9 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
             sObjectSelector: true
         });
-        expect(menuData[0].label).toBe(sobjectVariable);
-        expect(menuData[0].items).toHaveLength(1);
-        expect(menuData[0].items[0].value).toEqual(
+        expect(menuData[1].label).toBe(sobjectVariable);
+        expect(menuData[1].items).toHaveLength(1);
+        expect(menuData[1].items[0].value).toEqual(
             store.accountSObjectVariable.guid
         );
     });
@@ -430,9 +442,9 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
             sObjectSelector: true
         });
-        expect(menuData[0].label).toBe(sobjectCollectionVariable);
-        expect(menuData[0].items).toHaveLength(1);
-        expect(menuData[0].items[0].value).toEqual(
+        expect(menuData[1].label).toBe(sobjectCollectionVariable);
+        expect(menuData[1].items).toHaveLength(1);
+        expect(menuData[1].items[0].value).toEqual(
             store.accountSObjectCollectionVariable.guid
         );
     });
@@ -450,15 +462,15 @@ describe('Menu data retrieval', () => {
             sObjectSelector: true
         });
         // TODO: W-5624868 when getElementsForMenuData is removed, this test should pass showSystemVariables = false so that menuData only expects length 2
-        expect(menuData).toHaveLength(3);
-        expect(menuData[0].label).toBe(sobjectCollectionVariable);
-        expect(menuData[1].label).toBe(sobjectVariable);
-        expect(menuData[0].items).toHaveLength(1);
-        expect(menuData[0].items[0].value).toEqual(
-            store.accountSObjectCollectionVariable.guid
-        );
+        expect(menuData).toHaveLength(4);
+        expect(menuData[1].label).toBe(sobjectCollectionVariable);
+        expect(menuData[2].label).toBe(sobjectVariable);
         expect(menuData[1].items).toHaveLength(1);
         expect(menuData[1].items[0].value).toEqual(
+            store.accountSObjectCollectionVariable.guid
+        );
+        expect(menuData[2].items).toHaveLength(1);
+        expect(menuData[2].items[0].value).toEqual(
             store.accountSObjectVariable.guid
         );
     });
@@ -470,9 +482,9 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
             sObjectSelector: true
         });
-        expect(menuData[0].label).toBe(sobjectVariable);
-        expect(menuData[0].items).toHaveLength(1);
-        expect(menuData[0].items[0].value).toEqual(
+        expect(menuData[1].label).toBe(sobjectVariable);
+        expect(menuData[1].items).toHaveLength(1);
+        expect(menuData[1].items[0].value).toEqual(
             store.accountSObjectVariable.guid
         );
     });
@@ -484,9 +496,9 @@ describe('Menu data retrieval', () => {
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
             sObjectSelector: true
         });
-        expect(menuData[0].label).toBe(sobjectCollectionVariable);
-        expect(menuData[0].items).toHaveLength(1);
-        expect(menuData[0].items[0].value).toEqual(
+        expect(menuData[1].label).toBe(sobjectCollectionVariable);
+        expect(menuData[1].items).toHaveLength(1);
+        expect(menuData[1].items[0].value).toEqual(
             store.accountSObjectCollectionVariable.guid
         );
     });
@@ -497,7 +509,7 @@ describe('Menu data retrieval', () => {
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        })[0].items[0];
+        })[1].items[0];
         expect(copiedElement.dataType).toBe('Number');
         expect(copiedElement.subtype).toBeNull();
     });
@@ -508,7 +520,7 @@ describe('Menu data retrieval', () => {
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        })[0].items[0];
+        })[1].items[0];
         expect(copiedElement.dataType).toBe(FLOW_DATA_TYPE.SOBJECT.value);
         expect(copiedElement.subtype).toBe('Account');
     });
@@ -519,7 +531,7 @@ describe('Menu data retrieval', () => {
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.ASSIGNMENT,
             shouldBeWritable: true
-        })[0].items[0];
+        })[1].items[0];
         expect(copiedElement.iconName).toBe(
             FLOW_DATA_TYPE.NUMBER.utilityIconName
         );
@@ -547,8 +559,8 @@ describe('Menu data retrieval', () => {
                 true
             );
 
-            expect(menuData[0].items[0].hasNext).toBeFalsy();
             expect(menuData[1].items[0].hasNext).toBeFalsy();
+            expect(menuData[2].items[0].hasNext).toBeFalsy();
         });
 
         it('should not manipulate hasNext for all menu items when false', () => {
@@ -570,8 +582,8 @@ describe('Menu data retrieval', () => {
                 false
             );
 
-            expect(menuData[0].items[0].hasNext).toBeFalsy();
-            expect(menuData[1].items[0].hasNext).toBeTruthy();
+            expect(menuData[1].items[0].hasNext).toBeFalsy();
+            expect(menuData[2].items[0].hasNext).toBeTruthy();
         });
         selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockClear();
     });
@@ -632,7 +644,7 @@ describe('Menu data retrieval', () => {
             expect(menuData).toContainEqual(
                 expect.objectContaining({ items: expect.any(Array) })
             );
-            expect(menuData[0].items).toHaveLength(1);
+            expect(menuData[1].items).toHaveLength(1);
         });
         it('true and false should show in menuData when allowed', () => {
             // all global constants returned from selector
@@ -675,16 +687,32 @@ describe('Menu data retrieval', () => {
     });
 
     describe('get store elements', () => {
+        afterEach(() => {
+            getScreenElement.mockReset();
+        });
         // TODO: W-5470931 more tests for getStoreElements
-        it('returns elements based on element type', () => {
+        it('returns elements based on element type - source data from store alone', () => {
             selectorsMock.readableElementsSelector.mockReturnValue([
                 store.outcome
             ]);
+            getScreenElement.mockReturnValue(null);
             const menuData = getStoreElements(jest.fn(), {
                 elementType: ELEMENT_TYPE.ASSIGNMENT,
                 shouldBeWritable: false
             });
             expect(menuData).toHaveLength(1);
+        });
+
+        it('returns elements based on element type - source data from store and localstorage', () => {
+            selectorsMock.readableElementsSelector.mockReturnValue([
+                store.outcome
+            ]);
+            getScreenElement.mockReturnValue(mockScreenElement);
+            const menuData = getStoreElements(jest.fn(), {
+                elementType: ELEMENT_TYPE.ASSIGNMENT,
+                shouldBeWritable: false
+            });
+            expect(menuData).toHaveLength(4);
         });
     });
 

@@ -4,7 +4,8 @@ import {
     getResourceByUniqueIdentifier,
     getFerovInfoAndErrorFromEvent,
     checkExpressionForDeletedElem,
-    EXPRESSION_PROPERTY_TYPE
+    EXPRESSION_PROPERTY_TYPE,
+    setScreenElement
 } from '../resourceUtils';
 import * as store from 'mock/storeData';
 import {
@@ -25,6 +26,7 @@ import {
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { mockCarApexTypeProperties } from 'mock/apexTypesData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { mockScreenElement } from 'mock/calloutData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -197,6 +199,12 @@ describe('ResourceUtils', () => {
                 );
             });
         }
+        it('getResourceByUniqueIdentifier should return element by guid from local storage for an uncommitted resource', () => {
+            setScreenElement(mockScreenElement);
+            const retrievedResource = getResourceByUniqueIdentifier("e1b88c4a-1a78-42d2-8057-93e2401bbdd4");
+            expect(retrievedResource.name.value).toEqual("dt1");
+            setScreenElement(undefined);
+        });
     });
 
     describe('getFerovInfoAndErrorFromEvent', () => {
