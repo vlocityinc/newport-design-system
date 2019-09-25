@@ -16,8 +16,7 @@
     .nds-action_item {
         display: table;
         color: inherit;
-        width: 100%;
-        height: 53px;
+        min-height: 1.7rem;
     }
     .nds-action_inline {
         display: inline-block;
@@ -28,7 +27,6 @@
     }
     .nds-action_text {
         font-size: $font-size-text-medium;
-        line-height: 1;
         display: table-cell;
         color: inherit;
         vertical-align: middle;
