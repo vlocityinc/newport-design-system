@@ -198,6 +198,7 @@ export const autolaunchedFlowUIModel = {
 	          "lastInlineResourceRowIndex": null,
 	          "name": "autolaunchedFlow",
 	          "processType": "AutoLaunchedFlow",
+	          "runInMode": null,
 	          "status": "Draft",
 	          "versionNumber": 1
 	        }

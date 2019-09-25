@@ -15,6 +15,7 @@ export const SERVER_ACTION_TYPE = {
     GET_ALL_GLOBAL_VARIABLES: 'getAllGlobalVariables',
     GET_SYSTEM_VARIABLES: 'getSystemVariables',
     GET_PROCESS_TYPES: 'getProcessTypes',
+    GET_RUN_IN_MODES: 'getRunInModes',
     GET_HEADER_URLS: 'getHeaderUrls',
     GET_RESOURCE_TYPES: 'getResourceTypes',
     GET_FLOW_EXTENSIONS: 'getFlowExtensions',
@@ -53,6 +54,7 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_ALL_GLOBAL_VARIABLES]: 'c.getAllGlobalVariables',
     [SERVER_ACTION_TYPE.GET_SYSTEM_VARIABLES]: 'c.getSystemVariables',
     [SERVER_ACTION_TYPE.GET_PROCESS_TYPES]: 'c.getProcessTypes',
+    [SERVER_ACTION_TYPE.GET_RUN_IN_MODES]: 'c.getRunInModes',
     [SERVER_ACTION_TYPE.GET_HEADER_URLS]: 'c.retrieveHeaderUrls',
     [SERVER_ACTION_TYPE.GET_RESOURCE_TYPES]: 'c.getResourceTypes',
     [SERVER_ACTION_TYPE.GET_FLOW_EXTENSIONS]: 'c.getFlowExtensions',
@@ -147,6 +149,8 @@ const KEY_PROVIDER = {
         SERVER_ACTION_TYPE.GET_HEADER_URLS,
     [SERVER_ACTION_TYPE.GET_PROCESS_TYPES]: () =>
         SERVER_ACTION_TYPE.GET_PROCESS_TYPES,
+    [SERVER_ACTION_TYPE.GET_RUN_IN_MODES]: () =>
+        SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
     [SERVER_ACTION_TYPE.GET_SUBFLOWS]: params => params.flowProcessType,
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS]: params =>
         params.flowProcessType,

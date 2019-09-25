@@ -92,7 +92,9 @@ import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLi
 import {
     getProcessTypes,
     setProcessTypes,
-    setProcessTypeFeature
+    setProcessTypeFeature,
+    getRunInModes,
+    setRunInModes
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
@@ -341,6 +343,15 @@ export default class Editor extends LightningElement {
                 setProcessTypes(data);
             });
             this.propertyEditorBlockerCalls.push(getProcessTypesCall);
+        }
+        if (!getRunInModes()) {
+            const getRunInModesCall = fetchOnce(
+                   SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
+                   {}
+            ).then(data => {
+                setRunInModes(data);
+            });
+            this.propertyEditorBlockerCalls.push(getRunInModesCall);
         }
     };
 

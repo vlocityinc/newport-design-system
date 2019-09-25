@@ -62,7 +62,10 @@ export {
     getProcessFeatures,
     setProcessTypeFeature
 } from './processTypes';
-
+export {
+    setRunInModes,
+    getRunInModes,
+} from './runInModes';
 export {
     getSupportedFeatures,
     setSupportedFeatures

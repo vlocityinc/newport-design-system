@@ -28,6 +28,23 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/expressionUtils', () => {
+    return {
+        getRunInModesMenuData() {
+            return [
+                {
+                    value: 'defaultMode',
+                    label: 'defaultMode'
+                },
+                {
+                    value: 'systemModeWithSharing',
+                    label: 'systemModeWithSharing'
+                }
+            ];
+        }
+    };
+});
+
 const mockDateTimeString = 'some date time string';
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {

@@ -39,6 +39,7 @@ import {
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     getProcessTypes,
+    getRunInModes,
     getGlobalVariables
 } from 'builder_platform_interaction/systemLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
@@ -719,6 +720,20 @@ export const getProcessTypesMenuData = () => {
         return {
             value: processTypeObject.name,
             label: processTypeObject.label
+        };
+    });
+};
+
+/**
+ * Get a list of menu data based from the allowed run-in modes returned by the java controller
+ * @returns {MenuItem[]} list of menu items representing the allowed modes.
+ */
+export const getRunInModesMenuData = () => {
+    const runInModes = getRunInModes();
+    return runInModes.map(runInModeObject => {
+        return {
+            value: runInModeObject.value,
+            label: runInModeObject.value
         };
     });
 };

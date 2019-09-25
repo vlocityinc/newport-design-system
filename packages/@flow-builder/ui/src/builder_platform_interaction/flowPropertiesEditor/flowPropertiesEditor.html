@@ -49,6 +49,17 @@
         <div if:true={isAdvancedShown} class="advanced">
             <lightning-combobox
                 class="process-type slds-col slds-grow"
+                label={labels.runInSystemModeLabel}
+                options={runInModes}
+                value={runInMode}
+                placeholder={labels.processTypePlaceholderLabel}
+                dropdown-alignment="auto"
+                field-level-help={processTypeFieldLevelHelp}
+                onchange={handleRunInModeChange}
+            >
+            </lightning-combobox>        
+            <lightning-combobox
+                class="process-type slds-col slds-grow"
                 label={labels.processTypeLabel}
                 options={processTypes}
                 value={processType}

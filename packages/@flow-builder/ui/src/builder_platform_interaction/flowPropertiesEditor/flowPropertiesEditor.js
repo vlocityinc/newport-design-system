@@ -13,7 +13,10 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import { normalizeDateTime } from 'builder_platform_interaction/dateTimeUtils';
 import { SaveType } from 'builder_platform_interaction/saveType';
-import { getProcessTypesMenuData } from 'builder_platform_interaction/expressionUtils';
+import {
+    getProcessTypesMenuData,
+    getRunInModesMenuData
+} from 'builder_platform_interaction/expressionUtils';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
@@ -40,6 +43,7 @@ export default class FlowPropertiesEditor extends LightningElement {
         this._originalApiName = this.flowProperties.name.value;
         this._originalDescription = this.flowProperties.description.value;
         this._originalProcessType = this.flowProperties.processType.value;
+        this._originalRunInMode = this.flowProperties.runInMode.value;
         this._originalInterviewLabel = this.flowProperties.interviewLabel.value;
         if (this.flowProperties.saveType === SaveType.NEW_DEFINITION) {
             this.clearForNewDefinition();
@@ -92,10 +96,12 @@ export default class FlowPropertiesEditor extends LightningElement {
     labels = LABELS;
 
     _processTypes = getProcessTypesMenuData();
+    _runInModes = getRunInModesMenuData();
     _originalLabel;
     _originalApiName;
     _originalDescription;
     _originalProcessType;
+    _originalRunInMode;
     _originalInterviewLabel;
 
     saveAsTypeOptions = [
@@ -128,6 +134,14 @@ export default class FlowPropertiesEditor extends LightningElement {
         return retVal;
     }
 
+    get runInMode() {
+        let retVal = null;
+        if (this.flowProperties.runInMode) {
+            retVal = this.flowProperties.runInMode.value;
+        }
+        return retVal;
+    }
+
     /**
      * The label of the currently selected process type
      */
@@ -139,6 +153,18 @@ export default class FlowPropertiesEditor extends LightningElement {
             });
 
             label = processType ? processType.label : null;
+        }
+        return label;
+    }
+
+    get runInModeLabel() {
+        let label = null;
+        if (this.flowProperties.runInMode) {
+            const runInMode = this._runInModes.find(pt => {
+                return pt.value === this.flowProperties.runInMode.value;
+            });
+
+            label = runInMode ? runInMode.label : null;
         }
         return label;
     }
@@ -176,6 +202,10 @@ export default class FlowPropertiesEditor extends LightningElement {
      */
     get processTypes() {
         return this._processTypes;
+    }
+
+    get runInModes() {
+        return this._runInModes;
     }
 
     /**
@@ -293,9 +323,9 @@ export default class FlowPropertiesEditor extends LightningElement {
         this.updateProperty('processType', event.detail.value);
     }
 
-    handleRunInSystemModeChange(event) {
+    handleRunInModeChange(event) {
         event.stopPropagation();
-        this.updateProperty('runInSystemMode', event.detail.checked, null);
+        this.updateProperty('runInMode', event.detail.value);
     }
 
     handleAdvancedToggle(event) {
