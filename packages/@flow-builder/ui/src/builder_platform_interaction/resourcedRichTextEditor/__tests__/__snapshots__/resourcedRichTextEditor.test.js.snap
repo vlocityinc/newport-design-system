@@ -14,12 +14,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-48"
+            id="resourcedRichTextEditorLabel-56"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-48"
+        aria-labelledby="resourcedRichTextEditorLabel-56"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -94,12 +94,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-40"
+            id="resourcedRichTextEditorLabel-48"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-40"
+        aria-labelledby="resourcedRichTextEditorLabel-48"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -187,12 +187,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-71"
+            id="resourcedRichTextEditorLabel-79"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-71"
+        aria-labelledby="resourcedRichTextEditorLabel-79"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -267,12 +267,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-56"
+            id="resourcedRichTextEditorLabel-64"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-56"
+        aria-labelledby="resourcedRichTextEditorLabel-64"
         class="container slds-grid slds-grid_vertical"
       >
         <div>

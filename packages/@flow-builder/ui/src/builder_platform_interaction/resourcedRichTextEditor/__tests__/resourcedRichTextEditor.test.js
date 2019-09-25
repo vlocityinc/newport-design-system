@@ -297,27 +297,41 @@ describe('ResourcedRichTextEditor', () => {
         });
     });
     describe('Plain text mode', () => {
-        let richTextEditorResourcePicker, inputPlainTextResourcedTextArea;
-        const buildAndFetchComponents = props => {
-            resourcedRichTextEditor = createComponentUnderTest({ ...props });
+        it('By default should NOT be displayed', () => {
+            resourcedRichTextEditor = createComponentUnderTest();
             inputRichTextElement = getChildElement(
                 resourcedRichTextEditor,
                 SELECTORS.INPUT_RICH_TEXT
             );
-            richTextEditorResourcePicker = getChildElement(
+            const richTextEditorResourcePicker = getChildElement(
                 resourcedRichTextEditor,
                 SELECTORS.FEROV_RESOURCE_PICKER
             );
-            inputPlainTextResourcedTextArea = getChildElement(
+            const inputPlainTextResourcedTextArea = getChildElement(
                 resourcedRichTextEditor,
                 SELECTORS.RESOURCED_TEXTAREA
             );
-        };
-        it('By default should NOT be displayed', () => {
-            buildAndFetchComponents();
             expect(inputRichTextElement).not.toBeNull();
             expect(richTextEditorResourcePicker).not.toBeNull();
             expect(inputPlainTextResourcedTextArea).toBeNull();
+        });
+        it('No <BR /> added if new lines in plain text', () => {
+            const multiLinesPlainTextInitialValue = 'line1\n\nline2\nline3\n';
+            resourcedRichTextEditor = createComponentUnderTest({
+                plainTextAvailable: true,
+                isPlainTextMode: true,
+                value: multiLinesPlainTextInitialValue
+            });
+            const inputPlainTextResourcedTextArea = getChildElement(
+                resourcedRichTextEditor,
+                SELECTORS.RESOURCED_TEXTAREA
+            );
+            expect(inputPlainTextResourcedTextArea.value).toEqual(
+                multiLinesPlainTextInitialValue
+            );
+            expect(resourcedRichTextEditor.value).toEqual(
+                multiLinesPlainTextInitialValue
+            );
         });
         describe('Change mode via API', () => {
             it('Enable it', () => {
