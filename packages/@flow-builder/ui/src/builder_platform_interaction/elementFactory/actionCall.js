@@ -50,7 +50,7 @@ export function createActionCall(
         createInputParameter(inputParameter)
     );
 
-    if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
+    if (storeOutputAutomatically) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
     } else {

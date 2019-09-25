@@ -210,9 +210,6 @@ describe('actionCall', () => {
         let actionCall;
         describe('when empty actionCall is created', () => {
             beforeEach(() => {
-                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
-                    'Unsupported'
-                );
                 actionCall = createActionCall();
             });
 
@@ -237,9 +234,9 @@ describe('actionCall', () => {
             it('has no output parameters by default', () => {
                 expect(actionCall.outputParameters).toHaveLength(0);
             });
-            it('has dataType of Boolean', () => {
+            it('has dataType of ACTION_OUTPUT', () => {
                 expect(actionCall.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
+                    FLOW_DATA_TYPE.ACTION_OUTPUT.value
                 );
             });
         });

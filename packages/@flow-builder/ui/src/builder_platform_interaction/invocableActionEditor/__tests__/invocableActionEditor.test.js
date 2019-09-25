@@ -13,6 +13,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
+import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -20,6 +21,16 @@ jest.mock('builder_platform_interaction/outputResourcePicker', () =>
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
+
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    return {
+        FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
+    };
+});
 
 const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
 commonUtils.format = jest
@@ -79,6 +90,47 @@ const defaultNode = {
             valueDataType: 'reference'
         }
     ]
+};
+
+const actionWithAutomaticOutputNode = {
+    actionName: { value: 'chatterPost', error: null },
+    actionType: { value: 'chatterPost', error: null },
+    description: { value: 'This is a description', error: null },
+    elementType: ELEMENT_TYPE.ACTION_CALL,
+    guid: '66b95c2c-468d-466b-baaf-5ad964be585e',
+    isCanvasElemen: true,
+    label: { value: 'Post to Chatter', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'Post_to_Chatter', error: null },
+    storeOutputAutomatically: true,
+    inputParameters: [
+        {
+            rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
+            name: {
+                value: 'subjectNameOrId',
+                error: null
+            },
+            value: {
+                value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
+                error: null
+            },
+            valueDataType: 'reference'
+        },
+        {
+            rowIndex: '84b6d19d-718f-452d-9803-fe97a263f76c',
+            name: {
+                value: 'text',
+                error: null
+            },
+            value: {
+                value: 'This is a message',
+                error: null
+            },
+            valueDataType: 'String'
+        }
+    ],
+    outputParameters: []
 };
 
 const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
@@ -245,6 +297,22 @@ describe('Invocable Action editor', () => {
                 );
                 expect(eventCallback).toHaveBeenCalled();
             });
+        });
+    });
+    describe('invocable action supports automatic output handling', () => {
+        let invocableActionEditor;
+        beforeEach(() => {
+            getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                'Unsupported'
+            );
+            invocableActionEditor = createComponentUnderTest(
+                actionWithAutomaticOutputNode
+            );
+        });
+        it('Should change storeOutputAutomatically to false if the process type does not support automatic output', () => {
+            expect(invocableActionEditor.node.storeOutputAutomatically).toBe(
+                false
+            );
         });
     });
 });

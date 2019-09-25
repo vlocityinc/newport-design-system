@@ -22,9 +22,11 @@ import {
     SetPropertyEditorTitleEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import {
+    fetchParametersForInvocableAction,
+    isAutomaticOutputHandlingSupported
+} from 'builder_platform_interaction/invocableActionLib';
 
 export default class InvocableActionEditor extends LightningElement {
     /**
@@ -63,6 +65,13 @@ export default class InvocableActionEditor extends LightningElement {
         if (this.connected) {
             this.fetchInvocableActionDescriptor();
             this.fetchActionParameters();
+        }
+        if (!isAutomaticOutputHandlingSupported(this.processTypeValue)) {
+            // If the process type does not support automatic output handling we need to set storeOutputAutomatically to false.
+            this.actionCallNode = {
+                ...newValue,
+                storeOutputAutomatically: false
+            };
         }
     }
 
