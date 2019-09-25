@@ -13,7 +13,8 @@ import {
     UPDATE_PROPERTIES_AFTER_SAVE_FAILED,
     UPDATE_PROPERTIES_AFTER_SAVING,
     UPDATE_PROPERTIES_AFTER_ACTIVATING,
-    UPDATE_APEX_CLASSES
+    UPDATE_APEX_CLASSES,
+    UPDATE_ENTITIES
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 
@@ -90,6 +91,7 @@ export default function flowPropertiesReducer(
         case SELECT_ON_CANVAS:
         case TOGGLE_ON_CANVAS:
         case UPDATE_APEX_CLASSES:
+        case UPDATE_ENTITIES:
             return state;
         default:
             return {
