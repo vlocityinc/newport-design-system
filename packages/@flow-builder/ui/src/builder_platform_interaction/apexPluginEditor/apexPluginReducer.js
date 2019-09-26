@@ -4,8 +4,7 @@ import { apexPluginValidation } from './apexPluginValidation';
 import {
     UpdateParameterItemEvent,
     PropertyChangedEvent,
-    DeleteParameterItemEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    DeleteParameterItemEvent
 } from 'builder_platform_interaction/events';
 import {
     updateParameterItem,
@@ -13,8 +12,7 @@ import {
     removeUnsetParameters,
     deleteParameterItem,
     MERGE_WITH_PARAMETERS,
-    REMOVE_UNSET_PARAMETERS,
-    updateUseAdvancedOptionSelection
+    REMOVE_UNSET_PARAMETERS
 } from 'builder_platform_interaction/calloutEditorLib';
 
 const apexPluginPropertyChanged = (state, event) => {
@@ -44,8 +42,6 @@ export const apexPluginReducer = (state, event) => {
             return updateParameterItem(state, event.detail);
         case DeleteParameterItemEvent.EVENT_NAME:
             return deleteParameterItem(state, event.detail);
-        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
-            return updateUseAdvancedOptionSelection(state, event.detail);
         case MERGE_WITH_PARAMETERS:
             return mergeWithInputOutputParameters(state, event.detail);
         case REMOVE_UNSET_PARAMETERS:
