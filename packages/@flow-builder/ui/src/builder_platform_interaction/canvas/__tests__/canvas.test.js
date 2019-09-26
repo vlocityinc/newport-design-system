@@ -1,11 +1,15 @@
 import { createElement } from 'lwc';
 import Canvas from 'builder_platform_interaction/canvas';
-import { KEYS } from '../keyConstants';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { DeleteElementEvent } from 'builder_platform_interaction/events';
+import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
 jest.mock('builder_platform_interaction/drawingLib', () =>
     require('builder_platform_interaction_mocks/drawingLib')
+);
+
+jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
+    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
 );
 
 const SELECTORS = {
@@ -63,141 +67,56 @@ describe('Canvas', () => {
         }
     ];
 
-    const createComponentForTest = (nodes, connectors) => {
+    const createComponentForTest = (
+        nodes,
+        connectors,
+        keyboardInteractions = new KeyboardInteractions()
+    ) => {
         const el = createElement('builder_platform_interaction-canvas', {
             is: Canvas
         });
 
         el.nodes = nodes;
         el.connectors = connectors;
+        el.keyboardInteractions = keyboardInteractions;
 
         document.body.appendChild(el);
 
         return el;
     };
 
-    describe('handleKeyDown', () => {
-        describe('BACKSPACE KEY', () => {
-            it('DeleteElementEvent is fired on backspace', () => {
-                const canvas = createComponentForTest(
-                    defaultNodes,
-                    defaultConnectors
-                );
+    describe('commands', () => {
+        it('DeleteElementEvent is fired on backspace or delete key', () => {
+            const keyboardInteractions = new KeyboardInteractions();
+            const canvas = createComponentForTest(
+                defaultNodes,
+                defaultConnectors,
+                keyboardInteractions
+            );
 
-                const eventCallback = jest.fn();
-                canvas.addEventListener(
-                    DeleteElementEvent.EVENT_NAME,
-                    eventCallback
-                );
-
-                const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.BACKSPACE
-                });
-
-                const canvasDiv = canvas.shadowRoot.querySelector(
-                    SELECTORS.CANVAS_DIV
-                );
-                canvasDiv.dispatchEvent(backspaceEvent);
-
-                expect(eventCallback).toHaveBeenCalled();
-            });
-
-            it('DeleteElementEvent is fired on backspace with empty detail', () => {
-                const canvas = createComponentForTest(
-                    defaultNodes,
-                    defaultConnectors
-                );
-
-                const eventCallback = jest.fn();
-                canvas.addEventListener(
-                    DeleteElementEvent.EVENT_NAME,
-                    eventCallback
-                );
-
-                const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.BACKSPACE
-                });
-
-                const canvasDiv = canvas.shadowRoot.querySelector(
-                    SELECTORS.CANVAS_DIV
-                );
-                canvasDiv.dispatchEvent(backspaceEvent);
-
-                expect(eventCallback.mock.calls[0][0].detail).toEqual({});
-            });
+            const eventCallback = jest.fn();
+            canvas.addEventListener(
+                DeleteElementEvent.EVENT_NAME,
+                eventCallback
+            );
+            // on backspace or delete, 'deletenodes' command is executed
+            keyboardInteractions.execute('deletenodes');
+            expect(eventCallback).toHaveBeenCalled();
+            expect(eventCallback.mock.calls[0][0].detail).toEqual({});
         });
-
-        describe('DELETE KEY', () => {
-            it('DeleteElementEvent is fired on delete', () => {
-                const canvas = createComponentForTest(
-                    defaultNodes,
-                    defaultConnectors
-                );
-
-                const eventCallback = jest.fn();
-                canvas.addEventListener(
-                    DeleteElementEvent.EVENT_NAME,
-                    eventCallback
-                );
-
-                const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.DELETE
-                });
-
-                const canvasDiv = canvas.shadowRoot.querySelector(
-                    SELECTORS.CANVAS_DIV
-                );
-                canvasDiv.dispatchEvent(backspaceEvent);
-
-                expect(eventCallback).toHaveBeenCalled();
-            });
-
-            it('DeleteElementEvent is fired on delete with empty detail', () => {
-                const canvas = createComponentForTest(
-                    defaultNodes,
-                    defaultConnectors
-                );
-
-                const eventCallback = jest.fn();
-                canvas.addEventListener(
-                    DeleteElementEvent.EVENT_NAME,
-                    eventCallback
-                );
-
-                const backspaceEvent = new KeyboardEvent('keydown', {
-                    key: KEYS.DELETE
-                });
-
-                const canvasDiv = canvas.shadowRoot.querySelector(
-                    SELECTORS.CANVAS_DIV
-                );
-                canvasDiv.dispatchEvent(backspaceEvent);
-
-                expect(eventCallback.mock.calls[0][0].detail).toEqual({});
-            });
-        });
-
-        describe('META KEY', () => {
-            it('Canvas zooms out when meta key is pressed down along with "-" key', () => {
-                const canvas = createComponentForTest(
-                    defaultNodes,
-                    defaultConnectors
-                );
-                const canvasDiv = canvas.shadowRoot.querySelector(
-                    SELECTORS.CANVAS_DIV
-                );
-                const innerCanvasDiv = canvas.shadowRoot.querySelector(
-                    SELECTORS.INNER_CANVAS_DIV
-                );
-
-                const negativeKeyEvent = new KeyboardEvent('keydown', {
-                    metaKey: true,
-                    key: KEYS.NEGATIVE
-                });
-
-                canvasDiv.dispatchEvent(negativeKeyEvent);
-                expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
-            });
+        it('Canvas zooms out when meta key is pressed down along with "-" key', () => {
+            const keyboardInteractions = new KeyboardInteractions();
+            const canvas = createComponentForTest(
+                defaultNodes,
+                defaultConnectors,
+                keyboardInteractions
+            );
+            const innerCanvasDiv = canvas.shadowRoot.querySelector(
+                SELECTORS.INNER_CANVAS_DIV
+            );
+            // on meta+"-", 'zoomout' command is executed
+            keyboardInteractions.execute('zoomout');
+            expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
         });
     });
 });

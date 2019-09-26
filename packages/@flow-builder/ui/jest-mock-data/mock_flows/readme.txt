@@ -6,7 +6,7 @@ You will need this apex class defined in your org :
         public String name{get;set;}
     }
 
-1) create a new flow and save it (you can move the start element to have the save button enabled)
+1) create a new flow named "flowWithAllElements" and save it (you can move the start element to have the save button enabled)
 2) add a breakpoint in TranslatorLib.translateFlowToUIModel
 3) refresh the page (F5)
 4) in the console :

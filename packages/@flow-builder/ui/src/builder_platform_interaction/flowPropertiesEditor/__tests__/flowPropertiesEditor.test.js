@@ -24,12 +24,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                     label: 'processTypeLabel2'
                 }
             ];
-        }
-    };
-});
-
-jest.mock('builder_platform_interaction/expressionUtils', () => {
-    return {
+        },
         getRunInModesMenuData() {
             return [
                 {
@@ -86,7 +81,7 @@ const createComponentUnderTest = node => {
 
 const SELECTORS = {
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
-    FLOW_TYPE: 'lightning-combobox',
+    FLOW_TYPE: 'lightning-combobox.process-type',
     SAVE_AS_TOGGLE: 'lightning-radio-group',
     SHOW_ADVANCED: '.show-advanced-button',
     HIDE_ADVANCED: '.hide-advanced-button',
@@ -177,6 +172,7 @@ describe('FlowPropertiesEditor', () => {
                 description: { value: '', error: null },
                 processType: { value: 'process type', error: null },
                 interviewLabel: { value: '', error: null },
+                runInMode: { value: null, error: null },
                 saveType: SaveType.CREATE
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
@@ -298,7 +294,8 @@ describe('FlowPropertiesEditor', () => {
                 interviewLabel: { value: 'interviewLabel' },
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE
+                saveType: SaveType.UPDATE,
+                runInMode: { value: null, error: null }
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
         });
@@ -389,7 +386,8 @@ describe('FlowPropertiesEditor', () => {
                 status: { value: 'Active' },
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE
+                saveType: SaveType.UPDATE,
+                runInMode: { value: null, error: null }
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
@@ -411,7 +409,8 @@ describe('FlowPropertiesEditor', () => {
                 status: { value: 'Active' },
                 lastModifiedBy: { value: 'some user' },
                 lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
-                saveType: SaveType.UPDATE
+                saveType: SaveType.UPDATE,
+                runInMode: { value: null, error: null }
             };
             flowPropertiesEditor = createComponentUnderTest(flowProperties);
             getShowAdvancedButton(flowPropertiesEditor).click();
@@ -435,7 +434,8 @@ describe('FlowPropertiesEditor', () => {
                     lastModifiedBy: { value: 'some user' },
                     lastModifiedDate: { value: '2018-11-12T19:25:22.000+0000' },
                     versionNumber: 1,
-                    saveType: SaveType.UPDATE
+                    saveType: SaveType.UPDATE,
+                    runInMode: { value: null, error: null }
                 };
             });
 
@@ -476,7 +476,8 @@ describe('FlowPropertiesEditor', () => {
                     status: { value: 'Active' },
                     interviewLabel: { value: 'interviewLabel' },
                     versionNumber: 1,
-                    saveType: SaveType.NEW_DEFINITION
+                    saveType: SaveType.NEW_DEFINITION,
+                    runInMode: { value: null, error: null }
                 };
             });
 

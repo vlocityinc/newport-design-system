@@ -13,6 +13,10 @@ jest.mock('builder_platform_interaction/drawingLib', () =>
     require('builder_platform_interaction_mocks/drawingLib')
 );
 
+jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
+    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
+);
+
 jest.mock('builder_platform_interaction/translatorLib', () => {
     return {
         translateUIModelToFlow: jest.fn()

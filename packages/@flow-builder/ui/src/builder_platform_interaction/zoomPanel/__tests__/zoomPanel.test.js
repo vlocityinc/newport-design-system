@@ -1,12 +1,19 @@
 import { createElement } from 'lwc';
 import ZoomPanel from 'builder_platform_interaction/zoomPanel';
+import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+
+jest.mock('builder_platform_interaction/keyboardInteractionUtils', () =>
+    require('builder_platform_interaction_mocks/keyboardInteractionUtils')
+);
 
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-zoom-panel', {
         is: ZoomPanel
     });
 
-    Object.assign(el, props);
+    Object.assign(el, props, {
+        keyboardInteractions: new KeyboardInteractions()
+    });
 
     document.body.appendChild(el);
     return el;

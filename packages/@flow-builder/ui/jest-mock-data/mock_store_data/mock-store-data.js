@@ -36,7 +36,6 @@ export const stringVariable = getElementByName('stringVariable');
 export const dateVariable = getElementByName('dateVariable');
 export const currencyVariable = getElementByName('currencyVariable');
 export const assignmentElement = getElementByName('assignment1');
-export const assignmentElement2 = getElementByName('assignment2');
 export const accountSObjectVariable = getElementByName('accountSObjectVariable');
 export const lookupRecordOutputReference = getElementByName('lookupRecordOutputReference');
 export const lookupRecordAutomaticOutput = getElementByName('lookupRecordAutomaticOutput');

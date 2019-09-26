@@ -437,7 +437,11 @@ export default class Canvas extends LightningElement {
      * @param {object} event - click to zoom event coming from zoom-panel.js
      */
     handleZoom = event => {
-        if (event && event.detail.action && canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)) {
+        if (
+            event &&
+            event.detail.action &&
+            canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)
+        ) {
             this._canvasZoom(event.detail.action);
         }
     };
@@ -652,9 +656,7 @@ export default class Canvas extends LightningElement {
             lib.setZoom(this.currentScale);
 
             // Updating the scale and left and top properties of the canvas
-            this.innerCanvasArea.style.transform = `scale(${
-                this.currentScale
-            })`;
+            this.innerCanvasArea.style.transform = `scale(${this.currentScale})`;
             this._updateInnerCanvasPosition(
                 newScaledOffsetLeft,
                 newScaledOffsetTop
@@ -784,10 +786,16 @@ export default class Canvas extends LightningElement {
 
     setupCommandsAndShortcuts = () => {
         // Delete Nodes Command
-        const deleteNodesCommand = new DeleteNodesCommand((event) => this.handleDeleteNodes(event));
-        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, { key: 'Delete' });
-        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, { key: 'Backspace' });
-      }
+        const deleteNodesCommand = new DeleteNodesCommand(event =>
+            this.handleDeleteNodes(event)
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
+            key: 'Delete'
+        });
+        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
+            key: 'Backspace'
+        });
+    };
 
     connectedCallback() {
         this.setupCommandsAndShortcuts();
