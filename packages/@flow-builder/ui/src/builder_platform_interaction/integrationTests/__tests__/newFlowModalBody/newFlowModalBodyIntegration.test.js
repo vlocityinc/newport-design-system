@@ -8,8 +8,8 @@ import { auraFetch, getTemplates } from '../../serverDataTestUtils';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
-import {Store } from 'builder_platform_interaction/storeLib';
-import {reducer } from 'builder_platform_interaction/reducers';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { reducer } from 'builder_platform_interaction/reducers';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
@@ -169,7 +169,6 @@ describe('new Flow Modal Body', () => {
                         SELECTORS.TEMPLATES_SECTION
                     );
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(4);
                     const templateItemTitles = Array.from(templateItems).map(
                         templateItem => getTemplateItemTitle(templateItem)
                     );
