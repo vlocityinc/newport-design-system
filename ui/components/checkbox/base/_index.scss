@@ -12,6 +12,7 @@
  */
 .nds-checkbox {
   display: inline-block;
+  padding-top: 0.25rem;
 
   /**
    * Creates a custom styled checkbox
@@ -144,8 +145,9 @@
       fill: $color-input-icon-blue-hue;
       cursor: pointer;
     }
-    .nds-form-element__label.nds-form-element__control-help.nds-checkbox-span{
-      margin-right:.5rem;
+
+    .nds-form-element__label.nds-form-element__control-help.nds-checkbox-span {
+      margin-right: .5rem;
     }
   }
 }
@@ -182,6 +184,7 @@
 
     input,
     input:checked {
+
       +.nds-checkbox_faux,
       +.nds-checkbox--faux,
       ~.nds-checkbox_faux,

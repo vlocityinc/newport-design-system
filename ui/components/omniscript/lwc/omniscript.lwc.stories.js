@@ -155,13 +155,8 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
            for="input0-12"
            class="nds-checkbox__label"><span vloc_mg-input_input_nds=""
             class="nds-checkbox_faux"></span><span vloc_mg-input_input_nds=""
-            class="nds-form-element__label nds-form-element__control-help nds-checkbox-span">Checkbox Field Label</span></label></div>
-</div>
-<div vloc_mg-input_input_nds=""
-     class="nds-form-element__control">
-  <div vloc_mg-input_input_nds=""
-       class="nds-form-element__label nds-align-middle nds-animated-label__ease-out">
-    <c-tooltip vloc_mg-input_input_nds=""
+            class="nds-form-element__label nds-form-element__control-help nds-checkbox-span">Checkbox Field Label</span>
+            <c-tooltip vloc_mg-input_input_nds=""
                class="nds-tooltip__container"
                vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
             style="position: relative;">
@@ -183,10 +178,8 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                class="nds-popover__body">Help Text</div>
         </span>
       </span></c-tooltip>
-  </div>
+      </label></div>
 </div>
-<div vloc_mg-input_input_nds=""
-     class="nds-grid"></div>
 </div>
 </c-input>
 </slot>
