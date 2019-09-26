@@ -1,6 +1,5 @@
 import { ZOOM_ACTION } from 'builder_platform_interaction/events';
 import { getFlowBounds } from 'builder_platform_interaction/connectorUtils';
-import { KEYS } from './keyConstants';
 
 export const SCALE_BOUNDS = {
     MIN_SCALE: 0.2,
@@ -89,10 +88,8 @@ export const getOffsetValuesOnPan = ({
  * @param {Boolean} isMarqueeModeOn - Checks whether the marquee mode has been turned on or not
  * @return {Boolean}  Returns true if deletion shortcut is used during the event
  */
-export const canDelete = (event, isCanvasMouseDown, isMarqueeModeOn) => {
+export const canDelete = (isCanvasMouseDown, isMarqueeModeOn) => {
     return (
-        event &&
-        (event.key === KEYS.BACKSPACE || event.key === KEYS.DELETE) &&
         !isCanvasMouseDown &&
         !isMarqueeModeOn
     );
@@ -110,11 +107,6 @@ export const canDelete = (event, isCanvasMouseDown, isMarqueeModeOn) => {
 export const canZoom = (event, isCanvasMouseDown, isMarqueeInProgress) => {
     return (
         event &&
-        (event.metaKey || event.ctrlKey) &&
-        (event.key === KEYS.NEGATIVE ||
-            event.key === KEYS.ZERO ||
-            event.key === KEYS.ONE ||
-            event.key === KEYS.EQUAL) &&
         !isCanvasMouseDown &&
         !isMarqueeInProgress
     );

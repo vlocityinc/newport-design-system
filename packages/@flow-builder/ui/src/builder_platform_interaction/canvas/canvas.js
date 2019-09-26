@@ -26,11 +26,11 @@ import {
     ZOOM_ACTION,
     MARQUEE_ACTION
 } from 'builder_platform_interaction/events';
-import { KEYS } from './keyConstants';
 import {
     logPerfMarkStart,
     logPerfMarkEnd
 } from 'builder_platform_interaction/loggingUtils';
+import { DeleteNodesCommand } from 'builder_platform_interaction/commands';
 
 /**
  * Canvas component for flow builder.
@@ -59,6 +59,9 @@ export default class Canvas extends LightningElement {
 
     @api
     showMarqueeButton = false;
+
+    @api
+    keyboardInteractions;
 
     @track
     isMarqueeModeOn = false;
@@ -263,32 +266,16 @@ export default class Canvas extends LightningElement {
     };
 
     /**
-     * Handling key down event for canvas
+     * Handling delete Node commmand when delete or backspace buttons are pressed
      *
      * @param {object} event - key down event
      */
-    handleKeyDown = event => {
-        if (canDelete(event, this.isCanvasMouseDown, this.isMarqueeModeOn)) {
+    handleDeleteNodes = () => {
+        if (canDelete(this.isCanvasMouseDown, this.isMarqueeModeOn)) {
             // Code block for deletion of selected canvas elements and connectors. This should not happen when mouse is
             // down on the canvas or the marquee mode is turned on
-            event.preventDefault();
             const deleteEvent = new DeleteElementEvent();
             this.dispatchEvent(deleteEvent);
-        } else if (
-            canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)
-        ) {
-            // Code block for zooming shortcuts. This should not happen when mouse is down on the canvas or the marquee
-            // is in progress
-            event.preventDefault();
-            if (event.key === KEYS.NEGATIVE) {
-                this._canvasZoom(ZOOM_ACTION.ZOOM_OUT);
-            } else if (event.key === KEYS.ZERO) {
-                this._canvasZoom(ZOOM_ACTION.ZOOM_TO_FIT);
-            } else if (event.key === KEYS.ONE) {
-                this._canvasZoom(ZOOM_ACTION.ZOOM_TO_VIEW);
-            } else if (event.key === KEYS.EQUAL) {
-                this._canvasZoom(ZOOM_ACTION.ZOOM_IN);
-            }
         }
     };
 
@@ -450,7 +437,7 @@ export default class Canvas extends LightningElement {
      * @param {object} event - click to zoom event coming from zoom-panel.js
      */
     handleZoom = event => {
-        if (event && event.detail.action) {
+        if (event && event.detail.action && canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)) {
             this._canvasZoom(event.detail.action);
         }
     };
@@ -629,7 +616,7 @@ export default class Canvas extends LightningElement {
     /**
      * Helper method to zoom the canvas.
      *
-     * @param {String} action - Zoom action coming from handleKeyDown or handleZoom
+     * @param {String} action - Zoom action coming from handleZoom
      * @private
      */
     _canvasZoom = action => {
@@ -794,6 +781,17 @@ export default class Canvas extends LightningElement {
             }
         }
     };
+
+    setupCommandsAndShortcuts = () => {
+        // Delete Nodes Command
+        const deleteNodesCommand = new DeleteNodesCommand((event) => this.handleDeleteNodes(event));
+        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, { key: 'Delete' });
+        this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, { key: 'Backspace' });
+      }
+
+    connectedCallback() {
+        this.setupCommandsAndShortcuts();
+    }
 
     renderedCallback() {
         if (!lib.getContainer()) {

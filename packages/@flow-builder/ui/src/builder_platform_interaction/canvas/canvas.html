@@ -9,7 +9,6 @@
         onmousemove={handleCanvasMouseMove}
         onmouseup={handleCanvasMouseUp}
         oncontextmenu={handleCanvasContextMenu}
-        onkeydown={handleKeyDown}
         ondragover={handleDragOver}
         ondrop={handleDrop}
     >
@@ -55,6 +54,7 @@
             is-zoom-in-disabled={isZoomInDisabled}
             ontogglemarqueeon={handleMarqueeOn}
             onclicktozoom={handleZoom}
+            keyboard-interactions={keyboardInteractions}
         ></builder_platform_interaction-zoom-panel>
     </div>
 </template>
