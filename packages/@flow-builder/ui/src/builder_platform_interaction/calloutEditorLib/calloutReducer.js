@@ -183,10 +183,18 @@ export const deleteParameterItem = (state, param) => {
     return state;
 };
 
+const removeOutputErrors = state => {
+    const propertyName = getNodeOutputsPropertyName(state.elementType);
+    const outputs = state[propertyName];
+    outputs.forEach(output => delete output.value);
+    return state;
+};
+
 export const updateUseAdvancedOptionSelection = (
     state,
     { useAdvancedOptions }
 ) => {
+    state = removeOutputErrors(state);
     return updateProperties(state, {
         storeOutputAutomatically: !useAdvancedOptions
     });
