@@ -85,29 +85,9 @@ exports[`Resourced text area "rich text/ plain text mode switch" displayed if "p
                     <slot />
                   <lightning-menu-item>
                     #shadow-root(open)
-                      <span
-                        class="slds-truncate"
-                      >
-                        FlowBuilderResourcedRichTextEditor.richText
-                      </span>
                   </lightning-menu-item>
                   <lightning-menu-item>
                     #shadow-root(open)
-                      <span
-                        class="slds-truncate"
-                      >
-                        <lightning-primitive-icon>
-                          #shadow-root(open)
-                            <svg
-                              data-key="utility:check"
-                            >
-                              <use
-                                xlink:href="null"
-                              />
-                            </svg>
-                        </lightning-primitive-icon>
-                        FlowBuilderResourcedRichTextEditor.plainText
-                      </span>
                   </lightning-menu-item>
                 </lightning-button-menu>
               </div>

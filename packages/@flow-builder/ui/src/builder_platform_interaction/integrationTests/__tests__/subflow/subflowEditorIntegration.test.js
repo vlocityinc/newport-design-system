@@ -98,7 +98,7 @@ describe('Subflow Editor', () => {
             const labelInput = getLabelDescriptionLabelElement(
                 getBaseCalloutElement(subflowElement)
             );
-            labelInput.mockUserInput(newLabel);
+            labelInput.value = newLabel;
             labelInput.dispatchEvent(focusoutEvent);
             return resolveRenderCycles(() => {
                 expect(subflowElement.node.label.value).toBe(newLabel);
@@ -114,7 +114,7 @@ describe('Subflow Editor', () => {
                 const devNameInput = getLabelDescriptionNameElement(
                     getBaseCalloutElement(subflowElement)
                 );
-                devNameInput.mockUserInput(newDevName);
+                devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(subflowElement.node.name.value).toBe(newDevName);
@@ -128,7 +128,7 @@ describe('Subflow Editor', () => {
                 const labelInput = getLabelDescriptionLabelElement(
                     getBaseCalloutElement(subflowElement)
                 );
-                labelInput.mockUserInput(newLabel);
+                labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(subflowElement.node.label.error).toBe(
@@ -144,7 +144,7 @@ describe('Subflow Editor', () => {
                 const devNameInput = getLabelDescriptionNameElement(
                     getBaseCalloutElement(subflowElement)
                 );
-                devNameInput.mockUserInput(newDevName);
+                devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(subflowElement.node.name.error).toBe(

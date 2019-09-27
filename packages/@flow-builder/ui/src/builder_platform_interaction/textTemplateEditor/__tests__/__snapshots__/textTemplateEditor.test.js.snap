@@ -91,29 +91,9 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
                             <slot />
                           <lightning-menu-item>
                             #shadow-root(open)
-                              <span
-                                class="slds-truncate"
-                              >
-                                <lightning-primitive-icon>
-                                  #shadow-root(open)
-                                    <svg
-                                      data-key="utility:check"
-                                    >
-                                      <use
-                                        xlink:href="null"
-                                      />
-                                    </svg>
-                                </lightning-primitive-icon>
-                                FlowBuilderResourcedRichTextEditor.richText
-                              </span>
                           </lightning-menu-item>
                           <lightning-menu-item>
                             #shadow-root(open)
-                              <span
-                                class="slds-truncate"
-                              >
-                                FlowBuilderResourcedRichTextEditor.plainText
-                              </span>
                           </lightning-menu-item>
                         </lightning-button-menu>
                       </div>

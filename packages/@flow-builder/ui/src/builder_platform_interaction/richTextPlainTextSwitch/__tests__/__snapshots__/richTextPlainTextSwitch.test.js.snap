@@ -11,29 +11,9 @@ exports[`plain-text-mode-select By default "RichText" mode selected check UI (sn
           <slot />
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              <lightning-primitive-icon>
-                #shadow-root(open)
-                  <svg
-                    data-key="utility:check"
-                  >
-                    <use
-                      xlink:href="null"
-                    />
-                  </svg>
-              </lightning-primitive-icon>
-              FlowBuilderResourcedRichTextEditor.richText
-            </span>
         </lightning-menu-item>
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              FlowBuilderResourcedRichTextEditor.plainText
-            </span>
         </lightning-menu-item>
       </lightning-button-menu>
     </div>
@@ -51,29 +31,9 @@ exports[`plain-text-mode-select Select "PlainText" mode select "plain text" mode
           <slot />
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              FlowBuilderResourcedRichTextEditor.richText
-            </span>
         </lightning-menu-item>
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              <lightning-primitive-icon>
-                #shadow-root(open)
-                  <svg
-                    data-key="utility:check"
-                  >
-                    <use
-                      xlink:href="null"
-                    />
-                  </svg>
-              </lightning-primitive-icon>
-              FlowBuilderResourcedRichTextEditor.plainText
-            </span>
         </lightning-menu-item>
       </lightning-button-menu>
     </div>
@@ -91,29 +51,9 @@ exports[`plain-text-mode-select Select "PlainText" mode select "plain text" mode
           <slot />
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              FlowBuilderResourcedRichTextEditor.richText
-            </span>
         </lightning-menu-item>
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              <lightning-primitive-icon>
-                #shadow-root(open)
-                  <svg
-                    data-key="utility:check"
-                  >
-                    <use
-                      xlink:href="null"
-                    />
-                  </svg>
-              </lightning-primitive-icon>
-              FlowBuilderResourcedRichTextEditor.plainText
-            </span>
         </lightning-menu-item>
       </lightning-button-menu>
     </div>
@@ -131,29 +71,9 @@ exports[`plain-text-mode-select Select "RichText" mode select "rich text" mode v
           <slot />
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              <lightning-primitive-icon>
-                #shadow-root(open)
-                  <svg
-                    data-key="utility:check"
-                  >
-                    <use
-                      xlink:href="null"
-                    />
-                  </svg>
-              </lightning-primitive-icon>
-              FlowBuilderResourcedRichTextEditor.richText
-            </span>
         </lightning-menu-item>
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              FlowBuilderResourcedRichTextEditor.plainText
-            </span>
         </lightning-menu-item>
       </lightning-button-menu>
     </div>
@@ -171,29 +91,9 @@ exports[`plain-text-mode-select Select "RichText" mode select "rich text" mode v
           <slot />
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              <lightning-primitive-icon>
-                #shadow-root(open)
-                  <svg
-                    data-key="utility:check"
-                  >
-                    <use
-                      xlink:href="null"
-                    />
-                  </svg>
-              </lightning-primitive-icon>
-              FlowBuilderResourcedRichTextEditor.richText
-            </span>
         </lightning-menu-item>
         <lightning-menu-item>
           #shadow-root(open)
-            <span
-              class="slds-truncate"
-            >
-              FlowBuilderResourcedRichTextEditor.plainText
-            </span>
         </lightning-menu-item>
       </lightning-button-menu>
     </div>

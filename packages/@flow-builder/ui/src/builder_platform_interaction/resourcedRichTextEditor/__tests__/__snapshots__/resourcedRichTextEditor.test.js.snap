@@ -14,12 +14,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-56"
+            id="resourcedRichTextEditorLabel-54"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-56"
+        aria-labelledby="resourcedRichTextEditorLabel-54"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -43,29 +43,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
                       <slot />
                     <lightning-menu-item>
                       #shadow-root(open)
-                        <span
-                          class="slds-truncate"
-                        >
-                          <lightning-primitive-icon>
-                            #shadow-root(open)
-                              <svg
-                                data-key="utility:check"
-                              >
-                                <use
-                                  xlink:href="null"
-                                />
-                              </svg>
-                          </lightning-primitive-icon>
-                          FlowBuilderResourcedRichTextEditor.richText
-                        </span>
                     </lightning-menu-item>
                     <lightning-menu-item>
                       #shadow-root(open)
-                        <span
-                          class="slds-truncate"
-                        >
-                          FlowBuilderResourcedRichTextEditor.plainText
-                        </span>
                     </lightning-menu-item>
                   </lightning-button-menu>
                 </div>
@@ -94,12 +74,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-48"
+            id="resourcedRichTextEditorLabel-47"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-48"
+        aria-labelledby="resourcedRichTextEditorLabel-47"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -131,29 +111,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
                               <slot />
                             <lightning-menu-item>
                               #shadow-root(open)
-                                <span
-                                  class="slds-truncate"
-                                >
-                                  FlowBuilderResourcedRichTextEditor.richText
-                                </span>
                             </lightning-menu-item>
                             <lightning-menu-item>
                               #shadow-root(open)
-                                <span
-                                  class="slds-truncate"
-                                >
-                                  <lightning-primitive-icon>
-                                    #shadow-root(open)
-                                      <svg
-                                        data-key="utility:check"
-                                      >
-                                        <use
-                                          xlink:href="null"
-                                        />
-                                      </svg>
-                                  </lightning-primitive-icon>
-                                  FlowBuilderResourcedRichTextEditor.plainText
-                                </span>
                             </lightning-menu-item>
                           </lightning-button-menu>
                         </div>
@@ -187,12 +147,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-79"
+            id="resourcedRichTextEditorLabel-74"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-79"
+        aria-labelledby="resourcedRichTextEditorLabel-74"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -216,29 +176,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                       <slot />
                     <lightning-menu-item>
                       #shadow-root(open)
-                        <span
-                          class="slds-truncate"
-                        >
-                          <lightning-primitive-icon>
-                            #shadow-root(open)
-                              <svg
-                                data-key="utility:check"
-                              >
-                                <use
-                                  xlink:href="null"
-                                />
-                              </svg>
-                          </lightning-primitive-icon>
-                          FlowBuilderResourcedRichTextEditor.richText
-                        </span>
                     </lightning-menu-item>
                     <lightning-menu-item>
                       #shadow-root(open)
-                        <span
-                          class="slds-truncate"
-                        >
-                          FlowBuilderResourcedRichTextEditor.plainText
-                        </span>
                     </lightning-menu-item>
                   </lightning-button-menu>
                 </div>
@@ -267,12 +207,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-64"
+            id="resourcedRichTextEditorLabel-61"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-64"
+        aria-labelledby="resourcedRichTextEditorLabel-61"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -304,29 +244,9 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
                               <slot />
                             <lightning-menu-item>
                               #shadow-root(open)
-                                <span
-                                  class="slds-truncate"
-                                >
-                                  FlowBuilderResourcedRichTextEditor.richText
-                                </span>
                             </lightning-menu-item>
                             <lightning-menu-item>
                               #shadow-root(open)
-                                <span
-                                  class="slds-truncate"
-                                >
-                                  <lightning-primitive-icon>
-                                    #shadow-root(open)
-                                      <svg
-                                        data-key="utility:check"
-                                      >
-                                        <use
-                                          xlink:href="null"
-                                        />
-                                      </svg>
-                                  </lightning-primitive-icon>
-                                  FlowBuilderResourcedRichTextEditor.plainText
-                                </span>
                             </lightning-menu-item>
                           </lightning-button-menu>
                         </div>

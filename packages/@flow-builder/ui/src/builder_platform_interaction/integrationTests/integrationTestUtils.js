@@ -228,7 +228,7 @@ export const changeComboboxValue = (combobox, newValue) => {
 };
 
 export const changeInputValue = (input, newValue) => {
-    input.mockUserInput(newValue);
+    input.value = newValue;
     input.dispatchEvent(focusoutEvent);
 };
 

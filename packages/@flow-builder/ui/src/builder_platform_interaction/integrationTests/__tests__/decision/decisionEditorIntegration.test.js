@@ -191,7 +191,7 @@ describeSkip('Decision Editor', () => {
                 const labelInput = decisionEditor.shadowRoot
                     .querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)
                     .shadowRoot.querySelector(SELECTORS.LABEL);
-                labelInput.mockUserInput(NEW_DECISION_LABEL);
+                labelInput.value = NEW_DECISION_LABEL;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(decisionEditor.node.label.value).toBe(
@@ -213,7 +213,7 @@ describeSkip('Decision Editor', () => {
                 const labelInput = decisionEditor.shadowRoot
                     .querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)
                     .shadowRoot.querySelector(SELECTORS.LABEL);
-                labelInput.mockUserInput(newLabel);
+                labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(decisionEditor.node.label.value).toBe(newLabel);
@@ -302,7 +302,7 @@ describeSkip('Decision Editor', () => {
                             SELECTORS.LABEL_DESCRIPTION_COMPONENT
                         )
                     ).querySelector(SELECTORS.LABEL);
-                    detailLabelInput.mockUserInput(NEW_OUTCOME_LABEL);
+                    detailLabelInput.value = NEW_OUTCOME_LABEL;
                     detailLabelInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
                         expect(
@@ -329,7 +329,7 @@ describeSkip('Decision Editor', () => {
                             SELECTORS.LABEL_DESCRIPTION_COMPONENT
                         )
                     ).querySelector(SELECTORS.LABEL);
-                    detailLabelInput.mockUserInput(newLabel);
+                    detailLabelInput.value = newLabel;
                     detailLabelInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
                         expect(
@@ -564,9 +564,8 @@ describeSkip('Decision Editor', () => {
                             SELECTORS.LABEL
                         );
                         const newDefaultOutcomeLabel = 'blah blah blah';
-                        defaultOutcomeLabelInput.mockUserInput(
-                            newDefaultOutcomeLabel
-                        );
+                        defaultOutcomeLabelInput.value = newDefaultOutcomeLabel;
+
                         defaultOutcomeLabelInput.dispatchEvent(focusoutEvent);
                         return resolveRenderCycles(() => {
                             expect(defaultOutcomeLabelInput.value).toBe(

@@ -123,7 +123,7 @@ describe('Invocable Action Editor', () => {
                     const labelInput = getLabelDescriptionLabelElement(
                         getBaseCalloutElement(coreActionElement)
                     );
-                    labelInput.mockUserInput(newLabel);
+                    labelInput.value = newLabel;
                     labelInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
                         expect(coreActionElement.node.label.value).toBe(
@@ -142,7 +142,7 @@ describe('Invocable Action Editor', () => {
                     const devNameInput = getLabelDescriptionNameElement(
                         getBaseCalloutElement(coreActionElement)
                     );
-                    devNameInput.mockUserInput(newDevName);
+                    devNameInput.value = newDevName;
                     devNameInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
                         expect(coreActionElement.node.name.value).toBe(
@@ -158,7 +158,7 @@ describe('Invocable Action Editor', () => {
                     const labelInput = getLabelDescriptionLabelElement(
                         getBaseCalloutElement(coreActionElement)
                     );
-                    labelInput.mockUserInput(newLabel);
+                    labelInput.value = newLabel;
                     labelInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
                         expect(coreActionElement.node.label.error).toBe(
@@ -174,7 +174,7 @@ describe('Invocable Action Editor', () => {
                     const devNameInput = getLabelDescriptionNameElement(
                         getBaseCalloutElement(coreActionElement)
                     );
-                    devNameInput.mockUserInput(newDevName);
+                    devNameInput.value = newDevName;
                     devNameInput.dispatchEvent(focusoutEvent);
                     return resolveRenderCycles(() => {
                         expect(coreActionElement.node.name.error).toBe(

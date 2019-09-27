@@ -551,7 +551,7 @@ describe('choice-editor', () => {
                 const promptTextInput = choiceEditor.shadowRoot.querySelector(
                     SELECTORS.PROMPT_TEXT
                 );
-                promptTextInput.mockUserInput(newValue);
+                promptTextInput.value = newValue;
                 promptTextInput.dispatchEvent(focusoutEvent);
 
                 expect(createAction).toHaveBeenCalledWith(
@@ -569,7 +569,7 @@ describe('choice-editor', () => {
                 const promptTextInput = choiceEditor.shadowRoot.querySelector(
                     SELECTORS.PROMPT_TEXT
                 );
-                promptTextInput.mockUserInput(newValue);
+                promptTextInput.value = newValue;
                 promptTextInput.dispatchEvent(focusoutEvent);
 
                 expect(createAction).toHaveBeenCalledWith(

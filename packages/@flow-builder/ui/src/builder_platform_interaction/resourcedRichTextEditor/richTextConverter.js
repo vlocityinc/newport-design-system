@@ -1,7 +1,10 @@
-import quillLib from 'lightning/quillLib';
+import { inputRichTextLibrary } from 'lightning/quillLib';
 
-const INPUT_RICH_TEXT_FONTS = quillLib.inputRichTextLibrary.FONT_LIST.map(
-    item => ({ fontName: item.label.toUpperCase(), value: item.value })
+const INPUT_RICH_TEXT_FONTS = (inputRichTextLibrary.FONT_LIST || []).map(
+    item => ({
+        fontName: item.label.toUpperCase(),
+        value: item.value
+    })
 );
 
 /**

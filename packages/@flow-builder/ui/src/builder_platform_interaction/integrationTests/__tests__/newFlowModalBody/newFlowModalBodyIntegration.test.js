@@ -36,11 +36,20 @@ const getProcessTypesNavigationItems = modalBody => {
     );
 };
 
-const getProcessTypeLink = (processTypesNavigationItems, processType) => {
+const selectProcessType = (processTypesNavigationItems, processType) => {
     const searchedNode = [...processTypesNavigationItems].find(
         processTypeNode => processTypeNode.name === processType
     );
-    return searchedNode.shadowRoot.querySelector('a');
+
+    searchedNode.dispatchEvent(
+        new CustomEvent('select', {
+            bubbles: true,
+            composed: true,
+            detail: {
+                name: searchedNode.name
+            }
+        })
+    );
 };
 
 const getProcessTypesTemplates = modalBody =>
@@ -127,10 +136,10 @@ describe('new Flow Modal Body', () => {
                     const processTypesNavigationItems = getProcessTypesNavigationItems(
                         newFlowModalBody
                     );
-                    getProcessTypeLink(
+                    selectProcessType(
                         processTypesNavigationItems,
                         FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                    ).click();
+                    );
                     await Promise.resolve();
                     const processTypesTemplates = getProcessTypesTemplates(
                         newFlowModalBody
@@ -156,10 +165,10 @@ describe('new Flow Modal Body', () => {
                     const processTypesNavigationItems = getProcessTypesNavigationItems(
                         newFlowModalBody
                     );
-                    getProcessTypeLink(
+                    selectProcessType(
                         processTypesNavigationItems,
                         FLOW_PROCESS_TYPE.FLOW
-                    ).click();
+                    );
                     await Promise.resolve();
                     const processTypesTemplates = getProcessTypesTemplates(
                         newFlowModalBody

@@ -168,7 +168,7 @@ describe('Record Create Editor', () => {
                 const labelInput = getLabelDescriptionLabelElement(
                     recordCreateElement
                 );
-                labelInput.mockUserInput(newLabel);
+                labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(recordCreateElement.node.label.value).toBe(newLabel);
@@ -187,7 +187,7 @@ describe('Record Create Editor', () => {
                 const devNameInput = getLabelDescriptionNameElement(
                     recordCreateElement
                 );
-                devNameInput.mockUserInput(newDevName);
+                devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(recordCreateElement.node.name.value).toBe(
@@ -205,7 +205,7 @@ describe('Record Create Editor', () => {
                 const labelInput = getLabelDescriptionLabelElement(
                     recordCreateElement
                 );
-                labelInput.mockUserInput(newLabel);
+                labelInput.value = newLabel;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(recordCreateElement.node.label.error).toBe(
@@ -223,7 +223,7 @@ describe('Record Create Editor', () => {
                 const devNameInput = getLabelDescriptionNameElement(
                     recordCreateElement
                 );
-                devNameInput.mockUserInput(newDevName);
+                devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     expect(recordCreateElement.node.name.error).toBe(

@@ -179,7 +179,7 @@ describe('Data Type picker', () => {
             });
         });
         it('fires valueChanged event on blur when scale is changed', async () => {
-            scaleComponent().mockUserInput('3');
+            scaleComponent().value = '3';
             scaleComponent().dispatchEvent(new CustomEvent('blur'));
             await Promise.resolve();
             expectValueChangedEventWithValue({
@@ -189,7 +189,7 @@ describe('Data Type picker', () => {
             });
         });
         it('does not fire valueChanged event on blur when scale has not been changed', async () => {
-            scaleComponent().mockUserInput('2');
+            scaleComponent().value = '2';
             scaleComponent().dispatchEvent(new CustomEvent('blur'));
             await Promise.resolve();
             expect(eventCallback).not.toHaveBeenCalled();
@@ -206,7 +206,7 @@ describe('Data Type picker', () => {
             });
         };
         const enterScaleAndDispatchBlur = userInput => {
-            scaleComponent().mockUserInput(userInput);
+            scaleComponent().value = userInput;
             scaleComponent().dispatchEvent(new CustomEvent('blur'));
         };
         beforeEach(async () => {

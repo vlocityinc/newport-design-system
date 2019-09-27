@@ -160,7 +160,7 @@ describe('Loop Editor', () => {
                 const labelInput = loopElement.shadowRoot
                     .querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)
                     .shadowRoot.querySelector(SELECTORS.LABEL);
-                labelInput.mockUserInput(newLoopName);
+                labelInput.value = newLoopName;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     // Only the label is updated, the dev name stays the same
@@ -179,7 +179,7 @@ describe('Loop Editor', () => {
                 const labelInput = loopElement.shadowRoot
                     .querySelector(SELECTORS.LABEL_DESCRIPTION_COMPONENT)
                     .shadowRoot.querySelector(SELECTORS.LABEL);
-                labelInput.mockUserInput(newLoopName);
+                labelInput.value = newLoopName;
                 labelInput.dispatchEvent(focusoutEvent);
                 return resolveRenderCycles(() => {
                     // Both label and the dev name are updated

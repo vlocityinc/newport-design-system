@@ -134,7 +134,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -182,7 +182,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -290,7 +290,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalled();
@@ -320,7 +320,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalledTimes(1);
@@ -347,7 +347,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
                     expect(eventCallback).toHaveBeenCalledTimes(1);
@@ -457,7 +457,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    devNameLightningInput.mockUserInput(newValue);
+                    devNameLightningInput.value = newValue;
 
                     devNameLightningInput.dispatchEvent(focusoutEvent);
 
@@ -505,7 +505,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    devNameLightningInput.mockUserInput(newValue);
+                    devNameLightningInput.value = newValue;
 
                     devNameLightningInput.dispatchEvent(focusoutEvent);
 
@@ -600,7 +600,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -681,7 +681,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -708,7 +708,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -734,7 +734,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -760,7 +760,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -787,7 +787,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -816,7 +816,7 @@ describe('label-description', () => {
                             eventCallback
                         );
 
-                        labelLightningInput.mockUserInput(newValue);
+                        labelLightningInput.value = newValue;
 
                         labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -848,7 +848,7 @@ describe('label-description', () => {
                             eventCallback
                         );
 
-                        labelLightningInput.mockUserInput(newValue);
+                        labelLightningInput.value = newValue;
 
                         labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -878,7 +878,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    labelLightningInput.mockUserInput(newValue);
+                    labelLightningInput.value = newValue;
 
                     labelLightningInput.dispatchEvent(focusoutEvent);
 
@@ -923,7 +923,7 @@ describe('label-description', () => {
                         eventCallback
                     );
 
-                    descriptionLightningInput.mockUserInput(newValue);
+                    descriptionLightningInput.value = newValue;
 
                     descriptionLightningInput.dispatchEvent(focusoutEvent);
 

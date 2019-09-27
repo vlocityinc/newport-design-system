@@ -1,5 +1,48 @@
 import { convertHTMLToQuillHTML } from '../richTextConverter';
 
+jest.mock('lightning/quillLib', () => {
+    return {
+        inputRichTextLibrary: {
+            FONT_LIST: [
+                {
+                    label: 'Salesforce Sans',
+                    value: 'default'
+                },
+                {
+                    label: 'Arial',
+                    class: 'sans-serif',
+                    value: 'sans-serif'
+                },
+                {
+                    label: 'Courier',
+                    class: 'courier',
+                    value: 'courier'
+                },
+                {
+                    label: 'Verdana',
+                    class: 'verdana',
+                    value: 'verdana'
+                },
+                {
+                    label: 'Tahoma',
+                    class: 'tahoma',
+                    value: 'tahoma'
+                },
+                {
+                    label: 'Garamond',
+                    class: 'garamond',
+                    value: 'garamond'
+                },
+                {
+                    label: 'Times New Roman',
+                    class: 'serif',
+                    value: 'serif'
+                }
+            ]
+        }
+    };
+});
+
 const originalText =
     '<TEXTFORMAT LEADING="2"><LI><FONT FACE="Times New Roman" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">1</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">2</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">3</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Bonjour</FONT></LI></TEXTFORMAT><DIV ALIGN="JUSTIFY"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B>Bonjour En Gras</B></FONT></DIV><DIV ALIGN="JUSTIFY"><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">Et de 2</FONT></DIV><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"></FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">A</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0">B</FONT></LI></TEXTFORMAT><TEXTFORMAT LEADING="2"><LI><FONT FACE="Arial" STYLE="font-size:12px" COLOR="#000000" LETTERSPACING="0" KERNING="0"><B><I><U>C</U></I></B></FONT></LI></TEXTFORMAT>';
 const convertedText =

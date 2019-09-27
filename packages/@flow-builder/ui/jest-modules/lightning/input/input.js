@@ -30,16 +30,6 @@ export default class LightningInput extends LightningElement {
     @api messageWhenRangeOverflow;
     @api messageWhenRangeUnderflow;
     @api placeholder;
-
-    @api mockUserInput = (textEntered) => {
-        Object.defineProperty(this, 'value', {
-            value: textEntered,
-            // required to be able to directly change the value input.value = 'desired'
-            // this is necessary to support overriding what a user has typed in some cases
-            writable: true
-        });
-    }
-
     @api setCustomValidity = jest.fn();
     @api showHelpMessageIfInvalid = jest.fn();
     @api validity = {};

@@ -144,7 +144,7 @@ describe('Formula Editor', () => {
                 const devNameInput = getLabelDescriptionNameElement(
                     propertyEditor
                 );
-                devNameInput.mockUserInput(newDevName);
+                devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 await ticks();
                 expect(propertyEditor.node.name.value).toBe(newDevName);
@@ -154,7 +154,7 @@ describe('Formula Editor', () => {
                 const devNameInput = getLabelDescriptionNameElement(
                     propertyEditor
                 );
-                devNameInput.mockUserInput(newDevName);
+                devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 await ticks();
                 expect(propertyEditor.node.name.error).toBe(

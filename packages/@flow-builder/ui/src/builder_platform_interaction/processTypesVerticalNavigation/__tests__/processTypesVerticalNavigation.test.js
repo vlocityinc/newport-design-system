@@ -36,10 +36,6 @@ const getAllVerticalNavigationItemIcons = processTypesVerticalNavigation =>
     processTypesVerticalNavigation.shadowRoot.querySelectorAll(
         SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON
     );
-const getProcessTypeAnchor = processTypesVerticalNavigationItemIcon =>
-    processTypesVerticalNavigationItemIcon.shadowRoot.querySelector(
-        SELECTORS.VERTICAL_NAVIGATION_ITEM_ICON_ANCHOR
-    );
 
 describe('process-types-vertical-navigation ', () => {
     let processTypesVerticalNavigation;
@@ -173,8 +169,7 @@ describe('process-types-vertical-navigation ', () => {
                 processTypesVerticalNavigationItemIcons
             )
                 .map(itemIcon => {
-                    return itemIcon.shadowRoot.querySelector('lightning-icon')
-                        .iconName;
+                    return itemIcon.iconName;
                 })
                 .join('');
             const expectedJoinedIconNames = `${PROCESS_TYPE_DEFAULT_ICON}utility:magicwandutility:desktoputility:cartutility:contact_requestutility:insert_tag_fieldutility:phone_portraitutility:user${PROCESS_TYPE_DEFAULT_ICON}`;
@@ -192,10 +187,16 @@ describe('process-types-vertical-navigation ', () => {
             const processTypesVerticalNavigationItemIcon = getAllVerticalNavigationItemIcons(
                 processTypesVerticalNavigation
             )[1];
-            const autolaunchedFlowAnchor = getProcessTypeAnchor(
-                processTypesVerticalNavigationItemIcon
+
+            processTypesVerticalNavigationItemIcon.dispatchEvent(
+                new CustomEvent('select', {
+                    bubbles: true,
+                    composed: true,
+                    detail: {
+                        name: processTypesVerticalNavigationItemIcon.name
+                    }
+                })
             );
-            autolaunchedFlowAnchor.dispatchEvent(new Event('click'));
             await Promise.resolve();
             expect(eventCallback).toHaveBeenCalled();
             expect(eventCallback.mock.calls[0][0].detail).toEqual({
