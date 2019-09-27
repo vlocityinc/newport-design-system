@@ -13,6 +13,8 @@ import {
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { mockScreenElement } from 'mock/calloutData';
 
@@ -77,9 +79,20 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/sobjectLib', () => ({
-    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
-}));
+jest.mock('builder_platform_interaction/sobjectLib', () => {
+    return {
+        getFieldsForEntity: jest.fn().mockImplementation(entityName => {
+            if (entityName === 'Account') {
+                return mockAccountFields;
+            } else if (entityName === 'User') {
+                return mockUserFields;
+            } else if (entityName === 'FeedItem') {
+                return mockFeedItemFields;
+            }
+            return undefined;
+        })
+    };
+});
 
 jest.mock('builder_platform_interaction/apexTypeLib', () => ({
     getPropertiesForClass: jest
@@ -135,6 +148,13 @@ jest.mock(
     () => ({ default: `Global constants aren't supported in this context.` }),
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderMergeFieldValidation.invalidPolymorphicRecordField',
+    () => ({
+        default: `Invalid polymorphic relationship reference : "{1}" is not a valid polymorphic field for "{0}"`
+    }),
+    { virtual: true }
+);
 
 // we should probably not use this error message
 jest.mock(
@@ -146,7 +166,9 @@ jest.mock(
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getScreenElement: jest.fn().mockImplementation(() => mockScreenElement),
-        isElementAllowed: require.requireActual('builder_platform_interaction/expressionUtils').isElementAllowed
+        isElementAllowed: require.requireActual(
+            'builder_platform_interaction/expressionUtils'
+        ).isElementAllowed
     };
 });
 
@@ -170,13 +192,15 @@ describe('Merge field validation', () => {
         ]);
     });
     it('Returns a validation error when the field in current session (not in store) is not a valid merge field', () => {
-        const validationErrors = validateMergeField('{!invalidMergeFieldScreenElementNotInStore}');
+        const validationErrors = validateMergeField(
+            '{!invalidMergeFieldScreenElementNotInStore}'
+        );
         expect(validationErrors).toEqual([
             validationError(
                 2,
                 41,
                 'wrongDataType',
-                'The "invalidMergeFieldScreenElementNotInStore" resource can\'t be used as a merge field.',
+                'The "invalidMergeFieldScreenElementNotInStore" resource can\'t be used as a merge field.'
             )
         ]);
     });
@@ -186,7 +210,9 @@ describe('Merge field validation', () => {
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns no validation error when it references an existing variable in current session but not in store', () => {
-            const validationErrors = validateMergeField('{!validMergeFieldScreenElementNotInStore}');
+            const validationErrors = validateMergeField(
+                '{!validMergeFieldScreenElementNotInStore}'
+            );
             expect(validationErrors).toHaveLength(0);
         });
         it('Returns a validation error when it does not reference an existing variable', () => {
@@ -202,44 +228,89 @@ describe('Merge field validation', () => {
                 )
             ]);
         });
-        it('Returns no validation error when it references an existing variable record field', () => {
-            const validationErrors = validateMergeField(
-                '{!accountSObjectVariable.Name}'
-            );
-            expect(validationErrors).toHaveLength(0);
+        describe('Record field', () => {
+            it('Returns no validation error when it references an existing variable record field', () => {
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.Name}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('is not case-sensitive for field names', () => {
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.NAME}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns a validation error when it does not reference an existing variable record field', () => {
+                // we will have the same error if user does not have access to this record field
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.Unknown}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        31,
+                        'unknownMergeField',
+                        `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
+            it('Returns a validation error for variable field merge field when variable does not exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!unknownVariable.Unknown}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        24,
+                        'unknownMergeField',
+                        `The "unknownVariable" resource doesn't exist in this flow.`
+                    )
+                ]);
+            });
         });
-        it('is not case-sensitive for field names', () => {
-            const validationErrors = validateMergeField(
-                '{!accountSObjectVariable.NAME}'
-            );
-            expect(validationErrors).toHaveLength(0);
+        describe('Cross-Object field references', () => {
+            it('Returns no error if intermediary fields are spannable and all fields exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.CreatedBy.AboutMe}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns an error if one of the intermediary fields is not spannable', () => {
+                const validationErrors = validateMergeField(
+                    '{!feedItemVariable.OriginalCreatedBy.Name}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        40,
+                        'unknownMergeField',
+                        `The "OriginalCreatedBy" field doesn't exist on the "FeedItem" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
         });
-        it('Returns a validation error when it does not reference an existing variable record field', () => {
-            // we will have the same error if user does not have access to this record field
-            const validationErrors = validateMergeField(
-                '{!accountSObjectVariable.Unknown}'
-            );
-            expect(validationErrors).toEqual([
-                validationError(
-                    2,
-                    31,
-                    'unknownMergeField',
-                    `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
-                )
-            ]);
-        });
-        it('Returns a validation error for variable field merge field when variable does not exist', () => {
-            const validationErrors = validateMergeField(
-                '{!unknownVariable.Unknown}'
-            );
-            expect(validationErrors).toEqual([
-                validationError(
-                    2,
-                    24,
-                    'unknownMergeField',
-                    `The "unknownVariable" resource doesn't exist in this flow.`
-                )
-            ]);
+
+        describe('Cross-Object Field References in Flows: Polymorphic Relationships', () => {
+            it('Returns no error if it is a valid merge field with polymorphic relationship', () => {
+                const validationErrors = validateMergeField(
+                    '{!feedItemVariable.Parent:User.AboutMe}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns an error if the specific entity name in the polymorphic relationship merge field is not a valid one', () => {
+                const validationErrors = validateMergeField(
+                    '{!feedItemVariable.Parent:Group.AboutMe}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        38,
+                        'unknownMergeField',
+                        `Invalid polymorphic relationship reference : "Parent:Group" is not a valid polymorphic field for "FeedItem"`
+                    )
+                ]);
+            });
         });
         it('Returns no validation error for datetime param types and date var', () => {
             const validationErrors = validateMergeField('{!dateVariable}', {

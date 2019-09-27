@@ -1,16 +1,16 @@
 {
   "createdById": "005xx000001X8efAAC",
-  "createdDate": "2019-09-26T13:03:39.000+0000",
+  "createdDate": "2019-09-27T09:08:03.000+0000",
   "definitionId": "300xx000000brKrAAI",
   "fieldsToNull": [],
   "fullName": "flowWithAllElements",
-  "id": "301xx000003GhQVAA0",
+  "id": "301xx000003GhbnAAC",
   "lastModifiedBy": {
     "fieldsToNull": [],
     "name": "User User"
   },
   "lastModifiedById": "005xx000001X8efAAC",
-  "lastModifiedDate": "2019-09-26T13:03:45.000+0000",
+  "lastModifiedDate": "2019-09-27T09:08:08.000+0000",
   "manageableState": "unmanaged",
   "masterLabel": "flowWithAllElements",
   "metadata": {
@@ -370,6 +370,16 @@
         "isInput": false,
         "isOutput": false,
         "name": "dateVariable",
+        "processMetadataValues": [],
+        "scale": 0
+      },
+      {
+        "dataType": "SObject",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "name": "feedItemVariable",
+        "objectType": "FeedItem",
         "processMetadataValues": [],
         "scale": 0
       },

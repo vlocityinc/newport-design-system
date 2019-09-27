@@ -5,6 +5,7 @@ import unknownRecordField from '@salesforce/label/FlowBuilderMergeFieldValidatio
 import globalConstantsNotAllowed from '@salesforce/label/FlowBuilderMergeFieldValidation.globalConstantsNotAllowed';
 import invalidDataType from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidDataType';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
+import invalidPolymorphicRecordField from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidPolymorphicRecordField';
 
 export const LABELS = {
     genericErrorMessage,
@@ -13,5 +14,6 @@ export const LABELS = {
     resourceCannotBeUsedAsMergeField,
     unknownRecordField,
     globalConstantsNotAllowed,
-    invalidDataType
+    invalidDataType,
+    invalidPolymorphicRecordField
 };
