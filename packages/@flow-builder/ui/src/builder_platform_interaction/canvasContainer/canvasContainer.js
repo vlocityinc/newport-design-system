@@ -33,7 +33,6 @@ export default class CanvasContainer extends LightningElement {
     /** tracked variables */
     @track nodes = [];
     @track connectors = [];
-    @api keyboardInteractions;
 
     /** Component lifecycle hooks */
     connectedCallback() {

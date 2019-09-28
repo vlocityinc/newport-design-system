@@ -100,7 +100,6 @@ import { isConfigurableStartSupported } from 'builder_platform_interaction/proce
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/complexTypeLib';
-import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -173,13 +172,10 @@ export default class Editor extends LightningElement {
     @track
     isRedoDisabled = true;
 
-    keyboardInteractions;
-
     propertyEditorBlockerCalls = [];
 
     constructor() {
         super();
-        this.keyboardInteractions = new KeyboardInteractions();
 
         // Setting the app name to differenciate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
@@ -1057,12 +1053,7 @@ export default class Editor extends LightningElement {
         }
     }
 
-    connectedCallback() {
-        this.keyboardInteractions.addKeyDownEventListener();
-    }
-
     disconnectedCallback() {
-        this.keyboardInteractions.removeKeyDownEventListener();
         unsubscribeStore();
     }
 

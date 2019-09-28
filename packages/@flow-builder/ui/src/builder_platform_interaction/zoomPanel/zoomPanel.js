@@ -6,7 +6,6 @@ import {
 } from 'builder_platform_interaction/events';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './zoomPanelLabels';
-import { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand } from 'builder_platform_interaction/commands';
 
 /**
  * Zoom Panel component for flow builder.
@@ -30,13 +29,6 @@ export default class ZoomPanel extends LightningElement {
 
     @api
     isZoomInDisabled;
-
-    @api
-    keyboardInteractions;
-
-    connectedCallback() {
-        this.setupCommandsAndShortcuts();
-    }
 
     get labels() {
         return LABELS;
@@ -86,22 +78,4 @@ export default class ZoomPanel extends LightningElement {
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
     };
-
-    setupCommandsAndShortcuts = () => {
-        // Zoom In Command
-        const zoomInCommand = new ZoomInCommand((event) => this.handleZoomInClick(event));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, { ctrlOrCmd: true, key: '=' });
-
-        // Zoom Out Command
-        const zoomOutCommand = new ZoomOutCommand((event) => this.handleZoomOutClick(event));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, { ctrlOrCmd: true, key: '-' });
-
-        // Zoom To Fit Command
-        const zoomToFitCommand = new ZoomToFitCommand((event) => this.handleZoomToFitClick(event));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomToFitCommand, { ctrlOrCmd: true, key: '0' });
-
-        // Zoom To View Command
-        const zoomToViewCommand = new ZoomToViewCommand((event) => this.handleZoomToViewClick(event));
-        this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, { ctrlOrCmd: true, key: '1' });
-      }
 }

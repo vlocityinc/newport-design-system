@@ -23,6 +23,7 @@ import {
     AddConnectionEvent,
     ConnectorSelectedEvent,
     MarqueeSelectEvent,
+    ClickToZoomEvent,
     ZOOM_ACTION,
     MARQUEE_ACTION
 } from 'builder_platform_interaction/events';
@@ -30,7 +31,8 @@ import {
     logPerfMarkStart,
     logPerfMarkEnd
 } from 'builder_platform_interaction/loggingUtils';
-import { DeleteNodesCommand } from 'builder_platform_interaction/commands';
+import { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand, DeleteNodesCommand } from 'builder_platform_interaction/commands';
+import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
 /**
  * Canvas component for flow builder.
@@ -60,9 +62,6 @@ export default class Canvas extends LightningElement {
     @api
     showMarqueeButton = false;
 
-    @api
-    keyboardInteractions;
-
     @track
     isMarqueeModeOn = false;
 
@@ -83,6 +82,7 @@ export default class Canvas extends LightningElement {
 
     canvasArea;
     innerCanvasArea;
+    keyboardInteractions;
 
     // Canvas area offset position
     canvasAreaOffsets = [0, 0];
@@ -127,6 +127,7 @@ export default class Canvas extends LightningElement {
         logPerfMarkStart(canvas);
         lib.setNewConnection(this.connectionAdded);
         lib.clickConnection(this.connectionClicked);
+        this.keyboardInteractions = new KeyboardInteractions();
     }
 
     /**
@@ -795,10 +796,51 @@ export default class Canvas extends LightningElement {
         this.keyboardInteractions.setupCommandAndShortcut(deleteNodesCommand, {
             key: 'Backspace'
         });
-    };
+
+        // Zoom In Command
+        const zoomInCommand = new ZoomInCommand(() =>
+            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_IN))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomInCommand, {
+            ctrlOrCmd: true,
+            key: '='
+        });
+
+        // Zoom Out Command
+        const zoomOutCommand = new ZoomOutCommand(() =>
+            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_OUT))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomOutCommand, {
+            ctrlOrCmd: true,
+            key: '-'
+        });
+
+        // Zoom To Fit Command
+        const zoomToFitCommand = new ZoomToFitCommand(() =>
+            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_FIT))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomToFitCommand, {
+            ctrlOrCmd: true,
+            key: '0'
+        });
+
+        // Zoom To View Command
+        const zoomToViewCommand = new ZoomToViewCommand(() =>
+            this.handleZoom(new ClickToZoomEvent(ZOOM_ACTION.ZOOM_TO_VIEW))
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(zoomToViewCommand, {
+            ctrlOrCmd: true,
+            key: '1'
+        });
+      }
 
     connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
         this.setupCommandsAndShortcuts();
+    }
+
+    disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
     }
 
     renderedCallback() {

@@ -12,14 +12,14 @@ export class KeyboardInteractions {
         this.keyboardService = new KeyboardShortcutServiceImpl(this.commandRegistry);
     }
 
-    addKeyDownEventListener() {
-        document.addEventListener('keydown', event => {
+    addKeyDownEventListener(template) {
+        template.addEventListener('keydown', event => {
             this.keyboardService.handleKeydown(event);
         });
     }
 
-    removeKeyDownEventListener() {
-        document.removeEventListener('keydown');
+    removeKeyDownEventListener(template) {
+        template.removeEventListener('keydown');
     }
 
     setupCommandAndShortcut(command, shortcutKeys) {
