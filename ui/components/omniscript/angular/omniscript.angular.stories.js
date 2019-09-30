@@ -1,16 +1,16 @@
 /* eslint-env browser */
-import { storiesOf } from '@storybook/html';
-import { withKnobs, number } from '@storybook/addon-knobs';
-import base from 'paths.macro';
-import notes from './doc.md';
-import scss from '../base/_index.scss';
+import { storiesOf } from "@storybook/html";
+import { withKnobs, number } from "@storybook/addon-knobs";
+import base from "paths.macro";
+import notes from "./doc.md";
+import scss from "../base/_index.scss";
 import {
   withExample,
   withDocs,
   commentToHTML
-} from '../../../../scripts/storybook';
+} from "../../../../scripts/storybook";
 
-const label = 'Element Widths';
+const label = "Element Widths";
 const defaultValue = 12;
 const options = {
   range: true,
@@ -18,20 +18,20 @@ const options = {
   max: 12,
   step: 1
 };
-const groupId = 'GROUP-ID1';
+const groupId = "GROUP-ID1";
 
 storiesOf(`${base}`, module)
   .addDecorator(withKnobs)
   .addDecorator(withDocs(notes))
   .addDecorator(commentToHTML(scss))
-  .add('Angular Omniscript', () => {
+  .add("Angular Omniscript", () => {
     requestAnimationFrame(() => {
       const bpView = document.getElementById(`VlocityBPView`);
-      bpView.addEventListener('change', event => {
+      bpView.addEventListener("change", event => {
         if (event.target.value) {
-          event.target.classList.add('nds-has-value');
+          event.target.classList.add("nds-has-value");
         } else {
-          event.target.classList.remove('nds-has-value');
+          event.target.classList.remove("nds-has-value");
         }
       });
     });
@@ -1849,7 +1849,7 @@ storiesOf(`${base}`, module)
                              <div class="nds-form-element__control nds-m-bottom_medium nds-range">
 
                                <label for="Range"
-                                      class="nds-form-element__label">
+                                      class="nds-form-element__label nds-is-expanded nds-element_text-font">
                                  <span class="nds-slider-label">
                                    <span class="nds-slider-label__label ">Range</span>
 
