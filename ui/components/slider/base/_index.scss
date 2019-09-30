@@ -205,6 +205,10 @@
  */
 .nds-slider-label__label {
   display: inline-block;
+
+  &.nds-form-element__legend {
+    margin-right: 0.5rem;
+  }
 }
 
 /**
