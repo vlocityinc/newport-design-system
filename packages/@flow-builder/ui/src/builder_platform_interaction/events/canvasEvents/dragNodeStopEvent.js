@@ -3,16 +3,17 @@
  */
 const eventName = 'dragnodestop';
 export class DragNodeStopEvent {
-    constructor(canvasElementGUID, elementType, locationX, locationY) {
+    constructor(dragSelection) {
+        if (!dragSelection || !Array.isArray(dragSelection)) {
+            throw new Error('Drag Selection should be a defined array');
+        }
+
         return new CustomEvent(eventName, {
             bubbles: true,
             composed: true,
             cancelable: true,
             detail: {
-                canvasElementGUID,
-                elementType,
-                locationX,
-                locationY
+                dragSelection
             }
         });
     }

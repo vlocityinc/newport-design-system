@@ -57,13 +57,14 @@ export default function elementsReducer(state = {}, action) {
         case ADD_START_ELEMENT:
         case ADD_RESOURCE:
         case UPDATE_CANVAS_ELEMENT:
-        case UPDATE_CANVAS_ELEMENT_LOCATION:
         case UPDATE_RESOURCE:
             return _addOrUpdateElement(
                 state,
                 action.payload.guid,
                 action.payload
             );
+        case UPDATE_CANVAS_ELEMENT_LOCATION:
+            return _updateCanvasElementsLocation(state, action.payload);
         case UPDATE_VARIABLE_CONSTANT:
             return _updateVariableOrConstant(
                 state,
@@ -273,6 +274,27 @@ function _addOrUpdateCanvasElementWithChildElements(
 function _addOrUpdateElement(state, guid, element) {
     const newState = updateProperties(state);
     newState[guid] = updateProperties(newState[guid], element);
+    return newState;
+}
+
+/**
+ * Helper function to update the locations off all the dragged canvas elements
+ *
+ * @param {Object} state - current state of elements in the store
+ * @param {Object[]} updatedCanvasElementLocations - Array of objects containing updated canvas elements locations
+ * @returns {Object} new state after reduction
+ * @private
+ */
+function _updateCanvasElementsLocation(state, updatedCanvasElementLocations) {
+    const newState = updateProperties(state);
+    updatedCanvasElementLocations.map(info => {
+        newState[info.canvasElementGuid] = updateProperties(newState[info.canvasElementGuid], {
+            locationX: info.locationX,
+            locationY: info.locationY
+        });
+        return info;
+    });
+
     return newState;
 }
 

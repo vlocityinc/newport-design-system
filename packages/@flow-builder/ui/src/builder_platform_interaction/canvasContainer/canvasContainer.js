@@ -104,18 +104,24 @@ export default class CanvasContainer extends LightningElement {
     };
 
     /**
-     * Handles the drag node stop event and dispatches an action to update the location of the node.
+     * Handles the drag node stop event and dispatches an action to update the locations of all dragged nodes.
      *
      * @param {object} event - node stop event coming from node.js
      */
     handleCanvasElementMove = event => {
-        if (event && event.detail) {
-            const payload = {
-                guid: event.detail.canvasElementGUID,
-                elementType: event.detail.elementType,
-                locationX: event.detail.locationX,
-                locationY: event.detail.locationY
-            };
+        if (event && event.detail && event.detail.dragSelection) {
+            const payload = [];
+            for (let i = 0; i < event.detail.dragSelection.length; i++) {
+                const canvasElementObject = event.detail.dragSelection[i][0];
+                const updatedCanvasElementLocation = event.detail.dragSelection[i][1];
+                const { id } = canvasElementObject;
+                const { left, top } = updatedCanvasElementLocation;
+                payload.push({
+                    canvasElementGuid: id,
+                    locationX: left,
+                    locationY: top
+                });
+            }
             storeInstance.dispatch(updateCanvasElementLocation(payload));
         }
     };

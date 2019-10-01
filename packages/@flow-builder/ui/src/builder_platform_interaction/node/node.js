@@ -278,15 +278,12 @@ export default class Node extends LightningElement {
     @api
     dragStop = event => {
         if (
-            event.finalPos[0] !== this.node.locationX ||
-            event.finalPos[1] !== this.node.locationY
+            (event.finalPos[0] !== this.node.locationX ||
+                event.finalPos[1] !== this.node.locationY) &&
+            event.selection &&
+            event.selection.length > 0
         ) {
-            const dragStopEvent = new DragNodeStopEvent(
-                this.node.guid,
-                this.node.elementType,
-                event.finalPos[0],
-                event.finalPos[1]
-            );
+            const dragStopEvent = new DragNodeStopEvent(event.selection);
             this.dispatchEvent(dragStopEvent);
         }
     };

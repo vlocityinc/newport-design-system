@@ -24,7 +24,6 @@ import {
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
-    UPDATE_CANVAS_ELEMENT_LOCATION,
     updateApexClasses,
     ADD_START_ELEMENT,
     UPDATE_APEX_CLASSES,
@@ -176,7 +175,6 @@ export default class Editor extends LightningElement {
 
     constructor() {
         super();
-
         // Setting the app name to differenciate between FLOW_BUILDER or STRATEGY_BUILDER
         setAppName(APP_NAME);
         logPerfTransactionStart(EDITOR);
@@ -191,8 +189,7 @@ export default class Editor extends LightningElement {
         const groupedActions = [
             TOGGLE_ON_CANVAS, // Used for shift-select elements on canvas.
             DESELECT_ON_CANVAS, // is dispatched when user clicks on the blank space in canvas.
-            MARQUEE_SELECT_ON_CANVAS, // is dispatched when the user is marquee selecting on the canvas.
-            UPDATE_CANVAS_ELEMENT_LOCATION // is dispatched when elements are moved on canvas.
+            MARQUEE_SELECT_ON_CANVAS // is dispatched when the user is marquee selecting on the canvas.
         ];
         // Initialising store
         storeInstance = Store.getStore(
@@ -347,8 +344,8 @@ export default class Editor extends LightningElement {
         }
         if (!getRunInModes()) {
             const getRunInModesCall = fetchOnce(
-                   SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
-                   {}
+                SERVER_ACTION_TYPE.GET_RUN_IN_MODES,
+                {}
             ).then(data => {
                 setRunInModes(data);
             });

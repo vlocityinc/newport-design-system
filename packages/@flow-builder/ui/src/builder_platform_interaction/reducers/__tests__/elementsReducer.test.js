@@ -460,6 +460,18 @@ describe('elements-reducer', () => {
                 locationX: 1,
                 locationY: 1,
                 guid: 'guid1'
+            },
+            guid2: {
+                name: 'ass2',
+                locationX: 5,
+                locationY: 5,
+                guid: 'guid2'
+            },
+            guid3: {
+                name: 'ass3',
+                locationX: 10,
+                locationY: 10,
+                guid: 'guid3'
             }
         };
         const updatedElements = {
@@ -468,22 +480,33 @@ describe('elements-reducer', () => {
                 locationX: 2,
                 locationY: 2,
                 guid: 'guid1'
+            },
+            guid2: {
+                name: 'ass2',
+                locationX: 7,
+                locationY: 7,
+                guid: 'guid2'
+            },
+            guid3: {
+                name: 'ass3',
+                locationX: 10,
+                locationY: 10,
+                guid: 'guid3'
             }
         };
 
-        const payload = {
-            name: 'ass1',
-            locationX: 2,
-            locationY: 2,
-            guid: 'guid1'
-        };
-        it('with state set to undefined & action type is UPDATE_CANVAS_ELEMENT_LOCATION should return the new element state with the updated property', () => {
-            const newElementState = elementReducer(undefined, {
-                type: UPDATE_CANVAS_ELEMENT_LOCATION,
-                payload
-            });
-            expect(newElementState).toEqual(updatedElements);
-        });
+        const payload = [
+            {
+                canvasElementGuid: 'guid1',
+                locationX: 2,
+                locationY: 2
+            },
+            {
+                canvasElementGuid: 'guid2',
+                locationX: 7,
+                locationY: 7
+            }
+        ];
 
         it('with state set to defined & action type is UPDATE_CANVAS_ELEMENT_LOCATION should return the new element state with the updated property', () => {
             const newElementState = elementReducer(oldElements, {
