@@ -359,3 +359,66 @@ export const mockSubmitForApprovalActionParameters = [
         sobjectType: null
     }
 ];
+
+export const mockLocalActionParameters = [
+    {
+        isRequired: false,
+        isInput: false,
+        dataType: 'string',
+        description: null,
+        label: null,
+        isOutput: true,
+        name: 'subject',
+        apexClass: null,
+        maxOccurs: 1,
+        id: null,
+        isSystemGeneratedOutput: false,
+        durableId: 'component-c:localActionSample-output-subject',
+        sobjectType: null
+    },
+    {
+        isRequired: false,
+        isInput: true,
+        dataType: 'string',
+        description: null,
+        label: null,
+        isOutput: false,
+        name: 'greeting',
+        apexClass: null,
+        maxOccurs: 1,
+        id: null,
+        isSystemGeneratedOutput: false,
+        durableId: 'component-c:localActionSample-input-greeting',
+        sobjectType: null
+    },
+    {
+        isRequired: false,
+        isInput: true,
+        dataType: 'string',
+        description: null,
+        label: null,
+        isOutput: false,
+        name: 'subject',
+        apexClass: null,
+        maxOccurs: 1,
+        id: null,
+        isSystemGeneratedOutput: false,
+        durableId: 'component-c:localActionSample-input-subject',
+        sobjectType: null
+    },
+    {
+        isRequired: false,
+        isInput: false,
+        dataType: 'string',
+        description: null,
+        label: null,
+        isOutput: true,
+        name: 'greeting',
+        apexClass: null,
+        maxOccurs: 1,
+        id: null,
+        isSystemGeneratedOutput: false,
+        durableId: 'component-c:localActionSample-output-greeting',
+        sobjectType: null
+    }
+];

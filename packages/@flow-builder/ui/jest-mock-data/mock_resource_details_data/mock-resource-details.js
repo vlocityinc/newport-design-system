@@ -1,7 +1,8 @@
 import {
     emailScreenFieldAutomaticOutput,
     screenElement,
-    actionCallAutomaticOutput
+    actionCallAutomaticOutput,
+    actionCallLocalActionAutomaticOutput
 } from 'mock/storeData';
 
 /**
@@ -120,17 +121,17 @@ export const mockAccountRecordVariable = {
 export const mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails = {
     title: 'Outputs from actionCallAutomaticOutput',
     elementType: 'ActionCall',
-    elementGuid: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
+    elementGuid: actionCallAutomaticOutput.guid,
     typeLabel: 'Action',
     typeIconName: 'utility:fallback',
     apiName: 'actionCallAutomaticOutput',
     editable: false,
     deletable: false,
     createdByElement: {
-        guid: 'a4451815-988d-4f17-883d-64b6ad9fab7e',
+        guid: actionCallAutomaticOutput.guid,
         label: 'actionCallAutomaticOutput',
         name: 'actionCallAutomaticOutput',
-        elementGuidsReferenced: ['a4451815-988d-4f17-883d-64b6ad9fab7e'],
+        elementGuidsReferenced: [actionCallAutomaticOutput.guid],
         iconName: 'standard:custom_notification',
         isCanvasElement: true
     },
@@ -160,6 +161,72 @@ export const mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails
         isCanvasElement: true
     },
     usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: false
+};
+
+/**
+ * Action (local action) mocked resource details in output automatic mode
+ */
+export const mockActionLocalActionInAutomaticOutputsModeResourceDetails = {
+    title: 'Outputs from myLocalAction',
+    elementType: 'ActionCall',
+    elementGuid: actionCallLocalActionAutomaticOutput.guid,
+    typeLabel: 'Action',
+    typeIconName: 'utility:fallback',
+    apiName: 'myLocalAction',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: actionCallLocalActionAutomaticOutput.guid,
+        label: 'myLocalAction',
+        name: 'myLocalAction',
+        elementGuidsReferenced: [actionCallLocalActionAutomaticOutput.guid],
+        iconName: 'standard:custom_notification',
+        isCanvasElement: true
+    },
+    usedByElements: [
+        {
+            guid: '7625d1c3-ef2a-4aa8-a699-c27e853fa854',
+            name: 'textTplt',
+            elementGuidsReferenced: [actionCallLocalActionAutomaticOutput.guid],
+            iconName: 'standard:text_template',
+            isCanvasElement: false
+        }
+    ],
+    asResource: true,
+    storeOutputAutomatically: true
+};
+
+/**
+ * Action (local action) mocked resource details NOT in output automatic mode
+ */
+export const mockActionLocalActionNotInAutomaticOutputsModeResourceDetails = {
+    title: 'Outputs from myLocalAction',
+    elementType: 'ActionCall',
+    elementGuid: 'a315f61f-9151-4c4a-9561-aaf4e52e0899',
+    typeLabel: 'Action',
+    typeIconName: 'utility:fallback',
+    apiName: 'myLocalAction',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: 'a315f61f-9151-4c4a-9561-aaf4e52e0899',
+        label: 'myLocalAction',
+        name: 'myLocalAction',
+        elementGuidsReferenced: ['a315f61f-9151-4c4a-9561-aaf4e52e0899'],
+        iconName: 'standard:custom_notification',
+        isCanvasElement: true
+    },
+    usedByElements: [
+        {
+            guid: '7625d1c3-ef2a-4aa8-a699-c27e853fa854',
+            name: 'textTplt',
+            elementGuidsReferenced: ['a315f61f-9151-4c4a-9561-aaf4e52e0899'],
+            iconName: 'standard:text_template',
+            isCanvasElement: false
+        }
+    ],
     asResource: true,
     storeOutputAutomatically: false
 };

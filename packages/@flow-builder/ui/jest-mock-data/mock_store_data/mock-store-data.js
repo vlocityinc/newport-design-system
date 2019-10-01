@@ -45,6 +45,7 @@ export const emailScreenFieldAutomaticOutput = getElementByName('emailScreenFiel
 export const emailScreenField = getElementByName('emailScreenField');
 export const actionCallElement = getElementByName('actionCall1');
 export const actionCallAutomaticOutput = getElementByName('actionCallAutomaticOutput');
+export const actionCallLocalActionAutomaticOutput = getElementByName('localAction');
 export const stringCollectionVariable1 = getElementByName('stringCollectionVariable1');
 export const stringCollectionVariable2 = getElementByName('stringCollectionVariable2');
 export const apexSampleVariable = getElementByName( 'apexSampleVariable');

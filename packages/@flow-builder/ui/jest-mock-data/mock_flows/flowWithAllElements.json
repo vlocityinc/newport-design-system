@@ -1,432 +1,454 @@
 {
-  "createdById": "005xx000001X8efAAC",
-  "createdDate": "2019-09-27T09:08:03.000+0000",
-  "definitionId": "300xx000000brKrAAI",
-  "fieldsToNull": [],
-  "fullName": "flowWithAllElements",
-  "id": "301xx000003GhbnAAC",
-  "lastModifiedBy": {
+    "createdById": "005xx000001X8efAAC",
+    "createdDate": "2019-09-27T09:08:03.000+0000",
+    "definitionId": "300xx000000brKrAAI",
     "fieldsToNull": [],
-    "name": "User User"
-  },
-  "lastModifiedById": "005xx000001X8efAAC",
-  "lastModifiedDate": "2019-09-27T09:08:08.000+0000",
-  "manageableState": "unmanaged",
-  "masterLabel": "flowWithAllElements",
-  "metadata": {
-    "actionCalls": [
-      {
-        "actionName": "LogACall",
-        "actionType": "quickAction",
-        "inputParameters": [],
-        "label": "actionCall1",
-        "locationX": 296,
-        "locationY": 652,
-        "name": "actionCall1",
-        "outputParameters": [],
-        "processMetadataValues": [],
-        "storeOutputAutomatically": false
-      },
-      {
-        "actionName": "chatterPost",
-        "actionType": "chatterPost",
-        "inputParameters": [
-          {
-            "name": "subjectNameOrId",
-            "processMetadataValues": [],
-            "value": {
-              "stringValue": "jsmith@salesforce.com"
-            }
-          },
-          {
-            "name": "text",
-            "processMetadataValues": [],
-            "value": {
-              "stringValue": "This is my message"
-            }
-          }
-        ],
-        "label": "actionCallAutomaticOutput",
-        "locationX": 123,
-        "locationY": 649,
-        "name": "actionCallAutomaticOutput",
-        "outputParameters": [],
-        "processMetadataValues": [],
-        "storeOutputAutomatically": true
-      }
-    ],
-    "apexPluginCalls": [],
-    "assignments": [
-      {
-        "assignmentItems": [
-          {
-            "assignToReference": "stringVariable",
-            "operator": "Assign",
-            "processMetadataValues": [],
-            "value": {
-              "elementReference": "numberVariable"
-            }
-          }
-        ],
-        "label": "assignment1Label",
-        "locationX": 165,
-        "locationY": 177,
-        "name": "assignment1",
-        "processMetadataValues": []
-      }
-    ],
-    "choices": [
-      {
-        "choiceText": "Choice 1",
-        "dataType": "Number",
-        "name": "numberChoice",
-        "processMetadataValues": []
-      }
-    ],
-    "constants": [
-      {
-        "dataType": "String",
-        "description": "random description",
-        "name": "stringConstant",
-        "processMetadataValues": [],
-        "value": {
-          "stringValue": "fooDefault"
-        }
-      }
-    ],
-    "decisions": [
-      {
-        "defaultConnectorLabel": "Default Outcome",
-        "label": "decision1",
-        "locationX": 109,
-        "locationY": 801,
-        "name": "decision1",
-        "processMetadataValues": [],
-        "rules": [
-          {
-            "conditionLogic": "and",
-            "conditions": [
-              {
-                "leftValueReference": "stringVariable",
-                "operator": "EqualTo",
-                "processMetadataValues": [],
-                "rightValue": {
-                  "stringValue": "text"
-                }
-              }
-            ],
-            "label": "outcome1",
-            "name": "outcome1",
-            "processMetadataValues": []
-          }
-        ]
-      }
-    ],
-    "dynamicChoiceSets": [],
-    "formulas": [],
-    "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
-    "isAdditionalPermissionRequiredToRun": false,
-    "isTemplate": false,
-    "label": "flowWithAllElements",
-    "loops": [],
-    "processMetadataValues": [
-      {
-        "name": "BuilderType",
-        "value": {
-          "stringValue": "LightningFlowBuilder"
-        }
-      },
-      {
-        "name": "OriginBuilderType",
-        "value": {
-          "stringValue": "LightningFlowBuilder"
-        }
-      }
-    ],
-    "processType": "Flow",
-    "recordCreates": [],
-    "recordDeletes": [],
-    "recordLookups": [
-      {
-        "assignNullValuesIfNoRecordsFound": false,
-        "filters": [],
-        "getFirstRecordOnly": true,
-        "label": "lookupRecordAutomaticOutput",
-        "locationX": 362,
-        "locationY": 326,
-        "name": "lookupRecordAutomaticOutput",
-        "object": "Account",
-        "outputAssignments": [],
-        "processMetadataValues": [],
-        "queriedFields": [
-          "Id"
-        ],
-        "storeOutputAutomatically": true
-      },
-      {
-        "assignNullValuesIfNoRecordsFound": false,
-        "filters": [],
-        "getFirstRecordOnly": false,
-        "label": "lookupRecordCollectionAutomaticOutput",
-        "locationX": 577,
-        "locationY": 334,
-        "name": "lookupRecordCollectionAutomaticOutput",
-        "object": "Account",
-        "outputAssignments": [],
-        "processMetadataValues": [],
-        "queriedFields": [
-          "Id"
-        ],
-        "storeOutputAutomatically": true
-      },
-      {
-        "assignNullValuesIfNoRecordsFound": false,
-        "filters": [],
-        "getFirstRecordOnly": false,
-        "label": "lookupRecordOutputReference",
-        "locationX": 158,
-        "locationY": 321,
-        "name": "lookupRecordOutputReference",
-        "object": "Account",
-        "outputAssignments": [],
-        "outputReference": "accountSObjectVariable",
-        "processMetadataValues": [],
-        "queriedFields": [
-          "Id"
-        ],
-        "storeOutputAutomatically": false
-      }
-    ],
-    "recordUpdates": [],
-    "screens": [
-      {
-        "allowBack": true,
-        "allowFinish": true,
-        "allowPause": true,
-        "fields": [
-          {
-            "choiceReferences": [],
-            "extensionName": "flowruntime:email",
-            "fieldType": "ComponentInstance",
-            "inputParameters": [
-              {
-                "name": "label",
-                "processMetadataValues": [],
-                "value": {
-                  "stringValue": "emailScreenFieldAutomaticOutput"
-                }
-              },
-              {
-                "name": "placeholder",
-                "processMetadataValues": [],
-                "value": {
-                  "stringValue": "your email address"
-                }
-              }
-            ],
-            "isRequired": true,
-            "name": "emailScreenFieldAutomaticOutput",
-            "outputParameters": [],
-            "processMetadataValues": [],
-            "scale": 0,
-            "storeOutputAutomatically": true
-          },
-          {
-            "choiceReferences": [],
-            "extensionName": "flowruntime:email",
-            "fieldType": "ComponentInstance",
-            "inputParameters": [
-              {
-                "name": "label",
-                "processMetadataValues": [],
-                "value": {
-                  "stringValue": "emailScreenField"
-                }
-              },
-              {
-                "name": "placeholder",
-                "processMetadataValues": [],
-                "value": {
-                  "stringValue": "your email"
-                }
-              }
-            ],
-            "isRequired": true,
-            "name": "emailScreenField",
-            "outputParameters": [],
-            "processMetadataValues": [],
-            "scale": 0,
-            "storeOutputAutomatically": false
-          }
-        ],
-        "label": "screen1",
-        "locationX": 127,
-        "locationY": 505,
-        "name": "screen1",
-        "processMetadataValues": [],
-        "rules": [],
-        "showFooter": true,
-        "showHeader": true
-      }
-    ],
-    "stages": [
-      {
-        "isActive": false,
-        "label": "stage1",
-        "name": "stage1",
-        "processMetadataValues": [],
-        "stageOrder": 12
-      }
-    ],
-    "start": {
-      "filters": [],
-      "locationX": 66,
-      "locationY": 50,
-      "processMetadataValues": []
+    "fullName": "flowWithAllElements",
+    "id": "301xx000003GhbnAAC",
+    "lastModifiedBy": {
+        "fieldsToNull": [],
+        "name": "User User"
     },
+    "lastModifiedById": "005xx000001X8efAAC",
+    "lastModifiedDate": "2019-09-27T09:08:08.000+0000",
+    "manageableState": "unmanaged",
+    "masterLabel": "flowWithAllElements",
+    "metadata": {
+        "actionCalls": [
+            {
+                "actionName": "LogACall",
+                "actionType": "quickAction",
+                "inputParameters": [],
+                "label": "actionCall1",
+                "locationX": 296,
+                "locationY": 652,
+                "name": "actionCall1",
+                "outputParameters": [],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            },
+            {
+                "actionName": "chatterPost",
+                "actionType": "chatterPost",
+                "inputParameters": [
+                    {
+                        "name": "subjectNameOrId",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "jsmith@salesforce.com"
+                        }
+                    },
+                    {
+                        "name": "text",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "This is my message"
+                        }
+                    }
+                ],
+                "label": "actionCallAutomaticOutput",
+                "locationX": 123,
+                "locationY": 649,
+                "name": "actionCallAutomaticOutput",
+                "outputParameters": [],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": true
+            },
+            {
+                "actionName": "c:localActionSample",
+                "actionType": "component",
+                "description": "this is a sample local action",
+                "inputParameters": [
+                    {
+                        "name": "subject",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "team"
+                        }
+                    },
+                    {
+                        "name": "greeting",
+                        "processMetadataValues": [],
+                        "value": {
+                            "stringValue": "hello"
+                        }
+                    }
+                ],
+                "label": "localAction",
+                "locationX": 463,
+                "locationY": 661,
+                "name": "localAction",
+                "outputParameters": [],
+                "processMetadataValues": [],
+                "storeOutputAutomatically": false
+            }
+        ],
+        "apexPluginCalls": [],
+        "assignments": [
+            {
+                "assignmentItems": [
+                    {
+                        "assignToReference": "stringVariable",
+                        "operator": "Assign",
+                        "processMetadataValues": [],
+                        "value": {
+                            "elementReference": "numberVariable"
+                        }
+                    }
+                ],
+                "label": "assignment1Label",
+                "locationX": 165,
+                "locationY": 177,
+                "name": "assignment1",
+                "processMetadataValues": []
+            }
+        ],
+        "choices": [
+            {
+                "choiceText": "Choice 1",
+                "dataType": "Number",
+                "name": "numberChoice",
+                "processMetadataValues": []
+            }
+        ],
+        "constants": [
+            {
+                "dataType": "String",
+                "description": "random description",
+                "name": "stringConstant",
+                "processMetadataValues": [],
+                "value": {
+                    "stringValue": "fooDefault"
+                }
+            }
+        ],
+        "decisions": [
+            {
+                "defaultConnectorLabel": "Default Outcome",
+                "label": "decision1",
+                "locationX": 109,
+                "locationY": 801,
+                "name": "decision1",
+                "processMetadataValues": [],
+                "rules": [
+                    {
+                        "conditionLogic": "and",
+                        "conditions": [
+                            {
+                                "leftValueReference": "stringVariable",
+                                "operator": "EqualTo",
+                                "processMetadataValues": [],
+                                "rightValue": {
+                                    "stringValue": "text"
+                                }
+                            }
+                        ],
+                        "label": "outcome1",
+                        "name": "outcome1",
+                        "processMetadataValues": []
+                    }
+                ]
+            }
+        ],
+        "dynamicChoiceSets": [],
+        "formulas": [],
+        "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
+        "isAdditionalPermissionRequiredToRun": false,
+        "isTemplate": false,
+        "label": "flowWithAllElements",
+        "loops": [],
+        "processMetadataValues": [
+            {
+                "name": "BuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            },
+            {
+                "name": "OriginBuilderType",
+                "value": {
+                    "stringValue": "LightningFlowBuilder"
+                }
+            }
+        ],
+        "processType": "Flow",
+        "recordCreates": [],
+        "recordDeletes": [],
+        "recordLookups": [
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "getFirstRecordOnly": true,
+                "label": "lookupRecordAutomaticOutput",
+                "locationX": 362,
+                "locationY": 326,
+                "name": "lookupRecordAutomaticOutput",
+                "object": "Account",
+                "outputAssignments": [],
+                "processMetadataValues": [],
+                "queriedFields": ["Id"],
+                "storeOutputAutomatically": true
+            },
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "getFirstRecordOnly": false,
+                "label": "lookupRecordCollectionAutomaticOutput",
+                "locationX": 577,
+                "locationY": 334,
+                "name": "lookupRecordCollectionAutomaticOutput",
+                "object": "Account",
+                "outputAssignments": [],
+                "processMetadataValues": [],
+                "queriedFields": ["Id"],
+                "storeOutputAutomatically": true
+            },
+            {
+                "assignNullValuesIfNoRecordsFound": false,
+                "filters": [],
+                "getFirstRecordOnly": false,
+                "label": "lookupRecordOutputReference",
+                "locationX": 158,
+                "locationY": 321,
+                "name": "lookupRecordOutputReference",
+                "object": "Account",
+                "outputAssignments": [],
+                "outputReference": "accountSObjectVariable",
+                "processMetadataValues": [],
+                "queriedFields": ["Id"],
+                "storeOutputAutomatically": false
+            }
+        ],
+        "recordUpdates": [],
+        "screens": [
+            {
+                "allowBack": true,
+                "allowFinish": true,
+                "allowPause": true,
+                "fields": [
+                    {
+                        "choiceReferences": [],
+                        "extensionName": "flowruntime:email",
+                        "fieldType": "ComponentInstance",
+                        "inputParameters": [
+                            {
+                                "name": "label",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "stringValue": "emailScreenFieldAutomaticOutput"
+                                }
+                            },
+                            {
+                                "name": "placeholder",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "stringValue": "your email address"
+                                }
+                            }
+                        ],
+                        "isRequired": true,
+                        "name": "emailScreenFieldAutomaticOutput",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": true
+                    },
+                    {
+                        "choiceReferences": [],
+                        "extensionName": "flowruntime:email",
+                        "fieldType": "ComponentInstance",
+                        "inputParameters": [
+                            {
+                                "name": "label",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "stringValue": "emailScreenField"
+                                }
+                            },
+                            {
+                                "name": "placeholder",
+                                "processMetadataValues": [],
+                                "value": {
+                                    "stringValue": "your email"
+                                }
+                            }
+                        ],
+                        "isRequired": true,
+                        "name": "emailScreenField",
+                        "outputParameters": [],
+                        "processMetadataValues": [],
+                        "scale": 0,
+                        "storeOutputAutomatically": false
+                    }
+                ],
+                "label": "screen1",
+                "locationX": 127,
+                "locationY": 505,
+                "name": "screen1",
+                "processMetadataValues": [],
+                "rules": [],
+                "showFooter": true,
+                "showHeader": true
+            }
+        ],
+        "stages": [
+            {
+                "isActive": false,
+                "label": "stage1",
+                "name": "stage1",
+                "processMetadataValues": [],
+                "stageOrder": 12
+            }
+        ],
+        "start": {
+            "filters": [],
+            "locationX": 66,
+            "locationY": 50,
+            "processMetadataValues": []
+        },
+        "status": "InvalidDraft",
+        "steps": [],
+        "subflows": [],
+        "textTemplates": [
+            {
+                "name": "textTemplate1",
+                "processMetadataValues": [],
+                "text": "<p>Hello {!stringVariable}</p>"
+            }
+        ],
+        "variables": [
+            {
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accountSObjectCollectionVariable",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "accountSObjectVariable",
+                "objectType": "Account",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "apexSampleCollectionVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "apexClass": "MyApexClass",
+                "dataType": "Apex",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "apexSampleVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "caseSObjectCollectionVariable",
+                "objectType": "Case",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "Currency",
+                "description": "randomDescription",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "currencyVariable",
+                "processMetadataValues": [],
+                "scale": 2
+            },
+            {
+                "dataType": "Date",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "dateCollectionVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "Date",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "dateVariable",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "SObject",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "feedItemVariable",
+                "objectType": "FeedItem",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "Number",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "numberVariable",
+                "processMetadataValues": [],
+                "scale": 2
+            },
+            {
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "stringCollectionVariable1",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "isCollection": true,
+                "isInput": false,
+                "isOutput": false,
+                "name": "stringCollectionVariable2",
+                "processMetadataValues": [],
+                "scale": 0
+            },
+            {
+                "dataType": "String",
+                "description": "random description",
+                "isCollection": false,
+                "isInput": false,
+                "isOutput": false,
+                "name": "stringVariable",
+                "processMetadataValues": [],
+                "scale": 0,
+                "value": {
+                    "stringValue": "fooDefault"
+                }
+            }
+        ],
+        "waits": []
+    },
+    "processType": "Flow",
     "status": "InvalidDraft",
-    "steps": [],
-    "subflows": [],
-    "textTemplates": [
-      {
-        "name": "textTemplate1",
-        "processMetadataValues": [],
-        "text": "<p>Hello {!stringVariable}</p>"
-      }
-    ],
-    "variables": [
-      {
-        "dataType": "SObject",
-        "isCollection": true,
-        "isInput": false,
-        "isOutput": false,
-        "name": "accountSObjectCollectionVariable",
-        "objectType": "Account",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "SObject",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "accountSObjectVariable",
-        "objectType": "Account",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "apexClass": "MyApexClass",
-        "dataType": "Apex",
-        "isCollection": true,
-        "isInput": false,
-        "isOutput": false,
-        "name": "apexSampleCollectionVariable",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "apexClass": "MyApexClass",
-        "dataType": "Apex",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "apexSampleVariable",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "SObject",
-        "isCollection": true,
-        "isInput": false,
-        "isOutput": false,
-        "name": "caseSObjectCollectionVariable",
-        "objectType": "Case",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "Currency",
-        "description": "randomDescription",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "currencyVariable",
-        "processMetadataValues": [],
-        "scale": 2
-      },
-      {
-        "dataType": "Date",
-        "isCollection": true,
-        "isInput": false,
-        "isOutput": false,
-        "name": "dateCollectionVariable",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "Date",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "dateVariable",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "SObject",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "feedItemVariable",
-        "objectType": "FeedItem",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "Number",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "numberVariable",
-        "processMetadataValues": [],
-        "scale": 2
-      },
-      {
-        "dataType": "String",
-        "isCollection": true,
-        "isInput": false,
-        "isOutput": false,
-        "name": "stringCollectionVariable1",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "String",
-        "isCollection": true,
-        "isInput": false,
-        "isOutput": false,
-        "name": "stringCollectionVariable2",
-        "processMetadataValues": [],
-        "scale": 0
-      },
-      {
-        "dataType": "String",
-        "description": "random description",
-        "isCollection": false,
-        "isInput": false,
-        "isOutput": false,
-        "name": "stringVariable",
-        "processMetadataValues": [],
-        "scale": 0,
-        "value": {
-          "stringValue": "fooDefault"
-        }
-      }
-    ],
-    "waits": []
-  },
-  "processType": "Flow",
-  "status": "InvalidDraft",
-  "versionNumber": 1
+    "versionNumber": 1
 }

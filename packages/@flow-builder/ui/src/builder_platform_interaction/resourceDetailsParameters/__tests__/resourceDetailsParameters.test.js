@@ -1,11 +1,15 @@
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-import { mockSubmitForApprovalActionParameters } from 'mock/calloutData';
+import {
+    mockSubmitForApprovalActionParameters,
+    mockLocalActionParameters
+} from 'mock/calloutData';
 import ResourceDetailsParameters from 'builder_platform_interaction/resourceDetailsParameters';
 import {
     mockExtensionScreenfieldAutomaticOutputsModeResourceDetails,
-    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails
+    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails,
+    mockActionLocalActionInAutomaticOutputsModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 
@@ -116,6 +120,21 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MO
     }
 ];
 
+const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE = [
+    {
+        apiName: 'greeting',
+        label: 'greeting',
+        description: null,
+        typeIconName: 'utility:text'
+    },
+    {
+        apiName: 'subject',
+        label: 'subject',
+        description: null,
+        typeIconName: 'utility:text'
+    }
+];
+
 describe('Resource Details parameters', () => {
     let resourceDetailsParametersComponent;
     describe('Extension (ie: ligthning component) screenfield in automatic outputs mode', () => {
@@ -177,46 +196,100 @@ describe('Resource Details parameters', () => {
         });
     });
 
-    describe('Action (core action) in automatic outputs mode (submit for approval)', () => {
-        describe('No fetch exception', () => {
-            beforeEach(() => {
-                resourceDetailsParametersComponent = createComponentUnderTest(
-                    mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails
-                );
-            });
-            describe('Parameters fetch server call OK and NO error', () => {
-                test('check "Parameters" details (via API)', () => {
-                    const parameters =
-                        resourceDetailsParametersComponent.parameters;
-                    expect(parameters).toEqual(
-                        EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MODE
+    describe('core action', () => {
+        describe('"submit for approval" in automatic outputs mode', () => {
+            describe('No fetch exception', () => {
+                beforeEach(() => {
+                    resourceDetailsParametersComponent = createComponentUnderTest(
+                        mockActionSubmitForApprovalAutomaticOutputsModeResourceDetails
                     );
                 });
-                test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
-                    expect(
-                        resourceDetailsParametersComponent
-                    ).toMatchSnapshot();
+                describe('Parameters fetch server call OK and NO error', () => {
+                    test('check "Parameters" details (via API)', () => {
+                        const parameters =
+                            resourceDetailsParametersComponent.parameters;
+                        expect(parameters).toEqual(
+                            EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_SUBMIT_FOR_APPROVAL_IN_AUTO_MODE
+                        );
+                    });
+                    test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
+                        expect(
+                            resourceDetailsParametersComponent
+                        ).toMatchSnapshot();
+                    });
+                });
+                describe('Parameters fetch server call OK but error', () => {
+                    beforeAll(() => {
+                        fetchParametersForInvocableAction.mockImplementation(
+                            () =>
+                                Promise.reject(
+                                    new Error(
+                                        'An error occured during extension parameters fetching'
+                                    )
+                                )
+                        );
+                    });
+                    test('check "Parameters" details (via API)', () => {
+                        const parameters =
+                            resourceDetailsParametersComponent.parameters;
+                        expect(parameters).toHaveLength(0);
+                    });
+                    test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
+                        expect(
+                            resourceDetailsParametersComponent
+                        ).toMatchSnapshot();
+                    });
                 });
             });
-            describe('Parameters fetch server call OK but error', () => {
+        });
+
+        describe('"Local action" in automatic outputs mode', () => {
+            describe('No fetch exception', () => {
                 beforeAll(() => {
                     fetchParametersForInvocableAction.mockImplementation(() =>
-                        Promise.reject(
-                            new Error(
-                                'An error occured during extension parameters fetching'
-                            )
-                        )
+                        Promise.resolve(mockLocalActionParameters)
                     );
                 });
-                test('check "Parameters" details (via API)', () => {
-                    const parameters =
-                        resourceDetailsParametersComponent.parameters;
-                    expect(parameters).toHaveLength(0);
+                beforeEach(() => {
+                    resourceDetailsParametersComponent = createComponentUnderTest(
+                        mockActionLocalActionInAutomaticOutputsModeResourceDetails
+                    );
                 });
-                test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
-                    expect(
-                        resourceDetailsParametersComponent
-                    ).toMatchSnapshot();
+                describe('Parameters fetch server call OK and NO error', () => {
+                    test('check "Parameters" details (via API)', () => {
+                        const parameters =
+                            resourceDetailsParametersComponent.parameters;
+                        expect(parameters).toEqual(
+                            EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE
+                        );
+                    });
+                    test('check UI: icon names, tooltip, labels...(snapshot) parameters displayed', () => {
+                        expect(
+                            resourceDetailsParametersComponent
+                        ).toMatchSnapshot();
+                    });
+                });
+                describe('Parameters fetch server call OK but error', () => {
+                    beforeAll(() => {
+                        fetchParametersForInvocableAction.mockImplementation(
+                            () =>
+                                Promise.reject(
+                                    new Error(
+                                        'An error occured during extension parameters fetching'
+                                    )
+                                )
+                        );
+                    });
+                    test('check "Parameters" details (via API)', () => {
+                        const parameters =
+                            resourceDetailsParametersComponent.parameters;
+                        expect(parameters).toHaveLength(0);
+                    });
+                    test('check UI: icon names, tooltip, labels (snapshot) no parameters displayed', () => {
+                        expect(
+                            resourceDetailsParametersComponent
+                        ).toMatchSnapshot();
+                    });
                 });
             });
         });

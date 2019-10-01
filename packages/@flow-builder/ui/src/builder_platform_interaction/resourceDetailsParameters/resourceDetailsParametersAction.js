@@ -15,7 +15,7 @@ class ResourceDetailsParametersActionConfig extends ResourceDetailsParametersCon
             }
             return {
                 apiName: rawParameter.name,
-                label: rawParameter.label,
+                label: rawParameter.label || rawParameter.name,
                 description: rawParameter.description,
                 typeIconName: getDataTypeIcons(rawParameter.dataType, 'utility')
             };
@@ -35,8 +35,8 @@ class ResourceDetailsParametersActionConfig extends ResourceDetailsParametersCon
                         callback(
                             params
                                 .filter(parameter => parameter.isOutput)
-                                .sort(labelComparator)
                                 .map(this.map())
+                                .sort(labelComparator)
                         );
                     })
                     .catch(error => callback([], error));
