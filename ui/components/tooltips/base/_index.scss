@@ -148,3 +148,11 @@
   overflow: visible;
   margin-top: 0.3rem;
 }
+
+.nds-checkbox__label {
+  ~.nds-tooltip__container {
+    .nds-button_icon {
+      margin-bottom: 0.125rem;
+    }
+  }
+}

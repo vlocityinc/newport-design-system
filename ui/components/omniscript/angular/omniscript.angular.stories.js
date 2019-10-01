@@ -1849,7 +1849,7 @@ storiesOf(`${base}`, module)
                              <div class="nds-form-element__control nds-m-bottom_medium nds-range">
 
                                <label for="Range"
-                                      class="nds-form-element__label">
+                                      class="nds-form-element__label nds-is-expanded nds-element_text-font">
                                  <span class="nds-slider-label">
                                    <span class="nds-slider-label__label ">Range</span>
 

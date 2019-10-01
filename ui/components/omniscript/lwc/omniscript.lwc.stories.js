@@ -156,13 +156,13 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
            class="nds-checkbox__label"><span vloc_mg-input_input_nds=""
             class="nds-checkbox_faux"></span><span vloc_mg-input_input_nds=""
             class="nds-form-element__label nds-form-element__control-help nds-checkbox-span">Checkbox Field Label</span>
-            <c-tooltip vloc_mg-input_input_nds=""
+      </label>
+      <c-tooltip vloc_mg-input_input_nds=""
                class="nds-tooltip__container"
                vloc_mg-tooltip_tooltip-host=""><span vloc_mg-tooltip_tooltip=""
             style="position: relative;">
         <c-button vloc_mg-tooltip_tooltip=""
-                  tabindex="0"
-                  class="nds-button nds-button_icon"><button type="button"
+                  tabindex="0"><button type="button"
                   tabindex="-1"
                   class="nds-button nds-button_icon">
             <c-icon><svg aria-hidden="true"
@@ -178,7 +178,7 @@ class="nds-progress-bar nds-progress-bar_x-small"><span class="nds-progress-bar_
                class="nds-popover__body">Help Text</div>
         </span>
       </span></c-tooltip>
-      </label></div>
+      </div>
 </div>
 </div>
 </c-input>
