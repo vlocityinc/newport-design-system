@@ -382,7 +382,7 @@ export function getIconNameFromDataType(dataType) {
 
         for (const typeName in FLOW_DATA_TYPE) {
             if (FLOW_DATA_TYPE[typeName].value.toUpperCase() === lcType) {
-                return FLOW_DATA_TYPE[typeName].iconName;
+                return FLOW_DATA_TYPE[typeName].utilityIconName;
             }
         }
     }
