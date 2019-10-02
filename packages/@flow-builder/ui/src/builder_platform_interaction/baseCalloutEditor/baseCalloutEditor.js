@@ -59,4 +59,10 @@ export default class BaseCalloutEditor extends LightningElement {
             ? this.parameterListConfig.warnings
             : {};
     }
+
+    /**
+     * Run in Mode of the element
+     */
+    @api
+    runinmode;
 }

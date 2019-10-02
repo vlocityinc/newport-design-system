@@ -119,6 +119,10 @@ export default class FlowPropertiesEditor extends LightningElement {
         );
     }
 
+    isSystemModeDisabled() {
+        return this._runInModes == null || this._runInModes.length === 0;
+    }
+
     get runInSystemMode() {
         return this.flowProperties.runInSystemMode;
     }
@@ -174,6 +178,10 @@ export default class FlowPropertiesEditor extends LightningElement {
      */
     get savingExistingFlow() {
         return this.isSavingExistingFlow();
+    }
+
+    get systemModeDisabled() {
+        return this.isSystemModeDisabled();
     }
 
     get showSaveAsTypePicker() {

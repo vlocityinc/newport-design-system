@@ -6,4 +6,5 @@ export default class BaseCalloutEditor extends LightningElement {
     @api parameterListConfig;
     @api elementType;
     @api displaySpinner;
+    @api runinmode;
 }

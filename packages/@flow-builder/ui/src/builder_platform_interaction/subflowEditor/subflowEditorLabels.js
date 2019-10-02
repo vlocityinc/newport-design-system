@@ -1,5 +1,6 @@
 /* Labels */
 import subtitle from '@salesforce/label/FlowBuilderSubflowEditor.subtitle';
+import runInMode from '@salesforce/label/FlowBuilderSubflowEditor.runInMode';
 import inputHeader from '@salesforce/label/FlowBuilderSubflowEditor.inputHeader';
 import outputHeader from '@salesforce/label/FlowBuilderSubflowEditor.outputHeader';
 import emptyInputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.emptyInputsTitle';
@@ -19,6 +20,7 @@ import emptyInputsOutputsTitle from '@salesforce/label/FlowBuilderCalloutEditor.
 
 export const LABELS = {
     subtitle,
+    runInMode,
     inputHeader,
     outputHeader,
     emptyInputsTitle,

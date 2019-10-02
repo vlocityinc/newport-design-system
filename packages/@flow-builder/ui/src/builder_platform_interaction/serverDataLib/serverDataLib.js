@@ -25,6 +25,7 @@ export const SERVER_ACTION_TYPE = {
     GET_CONTEXT: 'getContext',
     GET_OPERATORS: 'getOperators',
     GET_FLOW_INPUT_OUTPUT_VARIABLES: 'getFlowInputOutputVariables',
+    GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE: 'getFlowActiveOrLatestRunInMode',
     GET_EVENT_TYPES: 'getEventTypes',
     GET_EVENT_TYPE_PARAMETERS: 'getParametersForEventType',
     GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR:
@@ -66,6 +67,8 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_OPERATORS]: 'c.getOperators',
     [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]:
         'c.getFlowInputOutputVariables',
+    [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]:
+        'c.getFlowActiveOrLatestRunInMode',
     [SERVER_ACTION_TYPE.GET_EVENT_TYPES]: 'c.getEventTypes',
     [SERVER_ACTION_TYPE.GET_EVENT_TYPE_PARAMETERS]:
         'c.getParametersForEventType',
@@ -160,6 +163,8 @@ const KEY_PROVIDER = {
         `${params.apexClass}`,
     [SERVER_ACTION_TYPE.GET_ENTITY_FIELDS]: params => params.entityApiName,
     [SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES]: params =>
+        params.flowName,
+    [SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE]: params =>
         params.flowName,
     [SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR]: params =>
         params.flowProcessType,

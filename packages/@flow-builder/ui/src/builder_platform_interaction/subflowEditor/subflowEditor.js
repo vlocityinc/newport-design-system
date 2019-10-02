@@ -32,6 +32,8 @@ export default class SubflowEditor extends LightningElement {
 
     @track subflowVariablesDescriptor;
 
+    @track subflowRunInMode;
+
     labels = LABELS;
     connected = false;
 
@@ -45,6 +47,7 @@ export default class SubflowEditor extends LightningElement {
         if (this.subflowNode) {
             this.fetchSubflowDescriptor();
             this.fetchFlowInputOutputVariables();
+            this.fetchSubflowRunInMode();
         }
     }
 
@@ -76,6 +79,24 @@ export default class SubflowEditor extends LightningElement {
                     this.displaySpinner = false;
                     this.cannotRetrieveParameters();
                 }
+            });
+    }
+
+    fetchSubflowRunInMode() {
+        this.subflowRunInMode = undefined;
+        const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
+        const serverActionParams = { flowName };
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_FLOW_ACTIVE_OR_LATEST_RUN_IN_MODE,
+            serverActionParams
+        )
+            .then(runInMode => {
+                if (this.connected) {
+                    this.subflowRunInMode = runInMode;
+                }
+            })
+            .catch(() => {
+                // ignore the error.
             });
     }
 
@@ -142,6 +163,7 @@ export default class SubflowEditor extends LightningElement {
         if (this.connected) {
             this.fetchSubflowDescriptor();
             this.fetchFlowInputOutputVariables();
+            this.fetchSubflowRunInMode();
         }
     }
 
@@ -179,6 +201,19 @@ export default class SubflowEditor extends LightningElement {
                 ? this.subflowDescriptor.masterLabel
                 : getValueFromHydratedItem(this.subflowNode.flowName);
         return format(this.labels.subtitle, flowName);
+    }
+
+    get runInMode() {
+        if (!this.subflowNode) {
+            return '';
+        }
+        const flowRunInMode = this.subflowRunInMode != null
+                ? this.subflowRunInMode.name
+                : '';
+        if (flowRunInMode == null) {
+            return '';
+        }
+        return format(this.labels.runInMode, flowRunInMode);
     }
 
     get parameterListConfig() {
