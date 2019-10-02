@@ -62,6 +62,9 @@ export default class Canvas extends LightningElement {
     @api
     showMarqueeButton = false;
 
+    @api
+    keyboardInteractions;
+
     @track
     isMarqueeModeOn = false;
 
@@ -82,7 +85,6 @@ export default class Canvas extends LightningElement {
 
     canvasArea;
     innerCanvasArea;
-    keyboardInteractions;
 
     // Canvas area offset position
     canvasAreaOffsets = [0, 0];
