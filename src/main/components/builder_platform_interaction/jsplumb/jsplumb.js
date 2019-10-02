@@ -9,7 +9,7 @@ function lib() {
      * 4) CL 18051575 - Avoiding the use of document.getElementById when adding endpoints on mouseDown
      * 5) CL 18281698 - Updating revalidate for connector location
      * 6) CL 18369793 - Fixing XSS issues in connector labels by using textContent instead of innerHTML
-     * 7) CL 19180394 - Updating jsPlumb version and adding relevant null checks in moveListener
+     * 7) CL 19247180 - Updating jsPlumb version and adding relevant null checks in moveListener
      *
      * jsBezier
      *
@@ -2020,7 +2020,7 @@ function lib() {
                         intersectingDroppables.length = 0;
                         var pos = _pl(e), dx = pos[0] - downAt[0], dy = pos[1] - downAt[1],
                             z = this.params.ignoreZoom ? 1 : k.getZoom();
-                        // CL 19180394 - Adding null checks for scrollLeft and scrollTop
+                        // CL 19247180 - Adding null checks for scrollLeft and scrollTop
                         if (dragEl && dragEl.parentNode && dragEl.parentNode.scrollLeft && dragEl.parentNode.scrollTop)
                         {
                             dx += dragEl.parentNode.scrollLeft - initialScroll[0];
