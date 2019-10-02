@@ -1,5 +1,6 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { booleanMatcher, containsMatcher, notEqualsMatcher } from './matchers';
+import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';
 
 export * from './matchers';
 
@@ -29,9 +30,13 @@ export const labelFilter = pattern => {
  */
 export const resourceFilter = pattern => {
     return obj => {
-        let result =
-            booleanMatcher(obj, 'isCanvasElement', false) ||
-            booleanMatcher(obj, 'storeOutputAutomatically', true);
+        let result = false;
+        if (booleanMatcher(obj, 'isCanvasElement', false)) {
+            result = true;
+        } else if (booleanMatcher(obj, 'storeOutputAutomatically', true)) {
+            // if fields have not been retrieved yet, consider it as a resource for now
+            result = !isAutomaticOutputElementWithoutChildren(obj);
+        }
         if (pattern) {
             result = result && containsMatcher(obj, 'name', pattern);
         }

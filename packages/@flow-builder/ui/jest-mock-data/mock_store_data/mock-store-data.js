@@ -58,6 +58,7 @@ export const startElement = getStartElement();
 export const textTemplate1 = getElementByName('textTemplate1');
 export const dateCollectionVariable = getElementByName('dateCollectionVariable');
 export const decisionOutcome = getElementByName('outcome1');
+export const caseLogACallAutomatic = getElementByName('caseLogACallAutomatic');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

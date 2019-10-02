@@ -41,6 +41,7 @@ import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemV
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
 import { getScreenElement } from '../resourceUtils';
 import { mockScreenElement } from 'mock/calloutData';
 
@@ -145,7 +146,17 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
     return {
         getParametersForInvocableAction: jest
             .fn()
-            .mockImplementation(() => mockChatterPostActionParameters)
+            .mockImplementation(({ actionName, actionType }) => {
+                const key = `${actionType}-${actionName}`;
+                switch (key) {
+                    case 'chatterPost-chatterPost':
+                        return mockChatterPostActionParameters;
+                    case 'quickAction-Case.LogACall':
+                        return mockLogACallActionParameters;
+                    default:
+                        return undefined;
+                }
+            })
     };
 });
 
@@ -216,9 +227,7 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
 
 jest.mock('../resourceUtils', () => {
     return {
-        getScreenElement: jest
-            .fn()
-            .mockImplementation(() => mockScreenElement)
+        getScreenElement: jest.fn().mockImplementation(() => mockScreenElement)
     };
 });
 
@@ -359,7 +368,8 @@ describe('Menu data retrieval', () => {
             store.emailScreenFieldAutomaticOutput,
             store.lookupRecordAutomaticOutput,
             store.lookupRecordCollectionAutomaticOutput,
-            store.actionCallAutomaticOutput
+            store.actionCallAutomaticOutput,
+            store.caseLogACallAutomatic // no outputs : should not be included
         ]);
         const primitivesWithObjects = getElementsForMenuData(
             {

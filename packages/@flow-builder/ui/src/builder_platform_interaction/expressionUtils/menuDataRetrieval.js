@@ -45,7 +45,10 @@ import {
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
+import {
+    retrieveResourceComplexTypeFields,
+    isAutomaticOutputElementWithoutChildren
+} from 'builder_platform_interaction/complexTypeLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 
@@ -157,22 +160,34 @@ export function isElementAllowed(
             : undefined;
         return allowedType && elementMatchesRule(allowedType, element);
     };
-
-    return (
-        !allowedParamTypes ||
+    if (!allowedParamTypes) {
+        return true;
+    }
+    const ruleElementType =
+        UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[
+            element[PARAM_PROPERTY.ELEMENT_TYPE]
+        ] || element[PARAM_PROPERTY.ELEMENT_TYPE];
+    if (
         isElementMatchForProperty(getDataType(element)) ||
-        isElementMatchForProperty(
-            UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE[
-                element[PARAM_PROPERTY.ELEMENT_TYPE]
-            ] || element[PARAM_PROPERTY.ELEMENT_TYPE]
-        ) ||
-        isElementMatchForProperty(element[SUBTYPE]) ||
-        (showComplexObjectsForFields &&
-            (!element.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-                allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]) &&
+        isElementMatchForProperty(ruleElementType) ||
+        isElementMatchForProperty(element[SUBTYPE])
+    ) {
+        return true;
+    }
+    if (showComplexObjectsForFields && !element.isCollection) {
+        if (
+            element.dataType === FLOW_DATA_TYPE.SOBJECT.value &&
+            !allowedParamTypes[SOBJECT_FIELD_REQUIREMENT]
+        ) {
+            return false;
+        }
+        // do not allow complex objects without children
+        return (
             isComplexType(element.dataType) &&
-            !element.isCollection)
-    );
+            !isAutomaticOutputElementWithoutChildren(element)
+        );
+    }
+    return false;
 }
 
 export const COMBOBOX_NEW_RESOURCE_VALUE = '%%NewResource%%';
@@ -393,7 +408,11 @@ export function getStoreElements(storeInstance, config) {
 function addUncommittedElementsFromLocalStorage(elements) {
     const screen = getScreenElement();
     if (screen && screen.fields) {
-        elements = elements.concat(screen.fields.filter(field => field.isNewField && field.name.value !== ""));
+        elements = elements.concat(
+            screen.fields.filter(
+                field => field.isNewField && field.name.value !== ''
+            )
+        );
     }
     return elements;
 }
@@ -669,9 +688,11 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
         dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
     ) {
         const resourceGuid = topLevelItem.value;
-        const element = getElementByGuid(resourceGuid) || getScreenElement().fields.find(field => {
-            return field.guid === resourceGuid;
-        });
+        const element =
+            getElementByGuid(resourceGuid) ||
+            getScreenElement().fields.find(field => {
+                return field.guid === resourceGuid;
+            });
         callback(retrieveResourceComplexTypeFields(element));
     } else {
         callback(apexTypeLib.getPropertiesForClass(subtype));

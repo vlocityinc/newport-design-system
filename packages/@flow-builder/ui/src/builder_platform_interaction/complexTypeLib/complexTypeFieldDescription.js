@@ -40,6 +40,33 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
 }
 
 /**
+ * Returns true if flowResource is an element using automatic output handling without children
+ *
+ * @param {Object} flowResource the resource
+ * @returns {boolean} true if it has no children, false if it has children or if we don't know (fields not yet loaded)
+ */
+export function isAutomaticOutputElementWithoutChildren(flowResource) {
+    if (!flowResource.storeOutputAutomatically) {
+        return false;
+    }
+    if (
+        flowResource.dataType ===
+        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+    ) {
+        const extension = getCachedExtension(flowResource.extensionName);
+        return (
+            extension !== undefined && extension.outputParameters.length === 0
+        );
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        const parameters = getParametersForInvocableAction(flowResource);
+        const outputParameters =
+            parameters && parameters.filter(parameter => parameter.isOutput);
+        return outputParameters !== undefined && outputParameters.length === 0;
+    }
+    return false;
+}
+
+/**
  * Returns the fields for given complex resource (dataType SObject, apex, lightning component output or action output)
  *
  * @param {Object} flowResource the resource
@@ -80,15 +107,21 @@ function getExtensionComplexTypeOutputFields(extensionName) {
 }
 
 function getInvocableActionComplexTypeOutputFields({ actionName, actionType }) {
-    const fields = getParametersForInvocableAction({ actionName, actionType })
-        .filter(parameter => parameter.isOutput)
-        .reduce((acc, parameter) => {
-            acc[
-                parameter.name
-            ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                parameter
-            );
-            return acc;
-        }, {});
+    const parameters = getParametersForInvocableAction({
+        actionName,
+        actionType
+    });
+    const fields =
+        parameters &&
+        parameters
+            .filter(parameter => parameter.isOutput)
+            .reduce((acc, parameter) => {
+                acc[
+                    parameter.name
+                ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
+                    parameter
+                );
+                return acc;
+            }, {});
     return fields;
 }

@@ -1,22 +1,18 @@
 To update flowWithAllElements.json :
 
-You will need this apex class defined in your org :
-    public class MyApexClass {
-        @AuraEnabled
-        public String name{get;set;}
-    }
-
 1) create a new flow named "flowWithAllElements" and save it (you can move the start element to have the save button enabled)
 2) add a breakpoint in TranslatorLib.translateFlowToUIModel
 3) refresh the page (F5)
 4) in the console :
 flow = [paste from the contents of flowWithAllElements.json]
 5) the flow with all the elements is loaded
-6) Change and save the flow
-7) refresh (F5)
-8) in the console
-copy the output from JSON.stringify(flow, null, 2) to flowWithAllElements.json
-9) run the tests suite
+6) Change the flow
+7) put a breakpoint in editor.js after
+const flow = translatorLib.translateUIModelToFlow(storeInstance.getCurrentState());
+8) save the flow
+9) copy the output from JSON.stringify(flow.metadata, null, 2)
+10) update metadata (only !) in flowWithAllElements.json 
+10) the save will fail but that's expected (apex class, local action missing)
+11) run the tests suite
 
-To update autolaunchedFlow.json :
-Same thing except you don't need MyApexClass
+To update autolaunchedFlow.json : same thing

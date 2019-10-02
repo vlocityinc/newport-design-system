@@ -1,5 +1,14 @@
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { labelFilter, resourceFilter, canvasElementFilter } from '../filterLib';
+import { isAutomaticOutputElementWithoutChildren } from 'builder_platform_interaction/complexTypeLib';
+
+jest.mock('builder_platform_interaction/complexTypeLib', () => {
+    return {
+        isAutomaticOutputElementWithoutChildren: jest
+            .fn()
+            .mockReturnValue(false)
+    };
+});
 
 describe('labelFilter', () => {
     const element = { label: 'Alvin' };
@@ -86,6 +95,17 @@ describe('resourceFilter', () => {
             storeOutputAutomatically: true
         };
         expect(filter(element)).toEqual(true);
+    });
+
+    it('excludes elements in automatic output handling mode without children', () => {
+        const filter = resourceFilter();
+        isAutomaticOutputElementWithoutChildren.mockReturnValue(true);
+        const element = {
+            elementType: 'myElementType',
+            isCanvasElement: true,
+            storeOutputAutomatically: true
+        };
+        expect(filter(element)).toEqual(false);
     });
 
     it('includes elements that contain the given pattern in their name', () => {
