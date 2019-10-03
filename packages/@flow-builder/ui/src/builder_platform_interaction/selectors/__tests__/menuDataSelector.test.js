@@ -1,6 +1,7 @@
 import {
     getSObjectOrSObjectCollectionByEntityElements,
-    byTypeWritableElementsSelector
+    byTypeWritableElementsSelector,
+    byElementTypeElementsSelector
 } from '../menuDataSelector';
 import * as storeLib from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -103,6 +104,17 @@ const elementsInStore = {
         isInput: false,
         isOutput: false,
         name: 'textVariable'
+    },
+    guid9: {
+        dataType: 'Action',
+        description: '',
+        elementType: ELEMENT_TYPE.ACTION_CALL,
+        guid: 'guid9',
+        isCanvasElement: false,
+        isCollection: false,
+        isInput: false,
+        isOutput: false,
+        name: 'action'
     }
 };
 
@@ -365,5 +377,33 @@ describe('byTypeWritableElementsSelector', () => {
         const result = byTypeWritableElementsSelector('Text');
         expect(result).toBe(returnVal);
         expect(storeLib.createSelector).toHaveBeenCalledTimes(1);
+    });
+});
+describe('byElementTypeElementsSelector', () => {
+    it('does not fail with empty param', () => {
+        byElementTypeElementsSelector();
+        const selector = storeLib.createSelector.mock.calls[0][1];
+        const result = selector(elementsInStore);
+        expect(result).toHaveLength(0);
+    });
+    it('returns expected result with single param', () => {
+        byElementTypeElementsSelector(elementsInStore.guid7.elementType);
+        const selector = storeLib.createSelector.mock.calls[0][1];
+        const result = selector(elementsInStore);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject(elementsInStore.guid7);
+    });
+    it('returns expected result with several params', () => {
+        byElementTypeElementsSelector(
+            elementsInStore.guid9.elementType,
+            elementsInStore.guid7.elementType
+        );
+        const selector = storeLib.createSelector.mock.calls[0][1];
+        const result = selector(elementsInStore);
+        expect(result).toHaveLength(2);
+        expect(expect.arrayContaining(result)).toEqual([
+            elementsInStore.guid9,
+            elementsInStore.guid7
+        ]);
     });
 });

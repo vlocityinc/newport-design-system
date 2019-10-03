@@ -201,8 +201,10 @@ export const componentInstanceScreenFieldsSelector = createSelector(
     )
 );
 
-export const byElementTypeElementsSelector = elementType =>
+export const byElementTypeElementsSelector = (...elementType) =>
     createSelector(
         [elementsSelector],
-        getFilteredElements(element => element.elementType === elementType)
+        getFilteredElements(element =>
+            elementType.includes(element.elementType)
+        )
     );

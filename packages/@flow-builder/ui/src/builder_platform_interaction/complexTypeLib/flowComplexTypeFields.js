@@ -47,8 +47,11 @@ export function loadFieldsForExtensionsInFlow(state) {
 }
 
 export function loadParametersForInvocableActionsInFlow(state) {
+    // we only get the action that have outputs. (e.g. EMAIL_ALERT is excluded)
     const actionCallsSelector = byElementTypeElementsSelector(
-        ELEMENT_TYPE.ACTION_CALL
+        ELEMENT_TYPE.ACTION_CALL,
+        ELEMENT_TYPE.APEX_CALL,
+        ELEMENT_TYPE.EXTERNAL_SERVICE
     );
     const actionCallNamesAndTypes = actionCallsSelector(state)
         .filter(actionCall => actionCall.storeOutputAutomatically === true)

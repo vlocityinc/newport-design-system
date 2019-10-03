@@ -13,7 +13,9 @@ import {
     emailScreenFieldAutomaticOutput,
     emailScreenField,
     actionCallAutomaticOutput,
-    actionCallElement
+    actionCallElement,
+    apexCallAutomaticAnonymousAccountOutput,
+    externalServiceAutomaticOutput
 } from 'mock/storeData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
@@ -111,22 +113,44 @@ describe('flowComplexTypeFields', () => {
         });
     });
     describe('loadParametersForInvocableActionsInFlow', () => {
-        const expectOneCallToFetchParametersForInvocableAction = expectedActionCallNameAndType => {
+        const expectThreeCallsToFetchParametersForInvocableAction = (
+            ...expectedActionCallNameAndType
+        ) => {
             expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
-                1
+                3
             );
             expect(fetchParametersForInvocableAction.mock.calls[0][0]).toEqual(
-                expectedActionCallNameAndType
+                expectedActionCallNameAndType[0]
+            );
+            expect(fetchParametersForInvocableAction.mock.calls[1][0]).toEqual(
+                expectedActionCallNameAndType[1]
+            );
+            expect(fetchParametersForInvocableAction.mock.calls[2][0]).toEqual(
+                expectedActionCallNameAndType[2]
             );
         };
         it('Load invocable action parameters for actions in automatic output mode', async () => {
             await loadParametersForInvocableActionsInFlow(
-                stateWithElements([actionCallAutomaticOutput])
+                stateWithElements([
+                    actionCallAutomaticOutput,
+                    apexCallAutomaticAnonymousAccountOutput,
+                    externalServiceAutomaticOutput
+                ])
             );
-            expectOneCallToFetchParametersForInvocableAction({
-                actionName: 'chatterPost',
-                actionType: 'chatterPost'
-            });
+            expectThreeCallsToFetchParametersForInvocableAction(
+                {
+                    actionName: 'chatterPost',
+                    actionType: 'chatterPost'
+                },
+                {
+                    actionName: 'getAccounts',
+                    actionType: 'apex'
+                },
+                {
+                    actionName: 'BankServiceNew.addAccount',
+                    actionType: 'externalService'
+                }
+            );
         });
         it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
             await loadParametersForInvocableActionsInFlow(
