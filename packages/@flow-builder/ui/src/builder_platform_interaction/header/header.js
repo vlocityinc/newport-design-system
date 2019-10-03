@@ -15,6 +15,13 @@ export default class Header extends LightningElement {
     @api
     helpUrl;
 
+    @api focus() {
+        const headerFocusableElement = this.template.querySelector('[href].test-back-url');
+        if (headerFocusableElement) {
+            headerFocusableElement.focus();
+        }
+    }
+
     get labels() {
         return LABELS;
     }

@@ -1,18 +1,13 @@
-export class ZoomToFitCommand {
-  id = 'zoomtofit';
-  label = 'Zoom To Fit';
-  disabled = false;
-
+import { BaseCommand } from './baseCommand';
+import zoomToFitCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomToFitCommandLabel';
+export class ZoomToFitCommand extends BaseCommand {
   /**
    * Command to zoom-to-fit the canvas
    */
   constructor(callback) {
-    this.callback = callback;
-  }
-
-  async execute(event) {
-    if (this.callback) {
-      this.callback(event);
-    }
+    super(callback,
+      'zoomtofit',
+      zoomToFitCommandLabel,
+      false);
   }
 }

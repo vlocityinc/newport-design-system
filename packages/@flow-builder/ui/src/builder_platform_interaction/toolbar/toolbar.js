@@ -80,6 +80,17 @@ export default class Toolbar extends LightningElement {
         }
     };
 
+    @api focus() {
+        const toolbarFocusableElements = this.template.querySelectorAll('lightning-button-icon');
+        if (toolbarFocusableElements.length > 0) {
+            let index = 0;
+            while (toolbarFocusableElements[index].disabled && index < toolbarFocusableElements.length - 1) {
+                ++index;
+            }
+            toolbarFocusableElements[index].focus();
+        }
+    }
+
     get showLastSavedPill() {
         return !!this.saveAndActivatingStatus;
     }

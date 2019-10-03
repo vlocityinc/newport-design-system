@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import {
     AddElementEvent,
     EditElementEvent,
@@ -60,6 +60,17 @@ export default class LeftPanel extends LightningElement {
     processType;
 
     _addInlineResourceFromManagerTab = false;
+
+    @api focus() {
+        // Ideally, we should not use shadowRoot to access the child components. The base components
+        // should provide overidden focus() method to set focus within the components.
+        // However, this method is missing for lightning-tabset. Hence, implemented such for now.
+        const activeTab = this.template.querySelector('lightning-tabset').activeTabValue;
+        this.template.querySelector('lightning-tabset').shadowRoot
+                     .querySelector('lightning-tab-bar').shadowRoot
+                     .querySelector('a#' + activeTab + '__item')
+                     .focus();
+    }
 
     constructor() {
         super();

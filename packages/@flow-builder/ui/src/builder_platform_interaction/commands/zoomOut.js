@@ -1,18 +1,13 @@
-export class ZoomOutCommand {
-  id = 'zoomout';
-  label = 'Zoom Out';
-  disabled = false;
-
+import { BaseCommand } from './baseCommand';
+import zoomOutCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomOutCommandLabel';
+export class ZoomOutCommand extends BaseCommand {
   /**
    * Command to zoom out the canvas
    */
   constructor(callback) {
-    this.callback = callback;
-  }
-
-  async execute(event) {
-    if (this.callback) {
-      this.callback(event);
-    }
+    super(callback,
+      'zoomout',
+      zoomOutCommandLabel,
+      false);
   }
 }

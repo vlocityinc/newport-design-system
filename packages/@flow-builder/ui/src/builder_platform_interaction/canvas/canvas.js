@@ -787,6 +787,13 @@ export default class Canvas extends LightningElement {
         }
     };
 
+    @api focus() {
+        const nodes = this.template.querySelectorAll('builder_platform_interaction-node');
+        if (nodes.length > 0) {
+            nodes[0].focus();
+        }
+    }
+
     setupCommandsAndShortcuts = () => {
         // Delete Nodes Command
         const deleteNodesCommand = new DeleteNodesCommand(event =>

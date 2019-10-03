@@ -99,6 +99,8 @@ import { isConfigurableStartSupported } from 'builder_platform_interaction/proce
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/complexTypeLib';
+import { ShiftFocusForwardCommand, ShiftFocusBackwardCommand } from 'builder_platform_interaction/commands';
+import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
 let unsubscribeStore;
 let storeInstance;
@@ -108,6 +110,13 @@ const DEBUG = 'debug';
 
 const EDITOR = 'EDITOR';
 const APP_NAME = 'FLOW_BUILDER';
+
+const PANELS = {
+    HEADER: "builder_platform_interaction-header",
+    TOOLBAR: "builder_platform_interaction-toolbar",
+    TOOLBOX: "builder_platform_interaction-left-panel",
+    CANVAS: "builder_platform_interaction-canvas-container"
+};
 
 /**
  * Editor component for flow builder. This is the top-level smart component for
@@ -129,6 +138,7 @@ export default class Editor extends LightningElement {
     originalFlowLabel;
     originalFlowDescription;
     originalFlowInterviewLabel;
+    keyboardInteractions;
 
     @track
     properties = {};
@@ -203,6 +213,7 @@ export default class Editor extends LightningElement {
             this.getHeaderUrlsCallBack(data)
         );
         this.retrieveApexInfo();
+        this.keyboardInteractions = new KeyboardInteractions();
     }
 
     @api
@@ -927,6 +938,51 @@ export default class Editor extends LightningElement {
         }
     };
 
+    handleShiftFocus = shiftBackward => {
+        const currentlyFocusedElement = this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
+
+        switch (currentlyFocusedElement) {
+            case PANELS.HEADER:
+                if (shiftBackward) {
+                    this.template.querySelector(PANELS.CANVAS).focus();
+                } else {
+                    this.template.querySelector(PANELS.TOOLBAR).focus();
+                }
+                break;
+
+            case PANELS.TOOLBAR:
+                if (shiftBackward) {
+                    this.template.querySelector(PANELS.HEADER).focus();
+                } else {
+                    this.template.querySelector(PANELS.TOOLBOX).focus();
+                }
+                break;
+
+            case PANELS.TOOLBOX:
+                if (shiftBackward) {
+                    this.template.querySelector(PANELS.TOOLBAR).focus();
+                } else {
+                    this.template.querySelector(PANELS.CANVAS).focus();
+                }
+                break;
+
+            case PANELS.CANVAS:
+                if (shiftBackward) {
+                    this.template.querySelector(PANELS.TOOLBOX).focus();
+                } else {
+                    this.template.querySelector(PANELS.HEADER).focus();
+                }
+                break;
+
+            default:
+                if (shiftBackward) {
+                    this.template.querySelector(PANELS.CANVAS).focus();
+                } else {
+                    this.template.querySelector(PANELS.HEADER).focus();
+                }
+        }
+    };
+
     /**
      * Private method to call clear undo redo stack and make the undo redo buttons disabled
      */
@@ -1019,6 +1075,26 @@ export default class Editor extends LightningElement {
         }
     }
 
+    setupCommandsAndShortcuts = () => {
+        // Shift Focus Forward Command
+        const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() =>
+            this.handleShiftFocus(false)
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusForwardCommand, {
+            shift: false,
+            key: 'F6'
+        });
+
+        // Shift Focus Backward Command
+        const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() =>
+            this.handleShiftFocus(true)
+        );
+        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusBackwardCommand, {
+            shift: true,
+            key: 'F6'
+        });
+    }
+
     /**
      * Callback passed to variour property editors which support inline creation
      */
@@ -1050,7 +1126,13 @@ export default class Editor extends LightningElement {
         }
     }
 
+    connectedCallback() {
+        this.keyboardInteractions.addKeyDownEventListener(this.template);
+        this.setupCommandsAndShortcuts();
+    }
+
     disconnectedCallback() {
+        this.keyboardInteractions.removeKeyDownEventListener(this.template);
         unsubscribeStore();
     }
 

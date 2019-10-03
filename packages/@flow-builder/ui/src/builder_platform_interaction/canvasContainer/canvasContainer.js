@@ -61,6 +61,10 @@ export default class CanvasContainer extends LightningElement {
         }
     };
 
+    @api focus() {
+        this.template.querySelector('builder_platform_interaction-canvas').focus();
+    }
+
     /** handler functions */
 
     /**

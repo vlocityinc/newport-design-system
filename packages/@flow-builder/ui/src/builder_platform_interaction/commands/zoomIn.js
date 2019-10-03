@@ -1,18 +1,13 @@
-export class ZoomInCommand {
-  id = 'zoomin';
-  label = 'Zoom In';
-  disabled = false;
-
+import { BaseCommand } from './baseCommand';
+import zoomInCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.zoomInCommandLabel';
+export class ZoomInCommand extends BaseCommand {
   /**
    * Command to zoom in the canvas
    */
   constructor(callback) {
-    this.callback = callback;
-  }
-
-  async execute(event) {
-    if (this.callback) {
-      this.callback(event);
-    }
+    super(callback,
+      'zoomin',
+      zoomInCommandLabel,
+      false);
   }
 }

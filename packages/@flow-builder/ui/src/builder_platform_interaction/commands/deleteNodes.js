@@ -1,18 +1,13 @@
-export class DeleteNodesCommand {
-  id = 'deletenodes';
-  label = 'Delete Nodes';
-  disabled = false;
-
+import { BaseCommand } from './baseCommand';
+import deleteNodesCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteNodesCommandLabel';
+export class DeleteNodesCommand extends BaseCommand {
   /**
    * Command to delete nodes in the canvas
    */
   constructor(callback) {
-    this.callback = callback;
-  }
-
-  async execute(event) {
-    if (this.callback) {
-      this.callback(event);
-    }
+    super(callback,
+      'deletenodes',
+      deleteNodesCommandLabel,
+      false);
   }
 }

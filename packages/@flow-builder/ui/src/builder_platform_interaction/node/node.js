@@ -302,6 +302,10 @@ export default class Node extends LightningElement {
         this.dispatchEvent(dragNodeEvent);
     };
 
+    @api focus() {
+        this.template.querySelector('button.icon').focus();
+    }
+
     renderedCallback() {
         const canvasElementContainer = this.template.querySelector(
             '.node-container'
