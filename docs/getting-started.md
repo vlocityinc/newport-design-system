@@ -11,7 +11,7 @@ cd newport-design-system
 
 ### 1 a) Optional Step - change the branch to the that matches your installed Vlocity Salesforce managed package.
 
-For example if you're managed package is Insurance v106 then run:
+For example if your managed package is Insurance v106 then run:
 
 ```
 git checkout ins-106.0

@@ -85,7 +85,7 @@ async.series(
      */
     done => {
       gulp
-        .src(['**/*.scss', '**/*.rtl.scss'], {
+        .src(['**/*.scss', '**/*.rtl.scss', '**/*-*.scss', '**/*-*.rtl.scss'], {
           base: paths.ui,
           cwd: paths.ui
         })
@@ -207,6 +207,8 @@ async.series(
     done => {
       gulp
         .src([
+          distPath('scss/index.scss'),
+          distPath('scss/index.rtl.scss'),
           distPath('scss/index-scoped.scss'),
           distPath('scss/index-scoped.rtl.scss'),
           distPath('scss/nds-fonts.scss')
@@ -229,7 +231,7 @@ async.series(
           gulprename(function(path) {
             if (!/nds-fonts/.test(path.basename)) {
               path.basename =
-                MODULE_NAME + path.basename.substring('index-scoped'.length);
+                MODULE_NAME + path.basename.substring('index'.length);
             }
             path.extname = '.css';
             return path;
@@ -255,9 +257,7 @@ async.series(
         )
         .pipe(gulp.dest(distPath()))
         .on('error', done)
-        .pipe(
-          cleanCSS()
-        )
+        .pipe(cleanCSS())
         .pipe(
           gulprename(function(path) {
             path.basename += '.min';
