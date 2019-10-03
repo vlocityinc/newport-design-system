@@ -276,6 +276,26 @@ describe('Merge field validation', () => {
                 );
                 expect(validationErrors).toHaveLength(0);
             });
+            it('Returns an error if one of the field does not exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.CreatedBy.UnknownField}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        46,
+                        'unknownMergeField',
+                        `The "UnknownField" field doesn't exist on the "User" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
+            it('Returns no error if the field description has not been cached yet', () => {
+                // in this case, we have no way to know if it is valid or not
+                const validationErrors = validateMergeField(
+                    '{!accountSObjectVariable.CreatedBy.Contact.UnknownField}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
             it('Returns an error if one of the intermediary fields is not spannable', () => {
                 const validationErrors = validateMergeField(
                     '{!feedItemVariable.OriginalCreatedBy.Name}'

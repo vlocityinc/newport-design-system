@@ -325,13 +325,20 @@ export class MergeFieldsValidation {
         const [fieldName, ...remainingFieldNames] = fieldNames;
         let field;
         let referenceToName;
+        const fields = sobjectLib.getFieldsForEntity(entityName);
+        if (!fields) {
+            // entity not cached or no entity with this name ...
+            return {
+                field: undefined // we don't know if it is valid or not
+            };
+        }
         if (remainingFieldNames.length > 0) {
             const {
                 relationshipName,
                 entityName: specificEntityName
             } = this._getPolymorphicRelationShipName(fieldName);
-            field = this._getFieldForEntityWithRelationshipName(
-                entityName,
+            field = this._getEntityFieldWithRelationshipName(
+                fields,
                 relationshipName
             );
             if (!field) {
@@ -380,7 +387,7 @@ export class MergeFieldsValidation {
                 endIndex
             );
         }
-        field = this._getFieldForEntity(entityName, fieldName);
+        field = this._getEntityFieldWithName(fields, fieldName);
         if (!field) {
             return {
                 error: validationErrors.unknownRecordField(
@@ -498,9 +505,8 @@ export class MergeFieldsValidation {
         );
     }
 
-    _getFieldForEntity(entityName, fieldName) {
+    _getEntityFieldWithName(fields, fieldName) {
         fieldName = fieldName.toLowerCase();
-        const fields = sobjectLib.getFieldsForEntity(entityName);
         for (const apiName in fields) {
             if (fields.hasOwnProperty(apiName)) {
                 if (fieldName === apiName.toLowerCase()) {
@@ -511,9 +517,8 @@ export class MergeFieldsValidation {
         return undefined;
     }
 
-    _getFieldForEntityWithRelationshipName(entityName, relationshipName) {
+    _getEntityFieldWithRelationshipName(fields, relationshipName) {
         relationshipName = relationshipName.toLowerCase();
-        const fields = sobjectLib.getFieldsForEntity(entityName);
         for (const apiName in fields) {
             if (fields.hasOwnProperty(apiName)) {
                 const field = fields[apiName];
