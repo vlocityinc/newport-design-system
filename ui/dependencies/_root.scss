@@ -7,8 +7,10 @@
     font-family: $font-family;
     font-size: 100%;
     line-height: $line-height-text;
+    background: $page-color-background-primary;
     color: $color-text-primary;
     direction: if-rtl(rtl, ltr);
+
     -webkit: {
       tap-highlight-color: rgba(0, 0, 0, 0);
     }

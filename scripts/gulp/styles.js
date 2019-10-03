@@ -13,7 +13,13 @@ const paths = require('../helpers/paths');
 
 gulp.task('styles:sass', [], () =>
   gulp
-    .src(['ui/nds-fonts.scss', 'ui/index.scss', 'ui/index.rtl.scss'])
+    .src([
+      'ui/nds-fonts.scss',
+      'ui/index.scss',
+      'ui/index.rtl.scss',
+      'ui/index-*.scss',
+      'ui/index-*.rtl.scss'
+    ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(
@@ -34,9 +40,7 @@ gulp.task('styles:sass', [], () =>
     .pipe(gulp.dest('assets/styles'))
 );
 
-gulp.task('styles:framework', [], () =>
-  gulp.start('styles:sass')
-);
+gulp.task('styles:framework', [], () => gulp.start('styles:sass'));
 
 // Quick check that all variants compile correctly to CSS
 gulp.task('styles:test', () =>
