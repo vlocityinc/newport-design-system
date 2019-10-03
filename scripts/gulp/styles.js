@@ -17,8 +17,8 @@ gulp.task('styles:sass', [], () =>
       'ui/nds-fonts.scss',
       'ui/index.scss',
       'ui/index.rtl.scss',
-      'ui/index-*.scss',
-      'ui/index-*.rtl.scss'
+      'ui/index-scoped.scss',
+      'ui/index-scoped.rtl.scss'
     ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
