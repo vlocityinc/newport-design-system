@@ -1,6 +1,5 @@
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
-// *** Updated to work scoped to .nds for Visualforce — I believe this is simply removing the `h1` selector and adding the `&` selector ***
 // *** Updated - removed `[hidden] {display:none}` causing VF charts to disappear since they contain the hidden attribute with a value
 //
 // 2. Prevent iOS text size adjust after orientation change, without disabling
@@ -113,6 +112,16 @@
 
   dfn {
     font-style: italic;
+  }
+
+  //
+  // Address variable `h1` font-size and margin within `section` and `article`
+  // contexts in Firefox 4+, Safari, and Chrome.
+  //
+
+  h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
   }
 
   //
@@ -267,7 +276,8 @@
   //
 
   button,
-  input[type="button"], // 1
+  input[type="button"],
+  // 1
   input[type="reset"],
   input[type="submit"] {
     -webkit-appearance: button; // 2
