@@ -13,7 +13,7 @@
 @import url(./nds-fonts.css);
 
 // Resets (unscoped)
-@include root();
+@include root('.via-nds', '.via-nds');
 
 #{$reset-wrapping-class} {
 
