@@ -2,25 +2,27 @@
 
 Welcome to the Vlocity Newport Design System brought to you by [Vlocity](https://vlocity.com).
 
-* Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel.
-* Based on the [Salesforce Lightning Design System](https://lightningdesignsystem.com).
+Tailored for building Vlocity Newport apps: Using the Newport Design System markup and CSS framework results in UIs that reflect the Vlocity Newport look and feel. Includes Storybook.js previewer to help you customize and rebrand all of Vlocity's newport based templates in one place.
 
 ## Quick start
 
-Before getting started ensure you have
-
 1. Clone the project with `git clone https://github.com/vlocityinc/newport-design-system.git`
 2. Change into the `newport-design-system` folder using `cd newport-design-system`.
-3. Run `npm install`.
-4. Run `npm start` to launch the Storybook.
+3. Switch to the right branch for your version of the package, for example `git checkout ins-106.0`
+4. Run `npm install`.
+5. Run `npm start` to launch storybook.
+
+![Preview in Storybook](./docs/previewer.v1.png)
 
 Having trouble getting these steps to work on your machine? Follow the [troubleshooting](#troubleshooting) guide below.
 
-
 ## Docs
 
-For more indepth documentation please see the [Wiki](https://github.com/vlocityinc/newport-design-system/wiki).
+For more indepth documentation please checkout the documentation section in storybook.
 
+## Browser compatibility
+
+We support the latest versions of all browsers and IE 11.
 
 ## Tasks
 
@@ -32,7 +34,7 @@ npm install --global gulp
 
 ### `npm start`
 
-Start the Lightning Design System preview app.
+Start the Newport Design System storybook.
 
 ### `gulp lint`
 
@@ -47,21 +49,13 @@ gulp lint
 
 ### `npm run build && npm run dist`
 
-Generate the Lightning Design System into the `.dist` directory and generate a zipped up version to be uploaded into Salesforce in the `dist` folder.
+Generate the Newport Design System into the `.dist` directory and generate a zipped up version to be uploaded into Salesforce in the `dist` folder.
 
 If you also want to deploy it to an org then run it with the following env variables:
 
 ```bash
 SF_USERNAME=myusername@email.com SF_PASSWORD=mypassword npm run dist
 ```
-
-### `gulp styles`
-
-Compile Sass to CSS into `.assets/styles`.
-
-### `gulp clean`
-
-Delete temporary build and local files.
 
 ## Troubleshooting
 
@@ -81,12 +75,12 @@ JavaScript dependencies sometimes get out of sync and inexplicable bugs start to
 
 If this did not work, try running `npm cache clean` and repeat the above steps.
 
-
 ## Licenses
 
-* Source code is licensed under [BSD 3-Clause](https://git.io/sfdc-license)
-* All icons and images are licensed under [Creative Commons Attribution-NoDerivatives 4.0](https://github.com/vlocityinc/newport-design-system/blob/master/LICENSE-icons-images.txt)
-* The Lato font is licensed under the [SIL OPEN FONT LICENSE](https://github.com/vlocityinc/newport-design-system/blob/master/LICENSE-font.txt)
+- Originally forked from [Salesforce Lightning Design System](https://lightningdesignsystem.com).
+- Source code is licensed under [BSD 3-Clause](https://git.io/sfdc-license)
+- All icons and images are licensed under [Creative Commons Attribution-NoDerivatives 4.0](https://github.com/vlocityinc/newport-design-system/blob/master/LICENSE-icons-images.txt)
+- The Lato font is licensed under the [SIL OPEN FONT LICENSE](https://github.com/vlocityinc/newport-design-system/blob/master/LICENSE-font.txt)
 
 ## Got feedback?
 
