@@ -45,7 +45,8 @@ export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
 };
 
 export const FLOW_PROCESS_TYPE_FEATURE = {
-    STORE_OUTPUT_AUTOMATICALLY: 'StoreOutputAutomatically'
+    STORE_OUTPUT_AUTOMATICALLY: 'StoreOutputAutomatically',
+    CONFIGURABLE_START: 'ConfigurableStart'
 };
 
 export const getProcessTypesWithIcons = (
@@ -111,8 +112,16 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = processType => {
  * @returns {Boolean}
  */
 export const isConfigurableStartSupported = processType => {
-    // TODO: Determine whether configurable start is supported through a service W-6356800
-    return processType === FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW;
+    const processTypeFeatures = getProcessFeatures(processType);
+
+    return (
+        processTypeFeatures &&
+        processTypeFeatures.find(
+            processTypeFeature =>
+                processTypeFeature ===
+                FLOW_PROCESS_TYPE_FEATURE.CONFIGURABLE_START
+        )
+    );
 };
 
 /**

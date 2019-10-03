@@ -165,6 +165,14 @@ jest.mock('builder_platform_interaction/apexTypeLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    return {
+        isConfigurableStartSupported: jest.fn().mockImplementation(() => {
+            return true;
+        })
+    };
+});
+
 jest.mock('builder_platform_interaction/comboboxCache', () => {
     return {
         addToParentElementCache: jest.fn()

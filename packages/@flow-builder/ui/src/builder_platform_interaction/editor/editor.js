@@ -158,7 +158,8 @@ export default class Editor extends LightningElement {
     @track
     spinners = {
         showFlowMetadataSpinner: false,
-        showPropertyEditorSpinner: false
+        showPropertyEditorSpinner: false,
+        showLoadingSupportedFeaturesSpinner: false
     };
     @track
     hasNotBeenSaved = true;
@@ -253,7 +254,8 @@ export default class Editor extends LightningElement {
     get showSpinner() {
         return (
             this.spinners.showFlowMetadataSpinner ||
-            this.spinners.showPropertyEditorSpinner
+            this.spinners.showPropertyEditorSpinner ||
+            this.spinners.showLoadingSupportedFeaturesSpinner
         );
     }
 
@@ -277,6 +279,24 @@ export default class Editor extends LightningElement {
             currentState.properties.processType &&
             currentState.properties.processType !== this.properties.processType
         ) {
+            this.spinners.showLoadingSupportedFeaturesSpinner = true;
+            // Get Features
+            const getProcessTypeFeatureCall = fetchOnce(
+                SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES,
+                { flowProcessType: currentState.properties.processType }
+            )
+                .then(data => {
+                    setProcessTypeFeature(
+                        currentState.properties.processType,
+                        data
+                    );
+                    this.spinners.showLoadingSupportedFeaturesSpinner = false;
+                })
+                .catch(() => {
+                    this.spinners.showLoadingSupportedFeaturesSpinner = false;
+                });
+            this.propertyEditorBlockerCalls.push(getProcessTypeFeatureCall);
+
             logPerfTransactionStart(
                 SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
             );
@@ -299,20 +319,6 @@ export default class Editor extends LightningElement {
             this.propertyEditorBlockerCalls.push(
                 getPeripheralDataForPropertyEditor
             );
-
-            // Get Features
-            const getProcessTypeFeatureCall = fetchOnce(
-                SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES,
-                { flowProcessType: currentState.properties.processType }
-            )
-                .then(data => {
-                    setProcessTypeFeature(
-                        currentState.properties.processType,
-                        data
-                    );
-                })
-                .catch(() => {});
-            this.propertyEditorBlockerCalls.push(getProcessTypeFeatureCall);
 
             // Get Actions
             fetchOnce(
