@@ -25,6 +25,7 @@ $dir: rtl;
   @include core();
 
   // Framework
+  @import 'touch/index';
   @import 'components/index';
   @import 'utilities/index';
 
