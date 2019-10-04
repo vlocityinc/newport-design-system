@@ -311,15 +311,15 @@
   overflow: hidden;
 }
 
-@media screen and (max-width: 48em) {
-  /* stylelint-disable selector-class-pattern */
-  .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
-    overflow: visible;
-    position: relative;
-    height: 3rem;
-  }
-  /* stylelint-enable selector-class-pattern */
-}
+// @media screen and (max-width: 48em) {
+//   /* stylelint-disable selector-class-pattern */
+//   .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
+//     overflow: visible;
+//     position: relative;
+//     height: 3rem;
+//   }
+//   /* stylelint-enable selector-class-pattern */
+// }
 
 
 /**
