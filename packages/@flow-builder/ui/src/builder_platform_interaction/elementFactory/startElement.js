@@ -1,6 +1,7 @@
 import {
     ELEMENT_TYPE,
-    FLOW_TRIGGER_FREQUENCY
+    FLOW_TRIGGER_FREQUENCY,
+    FLOW_TRIGGER_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -23,9 +24,7 @@ import {
     formatDateTimeUTC,
     getDayOfTheWeek
 } from 'builder_platform_interaction/dateTimeUtils';
-import {
-    isUndefinedOrNull
-} from 'builder_platform_interaction/commonUtils';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
 
 export const START_ELEMENT_LOCATION = {
@@ -46,9 +45,10 @@ export function createStartElement(startElement = {}) {
     const {
         locationX = START_ELEMENT_LOCATION.x,
         locationY = START_ELEMENT_LOCATION.y,
-        triggerType,
+        triggerType = FLOW_TRIGGER_TYPE.NONE,
         object = '',
         objectIndex = generateGuid(),
+        saveType,
         filters = []
     } = startElement;
     const { startDate, startTime, frequency } =
@@ -85,6 +85,7 @@ export function createStartElement(startElement = {}) {
         filterType,
         startDate,
         startTime: isoStartTime,
+        saveType,
         frequency,
         object,
         objectIndex,
@@ -146,6 +147,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object,
         triggerType,
         startDate,
+        saveType,
         startTime,
         frequency,
         filters = []
@@ -164,9 +166,11 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         label: undefined,
         name: undefined,
         description: undefined,
-        triggerType: triggerType === '' ? undefined : triggerType,
+        triggerType:
+            triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : triggerType,
         schedule,
         object: object === '' ? undefined : object,
+        saveType: saveType === '' ? undefined : saveType,
         filters: recordFilters
     });
 }
