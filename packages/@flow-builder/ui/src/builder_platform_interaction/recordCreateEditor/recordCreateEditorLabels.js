@@ -1,6 +1,6 @@
 /* Labels */
-import sObjectVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariablePlaceholder';
-import sObjectCollectionVariablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder';
+import searchRecords from '@salesforce/label/FlowBuilderRecordEditor.searchRecords';
+import searchRecordCollections from '@salesforce/label/FlowBuilderRecordEditor.searchRecordCollections';
 import sObjectVariable from '@salesforce/label/FlowBuilderRecordEditor.sObjectVariable';
 import helpSObjectAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectAltText';
 import helpSObjectCollectionText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectCollectionText';
@@ -18,10 +18,12 @@ import variable from '@salesforce/label/FlowBuilderRecordEditor.variable';
 import variablePlaceholder from '@salesforce/label/FlowBuilderRecordEditor.variablePlaceholder';
 import helpSObjectCollAltText from '@salesforce/label/FlowBuilderRecordEditor.helpSObjectCollAltText';
 import filterRhsLabel from '@salesforce/label/FlowBuilderRecordEditor.filterRhsLabel';
+import createRecordFromValues from '@salesforce/label/FlowBuilderRecordEditor.createRecordFromValues';
+import selectValuesToCreateMultipleRecords from '@salesforce/label/FlowBuilderRecordEditor.selectValuesToCreateMultipleRecords';
 
 export const LABELS = {
-    sObjectVariablePlaceholder,
-    sObjectCollectionVariablePlaceholder,
+    searchRecords,
+    searchRecordCollections,
     sObjectVariable,
     helpSObjectAltText,
     helpSObjectCollectionText,
@@ -38,5 +40,7 @@ export const LABELS = {
     variable,
     variablePlaceholder,
     helpSObjectCollAltText,
-    filterRhsLabel
+    filterRhsLabel,
+    createRecordFromValues,
+    selectValuesToCreateMultipleRecords
 };

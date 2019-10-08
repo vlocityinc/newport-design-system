@@ -400,7 +400,7 @@ describe('record-create-editor', () => {
                 recordCreateEditor
             );
             expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
-                'FlowBuilderRecordEditor.sObjectVariablePlaceholder'
+                'FlowBuilderRecordEditor.searchRecords'
             );
             const event = new RecordStoreOptionChangedEvent(false, '', false);
             getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
@@ -409,7 +409,7 @@ describe('record-create-editor', () => {
                     recordCreateEditor
                 );
                 expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
-                    'FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder'
+                    'FlowBuilderRecordEditor.searchRecordCollections'
                 );
             });
         });

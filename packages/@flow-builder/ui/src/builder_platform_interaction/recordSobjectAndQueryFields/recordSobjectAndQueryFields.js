@@ -121,8 +121,8 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
 
     get sObjectVariablePickerPlaceholder() {
         return !this.state.isCollection
-            ? this.labels.sObjectVariablePlaceholder
-            : this.labels.sObjectCollectionVariablePlaceholder;
+            ? this.labels.searchRecords
+            : this.labels.searchRecordCollections;
     }
 
     get selectFieldsLabel() {

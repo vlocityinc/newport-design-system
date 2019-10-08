@@ -449,7 +449,7 @@ const recordLookupElementWithoutOutputRefNorOutputAssignment = () => ({
         value: 'Account',
         error: null
     },
-    storeOutputAutomatically: true,
+    storeOutputAutomatically: true
 });
 
 const outputAssignmentElement = {
@@ -715,7 +715,7 @@ describe('record-lookup-editor', () => {
                         expect(
                             sObjectOrSObjectCollectionPicker.placeholder
                         ).toBe(
-                            'FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder'
+                            'FlowBuilderRecordEditor.searchRecordCollections'
                         );
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                     });
@@ -1012,7 +1012,7 @@ describe('record-lookup-editor', () => {
                         recordSobjectAndQueryFields
                     );
                     expect(sObjectOrSObjectCollectionPicker.placeholder).toBe(
-                        'FlowBuilderRecordEditor.sObjectVariablePlaceholder'
+                        'FlowBuilderRecordEditor.searchRecords'
                     );
                     expect(sObjectOrSObjectCollectionPicker.value).toBe(
                         store.accountSObjectVariable.guid
@@ -1150,7 +1150,7 @@ describe('record-lookup-editor', () => {
                         expect(
                             sObjectOrSObjectCollectionPicker.placeholder
                         ).toBe(
-                            'FlowBuilderRecordEditor.sObjectCollectionVariablePlaceholder'
+                            'FlowBuilderRecordEditor.searchRecordCollections'
                         );
                         expect(sObjectOrSObjectCollectionPicker.value).toBe('');
                         expect(

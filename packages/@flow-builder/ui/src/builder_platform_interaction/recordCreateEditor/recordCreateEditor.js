@@ -132,14 +132,20 @@ export default class RecordCreateEditor extends LightningElement {
 
     get sObjectVariablePickerPlaceholder() {
         return !this.isCollection
-            ? this.labels.sObjectVariablePlaceholder
-            : this.labels.sObjectCollectionVariablePlaceholder;
+            ? this.labels.searchRecords
+            : this.labels.searchRecordCollections;
     }
 
     get sObjectVariablePickerLabel() {
         return !this.isCollection
             ? this.labels.recordVariable
             : this.labels.recordCollectionVariable;
+    }
+
+    get sObjectVariableTitle() {
+        return !this.isCollection
+            ? this.labels.createRecordFromValues
+            : this.labels.selectValuesToCreateMultipleRecords;
     }
 
     get assignmentTitle() {
