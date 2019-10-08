@@ -46,7 +46,8 @@ const SELECTORS = {
     ENTITY_RESOURCE_PICKER:
         'builder_platform_interaction-entity-resource-picker',
     SECHEDULE_SECTION: '.scheduleSection',
-    TRIGGER_TYPE_INPUT: 'lightning-combobox.triggerType',
+    SAVE_TYPE_SECTION: 'lightning-radio-group.recordCreateOrUpdate',
+    TRIGGER_TYPE_INPUT: 'lightning-radio-group.triggerType',
     START_DATE_INPUT: 'lightning-input.startDate',
     START_TIME_INPUT: 'lightning-input.startTime',
     FREQUENCY_INPUT: 'lightning-combobox.frequency',
@@ -121,6 +122,24 @@ const scheduledNewStartElement = () => ({
     startDate: undefined,
     startTime: undefined,
     triggerType: { value: 'Scheduled', error: null }
+});
+
+const beforeSaveNewStartElement = () => ({
+    description: { value: '', error: null },
+    elementType: 'START_ELEMENT',
+    guid: '326e1b1a-7235-487f-9b44-38db56af4a45',
+    isCanvasElement: true,
+    label: { value: '', error: null },
+    name: { value: '', error: null },
+    object: { value: 'Account', error: null },
+    objectIndex: { value: 'guid', error: null },
+    filterType: {},
+    filters: [],
+    frequency: undefined,
+    startDate: undefined,
+    startTime: undefined,
+    saveType: { value: 'Update', error: null },
+    triggerType: { value: 'BeforeSave', error: null }
 });
 
 const scheduledNewStartElementWithFilters = () => ({
@@ -200,6 +219,25 @@ describe('start-editor', () => {
         expect(scheduleSection).toBeTruthy();
     });
 
+    it('when triggerType is beforeSave, beforeSave section is displayed', () => {
+        const startElement = createComponentForTest(
+            beforeSaveNewStartElement()
+        );
+        expect(startElement.node.triggerType.value).toBe(
+            FLOW_TRIGGER_TYPE.BEFORE_SAVE
+        );
+        const scheduleSection = query(
+            startElement,
+            SELECTORS.SECHEDULE_SECTION
+        );
+        const saveTypeSection = query(
+            startElement,
+            SELECTORS.SAVE_TYPE_SECTION
+        );
+        expect(scheduleSection).toBeNull();
+        expect(saveTypeSection).toBeTruthy();
+    });
+
     it('handles triggerType updates', () => {
         const startElement = createComponentForTest(scheduledNewStartElement());
         const event = new CustomEvent('change', {
@@ -252,8 +290,15 @@ describe('start-editor', () => {
         );
     });
 
-    it('entity picker (object) value should be "Account" ', () => {
+    it('entity picker (object) value should be "Account" for scheduled', () => {
         const startElement = createComponentForTest(scheduledNewStartElement());
+        expect(getEntityResourcePicker(startElement).value).toBe('Account');
+    });
+
+    it('entity picker (object) value should be "Account" for beforeSave', () => {
+        const startElement = createComponentForTest(
+            beforeSaveNewStartElement()
+        );
         expect(getEntityResourcePicker(startElement).value).toBe('Account');
     });
 

@@ -285,7 +285,15 @@ export const FLOW_SUPPORTED_FEATURES = {
 };
 
 export const FLOW_TRIGGER_TYPE = {
-    SCHEDULED: 'Scheduled'
+    SCHEDULED: 'Scheduled',
+    BEFORE_SAVE: 'BeforeSave',
+    NONE: 'None'
+};
+
+export const FLOW_TRIGGER_SAVE_TYPE = {
+    UPDATE: 'Update',
+    CREATE: 'Create',
+    CREATE_OR_UPDATE: 'CreateOrUpdate'
 };
 
 export const FLOW_TRIGGER_FREQUENCY = {
@@ -296,6 +304,7 @@ export const FLOW_TRIGGER_FREQUENCY = {
 
 export const START_ELEMENT_FIELDS = {
     TRIGGER_TYPE: 'triggerType',
+    TRIGGER_SAVE_TYPE: 'saveType',
     FREQUENCY: 'frequency',
     START_DATE: 'startDate',
     START_TIME: 'startTime',

@@ -6,6 +6,7 @@ import {
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE,
     FLOW_TRIGGER_FREQUENCY,
     START_ELEMENT_FIELDS
 } from 'builder_platform_interaction/flowMetadata';
@@ -15,15 +16,18 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-
 import { LABELS } from './startEditorLabels';
 
-const UNSET_TRIGGER_TYPE = '';
+const UNSET_TRIGGER_SAVE_TYPE = '';
 
 const SELECTORS = {
     START_DATE: '.startDate',
     START_TIME: '.startTime'
 };
+
+const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
+const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
+const { ONCE, DAILY, WEEKLY } = FLOW_TRIGGER_FREQUENCY;
 
 /**
  * Screen for the start element
@@ -81,7 +85,17 @@ export default class StartEditor extends LightningElement {
     }
 
     get showScheduleSection() {
-        return this.triggerType === FLOW_TRIGGER_TYPE.SCHEDULED;
+        return this.triggerType === SCHEDULED;
+    }
+
+    get showRecordCreateOrUpdate() {
+        return this.triggerType === BEFORE_SAVE;
+    }
+
+    get showObjectSection() {
+        return (
+            this.triggerType === SCHEDULED || this.triggerType === BEFORE_SAVE
+        );
     }
 
     get startDate() {
@@ -99,43 +113,92 @@ export default class StartEditor extends LightningElement {
     get frequency() {
         return this.startElement.frequency
             ? this.startElement.frequency.value
-            : FLOW_TRIGGER_FREQUENCY.ONCE;
+            : ONCE;
     }
 
     get frequencyOptions() {
         return [
             {
                 label: LABELS.triggerFrequencyOnce,
-                value: FLOW_TRIGGER_FREQUENCY.ONCE
+                value: ONCE
             },
             {
                 label: LABELS.triggerFrequencyDaily,
-                value: FLOW_TRIGGER_FREQUENCY.DAILY
+                value: DAILY
             },
             {
                 label: LABELS.triggerFrequencyWeekly,
-                value: FLOW_TRIGGER_FREQUENCY.WEEKLY
+                value: WEEKLY
             }
         ];
     }
 
     get triggerType() {
-        return this.startElement.triggerType
-            ? this.startElement.triggerType.value
-            : UNSET_TRIGGER_TYPE;
+        return this.startElement.triggerType.value;
+    }
+
+    get saveType() {
+        return this.startElement.saveType
+            ? this.startElement.saveType.value
+            : UNSET_TRIGGER_SAVE_TYPE;
+    }
+
+    get triggerObjectSectionHeader() {
+        switch (this.triggerType) {
+            case BEFORE_SAVE:
+                return this.labels.createOrUpdateSectionHeader;
+            case SCHEDULED:
+                return this.labels.chooseObjectAndRecord;
+            default:
+                return 'unsupported trigger type';
+        }
     }
 
     get triggerTypeOptions() {
         return [
             {
                 label: LABELS.triggerTypeAutomatically,
-                value: UNSET_TRIGGER_TYPE
+                value: NONE
+            },
+            {
+                label: LABELS.triggerTypeRecordUpdateOrCreate,
+                value: BEFORE_SAVE
             },
             {
                 label: LABELS.triggerTypeScheduled,
-                value: FLOW_TRIGGER_TYPE.SCHEDULED
+                value: SCHEDULED
             }
         ];
+    }
+
+    get createOrUpdateOptions() {
+        return [
+            {
+                label: LABELS.triggerTypeUpdated,
+                value: UPDATE
+            },
+            {
+                label: LABELS.triggerTypeCreated,
+                value: CREATE
+            },
+            {
+                label: LABELS.triggerTypeCreatedOrUpdated,
+                value: CREATE_OR_UPDATE
+            }
+        ];
+    }
+
+    get flowTriggerDescription() {
+        switch (this.triggerType) {
+            case NONE:
+                return this.labels.autoLaunchTriggerDescription;
+            case BEFORE_SAVE:
+                return this.labels.createOrUpdateTriggerDescription;
+            case SCHEDULED:
+                return this.labels.scheduledTriggerDescription;
+            default:
+                return 'unsupported trigger type';
+        }
     }
 
     // TODO W-6568649
@@ -154,6 +217,21 @@ export default class StartEditor extends LightningElement {
             this.startElement.object.error, // errorMessage
             false, // literalsAllowed
             false, // required
+            false, // disabled
+            FLOW_DATA_TYPE.SOBJECT.value
+        );
+    }
+
+    /**
+     * @returns {Object} configuration to pass to entity-resource-picker component. This is a required field
+     */
+    get entityComboboxConfigRequired() {
+        return BaseResourcePicker.getComboboxConfig(
+            this.labels.object, // Label
+            this.labels.objectPlaceholder, // Placeholder
+            this.startElement.object.error, // errorMessage
+            false, // literalsAllowed
+            true, // required
             false, // disabled
             FLOW_DATA_TYPE.SOBJECT.value
         );
@@ -185,6 +263,10 @@ export default class StartEditor extends LightningElement {
         return this.startElement.object.value;
     }
 
+    get showRecordFilterSection() {
+        return this.recordEntityName && this.showScheduleSection;
+    }
+
     /**
      * @returns {Object} the entity fields
      */
@@ -195,6 +277,13 @@ export default class StartEditor extends LightningElement {
     handleTriggerTypeChange = event => {
         this._updateField(
             START_ELEMENT_FIELDS.TRIGGER_TYPE,
+            event.detail.value
+        );
+    };
+
+    handleTriggerSaveTypeChange = event => {
+        this._updateField(
+            START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE,
             event.detail.value
         );
     };
@@ -216,9 +305,9 @@ export default class StartEditor extends LightningElement {
      */
     handleResourceChanged(event) {
         event.stopPropagation();
-        const { item, error } = event.detail;
+        const { item, error, displayText } = event.detail;
         const oldRecordEntityName = this.recordEntityName;
-        const newRecordEntityName = (item && item.value) || '';
+        const newRecordEntityName = (item && item.value) || displayText;
         if (newRecordEntityName !== oldRecordEntityName) {
             this.updateProperty(
                 'object',

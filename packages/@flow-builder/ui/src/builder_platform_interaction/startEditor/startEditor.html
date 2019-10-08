@@ -4,15 +4,19 @@
             {labels.triggerTypeSectionHeader}
         </h3>
         <div class="slds-form slds-p-bottom_small slds-size_1-of-2">
-            <lightning-combobox
+            <lightning-radio-group
                 class="triggerType slds-form-element slds-col slds-grow"
-                dropdown-alignment="auto"
-                label={labels.triggerTypeInputLabel}
                 name="triggerType"
+                label={labels.triggerTypeInputLabel}
                 onchange={handleTriggerTypeChange}
                 options={triggerTypeOptions}
                 value={triggerType}
-            ></lightning-combobox>
+                required
+                type="radio"
+            ></lightning-radio-group>
+        </div>
+        <div class="slds-p-bottom_small">
+            {flowTriggerDescription}
         </div>
     </div>
 
@@ -65,20 +69,51 @@
 
     <!-- choose object & record condtions -->
     <div
-        if:true={showScheduleSection}
+        if:true={showObjectSection}
         class="slds-m-bottom_small slds-border_top"
     >
         <h3 class="slds-text-heading_small slds-p-around_small">
-            {labels.chooseObjectAndRecord}
+            {triggerObjectSectionHeader}
         </h3>
         <div
+            if:true={showScheduleSection}
             class="slds-text-body_small slds-text-color_weak slds-m-bottom_medium slds-p-left_small"
         >
             {labels.filterRecordsDescription}
         </div>
+
+        <div
+            if:true={showRecordCreateOrUpdate}
+            class="slds-form slds-p-horizontal_small slds-p-bottom_small slds-size_1-of-2"
+        >
+            <lightning-radio-group
+                class="recordCreateOrUpdate slds-form-element slds-col slds-grow"
+                name="recordCreateOrUpdate"
+                label={labels.triggerTypeBeforeSaveInputLabel}
+                options={createOrUpdateOptions}
+                onchange={handleTriggerSaveTypeChange}
+                value={saveType}
+                required
+                type="radio"
+            ></lightning-radio-group>
+        </div>
+
         <div class="slds-p-horizontal_small slds-form-element slds-size_1-of-2">
             <builder_platform_interaction-entity-resource-picker
+                if:true={showScheduleSection}
                 combobox-config={entityComboboxConfig}
+                value={startElement.object.value}
+                row-index={startElement.objectIndex.value}
+                crud-filter-type={crudFilterType}
+                oncomboboxstatechanged={handleResourceChanged}
+                onitemselected={handleResourceChanged}
+            >
+            </builder_platform_interaction-entity-resource-picker>
+
+            <!-- Used for before save triggerType-->
+            <builder_platform_interaction-entity-resource-picker
+                if:false={showScheduleSection}
+                combobox-config={entityComboboxConfigRequired}
                 value={startElement.object.value}
                 row-index={startElement.objectIndex.value}
                 crud-filter-type={crudFilterType}
@@ -89,7 +124,7 @@
         </div>
     </div>
 
-    <div if:true={recordEntityName}>
+    <div if:true={showRecordFilterSection}>
         <builder_platform_interaction-record-filter
             element-type={elementType}
             filter-items={startElement.filters}

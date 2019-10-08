@@ -10,7 +10,10 @@ import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressio
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import {
     AddRecordFilterEvent,
     DeleteRecordFilterEvent,
@@ -31,7 +34,8 @@ const RHS_DATA_TYPE = EXPRESSION_PROPERTY_TYPE.RIGHT_HAND_SIDE_DATA_TYPE;
 const PROPS = {
     object: 'object',
     filters: 'filters',
-    filterType: 'filterType'
+    filterType: 'filterType',
+    saveType: 'saveType'
 };
 
 const NON_HYDRATABLE_PROPS = new Set([
@@ -75,6 +79,13 @@ const setDefaultScheduledProperties = state => {
     };
 };
 
+const setDefaultBeforeSaveProperties = state => {
+    state[START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE] = {
+        value: FLOW_TRIGGER_SAVE_TYPE.UPDATE,
+        error: null
+    };
+};
+
 const clearScheduledProperties = state => {
     delete state[START_ELEMENT_FIELDS.START_DATE];
     delete state[START_ELEMENT_FIELDS.START_TIME];
@@ -94,6 +105,7 @@ const resetFilters = state => {
 const clearAllProperties = state => {
     state[PROPS.object] = { value: '', error: null };
     state[PROPS.filterType] = {};
+    state[PROPS.saveType] = { value: '', error: null };
     clearScheduledProperties(state);
 };
 
@@ -137,28 +149,32 @@ const startPropertyChanged = (state, event) => {
         return state;
     }
 
-    if (!event.detail.error) {
-        if (event.detail.propertyName === START_ELEMENT_FIELDS.TRIGGER_TYPE) {
-            if (event.detail.value === FLOW_TRIGGER_TYPE.SCHEDULED) {
-                setDefaultScheduledProperties(state);
-            } else {
-                // clear all scheduled properties if trigger type is not 'Scheduled'
-                state = resetFilters(state);
-                clearAllProperties(state);
-            }
-        } else if (event.detail.propertyName === PROPS.object) {
-            state = resetSubSections(state);
-        } else if (event.detail.propertyName === PROPS.filterType) {
-            state = resetSubSections(state);
-            state = updateProperties(state, {
-                [event.detail.propertyName]: event.detail.value
-            });
-            if (event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
-                // reset errors in filters if any, and preserve values
-                state = resetFilters(state);
+    if (event.detail.propertyName === START_ELEMENT_FIELDS.TRIGGER_TYPE) {
+        clearAllProperties(state);
+        if (event.detail.value === FLOW_TRIGGER_TYPE.SCHEDULED) {
+            setDefaultScheduledProperties(state);
+        } else {
+            // clear all scheduled properties if trigger type is not 'Scheduled'
+            state = resetFilters(state);
+            if (event.detail.value === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+                setDefaultBeforeSaveProperties(state);
             }
         }
+    } else if (event.detail.propertyName === PROPS.object) {
+        if (state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+            state = resetSubSections(state);
+        }
+    } else if (event.detail.propertyName === PROPS.filterType) {
+        state = resetSubSections(state);
+        state = updateProperties(state, {
+            [event.detail.propertyName]: event.detail.value
+        });
+        if (event.detail.value === RECORD_FILTER_CRITERIA.NONE) {
+            // reset errors in filters if any, and preserve values
+            state = resetFilters(state);
+        }
     }
+
     return state;
 };
 
