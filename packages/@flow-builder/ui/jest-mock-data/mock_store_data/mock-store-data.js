@@ -61,6 +61,8 @@ export const textTemplate1 = getElementByName('textTemplate1');
 export const dateCollectionVariable = getElementByName('dateCollectionVariable');
 export const decisionOutcome = getElementByName('outcome1');
 export const caseLogACallAutomatic = getElementByName('caseLogACallAutomatic');
+export const apexComplexTypeVariable = getElementByName('apexComplexTypeVariable');
+export const apexCarVariable = getElementByName('apexCarVariable');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

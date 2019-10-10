@@ -1,5 +1,5 @@
 let apexClasses = null;
-const apexFieldsForClass = {};
+let apexFieldsForClass = {};
 
 /**
  * This mutates inner properties into a shape that can be handled like sobject fields
@@ -35,15 +35,23 @@ const mutateProperty = (apexClassName, property) => {
  */
 
 export const setApexClasses = classes => {
+    apexFieldsForClass = {};
     apexClasses = classes;
 };
+
+/**
+ * Get the apex classes or null if they have not yet been set
+ */
+export const getApexClasses = () => apexClasses;
 
 /**
  * Caches properties & inner types of an apex class so they can be used for menu data, etc
  * @param {String} name     name of the apex class
  */
 export const cachePropertiesForClass = name => {
-    const apexClass = (apexClasses || []).find(clazz => clazz.durableId === name);
+    const apexClass = (apexClasses || []).find(
+        clazz => clazz.durableId === name
+    );
     apexFieldsForClass[name] = {};
     if (apexClass && apexClass.properties) {
         apexClass.properties.records.forEach(prop => {

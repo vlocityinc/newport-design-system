@@ -20,7 +20,10 @@ import {
     elementToParam,
     getDataType
 } from 'builder_platform_interaction/ruleLib';
-import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import {
+    getPropertiesForClass,
+    getApexClasses
+} from 'builder_platform_interaction/apexTypeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/complexTypeLib';
 import * as validationErrors from './mergeFieldValidationErrors';
@@ -321,6 +324,55 @@ export class MergeFieldsValidation {
         );
     }
 
+    _validateApexMergeField(apexClassName, fieldNames, index, endIndex) {
+        const [fieldName, ...remainingFieldNames] = fieldNames;
+        if (getApexClasses() === null) {
+            // apex classes not yet set
+            return {
+                field: undefined // we don't know if it is valid or not
+            };
+        }
+        const properties = getPropertiesForClass(apexClassName);
+        const property =
+            properties && this._getApexPropertyWithName(properties, fieldName);
+        if (!property) {
+            return {
+                error: validationErrors.unknownRecordField(
+                    apexClassName,
+                    fieldName,
+                    index,
+                    endIndex
+                )
+            };
+        }
+        if (remainingFieldNames.length > 0) {
+            if (property.dataType === FLOW_DATA_TYPE.APEX.value) {
+                return this._validateApexMergeField(
+                    property.subtype,
+                    remainingFieldNames,
+                    index,
+                    endIndex
+                );
+            } else if (property.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+                return this._validateSObjectMergeField(
+                    property.subtype,
+                    remainingFieldNames,
+                    index,
+                    endIndex
+                );
+            }
+            return {
+                error: validationErrors.unknownRecordField(
+                    apexClassName,
+                    fieldName,
+                    index,
+                    endIndex
+                )
+            };
+        }
+        return { field: property };
+    }
+
     _validateSObjectMergeField(entityName, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
         let field;
@@ -451,18 +503,16 @@ export class MergeFieldsValidation {
             }
             field = sobjectField;
         } else if (element.dataType === FLOW_DATA_TYPE.APEX.value) {
-            const fieldName = fieldNames.join('.');
-            field = this._getPropertyForApexClass(element.subtype, fieldName);
-            if (!field) {
-                return [
-                    validationErrors.unknownRecordField(
-                        element.subtype,
-                        fieldName,
-                        index,
-                        endIndex
-                    )
-                ];
+            const { field: apexField, error } = this._validateApexMergeField(
+                element.subtype,
+                fieldNames,
+                index,
+                endIndex
+            );
+            if (error) {
+                return [error];
             }
+            field = apexField;
         } else if (
             element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
         ) {
@@ -541,9 +591,8 @@ export class MergeFieldsValidation {
         return undefined;
     }
 
-    _getPropertyForApexClass(apexClassName, propertyName) {
+    _getApexPropertyWithName(properties, propertyName) {
         propertyName = propertyName.toLowerCase();
-        const properties = getPropertiesForClass(apexClassName);
         for (const apiName in properties) {
             if (properties.hasOwnProperty(apiName)) {
                 if (propertyName === apiName.toLowerCase()) {

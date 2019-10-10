@@ -4,27 +4,19 @@ import {
 } from '../complexTypeLib';
 import * as store from 'mock/storeData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
-import { mockCarApexTypeProperties } from 'mock/apexTypesData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest
             .fn()
             .mockImplementation(() => mockAccountFields)
-    };
-});
-
-jest.mock('builder_platform_interaction/apexTypeLib', () => {
-    return {
-        getPropertiesForClass: jest
-            .fn()
-            .mockName('getPropertiesForClass')
-            .mockImplementation(() => mockCarApexTypeProperties)
     };
 });
 
@@ -67,6 +59,12 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
 });
 
 describe('complexTypeFieldDescription', () => {
+    beforeAll(() => {
+        setApexClasses(apexTypesForFlow);
+    });
+    afterAll(() => {
+        setApexClasses(null);
+    });
     describe('retrieveResourceComplexTypeFields', () => {
         const expectComplexTypeFieldDescription = field => {
             // need a dataType and apiName. isCollection and label optional
@@ -89,7 +87,7 @@ describe('complexTypeFieldDescription', () => {
         });
         it('returns properties for apex class when element data type is Apex', () => {
             const fields = retrieveResourceComplexTypeFields(
-                store.apexSampleVariable
+                store.apexCarVariable
             );
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
@@ -124,7 +122,7 @@ describe('complexTypeFieldDescription', () => {
                     )
                 ).toBe(true);
             });
-            it('returns false for an action if action parameters have not been loaded yet', () => {
+            it('returns undefined for an action if action parameters have not been loaded yet', () => {
                 getParametersForInvocableAction.mockImplementation(
                     () => undefined
                 );
@@ -132,7 +130,7 @@ describe('complexTypeFieldDescription', () => {
                     isAutomaticOutputElementWithoutChildren(
                         store.caseLogACallAutomatic
                     )
-                ).toBe(false);
+                ).toBeUndefined();
             });
             it('returns false for an action element in automatic mode that has children', () => {
                 expect(
@@ -156,13 +154,13 @@ describe('complexTypeFieldDescription', () => {
                     )
                 ).toBe(false);
             });
-            it('returns false for a screen field in automatic mode for which properties have not been loaded yet', () => {
+            it('returns undefined for a screen field in automatic mode for which properties have not been loaded yet', () => {
                 getCachedExtension.mockImplementation(() => undefined);
                 expect(
                     isAutomaticOutputElementWithoutChildren(
                         store.emailScreenFieldAutomaticOutput
                     )
-                ).toBe(false);
+                ).toBeUndefined();
             });
         });
     });

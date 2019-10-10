@@ -24,7 +24,6 @@ import {
     SYSTEM_VARIABLE_PREFIX
 } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
-import { mockCarApexTypeProperties } from 'mock/apexTypesData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { mockScreenElement } from 'mock/calloutData';
 
@@ -81,10 +80,7 @@ jest.mock('../menuDataGenerator', () => {
 
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
     return {
-        getPropertiesForClass: jest
-            .fn()
-            .mockName('getPropertiesForClass')
-            .mockImplementation(() => mockCarApexTypeProperties)
+        getPropertiesForClass: jest.fn().mockName('getPropertiesForClass')
     };
 });
 
@@ -201,8 +197,10 @@ describe('ResourceUtils', () => {
         }
         it('getResourceByUniqueIdentifier should return element by guid from local storage for an uncommitted resource', () => {
             setScreenElement(mockScreenElement);
-            const retrievedResource = getResourceByUniqueIdentifier("e1b88c4a-1a78-42d2-8057-93e2401bbdd4");
-            expect(retrievedResource.name.value).toEqual("dt1");
+            const retrievedResource = getResourceByUniqueIdentifier(
+                'e1b88c4a-1a78-42d2-8057-93e2401bbdd4'
+            );
+            expect(retrievedResource.name.value).toEqual('dt1');
             setScreenElement(undefined);
         });
     });

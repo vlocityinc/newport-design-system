@@ -43,7 +43,7 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
  * Returns true if flowResource is an element using automatic output handling without children
  *
  * @param {Object} flowResource the resource
- * @returns {boolean} true if it has no children, false if it has children or if we don't know (fields not yet loaded)
+ * @returns {boolean|undefined} true if it has no children, false if it has children or undefined if we don't know (fields not yet loaded)
  */
 export function isAutomaticOutputElementWithoutChildren(flowResource) {
     if (!flowResource.storeOutputAutomatically) {
@@ -54,14 +54,19 @@ export function isAutomaticOutputElementWithoutChildren(flowResource) {
         FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
     ) {
         const extension = getCachedExtension(flowResource.extensionName);
-        return (
-            extension !== undefined && extension.outputParameters.length === 0
-        );
+        if (extension === undefined) {
+            return undefined;
+        }
+        return extension.outputParameters.length === 0;
     } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         const parameters = getParametersForInvocableAction(flowResource);
-        const outputParameters =
-            parameters && parameters.filter(parameter => parameter.isOutput);
-        return outputParameters !== undefined && outputParameters.length === 0;
+        if (parameters === undefined) {
+            return undefined;
+        }
+        const outputParameters = parameters.filter(
+            parameter => parameter.isOutput
+        );
+        return outputParameters.length === 0;
     }
     return false;
 }

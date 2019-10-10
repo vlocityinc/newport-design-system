@@ -8,13 +8,18 @@ import {
     datetimeParamTypes,
     numberParamCanBeAnything,
     accountParam,
-    apexClassParam
+    apexParam
 } from 'mock/ruleService';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import {
+    setApexClasses,
+    getApexClasses
+} from 'builder_platform_interaction/apexTypeLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { mockScreenElement } from 'mock/calloutData';
 
@@ -93,15 +98,6 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         })
     };
 });
-
-jest.mock('builder_platform_interaction/apexTypeLib', () => ({
-    getPropertiesForClass: jest
-        .fn()
-        .mockImplementation(
-            () => require('mock/apexTypesData').mockCarApexTypeProperties
-        )
-}));
-
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {
         getCachedExtension: jest
@@ -180,6 +176,12 @@ const validationError = (startIndex, endIndex, errorType, message) => ({
 });
 
 describe('Merge field validation', () => {
+    beforeAll(() => {
+        setApexClasses(apexTypesForFlow);
+    });
+    afterAll(() => {
+        setApexClasses(null);
+    });
     it('Returns a validation error when it is not a valid merge field', () => {
         const validationErrors = validateMergeField('{!stringVariable');
         expect(validationErrors).toEqual([
@@ -416,27 +418,31 @@ describe('Merge field validation', () => {
         describe('Apex types', () => {
             it('Allows apex which matches class type', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexSampleVariable}',
-                    { allowedParamTypes: apexClassParam }
+                    '{!apexCarVariable}',
+                    {
+                        allowedParamTypes: {
+                            Car: [apexParam]
+                        }
+                    }
                 );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Allows apex property which matches allowed type', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexSampleVariable.account}',
+                    '{!apexComplexTypeVariable.acct}',
                     { allowedParamTypes: accountParam }
                 );
                 expect(validationErrors).toHaveLength(0);
             });
             it('Returns validation error if apex property does not match allowed type', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexSampleVariable.model}',
+                    '{!apexCarVariable.model}',
                     { allowedParamTypes: accountParam }
                 );
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        25,
+                        22,
                         'wrongDataType',
                         `The data type of the resource you entered isn't compatible.`
                     )
@@ -444,18 +450,70 @@ describe('Merge field validation', () => {
             });
             it('Returns validation error if apex property does not exist', () => {
                 const validationErrors = validateMergeField(
-                    '{!apexSampleVariable.unexisting}',
-                    { allowedParamTypes: accountParam }
+                    '{!apexCarVariable.unexisting}'
                 );
                 // message should be specific for apex properties ?
                 expect(validationErrors).toEqual([
                     validationError(
                         2,
-                        30,
+                        27,
                         'unknownMergeField',
-                        `The "unexisting" field doesn't exist on the "MyApexClass" object, or you don't have access to the field.`
+                        `The "unexisting" field doesn't exist on the "Car" object, or you don't have access to the field.`
                     )
                 ]);
+            });
+            describe('Merge fields with apex type and more than one level', () => {
+                it('Returns no error if intermediary SObject fields exist', () => {
+                    const validationErrors = validateMergeField(
+                        '{!apexComplexTypeVariable.acct.CreatedBy.Name}'
+                    );
+                    expect(validationErrors).toHaveLength(0);
+                });
+                it('Returns no error if intermediary apex properties exist', () => {
+                    const validationErrors = validateMergeField(
+                        '{!apexCarVariable.wheel.Type}'
+                    );
+                    expect(validationErrors).toHaveLength(0);
+                });
+                // TODO : we are supposed to have a validation error for this case
+                /*              it('Returns an error if sobject property does not exist', () => {
+                    const validationErrors = validateMergeField(
+                        '{!apexComplexTypeVariable.acct.unknown}'
+                    );
+                    expect(validationErrors).toEqual([
+                        validationError(
+                            2,
+                            30,
+                            'unknownMergeField',
+                            `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
+                        )
+                    ]);
+                }); */
+                it('Returns an error if apex property does not exist', () => {
+                    const validationErrors = validateMergeField(
+                        '{!apexCarVariable.wheel.Unknown}'
+                    );
+                    expect(validationErrors).toEqual([
+                        validationError(
+                            2,
+                            30,
+                            'unknownMergeField',
+                            `The "Unknown" field doesn't exist on the "Wheel" object, or you don't have access to the field.`
+                        )
+                    ]);
+                });
+                it('Returns no error if the apex classes descriptions have not been set yet', () => {
+                    const previousClasses = getApexClasses();
+                    try {
+                        setApexClasses(null);
+                        const validationErrors = validateMergeField(
+                            '{!apexComplexTypeVariable.acct}'
+                        );
+                        expect(validationErrors).toHaveLength(0);
+                    } finally {
+                        setApexClasses(previousClasses);
+                    }
+                });
             });
         });
     });
