@@ -56,6 +56,7 @@ describe('resource-details-parameters-action', () => {
             rawParameter
             ${null}
             ${undefined}
+            ${{}}
         `('Invalid rawParameter: "$rawParameter"', ({ rawParameter }) => {
             actualResult = mapperExtensionOutputMapFunc(rawParameter);
             expect(actualResult).toEqual({});

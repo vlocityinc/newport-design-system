@@ -1,10 +1,8 @@
 import {
     mergeInputOutputParameters,
-    MERGE_WARNING_TYPE,
-    getParameterDataType
+    MERGE_WARNING_TYPE
 } from '../calloutEditorLib';
 import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -263,32 +261,4 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
             ]);
         });
     });
-});
-describe('getParameterDataType', () => {
-    test.each`
-        parameterRawDataType            | parameterApexClass | parameterProcessedDataType
-        ${''}                           | ${'apexClass1'}    | ${FLOW_DATA_TYPE.APEX.value}
-        ${undefined}                    | ${'apexClass1'}    | ${FLOW_DATA_TYPE.APEX.value}
-        ${null}                         | ${'apexClass1'}    | ${FLOW_DATA_TYPE.APEX.value}
-        ${''}                           | ${''}              | ${null}
-        ${undefined}                    | ${undefined}       | ${null}
-        ${null}                         | ${null}            | ${null}
-        ${FLOW_DATA_TYPE.SOBJECT.value} | ${'apexClass1'}    | ${FLOW_DATA_TYPE.SOBJECT.value}
-        ${FLOW_DATA_TYPE.SOBJECT.value} | ${''}              | ${FLOW_DATA_TYPE.SOBJECT.value}
-        ${FLOW_DATA_TYPE.SOBJECT.value} | ${undefined}       | ${FLOW_DATA_TYPE.SOBJECT.value}
-        ${FLOW_DATA_TYPE.SOBJECT.value} | ${null}            | ${FLOW_DATA_TYPE.SOBJECT.value}
-    `(
-        'Parameters: dataType "$parameterRawDataType" and apexClass "$parameterApexClass" should return "$parameterProcessedDataType"',
-        ({
-            parameterRawDataType,
-            parameterApexClass,
-            parameterProcessedDataType
-        }) => {
-            const actualDataType = getParameterDataType(
-                parameterRawDataType,
-                parameterApexClass
-            );
-            expect(actualDataType).toEqual(parameterProcessedDataType);
-        }
-    );
 });

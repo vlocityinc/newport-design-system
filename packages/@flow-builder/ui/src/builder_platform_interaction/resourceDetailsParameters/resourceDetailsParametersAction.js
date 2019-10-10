@@ -3,7 +3,6 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';
-import { getParameterDataType } from 'builder_platform_interaction/calloutEditorLib';
 
 /**
  * Action output parameters fetching/mapping specifics (apex actions, core actions)
@@ -18,13 +17,7 @@ class ResourceDetailsParametersActionConfig extends ResourceDetailsParametersCon
                 apiName: rawParameter.name,
                 label: rawParameter.label || rawParameter.name,
                 description: rawParameter.description,
-                typeIconName: getDataTypeIcons(
-                    getParameterDataType(
-                        rawParameter.dataType,
-                        rawParameter.apexClass
-                    ),
-                    'utility'
-                )
+                typeIconName: getDataTypeIcons(rawParameter.dataType, 'utility')
             };
         };
     }

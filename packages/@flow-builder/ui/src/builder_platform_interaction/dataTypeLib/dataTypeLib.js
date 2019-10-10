@@ -291,13 +291,15 @@ export function getDataTypeLabel(dataTypeApiName) {
 /**
  * convert from parameter data type to flow data type
  * @param {String} dataType     parameter's dataType
- * @returns {String} flow data type
+ * @returns {String} flow data type or undefined if no match, or dataType undefined
  * TODO: will be replaced by service when W-4797144 is done
  */
 export function getFlowDataType(dataType) {
-    const flowDataType = Object.keys(TYPE_MAPPING).find(key =>
-        TYPE_MAPPING[key].includes(dataType.toLowerCase())
-    );
+    const flowDataType = dataType
+        ? Object.keys(TYPE_MAPPING).find(key =>
+              TYPE_MAPPING[key].includes(dataType.toLowerCase())
+          )
+        : undefined;
     return flowDataType ? flowDataType : undefined;
 }
 

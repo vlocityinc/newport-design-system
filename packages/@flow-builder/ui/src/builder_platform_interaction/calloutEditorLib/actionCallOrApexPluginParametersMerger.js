@@ -2,7 +2,6 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { MERGE_WARNING_TYPE } from './mergeWarningType';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 /**
  * Get as a map. Key is the variable name, value has properties parameter,
@@ -78,7 +77,7 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
                 isRequired,
                 maxOccurs,
                 label,
-                dataType: getParameterDataType(dataType, apexClass),
+                dataType: getFlowDataType(dataType),
                 subtype: sobjectType || apexClass
             };
         }
@@ -109,19 +108,6 @@ function mergeParameters(inputOrOutputParameters, nodeParameters) {
         }
     }
     return finalArray;
-}
-
-/**
- * Handling special dataType corner cases such as for Apex type parameter where dataType is empty
- * @param {String} rawDataType - current "raw" parameter dataType field value
- * @param {String} apexClass - current parameter apexClass field value
- * @returns {String} processed dataType or null if raw data type null without any apexClass field filled
- */
-export function getParameterDataType(rawDataType, apexClass) {
-    if (rawDataType) {
-        return getFlowDataType(rawDataType);
-    }
-    return apexClass ? FLOW_DATA_TYPE.APEX.value : null;
 }
 
 function getMergeWarnings(parameter, paramAssigments) {

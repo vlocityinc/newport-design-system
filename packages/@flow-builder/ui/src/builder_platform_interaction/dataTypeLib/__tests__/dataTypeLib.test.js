@@ -3,7 +3,8 @@ import {
     FLOW_DATA_TYPE,
     getResourceTypes,
     setResourceTypes,
-    getDataTypeIcons
+    getDataTypeIcons,
+    getFlowDataType
 } from '../dataTypeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -135,6 +136,11 @@ describe('dataTypeLib', () => {
             dataTypes.forEach(dataType =>
                 expect(getDataTypeIcons(dataType, 'utility')).toBeDefined()
             );
+        });
+    });
+    describe('getFlowDataType', () => {
+        test.each([undefined, null])('Passing with dataType %s', dataType => {
+            expect(getFlowDataType(dataType)).not.toBeDefined();
         });
     });
 });
