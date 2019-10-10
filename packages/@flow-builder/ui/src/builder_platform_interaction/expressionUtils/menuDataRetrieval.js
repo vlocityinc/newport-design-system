@@ -398,7 +398,9 @@ export function getStoreElements(storeInstance, config) {
     if (selector) {
         elements = selector(storeInstance);
     }
-
+    if (config.choices) {
+      return elements;
+    }
     return addUncommittedElementsFromLocalStorage(elements);
 }
 
