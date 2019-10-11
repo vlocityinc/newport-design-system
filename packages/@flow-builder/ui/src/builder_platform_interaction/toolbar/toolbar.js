@@ -81,7 +81,7 @@ export default class Toolbar extends LightningElement {
     };
 
     @api focus() {
-        const toolbarFocusableElements = this.template.querySelectorAll('lightning-button-icon');
+        const toolbarFocusableElements = this.template.querySelectorAll('lightning-button-icon, button');
         if (toolbarFocusableElements.length > 0) {
             let index = 0;
             while (toolbarFocusableElements[index].disabled && index < toolbarFocusableElements.length - 1) {

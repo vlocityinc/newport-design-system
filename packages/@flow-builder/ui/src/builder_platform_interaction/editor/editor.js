@@ -1081,24 +1081,24 @@ export default class Editor extends LightningElement {
         }
     }
 
+    isMacPlatform = () => {
+        return navigator.userAgent.indexOf('Macintosh') !== -1;
+    }
+
     setupCommandsAndShortcuts = () => {
         // Shift Focus Forward Command
         const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() =>
             this.handleShiftFocus(false)
         );
-        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusForwardCommand, {
-            shift: false,
-            key: 'F6'
-        });
+        const shiftFocusForwardShortcut = this.isMacPlatform() ? { key: 'F6' } : { ctrl: true, key: 'F6' };
+        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusForwardCommand, shiftFocusForwardShortcut);
 
         // Shift Focus Backward Command
         const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() =>
             this.handleShiftFocus(true)
         );
-        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusBackwardCommand, {
-            shift: true,
-            key: 'F6'
-        });
+        const shiftFocusBackwardShortcut = this.isMacPlatform() ? { shift: true, key: 'F6' } : { shift: true, ctrl: true, key: 'F6' };
+        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusBackwardCommand, shiftFocusBackwardShortcut);
     }
 
     /**
