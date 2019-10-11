@@ -143,6 +143,22 @@
         ],
         "outputParameters": [],
         "storeOutputAutomatically": false
+      },
+      {
+        "name": "apexCall_anonymous_string",
+        "description": "",
+        "label": "apexCall anonymous string",
+        "locationX": 553,
+        "locationY": 258.3125,
+        "actionType": "apex",
+        "actionName": "InvocableGetAccountName",
+        "inputParameters": [
+          {
+            "name": "accountIds"
+          }
+        ],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
       }
     ],
     "assignments": [
@@ -363,7 +379,9 @@
         "locationY": 326,
         "object": "Account",
         "filters": [],
-        "queriedFields": ["Id"],
+        "queriedFields": [
+          "Id"
+        ],
         "storeOutputAutomatically": true,
         "getFirstRecordOnly": true
       },
@@ -375,7 +393,9 @@
         "locationY": 334,
         "object": "Account",
         "filters": [],
-        "queriedFields": ["Id"],
+        "queriedFields": [
+          "Id"
+        ],
         "storeOutputAutomatically": true,
         "getFirstRecordOnly": false
       },
@@ -389,7 +409,9 @@
         "outputReference": "accountSObjectVariable",
         "assignNullValuesIfNoRecordsFound": false,
         "filters": [],
-        "queriedFields": ["Id"]
+        "queriedFields": [
+          "Id"
+        ]
       }
     ],
     "screens": [

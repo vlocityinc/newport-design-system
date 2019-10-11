@@ -6,6 +6,8 @@ import * as store from 'mock/storeData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { getAccountFromApexAnonymousOutputActionParameters as mockGetAccountFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountFromApexAnonymousOutputActionParameters.json';
+import { getAccountNameFromApexAnonymousOutputActionParameters as mockGetAccountNameFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountNameFromApexAnonymousOutputActionParameters.json';
 import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -40,6 +42,10 @@ const mockImplementationForGetParametersForInvocableAction = ({
             return mockChatterPostActionParameters;
         case 'quickAction-Case.LogACall':
             return mockLogACallActionParameters;
+        case 'apex-getAccounts':
+            return mockGetAccountFromApexAnonymousOutputActionParameters;
+        case 'apex-InvocableGetAccountName':
+            return mockGetAccountNameFromApexAnonymousOutputActionParameters;
         default:
             return undefined;
     }
@@ -102,6 +108,20 @@ describe('complexTypeFieldDescription', () => {
                 store.actionCallAutomaticOutput
             );
             expectFieldsAreComplexTypeFieldDescriptions(fields);
+        });
+        it('returns entity fields for action single anonymous automatic SObject output', () => {
+            const fields = retrieveResourceComplexTypeFields(
+                store.apexCallAutomaticAnonymousAccountOutput
+            );
+
+            expect(fields).toEqual(mockAccountFields);
+        });
+        it('returns undefined for action single anonymous automatic primitive output', () => {
+            const fields = retrieveResourceComplexTypeFields(
+                store.apexCallAutomaticAnonymousStringOutput
+            );
+
+            expect(fields).toBeUndefined();
         });
     });
     describe('isAutomaticOutputElementWithoutChildren', () => {

@@ -75,7 +75,7 @@ export function isAutomaticOutputElementWithoutChildren(flowResource) {
  * Returns the fields for given complex resource (dataType SObject, apex, lightning component output or action output)
  *
  * @param {Object} flowResource the resource
- * @returns {Object} the fields descriptions as a complex type field descriptions (as expected by menudata or merge field validation)
+ * @returns {Object} the fields descriptions as a complex type field descriptions (as expected by menudata or merge field validation). Undefined if it's not a complex type (e.g. primitive)
  */
 export function retrieveResourceComplexTypeFields(flowResource) {
     let fields;
@@ -111,6 +111,10 @@ function getExtensionComplexTypeOutputFields(extensionName) {
     return fields;
 }
 
+const isSingleAnonymousOutput = parameter => {
+    return parameter.isSystemGeneratedOutput && parameter.maxOccurs === 1;
+};
+
 function getInvocableActionComplexTypeOutputFields({ actionName, actionType }) {
     const parameters = getParametersForInvocableAction({
         actionName,
@@ -121,11 +125,20 @@ function getInvocableActionComplexTypeOutputFields({ actionName, actionType }) {
         parameters
             .filter(parameter => parameter.isOutput)
             .reduce((acc, parameter) => {
-                acc[
-                    parameter.name
-                ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
-                    parameter
-                );
+                if (isSingleAnonymousOutput(parameter)) {
+                    acc =
+                        parameter.dataType === 'sobject'
+                            ? sobjectLib.getFieldsForEntity(
+                                  parameter.sobjectType
+                              )
+                            : undefined;
+                } else {
+                    acc[
+                        parameter.name
+                    ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
+                        parameter
+                    );
+                }
                 return acc;
             }, {});
     return fields;
