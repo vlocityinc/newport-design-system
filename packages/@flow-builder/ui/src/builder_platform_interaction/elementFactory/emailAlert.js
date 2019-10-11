@@ -10,6 +10,7 @@ const elementType = ELEMENT_TYPE.EMAIL_ALERT;
  * @return {Object} newEmailAlert new email alert which is created
  */
 export function createEmailAlert(emailAlert = {}) {
+    emailAlert.storeOutputAutomatically = false;
     return createActionCall(emailAlert, elementType);
 }
 
