@@ -1,5 +1,5 @@
-// eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch
-import { createComponent, dispatchGlobalEvent } from 'aura';
+// eslint-disable-next-line lwc-core/no-interop-create, lwc-core/no-interop-dispatch, lwc-core/no-interop-render
+import { createComponent, dispatchGlobalEvent, renderComponent } from 'aura';
 import {
     getConfigForElementType,
     MODAL_SIZE
@@ -761,4 +761,31 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
                 'Status Icon Panel creation failed : ' + errorMessage
             );
         });
+}
+
+/**
+ * Create LWC component dynamically for custom property editor
+ * PLEASE DON'T USE THIS UTIL EXCEPT FOR CUSTOM PROPERTY EDITOR
+ */
+export function createConfigurationEditor({cmpName, container, attr = {}, errorCallback = () => {}}) {
+    if (!cmpName) {
+        throw new Error('Component name is not defined');
+    }
+    if (!container) {
+        throw new Error('Container component is not defined');
+    }
+    let newCmp;
+    createComponentPromise(cmpName, attr).then((cmp) => {
+        renderComponent(cmp, container);
+        newCmp = cmp;
+    }).catch(errorCallback);
+
+    const unrender = () => {
+        if (newCmp) {
+            // eslint-disable-next-line lwc-core/no-aura
+            window.$A.unrender(newCmp);
+            newCmp.destroy();
+        }
+    };
+    return unrender;
 }

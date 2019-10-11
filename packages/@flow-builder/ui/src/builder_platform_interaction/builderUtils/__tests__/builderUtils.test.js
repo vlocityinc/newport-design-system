@@ -1,7 +1,8 @@
 import {
     getPropertyEditorConfig,
     showPopover,
-    isPopoverOpen
+    isPopoverOpen,
+    createConfigurationEditor
 } from '../builderUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
@@ -22,7 +23,9 @@ jest.mock('aura', () => {
                     getElement: () => {}
                 };
                 callback(newComponent, 'SUCCESS', null);
-            })
+            }),
+
+        renderComponent: jest.fn().mockImplementation(() => {})
     };
 });
 
@@ -135,6 +138,21 @@ describe('builderUtils', () => {
                 }
             );
             expect(isPopoverOpen()).toBe(true);
+        });
+    });
+
+    describe('createConfigurationEditor', () => {
+        it('throws error if cmp name is not passed', () => {
+            expect(() => {
+                createConfigurationEditor();
+            }).toThrow();
+        });
+        it('throws error if container is not passed', () => {
+            expect(() => {
+                createConfigurationEditor({
+                    cmpName: 'abc'
+                });
+            }).toThrow();
         });
     });
 });
