@@ -49,6 +49,7 @@
       // stylelint-disable property-no-vendor-prefix
       -moz-appearance: none;
       -webkit-appearance: none;
+      // stylelint-enable property-no-vendor-prefix
 
       &::-ms-expand {
         display: none;
@@ -75,7 +76,7 @@
     }
 
     &:before {
-      border-top: 8px solid #ffffff;
+      border-top: 8px solid $white;
       bottom: calc((#{$line-height-button-small} / 2) - 1.5px);
       z-index: 1;
     }

@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
@@ -17,7 +19,7 @@
     border-radius: 0;
     width: 20.9375rem;
     height: 100%;
-    border: 0.0625rem solid $color_grey_shaded;
+    border: 0.0625rem solid $color_palette_cool_gray_5;
 
     img {
       pointer-events: none;
@@ -79,7 +81,7 @@
   }
 }
 
-@mixin multiLineEllipsis($font-size: 20px, $lines-to-show: 1, $line-height: 10) {
+@mixin multilineellipsis($font-size: 20px, $lines-to-show: 1, $line-height: 10) {
   display: block;
   max-width: 400px;
   height: $font-size * $line-height * $lines-to-show;
@@ -91,6 +93,9 @@
 }
 
 .nds-hero-resource__card {
+  overflow: hidden;
+  border-radius: 0.3125rem;
+  box-shadow: 0 1px 5px $color_grey_shaded;
 
   .nds-notify__close {
     top: 0;
@@ -108,14 +113,15 @@
   .nds-hero-resource-card__desc {
     color: $color-border-tab-active;
     position: absolute;
-    background: $color-border-icon-inverse-hint;
-    left: 1.25rem;
-    width: 85%;
+    background: $white-shaded;
+    left: 0;
+    right: 0;
     padding: 0.625rem;
     text-align: left;
-    top: 30px;
-    min-height: 113px;
+    bottom: 0;
     line-height: 1.5;
+    border-bottom-left-radius: 0.3125rem;
+    border-bottom-right-radius: 0.3125rem;
 
     a {
       color: $color-black-primary;
@@ -285,7 +291,7 @@
         display: inline-block;
 
         label {
-          background-color: $color_white_shaded;
+          background-color: $white-shaded;
           bottom: 0;
           border-radius: 100%;
           cursor: pointer;
@@ -313,6 +319,8 @@
 
 .nds-product__category-card {
   background: $color-border-tab-active;
+  color: $color-blue-text-secondary;
+  overflow: hidden;
 
   .nds-button {
 
@@ -338,8 +346,6 @@
     background-repeat: no-repeat;
     background-size: cover;
     margin: 0 auto;
-    color: $color-blue-text-secondary;
-    overflow: hidden;
 
     .nds-product__title {
       min-height: 113px;
@@ -369,7 +375,6 @@
     }
   }
 
-
   &.nds-card {
     border: 0;
   }
@@ -377,7 +382,7 @@
   .nds-product__title {
     position: absolute;
     width: 100%;
-    background: $color_white_shaded;
+    background: $white-shaded;
   }
 }
 
@@ -388,7 +393,7 @@
 
     .nds-product__title {
       position: absolute;
-      background: $color_white_shaded;
+      background: $white-shaded;
       margin-top: 40px;
       width: inherit;
     }
@@ -456,16 +461,8 @@
 
 @media screen and (max-width:767px) {
 
-  .nds-hero-resource__card {
-
-    .nds-resource__detail {
-      @include multiLineEllipsis($font-size: 20px, $lines-to-show: 5, $line-height: 1.5);
-    }
-  }
-
   .nds-get__quote {
     width: 325px;
-    height: 160px;
 
     .nds-get__headline {
       font-size: 24px;
@@ -505,16 +502,6 @@
 
     .nds-product__action-link {
       font-size: 28px;
-    }
-  }
-}
-
-@media screen and (max-width:400px) {
-
-  .nds-hero-resource__card {
-
-    .nds-resource__detail {
-      @include multiLineEllipsis($font-size: 20px, $lines-to-show: 5, $line-height: 1.5);
     }
   }
 }

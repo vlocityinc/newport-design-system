@@ -1,3 +1,4 @@
+/* stylelint-disable selector-class-pattern, property-no-vendor-prefix, value-no-vendor-prefix   */
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
@@ -11,13 +12,14 @@
 * @variant
 */
 .nds-geolocation {
+
   .nds-form-element__control .nds-form-element__label {
     margin-bottom: 0.25rem;
     outline: none;
 
     svg {
       margin-#{$right}: 0.4rem;
-      padding-bottom: .3125rem;
+      padding-bottom: 0.3125rem;
     }
 
     span {
@@ -78,12 +80,16 @@
 
 /* map is broken in FF if you have max-width: 100% on tiles */
 .leaflet-container img {
+  /* stylelint-disable declaration-no-important */
   max-width: none !important;
+  /* stylelint-enable declaration-no-important */
 }
 
 /* stupid Android 2 doesn't understand "max-width: none" properly */
 .leaflet-container img.leaflet-image-layer {
+  /* stylelint-disable declaration-no-important */
   max-width: 15000px !important;
+  /* stylelint-enable declaration-no-important */
 }
 
 .leaflet-tile {
@@ -202,9 +208,6 @@
 .leaflet-fade-anim .leaflet-tile,
 .leaflet-fade-anim .leaflet-popup {
   opacity: 0;
-  -webkit-transition: opacity 0.2s linear;
-  -moz-transition: opacity 0.2s linear;
-  -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 
@@ -214,18 +217,12 @@
 }
 
 .leaflet-zoom-anim .leaflet-zoom-animated {
-  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  -o-transition: -o-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
   transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
 }
 
 .leaflet-zoom-anim .leaflet-tile,
 .leaflet-pan-anim .leaflet-tile,
 .leaflet-touching .leaflet-zoom-animated {
-  -webkit-transition: none;
-  -moz-transition: none;
-  -o-transition: none;
   transition: none;
 }
 
@@ -241,8 +238,10 @@
 }
 
 .leaflet-container {
+  /* stylelint-disable declaration-block-no-duplicate-properties */
   cursor: -webkit-grab;
   cursor: -moz-grab;
+  /* stylelint-enable declaration-block-no-duplicate-properties */
 }
 
 .leaflet-popup-pane,
@@ -252,9 +251,11 @@
 
 .leaflet-dragging .leaflet-container,
 .leaflet-dragging .leaflet-clickable {
+  /* stylelint-disable declaration-block-no-duplicate-properties */
   cursor: move;
   cursor: -webkit-grabbing;
   cursor: -moz-grabbing;
+  /* stylelint-enable declaration-block-no-duplicate-properties */
 }
 
 
@@ -266,11 +267,11 @@
 }
 
 .leaflet-container a {
-  color: #0078A8;
+  color: #0078a8;
 }
 
 .leaflet-container a.leaflet-active {
-  outline: 2px solid orange;
+  outline: 2px solid #ffa500;
 }
 
 .leaflet-zoom-box {
@@ -302,7 +303,7 @@
   display: block;
   text-align: center;
   text-decoration: none;
-  color: black;
+  color: #000;
 }
 
 .leaflet-bar a,
@@ -324,7 +325,7 @@
 .leaflet-bar a:last-child {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  border-bottom: none;
+  border-bottom: 0;
 }
 
 .leaflet-bar a.leaflet-disabled {
@@ -370,13 +371,17 @@
 }
 
 .leaflet-control-layers-toggle {
+  /* stylelint-disable scss/operator-no-unspaced */
   background-image: url(../images/layers.png);
+  /* stylelint-enable scss/operator-no-unspaced */
   width: 36px;
   height: 36px;
 }
 
 .leaflet-retina .leaflet-control-layers-toggle {
+  /* stylelint-disable scss/operator-no-unspaced */
   background-image: url(../images/layers-2x.png);
+  /* stylelint-enable scss/operator-no-unspaced */
   background-size: 26px 26px;
 }
 
@@ -453,7 +458,7 @@
 
 .leaflet-control-scale-line {
   border: 2px solid #777;
-  border-top: none;
+  border-top: 0;
   line-height: 1.1;
   padding: 2px 5px 1px;
   font-size: 11px;
@@ -466,7 +471,7 @@
 
 .leaflet-control-scale-line:not(:first-child) {
   border-top: 2px solid #777;
-  border-bottom: none;
+  border-bottom: 0;
   margin-top: -2px;
 }
 
@@ -530,7 +535,7 @@
 
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
-  background: white;
+  background: #fff;
   box-shadow: 0 3px 14px $color-black-primary;
 }
 
@@ -566,8 +571,6 @@
 .leaflet-oldie .leaflet-popup-tip {
   width: 24px;
   margin: 0 auto;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
-  filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
 }
 
 .leaflet-oldie .leaflet-popup-tip-container {

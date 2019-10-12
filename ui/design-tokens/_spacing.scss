@@ -1,0 +1,39 @@
+$border-width-thin: 1px !default;
+$border-width-thick: 2px !default;
+$border-stroke-width-thin: 1px !default;
+$border-stroke-width-thick: 2px !default;
+$spacing-none: 0 !default;
+$spacing-xxx-small: 0.125rem !default;
+$spacing-xx-small: 0.25rem !default;
+$spacing-x-small: 0.5rem !default;
+$spacing-small: 0.75rem !default;
+$spacing-medium: 1rem !default;
+$spacing-large: 1.5rem !default;
+$spacing-x-large: 2rem !default;
+$spacing-xx-large: 3rem !default;
+$component-spacing-margin: 0.75rem !default;
+$component-spacing-padding: 1rem !default;
+
+
+$force-base-map: (
+  "spacing-none": (0),
+  "spacing-xxx-small": (0.125rem),
+  "spacing-xx-small": (0.25rem),
+  "spacing-x-small": (0.5rem),
+  "spacing-small": (0.75rem),
+  "spacing-medium": (1rem),
+  "spacing-large": (1.5rem),
+  "spacing-x-large": (2rem),
+  "spacing-xx-large": (3rem),
+  "component-spacing-margin": (0),
+  "component-spacing-padding": (1rem),
+  // Use for vertical spacing between cards
+  "card-spacing-margin": (1rem),
+  "card-wrapper-spacing": (1rem),
+  "card-spacing-small": (0.75rem),
+  "card-spacing-large": (1.5rem),
+  "table-cell-spacing": (0.5rem),
+  "page-header-spacing-margin": (0),
+  "page-header-spacing-padding": (1rem),
+  "page-header-spacing-row": (0.75rem 1rem)
+);

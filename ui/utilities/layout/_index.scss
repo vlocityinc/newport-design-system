@@ -27,10 +27,12 @@
  * @selector .nds-has-bottom-magnet
  * @modifier
  */
-.nds-has-bottom-magnet { // stylelint-disable declaration-no-important
+.nds-has-bottom-magnet {
+  /* stylelint-disable declaration-no-important */
   margin-bottom: 0 !important;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+  /* stylelint-enable declaration-no-important */
 }
 
 /**
@@ -40,9 +42,11 @@
  * @modifier
  */
 .nds-has-top-magnet {
+  /* stylelint-disable declaration-no-important */
   margin-top: 0 !important;
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
+  /* stylelint-enable declaration-no-important */
 
   &.nds-has-buffer {
     margin-bottom: 0;

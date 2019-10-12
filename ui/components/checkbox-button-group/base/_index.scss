@@ -158,3 +158,32 @@
     }
   }
 }
+
+.nds-read-only {
+
+  .nds-checkbox_button,
+  .nds-checkbox--button {
+
+    .nds-checkbox_faux,
+    .nds-checkbox--faux,
+    .nds-checkbox_faux,
+    .nds-checkbox--faux,
+    .nds-checkbox_button__label,
+    .nds-checkbox--button__label {
+      background-color: $color-background-button-default-disabled;
+      color: $color-text-button-default-disabled;
+      cursor: default;
+    }
+
+    [type="checkbox"]:checked+.nds-checkbox_faux,
+    [type="checkbox"]:checked+.nds-checkbox--faux,
+    [type="checkbox"]:checked~.nds-checkbox_faux,
+    [type="checkbox"]:checked~.nds-checkbox--faux,
+    [type="checkbox"]:checked+.nds-checkbox_button__label,
+    [type="checkbox"]:checked+.nds-checkbox--button__label {
+      background-color: $color-background-button-default-disabled;
+      color: $color-text-button-default-disabled;
+      cursor: default;
+    }
+  }
+}

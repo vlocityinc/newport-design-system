@@ -30,9 +30,6 @@
 # Ignore generated scripts
 /assets/scripts
 
-# Ignore generated tokens
-design-tokens/components.yml
-
 # Ignore modules
 /node_modules
 
@@ -50,3 +47,7 @@ coverage
 
 # Legacy folders
 /git_modules
+
+scripts/sfdc/staticresources/newport.resource
+
+dist

@@ -16,7 +16,7 @@ $dir: rtl;
 @import url(./nds-fonts.css);
 
 // Resets (unscoped)
-@include root();
+@include root('.via-nds', '.via-nds');
 
 #{$reset-wrapping-class} {
 
@@ -25,9 +25,12 @@ $dir: rtl;
   @include core();
 
   // Framework
+  @import 'touch/index';
   @import 'components/index';
   @import 'utilities/index';
 
   // Print
   @import 'vendor/html5boilerplate-print';
 }
+
+@import 'components/omniscript/base/index';

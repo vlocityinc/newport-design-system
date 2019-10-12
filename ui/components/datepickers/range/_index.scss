@@ -26,9 +26,11 @@
     .nds-is-selected-multi:last-child > .nds-day:after {
       #{$left}: auto;
       #{$right}: 0;
+
       @include if-ltr {
         transform: translateX($spacing-xx-small);
       }
+
       @include if-rtl {
         transform: translateX($spacing-xx-small * -1);
       }
@@ -50,9 +52,11 @@
     // re-calculate for first child
     .nds-is-selected-multi:first-child > .nds-day:before {
       #{$left}: 0;
+
       @include if-ltr {
         transform: translateX($spacing-xx-small * -1);
       }
+
       @include if-rtl {
         transform: translateX($spacing-xx-small * 1);
       }
@@ -61,9 +65,11 @@
     .nds-is-selected-multi:last-child > .nds-day:after {
       #{$left}: auto;
       #{$right}: 0;
+
       @include if-ltr {
         transform: translateX($spacing-xx-small);
       }
+
       @include if-rtl {
         transform: translateX($spacing-xx-small * -1);
       }

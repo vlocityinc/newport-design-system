@@ -7,7 +7,7 @@
   height: $slider-handle-size;
   border-radius: 50%;
   background: $slider-handle-color-background;
-  border: 0;
+  border: 1px solid $slider-handle-color-border;
   box-shadow: $slider-handle-shadow;
   cursor: pointer;
   transition: background 0.15s ease-in-out;
@@ -89,24 +89,62 @@
   }
 
   &:focus::-webkit-slider-thumb {
+    border-color: $slider-handle-color-border-focus;
     background-color: $slider-handle-color-background-focus;
-    box-shadow: $shadow-button-focus;
+    box-shadow: $slider-handle-shadow-focus;
   }
 
   &:active::-webkit-slider-thumb {
+    border-color: $slider-handle-color-border-active;
     background-color: $slider-handle-color-background-active;
   }
 
   &:focus::-moz-range-thumb {
+    border-color: $slider-handle-color-border-focus;
     background-color: $slider-handle-color-background-focus;
-    box-shadow: $shadow-button-focus;
+    box-shadow: $slider-handle-shadow-focus;
   }
 
   &:active::-moz-range-thumb {
+    border-color: $slider-handle-color-border-active;
     background-color: $slider-handle-color-background-active;
   }
 
   &[disabled] {
+
+    &::-webkit-slider-thumb {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-webkit-slider-runnable-track {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-moz-range-thumb {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-moz-range-track {
+      background-color: $slider-color-background-disabled;
+    }
+
+    &::-ms-thumb {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+
+    &::-ms-track {
+      background-color: $slider-color-background-disabled;
+      cursor: default;
+    }
+  }
+}
+
+.nds-read-only {
+  .nds-slider__range {
 
     &::-webkit-slider-thumb {
       background-color: $slider-color-background-disabled;
@@ -156,7 +194,7 @@
  * @restrict span
  */
 .nds-slider-label {
-  // Hook for adding a11y class if needed to hide
+  display: flex;
 }
 
 /**
@@ -166,7 +204,11 @@
  * @restrict .nds-slider-label span
  */
 .nds-slider-label__label {
-  display: block;
+  display: inline-block;
+
+  &.nds-form-element__legend {
+    margin-right: 0.5rem;
+  }
 }
 
 /**
@@ -177,6 +219,13 @@
  */
 .nds-slider-label__range {
   // Hook for adding a11y class to hide
+}
+
+.nds-read-only {
+  .nds-slider-label__range {
+    color: $color-text-input-disabled;
+    opacity: 0.5;
+  }
 }
 
 
