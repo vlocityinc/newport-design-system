@@ -1,54 +1,53 @@
-$animation-duration:0.5s;
-$animation-duration_reverse:0.5s;
+/* stylelint-disable selector-class-pattern */
+$animation-duration: 0.5s;
+$animation-duration-reverse: 0.5s;
 $div-height: 100px;
-$sliding-distance: 100; //this is in pixels
+$sliding-distance: 100; // this is in pixels
 
 
 
-//this line avoids the flicker
-//https://github.com/angular/angular.js/issues/14015
+// this line avoids the flicker
+// https://github.com/angular/angular.js/issues/14015
 .ng-hide.ng-hide-animate {
   display: none;
 }
 
-//this is the order in which angular adds animation classes ,
-//safari only works if the animation is added to thefinal stage
-//which means after ng-hide-add-active is added to the dom
+// this is the order in which angular adds animation classes ,
+// safari only works if the animation is added to thefinal stage
+// which means after ng-hide-add-active is added to the dom
 .animate-if.ng-animate.ng-hide-animate.ng-hide-add.ng-hide.ng-hide-add-active {
-  //display:none !important;
   display: block;
-  animation: $animation-duration ndsFadeOut ease;
+  animation: $animation-duration ndsfadeout ease;
   max-height: $div-height;
   overflow-y: hidden;
 }
 
 /* when showing the picture */
 .animate-if.ng-hide-remove {
-  animation: $animation-duration ndsSlideInUp ease-in-out;
-  -moz-animation-name: ndsSlideInUp; //mode version does not work in mozilla
+  animation: $animation-duration ndsslideinup ease-in-out;
   animation-fill-mode: forwards;
 }
 
-.animate-if.animate-ifMod.ng-hide-remove {
-  animation: $animation-duration ndsSlideInUpMod ease-in-out;
-  -moz-animation-name: ndsSlideInUpMod; //mode version does not work in mozilla
+.animate-if.animate-ifmod.ng-hide-remove {
+  animation: $animation-duration ndsslideinupmod ease-in-out;
   animation-fill-mode: forwards;
 }
 
 .animate-rev.ng-hide-add {
-  animation: $animation-duration_reverse ndsSlideInDown ease;
+  animation: $animation-duration-reverse ndsslideindown ease;
+  // stylelint-disable-next-line declaration-no-important
   display: block !important;
   overflow-y: hidden;
 }
 
 .animate-rev.ng-hide-remove {
-  animation: $animation-duration_reverse ndsFadeInFaster ease;
-  -moz-animation-name: ndsFadeInFaster; //mode version does not work in mozilla
+  animation: $animation-duration-reverse ndsfadeinfaster ease;
   max-height: $div-height;
   animation-fill-mode: forwards;
 }
 
-@keyframes ndsFadeInFaster {
+@keyframes ndsfadeinfaster {
+
   from {
     opacity: 0.3;
   }
@@ -58,11 +57,12 @@ $sliding-distance: 100; //this is in pixels
   }
 }
 
-.fadeInFaster {
-  animation-name: ndsFadeInFaster;
+.fadeinfaster {
+  animation-name: ndsfadeinfaster;
 }
 
-@keyframes ndsSlideInUpMod {
+@keyframes ndsslideinupmod {
+
   0% {
     transform: translate3d(0, ($sliding-distance) + px, 0);
   }
@@ -72,11 +72,12 @@ $sliding-distance: 100; //this is in pixels
   }
 }
 
-.slideInUpMod {
-  animation-name: ndsSlideInUpMod;
+.slideinupmod {
+  animation-name: ndsslideinupmod;
 }
 
-@keyframes ndsSlideInUp {
+@keyframes ndsslideinup {
+
   0% {
     transform: translate3d(0, 0, 0);
   }
@@ -87,28 +88,31 @@ $sliding-distance: 100; //this is in pixels
 }
 
 
-@keyframes ndsSlideInDown {
+@keyframes ndsslideindown {
+
   from {
     transform: translate3d(0, 0, 0);
     opacity: 0.8;
   }
 
   to {
-    transform: translate3d(0, ($sliding-distance/2) + px, 0);
+    transform: translate3d(0, ($sliding-distance / 2) + px, 0);
     opacity: 0.4;
   }
 }
 
-.slideInUp {
-  animation-name: ndsSlideInUp;
+.slideinup {
+  animation-name: ndsslideinup;
 }
 
 
-.slideInDown {
-  animation-name: ndsSlideInDown;
+.slideindown {
+  animation-name: ndsslideindown;
 }
 
-@-webkit-keyframes ndsFadeOut {
+
+@keyframes ndsfadeout {
+
   from {
     opacity: 1;
   }
@@ -118,17 +122,6 @@ $sliding-distance: 100; //this is in pixels
   }
 }
 
-@keyframes ndsFadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-.fadeOut {
-  -webkit-animation-name: ndsFadeOut;
-  animation-name: ndsFadeOut;
+.fadeout {
+  animation-name: ndsfadeout;
 }

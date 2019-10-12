@@ -1,12 +1,9 @@
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
-require('./generate-tokens-components');
-
 const autoprefixer = require('gulp-autoprefixer');
 const gulp = require('gulp');
-const gutil = require('gulp-util');
-const minifycss = require('gulp-minify-css');
+const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
@@ -14,12 +11,15 @@ const runSequence = require('run-sequence');
 
 const paths = require('../helpers/paths');
 
-const sign = x => (x < 0 ? '' : '+');
-const toKB = n => (n / 1024).toFixed(2);
-
 gulp.task('styles:sass', [], () =>
   gulp
-    .src(['ui/nds-fonts.scss', 'ui/index.scss', 'ui/index.rtl.scss'])
+    .src([
+      'ui/nds-fonts.scss',
+      'ui/index.scss',
+      'ui/index.rtl.scss',
+      'ui/index-scoped.scss',
+      'ui/index-scoped.rtl.scss'
+    ])
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(
@@ -32,19 +32,15 @@ gulp.task('styles:sass', [], () =>
     )
     .pipe(autoprefixer({ remove: false }))
     .pipe(
-      minifycss({
-        advanced: false,
-        roundingPrecision: '-1',
-        processImport: false
+      cleanCSS({
+        inline: false
       })
     )
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('assets/styles'))
 );
 
-gulp.task('styles:framework', ['generate:tokens:sass'], () =>
-  gulp.start('styles:sass')
-);
+gulp.task('styles:framework', [], () => gulp.start('styles:sass'));
 
 // Quick check that all variants compile correctly to CSS
 gulp.task('styles:test', () =>

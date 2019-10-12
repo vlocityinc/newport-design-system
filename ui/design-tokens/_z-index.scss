@@ -1,0 +1,24 @@
+// Toasts
+$z-index-toast: 10000 !default;
+// Spinner
+$z-index-spinner: 99 !default;
+// Modal
+$z-index-modal: 9000 !default;
+// Notifications under modals
+$z-index-reminder: 8500 !default;
+// Overlay
+$z-index-overlay: 8000 !default;
+// Dropdown
+$z-index-dropdown: 7000 !default;
+// Dialog
+$z-index-dialog: 6000 !default;
+// Popup
+$z-index-popup: 5000 !default;
+// Stickied element
+$z-index-sticky: 100 !default;
+// Default
+$z-index-default: 1 !default;
+// Docked element
+$z-index-docked: 4 !default;
+// Deep dive
+$z-index-deepdive: -99999 !default;

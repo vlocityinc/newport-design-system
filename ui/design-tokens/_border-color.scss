@@ -1,0 +1,102 @@
+$color-border-primary: $palette-gray-5 !default;
+$color-border-brand-primary: $azure !default;
+$color-border-brand-primary-hover: $science-blue !default;
+$color-border-brand-primary-focus: $science-blue !default;
+$color-border-brand-primary-active: $midnight-blue !default;
+// Default border color for UI elements.
+$color-border: $palette-gray-5 !default;
+// Our product brand blue.
+$color-border-brand: $azure !default;
+// Our product brand blue, darkened to meet accessibility color contrast ratios with white text.
+$color-border-brand-dark: $science-blue !default;
+// Border color for UI elements related to the concept of an external user or customer.
+$color-border-customer: $tangerine !default;
+// Border color for UI elements that have to do with destructive actions.
+$color-border-destructive: $flush-mahogany !default;
+// Hover border color for UI elements that have to do with destructive actions.
+$color-border-destructive-hover: $tabasco !default;
+// Active border color for UI elements that have to do with destructive actions.
+$color-border-destructive-active: $maroon !default;
+// Border color for UI elements related to providing neutral information (not error, success, or warning).
+$color-border-info: $palette-gray-9 !default;
+// Border color for UI elements that have to do with errors.
+$color-border-error: $newport-color-error !default;
+// Alternative border color for UI elements related to errors.
+$color-border-error-alt: $deep-blush !default;
+// Dark alternative border color for UI elements related to errors.
+$color-border-error-dark: $deep-blush !default;
+// Border color for UI elements related to the offline state.
+$color-border-offline: $palette-gray-11 !default;
+// Border color for UI elements that have to do with success.
+$color-border-success: $emerald !default;
+// Dark alternative border color for UI elements that have to do with success.
+$color-border-success-dark: $salem !default;
+// Border color for UI elements that have to do with warnings.
+$color-border-warning: $koromiko !default;
+// Border color to match UI elements using color-background-inverse.
+$color-border-inverse: $deep-cove !default;
+// Border color for a selected tab in a tab group.
+$color-border-tab-selected: $science-blue !default;
+// Border color for an active tab.
+$color-border-tab-active: $white !default;
+// Lightest separator color - used as default separator on white backgrounds.
+$color-border-separator: $palette-gray-2 !default;
+// Medium separator color - used as default separator on light gray backgrounds.
+$color-border-separator-alt: $palette-gray-5 !default;
+// Darkest separator color - used as an alternate separator color when more differentiation is desired.
+$color-border-separator-alt-2: $palette-gray-6 !default;
+// Used as a separator on dark backgrounds, such as stage left navigation.
+$color-border-separator-inverse: $san-juan !default;
+// Used as the border color for selected rows or items on list-like components.
+$color-border-row-selected: $science-blue !default;
+// Used as the border color for the hover state on selected rows or items on list-like components.
+$color-border-row-selected-hover: $azure !default;
+// Used to delineate the boundary of a specific region. Specific to builders.
+$color-border-hint: $san-juan !default;
+// Used to delineate the boundary of a selected component. Specific to builders.
+$color-border-selection: $science-blue !default;
+// Used to delineate the boundary of a component that is being hovered over. Specific to builders.
+$color-border-selection-hover: $azure !default;
+// Used to delineate the boundary of a component that is being clicked. Specific to builders.
+$color-border-selection-active: $palette-gray-2 !default;
+// Used to delineate the boundary of a selected canvas element. Specific to builders.
+$color-border-canvas-element-selection: $malibu !default;
+// Used to delineate the boundary of a selected canvas element that is being hovered over. Specific to builders.
+$color-border-canvas-element-selection-hover: $endeavour !default;
+// Border color for a button with an icon that has a parent element that has a hover state
+$color-border-icon-inverse-hint: $white-transparent-50 !default;
+// Hovered border color for a button with an icon that has a parent element that has a hover state
+$color-border-icon-inverse-hint-hover: $white-transparent-75 !default;
+// Border color for brandable primary button
+$color-border-button-brand: $science-blue !default;
+// Border color for brandable primary button - disabled state
+$color-border-button-brand-disabled: $transparent !default;
+// Border color for default secondary button
+$color-border-button-default: $palette-gray-5 !default;
+// Border color for disabled inverse button.
+$color-border-button-inverse-disabled: $white-transparent-15 !default;
+// Border color on form elements.
+$color-border-input: $newport-border-gray !default;
+// Border color on active form elements.
+$color-border-input-active: $newport-color-brand-orange !default;
+// Border color on disabled form elements.
+$color-border-input-disabled: $palette-gray-6 !default;
+// The borders to create the checkmark
+$color-border-input-checkbox-selected-checkmark: $white !default;
+// These borders create the faux checkmark when the checkbox toggle is in the checked state.
+$color-border-toggle-checked: $white !default;
+// Border color on notification reminders.
+$color-border-reminder: $cadet-blue !default;
+// Our product brand blue.
+$color-stroke-brand: $science-blue !default;
+// Hover stroke color for our product brand blue.
+$color-stroke-brand-hover: $science-blue !default;
+// Active stroke color for our product brand blue.
+$color-stroke-brand-active: $biscay !default;
+// Disabled stroke color.
+$color-stroke-disabled: $palette-gray-4 !default;
+// Stroke color for our global header buttons.
+$color-stroke-header-button: $palette-gray-7 !default;
+$color-border-botticelli: $newport-border-botticelli !default;
+$color-comment-msz: $newport-color-comment-msz !default;
+$color-dropdown-border: $newport-dropdown-border !default;

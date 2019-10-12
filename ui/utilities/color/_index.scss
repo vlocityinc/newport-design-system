@@ -1,3 +1,4 @@
+/* stylelint-disable declaration-no-important */
 // Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
@@ -19,7 +20,7 @@
  * @group text-grays
  */
 .nds-color__text_gray-1 {
-  color: $color-gray-1 !important; // stylelint-disable declaration-no-important
+  color: $color-gray-1 !important;
 }
 
 /**

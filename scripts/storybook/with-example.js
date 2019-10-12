@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import hljs from 'highlight.js';
 const { html: htmlBeautify } = require('js-beautify');
 let id = 0;

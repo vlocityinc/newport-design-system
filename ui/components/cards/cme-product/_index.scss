@@ -1,0 +1,38 @@
+// Copyright (c) 2015-present, salesforce.com, inc. All rights reserved
+// Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
+
+/**
+*
+*
+* @name cme-product
+* @selector .nds-card_cme-product
+* @restrict .nds-card
+* @variant
+*/
+
+.nds-card_cme-product {
+  background: none;
+
+  .nds-card__body_inner {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.nds-card_cme-product-image-container {
+  padding: $spacing-large;
+  text-align: center;
+
+  img {
+    height: 250px;
+  }
+}
+
+.nds-card_cme-product-row {
+  padding: $spacing-medium;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}

@@ -98,6 +98,22 @@
   display: inline-block;
 }
 
+.nds-read-only {
+
+  [type=radio],
+  [type=radio]:checked {
+
+    ~.nds-radio_faux,
+    ~.nds-radio--faux,
+    +.nds-radio__label .nds-radio_faux,
+    +.nds-radio__label .nds-radio--faux {
+      background-color: $color-background-input-disabled;
+      border-color: $color-border-input-disabled;
+    }
+
+  }
+}
+
 .nds-has-error .nds-radio [type='radio'] {
 
   + .nds-radio_faux,

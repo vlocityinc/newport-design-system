@@ -12,6 +12,7 @@
  */
 .nds-checkbox {
   display: inline-block;
+  padding-top: 0.25rem;
 
   /**
    * Creates a custom styled checkbox
@@ -35,7 +36,7 @@
   .nds-form-element__label {
     display: inline;
     vertical-align: middle;
-    font-size: $font-size-medium;
+    font-size: $font-size-medium-a;
   }
 
   [type="checkbox"] {
@@ -54,7 +55,7 @@
     &:checked+.nds-checkbox__label .nds-checkbox_faux,
     &:checked+.nds-checkbox__label .nds-checkbox--faux {
       background: $color-brand;
-      border: none;
+      border: 0;
       outline: unset;
 
       &:after {
@@ -133,6 +134,7 @@
   }
 
   &__label {
+
     .nds-form-element__label.nds-form-element__control-help {
       font-size: 0.875rem;
       font-weight: 400;
@@ -142,6 +144,10 @@
       margin-top: -0.1875rem;
       fill: $color-input-icon-blue-hue;
       cursor: pointer;
+    }
+
+    .nds-form-element__label.nds-form-element__control-help.nds-checkbox-span {
+      margin-right: .5rem;
     }
   }
 }
@@ -170,6 +176,30 @@
     &:after {
       border-color: $color-background-input;
     }
+  }
+}
+
+.nds-read-only {
+  .nds-checkbox {
+
+    input,
+    input:checked {
+
+      +.nds-checkbox_faux,
+      +.nds-checkbox--faux,
+      ~.nds-checkbox_faux,
+      ~.nds-checkbox--faux,
+      +.nds-checkbox__label .nds-checkbox_faux,
+      +.nds-checkbox__label .nds-checkbox--faux {
+        background-color: $color-background-input-disabled;
+        border-color: $color-border-input-disabled;
+
+        &:after {
+          border-color: $color-background-input;
+        }
+      }
+    }
+
   }
 }
 

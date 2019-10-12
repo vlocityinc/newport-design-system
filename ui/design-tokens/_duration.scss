@@ -1,0 +1,17 @@
+$duration-slide: 0.25s !default;
+// 0 seconds, 0 frames
+$duration-instantly: 0s !default;
+// 0.05 seconds, 3 frames
+$duration-immediately: 0.05s !default;
+// 0.1 seconds, 6 frames
+$duration-quickly: 0.1s !default;
+// 0.2 seconds, 12 frames
+$duration-promptly: 0.2s !default;
+// 0.4 seconds, 24 frames
+$duration-slowly: 0.4s !default;
+// 3.2 seconds, 192 frames
+$duration-paused: 3.2s !default;
+// 4.8 seconds
+$duration-toast-short: 4.8s !default;
+// 9.6 seconds
+$duration-toast-medium: 9.6s !default;
