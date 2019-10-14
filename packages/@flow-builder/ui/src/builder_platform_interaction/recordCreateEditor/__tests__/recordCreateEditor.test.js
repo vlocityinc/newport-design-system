@@ -12,8 +12,16 @@ import {
     SObjectReferenceChangedEvent,
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
-    UpdateRecordFieldAssignmentEvent
+    UpdateRecordFieldAssignmentEvent,
+    EditElementEvent
 } from 'builder_platform_interaction/events';
+import {
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
+import { createAccountWithAutomaticOutput } from 'mock/storeData';
+
+const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -28,14 +36,24 @@ jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
 
-function createComponentForTest(node) {
+function createComponentForTest(
+    node,
+    mode = EditElementEvent.EVENT_NAME,
+    processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+) {
     const el = createElement(
         'builder_platform_interaction-record-create-editor',
         { is: RecordCreateEditor }
     );
-    el.node = node;
+    Object.assign(el, { node, processType, mode });
     document.body.appendChild(el);
     return el;
+}
+
+class ToggleOnChangeEvent extends CustomEvent {
+    constructor() {
+        super('change', { detail: { checked: true } });
+    }
 }
 
 // Mocking out the fetch function to return Account fields
@@ -59,6 +77,22 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getEntitiesMenuData: actual.getEntitiesMenuData,
         EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
         getSecondLevelItems: actual.getSecondLevelItems
+    };
+});
+
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    const FLOW_AUTOMATIC_OUTPUT_HANDLING =
+        actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
+    return {
+        FLOW_AUTOMATIC_OUTPUT_HANDLING,
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(processType => {
+            return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+                ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+                : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+        })
     };
 });
 
@@ -423,6 +457,69 @@ describe('record-create-editor', () => {
                     recordCreateEditor
                 );
                 expect(sObjectOrSObjectCollectionPicker.value).toBe('sObj2');
+            });
+        });
+    });
+    describe('Edit existing record element using fields and automatic output handling', () => {
+        let recordCreateEditor;
+        beforeEach(() => {
+            recordCreateEditor = createComponentForTest(
+                createAccountWithAutomaticOutput,
+                EditElementEvent.EVENT_NAME,
+                MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+            );
+        });
+        it('Selected object should not be null', () => {
+            const entityResourcePicker = getEntityResourcePicker(
+                recordCreateEditor
+            );
+            expect(entityResourcePicker).not.toBeNull();
+        });
+        it('inputoutputAssignment component should be displayed', () => {
+            const inputoutputAssignment = getInputOutputAssignments(
+                recordCreateEditor
+            );
+            expect(inputoutputAssignment).not.toBeNull();
+        });
+        it('assignRecordIdToReference component should not be displayed', () => {
+            const assignRecordIdToReference = getAssignRecordIdToReference(
+                recordCreateEditor
+            );
+            expect(assignRecordIdToReference).toBeNull();
+        });
+        it('Advanced Option Component should be visible', () => {
+            expect(
+                getUseAdvancedOptionComponent(recordCreateEditor)
+            ).not.toBeNull();
+        });
+        it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
+            return Promise.resolve().then(() => {
+                const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                    recordCreateEditor
+                );
+                expect(advancedOptionCheckbox).toBeDefined();
+                expect(advancedOptionCheckbox.type).toBe('checkbox');
+                expect(advancedOptionCheckbox.checked).toBe(false);
+            });
+        });
+        describe('Handle Events with advanced option', () => {
+            let advancedOptionCheckbox;
+            beforeEach(() => {
+                advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                    recordCreateEditor
+                );
+                advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
+            });
+            it('Use adavanced checkbox should be checked', () => {
+                return Promise.resolve().then(() => {
+                    expect(advancedOptionCheckbox.checked).toBe(true);
+                });
+            });
+            it('assignRecordIdToReference component should be displayed', () => {
+                const assignRecordIdToReference = getAssignRecordIdToReference(
+                    recordCreateEditor
+                );
+                expect(assignRecordIdToReference).not.toBeNull();
             });
         });
     });

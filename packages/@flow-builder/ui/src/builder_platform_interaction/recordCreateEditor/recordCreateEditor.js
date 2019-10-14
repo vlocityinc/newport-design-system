@@ -20,11 +20,20 @@ import {
 } from 'builder_platform_interaction/sobjectLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { format } from 'builder_platform_interaction/commonUtils';
-import { PropertyChangedEvent } from 'builder_platform_interaction/events';
+import {
+    PropertyChangedEvent,
+    UseAdvancedOptionsSelectionChangedEvent,
+    AddElementEvent
+} from 'builder_platform_interaction/events';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
 
 export default class RecordCreateEditor extends LightningElement {
     labels = LABELS;
     propertyEditorElementType = ELEMENT_TYPE.RECORD_CREATE;
+    _mode = AddElementEvent.EVENT_NAME;
 
     /**
      * Internal state for the editor
@@ -36,6 +45,9 @@ export default class RecordCreateEditor extends LightningElement {
         entityFields: {},
         resourceDisplayText: ''
     };
+
+    processTypeAutomaticOutPutHandlingSupport =
+        FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 
     /**
      * public api function to return the node
@@ -61,6 +73,42 @@ export default class RecordCreateEditor extends LightningElement {
         );
         this.updateFields();
         this.resourceDisplayText();
+    }
+
+    /**
+     * Used to know if we are dealing with AddElementEvent.EVENT_NAME or EditElementEvent.EVENT_NAME.
+     */
+    @api
+    get mode() {
+        return this._mode;
+    }
+
+    set mode(newValue) {
+        this._mode = newValue;
+        if (
+            this.isInAddElementMode &&
+            this.isAutomaticOutputHandlingSupported
+        ) {
+            this.state.recordCreateElement = recordCreateReducer(
+                this.state.recordCreateElement,
+                new UseAdvancedOptionsSelectionChangedEvent(false)
+            );
+        }
+    }
+
+    /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
+        this.processTypeAutomaticOutPutHandlingSupport = getProcessTypeAutomaticOutPutHandlingSupport(
+            newValue
+        );
     }
 
     /**
@@ -191,6 +239,14 @@ export default class RecordCreateEditor extends LightningElement {
     }
 
     /**
+     * Is in "add element" mode (ie: added from the palette to the canvas)?
+     * @returns {boolean} true if in "addElement" mode otherwise false
+     */
+    get isInAddElementMode() {
+        return this.mode === AddElementEvent.EVENT_NAME;
+    }
+
+    /**
      * get the fields of the selected entity
      */
     updateFields() {
@@ -250,6 +306,33 @@ export default class RecordCreateEditor extends LightningElement {
         return this.isCollection
             ? this.labels.helpSObjectCollAltText
             : this.labels.helpSObjectAltText;
+    }
+
+    /**
+     * @return {Boolean} true : the user chooses to use the Advanced Options
+     */
+    get isAdvancedMode() {
+        return !this.state.recordCreateElement.storeOutputAutomatically;
+    }
+
+    /**
+     * @return {Boolean} true : the process type supports the automatic output handling
+     */
+    get isAutomaticOutputHandlingSupported() {
+        return (
+            this.processTypeAutomaticOutPutHandlingSupport ===
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+        );
+    }
+
+    get isAdvancedModeOrAutomaticOutputNotSupported() {
+        return this.isAdvancedMode || !this.isAutomaticOutputHandlingSupported;
+    }
+
+    get storeNewIdCss() {
+        return this.isAutomaticOutputHandlingSupported
+            ? 'slds-p-left_xx-large slds-p-right_small'
+            : 'slds-m-bottom_small slds-border_top';
     }
 
     handleRecordStoreOptionChangedEvent(event) {
@@ -341,6 +424,18 @@ export default class RecordCreateEditor extends LightningElement {
         this.state.recordCreateElement = recordCreateReducer(
             this.state.recordCreateElement,
             propChangedEvent
+        );
+    }
+
+    /**
+     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * @param {Object} event - event
+     */
+    handleAdvancedOptionsSelectionChange(event) {
+        event.stopPropagation();
+        this.state.recordCreateElement = recordCreateReducer(
+            this.state.recordCreateElement,
+            event
         );
     }
 }

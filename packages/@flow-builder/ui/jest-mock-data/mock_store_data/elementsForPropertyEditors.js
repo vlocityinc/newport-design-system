@@ -1,6 +1,6 @@
 // to update elementsForPropertyEditors from flowWithAllElementsUIModel, run propertyEditorFactory.test.js and follow instructions
 export const elementsForPropertyEditors = {
-  "stringVariable": {
+"stringVariable": {
     "guid": "cf5e6188-117a-47c0-a493-7ed460484c87",
     "name": {
       "value": "stringVariable",
@@ -201,7 +201,7 @@ export const elementsForPropertyEditors = {
     }
   },
   "textTemplate1": {
-    "guid": "9b2579d0-01d3-45b0-b6b2-bb016b085511",
+    "guid": "48cb0159-3cde-48ad-9877-644e3cc4b5e9",
     "name": {
       "value": "textTemplate1",
       "error": null
@@ -221,7 +221,7 @@ export const elementsForPropertyEditors = {
     }
   },
   "stringConstant": {
-    "guid": "4afdbe2b-6b5a-4da3-887d-5b755f53b64e",
+    "guid": "56095468-2459-481d-b084-04a05babcb22",
     "name": {
       "value": "stringConstant",
       "error": null
@@ -244,7 +244,7 @@ export const elementsForPropertyEditors = {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "97a7048c-7323-4356-93c4-30995cf2c8c7",
+      "value": "88a32730-b8ce-4cdd-b44c-9ad6bd1992e9",
       "error": null
     }
   }

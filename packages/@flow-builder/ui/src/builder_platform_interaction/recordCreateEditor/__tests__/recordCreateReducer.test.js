@@ -4,7 +4,8 @@ import {
     DeleteRecordFieldAssignmentEvent,
     PropertyChangedEvent,
     RecordStoreOptionChangedEvent,
-    UpdateRecordFieldAssignmentEvent
+    UpdateRecordFieldAssignmentEvent,
+    UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { WAY_TO_STORE_FIELDS } from 'builder_platform_interaction/recordEditorLib';
@@ -358,6 +359,34 @@ describe('record-create-reducer using fields', () => {
                         rowIndex: expect.any(String)
                     }
                 ]);
+            });
+        });
+        describe('update use Advanced Option should reset assignRecordIdToReference', () => {
+            let newState;
+            beforeAll(() => {
+                originalState = recordCreateUsingFieldsTemplate();
+                const changeFromAutomaticToAdvancedModeEvent = {
+                    type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
+                    detail: {
+                        useAdvancedOptions: false
+                    }
+                };
+                newState = recordCreateReducer(
+                    originalState,
+                    changeFromAutomaticToAdvancedModeEvent
+                );
+            });
+            it('new state different than original one', () => {
+                expect(newState).not.toBe(originalState);
+            });
+            it('should reset assignRecordIdToReference', () => {
+                expect(newState.assignRecordIdToReference).toEqual({
+                    value: '',
+                    error: null
+                });
+            });
+            it('should set "storeOutputAutomatically" to true', () => {
+                expect(newState.storeOutputAutomatically).toBe(true);
             });
         });
     });

@@ -65,6 +65,7 @@ export const decisionOutcome = getElementByName('outcome1');
 export const caseLogACallAutomatic = getElementByName('caseLogACallAutomatic');
 export const apexComplexTypeVariable = getElementByName('apexComplexTypeVariable');
 export const apexCarVariable = getElementByName('apexCarVariable');
+export const createAccountWithAutomaticOutput = getElementByName('createAccountWithAutomaticOutput');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

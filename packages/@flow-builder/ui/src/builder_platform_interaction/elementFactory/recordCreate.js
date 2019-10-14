@@ -31,7 +31,8 @@ export function createRecordCreate(recordCreate = {}) {
         object = '',
         objectIndex = generateGuid(),
         assignRecordIdToReference = '',
-        assignRecordIdToReferenceIndex = generateGuid()
+        assignRecordIdToReferenceIndex = generateGuid(),
+        storeOutputAutomatically
     } = recordCreate;
     let {
         inputAssignments = [],
@@ -61,7 +62,8 @@ export function createRecordCreate(recordCreate = {}) {
             elementType,
             assignRecordIdToReference,
             assignRecordIdToReferenceIndex,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value
+            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+            storeOutputAutomatically
         });
     } else {
         if (inputReference) {
@@ -139,7 +141,12 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         recordCreate,
         config
     );
-    const { inputReference, object, getFirstRecordOnly } = recordCreate;
+    const {
+        inputReference,
+        object,
+        getFirstRecordOnly,
+        storeOutputAutomatically
+    } = recordCreate;
 
     if (getFirstRecordOnly && recordCreate.object !== '') {
         const { assignRecordIdToReference } = recordCreate;
@@ -150,10 +157,16 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
 
         inputAssignments = createEmptyAssignmentMetadata(inputAssignments);
 
-        const newRecordCreateMetadata = Object.assign(recordCreateMetadata, {
-            object,
-            inputAssignments
-        });
+        const newRecordCreateMetadata = Object.assign(
+            recordCreateMetadata,
+            {
+                object,
+                inputAssignments
+            },
+            storeOutputAutomatically !== undefined
+                ? { storeOutputAutomatically }
+                : {}
+        );
         if (assignRecordIdToReference !== '') {
             newRecordCreateMetadata.assignRecordIdToReference = assignRecordIdToReference;
         }

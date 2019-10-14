@@ -34,14 +34,23 @@ import {
     flowWithCreateRecordUsingSObjectCollection,
     flowWithCreateRecordUsingFields
 } from 'mock/flows/flowWithCreateRecord';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 import {
     setGlobalVariables,
-    setSystemVariables
+    setSystemVariables,
+    setProcessTypeFeature
 } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
+
+const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
@@ -122,13 +131,14 @@ const getOutputResourcePicker = recordEditor => {
 
 const createComponentForTest = (
     node,
-    { mode = EditElementEvent.EVENT_NAME } = ''
+    mode = EditElementEvent.EVENT_NAME,
+    processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
 ) => {
     const el = createElement(
         'builder_platform_interaction-record-create-editor',
         { is: RecordCreateEditor }
     );
-    Object.assign(el, { node, mode });
+    Object.assign(el, { node, processType, mode });
     document.body.appendChild(el);
     return el;
 };
@@ -440,6 +450,12 @@ describe('Record Create Editor', () => {
                     );
                 });
             });
+            it('use advanced checkbox component should not be visible', () => {
+                const useAdvancedOptionCheckBox = getUseAdvancedOptionComponent(
+                    recordCreateElement
+                );
+                expect(useAdvancedOptionCheckBox).toBeNull();
+            });
             it('removing the entity should hide input assignment but store option element should remained', () => {
                 const entityResourcePicker = getEntityResourcePicker(
                     recordCreateElement
@@ -590,6 +606,65 @@ describe('Record Create Editor', () => {
                     });
                 });
             });
+        });
+    });
+    describe('Working with automatic output handling', () => {
+        let recordCreateElement;
+        beforeAll(() => {
+            setProcessTypeFeature(
+                MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE,
+                supportedFeaturesListForFlow
+            );
+            uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+        });
+        afterAll(() => {
+            store.dispatch({ type: 'INIT' });
+        });
+        beforeEach(() => {
+            const element = getElementByDevName(
+                'createAccountWithAutomaticOutput'
+            );
+            recordCreateNode = getElementForPropertyEditor(element);
+            recordCreateElement = createComponentForTest(
+                recordCreateNode,
+                EditElementEvent.EVENT_NAME,
+                MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+            );
+        });
+        it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
+            const recordStoreElement = getRecordStoreOption(
+                recordCreateElement
+            );
+            const radioGroupElement = getRadioGroup(recordStoreElement);
+            expect(recordStoreElement.numberOfRecordsToStore).toBe(
+                'firstRecord'
+            );
+            expect(recordStoreElement.wayToStoreFields).toBe(
+                'separateVariables'
+            );
+            expect(recordStoreElement.assignNullValuesIfNoRecordsFound).toBe(
+                false
+            );
+            expect(radioGroupElement).toHaveLength(2);
+        });
+        it('assign Record Id To Reference should not be displayed', () => {
+            const outputResource = getOutputResourcePicker(recordCreateElement);
+            expect(outputResource).toBeNull();
+        });
+        it('use advanced checkbox component should be visible', () => {
+            const useAdvancedOptionCheckBox = getUseAdvancedOptionComponent(
+                recordCreateElement
+            );
+            expect(useAdvancedOptionCheckBox).not.toBeNull();
+        });
+        it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
+            const advancedOptionCheckbox = getAdvancedOptionCheckbox(
+                recordCreateElement
+            );
+            expect(advancedOptionCheckbox).toBeDefined();
+            expect(advancedOptionCheckbox.type).toBe('checkbox');
+            expect(advancedOptionCheckbox.checked).toBe(false);
         });
     });
 });

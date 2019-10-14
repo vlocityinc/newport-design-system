@@ -13,7 +13,8 @@ import {
     AddRecordFieldAssignmentEvent,
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent,
-    RecordStoreOptionChangedEvent
+    RecordStoreOptionChangedEvent,
+    UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
 
 const INPUTASSIGNMENTS_PROP = 'inputAssignments';
@@ -76,6 +77,17 @@ const updateRecordRecordFieldAssignment = (state, { index, value }) => {
     return set(state, path, item);
 };
 
+/**
+ * Update the property storeOutputAutomatically and reset assignRecordIdToReference.
+ */
+const resetUseAdvancedOptionsSelection = state => {
+    state = updateProperties(state, {
+        storeOutputAutomatically: true
+    });
+
+    return state;
+};
+
 const resetRecordCreate = (state, resetObject) => {
     // reset inputAssignments : create one empty assignment item
     state = set(state, INPUTASSIGNMENTS_PROP, [emptyAssignmentItem()]);
@@ -86,6 +98,10 @@ const resetRecordCreate = (state, resetObject) => {
     state = updateProperties(state, {
         assignRecordIdToReference: { value: '', error: null }
     });
+    // reset storeOutputAutomatically if necessary
+    if (state.storeOutputAutomatically !== undefined) {
+        state = resetUseAdvancedOptionsSelection(state);
+    }
     // reset inputReference
     return updateProperties(state, {
         inputReference: { value: '', error: null }
@@ -137,6 +153,18 @@ const managePropertyChanged = (
 };
 
 /**
+ * Update the property storeOutputAutomatically and reset assignRecordIdToReference.
+ */
+const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
+    state = updateProperties(state, {
+        storeOutputAutomatically: !useAdvancedOptions,
+        assignRecordIdToReference: { value: '', error: null }
+    });
+
+    return state;
+};
+
+/**
  * Record Create reducer function runs validation rules and returns back the updated element state
  * @param {object} state - element / node state
  * @param {object} event - The event to be handled
@@ -152,6 +180,8 @@ export const recordCreateReducer = (state, event) => {
             return updateRecordRecordFieldAssignment(state, event.detail);
         case PropertyChangedEvent.EVENT_NAME:
             return managePropertyChanged(state, event.detail);
+        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+            return useAdvancedOptionsSelectionChanged(state, event.detail);
         case RecordStoreOptionChangedEvent.EVENT_NAME:
             return recordStoreOptionAndWayToStoreChanged(state, event.detail);
         case VALIDATE_ALL: {
