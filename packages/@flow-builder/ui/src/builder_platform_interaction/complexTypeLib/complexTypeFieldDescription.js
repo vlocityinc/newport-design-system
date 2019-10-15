@@ -97,7 +97,7 @@ export function retrieveResourceComplexTypeFields(flowResource) {
 }
 
 function getExtensionComplexTypeOutputFields(extensionName) {
-    const extension = getCachedExtension(extensionName);
+    const extension = getCachedExtension(extensionName.value || extensionName);
     const fields =
         extension &&
         extension.outputParameters.reduce((acc, parameter) => {

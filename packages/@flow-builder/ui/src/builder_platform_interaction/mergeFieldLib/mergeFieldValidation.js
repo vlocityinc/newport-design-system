@@ -457,7 +457,7 @@ export class MergeFieldsValidation {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
         const [elementName, ...fieldNames] = parts;
-        const element = getElementByDevName(elementName);
+        const element = getElementByDevName(elementName) || this._getUncommittedElement(elementName);
 
         if (!element) {
             return [

@@ -89,7 +89,7 @@ export const getResourceByUniqueIdentifier = identifier => {
             getElementByGuid(complexGuid.guidOrLiteral) ||
             getGlobalConstantOrSystemVariable(identifier) ||
             getGlobalVariable(identifier) ||
-            getUncommittedResource(identifier) ||
+            getUncommittedResource(complexGuid.guidOrLiteral) ||
             (isRecordSystemVariableIdentifier(complexGuid.guidOrLiteral) &&
                 getElementByDevName(complexGuid.guidOrLiteral))
         );
