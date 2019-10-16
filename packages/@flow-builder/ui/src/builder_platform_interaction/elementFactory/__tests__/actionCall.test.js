@@ -11,6 +11,14 @@ import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
+import {
+    apexCallAutomaticAnonymousAccountOutput,
+    apexCallAutomaticAnonymousStringOutput
+} from 'mock/storeData';
+import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
+import { getAccountFromApexAnonymousOutputActionParameters as mockGetAccountFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountFromApexAnonymousOutputActionParameters.json';
+import { getAccountNameFromApexAnonymousOutputActionParameters as mockGetAccountNameFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountNameFromApexAnonymousOutputActionParameters.json';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 
@@ -205,6 +213,34 @@ const actionCallAutomaticOutputInStore = {
     storeOutputAutomatically: true
 };
 
+const mockImplementationForGetParametersForInvocableAction = ({
+    actionName,
+    actionType
+}) => {
+    const key = `${actionType}-${actionName}`;
+    switch (key) {
+        case 'apex-getAccounts':
+            return mockGetAccountFromApexAnonymousOutputActionParameters;
+        case 'apex-InvocableGetAccountName':
+            return mockGetAccountNameFromApexAnonymousOutputActionParameters;
+        default:
+            return undefined;
+    }
+};
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => {
+    return {
+        getParametersForInvocableAction: jest
+            .fn()
+            .mockImplementation(({ actionName, actionType }) =>
+                mockImplementationForGetParametersForInvocableAction({
+                    actionName,
+                    actionType
+                })
+            )
+    };
+});
+
 describe('actionCall', () => {
     describe('createActionCall function', () => {
         let actionCall;
@@ -344,6 +380,34 @@ describe('actionCall', () => {
             });
             it('"storeOutputAutomatically" should be true', () => {
                 expect(actionCall.storeOutputAutomatically).toBe(true);
+            });
+            it('"isSystemGeneratedOutput" should be undefined', () => {
+                expect(actionCall.isSystemGeneratedOutput).toBeUndefined();
+            });
+        });
+
+        describe('when metadata action call with anonymous output handling is passed', () => {
+            it('sets isSystemGeneratedOutput to true and primitive datatype for primitives', () => {
+                const createdAction = createActionCall(
+                    getActionCallsByNames(flowWithAllElements, [
+                        apexCallAutomaticAnonymousStringOutput.name
+                    ])[0]
+                );
+
+                expect(createdAction.isSystemGeneratedOutput).toBe(true);
+                expect(createdAction.dataType).toBe('string');
+                expect(createdAction.sobjectType).toBeNull();
+            });
+            it('sets isSystemGeneratedOutput to true, sobject datatype and sobjectType for sobjects', () => {
+                const createdAction = createActionCall(
+                    getActionCallsByNames(flowWithAllElements, [
+                        apexCallAutomaticAnonymousAccountOutput.name
+                    ])[0]
+                );
+
+                expect(createdAction.isSystemGeneratedOutput).toBe(true);
+                expect(createdAction.dataType).toBe('sobject');
+                expect(createdAction.sobjectType).toBe('Account');
             });
         });
     });

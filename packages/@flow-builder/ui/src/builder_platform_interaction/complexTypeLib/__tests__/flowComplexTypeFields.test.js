@@ -1,7 +1,8 @@
 import {
     loadFieldsForSobjectsInFlow,
     loadFieldsForExtensionsInFlow,
-    loadParametersForInvocableActionsInFlow
+    loadParametersForInvocableActionsInFlow,
+    loadParametersForInvocableActionsInFlowFromMetadata
 } from '../flowComplexTypeFields';
 import {
     accountSObjectVariable,
@@ -20,6 +21,8 @@ import {
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     fetchFieldsForEntity: jest.fn().mockImplementation(() => Promise.resolve())
@@ -155,6 +158,57 @@ describe('flowComplexTypeFields', () => {
         it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
             await loadParametersForInvocableActionsInFlow(
                 stateWithElements([actionCallElement])
+            );
+            expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
+                0
+            );
+        });
+    });
+    describe('loadParametersForInvocableActionsInFlowFromMetadata', () => {
+        const expectThreeCallsToFetchParametersForInvocableAction = (
+            ...expectedActionCallNameAndType
+        ) => {
+            expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
+                3
+            );
+            expect(fetchParametersForInvocableAction.mock.calls[0][0]).toEqual(
+                expectedActionCallNameAndType[0]
+            );
+            expect(fetchParametersForInvocableAction.mock.calls[1][0]).toEqual(
+                expectedActionCallNameAndType[1]
+            );
+            expect(fetchParametersForInvocableAction.mock.calls[2][0]).toEqual(
+                expectedActionCallNameAndType[2]
+            );
+        };
+        it('Load invocable action parameters only for actions in automatic output mode', async () => {
+            await loadParametersForInvocableActionsInFlowFromMetadata(
+                getActionCallsByNames(flowWithAllElements, [
+                    actionCallAutomaticOutput.name,
+                    apexCallAutomaticAnonymousAccountOutput.name,
+                    externalServiceAutomaticOutput.name
+                ])
+            );
+            expectThreeCallsToFetchParametersForInvocableAction(
+                {
+                    actionName: 'chatterPost',
+                    actionType: 'chatterPost'
+                },
+                {
+                    actionName: 'getAccounts',
+                    actionType: 'apex'
+                },
+                {
+                    actionName: 'BankServiceNew.addAccount',
+                    actionType: 'externalService'
+                }
+            );
+        });
+        it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
+            await loadParametersForInvocableActionsInFlowFromMetadata(
+                getActionCallsByNames(flowWithAllElements, [
+                    actionCallElement.name
+                ])
             );
             expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
                 0

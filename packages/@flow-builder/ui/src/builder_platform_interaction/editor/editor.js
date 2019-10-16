@@ -98,8 +98,14 @@ import {
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
-import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/complexTypeLib';
-import { ShiftFocusForwardCommand, ShiftFocusBackwardCommand } from 'builder_platform_interaction/commands';
+import {
+    loadFieldsForComplexTypesInFlow,
+    loadParametersForInvocableActionsInFlowFromMetadata
+} from 'builder_platform_interaction/complexTypeLib';
+import {
+    ShiftFocusForwardCommand,
+    ShiftFocusBackwardCommand
+} from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
 let unsubscribeStore;
@@ -112,10 +118,10 @@ const EDITOR = 'EDITOR';
 const APP_NAME = 'FLOW_BUILDER';
 
 const PANELS = {
-    HEADER: "builder_platform_interaction-header",
-    TOOLBAR: "builder_platform_interaction-toolbar",
-    TOOLBOX: "builder_platform_interaction-left-panel",
-    CANVAS: "builder_platform_interaction-canvas-container"
+    HEADER: 'builder_platform_interaction-header',
+    TOOLBAR: 'builder_platform_interaction-toolbar',
+    TOOLBOX: 'builder_platform_interaction-left-panel',
+    CANVAS: 'builder_platform_interaction-canvas-container'
 };
 
 /**
@@ -380,12 +386,19 @@ export default class Editor extends LightningElement {
             // Handle error case here if something is needed beyond our automatic generic error modal popup
             this.spinners.showFlowMetadataSpinner = false;
         } else {
-            storeInstance.dispatch(updateFlow(translateFlowToUIModel(data)));
-            this.setOriginalFlowValues();
-            this.cacheSObjectsInComboboxShape();
-            this.loadFieldsForComplexTypesInFlow();
+            // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
+            loadParametersForInvocableActionsInFlowFromMetadata(
+                data.metadata.actionCalls
+            ).then(() => {
+                storeInstance.dispatch(
+                    updateFlow(translateFlowToUIModel(data))
+                );
+                this.setOriginalFlowValues();
+                this.cacheSObjectsInComboboxShape();
+                this.loadFieldsForComplexTypesInFlow();
+                this.isFlowServerCallInProgress = false;
+            });
         }
-        this.isFlowServerCallInProgress = false;
     };
 
     /**
@@ -945,7 +958,9 @@ export default class Editor extends LightningElement {
     };
 
     handleShiftFocus = shiftBackward => {
-        const currentlyFocusedElement = this.template.activeElement && this.template.activeElement.tagName.toLowerCase();
+        const currentlyFocusedElement =
+            this.template.activeElement &&
+            this.template.activeElement.tagName.toLowerCase();
 
         switch (currentlyFocusedElement) {
             case PANELS.HEADER:
@@ -1083,23 +1098,33 @@ export default class Editor extends LightningElement {
 
     isMacPlatform = () => {
         return navigator.userAgent.indexOf('Macintosh') !== -1;
-    }
+    };
 
     setupCommandsAndShortcuts = () => {
         // Shift Focus Forward Command
         const shiftFocusForwardCommand = new ShiftFocusForwardCommand(() =>
             this.handleShiftFocus(false)
         );
-        const shiftFocusForwardShortcut = this.isMacPlatform() ? { key: 'F6' } : { ctrl: true, key: 'F6' };
-        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusForwardCommand, shiftFocusForwardShortcut);
+        const shiftFocusForwardShortcut = this.isMacPlatform()
+            ? { key: 'F6' }
+            : { ctrl: true, key: 'F6' };
+        this.keyboardInteractions.setupCommandAndShortcut(
+            shiftFocusForwardCommand,
+            shiftFocusForwardShortcut
+        );
 
         // Shift Focus Backward Command
         const shiftFocusBackwardCommand = new ShiftFocusBackwardCommand(() =>
             this.handleShiftFocus(true)
         );
-        const shiftFocusBackwardShortcut = this.isMacPlatform() ? { shift: true, key: 'F6' } : { shift: true, ctrl: true, key: 'F6' };
-        this.keyboardInteractions.setupCommandAndShortcut(shiftFocusBackwardCommand, shiftFocusBackwardShortcut);
-    }
+        const shiftFocusBackwardShortcut = this.isMacPlatform()
+            ? { shift: true, key: 'F6' }
+            : { shift: true, ctrl: true, key: 'F6' };
+        this.keyboardInteractions.setupCommandAndShortcut(
+            shiftFocusBackwardCommand,
+            shiftFocusBackwardShortcut
+        );
+    };
 
     /**
      * Callback passed to variour property editors which support inline creation

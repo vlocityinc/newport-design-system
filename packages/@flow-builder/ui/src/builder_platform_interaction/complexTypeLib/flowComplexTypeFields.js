@@ -46,6 +46,27 @@ export function loadFieldsForExtensionsInFlow(state) {
     }).catch(() => {});
 }
 
+export function loadParametersForInvocableActionsInFlowFromMetadata(
+    actionCalls
+) {
+    const actionCallNamesAndTypes = actionCalls
+        .filter(actionCall => actionCall.storeOutputAutomatically === true)
+        .map(actionCall => ({
+            actionName: actionCall.actionName,
+            actionType: actionCall.actionType
+        }));
+    const promises = [];
+    actionCallNamesAndTypes.forEach(actionCallNameAndType =>
+        promises.push(
+            fetchParametersForInvocableAction(actionCallNameAndType, {
+                disableErrorModal: true,
+                background: true
+            }).catch(() => {})
+        )
+    );
+    return Promise.all(promises);
+}
+
 export function loadParametersForInvocableActionsInFlow(state) {
     // we only get the action that have outputs. (e.g. EMAIL_ALERT is excluded)
     const actionCallsSelector = byElementTypeElementsSelector(

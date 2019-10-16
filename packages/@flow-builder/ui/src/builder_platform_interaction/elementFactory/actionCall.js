@@ -22,6 +22,7 @@ import {
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 const maxConnections = 2;
 export const getDefaultAvailableConnections = () => [
@@ -32,6 +33,19 @@ export const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.FAULT
     }
 ];
+const getSystemGeneratedOutputParameter = (actionName, actionType) => {
+    const parameters = getParametersForInvocableAction({
+        actionName,
+        actionType
+    });
+    return parameters
+        ? parameters.find(
+              param =>
+                  param.isOutput === true &&
+                  param.isSystemGeneratedOutput === true
+          )
+        : undefined;
+};
 
 export function createActionCall(
     actionCall = {},
@@ -49,10 +63,22 @@ export function createActionCall(
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameter(inputParameter)
     );
-
+    let isSystemGeneratedOutput;
+    let sobjectType;
     if (storeOutputAutomatically) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
+        const systemGeneratedOutputParameter = getSystemGeneratedOutputParameter(
+            actionName,
+            actionType
+        );
+        if (systemGeneratedOutputParameter) {
+            ({
+                isSystemGeneratedOutput,
+                dataType,
+                sobjectType
+            } = systemGeneratedOutputParameter);
+        }
     } else {
         dataType = FLOW_DATA_TYPE.BOOLEAN.value;
         outputParameters = outputParameters.map(outputParameter =>
@@ -73,7 +99,9 @@ export function createActionCall(
         maxConnections,
         elementType,
         dataType,
-        storeOutputAutomatically
+        storeOutputAutomatically,
+        isSystemGeneratedOutput,
+        sobjectType
     });
 
     return actionCallObject;
