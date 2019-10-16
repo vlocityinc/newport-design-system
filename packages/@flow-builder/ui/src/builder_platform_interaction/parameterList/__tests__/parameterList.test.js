@@ -111,6 +111,18 @@ const parameterListWithOutputs = (
     automaticOutputHandlingSupported
 });
 
+const parameterListWithConfigurationEditor = (
+    storeOutputAutomatically = false,
+    automaticOutputHandlingSupported = false,
+    configurationEditor = null
+) => ({
+    inputs: defaultInputParameters,
+    outputs: defaultOutputParameters,
+    storeOutputAutomatically,
+    automaticOutputHandlingSupported,
+    configurationEditor
+});
+
 const selectors = {
     divInputs: '.inputs',
     divOutputs: '.outputs',
@@ -120,7 +132,8 @@ const selectors = {
     outputHeader: '.outputHeader',
     emptyInputsOutputs: '.emptyInputsOutputsMessage',
     goneCamping: '.goneCamping',
-    parameterItem: 'builder_platform_interaction-parameter-item'
+    parameterItem: 'builder_platform_interaction-parameter-item',
+    configurationEditor: 'builder_platform_interaction-custom-property-editor'
 };
 
 const getInputsDiv = parameterList =>
@@ -159,6 +172,8 @@ const getInputHeader = parameterList =>
 const getOutputHeader = parameterList =>
     parameterList.shadowRoot.querySelector(selectors.outputHeader);
 
+const getConfigurationEditor = parameterList => parameterList.shadowRoot.querySelector(selectors.configurationEditor);
+
 function createComponentForTest({
     elementType = ELEMENT_TYPE.ACTION_CALL,
     inputHeader = defaultInputHeader,
@@ -174,7 +189,8 @@ function createComponentForTest({
     sortInputs = true,
     sortOutputs = true,
     storeOutputAutomatically = false,
-    automaticOutputHandlingSupported = false
+    automaticOutputHandlingSupported = false,
+    configurationEditor
 } = {}) {
     const el = createElement('builder_platform_interaction-parameter-list', {
         is: ParameterList
@@ -194,7 +210,8 @@ function createComponentForTest({
         sortInputs,
         sortOutputs,
         storeOutputAutomatically,
-        automaticOutputHandlingSupported
+        automaticOutputHandlingSupported,
+        configurationEditor
     });
     document.body.appendChild(el);
     return el;
@@ -497,6 +514,22 @@ describe('parameter-list', () => {
             expect(outputHeader.firstChild.nodeValue).toEqual(
                 defaultOutputHeader
             );
+        });
+    });
+    describe('custom property editor', () => {
+        let parameterList;
+        beforeEach(() => {
+            parameterList = createComponentForTest(
+                parameterListWithConfigurationEditor(false, true, 'c:helloWord')
+            );
+        });
+        it('should create configuration editor component if configuration editor is defined', () => {
+            const configurationEditor = getConfigurationEditor(parameterList);
+            expect(configurationEditor).not.toBeNull();
+        });
+        it('should not display input divs if configuration editor is defined', () => {
+            const inputsDiv = getInputsDiv(parameterList);
+            expect(inputsDiv).toBeNull();
         });
     });
 });

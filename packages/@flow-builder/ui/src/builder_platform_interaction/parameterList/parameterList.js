@@ -152,7 +152,7 @@ export default class ParameterList extends LightningElement {
     }
 
     get hasConfigurationEditor() {
-        return this.configurationEditor !== null;
+        return !!this.configurationEditor;
     }
 
     /**
