@@ -1,6 +1,7 @@
 import { Validation } from 'builder_platform_interaction/validation';
 import * as ValidationRules from 'builder_platform_interaction/validationRules';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 const defaultRules = {};
 
 /**
@@ -10,6 +11,10 @@ const defaultRules = {};
 const validateFilter = () =>
     ValidationRules.validateExpressionWith3PropertiesWithNoEmptyRHS();
 
+const additionalRules = {
+    object: [ValidationRules.shouldNotBeBlank]
+};
+
 export const startValidation = new Validation(defaultRules);
 
 /**
@@ -18,8 +23,14 @@ export const startValidation = new Validation(defaultRules);
  * @param {string} nodeElement.filterType - current element's filterType
  * @return {Object} the overridden rules
  */
-export const getRules = ({ filterType, object }) => {
-    const overriddenRules = {};
+export const getRules = ({ filterType, object, triggerType }) => {
+    let overriddenRules = {};
+
+    if (triggerType) {
+        if (triggerType.value === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+            overriddenRules = { ...additionalRules };
+        }
+    }
 
     // validate filters if filter type is ALL
     if (filterType === RECORD_FILTER_CRITERIA.ALL && object.value !== '') {
