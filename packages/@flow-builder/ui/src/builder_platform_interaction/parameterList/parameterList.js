@@ -66,6 +66,13 @@ export default class ParameterList extends LightningElement {
     @api emptyInputsOutputsTitle;
 
     /**
+     * Name of configuration editor associated with a component. It is null if it is not defined
+     *
+     * @memberof BaseCalloutEditor
+     */
+    @api configurationEditor;
+
+    /**
      * List of input ParameterItem
      *
      */
@@ -142,6 +149,10 @@ export default class ParameterList extends LightningElement {
 
     get emptyInputsAndOutputs() {
         return this.emptyInputs && this.emptyOutputs;
+    }
+
+    get hasConfigurationEditor() {
+        return this.configurationEditor !== null;
     }
 
     /**

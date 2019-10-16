@@ -65,4 +65,12 @@ export default class BaseCalloutEditor extends LightningElement {
      */
     @api
     runinmode;
+
+    /**
+     * Name of configuration editor associated with a component. It is null if it is not defined
+     *
+     * @memberof BaseCalloutEditor
+     */
+    @api
+    configurationEditor;
 }

@@ -245,6 +245,19 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     /**
+     * Returns the configuration editor associated with action if there is one
+     *
+     * @readonly
+     * @memberof InvocableActionEditor
+     */
+    get configurationEditor() {
+        if (this.invocableActionDescriptor && this.invocableActionDescriptor.configurationEditor) {
+            return this.invocableActionDescriptor.configurationEditor;
+        }
+        return null;
+    }
+
+    /**
      * @param {object} event - property changed event coming from label-description component or parameter-item component
      */
 
