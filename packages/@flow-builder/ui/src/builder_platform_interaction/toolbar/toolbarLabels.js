@@ -9,6 +9,8 @@ import debugTitle from '@salesforce/label/FlowBuilderToolbar.debugTitle';
 import diffFlowTitle from '@salesforce/label/FlowBuilderToolbar.diffFlowTitle';
 import activateTitle from '@salesforce/label/FlowBuilderToolbar.activateTitle';
 import activating from '@salesforce/label/FlowBuilderToolbar.activating';
+import deactivateTitle from '@salesforce/label/FlowBuilderToolbar.deactivateTitle';
+import deactivating from '@salesforce/label/FlowBuilderToolbar.deactivating';
 import saveTitle from '@salesforce/label/FlowBuilderToolbar.saveTitle';
 import saveAsTitle from '@salesforce/label/FlowBuilderToolbar.saveAsTitle';
 import deactivatedLabel from '@salesforce/label/FlowStatus.deactivatedLabel';
@@ -29,6 +31,8 @@ export const LABELS = {
     diffFlowTitle,
     activateTitle,
     activating,
+    deactivateTitle,
+    deactivating,
     saveTitle,
     saveAsTitle,
     errorPopOverHeader,

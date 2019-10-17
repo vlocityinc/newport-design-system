@@ -43,7 +43,7 @@ export default class Toolbar extends LightningElement {
     lastModifiedDate;
 
     @api
-    saveAndActivatingStatus;
+    saveAndPendingOperationStatus; // saved, saving..., activating..., deactivating...
 
     @api
     isLightningFlowBuilder;
@@ -92,15 +92,16 @@ export default class Toolbar extends LightningElement {
     }
 
     get showLastSavedPill() {
-        return !!this.saveAndActivatingStatus;
+        return !!this.saveAndPendingOperationStatus;
     }
 
     get statusIndicatorTitle() {
         if (
-            this.saveAndActivatingStatus === this.labels.savingStatus ||
-            this.saveAndActivatingStatus === this.labels.activating
+            this.saveAndPendingOperationStatus === this.labels.savingStatus ||
+            this.saveAndPendingOperationStatus === this.labels.activating ||
+            this.saveAndPendingOperationStatus === this.labels.deactivating
         ) {
-            return this.saveAndActivatingStatus;
+            return this.saveAndPendingOperationStatus;
         }
         return (
             this.statusLabelFromStatus[this.flowStatus] &&
@@ -110,10 +111,11 @@ export default class Toolbar extends LightningElement {
 
     get activationStatus() {
         if (
-            this.saveAndActivatingStatus === this.labels.savingStatus ||
-            this.saveAndActivatingStatus === this.labels.activating
+            this.saveAndPendingOperationStatus === this.labels.savingStatus ||
+            this.saveAndPendingOperationStatus === this.labels.activating ||
+            this.saveAndPendingOperationStatus === this.labels.deactivating
         ) {
-            return this.saveAndActivatingStatus;
+            return this.saveAndPendingOperationStatus;
         }
         const activationStatusLabel =
             this.statusLabelFromStatus[this.flowStatus] &&
@@ -123,10 +125,10 @@ export default class Toolbar extends LightningElement {
 
     get showDate() {
         return (
-            this.saveAndActivatingStatus === LABELS.savedStatus &&
+            this.saveAndPendingOperationStatus === LABELS.savedStatus &&
             this.lastModifiedDate &&
-            this.saveAndActivatingStatus !== this.labels.savingStatus &&
-            this.saveAndActivatingStatus !== this.labels.activating
+            this.saveAndPendingOperationStatus !== this.labels.savingStatus &&
+            this.saveAndPendingOperationStatus !== this.labels.activating
         );
     }
 
@@ -146,22 +148,29 @@ export default class Toolbar extends LightningElement {
         );
     }
 
-    get activateDisabled() {
+    get activateDisabled() { // for the activate button, disables and enables activation or deactivation through the button
         return (
             !this.flowStatus ||
             this.flowStatus === FLOW_STATUS.INVALID_DRAFT ||
-            this.flowStatus === FLOW_STATUS.ACTIVE ||
-            this.saveAndActivatingStatus === this.labels.savingStatus ||
-            this.saveAndActivatingStatus === this.labels.activating ||
+            this.saveAndPendingOperationStatus === this.labels.savingStatus ||
+            this.saveAndPendingOperationStatus === this.labels.activating ||
+            this.saveAndPendingOperationStatus === this.labels.deactivating ||
             this.hasUnsavedChanges
         );
     }
 
     get activateButtonText() {
         if (this.flowStatus === FLOW_STATUS.ACTIVE) {
-            return this.labels.activeLabel;
+            return this.labels.deactivateTitle;
         }
         return this.labels.activateTitle;
+    }
+
+    get activateButtonVariant() {
+        if (this.flowStatus === FLOW_STATUS.ACTIVE) {
+            return "destructive-text";
+        }
+        return "neutral";
     }
 
     get isDiffFlowAllowed() {

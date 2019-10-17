@@ -30,7 +30,10 @@ import {
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES
 } from 'builder_platform_interaction/actions';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_STATUS
+} from 'builder_platform_interaction/flowMetadata';
 import {
     fetch,
     fetchOnce,
@@ -176,7 +179,7 @@ export default class Editor extends LightningElement {
     disableSave = true;
 
     @track
-    saveAndActivatingStatus;
+    saveAndPendingOperationStatus;
 
     @track
     saveType;
@@ -544,10 +547,10 @@ export default class Editor extends LightningElement {
 
         if (this.currentFlowId) {
             this.hasNotBeenSaved = false;
-            this.saveAndActivatingStatus = LABELS.savedStatus;
+            this.saveAndPendingOperationStatus = LABELS.savedStatus;
         } else {
             this.hasNotBeenSaved = true;
-            this.saveAndActivatingStatus = null;
+            this.saveAndPendingOperationStatus = null;
         }
         this.disableSave = false;
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
@@ -793,7 +796,11 @@ export default class Editor extends LightningElement {
             this.toggleFlowStatusCallBack,
             params
         );
-        this.saveAndActivatingStatus = LABELS.activating;
+        if (this.flowStatus === FLOW_STATUS.ACTIVE) {
+            this.saveAndPendingOperationStatus = LABELS.deactivating;
+        } else {
+            this.saveAndPendingOperationStatus = LABELS.activating;
+        }
         this.hasNotBeenSaved = true;
         this.isUndoDisabled = true;
         this.isRedoDisabled = true;
@@ -819,7 +826,7 @@ export default class Editor extends LightningElement {
             );
             this.clearUndoRedoStack();
         }
-        this.saveAndActivatingStatus = LABELS.savedStatus;
+        this.saveAndPendingOperationStatus = LABELS.savedStatus;
         this.hasNotBeenSaved = false;
     };
 
@@ -1035,7 +1042,7 @@ export default class Editor extends LightningElement {
             { saveType },
             'click'
         );
-        this.saveAndActivatingStatus = LABELS.savingStatus;
+        this.saveAndPendingOperationStatus = LABELS.savingStatus;
         this.hasNotBeenSaved = true;
         this.disableSave = true;
         this.isUndoDisabled = true;
@@ -1159,7 +1166,7 @@ export default class Editor extends LightningElement {
             });
 
             if (this.flowId) {
-                this.saveAndActivatingStatus = LABELS.savedStatus;
+                this.saveAndPendingOperationStatus = LABELS.savedStatus;
                 this.hasNotBeenSaved = false;
             }
             this.disableSave = false;

@@ -20,7 +20,7 @@ const createComponentUnderTest = (props = {}) => {
     });
 
     el.lastModifiedDate = props.lastModifiedDate;
-    el.saveAndActivatingStatus = props.saveAndActivatingStatus;
+    el.saveAndPendingOperationStatus = props.saveAndPendingOperationStatus;
     el.flowStatus = props.flowStatus;
     el.hasUnsavedChanges = props.hasUnsavedChanges;
 
@@ -92,7 +92,7 @@ describe('toolbar', () => {
         });
     });
 
-    it('Activate button should be disabled when flow is active', () => {
+    it('Activate button text should be "deactivate" when flow is active', () => {
         const toolbarComponent = createComponentUnderTest({
             flowStatus: FLOW_STATUS.ACTIVE
         });
@@ -100,7 +100,7 @@ describe('toolbar', () => {
             const activateButton = toolbarComponent.shadowRoot.querySelector(
                 selectors.activate
             );
-            expect(activateButton.disabled).toBe(true);
+            expect(activateButton.label).toBe(LABELS.deactivateTitle);
         });
     });
 
@@ -222,12 +222,12 @@ describe('toolbar', () => {
     });
 
     describe('Flow Status Indicator', () => {
-        it('Displays "Inactive\u2014Saved {relative time}" in the toolbar when saveAndActivatingStatus is set to "Saved" and flow status is Draft', () => {
+        it('Displays "Inactive\u2014Saved {relative time}" in the toolbar when saveAndPendingOperationStatus is set to "Saved" and flow status is Draft', () => {
             const currentDate = new Date();
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndActivatingStatus: LABELS.savedStatus,
+                saveAndPendingOperationStatus: LABELS.savedStatus,
                 flowStatus: FLOW_STATUS.DRAFT
             });
 
@@ -250,12 +250,12 @@ describe('toolbar', () => {
             });
         });
 
-        it('Displays "Inactive\u2014Saved {relative time}" in the toolbar when saveAndActivatingStatus is set to "Saved" and flow status is Invalid Draft', () => {
+        it('Displays "Inactive\u2014Saved {relative time}" in the toolbar when saveAndPendingOperationStatus is set to "Saved" and flow status is Invalid Draft', () => {
             const currentDate = new Date();
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndActivatingStatus: LABELS.savedStatus,
+                saveAndPendingOperationStatus: LABELS.savedStatus,
                 flowStatus: FLOW_STATUS.INVALID_DRAFT
             });
 
@@ -274,12 +274,12 @@ describe('toolbar', () => {
             });
         });
 
-        it('Displays "Active\u2014Saved {relative time}" in the toolbar when saveAndActivatingStatus is set to "Saved" and flow status is Active', () => {
+        it('Displays "Active\u2014Saved {relative time}" in the toolbar when saveAndPendingOperationStatus is set to "Saved" and flow status is Active', () => {
             const currentDate = new Date();
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndActivatingStatus: LABELS.savedStatus,
+                saveAndPendingOperationStatus: LABELS.savedStatus,
                 flowStatus: FLOW_STATUS.ACTIVE
             });
 
@@ -298,12 +298,12 @@ describe('toolbar', () => {
             });
         });
 
-        it('Displays "Deactivated\u2014Saved {relative time}" in the toolbar when saveAndActivatingStatus is set to "Saved" and flow status is Obsolete', () => {
+        it('Displays "Deactivated\u2014Saved {relative time}" in the toolbar when saveAndPendingOperationStatus is set to "Saved" and flow status is Obsolete', () => {
             const currentDate = new Date();
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndActivatingStatus: LABELS.savedStatus,
+                saveAndPendingOperationStatus: LABELS.savedStatus,
                 flowStatus: FLOW_STATUS.OBSOLETE
             });
 
@@ -322,12 +322,12 @@ describe('toolbar', () => {
             });
         });
 
-        it('Displays "Activating ..." in the toolbar when saveAndActivatingStatus is set to activating and flow status is Draft', () => {
+        it('Displays "Activating ..." in the toolbar when saveAndPendingOperationStatus is set to activating and flow status is Draft', () => {
             const currentDate = new Date();
             parseMetadataDateTime.mockReturnValueOnce({ date: currentDate });
             const toolbarComponent = createComponentUnderTest({
                 lastModifiedDate: currentDate.toISOString(),
-                saveAndActivatingStatus: LABELS.activating,
+                saveAndPendingOperationStatus: LABELS.activating,
                 flowStatus: FLOW_STATUS.DRAFT
             });
 
@@ -346,9 +346,9 @@ describe('toolbar', () => {
             });
         });
 
-        it('Displays "Saving..." in the toolbar when saveAndActivatingStatus is set to the same flowStatus is draft', () => {
+        it('Displays "Saving..." in the toolbar when saveAndPendingOperationStatus is set to the same flowStatus is draft', () => {
             const toolbarComponent = createComponentUnderTest({
-                saveAndActivatingStatus: LABELS.savingStatus,
+                saveAndPendingOperationStatus: LABELS.savingStatus,
                 flowStatus: FLOW_STATUS.DRAFT
             });
 

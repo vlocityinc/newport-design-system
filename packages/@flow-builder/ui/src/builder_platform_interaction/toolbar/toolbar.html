@@ -58,7 +58,7 @@
             >
                 <span>{activationStatus}</span>
                 <span if:true={showDate}
-                    >{saveAndActivatingStatus}&nbsp;<lightning-relative-date-time
+                    >{saveAndPendingOperationStatus}&nbsp;<lightning-relative-date-time
                         value={currentDate}
                     ></lightning-relative-date-time
                 ></span>
@@ -99,6 +99,7 @@
                 title={activateButtonText}
                 onclick={handleToggleFlowStatus}
                 disabled={activateDisabled}
+                variant={activateButtonVariant}
                 class="test-toolbar-activate slds-m-left_xx-small"
             >
             </lightning-button>
