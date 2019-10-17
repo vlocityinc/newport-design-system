@@ -1,6 +1,6 @@
 // To update flowWithAllElementsUIModel from flowWithAllElements, run flowTranslator.test.js and follow instructions
 export const flowWithAllElementsUIModel = {
-"elements": {
+  "elements": {
     "07fd2a44-4192-4709-888d-8ccc18cb4580": {
       "guid": "07fd2a44-4192-4709-888d-8ccc18cb4580",
       "description": "",
@@ -208,8 +208,10 @@ export const flowWithAllElementsUIModel = {
       ],
       "maxConnections": 2,
       "elementType": "APEX_CALL",
-      "dataType": "ActionOutput",
-      "storeOutputAutomatically": true
+      "dataType": "SObject",
+      "storeOutputAutomatically": true,
+      "isSystemGeneratedOutput": true,
+      "subtype": "Account"
     },
     "7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be": {
       "guid": "7bc6bd8f-26da-45cb-81de-6b8dcc0ad7be",
@@ -312,8 +314,10 @@ export const flowWithAllElementsUIModel = {
       ],
       "maxConnections": 2,
       "elementType": "APEX_CALL",
-      "dataType": "ActionOutput",
-      "storeOutputAutomatically": true
+      "dataType": "String",
+      "storeOutputAutomatically": true,
+      "isSystemGeneratedOutput": true,
+      "subtype": null
     },
     "3f1c4d9a-ea88-4c6c-85ac-6aa009601964": {
       "guid": "3f1c4d9a-ea88-4c6c-85ac-6aa009601964",

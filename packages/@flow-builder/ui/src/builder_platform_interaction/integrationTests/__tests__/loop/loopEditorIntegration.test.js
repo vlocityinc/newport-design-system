@@ -8,7 +8,8 @@ import {
     lookupRecordAutomaticOutput,
     caseSObjectCollectionVariable,
     apexSampleCollectionVariable,
-    dateCollectionVariable
+    dateCollectionVariable,
+    apexCallAutomaticAnonymousAccountOutput
 } from 'mock/storeData';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
 
@@ -403,7 +404,7 @@ describe('Loop Editor', () => {
                         ).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
                         expect(
                             loopVariableLightningCombobox.items[1].items
-                        ).toHaveLength(2);
+                        ).toHaveLength(3);
                         expect(
                             loopVariableLightningCombobox.items[1].items[0]
                         ).toMatchObject({
@@ -416,6 +417,16 @@ describe('Loop Editor', () => {
                         });
                         expect(
                             loopVariableLightningCombobox.items[1].items[1]
+                        ).toMatchObject({
+                            dataType: 'SObject',
+                            subtype: 'Account',
+                            text: apexCallAutomaticAnonymousAccountOutput.name,
+                            subText: 'Account',
+                            displayText: `{!${apexCallAutomaticAnonymousAccountOutput.name}}`,
+                            value: apexCallAutomaticAnonymousAccountOutput.guid
+                        });
+                        expect(
+                            loopVariableLightningCombobox.items[1].items[2]
                         ).toMatchObject({
                             dataType: 'SObject',
                             subtype: 'Account',

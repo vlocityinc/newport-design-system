@@ -395,10 +395,12 @@ describe('actionCall', () => {
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
-                expect(createdAction.dataType).toBe('string');
-                expect(createdAction.sobjectType).toBeNull();
+                expect(createdAction.dataType).toBe(
+                    FLOW_DATA_TYPE.STRING.value
+                );
+                expect(createdAction.subtype).toBeNull();
             });
-            it('sets isSystemGeneratedOutput to true, sobject datatype and sobjectType for sobjects', () => {
+            it('sets isSystemGeneratedOutput to true, sobject datatype and subtype for sobjects', () => {
                 const createdAction = createActionCall(
                     getActionCallsByNames(flowWithAllElements, [
                         apexCallAutomaticAnonymousAccountOutput.name
@@ -406,8 +408,10 @@ describe('actionCall', () => {
                 );
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
-                expect(createdAction.dataType).toBe('sobject');
-                expect(createdAction.sobjectType).toBe('Account');
+                expect(createdAction.dataType).toBe(
+                    FLOW_DATA_TYPE.SOBJECT.value
+                );
+                expect(createdAction.subtype).toBe('Account');
             });
         });
     });

@@ -16,6 +16,8 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { getAccountFromApexAnonymousOutputActionParameters as mockGetAccountFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountFromApexAnonymousOutputActionParameters.json';
+import { getAccountNameFromApexAnonymousOutputActionParameters as mockGetAccountNameFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountNameFromApexAnonymousOutputActionParameters.json';
 
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
@@ -60,6 +62,34 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return Object.assign({}, actual, {
         generateGuid: mockGenerateGuid
     });
+});
+
+const mockImplementationForGetParametersForInvocableAction = ({
+    actionName,
+    actionType
+}) => {
+    const key = `${actionType}-${actionName}`;
+    switch (key) {
+        case 'apex-getAccounts':
+            return mockGetAccountFromApexAnonymousOutputActionParameters;
+        case 'apex-InvocableGetAccountName':
+            return mockGetAccountNameFromApexAnonymousOutputActionParameters;
+        default:
+            return undefined;
+    }
+};
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => {
+    return {
+        getParametersForInvocableAction: jest
+            .fn()
+            .mockImplementation(({ actionName, actionType }) =>
+                mockImplementationForGetParametersForInvocableAction({
+                    actionName,
+                    actionType
+                })
+            )
+    };
 });
 
 /**

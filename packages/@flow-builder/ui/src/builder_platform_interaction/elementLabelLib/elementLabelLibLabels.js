@@ -5,6 +5,7 @@ import apexCollectionVariablePluralLabel from '@salesforce/label/FlowBuilderElem
 import sObjectPluralLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectPluralLabel';
 import apexVariablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.apexVariablePluralLabel';
 import screenFieldPluralLabel from '@salesforce/label/FlowBuilderElementConfig.screenFieldPluralLabel';
+import variablePluralLabel from '@salesforce/label/FlowBuilderElementConfig.variablePluralLabel';
 import collectionVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.collectionVariableSingularLabel';
 import sObjectCollectionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.sObjectCollectionSingularLabel';
 import apexCollectionVariableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.apexCollectionVariableSingularLabel';
@@ -15,6 +16,7 @@ import lightningComponentScreenFieldAsResourceText from '@salesforce/label/FlowB
 import actionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.actionSingularLabel';
 import actionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.actionPluralLabel';
 import actionAsResourceText from '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText';
+import actionAnonymousPrimitiveAsResourceText from '@salesforce/label/FlowBuilderElementLabels.actionAnonymousPrimitiveAsResourceText';
 
 export const LABELS = {
     recordLookupAsResourceText,
@@ -33,5 +35,7 @@ export const LABELS = {
     screenFieldSingularLabel,
     actionSingularLabel,
     actionPluralLabel,
-    actionAsResourceText
+    actionAsResourceText,
+    actionAnonymousPrimitiveAsResourceText,
+    variablePluralLabel
 };

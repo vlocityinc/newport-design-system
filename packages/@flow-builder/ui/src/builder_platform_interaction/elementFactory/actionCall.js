@@ -21,7 +21,10 @@ import {
 } from './outputParameter';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    FLOW_DATA_TYPE,
+    getFlowDataType
+} from 'builder_platform_interaction/dataTypeLib';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 const maxConnections = 2;
@@ -64,7 +67,7 @@ export function createActionCall(
         createInputParameter(inputParameter)
     );
     let isSystemGeneratedOutput;
-    let sobjectType;
+    let subtype;
     if (storeOutputAutomatically) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
@@ -76,8 +79,11 @@ export function createActionCall(
             ({
                 isSystemGeneratedOutput,
                 dataType,
-                sobjectType
+                sobjectType: subtype
             } = systemGeneratedOutputParameter);
+            dataType = !dataType
+                ? FLOW_DATA_TYPE.ACTION_OUTPUT.value
+                : getFlowDataType(dataType);
         }
     } else {
         dataType = FLOW_DATA_TYPE.BOOLEAN.value;
@@ -101,7 +107,7 @@ export function createActionCall(
         dataType,
         storeOutputAutomatically,
         isSystemGeneratedOutput,
-        sobjectType
+        subtype
     });
 
     return actionCallObject;

@@ -1,4 +1,3 @@
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementLabelLibLabels';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
@@ -14,6 +13,16 @@ const LIGHTNING_COMPONENT_OUTPUT_TYPE =
     FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
 const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
 
+const isAnonymousPrimitiveOutputResource = ({
+    isSystemGeneratedOutput,
+    dataType
+}) => {
+    return (
+        isSystemGeneratedOutput === true &&
+        dataType !== FLOW_DATA_TYPE.SOBJECT.value
+    );
+};
+
 /**
  * Get the label for the element (if possible, considered as a resource that can be used in a merge field)
  *
@@ -22,8 +31,8 @@ const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
 export function getResourceLabel(resource) {
     let label = resource.name.value || resource.name;
     if (resource.storeOutputAutomatically) {
-        if (resource.elementType === ELEMENT_TYPE.RECORD_LOOKUP) {
-            // "Accounts from myGetRecord"
+        if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            // "Accounts from resourceName" (get record, action with sobject anonymous output...)
             const entity = getEntity(resource.subtype);
             if (entity) {
                 const entityLabel = resource.isCollection
@@ -49,6 +58,12 @@ export function getResourceLabel(resource) {
         } else if (resource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
             // "Outputs from myAction
             label = format(LABELS.actionAsResourceText, label);
+        } else if (isAnonymousPrimitiveOutputResource(resource)) {
+            label = format(
+                LABELS.actionAnonymousPrimitiveAsResourceText,
+                resource.dataType,
+                label
+            );
         }
     }
     return label;
@@ -102,11 +117,19 @@ export function getElementTypeLabel({ elementType }) {
 export function getResourceCategory({
     elementType,
     dataType,
-    isCollection = false
+    isCollection = false,
+    isSystemGeneratedOutput = false
 }) {
     let categoryLabel;
     if (!isComplexType(dataType)) {
-        if (!isCollection) {
+        if (
+            isAnonymousPrimitiveOutputResource({
+                isSystemGeneratedOutput,
+                dataType
+            })
+        ) {
+            categoryLabel = LABELS.variablePluralLabel;
+        } else if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.plural) {
                 categoryLabel = config.labels.plural;

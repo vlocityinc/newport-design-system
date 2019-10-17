@@ -10,7 +10,9 @@ import {
     lookupRecordAutomaticOutput,
     lookupRecordCollectionAutomaticOutput,
     emailScreenFieldAutomaticOutput,
-    actionCallAutomaticOutput
+    actionCallAutomaticOutput,
+    apexCallAutomaticAnonymousAccountOutput,
+    apexCallAutomaticAnonymousStringOutput
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -59,6 +61,13 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         })
     };
 });
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.actionAnonymousPrimitiveAsResourceText',
+    () => {
+        return { default: '{0} from {1}' };
+    },
+    { virtual: true }
+);
 
 const createElement = (elementType, dataType, isCollection) => ({
     elementType,
@@ -93,6 +102,24 @@ describe('elementLabelLib', () => {
                 element.subtype = 'UnknownRecord';
                 const label = getResourceLabel(element);
                 expect(label).toEqual(element.name);
+            });
+        });
+        describe('Action with automatic handling mode and anonymous output', () => {
+            it('returns [Entity name] from [ActionName] for single sobject', () => {
+                const label = getResourceLabel(
+                    apexCallAutomaticAnonymousAccountOutput
+                );
+
+                expect(label).toEqual(
+                    'Account from apexCall_anonymous_account'
+                );
+            });
+            it('returns [Primitive] from [ActionName] for single primitive', () => {
+                const label = getResourceLabel(
+                    apexCallAutomaticAnonymousStringOutput
+                );
+
+                expect(label).toEqual('String from apexCall_anonymous_string');
             });
         });
         it('returns "Outputs" from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
@@ -282,7 +309,7 @@ describe('elementLabelLib', () => {
                     )
                 ).toEqual('FlowBuilderElementConfig.screenFieldPluralLabel');
             });
-            it('for action as record resource', () => {
+            it('for action as resource', () => {
                 expect(
                     getResourceCategory(
                         createElement(
@@ -292,6 +319,16 @@ describe('elementLabelLib', () => {
                         )
                     )
                 ).toEqual('FlowBuilderElementConfig.actionPluralLabel');
+            });
+            it('for action with anonymous sobject output as resource', () => {
+                expect(
+                    getResourceCategory(apexCallAutomaticAnonymousAccountOutput)
+                ).toEqual(LABELS.sObjectPluralLabel);
+            });
+            it('for action with anonymous string output as resource', () => {
+                expect(
+                    getResourceCategory(apexCallAutomaticAnonymousStringOutput)
+                ).toEqual('FlowBuilderElementConfig.variablePluralLabel');
             });
         });
         it('for collections variables', () => {
