@@ -10,6 +10,11 @@ import {
     SCREEN_EDITOR_EVENT_NAME
 } from 'builder_platform_interaction/events';
 
+import { addCurrentValueToEvent } from 'builder_platform_interaction/screenEditorCommonUtils';
+const mockEvent = new Event('test');
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
 );
@@ -17,6 +22,12 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements))
+    };
+});
+
+jest.mock('builder_platform_interaction/screenEditorCommonUtils', () => {
+    return {
+        addCurrentValueToEvent: jest.fn(() => mockEvent)
     };
 });
 
@@ -60,10 +71,17 @@ const SELECTORS = {
     HELP_TEXT:
         'builder_platform_interaction-screen-property-field[name="helpText"]',
     COMPONENT_VISIBILITY:
-        'builder_platform_interaction-screen-component-visibility-section'
+        'builder_platform_interaction-screen-component-visibility-section',
+    SCALE: 'builder_platform_interaction-screen-property-field.scale'
 };
 
 const fieldName = 'field1';
+const field = createTestScreenField(
+    fieldName,
+    'RadioButtons',
+    SCREEN_NO_DEF_VALUE,
+    { dataType: 'String', validation: false, helpText: false }
+);
 
 const createComponentUnderTest = props => {
     const el = createElement(
@@ -76,16 +94,12 @@ const createComponentUnderTest = props => {
     Object.assign(
         el,
         props || {
-            field: createTestScreenField(
-                fieldName,
-                'RadioButtons',
-                SCREEN_NO_DEF_VALUE,
-                { dataType: 'String', validation: false, helpText: false }
-            )
+            field
         }
     );
 
     document.body.appendChild(el);
+
     return el;
 };
 
@@ -99,6 +113,15 @@ describe('screen-choice-field-properties-editor for radio field, type String', (
                 SCREEN_NO_DEF_VALUE,
                 { dataType: 'String', validation: false, helpText: false }
             )
+        });
+    });
+    it('Should not have scale input ', () => {
+        return Promise.resolve().then(() => {
+            const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+                SELECTORS.SCALE
+            );
+
+            expect(scale).toBeFalsy();
         });
     });
     it('API Name field should be filled in', () => {
@@ -181,6 +204,15 @@ describe('screen-choice-field-properties-editor for multi-select picklist', () =
                 SCREEN_NO_DEF_VALUE,
                 { validation: false, helpText: false }
             )
+        });
+    });
+    it('Should not have scale input ', () => {
+        return Promise.resolve().then(() => {
+            const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+                SELECTORS.SCALE
+            );
+
+            expect(scale).toBeFalsy();
         });
     });
     it('API Name field should be filled in', () => {
@@ -270,7 +302,12 @@ describe('screen-choice-field-properties-editor for multi-select checkboxes, typ
                 fieldName,
                 'MultiSelectCheckboxes',
                 SCREEN_NO_DEF_VALUE,
-                { dataType: 'Number', validation: false, helpText: false }
+                {
+                    dataType: 'Number',
+                    validation: false,
+                    helpText: false,
+                    scale: 1
+                }
             )
         });
     });
@@ -354,6 +391,15 @@ describe('screen-choice-field-properties-editor choice selectors', () => {
                 SCREEN_NO_DEF_VALUE,
                 { dataType: 'String', createChoices: true }
             )
+        });
+    });
+    it('Should not have scale input ', () => {
+        return Promise.resolve().then(() => {
+            const scale = screenChoiceFieldPropEditor.shadowRoot.querySelector(
+                SELECTORS.SCALE
+            );
+
+            expect(scale).toBeFalsy();
         });
     });
     it('Correct number of choice selectors are present', () => {
@@ -443,7 +489,6 @@ describe('DefaultValue options based on choice type', () => {
             SCREEN_EDITOR_EVENT_NAME.CHOICE_CHANGED,
             choiceChangedSpy
         );
-
         renderedDefaultValueField.dispatchEvent(propChangedEvent);
         return Promise.resolve().then(() => {
             window.removeEventListener(
@@ -522,15 +567,15 @@ describe('defaultValue combobox for choice based field', () => {
 describe('screen-choice-field-properties-editor defaultValue', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const field = createTestScreenField(
+        const testField = createTestScreenField(
             fieldName,
             'RadioButtons',
             SCREEN_NO_DEF_VALUE,
             { dataType: 'String', createChoices: true }
         );
-        field.defaultSelectedChoiceReference = 'choice1';
+        testField.defaultSelectedChoiceReference = 'choice1';
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field
+            field: testField
         });
     });
     it('When default value is set', () => {
@@ -623,15 +668,15 @@ describe('screen-choice-field-properties-editor for existing field', () => {
 describe('screen-choice-field-properties-editor for new field', () => {
     let screenChoiceFieldPropEditor;
     beforeEach(() => {
-        const field = createTestScreenField(
+        const testField = createTestScreenField(
             fieldName,
             'RadioButtons',
             SCREEN_NO_DEF_VALUE
         );
-        field.isNewField = true;
-        field.dataType = null;
+        testField.isNewField = true;
+        testField.dataType = null;
         screenChoiceFieldPropEditor = createComponentUnderTest({
-            field
+            field: testField
         });
     });
     it('DataType drop down is enabled', () => {
@@ -658,6 +703,63 @@ describe('screen-choise-field-properties-editor component visibility', () => {
                 SELECTORS.COMPONENT_VISIBILITY
             );
             expect(componentVisibilitySection).not.toBeNull();
+        });
+    });
+});
+describe('scale input', () => {
+    it('Scale field should be present with number field', () => {
+        const a = createComponentUnderTest({
+            field: createTestScreenField(
+                fieldName,
+                'TextBox',
+                SCREEN_NO_DEF_VALUE,
+                { dataType: 'Number', validation: false, helpText: false }
+            )
+        });
+        return Promise.resolve().then(() => {
+            const renderedScaleField = query(a, SELECTORS.SCALE);
+            expect(renderedScaleField).toBeTruthy();
+        });
+    });
+    it('should dispatch the correct event with number field ', () => {
+        const propChangedEvent = new PropertyChangedEvent(
+            null,
+            null,
+            'some new error',
+            2,
+            null,
+            0,
+            null
+        );
+        const a = createComponentUnderTest({
+            field: createTestScreenField(
+                fieldName,
+                'TextBox',
+                SCREEN_NO_DEF_VALUE,
+                { dataType: 'Number', validation: false, helpText: false }
+            )
+        });
+        const renderedScaleField = query(a, SELECTORS.SCALE);
+        renderedScaleField.dispatchEvent(propChangedEvent);
+        const spy = addCurrentValueToEvent;
+        return Promise.resolve().then(() => {
+            expect(spy).toHaveBeenCalled();
+        });
+    });
+    it('Scale field should not be present with string field and corresponding fn should not be dispatched', () => {
+        const a = createComponentUnderTest({
+            field: createTestScreenField(
+                fieldName,
+                'TextBox',
+                SCREEN_NO_DEF_VALUE,
+                { dataType: 'String', validation: false, helpText: false }
+            )
+        });
+        return Promise.resolve().then(() => {
+            const spy = addCurrentValueToEvent;
+            const renderedScaleField = query(a, SELECTORS.SCALE);
+            expect(renderedScaleField).not.toBeTruthy();
+            expect(spy).not.toHaveBeenCalled();
         });
     });
 });

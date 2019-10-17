@@ -36,6 +36,18 @@
                 >
                 </builder_platform_interaction-data-type-picker>
             </div>
+            <!--  Scale, if input type supports this field -->
+
+            <builder_platform_interaction-screen-property-field
+                if:true={isScaleEnabled}
+                class="scale"
+                label={labels.fieldScale}
+                name="scale"
+                type="number"
+                value={field.scale}
+                onpropertychanged={handlePropertyChanged}
+            >
+            </builder_platform_interaction-screen-property-field>
 
             <!--  default value: drop down resource list -->
             <builder_platform_interaction-screen-property-field

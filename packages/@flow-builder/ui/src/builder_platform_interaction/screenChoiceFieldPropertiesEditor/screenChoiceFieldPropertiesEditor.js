@@ -24,14 +24,20 @@ const FLOW_INPUT_FIELD_SUB_TYPES = Object.values(INPUT_FIELD_DATA_TYPE);
  * Screen element property editor for the radio field.
  */
 export default class ScreenChoiceFieldPropertiesEditor extends LightningElement {
-    @api field;
-
     labels = LABELS;
     inputFieldMap = INPUT_FIELD_DATA_TYPE;
     defaultValueNone = {
         label: this.labels.noDefaultValueSelected,
         value: ''
     };
+
+    @api
+    field;
+
+    get isScaleEnabled() {
+        const { dataType = null } = this.field;
+        return dataType === 'Number' || dataType === 'Currency';
+    }
 
     get expandedSectionNames() {
         return EXPANDED_SECTION_NAMES;
