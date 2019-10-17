@@ -5,6 +5,10 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     LIGHTNING_COMPONENTS_SELECTORS
 } from './integrationTestUtils';
+import {
+    getAdvancedOptionCheckbox,
+    getUseAdvancedOptionComponent
+} from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
@@ -36,10 +40,16 @@ export const getInputParameterItems = actionEditor => {
         .querySelectorAll(SELECTORS.PARAMETER_ITEM);
 };
 
+export const getParameterListOutputDiv = actionEditor => {
+    return getParameterList(actionEditor).shadowRoot.querySelector(
+        SELECTORS.OUTPUT_DIV
+    );
+};
+
 export const getOutputParameterItems = actionEditor => {
-    return getParameterList(actionEditor)
-        .shadowRoot.querySelector(SELECTORS.OUTPUT_DIV)
-        .querySelectorAll(SELECTORS.PARAMETER_ITEM);
+    return getParameterListOutputDiv(actionEditor).querySelectorAll(
+        SELECTORS.PARAMETER_ITEM
+    );
 };
 
 const getFerovResourcePicker = parameterItem => {
@@ -198,4 +208,14 @@ export const findByIndex = (parameters, rowIndex) => {
 export const getElementGuid = elementDevName => {
     const element = getElementByDevName(elementDevName);
     return element === undefined ? undefined : element.guid;
+};
+
+export const getAutomaticOutputAdvancedOptionCheckbox = actionEditor => {
+    const parameterList = getParameterList(actionEditor);
+    return getAdvancedOptionCheckbox(parameterList);
+};
+
+export const getAutomaticOutputAdvancedOptionComponent = actionEditor => {
+    const parameterList = getParameterList(actionEditor);
+    return getUseAdvancedOptionComponent(parameterList);
 };

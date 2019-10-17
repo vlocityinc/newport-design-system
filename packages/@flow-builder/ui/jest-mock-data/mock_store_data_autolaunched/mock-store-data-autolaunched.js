@@ -15,3 +15,4 @@ export const getElementByName = name => {
 
 
 export const waitEvent1 = getElementByName('waitEvent1');
+export const actionPostToChatter = getElementByName('postToChatter');

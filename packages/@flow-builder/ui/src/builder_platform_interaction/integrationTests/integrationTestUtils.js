@@ -272,3 +272,9 @@ export const resetState = () => {
     OutputResourcePicker.RULES = [];
     resetCacheTemplates();
 };
+
+export class ToggleOnChangeEvent extends CustomEvent {
+    constructor() {
+        super('change', { detail: { checked: true } });
+    }
+}

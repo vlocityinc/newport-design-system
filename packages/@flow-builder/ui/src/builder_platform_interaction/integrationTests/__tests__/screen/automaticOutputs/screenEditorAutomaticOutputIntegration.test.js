@@ -9,7 +9,10 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
-import { LIGHTNING_COMPONENTS_SELECTORS } from '../../../integrationTestUtils';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    ToggleOnChangeEvent
+} from '../../../integrationTestUtils';
 import { auraFetch, getFlowExtensions } from '../../../serverDataTestUtils';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -42,12 +45,6 @@ const createComponentUnderTest = props => {
 };
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = FLOW_PROCESS_TYPE.FLOW;
-
-class ToggleOnChangeEvent extends CustomEvent {
-    constructor() {
-        super('change', { detail: { checked: true } });
-    }
-}
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
@@ -201,9 +198,7 @@ describe('ScreenEditor', () => {
                 const advancedOptionCheckbox = getAdvancedOptionsCheckboxLightningInput(
                     screenEditor
                 );
-                advancedOptionCheckbox.dispatchEvent(
-                    new ToggleOnChangeEvent(true)
-                );
+                advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
                 await ticks(50);
                 expect(
                     getAdvancedOptionsCheckboxLightningInput(screenEditor)

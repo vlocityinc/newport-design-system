@@ -46,8 +46,28 @@ export default class InvocableActionEditor extends LightningElement {
         this.connected = true;
         this.updatePropertyEditorTitle();
         if (this.node) {
+            this.fixNodeIfAutomaticOutputUnsupported();
             this.fetchInvocableActionDescriptor();
             this.fetchActionParameters();
+        }
+    }
+
+    set node(newValue) {
+        this.actionCallNode = newValue || {};
+        if (this.connected) {
+            this.fixNodeIfAutomaticOutputUnsupported();
+            this.fetchActionParameters();
+            this.fetchInvocableActionDescriptor();
+        }
+    }
+
+    fixNodeIfAutomaticOutputUnsupported() {
+        if (!isAutomaticOutputHandlingSupported(this.processTypeValue)) {
+            // If the process type does not support automatic output handling we need to set storeOutputAutomatically to false.
+            this.actionCallNode = {
+                ...this.actionCallNode,
+                storeOutputAutomatically: false
+            };
         }
     }
 
@@ -58,21 +78,6 @@ export default class InvocableActionEditor extends LightningElement {
     @api
     get node() {
         return this.actionCallNode;
-    }
-
-    set node(newValue) {
-        this.actionCallNode = newValue || {};
-        if (this.connected) {
-            this.fetchInvocableActionDescriptor();
-            this.fetchActionParameters();
-        }
-        if (!isAutomaticOutputHandlingSupported(this.processTypeValue)) {
-            // If the process type does not support automatic output handling we need to set storeOutputAutomatically to false.
-            this.actionCallNode = {
-                ...newValue,
-                storeOutputAutomatically: false
-            };
-        }
     }
 
     /**
@@ -251,7 +256,10 @@ export default class InvocableActionEditor extends LightningElement {
      * @memberof InvocableActionEditor
      */
     get configurationEditor() {
-        if (this.invocableActionDescriptor && this.invocableActionDescriptor.configurationEditor) {
+        if (
+            this.invocableActionDescriptor &&
+            this.invocableActionDescriptor.configurationEditor
+        ) {
             return this.invocableActionDescriptor.configurationEditor;
         }
         return null;
