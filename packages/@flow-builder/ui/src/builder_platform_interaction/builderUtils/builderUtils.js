@@ -658,6 +658,37 @@ export function showHover(cmpName, attr, hoverId, panelConfig) {
     });
 }
 
+export function invokeKeyboardHelpDialog() {
+    const modalHeaderPromise = createComponentPromise(
+        'builder_platform_interaction:modalHeader',
+        { headerTitle: LABELS.keyboardShortcutListTitle }
+    );
+    const modalBodyPromise = createComponentPromise(
+        'builder_platform_interaction:keyboardShortcutsListBody', {}
+    );
+    const modalFooterPromise = createComponentPromise(
+        'builder_platform_interaction:modalFooter',
+        {
+            keyMap: LABELS.footerKeyMap,
+            buttons: {
+                buttonOne: {
+                    buttonLabel: LABELS.okayButtonLabel,
+                    buttonVariant: 'brand'
+                }
+            }
+        }
+    );
+    invokeModalWithComponents(
+        {
+            bodyClass: 'slds-p-around_none slds-is-relative',
+            flavor: MODAL_SIZE.SMALL
+        },
+        modalHeaderPromise,
+        modalBodyPromise,
+        modalFooterPromise
+    );
+}
+
 /**
  * NOTE: Please do not use this without contacting Process UI DesignTime first!
  *

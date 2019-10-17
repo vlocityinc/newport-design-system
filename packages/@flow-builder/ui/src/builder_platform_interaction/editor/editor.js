@@ -3,7 +3,8 @@ import {
     invokePropertyEditor,
     PROPERTY_EDITOR,
     invokeModalInternalData,
-    invokeNewFlowModal
+    invokeNewFlowModal,
+    invokeKeyboardHelpDialog
 } from 'builder_platform_interaction/builderUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getSObjectOrSObjectCollectionByEntityElements } from 'builder_platform_interaction/selectors';
@@ -104,7 +105,8 @@ import {
 } from 'builder_platform_interaction/complexTypeLib';
 import {
     ShiftFocusForwardCommand,
-    ShiftFocusBackwardCommand
+    ShiftFocusBackwardCommand,
+    DisplayShortcutsCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 
@@ -1107,7 +1109,7 @@ export default class Editor extends LightningElement {
         );
         const shiftFocusForwardShortcut = this.isMacPlatform()
             ? { key: 'F6' }
-            : { ctrl: true, key: 'F6' };
+            : { cmdOrCtrl: true, key: 'F6' };
         this.keyboardInteractions.setupCommandAndShortcut(
             shiftFocusForwardCommand,
             shiftFocusForwardShortcut
@@ -1119,11 +1121,18 @@ export default class Editor extends LightningElement {
         );
         const shiftFocusBackwardShortcut = this.isMacPlatform()
             ? { shift: true, key: 'F6' }
-            : { shift: true, ctrl: true, key: 'F6' };
+            : { shift: true, cmdOrCtrl: true, key: 'F6' };
         this.keyboardInteractions.setupCommandAndShortcut(
             shiftFocusBackwardCommand,
             shiftFocusBackwardShortcut
         );
+
+        // Display shortcuts Command
+        const displayShortcutsCommand = new DisplayShortcutsCommand(() =>
+            invokeKeyboardHelpDialog()
+        );
+        const displayShortcutKeyCombo = { key: '/' };
+        this.keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
     };
 
     /**

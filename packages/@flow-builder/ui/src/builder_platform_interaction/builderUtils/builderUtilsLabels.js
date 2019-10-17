@@ -5,6 +5,9 @@ import saveFlowAsTitle from '@salesforce/label/FlowBuilderFlowPropertiesEditor.s
 import saveButtonLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.saveButtonLabel';
 import createButtonLabel from '@salesforce/label/FlowBuilderNewFlowModal.createButtonLabel';
 import headerTitle from '@salesforce/label/FlowBuilderNewFlowModal.headerTitle';
+import okayButtonLabel from '@salesforce/label/FlowBuilderAlertModal.okayButtonLabel';
+import keyboardShortcutListTitle from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.keyboardShortcutListTitle';
+import footerKeyMap from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.footerKeyMap';
 
 export const LABELS = {
     newElementHeaderPrefix,
@@ -13,5 +16,8 @@ export const LABELS = {
     saveFlowAsTitle,
     saveButtonLabel,
     createButtonLabel,
-    headerTitle
+    headerTitle,
+    footerKeyMap,
+    okayButtonLabel,
+    keyboardShortcutListTitle
 };

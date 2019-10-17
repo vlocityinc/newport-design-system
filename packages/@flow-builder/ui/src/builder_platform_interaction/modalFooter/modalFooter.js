@@ -3,6 +3,7 @@ import { LightningElement, api, track } from 'lwc';
 export default class ModalFooter extends LightningElement {
     @api buttons;
     @api closeModalCallback;
+    @api keyMap;
 
     @track state = {
         buttonOneDisabled: false,
