@@ -14,6 +14,7 @@ import {
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX
 } from 'builder_platform_interaction/systemLib';
+import { apexCallAutomaticAnonymousStringOutput } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
@@ -26,12 +27,44 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
     };
 });
 
+let mockGetResourceCategory = true;
+const mockImplementationForGetResourceCategory = ({
+    elementType,
+    dataType,
+    isCollection,
+    isSystemGeneratedOutput
+}) => {
+    const actual = jest.requireActual(
+        'builder_platform_interaction/elementLabelLib'
+    );
+    return mockGetResourceCategory
+        ? ''
+        : actual.getResourceCategory({
+              elementType,
+              dataType,
+              isCollection,
+              isSystemGeneratedOutput
+          });
+};
+
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     return {
         getResourceCategory: jest
             .fn()
-            .mockReturnValue('')
-            .mockName('getResourceCategory'),
+            .mockImplementation(
+                ({
+                    elementType,
+                    dataType,
+                    isCollection,
+                    isSystemGeneratedOutput
+                }) =>
+                    mockImplementationForGetResourceCategory({
+                        elementType,
+                        dataType,
+                        isCollection,
+                        isSystemGeneratedOutput
+                    })
+            ),
         getResourceLabel: jest
             .fn()
             .mockImplementation(resource => resource.name)
@@ -45,6 +78,7 @@ describe('menuDataGenerator', () => {
             mockResource = {
                 dataType: 'sfdcDataType'
             };
+            mockGetResourceCategory = true;
         });
         it('calls getDataTypeLabel when given a non sobject resource with no label', () => {
             mutateFlowResourceToComboboxShape(mockResource);
@@ -87,6 +121,16 @@ describe('menuDataGenerator', () => {
         it('calls getDataTypeIcons when no icon exists', () => {
             mutateFlowResourceToComboboxShape(mockResource);
             expect(getDataTypeIcons).toHaveBeenCalledTimes(1);
+        });
+        it('sets Variables category to action with anonymous string output as resource', () => {
+            mockGetResourceCategory = false;
+            const mutatedResource = mutateFlowResourceToComboboxShape(
+                apexCallAutomaticAnonymousStringOutput
+            );
+
+            expect(mutatedResource.category).toEqual(
+                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL'
+            );
         });
     });
     describe('mutatePicklistValue', () => {

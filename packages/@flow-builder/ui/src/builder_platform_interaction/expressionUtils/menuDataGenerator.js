@@ -108,17 +108,17 @@ const createMenuItem = (
     dataType,
     subtype
 ) => ({
-        type,
-        text,
-        subText,
-        displayText,
-        iconName,
-        iconSize: ICON_SIZE,
-        value,
-        parent,
-        dataType,
-        subtype
-    });
+    type,
+    text,
+    subText,
+    displayText,
+    iconName,
+    iconSize: ICON_SIZE,
+    value,
+    parent,
+    dataType,
+    subtype
+});
 
 /**
  * Determines whether to show the dataType as the subtext or not
@@ -214,18 +214,23 @@ export function mutateFlowResourceToComboboxShape(resource) {
         if (resource.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
             resourceIcon = getIconNameFromDataType(resource.type.dataType);
         } else {
-            resourceIcon = resource.type ? resource.type.icon : resource.iconName;
+            resourceIcon = resource.type
+                ? resource.type.icon
+                : resource.iconName;
         }
         elementCategory = getResourceCategory({
             elementType: resource.elementType,
             dataType: resourceDataType,
-            isCollection: resource.isCollection
+            isCollection: resource.isCollection,
+            isSystemGeneratedOutput: resource.isSystemGeneratedOutput
         });
         newElement.text = getResourceLabel(resource);
         newElement.value = resource.guid;
         isNonElement = isGlobalConstantOrSystemVariableId(resource.guid);
     }
-    newElement.displayText = addCurlyBraces(resource.isNewField ? resource.name.value : resource.name);
+    newElement.displayText = addCurlyBraces(
+        resource.isNewField ? resource.name.value : resource.name
+    );
     newElement.subText = isNonElement
         ? resource.description
         : getSubText(resourceDataType, resource.subtype, resourceLabel);
@@ -284,10 +289,12 @@ export const mutateApexClassesToComboboxShape = classes => {
 };
 
 export const apexClassesMenuDataSelector = createSelector(
-        [apexClassesSelector],
-        apexClasses => {
-            return apexClasses ? mutateApexClassesToComboboxShape(apexClasses) : null;
-        }
+    [apexClassesSelector],
+    apexClasses => {
+        return apexClasses
+            ? mutateApexClassesToComboboxShape(apexClasses)
+            : null;
+    }
 );
 
 /**
@@ -380,7 +387,10 @@ export const getFlowSystemVariableComboboxItem = () => {
  *
  * @return {MenuDataItem[]} menu data for $Client
  */
-const getFlowSystemClientVariableComboboxItem = () => mutateSystemAndGlobalVariablesToComboboxShape(SYSTEM_VARIABLE_CLIENT_PREFIX);
+const getFlowSystemClientVariableComboboxItem = () =>
+    mutateSystemAndGlobalVariablesToComboboxShape(
+        SYSTEM_VARIABLE_CLIENT_PREFIX
+    );
 
 /**
  * Menu data for system and/or global variables.

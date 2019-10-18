@@ -1,6 +1,8 @@
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import {
+    FLOW_DATA_TYPE
+} from 'builder_platform_interaction/dataTypeLib';
 import {
     getQueryableEntities,
     getCreateableEntities,
@@ -167,7 +169,8 @@ export const writableElementsSelector = createSelector(
             element.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
             element.dataType ===
                 FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
-            element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
+            element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
+            element.isSystemGeneratedOutput === true
     )
 );
 export const readableElementsSelector = createSelector(
