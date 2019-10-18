@@ -104,7 +104,7 @@ import { removeLastCreatedInlineResource } from 'builder_platform_interaction/ac
 import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import {
     loadFieldsForComplexTypesInFlow,
-    loadParametersForInvocableActionsInFlowFromMetadata
+    loadParametersForInvocableApexActionsInFlowFromMetadata
 } from 'builder_platform_interaction/complexTypeLib';
 import {
     ShiftFocusForwardCommand,
@@ -392,7 +392,7 @@ export default class Editor extends LightningElement {
             this.spinners.showFlowMetadataSpinner = false;
         } else {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
-            loadParametersForInvocableActionsInFlowFromMetadata(
+            loadParametersForInvocableApexActionsInFlowFromMetadata(
                 data.metadata.actionCalls
             ).then(() => {
                 storeInstance.dispatch(

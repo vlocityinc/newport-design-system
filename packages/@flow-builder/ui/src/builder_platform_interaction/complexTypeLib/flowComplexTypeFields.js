@@ -6,7 +6,10 @@ import {
     componentInstanceScreenFieldsSelector,
     byElementTypeElementsSelector
 } from 'builder_platform_interaction/selectors';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    ACTION_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
@@ -46,11 +49,15 @@ export function loadFieldsForExtensionsInFlow(state) {
     }).catch(() => {});
 }
 
-export function loadParametersForInvocableActionsInFlowFromMetadata(
+export function loadParametersForInvocableApexActionsInFlowFromMetadata(
     actionCalls
 ) {
     const actionCallNamesAndTypes = actionCalls
-        .filter(actionCall => actionCall.storeOutputAutomatically === true)
+        .filter(
+            actionCall =>
+                actionCall.storeOutputAutomatically === true &&
+                actionCall.actionType === ACTION_TYPE.APEX
+        )
         .map(actionCall => ({
             actionName: actionCall.actionName,
             actionType: actionCall.actionType

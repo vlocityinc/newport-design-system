@@ -48,6 +48,7 @@ export const actionCallAutomaticOutput = getElementByName('actionCallAutomaticOu
 export const actionCallLocalActionAutomaticOutput = getElementByName('localAction');
 export const apexCallAutomaticAnonymousAccountOutput = getElementByName('apexCall_anonymous_account');
 export const apexCallAutomaticAnonymousStringOutput = getElementByName('apexCall_anonymous_string');
+export const apexCallManualAccountOutput = getElementByName('apexCall_action_account_manual_output');
 export const emailAlertOnAccount = getElementByName('emailAlertOnAccount');
 export const externalServiceAutomaticOutput = getElementByName('addAccountExternalService');
 export const stringCollectionVariable1 = getElementByName('stringCollectionVariable1');

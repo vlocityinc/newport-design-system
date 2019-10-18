@@ -2,7 +2,7 @@ import {
     loadFieldsForSobjectsInFlow,
     loadFieldsForExtensionsInFlow,
     loadParametersForInvocableActionsInFlow,
-    loadParametersForInvocableActionsInFlowFromMetadata
+    loadParametersForInvocableApexActionsInFlowFromMetadata
 } from '../flowComplexTypeFields';
 import {
     accountSObjectVariable,
@@ -16,7 +16,8 @@ import {
     actionCallAutomaticOutput,
     actionCallElement,
     apexCallAutomaticAnonymousAccountOutput,
-    externalServiceAutomaticOutput
+    externalServiceAutomaticOutput,
+    apexCallManualAccountOutput
 } from 'mock/storeData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
@@ -164,48 +165,31 @@ describe('flowComplexTypeFields', () => {
             );
         });
     });
-    describe('loadParametersForInvocableActionsInFlowFromMetadata', () => {
-        const expectThreeCallsToFetchParametersForInvocableAction = (
-            ...expectedActionCallNameAndType
-        ) => {
+    describe('loadParametersForInvocableApexActionsInFlowFromMetadata', () => {
+        const expectOneCallToFetchParametersForInvocableAction = expectedActionCallNameAndType => {
             expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
-                3
+                1
             );
             expect(fetchParametersForInvocableAction.mock.calls[0][0]).toEqual(
-                expectedActionCallNameAndType[0]
-            );
-            expect(fetchParametersForInvocableAction.mock.calls[1][0]).toEqual(
-                expectedActionCallNameAndType[1]
-            );
-            expect(fetchParametersForInvocableAction.mock.calls[2][0]).toEqual(
-                expectedActionCallNameAndType[2]
+                expectedActionCallNameAndType
             );
         };
-        it('Load invocable action parameters only for actions in automatic output mode', async () => {
-            await loadParametersForInvocableActionsInFlowFromMetadata(
+        it('Load invocable action parameters only for apex actions in automatic output mode', async () => {
+            await loadParametersForInvocableApexActionsInFlowFromMetadata(
                 getActionCallsByNames(flowWithAllElements, [
                     actionCallAutomaticOutput.name,
                     apexCallAutomaticAnonymousAccountOutput.name,
-                    externalServiceAutomaticOutput.name
+                    externalServiceAutomaticOutput.name,
+                    apexCallManualAccountOutput.name
                 ])
             );
-            expectThreeCallsToFetchParametersForInvocableAction(
-                {
-                    actionName: 'chatterPost',
-                    actionType: 'chatterPost'
-                },
-                {
-                    actionName: 'getAccounts',
-                    actionType: 'apex'
-                },
-                {
-                    actionName: 'BankServiceNew.addAccount',
-                    actionType: 'externalService'
-                }
-            );
+            expectOneCallToFetchParametersForInvocableAction({
+                actionName: 'getAccounts',
+                actionType: 'apex'
+            });
         });
         it('Does not load invocable action parameters for actions not in automatic output mode', async () => {
-            await loadParametersForInvocableActionsInFlowFromMetadata(
+            await loadParametersForInvocableApexActionsInFlowFromMetadata(
                 getActionCallsByNames(flowWithAllElements, [
                     actionCallElement.name
                 ])
