@@ -17,6 +17,8 @@ import actionSingularLabel from '@salesforce/label/FlowBuilderElementConfig.acti
 import actionPluralLabel from '@salesforce/label/FlowBuilderElementConfig.actionPluralLabel';
 import actionAsResourceText from '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText';
 import actionAnonymousPrimitiveAsResourceText from '@salesforce/label/FlowBuilderElementLabels.actionAnonymousPrimitiveAsResourceText';
+import recordCreateIdAsResourceText from '@salesforce/label/FlowBuilderElementLabels.recordCreateIdAsResourceText';
+import variableSingularLabel from '@salesforce/label/FlowBuilderElementConfig.variableSingularLabel';
 
 export const LABELS = {
     recordLookupAsResourceText,
@@ -37,5 +39,7 @@ export const LABELS = {
     actionPluralLabel,
     actionAsResourceText,
     actionAnonymousPrimitiveAsResourceText,
+    recordCreateIdAsResourceText,
+    variableSingularLabel,
     variablePluralLabel
 };

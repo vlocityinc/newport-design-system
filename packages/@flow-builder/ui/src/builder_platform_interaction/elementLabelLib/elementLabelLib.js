@@ -6,13 +6,13 @@ import {
     isComplexType
 } from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
 const LIGHTNING_COMPONENT_OUTPUT_TYPE =
     FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
 const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
-
 const isAnonymousPrimitiveOutputResource = ({
     isSystemGeneratedOutput,
     dataType
@@ -24,28 +24,56 @@ const isAnonymousPrimitiveOutputResource = ({
 };
 
 /**
+ * Get the formatted label filled with resource related entity label
+ * @param {Object} resource - the element
+ * @param {String} elementName - the element name
+ * @param {String} labelWithTokens - used to format the resulting label with entity label if any (eg: "{0} from {1}")
+ * @returns {String} formatted label if any entity label found the given element name otherwise
+ */
+export const formatWithEntityLabel = (
+    resource = {},
+    elementName,
+    labelWithTokens
+) => {
+    if (!resource) {
+        return elementName;
+    }
+    const entity = getEntity(resource.subtype || resource.object);
+    let label = elementName;
+    if (entity) {
+        const entityLabel = resource.isCollection
+            ? entity.entityLabelPlural
+            : entity.entityLabel;
+        if (entityLabel && labelWithTokens) {
+            label = format(labelWithTokens, entityLabel, label);
+        }
+    }
+    return label;
+};
+
+/**
  * Get the label for the element (if possible, considered as a resource that can be used in a merge field)
  *
  * @param {Object} resource - the element
+ * @returns {String} the resource label for this element
  */
 export function getResourceLabel(resource) {
     let label = resource.name.value || resource.name;
     if (resource.storeOutputAutomatically) {
         if (resource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
             // "Accounts from resourceName" (get record, action with sobject anonymous output...)
-            const entity = getEntity(resource.subtype);
-            if (entity) {
-                const entityLabel = resource.isCollection
-                    ? entity.entityLabelPlural
-                    : entity.entityLabel;
-                if (entityLabel) {
-                    label = format(
-                        LABELS.recordLookupAsResourceText,
-                        entityLabel,
-                        label
-                    );
-                }
-            }
+            label = formatWithEntityLabel(
+                resource,
+                label,
+                LABELS.recordLookupAsResourceText
+            );
+        } else if (resource.elementType === ELEMENT_TYPE.RECORD_CREATE) {
+            // "AccountId from myCreateRecord"
+            label = formatWithEntityLabel(
+                resource,
+                label,
+                LABELS.recordCreateIdAsResourceText
+            );
         } else if (
             resource.dataType ===
             FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
@@ -104,24 +132,34 @@ export function getElementTypeLabel({ elementType }) {
 }
 
 /**
- * Get category label for the element (if possible, considered as a resource that can be used in a merge field)
+ * Get resource category label for the element (if possible, considered as a resource that can be used in a merge field)
  *
  * @param {String}
  *            elementType the element type of the element
  * @param {String}
  *            dataType the datatype of the element
  * @param {Boolean}
- *            isCollection whether or not that element is a collection
+ *            [isCollection=false] whether or not that element is a collection
+ * @param {Boolean}
+ *            [isSystemGeneratedOutput=false] whether or not that element is an anonymous output
+ * @param {Boolean}
+ *            storeOutputAutomatically whether or not that element is in automatic outptu mode?
  * @returns {String} the category label for this element
  */
 export function getResourceCategory({
     elementType,
     dataType,
     isCollection = false,
-    isSystemGeneratedOutput = false
+    isSystemGeneratedOutput = false,
+    storeOutputAutomatically
 }) {
     let categoryLabel;
-    if (!isComplexType(dataType)) {
+    if (
+        elementType === ELEMENT_TYPE.RECORD_CREATE &&
+        storeOutputAutomatically
+    ) {
+        categoryLabel = LABELS.variablePluralLabel;
+    } else if (!isComplexType(dataType)) {
         if (
             isAnonymousPrimitiveOutputResource({
                 isSystemGeneratedOutput,
@@ -163,15 +201,23 @@ export function getResourceCategory({
  *            dataType the datatype of the element
  * @param {Boolean}
  *            [isCollection=false] whether or not that element is a collection
+ * @param {Boolean}
+ *            storeOutputAutomatically whether or not that element is in automatic output mode
  * @returns {String} the type label for this element
  */
 export function getResourceTypeLabel({
     elementType,
     dataType,
-    isCollection = false
+    isCollection = false,
+    storeOutputAutomatically
 }) {
     let typeLabel;
-    if (!isComplexType(dataType)) {
+    if (
+        elementType === ELEMENT_TYPE.RECORD_CREATE &&
+        storeOutputAutomatically
+    ) {
+        typeLabel = LABELS.variableSingularLabel;
+    } else if (!isComplexType(dataType)) {
         if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.singular) {

@@ -26,7 +26,7 @@ export default class ResourceDetails extends LightningElement {
     get hasApiName() {
         return (
             !!this.resourceDetails.apiName &&
-            !this.isAutomaticOutputFromGetRecord()
+            !this.isAutomaticOutputFromGetRecordOrCreateRecord()
         );
     }
 
@@ -104,9 +104,11 @@ export default class ResourceDetails extends LightningElement {
         );
     }
 
-    isAutomaticOutputFromGetRecord() {
+    isAutomaticOutputFromGetRecordOrCreateRecord() {
         return (
-            this.resourceDetails.elementType === ELEMENT_TYPE.RECORD_LOOKUP &&
+            (this.resourceDetails.elementType === ELEMENT_TYPE.RECORD_LOOKUP ||
+                this.resourceDetails.elementType ===
+                    ELEMENT_TYPE.RECORD_CREATE) &&
             this.resourceDetails.storeOutputAutomatically
         );
     }

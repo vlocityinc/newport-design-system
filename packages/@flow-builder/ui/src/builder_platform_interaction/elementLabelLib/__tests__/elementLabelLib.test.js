@@ -2,7 +2,8 @@ import {
     getResourceLabel,
     getElementCategory,
     getResourceCategory,
-    getResourceTypeLabel
+    getResourceTypeLabel,
+    formatWithEntityLabel
 } from '../elementLabelLib';
 import { LABELS } from '../elementLabelLibLabels';
 import {
@@ -12,7 +13,8 @@ import {
     emailScreenFieldAutomaticOutput,
     actionCallAutomaticOutput,
     apexCallAutomaticAnonymousAccountOutput,
-    apexCallAutomaticAnonymousStringOutput
+    apexCallAutomaticAnonymousStringOutput,
+    createAccountWithAutomaticOutput
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -53,6 +55,20 @@ jest.mock(
     },
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.recordCreateIdAsResourceText',
+    () => {
+        return { default: '{0}Id from {1}' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.variablePluralLabel',
+    () => {
+        return { default: 'Variables' };
+    },
+    { virtual: true }
+);
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
@@ -69,10 +85,16 @@ jest.mock(
     { virtual: true }
 );
 
-const createElement = (elementType, dataType, isCollection) => ({
+const createElement = (
     elementType,
     dataType,
-    isCollection
+    isCollection,
+    storeOutputAutomatically
+) => ({
+    elementType,
+    dataType,
+    isCollection,
+    storeOutputAutomatically
 });
 
 describe('elementLabelLib', () => {
@@ -132,6 +154,12 @@ describe('elementLabelLib', () => {
             const label = getResourceLabel(actionCallAutomaticOutput);
             expect(label).toEqual('Outputs from actionCallAutomaticOutput');
         });
+        it('returns "[SObject label]Id from [elementName]" for create records with automatic handling mode', () => {
+            const label = getResourceLabel(createAccountWithAutomaticOutput);
+            expect(label).toEqual(
+                'AccountId from createAccountWithAutomaticOutput'
+            );
+        });
     });
     describe('getResourceTypeLabel', () => {
         describe('GetRecord element with automatic handling mode', () => {
@@ -159,6 +187,12 @@ describe('elementLabelLib', () => {
         it('returns "Action" for action with automatic handling mode', () => {
             const typeLabel = getResourceTypeLabel(actionCallAutomaticOutput);
             expect(typeLabel).toEqual(LABELS.actionSingularLabel);
+        });
+        it('returns "Variable" for create records with automatic handling mode', () => {
+            const typeLabel = getResourceTypeLabel(
+                createAccountWithAutomaticOutput
+            );
+            expect(typeLabel).toEqual(LABELS.variableSingularLabel);
         });
     });
     describe('getElementCategory', () => {
@@ -298,7 +332,7 @@ describe('elementLabelLib', () => {
                     )
                 ).toEqual(LABELS.sObjectCollectionPluralLabel);
             });
-            it('for lightning component screen field as record resource', () => {
+            it('for lightning component screen field as resource', () => {
                 expect(
                     getResourceCategory(
                         createElement(
@@ -329,6 +363,11 @@ describe('elementLabelLib', () => {
                 expect(
                     getResourceCategory(apexCallAutomaticAnonymousStringOutput)
                 ).toEqual('FlowBuilderElementConfig.variablePluralLabel');
+            });
+            it('for create record as resource', () => {
+                expect(
+                    getResourceCategory(createAccountWithAutomaticOutput)
+                ).toEqual(LABELS.variablePluralLabel);
             });
         });
         it('for collections variables', () => {
@@ -386,5 +425,37 @@ describe('elementLabelLib', () => {
                 )
             ).toEqual(LABELS.apexCollectionVariablePluralLabel);
         });
+    });
+    describe('formatWithEntityLabel', () => {
+        const elementName = 'myAccount',
+            aLabelWithTokens = '{0} from {1}';
+        test.each`
+            resource                                                          | labelWithTokens     | formattedLabel
+            ${null}                                                           | ${aLabelWithTokens} | ${elementName}
+            ${undefined}                                                      | ${aLabelWithTokens} | ${elementName}
+            ${{}}                                                             | ${aLabelWithTokens} | ${elementName}
+            ${{ subtype: 'Account' }}                                         | ${aLabelWithTokens} | ${'Account from myAccount'}
+            ${{ subtype: 'Account' }}                                         | ${null}             | ${elementName}
+            ${{ subtype: 'Account' }}                                         | ${undefined}        | ${elementName}
+            ${{ subtype: 'Account' }}                                         | ${''}               | ${elementName}
+            ${{ subtype: 'Account', isCollection: true }}                     | ${aLabelWithTokens} | ${'Accounts from myAccount'}
+            ${{ subtype: 'Account', isCollection: false }}                    | ${aLabelWithTokens} | ${'Account from myAccount'}
+            ${{ subtype: 'Account', object: 'Contact' }}                      | ${aLabelWithTokens} | ${'Account from myAccount'}
+            ${{ subtype: 'Account', object: 'Contact', isCollection: true }}  | ${aLabelWithTokens} | ${'Accounts from myAccount'}
+            ${{ subtype: 'Account', object: 'Contact', isCollection: false }} | ${aLabelWithTokens} | ${'Account from myAccount'}
+            ${{ object: 'Account' }}                                          | ${aLabelWithTokens} | ${'Account from myAccount'}
+            ${{ object: 'Account', isCollection: false }}                     | ${aLabelWithTokens} | ${'Account from myAccount'}
+            ${{ object: 'Account', isCollection: true }}                      | ${aLabelWithTokens} | ${'Accounts from myAccount'}
+        `(
+            'Formatted label for resource: $resource and labelWithTokens: $labelWithTokens should be: $formattedLabel',
+            ({ resource, labelWithTokens, formattedLabel }) => {
+                const actual = formatWithEntityLabel(
+                    resource,
+                    elementName,
+                    labelWithTokens
+                );
+                expect(actual).toBe(formattedLabel);
+            }
+        );
     });
 });

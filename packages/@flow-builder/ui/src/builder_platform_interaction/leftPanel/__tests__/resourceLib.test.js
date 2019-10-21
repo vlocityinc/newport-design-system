@@ -10,7 +10,8 @@ import {
     lookupRecordAutomaticOutput,
     lookupRecordCollectionAutomaticOutput,
     apexSampleVariable,
-    getElementByGuid
+    getElementByGuid,
+    createAccountWithAutomaticOutput
 } from 'mock/storeData';
 
 jest.mock(
@@ -300,6 +301,7 @@ describe('resource-lib', () => {
             ${lookupRecordAutomaticOutput.guid}           | ${'utility:sobject'}
             ${lookupRecordCollectionAutomaticOutput.guid} | ${'utility:sobject'}
             ${apexSampleVariable.guid}                    | ${'utility:apex'}
+            ${createAccountWithAutomaticOutput.guid}      | ${'utility:text'}
         `(
             'icon for $elementGuid should be $iconName',
             ({ elementGuid, iconName }) => {

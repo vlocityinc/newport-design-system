@@ -39,11 +39,16 @@ const getScreenFieldDataType = (screenFieldObject = {}) => {
  */
 const mutateElements = (elements, searchRegex) =>
     Object.values(elements).reduce((mutatedElements, element) => {
-        if (!searchRegex || searchRegex.test(element.name) || searchRegex.test(element.label) || searchRegex.test(element.description)) {
+        if (
+            !searchRegex ||
+            searchRegex.test(element.name) ||
+            searchRegex.test(element.label) ||
+            searchRegex.test(element.description)
+        ) {
             const resourceElement = {
                 elementType: element.elementType,
                 guid: element.guid,
-                label: element.name,
+                label: element.name
             };
 
             const category = getElementCategory(element);
@@ -62,13 +67,19 @@ const mutateElements = (elements, searchRegex) =>
  * @returns {string|undefined} the icon name
  */
 export const getResourceIconName = element => {
-    if (element.elementType === ELEMENT_TYPE.SCREEN_FIELD) {
+    const { elementType, dataType, storeOutputAutomatically } = element;
+    if (elementType === ELEMENT_TYPE.SCREEN_FIELD) {
         const screenFieldDataType = getScreenFieldDataType(element);
         return screenFieldDataType
             ? getDataTypeIcons(screenFieldDataType, 'utility')
             : 'utility:connected_apps';
-    } else if (element.dataType) {
-        return getDataTypeIcons(element.dataType, 'utility');
+    } else if (
+        elementType === ELEMENT_TYPE.RECORD_CREATE &&
+        storeOutputAutomatically
+    ) {
+        return getDataTypeIcons('String', 'utility');
+    } else if (dataType) {
+        return getDataTypeIcons(dataType, 'utility');
     }
     return undefined;
 };
@@ -77,7 +88,11 @@ const mutateResources = (elements, searchRegex) =>
     Object.values(elements).reduce((mutatedElements, element) => {
         const label = getResourceLabel(element);
         const description = element.description;
-        if (!searchRegex || searchRegex.test(label) || searchRegex.test(description)) {
+        if (
+            !searchRegex ||
+            searchRegex.test(label) ||
+            searchRegex.test(description)
+        ) {
             const resourceElement = {
                 elementType: element.elementType,
                 guid: element.guid,

@@ -280,3 +280,53 @@ export const mockApexActionNotInAutomaticOutputsModeResourceDetails = {
     asResource: true,
     storeOutputAutomatically: false
 };
+
+/**
+ * Create Record mocked resource details in output automatic mode
+ */
+export const mockCreateRecordAutomaticOutputModeResourceDetails = {
+    title: 'AccountId from create_account_auto',
+    elementType: 'RecordCreate',
+    elementGuid: '6a010534-a5f0-485e-bb01-e6f0940c060c',
+    typeLabel: 'Variable',
+    typeIconName: 'utility:text',
+    apiName: 'create_account_auto',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: '6a010534-a5f0-485e-bb01-e6f0940c060c',
+        label: 'create account auto',
+        name: 'create_account_auto',
+        elementGuidsReferenced: ['6a010534-a5f0-485e-bb01-e6f0940c060c'],
+        iconName: 'standard:record_create',
+        isCanvasElement: true
+    },
+    usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: true
+};
+
+/**
+ * Create Record mocked resource details NOT in output automatic mode
+ */
+export const mockCreateRecordNotInAutomaticOutputModeResourceDetails = {
+    title: 'AccountId from create_account_auto',
+    elementType: 'RecordCreate',
+    elementGuid: '6a010534-a5f0-485e-bb01-e6f0940c060c',
+    typeLabel: 'Variable',
+    typeIconName: 'utility:text',
+    apiName: 'create_account_auto',
+    editable: false,
+    deletable: false,
+    createdByElement: {
+        guid: '6a010534-a5f0-485e-bb01-e6f0940c060c',
+        label: 'create account auto',
+        name: 'create_account_auto',
+        elementGuidsReferenced: ['6a010534-a5f0-485e-bb01-e6f0940c060c'],
+        iconName: 'standard:record_create',
+        isCanvasElement: true
+    },
+    usedByElements: [],
+    asResource: true,
+    storeOutputAutomatically: false
+};

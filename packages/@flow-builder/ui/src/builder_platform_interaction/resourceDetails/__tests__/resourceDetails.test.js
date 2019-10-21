@@ -12,7 +12,9 @@ import {
     mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails,
     mockApexActionInAutomaticOutputsModeResourceDetails,
     mockApexActionNotInAutomaticOutputsModeResourceDetails,
-    mockAccountRecordVariable
+    mockAccountRecordVariable,
+    mockCreateRecordAutomaticOutputModeResourceDetails,
+    mockCreateRecordNotInAutomaticOutputModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
@@ -172,7 +174,7 @@ describe('Resource Details', () => {
         });
     });
     describe("'Resource in automatic output handling mode", () => {
-        describe('"GetRecords" as a resource', () => {
+        describe('"Get Records" as a resource', () => {
             let resourceDetailsComponent;
             beforeEach(() => {
                 resourceDetailsComponent = createComponentUnderTest(
@@ -355,10 +357,55 @@ describe('Resource Details', () => {
                 expect(apiName).toContain('apex_action1');
             });
         });
+        describe('"Create Record" as a resource', () => {
+            let resourceDetailsComponent;
+            beforeEach(() => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    mockCreateRecordAutomaticOutputModeResourceDetails
+                );
+            });
+            it('should not display Edit and Delete buttons', () => {
+                const footerButtons = resourceDetailsComponent.shadowRoot.querySelectorAll(
+                    SELECTORS.footerButtons
+                );
+                expect(footerButtons).toHaveLength(0);
+            });
+            it('should display the element that created the automatic output (createdBy section) with correct title and list elements', () => {
+                const createdBySection = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.createdBySection
+                );
+                expect(createdBySection).toBeDefined();
+                const createdByList = createdBySection.querySelector(
+                    SELECTORS.createdByList
+                );
+                expect(createdByList.listSectionHeader).toBe(
+                    'FlowBuilderResourceDetailsPanel.createdByText'
+                );
+                expect(createdByList.listSectionItems).toEqual([
+                    mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
+                ]);
+                expect(resourceDetailsComponent.createdByElements).toEqual([
+                    mockCreateRecordAutomaticOutputModeResourceDetails.createdByElement
+                ]);
+            });
+            it('should not display "Parameters" section (element type not supported)', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).toBeNull();
+            });
+            it('should not display API Name', () => {
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
+
+                expect(apiName).not.toBeDefined();
+            });
+        });
     });
     describe("'Resource NOT in automatic output handling mode", () => {
         let resourceDetailsComponent;
-        describe('"GetRecords" as a resource', () => {
+        describe('"Get Records" as a resource', () => {
             it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
                 resourceDetailsComponent = createComponentUnderTest(
                     Object.assign(
@@ -376,7 +423,9 @@ describe('Resource Details', () => {
                     resourceDetailsComponent
                 );
 
-                expect(apiName).toContain('myGetAccount2');
+                expect(apiName).toContain(
+                    mockGetRecordsAutomaticOutputModeResourceDetails.apiName
+                );
             });
         });
         describe('Extension (ie: lightning component) screenfield as a resource', () => {
@@ -396,7 +445,9 @@ describe('Resource Details', () => {
                     resourceDetailsComponent
                 );
 
-                expect(apiName).toContain('email1');
+                expect(apiName).toContain(
+                    mockExtensionScreenfieldNotInAutomaticOutputsModeResourceDetails.apiName
+                );
             });
         });
         describe('Action (core action - submit for approval) as a resource', () => {
@@ -416,7 +467,9 @@ describe('Resource Details', () => {
                     resourceDetailsComponent
                 );
 
-                expect(apiName).toContain('Submit_for_Approval');
+                expect(apiName).toContain(
+                    mockActionSubmitForApprovalNotInAutomaticOutputsModeResourceDetails.apiName
+                );
             });
         });
         describe('Action (Apex action) as a resource', () => {
@@ -436,7 +489,9 @@ describe('Resource Details', () => {
                     resourceDetailsComponent
                 );
 
-                expect(apiName).toContain('apex_action1');
+                expect(apiName).toContain(
+                    mockApexActionNotInAutomaticOutputsModeResourceDetails.apiName
+                );
             });
         });
         describe('"Account record variable as a resource', () => {
@@ -466,6 +521,29 @@ describe('Resource Details', () => {
                 );
 
                 expect(apiName).toContain('vAccount');
+            });
+        });
+        describe('"Create Record" as a resource', () => {
+            it('should NOT display "Parameters" section (element type that supports automatic output mode but "storeOutputAutomatically: false")', () => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    Object.assign(
+                        mockCreateRecordNotInAutomaticOutputModeResourceDetails,
+                        { storeOutputAutomatically: false }
+                    )
+                );
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).toBeNull();
+            });
+            it('should display API Name', () => {
+                const apiName = getApiNameLineTextContent(
+                    resourceDetailsComponent
+                );
+
+                expect(apiName).toContain(
+                    mockCreateRecordNotInAutomaticOutputModeResourceDetails.apiName
+                );
             });
         });
     });
