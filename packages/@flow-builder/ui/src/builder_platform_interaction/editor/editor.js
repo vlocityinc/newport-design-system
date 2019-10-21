@@ -1116,7 +1116,7 @@ export default class Editor extends LightningElement {
         );
         const shiftFocusForwardShortcut = this.isMacPlatform()
             ? { key: 'F6' }
-            : { cmdOrCtrl: true, key: 'F6' };
+            : { ctrlOrCmd: true, key: 'F6' };
         this.keyboardInteractions.setupCommandAndShortcut(
             shiftFocusForwardCommand,
             shiftFocusForwardShortcut
@@ -1128,7 +1128,7 @@ export default class Editor extends LightningElement {
         );
         const shiftFocusBackwardShortcut = this.isMacPlatform()
             ? { shift: true, key: 'F6' }
-            : { shift: true, cmdOrCtrl: true, key: 'F6' };
+            : { shift: true, ctrlOrCmd: true, key: 'F6' };
         this.keyboardInteractions.setupCommandAndShortcut(
             shiftFocusBackwardCommand,
             shiftFocusBackwardShortcut
