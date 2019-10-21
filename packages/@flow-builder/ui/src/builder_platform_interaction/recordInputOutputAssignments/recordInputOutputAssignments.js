@@ -81,6 +81,15 @@ export default class RecordInputOutputAssignments extends LightningElement {
         return this.inputOutputAssignmentsItems.length > 1;
     }
 
+    getLeftHandSideFieldName(item) {
+        let result;
+        const sanitizedGuid = sanitizeGuid(item.leftHandSide.value);
+        if (sanitizedGuid.fieldNames && sanitizedGuid.fieldNames.length === 1) {
+            return sanitizedGuid.fieldNames[0];
+        }
+        return result;
+    }
+
     /**
      * Create an array containing the fields. Fields already selected in other input/output assignment item should not be included.
      */
@@ -90,15 +99,14 @@ export default class RecordInputOutputAssignments extends LightningElement {
         const _inputOutputAssignmentsItems = [];
         // In the inputOutputAssignmentsItems the left hand side value is formed like "entityName.FieldApiName"
         this.inputOutputAssignmentsItems.forEach(item => {
-            if (item.leftHandSide.value && item.leftHandSide.value !== '') {
-                excludedFields.push(
-                    sanitizeGuid(item.leftHandSide.value).fieldName
-                );
+            const fieldName = this.getLeftHandSideFieldName(item);
+            if (fieldName) {
+                excludedFields.push(fieldName);
             }
         });
 
         this.inputOutputAssignmentsItems.forEach(item => {
-            const itemApiName = sanitizeGuid(item.leftHandSide.value).fieldName;
+            const itemApiName = this.getLeftHandSideFieldName(item);
             const fields =
                 this.recordFields && Object.values(this.recordFields);
             const entityFilteredFields = [];

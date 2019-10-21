@@ -1,7 +1,8 @@
 import {
     mutateFlowResourceToComboboxShape,
     mutatePicklistValue,
-    mutateFieldToComboboxShape
+    getMenuItemForField,
+    getMenuItemsForField
 } from '../menuDataGenerator';
 import {
     getDataTypeLabel,
@@ -149,7 +150,7 @@ describe('menuDataGenerator', () => {
             expect(mutatedValue).toEqual(expectedMutatedValue);
         });
     });
-    describe('mutateFieldToComboboxShape', () => {
+    describe('getMenuItemForField', () => {
         const parentSObjectItem = {
             dataType: FLOW_DATA_TYPE.SOBJECT.value,
             subtype: 'Account',
@@ -188,21 +189,14 @@ describe('menuDataGenerator', () => {
         const testDataTypeSubText = (field, parent) => {
             const label = `${field.dataType}Label`;
             getDataTypeLabel.mockReturnValueOnce(label);
-            const mutatedProperty = mutateFieldToComboboxShape(
-                field,
-                parent,
-                true,
-                true
-            );
+            const mutatedProperty = getMenuItemForField(field, parent);
             expect(mutatedProperty.subText).toEqual(label);
         };
         it('should use label for subtext for sobject fields', () => {
             const mockField = accountFields.AccountSource;
-            const mutatedField = mutateFieldToComboboxShape(
+            const mutatedField = getMenuItemForField(
                 mockField,
-                parentSObjectItem,
-                true,
-                true
+                parentSObjectItem
             );
             expect(mutatedField.subText).toEqual(mockField.label);
         });
@@ -214,6 +208,74 @@ describe('menuDataGenerator', () => {
         });
         it('should use dataType for subtext for $Client variables', () => {
             testDataTypeSubText(clientVariable, parentClientVariableItem);
+        });
+    });
+    describe('getMenuItemsForField', () => {
+        const parentSObjectItem = {
+            dataType: FLOW_DATA_TYPE.SOBJECT.value,
+            subtype: 'Account',
+            displayText: '{!recordVar}',
+            value: 'recordVarGuid'
+        };
+        it('should return one menu item for a field that is not spannable', () => {
+            const menuItems = getMenuItemsForField(
+                accountFields.CloneSourceId,
+                parentSObjectItem
+            );
+            expect(menuItems).toHaveLength(1);
+            expect(menuItems[0]).toMatchObject({
+                displayText: '{!recordVar.CloneSourceId}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CloneSourceId'
+            });
+            expect(menuItems[0].hasNext).toBeFalsy();
+        });
+        it('should return two menu items for a spannable field', () => {
+            const menuItems = getMenuItemsForField(
+                accountFields.CreatedById,
+                parentSObjectItem
+            );
+            expect(menuItems).toHaveLength(2);
+            expect(menuItems[0]).toMatchObject({
+                displayText: '{!recordVar.CreatedBy}',
+                hasNext: true,
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedBy'
+            });
+            expect(menuItems[1]).toMatchObject({
+                displayText: '{!recordVar.CreatedById}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedById'
+            });
+            expect(menuItems[1].hasNext).toBeFalsy();
+        });
+        it('should return only one menu item for a spannable field if option traversable is false', () => {
+            const menuItems = getMenuItemsForField(
+                accountFields.CreatedById,
+                parentSObjectItem,
+                { traversable: false }
+            );
+            expect(menuItems).toHaveLength(1);
+            expect(menuItems[0]).toMatchObject({
+                displayText: '{!recordVar.CreatedById}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedById'
+            });
+            expect(menuItems[0].hasNext).toBeFalsy();
+        });
+        it('should return only one menu item for a spannable field if option shouldBeWritable is true', () => {
+            const menuItems = getMenuItemsForField(
+                accountFields.CreatedById,
+                parentSObjectItem,
+                { shouldBeWritable: true }
+            );
+            expect(menuItems).toHaveLength(1);
+            expect(menuItems[0]).toMatchObject({
+                displayText: '{!recordVar.CreatedById}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedById'
+            });
+            expect(menuItems[0].hasNext).toBeFalsy();
         });
     });
 });

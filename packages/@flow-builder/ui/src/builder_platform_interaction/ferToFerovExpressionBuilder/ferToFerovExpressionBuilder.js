@@ -10,7 +10,7 @@ import {
     LHS_DISPLAY_OPTION,
     populateLhsStateForField,
     populateRhsState,
-    getSecondLevelItems
+    getChildrenItems
 } from 'builder_platform_interaction/expressionUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
@@ -125,35 +125,35 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
             if (fer) {
                 const lhsItem = mutateFlowResourceToComboboxShape(fer);
-                const fieldName = sanitizeGuid(lhs.value).fieldName;
-                if (fieldName) {
-                    getSecondLevelItems(
+                const fieldNames = sanitizeGuid(lhs.value).fieldNames;
+                if (fieldNames && fieldNames.length === 1) {
+                    const fieldName = fieldNames[0];
+                    getChildrenItems(
                         {
                             elementType: this.containerElement,
                             shouldBeWritable: this.lhsMustBeWritable
                         },
-                        lhsItem,
-                        fields => {
-                            const isFieldOnSobjectVar = true;
-                            this.state.lhsDisplayOption =
-                                LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
-                            if (fields && fields[fieldName]) {
-                                this.state.lhsDescribe = updateProperties(
-                                    this.state.lhsDescribe,
-                                    populateLhsStateForField(
-                                        fields,
-                                        fieldName,
-                                        lhsItem,
-                                        isFieldOnSobjectVar
-                                    )
-                                );
-                            } else {
-                                this.state.lhsDescribe.value = addCurlyBraces(
-                                    fer.name + '.' + fieldName
-                                );
-                            }
+                        lhsItem
+                    ).then(fields => {
+                        const isFieldOnSobjectVar = true;
+                        this.state.lhsDisplayOption =
+                            LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
+                        if (fields && fields[fieldName]) {
+                            this.state.lhsDescribe = updateProperties(
+                                this.state.lhsDescribe,
+                                populateLhsStateForField(
+                                    fields,
+                                    fieldName,
+                                    lhsItem,
+                                    isFieldOnSobjectVar
+                                )
+                            );
+                        } else {
+                            this.state.lhsDescribe.value = addCurlyBraces(
+                                fer.name + '.' + fieldName
+                            );
                         }
-                    );
+                    });
                 } else {
                     this.state.lhsDescribe.value = lhsItem;
                     this.state.lhsDescribe.param = elementToParam(fer);

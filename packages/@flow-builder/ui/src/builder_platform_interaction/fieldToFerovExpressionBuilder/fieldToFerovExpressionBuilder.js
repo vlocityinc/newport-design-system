@@ -188,13 +188,17 @@ export default class FieldToFerovExpressionBuilder extends LightningElement {
 
         if (lhs.value && !lhs.error) {
             const complexGuid = sanitizeGuid(lhs.value);
+            const fieldName =
+                complexGuid.fieldNames && complexGuid.fieldNames.length === 1
+                    ? complexGuid.fieldNames[0]
+                    : '';
             const fieldParent = { value: this.state.objectType };
             const isFieldOnSobjectVar = false;
             this.state.lhsDescribe = updateProperties(
                 this.state.lhsDescribe,
                 populateLhsStateForField(
                     this.lhsFields,
-                    complexGuid.fieldName,
+                    fieldName,
                     fieldParent,
                     isFieldOnSobjectVar
                 )

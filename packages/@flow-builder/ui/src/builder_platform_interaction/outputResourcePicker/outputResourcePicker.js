@@ -1,10 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import {
     getMenuData,
-    getResourceByUniqueIdentifier,
-    mutateFieldToComboboxShape,
-    mutateFlowResourceToComboboxShape,
-    retrieveResourceComplexTypeFields
+    normalizeFEROV
 } from 'builder_platform_interaction/expressionUtils';
 import {
     getOutputRules,
@@ -15,7 +12,6 @@ import { isObject } from 'builder_platform_interaction/commonUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import outputPlaceholder from '@salesforce/label/FlowBuilderCombobox.outputPlaceholder';
-import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
     removeLastCreatedInlineResource,
     updateInlineResourceProperties
@@ -250,7 +246,7 @@ export default class OutputResourcePicker extends LightningElement {
     populateMenuData = parentItem => {
         const showNewResource = true;
         if (this._baseResourcePicker) {
-            const menuData = getMenuData(
+            getMenuData(
                 this.elementConfig,
                 this.propertyEditorElementType,
                 this.populateParamTypes,
@@ -259,9 +255,10 @@ export default class OutputResourcePicker extends LightningElement {
                 storeInstance,
                 showNewResource,
                 parentItem
-            );
-            this._baseResourcePicker.setMenuData(menuData);
-            this.setInlineResource(menuData);
+            ).then(menuData => {
+                this._baseResourcePicker.setMenuData(menuData);
+                this.setInlineResource(menuData);
+            });
         }
     };
 
@@ -291,34 +288,6 @@ export default class OutputResourcePicker extends LightningElement {
      * @returns normalizedValue      value to pass to the combobox
      */
     normalizeValue = identifier => {
-        // TODO: W-5981876 consolidate this with resourceUtils.normalizeFerov
-        let normalizedValue;
-        const flowElement = getResourceByUniqueIdentifier(identifier);
-        if (flowElement) {
-            const fieldName = sanitizeGuid(identifier).fieldName;
-            if (fieldName) {
-                const fields = retrieveResourceComplexTypeFields(flowElement);
-                const field = fields && fields[fieldName];
-                if (field) {
-                    const fieldParent = mutateFlowResourceToComboboxShape(
-                        flowElement
-                    );
-                    normalizedValue = mutateFieldToComboboxShape(
-                        field,
-                        fieldParent,
-                        true,
-                        true
-                    );
-                }
-            } else {
-                normalizedValue = mutateFlowResourceToComboboxShape(
-                    flowElement
-                );
-            }
-        } else {
-            // Pass in identifier as string in the default case
-            normalizedValue = identifier;
-        }
-        return normalizedValue;
+        return normalizeFEROV(identifier).itemOrDisplayText;
     };
 }

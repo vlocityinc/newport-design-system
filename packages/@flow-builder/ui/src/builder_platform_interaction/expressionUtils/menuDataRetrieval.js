@@ -22,7 +22,7 @@ import {
     isComplexType
 } from 'builder_platform_interaction/dataTypeLib';
 import {
-    mutateFieldToComboboxShape,
+    getMenuItemsForField,
     mutateFlowResourceToComboboxShape,
     mutateEntitiesToComboboxShape,
     mutatePicklistValue,
@@ -399,7 +399,7 @@ export function getStoreElements(storeInstance, config) {
         elements = selector(storeInstance);
     }
     if (config.choices) {
-      return elements;
+        return elements;
     }
     return addUncommittedElementsFromLocalStorage(elements);
 }
@@ -632,34 +632,56 @@ export const getEntitiesMenuData = entityType => {
  * @param {Array} fields Array of the fields to be filtered
  * @param {boolean} showAsFieldReference show display text as field reference
  * @param {boolean} showSubText show sub text
- * @returns {Array} array of alphabetized objects
+ * @returns {MenuItem[]} array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
     chosenElement,
-    allowedParamTypes,
     fields,
-    showAsFieldReference,
-    showSubText
+    {
+        allowedParamTypes = null,
+        showAsFieldReference = true,
+        showSubText = true,
+        shouldBeWritable = false,
+        traversable = true
+    } = {}
 ) {
     if (fields) {
         return Object.values(fields)
-            .filter(element => isElementAllowed(allowedParamTypes, element))
-            .map(element => {
-                return mutateFieldToComboboxShape(
-                    element,
-                    chosenElement,
-                    showAsFieldReference,
-                    showSubText
-                );
+            .filter(field => isElementAllowed(allowedParamTypes, field))
+            .reduce(
+                (acc, field) =>
+                    acc.concat(
+                        getMenuItemsForField(field, chosenElement, {
+                            showAsFieldReference,
+                            showSubText,
+                            shouldBeWritable,
+                            traversable
+                        })
+                    ),
+                []
+            )
+            .sort((menuItem1, menuItem2) => {
+                // display elements with children first
+                if (menuItem1.hasNext === menuItem2.hasNext) {
+                    return 0;
+                }
+                return menuItem1.hasNext ? -1 : 1;
             });
     }
     return [];
 }
 
-export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
+/**
+ * get children items
+ *
+ * @param {Object} elementConfig
+ * @param {Object} the parent item
+ * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
+ */
+export function getChildrenItems(elementConfig, parentItem) {
     const shouldBeWritable =
         elementConfig && getFilterInformation(elementConfig).isWritable;
-    const { dataType, subtype } = topLevelItem;
+    const { dataType, subtype } = parentItem;
 
     const filterWritable = items => {
         const writableItems = {};
@@ -672,33 +694,41 @@ export function getSecondLevelItems(elementConfig, topLevelItem, callback) {
             });
         return writableItems;
     };
-
+    let result;
     if (
         subtype === SYSTEM_VARIABLE_PREFIX ||
         subtype === SYSTEM_VARIABLE_CLIENT_PREFIX
     ) {
         const systemVariables = getSystemVariables(subtype);
-        callback(
+        result = Promise.resolve(
             shouldBeWritable ? filterWritable(systemVariables) : systemVariables
         );
     } else if (getGlobalVariables(subtype)) {
-        callback(getGlobalVariables(subtype));
+        result = Promise.resolve(getGlobalVariables(subtype));
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-        callback(sobjectLib.getFieldsForEntity(subtype));
-    } else if (
-        dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
-        dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
-    ) {
-        const resourceGuid = topLevelItem.value;
-        const element =
-            getElementByGuid(resourceGuid) ||
-            getScreenElement().fields.find(field => {
-                return field.guid === resourceGuid;
-            });
-        callback(retrieveResourceComplexTypeFields(element));
+        result = sobjectLib.fetchFieldsForEntity(subtype);
+    } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
+        const resourceGuid = parentItem.value;
+        const element = getScreenFieldElementByGuid(resourceGuid);
+        result = Promise.resolve(retrieveResourceComplexTypeFields(element));
+    } else if (dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        const resourceGuid = parentItem.value;
+        const element = getElementByGuid(resourceGuid);
+        result = Promise.resolve(retrieveResourceComplexTypeFields(element));
+    } else if (dataType === FLOW_DATA_TYPE.APEX.value) {
+        result = Promise.resolve(apexTypeLib.getPropertiesForClass(subtype));
     } else {
-        callback(apexTypeLib.getPropertiesForClass(subtype));
+        result = Promise.resolve({});
     }
+    // no access on sobject fields ...
+    return result.catch(() => ({}));
+}
+
+function getScreenFieldElementByGuid(guid) {
+    return (
+        getElementByGuid(guid) ||
+        getScreenElement().fields.find(field => field.guid === guid)
+    );
 }
 
 /**

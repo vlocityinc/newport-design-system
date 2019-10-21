@@ -185,17 +185,15 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
         getResourceByUniqueIdentifier: actual.getResourceByUniqueIdentifier,
         isElementAllowed: jest.fn().mockImplementation(() => false),
-        sanitizeGuid: require.requireActual(
-            '../../dataMutationLib/dataMutationLib.js'
-        ).sanitizeGuid,
         filterFieldsForChosenElement: actual.filterFieldsForChosenElement,
         OPERATOR_DISPLAY_OPTION: actual.OPERATOR_DISPLAY_OPTION,
         getFerovDataTypeForValidId: actual.getFerovDataTypeForValidId,
         mutateFlowResourceToComboboxShape:
             actual.mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: actual.mutateFieldToComboboxShape,
+        getMenuItemForField: actual.getMenuItemForField,
+        getMenuItemsForField: actual.getMenuItemsForField,
         LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
-        getSecondLevelItems: actual.getSecondLevelItems
+        getChildrenItems: actual.getChildrenItems
     };
 });
 
@@ -996,7 +994,7 @@ describe('base expression builder', () => {
 
         it('should throw RowContentsChangedEvent with matching picklist item when selecting picklist menu item', () => {
             const expressionBuilder = createComponentForTest({
-                lhsValue: expressionUtilsMock.mutateFieldToComboboxShape(
+                lhsValue: expressionUtilsMock.getMenuItemForField(
                     accountField,
                     accountVariable,
                     true,

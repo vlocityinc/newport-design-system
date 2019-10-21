@@ -100,13 +100,10 @@ export default class FieldPicker extends LightningElement {
     populateFieldMenuData() {
         if (this._baseResourcePicker) {
             this._baseResourcePicker.setMenuData(
-                filterFieldsForChosenElement(
-                    null,
-                    null,
-                    this.fields,
-                    false,
-                    true
-                )
+                filterFieldsForChosenElement(null, this.fields, {
+                    showAsFieldReference: false,
+                    showSubText: true
+                })
             );
         }
     }

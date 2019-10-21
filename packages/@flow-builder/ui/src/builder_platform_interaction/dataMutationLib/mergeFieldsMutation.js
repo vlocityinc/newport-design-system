@@ -9,19 +9,19 @@ import { EXPRESSION_RE } from 'builder_platform_interaction/flowMetadata';
 /**
  * The 5 possible situations are:
  * a) "guidOrLiteral" holds a literal the user entered
- * b) "guidOrLiteral" references a flow element that is NOT an sobject variable, and "fieldName" is empty
- * c) "guidOrLiteral" references an sobject variable, and "fieldName" is empty
- * d) "guidOrLiteral" references an sobject variable, and "fieldName" is a field on that sobject
- * e) "guidOrLiteral" holds an sobject api name, and fieldName is a field on that sobject
+ * b) "guidOrLiteral" references a flow element that is not a complex type element, and "fieldNames" is empty
+ * c) "guidOrLiteral" references a complex type element, and "fieldNames" is empty
+ * d) "guidOrLiteral" references a complex type element, and "fieldNames" is a field path on that complex type
+ * e) "guidOrLiteral" holds an a complex type api name, and fieldNames is a field path on that sobject
  *
  * @typedef {Object} complexGuid
  * @param {String} guidOrLiteral                 a flow element's guid OR a literal
- * @param {String|undefined} fieldName  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
+ * @param {String[]|undefined} fieldNames  if the flow element is an sobjectVar this may be a field on that sobject, or undefined
  */
 /**
  * If a guid contains more than one level, separates it out to two parts
  * @param {String} potentialGuid The guid to sanitize. This can be the value in the case of literals.
- * @returns {complexGuid} The complex object containing the guid and the field name. Returns an empty object in the literals case.
+ * @returns {complexGuid} The complex object containing the guid and the field names. Returns an empty object in the literals case.
  */
 export const sanitizeGuid = potentialGuid => {
     const complexGuid = {};
@@ -32,7 +32,9 @@ export const sanitizeGuid = potentialGuid => {
             !isGlobalConstantOrSystemVariableId(potentialGuid)
         ) {
             complexGuid.guidOrLiteral = potentialGuid.substring(0, periodIndex);
-            complexGuid.fieldName = potentialGuid.substring(periodIndex + 1);
+            complexGuid.fieldNames = potentialGuid
+                .substring(periodIndex + 1)
+                .split('.');
         } else {
             complexGuid.guidOrLiteral = potentialGuid;
         }

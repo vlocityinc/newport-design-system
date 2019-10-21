@@ -6,7 +6,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 import {
-    mutateFieldToComboboxShape,
+    getMenuItemForField,
     mutateFlowResourceToComboboxShape
 } from './menuDataGenerator';
 import {
@@ -18,6 +18,7 @@ import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     isObject,
     addCurlyBraces,
+    removeCurlyBraces,
     format
 } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
@@ -31,7 +32,7 @@ import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/
  * */
 let screen = null;
 
-export const  setScreenElement = element => {
+export const setScreenElement = element => {
     screen = element;
 };
 
@@ -169,25 +170,24 @@ export const normalizeFEROV = identifier => {
     if (flowElement) {
         const item = mutateFlowResourceToComboboxShape(flowElement);
         const sanitizedGuid = sanitizeGuid(identifier);
-        const fieldName = sanitizedGuid.fieldName;
-        if (!fieldName) {
+        const fieldNames = sanitizedGuid.fieldNames;
+        if (!fieldNames || fieldNames.length === 0) {
             rhs.itemOrDisplayText = item;
         } else {
-            const fields = retrieveResourceComplexTypeFields(flowElement);
-            const field = fields && fields[fieldName];
-            if (field && fieldName.indexOf('.') === -1) {
-                rhs.itemOrDisplayText = mutateFieldToComboboxShape(
-                    field,
-                    item,
-                    true,
-                    true
-                );
-            } else {
-                rhs.itemOrDisplayText = addCurlyBraces(
-                    item.text + '.' + fieldName
-                );
+            rhs.itemOrDisplayText = addCurlyBraces(
+                removeCurlyBraces(item.displayText) + '.' + fieldNames.join('.')
+            );
+            if (fieldNames.length === 1) {
+                const fields = retrieveResourceComplexTypeFields(flowElement);
+                const field = fields && fields[fieldNames[0]];
+                if (field) {
+                    rhs.itemOrDisplayText = getMenuItemForField(field, item, {
+                        showAsFieldReference: true,
+                        showSubText: true
+                    });
+                    rhs.fields = fields;
+                }
             }
-            rhs.fields = fields;
         }
     }
     return rhs;
@@ -238,7 +238,7 @@ export const populateLhsStateForField = (
     };
     const field = fields && fields[fieldName];
     if (field) {
-        lhsState.value = mutateFieldToComboboxShape(
+        lhsState.value = getMenuItemForField(
             field,
             fieldParent,
             isFieldOnSobjectVar,

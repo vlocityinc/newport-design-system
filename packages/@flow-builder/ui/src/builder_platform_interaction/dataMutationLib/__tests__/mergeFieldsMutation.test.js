@@ -1,6 +1,7 @@
 import {
     mutateTextWithMergeFields,
-    demutateTextWithMergeFields
+    demutateTextWithMergeFields,
+    sanitizeGuid
 } from '../mergeFieldsMutation';
 import { Store } from 'builder_platform_interaction/storeLib';
 
@@ -115,5 +116,37 @@ describe('Text with merge fields demutation', () => {
         ).toEqual(
             ' {!VARIABLE_1.polymorphicObjectName1:specificObjectName2.fieldName}'
         );
+    });
+});
+
+describe('sanitizeGuid', () => {
+    it('returns an empty object if not a string', () => {
+        const result = sanitizeGuid(52);
+        expect(result).toEqual({});
+    });
+    it('returns guid and fields', () => {
+        const result = sanitizeGuid('guid.field1.field2.field3');
+        expect(result).toEqual({
+            guidOrLiteral: 'guid',
+            fieldNames: ['field1', 'field2', 'field3']
+        });
+    });
+    it('returns an empty guidOrLiteral for empty string', () => {
+        const result = sanitizeGuid('');
+        expect(result).toEqual({
+            guidOrLiteral: ''
+        });
+    });
+    it('does never return an empty array for fields', () => {
+        let result = sanitizeGuid('guid.');
+        expect(result).toEqual({
+            guidOrLiteral: 'guid',
+            fieldNames: ['']
+        });
+        result = sanitizeGuid('.');
+        expect(result).toEqual({
+            guidOrLiteral: '',
+            fieldNames: ['']
+        });
     });
 });

@@ -7,7 +7,7 @@ import {
 } from 'builder_platform_interaction/ruleLib';
 import {
     mutateFlowResourceToComboboxShape,
-    mutateFieldToComboboxShape,
+    getMenuItemForField,
     EXPRESSION_PROPERTY_TYPE,
     LHS_DISPLAY_OPTION
 } from 'builder_platform_interaction/expressionUtils';
@@ -175,7 +175,7 @@ describe('field-to-ferov-expression-builder', () => {
                 expressionBuilder
             );
             expect(baseExpressionBuilder.lhsValue).toMatchObject(
-                mutateFieldToComboboxShape(
+                getMenuItemForField(
                     accountField,
                     { value: sobject },
                     false,
@@ -333,7 +333,7 @@ describe('field-to-ferov-expression-builder', () => {
                     expressionBuilder
                 );
                 expect(baseExpressionBuilder.rhsValue).toMatchObject(
-                    mutateFieldToComboboxShape(
+                    getMenuItemForField(
                         accountField,
                         accountVariableComboboxShape,
                         true,

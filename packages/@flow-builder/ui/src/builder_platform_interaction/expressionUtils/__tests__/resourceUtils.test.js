@@ -14,7 +14,7 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
-import { mutateFieldToComboboxShape } from '../menuDataGenerator';
+import { getMenuItemForField } from '../menuDataGenerator';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
@@ -74,7 +74,7 @@ jest.mock('../menuDataGenerator', () => {
         mutateFlowResourceToComboboxShape: require.requireActual(
             '../menuDataGenerator'
         ).mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: jest.fn()
+        getMenuItemForField: jest.fn()
     };
 });
 
@@ -129,7 +129,7 @@ describe('ResourceUtils', () => {
             const fieldName = 'Name';
             const output = 'result';
             const storeElement = store.apexSampleVariable;
-            mutateFieldToComboboxShape.mockReturnValueOnce(output);
+            getMenuItemForField.mockReturnValueOnce(output);
             getPropertiesForClass.mockImplementationOnce(className => {
                 if (className === storeElement.subtype) {
                     return {
@@ -149,7 +149,7 @@ describe('ResourceUtils', () => {
 
     describe('populate LHS state for field', () => {
         it('should populate lhs state if user has access to the entity and field', () => {
-            mutateFieldToComboboxShape.mockReturnValueOnce('formattedField');
+            getMenuItemForField.mockReturnValueOnce('formattedField');
             const lhsState = populateLhsStateForField(
                 { Name: {} },
                 'Name',
@@ -157,7 +157,7 @@ describe('ResourceUtils', () => {
                 true
             );
             expect(lhsState.value).toBe('formattedField');
-            expect(mutateFieldToComboboxShape).toHaveBeenCalledWith(
+            expect(getMenuItemForField).toHaveBeenCalledWith(
                 {},
                 account,
                 true,

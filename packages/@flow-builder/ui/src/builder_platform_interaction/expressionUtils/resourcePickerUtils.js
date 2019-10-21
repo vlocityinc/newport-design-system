@@ -2,7 +2,7 @@ import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
     getStoreElements,
-    getSecondLevelItems
+    getChildrenItems
 } from './menuDataRetrieval';
 
 const getFieldMenuData = (
@@ -13,30 +13,24 @@ const getFieldMenuData = (
 ) => {
     const showAsFieldReference = true;
     const showSubText = true;
-    let menuData;
 
     const allowedParamTypes = populateParamTypesFn();
     if (entityFields) {
-        menuData = filterFieldsForChosenElement(
-            parentItem,
-            allowedParamTypes,
-            entityFields,
-            showAsFieldReference,
-            showSubText
+        return Promise.resolve(
+            filterFieldsForChosenElement(parentItem, entityFields, {
+                allowedParamTypes,
+                showAsFieldReference,
+                showSubText
+            })
         );
-        return menuData;
     }
-    // TODO: this no longer needs to be a callback
-    getSecondLevelItems(elementConfig, parentItem, fields => {
-        menuData = filterFieldsForChosenElement(
-            parentItem,
+    return getChildrenItems(elementConfig, parentItem).then(fields =>
+        filterFieldsForChosenElement(parentItem, fields, {
             allowedParamTypes,
-            fields,
             showAsFieldReference,
             showSubText
-        );
-    });
-    return menuData;
+        })
+    );
 };
 
 const getFerovMenuData = (
@@ -102,15 +96,17 @@ export const getMenuData = (
             fields
         );
     }
-    return getFerovMenuData(
-        elementConfig,
-        propertyEditorElementType,
-        populateParamTypesFn,
-        allowSobjectForFields,
-        enableFieldDrilldown,
-        storeInstance,
-        includeNewResource,
-        showSystemVariables,
-        showGlobalVariables
+    return Promise.resolve(
+        getFerovMenuData(
+            elementConfig,
+            propertyEditorElementType,
+            populateParamTypesFn,
+            allowSobjectForFields,
+            enableFieldDrilldown,
+            storeInstance,
+            includeNewResource,
+            showSystemVariables,
+            showGlobalVariables
+        )
     );
 };

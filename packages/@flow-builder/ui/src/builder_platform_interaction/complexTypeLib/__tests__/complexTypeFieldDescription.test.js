@@ -13,6 +13,7 @@ import { getParametersForInvocableAction } from 'builder_platform_interaction/in
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
@@ -72,19 +73,6 @@ describe('complexTypeFieldDescription', () => {
         setApexClasses(null);
     });
     describe('retrieveResourceComplexTypeFields', () => {
-        const expectComplexTypeFieldDescription = field => {
-            // need a dataType and apiName. isCollection and label optional
-            expect(field.dataType).toBeDefined();
-            expect(field.apiName).toBeDefined();
-        };
-        const expectFieldsAreComplexTypeFieldDescriptions = fields => {
-            for (const fieldName in fields) {
-                if (Object.prototype.hasOwnProperty.call(fields, fieldName)) {
-                    const field = fields[fieldName];
-                    expectComplexTypeFieldDescription(field);
-                }
-            }
-        };
         it('returns fields for entity when element data type is SObject', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.accountSObjectVariable
@@ -113,7 +101,7 @@ describe('complexTypeFieldDescription', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.apexCallAutomaticAnonymousAccountOutput
             );
-
+            expectFieldsAreComplexTypeFieldDescriptions(fields);
             expect(fields).toEqual(mockAccountFields);
         });
         it('returns undefined for action single anonymous automatic primitive output', () => {

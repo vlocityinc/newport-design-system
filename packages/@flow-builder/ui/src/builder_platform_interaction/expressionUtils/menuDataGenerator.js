@@ -97,7 +97,7 @@ function getSubText(dataType, subtype, label) {
  * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
  * @returns {MenuItem}  the generated menu item
  */
-const createMenuItem = (
+const createMenuItem = ({
     type,
     text,
     subText,
@@ -107,7 +107,7 @@ const createMenuItem = (
     parent,
     dataType,
     subtype
-) => ({
+} = {}) => ({
     type,
     text,
     subText,
@@ -133,27 +133,11 @@ const shouldShowDataTypeAsSubText = parent =>
         parent.text === SYSTEM_VARIABLE_CLIENT_PREFIX);
 
 /**
- * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
- *
- * @param {Object} field Field to be copied
+ * Get sub text for given field
  * @param {Object} [parent] Parent object if field is a second level item
- * @param {boolean} showAsFieldReference true to show the display text as field reference on record variable, otherwise show the field's apiName
- * @param {boolean} showSubText true to show the sub text
- * @returns {MenuItem} Representation of flow element in shape combobox needs
+ * @returns {string} the subtext to display
  */
-export function mutateFieldToComboboxShape(
-    field,
-    parent,
-    showAsFieldReference,
-    showSubText
-) {
-    const formattedField = {
-        iconSize: ICON_SIZE
-    };
-    if (parent && showAsFieldReference) {
-        formattedField.parent = parent;
-    }
-
+function getFieldSubText(parent, field) {
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
     const label = field.label || apiName;
@@ -169,21 +153,165 @@ export function mutateFieldToComboboxShape(
             subText = dataTypeLabel;
         }
     }
+    return subText;
+}
 
-    formattedField.text = apiName;
-    formattedField.subText = showSubText ? subText : '';
-    formattedField.value = parent ? parent.value + '.' + apiName : apiName;
-    formattedField.displayText =
-        showAsFieldReference && parent && parent.displayText
-            ? parent.displayText.substring(0, parent.displayText.length - 1) +
+/**
+ * Get display text a field
+ * @param parent {Object} [parent] Parent object if field is a second level item
+ * @param fieldName {string} the field name
+ * @param showAsFieldReference {boolean} true to show the display text as field reference, otherwise return field name
+ * @returns {string} the display text for the field
+ */
+function getFieldDisplayText(parent, fieldName, showAsFieldReference) {
+    return showAsFieldReference && parent && parent.displayText
+        ? parent.displayText.substring(0, parent.displayText.length - 1) +
               '.' +
-              apiName +
+              fieldName +
               '}'
-            : apiName;
-    formattedField.type = COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD;
-    formattedField.iconName = getDataTypeIcons(field.dataType, ICON_TYPE);
+        : fieldName;
+}
 
-    return formattedField;
+function createMenuItemForField({
+    text = '',
+    iconName,
+    subText = '',
+    displayText = '',
+    value,
+    parent,
+    hasNext = false,
+    dataType,
+    subtype
+} = {}) {
+    const menuItem = createMenuItem({
+        type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+        iconName,
+        text,
+        subText,
+        value,
+        displayText,
+        dataType,
+        subtype,
+        parent
+    });
+    if (hasNext) {
+        menuItem.rightIconName = RIGHT_ICON_NAME;
+        menuItem.rightIconSize = ICON_SIZE;
+        menuItem.hasNext = true;
+    }
+    return menuItem;
+}
+
+function getMenuItemsForSObjectField(
+    field,
+    parent,
+    {
+        showAsFieldReference = true,
+        showSubText = true,
+        shouldBeWritable = false,
+        traversable = true
+    } = {}
+) {
+    if (traversable && field.isSpanningAllowed === true && !shouldBeWritable) {
+        const relationshipName = field.relationshipName || field.apiName;
+        const comboboxItems = [];
+        comboboxItems.push(
+            createMenuItemForField({
+                iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+                subText: showSubText ? getFieldSubText(parent, field) : '',
+                parent: showAsFieldReference ? parent : null,
+                hasNext: true,
+                text: relationshipName,
+                value: parent
+                    ? parent.value + '.' + relationshipName
+                    : relationshipName,
+                displayText: getFieldDisplayText(
+                    parent,
+                    relationshipName,
+                    showAsFieldReference
+                ),
+                dataType: SOBJECT_TYPE,
+                subtype: field.referenceToNames[0]
+            })
+        );
+        comboboxItems.push(
+            getMenuItemForField(field, parent, {
+                showAsFieldReference,
+                showSubText
+            })
+        );
+        return comboboxItems;
+    }
+    return [
+        getMenuItemForField(field, parent, showAsFieldReference, showSubText)
+    ];
+}
+
+/**
+ * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
+ *
+ * @param {Object} field Field to be copied
+ * @param {Object} [parent] Parent object if field is a second level item
+ * @param {Object} [options]
+ * @param {boolean} [options.showAsFieldReference] true to show the display text as field reference on record variable, otherwise show the field's apiName
+ * @param {boolean} [options.showSubText] true to show the sub text
+ * @returns {MenuItem} Representation of flow element in shape combobox needs
+ */
+export function getMenuItemForField(
+    field,
+    parent,
+    { showAsFieldReference = true, showSubText = true } = {}
+) {
+    // support for parameter items being converted to field shape
+    const apiName = field.apiName || field.qualifiedApiName;
+    const comboboxItem = createMenuItemForField({
+        iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+        subText: showSubText ? getFieldSubText(parent, field) : '',
+        parent: showAsFieldReference ? parent : null,
+        text: apiName,
+        value: parent ? parent.value + '.' + apiName : apiName,
+        displayText: getFieldDisplayText(parent, apiName, showAsFieldReference)
+    });
+    return comboboxItem;
+}
+
+/**
+ * Get menu items for a field. For sobject fields, there can be more than one menu item for a given field.
+ *
+ * @param {Object} field Field for which to get the menu items
+ * @param {Object} [parent] Parent object if field is a second level item
+ * @param {Object} options
+ * @param {Object} [options]
+ * @param {boolean} [options.showAsFieldReference] true to show the display text as field reference on record variable, otherwise show the field's apiName
+ * @param {boolean} [options.showSubText] true to show the sub text
+ * @param {boolean} [options.shouldBeWritable] true if fields should be writable
+ * @param {boolean} [options.traversable] true if fields that are spannable can be traversed
+ * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
+ */
+export function getMenuItemsForField(
+    field,
+    parent,
+    {
+        showAsFieldReference = true,
+        showSubText = true,
+        shouldBeWritable = false,
+        traversable = true
+    } = {}
+) {
+    if (parent && parent.dataType === SOBJECT_TYPE) {
+        return getMenuItemsForSObjectField(field, parent, {
+            showAsFieldReference,
+            showSubText,
+            shouldBeWritable,
+            traversable
+        });
+    }
+    return [
+        getMenuItemForField(field, parent, {
+            showAsFieldReference,
+            showSubText
+        })
+    ];
 }
 
 /**
@@ -258,33 +386,28 @@ export function mutateFlowResourceToComboboxShape(resource) {
  */
 export const mutateEntitiesToComboboxShape = entities => {
     return entities.map(entity => {
-        return createMenuItem(
-            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-            entity.entityLabel || entity.apiName,
-            entity.apiName,
-            entity.entityLabel || entity.apiName,
-            undefined,
-            entity.apiName,
-            undefined,
-            SOBJECT_TYPE,
-            entity.apiName
-        );
+        return createMenuItem({
+            type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+            text: entity.entityLabel || entity.apiName,
+            subText: entity.apiName,
+            displayText: entity.entityLabel || entity.apiName,
+            value: entity.apiName,
+            dataType: SOBJECT_TYPE,
+            subtype: entity.apiName
+        });
     });
 };
 
 export const mutateApexClassesToComboboxShape = classes => {
     return classes.map(clazz => {
-        return createMenuItem(
-            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-            clazz.durableId,
-            undefined,
-            clazz.durableId,
-            undefined,
-            clazz.durableId,
-            undefined,
-            APEX_TYPE,
-            clazz.durableId
-        );
+        return createMenuItem({
+            type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+            text: clazz.durableId,
+            displayText: clazz.durableId,
+            value: clazz.durableId,
+            dataType: APEX_TYPE,
+            subtype: clazz.durableId
+        });
     });
 };
 
@@ -303,17 +426,17 @@ export const apexClassesMenuDataSelector = createSelector(
  * @returns {MenuItem} menu item representing the picklist value
  */
 export const mutatePicklistValue = picklistOption => {
-    return createMenuItem(
-        COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-        picklistOption.label || picklistOption.value,
-        FLOW_DATA_TYPE.STRING.label,
-        picklistOption.value,
-        getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
+    return createMenuItem({
+        type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+        text: picklistOption.label || picklistOption.value,
+        subText: FLOW_DATA_TYPE.STRING.label,
+        displayText: picklistOption.value,
+        iconName: getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
         // This is to insure uniqueness among picklist values
-        picklistOption.label
+        value: picklistOption.label
             ? picklistOption.value + '-' + picklistOption.label
             : picklistOption.value
-    );
+    });
 };
 
 /**
@@ -323,17 +446,15 @@ export const mutatePicklistValue = picklistOption => {
  */
 export const mutateEventTypesToComboboxShape = eventTypes => {
     return eventTypes.map(eventType => {
-        return createMenuItem(
-            COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
-            eventType.label || eventType.qualifiedApiName,
-            eventType.qualifiedApiName,
-            eventType.label || eventType.qualifiedApiName,
-            undefined,
-            eventType.qualifiedApiName,
-            undefined,
-            SOBJECT_TYPE,
-            eventType.qualifiedApiName
-        );
+        return createMenuItem({
+            type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
+            text: eventType.label || eventType.qualifiedApiName,
+            subText: eventType.qualifiedApiName,
+            displayText: eventType.label || eventType.qualifiedApiName,
+            value: eventType.qualifiedApiName,
+            dataType: SOBJECT_TYPE,
+            subtype: eventType.qualifiedApiName
+        });
     });
 };
 

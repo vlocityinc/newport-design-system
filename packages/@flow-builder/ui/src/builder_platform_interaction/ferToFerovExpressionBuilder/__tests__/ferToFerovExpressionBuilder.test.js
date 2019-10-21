@@ -8,7 +8,7 @@ import {
 } from 'builder_platform_interaction/ruleLib';
 import {
     mutateFlowResourceToComboboxShape,
-    mutateFieldToComboboxShape,
+    getMenuItemForField,
     EXPRESSION_PROPERTY_TYPE,
     LHS_DISPLAY_OPTION
 } from 'builder_platform_interaction/expressionUtils';
@@ -22,8 +22,9 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
-import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -133,12 +134,13 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getFerovDataTypeForValidId: actual.getFerovDataTypeForValidId,
         mutateFlowResourceToComboboxShape:
             actual.mutateFlowResourceToComboboxShape,
-        mutateFieldToComboboxShape: actual.mutateFieldToComboboxShape,
+        getMenuItemForField: actual.getMenuItemForField,
+        getMenuItemsForField: actual.getMenuItemsForField,
         validateExpressionShape: actual.validateExpressionShape,
         LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
         populateLhsStateForField: actual.populateLhsStateForField,
         populateRhsState: actual.populateRhsState,
-        getSecondLevelItems: actual.getSecondLevelItems,
+        getChildrenItems: actual.getChildrenItems,
         getStoreElements: jest.fn(),
         filterAndMutateMenuData: jest.fn()
     };
@@ -157,6 +159,9 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
         getFieldsForEntity: jest.fn().mockImplementation(() => {
             return mockAccountFields;
+        }),
+        fetchFieldsForEntity: jest.fn().mockImplementation(() => {
+            return Promise.resolve(mockAccountFields);
         })
     };
 });
@@ -249,7 +254,7 @@ describe('fer-to-ferov-expression-builder', () => {
                     expressionBuilder
                 );
                 expect(baseExpressionBuilder.lhsValue).toMatchObject(
-                    mutateFieldToComboboxShape(
+                    getMenuItemForField(
                         accountField,
                         accountVariableComboboxShape,
                         true,
@@ -268,9 +273,12 @@ describe('fer-to-ferov-expression-builder', () => {
                 expect(baseExpressionBuilder.lhsFields).toBeTruthy();
             });
         });
-        it('should handle field if no access to sobject fields on LHS', () => {
-            // returns null when no permissions to access field on object
-            getFieldsForEntity.mockReturnValueOnce(null);
+        it('should handle field if no access to sobject fields on LHS', async () => {
+            fetchFieldsForEntity.mockImplementationOnce(() =>
+                Promise.reject(
+                    new Error('cannot get entity fields : No Access')
+                )
+            );
             const expressionBuilder = createComponentForTest({
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression()
@@ -279,6 +287,7 @@ describe('fer-to-ferov-expression-builder', () => {
             const baseExpressionBuilder = getBaseExpressionBuilder(
                 expressionBuilder
             );
+            await ticks();
             expect(baseExpressionBuilder.lhsValue).toEqual(displayValue);
             expect(baseExpressionBuilder.lhsDisplayOption).toBe(
                 LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE
@@ -432,7 +441,7 @@ describe('fer-to-ferov-expression-builder', () => {
                     expressionBuilder
                 );
                 expect(baseExpressionBuilder.rhsValue).toMatchObject(
-                    mutateFieldToComboboxShape(
+                    getMenuItemForField(
                         accountField,
                         accountVariableComboboxShape,
                         true,

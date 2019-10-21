@@ -3,9 +3,8 @@ import OutputResourcePicker from '../outputResourcePicker';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getMenuData,
-    getResourceByUniqueIdentifier,
-    mutateFieldToComboboxShape,
-    mutateFlowResourceToComboboxShape
+    getMenuItemForField,
+    normalizeFEROV
 } from 'builder_platform_interaction/expressionUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
@@ -20,9 +19,6 @@ import {
 import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/expressionUtils';
-import * as store from 'mock/storeData';
-import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -90,20 +86,16 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
+        normalizeFEROV: jest.fn().mockImplementation(identifier => ({
+            itemOrDisplayText: identifier
+        })),
         getMenuData: jest
             .fn()
-            .mockReturnValue(['ferovMenuData'])
+            .mockReturnValue(Promise.resolve(['ferovMenuData']))
             .mockName('getMenuData'),
         getResourceByUniqueIdentifier: jest.fn(),
         mutateFlowResourceToComboboxShape: jest.fn(),
-        mutateFieldToComboboxShape: jest.fn(),
-        retrieveResourceComplexTypeFields: jest
-            .fn()
-            .mockImplementation(element => {
-                return element.subtype === 'Account'
-                    ? mockAccountFields
-                    : undefined;
-            })
+        getMenuItemForField: jest.fn()
     };
 });
 
@@ -229,8 +221,10 @@ describe('output-resource-picker', () => {
             value: 'accVar.Name',
             parent: parentRecordVar
         };
-        getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
-        mutateFieldToComboboxShape.mockReturnValueOnce(props.value);
+        normalizeFEROV.mockReturnValueOnce({
+            itemOrDisplayText: { parent: parentRecordVar }
+        });
+        getMenuItemForField.mockReturnValueOnce(props.value);
         setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
             expect(getMenuData).toHaveBeenCalledWith(
@@ -298,18 +292,10 @@ describe('output-resource-picker', () => {
     describe('normalize', () => {
         it('normalizes value when changing value', () => {
             const outputResourcePicker = setupComponentUnderTest(props);
-
             const newValue = 'foobar';
             outputResourcePicker.value = newValue;
             return Promise.resolve().then(() => {
-                expect(getResourceByUniqueIdentifier).toHaveBeenCalledWith(
-                    newValue
-                );
-                expect(outputResourcePicker.value).toEqual(newValue);
-                expect(
-                    mutateFlowResourceToComboboxShape
-                ).not.toHaveBeenCalled();
-                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
+                expect(normalizeFEROV).toHaveBeenCalledWith(newValue);
             });
         });
 
@@ -317,187 +303,86 @@ describe('output-resource-picker', () => {
             const outputResourcePicker = setupComponentUnderTest(props);
 
             props.comboboxConfig.type = FLOW_DATA_TYPE.STRING;
-
+            normalizeFEROV.mockClear();
             outputResourcePicker.comboboxConfig = props.comboboxConfig;
             return Promise.resolve().then(() => {
-                expect(getResourceByUniqueIdentifier).toHaveBeenCalledWith(
-                    props.value
-                );
-                expect(outputResourcePicker.value).toEqual(props.value);
-                expect(
-                    mutateFlowResourceToComboboxShape
-                ).not.toHaveBeenCalled();
-                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
+                expect(normalizeFEROV).toHaveBeenCalledWith(props.value);
             });
         });
 
-        it('does not normalize when no fields exist for entity', () => {
-            props.value = {
-                value: 'someSobject.Name'
-            };
-            getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
-            retrieveResourceComplexTypeFields.mockReturnValueOnce({});
-
-            setupComponentUnderTest(props);
-
-            return Promise.resolve().then(() => {
-                expect(
-                    mutateFlowResourceToComboboxShape
-                ).not.toHaveBeenCalled();
-                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
-            });
-        });
-
-        it('does not normalize when the field does not exist for the entity', () => {
-            props.value = {
-                value: 'someSobject.Name'
-            };
-            getResourceByUniqueIdentifier.mockReturnValueOnce(parentRecordVar);
-            retrieveResourceComplexTypeFields.mockReturnValueOnce({
-                Description: 'some field value'
-            });
-
-            setupComponentUnderTest(props);
-
-            return Promise.resolve().then(() => {
-                expect(
-                    mutateFlowResourceToComboboxShape
-                ).not.toHaveBeenCalled();
-                expect(mutateFieldToComboboxShape).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('normalizing valid fields', () => {
-            const fieldName = 'Name';
-            let guid;
-            let storeElement;
-
-            const configureForGuid = g => {
-                guid = g;
-                props.value = {
-                    value: `${guid}.${fieldName}`
-                };
-                storeElement = store.getElementByGuid(guid);
-                getResourceByUniqueIdentifier.mockReturnValueOnce(storeElement);
-            };
-            it('does not overwrite apex field isCollection values', () => {
-                configureForGuid(store.apexSampleVariable.guid);
-                mutateFieldToComboboxShape.mockImplementationOnce(
-                    ({ isCollection }) => {
-                        return {
-                            isCollection
-                        };
-                    }
-                );
-                retrieveResourceComplexTypeFields.mockReturnValueOnce({
-                    [fieldName]: {
-                        isCollection: true
+        describe('inline resource ', () => {
+            function fetchMenuData() {
+                return new CustomEvent('fetchmenudata', {
+                    detail: {
+                        item: {
+                            value: '6f346269-409c-422e-9e8c-3898d164298m'
+                        }
                     }
                 });
-                const outputResourcePicker = setupComponentUnderTest(props);
+            }
+            function handleAddInlineResource() {
+                return new CustomEvent('addnewresource', {
+                    detail: {
+                        position: 'left'
+                    }
+                });
+            }
+            it('dispatches removeLastCreatedInlineResource when there is an inline resource and fetchMenuData is triggered', () => {
+                const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47crr';
+                props.rowIndex = idx;
+                const spy = Store.getStore().dispatch;
+                Store.setMockState({
+                    properties: {
+                        lastInlineResourceRowIndex: idx,
+                        lastInlineResourceGuid:
+                            '6f346269-409c-422e-9e8c-3898d164298q'
+                    }
+                });
+                const cmp = setupComponentUnderTest(props);
+                const picker = cmp.shadowRoot.querySelector(
+                    'builder_platform_interaction-base-resource-picker'
+                );
+                picker.dispatchEvent(fetchMenuData());
 
                 return Promise.resolve().then(() => {
-                    expect(outputResourcePicker.value.isCollection).toEqual(
-                        true
+                    expect(spy).toHaveBeenCalledWith(
+                        removeLastCreatedInlineResource
                     );
                 });
             });
-            it('fetches property data when normalizing property on apex class', () => {
-                const output = 'result';
-                configureForGuid(store.apexSampleVariable.guid);
-                mutateFieldToComboboxShape.mockReturnValueOnce(output);
-                retrieveResourceComplexTypeFields.mockImplementationOnce(
-                    element => {
-                        if (element.subtype === storeElement.subtype) {
-                            return {
-                                [fieldName]: {
-                                    apiName: 'aName'
-                                }
-                            };
-                        }
-                        return undefined;
+            it('calls getMenuData when an inline resource is set and fetchMenuData is triggered', () => {
+                const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
+                props.rowIndex = idx;
+                const menuDataSpy = getMenuData;
+                Store.setMockState({
+                    properties: {
+                        lastInlineResourceRowIndex: idx,
+                        lastInlineResourceGuid:
+                            '6f346269-409c-422e-9e8c-3898d164298m'
                     }
+                });
+                const cmp = setupComponentUnderTest(props);
+                const picker = cmp.shadowRoot.querySelector(
+                    'builder_platform_interaction-base-resource-picker'
                 );
-                const outputResourcePicker = setupComponentUnderTest(props);
-
+                picker.dispatchEvent(fetchMenuData());
                 return Promise.resolve().then(() => {
-                    expect(outputResourcePicker.value).toEqual(output);
+                    expect(menuDataSpy).toHaveBeenCalled();
                 });
             });
-            describe('inline resource ', () => {
-                function fetchMenuData() {
-                    return new CustomEvent('fetchmenudata', {
-                        detail: {
-                            item: {
-                                value: '6f346269-409c-422e-9e8c-3898d164298m'
-                            }
-                        }
-                    });
-                }
-                function handleAddInlineResource() {
-                    return new CustomEvent('addnewresource', {
-                        detail: {
-                            position: 'left'
-                        }
-                    });
-                }
-                it('dispatches removeLastCreatedInlineResource when there is an inline resource and fetchMenuData is triggered', () => {
-                    const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47crr';
-                    props.rowIndex = idx;
-                    const spy = Store.getStore().dispatch;
-                    Store.setMockState({
-                        properties: {
-                            lastInlineResourceRowIndex: idx,
-                            lastInlineResourceGuid:
-                                '6f346269-409c-422e-9e8c-3898d164298q'
-                        }
-                    });
-                    const cmp = setupComponentUnderTest(props);
-                    const picker = cmp.shadowRoot.querySelector(
-                        'builder_platform_interaction-base-resource-picker'
-                    );
-                    picker.dispatchEvent(fetchMenuData());
+            it('dispatches response from updateInlineResourceProperties when dispatching addnewresource', () => {
+                const updateInlineResourceSpy = updateInlineResourceProperties;
+                const spy = Store.getStore().dispatch;
 
-                    return Promise.resolve().then(() => {
-                        expect(spy).toHaveBeenCalledWith(
-                            removeLastCreatedInlineResource
-                        );
-                    });
-                });
-                it('calls getMenuData when an inline resource is set and fetchMenuData is triggered', () => {
-                    const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47fff';
-                    props.rowIndex = idx;
-                    const menuDataSpy = getMenuData;
-                    Store.setMockState({
-                        properties: {
-                            lastInlineResourceRowIndex: idx,
-                            lastInlineResourceGuid:
-                                '6f346269-409c-422e-9e8c-3898d164298m'
-                        }
-                    });
-                    const cmp = setupComponentUnderTest(props);
-                    const picker = cmp.shadowRoot.querySelector(
-                        'builder_platform_interaction-base-resource-picker'
-                    );
-                    picker.dispatchEvent(fetchMenuData());
-                    return Promise.resolve().then(() => {
-                        expect(menuDataSpy).toHaveBeenCalled();
-                    });
-                });
-                it('dispaches response from updateInlineResourceProperties when dispatching addnewresource', () => {
-                    const updateInlineResourceSpy = updateInlineResourceProperties;
-                    const spy = Store.getStore().dispatch;
+                const cmp = setupComponentUnderTest(props);
+                const picker = cmp.shadowRoot.querySelector(
+                    'builder_platform_interaction-base-resource-picker'
+                );
 
-                    const cmp = setupComponentUnderTest(props);
-                    const picker = cmp.shadowRoot.querySelector(
-                        'builder_platform_interaction-base-resource-picker'
-                    );
-
-                    picker.dispatchEvent(handleAddInlineResource());
-                    return Promise.resolve().then(() => {
-                        expect(spy).toHaveBeenCalledWith('test response');
-                        expect(updateInlineResourceSpy).toHaveBeenCalled();
-                    });
+                picker.dispatchEvent(handleAddInlineResource());
+                return Promise.resolve().then(() => {
+                    expect(spy).toHaveBeenCalledWith('test response');
+                    expect(updateInlineResourceSpy).toHaveBeenCalled();
                 });
             });
         });

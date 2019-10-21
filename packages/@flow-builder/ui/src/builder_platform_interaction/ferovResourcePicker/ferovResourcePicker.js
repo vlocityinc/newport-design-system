@@ -307,7 +307,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     populateMenuData = (parentItem, fields) => {
         if (this._baseResourcePicker) {
-            const menuData = getMenuData(
+            getMenuData(
                 this.elementConfig,
                 this.propertyEditorElementType,
                 this.populateParamTypes,
@@ -319,9 +319,10 @@ export default class FerovResourcePicker extends LightningElement {
                 fields,
                 !this.hideSystemVariables,
                 this.showGlobalVariables
-            );
-            this._baseResourcePicker.setMenuData(menuData);
-            this.setInlineResource(menuData);
+            ).then(menuData => {
+                this._baseResourcePicker.setMenuData(menuData);
+                this.setInlineResource(menuData);
+            });
         }
     };
 

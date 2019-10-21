@@ -12,7 +12,7 @@ import {
     isElementAllowed,
     filterMatches,
     LHS_DISPLAY_OPTION,
-    getSecondLevelItems
+    getChildrenItems
 } from 'builder_platform_interaction/expressionUtils';
 import {
     getLHSTypes,
@@ -489,12 +489,7 @@ export default class BaseExpressionBuilder extends LightningElement {
     setLhsMenuData() {
         this.setOperatorMenuData();
 
-        if (
-            !this.areAllDefined([
-                this.containerElement,
-                this.rules
-            ])
-        ) {
+        if (!this.areAllDefined([this.containerElement, this.rules])) {
             return;
         }
         this.lhsParamTypes = getLHSTypes(this.containerElement, this.rules);
@@ -555,7 +550,9 @@ export default class BaseExpressionBuilder extends LightningElement {
 
     updateOperatorMenuData(operators) {
         this._operatorMenuData = transformOperatorsForCombobox(operators);
-        this.state.lhsEmptyOperatorsError = !!this.lhsValue && (!this._operatorMenuData || this._operatorMenuData.length === 0);
+        this.state.lhsEmptyOperatorsError =
+            !!this.lhsValue &&
+            (!this._operatorMenuData || this._operatorMenuData.length === 0);
     }
 
     /**
@@ -704,7 +701,9 @@ export default class BaseExpressionBuilder extends LightningElement {
                 event.detail.item.value,
                 this.lhsFields
             );
-            this.updateOperatorMenuData(getOperators(this.containerElement, selectedLhs, this.rules));
+            this.updateOperatorMenuData(
+                getOperators(this.containerElement, selectedLhs, this.rules)
+            );
         }
     }
 
@@ -780,8 +779,11 @@ export default class BaseExpressionBuilder extends LightningElement {
             LHS_FILTERED_MENU_DATA,
             LHS_FIELDS,
             this.lhsParamTypes,
-            this.lhsMustBeWritable,
-            isDisplayedAsFieldReference
+            {
+                shouldBeWritable: this.lhsMustBeWritable,
+                isDisplayedAsFieldReference,
+                traversable: this.objectType == null
+            }
         );
     }
 
@@ -812,10 +814,13 @@ export default class BaseExpressionBuilder extends LightningElement {
             RHS_FILTERED_MENU_DATA,
             RHS_FIELDS,
             this.getRhsParamTypes(),
-            shouldBeWritable,
-            isDisplayedAsFieldReference,
-            !this.rhsIsFer,
-            picklistValues
+            {
+                shouldBeWritable,
+                isDisplayedAsFieldReference,
+                isFerov: !this.rhsIsFer,
+                picklistValues,
+                traversable: true
+            }
         );
     }
 
@@ -875,10 +880,13 @@ export default class BaseExpressionBuilder extends LightningElement {
         filteredMenuData,
         preFetchedFields,
         paramTypes,
-        shouldBeWritable,
-        isDisplayedAsFieldReference,
-        isFerov,
-        picklistValues
+        {
+            shouldBeWritable = false,
+            isDisplayedAsFieldReference = true,
+            isFerov = false,
+            picklistValues = [],
+            traversable = true
+        } = {}
     ) {
         const config = {
             elementType: this.containerElement,
@@ -889,13 +897,13 @@ export default class BaseExpressionBuilder extends LightningElement {
             this.state[preFetchedFields] = fields;
             this.state[fullMenuData] = this.state[
                 filteredMenuData
-            ] = filterFieldsForChosenElement(
-                parentMenuItem,
-                paramTypes,
-                fields,
-                isDisplayedAsFieldReference,
-                SHOW_SUBTEXT
-            );
+            ] = filterFieldsForChosenElement(parentMenuItem, fields, {
+                allowedParamTypes: paramTypes,
+                showAsFieldReference: isDisplayedAsFieldReference,
+                showSubText: SHOW_SUBTEXT,
+                shouldBeWritable,
+                traversable
+            });
         };
 
         if (getFields) {
@@ -914,7 +922,9 @@ export default class BaseExpressionBuilder extends LightningElement {
                 (!this.state[preFetchedFields] ||
                     preFetchedFieldsSubtype !== parentMenuItem.subtype)
             ) {
-                getSecondLevelItems(config, parentMenuItem, setFieldMenuData);
+                getChildrenItems(config, parentMenuItem).then(items =>
+                    setFieldMenuData(items)
+                );
             } else {
                 setFieldMenuData();
             }
@@ -965,11 +975,12 @@ export default class BaseExpressionBuilder extends LightningElement {
      * @returns {Object}           Object representing the field or the FER represented by the guid
      */
     getElementOrField(value, fields) {
-        const fieldName = sanitizeGuid(value).fieldName;
-
-        return fieldName
-            ? fields[fieldName]
-            : getResourceByUniqueIdentifier(value);
+        const fieldNames = sanitizeGuid(value).fieldNames;
+        if (fieldNames) {
+            const fieldName = fieldNames[fieldNames.length - 1];
+            return fields[fieldName];
+        }
+        return getResourceByUniqueIdentifier(value);
     }
 
     /**
@@ -1176,6 +1187,7 @@ export default class BaseExpressionBuilder extends LightningElement {
               {
                   objectType: this.objectType,
                   value: this.objectType,
+                  subtype: this.objectType,
                   dataType: FLOW_DATA_TYPE.SOBJECT.value
               }
             : this.lhsValue.parent;

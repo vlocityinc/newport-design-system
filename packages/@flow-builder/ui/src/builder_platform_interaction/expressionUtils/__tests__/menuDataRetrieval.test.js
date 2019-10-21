@@ -4,7 +4,7 @@ import {
     getStoreElements,
     filterAndMutateMenuData,
     getEventTypesMenuData,
-    getSecondLevelItems,
+    getChildrenItems,
     getResourceTypesMenuData
 } from '../menuDataRetrieval.js';
 import {
@@ -32,18 +32,19 @@ import {
 } from 'mock/eventTypesData';
 import {
     getEventTypes,
-    getFieldsForEntity
+    fetchFieldsForEntity
 } from 'builder_platform_interaction/sobjectLib';
 import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
 import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
-import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
+import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { getScreenElement } from '../resourceUtils';
 import { mockScreenElement } from 'mock/calloutData';
+import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -163,16 +164,9 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
     return {
-        getFieldsForEntity: jest
+        fetchFieldsForEntity: jest
             .fn()
-            .mockImplementation((entityName, callback) => {
-                if (callback) {
-                    callback(
-                        require.requireActual('mock/serverEntityData')
-                            .accountFields
-                    );
-                }
-            }),
+            .mockImplementation(() => Promise.resolve(mockAccountFields)),
         getAllEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData').mockEntities;
         }),
@@ -781,7 +775,7 @@ describe('Menu data retrieval', () => {
         });
     });
 
-    describe('getSecondLevelItems', () => {
+    describe('getChildrenItems', () => {
         let mockSystemVariables;
 
         describe('system variables', () => {
@@ -789,87 +783,84 @@ describe('Menu data retrieval', () => {
                 setSystemVariables(systemVariables);
                 mockSystemVariables = getSystemVariables();
             });
-            it('calls the callback with all system variables when shouldBeWritable is false', () => {
-                const callback = jest.fn();
+            it('returns all system variables when shouldBeWritable is false', async () => {
                 const mockConfig = {
                     elementType: ELEMENT_TYPE.WAIT,
                     shouldBeWritable: false
                 };
-                getSecondLevelItems(
-                    mockConfig,
-                    { subtype: SYSTEM_VARIABLE_PREFIX },
-                    callback
-                );
-                expect(callback).toHaveBeenCalledWith(mockSystemVariables);
+                const items = await getChildrenItems(mockConfig, {
+                    subtype: SYSTEM_VARIABLE_PREFIX
+                });
+                expectFieldsAreComplexTypeFieldDescriptions(items);
+                expect(items).toEqual(mockSystemVariables);
             });
 
-            it('calls the callback with only writeable variables when shouldBeWritable is true', () => {
-                const callback = jest.fn();
+            it('returns only writeable variables when shouldBeWritable is true', async () => {
                 const mockConfig = {
                     elementType: ELEMENT_TYPE.WAIT,
                     shouldBeWritable: true
                 };
-                getSecondLevelItems(
-                    mockConfig,
-                    { subtype: SYSTEM_VARIABLE_PREFIX },
-                    callback
-                );
-                const filteredSystemVariables = callback.mock.calls[0][0];
-                expect(Object.keys(filteredSystemVariables)).toHaveLength(3);
-                expect(Object.keys(filteredSystemVariables)).toContain(
-                    '$Flow.CurrentStage'
-                );
-                expect(Object.keys(filteredSystemVariables)).toContain(
-                    '$Flow.ActiveStages'
-                );
-                expect(Object.keys(filteredSystemVariables)).toContain(
-                    '$Flow.CurrentRecord'
-                );
+                const items = await getChildrenItems(mockConfig, {
+                    subtype: SYSTEM_VARIABLE_PREFIX
+                });
+                expect(Object.keys(items)).toHaveLength(3);
+                expect(Object.keys(items)).toContain('$Flow.CurrentStage');
+                expect(Object.keys(items)).toContain('$Flow.ActiveStages');
+                expect(Object.keys(items)).toContain('$Flow.CurrentRecord');
+                expectFieldsAreComplexTypeFieldDescriptions(items);
             });
         });
-        it('should fetch fields for sobject variables', () => {
+        it('should fetch fields for sobject variables', async () => {
             const mockConfig = {
                 elementType: ELEMENT_TYPE.WAIT,
                 shouldBeWritable: false
             };
-            getSecondLevelItems(mockConfig, parentSObjectItem, jest.fn());
-            expect(getFieldsForEntity).toHaveBeenCalledTimes(1);
+            const items = await getChildrenItems(mockConfig, parentSObjectItem);
+            expect(Object.keys(items)).toHaveLength(
+                Object.keys(mockAccountFields).length
+            );
+            expectFieldsAreComplexTypeFieldDescriptions(items);
         });
-        it('should fetch properties for apex variables', () => {
+        it('should return an empty map if cannot get fields', async () => {
+            fetchFieldsForEntity.mockImplementationOnce(() =>
+                Promise.reject(
+                    new Error('cannot get entity fields : No Access')
+                )
+            );
             const mockConfig = {
                 elementType: ELEMENT_TYPE.WAIT,
                 shouldBeWritable: false
             };
-            getSecondLevelItems(mockConfig, parentApexItem, jest.fn());
+            const items = await getChildrenItems(mockConfig, parentSObjectItem);
+            expect(items).toEqual({});
+        });
+        it('should fetch properties for apex variables', async () => {
+            const mockConfig = {
+                elementType: ELEMENT_TYPE.WAIT,
+                shouldBeWritable: false
+            };
+            const items = await getChildrenItems(mockConfig, parentApexItem);
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
+            expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
-            const callback = jest.fn();
             const mockConfig = { elementType: ELEMENT_TYPE.SCREEN };
-            getSecondLevelItems(
+            const items = await getChildrenItems(
                 mockConfig,
-                parentLightningComponentScreenFieldItem,
-                callback
+                parentLightningComponentScreenFieldItem
             );
-            await untilNoFailure(() => {
-                expect(callback).toHaveBeenCalledTimes(1);
-            });
-            const secondLevelItems = callback.mock.calls[0][0];
-            expect(Object.keys(secondLevelItems)).toEqual(
+            expect(Object.keys(items)).toEqual(
                 expect.arrayContaining(['label', 'value'])
             );
+            expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for action with automatic handling', async () => {
-            const callback = jest.fn();
             const mockConfig = { elementType: ELEMENT_TYPE.ACTION_CALL };
-            getSecondLevelItems(mockConfig, parentActionItem, callback);
-            await untilNoFailure(() => {
-                expect(callback).toHaveBeenCalledTimes(1);
-            });
-            const secondLevelItems = callback.mock.calls[0][0];
-            expect(Object.keys(secondLevelItems)).toEqual(
+            const items = await getChildrenItems(mockConfig, parentActionItem);
+            expect(Object.keys(items)).toEqual(
                 expect.arrayContaining(['feedItemId'])
             );
+            expectFieldsAreComplexTypeFieldDescriptions(items);
         });
     });
 

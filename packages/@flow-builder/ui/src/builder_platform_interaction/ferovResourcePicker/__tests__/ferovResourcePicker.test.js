@@ -88,15 +88,17 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         getMenuData: jest
             .fn()
-            .mockReturnValue([
-                {
-                    items: [
-                        {
-                            value: '1234'
-                        }
-                    ]
-                }
-            ])
+            .mockReturnValue(
+                Promise.resolve([
+                    {
+                        items: [
+                            {
+                                value: '1234'
+                            }
+                        ]
+                    }
+                ])
+            )
             .mockName('getMenuData'),
         normalizeFEROV: jest.fn().mockImplementation(rhsId => {
             return require

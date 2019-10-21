@@ -85,10 +85,8 @@ describe('field-picker', () => {
         return Promise.resolve().then(() => {
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
                 null,
-                null,
                 fields,
-                false,
-                true
+                { showAsFieldReference: false, showSubText: true }
             );
         });
     });
