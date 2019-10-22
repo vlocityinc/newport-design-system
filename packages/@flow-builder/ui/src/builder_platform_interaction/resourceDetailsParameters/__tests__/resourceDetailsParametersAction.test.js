@@ -45,7 +45,7 @@ describe('resource-details-parameters-action', () => {
         });
     });
     describe('mapperActionOutputParameter', () => {
-        const mapperExtensionOutputMapFunc = ResourceDetailsParametersActionConfig.map();
+        const mapperActionOutputMapFunc = ResourceDetailsParametersActionConfig.map();
         const parameterName = 'myParameterName';
         const getParameterWithLabel = srcObject => ({
             label: srcObject.label,
@@ -58,7 +58,7 @@ describe('resource-details-parameters-action', () => {
             ${undefined}
             ${{}}
         `('Invalid rawParameter: "$rawParameter"', ({ rawParameter }) => {
-            actualResult = mapperExtensionOutputMapFunc(rawParameter);
+            actualResult = mapperActionOutputMapFunc(rawParameter);
             expect(actualResult).toEqual({});
         });
 
@@ -70,7 +70,7 @@ describe('resource-details-parameters-action', () => {
         `(
             '(Incorrect "final" parameter label (initial raw label: "$label") should fallback to parameter name',
             label => {
-                actualResult = mapperExtensionOutputMapFunc(
+                actualResult = mapperActionOutputMapFunc(
                     getParameterWithLabel(label)
                 );
                 expect(actualResult).toMatchObject({
@@ -82,7 +82,7 @@ describe('resource-details-parameters-action', () => {
 
         test('Priority given to label over parameter name fallback', () => {
             const parameterLabel = 'parameterLabel';
-            actualResult = mapperExtensionOutputMapFunc({
+            actualResult = mapperActionOutputMapFunc({
                 label: parameterLabel,
                 name: parameterName
             });

@@ -18,7 +18,7 @@ export class ResourceDetailsParametersConfig {
             }
             return {
                 apiName: rawParameter.apiName,
-                label: rawParameter.label,
+                label: rawParameter.label || rawParameter.apiName,
                 description: rawParameter.description,
                 typeIconName: getDataTypeIcons(rawParameter.dataType, 'utility')
             };

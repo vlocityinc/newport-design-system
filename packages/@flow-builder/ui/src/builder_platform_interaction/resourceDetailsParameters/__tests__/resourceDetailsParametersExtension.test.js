@@ -46,14 +46,37 @@ describe('resource-details-parameters-extension', () => {
     });
     describe('mapperExtensionOutputParameter', () => {
         const mapperExtensionOutputMapFunc = ResourceDetailsParametersExtensionConfig.map();
+        const parameterName = 'myParameterName';
+        const getParameterWithLabel = srcObject => ({
+            label: srcObject.label,
+            apiName: parameterName
+        });
+        let actualResult;
         test.each`
             rawParameter
             ${null}
             ${undefined}
-            ${{}}
         `('Invalid rawParameter: "$rawParameter"', ({ rawParameter }) => {
-            const actualResult = mapperExtensionOutputMapFunc(rawParameter);
+            actualResult = mapperExtensionOutputMapFunc(rawParameter);
             expect(actualResult).toEqual({});
         });
+
+        test.each`
+            label
+            ${null}
+            ${undefined}
+            ${''}
+        `(
+            '(Incorrect "final" parameter label (initial raw label: "$label") should fallback to parameter name',
+            label => {
+                actualResult = mapperExtensionOutputMapFunc(
+                    getParameterWithLabel(label)
+                );
+                expect(actualResult).toMatchObject({
+                    label: parameterName,
+                    apiName: parameterName
+                });
+            }
+        );
     });
 });
