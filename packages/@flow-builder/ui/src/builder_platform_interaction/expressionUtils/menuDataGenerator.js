@@ -158,18 +158,29 @@ function getFieldSubText(parent, field) {
 
 /**
  * Get display text a field
- * @param parent {Object} [parent] Parent object if field is a second level item
- * @param fieldName {string} the field name
- * @param showAsFieldReference {boolean} true to show the display text as field reference, otherwise return field name
+ * @param {Object} [parent] Parent object if field is a second level item
+ * @param {string} fieldNameOrRelationshipName the field name or the relationship name
+ * @param {string} [specificObjectName] the specific object name if field is polymorphic
+ * @param {boolean} true to show the display text as field reference, otherwise return field name
  * @returns {string} the display text for the field
  */
-function getFieldDisplayText(parent, fieldName, showAsFieldReference) {
-    return showAsFieldReference && parent && parent.displayText
-        ? parent.displayText.substring(0, parent.displayText.length - 1) +
-              '.' +
-              fieldName +
-              '}'
-        : fieldName;
+function getFieldDisplayText(
+    parent,
+    fieldNameOrRelationshipName,
+    specificObjectName,
+    showAsFieldReference
+) {
+    let displayText =
+        fieldNameOrRelationshipName +
+        (specificObjectName ? ':' + specificObjectName : '');
+    if (showAsFieldReference && parent && parent.displayText) {
+        displayText =
+            parent.displayText.substring(0, parent.displayText.length - 1) +
+            '.' +
+            displayText +
+            '}';
+    }
+    return displayText;
 }
 
 function createMenuItemForField({
@@ -202,6 +213,40 @@ function createMenuItemForField({
     return menuItem;
 }
 
+function getMenuItemForSpannableSObjectField(
+    field,
+    parent,
+    referenceToName,
+    { showAsFieldReference = true, showSubText = true } = {}
+) {
+    const relationshipName = field.relationshipName || field.apiName;
+    const text = field.isPolymorphic
+        ? `${relationshipName} (${referenceToName})`
+        : relationshipName;
+    let value =
+        relationshipName + (field.isPolymorphic ? ':' + referenceToName : '');
+    if (parent) {
+        value = parent.value + '.' + value;
+    }
+    const displayText = getFieldDisplayText(
+        parent,
+        relationshipName,
+        field.isPolymorphic && referenceToName,
+        showAsFieldReference
+    );
+    return createMenuItemForField({
+        iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+        subText: showSubText ? getFieldSubText(parent, field) : '',
+        parent: showAsFieldReference ? parent : null,
+        hasNext: true,
+        text,
+        value,
+        displayText,
+        dataType: SOBJECT_TYPE,
+        subtype: referenceToName
+    });
+}
+
 function getMenuItemsForSObjectField(
     field,
     parent,
@@ -212,27 +257,17 @@ function getMenuItemsForSObjectField(
     } = {}
 ) {
     if (allowSObjectFieldsTraversal && field.isSpanningAllowed === true) {
-        const relationshipName = field.relationshipName || field.apiName;
         const comboboxItems = [];
-        comboboxItems.push(
-            createMenuItemForField({
-                iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
-                subText: showSubText ? getFieldSubText(parent, field) : '',
-                parent: showAsFieldReference ? parent : null,
-                hasNext: true,
-                text: relationshipName,
-                value: parent
-                    ? parent.value + '.' + relationshipName
-                    : relationshipName,
-                displayText: getFieldDisplayText(
+        field.referenceToNames.forEach(referenceToName => {
+            comboboxItems.push(
+                getMenuItemForSpannableSObjectField(
+                    field,
                     parent,
-                    relationshipName,
-                    showAsFieldReference
-                ),
-                dataType: SOBJECT_TYPE,
-                subtype: field.referenceToNames[0]
-            })
-        );
+                    referenceToName,
+                    { showAsFieldReference, showSubText }
+                )
+            );
+        });
         comboboxItems.push(
             getMenuItemForField(field, parent, {
                 showAsFieldReference,
@@ -269,7 +304,12 @@ export function getMenuItemForField(
         parent: showAsFieldReference ? parent : null,
         text: apiName,
         value: parent ? parent.value + '.' + apiName : apiName,
-        displayText: getFieldDisplayText(parent, apiName, showAsFieldReference)
+        displayText: getFieldDisplayText(
+            parent,
+            apiName,
+            undefined,
+            showAsFieldReference
+        )
     });
     return comboboxItem;
 }

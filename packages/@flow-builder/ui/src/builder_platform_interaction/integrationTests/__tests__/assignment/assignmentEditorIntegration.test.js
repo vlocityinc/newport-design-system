@@ -8,7 +8,6 @@ import { updateFlow } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { resolveRenderCycles } from '../../resolveRenderCycles';
-import { deepCopy } from 'builder_platform_interaction/storeLib';
 import {
     setGlobalVariables,
     setSystemVariables
@@ -44,7 +43,7 @@ const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
         is: AssignmentEditor
     });
-    Object.assign(el, { assignmentElement });
+    Object.assign(el, { node: assignmentElement });
     document.body.appendChild(el);
     return el;
 };
@@ -96,7 +95,6 @@ describe('Assignment Editor', () => {
             assignment = createComponentForTest(assignmentForPropertyEditor);
         });
         it('shows up automated output from Get Record in LHS', () => {
-            assignment.node = deepCopy(assignmentForPropertyEditor);
             return resolveRenderCycles(() => {
                 const lhsCombo = getComboBox(
                     assignment,
@@ -112,7 +110,6 @@ describe('Assignment Editor', () => {
             });
         });
         it('shows up automated output from Get Record in RHS', () => {
-            assignment.node = deepCopy(assignmentForPropertyEditor);
             return resolveRenderCycles(() => {
                 const rhsCombo = getComboBox(
                     assignment,
@@ -128,7 +125,6 @@ describe('Assignment Editor', () => {
             });
         });
         it('shows up record field when automated output from Get Record selected', async () => {
-            assignment.node = deepCopy(assignmentForPropertyEditor);
             await fetchFieldsForEntity('Account');
             const lhsCombo = getComboBox(assignment, SELECTORS.LHS_COMBOBOX);
             const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
@@ -143,7 +139,6 @@ describe('Assignment Editor', () => {
             expectGroupedComboboxItem(lhsCombo, 'Name');
         });
         it('can select automated output from Get Record field', async () => {
-            assignment.node = deepCopy(assignmentForPropertyEditor);
             await fetchFieldsForEntity('Account');
             const lhsCombo = getComboBox(assignment, SELECTORS.LHS_COMBOBOX);
             const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(

@@ -10,6 +10,7 @@ import {
 } from 'builder_platform_interaction/dataTypeLib';
 import { getResourceCategory } from 'builder_platform_interaction/elementLabelLib';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     SYSTEM_VARIABLE_PREFIX,
@@ -224,6 +225,7 @@ describe('menuDataGenerator', () => {
             );
             expect(menuItems).toHaveLength(1);
             expect(menuItems[0]).toMatchObject({
+                text: 'CloneSourceId',
                 displayText: '{!recordVar.CloneSourceId}',
                 parent: parentSObjectItem,
                 value: 'recordVarGuid.CloneSourceId'
@@ -237,12 +239,14 @@ describe('menuDataGenerator', () => {
             );
             expect(menuItems).toHaveLength(2);
             expect(menuItems[0]).toMatchObject({
+                text: 'CreatedBy',
                 displayText: '{!recordVar.CreatedBy}',
                 hasNext: true,
                 parent: parentSObjectItem,
                 value: 'recordVarGuid.CreatedBy'
             });
             expect(menuItems[1]).toMatchObject({
+                text: 'CreatedById',
                 displayText: '{!recordVar.CreatedById}',
                 parent: parentSObjectItem,
                 value: 'recordVarGuid.CreatedById'
@@ -257,11 +261,40 @@ describe('menuDataGenerator', () => {
             );
             expect(menuItems).toHaveLength(1);
             expect(menuItems[0]).toMatchObject({
+                text: 'CreatedById',
                 displayText: '{!recordVar.CreatedById}',
                 parent: parentSObjectItem,
                 value: 'recordVarGuid.CreatedById'
             });
             expect(menuItems[0].hasNext).toBeFalsy();
+        });
+        it('should return a menu item for each possible specific object in a polymorphic field', () => {
+            const menuItems = getMenuItemsForField(
+                feedItemFields.CreatedById,
+                parentSObjectItem
+            );
+            expect(menuItems).toHaveLength(3);
+            expect(menuItems[0]).toMatchObject({
+                text: 'CreatedBy (SelfServiceUser)',
+                displayText: '{!recordVar.CreatedBy:SelfServiceUser}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedBy:SelfServiceUser',
+                hasNext: true
+            });
+            expect(menuItems[1]).toMatchObject({
+                text: 'CreatedBy (User)',
+                displayText: '{!recordVar.CreatedBy:User}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedBy:User',
+                hasNext: true
+            });
+            expect(menuItems[2]).toMatchObject({
+                text: 'CreatedById',
+                displayText: '{!recordVar.CreatedById}',
+                parent: parentSObjectItem,
+                value: 'recordVarGuid.CreatedById'
+            });
+            expect(menuItems[2].hasNext).toBeFalsy();
         });
     });
 });
