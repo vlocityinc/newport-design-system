@@ -9,7 +9,8 @@ const getFieldMenuData = (
     elementConfig,
     populateParamTypesFn,
     parentItem,
-    entityFields
+    entityFields,
+    { allowSObjectFieldsTraversal = true } = {}
 ) => {
     const showAsFieldReference = true;
     const showSubText = true;
@@ -20,7 +21,8 @@ const getFieldMenuData = (
             filterFieldsForChosenElement(parentItem, entityFields, {
                 allowedParamTypes,
                 showAsFieldReference,
-                showSubText
+                showSubText,
+                allowSObjectFieldsTraversal
             })
         );
     }
@@ -28,7 +30,8 @@ const getFieldMenuData = (
         filterFieldsForChosenElement(parentItem, fields, {
             allowedParamTypes,
             showAsFieldReference,
-            showSubText
+            showSubText,
+            allowSObjectFieldsTraversal
         })
     );
 };
@@ -67,33 +70,42 @@ const getFerovMenuData = (
  * @param {Object} elementConfig    element config
  * @param {String} propertyEditorElementType    property editor element type
  * @param {String} populateParamTypesFn    the resource picker's function to populate paramTypes
- * @param {boolean} allowSobjectForFields    whether to show sobjects in menudata to allow users to select fields
- * @param {boolean} enableFieldDrilldown    whether to set hasNext to false for all menu items
  * @param {Object} storeInstance    instance of the store
- * @param {Object} includeNewResource    whether to show the "New Resource" option
  * @param {Object|undefined} parentItem    parent item
  * @param {Array} fields fields to be populated if parentItem is defined
+ * @param {Object} [options]
+ * @param {boolean} [options.allowSobjectForFields]    whether to show sobjects in menudata to allow users to select fields
+ * @param {boolean} [options.enableFieldDrilldown]    whether to set hasNext to false for all menu items
+ * @param {boolean} [options.includeNewResource]    whether to show the "New Resource" option
+ * @param {boolean} [options.showSystemVariables]    whether to show system variables
+ * @param {boolean} [options.showGlobalVariables]    whether to show global variables
  * @returns {Item[]} Array of resources
  */
 export const getMenuData = (
     elementConfig,
     propertyEditorElementType,
     populateParamTypesFn,
-    allowSobjectForFields,
-    enableFieldDrilldown,
     storeInstance,
-    includeNewResource,
     parentItem,
     fields,
-    showSystemVariables = true,
-    showGlobalVariables = false
+    {
+        enableFieldDrilldown = true,
+        allowSobjectForFields = true,
+        includeNewResource = true,
+        showSystemVariables = true,
+        showGlobalVariables = false,
+        allowSObjectFieldsTraversal = true
+    } = {}
 ) => {
     if (parentItem) {
         return getFieldMenuData(
             elementConfig,
             populateParamTypesFn,
             parentItem,
-            fields
+            fields,
+            {
+                allowSObjectFieldsTraversal
+            }
         );
     }
     return Promise.resolve(

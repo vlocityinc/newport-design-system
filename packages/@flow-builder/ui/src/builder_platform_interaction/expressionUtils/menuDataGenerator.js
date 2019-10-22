@@ -208,11 +208,10 @@ function getMenuItemsForSObjectField(
     {
         showAsFieldReference = true,
         showSubText = true,
-        shouldBeWritable = false,
-        traversable = true
+        allowSObjectFieldsTraversal = true
     } = {}
 ) {
-    if (traversable && field.isSpanningAllowed === true && !shouldBeWritable) {
+    if (allowSObjectFieldsTraversal && field.isSpanningAllowed === true) {
         const relationshipName = field.relationshipName || field.apiName;
         const comboboxItems = [];
         comboboxItems.push(
@@ -284,8 +283,7 @@ export function getMenuItemForField(
  * @param {Object} [options]
  * @param {boolean} [options.showAsFieldReference] true to show the display text as field reference on record variable, otherwise show the field's apiName
  * @param {boolean} [options.showSubText] true to show the sub text
- * @param {boolean} [options.shouldBeWritable] true if fields should be writable
- * @param {boolean} [options.traversable] true if fields that are spannable can be traversed
+ * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
  * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
  */
 export function getMenuItemsForField(
@@ -294,16 +292,14 @@ export function getMenuItemsForField(
     {
         showAsFieldReference = true,
         showSubText = true,
-        shouldBeWritable = false,
-        traversable = true
+        allowSObjectFieldsTraversal = true
     } = {}
 ) {
     if (parent && parent.dataType === SOBJECT_TYPE) {
         return getMenuItemsForSObjectField(field, parent, {
             showAsFieldReference,
             showSubText,
-            shouldBeWritable,
-            traversable
+            allowSObjectFieldsTraversal
         });
     }
     return [

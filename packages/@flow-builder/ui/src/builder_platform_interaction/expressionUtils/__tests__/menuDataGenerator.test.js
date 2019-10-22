@@ -249,25 +249,11 @@ describe('menuDataGenerator', () => {
             });
             expect(menuItems[1].hasNext).toBeFalsy();
         });
-        it('should return only one menu item for a spannable field if option traversable is false', () => {
+        it('should return only one menu item for a spannable field if option allowSObjectFieldsTraversal is false', () => {
             const menuItems = getMenuItemsForField(
                 accountFields.CreatedById,
                 parentSObjectItem,
-                { traversable: false }
-            );
-            expect(menuItems).toHaveLength(1);
-            expect(menuItems[0]).toMatchObject({
-                displayText: '{!recordVar.CreatedById}',
-                parent: parentSObjectItem,
-                value: 'recordVarGuid.CreatedById'
-            });
-            expect(menuItems[0].hasNext).toBeFalsy();
-        });
-        it('should return only one menu item for a spannable field if option shouldBeWritable is true', () => {
-            const menuItems = getMenuItemsForField(
-                accountFields.CreatedById,
-                parentSObjectItem,
-                { shouldBeWritable: true }
+                { allowSObjectFieldsTraversal: false }
             );
             expect(menuItems).toHaveLength(1);
             expect(menuItems[0]).toMatchObject({

@@ -780,9 +780,9 @@ export default class BaseExpressionBuilder extends LightningElement {
             LHS_FIELDS,
             this.lhsParamTypes,
             {
-                shouldBeWritable: this.lhsMustBeWritable,
                 isDisplayedAsFieldReference,
-                traversable: this.objectType == null
+                allowSObjectFieldsTraversal:
+                    this.objectType == null && !this.lhsMustBeWritable
             }
         );
     }
@@ -815,11 +815,10 @@ export default class BaseExpressionBuilder extends LightningElement {
             RHS_FIELDS,
             this.getRhsParamTypes(),
             {
-                shouldBeWritable,
                 isDisplayedAsFieldReference,
                 isFerov: !this.rhsIsFer,
                 picklistValues,
-                traversable: true
+                allowSObjectFieldsTraversal: !shouldBeWritable
             }
         );
     }
@@ -881,11 +880,10 @@ export default class BaseExpressionBuilder extends LightningElement {
         preFetchedFields,
         paramTypes,
         {
-            shouldBeWritable = false,
             isDisplayedAsFieldReference = true,
             isFerov = false,
             picklistValues = [],
-            traversable = true
+            shouldBeWritable = false
         } = {}
     ) {
         const config = {
@@ -901,8 +899,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 allowedParamTypes: paramTypes,
                 showAsFieldReference: isDisplayedAsFieldReference,
                 showSubText: SHOW_SUBTEXT,
-                shouldBeWritable,
-                traversable
+                allowSObjectFieldsTraversal: !shouldBeWritable
             });
         };
 

@@ -244,17 +244,20 @@ export default class OutputResourcePicker extends LightningElement {
     };
 
     populateMenuData = parentItem => {
-        const showNewResource = true;
         if (this._baseResourcePicker) {
             getMenuData(
                 this.elementConfig,
                 this.propertyEditorElementType,
                 this.populateParamTypes,
-                false,
-                this.enableFieldDrilldown,
                 storeInstance,
-                showNewResource,
-                parentItem
+                parentItem,
+                undefined,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown: this.enableFieldDrilldown,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: false
+                }
             ).then(menuData => {
                 this._baseResourcePicker.setMenuData(menuData);
                 this.setInlineResource(menuData);

@@ -207,11 +207,15 @@ describe('output-resource-picker', () => {
                 expectedElementConfig,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                false,
-                false,
                 Store.getStore(),
-                true,
-                undefined
+                undefined,
+                undefined,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: false
+                }
             );
         });
     });
@@ -231,11 +235,15 @@ describe('output-resource-picker', () => {
                 expectedElementConfig,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                false,
-                false,
                 Store.getStore(),
-                true,
-                parentRecordVar
+                parentRecordVar,
+                undefined,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: false
+                }
             );
         });
     });
@@ -248,11 +256,15 @@ describe('output-resource-picker', () => {
                 expectedElementConfig,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                false,
-                enableFieldDrilldown,
                 Store.getStore(),
-                true,
-                undefined
+                undefined,
+                undefined,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: false
+                }
             );
         });
     });
@@ -264,11 +276,15 @@ describe('output-resource-picker', () => {
                 expectedElementConfig,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                false,
-                false,
                 Store.getStore(),
-                true,
-                undefined
+                undefined,
+                undefined,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: false
+                }
             );
         });
     });

@@ -205,14 +205,16 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                true,
-                false,
                 Store.getStore(),
-                true,
                 undefined,
                 undefined,
-                true,
-                false
+                {
+                    allowSobjectForFields: true,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                }
             );
         });
     });
@@ -233,14 +235,16 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                true,
-                false,
                 Store.getStore(),
-                true,
                 parentItem,
                 ['mockField'],
-                true,
-                false
+                {
+                    allowSobjectForFields: true,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                }
             );
         });
     });
@@ -261,14 +265,16 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                true,
-                false,
                 Store.getStore(),
-                true,
                 parentItem,
                 undefined,
-                true,
-                false
+                {
+                    allowSobjectForFields: true,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                }
             );
         });
     });
@@ -286,14 +292,16 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                true,
-                false,
                 Store.getStore(),
-                true,
                 undefined,
                 undefined,
-                true,
-                false
+                {
+                    allowSobjectForFields: true,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                }
             );
         });
     });
@@ -343,14 +351,16 @@ describe('ferov-resource-picker', () => {
                 elementConfigProps.elementConfig,
                 ELEMENT_TYPE.VARIABLE,
                 expect.any(Function),
-                true,
-                false,
                 Store.getStore(),
-                true,
                 undefined,
                 undefined,
-                true,
-                false
+                {
+                    allowSobjectForFields: true,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    showSystemVariables: true,
+                    showGlobalVariables: false
+                }
             );
         });
     });
@@ -498,14 +508,16 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     ELEMENT_TYPE.VARIABLE,
                     expect.any(Function),
-                    true,
-                    false,
                     Store.getStore(),
-                    true,
                     undefined,
                     undefined,
-                    true,
-                    false
+                    {
+                        allowSobjectForFields: true,
+                        enableFieldDrilldown: false,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: false
+                    }
                 );
             });
         });
@@ -516,14 +528,16 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     ELEMENT_TYPE.VARIABLE,
                     expect.any(Function),
-                    true,
-                    false,
                     Store.getStore(),
-                    true,
                     undefined,
                     undefined,
-                    true,
-                    false
+                    {
+                        allowSobjectForFields: true,
+                        enableFieldDrilldown: false,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: false
+                    }
                 );
             });
         });
@@ -535,14 +549,16 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     ELEMENT_TYPE.VARIABLE,
                     expect.any(Function),
-                    true,
-                    false,
                     Store.getStore(),
-                    true,
                     undefined,
                     undefined,
-                    false,
-                    false
+                    {
+                        allowSobjectForFields: true,
+                        enableFieldDrilldown: false,
+                        includeNewResource: true,
+                        showSystemVariables: false,
+                        showGlobalVariables: false
+                    }
                 );
             });
         });
@@ -554,14 +570,16 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     ELEMENT_TYPE.VARIABLE,
                     expect.any(Function),
-                    true,
-                    false,
                     Store.getStore(),
-                    true,
                     undefined,
                     undefined,
-                    true,
-                    true
+                    {
+                        allowSobjectForFields: true,
+                        enableFieldDrilldown: false,
+                        includeNewResource: true,
+                        showSystemVariables: true,
+                        showGlobalVariables: true
+                    }
                 );
             });
         });

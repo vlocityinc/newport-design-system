@@ -63,11 +63,14 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 resourcePicker.populateParamTypes,
-                false,
-                false,
                 null,
-                true,
-                parentItem
+                parentItem,
+                null,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true
+                }
             );
             expect(result).toEqual(['field2']);
         });
@@ -77,18 +80,22 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 resourcePicker.populateParamTypes,
-                false,
-                false,
                 null,
-                true,
                 parentItem,
-                fields
+                fields,
+                {
+                    allowSobjectForFields: false,
+                    enableFieldDrilldown: false,
+                    includeNewResource: true,
+                    allowSObjectFieldsTraversal: true
+                }
             );
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
                 parentItem,
                 fields,
                 {
                     allowedParamTypes: paramTypes,
+                    allowSObjectFieldsTraversal: true,
                     showAsFieldReference: true,
                     showSubText: true
                 }
@@ -100,11 +107,14 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 resourcePicker.populateParamTypes,
-                false,
-                false,
                 null,
-                true,
-                parentItem
+                parentItem,
+                null,
+                {
+                    allowedParamTypes: paramTypes,
+                    showAsFieldReference: true,
+                    showSubText: true
+                }
             );
             expect(fetchFieldsForEntity).toHaveBeenCalledWith(objectName);
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
@@ -113,7 +123,8 @@ describe('resourcePickerUtils', () => {
                 {
                     allowedParamTypes: paramTypes,
                     showAsFieldReference: true,
-                    showSubText: true
+                    showSubText: true,
+                    allowSObjectFieldsTraversal: true
                 }
             );
         });
@@ -139,10 +150,14 @@ describe('resourcePickerUtils', () => {
                 'elementConfig',
                 resourcePicker.propertyEditorElementType,
                 resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields,
-                resourcePicker.enableFieldDrilldown,
                 storeInstance,
-                false
+                null,
+                null,
+                {
+                    allowSobjectForFields: resourcePicker.allowSobjectForFields,
+                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
+                    includeNewResource: false
+                }
             );
             expect(result).toEqual(mockMenuData);
         });
@@ -152,10 +167,14 @@ describe('resourcePickerUtils', () => {
                 null,
                 resourcePicker.propertyEditorElementType,
                 resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields,
-                resourcePicker.enableFieldDrilldown,
                 storeInstance,
-                true
+                null,
+                null,
+                {
+                    allowSobjectForFields: resourcePicker.allowSobjectForFields,
+                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
+                    includeNewResource: true
+                }
             );
             expect(getStoreElements).toHaveBeenCalledWith(elements, {
                 elementType: 'Assignment'
@@ -178,10 +197,14 @@ describe('resourcePickerUtils', () => {
                 'elementConfig',
                 resourcePicker.propertyEditorElementType,
                 resourcePicker.populateParamTypes,
-                resourcePicker.allowSobjectForFields,
-                resourcePicker.enableFieldDrilldown,
                 storeInstance,
-                false
+                null,
+                null,
+                {
+                    allowSobjectForFields: resourcePicker.allowSobjectForFields,
+                    enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
+                    includeNewResource: false
+                }
             );
             expect(getStoreElements).toHaveBeenCalledWith(
                 elements,

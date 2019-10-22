@@ -628,10 +628,11 @@ export const getEntitiesMenuData = entityType => {
 /**
  * Filters list of fields based on allowed types and returns them in combobox-friendly shape
  * @param {Object} chosenElement The parent chosen element
- * @param {Object} allowedParamTypes  If present, is used to determine if each element is valid for this menuData
  * @param {Array} fields Array of the fields to be filtered
- * @param {boolean} showAsFieldReference show display text as field reference
- * @param {boolean} showSubText show sub text
+ * @param {Object} options
+ * @param {Object} [options.allowedParamTypes]  If present, is used to determine if each element is valid for this menuData
+ * @param {boolean} [options.showAsFieldReference] show display text as field reference
+ * @param {boolean} [options.showSubText] show sub text
  * @returns {MenuItem[]} array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
@@ -641,8 +642,7 @@ export function filterFieldsForChosenElement(
         allowedParamTypes = null,
         showAsFieldReference = true,
         showSubText = true,
-        shouldBeWritable = false,
-        traversable = true
+        allowSObjectFieldsTraversal = true
     } = {}
 ) {
     if (fields) {
@@ -654,8 +654,7 @@ export function filterFieldsForChosenElement(
                         getMenuItemsForField(field, chosenElement, {
                             showAsFieldReference,
                             showSubText,
-                            shouldBeWritable,
-                            traversable
+                            allowSObjectFieldsTraversal
                         })
                     ),
                 []
