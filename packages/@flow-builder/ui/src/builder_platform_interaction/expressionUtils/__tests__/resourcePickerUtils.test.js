@@ -67,7 +67,7 @@ describe('resourcePickerUtils', () => {
                 parentItem,
                 null,
                 {
-                    allowSobjectForFields: false,
+                    allowGlobalConstants: false,
                     enableFieldDrilldown: false,
                     includeNewResource: true
                 }
@@ -84,7 +84,7 @@ describe('resourcePickerUtils', () => {
                 parentItem,
                 fields,
                 {
-                    allowSobjectForFields: false,
+                    allowGlobalConstants: false,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: true
@@ -137,7 +137,7 @@ describe('resourcePickerUtils', () => {
                     return paramTypes;
                 },
                 propertyEditorElementType: 'Assignment',
-                allowSobjectForFields: true,
+                allowGlobalConstants: true,
                 enableFieldDrilldown: false
             };
         });
@@ -154,7 +154,7 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowSobjectForFields: resourcePicker.allowSobjectForFields,
+                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
                     enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
                     includeNewResource: false
                 }
@@ -171,7 +171,7 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowSobjectForFields: resourcePicker.allowSobjectForFields,
+                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
                     enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
                     includeNewResource: true
                 }
@@ -188,7 +188,8 @@ describe('resourcePickerUtils', () => {
                 true,
                 null,
                 true,
-                false
+                false,
+                true
             );
         });
 
@@ -201,7 +202,7 @@ describe('resourcePickerUtils', () => {
                 null,
                 null,
                 {
-                    allowSobjectForFields: resourcePicker.allowSobjectForFields,
+                    allowGlobalConstants: resourcePicker.allowGlobalConstants,
                     enableFieldDrilldown: resourcePicker.enableFieldDrilldown,
                     includeNewResource: false
                 }
@@ -219,7 +220,8 @@ describe('resourcePickerUtils', () => {
                 true,
                 null,
                 true,
-                false
+                false,
+                true
             );
         });
     });

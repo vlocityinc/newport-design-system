@@ -209,7 +209,7 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowSobjectForFields: true,
+                    allowGlobalConstants: true,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
@@ -239,7 +239,7 @@ describe('ferov-resource-picker', () => {
                 parentItem,
                 ['mockField'],
                 {
-                    allowSobjectForFields: true,
+                    allowGlobalConstants: true,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
@@ -269,7 +269,7 @@ describe('ferov-resource-picker', () => {
                 parentItem,
                 undefined,
                 {
-                    allowSobjectForFields: true,
+                    allowGlobalConstants: true,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
@@ -296,7 +296,7 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowSobjectForFields: true,
+                    allowGlobalConstants: true,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
@@ -355,7 +355,7 @@ describe('ferov-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowSobjectForFields: true,
+                    allowGlobalConstants: true,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
@@ -512,7 +512,7 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     undefined,
                     {
-                        allowSobjectForFields: true,
+                        allowGlobalConstants: true,
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: true,
@@ -532,7 +532,7 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     undefined,
                     {
-                        allowSobjectForFields: true,
+                        allowGlobalConstants: true,
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: true,
@@ -553,7 +553,7 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     undefined,
                     {
-                        allowSobjectForFields: true,
+                        allowGlobalConstants: true,
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: false,
@@ -574,7 +574,7 @@ describe('ferov-resource-picker', () => {
                     undefined,
                     undefined,
                     {
-                        allowSobjectForFields: true,
+                        allowGlobalConstants: true,
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: true,

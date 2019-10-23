@@ -316,10 +316,11 @@ export default class FerovResourcePicker extends LightningElement {
                 fields,
                 {
                     enableFieldDrilldown: this.enableFieldDrilldown,
-                    allowSobjectForFields: !this.hideGlobalConstants,
+                    allowGlobalConstants: !this.hideGlobalConstants,
                     includeNewResource: !this.hideNewResource,
                     showSystemVariables: !this.hideSystemVariables,
-                    showGlobalVariables: this.showGlobalVariables
+                    showGlobalVariables: this.showGlobalVariables,
+                    allowSObjectFields: this.comboboxConfig.allowSObjectFields
                 }
             ).then(menuData => {
                 this._baseResourcePicker.setMenuData(menuData);

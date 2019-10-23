@@ -105,8 +105,8 @@
         "name": "apexCall_anonymous_account",
         "description": "",
         "label": "apexCall anonymous account",
-        "locationX": 298,
-        "locationY": 141,
+        "locationX": 365,
+        "locationY": 38,
         "actionType": "apex",
         "actionName": "getAccounts",
         "inputParameters": [],
@@ -117,8 +117,8 @@
         "name": "addAccountExternalService",
         "description": "",
         "label": "addAccountExternalService",
-        "locationX": 523,
-        "locationY": 120,
+        "locationX": 550,
+        "locationY": 47,
         "actionType": "externalService",
         "actionName": "BankServiceNew.addAccount",
         "inputParameters": [],
@@ -129,8 +129,8 @@
         "name": "emailAlertOnAccount",
         "description": "",
         "label": "emailAlertOnAccount",
-        "locationX": 271,
-        "locationY": 68.3125,
+        "locationX": 198,
+        "locationY": 39,
         "actionType": "emailAlert",
         "actionName": "Account.my_email_alert",
         "inputParameters": [
@@ -148,8 +148,8 @@
         "name": "apexCall_anonymous_string",
         "description": "",
         "label": "apexCall anonymous string",
-        "locationX": 553,
-        "locationY": 258.3125,
+        "locationX": 538,
+        "locationY": 186,
         "actionType": "apex",
         "actionName": "InvocableGetAccountName",
         "inputParameters": [
@@ -164,8 +164,8 @@
         "name": "apexCall_action_account_manual_output",
         "description": "",
         "label": "apexCall action account manual output",
-        "locationX": 283,
-        "locationY": 142.3125,
+        "locationX": 329,
+        "locationY": 183,
         "actionType": "apex",
         "actionName": "generateDraftAccount",
         "inputParameters": [],
@@ -176,6 +176,18 @@
           }
         ],
         "storeOutputAutomatically": false
+      },
+      {
+        "name": "apexCall_account_automatic_output",
+        "description": "",
+        "label": "apexCall account automatic output",
+        "locationX": 663,
+        "locationY": 182.3125,
+        "actionType": "apex",
+        "actionName": "generateDraftAccount",
+        "inputParameters": [],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
       }
     ],
     "assignments": [

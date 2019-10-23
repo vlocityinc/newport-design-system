@@ -140,7 +140,7 @@ function elementMatchesRule(allowedParamTypes, element) {
  *
  * @param {operator-rule-util/allowedParamMap} allowedParamTypes        map from dataTypes/elementTypes to rule params which specificy those data or element types
  * @param {Object} element                  object with the necessary specifications to be compared to rule params (usually flow element, but a "fake" one can be built for fields, etc)
- * @param {boolean} showSObjectsForFields   true if fields are allowed here - sobjects should be shown so that users can drill down to fields
+ * @param {boolean} showComplexObjectsForFields   true if fields are allowed here - complex types should be shown so that users can drill down to fields
  * @returns {boolean}                       whether this element matches one or more of the specified rule params
  */
 export function isElementAllowed(
@@ -475,6 +475,11 @@ export function getElementsForMenuData(
     );
 }
 
+const disableHasNextOnMenuItem = menuItem => {
+    menuItem.hasNext = false;
+    menuItem.rightIconName = '';
+};
+
 /**
  * Filter the list of elements, append global constants and mutate elements to shape the combobox expects.
  * Used when subscribed to store. If subscribing to store is not needed use getElementsForMenuData.
@@ -486,7 +491,8 @@ export function getElementsForMenuData(
  * @param {boolean} disableHasNext if true, then all menu items will have hasNext set to false regardless of the real value
  * @param {Array}   activePicklistValues the picklist values that will be appended to the menu data if picklist values are allowed
  * @param {boolean} showSystemVariables   are system variables allowed in this context
- * @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
+ * @param {boolean} allowSObjectField whether or not to set hasNext on SObject
+ *  @returns {Array}                     array of alphabetized objects sorted by category, in shape combobox expects
  */
 export function filterAndMutateMenuData(
     menuDataElements,
@@ -496,7 +502,8 @@ export function filterAndMutateMenuData(
     disableHasNext = false,
     activePicklistValues = [],
     showSystemVariables = true,
-    showGlobalVariables = false
+    showGlobalVariables = false,
+    allowSObjectField = true
 ) {
     if (allowGlobalConstants) {
         // global constants should be included in menuData for FEROVs
@@ -514,8 +521,12 @@ export function filterAndMutateMenuData(
         .map(element => {
             const menuItem = mutateFlowResourceToComboboxShape(element);
             if (disableHasNext) {
-                menuItem.hasNext = false;
-                menuItem.rightIconName = '';
+                disableHasNextOnMenuItem(menuItem);
+            } else if (
+                allowSObjectField === false &&
+                menuItem.dataType === FLOW_DATA_TYPE.SOBJECT.value
+            ) {
+                disableHasNextOnMenuItem(menuItem);
             }
             return menuItem;
         })
@@ -554,8 +565,7 @@ export function filterAndMutateMenuData(
             startElement
         );
         if (disableHasNext) {
-            startElementMenuItem.hasNext = false;
-            startElementMenuItem.rightIconName = '';
+            disableHasNextOnMenuItem(startElementMenuItem);
         }
 
         // Add the start element menu item either to the existing Global Variables menu group or create a new group

@@ -599,7 +599,7 @@ describe('Menu data retrieval', () => {
             // configuration for menu data retrieval
             const allowedParamTypes = null;
             const includeNewResource = false;
-            const allowSObjectForFields = false;
+            const allowGlobalConstants = false;
             const disableHasNext = false;
             const activePicklistValues = ['pick1', 'pick2'];
 
@@ -610,7 +610,7 @@ describe('Menu data retrieval', () => {
                 },
                 allowedParamTypes,
                 includeNewResource,
-                allowSObjectForFields,
+                allowGlobalConstants,
                 disableHasNext,
                 activePicklistValues
             );
@@ -745,6 +745,77 @@ describe('Menu data retrieval', () => {
             expect(menuData[0].items).toHaveLength(1);
             const element = menuData[0].items[0];
             expect(element.value).toBe(store.stageElement.guid);
+        });
+        it('sets hasNext true and rightIconName when hasNext enabled', () => {
+            const menuData = filterAndMutateMenuData(
+                [store.apexCallAccountAutomaticOutput],
+                undefined,
+                false,
+                false,
+                false
+            );
+
+            const element = menuData[0].items[0];
+            expect(element.hasNext).toBe(true);
+            expect(element.rightIconName).toBeDefined();
+            expect(element.rightIconName).not.toEqual('');
+        });
+        it('sets hasNext false and empty right icon when hasNext disabled', () => {
+            const menuData = filterAndMutateMenuData(
+                [store.apexCallAccountAutomaticOutput],
+                undefined,
+                false,
+                false,
+                true
+            );
+
+            const element = menuData[0].items[0];
+            expect(element.hasNext).toBe(false);
+            expect(element.rightIconName).toBeDefined();
+            expect(element.rightIconName).toEqual('');
+        });
+        it('ignores allowSObjectFields if hasNext false', () => {
+            const menuData = filterAndMutateMenuData(
+                [store.apexCallAccountAutomaticOutput],
+                undefined,
+                false,
+                false,
+                true,
+                undefined,
+                undefined,
+                undefined,
+                true
+            );
+
+            const element = menuData[0].items[0];
+            expect(element.hasNext).toBe(false);
+            expect(element.rightIconName).toBeDefined();
+            expect(element.rightIconName).toEqual('');
+        });
+        it('sets hasNext and right icon name when hasNext enabled only on not SObject when allowSObjectFields is false', () => {
+            const menuData = filterAndMutateMenuData(
+                [
+                    store.apexCallAccountAutomaticOutput,
+                    store.apexCallAutomaticAnonymousAccountOutput
+                ],
+                undefined,
+                false,
+                false,
+                false,
+                undefined,
+                undefined,
+                undefined,
+                false
+            );
+
+            let element = menuData[0].items[0];
+            expect(element.hasNext).toBe(true);
+            expect(element.rightIconName).toBeDefined();
+            expect(element.rightIconName).not.toEqual('');
+            element = menuData[1].items[0];
+            expect(element.hasNext).toBe(false);
+            expect(element.rightIconName).toBeDefined();
+            expect(element.rightIconName).toEqual('');
         });
     });
 

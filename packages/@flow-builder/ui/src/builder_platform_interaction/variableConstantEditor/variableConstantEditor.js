@@ -346,6 +346,7 @@ export default class VariableConstantEditor extends LightningElement {
             this.isFieldDisabled,
             this.dataType,
             false, // enable field drilldown
+            undefined, // allowSObjectFields
             undefined, // variant
             fieldLevelHelp[this.dataType]
         );

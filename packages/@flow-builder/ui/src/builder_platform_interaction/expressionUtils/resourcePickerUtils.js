@@ -40,12 +40,13 @@ const getFerovMenuData = (
     elementConfig,
     propertyEditorElementType,
     populateParamTypesFn,
-    allowSobjectForFields,
+    allowGlobalConstants,
     enableFieldDrilldown,
     storeInstance,
     includeNewResource,
     showSystemVariables,
-    showGlobalVariables
+    showGlobalVariables,
+    allowSObjectFields
 ) => {
     const menuDataElements = getStoreElements(
         storeInstance.getCurrentState(),
@@ -56,11 +57,12 @@ const getFerovMenuData = (
         menuDataElements,
         populateParamTypesFn(),
         includeNewResource,
-        allowSobjectForFields,
+        allowGlobalConstants,
         !enableFieldDrilldown,
         null,
         showSystemVariables,
-        showGlobalVariables
+        showGlobalVariables,
+        allowSObjectFields
     );
 };
 
@@ -74,11 +76,12 @@ const getFerovMenuData = (
  * @param {Object|undefined} parentItem    parent item
  * @param {Array} fields fields to be populated if parentItem is defined
  * @param {Object} [options]
- * @param {boolean} [options.allowSobjectForFields]    whether to show sobjects in menudata to allow users to select fields
+ * @param {boolean} [options.allowGlobalConstants]    whether to show sobjects in menudata to allow users to select fields
  * @param {boolean} [options.enableFieldDrilldown]    whether to set hasNext to false for all menu items
  * @param {boolean} [options.includeNewResource]    whether to show the "New Resource" option
  * @param {boolean} [options.showSystemVariables]    whether to show system variables
  * @param {boolean} [options.showGlobalVariables]    whether to show global variables
+ * @param {boolean} [options.allowSObjectFields]    whether or not drill down into SObject is allowed
  * @returns {Item[]} Array of resources
  */
 export const getMenuData = (
@@ -90,11 +93,12 @@ export const getMenuData = (
     fields,
     {
         enableFieldDrilldown = true,
-        allowSobjectForFields = true,
+        allowGlobalConstants = true,
         includeNewResource = true,
         showSystemVariables = true,
         showGlobalVariables = false,
-        allowSObjectFieldsTraversal = true
+        allowSObjectFieldsTraversal = true,
+        allowSObjectFields = true
     } = {}
 ) => {
     if (parentItem) {
@@ -113,12 +117,13 @@ export const getMenuData = (
             elementConfig,
             propertyEditorElementType,
             populateParamTypesFn,
-            allowSobjectForFields,
+            allowGlobalConstants,
             enableFieldDrilldown,
             storeInstance,
             includeNewResource,
             showSystemVariables,
-            showGlobalVariables
+            showGlobalVariables,
+            allowSObjectFields
         )
     );
 };

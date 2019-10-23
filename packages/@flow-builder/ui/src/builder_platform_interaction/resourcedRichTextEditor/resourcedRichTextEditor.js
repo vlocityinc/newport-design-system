@@ -87,6 +87,7 @@ export default class ResourcedRichTextEditor extends LightningElement {
         false, // disabled
         'String', // type
         true, // enableFieldDrilldown
+        undefined, // allowSObjectFields
         LIGHTNING_INPUT_VARIANTS.LABEL_HIDDEN // variant
     );
 

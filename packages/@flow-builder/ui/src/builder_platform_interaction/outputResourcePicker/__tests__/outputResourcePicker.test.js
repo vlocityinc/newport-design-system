@@ -211,7 +211,7 @@ describe('output-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowSobjectForFields: false,
+                    allowGlobalConstants: false,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: false
@@ -239,7 +239,7 @@ describe('output-resource-picker', () => {
                 parentRecordVar,
                 undefined,
                 {
-                    allowSobjectForFields: false,
+                    allowGlobalConstants: false,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: false
@@ -260,7 +260,7 @@ describe('output-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowSobjectForFields: false,
+                    allowGlobalConstants: false,
                     enableFieldDrilldown,
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: false
@@ -280,7 +280,7 @@ describe('output-resource-picker', () => {
                 undefined,
                 undefined,
                 {
-                    allowSobjectForFields: false,
+                    allowGlobalConstants: false,
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     allowSObjectFieldsTraversal: false
