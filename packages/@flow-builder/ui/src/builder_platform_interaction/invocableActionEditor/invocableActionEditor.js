@@ -28,19 +28,27 @@ import {
     isAutomaticOutputHandlingSupported
 } from 'builder_platform_interaction/invocableActionLib';
 
+import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+
 export default class InvocableActionEditor extends LightningElement {
-    /**
-     * Internal state for the editor
-     */
-    @track actionCallNode = {};
-
-    @track displaySpinner = true;
-    @track invocableActionDescriptor;
-    @track invocableActionParametersDescriptor;
-
-    labels = LABELS;
     connected = false;
+    labels = LABELS;
     processTypeValue = FLOW_PROCESS_TYPE.FLOW;
+
+    @track
+    actionCallNode = {};
+
+    @track
+    displaySpinner = true;
+
+    @track
+    fetchDetailsConfigurationEditor = {};
+
+    @track
+    invocableActionDescriptor;
+
+    @track
+    invocableActionParametersDescriptor;
 
     connectedCallback() {
         this.connected = true;
@@ -128,10 +136,11 @@ export default class InvocableActionEditor extends LightningElement {
         this.displaySpinner = true;
         this.invocableActionParametersDescriptor = undefined;
         fetchDetailsForInvocableAction(actionParams)
-            .then(({ parameters }) => {
+            .then(({ configurationEditor, parameters }) => {
                 if (this.connected) {
                     this.displaySpinner = false;
                     this.invocableActionParametersDescriptor = parameters;
+                    this.fetchDetailsConfigurationEditor = configurationEditor;
                     const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
                         detail: parameters
                     });
@@ -256,13 +265,23 @@ export default class InvocableActionEditor extends LightningElement {
      * @memberof InvocableActionEditor
      */
     get configurationEditor() {
-        if (
-            this.invocableActionDescriptor &&
-            this.invocableActionDescriptor.configurationEditor
-        ) {
-            return this.invocableActionDescriptor.configurationEditor;
-        }
-        return null;
+        return (
+            this.fetchDetailsConfigurationEditor &&
+            this.fetchDetailsConfigurationEditor.name
+        );
+    }
+
+    get configurationEditorProperties() {
+        return (
+            this.invocableActionParametersDescriptor &&
+            this.invocableActionParametersDescriptor.filter(
+                ({ isInput }) => isInput
+            )
+        );
+    }
+
+    get flowContext() {
+        return translateUIModelToFlow(Store.getStore().getCurrentState());
     }
 
     /**

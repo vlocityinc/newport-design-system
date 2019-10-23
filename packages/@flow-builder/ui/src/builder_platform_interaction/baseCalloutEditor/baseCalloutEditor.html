@@ -20,18 +20,24 @@
             class="spinner"
         ></lightning-spinner>
         <div if:true={isSystemMode}>
-            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
-                <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small" title="SubFlow in system mode.">
+            <div
+                class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning"
+                role="alert"
+            >
+                <span
+                    class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small"
+                    title="SubFlow in system mode."
+                >
                     <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                        <use
+                            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"
+                        ></use>
                     </svg>
                 </span>
-                <h2>{systemModeText}
-                    <a
-                        href={learnMoreLink}
-                        target="_blank"
-                    >
-                    {learnMoreText}
+                <h2>
+                    {systemModeText}
+                    <a href={learnMoreLink} target="_blank">
+                        {learnMoreText}
                     </a>
                 </h2>
             </div>
@@ -55,6 +61,8 @@
                 store-output-automatically={parameterListConfig.storeOutputAutomatically}
                 automatic-output-handling-supported={parameterListConfig.automaticOutputHandlingSupported}
                 configuration-editor={configurationEditor}
+                configuration-editor-properties={configurationEditorProperties}
+                flow-context={flowContext}
             >
             </builder_platform_interaction-parameter-list>
         </div>

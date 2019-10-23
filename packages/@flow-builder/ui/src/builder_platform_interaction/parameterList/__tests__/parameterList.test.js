@@ -14,6 +14,9 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 const defaultInputHeader = 'Send to action';
 const defaultOutputHeader = 'Received from action';
@@ -172,7 +175,8 @@ const getInputHeader = parameterList =>
 const getOutputHeader = parameterList =>
     parameterList.shadowRoot.querySelector(selectors.outputHeader);
 
-const getConfigurationEditor = parameterList => parameterList.shadowRoot.querySelector(selectors.configurationEditor);
+const getConfigurationEditor = parameterList =>
+    parameterList.shadowRoot.querySelector(selectors.configurationEditor);
 
 function createComponentForTest({
     elementType = ELEMENT_TYPE.ACTION_CALL,

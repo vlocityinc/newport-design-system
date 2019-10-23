@@ -10,67 +10,83 @@ import {
 import { multiComparator } from 'builder_platform_interaction/sortLib';
 
 export default class ParameterList extends LightningElement {
-    @track state = {
+    @track
+    state = {
+        automaticOutputHandlingSupported: false,
         inputs: [],
         outputs: [],
-        storeOutputAutomatically: false,
-        automaticOutputHandlingSupported: false
+        storeOutputAutomatically: false
     };
 
     /**
      * Input header title
      *
      */
-    @api inputHeader;
+    @api
+    inputHeader;
 
     /**
      * Output header title
      *
      */
-    @api outputHeader;
+    @api
+    outputHeader;
 
     /**
      * Title message when there is no input.
      *
      */
-    @api emptyInputsTitle;
+    @api
+    emptyInputsTitle;
 
     /**
      * Body message when there is no input.
      *
      */
-    @api emptyInputsBody;
+    @api
+    emptyInputsBody;
 
     /**
      * Title when there is no output.
      *
      */
-    @api emptyOutputsTitle;
+    @api
+    emptyOutputsTitle;
 
     /**
      * Body when there is no output.
      *
      */
-    @api emptyOutputsBody;
+    @api
+    emptyOutputsBody;
 
     /**
      * Body when there is no input and no output.
      *
      */
-    @api emptyInputsOutputsBody;
+    @api
+    emptyInputsOutputsBody;
 
     /**
      * Title when there is no outputs and no inputs.
      *
      */
-    @api emptyInputsOutputsTitle;
+    @api
+    emptyInputsOutputsTitle;
 
     /**
      * Name of configuration editor associated with a component. It is null if it is not defined
      *
      * @memberof BaseCalloutEditor
      */
-    @api configurationEditor;
+    @api
+    configurationEditor;
+
+    /**
+     * Flow Context for CPE
+     */
+    @api
+    flowContext;
 
     /**
      * List of input ParameterItem
@@ -182,7 +198,14 @@ export default class ParameterList extends LightningElement {
     /**
      * @type {ParameterListWarnings} the warnings for the parameters
      */
-    @api warnings = {};
+    @api
+    warnings = {};
+
+    /**
+     * Custom Property Editor Properties
+     */
+    @api
+    configurationEditorProperties;
 
     get sortedInputsWithWarnings() {
         const sortedInputs = this.sortInputs

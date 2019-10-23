@@ -15,6 +15,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { clearInvocableActionCachedParameters } from 'builder_platform_interaction/invocableActionLib';
 import { getProcessTypeAutomaticOutPutHandlingSupport } from 'builder_platform_interaction/processTypeLib';
 
+jest.mock('builder_platform_interaction/translatorLib', () => ({
+    translateUIModelToFlow: jest.fn()
+}));
+
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
 );

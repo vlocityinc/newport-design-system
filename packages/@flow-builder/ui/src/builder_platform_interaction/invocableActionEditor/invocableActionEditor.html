@@ -1,15 +1,17 @@
 <template>
     <builder_platform_interaction-base-callout-editor
-        label-description-config={actionCallNode}
-        element-type={elementType}
-        subtitle={subtitle}
-        parameter-list-config={parameterListConfig}
+        configuration-editor={configurationEditor}
+        configuration-editor-properties={configurationEditorProperties}
         display-spinner={displaySpinner}
+        element-type={elementType}
+        flow-context={flowContext}
+        label-description-config={actionCallNode}
+        parameter-list-config={parameterListConfig}
+        subtitle={subtitle}
         onpropertychanged={handleEvent}
         onupdateparameteritem={handleEvent}
         ondeleteparameteritem={handleEvent}
         onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
-        configuration-editor={configurationEditor}
     >
     </builder_platform_interaction-base-callout-editor>
 </template>

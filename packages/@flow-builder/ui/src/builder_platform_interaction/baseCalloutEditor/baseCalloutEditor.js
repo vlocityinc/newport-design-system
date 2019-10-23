@@ -3,20 +3,26 @@ import { LABELS } from './baseCalloutEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class BaseCalloutEditor extends LightningElement {
-    @track state = {
+    @track
+    state = {
         parameterListConfig: {}
     };
     /**
      * Config for label-description component. For example {name: actionNode.name, label: actionNode.label, description: actionNode.label, guid: actionNode.guid}
      *
      */
-    @api labelDescriptionConfig;
+    @api
+    labelDescriptionConfig;
 
     /**
      * Modal subtitle
      *
      */
-    @api subtitle;
+    @api
+    subtitle;
+
+    @api
+    flowContext;
 
     labels = LABELS;
 
@@ -85,9 +91,7 @@ export default class BaseCalloutEditor extends LightningElement {
     }
 
     get learnMoreLink() {
-        return this.runinmode
-            ? this.runinmode.learnMoreLink
-            : '';
+        return this.runinmode ? this.runinmode.learnMoreLink : '';
     }
 
     get systemModeText() {
@@ -99,4 +103,10 @@ export default class BaseCalloutEditor extends LightningElement {
     get learnMoreText() {
         return this.labels.learnMore;
     }
+
+    /**
+     * Custom Property Editor Attributes
+     */
+    @api
+    configurationEditorProperties;
 }
