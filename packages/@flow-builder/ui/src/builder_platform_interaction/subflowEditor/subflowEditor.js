@@ -207,10 +207,7 @@ export default class SubflowEditor extends LightningElement {
         if (!this.subflowNode) {
             return '';
         }
-        const flowRunInMode = this.subflowRunInMode != null
-                ? this.subflowRunInMode.name
-                : '';
-        return format(this.labels.runInMode, flowRunInMode);
+        return this.subflowRunInMode;
     }
 
     get parameterListConfig() {

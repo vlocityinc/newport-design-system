@@ -784,7 +784,7 @@ export const getRunInModesMenuData = () => {
     const runInModes = getRunInModes();
     return runInModes.map(runInModeObject => {
         return {
-            value: runInModeObject.value,
+            value: runInModeObject.name,
             label: runInModeObject.value
         };
     });

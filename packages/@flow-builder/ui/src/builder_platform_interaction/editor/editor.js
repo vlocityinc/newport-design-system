@@ -72,6 +72,7 @@ import {
 } from 'builder_platform_interaction/propertyEditorFactory';
 import { diffFlow } from 'builder_platform_interaction/metadataUtils';
 import {
+    canRunDebugWith,
     getElementsToBeDeleted,
     getSaveType,
     updateStoreAfterSaveFlowIsSuccessful,
@@ -188,6 +189,9 @@ export default class Editor extends LightningElement {
     retrievedHeaderUrls = false;
 
     @track
+    canRunDebugWithVAD = false;
+
+    @track
     isUndoDisabled = true;
 
     @track
@@ -275,7 +279,11 @@ export default class Editor extends LightningElement {
     }
 
     get isRunDebugDisabled() {
-        return this.hasNotBeenSaved || !this.retrievedHeaderUrls;
+        return (
+            this.hasNotBeenSaved ||
+            !this.retrievedHeaderUrls ||
+            !this.canRunDebugWithVAD
+        );
     }
 
     /**
@@ -403,6 +411,9 @@ export default class Editor extends LightningElement {
                 this.loadFieldsForComplexTypesInFlow();
                 this.isFlowServerCallInProgress = false;
             });
+        }
+        if (data && data.metadata) {
+            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode);
         }
     };
 
@@ -554,6 +565,10 @@ export default class Editor extends LightningElement {
         }
         this.disableSave = false;
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
+
+        if (data) {
+            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode);
+        }
     };
 
     /**

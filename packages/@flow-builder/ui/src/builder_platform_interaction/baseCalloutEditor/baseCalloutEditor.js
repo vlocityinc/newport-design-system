@@ -1,4 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
+import { LABELS } from './baseCalloutEditorLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export default class BaseCalloutEditor extends LightningElement {
     @track state = {
@@ -15,6 +17,8 @@ export default class BaseCalloutEditor extends LightningElement {
      *
      */
     @api subtitle;
+
+    labels = LABELS;
 
     /**
      * @typedef {Object} ParameterList
@@ -73,4 +77,26 @@ export default class BaseCalloutEditor extends LightningElement {
      */
     @api
     configurationEditor;
+
+    get isSystemMode() {
+        return this.runinmode
+            ? this.runinmode.name === 'SystemModeWithSharing'
+            : false;
+    }
+
+    get learnMoreLink() {
+        return this.runinmode
+            ? this.runinmode.learnMoreLink
+            : '';
+    }
+
+    get systemModeText() {
+        return this.runinmode
+            ? format(this.labels.runInMode, this.runinmode.value)
+            : '';
+    }
+
+    get learnMoreText() {
+        return this.labels.learnMore;
+    }
 }

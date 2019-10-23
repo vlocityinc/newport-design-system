@@ -237,6 +237,10 @@ export default class FlowPropertiesEditor extends LightningElement {
         return this.isSavingExistingFlow() ? '' : LABELS.processTypeHelpText;
     }
 
+    get runInModeHelp() {
+        return LABELS.runInModeHelpText;
+    }
+
     /**
      * Sets custom validation for lightning element when 'Ok' button on the property editor is clicked
      * @param {object} element - element that needs custom validation

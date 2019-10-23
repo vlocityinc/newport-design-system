@@ -1,6 +1,7 @@
 import nameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.nameLabel';
 import uniqueNameLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.uniqueNameLabel';
 import runInSystemModeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.runInSystemModeLabel';
+import runInModeHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.runInModeHelpText';
 import processTypeLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypeLabel';
 import processTypePlaceholderLabel from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypePlaceholderLabel';
 import processTypeHelpText from '@salesforce/label/FlowBuilderFlowPropertiesEditor.processTypeHelpText';
@@ -23,6 +24,7 @@ export const LABELS = {
     nameLabel,
     uniqueNameLabel,
     runInSystemModeLabel,
+    runInModeHelpText,
     processTypeLabel,
     processTypePlaceholderLabel,
     processTypeHelpText,

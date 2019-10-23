@@ -42,6 +42,8 @@ import {
     createStartElement as createBasicStartElement
 } from 'builder_platform_interaction/elementFactory';
 
+import { canUserVAD } from 'builder_platform_interaction/contextLib';
+
 /**
  * Helper method to determine if the connector is an associated connector or not
  *
@@ -678,4 +680,12 @@ export const getSelectedTemplate = modal => {
 export const setErrorMessage = (modal, message) => {
     const templatesModalBody = modal.get('v.body')[0];
     templatesModalBody.set('v.errorMessage', message);
+};
+
+/**
+ * Whether user can run & debug without VAD.
+ * @param flow run in mode
+ */
+export const canRunDebugWith = runInMode => {
+    return !(runInMode === 'SystemModeWithSharing' && !canUserVAD());
 };

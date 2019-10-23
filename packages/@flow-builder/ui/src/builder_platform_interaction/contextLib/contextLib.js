@@ -32,3 +32,7 @@ export function getOrgId() {
 export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
 }
+
+export function canUserVAD() {
+    return context.canVAD;
+}
