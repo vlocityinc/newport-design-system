@@ -254,6 +254,8 @@ export default class Toolbar extends LightningElement {
         event.preventDefault();
         const toggleFlowStatusEvent = new ToggleFlowStatusEvent();
         this.dispatchEvent(toggleFlowStatusEvent);
-        logInteraction(`activate-button`, 'toolbar', null, 'click');
+        const operationStatus = this.flowStatus === FLOW_STATUS.OBSOLETE ? 'Activate' : 'Deactivate';
+        const context = { operationStatus };
+        logInteraction(`activate-button`, 'toolbar', context, 'click');
     }
 }
