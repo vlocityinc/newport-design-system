@@ -7,7 +7,7 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 
-let cachedParameters = [];
+let cachedDetails = [];
 let invocableActions = [];
 
 export function setInvocableActions(actions) {
@@ -18,26 +18,26 @@ export function getInvocableActions() {
     return invocableActions;
 }
 
-export function fetchParametersForInvocableAction(
+export function fetchDetailsForInvocableAction(
     { actionName, actionType },
     { background = false, disableErrorModal = false, messageForErrorModal } = {}
 ) {
     const key = `${actionName}-${actionType}`;
-    if (cachedParameters[key]) {
-        return Promise.resolve(cachedParameters[key]);
+    if (cachedDetails[key]) {
+        return Promise.resolve(cachedDetails[key]);
     }
     const params = { actionName, actionType };
     return fetchOnce(
-        SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS,
+        SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS,
         params,
         {
             background,
             disableErrorModal,
             messageForErrorModal
         }
-    ).then(parameters => {
-        cachedParameters[key] = parameters;
-        return parameters;
+    ).then(details => {
+        cachedDetails[key] = details;
+        return details;
     });
 }
 
@@ -51,7 +51,7 @@ export function fetchParametersForInvocableAction(
  */
 export function getParametersForInvocableAction({ actionName, actionType }) {
     const key = `${actionName}-${actionType}`;
-    return cachedParameters[key];
+    return cachedDetails[key] && cachedDetails[key].parameters;
 }
 
 export function isAutomaticOutputHandlingSupported(flowProcessType) {
@@ -65,5 +65,5 @@ export function isAutomaticOutputHandlingSupported(flowProcessType) {
 }
 
 export function clearInvocableActionCachedParameters() {
-    cachedParameters = [];
+    cachedDetails = [];
 }

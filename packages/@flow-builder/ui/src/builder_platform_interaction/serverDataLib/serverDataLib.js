@@ -34,7 +34,8 @@ export const SERVER_ACTION_TYPE = {
     GET_TEMPLATES: 'getTemplates',
     GET_TEMPLATE_DATA: 'getTemplateData',
     GET_PROCESS_TYPE_FEATURES: 'getSupportedFeaturesList',
-    TOGGLE_FLOW_STATUS: 'toggleFlowStatus'
+    TOGGLE_FLOW_STATUS: 'toggleFlowStatus',
+    GET_INVOCABLE_ACTION_DETAILS: 'getInvocableActionDetails'
 };
 
 const actionConfig = {
@@ -77,8 +78,11 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.GET_APEX_TYPES]: 'c.getApexTypes',
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: 'c.getTemplates',
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: 'c.getTemplateData',
-    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: 'c.getSupportedFeaturesList',
-    [SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS]: 'c.toggleFlowStatus'
+    [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]:
+        'c.getSupportedFeaturesList',
+    [SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS]: 'c.toggleFlowStatus',
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]:
+        'c.getInvocableActionDetails'
 };
 
 let auraFetch;
@@ -172,7 +176,9 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_TEMPLATES]: params => params.processTypes,
     [SERVER_ACTION_TYPE.GET_TEMPLATE_DATA]: params => params.versionIdOrEnum,
     [SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES]: params =>
-        params.flowProcessType
+        params.flowProcessType,
+    [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: params =>
+        `${params.actionName}-${params.actionType}`
 };
 
 const fetchOnceCache = {};

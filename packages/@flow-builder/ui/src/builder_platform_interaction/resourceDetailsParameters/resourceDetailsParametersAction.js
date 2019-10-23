@@ -1,6 +1,6 @@
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
-import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { labelComparator } from 'builder_platform_interaction/sortLib';
 import { ResourceDetailsParametersConfig } from './resourceDetailsParametersConfig';
 
@@ -27,18 +27,18 @@ class ResourceDetailsParametersActionConfig extends ResourceDetailsParametersCon
             if (!resource) {
                 callback([], `No resource found for GUID: ${resourceGuid}`);
             } else {
-                fetchParametersForInvocableAction(resource, {
+                fetchDetailsForInvocableAction(resource, {
                     disableErrorModal: true,
                     background: true
                 })
-                    .then((params = []) => {
+                    .then(({ parameters = [] } = {}) =>
                         callback(
-                            params
+                            parameters
                                 .filter(parameter => parameter.isOutput)
                                 .map(this.map())
                                 .sort(labelComparator)
-                        );
-                    })
+                        )
+                    )
                     .catch(error => callback([], error));
             }
         };

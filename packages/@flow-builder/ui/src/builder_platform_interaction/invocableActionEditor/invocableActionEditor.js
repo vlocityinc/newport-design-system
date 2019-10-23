@@ -24,7 +24,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    fetchParametersForInvocableAction,
+    fetchDetailsForInvocableAction,
     isAutomaticOutputHandlingSupported
 } from 'builder_platform_interaction/invocableActionLib';
 
@@ -127,8 +127,8 @@ export default class InvocableActionEditor extends LightningElement {
         };
         this.displaySpinner = true;
         this.invocableActionParametersDescriptor = undefined;
-        fetchParametersForInvocableAction(actionParams)
-            .then(parameters => {
+        fetchDetailsForInvocableAction(actionParams)
+            .then(({ parameters }) => {
                 if (this.connected) {
                     this.displaySpinner = false;
                     this.invocableActionParametersDescriptor = parameters;

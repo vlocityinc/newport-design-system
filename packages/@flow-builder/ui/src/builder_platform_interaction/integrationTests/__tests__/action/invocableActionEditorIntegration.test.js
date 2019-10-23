@@ -55,7 +55,7 @@ import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { submitForApprovalActionParameters } from 'serverData/GetInvocableActionParameters/submitForApprovalActionParameters.json';
 
-const getInvocableActionParameters = invocableActionParameters => params => {
+const getInvocableActionDetails = invocableActionParameters => params => {
     let invocableActionParametersForAction;
     const invocableActionParametersForType =
         invocableActionParameters[params.actionType];
@@ -96,7 +96,7 @@ describe('Invocable Action Editor', () => {
                     'c.getAllInvocableActionsForType': getAllInvocableActionsForType(
                         { [FLOW_PROCESS_TYPE.FLOW]: mockActions }
                     ),
-                    'c.getInvocableActionParameters': getInvocableActionParameters(
+                    'c.getInvocableActionDetails': getInvocableActionDetails(
                         {
                             apex: {
                                 AllTypesApexAction: mockAllTypesActionParameters
@@ -1202,7 +1202,7 @@ describe('Invocable Action Editor', () => {
                     'c.getAllInvocableActionsForType': () => ({
                         data: mockActions
                     }),
-                    'c.getInvocableActionParameters': getInvocableActionParameters(
+                    'c.getInvocableActionParameters': getInvocableActionDetails(
                         {
                             submit: {
                                 submit: submitForApprovalActionParameters

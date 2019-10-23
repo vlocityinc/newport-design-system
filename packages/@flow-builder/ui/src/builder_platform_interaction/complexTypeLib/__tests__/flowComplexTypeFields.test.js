@@ -21,7 +21,7 @@ import {
 } from 'mock/storeData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
-import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
@@ -42,7 +42,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 });
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchParametersForInvocableAction: jest
+    fetchDetailsForInvocableAction: jest
         .fn()
         .mockImplementation(() => Promise.resolve())
 }));
@@ -120,16 +120,16 @@ describe('flowComplexTypeFields', () => {
         const expectThreeCallsToFetchParametersForInvocableAction = (
             ...expectedActionCallNameAndType
         ) => {
-            expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
                 3
             );
-            expect(fetchParametersForInvocableAction.mock.calls[0][0]).toEqual(
+            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(
                 expectedActionCallNameAndType[0]
             );
-            expect(fetchParametersForInvocableAction.mock.calls[1][0]).toEqual(
+            expect(fetchDetailsForInvocableAction.mock.calls[1][0]).toEqual(
                 expectedActionCallNameAndType[1]
             );
-            expect(fetchParametersForInvocableAction.mock.calls[2][0]).toEqual(
+            expect(fetchDetailsForInvocableAction.mock.calls[2][0]).toEqual(
                 expectedActionCallNameAndType[2]
             );
         };
@@ -160,17 +160,17 @@ describe('flowComplexTypeFields', () => {
             await loadParametersForInvocableActionsInFlow(
                 stateWithElements([actionCallElement])
             );
-            expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
                 0
             );
         });
     });
     describe('loadParametersForInvocableApexActionsInFlowFromMetadata', () => {
         const expectOneCallToFetchParametersForInvocableAction = expectedActionCallNameAndType => {
-            expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
                 1
             );
-            expect(fetchParametersForInvocableAction.mock.calls[0][0]).toEqual(
+            expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(
                 expectedActionCallNameAndType
             );
         };
@@ -194,7 +194,7 @@ describe('flowComplexTypeFields', () => {
                     actionCallElement.name
                 ])
             );
-            expect(fetchParametersForInvocableAction.mock.calls).toHaveLength(
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
                 0
             );
         });

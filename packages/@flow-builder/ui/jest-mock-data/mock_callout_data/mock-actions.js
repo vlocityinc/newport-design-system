@@ -280,145 +280,149 @@ export const mockActions = [
     }
 ];
 
-export const mockSubmitForApprovalActionParameters = [
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'reference',
-        description: 'The ID of the approval process instance.',
-        label: 'Instance ID',
-        isOutput: true,
-        name: 'instanceId',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'submit-submit-output-instanceId',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'string',
-        description:
-            'The status of the approval. The valid values are "Approved," "Rejected," "Removed," or "Pending."',
-        label: 'Instance Status',
-        isOutput: true,
-        name: 'instanceStatus',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'submit-submit-output-instanceStatus',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'reference',
-        description:
-            'An array of the ID(s) of the work item(s) created for the next step in this approval process.',
-        label: 'New Work Item IDs',
-        isOutput: true,
-        name: 'newWorkItemIds',
-        apexClass: null,
-        maxOccurs: 2000,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'submit-submit-output-newWorkItemIds',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'reference',
-        description: 'An array of the ID(s) of the next approver(s).',
-        label: 'Next Approver IDs',
-        isOutput: true,
-        name: 'actorIds',
-        apexClass: null,
-        maxOccurs: 2000,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'submit-submit-output-actorIds',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'reference',
-        description: 'The ID of the record submitted for approval.',
-        label: 'Record ID',
-        isOutput: true,
-        name: 'entityId',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'submit-submit-output-entityId',
-        sobjectType: null
-    }
-];
+export const mockSubmitForApprovalActionParameters = {
+    parameters: [
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'reference',
+            description: 'The ID of the approval process instance.',
+            label: 'Instance ID',
+            isOutput: true,
+            name: 'instanceId',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'submit-submit-output-instanceId',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'string',
+            description:
+                'The status of the approval. The valid values are "Approved," "Rejected," "Removed," or "Pending."',
+            label: 'Instance Status',
+            isOutput: true,
+            name: 'instanceStatus',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'submit-submit-output-instanceStatus',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'reference',
+            description:
+                'An array of the ID(s) of the work item(s) created for the next step in this approval process.',
+            label: 'New Work Item IDs',
+            isOutput: true,
+            name: 'newWorkItemIds',
+            apexClass: null,
+            maxOccurs: 2000,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'submit-submit-output-newWorkItemIds',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'reference',
+            description: 'An array of the ID(s) of the next approver(s).',
+            label: 'Next Approver IDs',
+            isOutput: true,
+            name: 'actorIds',
+            apexClass: null,
+            maxOccurs: 2000,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'submit-submit-output-actorIds',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'reference',
+            description: 'The ID of the record submitted for approval.',
+            label: 'Record ID',
+            isOutput: true,
+            name: 'entityId',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'submit-submit-output-entityId',
+            sobjectType: null
+        }
+    ]
+};
 
-export const mockLocalActionParameters = [
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'string',
-        description: null,
-        label: null,
-        isOutput: true,
-        name: 'subject',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'component-c:localActionSample-output-subject',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: true,
-        dataType: 'string',
-        description: null,
-        label: null,
-        isOutput: false,
-        name: 'greeting',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'component-c:localActionSample-input-greeting',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: true,
-        dataType: 'string',
-        description: null,
-        label: null,
-        isOutput: false,
-        name: 'subject',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'component-c:localActionSample-input-subject',
-        sobjectType: null
-    },
-    {
-        isRequired: false,
-        isInput: false,
-        dataType: 'string',
-        description: null,
-        label: null,
-        isOutput: true,
-        name: 'greeting',
-        apexClass: null,
-        maxOccurs: 1,
-        id: null,
-        isSystemGeneratedOutput: false,
-        durableId: 'component-c:localActionSample-output-greeting',
-        sobjectType: null
-    }
-];
+export const mockLocalActionParameters = {
+    parameters: [
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'string',
+            description: null,
+            label: null,
+            isOutput: true,
+            name: 'subject',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:localActionSample-output-subject',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: true,
+            dataType: 'string',
+            description: null,
+            label: null,
+            isOutput: false,
+            name: 'greeting',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:localActionSample-input-greeting',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: true,
+            dataType: 'string',
+            description: null,
+            label: null,
+            isOutput: false,
+            name: 'subject',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:localActionSample-input-subject',
+            sobjectType: null
+        },
+        {
+            isRequired: false,
+            isInput: false,
+            dataType: 'string',
+            description: null,
+            label: null,
+            isOutput: true,
+            name: 'greeting',
+            apexClass: null,
+            maxOccurs: 1,
+            id: null,
+            isSystemGeneratedOutput: false,
+            durableId: 'component-c:localActionSample-output-greeting',
+            sobjectType: null
+        }
+    ]
+};

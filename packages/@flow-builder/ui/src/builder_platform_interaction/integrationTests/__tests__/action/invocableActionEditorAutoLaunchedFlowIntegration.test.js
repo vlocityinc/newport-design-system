@@ -31,10 +31,10 @@ import {
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { actionPostToChatter } from 'mock/storeDataAutolaunched';
 import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
-import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { chatterPostActionDetails as mockChatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 const MOCK_PROCESS_TYPE_AUTO_LAUNCHED_FLOW = 'AutoLaunchedFlow';
 
@@ -46,10 +46,10 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
         isAutomaticOutputHandlingSupported:
             actual.isAutomaticOutputHandlingSupported,
         getParametersForInvocableAction: actual.getParametersForInvocableAction,
-        fetchParametersForInvocableAction: jest
+        fetchDetailsForInvocableAction: jest
             .fn()
             .mockImplementation(() =>
-                Promise.resolve(mockChatterPostActionParameters)
+                Promise.resolve(mockChatterPostActionDetails)
             )
     };
 });
@@ -77,8 +77,8 @@ describe('Invocable Action Editor', () => {
         OutputResourcePicker.RULES = getOutputRules();
         store = Store.getStore(reducer);
         setApexClasses(apexTypesForAutolLaunchedFlow);
-        fetchParametersForInvocableAction.mockImplementation(() =>
-            Promise.resolve(mockChatterPostActionParameters)
+        fetchDetailsForInvocableAction.mockImplementation(() =>
+            Promise.resolve(mockChatterPostActionDetails)
         );
         setProcessTypeFeature(
             MOCK_PROCESS_TYPE_AUTO_LAUNCHED_FLOW,

@@ -7,7 +7,7 @@ jest.mock('builder_platform_interaction/storeLib', () =>
 );
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchParametersForInvocableAction: jest.fn(() =>
+    fetchDetailsForInvocableAction: jest.fn(() =>
         Promise.resolve(mockSubmitForApprovalActionParameters)
     )
 }));

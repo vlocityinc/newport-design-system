@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import {
     mockSubmitForApprovalActionParameters,
     mockLocalActionParameters
@@ -32,7 +32,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
 }));
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => ({
-    fetchParametersForInvocableAction: jest.fn(() =>
+    fetchDetailsForInvocableAction: jest.fn(() =>
         Promise.resolve(mockSubmitForApprovalActionParameters)
     )
 }));
@@ -220,7 +220,7 @@ describe('Resource Details parameters', () => {
                 });
                 describe('Parameters fetch server call OK but error', () => {
                     beforeAll(() => {
-                        fetchParametersForInvocableAction.mockImplementation(
+                        fetchDetailsForInvocableAction.mockImplementation(
                             () =>
                                 Promise.reject(
                                     new Error(
@@ -246,7 +246,7 @@ describe('Resource Details parameters', () => {
         describe('"Local action" in automatic outputs mode', () => {
             describe('No fetch exception', () => {
                 beforeAll(() => {
-                    fetchParametersForInvocableAction.mockImplementation(() =>
+                    fetchDetailsForInvocableAction.mockImplementation(() =>
                         Promise.resolve(mockLocalActionParameters)
                     );
                 });
@@ -271,7 +271,7 @@ describe('Resource Details parameters', () => {
                 });
                 describe('Parameters fetch server call OK but error', () => {
                     beforeAll(() => {
-                        fetchParametersForInvocableAction.mockImplementation(
+                        fetchDetailsForInvocableAction.mockImplementation(
                             () =>
                                 Promise.reject(
                                     new Error(

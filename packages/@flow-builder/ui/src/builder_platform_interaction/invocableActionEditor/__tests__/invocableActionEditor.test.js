@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import InvocableActionEditor from '../invocableActionEditor';
 import { mockActions } from 'mock/calloutData';
-import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import {
     ClosePropertyEditorEvent,
     CannotRetrieveCalloutParametersEvent,
@@ -147,7 +147,7 @@ const selectors = {
     baseCalloutEditor: 'builder_platform_interaction-base-callout-editor'
 };
 
-let mockActionParametersPromise = Promise.resolve(mockActionParameters);
+let mockActionDetailsPromise = Promise.resolve(mockActionDetails);
 let mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -161,8 +161,8 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             switch (serverActionType) {
                 case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS:
                     return mockActionsPromise;
-                case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS:
-                    return mockActionParametersPromise;
+                case SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS:
+                    return mockActionDetailsPromise;
                 default:
                     return Promise.reject();
             }
@@ -199,14 +199,14 @@ describe('Invocable Action editor', () => {
         clearInvocableActionCachedParameters();
     });
     afterEach(() => {
-        mockActionParametersPromise = Promise.resolve(mockActionParameters);
+        mockActionDetailsPromise = Promise.resolve(mockActionDetails);
         mockActionsPromise = Promise.resolve(mockActions);
     });
     it('should display a subtitle including the action call label', async () => {
         const actionEditorCmp = createComponentUnderTest(defaultNode);
         const baseCalloutEditorCmp = getBaseCalloutEditor(actionEditorCmp);
         await mockActionsPromise;
-        await mockActionParametersPromise;
+        await mockActionDetailsPromise;
         expect(baseCalloutEditorCmp.subtitle).toBe(
             'FlowBuilderInvocableActionEditor.subtitle(Post to Chatter,FlowBuilderInvocableActionEditor.coreActionTypeLabel)'
         );
@@ -229,8 +229,8 @@ describe('Invocable Action editor', () => {
         });
     });
     describe('Edit existing invocable action', () => {
-        it('should dispatch a ClosePropertyEditorEvent if call to GET_INVOCABLE_ACTION_PARAMETERS failed', async () => {
-            mockActionParametersPromise = Promise.reject();
+        it('should dispatch a ClosePropertyEditorEvent if call to GET_INVOCABLE_ACTION_DETAILS failed', async () => {
+            mockActionDetailsPromise = Promise.reject();
             createComponentUnderTest(defaultNode, { isNewMode: false });
             const eventCallback = jest.fn();
             document.addEventListener(
@@ -239,7 +239,7 @@ describe('Invocable Action editor', () => {
             );
             await ticks(10);
 
-            await mockActionParametersPromise.catch(() => {
+            await mockActionDetailsPromise.catch(() => {
                 document.removeEventListener(
                     ClosePropertyEditorEvent.EVENT_NAME,
                     eventCallback
@@ -280,8 +280,8 @@ describe('Invocable Action editor', () => {
         });
     });
     describe('New invocable action node', () => {
-        it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_INVOCABLE_ACTION_PARAMETERS failed', async () => {
-            mockActionParametersPromise = Promise.reject();
+        it('should dispatch a CannotRetrieveCalloutParametersEvent if call to GET_INVOCABLE_ACTION_DETAILS failed', async () => {
+            mockActionDetailsPromise = Promise.reject();
             createComponentUnderTest(defaultNode, { isNewMode: true });
             const eventCallback = jest.fn();
             document.addEventListener(
@@ -290,7 +290,7 @@ describe('Invocable Action editor', () => {
             );
             await ticks(10);
 
-            await mockActionParametersPromise.catch(() => {
+            await mockActionDetailsPromise.catch(() => {
                 document.removeEventListener(
                     CannotRetrieveCalloutParametersEvent.EVENT_NAME,
                     eventCallback

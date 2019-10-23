@@ -1,4 +1,4 @@
-import { fetchParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import {
@@ -65,7 +65,7 @@ export function loadParametersForInvocableApexActionsInFlowFromMetadata(
     const promises = [];
     actionCallNamesAndTypes.forEach(actionCallNameAndType =>
         promises.push(
-            fetchParametersForInvocableAction(actionCallNameAndType, {
+            fetchDetailsForInvocableAction(actionCallNameAndType, {
                 disableErrorModal: true,
                 background: true
             }).catch(() => {})
@@ -90,7 +90,7 @@ export function loadParametersForInvocableActionsInFlow(state) {
     const promises = [];
     actionCallNamesAndTypes.forEach(actionCallNameAndType =>
         promises.push(
-            fetchParametersForInvocableAction(actionCallNameAndType, {
+            fetchDetailsForInvocableAction(actionCallNameAndType, {
                 disableErrorModal: true,
                 background: true
             }).catch(() => {})
