@@ -188,6 +188,18 @@
         "inputParameters": [],
         "outputParameters": [],
         "storeOutputAutomatically": true
+      },
+      {
+        "name": "apexCall_String_automatic_output",
+        "description": "",
+        "label": "apexCall String automatic output",
+        "locationX": 722,
+        "locationY": 57.3125,
+        "actionType": "apex",
+        "actionName": "GetAccountName",
+        "inputParameters": [],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
       }
     ],
     "assignments": [
@@ -506,8 +518,8 @@
         "name": "screen1",
         "description": "",
         "label": "screen1",
-        "locationX": 127,
-        "locationY": 505,
+        "locationX": 104,
+        "locationY": 485,
         "pausedText": "",
         "fields": [
           {
@@ -560,6 +572,32 @@
             "outputParameters": [],
             "scale": 0,
             "extensionName": "flowruntime:email"
+          },
+          {
+            "choiceReferences": [],
+            "fieldText": "",
+            "fieldType": "ComponentInstance",
+            "helpText": "",
+            "inputParameters": [],
+            "isRequired": true,
+            "name": "lightningCompWithAccountOutput",
+            "outputParameters": [],
+            "scale": 0,
+            "storeOutputAutomatically": true,
+            "extensionName": "c:HelloWorld"
+          },
+          {
+            "choiceReferences": [],
+            "fieldText": "",
+            "fieldType": "ComponentInstance",
+            "helpText": "",
+            "inputParameters": [],
+            "isRequired": true,
+            "name": "lightningCompWithNoAccountOutput",
+            "outputParameters": [],
+            "scale": 0,
+            "storeOutputAutomatically": true,
+            "extensionName": "c:noSobjectOutputComp"
           }
         ],
         "allowBack": true,

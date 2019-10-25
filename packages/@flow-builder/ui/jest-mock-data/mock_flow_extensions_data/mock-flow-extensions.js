@@ -154,3 +154,121 @@ export const mockFlowRuntimeEmailFlowExtensionDescription = {
     }
   ]
 };
+
+export const mockLightningCompWithAccountOutputFlowExtensionDescription = {
+  name: "c:HelloWorld",
+  inputParameters: [
+    {
+      apiName: "account",
+      dataType: "sobject",
+      subtype: "Account",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Account",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "greeting",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Greeting",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "subject",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Subject",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    }
+  ],
+  outputParameters: [
+    {
+      apiName: "account",
+      dataType: "sobject",
+      subtype: "Account",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Account",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "greeting",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Greeting",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "subject",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Subject",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    }
+  ]
+};
+
+export const mockLightningCompWithoutSObjectOutputFlowExtensionDescription = {
+  name: "c:noSobjectOutputComp",
+  inputParameters: [
+    {
+      apiName: "greeting",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Greeting",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "subject",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Subject",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    }
+  ],
+  outputParameters: [
+    {
+      apiName: "greeting",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Greeting",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "subject",
+      dataType: "string",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Subject",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    }
+  ]
+};

@@ -50,6 +50,7 @@ export const apexCallAutomaticAnonymousAccountOutput = getElementByName('apexCal
 export const apexCallAutomaticAnonymousStringOutput = getElementByName('apexCall_anonymous_string');
 export const apexCallManualAccountOutput = getElementByName('apexCall_action_account_manual_output');
 export const apexCallAccountAutomaticOutput = getElementByName('apexCall_account_automatic_output');
+export const apexCallStringAutomaticOutput = getElementByName('apexCall_String_automatic_output');
 export const emailAlertOnAccount = getElementByName('emailAlertOnAccount');
 export const externalServiceAutomaticOutput = getElementByName('addAccountExternalService');
 export const stringCollectionVariable1 = getElementByName('stringCollectionVariable1');
@@ -68,6 +69,8 @@ export const caseLogACallAutomatic = getElementByName('caseLogACallAutomatic');
 export const apexComplexTypeVariable = getElementByName('apexComplexTypeVariable');
 export const apexCarVariable = getElementByName('apexCarVariable');
 export const createAccountWithAutomaticOutput = getElementByName('createAccountWithAutomaticOutput');
+export const lightningCompAutomaticOutputContainsAccountExtension = getElementByName('lightningCompWithAccountOutput');
+export const lightningCompAutomaticOutputNoSObjectExtension = getElementByName('lightningCompWithNoAccountOutput');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

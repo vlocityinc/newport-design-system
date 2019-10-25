@@ -5,11 +5,7 @@ import {
 import * as store from 'mock/storeData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
-import { getAccountFromApexAnonymousOutputActionParameters as mockGetAccountFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountFromApexAnonymousOutputActionParameters.json';
-import { getAccountNameFromApexAnonymousOutputActionParameters as mockGetAccountNameFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountNameFromApexAnonymousOutputActionParameters.json';
-import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
-import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { setNotLoadedAction } from 'builder_platform_interaction_mocks/invocableActionLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
@@ -33,37 +29,9 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     };
 });
 
-const mockImplementationForGetParametersForInvocableAction = ({
-    actionName,
-    actionType
-}) => {
-    const key = `${actionType}-${actionName}`;
-    switch (key) {
-        case 'chatterPost-chatterPost':
-            return mockChatterPostActionParameters;
-        case 'quickAction-Case.LogACall':
-            return mockLogACallActionParameters;
-        case 'apex-getAccounts':
-            return mockGetAccountFromApexAnonymousOutputActionParameters;
-        case 'apex-InvocableGetAccountName':
-            return mockGetAccountNameFromApexAnonymousOutputActionParameters;
-        default:
-            return undefined;
-    }
-};
-
-jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    return {
-        getParametersForInvocableAction: jest
-            .fn()
-            .mockImplementation(({ actionName, actionType }) =>
-                mockImplementationForGetParametersForInvocableAction({
-                    actionName,
-                    actionType
-                })
-            )
-    };
-});
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
 
 describe('complexTypeFieldDescription', () => {
     beforeAll(() => {
@@ -115,13 +83,7 @@ describe('complexTypeFieldDescription', () => {
     describe('isAutomaticOutputElementWithoutChildren', () => {
         describe('For action elements', () => {
             afterEach(() => {
-                getParametersForInvocableAction.mockImplementation(
-                    ({ actionName, actionType }) =>
-                        mockImplementationForGetParametersForInvocableAction({
-                            actionName,
-                            actionType
-                        })
-                );
+                setNotLoadedAction();
             });
             it('returns true for an action element in automatic output mode that has no children', () => {
                 expect(
@@ -131,9 +93,7 @@ describe('complexTypeFieldDescription', () => {
                 ).toBe(true);
             });
             it('returns undefined for an action if action parameters have not been loaded yet', () => {
-                getParametersForInvocableAction.mockImplementation(
-                    () => undefined
-                );
+                setNotLoadedAction(store.caseLogACallAutomatic);
                 expect(
                     isAutomaticOutputElementWithoutChildren(
                         store.caseLogACallAutomatic

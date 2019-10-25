@@ -16,8 +16,6 @@ import {
     apexCallAutomaticAnonymousStringOutput
 } from 'mock/storeData';
 import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
-import { getAccountFromApexAnonymousOutputActionParameters as mockGetAccountFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountFromApexAnonymousOutputActionParameters.json';
-import { getAccountNameFromApexAnonymousOutputActionParameters as mockGetAccountNameFromApexAnonymousOutputActionParameters } from 'serverData/GetInvocableActionParameters/getAccountNameFromApexAnonymousOutputActionParameters.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
@@ -213,33 +211,9 @@ const actionCallAutomaticOutputInStore = {
     storeOutputAutomatically: true
 };
 
-const mockImplementationForGetParametersForInvocableAction = ({
-    actionName,
-    actionType
-}) => {
-    const key = `${actionType}-${actionName}`;
-    switch (key) {
-        case 'apex-getAccounts':
-            return mockGetAccountFromApexAnonymousOutputActionParameters;
-        case 'apex-InvocableGetAccountName':
-            return mockGetAccountNameFromApexAnonymousOutputActionParameters;
-        default:
-            return undefined;
-    }
-};
-
-jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    return {
-        getParametersForInvocableAction: jest
-            .fn()
-            .mockImplementation(({ actionName, actionType }) =>
-                mockImplementationForGetParametersForInvocableAction({
-                    actionName,
-                    actionType
-                })
-            )
-    };
-});
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
 
 describe('actionCall', () => {
     describe('createActionCall function', () => {

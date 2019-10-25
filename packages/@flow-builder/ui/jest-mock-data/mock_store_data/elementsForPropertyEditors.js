@@ -1,7 +1,7 @@
 // to update elementsForPropertyEditors from flowWithAllElementsUIModel, run propertyEditorFactory.test.js and follow instructions
 export const elementsForPropertyEditors =  {
   "stringVariable": {
-    "guid": "ecf6b72e-f33e-48a4-a58c-bdcc87a80e40",
+    "guid": "3147a31d-26a3-408c-b00b-a31983df0da5",
     "name": {
       "value": "stringVariable",
       "error": null
@@ -23,7 +23,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "subtypeIndex": {
-      "value": "3147a31d-26a3-408c-b00b-a31983df0da5",
+      "value": "eb19f518-e185-488c-a5b2-9107036766f4",
       "error": null
     },
     "scale": 0,
@@ -36,12 +36,12 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "eb19f518-e185-488c-a5b2-9107036766f4",
+      "value": "70926b3b-6a78-4e62-a62b-0c6d4c4ca910",
       "error": null
     }
   },
   "numberVariable": {
-    "guid": "be979456-fe7c-4fa6-be9f-e388ea78dd33",
+    "guid": "bebf0e8d-339f-4227-ab7e-84d7c15daf07",
     "name": {
       "value": "numberVariable",
       "error": null
@@ -63,7 +63,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "subtypeIndex": {
-      "value": "bebf0e8d-339f-4227-ab7e-84d7c15daf07",
+      "value": "b93ea139-c9df-49cb-a42e-52c5f496ab07",
       "error": null
     },
     "scale": 2,
@@ -76,12 +76,12 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "b93ea139-c9df-49cb-a42e-52c5f496ab07",
+      "value": "8573e2d4-ccfb-4701-be66-e38b54ba7375",
       "error": null
     }
   },
   "dateVariable": {
-    "guid": "e62ce284-ccf2-46af-8446-c0a110a4bba0",
+    "guid": "34ff5f58-8d99-470d-a755-a2aa0dc69f59",
     "name": {
       "value": "dateVariable",
       "error": null
@@ -103,7 +103,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "subtypeIndex": {
-      "value": "34ff5f58-8d99-470d-a755-a2aa0dc69f59",
+      "value": "ade42d1f-d120-4ff9-9888-c202b289571c",
       "error": null
     },
     "scale": 0,
@@ -116,12 +116,12 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "ade42d1f-d120-4ff9-9888-c202b289571c",
+      "value": "6cb9b58e-4246-44c0-85a9-8f7d32172da6",
       "error": null
     }
   },
   "stringCollectionVariable1": {
-    "guid": "8573e2d4-ccfb-4701-be66-e38b54ba7375",
+    "guid": "ebedaf4c-b899-4660-bf34-b2c569bda3c9",
     "name": {
       "value": "stringCollectionVariable1",
       "error": null
@@ -143,7 +143,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "subtypeIndex": {
-      "value": "ebedaf4c-b899-4660-bf34-b2c569bda3c9",
+      "value": "3f70f36b-030f-4b90-ba09-866642ba5d4b",
       "error": null
     },
     "scale": 0,
@@ -156,12 +156,12 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "3f70f36b-030f-4b90-ba09-866642ba5d4b",
+      "value": "cf5e6188-117a-47c0-a493-7ed460484c87",
       "error": null
     }
   },
   "accountSObjectVariable": {
-    "guid": "3e57f4c5-fecd-4be0-83a2-3238cdda979c",
+    "guid": "7ab29c0c-3dbf-4f99-a94c-311ef891973f",
     "name": {
       "value": "accountSObjectVariable",
       "error": null
@@ -183,7 +183,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "subtypeIndex": {
-      "value": "7ab29c0c-3dbf-4f99-a94c-311ef891973f",
+      "value": "85d76151-9bec-4869-b691-791baf964b4f",
       "error": null
     },
     "scale": 0,
@@ -196,12 +196,12 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "85d76151-9bec-4869-b691-791baf964b4f",
+      "value": "bb597c66-db1e-4636-85b6-31f89b320bd4",
       "error": null
     }
   },
   "textTemplate1": {
-    "guid": "e5b4998c-a36e-407f-afb7-2301eda53b8d",
+    "guid": "7bbacaec-c6f9-4188-9af4-a32993e0abbd",
     "name": {
       "value": "textTemplate1",
       "error": null
@@ -221,7 +221,7 @@ export const elementsForPropertyEditors =  {
     }
   },
   "stringConstant": {
-    "guid": "f35bd1d9-bafd-4fc9-b682-2d2557f8f796",
+    "guid": "88a32528-0dfa-4237-b9dd-a14c1a6d6d10",
     "name": {
       "value": "stringConstant",
       "error": null
@@ -244,7 +244,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "88a32528-0dfa-4237-b9dd-a14c1a6d6d10",
+      "value": "e5b4998c-a36e-407f-afb7-2301eda53b8d",
       "error": null
     }
   }
