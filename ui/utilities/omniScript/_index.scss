@@ -1,0 +1,9 @@
+.omni-typeahead {
+  & ~ * {
+      display: none;
+  }
+
+  &.is-edit-mode ~ * {
+      display: initial;
+  }
+}
