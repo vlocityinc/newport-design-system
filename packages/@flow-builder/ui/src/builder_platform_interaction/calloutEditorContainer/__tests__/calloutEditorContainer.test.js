@@ -2,6 +2,11 @@ import { createElement } from 'lwc';
 import CalloutEditorContainer from '../calloutEditorContainer';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
+jest.mock('builder_platform_interaction/translatorLib', () => ({
+    translateUIModelToFlow: jest.fn(),
+    swapUidsForDevNames: jest.fn()
+}));
+
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function () {
         return {

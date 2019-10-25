@@ -3,6 +3,10 @@ import InvocableActionEditor from '../invocableActionEditor';
 import { invocableActionValidation } from '../invocableActionValidation.js';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
+jest.mock('builder_platform_interaction/translatorLib', () => ({
+    translateUIModelToFlow: jest.fn()
+}));
+
 jest.mock('builder_platform_interaction/storeLib', () => {
     const getCurrentState = function () {
         return {
