@@ -82,7 +82,6 @@ import {
     setFlowErrorsAndWarnings,
     flowPropertiesCallback,
     saveAsFlowCallback,
-    setPeripheralDataForPropertyEditor,
     setApexClassesForPropertyEditor,
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
@@ -96,23 +95,26 @@ import { cachePropertiesForClass } from 'builder_platform_interaction/apexTypeLi
 import {
     getProcessTypes,
     setProcessTypes,
-    setProcessTypeFeature,
     getRunInModes,
     setRunInModes
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
-import { setInvocableActions } from 'builder_platform_interaction/invocableActionLib';
 import {
     loadFieldsForComplexTypesInFlow,
     loadParametersForInvocableApexActionsInFlowFromMetadata
-} from 'builder_platform_interaction/complexTypeLib';
+} from 'builder_platform_interaction/preloadLib';
 import {
     ShiftFocusForwardCommand,
     ShiftFocusBackwardCommand,
     DisplayShortcutsCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+import {
+    getFlowSystemVariableComboboxItem,
+    getGlobalVariableTypeComboboxItems
+} from 'builder_platform_interaction/expressionUtils';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -299,72 +301,29 @@ export default class Editor extends LightningElement {
             currentState.properties.processType !== this.properties.processType
         ) {
             this.spinners.showLoadingSupportedFeaturesSpinner = true;
-            // Get Features
-            const getProcessTypeFeatureCall = fetchOnce(
-                SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES,
-                { flowProcessType: currentState.properties.processType }
-            )
-                .then(data => {
-                    setProcessTypeFeature(
-                        currentState.properties.processType,
-                        data
-                    );
-                    this.spinners.showLoadingSupportedFeaturesSpinner = false;
-                })
-                .catch(() => {
-                    this.spinners.showLoadingSupportedFeaturesSpinner = false;
-                });
-            this.propertyEditorBlockerCalls.push(getProcessTypeFeatureCall);
-
-            logPerfTransactionStart(
-                SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
-            );
-            const getPeripheralDataForPropertyEditor = fetchOnce(
-                SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR,
-                {
-                    crudType: 'ALL',
-                    flowProcessType: currentState.properties.processType
-                },
-                { background: true }
-            )
-                .then(data => {
-                    logPerfTransactionEnd(
-                        SERVER_ACTION_TYPE.GET_PERIPHERAL_DATA_FOR_PROPERTY_EDITOR
-                    );
-                    setPeripheralDataForPropertyEditor(data);
-                    this.peripheralDataFetched = true;
-                })
-                .catch(() => {});
             this.propertyEditorBlockerCalls.push(
-                getPeripheralDataForPropertyEditor
+                loadDataForProcessType(currentState.properties.processType, {
+                    onFeaturesLoaded: () => {
+                        this.spinners.showLoadingSupportedFeaturesSpinner = false;
+                    },
+                    onPeripheralDataFetched: ({ error }) => {
+                        if (!error) {
+                            this.peripheralDataFetched = true;
+                            getGlobalVariableTypeComboboxItems().forEach(
+                                item => {
+                                    addToParentElementCache(
+                                        item.displayText,
+                                        item
+                                    );
+                                }
+                            );
+                            const item = getFlowSystemVariableComboboxItem();
+                            // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
+                            addToParentElementCache(item.displayText, item);
+                        }
+                    }
+                })
             );
-
-            // Get Actions
-            fetchOnce(
-                SERVER_ACTION_TYPE.GET_INVOCABLE_ACTIONS,
-                {
-                    flowProcessType: currentState.properties.processType
-                },
-                { background: true }
-            )
-                .then(data => setInvocableActions(data))
-                .catch(() => {});
-
-            // Get Apex Plugins
-            fetchOnce(
-                SERVER_ACTION_TYPE.GET_APEX_PLUGINS,
-                {},
-                { background: true }
-            ).catch(() => {});
-
-            // Get Subflows
-            fetchOnce(
-                SERVER_ACTION_TYPE.GET_SUBFLOWS,
-                {
-                    flowProcessType: currentState.properties.processType
-                },
-                { background: true }
-            ).catch(() => {});
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
@@ -1154,7 +1113,10 @@ export default class Editor extends LightningElement {
             invokeKeyboardHelpDialog()
         );
         const displayShortcutKeyCombo = { key: '/' };
-        this.keyboardInteractions.setupCommandAndShortcut(displayShortcutsCommand, displayShortcutKeyCombo);
+        this.keyboardInteractions.setupCommandAndShortcut(
+            displayShortcutsCommand,
+            displayShortcutKeyCombo
+        );
     };
 
     /**

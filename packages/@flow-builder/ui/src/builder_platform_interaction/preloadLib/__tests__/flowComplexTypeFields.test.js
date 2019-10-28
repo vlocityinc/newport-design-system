@@ -120,9 +120,7 @@ describe('flowComplexTypeFields', () => {
         const expectThreeCallsToFetchParametersForInvocableAction = (
             ...expectedActionCallNameAndType
         ) => {
-            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
-                3
-            );
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(3);
             expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(
                 expectedActionCallNameAndType[0]
             );
@@ -160,16 +158,12 @@ describe('flowComplexTypeFields', () => {
             await loadParametersForInvocableActionsInFlow(
                 stateWithElements([actionCallElement])
             );
-            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
-                0
-            );
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
         });
     });
     describe('loadParametersForInvocableApexActionsInFlowFromMetadata', () => {
         const expectOneCallToFetchParametersForInvocableAction = expectedActionCallNameAndType => {
-            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
-                1
-            );
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(1);
             expect(fetchDetailsForInvocableAction.mock.calls[0][0]).toEqual(
                 expectedActionCallNameAndType
             );
@@ -194,9 +188,7 @@ describe('flowComplexTypeFields', () => {
                     actionCallElement.name
                 ])
             );
-            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(
-                0
-            );
+            expect(fetchDetailsForInvocableAction.mock.calls).toHaveLength(0);
         });
     });
 });

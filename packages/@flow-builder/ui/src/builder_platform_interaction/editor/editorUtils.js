@@ -15,23 +15,7 @@ import { canvasSelector } from 'builder_platform_interaction/selectors';
 import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
-import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
-import {
-    setEntities,
-    setEventTypes
-} from 'builder_platform_interaction/sobjectLib';
-import {
-    setGlobalVariables,
-    setSystemVariables,
-    setSupportedFeatures
-} from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import {
-    getFlowSystemVariableComboboxItem,
-    getGlobalVariableTypeComboboxItems
-} from 'builder_platform_interaction/expressionUtils';
-import { addToParentElementCache } from 'builder_platform_interaction/comboboxCache';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -325,46 +309,6 @@ export const saveAsFlowCallback = (
     flowPropertiesCallback(storeInstance)(flowProperties);
     resetStartElementIfNeeded(storeInstance, processType.value || processType);
     saveFlowFn(saveType);
-};
-
-const setGlobalVariableAndUpdateCache = globalVariables => {
-    setGlobalVariables(globalVariables);
-    getGlobalVariableTypeComboboxItems().forEach(item => {
-        addToParentElementCache(item.displayText, item);
-    });
-};
-
-const setSystemVariableAndUpdateCache = systemVariables => {
-    const item = getFlowSystemVariableComboboxItem();
-    // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
-    addToParentElementCache(item.displayText, item);
-    setSystemVariables(systemVariables);
-};
-
-export const setPeripheralDataForPropertyEditor = ({
-    rules,
-    operators,
-    resourceTypes,
-    eventTypes,
-    globalVariables,
-    systemVariables,
-    entities,
-    supportedFeatures
-}) => {
-    setRules(rules);
-    setOperators(operators);
-    setResourceTypes(resourceTypes);
-    setEventTypes(eventTypes);
-    setGlobalVariableAndUpdateCache(globalVariables);
-    setSystemVariableAndUpdateCache(systemVariables);
-    setEntities(entities);
-
-    const supportedFeaturesSet = (supportedFeatures || []).reduce(
-        (acc, feature) => acc.add(feature),
-        new Set()
-    );
-
-    setSupportedFeatures(supportedFeaturesSet);
 };
 
 export const setApexClassesForPropertyEditor = apexTypes => {
