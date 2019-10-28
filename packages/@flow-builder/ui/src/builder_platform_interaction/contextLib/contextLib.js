@@ -36,3 +36,6 @@ export function orgHasFlowBuilderDebug() {
 export function canUserVAD() {
     return context.canVAD;
 }
+export function orgHasBeforeSaveEnabled() {
+    return context.access.orgHasBeforeSaveEnabled;
+}

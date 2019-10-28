@@ -15,6 +15,7 @@ import StartEditor from '../startEditor';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
 import * as store from 'mock/storeData';
 import * as expressionUtilsMock from 'builder_platform_interaction/expressionUtils';
+import * as contextLibMock from 'builder_platform_interaction/contextLib';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -25,6 +26,10 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 jest.mock('builder_platform_interaction/fieldPicker', () =>
     require('builder_platform_interaction_mocks/fieldPicker')
 );
+
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return { orgHasBeforeSaveEnabled: jest.fn() };
+});
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = require.requireActual(
@@ -205,6 +210,26 @@ describe('start-editor', () => {
             SELECTORS.SECHEDULE_SECTION
         );
         expect(scheduleSection).toBeFalsy();
+    });
+
+    it('when before save trigger perm is disabled, before save trigger type is not displayed', () => {
+        contextLibMock.orgHasBeforeSaveEnabled.mockReturnValue(false);
+        const startElement = createComponentForTest(defaultNewStartElement());
+        const scheduleSection = query(
+            startElement,
+            SELECTORS.TRIGGER_TYPE_INPUT
+        );
+        expect(scheduleSection.options).toHaveLength(2);
+    });
+
+    it('when before save trigger perm is enabled, before save trigger type is displayed', () => {
+        contextLibMock.orgHasBeforeSaveEnabled.mockReturnValue(true);
+        const startElement = createComponentForTest(defaultNewStartElement());
+        const scheduleSection = query(
+            startElement,
+            SELECTORS.TRIGGER_TYPE_INPUT
+        );
+        expect(scheduleSection.options).toHaveLength(3);
     });
 
     it('when triggerType is scheduled, schedule section is displayed', () => {

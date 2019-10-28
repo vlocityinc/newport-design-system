@@ -17,6 +17,7 @@ import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataM
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { LABELS } from './startEditorLabels';
+import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
 
 const UNSET_TRIGGER_SAVE_TYPE = '';
 
@@ -29,6 +30,15 @@ const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
 const { ONCE, DAILY, WEEKLY } = FLOW_TRIGGER_FREQUENCY;
 
+const noneRadioOption = { label: LABELS.triggerTypeAutomatically, value: NONE };
+const beforeSaveRadioOption = {
+    label: LABELS.triggerTypeRecordUpdateOrCreate,
+    value: BEFORE_SAVE
+};
+const scheduledRadioOption = {
+    label: LABELS.triggerTypeScheduled,
+    value: SCHEDULED
+};
 /**
  * Screen for the start element
  */
@@ -155,31 +165,25 @@ export default class StartEditor extends LightningElement {
     }
 
     get triggerTypeOptions() {
-        return [
-            {
-                label: LABELS.triggerTypeAutomatically,
-                value: NONE
-            },
-            {
-                label: LABELS.triggerTypeRecordUpdateOrCreate,
-                value: BEFORE_SAVE
-            },
-            {
-                label: LABELS.triggerTypeScheduled,
-                value: SCHEDULED
-            }
-        ];
+        const triggerOptions = [noneRadioOption, scheduledRadioOption];
+
+        // Checking if before save is enabled
+        if (orgHasBeforeSaveEnabled()) {
+            triggerOptions.splice(1, 0, beforeSaveRadioOption);
+        }
+
+        return triggerOptions;
     }
 
     get createOrUpdateOptions() {
         return [
             {
-                label: LABELS.triggerTypeUpdated,
-                value: UPDATE
-            },
-            {
                 label: LABELS.triggerTypeCreated,
                 value: CREATE
+            },
+            {
+                label: LABELS.triggerTypeUpdated,
+                value: UPDATE
             },
             {
                 label: LABELS.triggerTypeCreatedOrUpdated,
