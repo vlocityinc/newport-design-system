@@ -58,10 +58,11 @@
   &:focus{
     outline: none;
     background-clip: padding-box;
-
-    // so far the only use case for focus has been for error
-    &.nds-scoped-notification--error{
-      box-shadow: $newport-color-requirement-msz 0 0 0 2px inset;
-    }
   }
+
+  // so far the only use case for focus has been for error
+  &.nds-scoped-notification--error:focus{
+    box-shadow: $newport-color-requirement-msz 0 0 0 2px inset;
+  }
+
 }
