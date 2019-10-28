@@ -1,9 +1,9 @@
-.omni-typeahead {
+.nds-omni-typeahead {
   & ~ * {
       display: none;
   }
 
-  &.is-edit-mode ~ * {
+  &.nds-is-edit-mode ~ * {
       display: initial;
   }
 }
