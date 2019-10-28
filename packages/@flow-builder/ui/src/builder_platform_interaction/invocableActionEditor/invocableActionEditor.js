@@ -253,7 +253,10 @@ export default class InvocableActionEditor extends LightningElement {
             warnings,
             storeOutputAutomatically,
             automaticOutputHandlingSupported,
-            emptyInputsOutputsBody: this.labels.emptyInputsOutputsBody,
+            emptyInputsOutputsBody: format(
+                this.labels.emptyInputsOutputsBody,
+                ACTION_TYPE_LABEL[this.elementType]
+            ),
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }

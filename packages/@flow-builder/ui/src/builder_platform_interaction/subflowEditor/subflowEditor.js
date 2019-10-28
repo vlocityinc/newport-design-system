@@ -236,7 +236,11 @@ export default class SubflowEditor extends LightningElement {
             inputs,
             outputs,
             warnings,
-            emptyInputsOutputsBody: this.labels.emptyInputsOutputsBody,
+            automaticOutputHandlingSupported: false, // automatic output handling are not supported yet for subflows
+            emptyInputsOutputsBody: format(
+                this.labels.emptyInputsOutputsBody,
+                this.labels.subflowTypeLabel
+            ),
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }

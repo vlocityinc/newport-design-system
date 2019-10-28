@@ -133,7 +133,10 @@ export default class ApexPluginEditor extends LightningElement {
             warnings,
             storeOutputAutomatically: false, // automatic output handling are not supported for apex plugin
             automaticOutputHandlingSupported: false, // automatic output handling are not supported for apex plugin
-            emptyInputsOutputsBody: this.labels.emptyInputsOutputsBody,
+            emptyInputsOutputsBody: format(
+                this.labels.emptyInputsOutputsBody,
+                this.labels.apexPluginTypeLabel
+            ),
             emptyInputsOutputsTitle: this.labels.emptyInputsOutputsTitle
         };
     }
