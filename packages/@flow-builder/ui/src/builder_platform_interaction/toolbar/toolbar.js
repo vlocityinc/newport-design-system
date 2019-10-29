@@ -95,11 +95,17 @@ export default class Toolbar extends LightningElement {
         return !!this.saveAndPendingOperationStatus;
     }
 
-    get statusIndicatorTitle() {
-        if (
+    get isDoingOperation() {
+        return (
             this.saveAndPendingOperationStatus === this.labels.savingStatus ||
             this.saveAndPendingOperationStatus === this.labels.activating ||
             this.saveAndPendingOperationStatus === this.labels.deactivating
+        );
+    }
+
+    get statusIndicatorTitle() {
+        if (
+            this.isDoingOperation
         ) {
             return this.saveAndPendingOperationStatus;
         }
@@ -111,9 +117,7 @@ export default class Toolbar extends LightningElement {
 
     get activationStatus() {
         if (
-            this.saveAndPendingOperationStatus === this.labels.savingStatus ||
-            this.saveAndPendingOperationStatus === this.labels.activating ||
-            this.saveAndPendingOperationStatus === this.labels.deactivating
+            this.isDoingOperation
         ) {
             return this.saveAndPendingOperationStatus;
         }
@@ -152,9 +156,7 @@ export default class Toolbar extends LightningElement {
         return (
             !this.flowStatus ||
             this.flowStatus === FLOW_STATUS.INVALID_DRAFT ||
-            this.saveAndPendingOperationStatus === this.labels.savingStatus ||
-            this.saveAndPendingOperationStatus === this.labels.activating ||
-            this.saveAndPendingOperationStatus === this.labels.deactivating ||
+            this.isDoingOperation ||
             this.hasUnsavedChanges
         );
     }
