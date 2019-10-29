@@ -372,7 +372,7 @@ export default class Editor extends LightningElement {
             });
         }
         if (data && data.metadata) {
-            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode);
+            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.status);
         }
     };
 
@@ -526,7 +526,7 @@ export default class Editor extends LightningElement {
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
 
         if (data) {
-            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode);
+            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode, data.status);
         }
     };
 

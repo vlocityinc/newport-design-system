@@ -630,6 +630,6 @@ export const setErrorMessage = (modal, message) => {
  * Whether user can run & debug without VAD.
  * @param flow run in mode
  */
-export const canRunDebugWith = runInMode => {
-    return !(runInMode === 'SystemModeWithSharing' && !canUserVAD());
+export const canRunDebugWith = (runInMode, status) => {
+    return status === 'Active' || !(runInMode === 'SystemModeWithSharing' && !canUserVAD());
 };
