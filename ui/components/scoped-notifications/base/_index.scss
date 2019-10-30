@@ -44,3 +44,26 @@
     }
   }
 }
+
+/**
+ *
+ * @name form
+ * @summary This has modifications to accept and display focus in certain scenarios
+ * @selector .nds-scoped-notification_form
+ * @restrict .nds-scoped-notification
+ */
+ .nds-scoped-notification_form {
+  border-radius: .25rem;
+
+  &:focus{
+    outline: none;
+    background-clip: padding-box;
+  }
+
+  // so far the only use case for focus has been for error
+  &.nds-scoped-notification--error:focus,
+  &.nds-scoped-notification_error:focus{
+    box-shadow: $newport-color-requirement-msz 0 0 0 2px inset;
+  }
+
+}
