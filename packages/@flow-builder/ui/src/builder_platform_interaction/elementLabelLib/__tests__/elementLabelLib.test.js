@@ -194,6 +194,11 @@ describe('elementLabelLib', () => {
             );
             expect(typeLabel).toEqual(LABELS.variableSingularLabel);
         });
+        it('returns Variable for action with anonymous string output as resource', () => {
+            expect(
+                getResourceTypeLabel(apexCallAutomaticAnonymousStringOutput)
+            ).toEqual(LABELS.variableSingularLabel);
+        });
     });
     describe('getElementCategory', () => {
         it('for elements', () => {

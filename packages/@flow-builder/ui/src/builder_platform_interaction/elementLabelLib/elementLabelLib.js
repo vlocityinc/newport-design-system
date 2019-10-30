@@ -209,7 +209,8 @@ export function getResourceTypeLabel({
     elementType,
     dataType,
     isCollection = false,
-    storeOutputAutomatically
+    storeOutputAutomatically,
+    isSystemGeneratedOutput
 }) {
     let typeLabel;
     if (
@@ -218,7 +219,14 @@ export function getResourceTypeLabel({
     ) {
         typeLabel = LABELS.variableSingularLabel;
     } else if (!isComplexType(dataType)) {
-        if (!isCollection) {
+        if (
+            isAnonymousPrimitiveOutputResource({
+                isSystemGeneratedOutput,
+                dataType
+            })
+        ) {
+            typeLabel = LABELS.variableSingularLabel;
+        } else if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.singular) {
                 typeLabel = config.labels.singular;

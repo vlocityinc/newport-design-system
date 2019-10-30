@@ -65,11 +65,13 @@ export default class LeftPanel extends LightningElement {
         // Ideally, we should not use shadowRoot to access the child components. The base components
         // should provide overidden focus() method to set focus within the components.
         // However, this method is missing for lightning-tabset. Hence, implemented such for now.
-        const activeTab = this.template.querySelector('lightning-tabset').activeTabValue;
-        this.template.querySelector('lightning-tabset').shadowRoot
-                     .querySelector('lightning-tab-bar').shadowRoot
-                     .querySelector('a#' + activeTab + '__item')
-                     .focus();
+        const activeTab = this.template.querySelector('lightning-tabset')
+            .activeTabValue;
+        this.template
+            .querySelector('lightning-tabset')
+            .shadowRoot.querySelector('lightning-tab-bar')
+            .shadowRoot.querySelector('a#' + activeTab + '__item')
+            .focus();
     }
 
     constructor() {
@@ -262,7 +264,9 @@ export default class LeftPanel extends LightningElement {
                 ),
                 asResource,
                 storeOutputAutomatically:
-                    currentElementState.storeOutputAutomatically
+                    currentElementState.storeOutputAutomatically,
+                isSystemGeneratedOutput:
+                    currentElementState.isSystemGeneratedOutput
             };
         } else {
             this.showResourceDetailsPanel = false;

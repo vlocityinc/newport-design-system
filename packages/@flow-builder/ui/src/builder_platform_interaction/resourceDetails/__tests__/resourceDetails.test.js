@@ -14,7 +14,8 @@ import {
     mockApexActionNotInAutomaticOutputsModeResourceDetails,
     mockAccountRecordVariable,
     mockCreateRecordAutomaticOutputModeResourceDetails,
-    mockCreateRecordNotInAutomaticOutputModeResourceDetails
+    mockCreateRecordNotInAutomaticOutputModeResourceDetails,
+    mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails
 } from 'mock/resourceDetailsData';
 import { LABELS } from '../resourceDetailsLabels';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
@@ -355,6 +356,20 @@ describe('Resource Details', () => {
                 );
 
                 expect(apiName).toContain('apex_action1');
+            });
+        });
+        describe('Action (Apex action) with anonymous output as a resource', () => {
+            let resourceDetailsComponent;
+            beforeEach(() => {
+                resourceDetailsComponent = createComponentUnderTest(
+                    mockApexActionInAutomaticOutputsModeAnonymousStringResourceDetails
+                );
+            });
+            it('should not display "Parameters" section (element type supported)', () => {
+                const resourceDetailsParametersComponent = resourceDetailsComponent.shadowRoot.querySelector(
+                    SELECTORS.resourceDetailsParameters
+                );
+                expect(resourceDetailsParametersComponent).toBeNull();
             });
         });
         describe('"Create Record" as a resource', () => {
