@@ -42,14 +42,18 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
  * This will also probably use a label service eventually.
  *
  * @param {String} dataType  datatype of an element
- * @param {String} subtype  object type or apex class of an element, if exists
  * @param {String} label  the label of an element, if exists
+ * @param {Object} resource the resource we're getting the subtext of
+ * @param {String} resource.subtype  object type or apex class of an element, if exists
+ * @param {Boolean} resource.isSystemGeneratedOutput whether or not that's an anonymous output
  * @returns {String} the subtext to display in a combobox row
  */
-function getSubText(dataType, subtype, label) {
+function getSubText(dataType, label, { subtype, isSystemGeneratedOutput }) {
     let subText = '';
     if (dataType === SOBJECT_TYPE) {
         subText = subtype;
+    } else if (dataType && isSystemGeneratedOutput) {
+        subText = getDataTypeLabel(dataType);
     } else if (label) {
         subText = label;
     } else if (dataType) {
@@ -397,7 +401,7 @@ export function mutateFlowResourceToComboboxShape(resource) {
     );
     newElement.subText = isNonElement
         ? resource.description
-        : getSubText(resourceDataType, resource.subtype, resourceLabel);
+        : getSubText(resourceDataType, resourceLabel, resource);
 
     newElement.hasNext =
         isComplexType(resourceDataType) && !resource.isCollection;

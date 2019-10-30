@@ -16,12 +16,27 @@ import {
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX
 } from 'builder_platform_interaction/systemLib';
-import { apexCallAutomaticAnonymousStringOutput } from 'mock/storeData';
+import {
+    apexCallAutomaticAnonymousStringOutput,
+    apexCallAutomaticAnonymousAccountOutput
+} from 'mock/storeData';
+
+let mockDataTypeLabel;
+const mockImplementationForGetDataTypeLabel = dataType => {
+    const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
+    return mockDataTypeLabel
+        ? jest.fn().mockName('getDataTypeLabel')
+        : actual.getDataTypeLabel(dataType);
+};
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
     const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
     return {
-        getDataTypeLabel: jest.fn().mockName('getDataTypeLabel'),
+        getDataTypeLabel: jest
+            .fn()
+            .mockImplementation(dataType =>
+                mockImplementationForGetDataTypeLabel(dataType)
+            ),
         getDataTypeIcons: jest.fn().mockName('getDataTypeIcons'),
         FLOW_DATA_TYPE: actual.FLOW_DATA_TYPE,
         FEROV_DATA_TYPE: actual.FEROV_DATA_TYPE,
@@ -81,6 +96,7 @@ describe('menuDataGenerator', () => {
                 dataType: 'sfdcDataType'
             };
             mockGetResourceCategory = true;
+            mockDataTypeLabel = true;
         });
         it('calls getDataTypeLabel when given a non sobject resource with no label', () => {
             mutateFlowResourceToComboboxShape(mockResource);
@@ -133,6 +149,26 @@ describe('menuDataGenerator', () => {
             expect(mutatedResource.category).toEqual(
                 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL'
             );
+        });
+        it('sets Text subtext to action with anonymous string output as resource', () => {
+            mockGetResourceCategory = false;
+            mockDataTypeLabel = false;
+            const mutatedResource = mutateFlowResourceToComboboxShape(
+                apexCallAutomaticAnonymousStringOutput
+            );
+
+            expect(mutatedResource.subText).toEqual(
+                'FlowBuilderDataTypes.textDataTypeLabel'
+            );
+        });
+        it('sets Account subtext to action with anonymous account output as resource', () => {
+            mockGetResourceCategory = false;
+            mockDataTypeLabel = false;
+            const mutatedResource = mutateFlowResourceToComboboxShape(
+                apexCallAutomaticAnonymousAccountOutput
+            );
+
+            expect(mutatedResource.subText).toEqual('Account');
         });
     });
     describe('mutatePicklistValue', () => {
