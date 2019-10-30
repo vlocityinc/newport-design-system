@@ -87,3 +87,4 @@ export {
     getSupportedFeatures,
     setSupportedFeatures
 } from './supportedFeatures';
+export { getBuilderConfigs, setBuilderConfigs } from './builderConfigs';

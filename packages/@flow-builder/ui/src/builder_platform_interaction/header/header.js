@@ -15,8 +15,16 @@ export default class Header extends LightningElement {
     @api
     helpUrl;
 
+    @api
+    builderIcon;
+
+    @api
+    builderName;
+
     @api focus() {
-        const headerFocusableElement = this.template.querySelector('[href].test-back-url');
+        const headerFocusableElement = this.template.querySelector(
+            '[href].test-back-url'
+        );
         if (headerFocusableElement) {
             headerFocusableElement.focus();
         }
@@ -52,6 +60,14 @@ export default class Header extends LightningElement {
             return this.helpUrl;
         }
         return null;
+    }
+
+    get iconName() {
+        return this.builderIcon || 'utility:flow';
+    }
+
+    get name() {
+        return this.builderName || LABELS.appNameText;
     }
 
     handleClickHelp() {

@@ -30,7 +30,7 @@ const selectors = {
 };
 
 describe('HEADER', () => {
-    it('checks the rendering FLOW UTILITY Icon', () => {
+    it('checks the rendering of default FLOW UTILITY Icon', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
             expect(
@@ -40,13 +40,37 @@ describe('HEADER', () => {
         });
     });
 
-    it('checks the rendering APP NAME label', () => {
+    it('checks the rendering of default APP NAME label', () => {
         const headerComponent = createComponentForTest();
         return Promise.resolve().then(() => {
             expect(
                 headerComponent.shadowRoot.querySelector(selectors.appName)
                     .textContent
             ).toEqual(LABELS.appNameText);
+        });
+    });
+
+    it('checks the rendering of configured icon', () => {
+        const testIcon = 'utility:testIcon';
+        const headerComponent = createComponentForTest();
+        headerComponent.builderIcon = testIcon;
+        return Promise.resolve().then(() => {
+            expect(
+                headerComponent.shadowRoot.querySelector(selectors.flowIcon)
+                    .iconName
+            ).toEqual(testIcon);
+        });
+    });
+
+    it('checks the rendering of configured builder name', () => {
+        const testBuilderName = 'testBuilder';
+        const headerComponent = createComponentForTest();
+        headerComponent.builderName = testBuilderName;
+        return Promise.resolve().then(() => {
+            expect(
+                headerComponent.shadowRoot.querySelector(selectors.appName)
+                    .textContent
+            ).toEqual(testBuilderName);
         });
     });
 

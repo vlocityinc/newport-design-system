@@ -96,7 +96,9 @@ import {
     getProcessTypes,
     setProcessTypes,
     getRunInModes,
-    setRunInModes
+    setRunInModes,
+    getBuilderConfigs,
+    setBuilderConfigs
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
@@ -200,6 +202,9 @@ export default class Editor extends LightningElement {
     @track
     isRedoDisabled = true;
 
+    @track
+    builderConfig = {};
+
     propertyEditorBlockerCalls = [];
 
     constructor() {
@@ -230,6 +235,9 @@ export default class Editor extends LightningElement {
         unsubscribeStore = storeInstance.subscribe(this.mapAppStateToStore);
         fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data =>
             this.getHeaderUrlsCallBack(data)
+        );
+        fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS).then(data =>
+            setBuilderConfigs(data)
         );
         this.retrieveApexInfo();
         this.keyboardInteractions = new KeyboardInteractions();
@@ -325,6 +333,9 @@ export default class Editor extends LightningElement {
                     }
                 })
             );
+
+            // Set Builder Configuration
+            this.setBuilderConfig(currentState.properties.processType);
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
@@ -621,6 +632,25 @@ export default class Editor extends LightningElement {
                 'beforeunload',
                 this.beforeUnloadCallback
             );
+        }
+    };
+
+    /**
+     * Return the appropriate builder config based on process type.
+     * NOTE: starting in 226 we are going have the builder type as a UI parameter that different builders
+     * like Journey Builder can set on initialization that will then drive the builder config.
+     * At that point we won't need to do this process type check and we can fetch the config directly.
+     */
+    setBuilderConfig = processType => {
+        const builderConfigs = getBuilderConfigs();
+        if (builderConfigs) {
+            this.builderConfig =
+                Object.values(builderConfigs).find(config => {
+                    return (
+                        config.supportedProcessTypes &&
+                        config.supportedProcessTypes.includes(processType)
+                    );
+                }) || {};
         }
     };
 
