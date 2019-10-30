@@ -781,6 +781,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             this.lhsParamTypes,
             {
                 isDisplayedAsFieldReference,
+                shouldBeWritable: this.lhsMustBeWritable,
                 allowSObjectFieldsTraversal:
                     this.objectType == null && !this.lhsMustBeWritable
             }
@@ -818,7 +819,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isDisplayedAsFieldReference,
                 isFerov: !this.rhsIsFer,
                 picklistValues,
-                allowSObjectFieldsTraversal: !shouldBeWritable
+                shouldBeWritable
             }
         );
     }
@@ -883,7 +884,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             isDisplayedAsFieldReference = true,
             isFerov = false,
             picklistValues = [],
-            shouldBeWritable = false
+            shouldBeWritable = false,
+            allowSObjectFieldsTraversal = true
         } = {}
     ) {
         const config = {
@@ -899,7 +901,9 @@ export default class BaseExpressionBuilder extends LightningElement {
                 allowedParamTypes: paramTypes,
                 showAsFieldReference: isDisplayedAsFieldReference,
                 showSubText: SHOW_SUBTEXT,
-                allowSObjectFieldsTraversal: !shouldBeWritable
+                shouldBeWritable,
+                allowSObjectFieldsTraversal:
+                    !shouldBeWritable && allowSObjectFieldsTraversal
             });
         };
 
@@ -919,7 +923,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 (!this.state[preFetchedFields] ||
                     preFetchedFieldsSubtype !== parentMenuItem.subtype)
             ) {
-                getChildrenItems(config, parentMenuItem).then(items =>
+                getChildrenItems(parentMenuItem).then(items =>
                     setFieldMenuData(items)
                 );
             } else {

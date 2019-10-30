@@ -1,9 +1,9 @@
 import { getMenuData } from '../resourcePickerUtils';
 import {
     filterAndMutateMenuData,
-    filterFieldsForChosenElement,
-    getStoreElements
+    filterFieldsForChosenElement
 } from '../menuDataRetrieval';
+import { getStoreElements } from '../storeElementsFilter';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 
@@ -30,12 +30,15 @@ jest.mock('../menuDataRetrieval', () => {
         getChildrenItems: require.requireActual('../menuDataRetrieval')
             .getChildrenItems,
         filterFieldsForChosenElement: jest.fn(),
-        getStoreElements: jest.fn(storeState => {
-            return storeState;
-        }),
         filterAndMutateMenuData: jest.fn()
     };
 });
+
+jest.mock('../storeElementsFilter', () => ({
+    getStoreElements: jest.fn(storeState => {
+        return storeState;
+    })
+}));
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
@@ -97,7 +100,8 @@ describe('resourcePickerUtils', () => {
                     allowedParamTypes: paramTypes,
                     allowSObjectFieldsTraversal: true,
                     showAsFieldReference: true,
-                    showSubText: true
+                    showSubText: true,
+                    shouldBeWritable: false
                 }
             );
         });
@@ -124,7 +128,8 @@ describe('resourcePickerUtils', () => {
                     allowedParamTypes: paramTypes,
                     showAsFieldReference: true,
                     showSubText: true,
-                    allowSObjectFieldsTraversal: true
+                    allowSObjectFieldsTraversal: true,
+                    shouldBeWritable: false
                 }
             );
         });

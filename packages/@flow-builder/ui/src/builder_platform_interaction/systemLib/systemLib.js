@@ -10,7 +10,15 @@ import {
     SYSTEM_VARIABLE_RECORD_PREFIX
 } from './systemVariables';
 
-const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [GLOBAL_CONSTANT_PREFIX, SYSTEM_VARIABLE_PREFIX, SYSTEM_VARIABLE_CLIENT_PREFIX];
+const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [
+    GLOBAL_CONSTANT_PREFIX,
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX
+];
+const SYSTEM_VARIABLES = [
+    SYSTEM_VARIABLE_PREFIX,
+    SYSTEM_VARIABLE_CLIENT_PREFIX
+];
 
 /**
  * Checks if the id passed in might point to a non-element resource such as
@@ -19,9 +27,21 @@ const GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES = [GLOBAL_CONSTANT_PREFIX, SYSTEM_VA
  * @param {String} id             id to check
  * @returns {Boolean}    true if the id might point to a non-element resource, false otherwise
  */
-export const isGlobalConstantOrSystemVariableId = (id) => !!id && GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
-export const isRecordSystemVariableIdentifier = (id) => !!id && typeof id === 'string' && id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
-export const isRecordSystemVariableCompositeIdentifier = (id) => !!id && typeof id === 'string' && isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
+export const isGlobalConstantOrSystemVariableId = id =>
+    !!id &&
+    GLOBAL_CONSTANTS_AND_SYSTEM_VARIABLES.indexOf(
+        removeCurlyBraces(id).split('.')[0]
+    ) >= 0;
+export const isSystemVariableId = id =>
+    !!id && SYSTEM_VARIABLES.indexOf(removeCurlyBraces(id).split('.')[0]) >= 0;
+export const isRecordSystemVariableIdentifier = id =>
+    !!id &&
+    typeof id === 'string' &&
+    id.toUpperCase() === SYSTEM_VARIABLE_RECORD_PREFIX.toUpperCase();
+export const isRecordSystemVariableCompositeIdentifier = id =>
+    !!id &&
+    typeof id === 'string' &&
+    isRecordSystemVariableIdentifier(removeCurlyBraces(id).split('.')[0]);
 
 /**
  * Returns Global Constant or System Variable referenced by id
@@ -62,10 +82,7 @@ export {
     getProcessFeatures,
     setProcessTypeFeature
 } from './processTypes';
-export {
-    setRunInModes,
-    getRunInModes,
-} from './runInModes';
+export { setRunInModes, getRunInModes } from './runInModes';
 export {
     getSupportedFeatures,
     setSupportedFeatures

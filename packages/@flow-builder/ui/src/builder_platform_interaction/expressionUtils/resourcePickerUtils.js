@@ -1,38 +1,30 @@
 import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
-    getStoreElements,
     getChildrenItems
 } from './menuDataRetrieval';
+import { getStoreElements } from './storeElementsFilter';
 
 const getFieldMenuData = (
-    elementConfig,
     populateParamTypesFn,
     parentItem,
     entityFields,
-    { allowSObjectFieldsTraversal = true } = {}
+    { allowSObjectFieldsTraversal = true, shouldBeWritable = false } = {}
 ) => {
-    const showAsFieldReference = true;
-    const showSubText = true;
-
-    const allowedParamTypes = populateParamTypesFn();
+    const options = {
+        allowedParamTypes: populateParamTypesFn(),
+        showAsFieldReference: true,
+        showSubText: true,
+        allowSObjectFieldsTraversal,
+        shouldBeWritable
+    };
     if (entityFields) {
         return Promise.resolve(
-            filterFieldsForChosenElement(parentItem, entityFields, {
-                allowedParamTypes,
-                showAsFieldReference,
-                showSubText,
-                allowSObjectFieldsTraversal
-            })
+            filterFieldsForChosenElement(parentItem, entityFields, options)
         );
     }
-    return getChildrenItems(elementConfig, parentItem).then(fields =>
-        filterFieldsForChosenElement(parentItem, fields, {
-            allowedParamTypes,
-            showAsFieldReference,
-            showSubText,
-            allowSObjectFieldsTraversal
-        })
+    return getChildrenItems(parentItem).then(fields =>
+        filterFieldsForChosenElement(parentItem, fields, options)
     );
 };
 
@@ -102,15 +94,12 @@ export const getMenuData = (
     } = {}
 ) => {
     if (parentItem) {
-        return getFieldMenuData(
-            elementConfig,
-            populateParamTypesFn,
-            parentItem,
-            fields,
-            {
-                allowSObjectFieldsTraversal
-            }
-        );
+        return getFieldMenuData(populateParamTypesFn, parentItem, fields, {
+            allowSObjectFieldsTraversal,
+            shouldBeWritable: !!(
+                elementConfig && elementConfig.shouldBeWritable
+            )
+        });
     }
     return Promise.resolve(
         getFerovMenuData(

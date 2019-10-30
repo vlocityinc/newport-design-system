@@ -1,11 +1,11 @@
 import {
     getElementsForMenuData,
     getEntitiesMenuData,
-    getStoreElements,
     filterAndMutateMenuData,
     getEventTypesMenuData,
     getChildrenItems,
-    getResourceTypesMenuData
+    getResourceTypesMenuData,
+    filterFieldsForChosenElement
 } from '../menuDataRetrieval.js';
 import {
     numberParamCanBeAnything,
@@ -42,7 +42,6 @@ import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtension
 import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
 import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { getScreenElement } from '../resourceUtils';
 import { mockScreenElement } from 'mock/calloutData';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 
@@ -54,25 +53,6 @@ const collectionVariable = LABELS.collectionVariablePluralLabel.toUpperCase();
 const sobjectVariable = LABELS.sObjectPluralLabel.toUpperCase();
 const sobjectCollectionVariable = LABELS.sObjectCollectionPluralLabel.toUpperCase();
 const screenFieldVariable = LABELS.screenFieldPluralLabel.toUpperCase();
-
-/*
-    Desired format output from getStoreElements
-    [
-        {
-         label: "Collection Variable",
-         items: [{collStrVar1}, {collStrVar2}]
-        },
-        {
-         label: "SObject Variable",
-         items: [{accVar1}]
-        },
-        {
-         label: "Variable",
-         items: [{numVar1}]
-        },
-        ...
-    ]
- */
 
 const sampleNumberParamTypes = {
     Number: [numberParamCanBeAnything],
@@ -690,36 +670,6 @@ describe('Menu data retrieval', () => {
         });
     });
 
-    describe('get store elements', () => {
-        afterEach(() => {
-            getScreenElement.mockReset();
-        });
-        // TODO: W-5470931 more tests for getStoreElements
-        it('returns elements based on element type - source data from store alone', () => {
-            selectorsMock.readableElementsSelector.mockReturnValue([
-                store.outcome
-            ]);
-            getScreenElement.mockReturnValue(null);
-            const menuData = getStoreElements(jest.fn(), {
-                elementType: ELEMENT_TYPE.ASSIGNMENT,
-                shouldBeWritable: false
-            });
-            expect(menuData).toHaveLength(1);
-        });
-
-        it('returns elements based on element type - source data from store and localstorage', () => {
-            selectorsMock.readableElementsSelector.mockReturnValue([
-                store.outcome
-            ]);
-            getScreenElement.mockReturnValue(mockScreenElement);
-            const menuData = getStoreElements(jest.fn(), {
-                elementType: ELEMENT_TYPE.ASSIGNMENT,
-                shouldBeWritable: false
-            });
-            expect(menuData).toHaveLength(4);
-        });
-    });
-
     describe('Filter and mutate menu data', () => {
         it('filters using data type param and returns in format combobox expects', () => {
             const menuData = filterAndMutateMenuData(
@@ -854,39 +804,16 @@ describe('Menu data retrieval', () => {
                 setSystemVariables(systemVariables);
                 mockSystemVariables = getSystemVariables();
             });
-            it('returns all system variables when shouldBeWritable is false', async () => {
-                const mockConfig = {
-                    elementType: ELEMENT_TYPE.WAIT,
-                    shouldBeWritable: false
-                };
-                const items = await getChildrenItems(mockConfig, {
+            it('returns all system variables', async () => {
+                const items = await getChildrenItems({
                     subtype: SYSTEM_VARIABLE_PREFIX
                 });
                 expectFieldsAreComplexTypeFieldDescriptions(items);
                 expect(items).toEqual(mockSystemVariables);
             });
-
-            it('returns only writeable variables when shouldBeWritable is true', async () => {
-                const mockConfig = {
-                    elementType: ELEMENT_TYPE.WAIT,
-                    shouldBeWritable: true
-                };
-                const items = await getChildrenItems(mockConfig, {
-                    subtype: SYSTEM_VARIABLE_PREFIX
-                });
-                expect(Object.keys(items)).toHaveLength(3);
-                expect(Object.keys(items)).toContain('$Flow.CurrentStage');
-                expect(Object.keys(items)).toContain('$Flow.ActiveStages');
-                expect(Object.keys(items)).toContain('$Flow.CurrentRecord');
-                expectFieldsAreComplexTypeFieldDescriptions(items);
-            });
         });
         it('should fetch fields for sobject variables', async () => {
-            const mockConfig = {
-                elementType: ELEMENT_TYPE.WAIT,
-                shouldBeWritable: false
-            };
-            const items = await getChildrenItems(mockConfig, parentSObjectItem);
+            const items = await getChildrenItems(parentSObjectItem);
             expect(Object.keys(items)).toHaveLength(
                 Object.keys(mockAccountFields).length
             );
@@ -898,26 +825,16 @@ describe('Menu data retrieval', () => {
                     new Error('cannot get entity fields : No Access')
                 )
             );
-            const mockConfig = {
-                elementType: ELEMENT_TYPE.WAIT,
-                shouldBeWritable: false
-            };
-            const items = await getChildrenItems(mockConfig, parentSObjectItem);
+            const items = await getChildrenItems(parentSObjectItem);
             expect(items).toEqual({});
         });
         it('should fetch properties for apex variables', async () => {
-            const mockConfig = {
-                elementType: ELEMENT_TYPE.WAIT,
-                shouldBeWritable: false
-            };
-            const items = await getChildrenItems(mockConfig, parentApexItem);
+            const items = await getChildrenItems(parentApexItem);
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
-            const mockConfig = { elementType: ELEMENT_TYPE.SCREEN };
             const items = await getChildrenItems(
-                mockConfig,
                 parentLightningComponentScreenFieldItem
             );
             expect(Object.keys(items)).toEqual(
@@ -926,8 +843,7 @@ describe('Menu data retrieval', () => {
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for action with automatic handling', async () => {
-            const mockConfig = { elementType: ELEMENT_TYPE.ACTION_CALL };
-            const items = await getChildrenItems(mockConfig, parentActionItem);
+            const items = await getChildrenItems(parentActionItem);
             expect(Object.keys(items)).toEqual(
                 expect.arrayContaining(['feedItemId'])
             );
@@ -956,5 +872,36 @@ describe('Menu data retrieval', () => {
             expect(resourceTypesMenuData).toEqual(expectedResourceTypes);
         });
     });
+
+    describe('filterFieldsForChosenElement', () => {
+        beforeEach(() => {
+            setSystemVariables(systemVariables);
+        });
+        it('returns menuItems for only writeable system variables when shouldBeWritable is true', () => {
+            const chosenElement = {
+                value: '$Flow',
+                subtype: '$Flow',
+                text: '$Flow',
+                displayText: '{!$Flow}'
+            };
+            const fields = getSystemVariables();
+            const menuItems = filterFieldsForChosenElement(
+                chosenElement,
+                fields,
+                { shouldBeWritable: true }
+            );
+            expect(menuItems).toHaveLength(3);
+            expect(menuItems[0]).toMatchObject({
+                displayText: '{!$Flow.CurrentStage}'
+            });
+            expect(menuItems[1]).toMatchObject({
+                displayText: '{!$Flow.ActiveStages}'
+            });
+            expect(menuItems[2]).toMatchObject({
+                displayText: '{!$Flow.CurrentRecord}'
+            });
+        });
+    });
+
     // TODO: write tests for gettings category once we switch to using labels
 });
