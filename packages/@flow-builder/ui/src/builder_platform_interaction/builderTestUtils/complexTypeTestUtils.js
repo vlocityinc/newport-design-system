@@ -1,5 +1,8 @@
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
+/**
+ * A complex type field description has a dataType, an apiName, optionally a subtype, label and isCollection
+ */
 export const expectComplexTypeFieldDescription = field => {
     // need a dataType and apiName. isCollection and label optional
     expect(field.dataType).toBeDefined();

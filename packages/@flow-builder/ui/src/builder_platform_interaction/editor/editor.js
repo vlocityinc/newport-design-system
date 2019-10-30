@@ -102,7 +102,8 @@ import { isConfigurableStartSupported } from 'builder_platform_interaction/proce
 import { removeLastCreatedInlineResource } from 'builder_platform_interaction/actions';
 import {
     loadFieldsForComplexTypesInFlow,
-    loadParametersForInvocableApexActionsInFlowFromMetadata
+    loadParametersForInvocableApexActionsInFlowFromMetadata,
+    loadReferencesIn
 } from 'builder_platform_interaction/preloadLib';
 import {
     ShiftFocusForwardCommand,
@@ -372,7 +373,10 @@ export default class Editor extends LightningElement {
             });
         }
         if (data && data.metadata) {
-            this.canRunDebugWithVAD = canRunDebugWith(data.metadata.runInMode, data.metadata.status);
+            this.canRunDebugWithVAD = canRunDebugWith(
+                data.metadata.runInMode,
+                data.metadata.status
+            );
         }
     };
 
@@ -526,7 +530,10 @@ export default class Editor extends LightningElement {
         this.flowErrorsAndWarnings = setFlowErrorsAndWarnings(data);
 
         if (data) {
-            this.canRunDebugWithVAD = canRunDebugWith(data.runInMode, data.status);
+            this.canRunDebugWithVAD = canRunDebugWith(
+                data.runInMode,
+                data.status
+            );
         }
     };
 
@@ -806,6 +813,12 @@ export default class Editor extends LightningElement {
 
     queueOpenPropertyEditor = params => {
         this.spinners.showPropertyEditorSpinner = true;
+        if (params.node) {
+            // load all references in node
+            this.propertyEditorBlockerCalls.push(
+                loadReferencesIn(params.node).catch(() => {})
+            );
+        }
         Promise.all(this.propertyEditorBlockerCalls)
             .then(() => {
                 this.spinners.showPropertyEditorSpinner = false;

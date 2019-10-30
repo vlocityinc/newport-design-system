@@ -71,6 +71,7 @@ export const apexCarVariable = getElementByName('apexCarVariable');
 export const createAccountWithAutomaticOutput = getElementByName('createAccountWithAutomaticOutput');
 export const lightningCompAutomaticOutputContainsAccountExtension = getElementByName('lightningCompWithAccountOutput');
 export const lightningCompAutomaticOutputNoSObjectExtension = getElementByName('lightningCompWithNoAccountOutput');
+export const feedItemVariable = getElementByName('feedItemVariable');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

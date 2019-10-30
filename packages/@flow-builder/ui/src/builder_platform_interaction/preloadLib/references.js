@@ -1,0 +1,35 @@
+import { resolveReferenceFromIdentifier } from 'builder_platform_interaction/mergeFieldLib';
+import {
+    recursiveSwap,
+    swapValueFunction
+} from 'builder_platform_interaction/translatorLib';
+
+/**
+ * Resolve all references present in given object (generally a flowElement in UI model format)
+ *
+ * @param {Object} object in UI model format. References are uids like 'a4451815-988d-4f17-883d-64b6ad9fab7e.Account.User.Name'
+ * @returns {Promise} the promise is resolved once all references have been resolved (description retrieved from server if necessary)
+ */
+export function loadReferencesIn(object) {
+    const promises = [];
+    let firstError;
+    const loadReferenceFromUid = uid => {
+        promises.push(
+            resolveReferenceFromIdentifier(uid).catch(error => {
+                firstError = error;
+            })
+        );
+        return uid;
+    };
+
+    recursiveSwap(object, (parentObject, fieldName, value) =>
+        swapValueFunction(loadReferenceFromUid, parentObject, fieldName, value)
+    );
+    return Promise.all(promises).then(result => {
+        if (firstError) {
+            throw firstError;
+        } else {
+            return result;
+        }
+    });
+}
