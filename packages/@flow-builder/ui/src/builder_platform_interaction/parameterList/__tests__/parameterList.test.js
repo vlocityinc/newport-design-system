@@ -524,7 +524,10 @@ describe('parameter-list', () => {
         let parameterList;
         beforeEach(() => {
             parameterList = createComponentForTest(
-                parameterListWithConfigurationEditor(false, true, 'c:helloWord')
+                parameterListWithConfigurationEditor(false, true, {
+                    name: 'c:helloWord',
+                    errors: []
+                })
             );
         });
         it('should create configuration editor component if configuration editor is defined', () => {

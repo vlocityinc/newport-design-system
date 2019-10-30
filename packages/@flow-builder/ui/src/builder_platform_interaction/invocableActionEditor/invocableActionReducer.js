@@ -5,7 +5,8 @@ import {
     UpdateParameterItemEvent,
     PropertyChangedEvent,
     DeleteParameterItemEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    UseAdvancedOptionsSelectionChangedEvent,
+    ConfigurationEditorChangeEvent
 } from 'builder_platform_interaction/events';
 import {
     updateParameterItem,
@@ -14,7 +15,8 @@ import {
     deleteParameterItem,
     MERGE_WITH_PARAMETERS,
     REMOVE_UNSET_PARAMETERS,
-    updateUseAdvancedOptionSelection
+    updateUseAdvancedOptionSelection,
+    updateInputParameterItemConfigurationEditor
 } from 'builder_platform_interaction/calloutEditorLib';
 
 const invocableActionPropertyChanged = (state, event) => {
@@ -36,7 +38,7 @@ const invocableActionPropertyChanged = (state, event) => {
  * @param {object} event  event to process
  * @returns {object}    the updated action call node
  */
-export const invocableActionReducer = (state, event) => {
+export const invocableActionReducer = (state, event, elements) => {
     switch (event.type) {
         case PropertyChangedEvent.EVENT_NAME:
             return invocableActionPropertyChanged(state, event);
@@ -52,6 +54,8 @@ export const invocableActionReducer = (state, event) => {
             return removeUnsetParameters(state);
         case VALIDATE_ALL:
             return invocableActionValidation.validateAll(state);
+        case ConfigurationEditorChangeEvent.EVENT_NAME:
+            return updateInputParameterItemConfigurationEditor(state, event.detail, elements);
         default:
             return state;
     }

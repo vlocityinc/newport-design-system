@@ -11,6 +11,7 @@ import {
     mergeInputOutputParameters,
     MERGE_WARNING_TYPE
 } from './calloutEditorLib';
+import { swapDevNamesToGuids } from 'builder_platform_interaction/translatorLib';
 
 export const MERGE_WITH_PARAMETERS = 'MERGE_WITH_PARAMETERS';
 export const REMOVE_UNSET_PARAMETERS = 'REMOVE_UNSET_PARAMETERS';
@@ -55,6 +56,35 @@ export const updateParameterItem = (state, param) => {
     const path = [[propertyName], paramIndex];
     state = set(state, path, updatedParam);
     return state;
+};
+
+export const updateInputParameterItemConfigurationEditor = (
+    state,
+    { id, newValueDataType: valueDataType, newValue: value },
+    elements
+) => {
+    if (!id) {
+        throw new Error('id is not defined');
+    }
+
+    if (!value) {
+        throw new Error('value is not defined');
+    }
+
+    if (!valueDataType) {
+        throw new Error('value data type is not defined');
+    }
+
+    const { rowIndex } = state.inputParameters.find(({ name }) => name === id);
+    const obj = {
+        isInput: true,
+        valueDataType,
+        value,
+        rowIndex,
+        error: null
+    };
+    swapDevNamesToGuids(elements, obj);
+    return updateParameterItem(state, obj);
 };
 
 /**

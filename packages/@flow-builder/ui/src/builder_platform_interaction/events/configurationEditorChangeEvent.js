@@ -7,13 +7,13 @@ const eventName = 'valuechanged';
  * @class ConfigurationEditorChangeEvent
  */
 export class ConfigurationEditorChangeEvent {
-    constructor(parameterName, newValue, newValueDataType) {
+    constructor(id, newValue, newValueDataType) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
             detail: {
-                parameterName,
+                id, // In case of actions, it is parameter name
                 newValue,
                 newValueDataType
             }

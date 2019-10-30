@@ -49,6 +49,16 @@ const mockConfgurationEditorProperties = [
     }
 ];
 
+const mockConfigurationEditorValues = [{
+    id: 'names',
+    value: 'Hello World',
+    dataType: 'string'
+}];
+
+const mockFlowContext = {
+    variables: []
+};
+
 function createComponentForTest(props) {
     const el = createElement(
         'builder_platform_interaction-custom-property-editor',
@@ -77,9 +87,30 @@ describe('Custom Property Editor', () => {
             mockConfgurationEditorProperties
         );
     });
+    it('gets the correct values from the proxy ', () => {
+        const cpe = createComponentForTest();
+        const proxy = new Proxy(mockConfigurationEditorValues, []);
+        cpe.configurationEditorValues = proxy;
+
+        expect(cpe.configurationEditorValues).toMatchObject(
+            mockConfigurationEditorValues
+        );
+    });
+    it('gets the correct flow context from the proxy ', () => {
+        const cpe = createComponentForTest();
+        const proxy = new Proxy(mockFlowContext, {});
+        cpe.flowContext = proxy;
+
+        expect(cpe.flowContext).toMatchObject(
+            mockFlowContext
+        );
+    });
     it('creates the config editor when there is data and a configuration editor ', () => {
         const cpe = createComponentForTest({
-            configurationEditor: 'c-test_editor'
+            configurationEditor: {
+                name: 'c-test_editor',
+                errors: []
+            }
         });
 
         const proxy = new Proxy(mockConfgurationEditorProperties, {});
@@ -91,6 +122,21 @@ describe('Custom Property Editor', () => {
     });
     it('does not create a config editor when there is no configuration editor ', () => {
         const cpe = createComponentForTest();
+
+        const proxy = new Proxy(mockConfgurationEditorProperties, {});
+        cpe.configurationEditorProperties = proxy;
+
+        return Promise.resolve().then(() => {
+            expect(createConfigurationEditor).not.toHaveBeenCalled();
+        });
+    });
+    it('does not creates the config editor when configuration editor is defined but there are errors', () => {
+        const cpe = createComponentForTest({
+            configurationEditor: {
+                name: 'c-test_editor',
+                errors: ['errors']
+            }
+        });
 
         const proxy = new Proxy(mockConfgurationEditorProperties, {});
         cpe.configurationEditorProperties = proxy;

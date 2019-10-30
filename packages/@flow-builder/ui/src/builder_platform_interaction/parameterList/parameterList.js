@@ -207,6 +207,20 @@ export default class ParameterList extends LightningElement {
     @api
     configurationEditorProperties;
 
+    @api
+    configurationEditorValues;
+
+    @api
+    validate() {
+        if (this.hasConfigurationEditor) {
+            const customPropertyEditor = this.template.querySelector('builder_platform_interaction-custom-property-editor');
+            if (customPropertyEditor) {
+                return customPropertyEditor.validate();
+            }
+        }
+        return [];
+    }
+
     get sortedInputsWithWarnings() {
         const sortedInputs = this.sortInputs
             ? this.state.inputs

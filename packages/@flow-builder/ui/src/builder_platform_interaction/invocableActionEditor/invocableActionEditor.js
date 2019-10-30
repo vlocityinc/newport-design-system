@@ -6,6 +6,7 @@ import {
 import { LABELS, ACTION_TYPE_LABEL } from './invocableActionEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import {
+    dehydrate,
     getValueFromHydratedItem,
     getErrorsFromHydratedElement
 } from 'builder_platform_interaction/dataMutationLib';
@@ -28,7 +29,8 @@ import {
     isAutomaticOutputHandlingSupported
 } from 'builder_platform_interaction/invocableActionLib';
 
-import { translateUIModelToFlow } from 'builder_platform_interaction/translatorLib';
+import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
+import { createInputParameter } from 'builder_platform_interaction/elementFactory';
 
 export default class InvocableActionEditor extends LightningElement {
     connected = false;
@@ -42,7 +44,7 @@ export default class InvocableActionEditor extends LightningElement {
     displaySpinner = true;
 
     @track
-    fetchDetailsConfigurationEditor = {};
+    invocableActionConfigurationEditorDescriptor;
 
     @track
     invocableActionDescriptor;
@@ -107,7 +109,15 @@ export default class InvocableActionEditor extends LightningElement {
             this.actionCallNode,
             event
         );
-        return getErrorsFromHydratedElement(this.actionCallNode);
+        const errors = getErrorsFromHydratedElement(this.actionCallNode);
+        if (this.configurationEditor) {
+            const baseCalloutEditor = this.template.querySelector('builder_platform_interaction-base-callout-editor');
+            if (baseCalloutEditor) {
+                const baseCalloutEditorErrors = baseCalloutEditor.validate();
+                return [...errors, ...baseCalloutEditorErrors];
+            }
+        }
+        return errors;
     }
 
     /**
@@ -140,7 +150,7 @@ export default class InvocableActionEditor extends LightningElement {
                 if (this.connected) {
                     this.displaySpinner = false;
                     this.invocableActionParametersDescriptor = parameters;
-                    this.fetchDetailsConfigurationEditor = configurationEditor;
+                    this.invocableActionConfigurationEditorDescriptor = configurationEditor;
                     const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
                         detail: parameters
                     });
@@ -268,23 +278,86 @@ export default class InvocableActionEditor extends LightningElement {
      * @memberof InvocableActionEditor
      */
     get configurationEditor() {
-        return (
-            this.fetchDetailsConfigurationEditor &&
-            this.fetchDetailsConfigurationEditor.name
-        );
+        return this.invocableActionConfigurationEditorDescriptor;
     }
 
+    /**
+     * Returns the list of input parameters and their properties
+     *
+     * @readonly
+     * @memberof InvocableActionEditor
+     */
     get configurationEditorProperties() {
-        return (
-            this.invocableActionParametersDescriptor &&
-            this.invocableActionParametersDescriptor.filter(
-                ({ isInput }) => isInput
-            )
-        );
+        if (this.configurationEditor) {
+            return (
+                this.invocableActionParametersDescriptor &&
+                this.invocableActionParametersDescriptor.filter(
+                    ({ isInput }) => isInput
+                )
+            );
+        }
+        return [];
     }
 
+    /**
+     * Returns the current flow state. Shape is same as flow metadata.
+     */
     get flowContext() {
-        return translateUIModelToFlow(Store.getStore().getCurrentState());
+        if (this.configurationEditor) {
+            const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
+            const {
+                variables = [],
+                constants = [],
+                textTemplates = [],
+                stages = [],
+                screens = [],
+                recordUpdates = [],
+                recordLookups = [],
+                recordDeletes = [],
+                recordCreates = [],
+                formulas = [],
+                apexPluginCalls = [],
+                actionCalls = []
+            } = flow.metadata;
+
+            return {
+                variables,
+                constants,
+                textTemplates,
+                stages,
+                screens,
+                recordUpdates,
+                recordLookups,
+                recordDeletes,
+                recordCreates,
+                formulas,
+                apexPluginCalls,
+                actionCalls
+            };
+        }
+        return {};
+    }
+
+    /**
+     * Returns the values for configuration editor
+     * filter the input parameters with value from actioncall node and create a new copy
+     * Dehydrate the new copy of input parameter and swap the guids with dev names
+     * then convert it into desired shape
+     */
+    get configurationEditorValues() {
+        if (this.invocableActionParametersDescriptor && this.actionCallNode && this.configurationEditor) {
+            const inputParameters = this.actionCallNode.inputParameters
+                                                        .filter(({value}) => !!value)
+                                                        .map(inputParameter => createInputParameter(inputParameter));
+            dehydrate(inputParameters);
+            swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
+            return inputParameters.map(({name, value, subtype}) => ({
+                    id: name,
+                    value,
+                    dataType: subtype
+            }));
+        }
+        return [];
     }
 
     /**
@@ -293,9 +366,11 @@ export default class InvocableActionEditor extends LightningElement {
 
     handleEvent(event) {
         event.stopPropagation();
+        const elements = Store.getStore().getCurrentState().elements;
         this.actionCallNode = invocableActionReducer(
             this.actionCallNode,
-            event
+            event,
+            elements
         );
     }
 
