@@ -16,16 +16,15 @@ export default class ConnectorPicker extends LightningElement {
     }
 
     @api getNode() {
-        return this._pickerValue;
+        return this.pickerValue;
     }
 
     get connectorPickerTitle() {
         return format(this.bodyText, this.targetElementLabel);
     }
 
-    get defaultOptionAndValue() {
-        this._pickerValue = this.comboboxOptions[0].value;
-        return this._pickerValue;
+    get pickerValue() {
+        return this._pickerValue != null || this.comboboxOptions[0].value;
     }
 
     /**
