@@ -29,8 +29,13 @@ import { generateGuid } from 'builder_platform_interaction/storeLib';
  * @since 216
  */
 
+const TOGGLE_CLASS_SHOW = 'show-advanced-button';
+const TOGGLE_CLASS_HIDE = 'hide-advanced-button';
+
 export default class FlowPropertiesEditor extends LightningElement {
     _instanceLabelId = generateGuid();
+    _toggleAdvancedClass = TOGGLE_CLASS_SHOW;
+    _toggleAdvancedLabel = LABELS.showAdvanced;
 
     @api
     get node() {
@@ -282,21 +287,16 @@ export default class FlowPropertiesEditor extends LightningElement {
             this.flowProperties,
             event
         );
-        const flowLabelValue = getValueFromHydratedItem(
-            this.flowProperties.label
-        );
-        const flowLabelError = getErrorFromHydratedItem(
-            this.flowProperties.label
-        );
-        const interviewLabel = getValueFromHydratedItem(
-            this.flowProperties.interviewLabel
-        );
-        if (flowLabelValue && !interviewLabel && !flowLabelError) {
+        const { interviewLabel, label } = this.flowProperties;
+        const flowLabelValue = getValueFromHydratedItem(label);
+        const flowLabelError = getErrorFromHydratedItem(label);
+        const newInterviewLabel = getValueFromHydratedItem(interviewLabel);
+        if (flowLabelValue && !newInterviewLabel && !flowLabelError) {
             this.updateProperty(
                 'interviewLabel',
-                flowLabelValue +
-                    ' ' +
-                    addCurlyBraces(SYSTEM_VARIABLES.CURRENT_DATE_TIME)
+                `${flowLabelValue} ${addCurlyBraces(
+                    SYSTEM_VARIABLES.CURRENT_DATE_TIME
+                )}`
             );
         }
     }
@@ -341,7 +341,14 @@ export default class FlowPropertiesEditor extends LightningElement {
     }
 
     handleAdvancedToggle(event) {
+        const { showAdvanced, hideAdvanced } = LABELS;
         event.stopPropagation();
+        this._toggleAdvancedLabel = !this.isAdvancedShown
+            ? showAdvanced
+            : hideAdvanced;
+        this._toggleAdvancedClass = !this.isAdvancedShown
+            ? TOGGLE_CLASS_SHOW
+            : TOGGLE_CLASS_HIDE;
         this.isAdvancedShown = !this.isAdvancedShown;
     }
 

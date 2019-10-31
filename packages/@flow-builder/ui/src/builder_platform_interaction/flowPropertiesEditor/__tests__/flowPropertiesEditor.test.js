@@ -257,10 +257,7 @@ describe('FlowPropertiesEditor', () => {
                 return Promise.resolve().then(() => {
                     expect(
                         getShowAdvancedButton(flowPropertiesEditor)
-                    ).toBeNull();
-                    expect(
-                        getHideAdvancedButton(flowPropertiesEditor).label
-                    ).toBe(LABELS.hideAdvanced);
+                    ).not.toBeNull();
                     expect(
                         getAdvancedProperties(flowPropertiesEditor)
                     ).not.toBeNull();
