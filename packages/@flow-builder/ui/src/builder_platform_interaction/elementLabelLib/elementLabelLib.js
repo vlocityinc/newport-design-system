@@ -3,7 +3,8 @@ import { LABELS } from './elementLabelLibLabels';
 import { getEntity } from 'builder_platform_interaction/sobjectLib';
 import {
     FLOW_DATA_TYPE,
-    isComplexType
+    isComplexType,
+    getDataTypeLabel
 } from 'builder_platform_interaction/dataTypeLib';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -87,11 +88,18 @@ export function getResourceLabel(resource) {
             // "Outputs from myAction
             label = format(LABELS.actionAsResourceText, label);
         } else if (isAnonymousPrimitiveOutputResource(resource)) {
-            label = format(
-                LABELS.actionAnonymousPrimitiveAsResourceText,
-                resource.dataType,
-                label
-            );
+            const dataTypeLabel = getDataTypeLabel(resource.dataType);
+            label = resource.isCollection
+                ? format(
+                      LABELS.actionAnonymousPrimitiveAsResourceText,
+                      format(LABELS.collectionDataType, dataTypeLabel),
+                      label
+                  )
+                : format(
+                      LABELS.actionAnonymousPrimitiveAsResourceText,
+                      dataTypeLabel,
+                      label
+                  );
         }
     }
     return label;
@@ -134,16 +142,17 @@ export function getElementTypeLabel({ elementType }) {
 /**
  * Get resource category label for the element (if possible, considered as a resource that can be used in a merge field)
  *
+ * @param {Object} resource
  * @param {String}
- *            elementType the element type of the element
+ *            resource.elementType the element type of the element
  * @param {String}
- *            dataType the datatype of the element
+ *            resource.dataType the datatype of the element
  * @param {Boolean}
- *            [isCollection=false] whether or not that element is a collection
+ *            [resource.isCollection=false] whether or not that element is a collection
  * @param {Boolean}
- *            [isSystemGeneratedOutput=false] whether or not that element is an anonymous output
+ *            [resource.isSystemGeneratedOutput=false] whether or not that element is an anonymous output
  * @param {Boolean}
- *            storeOutputAutomatically whether or not that element is in automatic outptu mode?
+ *            resource.storeOutputAutomatically whether or not that element is in automatic outptu mode?
  * @returns {String} the category label for this element
  */
 export function getResourceCategory({
@@ -166,7 +175,9 @@ export function getResourceCategory({
                 dataType
             })
         ) {
-            categoryLabel = LABELS.variablePluralLabel;
+            categoryLabel = isCollection
+                ? LABELS.collectionVariablePluralLabel
+                : LABELS.variablePluralLabel;
         } else if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.plural) {
@@ -195,14 +206,17 @@ export function getResourceCategory({
 /**
  * Get resource type label for the element (if possible, considered as a resource that can be used in a merge field)
  *
+ * @param {Object} resource
  * @param {String}
- *            elementType the element type of the element
+ *            resource.elementType the element type of the element
  * @param {String}
- *            dataType the datatype of the element
+ *            resource.dataType the datatype of the element
  * @param {Boolean}
- *            [isCollection=false] whether or not that element is a collection
+ *            [resource.isCollection=false] whether or not that element is a collection
  * @param {Boolean}
- *            storeOutputAutomatically whether or not that element is in automatic output mode
+ *            resource.storeOutputAutomatically whether or not that element is in automatic output mode
+ * @param {Boolean}
+ *            resource.isSystemGeneratedOutput whether or not it's an anonymous output
  * @returns {String} the type label for this element
  */
 export function getResourceTypeLabel({
@@ -225,7 +239,9 @@ export function getResourceTypeLabel({
                 dataType
             })
         ) {
-            typeLabel = LABELS.variableSingularLabel;
+            typeLabel = isCollection
+                ? LABELS.collectionVariableSingularLabel
+                : LABELS.variableSingularLabel;
         } else if (!isCollection) {
             const config = getConfigForElementType(elementType);
             if (config && config.labels && config.labels.singular) {

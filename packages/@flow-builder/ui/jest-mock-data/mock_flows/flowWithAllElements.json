@@ -200,6 +200,30 @@
         "inputParameters": [],
         "outputParameters": [],
         "storeOutputAutomatically": true
+      },
+      {
+        "name": "apexCall_anonymous_accounts",
+        "description": "",
+        "label": "apexCall anonymous accounts",
+        "locationX": 921,
+        "locationY": 49.3125,
+        "actionType": "apex",
+        "actionName": "GetAccounts",
+        "inputParameters": [],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
+      },
+      {
+        "name": "apexCall_anonymous_strings",
+        "description": "",
+        "label": "apexCall anonymous strings",
+        "locationX": 902,
+        "locationY": 209.3125,
+        "actionType": "apex",
+        "actionName": "InvocableGetAccountsNames",
+        "inputParameters": [],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
       }
     ],
     "assignments": [

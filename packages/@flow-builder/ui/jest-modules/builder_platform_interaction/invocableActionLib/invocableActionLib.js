@@ -4,6 +4,8 @@ import { getAccountFromApexActionDetails as mockGetAccountFromApexActionDetails 
 import { getStringFromApexActionDetails as mockGetAccountNameFromApexActionDetails } from "serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json";
 import { logACallActionDetails as mockLogACallActionDetails } from "serverData/GetInvocableActionDetails/logACallActionDetails.json";
 import { chatterPostActionDetails as mockChatterPostActionDetails } from "serverData/GetInvocableActionDetails/chatterPostActionDetails.json";
+import { getAccountsFromApexAnonymousOutputActionDetails as mockGetAccountsFromApexAnonymousOutputActionDetails } from "serverData/GetInvocableActionDetails/getAccountsFromApexAnonymousOutputActionDetails.json";
+import { getAccountsNamesFromApexAnonymousOutputActionDetails as mockGetAccountsNamesFromApexAnonymousOutputActionDetails } from "serverData/GetInvocableActionDetails/getAccountsNamesFromApexAnonymousOutputActionDetails.json";
 
 let notLoadedActionKey;
 
@@ -27,6 +29,10 @@ const mockImplementationForGetDetailsForInvocableAction = ({
       return mockGetAccountFromApexActionDetails;
     case "apex-GetAccountName":
       return mockGetAccountNameFromApexActionDetails;
+    case "apex-GetAccounts":
+      return mockGetAccountsFromApexAnonymousOutputActionDetails;
+    case "apex-InvocableGetAccountsNames":
+      return mockGetAccountsNamesFromApexAnonymousOutputActionDetails;
     default:
       return undefined;
   }

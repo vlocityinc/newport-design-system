@@ -14,7 +14,9 @@ import {
     actionCallAutomaticOutput,
     apexCallAutomaticAnonymousAccountOutput,
     apexCallAutomaticAnonymousStringOutput,
-    createAccountWithAutomaticOutput
+    createAccountWithAutomaticOutput,
+    apexCallAutomaticAnonymousAccountsOutput,
+    apexCallAutomaticAnonymousStringsOutput
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -84,6 +86,13 @@ jest.mock(
     },
     { virtual: true }
 );
+jest.mock(
+    '@salesforce/label/FlowBuilderDataTypes.collectionDataType',
+    () => {
+        return { default: '{0} Collection' };
+    },
+    { virtual: true }
+);
 
 const createElement = (
     elementType,
@@ -136,12 +145,32 @@ describe('elementLabelLib', () => {
                     'Account from apexCall_anonymous_account'
                 );
             });
-            it('returns [Primitive] from [ActionName] for single primitive', () => {
+            it('returns [Primitive label] from [ActionName] for single primitive', () => {
                 const label = getResourceLabel(
                     apexCallAutomaticAnonymousStringOutput
                 );
 
-                expect(label).toEqual('String from apexCall_anonymous_string');
+                expect(label).toEqual(
+                    'FlowBuilderDataTypes.textDataTypeLabel from apexCall_anonymous_string'
+                );
+            });
+            it('returns [Entity name]s from [ActionName] for single sobject', () => {
+                const label = getResourceLabel(
+                    apexCallAutomaticAnonymousAccountsOutput
+                );
+
+                expect(label).toEqual(
+                    'Accounts from apexCall_anonymous_accounts'
+                );
+            });
+            it('returns [Primitive label] Collection from [ActionName] for single primitive', () => {
+                const label = getResourceLabel(
+                    apexCallAutomaticAnonymousStringsOutput
+                );
+
+                expect(label).toEqual(
+                    'FlowBuilderDataTypes.textDataTypeLabel Collection from apexCall_anonymous_strings'
+                );
             });
         });
         it('returns "Outputs" from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
@@ -198,6 +227,11 @@ describe('elementLabelLib', () => {
             expect(
                 getResourceTypeLabel(apexCallAutomaticAnonymousStringOutput)
             ).toEqual(LABELS.variableSingularLabel);
+        });
+        it('returns Collection Variable for action with anonymous string collection output as resource', () => {
+            expect(
+                getResourceTypeLabel(apexCallAutomaticAnonymousStringsOutput)
+            ).toEqual('FlowBuilderElementConfig.collectionVariableSingularLabel');
         });
     });
     describe('getElementCategory', () => {
@@ -364,10 +398,24 @@ describe('elementLabelLib', () => {
                     getResourceCategory(apexCallAutomaticAnonymousAccountOutput)
                 ).toEqual(LABELS.sObjectPluralLabel);
             });
+            it('for action with anonymous sobjects output as resource', () => {
+                expect(
+                    getResourceCategory(
+                        apexCallAutomaticAnonymousAccountsOutput
+                    )
+                ).toEqual(LABELS.sObjectCollectionPluralLabel);
+            });
             it('for action with anonymous string output as resource', () => {
                 expect(
                     getResourceCategory(apexCallAutomaticAnonymousStringOutput)
                 ).toEqual('FlowBuilderElementConfig.variablePluralLabel');
+            });
+            it('for action with anonymous strings output as resource', () => {
+                expect(
+                    getResourceCategory(apexCallAutomaticAnonymousStringsOutput)
+                ).toEqual(
+                    'FlowBuilderElementConfig.collectionVariablePluralLabel'
+                );
             });
             it('for create record as resource', () => {
                 expect(

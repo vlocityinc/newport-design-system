@@ -646,23 +646,23 @@ describe('Loop Editor', () => {
                     expect(colVariableLightningCombobox.items[2].label).toBe(
                         'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL'
                     );
-                    // There are 3 non-sObject variables with 'isCollection:
+                    // There are 4 non-sObject variables with 'isCollection:
                     // true' in the mock-store data
                     expect(
                         colVariableLightningCombobox.items[2].items
-                    ).toHaveLength(3);
+                    ).toHaveLength(4);
                     expect(
                         colVariableLightningCombobox.items[2].items[0].text
                     ).toBe(dateCollectionVariable.name);
                     expect(colVariableLightningCombobox.items[3].label).toBe(
                         'FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL'
                     );
-                    // There are 2 sObject collection variables and 1
+                    // There are 3 sObject collection variables and 1
                     // lookupRecord in automatic output handling mode in the
                     // mock-store data
                     expect(
                         colVariableLightningCombobox.items[3].items
-                    ).toHaveLength(3);
+                    ).toHaveLength(4);
                     expect(
                         colVariableLightningCombobox.items[3].items[0].text
                     ).toBe(accountSObjectCollectionVariable.name);

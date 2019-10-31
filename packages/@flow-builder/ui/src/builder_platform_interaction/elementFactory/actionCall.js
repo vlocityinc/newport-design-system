@@ -50,6 +50,10 @@ const getSystemGeneratedOutputParameter = (actionName, actionType) => {
         : undefined;
 };
 
+const maxOccursToIsCollection = maxOccurs => {
+    return maxOccurs > 1 ? true : false;
+};
+
 export function createActionCall(
     actionCall = {},
     elementType = ELEMENT_TYPE.ACTION_CALL
@@ -68,6 +72,7 @@ export function createActionCall(
     );
     let isSystemGeneratedOutput;
     let subtype;
+    let isCollection;
     if (storeOutputAutomatically) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
@@ -81,6 +86,9 @@ export function createActionCall(
                 dataType,
                 sobjectType: subtype
             } = systemGeneratedOutputParameter);
+            isCollection = maxOccursToIsCollection(
+                systemGeneratedOutputParameter.maxOccurs
+            );
             dataType = !dataType
                 ? FLOW_DATA_TYPE.ACTION_OUTPUT.value
                 : getFlowDataType(dataType);
@@ -107,7 +115,8 @@ export function createActionCall(
         dataType,
         storeOutputAutomatically,
         isSystemGeneratedOutput,
-        subtype
+        subtype,
+        isCollection
     });
 
     return actionCallObject;
