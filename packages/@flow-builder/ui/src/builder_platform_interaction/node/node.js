@@ -3,7 +3,11 @@ import {
     getConfigForElementType,
     ICON_SHAPE
 } from 'builder_platform_interaction/elementConfig';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    ELEMENT_TYPE,
+    FLOW_TRIGGER_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import {
     DragNodeEvent,
     DragNodeStopEvent,
@@ -28,6 +32,9 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
  * @ScrumTeam Process UI
  * @since 214
  */
+
+const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
+const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 
 export default class Node extends LightningElement {
     currentNodeLabel = null;
@@ -114,16 +121,38 @@ export default class Node extends LightningElement {
     get nodeIconTitle() {
         // Special case if elementType equals START_ELEMENT
         if (this.node.elementType === ELEMENT_TYPE.START_ELEMENT) {
-            if (this.node.triggerType) {
-                return LABELS.nodeIconTitleStartScheduled;
+            switch (this.node.triggerType) {
+                case NONE:
+                    return LABELS.nodeIconTitleStartDefault;
+                case BEFORE_SAVE:
+                    return format(
+                        this.formatStartSaveType(this.node.saveType),
+                        this.node.object
+                    );
+                case SCHEDULED:
+                    return LABELS.nodeIconTitleStartScheduled;
+                default:
+                    return '';
             }
-            return LABELS.nodeIconTitleStartDefault;
         }
         return format(
             LABELS.nodeIconTitle,
             getConfigForElementType(this.node.elementType).labels.singular,
             this.node.label
         );
+    }
+
+    formatStartSaveType(saveType) {
+        switch (saveType) {
+            case CREATE:
+                return LABELS.nodeIconTitleStartBeforeSaveCreated;
+            case UPDATE:
+                return LABELS.nodeIconTitleStartBeforeSaveUpdated;
+            case CREATE_OR_UPDATE:
+                return LABELS.nodeIconTitleStartBeforeSaveCreatedOrUpdated;
+            default:
+                return '';
+        }
     }
 
     get endPointTitle() {
@@ -326,7 +355,7 @@ export default class Node extends LightningElement {
             clamp(textElementLabel, {
                 label: this.nodeLabel
             });
-            this.currentNodeLabel = this.nodeLabel;
         }
+        this.currentNodeLabel = this.nodeLabel;
     }
 }

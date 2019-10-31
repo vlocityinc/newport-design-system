@@ -9,6 +9,9 @@ import loopEndComboBoxOption from '@salesforce/label/FlowBuilderConnectorPicker.
 import triggerFrequencyOnce from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyOnce';
 import triggerFrequencyDaily from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyDaily';
 import triggerFrequencyWeekly from '@salesforce/label/FlowBuilderStartEditor.triggerFrequencyWeekly';
+import startElementRecordCreated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreated';
+import startElementRecordUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordUpdated';
+import startElementRecordCreatedUpdated from '@salesforce/label/FlowBuilderCanvasElement.startElementRecordCreatedUpdated';
 
 export const LABELS = {
     emptyDefaultOutcomeLabel,
@@ -21,5 +24,8 @@ export const LABELS = {
     loopEndComboBoxOption,
     triggerFrequencyOnce,
     triggerFrequencyDaily,
-    triggerFrequencyWeekly
+    triggerFrequencyWeekly,
+    startElementRecordCreated,
+    startElementRecordUpdated,
+    startElementRecordCreatedUpdated
 };

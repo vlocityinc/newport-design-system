@@ -126,7 +126,7 @@ const scheduledNewStartElement = () => ({
     frequency: { value: 'Once', error: null },
     startDate: undefined,
     startTime: undefined,
-    triggerType: { value: 'Scheduled', error: null }
+    triggerType: { value: FLOW_TRIGGER_TYPE.SCHEDULED, error: null }
 });
 
 const beforeSaveNewStartElement = () => ({
@@ -144,7 +144,7 @@ const beforeSaveNewStartElement = () => ({
     startDate: undefined,
     startTime: undefined,
     saveType: { value: 'Update', error: null },
-    triggerType: { value: 'BeforeSave', error: null }
+    triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
 });
 
 const scheduledNewStartElementWithFilters = () => ({

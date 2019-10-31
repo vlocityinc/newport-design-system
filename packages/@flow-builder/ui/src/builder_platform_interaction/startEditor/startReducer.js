@@ -81,7 +81,7 @@ const setDefaultScheduledProperties = state => {
 
 const setDefaultBeforeSaveProperties = state => {
     state[START_ELEMENT_FIELDS.TRIGGER_SAVE_TYPE] = {
-        value: FLOW_TRIGGER_SAVE_TYPE.UPDATE,
+        value: FLOW_TRIGGER_SAVE_TYPE.CREATE,
         error: null
     };
 };

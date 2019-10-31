@@ -1,7 +1,8 @@
 import {
     ELEMENT_TYPE,
     FLOW_TRIGGER_FREQUENCY,
-    FLOW_TRIGGER_TYPE
+    FLOW_TRIGGER_TYPE,
+    FLOW_TRIGGER_SAVE_TYPE
 } from 'builder_platform_interaction/flowMetadata';
 import {
     baseCanvasElement,
@@ -26,6 +27,7 @@ import {
 } from 'builder_platform_interaction/dateTimeUtils';
 import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './elementFactoryLabels';
+import { format } from 'builder_platform_interaction/commonUtils';
 
 export const START_ELEMENT_LOCATION = {
     x: 50,
@@ -33,6 +35,7 @@ export const START_ELEMENT_LOCATION = {
 };
 const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
+const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 
 /**
  * Creates a start element object in the shape expected by the store
@@ -74,7 +77,12 @@ export function createStartElement(startElement = {}) {
             ? getISOTimeFromMillis(startTime.timeInMillis)
             : startTime;
 
-    const label = getLabel(startDate, isoStartTime, frequency);
+    let label;
+    if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+        label = getBeforeSaveLabel(object, saveType);
+    } else if (triggerType === FLOW_TRIGGER_TYPE.SCHEDULED) {
+        label = getscheduledLabel(startDate, isoStartTime, frequency);
+    }
 
     Object.assign(newStartElement, {
         elementType,
@@ -184,7 +192,20 @@ function getISOTimeFromMillis(timeinMillis) {
         .split('T')[1];
 }
 
-function getLabel(startDate, startTime, frequency) {
+function getBeforeSaveLabel(object, saveType) {
+    switch (saveType) {
+        case CREATE:
+            return format(LABELS.startElementRecordCreated, object);
+        case UPDATE:
+            return format(LABELS.startElementRecordUpdated, object);
+        case CREATE_OR_UPDATE:
+            return format(LABELS.startElementRecordCreatedUpdated, object);
+        default:
+            return '';
+    }
+}
+
+function getscheduledLabel(startDate, startTime, frequency) {
     let label;
     if (startDate && startTime) {
         const startDateTime = new Date(startDate);

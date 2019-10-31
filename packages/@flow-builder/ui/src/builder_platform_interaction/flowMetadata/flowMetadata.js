@@ -286,7 +286,7 @@ export const FLOW_SUPPORTED_FEATURES = {
 
 export const FLOW_TRIGGER_TYPE = {
     SCHEDULED: 'Scheduled',
-    BEFORE_SAVE: 'BeforeSave',
+    BEFORE_SAVE: 'RecordBeforeSave',
     NONE: 'None'
 };
 

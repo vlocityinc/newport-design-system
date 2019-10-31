@@ -45,6 +45,11 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
         FLOW_SUPPORTED_FEATURES: {
             CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility',
             CONFIGURABLE_START: 'ConfigurableStart'
+        },
+        FLOW_TRIGGER_SAVE_TYPE: {
+            UPDATE: 'Update',
+            CREATE: 'Create',
+            CREATE_OR_UPDATE: 'CreateOrUpdate'
         }
     };
 });
