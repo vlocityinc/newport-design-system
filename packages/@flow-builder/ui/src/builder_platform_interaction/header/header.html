@@ -28,6 +28,13 @@
                 >{flowVersionNumber}</span
             >
         </div>
+        <lightning-badge
+            if:true={isSystemMode}
+            label={systemModeLabel}
+            title={systemModeLabel}
+            class={badgeClasses}
+        >
+        </lightning-badge>
         <div class="slds-builder-header__item slds-builder-header__utilities">
             <div class="slds-builder-header__utilities-item">
                 <a

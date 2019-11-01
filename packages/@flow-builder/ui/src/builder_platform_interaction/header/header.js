@@ -10,6 +10,9 @@ export default class Header extends LightningElement {
     flowVersion;
 
     @api
+    runInMode;
+
+    @api
     backUrl;
 
     @api
@@ -55,6 +58,14 @@ export default class Header extends LightningElement {
         return null;
     }
 
+    get isSystemMode() {
+        return this.runInMode === 'SystemModeWithSharing';
+    }
+
+    get systemModeLabel() {
+        return LABELS.systemModeLabelText;
+    }
+
     get headerHelpUrl() {
         if (this.helpUrl) {
             return this.helpUrl;
@@ -68,6 +79,17 @@ export default class Header extends LightningElement {
 
     get name() {
         return this.builderName || LABELS.appNameText;
+    }
+
+    /**
+     * @return {String} the css class for badge
+     */
+    get badgeClasses() {
+        let classes = 'slds-align-middle slds-m-left_xx-small';
+        if (!this.grayPill) {
+            classes = `${classes} slds-theme_info`;
+        }
+        return classes;
     }
 
     handleClickHelp() {

@@ -20,20 +20,14 @@
             class="spinner"
         ></lightning-spinner>
         <div if:true={isSystemMode}>
-            <div
-                class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning"
-                role="alert"
-            >
-                <span
-                    class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small"
-                    title="SubFlow in system mode."
-                >
-                    <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                        <use
-                            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"
-                        ></use>
-                    </svg>
-                </span>
+            <div class="custom-builder-baseCallOutEditor__mode-info slds-grid">
+                <lightning-icon 
+                    icon-name="utility:info" 
+                    alternative-text="Info" 
+                    variant="info"
+                    size="small"
+                    class="slds-button__icon_left"
+                ></lightning-icon>
                 <h2>
                     {systemModeText}
                     <a href={learnMoreLink} target="_blank">
