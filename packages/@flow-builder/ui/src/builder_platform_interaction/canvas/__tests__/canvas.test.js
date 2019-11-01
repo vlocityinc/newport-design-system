@@ -111,5 +111,17 @@ describe('Canvas', () => {
             canvas.keyboardInteractions.execute('zoomout');
             expect(innerCanvasDiv.style.transform).toEqual('scale(0.8)');
         });
+        it('Canvas zooms in when meta key is pressed down along with "=" key', () => {
+            const canvas = createComponentForTest(
+                defaultNodes,
+                defaultConnectors
+            );
+            const innerCanvasDiv = canvas.shadowRoot.querySelector(
+                SELECTORS.INNER_CANVAS_DIV
+            );
+            // on meta+"=", 'zoomin' command is executed
+            canvas.keyboardInteractions.execute('zoomin');
+            expect(innerCanvasDiv.style.transform).toEqual('scale(1)');
+        });
     });
 });
