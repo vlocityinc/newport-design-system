@@ -1,4 +1,4 @@
-import { getRulesForField, screenValidation } from '../screenValidation';
+import { getRulesForField, screenValidation, getDynamicTypeMappingValidation } from '../screenValidation';
 import {
     createTestScreenField,
     SCREEN_NO_DEF_VALUE
@@ -454,4 +454,10 @@ describe('When field type is LargeTextArea', () => {
             )
         ).toBeNull();
     });
+});
+
+it('validates dynamic type mappings', () => {
+    const validation = getDynamicTypeMappingValidation();
+    expect(validation.validateProperty('dynamicTypeMapping', '')).toBe('FlowBuilderValidation.cannotBeBlank');
+    expect(validation.validateProperty('dynamicTypeMapping', 'Asset')).toBeNull();
 });

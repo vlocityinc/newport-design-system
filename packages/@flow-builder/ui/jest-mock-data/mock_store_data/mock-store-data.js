@@ -43,6 +43,7 @@ export const lookupRecordCollectionAutomaticOutput = getElementByName('lookupRec
 export const screenElement = getElementByName('screen1');
 export const emailScreenFieldAutomaticOutput = getElementByName('emailScreenFieldAutomaticOutput');
 export const emailScreenField = getElementByName('emailScreenField');
+export { default as lookupScreenField } from './lookupScreenField';
 export const actionCallElement = getElementByName('actionCall1');
 export const actionCallAutomaticOutput = getElementByName('actionCallAutomaticOutput');
 export const actionCallLocalActionAutomaticOutput = getElementByName('localAction');

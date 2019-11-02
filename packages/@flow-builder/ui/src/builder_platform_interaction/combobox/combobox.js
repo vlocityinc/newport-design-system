@@ -100,6 +100,12 @@ export const MENU_DATA_PAGE_SIZE = 50;
  * With the incremental rendering enabled (see the property renderIncrementally), the combobox initially picks
  * only a few items from the start and shows just those. Later on more items get added as the user scrolls
  * down through the list and reaches the bottom.
+ *
+ * @fires ComboboxStateChangedEvent
+ * @fires FetchMenuDataEvent
+ * @fires FilterMatchesEvent
+ * @fires ItemSelectedEvent
+ * @fires NewResourceEvent
  */
 export default class Combobox extends LightningElement {
     /**

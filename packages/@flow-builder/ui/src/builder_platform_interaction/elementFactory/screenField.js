@@ -36,6 +36,7 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createValidationRuleObject } from './base/baseValidationInput';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -49,7 +50,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         defaultValue,
         defaultValueDataType,
         defaultValueIndex = generateGuid(),
-        defaultSelectedChoiceReference
+        defaultSelectedChoiceReference,
+        dataTypeMappings
     } = screenField;
     let {
         type,
@@ -62,7 +64,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
         outputParameters,
         choiceReferences = [],
         storeOutputAutomatically,
-        visibilityRule
+        visibilityRule,
+        dynamicTypeMappings
     } = screenField;
     if (isExtensionField(screenField)) {
         // Assign local extension type (using a local version of the field type that will be replaced when the real one is retrieved from the server
@@ -70,7 +73,8 @@ export function createScreenField(screenField = {}, isNewField = false) {
             getScreenFieldTypeByName(screenField.extensionName) ||
             getLocalExtensionFieldType(screenField.extensionName);
         isRequired = true;
-        inputParameters = screenField.inputParameters
+        dynamicTypeMappings = createDynamicTypeMappings(dataTypeMappings || dynamicTypeMappings);
+        inputParameters = inputParameters
             .filter(inputParameter => !!inputParameter.value)
             .map(inputParameter => createInputParameter(inputParameter));
         if (storeOutputAutomatically) {
@@ -79,7 +83,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         } else {
             storeOutputAutomatically = false;
             dataType = undefined;
-            outputParameters = screenField.outputParameters.map(
+            outputParameters = outputParameters.map(
                 outputParameter => createOutputParameter(outputParameter)
             );
         }
@@ -88,6 +92,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
         type = getScreenFieldType(screenField);
         inputParameters = [];
         outputParameters = [];
+        dynamicTypeMappings = undefined;
         // Picklist fields are always required at runtime since they always default to one of the options and there's no way to select a null or empty value option
         // To reflect this behavior in the builder, we default isRequired to true and make the checkbox disabled in the screen field property editor
         if (isPicklistField(screenField)) {
@@ -139,6 +144,10 @@ export function createScreenField(screenField = {}, isNewField = false) {
         isVisible = screenField.isVisible;
     }
 
+    if (dynamicTypeMappings) {
+        dynamicTypeMappings = { dynamicTypeMappings };
+    }
+
     return Object.assign(
         newScreenField,
         {
@@ -161,8 +170,9 @@ export function createScreenField(screenField = {}, isNewField = false) {
             type,
             elementType,
             defaultSelectedChoiceReference,
-            visibilityRule
+            visibilityRule,
         },
+        dynamicTypeMappings,
         storeOutputAutomatically !== undefined
             ? { storeOutputAutomatically }
             : {},
@@ -224,7 +234,8 @@ export function createScreenFieldMetadataObject(screenField) {
         name,
         validationRule,
         defaultSelectedChoiceReference,
-        visibilityRule
+        visibilityRule,
+        dynamicTypeMappings
     } = screenField;
     let {
         dataType,
@@ -250,6 +261,7 @@ export function createScreenFieldMetadataObject(screenField) {
         defaultValueMetadataObject = { defaultValue: defaultValueFerov };
     }
 
+    let dataTypeMappings;
     if (isExtensionField(screenField)) {
         inputParameters = inputParameters.map(inputParameter =>
             createInputParameterMetadataObject(inputParameter)
@@ -275,11 +287,16 @@ export function createScreenFieldMetadataObject(screenField) {
             );
             storeOutputAutomatically = undefined;
         }
+        dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
     }
 
     choiceReferences = choiceReferences.map(choiceReference =>
         createChoiceReferenceMetadatObject(choiceReference)
     );
+
+    if (dataTypeMappings) {
+        dataTypeMappings = { dataTypeMappings };
+    }
 
     const mdScreenField = Object.assign(
         {},
@@ -295,6 +312,7 @@ export function createScreenFieldMetadataObject(screenField) {
             outputParameters,
             scale
         },
+        dataTypeMappings,
         storeOutputAutomatically !== undefined
             ? { storeOutputAutomatically }
             : {},

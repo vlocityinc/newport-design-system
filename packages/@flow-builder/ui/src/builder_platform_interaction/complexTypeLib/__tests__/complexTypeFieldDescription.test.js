@@ -3,7 +3,7 @@ import {
     isAutomaticOutputElementWithoutChildren
 } from '../complexTypeLib';
 import * as store from 'mock/storeData';
-import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
+import { mockFlowRuntimeEmailFlowExtensionDescription, mockLightningCompWithGenericTypesFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { setNotLoadedAction } from 'builder_platform_interaction_mocks/invocableActionLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -21,11 +21,18 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     return {
-        getCachedExtension: jest
-            .fn()
-            .mockImplementation(
-                () => mockFlowRuntimeEmailFlowExtensionDescription
-            )
+        getCachedExtension: jest.fn().mockImplementation((name, dynamicTypeMappings) => {
+            if (name === 'c:lookup') {
+                // Run the actual function for <c:lookup/>
+                const extension = mockLightningCompWithGenericTypesFlowExtensionDescription;
+                const applyDynamicTypeMappings = require.requireActual('builder_platform_interaction/flowExtensionLib').applyDynamicTypeMappings;
+                return Object.assign({}, extension, {
+                    inputParameters: applyDynamicTypeMappings(extension.inputParameters, dynamicTypeMappings),
+                    outputParameters: applyDynamicTypeMappings(extension.outputParameters, dynamicTypeMappings)
+                });
+            }
+            return mockFlowRuntimeEmailFlowExtensionDescription;
+        })
     };
 });
 
@@ -57,6 +64,16 @@ describe('complexTypeFieldDescription', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.emailScreenFieldAutomaticOutput
             );
+            expectFieldsAreComplexTypeFieldDescriptions(fields);
+        });
+        it('uses concrete types specified in dynamic type mappings for generically typed parameters of LIGHTNING_COMPONENT_OUTPUT\'s', () => {
+            const fields = retrieveResourceComplexTypeFields(
+                store.lookupScreenField
+            );
+            expect(getCachedExtension).toBeCalledWith('c:lookup', expect.arrayContaining([{
+                typeName: 'T',
+                typeValue: 'Asset'
+            }]));
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
         it('return action parameters when element data type is ACTION_OUTPUT', () => {

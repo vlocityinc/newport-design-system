@@ -20,12 +20,14 @@ import {
     createScreenElementDeletedEvent,
     createScreenElementSelectedEvent,
     createScreenNodeSelectedEvent,
-    createScreenElementDeselectedEvent
+    createScreenElementDeselectedEvent,
+    DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import { invokeModal } from 'builder_platform_interaction/builderUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
-import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { ELEMENT_TYPE, FLOW_SUPPORTED_FEATURES } from 'builder_platform_interaction/flowMetadata';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { setSupportedFeatures } from 'builder_platform_interaction/systemLib';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -113,10 +115,13 @@ jest.mock('../screenReducer', () => {
             mockScreenReducer(state, event, node)
     };
 });
-
 describe('Event handling on editor', () => {
     let screenEditorElement;
     beforeEach(() => {
+        const features = new Set();
+        features.add(FLOW_SUPPORTED_FEATURES.CONDITIONAL_FIELD_VISIBILITY);
+        setSupportedFeatures(features);
+
         const screen = createTestScreen('Screen1', null);
         screen.showHeader = true;
         screen.elementType = ELEMENT_TYPE.SCREEN;
@@ -440,6 +445,47 @@ describe('Extension events', () => {
                     SCREEN_FIELD_NAME_UPDATED_BY_REDUCER
                 );
             });
+        });
+    });
+
+    it('handles dynamictypemappingchange event', async () => {
+        const editor = screenEditorElement.shadowRoot.querySelector(
+            EDITOR_CONTAINER_ELEMENT_NAME
+        );
+
+        mockScreenReducer = jest.fn(state => state);
+
+        // Select the field to be changed.
+        const canvas = screenEditorElement.shadowRoot.querySelector(
+            CANVAS_ELEMENT_NAME
+        );
+        const field = screenEditorElement.node.fields[0];
+        canvas.dispatchEvent(createScreenElementSelectedEvent(field));
+
+        // Change the field
+        editor.dispatchEvent(
+            new DynamicTypeMappingChangeEvent({
+                typeName: 'T',
+                typeValue: 'Asset',
+                error: null,
+                rowIndex: 'abc'
+            })
+        );
+
+        await Promise.resolve();
+
+        expect(mockScreenReducer).toHaveBeenCalled();
+        expect(mockScreenReducer.mock.calls[0][0]).toMatchObject({
+            name: { value: SCREEN_NAME }
+        });
+        expect(mockScreenReducer.mock.calls[0][1].detail).toMatchObject({
+            typeName: 'T',
+            typeValue: 'Asset',
+            error: null,
+            rowIndex: 'abc'
+        });
+        expect(mockScreenReducer.mock.calls[0][2]).toMatchObject({
+            name: { value: SCREEN_FIELD_NAME }
         });
     });
 });

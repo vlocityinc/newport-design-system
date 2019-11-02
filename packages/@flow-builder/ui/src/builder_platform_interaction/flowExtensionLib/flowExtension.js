@@ -6,6 +6,7 @@ import { readonly } from 'lwc';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 let extensionCache = [];
 let extensionDescriptionCache = {};
@@ -40,7 +41,9 @@ export function listExtensions(flowProcessType, refreshCache, callback) {
         callback(extensionCache.slice(0), null);
     } else {
         const retriever = getListExtensionsRetriever(flowProcessType);
-        retriever.callbacks.push(callback);
+        if (callback) {
+            retriever.callbacks.push(callback);
+        }
         retriever.retrieve();
     }
 }
@@ -76,10 +79,16 @@ function getListExtensionsRetriever(flowProcessType) {
                                         readonly({
                                             name: extension.qualifiedApiName,
                                             fieldType: COMPONENT_INSTANCE,
+                                            genericTypes: extension.genericTypes
+                                                ? extension.genericTypes.records
+                                                : undefined,
                                             label: extension.label
                                                 ? extension.label
                                                 : extension.qualifiedApiName,
-                                            icon: screenFieldLabelToIconMapping[extension.label] || defaultIcon,
+                                            icon:
+                                                screenFieldLabelToIconMapping[
+                                                    extension.label
+                                                ] || defaultIcon,
                                             category:
                                                 extension.source === 'Standard'
                                                     ? LABELS.fieldCategoryInput
@@ -182,10 +191,19 @@ export function getCachedExtensions(names) {
 /**
  * Returns the description of provided extension from the cache
  * @param {string} name - The extension name
+ * @param {[{typeName, typeValue}]} [dynamicTypeMappings] - A list of generic type bindings, which can be optionally applied to the description
  * @returns {ExtensionDescriptor} - The description of the extension or undefined if not found
  */
-export function getCachedExtension(name) {
-    return extensionDescriptionCache[name];
+export function getCachedExtension(name, dynamicTypeMappings) {
+    let extension = extensionDescriptionCache[name];
+    if (extension && dynamicTypeMappings && dynamicTypeMappings.length > 0) {
+        extension = {
+            ...extension,
+            inputParameters: applyDynamicTypeMappings(extension.inputParameters, dynamicTypeMappings),
+            outputParameters: applyDynamicTypeMappings(extension.outputParameters, dynamicTypeMappings),
+        };
+    }
+    return extension;
 }
 
 function transformDefaultValue(value) {
@@ -215,11 +233,15 @@ function createDescription(name, data) {
         outputParameters: []
     };
 
+    // Remove LWC properties, which store values of generic type bindings (aka dynamic type mappings)
+    // data = data.filter(param => !param.availableValues);
+
     for (const param of data) {
         const newParam = {
             apiName: param.apiName,
             dataType: param.dataType || FLOW_DATA_TYPE.APEX.value, // LC parameters that accept apex classes have no data type set
             subtype: param.objectType || param.apexClass,
+            availableValues: param.availableValues,
             description: param.description,
             hasDefaultValue: param.hasDefaultValue,
             isRequired: param.isRequired,
@@ -317,4 +339,32 @@ export function getAllCachedExtensionTypes() {
 
 export function getCachedFlowProcessType() {
     return flowProcessTypeCache;
+}
+
+/**
+ * Updates a data type and sets a subtype in generically-typed extension parameters
+ * @param {*} parameters - Screen field parameters
+ * @param {*} dynamicTypeMappings - A mapping of generic types to concrete types
+ * @param {*} genericTypes  - Generic types
+ */
+export function applyDynamicTypeMappings(parameters, dynamicTypeMappings) {
+    if (!dynamicTypeMappings || dynamicTypeMappings.length === 0) {
+        return parameters;
+    }
+
+    return parameters
+        .map(parameter => ({
+            parameter,
+            dynamicTypeMapping: dynamicTypeMappings.find(dynamicTypeMapping =>
+                parameter.subtype === '{' + getValueFromHydratedItem(dynamicTypeMapping.typeName) + '}')
+        }))
+        .map(({ parameter, dynamicTypeMapping }) => {
+            if (dynamicTypeMapping && dynamicTypeMapping.typeValue) {
+                parameter = {
+                    ...parameter,
+                    subtype: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
+                };
+            }
+            return parameter;
+        });
 }

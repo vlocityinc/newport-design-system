@@ -272,3 +272,77 @@ export const mockLightningCompWithoutSObjectOutputFlowExtensionDescription = {
     }
   ]
 };
+
+export const mockLightningCompWithGenericTypesFlowExtensionDescription = {
+  name: "c:lookup",
+  inputParameters: [
+    {
+      apiName: "helpText",
+      dataType: "string",
+      description: "The help text for pattern",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Help text for pattern",
+      isInput: true,
+      isOutput: false,
+      maxOccurs: 1
+    },
+    {
+      apiName: "objectApiName",
+      dataType: "string",
+      availableValues: "T",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Object API Name",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "userPrompt",
+      dataType: "string",
+      description: "The prompt",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "User Prompt",
+      isInput: true,
+      isOutput: false,
+      maxOccurs: 1
+    }
+  ],
+  outputParameters: [
+    {
+      apiName: "objectApiName",
+      dataType: "string",
+      availableValues: "{T}",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Object API Name",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 1
+    },
+    {
+      apiName: "selectedRecord",
+      dataType: "sobject",
+      subtype: "{T}",
+      description: "The SObject the user has selected",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "The selected Record",
+      isInput: false,
+      isOutput: true,
+      maxOccurs: 1
+    }
+  ],
+  genericTypes: [
+    {
+      description:
+        "Select the api name of the SObject this component is going to be looking for",
+      fieldsToNull: [],
+      label: "Object API Name",
+      name: "T",
+      superType: "SOBJECT"
+    }
+  ]
+};

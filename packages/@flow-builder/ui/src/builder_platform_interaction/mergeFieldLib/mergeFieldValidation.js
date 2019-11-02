@@ -518,7 +518,7 @@ export class MergeFieldsValidation {
         ) {
             const fieldName = fieldNames.join('.');
             // this lib is synchronous, we check the field only if already cached.
-            const extension = getCachedExtension(element.extensionName);
+            const extension = getCachedExtension(element.extensionName, element.dynamicTypeMappings);
             if (extension) {
                 field = this._getOutputParameterForExtension(
                     extension,

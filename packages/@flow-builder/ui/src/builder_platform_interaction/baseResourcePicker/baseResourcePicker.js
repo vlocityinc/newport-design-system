@@ -3,6 +3,7 @@ import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
+import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -61,6 +62,9 @@ export default class BaseResourcePicker extends LightningElement {
      */
     @api
     comboboxConfig = {};
+
+    @api
+    placeholder;
 
     @api
     showActivityIndicator = false;
@@ -195,6 +199,13 @@ export default class BaseResourcePicker extends LightningElement {
         );
     }
 
+    get effectivePlaceholder() {
+        if (this.comboboxConfig && !isUndefinedOrNull(this.comboboxConfig.placeholder)) {
+            return this.comboboxConfig.placeholder;
+        }
+        return this.placeholder;
+    }
+
     /** EVENT HANDLERS */
 
     handleFilterMatches(event) {
@@ -206,3 +217,29 @@ export default class BaseResourcePicker extends LightningElement {
         );
     }
 }
+
+export const getComboboxConfig = ({
+    label,
+    placeholder,
+    errorMessage,
+    literalsAllowed = false,
+    required = false,
+    disabled = false,
+    type = '',
+    enableFieldDrilldown = false,
+    allowSObjectFields = true,
+    variant = LIGHTNING_INPUT_VARIANTS.STANDARD,
+    fieldLevelHelp = undefined
+}) => ({
+    label,
+    placeholder,
+    errorMessage,
+    literalsAllowed,
+    required,
+    disabled,
+    type,
+    enableFieldDrilldown,
+    allowSObjectFields,
+    variant,
+    fieldLevelHelp
+});

@@ -43,6 +43,12 @@ const componentAutomaticScreenFieldMetadata = () => ({
     choiceReferences: [],
     extensionName: 'flowruntime:email',
     fieldType: 'ComponentInstance',
+    dataTypeMappings: [
+        {
+            typeName: 'T',
+            typeValue: 'Asset'
+        }
+    ],
     inputParameters: [
         {
             name: 'placeholder',
@@ -145,6 +151,12 @@ const componentAutomaticScreenFieldStore = () => ({
     fieldType: 'ComponentInstance',
     fieldText: '',
     helpText: '',
+    dynamicTypeMappings: [
+        {
+            typeName: 'T',
+            typeValue: 'Asset'
+        }
+    ],
     inputParameters: [
         {
             rowIndex: '9950e933-80b8-4352-b1d1-3c186f502765',
@@ -208,6 +220,15 @@ describe('screenField', () => {
                 const actualResult = createScreenField(screenFieldMetadata);
                 expect(actualResult.storeOutputAutomatically).toBe(true);
             });
+            it('should have one type mapping', () => {
+                const actualResult = createScreenField(screenFieldMetadata);
+                expect(actualResult).toHaveProperty('dynamicTypeMappings');
+                expect(actualResult.dynamicTypeMappings).toHaveLength(1);
+                expect(actualResult.dynamicTypeMappings[0]).toMatchObject({
+                    typeName: 'T',
+                    typeValue: 'Asset'
+                });
+            });
         });
         describe('LC screen field (automatic output handling not supported)', () => {
             let screenFieldMetadata;
@@ -231,6 +252,10 @@ describe('screenField', () => {
                 const actualResult = createScreenField(screenFieldMetadata);
                 expect(actualResult.storeOutputAutomatically).toBe(false);
             });
+            it('has no dynamic type mappings', () => {
+                const actualResult = createScreenField(screenFieldMetadata);
+                expect(actualResult).not.toHaveProperty('dynamicTypeMappings');
+            });
         });
     });
     describe('screenField UI model => flow metadata', () => {
@@ -240,7 +265,7 @@ describe('screenField', () => {
                     'Supported'
                 );
             });
-            it('convert to flow metadata', () => {
+            it('converts to flow metadata', () => {
                 const actualResult = createScreenFieldMetadataObject(
                     componentAutomaticScreenFieldStore()
                 );
@@ -258,9 +283,20 @@ describe('screenField', () => {
                     screenFieldStore
                 );
             });
+            it('has dynamic type mappings', () => {
+                const actualResult = createScreenFieldMetadataObject(
+                    componentAutomaticScreenFieldStore()
+                );
+                expect(actualResult).toHaveProperty('dataTypeMappings');
+                expect(actualResult.dataTypeMappings).toHaveLength(1);
+                expect(actualResult.dataTypeMappings[0]).toEqual({
+                    typeName: 'T',
+                    typeValue: 'Asset'
+                });
+            });
         });
         describe('LC screen field (automatic output handling not supported)', () => {
-            beforeEach(() => {
+            beforeAll(() => {
                 getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
                     'Unsupported'
                 );
@@ -269,17 +305,16 @@ describe('screenField', () => {
                 const actualResult = createScreenFieldMetadataObject(
                     componentScreenFieldEmailStore()
                 );
-
                 expect(actualResult).toMatchObject(
                     componentScreenFieldEmailMetadata()
                 );
                 expect(actualResult.storeOutputAutomatically).not.toBeDefined();
+                expect(actualResult).not.toHaveProperty('dataTypeMappings');
             });
             it('convert to flow metadata should remove the storeOutputAutomatically if processType does not support it', () => {
                 const actualResult = createScreenFieldMetadataObject(
                     componentAutomaticScreenFieldStore()
                 );
-
                 expect(actualResult).toMatchObject(
                     componentScreenFieldEmailMetadata()
                 );

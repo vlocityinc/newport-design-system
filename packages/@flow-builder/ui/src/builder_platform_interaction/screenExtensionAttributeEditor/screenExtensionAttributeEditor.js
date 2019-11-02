@@ -9,14 +9,26 @@ import {
  * Property editor for screen extensions attributes.
  */
 export default class ScreenExtensionAttributeEditor extends LightningElement {
-    @api descriptor;
-    @api attribute;
-    @api attributeType;
-    @api rowIndex;
-    @api index;
-    @api attributeIndex = 0;
+    @api
+    descriptor;
 
-    sIndex = 0;
+    @api
+    attribute;
+
+    @api
+    attributeType;
+
+    @api
+    rowIndex;
+
+    @api
+    index;
+
+    @api
+    attributeIndex = 0;
+
+    @api
+    disabled = false;
 
     get isInput() {
         return this.attributeType === 'input';

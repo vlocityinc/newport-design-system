@@ -20,7 +20,7 @@ jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
 
-const setupComponentUnderTest = props => {
+const setupComponentUnderTest = (...props) => {
     const element = createElement(
         'builder_platform_interaction-entity-resource-picker',
         {
@@ -28,7 +28,7 @@ const setupComponentUnderTest = props => {
         }
     );
 
-    Object.assign(element, props);
+    Object.assign(element, ...props);
     document.body.appendChild(element);
     return element;
 };
@@ -272,6 +272,59 @@ describe('entity-resource-picker', () => {
                 expect(apexClassesMenuDataSelector).toHaveBeenCalledTimes(2);
                 expect(baseResourcePicker.showActivityIndicator).toEqual(false);
                 expect(baseResourcePicker.fullMenuData).toEqual(apexClassMenuData);
+            });
+        });
+    });
+
+    describe('default placeholder text for mode', () => {
+        beforeEach(() => {
+            apexClassesMenuDataSelector.mockReturnValueOnce(undefined);
+        });
+        it('uses apex type detault placeholder text when in the apex mode', () => {
+            const entityResourcePicker = setupComponentUnderTest(props, {
+                mode: EntityResourcePicker.ENTITY_MODE.APEX
+            });
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
+            return Promise.resolve().then(() => {
+                expect(baseResourcePicker.placeholder).toEqual('FlowBuilderVariableConstantEditor.apexPickerPlaceholder');
+            });
+        });
+        it('uses apex types detault placeholder text when in the sobject mode', () => {
+            const entityResourcePicker = setupComponentUnderTest(props, {
+                mode: EntityResourcePicker.ENTITY_MODE.SOBJECT
+            });
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
+            return Promise.resolve().then(() => {
+                expect(baseResourcePicker.placeholder).toEqual('FlowBuilderRecordEditor.objectPlaceholder');
+            });
+        });
+        it('uses event typs detault placeholder text when in the event mode', () => {
+            const entityResourcePicker = setupComponentUnderTest(props, {
+                mode: EntityResourcePicker.ENTITY_MODE.EVENT
+            });
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
+            return Promise.resolve().then(() => {
+                expect(baseResourcePicker.placeholder).toEqual('FlowBuilderWaitEditor.selectEventLabel');
+            });
+        });
+        it('uses config\'s placehoder text, if supplied', () => {
+            const entityResourcePicker = setupComponentUnderTest(props, {
+                mode: EntityResourcePicker.ENTITY_MODE.EVENT,
+                comboboxConfig: {
+                    placeholder: 'abc'
+                }
+            });
+            const baseResourcePicker = entityResourcePicker.shadowRoot.querySelector(
+                BaseResourcePicker.SELECTOR
+            );
+            return Promise.resolve().then(() => {
+                expect(baseResourcePicker.placeholder).toEqual('abc');
             });
         });
     });

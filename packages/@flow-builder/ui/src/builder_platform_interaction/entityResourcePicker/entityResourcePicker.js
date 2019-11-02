@@ -5,9 +5,22 @@ import {
     getEventTypesMenuData,
     apexClassesMenuDataSelector
 } from 'builder_platform_interaction/expressionUtils';
-import { isObject } from 'builder_platform_interaction/commonUtils';
+import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { memoize } from 'builder_platform_interaction/commonUtils';
+import { LABELS } from './entityResourcePickerLabels';
+
+const ENTITY_MODE = {
+    SOBJECT: 'sobject',
+    EVENT: 'event',
+    APEX: 'apex'
+};
+
+const DEFAULT_PLACEHOLDER_TEXT = {
+    [ENTITY_MODE.SOBJECT]: LABELS.objectPlaceholder,
+    [ENTITY_MODE.APEX]: LABELS.apexPickerPlaceholder,
+    [ENTITY_MODE.EVENT]: LABELS.selectEventLabel
+};
 
 /**
  * Object resource picker that has one BaseResourcePicker. The picker shows sobject, apex, or event type menu data.
@@ -18,11 +31,7 @@ import { memoize } from 'builder_platform_interaction/commonUtils';
  * @extends {Element}
  */
 export default class EntityResourcePicker extends LightningElement {
-    static ENTITY_MODE = {
-        SOBJECT: 'sobject',
-        EVENT: 'event',
-        APEX: 'apex'
-    };
+    static ENTITY_MODE = ENTITY_MODE;
 
     /**
      * The entity type that will be displayed in the combobox
@@ -139,6 +148,13 @@ export default class EntityResourcePicker extends LightningElement {
     @api
     get value() {
         return this._state.item || this._state.displayText;
+    }
+
+    get placeholder() {
+        if (this.comboboxConfig && !isUndefinedOrNull(this.comboboxConfig.placeholder)) {
+            return this.comboboxConfig.placeholder;
+        }
+        return DEFAULT_PLACEHOLDER_TEXT[this.mode];
     }
 
     handleComboboxChange(event) {

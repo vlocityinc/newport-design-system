@@ -207,4 +207,26 @@ describe('base-resource-picker', () => {
             });
         });
     });
+
+    it('uses placeholder property, if no placeholder is in config', async () => {
+        const comboboxConfigWithoutType = Object.assign({}, comboboxConfig);
+        delete comboboxConfigWithoutType.placeholder;
+
+        const baseResourcePicker = setupComponentUnderTest({
+            comboboxConfig: comboboxConfigWithoutType,
+            placeholder: 'abc',
+            value: 123
+        });
+        await Promise.resolve();
+
+        const flowCombobox = baseResourcePicker.shadowRoot.querySelector(
+            selectors.COMBOBOX
+        );
+        expect(flowCombobox.placeholder).not.toEqual(
+            comboboxConfig.placeholder
+        );
+        expect(flowCombobox.placeholder).toEqual(
+            'abc'
+        );
+    });
 });

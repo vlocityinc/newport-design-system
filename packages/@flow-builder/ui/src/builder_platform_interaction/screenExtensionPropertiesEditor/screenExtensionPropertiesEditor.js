@@ -1,56 +1,68 @@
 import { LightningElement, api, track } from 'lwc';
-import { screenExtensionPropertiesReducer } from './screenExtensionPropertiesReducer';
+import { screenExtensionPropertiesEventReducer, screenExtensionPropertiesPropsToStateReducer } from './screenExtensionPropertiesReducer';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 /*
  * Dynamic property editor for screen extensions.
  */
 export default class ScreenExtensionPropertiesEditor extends LightningElement {
-    @track _field;
-    @track inputParameters;
-    @track state = {
-        editor: {}
-    };
     labels = LABELS;
 
-    processTypeValue = '';
-    automaticOutputHandlingSupported = false;
-
-    set field(value) {
-        this._field = value;
-        this.checkState();
-    }
-
-    @api get field() {
+    @api
+    get field() {
         return this._field;
     }
 
-    set extensionDescription(value) {
-        if (!this.extensionDescription) {
-            this.state.editor.extensionDescription = value;
-            this.checkState();
-        }
+    set field(value) {
+        this._field = value;
+        this.state = screenExtensionPropertiesPropsToStateReducer(this.state, this);
     }
 
-    @api get extensionDescription() {
-        return this.state.editor.extensionDescription;
+    @api
+    get extensionDescription() {
+        return this._extensionDescription;
+    }
+
+    set extensionDescription(value) {
+        this._extensionDescription = value;
+        this.state = screenExtensionPropertiesPropsToStateReducer(this.state, this);
     }
 
     @api
     get processType() {
-        return this.processTypeValue;
+        return this._processTypeValue;
     }
 
-    set processType(newValue) {
-        this.processTypeValue = newValue;
-        this.automaticOutputHandlingSupported =
-            getProcessTypeAutomaticOutPutHandlingSupport(newValue) !==
-            FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
+    set processType(value) {
+        this._processTypeValue = value;
+        this._automaticOutputHandlingSupported = getProcessTypeAutomaticOutPutHandlingSupport(value) !== FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
     }
+
+    @track
+    _field;
+
+    @track
+    _extensionDescription;
+
+    @track
+    _processType;
+
+    @track
+    _automaticOutputHandlingSupported;
+
+    @track
+    state = {
+        inputParameters: null,
+        outputParameters: null,
+        dynamicTypeMappings: [],
+        storeOutputAutomatically: undefined
+    };
 
     get isAdvancedCheckboxDisplayed() {
         return this.isAutomaticOutputHandlingSupported && this.hasOutputs;
@@ -60,24 +72,21 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
      * @return {Boolean} : whether or not the process type supports the automatic output handling
      */
     get isAutomaticOutputHandlingSupported() {
-        return this.automaticOutputHandlingSupported;
+        return this._automaticOutputHandlingSupported;
     }
 
     /**
-     * @return {Boolean} : whether or not this extension has output values
+     * @return {boolean} : whether or not this extension has output values
      */
     get hasOutputs() {
-        return (
-            this.state.editor.outputParameters &&
-            this.state.editor.outputParameters.length > 0
-        );
+        return this.state.outputParameters && this.state.outputParameters.length > 0;
     }
 
     /**
-     * @return {Boolean} true : the user chooses to use the Advanced Options
+     * @return {boolean} true : the user chooses to use the Advanced Options
      */
     get isAdvancedMode() {
-        return !this.state.editor.storeOutputAutomatically;
+        return !this.state.storeOutputAutomatically;
     }
 
     get isManualOutputDisplayed() {
@@ -87,101 +96,35 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
         );
     }
 
-    /**
-     * Checks if both, the description and the value have been set, and, if so, creates the parameters arrays
-     */
-    checkState = () => {
-        const extName = this.state.editor.extensionDescription
-            ? this.state.editor.extensionDescription.name
-            : null;
-        const fieldName = this._field ? this._field.name : null;
-        if (
-            this._field &&
-            this.state.editor.storeOutputAutomatically === undefined
-        ) {
-            this.state.editor.storeOutputAutomatically = this._field.storeOutputAutomatically;
-        }
-        if (
-            this.state.editor.extensionDescription &&
-            fieldName &&
-            extName !== fieldName
-        ) {
-            this.inputParameters = this.createParametersMapping(
-                'inputParameters',
-                'isInput',
-                true
-            );
-            this.state.editor.outputParameters = this.createParametersMapping(
-                'outputParameters',
-                'isOutput',
-                false
-            );
-        }
-    };
+    get hasUnboundDynamicTypeMappings() {
+        return this.state.dynamicTypeMappings && !!this.state.dynamicTypeMappings.find(dynamicTypeMapping =>
+            !dynamicTypeMapping.value || dynamicTypeMapping.errorMessage);
+    }
 
-    createParametersMapping = (name, filteringProperty, sortByRequiredness) => {
-        const params = [];
-        for (
-            let i = 0;
-            i < this.state.editor.extensionDescription[name].length;
-            i++
-        ) {
-            const descriptor = this.state.editor.extensionDescription[name][i];
-            if (descriptor[filteringProperty]) {
-                const attributes = this.field[name].filter(
-                    param => descriptor.apiName === param.name.value
-                );
-                if (attributes && attributes.length > 0) {
-                    for (let j = 0; j < attributes.length; j++) {
-                        params.push({
-                            attribute: attributes[j],
-                            descriptor,
-                            index: j + 1,
-                            rowIndex: attributes[j].rowIndex,
-                            key: descriptor.apiName + j
-                        });
-                    }
-                } else {
-                    params.push({
-                        attribute: undefined,
-                        descriptor,
-                        key: descriptor.apiName
-                    });
-                }
-            }
-        }
-
-        params.sort((p1, p2) => {
-            if (
-                sortByRequiredness &&
-                p1.descriptor.isRequired !== p2.descriptor.isRequired
-            ) {
-                return p1.descriptor.isRequired ? -1 : 1;
-            }
-            const p1Label = (
-                p1.descriptor.label ||
-                p1.descriptor.apiName ||
-                ''
-            ).toLowerCase();
-            const p2Label = (
-                p2.descriptor.label ||
-                p2.descriptor.apiName ||
-                ''
-            ).toLowerCase();
-            return p1Label.localeCompare(p2Label);
-        });
-
-        return params;
-    };
+    get hasDynamicTypeMappings() {
+        return this.state.dynamicTypeMappings && this.state.dynamicTypeMappings.length > 0;
+    }
 
     /**
      * Handles selection/deselection of 'Use Advanced Options' checkbox
      * @param {Object} event - event
      */
     handleAdvancedOptionsSelectionChange(event) {
-        this.state.editor = screenExtensionPropertiesReducer(
-            this.state.editor,
-            event
-        );
+        this.state = screenExtensionPropertiesEventReducer(this.state, this, event);
+    }
+
+    /**
+     * Handles a change of a dynamic type mapping.
+     * @param {object} event
+     */
+    handleDynamicTypeMappingChange(event) {
+        const rowIndex = event.target.rowIndex;
+        const dynamicTypeMapping = this.state.dynamicTypeMappings.find(value => value.rowIndex === rowIndex);
+        this.dispatchEvent(new DynamicTypeMappingChangeEvent({
+            typeName: getValueFromHydratedItem(dynamicTypeMapping.name),
+            typeValue: event.detail.item ? getValueFromHydratedItem(event.detail.item.value) : event.detail.displayText,
+            rowIndex,
+            error: event.detail.error
+        }));
     }
 }

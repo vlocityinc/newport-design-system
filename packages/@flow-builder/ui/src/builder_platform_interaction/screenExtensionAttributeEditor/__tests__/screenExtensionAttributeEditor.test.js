@@ -409,6 +409,20 @@ describe('Screen Extension Attribute Editor', () => {
         });
     });
 
+    it('disables screen property fields', () => {
+        const propertyProcessor = (inputProperties, outputProperties) => {
+            inputProperties.disabled = true;
+            outputProperties.disabled = true;
+        };
+        return runTest(STRING, STRING, propertyProcessor, (inputEditor, outputEditor) => {
+            const inputPropertyField = query(inputEditor, SELECTORS.PROPERTY_FIELD);
+            expect(inputPropertyField.disabled).toBe(true);
+
+            const outputPropertyField = query(outputEditor, SELECTORS.PROPERTY_FIELD);
+            expect(outputPropertyField.disabled).toBe(true);
+        });
+    });
+
     it('propertyChange event handler modifies the event correctly', () => {
         const ATT_INDEX = 3;
         const propertyProcessor = (_, outputProperties) => {

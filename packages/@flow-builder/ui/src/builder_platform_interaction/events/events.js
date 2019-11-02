@@ -116,3 +116,4 @@ export {
 } from './richTextPlainTextSwitchChangedEvent';
 export { ToggleFlowStatusEvent } from './toolbarEvents/toggleFlowStatusEvent';
 export { ConfigurationEditorChangeEvent } from './configurationEditorChangeEvent';
+export { DynamicTypeMappingChangeEvent } from './dynamicTypeMappingChangeEvent';

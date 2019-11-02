@@ -23,6 +23,13 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { mockScreenElement } from 'mock/calloutData';
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const lookupScreenField = require.requireActual('mock/storeData').lookupScreenField;
+    return Object.assign({}, require.requireActual('builder_platform_interaction/storeUtils'), {
+        getElementByDevName: name => (name === 'lookupScreenField' ? lookupScreenField : require.requireActual('builder_platform_interaction/storeUtils').getElementByDevName(name))
+    });
+});
+
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
@@ -98,15 +105,22 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         })
     };
 });
+
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
+    const flowExtensionMock = require('mock/flowExtensionsData');
     return {
-        getCachedExtension: jest
-            .fn()
-            .mockImplementation(
-                () =>
-                    require('mock/flowExtensionsData')
-                        .mockFlowRuntimeEmailFlowExtensionDescription
-            )
+        getCachedExtension: jest.fn().mockImplementation((name, dynamicTypeMappings) => {
+            let result = Object.values(flowExtensionMock).find(extension => extension.name === name);
+            if (name === 'c:lookup') {
+                // Run the actual function for <c:lookup/>
+                const applyDynamicTypeMappings = require.requireActual('builder_platform_interaction/flowExtensionLib').applyDynamicTypeMappings;
+                result = Object.assign({}, result, {
+                    inputParameters: applyDynamicTypeMappings(result.inputParameters, dynamicTypeMappings),
+                    outputParameters: applyDynamicTypeMappings(result.outputParameters, dynamicTypeMappings)
+                });
+            }
+            return result;
+        })
     };
 });
 
@@ -729,6 +743,45 @@ describe('Merge field validation', () => {
                     )
                 ]);
             });
+        });
+        it('validates generically typed parameters with concrete types specified in dynamic type mappings', () => {
+            const allowedParamTypes = {
+                Asset: [
+                    {
+                        paramType: 'Data',
+                        dataType: 'SObject',
+                        canBeSobjectField: 'CanBe',
+                        canBeApexProperty: 'CanBe',
+                        canBeSystemVariable: 'CanBe',
+                        cannotBeElements: [],
+                        mustBeElements: [],
+                        null: false,
+                        collection: false
+                    }
+                ],
+                '': [
+                    {
+                        paramType: null,
+                        dataType: null,
+                        canBeSobjectField: null,
+                        canBeApexProperty: 'CanBe',
+                        canBeSystemVariable: null,
+                        cannotBeElements: [],
+                        mustBeElements: [],
+                        null: true,
+                        collection: false
+                    }
+                ],
+                canBeSobjectField: true,
+                canBeSystemVariable: true,
+                canBeApexProperty: true
+            };
+            const validationErrors = validateMergeField('{!lookupScreenField.selectedRecord}', { allowedParamTypes });
+            expect(validationErrors).toHaveLength(0);
+            expect(getCachedExtension).toBeCalledWith('c:lookup', expect.arrayContaining([{
+                typeName: 'T',
+                typeValue: 'Asset'
+            }]));
         });
     });
 });

@@ -1,7 +1,8 @@
 import {
     screenValidation,
     getExtensionParameterValidation,
-    getRulesForField
+    getRulesForField,
+    getDynamicTypeMappingValidation
 } from './screenValidation';
 import {
     VALIDATE_ALL,
@@ -14,7 +15,10 @@ import {
     deleteItem,
     insertItem,
     replaceItem,
-    hydrateWithErrors
+    hydrateWithErrors,
+    isItemHydratedWithErrors,
+    addItem,
+    getValueFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     ReorderListEvent,
@@ -25,7 +29,8 @@ import {
     UpdateConditionLogicEvent,
     DeleteConditionEvent,
     UpdateConditionEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    UseAdvancedOptionsSelectionChangedEvent,
+    DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import { createEmptyScreenFieldOfType } from 'builder_platform_interaction/elementFactory';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
@@ -42,6 +47,7 @@ import {
     EXTENSION_PARAM_PREFIX
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 
 const updateFieldInScreen = (screen, field, newField) => {
     // Replace the field in the screen
@@ -105,11 +111,83 @@ const addCondition = (screen, field, event) => {
     return updateField(screen, field, { visibilityRule });
 };
 
-const isHydrated = value => {
-    return (
-        value && value.hasOwnProperty('value') && value.hasOwnProperty('error')
+/**
+ * Clears values of field parameters with the specified generic type.
+ */
+const clearGenericParameters = ({ parameters, extensionParameters, genericTypeName }) =>
+    parameters
+        .map(parameter => ({
+            parameter,
+            parameterType: extensionParameters.find(paramType =>
+                paramType.apiName === getValueFromHydratedItem(parameter.name))
+        }))
+        .map(({ parameter, parameterType }) => (
+            parameterType && parameterType.subtype === '{' + genericTypeName + '}' ?
+                { ...parameter, value: { value: "", error: null }} : parameter
+        ));
+
+/**
+ * Clears values of input and output parameters of the specified generic type
+ * of a screen field.
+ */
+function clearGenericFieldParameters(field, genericTypeName) {
+    const extension = getCachedExtension(getValueFromHydratedItem(field.extensionName));
+    const result = {};
+    if (field.inputParameters) {
+        result.inputParameters = clearGenericParameters({
+                parameters: field.inputParameters,
+                extensionParameters: extension.inputParameters,
+                genericTypeName
+            });
+    }
+    if (field.outputParameters) {
+        result.outputParameters = clearGenericParameters({
+                parameters: field.outputParameters,
+                extensionParameters: extension.outputParameters,
+                genericTypeName
+            });
+    }
+    return result;
+}
+
+/**
+ * Updates a values of a dynamic type mapping of a screen field or creates a new
+ * dynamic type mapping. Also clears values of input and output parameters with
+ * the generic type in the mapping.
+ */
+function setDynamicTypeMappingTypeValue(screen, field, event) {
+    const { typeName, typeValue, rowIndex } = event.detail;
+    // Find an existing dynamic type mapping by the type name or create new.
+    const dynamicTypeMappings = field.dynamicTypeMappings || [];
+    const index = dynamicTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
+    const dynamicTypeMapping = index >= 0 ? dynamicTypeMappings[index] : {
+        typeName: {
+            value: typeName,
+            error: null
+        },
+        rowIndex
+    };
+    // Check if the value has actually changed
+    if (index > 0 && getValueFromHydratedItem(dynamicTypeMapping.typeValue) === typeValue) {
+        return screen;
+    }
+    // Update the dynamic type mapping with the new value and validate it.
+    const validation = getDynamicTypeMappingValidation(rowIndex);
+    const newDynamicTypeMapping = updateProperties(dynamicTypeMapping, {
+        typeValue: {
+            value: typeValue,
+            error: validation.validateProperty('dynamicTypeMapping', typeValue)
+        }
+    });
+    // Update dynamic type mappings in the state and return the new state.
+    const newDynamicTypeMappings = index >= 0 ?
+        replaceItem(dynamicTypeMappings, newDynamicTypeMapping, index) : addItem(dynamicTypeMappings, newDynamicTypeMapping);
+    return updateField(screen, field, {
+            dynamicTypeMappings: newDynamicTypeMappings,
+            ...clearGenericFieldParameters(field, typeName)
+        }
     );
-};
+}
 
 /**
  * Adds screen fields to a screen.
@@ -541,10 +619,10 @@ const screenPropertyChanged = (screen, event, selectedNode) => {
     const error = event.detail.error;
     const value = event.detail.value;
     const currentValue = event.detail.oldValue || selectedNode[property];
-    const hydrated = isHydrated(currentValue);
+    const hydrated = isItemHydratedWithErrors(currentValue);
 
     if (hydrated) {
-        if (!isHydrated(value)) {
+        if (!isItemHydratedWithErrors(value)) {
             throw new Error(
                 'Current value is hydrated and new value is not' +
                     JSON.stringify(event.detail)
@@ -739,6 +817,10 @@ export const screenReducer = (state, event, selectedNode) => {
                 selectedNode,
                 event.detail
             );
+
+        case DynamicTypeMappingChangeEvent.EVENT_NAME:
+            return setDynamicTypeMappingTypeValue(state, selectedNode, event);
+
         default:
             return state;
     }

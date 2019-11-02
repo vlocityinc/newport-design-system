@@ -1872,10 +1872,10 @@ describe('Combobox Tests', () => {
         it('should fire a new resource event with the correct position ', done => {
             const LEFT = 'LEFT';
             const selectEvent = getSelectEvent('%%NewResource%%');
-            const newResourceCallback = function (event) {
+            const newResourceCallback = jest.fn((event) => {
                 expect(event.detail.position).toEqual(LEFT);
                 done();
-            };
+            });
             combobox.addEventListener('addnewresource', newResourceCallback);
             combobox.position = LEFT;
             groupedCombobox.dispatchEvent(selectEvent);

@@ -92,14 +92,10 @@ export function processRequiredParamsForExtensionsInScreen(screen, callback) {
  * @param {screenfield} field - The extension screen field
  * @param {ExtensionDescription} description - The descriptor of the extension
  */
-export function addRequiredInputParameters(field, description) {
+function addRequiredInputParameters(field, description) {
     for (const param of description.inputParameters) {
         if (param.isRequired && !param.hasDefaultValue) {
-            if (
-                field.inputParameters.filter(
-                    p => p.name.value === param.apiName
-                ).length === 0
-            ) {
+            if (!field.inputParameters.find(p => p.name.value === param.apiName)) {
                 // Param is not present
                 field.inputParameters.push({
                     name: { value: param.apiName, error: null },

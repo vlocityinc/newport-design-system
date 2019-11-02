@@ -6,10 +6,15 @@ import {
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent
 } from 'builder_platform_interaction/builderTestUtils';
-import { screenExtensionPropertiesReducer } from '../screenExtensionPropertiesReducer';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { screenExtensionPropertiesEventReducer } from '../screenExtensionPropertiesReducer';
+import { UseAdvancedOptionsSelectionChangedEvent, ItemSelectedEvent, DynamicTypeMappingChangeEvent, ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { createFlowExtensionWithDynamicTypes, createScreenFieldWithDynamicTypes } from './screenExtensionDynamicTypesMocks';
+
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
 jest.mock('builder_platform_interaction/outputResourcePicker', () =>
     require('builder_platform_interaction_mocks/outputResourcePicker')
@@ -37,8 +42,12 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 });
 
 jest.mock('../screenExtensionPropertiesReducer.js', () => {
+    const actual = require.requireActual(
+        '../screenExtensionPropertiesReducer.js'
+    );
     return {
-        screenExtensionPropertiesReducer: jest.fn()
+        screenExtensionPropertiesEventReducer: jest.fn().mockImplementation((state) => state),
+        screenExtensionPropertiesPropsToStateReducer: actual.screenExtensionPropertiesPropsToStateReducer
     };
 });
 
@@ -67,6 +76,8 @@ const SELECTORS = {
     CONTAINER_DIV: 'div.container',
     NAME_FIELD:
         'builder_platform_interaction-screen-property-field[name="name"]',
+    DYNAMIC_TYPE_MAPPINGS:
+        'builder_platform_interaction-entity-resource-picker',
     INPUT_EDITOR:
         'builder_platform_interaction-screen-extension-attribute-editor[attributeType="input"]',
     OUTPUT_EDITOR:
@@ -341,6 +352,13 @@ const testEditors = (selector, propertyName) => {
     });
 };
 
+function forceRender(element) {
+    while (document.body.firstChild) {
+        document.body.removeChild(document.body.firstChild);
+    }
+    document.body.appendChild(element);
+}
+
 describe('Screen Extension Properties Editor', () => {
     it('does not render its container when the field is not set', () => {
         return runTest(false, true, null, editor => {
@@ -442,34 +460,35 @@ describe('Screen Extension Properties Editor', () => {
     it('sets the right attributes to outputs', () => {
         return testEditors(SELECTORS.OUTPUT_EDITOR, 'outputParameters');
     });
+
     describe('Automated output', () => {
-        it('shows up Use Advanced Options when Automated Output enabled', () => {
+        it('shows up Use Advanced Options when Automated Output enabled', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
                 () => 'Supported'
             );
             const extensionEditor = createComponentForTestWithProperties();
 
-            return Promise.resolve().then(() => {
-                const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(
-                    extensionEditor
-                );
-                expect(useAdvancedOptionsCheckbox).toBeDefined();
-                expect(useAdvancedOptionsCheckbox.checked).toBe(false);
-            });
+            await Promise.resolve();
+
+            const useAdvancedOptionsCheckbox = getAdvancedOptionCheckbox(
+                extensionEditor
+            );
+            expect(useAdvancedOptionsCheckbox).toBeDefined();
+            expect(useAdvancedOptionsCheckbox.checked).toBe(false);
         });
-        it('does not show up Use Advanced Options when Automated Output disabled', () => {
+        it('does not show up Use Advanced Options when Automated Output disabled', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
                 () => 'Unsupported'
             );
             const extensionEditor = createComponentForTestWithProperties();
 
-            return Promise.resolve().then(() => {
-                expect(
-                    getUseAdvancedOptionComponent(extensionEditor)
-                ).toBeNull();
-            });
+            await Promise.resolve();
+
+            expect(
+                getUseAdvancedOptionComponent(extensionEditor)
+            ).toBeNull();
         });
-        it('handles use advanced option checkbox event', () => {
+        it('handles use advanced option checkbox event', async () => {
             mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(
                 () => 'Supported'
             );
@@ -478,28 +497,32 @@ describe('Screen Extension Properties Editor', () => {
                 true
             );
 
-            return Promise.resolve().then(async () => {
-                getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(
-                    expectedEvent
-                );
+            await Promise.resolve();
 
-                await Promise.resolve();
-                expect(screenExtensionPropertiesReducer).toHaveBeenCalled();
-                expect(
-                    screenExtensionPropertiesReducer.mock.calls[0][0]
-                ).toMatchObject({
-                    extensionDescription: {
-                        inputParameters: expect.anything(),
-                        outputParameters: expect.anything()
-                    },
-                    outputParameters: expect.anything(),
-                    storeOutputAutomatically: true
-                });
-                expect(
-                    screenExtensionPropertiesReducer.mock.calls[0][1].detail
-                ).toMatchObject({
-                    useAdvancedOptions: true
-                });
+            getUseAdvancedOptionComponent(extensionEditor).dispatchEvent(
+                expectedEvent
+            );
+            await Promise.resolve();
+
+            expect(screenExtensionPropertiesEventReducer).toHaveBeenCalled();
+            expect(
+                screenExtensionPropertiesEventReducer.mock.calls[0][0]
+            ).toMatchObject({
+                outputParameters: expect.anything(),
+                storeOutputAutomatically: true
+            });
+            expect(
+                screenExtensionPropertiesEventReducer.mock.calls[0][1]
+            ).toMatchObject({
+                extensionDescription: {
+                    inputParameters: expect.anything(),
+                    outputParameters: expect.anything()
+                }
+            });
+            expect(
+                screenExtensionPropertiesEventReducer.mock.calls[0][2].detail
+            ).toMatchObject({
+                useAdvancedOptions: true
             });
         });
         it('does not show the checkbox up when screen field has no output', () => {
@@ -525,6 +548,127 @@ describe('Screen Extension Properties Editor', () => {
                     getStoreOutputVariableTitleElement(extensionEditor)
                 ).not.toBeDefined();
             });
+        });
+    });
+
+    describe('dynamic types', () => {
+        const createComponentWithDynmicTypes = () => createComponentForTest({
+            field: createScreenFieldWithDynamicTypes(),
+            extensionDescription: createFlowExtensionWithDynamicTypes(),
+            processType: 'Something'
+        });
+
+        it('renders', () => {
+            createComponentWithDynmicTypes();
+        });
+
+        it('renders entity picker for each generic type', async () => {
+            const editor = createComponentWithDynmicTypes();
+            const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
+            expect(pickers).toHaveLength(2);
+            expect(pickers[0].comboboxConfig).toMatchObject({
+                label: 'First sobject',
+                required: true,
+                allowSObjectFields: false,
+                fieldLevelHelp: 'This is the first object'
+            });
+            expect(pickers[0].value).toBe('Asset');
+            expect(pickers[0].rowIndex).toBeDefined();
+            expect(pickers[1].comboboxConfig).toMatchObject({
+                label: 'Second sobject',
+                required: true,
+                allowSObjectFields: false,
+                fieldLevelHelp: 'This is the second object'
+            });
+            expect(pickers[1].value).toBe('');
+            expect(pickers[1].rowIndex).toBeDefined();
+        });
+
+        it('does not render input and output parameters while not all generic types are bound', () => {
+            const editor = createComponentWithDynmicTypes();
+            const inputs = query(editor, SELECTORS.INPUT_EDITOR, true);
+            expect(inputs).toHaveLength(0);
+            const outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
+            expect(outputs).toHaveLength(0);
+        });
+
+        it('handles ItemSelected entity picker event', async () => {
+            const editor = createComponentWithDynmicTypes();
+            const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
+            const handler = jest.fn();
+            editor.addEventListener(DynamicTypeMappingChangeEvent.EVENT_NAME, handler);
+            pickers[1].dispatchEvent(
+                new ItemSelectedEvent({
+                    value: 'Account'
+                }));
+            await Promise.resolve();
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].detail).toMatchObject({
+                typeName: 'S',
+                typeValue: 'Account',
+                error: undefined,
+                rowIndex: expect.anything()
+            });
+        });
+
+        it('handles CoboboxStateChanged entity picker event', async () => {
+            const editor = createComponentWithDynmicTypes();
+            const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
+            const handler = jest.fn();
+            editor.addEventListener(DynamicTypeMappingChangeEvent.EVENT_NAME, handler);
+            pickers[1].dispatchEvent(new ComboboxStateChangedEvent({ value: 'Engine' }, 'This is an engine', null, false));
+            await Promise.resolve();
+            expect(handler).toHaveBeenCalled();
+            expect(handler.mock.calls[0][0].detail).toMatchObject({
+                typeName: 'S',
+                typeValue: 'Engine',
+                error: null,
+                rowIndex: expect.anything()
+            });
+        });
+
+        it('renders input and output parameters when all generic types are bound', async () => {
+            const editor = createComponentWithDynmicTypes();
+            let inputs = query(editor, SELECTORS.INPUT_EDITOR, true);
+            expect(inputs).toHaveLength(0);
+            let outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
+            expect(outputs).toHaveLength(0);
+
+            editor.field = Object.assign({}, editor.field, {
+                dynamicTypeMappings: [{
+                    typeName: 'T',
+                    typeValue: 'Account'
+                }, {
+                    typeName: 'S',
+                    typeValue: 'Engine'
+                }]
+            });
+
+            forceRender(editor);
+
+            await Promise.resolve();
+
+            inputs = query(editor, SELECTORS.INPUT_EDITOR, true);
+            expect(inputs).toHaveLength(2);
+            outputs = query(editor, SELECTORS.OUTPUT_EDITOR, true);
+            expect(outputs).toHaveLength(0);
+        });
+
+        it('disables entity pickers, if the field is not new', async () => {
+            const editor = createComponentWithDynmicTypes();
+            const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
+            expect(pickers[0].comboboxConfig.disabled).toBe(false);
+            expect(pickers[1].comboboxConfig.disabled).toBe(false);
+            editor.field = Object.assign({}, editor.field, {
+                isNewField: false
+            });
+
+            forceRender(editor);
+
+            await Promise.resolve();
+
+            expect(pickers[0].comboboxConfig.disabled).toBe(true);
+            expect(pickers[1].comboboxConfig.disabled).toBe(true);
         });
     });
 });

@@ -88,17 +88,16 @@ export function retrieveResourceComplexTypeFields(flowResource) {
         flowResource.dataType ===
         FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
     ) {
-        fields = getExtensionComplexTypeOutputFields(
-            flowResource.extensionName
-        );
+        fields = getExtensionComplexTypeOutputFields(flowResource);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         fields = getInvocableActionComplexTypeOutputFields(flowResource);
     }
     return fields;
 }
 
-function getExtensionComplexTypeOutputFields(extensionName) {
-    const extension = getCachedExtension(extensionName.value || extensionName);
+function getExtensionComplexTypeOutputFields(flowResource) {
+    const extensionName = flowResource.extensionName;
+    const extension = getCachedExtension(extensionName.value || extensionName, flowResource.dynamicTypeMappings);
     const fields =
         extension &&
         extension.outputParameters.reduce((acc, parameter) => {

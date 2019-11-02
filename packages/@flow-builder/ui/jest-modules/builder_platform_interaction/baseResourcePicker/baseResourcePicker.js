@@ -24,6 +24,9 @@ export default class BaseResourcePicker extends LightningElement {
   elementType;
 
   @api
+  placeholder;
+
+  @api
   setMenuData(newMenuData) {
     this._fullMenuData = newMenuData;
   }

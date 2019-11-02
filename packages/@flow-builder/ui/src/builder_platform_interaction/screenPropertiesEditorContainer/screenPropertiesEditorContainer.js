@@ -1,4 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track, readonly } from 'lwc';
 import * as screenEditorUtils from 'builder_platform_interaction/screenEditorUtils';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { createScreenNodeSelectedEvent } from 'builder_platform_interaction/events';
@@ -98,6 +98,9 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
         this.processTypeValue = newValue;
     }
 
+    @api
+    extensionTypes;
+
     handleToggleExpand = (/* event */) => {
         const container = this.template.querySelector('.properties-container');
 
@@ -116,10 +119,18 @@ export default class ScreenEditorPropertiesEditorContainer extends LightningElem
     fetchDescription() {
         this.displaySpinner = true;
         const node = this.node; // closure
-        describeExtension(node.extensionName.value)
+        const extensionName = node.extensionName.value;
+        describeExtension(extensionName)
             .then(desc => {
                 this.displaySpinner = false;
                 if (this.node === node) {
+                    const genericTypes = this.extensionTypes ? this.extensionTypes.find(extensionType => extensionType.name === extensionName).genericTypes : undefined;
+                    if (genericTypes && genericTypes.length > 0) {
+                        desc = readonly({
+                            ...desc,
+                            genericTypes
+                        });
+                    }
                     this.extendedInfo = desc;
                 }
             })

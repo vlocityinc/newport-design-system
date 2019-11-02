@@ -133,6 +133,14 @@ const getExtensionParameterRules = (type, required, rowIndex) => {
     return rules;
 };
 
+const getDynamicTypeMappingRules = (rowIndex) => {
+    return [
+        ValidationRules.shouldNotBeBlank,
+        ValidationRules.shouldNotBeNullOrUndefined,
+        ValidationRules.validateResourcePicker(rowIndex)
+    ];
+};
+
 /**
  * Adds rules for the provided extension screen field (type and requiredness checks for input params)
  *
@@ -143,24 +151,25 @@ const getRulesForExtensionField = (field, rules) => {
     const extensionName = field.extensionName && field.extensionName.value;
     const descriptor = getDescriptorForExtension(extensionName);
 
+    if (descriptor.genericTypes) {
+        rules.dynamicTypeMappings = function (dynamicTypeMapping) {
+            return {
+                typeValue: getDynamicTypeMappingRules(
+                    dynamicTypeMapping.rowIndex
+                )
+            };
+        };
+    }
+
     rules.inputParameters = param => {
         const inputName = param.name.value ? param.name.value : param.name;
-        const attributeDescriptors = descriptor.inputParameters.filter(
-            p => p.apiName === inputName
-        );
-        if (attributeDescriptors.length < 1) {
-            throw new Error(
-                'Cannot find parameter ' +
-                    inputName +
-                    ' in the description of ' +
-                    extensionName
-            );
+        const attributeDescriptor = descriptor.inputParameters.find(p => p.apiName === inputName);
+        if (!attributeDescriptor) {
+            throw new Error(`Cannot find parameter ${inputName} in the description of ${extensionName}`);
         } else {
             // here we have the attribute from the definition and the parameter from the field, let's make sure that the type and the requiredness match
-            const type = attributeDescriptors[0].dataType;
-            const required =
-                attributeDescriptors[0].isRequired &&
-                !attributeDescriptors[0].hasDefaultValue;
+            const type = attributeDescriptor.dataType;
+            const required = attributeDescriptor.isRequired && !attributeDescriptor.hasDefaultValue;
             return {
                 value: getExtensionParameterRules(
                     type,
@@ -410,3 +419,8 @@ export const getExtensionParameterValidation = (
     const rules = getExtensionParameterRules(type, required);
     return new Validation({ [propertyName]: rules });
 };
+
+export function getDynamicTypeMappingValidation(rowIndex) {
+    const rules = getDynamicTypeMappingRules(rowIndex);
+    return new Validation({ dynamicTypeMapping: rules });
+}
