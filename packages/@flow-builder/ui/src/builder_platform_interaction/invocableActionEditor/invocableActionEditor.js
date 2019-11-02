@@ -31,6 +31,7 @@ import {
 
 import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
+import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
 export default class InvocableActionEditor extends LightningElement {
     connected = false;
@@ -109,12 +110,25 @@ export default class InvocableActionEditor extends LightningElement {
             this.actionCallNode,
             event
         );
-        const errors = getErrorsFromHydratedElement(this.actionCallNode);
+        let errors = getErrorsFromHydratedElement(this.actionCallNode);
         if (this.configurationEditor) {
             const baseCalloutEditor = this.template.querySelector('builder_platform_interaction-base-callout-editor');
             if (baseCalloutEditor) {
                 const baseCalloutEditorErrors = baseCalloutEditor.validate();
-                return [...errors, ...baseCalloutEditorErrors];
+                errors = [...errors, ...baseCalloutEditorErrors];
+                if (errors.length === 0) {
+                    logInteraction(
+                        'invocable-action-configuratior-editor-done',
+                        'modal',
+                        {
+                            actionName: getValueFromHydratedItem(this.node.actionName),
+                            actionType: getValueFromHydratedItem(this.node.actionType),
+                            configurationEditor: this.configurationEditor.name
+                        },
+                        'click'
+                    );
+                }
+                return errors;
             }
         }
         return errors;
@@ -145,6 +159,8 @@ export default class InvocableActionEditor extends LightningElement {
         };
         this.displaySpinner = true;
         this.invocableActionParametersDescriptor = undefined;
+        // Needed to unrender the existing configuration editor
+        this.invocableActionConfigurationEditorDescriptor = undefined;
         fetchDetailsForInvocableAction(actionParams)
             .then(({ configurationEditor, parameters }) => {
                 if (this.connected) {
@@ -281,6 +297,10 @@ export default class InvocableActionEditor extends LightningElement {
         return this.invocableActionConfigurationEditorDescriptor;
     }
 
+    _shouldCreateConfigurationEditor() {
+        return this.configurationEditor && this.configurationEditor.name && this.configurationEditor.errors.length === 0;
+    }
+
     /**
      * Returns the list of input parameters and their properties
      *
@@ -288,7 +308,7 @@ export default class InvocableActionEditor extends LightningElement {
      * @memberof InvocableActionEditor
      */
     get configurationEditorProperties() {
-        if (this.configurationEditor) {
+        if (this._shouldCreateConfigurationEditor()) {
             return (
                 this.invocableActionParametersDescriptor &&
                 this.invocableActionParametersDescriptor.filter(
@@ -303,7 +323,7 @@ export default class InvocableActionEditor extends LightningElement {
      * Returns the current flow state. Shape is same as flow metadata.
      */
     get flowContext() {
-        if (this.configurationEditor) {
+        if (this._shouldCreateConfigurationEditor()) {
             const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
             const {
                 variables = [],
@@ -345,16 +365,16 @@ export default class InvocableActionEditor extends LightningElement {
      * then convert it into desired shape
      */
     get configurationEditorValues() {
-        if (this.invocableActionParametersDescriptor && this.actionCallNode && this.configurationEditor) {
+        if (this.invocableActionParametersDescriptor && this.actionCallNode && this._shouldCreateConfigurationEditor()) {
             const inputParameters = this.actionCallNode.inputParameters
                                                         .filter(({value}) => !!value)
                                                         .map(inputParameter => createInputParameter(inputParameter));
             dehydrate(inputParameters);
             swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
-            return inputParameters.map(({name, value, subtype}) => ({
+            return inputParameters.map(({name, value, valueDataType}) => ({
                     id: name,
                     value,
-                    dataType: subtype
+                    dataType: valueDataType
             }));
         }
         return [];

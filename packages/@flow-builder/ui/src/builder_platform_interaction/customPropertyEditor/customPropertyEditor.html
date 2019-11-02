@@ -1,9 +1,10 @@
 <template>
     <div class="configuration-editor" lwc:dom="manual" if:false={hasErrors}></div>
     <template if:true={hasErrors}>
-        <template for:each={configurationEditor.errors} for:item="error" >
-            <!--This HTML is not finalized. Team will review with UX and update it.-->
-            <div key={error} class="slds-text-color_error slds-p-around_x-small">{error}</div>
-        </template>
+        <ul class="slds-is-nested slds-list_vertical-space-medium slds-list_dotted slds-p-bottom_small">
+            <template for:each={errors} for:item="error" >
+                <li key={error.key} class="slds-item slds-text-color_error">{error.errorString}</li>
+            </template>
+        </ul>
     </template>
 </template>

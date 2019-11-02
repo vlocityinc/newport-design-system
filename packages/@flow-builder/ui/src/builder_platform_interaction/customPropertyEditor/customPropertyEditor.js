@@ -1,8 +1,10 @@
 import { api, LightningElement, unwrap } from 'lwc';
 import { createConfigurationEditor } from 'builder_platform_interaction/builderUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { logPerfTransactionStart, logPerfTransactionEnd } from 'builder_platform_interaction/loggingUtils';
 
 const CONFIGURATION_EDITOR_SELECTOR = '.configuration-editor';
+const CUSTOM_PROPERTY_EDITOR = 'CUSTOM_PROPERTY_EDITOR';
 
 export default class CustomPropertyEditor extends LightningElement {
     /** Private variables */
@@ -12,6 +14,7 @@ export default class CustomPropertyEditor extends LightningElement {
     _flowContext = {};
     _values = [];
     _unrenderFn;
+    _createComponentErrors = [];
 
     /** Public properties */
     @api
@@ -68,10 +71,10 @@ export default class CustomPropertyEditor extends LightningElement {
         if (this._isComponentCreated) {
             const configurationEditorTemplate = this.getConfigurationEditorTemplate();
             if (configurationEditorTemplate && configurationEditorTemplate.validate) {
-                return configurationEditorTemplate.validate();
+                return [...configurationEditorTemplate.validate()];
             }
         }
-        return [];
+        return this.errors;
     }
 
     /** Getters */
@@ -84,10 +87,18 @@ export default class CustomPropertyEditor extends LightningElement {
      */
     get hasErrors() {
         const errors = this.configurationEditor && this.configurationEditor.errors;
-        if (errors && errors.length > 0) {
+        if ((errors && errors.length > 0) || this._createComponentErrors.length > 0) {
             return true;
         }
         return false;
+    }
+
+    get errors() {
+        const errors = (this.configurationEditor && this.configurationEditor.errors) || [];
+        return errors.map(errorString => ({
+                key: CUSTOM_PROPERTY_EDITOR,
+                errorString
+            })).concat(this._createComponentErrors);
     }
 
     /** Lifecycle hooks */
@@ -121,15 +132,31 @@ export default class CustomPropertyEditor extends LightningElement {
 
     /**
      * Creates custom property editor and set the unrender function in a private variable
-     * There is no guarantee that component is rendered even if _isComponentCreated is true.
      *
      * @memberof CustomPropertyEditor
      */
     createComponent = () => {
+        logPerfTransactionStart(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`);
         const container = this.template.querySelector(
             CONFIGURATION_EDITOR_SELECTOR
         );
+
+        const successCallback = () => {
+            // End the instrumentation
+            this._isComponentCreated = true;
+            logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
+                isSuccess: true
+            });
+        };
+
         const errorCallback = () => {
+            logPerfTransactionEnd(`${CUSTOM_PROPERTY_EDITOR}-${this.configurationEditor.name}`, {
+                isSuccess: false
+            });
+            this._createComponentErrors = [{
+                key: CUSTOM_PROPERTY_EDITOR,
+                errorString: 'unable to create the component'
+            }];
             throw new Error('unable to create the component');
         };
 
@@ -138,6 +165,7 @@ export default class CustomPropertyEditor extends LightningElement {
         const params = {
             cmpName,
             container,
+            successCallback,
             errorCallback,
             attr: {
                 flowContext: this.flowContext,
@@ -147,7 +175,6 @@ export default class CustomPropertyEditor extends LightningElement {
             }
         };
         this._unrenderFn = createConfigurationEditor(params);
-        this._isComponentCreated = true;
     };
 
     /**

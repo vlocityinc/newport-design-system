@@ -798,7 +798,7 @@ export function showPopover(cmpName, cmpAttributes = {}, popoverProps) {
  * Create LWC component dynamically for custom property editor
  * PLEASE DON'T USE THIS UTIL EXCEPT FOR CUSTOM PROPERTY EDITOR
  */
-export function createConfigurationEditor({cmpName, container, attr = {}, errorCallback = () => {}}) {
+export function createConfigurationEditor({cmpName, container, attr = {}, errorCallback = () => {}, successCallback = () => {}}) {
     if (!cmpName) {
         throw new Error('Component name is not defined');
     }
@@ -809,6 +809,7 @@ export function createConfigurationEditor({cmpName, container, attr = {}, errorC
     createComponentPromise(cmpName, attr).then((cmp) => {
         renderComponent(cmp, container);
         newCmp = cmp;
+        successCallback(newCmp);
     }).catch(errorCallback);
 
     const unrender = () => {
