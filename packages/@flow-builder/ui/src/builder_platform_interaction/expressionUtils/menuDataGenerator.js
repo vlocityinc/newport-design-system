@@ -366,11 +366,9 @@ export function mutateFlowResourceToComboboxShape(resource) {
         iconSize: ICON_SIZE
     };
 
-    let resourceIcon;
     const resourceDataType = getDataType(resource);
     const resourceLabel = resource.type ? resource.type.label : resource.label;
-    let elementCategory;
-    let isNonElement;
+    let elementCategory, isNonElement, resourceIcon;
 
     if (resource.elementType === ELEMENT_TYPE.START_ELEMENT) {
         resourceIcon = ICON_TYPE + ':system_and_global_variable';
@@ -388,10 +386,8 @@ export function mutateFlowResourceToComboboxShape(resource) {
                 : resource.iconName;
         }
         elementCategory = getResourceCategory({
-            elementType: resource.elementType,
-            dataType: resourceDataType,
-            isCollection: resource.isCollection,
-            isSystemGeneratedOutput: resource.isSystemGeneratedOutput
+            ...resource,
+            dataType: resourceDataType
         });
         newElement.text = getResourceLabel(resource);
         newElement.value = resource.guid;

@@ -124,9 +124,8 @@ describe('menuDataGenerator', () => {
                 expect.any(String)
             );
             expect(getResourceCategory).toHaveBeenCalledWith({
-                elementType: undefined,
-                dataType: mockResource.type.type,
-                isCollection: undefined
+                ...mockResource,
+                dataType: mockResource.type.type
             });
         });
 

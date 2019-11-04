@@ -312,11 +312,61 @@
         "scale": 0
       },
       {
+        "name": "caseSObjectVariable",
+        "description": "",
+        "objectType": "Case",
+        "dataType": "SObject",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 0
+      },
+      {
         "name": "caseSObjectCollectionVariable",
         "description": "",
         "objectType": "Case",
         "dataType": "SObject",
         "isCollection": true,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 0
+      },
+      {
+        "name": "contactSObjectVariable",
+        "description": "",
+        "objectType": "Contact",
+        "dataType": "SObject",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 0
+      },
+      {
+        "name": "campaignSObjectVariable",
+        "description": "",
+        "objectType": "Campaign",
+        "dataType": "SObject",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 0
+      },
+      {
+        "name": "opportunitySObjectCollectionVariable",
+        "description": "",
+        "objectType": "Opportunity",
+        "dataType": "SObject",
+        "isCollection": true,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 0
+      },
+            {
+        "name": "opportunitySObjectVariable",
+        "description": "",
+        "objectType": "Opportunity",
+        "dataType": "SObject",
+        "isCollection": false,
         "isInput": false,
         "isOutput": false,
         "scale": 0

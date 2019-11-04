@@ -20,7 +20,7 @@ expect.extend(deepFindMatchers);
 const MOCK_GUID = 'mockGuid',
     MOCK_ASSIGN_RECORD_ID_TO_REFERENCE = 'myNewId';
 
-const flowRecordCreateFieldsMetadata = () => ({
+const flowRecordCreateFieldsMetadataManual = () => ({
     assignRecordIdToReference: MOCK_ASSIGN_RECORD_ID_TO_REFERENCE,
     inputAssignments: [
         {
@@ -36,11 +36,19 @@ const flowRecordCreateFieldsMetadata = () => ({
     locationX: 1074,
     locationY: 527,
     name: 'myCreate',
-    object: 'Account'
+    object: 'Account',
+    storeOutputAutomatically: false
 });
 
-const flowRecordCreateFieldsStore = () => ({
+const flowRecordCreateFieldsMetadataAuto = () => ({
+    ...flowRecordCreateFieldsMetadataManual(),
+    assignRecordIdToReference: '',
+    storeOutputAutomatically: true
+});
+
+const flowRecordCreateFieldsStoreManual = () => ({
     assignRecordIdToReference: MOCK_ASSIGN_RECORD_ID_TO_REFERENCE,
+    assignRecordIdToReferenceIndex: MOCK_GUID,
     availableConnections: [
         {
             type: 'REGULAR'
@@ -69,6 +77,8 @@ const flowRecordCreateFieldsStore = () => ({
             rowIndex: 'e7aa85e8-1a18-4211-862f-60bd9e7f8192'
         }
     ],
+    inputReference: '',
+    inputReferenceIndex: MOCK_GUID,
     isCanvasElement: true,
     label: 'myCreate with fields',
     locationX: 1074,
@@ -76,7 +86,16 @@ const flowRecordCreateFieldsStore = () => ({
     maxConnections: 2,
     name: 'myCreate',
     getFirstRecordOnly: true,
-    object: 'Account'
+    object: 'Account',
+    objectIndex: MOCK_GUID,
+    storeOutputAutomatically: false
+});
+
+const flowRecordCreateFieldsStoreAuto = () => ({
+    ...flowRecordCreateFieldsStoreManual(),
+    assignRecordIdToReference: '',
+    dataType: 'String',
+    storeOutputAutomatically: true
 });
 
 const flowRecordCreateSObjectMetadata = () => ({
@@ -103,6 +122,7 @@ const flowRecordCreateSObjectStore = () => ({
     elementType: ELEMENT_TYPE.RECORD_CREATE,
     guid: MOCK_GUID,
     inputReference: 'mySObjectVar',
+    inputReferenceIndex: MOCK_GUID,
     isCanvasElement: true,
     label: 'myCreateFast',
     locationX: 595,
@@ -110,8 +130,22 @@ const flowRecordCreateSObjectStore = () => ({
     maxConnections: 2,
     name: 'myCreateFast',
     getFirstRecordOnly: true,
-    object: ''
+    object: '',
+    objectIndex: MOCK_GUID
 });
+
+const RECORD_CREATE_MOCKS = [
+    {
+        mode: 'manual',
+        metadata: flowRecordCreateFieldsMetadataManual(),
+        store: flowRecordCreateFieldsStoreManual()
+    },
+    {
+        mode: 'auto',
+        metadata: flowRecordCreateFieldsMetadataAuto(),
+        store: flowRecordCreateFieldsStoreAuto()
+    }
+];
 
 const inputAssignmentFieldValue = {
     field: 'description',
@@ -168,33 +202,33 @@ describe('recordCreate', () => {
             });
         });
 
-        describe('when flow recordCreate is passed', () => {
-            beforeAll(() => {
-                recordCreate = createRecordCreate(
-                    flowRecordCreateFieldsMetadata
-                );
-            });
-            it('has dataType of boolean', () => {
-                expect(recordCreate.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
-            });
-        });
+        test.each`
+            mode        | mockMetadata                            | dataType
+            ${'manual'} | ${flowRecordCreateFieldsMetadataManual} | ${FLOW_DATA_TYPE.BOOLEAN.value}
+            ${'auto'}   | ${flowRecordCreateFieldsMetadataAuto}   | ${FLOW_DATA_TYPE.STRING.value}
+        `(
+            'should return datatype: $dataType for flow metadata recordCreate in $mode mode',
+            ({ mockMetadata, dataType }) => {
+                recordCreate = createRecordCreate(mockMetadata());
+                expect(recordCreate.dataType).toEqual(dataType);
+            }
+        );
 
-        describe('when store recordCreate is passed', () => {
-            beforeAll(() => {
-                recordCreate = createRecordCreate(flowRecordCreateFieldsStore);
-            });
-            it('has dataType of boolean', () => {
-                expect(recordCreate.dataType).toEqual(
-                    FLOW_DATA_TYPE.BOOLEAN.value
-                );
-            });
-        });
+        test.each`
+            mode        | mockStore                            | dataType
+            ${'manual'} | ${flowRecordCreateFieldsStoreManual} | ${FLOW_DATA_TYPE.BOOLEAN.value}
+            ${'auto'}   | ${flowRecordCreateFieldsStoreAuto}   | ${FLOW_DATA_TYPE.STRING.value}
+        `(
+            'should return datatype: $dataType for store recordCreate in $mode mode',
+            ({ mockStore, dataType }) => {
+                recordCreate = createRecordCreate(mockStore());
+                expect(recordCreate.dataType).toEqual(dataType);
+            }
+        );
     });
 });
 describe('recordCreate new element from left panel', () => {
-    it('returns a new record update object when no argument is passed; numberRecordsToStore should be set to FIRSt_RECORD by default', () => {
+    it('returns a new record create object when no argument is passed; getFirstRecordOnly should be true by default', () => {
         const uiModelResult = {
             name: '',
             description: '',
@@ -297,45 +331,43 @@ describe('recordCreate flow metadata => UI model', () => {
         });
     });
     describe('recordCreate function using Fields', () => {
-        let recordCreateUsingFields;
-        let uiModelRecordCreateWithFields;
-        beforeEach(() => {
-            recordCreateUsingFields = flowRecordCreateFieldsMetadata();
-            uiModelRecordCreateWithFields = flowRecordCreateFieldsStore();
+        let actualResult;
+
+        RECORD_CREATE_MOCKS.forEach(({ mode, metadata, store }) => {
+            it(`inputAssignments with value should return the expression (RHS/LHS) in ${mode} mode`, () => {
+                metadata.inputAssignments = [inputAssignmentFieldValue];
+                actualResult = createRecordCreate(metadata);
+                store.inputAssignments = [uiModelInputAssignmentFieldValue];
+                expect(actualResult).toMatchObject(store);
+            });
+
+            it(`inputAssignments with multiple values should return the expression (RHS/LHS) in ${mode} mode`, () => {
+                metadata.inputAssignments = [
+                    inputAssignmentFieldValue,
+                    inputAssignmentField,
+                    inputAssignmentFieldBooleanValue
+                ];
+                actualResult = createRecordCreate(metadata);
+                store.inputAssignments = [
+                    uiModelInputAssignmentFieldValue,
+                    uiModelInputAssignmentField,
+                    uiModelInputAssignmentFieldBooleanValue
+                ];
+                expect(actualResult).toMatchObject(store);
+            });
+            it(`has no common mutable object with record create with fields metadata passed as parameter in ${mode} mode`, () => {
+                actualResult = createRecordCreate(metadata);
+                expect(actualResult).toHaveNoCommonMutableObjectWith(metadata);
+            });
+            it(`should have an "inputReference" with empty text value in ${mode} mode`, () => {
+                actualResult = createRecordCreate(metadata);
+                expect(actualResult).toHaveProperty('inputReference', '');
+            });
         });
-        it('inputAssignments with value should return the expression (RHS/LHS)', () => {
-            recordCreateUsingFields.inputAssignments = [
-                inputAssignmentFieldValue
-            ];
-            const actualResult = createRecordCreate(recordCreateUsingFields);
-            uiModelRecordCreateWithFields.inputAssignments = [
-                uiModelInputAssignmentFieldValue
-            ];
-            expect(actualResult).toMatchObject(uiModelRecordCreateWithFields);
-        });
-        it('inputAssignments with multiple values should return the expression (RHS/LHS)', () => {
-            recordCreateUsingFields.inputAssignments = [
-                inputAssignmentFieldValue,
-                inputAssignmentField,
-                inputAssignmentFieldBooleanValue
-            ];
-            const actualResult = createRecordCreate(recordCreateUsingFields);
-            uiModelRecordCreateWithFields.inputAssignments = [
-                uiModelInputAssignmentFieldValue,
-                uiModelInputAssignmentField,
-                uiModelInputAssignmentFieldBooleanValue
-            ];
-            expect(actualResult).toMatchObject(uiModelRecordCreateWithFields);
-        });
-        it('has no common mutable object with record create with fields metadata passed as parameter', () => {
-            const actualResult = createRecordCreate(recordCreateUsingFields);
-            expect(actualResult).toHaveNoCommonMutableObjectWith(
-                recordCreateUsingFields
-            );
-        });
-        it('should have an "inputReference" with empty text value', () => {
-            const actualResult = createRecordCreate(recordCreateUsingFields);
-            expect(actualResult).toHaveProperty('inputReference', '');
+    });
+    describe('null recordCreate', () => {
+        it('Passing null recordCreate should throw error', () => {
+            expect(() => createRecordCreate(null)).toThrowError();
         });
     });
 });
@@ -360,75 +392,94 @@ describe('recordCreate UI model => flow metadata', () => {
         });
     });
     describe('recordCreate function using Fields', () => {
-        let recordCreateUsingFields;
-        let uiModelRecordCreateWithFields;
-        beforeEach(() => {
-            recordCreateUsingFields = flowRecordCreateFieldsMetadata();
-            uiModelRecordCreateWithFields = flowRecordCreateFieldsStore();
-        });
-        it('inputAssignments without value', () => {
-            uiModelRecordCreateWithFields.inputAssignments = [
-                uiModelEmptyInputAssignmentField
-            ];
-            recordCreateUsingFields.inputAssignments = [];
-            const actualResult = createRecordCreateMetadataObject(
-                uiModelRecordCreateWithFields
-            );
-            expect(actualResult).toMatchObject(recordCreateUsingFields);
-        });
-        it('inputAssignments with value', () => {
-            uiModelRecordCreateWithFields.inputAssignments = [
-                uiModelInputAssignmentFieldValue
-            ];
-            recordCreateUsingFields.inputAssignments = [
-                inputAssignmentFieldValue
-            ];
-            const actualResult = createRecordCreateMetadataObject(
-                uiModelRecordCreateWithFields
-            );
-            expect(actualResult).toMatchObject(recordCreateUsingFields);
-        });
-        it('inputAssignments with multiple values', () => {
-            uiModelRecordCreateWithFields.inputAssignments = [
-                uiModelInputAssignmentFieldValue,
-                uiModelInputAssignmentField,
-                uiModelInputAssignmentFieldBooleanValue
-            ];
-            recordCreateUsingFields.inputAssignments = [
-                inputAssignmentFieldValue,
-                inputAssignmentField,
-                inputAssignmentFieldBooleanValue
-            ];
-            const actualResult = createRecordCreateMetadataObject(
-                uiModelRecordCreateWithFields
-            );
-            expect(actualResult).toMatchObject(recordCreateUsingFields);
-        });
-        it('has no common mutable object with record create store passed as parameter', () => {
-            const actualResult = createRecordCreateMetadataObject(
-                uiModelRecordCreateWithFields
-            );
-            expect(actualResult).toHaveNoCommonMutableObjectWith(
-                uiModelRecordCreateWithFields
-            );
-        });
-        it('"assignRecordIdToReference" with value (not empty string)', () => {
-            const actualResult = createRecordCreateMetadataObject(
-                uiModelRecordCreateWithFields
-            );
-            expect(actualResult).toHaveProperty(
-                'assignRecordIdToReference',
-                MOCK_ASSIGN_RECORD_ID_TO_REFERENCE
-            );
-        });
-        it('no "assignRecordIdToReference" with empty string value', () => {
-            uiModelRecordCreateWithFields.assignRecordIdToReference = '';
-            const actualResult = createRecordCreateMetadataObject(
-                uiModelRecordCreateWithFields
-            );
-            expect(actualResult).not.toHaveProperty(
-                'assignRecordIdToReference'
-            );
-        });
+        let actualResult;
+
+        RECORD_CREATE_MOCKS.forEach(
+            ({ mode, metadata, store, isInManualMode = mode === 'manual' }) => {
+                it(`inputAssignments without value in ${mode} mode`, () => {
+                    store.inputAssignments = [uiModelEmptyInputAssignmentField];
+                    metadata.inputAssignments = [];
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).toHaveProperty(
+                        'inputAssignments',
+                        metadata.inputAssignments
+                    );
+                });
+                it(`inputAssignments with value in ${mode} mode`, () => {
+                    store.inputAssignments = [uiModelInputAssignmentFieldValue];
+                    metadata.inputAssignments = [inputAssignmentFieldValue];
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).toHaveProperty(
+                        'inputAssignments',
+                        metadata.inputAssignments
+                    );
+                });
+                it(`inputAssignments with multiple values in ${mode} mode`, () => {
+                    store.inputAssignments = [
+                        uiModelInputAssignmentFieldValue,
+                        uiModelInputAssignmentField,
+                        uiModelInputAssignmentFieldBooleanValue
+                    ];
+                    metadata.inputAssignments = [
+                        inputAssignmentFieldValue,
+                        inputAssignmentField,
+                        inputAssignmentFieldBooleanValue
+                    ];
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).toHaveProperty(
+                        'inputAssignments',
+                        metadata.inputAssignments
+                    );
+                });
+                it(`"storeOutputAutomatically" value in ${mode} mode`, () => {
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).toHaveProperty(
+                        'storeOutputAutomatically',
+                        !isInManualMode
+                    );
+                });
+
+                it(`has no common mutable object with record create store passed as parameter in ${mode} mode`, () => {
+                    actualResult = createRecordCreateMetadataObject(store);
+                    expect(actualResult).toHaveNoCommonMutableObjectWith(store);
+                });
+
+                if (isInManualMode) {
+                    it(`"assignRecordIdToReference" with value (not empty string) in ${mode} mode`, () => {
+                        actualResult = createRecordCreateMetadataObject(store);
+                        expect(actualResult).toHaveProperty(
+                            'assignRecordIdToReference',
+                            MOCK_ASSIGN_RECORD_ID_TO_REFERENCE
+                        );
+                    });
+                    it(`no "assignRecordIdToReference" with empty string value in ${mode} mode`, () => {
+                        store.assignRecordIdToReference = '';
+                        actualResult = createRecordCreateMetadataObject(store);
+                        expect(actualResult).not.toHaveProperty(
+                            'assignRecordIdToReference'
+                        );
+                    });
+                } else {
+                    it(`"assignRecordIdToReference" with empty string value in ${mode} mode`, () => {
+                        store.assignRecordIdToReference = '';
+                        actualResult = createRecordCreateMetadataObject(store);
+                        expect(actualResult).not.toHaveProperty(
+                            'assignRecordIdToReference',
+                            ''
+                        );
+                    });
+                }
+            }
+        );
+    });
+    describe('undefined/null recordCreate', () => {
+        test.each([undefined, null])(
+            'Passing with %s recordCreate should throw error',
+            recordCreate => {
+                expect(() =>
+                    createRecordCreateMetadataObject(recordCreate)
+                ).toThrowError();
+            }
+        );
     });
 });

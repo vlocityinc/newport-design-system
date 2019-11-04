@@ -75,6 +75,11 @@ export const createAccountWithAutomaticOutput = getElementByName('createAccountW
 export const lightningCompAutomaticOutputContainsAccountExtension = getElementByName('lightningCompWithAccountOutput');
 export const lightningCompAutomaticOutputNoSObjectExtension = getElementByName('lightningCompWithNoAccountOutput');
 export const feedItemVariable = getElementByName('feedItemVariable');
+export const caseSObjectVariable = getElementByName('caseSObjectVariable');
+export const contactSObjectVariable = getElementByName('contactSObjectVariable');
+export const campaignSObjectVariable = getElementByName('campaignSObjectVariable');
+export const opportunitySObjectVariable = getElementByName('opportunitySObjectVariable');
+export const opportunitySObjectCollectionVariable = getElementByName('opportunitySObjectCollectionVariable');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

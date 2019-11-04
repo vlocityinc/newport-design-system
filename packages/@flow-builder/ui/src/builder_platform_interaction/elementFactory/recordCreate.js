@@ -43,6 +43,9 @@ export function createRecordCreate(recordCreate = {}) {
     );
 
     let getFirstRecordOnly = true;
+    const dataType = storeOutputAutomatically
+        ? FLOW_DATA_TYPE.STRING.value
+        : FLOW_DATA_TYPE.BOOLEAN.value;
 
     let recordCreateObject;
     if (object) {
@@ -62,7 +65,7 @@ export function createRecordCreate(recordCreate = {}) {
             elementType,
             assignRecordIdToReference,
             assignRecordIdToReferenceIndex,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value,
+            dataType,
             storeOutputAutomatically
         });
     } else {
@@ -89,7 +92,7 @@ export function createRecordCreate(recordCreate = {}) {
             maxConnections,
             elementType,
             assignRecordIdToReferenceIndex,
-            dataType: FLOW_DATA_TYPE.BOOLEAN.value
+            dataType
         });
     }
 

@@ -151,21 +151,18 @@ export function getElementTypeLabel({ elementType }) {
  *            [resource.isCollection=false] whether or not that element is a collection
  * @param {Boolean}
  *            [resource.isSystemGeneratedOutput=false] whether or not that element is an anonymous output
- * @param {Boolean}
- *            resource.storeOutputAutomatically whether or not that element is in automatic outptu mode?
  * @returns {String} the category label for this element
  */
 export function getResourceCategory({
     elementType,
     dataType,
     isCollection = false,
-    isSystemGeneratedOutput = false,
-    storeOutputAutomatically
+    isSystemGeneratedOutput = false
 }) {
     let categoryLabel;
     if (
         elementType === ELEMENT_TYPE.RECORD_CREATE &&
-        storeOutputAutomatically
+        dataType === FLOW_DATA_TYPE.STRING.value
     ) {
         categoryLabel = LABELS.variablePluralLabel;
     } else if (!isComplexType(dataType)) {

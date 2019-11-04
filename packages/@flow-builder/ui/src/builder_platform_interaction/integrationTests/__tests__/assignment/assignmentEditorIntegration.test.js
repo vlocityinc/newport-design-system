@@ -1,6 +1,7 @@
 import { createElement } from 'lwc';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { flowWithGetRecordUsingSObjectSingleAutomatedOutput } from 'mock/flows/flowWithGetRecord';
+import { flowWithCreateRecordAutomatedOutput } from 'mock/flows/flowWithCreateRecordAutomatedOutput';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -79,7 +80,7 @@ describe('Assignment Editor', () => {
     afterAll(() => {
         resetState();
     });
-    describe('Automated ouput in combobox', () => {
+    describe('"Get Records" Automated ouput in combobox', () => {
         let assignment, assignmentForPropertyEditor;
         beforeAll(() => {
             const uiFlow = translateFlowToUIModel(
@@ -163,6 +164,52 @@ describe('Assignment Editor', () => {
             expect(lhsCombo.value).toEqual(
                 '{!Get_single_record_automatic_output.Name}'
             );
+        });
+    });
+    describe('"Create Records" Automated ouput in combobox', () => {
+        let assignment, assignmentForPropertyEditor;
+        beforeAll(() => {
+            const uiFlow = translateFlowToUIModel(
+                flowWithCreateRecordAutomatedOutput
+            );
+            store.dispatch(updateFlow(uiFlow));
+        });
+        beforeEach(() => {
+            const assignmentElement = getElementByDevName('assignment');
+            assignmentForPropertyEditor = getElementForPropertyEditor(
+                assignmentElement
+            );
+            assignment = createComponentForTest(assignmentForPropertyEditor);
+        });
+        it('shows up automated output from Create Record in LHS (under "variables" section)', () => {
+            return resolveRenderCycles(() => {
+                const lhsCombo = getComboBox(
+                    assignment,
+                    SELECTORS.LHS_COMBOBOX
+                );
+                expect(
+                    getGroupedComboboxItemInGroupByDisplayText(
+                        lhsCombo,
+                        'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                        '{!Create_Record_in_automatic_output_mode}'
+                    )
+                ).toBeDefined();
+            });
+        });
+        it('shows up automated output from Create Record in RHS (under "variables" section)', () => {
+            return resolveRenderCycles(() => {
+                const rhsCombo = getComboBox(
+                    assignment,
+                    SELECTORS.RHS_COMBOBOX
+                );
+                expect(
+                    getGroupedComboboxItemInGroupByDisplayText(
+                        rhsCombo,
+                        'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                        '{!Create_Record_in_automatic_output_mode}'
+                    )
+                ).toBeDefined();
+            });
         });
     });
 });

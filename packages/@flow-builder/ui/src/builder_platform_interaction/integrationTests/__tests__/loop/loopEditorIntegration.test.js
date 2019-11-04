@@ -632,43 +632,55 @@ describe('Loop Editor', () => {
                 colVariableLightningCombobox.click();
                 return resolveRenderCycles(() => {
                     expect(colVariableLightningCombobox.items).toHaveLength(4);
-                    expect(colVariableLightningCombobox.items[1].label).toBe(
-                        'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL'
-                    );
+
                     // There is 1 apex variable with 'isCollection: true' in the
                     // mock-store data
-                    expect(
-                        colVariableLightningCombobox.items[1].items
-                    ).toHaveLength(1);
-                    expect(
-                        colVariableLightningCombobox.items[1].items[0].text
-                    ).toBe(apexSampleCollectionVariable.name);
-                    expect(colVariableLightningCombobox.items[2].label).toBe(
-                        'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL'
+                    const apexCollectionVariables =
+                        colVariableLightningCombobox.items[1];
+                    expect(apexCollectionVariables.label).toBe(
+                        'FLOWBUILDERELEMENTCONFIG.APEXCOLLECTIONVARIABLEPLURALLABEL'
                     );
+                    const apexCollectionVariablesItems =
+                        apexCollectionVariables.items;
+                    expect(apexCollectionVariablesItems).toHaveLength(1);
+                    expect(apexCollectionVariablesItems[0].text).toBe(
+                        apexSampleCollectionVariable.name
+                    );
+
                     // There are 4 non-sObject variables with 'isCollection:
                     // true' in the mock-store data
-                    expect(
-                        colVariableLightningCombobox.items[2].items
-                    ).toHaveLength(4);
-                    expect(
-                        colVariableLightningCombobox.items[2].items[0].text
-                    ).toBe(dateCollectionVariable.name);
-                    expect(colVariableLightningCombobox.items[3].label).toBe(
-                        'FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL'
+                    const nonSobjectCollectionVariables =
+                        colVariableLightningCombobox.items[2];
+                    const nonSobjectCollectionVariablesItems =
+                        nonSobjectCollectionVariables.items;
+
+                    expect(nonSobjectCollectionVariables.label).toBe(
+                        'FLOWBUILDERELEMENTCONFIG.COLLECTIONVARIABLEPLURALLABEL'
                     );
-                    // There are 3 sObject collection variables and 1
+
+                    expect(nonSobjectCollectionVariablesItems).toHaveLength(4);
+                    expect(nonSobjectCollectionVariablesItems[0].text).toBe(
+                        dateCollectionVariable.name
+                    );
+
+                    // There are 4 sObject collection variables and 1
                     // lookupRecord in automatic output handling mode in the
                     // mock-store data
-                    expect(
-                        colVariableLightningCombobox.items[3].items
-                    ).toHaveLength(4);
-                    expect(
-                        colVariableLightningCombobox.items[3].items[0].text
-                    ).toBe(accountSObjectCollectionVariable.name);
-                    expect(
-                        colVariableLightningCombobox.items[3].items[0].subText
-                    ).toBe('Account');
+                    const sobjectCollectionVariables =
+                        colVariableLightningCombobox.items[3];
+                    const sobjectCollectionVariablesitems =
+                        sobjectCollectionVariables.items;
+                    expect(sobjectCollectionVariables.label).toBe(
+                        'FLOWBUILDERELEMENTCONFIG.SOBJECTCOLLECTIONPLURALLABEL'
+                    );
+
+                    expect(sobjectCollectionVariablesitems).toHaveLength(5);
+                    expect(sobjectCollectionVariablesitems[0].text).toBe(
+                        accountSObjectCollectionVariable.name
+                    );
+                    expect(sobjectCollectionVariablesitems[0].subText).toBe(
+                        'Account'
+                    );
                 });
             });
         });

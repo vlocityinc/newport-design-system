@@ -1,8 +1,6 @@
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    FLOW_DATA_TYPE
-} from 'builder_platform_interaction/dataTypeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
     getQueryableEntities,
     getCreateableEntities,
@@ -157,20 +155,20 @@ export const choiceSelector = dataType => {
     );
 };
 
-// Only variables and automatic output from GetRecord elements are writable.
+// Only variables and automatic output from GetRecord/Actions/Create elements are writable.
 // Lightning components screen fields in automatic handling mode and Actions in automatic handling mode have writable fields.
 export const writableElementsSelector = createSelector(
     [elementsSelector],
     getFilteredElements(
-        element =>
-            element.elementType === ELEMENT_TYPE.VARIABLE ||
-            (element.elementType === ELEMENT_TYPE.START_ELEMENT &&
-                !!element.object) ||
-            element.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-            element.dataType ===
-                FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
-            element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
-            element.isSystemGeneratedOutput === true
+        ({ elementType, dataType, object, isSystemGeneratedOutput }) =>
+            elementType === ELEMENT_TYPE.VARIABLE ||
+            (elementType === ELEMENT_TYPE.START_ELEMENT && !!object) ||
+            dataType === FLOW_DATA_TYPE.SOBJECT.value ||
+            dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
+            dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
+            (elementType === ELEMENT_TYPE.RECORD_CREATE &&
+                dataType === FLOW_DATA_TYPE.STRING.value) ||
+            isSystemGeneratedOutput === true
     )
 );
 export const readableElementsSelector = createSelector(
