@@ -2,7 +2,11 @@ import { createElement } from 'lwc';
 import Combobox, {
     MENU_DATA_PAGE_SIZE
 } from 'builder_platform_interaction/combobox';
-import { comboboxInitialConfig, secondLevelMenuData } from 'mock/comboboxData';
+import {
+    comboboxInitialConfig,
+    secondLevelMenuData,
+    thirdLevelMenuData
+} from 'mock/comboboxData';
 import {
     FilterMatchesEvent,
     FetchMenuDataEvent,
@@ -186,10 +190,6 @@ describe('Combobox Tests', () => {
             expect(combobox.literalsAllowed).toEqual(
                 comboboxInitialConfig.literalsAllowed
             );
-        });
-
-        it('has menuDataMaxLevel', () => {
-            expect(combobox.menuDataMaxLevel).toEqual(2);
         });
 
         it('has blockValidation', () => {
@@ -648,33 +648,6 @@ describe('Combobox Tests', () => {
         );
     });
 
-    describe('menuDataMaxLevel setter/getter tests', () => {
-        beforeEach(() => {
-            createCombobox();
-
-            for (const attribute in comboboxInitialConfig) {
-                if (comboboxInitialConfig.hasOwnProperty(attribute)) {
-                    combobox[attribute] = comboboxInitialConfig[attribute];
-                }
-            }
-        });
-
-        it('Valid number is allowed', () => {
-            const newMax = 4;
-            combobox.menuDataMaxLevel = newMax;
-            return Promise.resolve().then(() => {
-                expect(combobox.menuDataMaxLevel).toEqual(newMax);
-            });
-        });
-
-        it('Negative numbers are not allowed', () => {
-            combobox.menuDataMaxLevel = -4;
-            return Promise.resolve().then(() => {
-                expect(combobox.menuDataMaxLevel).toEqual(2);
-            });
-        });
-    });
-
     describe('Variant setter/getter tests', () => {
         it('Setting an invalid variant should result in an error', () => {
             createCombobox();
@@ -814,9 +787,7 @@ describe('Combobox Tests', () => {
         });
 
         it('FilterMatches is fired with only the field portion of entered text for a merge field on the second level', () => {
-            const value = secondLevelMenuData[0];
-            value.parent = comboboxInitialConfig.menuData[1].items[0];
-            combobox.value = value;
+            combobox.value = secondLevelMenuData[0];
 
             const filterText = 'foobar';
             textInputEvent = getTextInputEvent(
@@ -829,11 +800,15 @@ describe('Combobox Tests', () => {
             );
         });
 
-        it('FilterMatches is not fired if more than two levels', () => {
-            const enteredText = '{!myAccount.foo.bar}';
+        it('FilterMatches is fired with only the field portion of entered text for a merge field on the third level', () => {
+            combobox.value = thirdLevelMenuData[0];
+            const enteredText = '{!myAccount.CreatedBy.Name}';
             textInputEvent = getTextInputEvent(enteredText);
             groupedCombobox.dispatchEvent(textInputEvent);
-            expect(filterMatchesHandler).not.toHaveBeenCalled();
+            expect(filterMatchesHandler).toHaveBeenCalledTimes(1);
+            expect(filterMatchesHandler.mock.calls[0][0].detail.value).toEqual(
+                'Name'
+            );
         });
 
         it('FilterMatches is fired when combobox first level value is cleared', () => {
@@ -1024,11 +999,11 @@ describe('Combobox Tests', () => {
         it('ItemSelected is fired when a selection is made when the item hasNext=false (tests findItem)', () => {
             combobox.value = '';
             combobox.menuData = secondLevelMenuData;
-            selectEvent = getSelectEvent(secondLevelMenuData[0].value);
+            selectEvent = getSelectEvent(secondLevelMenuData[1].value);
             groupedCombobox.dispatchEvent(selectEvent);
             expect(itemSelectedHandler).toHaveBeenCalledTimes(1);
             expect(itemSelectedHandler.mock.calls[0][0].detail.item).toEqual(
-                secondLevelMenuData[0]
+                secondLevelMenuData[1]
             );
         });
 
@@ -1194,16 +1169,6 @@ describe('Combobox Tests', () => {
                     error: VALIDATION_ERROR_MESSAGE.GENERIC
                 },
                 { value: '{!_test_}', error: null },
-                {
-                    value: '{!MyVar1.secondLevel.thirdLevel}',
-                    isLiteralsAllowed: false,
-                    error: VALIDATION_ERROR_MESSAGE.GENERIC
-                },
-                {
-                    value: '{!MyVar1.secondLevel.thirdLevel}',
-                    isLiteralsAllowed: true,
-                    error: null
-                }, // no validation for more than 2 levels if literals allowed
                 { value: '{!MyVar1.}', isLiteralsAllowed: false, error: null }, // no error since last dot is removed before validation
                 {
                     value: '{!' + GLOBAL_CONSTANTS.EMPTY_STRING + '}',
@@ -1262,17 +1227,7 @@ describe('Combobox Tests', () => {
                     value: '{!' + GLOBAL_CONSTANTS.BOOLEAN_TRUE + '}',
                     error: null
                 },
-                { value: '{!MyBooleanVar}', error: null },
-                {
-                    value: '{!myContact.Account.IsDeleted}',
-                    isLiteralsAllowed: true,
-                    error: null
-                },
-                {
-                    value: '{!myContact.Account.IsDeleted}',
-                    isLiteralsAllowed: false,
-                    error: VALIDATION_ERROR_MESSAGE.GENERIC
-                }
+                { value: '{!MyBooleanVar}', error: null }
             ],
             Picklist: [{ value: 'test picklist value', error: null }],
             Multipicklist: [{ value: 'test multi picklist value', error: null }]
@@ -1302,9 +1257,7 @@ describe('Combobox Tests', () => {
             validationTestData[dataType].forEach(testData => {
                 testName = !testData.isLiteralsAllowed
                     ? `for data type ${dataType} and value ${testData.value}`
-                    : `for data type ${dataType} value ${
-                          testData.value
-                      } and literalsAllowed ${testData.isLiteralsAllowed}`;
+                    : `for data type ${dataType} value ${testData.value} and literalsAllowed ${testData.isLiteralsAllowed}`;
                 testName = testData.error
                     ? (testName += ' shows error.')
                     : testName;
@@ -1872,7 +1825,7 @@ describe('Combobox Tests', () => {
         it('should fire a new resource event with the correct position ', done => {
             const LEFT = 'LEFT';
             const selectEvent = getSelectEvent('%%NewResource%%');
-            const newResourceCallback = jest.fn((event) => {
+            const newResourceCallback = jest.fn(event => {
                 expect(event.detail.position).toEqual(LEFT);
                 done();
             });

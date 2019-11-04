@@ -1,19 +1,17 @@
 import { LightningElement, api, track } from 'lwc';
 import {
-    sanitizeGuid,
-    updateProperties
+    updateProperties,
+    sanitizeGuid
 } from 'builder_platform_interaction/dataMutationLib';
 import {
     EXPRESSION_PROPERTY_TYPE,
     getResourceByUniqueIdentifier,
-    mutateFlowResourceToComboboxShape,
     LHS_DISPLAY_OPTION,
-    populateLhsStateForField,
     populateRhsState,
-    getChildrenItems
+    normalizeFEROV
 } from 'builder_platform_interaction/expressionUtils';
-import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
+import { isObject } from 'builder_platform_interaction/commonUtils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -124,35 +122,48 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
             const fer = getResourceByUniqueIdentifier(lhs.value);
 
             if (fer) {
-                const lhsItem = mutateFlowResourceToComboboxShape(fer);
-                const fieldNames = sanitizeGuid(lhs.value).fieldNames;
-                if (fieldNames && fieldNames.length === 1) {
-                    const fieldName = fieldNames[0];
-                    getChildrenItems(lhsItem).then(fields => {
-                        const isFieldOnSobjectVar = true;
-                        this.state.lhsDisplayOption =
-                            LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
-                        if (fields && fields[fieldName]) {
-                            this.state.lhsDescribe = updateProperties(
-                                this.state.lhsDescribe,
-                                populateLhsStateForField(
-                                    fields,
-                                    fieldName,
-                                    lhsItem,
-                                    isFieldOnSobjectVar
-                                )
-                            );
-                        } else {
-                            this.state.lhsDescribe.value = addCurlyBraces(
-                                fer.name + '.' + fieldName
-                            );
-                        }
-                    });
+                if (this.isFieldOnVariable(lhs.value)) {
+                    this.state.lhsDisplayOption =
+                        LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
+                }
+                const normalizedFer = normalizeFEROV(lhs.value);
+                if (isObject(normalizedFer)) {
+                    if (normalizedFer.fields) {
+                        this.state.lhsDescribe = updateProperties(
+                            this.state.lhsDescribe,
+                            this.populateLhsStateForField({
+                                value: normalizedFer.itemOrDisplayText,
+                                fields: normalizedFer.fields
+                            })
+                        );
+                    } else {
+                        this.state.lhsDescribe.value =
+                            normalizedFer.itemOrDisplayText;
+                        this.state.lhsDescribe.param = elementToParam(fer);
+                    }
                 } else {
-                    this.state.lhsDescribe.value = lhsItem;
-                    this.state.lhsDescribe.param = elementToParam(fer);
+                    this.state.lhsDescribe.value =
+                        normalizedFer.itemOrDisplayText;
                 }
             }
         }
+    }
+
+    isFieldOnVariable(value) {
+        return !!sanitizeGuid(value).fieldNames;
+    }
+
+    populateLhsStateForField(normalizedFer) {
+        const { value, fields } = normalizedFer;
+        const lhsState = {
+            fields,
+            value
+        };
+        const field = fields[value.text];
+        if (field) {
+            lhsState.activePicklistValues = field.activePicklistValues || false;
+            lhsState.param = elementToParam(field);
+        }
+        return lhsState;
     }
 }

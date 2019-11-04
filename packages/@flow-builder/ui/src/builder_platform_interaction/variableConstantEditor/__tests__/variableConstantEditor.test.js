@@ -141,7 +141,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         mutateFlowResourceToComboboxShape:
             actual.mutateFlowResourceToComboboxShape,
         getItemOrDisplayText: actual.getItemOrDisplayText,
-        getChildrenItems: actual.getChildrenItems,
+        getChildrenItemsPromise: actual.getChildrenItemsPromise,
         getFerovInfoAndErrorFromEvent: actual.getFerovInfoAndErrorFromEvent,
         apexClassesMenuDataSelector: jest.fn()
     };

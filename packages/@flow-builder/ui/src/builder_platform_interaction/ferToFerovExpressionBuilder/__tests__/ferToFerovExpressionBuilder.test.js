@@ -22,7 +22,7 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
@@ -116,7 +116,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         PARAM_PROPERTY: actual.PARAM_PROPERTY
     };
 });
-
+/*
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = require.requireActual(
         '../../expressionUtils/expressionUtils.js'
@@ -140,11 +140,11 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
         populateLhsStateForField: actual.populateLhsStateForField,
         populateRhsState: actual.populateRhsState,
-        getChildrenItems: actual.getChildrenItems,
+        getChildrenItemsPromise: actual.getChildrenItemsPromise,
         getStoreElements: jest.fn(),
         filterAndMutateMenuData: jest.fn()
     };
-});
+}); */
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -156,13 +156,19 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
-        getFieldsForEntity: jest.fn().mockImplementation(() => {
-            return mockAccountFields;
-        }),
-        fetchFieldsForEntity: jest.fn().mockImplementation(() => {
-            return Promise.resolve(mockAccountFields);
-        })
+        getFieldsForEntity: jest
+            .fn()
+            .mockImplementation(() => mockAccountFields),
+        fetchFieldsForEntity: jest
+            .fn()
+            .mockImplementation(() => Promise.resolve(mockAccountFields)),
+        getEntity: jest
+            .fn()
+            .mockImplementation(apiName =>
+                mockEntities.find(entity => entity.apiName === apiName)
+            )
     };
 });
 
@@ -274,11 +280,7 @@ describe('fer-to-ferov-expression-builder', () => {
             });
         });
         it('should handle field if no access to sobject fields on LHS', async () => {
-            fetchFieldsForEntity.mockImplementationOnce(() =>
-                Promise.reject(
-                    new Error('cannot get entity fields : No Access')
-                )
-            );
+            getFieldsForEntity.mockImplementationOnce(() => undefined);
             const expressionBuilder = createComponentForTest({
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
                 expression: createMockPopulatedFieldExpression()

@@ -7,11 +7,6 @@ const storeLib = require("builder_platform_interaction/storeLib");
 const mock = {};
 const mockedReducer = jest.fn();
 
-// mock of createSelector that just returns a function that when called, simply returns the parameter passed
-const createSelectorMock = jest.fn().mockImplementation(() => {
-  return jest.fn().mockImplementation(state => state);
-});
-
 /**
  * Initializes a mock store. Has a lot of useful spies for store methods
  * NOTE: If you dirty the state of the mock store that will carry on to other tests.
@@ -92,20 +87,12 @@ const MockStore = jest.fn().mockImplementation(() => {
 
 const mockStoreInstance = new MockStore();
 
-export const generateGuid = () => {
-  return storeLib.generateGuid();
-};
-
-export const deepCopy = arg => {
-  return storeLib.deepCopy(arg);
-};
-
-export const isPlainObject = arg => {
-  return storeLib.isPlainObject(arg);
-};
+export const generateGuid = storeLib.generateGuid;
+export const deepCopy = storeLib.deepCopy;
+export const isPlainObject = storeLib.isPlainObject;
+export const createSelector = storeLib.createSelector;
 
 // Store
 export { mockedReducer as combinedReducer };
-export { createSelectorMock as createSelector };
 export { mockStoreInstance as Store };
 export { mock as guid };

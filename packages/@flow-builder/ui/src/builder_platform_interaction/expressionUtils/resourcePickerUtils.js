@@ -1,7 +1,7 @@
 import {
     filterAndMutateMenuData,
     filterFieldsForChosenElement,
-    getChildrenItems
+    getChildrenItemsPromise
 } from './menuDataRetrieval';
 import { getStoreElements } from './storeElementsFilter';
 
@@ -23,7 +23,7 @@ const getFieldMenuData = (
             filterFieldsForChosenElement(parentItem, entityFields, options)
         );
     }
-    return getChildrenItems(parentItem).then(fields =>
+    return getChildrenItemsPromise(parentItem).then(fields =>
         filterFieldsForChosenElement(parentItem, fields, options)
     );
 };

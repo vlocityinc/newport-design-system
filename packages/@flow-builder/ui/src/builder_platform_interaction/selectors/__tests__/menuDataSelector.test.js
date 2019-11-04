@@ -6,9 +6,9 @@ import {
 import * as storeLib from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => ({
+    createSelector: jest.fn()
+}));
 
 const elementsInStore = {
     guid1: {

@@ -39,7 +39,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getResourceByUniqueIdentifier: jest.fn(),
         getEntitiesMenuData: actual.getEntitiesMenuData,
         EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
-        getChildrenItems: actual.getChildrenItems,
+        getChildrenItemsPromise: actual.getChildrenItemsPromise,
         filterMatches: actual.filterMatches
     };
 });

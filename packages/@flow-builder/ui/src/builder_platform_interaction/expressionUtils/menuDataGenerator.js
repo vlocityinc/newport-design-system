@@ -304,6 +304,7 @@ export function getMenuItemForField(
     const apiName = field.apiName || field.qualifiedApiName;
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+        dataType: field.dataType,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
         text: apiName,

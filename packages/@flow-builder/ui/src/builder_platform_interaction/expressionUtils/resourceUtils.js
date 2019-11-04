@@ -23,7 +23,10 @@ import {
 } from 'builder_platform_interaction/commonUtils';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import removedResource from '@salesforce/label/FlowBuilderValidation.removedResource';
-import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
+import {
+    getChildrenItems,
+    filterFieldsForChosenElement
+} from './menuDataRetrieval';
 
 /* Global variable to hold the current state of the screen element.
  *  This is being populated by the screenEditor component and
@@ -157,6 +160,20 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     };
 };
 
+const normalizeMenuItemChildField = (parentMenuItem, fieldNames) => {
+    const [fieldName, ...remainingFieldNames] = fieldNames;
+    const fields = getChildrenItems(parentMenuItem);
+    const menuItems = filterFieldsForChosenElement(parentMenuItem, fields);
+    const item = menuItems.find(menuItem => menuItem.text === fieldName);
+    if (!item) {
+        return undefined;
+    }
+    if (remainingFieldNames.length > 0) {
+        return normalizeMenuItemChildField(item, remainingFieldNames);
+    }
+    return { itemOrDisplayText: item, fields };
+};
+
 /**
  * Returns the combobox display value based on the unique identifier passed
  * to the RHS.
@@ -164,33 +181,33 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
  * @returns {Item}               value in format displayable by combobox
  */
 export const normalizeFEROV = identifier => {
-    // TODO: W-5981876 consolidate this with outputResourcePicker.normalizeValue
-    const rhs = { itemOrDisplayText: identifier };
-    const flowElement = getResourceByUniqueIdentifier(identifier);
-    if (flowElement) {
-        const item = mutateFlowResourceToComboboxShape(flowElement);
-        const sanitizedGuid = sanitizeGuid(identifier);
-        const fieldNames = sanitizedGuid.fieldNames;
-        if (!fieldNames || fieldNames.length === 0) {
-            rhs.itemOrDisplayText = item;
-        } else {
-            rhs.itemOrDisplayText = addCurlyBraces(
-                removeCurlyBraces(item.displayText) + '.' + fieldNames.join('.')
-            );
-            if (fieldNames.length === 1) {
-                const fields = retrieveResourceComplexTypeFields(flowElement);
-                const field = fields && fields[fieldNames[0]];
-                if (field) {
-                    rhs.itemOrDisplayText = getMenuItemForField(field, item, {
-                        showAsFieldReference: true,
-                        showSubText: true
-                    });
-                    rhs.fields = fields;
-                }
-            }
-        }
+    let result = { itemOrDisplayText: identifier };
+    const elementOrResource = getResourceByUniqueIdentifier(identifier);
+    if (!elementOrResource) {
+        return result;
     }
-    return rhs;
+    const elementOrResourceMenuItem = mutateFlowResourceToComboboxShape(
+        elementOrResource
+    );
+    const { fieldNames } = sanitizeGuid(identifier);
+    if (fieldNames) {
+        const normalizedChildField = normalizeMenuItemChildField(
+            elementOrResourceMenuItem,
+            fieldNames
+        );
+        if (!normalizedChildField) {
+            result.itemOrDisplayText = addCurlyBraces(
+                removeCurlyBraces(elementOrResourceMenuItem.displayText) +
+                    '.' +
+                    fieldNames.join('.')
+            );
+        } else {
+            result = normalizedChildField;
+        }
+    } else {
+        result.itemOrDisplayText = elementOrResourceMenuItem;
+    }
+    return result;
 };
 
 /**

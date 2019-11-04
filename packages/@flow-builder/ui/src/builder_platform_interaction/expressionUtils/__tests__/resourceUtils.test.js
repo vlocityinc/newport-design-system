@@ -23,9 +23,12 @@ import {
     GLOBAL_CONSTANT_OBJECTS,
     SYSTEM_VARIABLE_PREFIX
 } from '../../systemLib/systemLib';
-import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { mockScreenElement } from 'mock/calloutData';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -55,61 +58,96 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getFieldsForEntity: jest
-            .fn()
-            .mockImplementation(() => mockAccountFields)
+        getFieldsForEntity: jest.fn().mockImplementation(entityName => {
+            if (entityName === 'Account') {
+                return mockAccountFields;
+            } else if (entityName === 'User') {
+                return mockUserFields;
+            } else if (entityName === 'FeedItem') {
+                return mockFeedItemFields;
+            }
+            return undefined;
+        })
     };
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
+    const actual = require.requireActual('../../ruleLib/ruleLib.js');
     return {
-        getDataType: require.requireActual('../../ruleLib/ruleLib.js')
-            .getDataType,
+        PARAM_PROPERTY: actual.PARAM_PROPERTY,
+        getDataType: actual.getDataType,
         elementToParam: jest.fn()
     };
 });
 
 jest.mock('../menuDataGenerator', () => {
+    const actual = require.requireActual('../menuDataGenerator');
     return {
-        mutateFlowResourceToComboboxShape: require.requireActual(
-            '../menuDataGenerator'
-        ).mutateFlowResourceToComboboxShape,
-        getMenuItemForField: jest.fn()
-    };
-});
-
-jest.mock('builder_platform_interaction/apexTypeLib', () => {
-    return {
-        getPropertiesForClass: jest.fn().mockName('getPropertiesForClass')
+        mutateFlowResourceToComboboxShape:
+            actual.mutateFlowResourceToComboboxShape,
+        getMenuItemForField: jest.fn(),
+        getMenuItemsForField: actual.getMenuItemsForField
     };
 });
 
 describe('ResourceUtils', () => {
-    describe('RHS normalize', () => {
+    describe('normalizeFEROV', () => {
+        beforeAll(() => {
+            setApexClasses(apexTypesForFlow);
+        });
+        afterAll(() => {
+            setApexClasses(null);
+        });
         it('should match an rhs value with a picklist api name to a menu item', () => {
             const rhsApiValue = 'AccountSource';
             const rhs = normalizeFEROV(rhsApiValue);
             expect(rhs.itemOrDisplayText).toBeDefined();
             expect(rhs.itemOrDisplayText).toEqual(rhsApiValue);
         });
-        it('should handle values that traverse more than two levels by cleaning display value, but not passing item', () => {
+        it('should normalize an SObject variable', () => {
+            const normalizedFEROV = normalizeFEROV(
+                store.accountSObjectVariable.guid
+            );
+            expect(normalizedFEROV).toMatchObject({
+                itemOrDisplayText: {
+                    dataType: 'SObject',
+                    displayText: '{!accountSObjectVariable}'
+                }
+            });
+        });
+        it('should handle values that traverse more than two levels for sobject variables', () => {
             const fieldTraversal = '.Owner.Id';
-            const normalizedRHS = normalizeFEROV(
+            const normalizedFEROV = normalizeFEROV(
                 store.accountSObjectVariable.guid + fieldTraversal
             );
-            expect(normalizedRHS.itemOrDisplayText).toEqual(
-                addCurlyBraces(
-                    store.accountSObjectVariable.name + fieldTraversal
-                )
-            );
+            expect(normalizedFEROV).toMatchObject({
+                itemOrDisplayText: {
+                    dataType: 'String',
+                    displayText: '{!accountSObjectVariable.Owner.Id}',
+                    parent: {
+                        dataType: 'SObject',
+                        displayText: '{!accountSObjectVariable.Owner}',
+                        hasNext: true,
+                        parent: {
+                            dataType: 'SObject',
+                            displayText: '{!accountSObjectVariable}',
+                            hasNext: true
+                        }
+                    }
+                },
+                fields: {
+                    UserType: {},
+                    Id: {}
+                }
+            });
         });
         it('should not throw an exception if the user does not have access to the SObject in a merge field', () => {
             getFieldsForEntity.mockReturnValueOnce(undefined);
             const field = '.Name';
-            const normalizedRHS = normalizeFEROV(
+            const normalizedFEROV = normalizeFEROV(
                 store.accountSObjectVariable.guid + field
             );
-            expect(normalizedRHS.itemOrDisplayText).toBe(
+            expect(normalizedFEROV.itemOrDisplayText).toBe(
                 addCurlyBraces(store.accountSObjectVariable.name + field)
             );
         });
@@ -118,32 +156,40 @@ describe('ResourceUtils', () => {
                 return entityName === account ? ['Name1'] : undefined;
             });
             const field = '.Name';
-            const normalizedRHS = normalizeFEROV(
+            const normalizedFEROV = normalizeFEROV(
                 store.accountSObjectVariable.guid + field
             );
-            expect(normalizedRHS.itemOrDisplayText).toBe(
+            expect(normalizedFEROV.itemOrDisplayText).toBe(
                 addCurlyBraces(store.accountSObjectVariable.name + field)
             );
         });
         it('should normalize Apex fields', () => {
-            const fieldName = 'Name';
-            const output = 'result';
-            const storeElement = store.apexSampleVariable;
-            getMenuItemForField.mockReturnValueOnce(output);
-            getPropertiesForClass.mockImplementationOnce(className => {
-                if (className === storeElement.subtype) {
-                    return {
-                        [fieldName]: {
-                            apiName: store.apexSampleVariable.name
-                        }
-                    };
-                }
-                return undefined;
-            });
-            const normalizedRHS = normalizeFEROV(
-                `${store.apexSampleVariable.guid}.${fieldName}`
+            const normalizedFEROV = normalizeFEROV(
+                `${store.apexCarVariable.guid}.model`
             );
-            expect(normalizedRHS.itemOrDisplayText).toBe(output);
+            expect(normalizedFEROV).toMatchObject({
+                itemOrDisplayText: {
+                    dataType: 'String',
+                    displayText: '{!apexCarVariable.model}',
+                    parent: {
+                        dataType: 'Apex',
+                        displayText: '{!apexCarVariable}'
+                    }
+                },
+                fields: {
+                    model: {},
+                    wheel: {}
+                }
+            });
+        });
+        it('should return the merge field as text for values that traverse more than two levels for apex fields', () => {
+            // field traversal for apex types is not yet supported
+            const normalizedFEROV = normalizeFEROV(
+                `${store.apexCarVariable.guid}.wheel.type`
+            );
+            expect(normalizedFEROV).toMatchObject({
+                itemOrDisplayText: `{!${store.apexCarVariable.name}.wheel.type}`
+            });
         });
     });
 

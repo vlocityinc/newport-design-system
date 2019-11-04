@@ -3,7 +3,7 @@ import {
     getEntitiesMenuData,
     filterAndMutateMenuData,
     getEventTypesMenuData,
-    getChildrenItems,
+    getChildrenItemsPromise,
     getResourceTypesMenuData,
     filterFieldsForChosenElement
 } from '../menuDataRetrieval.js';
@@ -796,7 +796,7 @@ describe('Menu data retrieval', () => {
         });
     });
 
-    describe('getChildrenItems', () => {
+    describe('getChildrenItemsPromise', () => {
         let mockSystemVariables;
 
         describe('system variables', () => {
@@ -805,7 +805,7 @@ describe('Menu data retrieval', () => {
                 mockSystemVariables = getSystemVariables();
             });
             it('returns all system variables', async () => {
-                const items = await getChildrenItems({
+                const items = await getChildrenItemsPromise({
                     subtype: SYSTEM_VARIABLE_PREFIX
                 });
                 expectFieldsAreComplexTypeFieldDescriptions(items);
@@ -813,7 +813,7 @@ describe('Menu data retrieval', () => {
             });
         });
         it('should fetch fields for sobject variables', async () => {
-            const items = await getChildrenItems(parentSObjectItem);
+            const items = await getChildrenItemsPromise(parentSObjectItem);
             expect(Object.keys(items)).toHaveLength(
                 Object.keys(mockAccountFields).length
             );
@@ -825,16 +825,16 @@ describe('Menu data retrieval', () => {
                     new Error('cannot get entity fields : No Access')
                 )
             );
-            const items = await getChildrenItems(parentSObjectItem);
+            const items = await getChildrenItemsPromise(parentSObjectItem);
             expect(items).toEqual({});
         });
         it('should fetch properties for apex variables', async () => {
-            const items = await getChildrenItems(parentApexItem);
+            const items = await getChildrenItemsPromise(parentApexItem);
             expect(getPropertiesForClass).toHaveBeenCalledTimes(1);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for LC screen field with automatic handling', async () => {
-            const items = await getChildrenItems(
+            const items = await getChildrenItemsPromise(
                 parentLightningComponentScreenFieldItem
             );
             expect(Object.keys(items)).toEqual(
@@ -843,7 +843,7 @@ describe('Menu data retrieval', () => {
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
         it('should fetch ouput parameters for action with automatic handling', async () => {
-            const items = await getChildrenItems(parentActionItem);
+            const items = await getChildrenItemsPromise(parentActionItem);
             expect(Object.keys(items)).toEqual(
                 expect.arrayContaining(['feedItemId'])
             );

@@ -12,7 +12,7 @@ import {
     isElementAllowed,
     filterMatches,
     LHS_DISPLAY_OPTION,
-    getChildrenItems
+    getChildrenItemsPromise
 } from 'builder_platform_interaction/expressionUtils';
 import {
     getLHSTypes,
@@ -923,7 +923,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 (!this.state[preFetchedFields] ||
                     preFetchedFieldsSubtype !== parentMenuItem.subtype)
             ) {
-                getChildrenItems(parentMenuItem).then(items =>
+                getChildrenItemsPromise(parentMenuItem).then(items =>
                     setFieldMenuData(items)
                 );
             } else {

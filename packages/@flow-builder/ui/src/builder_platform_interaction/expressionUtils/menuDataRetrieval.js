@@ -447,7 +447,13 @@ export function filterFieldsForChosenElement(
                 }
                 return true;
             })
-            .filter(field => isElementAllowed(allowedParamTypes, field))
+            .filter(field =>
+                isElementAllowed(
+                    allowedParamTypes,
+                    field,
+                    allowSObjectFieldsTraversal
+                )
+            )
             .reduce(
                 (acc, field) =>
                     acc.concat(
@@ -476,6 +482,26 @@ export function filterFieldsForChosenElement(
  * @param {Object} the parent item
  * @returns {Promise<Object>} the children items : key is the field name, value is the child item as a complex type field description
  */
+export function getChildrenItemsPromise(parentItem) {
+    const { dataType, subtype } = parentItem;
+    let result;
+    if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+        result = sobjectLib.fetchFieldsForEntity(subtype, {
+            disableErrorModal: true
+        });
+    } else {
+        result = Promise.resolve(getChildrenItems(parentItem));
+    }
+    // no access on sobject fields ...
+    return result.catch(() => ({}));
+}
+
+/**
+ * get children items
+ *
+ * @param {Object} the parent item
+ * @returns {Object} the children items : key is the field name, value is the child item as a complex type field description
+ */
 export function getChildrenItems(parentItem) {
     const { dataType, subtype } = parentItem;
     let result;
@@ -483,26 +509,25 @@ export function getChildrenItems(parentItem) {
         subtype === SYSTEM_VARIABLE_PREFIX ||
         subtype === SYSTEM_VARIABLE_CLIENT_PREFIX
     ) {
-        result = Promise.resolve(getSystemVariables(subtype));
+        result = getSystemVariables(subtype);
     } else if (getGlobalVariables(subtype)) {
-        result = Promise.resolve(getGlobalVariables(subtype));
+        result = getGlobalVariables(subtype);
     } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-        result = sobjectLib.fetchFieldsForEntity(subtype);
+        result = sobjectLib.getFieldsForEntity(subtype);
     } else if (dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value) {
         const resourceGuid = parentItem.value;
         const element = getScreenFieldElementByGuid(resourceGuid);
-        result = Promise.resolve(retrieveResourceComplexTypeFields(element));
+        result = retrieveResourceComplexTypeFields(element);
     } else if (dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         const resourceGuid = parentItem.value;
         const element = getElementByGuid(resourceGuid);
-        result = Promise.resolve(retrieveResourceComplexTypeFields(element));
+        result = retrieveResourceComplexTypeFields(element);
     } else if (dataType === FLOW_DATA_TYPE.APEX.value) {
-        result = Promise.resolve(apexTypeLib.getPropertiesForClass(subtype));
+        result = apexTypeLib.getPropertiesForClass(subtype);
     } else {
-        result = Promise.resolve({});
+        result = {};
     }
-    // no access on sobject fields ...
-    return result.catch(() => ({}));
+    return result;
 }
 
 function getScreenFieldElementByGuid(guid) {

@@ -193,7 +193,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getMenuItemForField: actual.getMenuItemForField,
         getMenuItemsForField: actual.getMenuItemsForField,
         LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
-        getChildrenItems: actual.getChildrenItems
+        getChildrenItemsPromise: actual.getChildrenItemsPromise
     };
 });
 

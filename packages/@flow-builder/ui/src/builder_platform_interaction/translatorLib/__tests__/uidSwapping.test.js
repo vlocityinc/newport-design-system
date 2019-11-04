@@ -2,7 +2,7 @@ import {
     swapUidsForDevNames,
     swapDevNamesToUids,
     swapSingleExpression,
-    swapValueFunction
+    getSwapValueFunction
 } from '../uidSwapping';
 
 const elementUidMap = { before: { name: 'after' }, pre: { name: 'post' } };
@@ -38,26 +38,20 @@ describe('UID Swapper', () => {
         const swapFunction = value => {
             return '[' + value + ']';
         };
-
+        const swapValueFunction = getSwapValueFunction(swapFunction, true);
         it('Swaps values inside a template', () => {
-            expect(
-                swapValueFunction(swapFunction, null, 'stringValue', '{!value}')
-            ).toEqual('{![value]}');
+            expect(swapValueFunction(null, 'stringValue', '{!value}')).toEqual(
+                '{![value]}'
+            );
         });
         it('Swaps compound values inside a template', () => {
             expect(
-                swapValueFunction(
-                    swapFunction,
-                    null,
-                    'stringValue',
-                    '{!value.first.second}'
-                )
+                swapValueFunction(null, 'stringValue', '{!value.first.second}')
             ).toEqual('{![value.first.second]}');
         });
         it('Swaps multiple values inside a template', () => {
             expect(
                 swapValueFunction(
-                    swapFunction,
                     null,
                     'stringValue',
                     ' {!first.a.b} {!second.a.b}'
@@ -66,12 +60,7 @@ describe('UID Swapper', () => {
         });
         it('Swaps reference values', () => {
             expect(
-                swapValueFunction(
-                    swapFunction,
-                    null,
-                    'elementReference',
-                    'value'
-                )
+                swapValueFunction(null, 'elementReference', 'value')
             ).toEqual('[value]');
         });
     });

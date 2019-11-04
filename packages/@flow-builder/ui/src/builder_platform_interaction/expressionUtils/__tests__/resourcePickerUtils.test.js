@@ -27,8 +27,8 @@ const storeInstance = {
 
 jest.mock('../menuDataRetrieval', () => {
     return {
-        getChildrenItems: require.requireActual('../menuDataRetrieval')
-            .getChildrenItems,
+        getChildrenItemsPromise: require.requireActual('../menuDataRetrieval')
+            .getChildrenItemsPromise,
         filterFieldsForChosenElement: jest.fn(),
         filterAndMutateMenuData: jest.fn()
     };
@@ -120,7 +120,9 @@ describe('resourcePickerUtils', () => {
                     showSubText: true
                 }
             );
-            expect(fetchFieldsForEntity).toHaveBeenCalledWith(objectName);
+            expect(fetchFieldsForEntity).toHaveBeenCalledWith(objectName, {
+                disableErrorModal: true
+            });
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
                 parentItem,
                 ['field2'],

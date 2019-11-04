@@ -12,7 +12,7 @@ export const comboboxInitialConfig = {
                 {
                     text: 'MyAccount',
                     subText: 'Account',
-                    value: 'VAR1',
+                    value: 'b4c16f3b-b29c-4f73-a561-442247440fba',
                     displayText: '{!MyAccount}',
                     hasNext: true,
                     iconName: 'standard:account',
@@ -111,6 +111,21 @@ const accountVar = comboboxInitialConfig.menuData[1].items[0];
 
 export const secondLevelMenuData =
 [
+	{
+	    type: 'option-card',
+	    text: 'CreatedBy',
+	    subText: 'Created By ID',
+	    displayText: '{!accountVar.CreatedBy}',
+	    iconName: 'utility:text',
+	    iconSize: 'xx-small',
+	    value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy',
+	    parent: accountVar,
+	    dataType: 'SObject',
+	    subtype: 'User',
+	    rightIconName: 'utility:chevronright',
+	    rightIconSize: 'xx-small',
+	    hasNext: true
+	},
     {
         type: 'option-card',
         text: 'FirstName',
@@ -139,3 +154,20 @@ export const secondLevelMenuData =
         parent: accountVar,
     },
 ];
+
+const accountCreatedByField = secondLevelMenuData[0];
+
+export const thirdLevelMenuData = 
+[
+	{
+	type: 'option-card',
+    text: 'EmployeeNumber',
+    subText: 'Employee Number',
+    displayText: '{!accountVar.CreatedBy.EmployeeNumber}',
+    iconName: 'utility:text',
+    iconSize: 'xx-small',
+    value: 'b4c16f3b-b29c-4f73-a561-442247440fba.CreatedBy.EmployeeNumber',
+    parent: accountCreatedByField
+	}
+];
+	

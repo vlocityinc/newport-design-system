@@ -380,6 +380,7 @@ export default class Editor extends LightningElement {
                 this.setOriginalFlowValues();
                 this.cacheSObjectsInComboboxShape();
                 this.loadFieldsForComplexTypesInFlow();
+                this.loadReferencesInFlow(data.metadata);
                 this.isFlowServerCallInProgress = false;
             });
         }
@@ -696,9 +697,8 @@ export default class Editor extends LightningElement {
         const mode = EditElementEvent.EVENT_NAME;
 
         // Pop flow properties editor and do the following on callback.
-        const node = getElementForPropertyEditor(
-            storeInstance.getCurrentState().properties
-        );
+        const flowProperties = storeInstance.getCurrentState().properties;
+        const node = getElementForPropertyEditor(flowProperties);
         node.saveType = SaveType.UPDATE;
         const nodeUpdate = flowPropertiesCallback(storeInstance);
         const newResourceCallback = this.newResourceCallback;
@@ -843,12 +843,6 @@ export default class Editor extends LightningElement {
 
     queueOpenPropertyEditor = params => {
         this.spinners.showPropertyEditorSpinner = true;
-        if (params.node) {
-            // load all references in node
-            this.propertyEditorBlockerCalls.push(
-                loadReferencesIn(params.node).catch(() => {})
-            );
-        }
         Promise.all(this.propertyEditorBlockerCalls)
             .then(() => {
                 this.spinners.showPropertyEditorSpinner = false;
@@ -920,9 +914,8 @@ export default class Editor extends LightningElement {
         if (event && event.detail && event.type) {
             const mode = event.type;
             const guid = event.detail.canvasElementGUID;
-            const node = getElementForPropertyEditor(
-                storeInstance.getCurrentState().elements[guid]
-            );
+            const element = storeInstance.getCurrentState().elements[guid];
+            const node = getElementForPropertyEditor(element);
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
@@ -948,6 +941,17 @@ export default class Editor extends LightningElement {
             }
         }
     };
+
+    /**
+     * Load all references in flow. No property editor can be opened until the references are loaded
+     */
+    loadReferencesInFlow() {
+        const currentState = storeInstance.getCurrentState();
+        const { elements, properties } = currentState;
+        this.propertyEditorBlockerCalls.push(
+            loadReferencesIn({ elements, properties }).catch(() => {})
+        );
+    }
 
     /**
      * Handles the element delete event
