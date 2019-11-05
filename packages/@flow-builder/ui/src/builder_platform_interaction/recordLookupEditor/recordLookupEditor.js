@@ -8,7 +8,8 @@ import {
 import {
     LABELS,
     NUMBER_RECORDS_OPTIONS,
-    WAY_TO_STORE_FIELDS_OPTIONS
+    WAY_TO_STORE_FIELDS_OPTIONS,
+    VARIABLE_AND_FIELD_MAPPING_OPTIONS
 } from './recordLookupEditorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
@@ -20,7 +21,8 @@ import {
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 import {
     NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS
+    WAY_TO_STORE_FIELDS,
+    VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -28,7 +30,6 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
-import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 
 export default class RecordLookupEditor extends LightningElement {
     labels = LABELS;
@@ -105,9 +106,13 @@ export default class RecordLookupEditor extends LightningElement {
             this.isInAddElementMode &&
             this.isAutomaticOutputHandlingSupported
         ) {
-            this.state.recordLookupElement = recordLookupReducer(
+            this.state.recordLookupElement = Object.assign(
+                {},
                 this.state.recordLookupElement,
-                new UseAdvancedOptionsSelectionChangedEvent(false)
+                {
+                    variableAndFieldMapping:
+                        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+                }
             );
         } else if (
             // If the element has none of those properties, it means that the user saved the flow from a processType that supports the automatic output handling
@@ -136,7 +141,10 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     get initialWayToStoreFields() {
-        if (this.isAdvancedMode) {
+        if (
+            this.variableAndFieldMappingValue ===
+            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+        ) {
             return this.hasOutputReference
                 ? WAY_TO_STORE_FIELDS.SOBJECT_VARIABLE
                 : WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES;
@@ -304,10 +312,23 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * @return {Boolean} true : the user chooses to use the Advanced Options
+     * @return {Boolean} true : if the user chooses to select the fields manually and assigns variable
      */
-    get isAdvancedMode() {
-        return !this.state.recordLookupElement.storeOutputAutomatically;
+    get isManualMode() {
+        return (
+            this.variableAndFieldMappingValue ===
+            VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
+        );
+    }
+
+    /**
+     * @return {Boolean} true : if the user chooses to select the fields manually
+     */
+    get isAutomaticAdvancedMode() {
+        return (
+            this.variableAndFieldMappingValue ===
+            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
+        );
     }
 
     /**
@@ -337,6 +358,14 @@ export default class RecordLookupEditor extends LightningElement {
 
     get wayToStoreFieldsOptions() {
         return WAY_TO_STORE_FIELDS_OPTIONS;
+    }
+
+    get variableAndFieldMappingOptions() {
+        return VARIABLE_AND_FIELD_MAPPING_OPTIONS;
+    }
+
+    get variableAndFieldMappingValue() {
+        return this.state.recordLookupElement.variableAndFieldMapping;
     }
 
     /**
@@ -454,18 +483,6 @@ export default class RecordLookupEditor extends LightningElement {
     }
 
     /**
-     * Handles selection/deselection of 'Use Advanced Options' checkbox
-     * @param {Object} event - event
-     */
-    handleAdvancedOptionsSelectionChange(event) {
-        event.stopPropagation();
-        this.state.recordLookupElement = recordLookupReducer(
-            this.state.recordLookupElement,
-            event
-        );
-    }
-
-    /**
      * Handle number of record changed
      * @param {Object} event - event
      */
@@ -497,6 +514,18 @@ export default class RecordLookupEditor extends LightningElement {
             event.detail.checked,
             null,
             true
+        );
+    }
+
+    /**
+     * Handles selection of Variable and field mapping
+     * @param {Object} event - event
+     */
+    handleVariableAndFieldMappingChange(event) {
+        event.stopPropagation();
+        this.state.recordLookupElement = recordLookupReducer(
+            this.state.recordLookupElement,
+            event
         );
     }
 

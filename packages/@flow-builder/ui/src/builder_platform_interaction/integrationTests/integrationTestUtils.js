@@ -278,3 +278,9 @@ export class ToggleOnChangeEvent extends CustomEvent {
         super('change', { detail: { checked: true } });
     }
 }
+
+export class OnChangeEvent extends CustomEvent {
+    constructor(value) {
+        super('change', { detail: { value } });
+    }
+}

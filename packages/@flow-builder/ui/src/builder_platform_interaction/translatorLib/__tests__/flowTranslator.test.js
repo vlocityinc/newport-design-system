@@ -17,6 +17,9 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 import * as autolaunchedFlow from 'mock/flows/autolaunchedFlow.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 
+import * as contactRequestFlow from 'mock/flows/contactRequestFlow.json';
+import { contactRequestFlowUIModel } from 'mock/storeDataContactrequest';
+
 expect.extend(deepFindMatchers);
 expect.extend(goldObjectMatchers);
 
@@ -346,6 +349,13 @@ describe('Flow Translator', () => {
         expect(uiFlow).toEqualGoldObject(
             autolaunchedFlowUIModel,
             'autolaunchedFlowUIModel in mock_store_data_autolaunched/autolaunchedFlowUIModel.js'
+        );
+    });
+    it('returns expected ui model for a contact request flow', () => {
+        const uiFlow = translateFlowToUIModel(contactRequestFlow);
+        expect(uiFlow).toEqualGoldObject(
+            contactRequestFlowUIModel,
+            'contactRequestFlowUIModel in mock_store_data_contactrequest/contactRequestFlowUIModel.js'
         );
     });
 });

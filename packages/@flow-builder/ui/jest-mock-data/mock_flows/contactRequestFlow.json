@@ -1,0 +1,146 @@
+{
+  "start": {
+    "locationX": 50,
+    "locationY": 50,
+    "filters": []
+  },
+  "variables": [
+    {
+      "name": "accountID",
+      "description": "",
+      "dataType": "String",
+      "isCollection": false,
+      "isInput": false,
+      "isOutput": false,
+      "scale": 2
+    },
+    {
+      "name": "vAccountBillingAddress",
+      "description": "",
+      "dataType": "String",
+      "isCollection": false,
+      "isInput": false,
+      "isOutput": false,
+      "scale": 2
+    },
+    {
+      "name": "vMyTestAccount",
+      "description": "",
+      "objectType": "Account",
+      "dataType": "SObject",
+      "isCollection": false,
+      "isInput": false,
+      "isOutput": false,
+      "scale": 2
+    },
+    {
+      "name": "vAccounts",
+      "description": "",
+      "objectType": "Account",
+      "dataType": "SObject",
+      "isCollection": true,
+      "isInput": false,
+      "isOutput": false,
+      "scale": 2
+    }
+  ],
+  "recordLookups": [
+    {
+      "name": "getAccountWithFields",
+      "description": "Get account with fields and sort",
+      "label": "Get Account With Fields and filters",
+      "locationX": 228,
+      "locationY": 147,
+      "object": "Account",
+      "outputAssignments": [
+        {
+          "field": "Id",
+          "assignToReference": "accountID"
+        },
+        {
+          "field": "BillingAddress",
+          "assignToReference": "vAccountBillingAddress"
+        }
+      ],
+      "assignNullValuesIfNoRecordsFound": true,
+      "filters": [
+        {
+          "field": "Name",
+          "operator": "EqualTo",
+          "value": {
+            "stringValue": "MyTestAccount"
+          }
+        }
+      ],
+      "queriedFields": [],
+      "sortOrder": "Asc",
+      "sortField": "Id"
+    },
+    {
+      "name": "get_Account_with_sObject",
+      "description": "",
+      "label": "get Account with sObject",
+      "locationX": 397,
+      "locationY": 148,
+      "object": "Account",
+      "outputReference": "vMyTestAccount",
+      "assignNullValuesIfNoRecordsFound": true,
+      "filters": [
+        {
+          "field": "Name",
+          "operator": "EqualTo",
+          "value": {
+            "stringValue": "myTestAccount"
+          }
+        }
+      ],
+      "queriedFields": [
+        "Id",
+        "BillingAddress"
+      ]
+    },
+    {
+      "name": "get_Accounts",
+      "description": "",
+      "label": "get Accounts",
+      "locationX": 558,
+      "locationY": 155,
+      "object": "Account",
+      "outputReference": "vAccounts",
+      "assignNullValuesIfNoRecordsFound": true,
+      "filters": [
+        {
+          "field": "Name",
+          "operator": "StartsWith",
+          "value": {
+            "stringValue": "myT"
+          }
+        }
+      ],
+      "queriedFields": [
+        "Id",
+        "BillingAddress"
+      ]
+    }
+  ],
+  "description": "",
+  "interviewLabel": "contactRequestFlowWithElements {!$Flow.CurrentDateTime}",
+  "isTemplate": false,
+  "label": "contactRequestFlowWithElements",
+  "processMetadataValues": [
+    {
+      "name": "BuilderType",
+      "value": {
+        "stringValue": "LightningFlowBuilder"
+      }
+    },
+    {
+      "name": "OriginBuilderType",
+      "value": {
+        "stringValue": "LightningFlowBuilder"
+      }
+    }
+  ],
+  "processType": "ContactRequestFlow",
+  "runInMode": null
+}

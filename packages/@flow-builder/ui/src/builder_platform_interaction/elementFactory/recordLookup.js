@@ -18,7 +18,8 @@ import {
 } from './base/baseRecordElement';
 import {
     RECORD_FILTER_CRITERIA,
-    SORT_ORDER
+    SORT_ORDER,
+    VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
@@ -129,7 +130,8 @@ function createRecordLookupWithOuputReference(recordLookup = {}) {
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         storeOutputAutomatically: false,
-        getFirstRecordOnly
+        getFirstRecordOnly,
+        variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
     });
 }
 
@@ -181,7 +183,8 @@ function createRecordLookupWithVariableAssignments(recordLookup = {}) {
         outputReferenceIndex,
         dataType: FLOW_DATA_TYPE.BOOLEAN.value,
         storeOutputAutomatically: false,
-        getFirstRecordOnly: true
+        getFirstRecordOnly: true,
+        variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
     });
 }
 
@@ -191,7 +194,8 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
     let {
         availableConnections = getDefaultAvailableConnections(),
         filters,
-        queriedFields = []
+        queriedFields = null,
+        variableAndFieldMapping = VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
     } = recordLookup;
     const {
         object = '',
@@ -212,15 +216,21 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    if (queriedFields && queriedFields.length > 0) {
-        queriedFields = queriedFields.map(queriedField =>
-            createQueriedField(queriedField)
-        );
+    if (queriedFields) {
+        if (queriedFields && queriedFields.length > 0) {
+            queriedFields = queriedFields.map(queriedField =>
+                createQueriedField(queriedField)
+            );
+            variableAndFieldMapping =
+                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
+        } else {
+            // If creating new queried fields, there needs to be one for the ID field, and a new blank one
+            queriedFields = ['Id', ''].map(queriedField =>
+                createQueriedField(queriedField)
+            );
+        }
     } else {
-        // If creating new queried fields, there needs to be one for the ID field, and a new blank one
-        queriedFields = ['Id', ''].map(queriedField =>
-            createQueriedField(queriedField)
-        );
+        queriedFields = null;
     }
 
     return Object.assign(newRecordLookup, {
@@ -240,7 +250,8 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         isCollection: !getFirstRecordOnly,
         subtype: object,
         storeOutputAutomatically: true,
-        getFirstRecordOnly
+        getFirstRecordOnly,
+        variableAndFieldMapping
     });
 }
 
@@ -294,7 +305,8 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
         assignNullValuesIfNoRecordsFound = false,
         filterType,
         storeOutputAutomatically,
-        getFirstRecordOnly
+        getFirstRecordOnly,
+        variableAndFieldMapping
     } = recordLookup;
 
     let {
@@ -308,9 +320,12 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
     } else {
         filters = filters.map(filter => createFilterMetadataObject(filter));
     }
-    queriedFields = queriedFields
-        .filter(queriedField => queriedField.field !== '')
-        .map(queriedField => queriedField.field);
+
+    if (queriedFields) {
+        queriedFields = queriedFields
+            .filter(queriedField => queriedField.field !== '')
+            .map(queriedField => queriedField.field);
+    }
 
     if (sortOrder === SORT_ORDER.NOT_SORTED) {
         sortOrder = undefined;
@@ -318,15 +333,30 @@ export function createRecordLookupMetadataObject(recordLookup, config) {
     }
 
     if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
-        Object.assign(recordUpdateMetadata, {
-            object,
-            filters,
-            queriedFields,
-            sortOrder,
-            sortField,
-            storeOutputAutomatically,
-            getFirstRecordOnly
-        });
+        if (
+            variableAndFieldMapping ===
+            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+        ) {
+            Object.assign(recordUpdateMetadata, {
+                object,
+                filters,
+                sortOrder,
+                queriedFields,
+                sortField,
+                storeOutputAutomatically,
+                getFirstRecordOnly
+            });
+        } else {
+            Object.assign(recordUpdateMetadata, {
+                object,
+                filters,
+                queriedFields,
+                sortOrder,
+                sortField,
+                storeOutputAutomatically,
+                getFirstRecordOnly
+            });
+        }
     } else if (storeOutputAutomatically && !automaticOutputHandlingSupport()) {
         Object.assign(recordUpdateMetadata, {
             object,

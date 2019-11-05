@@ -193,7 +193,8 @@ export const autolaunchedFlowUIModel = {
         "isCollection": false,
         "subtype": "Account",
         "storeOutputAutomatically": true,
-        "getFirstRecordOnly": true
+        "getFirstRecordOnly": true,
+        "variableAndFieldMapping": "manuallySelectFields"
       }
     },
     "connectors": [

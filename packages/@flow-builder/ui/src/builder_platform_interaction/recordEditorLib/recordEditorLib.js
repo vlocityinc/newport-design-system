@@ -34,3 +34,9 @@ export const SORT_ORDER = {
     DESC: 'Desc',
     NOT_SORTED: 'NotSorted'
 };
+
+export const VARIABLE_AND_FIELD_MAPPING_VALUES = {
+    AUTOMATIC: 'automatic',
+    AUTOMATIC_WITH_FIELDS: 'manuallySelectFields',
+    MANUAL: 'manual'
+};

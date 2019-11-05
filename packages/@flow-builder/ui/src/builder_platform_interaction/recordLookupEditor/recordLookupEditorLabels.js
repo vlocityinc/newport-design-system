@@ -1,6 +1,7 @@
 import {
     NUMBER_RECORDS_TO_STORE,
-    WAY_TO_STORE_FIELDS
+    WAY_TO_STORE_FIELDS,
+    VARIABLE_AND_FIELD_MAPPING_VALUES
 } from 'builder_platform_interaction/recordEditorLib';
 /* Labels */
 import getRecordsOfObjectType from '@salesforce/label/FlowBuilderRecordEditor.getRecordsOfObjectType';
@@ -17,6 +18,10 @@ import storeFieldsSelectionLabel from '@salesforce/label/FlowBuilderRecordEditor
 import wayToStoreFieldsLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionWhereToStoreRecordsLabel';
 import assignNullValuesIfNoRecordsFoundLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionAssignNullIfNoRecordFoundLabel';
 import numberRecordsToStoreLabel from '@salesforce/label/FlowBuilderRecordEditor.selectionHowManyRecordsToStoreLabel';
+import variableAndFieldMappingLabel from '@salesforce/label/FlowBuilderRecordEditor.variableAndFieldMappingLabel';
+import automatic from '@salesforce/label/FlowBuilderRecordEditor.automatic';
+import manuallySelectFields from '@salesforce/label/FlowBuilderRecordEditor.manuallySelectFields';
+import manual from '@salesforce/label/FlowBuilderRecordEditor.manual';
 
 export const LABELS = {
     getRecordsOfObjectType,
@@ -32,7 +37,11 @@ export const LABELS = {
     storeFieldsSelectionLabel,
     wayToStoreFieldsLabel,
     assignNullValuesIfNoRecordsFoundLabel,
-    numberRecordsToStoreLabel
+    numberRecordsToStoreLabel,
+    variableAndFieldMappingLabel,
+    automatic,
+    manuallySelectFields,
+    manual
 };
 
 export const NUMBER_RECORDS_OPTIONS = [
@@ -54,5 +63,20 @@ export const WAY_TO_STORE_FIELDS_OPTIONS = [
     {
         label: LABELS.separateVariable,
         value: WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
+    }
+];
+
+export const VARIABLE_AND_FIELD_MAPPING_OPTIONS = [
+    {
+        label: LABELS.automatic,
+        value: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+    },
+    {
+        label: LABELS.manuallySelectFields,
+        value: VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
+    },
+    {
+        label: LABELS.manual,
+        value: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
     }
 ];

@@ -404,7 +404,7 @@ describe('Loop Editor', () => {
                         ).toBe('FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL');
                         expect(
                             loopVariableLightningCombobox.items[1].items
-                        ).toHaveLength(3);
+                        ).toHaveLength(4);
                         expect(
                             loopVariableLightningCombobox.items[1].items[0]
                         ).toMatchObject({
@@ -426,7 +426,7 @@ describe('Loop Editor', () => {
                             value: apexCallAutomaticAnonymousAccountOutput.guid
                         });
                         expect(
-                            loopVariableLightningCombobox.items[1].items[2]
+                            loopVariableLightningCombobox.items[1].items[3]
                         ).toMatchObject({
                             dataType: 'SObject',
                             subtype: 'Account',

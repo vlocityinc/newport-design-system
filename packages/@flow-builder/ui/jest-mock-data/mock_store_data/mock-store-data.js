@@ -40,6 +40,7 @@ export const accountSObjectVariable = getElementByName('accountSObjectVariable')
 export const lookupRecordOutputReference = getElementByName('lookupRecordOutputReference');
 export const lookupRecordAutomaticOutput = getElementByName('lookupRecordAutomaticOutput');
 export const lookupRecordCollectionAutomaticOutput = getElementByName('lookupRecordCollectionAutomaticOutput');
+export const lookupRecordAutomaticOutputWithFields = getElementByName('getAccountAutoWithFields');
 export const screenElement = getElementByName('screen1');
 export const emailScreenFieldAutomaticOutput = getElementByName('emailScreenFieldAutomaticOutput');
 export const emailScreenField = getElementByName('emailScreenField');

@@ -627,7 +627,8 @@ export const elementTypeToConfigMap = {
             'numberRecordsToStore',
             'filterType',
             'sortOrder',
-            'assignNullValuesIfNoRecordsFound'
+            'assignNullValuesIfNoRecordsFound',
+            'variableAndFieldMapping'
         ],
         factory: {
             propertyEditor: createRecordLookup,
