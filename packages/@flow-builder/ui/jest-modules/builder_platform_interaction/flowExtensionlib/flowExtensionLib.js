@@ -1,7 +1,40 @@
 import * as extensions from "mock/flowExtensionsData";
 
-const mockGetCachedExtensionImplementation = extensionName => {
+const flowExtensionLib = require.requireActual(
+  "builder_platform_interaction/flowExtensionLib"
+);
+
+const applyDynamicTypeMappings = (parameters, dynamicTypeMappings) => {
+  return flowExtensionLib.applyDynamicTypeMappings(
+    parameters,
+    dynamicTypeMappings
+  );
+};
+
+const mockGetCachedExtensionImplementation = (
+  extensionName,
+  dynamicTypeMappings
+) => {
   switch (extensionName) {
+    case extensions.mockLightningCompWithGenericTypesFlowExtensionDescription
+      .name:
+      // Run the actual function for <c:lookup/>
+      return Object.assign(
+        {},
+        extensions.mockLightningCompWithGenericTypesFlowExtensionDescription,
+        {
+          inputParameters: applyDynamicTypeMappings(
+            extensions.mockLightningCompWithGenericTypesFlowExtensionDescription
+              .inputParameters,
+            dynamicTypeMappings
+          ),
+          outputParameters: applyDynamicTypeMappings(
+            extensions.mockLightningCompWithGenericTypesFlowExtensionDescription
+              .outputParameters,
+            dynamicTypeMappings
+          )
+        }
+      );
     case extensions.mockFlowRuntimeEmailFlowExtensionDescription.name:
       return extensions.mockFlowRuntimeEmailFlowExtensionDescription;
     case extensions.mockLightningCompWithAccountOutputFlowExtensionDescription
@@ -17,6 +50,6 @@ const mockGetCachedExtensionImplementation = extensionName => {
 
 export const getCachedExtension = jest
   .fn()
-  .mockImplementation(extensionName =>
-    mockGetCachedExtensionImplementation(extensionName)
+  .mockImplementation((extensionName, dynamicTypeMappings) =>
+    mockGetCachedExtensionImplementation(extensionName, dynamicTypeMappings)
   );

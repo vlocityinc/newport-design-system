@@ -106,7 +106,9 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
             'false',
             true,
             false,
-            FLOW_DATA_TYPE.SOBJECT.value
+            FLOW_DATA_TYPE.SOBJECT.value,
+            true, // enableFieldDrilldown
+            false // allowSObjectFields
         );
     }
 

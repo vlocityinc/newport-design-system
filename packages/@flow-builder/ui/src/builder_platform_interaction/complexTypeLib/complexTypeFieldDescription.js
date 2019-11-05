@@ -41,6 +41,38 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
 }
 
 /**
+ * Get the automatic output parameters of the given resource (be an LC or an Action) if any
+ * @param {Object} flowResource a flow resource
+ * @returns {Array} raw parameters, some information might be missing (if apiName, dataType, isCollection or subtype are needed you might want to call getInvocableActionParamDescriptionAsComplexTypeFieldDescription on the returned parameters)
+ */
+export function getAutomaticOutputParameters(flowResource) {
+    let automaticOutputParameters;
+    if (flowResource.storeOutputAutomatically) {
+        if (
+            flowResource.dataType ===
+            FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+        ) {
+            const extension = getCachedExtension(flowResource.extensionName);
+            if (extension === undefined) {
+                return undefined;
+            }
+            automaticOutputParameters = extension.outputParameters;
+        } else if (
+            flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value
+        ) {
+            const parameters = getParametersForInvocableAction(flowResource);
+            if (parameters === undefined) {
+                return undefined;
+            }
+            automaticOutputParameters = parameters.filter(
+                parameter => parameter.isOutput
+            );
+        }
+    }
+    return automaticOutputParameters;
+}
+
+/**
  * Returns true if flowResource is an element using automatic output handling without children
  *
  * @param {Object} flowResource the resource
@@ -50,26 +82,12 @@ export function isAutomaticOutputElementWithoutChildren(flowResource) {
     if (!flowResource.storeOutputAutomatically) {
         return false;
     }
-    if (
-        flowResource.dataType ===
-        FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
-    ) {
-        const extension = getCachedExtension(flowResource.extensionName);
-        if (extension === undefined) {
-            return undefined;
-        }
-        return extension.outputParameters.length === 0;
-    } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
-        const parameters = getParametersForInvocableAction(flowResource);
-        if (parameters === undefined) {
-            return undefined;
-        }
-        const outputParameters = parameters.filter(
-            parameter => parameter.isOutput
-        );
-        return outputParameters.length === 0;
-    }
-    return false;
+    const automaticOutputParameters = getAutomaticOutputParameters(
+        flowResource
+    );
+    return automaticOutputParameters === undefined
+        ? undefined
+        : automaticOutputParameters.length === 0;
 }
 
 /**
@@ -97,7 +115,10 @@ export function retrieveResourceComplexTypeFields(flowResource) {
 
 function getExtensionComplexTypeOutputFields(flowResource) {
     const extensionName = flowResource.extensionName;
-    const extension = getCachedExtension(extensionName.value || extensionName, flowResource.dynamicTypeMappings);
+    const extension = getCachedExtension(
+        extensionName.value || extensionName,
+        flowResource.dynamicTypeMappings
+    );
     const fields =
         extension &&
         extension.outputParameters.reduce((acc, parameter) => {

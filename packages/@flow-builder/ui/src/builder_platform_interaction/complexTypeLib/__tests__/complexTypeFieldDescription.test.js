@@ -1,15 +1,16 @@
 import {
     retrieveResourceComplexTypeFields,
-    isAutomaticOutputElementWithoutChildren
+    isAutomaticOutputElementWithoutChildren,
+    getAutomaticOutputParameters
 } from '../complexTypeLib';
 import * as store from 'mock/storeData';
-import { mockFlowRuntimeEmailFlowExtensionDescription, mockLightningCompWithGenericTypesFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { setNotLoadedAction } from 'builder_platform_interaction_mocks/invocableActionLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
+import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
@@ -19,25 +20,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    return {
-        getCachedExtension: jest.fn().mockImplementation((name, dynamicTypeMappings) => {
-            if (name === 'c:lookup') {
-                // Run the actual function for <c:lookup/>
-                const extension = mockLightningCompWithGenericTypesFlowExtensionDescription;
-                const applyDynamicTypeMappings = require.requireActual('builder_platform_interaction/flowExtensionLib').applyDynamicTypeMappings;
-                return Object.assign({}, extension, {
-                    inputParameters: applyDynamicTypeMappings(extension.inputParameters, dynamicTypeMappings),
-                    outputParameters: applyDynamicTypeMappings(extension.outputParameters, dynamicTypeMappings)
-                });
-            }
-            return mockFlowRuntimeEmailFlowExtensionDescription;
-        })
-    };
-});
-
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
+);
+
+jest.mock('builder_platform_interaction/flowExtensionLib', () =>
+    require('builder_platform_interaction_mocks/flowExtensionLib')
 );
 
 describe('complexTypeFieldDescription', () => {
@@ -66,14 +54,19 @@ describe('complexTypeFieldDescription', () => {
             );
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
-        it('uses concrete types specified in dynamic type mappings for generically typed parameters of LIGHTNING_COMPONENT_OUTPUT\'s', () => {
+        it('uses concrete types specified in dynamic type mappings for generically typed parameters of LIGHTNING_COMPONENT_OUTPUT', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.lookupScreenField
             );
-            expect(getCachedExtension).toBeCalledWith('c:lookup', expect.arrayContaining([{
-                typeName: 'T',
-                typeValue: 'Asset'
-            }]));
+            expect(getCachedExtension).toBeCalledWith(
+                'c:lookup',
+                expect.arrayContaining([
+                    {
+                        typeName: 'T',
+                        typeValue: 'Asset'
+                    }
+                ])
+            );
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
         it('return action parameters when element data type is ACTION_OUTPUT', () => {
@@ -124,13 +117,15 @@ describe('complexTypeFieldDescription', () => {
                     )
                 ).toBe(false);
             });
+            it('returns false for an action with manual output', () => {
+                expect(
+                    isAutomaticOutputElementWithoutChildren(
+                        store.apexCallManualAccountOutput
+                    )
+                ).toBe(false);
+            });
         });
         describe('For LC screen fields', () => {
-            afterEach(() => {
-                getCachedExtension.mockImplementation(
-                    () => mockFlowRuntimeEmailFlowExtensionDescription
-                );
-            });
             // Currently, LC screen fields always have outputs
             it('returns false for a screen field in automatic mode that has children', () => {
                 expect(
@@ -140,13 +135,40 @@ describe('complexTypeFieldDescription', () => {
                 ).toBe(false);
             });
             it('returns undefined for a screen field in automatic mode for which properties have not been loaded yet', () => {
-                getCachedExtension.mockImplementation(() => undefined);
+                getCachedExtension.mockImplementationOnce(() => undefined);
                 expect(
                     isAutomaticOutputElementWithoutChildren(
                         store.emailScreenFieldAutomaticOutput
                     )
                 ).toBeUndefined();
             });
+        });
+    });
+    describe('getAutomaticOutputParameters', () => {
+        it('returns LC screen field automatic output parameters', () => {
+            const result = getAutomaticOutputParameters(
+                store.emailScreenFieldAutomaticOutput
+            );
+
+            expect(result.length).toBeGreaterThan(0);
+            expectFieldsAreComplexTypeFieldDescriptions(result);
+        });
+        it('returns apex call automatic output parameters', () => {
+            const result = getAutomaticOutputParameters(
+                store.apexCallStringAutomaticOutput
+            );
+            const expectedOutputParameters = getStringFromApexActionDetails.parameters.filter(
+                parameter => parameter.isOutput === true
+            );
+
+            expect(result).toStrictEqual(expectedOutputParameters);
+        });
+        it('does not return apex call with manual output', () => {
+            const result = getAutomaticOutputParameters(
+                store.apexCallManualAccountOutput
+            );
+
+            expect(result).toBeUndefined();
         });
     });
 });

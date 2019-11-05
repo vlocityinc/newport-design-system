@@ -9,7 +9,8 @@ export {
     choiceSelector,
     apexScalarVariablesSelector,
     componentInstanceScreenFieldsSelector,
-    byElementTypeElementsSelector
+    byElementTypeElementsSelector,
+    isOrCanContainsObjectOrSObjectCollectionSelector
 } from './menuDataSelector';
 
 export { apexClassesSelector } from './peripheralDataSelectors';

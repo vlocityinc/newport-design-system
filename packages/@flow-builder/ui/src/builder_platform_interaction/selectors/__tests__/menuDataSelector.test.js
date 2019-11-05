@@ -2,7 +2,8 @@ import {
     getSObjectOrSObjectCollectionByEntityElements,
     byTypeWritableElementsSelector,
     byElementTypeElementsSelector,
-    writableElementsSelector
+    writableElementsSelector,
+    getCanContainsSObjectElements
 } from '../menuDataSelector';
 import {
     apexCallAutomaticAnonymousStringOutput,
@@ -17,8 +18,23 @@ import {
     opportunitySObjectCollectionVariable,
     textTemplate1,
     stringVariable,
-    actionCallElement
+    actionCallElement,
+    apexComplexTypeVariable,
+    apexCarVariable,
+    lightningCompAutomaticOutputNoSObjectExtension,
+    lightningCompAutomaticOutputContainsAccountExtension,
+    apexCallStringAutomaticOutput,
+    apexCallAccountAutomaticOutput
 } from 'mock/storeData';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
+jest.mock('builder_platform_interaction/flowExtensionLib', () =>
+    require('builder_platform_interaction_mocks/flowExtensionLib')
+);
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const actual = require.requireActual(
@@ -368,5 +384,60 @@ describe('menuDataSelector', () => {
                 textTemplate1
             ]);
         });
+    });
+});
+describe('getCanContainsSObjectElements', () => {
+    beforeAll(() => {
+        setApexClasses(apexTypesForFlow);
+    });
+    afterAll(() => {
+        setApexClasses();
+    });
+    it('returns apex action with SObject automatic output', () => {
+        const result = getCanContainsSObjectElements([
+            apexCallAccountAutomaticOutput
+        ]);
+
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty(
+            'name',
+            apexCallAccountAutomaticOutput.name
+        );
+    });
+    it('does not return apex action with primitive automatic output', () => {
+        const result = getCanContainsSObjectElements([
+            apexCallStringAutomaticOutput
+        ]);
+
+        expect(result).toHaveLength(0);
+    });
+    it('returns flow extension that has SObject in automatic output', () => {
+        const result = getCanContainsSObjectElements([
+            lightningCompAutomaticOutputContainsAccountExtension
+        ]);
+
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty(
+            'name',
+            lightningCompAutomaticOutputContainsAccountExtension.name
+        );
+    });
+    it('does not return flow extension that does not have SObject in automatic output', () => {
+        const result = getCanContainsSObjectElements([
+            lightningCompAutomaticOutputNoSObjectExtension
+        ]);
+
+        expect(result).toHaveLength(0);
+    });
+    it('returns apex variable which contains SObject', () => {
+        const result = getCanContainsSObjectElements([apexComplexTypeVariable]);
+
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', apexComplexTypeVariable.name);
+    });
+    it('does not return apex variable which does not contain SObject', () => {
+        const result = getCanContainsSObjectElements([apexCarVariable]);
+
+        expect(result).toHaveLength(0);
     });
 });

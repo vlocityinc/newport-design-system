@@ -39,8 +39,6 @@ import { getSystemVariables } from '../../systemLib/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
-import { chatterPostActionParameters as mockChatterPostActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
-import { logACallActionParameters as mockLogACallActionParameters } from 'serverData/GetInvocableActionParameters/logACallActionParameters.json';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { mockScreenElement } from 'mock/calloutData';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
@@ -123,23 +121,9 @@ jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/invocableActionLib', () => {
-    return {
-        getParametersForInvocableAction: jest
-            .fn()
-            .mockImplementation(({ actionName, actionType }) => {
-                const key = `${actionType}-${actionName}`;
-                switch (key) {
-                    case 'chatterPost-chatterPost':
-                        return mockChatterPostActionParameters;
-                    case 'quickAction-Case.LogACall':
-                        return mockLogACallActionParameters;
-                    default:
-                        return undefined;
-                }
-            })
-    };
-});
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
@@ -160,7 +144,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         writableElementsSelector: jest.fn(),
-        sObjectOrSObjectCollectionByEntitySelector: jest.fn(),
+        isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn(),
         readableElementsSelector: jest.fn()
     };
 });
@@ -208,7 +192,7 @@ jest.mock('../resourceUtils', () => {
 describe('Menu data retrieval', () => {
     afterEach(() => {
         selectorsMock.writableElementsSelector.mockReset();
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReset();
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReset();
         selectorsMock.readableElementsSelector.mockReset();
     });
     it('should sort alphabetically by category', () => {
@@ -405,7 +389,7 @@ describe('Menu data retrieval', () => {
         expect(primitivesNoObjects).toHaveLength(0);
     });
     it('should have only sobject variables', () => {
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectVariable])
         );
         const menuData = getElementsForMenuData({
@@ -419,7 +403,7 @@ describe('Menu data retrieval', () => {
         );
     });
     it('should have only sobject collection variables', () => {
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
@@ -433,7 +417,7 @@ describe('Menu data retrieval', () => {
         );
     });
     it('should have one sobject variable and one sobject collection variable', () => {
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
             jest
                 .fn()
                 .mockReturnValue([
@@ -459,7 +443,7 @@ describe('Menu data retrieval', () => {
         );
     });
     it('should have only sobject variables (record Update)', () => {
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectVariable])
         );
         const menuData = getElementsForMenuData({
@@ -473,7 +457,7 @@ describe('Menu data retrieval', () => {
         );
     });
     it('should have only sobject collection variables  (record Update)', () => {
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
             jest.fn().mockReturnValue([store.accountSObjectCollectionVariable])
         );
         const menuData = getElementsForMenuData({
@@ -524,7 +508,7 @@ describe('Menu data retrieval', () => {
 
     describe('disableHasNext', () => {
         it('should set hasNext to false for all menu items when true', () => {
-            selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+            selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
                 jest
                     .fn()
                     .mockReturnValue([
@@ -548,7 +532,7 @@ describe('Menu data retrieval', () => {
         });
 
         it('should not manipulate hasNext for all menu items when false', () => {
-            selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
+            selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReturnValue(
                 jest
                     .fn()
                     .mockReturnValue([
@@ -569,7 +553,7 @@ describe('Menu data retrieval', () => {
             expect(menuData[1].items[0].hasNext).toBeFalsy();
             expect(menuData[2].items[0].hasNext).toBeTruthy();
         });
-        selectorsMock.sObjectOrSObjectCollectionByEntitySelector.mockClear();
+        selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockClear();
     });
     describe('RHS menuData', () => {
         it('should have active picklist values in menu data when LHS is picklist field', () => {

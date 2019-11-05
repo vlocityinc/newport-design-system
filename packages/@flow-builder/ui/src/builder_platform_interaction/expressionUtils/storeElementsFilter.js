@@ -4,6 +4,7 @@ import {
     collectionElementsSelector,
     byTypeWritableElementsSelector,
     sObjectOrSObjectCollectionByEntitySelector,
+    isOrCanContainsObjectOrSObjectCollectionSelector,
     choiceSelector
 } from 'builder_platform_interaction/selectors';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -49,7 +50,7 @@ function writableOrReadableElement(shouldBeWritable) {
 function buildCludSelector(shouldBeWritable, sObjectSelector) {
     return function (retrieveOptions) {
         const selector = sObjectSelector
-            ? sObjectOrSObjectCollectionByEntitySelector(retrieveOptions)
+            ? isOrCanContainsObjectOrSObjectCollectionSelector(retrieveOptions)
             : shouldBeWritable
             ? writableElementsSelector
             : readableElementsSelector;
