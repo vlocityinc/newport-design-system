@@ -53,7 +53,7 @@ import {
 } from '../../baseCalloutEditorTestUtils';
 import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import { submitForApprovalActionParameters } from 'serverData/GetInvocableActionParameters/submitForApprovalActionParameters.json';
+import { submitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
 
 const getInvocableActionDetails = invocableActionParameters => params => {
     let invocableActionParametersForAction;
@@ -96,13 +96,11 @@ describe('Invocable Action Editor', () => {
                     'c.getAllInvocableActionsForType': getAllInvocableActionsForType(
                         { [FLOW_PROCESS_TYPE.FLOW]: mockActions }
                     ),
-                    'c.getInvocableActionDetails': getInvocableActionDetails(
-                        {
-                            apex: {
-                                AllTypesApexAction: mockAllTypesActionParameters
-                            }
+                    'c.getInvocableActionDetails': getInvocableActionDetails({
+                        apex: {
+                            AllTypesApexAction: mockAllTypesActionParameters
                         }
-                    )
+                    })
                 })
             );
             const uiFlow = translateFlowToUIModel(flowWithApexAction);
@@ -1202,13 +1200,11 @@ describe('Invocable Action Editor', () => {
                     'c.getAllInvocableActionsForType': () => ({
                         data: mockActions
                     }),
-                    'c.getInvocableActionParameters': getInvocableActionDetails(
-                        {
-                            submit: {
-                                submit: submitForApprovalActionParameters
-                            }
+                    'c.getInvocableActionDetails': getInvocableActionDetails({
+                        submit: {
+                            submit: submitForApprovalActionDetails.parameters
                         }
-                    )
+                    })
                 })
             );
             const uiFlow = translateFlowToUIModel(

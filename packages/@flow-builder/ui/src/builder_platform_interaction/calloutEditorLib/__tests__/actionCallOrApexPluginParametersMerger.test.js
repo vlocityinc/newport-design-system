@@ -2,7 +2,7 @@ import {
     mergeInputOutputParameters,
     MERGE_WARNING_TYPE
 } from '../calloutEditorLib';
-import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -210,7 +210,7 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
     describe('When there is no warning', () => {
         it('merges input and output parameters', () => {
             const mergedParameters = mergeInputOutputParameters(
-                mockActionParameters,
+                mockActionDetails.parameters,
                 nodeInputParameters,
                 nodeOutputParameters
             );
@@ -222,7 +222,7 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
         let mergedParameters;
         beforeEach(() => {
             mergedParameters = mergeInputOutputParameters(
-                mockActionParameters,
+                mockActionDetails.parameters,
                 [],
                 duplicatedOutputParameters
             );
@@ -243,7 +243,7 @@ describe('ActionCall/ApexPlugin parameters merge', () => {
         let notAvailabelParameterItem;
         beforeEach(() => {
             const mergedParameters = mergeInputOutputParameters(
-                mockActionParameters,
+                mockActionDetails.parameters,
                 notAvailableParameter,
                 []
             );

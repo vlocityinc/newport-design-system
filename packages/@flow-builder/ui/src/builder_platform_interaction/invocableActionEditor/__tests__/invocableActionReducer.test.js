@@ -4,7 +4,7 @@ import {
     REMOVE_UNSET_PARAMETERS,
     MERGE_WARNING_TYPE
 } from 'builder_platform_interaction/calloutEditorLib';
-import { chatterPostActionParameters as mockActionParameters } from 'serverData/GetInvocableActionParameters/chatterPostActionParameters.json';
+import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent,
@@ -139,7 +139,7 @@ describe('invocable-action-reducer', () => {
         beforeEach(() => {
             const event = {
                 type: MERGE_WITH_PARAMETERS,
-                detail: mockActionParameters
+                detail: mockActionDetails.parameters
             };
             newState = invocableActionReducer(originalState, event);
         });
@@ -157,7 +157,7 @@ describe('invocable-action-reducer', () => {
             // first, merge parameters
             let event = {
                 type: MERGE_WITH_PARAMETERS,
-                detail: mockActionParameters
+                detail: mockActionDetails.parameters
             };
             newState = invocableActionReducer(originalState, event);
             // remove unset parameters
@@ -239,7 +239,7 @@ describe('invocable-action-reducer', () => {
             // first, merge parameters
             event = {
                 type: MERGE_WITH_PARAMETERS,
-                detail: mockActionParameters
+                detail: mockActionDetails.parameters
             };
             newState = invocableActionReducer(originalState, event);
         });
