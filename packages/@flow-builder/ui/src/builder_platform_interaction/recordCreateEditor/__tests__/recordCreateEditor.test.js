@@ -17,11 +17,13 @@ import {
 } from 'builder_platform_interaction/events';
 import {
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { createAccountWithAutomaticOutput } from 'mock/storeData';
 
-const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
+const MOCK_PROCESS_TYPE_FLOW = 'flow'; // MOCK is added to be able to use the variable in the jest.mock
+const PROCESS_TYPE_CONTACT_REQUEST_FLOW = 'contactRequestFlow';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
     require('builder_platform_interaction_mocks/ferovResourcePicker')
@@ -39,7 +41,7 @@ jest.mock('builder_platform_interaction/storeLib', () =>
 function createComponentForTest(
     node,
     mode = EditElementEvent.EVENT_NAME,
-    processType = MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+    processType = MOCK_PROCESS_TYPE_FLOW
 ) {
     const el = createElement(
         'builder_platform_interaction-record-create-editor',
@@ -89,7 +91,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(processType => {
-            return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+            return processType === MOCK_PROCESS_TYPE_FLOW
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
                 : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
         })
@@ -464,9 +466,7 @@ describe('record-create-editor', () => {
         let recordCreateEditor;
         beforeEach(() => {
             recordCreateEditor = createComponentForTest(
-                createAccountWithAutomaticOutput,
-                EditElementEvent.EVENT_NAME,
-                MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+                createAccountWithAutomaticOutput
             );
         });
         it('Selected object should not be null', () => {
@@ -521,6 +521,62 @@ describe('record-create-editor', () => {
                 );
                 expect(assignRecordIdToReference).not.toBeNull();
             });
+        });
+    });
+    describe('Edit existing record element using SObject Collection and handle events supporting automatic output', () => {
+        let recordCreateEditor;
+        beforeEach(() => {
+            recordCreateEditor = createComponentForTest(
+                recordCreateElementWithSObjectCollection
+            );
+        });
+        it('Switch to "first record" then to "Use separate resources, and literal values" should reset storeOutputAutomatically', async () => {
+            const event = new RecordStoreOptionChangedEvent(true, '', false);
+            expect(
+                recordCreateEditor.node.storeOutputAutomatically
+            ).not.toBeDefined();
+            getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
+            await ticks(10);
+            const eventWaytoStoreChange = new RecordStoreOptionChangedEvent(
+                true,
+                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
+                false
+            );
+            getRecordStoreOption(recordCreateEditor).dispatchEvent(
+                eventWaytoStoreChange
+            );
+            await ticks(20);
+            expect(recordCreateEditor.node.storeOutputAutomatically).toBe(true);
+        });
+    });
+    describe('Edit existing record element using SObject Collection and handle events and process type do not support automatic output', () => {
+        let recordCreateEditor;
+        beforeEach(() => {
+            recordCreateEditor = createComponentForTest(
+                recordCreateElementWithSObjectCollection,
+                EditElementEvent.EVENT_NAME,
+                PROCESS_TYPE_CONTACT_REQUEST_FLOW
+            );
+        });
+        it('Switch to "first record" then to "Use separate resources, and literal values should not set storeOutputAutomatically"', async () => {
+            const event = new RecordStoreOptionChangedEvent(true, '', false);
+            expect(
+                recordCreateEditor.node.storeOutputAutomatically
+            ).not.toBeDefined();
+            getRecordStoreOption(recordCreateEditor).dispatchEvent(event);
+            await ticks(10);
+            const eventWaytoStoreChange = new RecordStoreOptionChangedEvent(
+                true,
+                WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES,
+                false
+            );
+            getRecordStoreOption(recordCreateEditor).dispatchEvent(
+                eventWaytoStoreChange
+            );
+            await ticks(20);
+            expect(
+                recordCreateEditor.node.storeOutputAutomatically
+            ).not.toBeDefined();
         });
     });
 });

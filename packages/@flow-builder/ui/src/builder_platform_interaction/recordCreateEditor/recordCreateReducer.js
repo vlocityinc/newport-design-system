@@ -113,7 +113,8 @@ const resetRecordCreate = (state, resetObject) => {
  */
 const recordStoreOptionAndWayToStoreChanged = (
     state,
-    { getFirstRecordOnly, wayToStoreFields }
+    { getFirstRecordOnly, wayToStoreFields },
+    isAutomaticOutputHandlingSupported
 ) => {
     if (state.getFirstRecordOnly !== getFirstRecordOnly) {
         state = updateProperties(state, { getFirstRecordOnly });
@@ -123,6 +124,12 @@ const recordStoreOptionAndWayToStoreChanged = (
         return resetRecordCreate(state, true);
     } else if (state.wayToStoreFields !== wayToStoreFields) {
         state = updateProperties(state, { wayToStoreFields });
+        if (
+            isAutomaticOutputHandlingSupported &&
+            wayToStoreFields === WAY_TO_STORE_FIELDS.SEPARATE_VARIABLES
+        ) {
+            state = resetUseAdvancedOptionsSelection(state);
+        }
         return resetRecordCreate(state, true);
     }
     return state;
@@ -170,7 +177,11 @@ const useAdvancedOptionsSelectionChanged = (state, { useAdvancedOptions }) => {
  * @param {object} event - The event to be handled
  * @returns {object} state - updated state
  */
-export const recordCreateReducer = (state, event) => {
+export const recordCreateReducer = (
+    state,
+    event,
+    isAutomaticOutputHandlingSupported = false
+) => {
     switch (event.type) {
         case AddRecordFieldAssignmentEvent.EVENT_NAME:
             return addRecordRecordFieldAssignment(state);
@@ -183,7 +194,11 @@ export const recordCreateReducer = (state, event) => {
         case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
             return useAdvancedOptionsSelectionChanged(state, event.detail);
         case RecordStoreOptionChangedEvent.EVENT_NAME:
-            return recordStoreOptionAndWayToStoreChanged(state, event.detail);
+            return recordStoreOptionAndWayToStoreChanged(
+                state,
+                event.detail,
+                isAutomaticOutputHandlingSupported
+            );
         case VALIDATE_ALL: {
             return recordCreateValidation.validateAll(
                 state,

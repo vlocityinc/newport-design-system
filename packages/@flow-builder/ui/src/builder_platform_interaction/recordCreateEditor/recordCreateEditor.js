@@ -339,7 +339,8 @@ export default class RecordCreateEditor extends LightningElement {
         event.stopPropagation();
         this.state.recordCreateElement = recordCreateReducer(
             this.state.recordCreateElement,
-            event
+            event,
+            this.isAutomaticOutputHandlingSupported
         );
         this.state.recordEntityName = this.objectValue;
     }
