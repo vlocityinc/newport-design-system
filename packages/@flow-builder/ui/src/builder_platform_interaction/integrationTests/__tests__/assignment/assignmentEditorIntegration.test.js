@@ -1,7 +1,7 @@
 import { createElement } from 'lwc';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { flowWithGetRecordUsingSObjectSingleAutomatedOutput } from 'mock/flows/flowWithGetRecord';
-import { flowWithCreateRecordAutomatedOutput } from 'mock/flows/flowWithCreateRecordAutomatedOutput';
+import { flowWithCreateRecordAutomatedOutput } from 'mock/flows/flowWithCreateRecord';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -30,9 +30,11 @@ import {
     selectEvent,
     expectGroupedComboboxItem,
     getGroupedComboboxItem,
-    getGroupedComboboxItemInGroupByDisplayText
+    getGroupedComboboxItemInGroupByDisplayText,
+    expectGroupedComboboxItemInGroup
 } from '../../integrationTestUtils';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 
 const SELECTORS = {
     LHS_COMBOBOX:
@@ -168,6 +170,9 @@ describe('Assignment Editor', () => {
     });
     describe('"Create Records" Automated ouput in combobox', () => {
         let assignment, assignmentForPropertyEditor;
+        const recordCreateInAutomaticModeMergeFieldName = addCurlyBraces(
+            flowWithCreateRecordAutomatedOutput.metadata.recordCreates[0].name
+        );
         beforeAll(() => {
             const uiFlow = translateFlowToUIModel(
                 flowWithCreateRecordAutomatedOutput
@@ -181,7 +186,7 @@ describe('Assignment Editor', () => {
             );
             assignment = createComponentForTest(assignmentForPropertyEditor);
         });
-        it('shows up automated output from Create Record in LHS (under "variables" section)', () => {
+        it('shows up automated output from Create Record in LHS under "variables" section with correct "displayText" and "subtext"', () => {
             return resolveRenderCycles(() => {
                 const lhsCombo = getComboBox(
                     assignment,
@@ -191,12 +196,18 @@ describe('Assignment Editor', () => {
                     getGroupedComboboxItemInGroupByDisplayText(
                         lhsCombo,
                         'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                        '{!Create_Record_in_automatic_output_mode}'
+                        recordCreateInAutomaticModeMergeFieldName
                     )
                 ).toBeDefined();
+                expectGroupedComboboxItemInGroup(
+                    lhsCombo,
+                    'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                    'FlowBuilderDataTypes.textDataTypeLabel',
+                    'subText'
+                );
             });
         });
-        it('shows up automated output from Create Record in RHS (under "variables" section)', () => {
+        it('shows up automated output from Create Record in RHS under "variables" section correct "displayText" and "subtext"', () => {
             return resolveRenderCycles(() => {
                 const rhsCombo = getComboBox(
                     assignment,
@@ -206,9 +217,15 @@ describe('Assignment Editor', () => {
                     getGroupedComboboxItemInGroupByDisplayText(
                         rhsCombo,
                         'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                        '{!Create_Record_in_automatic_output_mode}'
+                        recordCreateInAutomaticModeMergeFieldName
                     )
                 ).toBeDefined();
+                expectGroupedComboboxItemInGroup(
+                    rhsCombo,
+                    'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                    'FlowBuilderDataTypes.textDataTypeLabel',
+                    'subText'
+                );
             });
         });
     });

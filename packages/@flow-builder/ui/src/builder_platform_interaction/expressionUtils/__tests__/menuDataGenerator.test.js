@@ -18,31 +18,33 @@ import {
 } from 'builder_platform_interaction/systemLib';
 import {
     apexCallAutomaticAnonymousStringOutput,
-    apexCallAutomaticAnonymousAccountOutput
+    apexCallAutomaticAnonymousAccountOutput,
+    createAccountWithAutomaticOutput
 } from 'mock/storeData';
-
-let mockDataTypeLabel;
-const mockImplementationForGetDataTypeLabel = dataType => {
-    const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
-    return mockDataTypeLabel
-        ? jest.fn().mockName('getDataTypeLabel')
-        : actual.getDataTypeLabel(dataType);
-};
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { format } from 'builder_platform_interaction/commonUtils';
+import collectionDataType from '@salesforce/label/FlowBuilderDataTypes.collectionDataType';
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
+    const actual = require.requireActual(
+        'builder_platform_interaction/dataTypeLib'
+    );
     return {
-        getDataTypeLabel: jest
-            .fn()
-            .mockImplementation(dataType =>
-                mockImplementationForGetDataTypeLabel(dataType)
-            ),
-        getDataTypeIcons: jest.fn().mockName('getDataTypeIcons'),
+        getDataTypeLabel: jest.fn(actual.getDataTypeLabel),
+        getDataTypeIcons: jest.fn(),
         FLOW_DATA_TYPE: actual.FLOW_DATA_TYPE,
         FEROV_DATA_TYPE: actual.FEROV_DATA_TYPE,
         isComplexType: actual.isComplexType
     };
 });
+
+jest.mock(
+    '@salesforce/label/FlowBuilderDataTypes.collectionDataType',
+    () => {
+        return { default: '{0} Collection' };
+    },
+    { virtual: true }
+);
 
 let mockGetResourceCategory = true;
 const mockImplementationForGetResourceCategory = ({
@@ -93,10 +95,9 @@ describe('menuDataGenerator', () => {
         let mockResource;
         beforeEach(() => {
             mockResource = {
-                dataType: 'sfdcDataType'
+                dataType: FLOW_DATA_TYPE.STRING.value
             };
             mockGetResourceCategory = true;
-            mockDataTypeLabel = true;
         });
         it('calls getDataTypeLabel when given a non sobject resource with no label', () => {
             mutateFlowResourceToComboboxShape(mockResource);
@@ -114,7 +115,7 @@ describe('menuDataGenerator', () => {
 
         it('gets the data type from a type object when dataType does not exist', () => {
             mockResource.dataType = undefined;
-            mockResource.type = { type: 'screenFieldDataType' };
+            mockResource.type = { type: FLOW_DATA_TYPE.STRING.value };
             mutateFlowResourceToComboboxShape(mockResource);
             expect(getDataTypeLabel).toHaveBeenCalledWith(
                 mockResource.type.type
@@ -149,25 +150,51 @@ describe('menuDataGenerator', () => {
                 'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL'
             );
         });
-        it('sets Text subtext to action with anonymous string output as resource', () => {
-            mockGetResourceCategory = false;
-            mockDataTypeLabel = false;
-            const mutatedResource = mutateFlowResourceToComboboxShape(
-                apexCallAutomaticAnonymousStringOutput
-            );
+        describe('Subtext', () => {
+            it('sets "Text" subtext to action with anonymous string output as resource', () => {
+                mockGetResourceCategory = false;
+                const mutatedResource = mutateFlowResourceToComboboxShape(
+                    apexCallAutomaticAnonymousStringOutput
+                );
 
-            expect(mutatedResource.subText).toEqual(
-                'FlowBuilderDataTypes.textDataTypeLabel'
-            );
-        });
-        it('sets Account subtext to action with anonymous account output as resource', () => {
-            mockGetResourceCategory = false;
-            mockDataTypeLabel = false;
-            const mutatedResource = mutateFlowResourceToComboboxShape(
-                apexCallAutomaticAnonymousAccountOutput
-            );
+                expect(mutatedResource.subText).toEqual(
+                    'FlowBuilderDataTypes.textDataTypeLabel'
+                );
+            });
+            it('sets "Account" subtext to action with anonymous account output as resource', () => {
+                mockGetResourceCategory = false;
+                const mutatedResource = mutateFlowResourceToComboboxShape(
+                    apexCallAutomaticAnonymousAccountOutput
+                );
 
-            expect(mutatedResource.subText).toEqual('Account');
+                expect(mutatedResource.subText).toEqual('Account');
+            });
+            it('sets "Text" subtext for "record create" in automatic output mode as resource', () => {
+                const mutatedResource = mutateFlowResourceToComboboxShape(
+                    createAccountWithAutomaticOutput
+                );
+
+                expect(mutatedResource.subText).toEqual(
+                    'FlowBuilderDataTypes.textDataTypeLabel'
+                );
+            });
+            it('sets "Text" subtext for variable without label ("String" datatype) as resource', () => {
+                const mutatedResource = mutateFlowResourceToComboboxShape({
+                    elementType: ELEMENT_TYPE.VARIABLE,
+                    dataType: FLOW_DATA_TYPE.STRING.value
+                });
+
+                expect(mutatedResource.subText).toEqual(
+                    'FlowBuilderDataTypes.textDataTypeLabel'
+                );
+            });
+            it('sets "" subtext for variable with no label and no dataType as resource', () => {
+                const mutatedResource = mutateFlowResourceToComboboxShape({
+                    elementType: ELEMENT_TYPE.VARIABLE
+                });
+
+                expect(mutatedResource.subText).toEqual('');
+            });
         });
     });
     describe('mutatePicklistValue', () => {
@@ -221,12 +248,17 @@ describe('menuDataGenerator', () => {
         const clientVariable = {
             dataType: FLOW_DATA_TYPE.STRING.value
         };
+        const mockedDataTypeLabel = field => `${field.dataType}Label`;
 
-        const testDataTypeSubText = (field, parent) => {
-            const label = `${field.dataType}Label`;
-            getDataTypeLabel.mockReturnValueOnce(label);
+        const expectSubText = (
+            field,
+            parent,
+            expectedSubtext = mockedDataTypeLabel(field)
+        ) => {
+            const dataTypeLabel = mockedDataTypeLabel(field);
+            getDataTypeLabel.mockReturnValueOnce(dataTypeLabel);
             const mutatedProperty = getMenuItemForField(field, parent);
-            expect(mutatedProperty.subText).toEqual(label);
+            expect(mutatedProperty.subText).toEqual(expectedSubtext);
         };
         it('should use label for subtext for sobject fields', () => {
             const mockField = accountFields.AccountSource;
@@ -237,13 +269,20 @@ describe('menuDataGenerator', () => {
             expect(mutatedField.subText).toEqual(mockField.label);
         });
         it('should use dataType for subtext for apex properties', () => {
-            testDataTypeSubText(apexProperty, parentApexItem);
+            expectSubText(apexProperty, parentApexItem);
+        });
+        it('should use dataType collection for subtext for collection Apex property', () => {
+            expectSubText(
+                { ...apexProperty, isCollection: true },
+                parentApexItem,
+                format(collectionDataType, mockedDataTypeLabel(apexProperty))
+            );
         });
         it('should use dataType for subtext for $Flow variables', () => {
-            testDataTypeSubText(flowVariable, parentFlowVariableItem);
+            expectSubText(flowVariable, parentFlowVariableItem);
         });
         it('should use dataType for subtext for $Client variables', () => {
-            testDataTypeSubText(clientVariable, parentClientVariableItem);
+            expectSubText(clientVariable, parentClientVariableItem);
         });
     });
     describe('getMenuItemsForField', () => {

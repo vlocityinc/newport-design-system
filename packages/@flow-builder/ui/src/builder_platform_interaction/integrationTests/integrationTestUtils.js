@@ -111,14 +111,15 @@ export const expectGroupedComboboxItem = (groupedCombobox, itemText) => {
 export const expectGroupedComboboxItemInGroup = (
     groupedCombobox,
     groupLabel,
-    itemText
+    value,
+    property = 'text'
 ) => {
     expect(groupedCombobox.items).toEqual(
         expect.arrayContaining([
             expect.objectContaining({
                 label: groupLabel,
                 items: expect.arrayContaining([
-                    expect.objectContaining({ text: itemText })
+                    expect.objectContaining({ [property]: value })
                 ])
             })
         ])

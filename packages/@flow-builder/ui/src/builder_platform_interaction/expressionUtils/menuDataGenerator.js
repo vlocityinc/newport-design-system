@@ -28,6 +28,7 @@ import { getIconNameFromDataType } from 'builder_platform_interaction/screenEdit
 
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
+const STRING_TYPE = FLOW_DATA_TYPE.STRING.value;
 const ICON_TYPE = 'utility';
 const RIGHT_ICON_NAME = 'utility:chevronright';
 const ICON_SIZE = 'xx-small';
@@ -46,13 +47,21 @@ export const COMBOBOX_ITEM_DISPLAY_TYPE = {
  * @param {Object} resource the resource we're getting the subtext of
  * @param {String} resource.subtype  object type or apex class of an element, if exists
  * @param {Boolean} resource.isSystemGeneratedOutput whether or not that's an anonymous output
+ * @param {String} resource.elementType element type (eg: recordCreate)
  * @returns {String} the subtext to display in a combobox row
  */
-function getSubText(dataType, label, { subtype, isSystemGeneratedOutput }) {
+function getSubText(
+    dataType,
+    label,
+    { subtype, isSystemGeneratedOutput, elementType }
+) {
     let subText = '';
     if (dataType === SOBJECT_TYPE) {
         subText = subtype;
-    } else if (dataType && isSystemGeneratedOutput) {
+    } else if (
+        (dataType && isSystemGeneratedOutput) ||
+        (elementType === ELEMENT_TYPE.RECORD_CREATE && dataType === STRING_TYPE)
+    ) {
         subText = getDataTypeLabel(dataType);
     } else if (label) {
         subText = label;
@@ -358,8 +367,8 @@ export function getMenuItemsForField(
 /**
  * Makes copy of a Flow Element with fields as needed by combobox
  *
- * @param {Object} resource   element from flow
- * @returns {Object}         representation of flow element in shape combobox needs
+ * @param {Object} resource element from flow
+ * @returns {Object} representation of flow element in shape combobox needs
  */
 export function mutateFlowResourceToComboboxShape(resource) {
     const newElement = {
