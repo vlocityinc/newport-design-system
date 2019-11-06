@@ -49,7 +49,7 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
         FLOW_TRIGGER_SAVE_TYPE: {
             UPDATE: 'Update',
             CREATE: 'Create',
-            CREATE_OR_UPDATE: 'CreateOrUpdate'
+            CREATE_AND_UPDATE: 'CreateAndUpdate'
         }
     };
 });

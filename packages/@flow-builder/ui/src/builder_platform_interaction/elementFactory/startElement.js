@@ -35,7 +35,7 @@ export const START_ELEMENT_LOCATION = {
 };
 const maxConnections = 1;
 const elementType = ELEMENT_TYPE.START_ELEMENT;
-const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
+const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 
 /**
  * Creates a start element object in the shape expected by the store
@@ -198,7 +198,7 @@ function getBeforeSaveLabel(object, saveType) {
             return format(LABELS.startElementRecordCreated, object);
         case UPDATE:
             return format(LABELS.startElementRecordUpdated, object);
-        case CREATE_OR_UPDATE:
+        case CREATE_AND_UPDATE:
             return format(LABELS.startElementRecordCreatedUpdated, object);
         default:
             return '';

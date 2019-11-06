@@ -1,4 +1,5 @@
 import { Store } from 'builder_platform_interaction/storeLib';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 /**
  * Fetches the element from the store for the input element guid.
@@ -99,4 +100,18 @@ export const isOrderNumberInStore = (
             element.stageOrder === orderNumberToBeTested
     );
     return matches.length > 0;
+};
+
+/**
+ * Returns the trigger type for the current flow
+ * @returns {String}
+ */
+export const getTriggerType = () => {
+    const startElement = Object.values(
+        Store.getStore().getCurrentState().elements
+    ).find(element => {
+        return element.elementType === ELEMENT_TYPE.START_ELEMENT;
+    });
+
+    return startElement ? startElement.triggerType : undefined;
 };

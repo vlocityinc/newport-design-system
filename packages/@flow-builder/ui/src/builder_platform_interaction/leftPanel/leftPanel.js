@@ -10,6 +10,7 @@ import { isChildElement } from 'builder_platform_interaction/elementConfig';
 import { isTestMode } from 'builder_platform_interaction/contextLib';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 import { LABELS } from './leftPanelLabels';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 import {
     getResourceSections,
     getElementSections,
@@ -58,6 +59,7 @@ export default class LeftPanel extends LightningElement {
     labels = LABELS;
     searchString;
     processType;
+    triggerType;
 
     _addInlineResourceFromManagerTab = false;
 
@@ -115,13 +117,19 @@ export default class LeftPanel extends LightningElement {
                 this.resourceDetails.asResource
             );
         }
-        if (flowProcessType && this.processType !== flowProcessType) {
+        const flowTriggerType = getTriggerType();
+        if (
+            (flowProcessType && this.processType !== flowProcessType) ||
+            (flowTriggerType && this.triggerType !== flowTriggerType)
+        ) {
             this.processType = flowProcessType;
+            this.triggerType = flowTriggerType;
+
             logPerfTransactionStart(LEFT_PANEL_ELEMENTS);
             fetch(
                 SERVER_ACTION_TYPE.GET_LEFT_PANEL_ELEMENTS,
                 this.setElements,
-                { flowProcessType }
+                { flowProcessType, flowTriggerType }
             );
         }
     };

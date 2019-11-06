@@ -27,7 +27,7 @@ const SELECTORS = {
     START_TIME: '.startTime'
 };
 
-const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
+const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
 const { ONCE, DAILY, WEEKLY } = FLOW_TRIGGER_FREQUENCY;
 
@@ -188,7 +188,7 @@ export default class StartEditor extends LightningElement {
             },
             {
                 label: LABELS.triggerTypeCreatedOrUpdated,
-                value: CREATE_OR_UPDATE
+                value: CREATE_AND_UPDATE
             }
         ];
     }

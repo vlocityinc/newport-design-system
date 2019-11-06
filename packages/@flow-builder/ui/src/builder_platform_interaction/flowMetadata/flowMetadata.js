@@ -293,7 +293,7 @@ export const FLOW_TRIGGER_TYPE = {
 export const FLOW_TRIGGER_SAVE_TYPE = {
     UPDATE: 'Update',
     CREATE: 'Create',
-    CREATE_OR_UPDATE: 'CreateOrUpdate'
+    CREATE_AND_UPDATE: 'CreateAndUpdate'
 };
 
 export const FLOW_TRIGGER_FREQUENCY = {

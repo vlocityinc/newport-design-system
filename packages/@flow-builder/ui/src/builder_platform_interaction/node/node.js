@@ -34,7 +34,7 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
  */
 
 const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
-const { CREATE, UPDATE, CREATE_OR_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
+const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 
 export default class Node extends LightningElement {
     currentNodeLabel = null;
@@ -127,7 +127,7 @@ export default class Node extends LightningElement {
                 case BEFORE_SAVE:
                     return format(
                         this.formatStartSaveType(this.node.saveType),
-                        this.node.object
+                        this.node.object.toLowerCase()
                     );
                 case SCHEDULED:
                     return LABELS.nodeIconTitleStartScheduled;
@@ -148,7 +148,7 @@ export default class Node extends LightningElement {
                 return LABELS.nodeIconTitleStartBeforeSaveCreated;
             case UPDATE:
                 return LABELS.nodeIconTitleStartBeforeSaveUpdated;
-            case CREATE_OR_UPDATE:
+            case CREATE_AND_UPDATE:
                 return LABELS.nodeIconTitleStartBeforeSaveCreatedOrUpdated;
             default:
                 return '';

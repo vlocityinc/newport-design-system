@@ -3,5 +3,6 @@ export {
     getElementByDevName,
     isDevNameInStore,
     isOrderNumberInStore,
-    getDuplicateDevNameElements
+    getDuplicateDevNameElements,
+    getTriggerType
 } from './storeQuery';
