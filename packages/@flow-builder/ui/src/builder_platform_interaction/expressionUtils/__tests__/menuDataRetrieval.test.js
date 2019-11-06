@@ -43,6 +43,7 @@ import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib'
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { mockScreenElement } from 'mock/calloutData';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 
@@ -899,6 +900,37 @@ describe('Menu data retrieval', () => {
             expect(menuItems[2]).toMatchObject({
                 displayText: '{!$Flow.CurrentRecord}'
             });
+        });
+        it('returns menuItems for both number fields and spannable fields when allowed param types are numbers', () => {
+            const parentMenuItem = {
+                dataType: FLOW_DATA_TYPE.SOBJECT.value,
+                subtype: 'FeedItem',
+                displayText: '{!recordVar}'
+            };
+            const menuItems = filterFieldsForChosenElement(
+                parentMenuItem,
+                feedItemFields,
+                {
+                    allowedParamTypes: sampleNumberParamTypes
+                }
+            );
+            expect(menuItems).toContainEqual(
+                expect.objectContaining({
+                    displayText: '{!recordVar.LikeCount}',
+                    dataType: 'Number'
+                })
+            );
+            expect(menuItems).toContainEqual(
+                expect.objectContaining({
+                    text: 'BestComment',
+                    dataType: 'SObject'
+                })
+            );
+            expect(menuItems).not.toContainEqual(
+                expect.objectContaining({
+                    displayText: '{!recordVar.BestCommentId}'
+                })
+            );
         });
     });
 

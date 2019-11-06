@@ -83,6 +83,7 @@ function getSubText(
  * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
  * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
  * @property {String} subtype the object type or apex when data type is SObject otherwise null. eg: Account
+ * @property {boolean} isCollection true if is a collection
  */
 
 /**
@@ -108,6 +109,7 @@ function getSubText(
  * @param {Object} parent the parent flow element of the second level item in combobox shape
  * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
  * @param {String} subtype the object type when data type is SObject otherwise null. eg: Account
+ * @param {boolean} isCollection true if is a collection
  * @returns {MenuItem}  the generated menu item
  */
 const createMenuItem = ({
@@ -119,7 +121,8 @@ const createMenuItem = ({
     value,
     parent,
     dataType,
-    subtype
+    subtype,
+    isCollection
 } = {}) => ({
     type,
     text,
@@ -130,7 +133,8 @@ const createMenuItem = ({
     value,
     parent,
     dataType,
-    subtype
+    subtype,
+    isCollection
 });
 
 /**
@@ -205,7 +209,8 @@ function createMenuItemForField({
     parent,
     hasNext = false,
     dataType,
-    subtype
+    subtype,
+    isCollection
 } = {}) {
     const menuItem = createMenuItem({
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
@@ -216,7 +221,8 @@ function createMenuItemForField({
         displayText,
         dataType,
         subtype,
-        parent
+        parent,
+        isCollection
     });
     if (hasNext) {
         menuItem.rightIconName = RIGHT_ICON_NAME;
@@ -248,7 +254,6 @@ function getMenuItemForSpannableSObjectField(
         showAsFieldReference
     );
     return createMenuItemForField({
-        iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
         hasNext: true,
@@ -256,7 +261,8 @@ function getMenuItemForSpannableSObjectField(
         value,
         displayText,
         dataType: SOBJECT_TYPE,
-        subtype: referenceToName
+        subtype: referenceToName,
+        isCollection: false
     });
 }
 
@@ -313,6 +319,7 @@ export function getMenuItemForField(
     const apiName = field.apiName || field.qualifiedApiName;
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+        isCollection: field.isCollection,
         dataType: field.dataType,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
@@ -439,6 +446,7 @@ export const mutateEntitiesToComboboxShape = entities => {
             displayText: entity.entityLabel || entity.apiName,
             value: entity.apiName,
             dataType: SOBJECT_TYPE,
+            isCollection: entity.isCollection,
             subtype: entity.apiName
         });
     });
@@ -452,6 +460,7 @@ export const mutateApexClassesToComboboxShape = classes => {
             displayText: clazz.durableId,
             value: clazz.durableId,
             dataType: APEX_TYPE,
+            isCollection: clazz.isCollection,
             subtype: clazz.durableId
         });
     });
@@ -475,6 +484,7 @@ export const mutatePicklistValue = picklistOption => {
     return createMenuItem({
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         text: picklistOption.label || picklistOption.value,
+        dataType: FLOW_DATA_TYPE.STRING.value,
         subText: FLOW_DATA_TYPE.STRING.label,
         displayText: picklistOption.value,
         iconName: getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),

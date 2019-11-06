@@ -200,17 +200,16 @@ describe('menuDataGenerator', () => {
     describe('mutatePicklistValue', () => {
         it('will display the value if no label exists', () => {
             const val = 'Pick1';
-            const expectedMutatedValue = {
+            const picklistValue = { value: val };
+            const mutatedValue = mutatePicklistValue(picklistValue);
+            expect(mutatedValue).toMatchObject({
                 displayText: val,
-                iconSize: 'xx-small',
                 subText: 'FlowBuilderDataTypes.textDataTypeLabel',
                 text: val,
                 type: 'option-card',
-                value: val
-            };
-            const picklistValue = { value: val };
-            const mutatedValue = mutatePicklistValue(picklistValue);
-            expect(mutatedValue).toEqual(expectedMutatedValue);
+                value: val,
+                dataType: 'String'
+            });
         });
     });
     describe('getMenuItemForField', () => {

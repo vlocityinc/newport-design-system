@@ -175,6 +175,10 @@ export function isElementAllowed(
         ) {
             return false;
         }
+        if (element.isSpanningAllowed === true) {
+            // SObject field that is spannable
+            return true;
+        }
         // do not allow complex objects without children
         return (
             isComplexType(element.dataType) &&
@@ -467,6 +471,14 @@ export function filterFieldsForChosenElement(
                         })
                     ),
                 []
+            )
+            .filter(field =>
+                // filter a second time because several menu items may be generated, some of them possibly not with the expected dataType
+                isElementAllowed(
+                    allowedParamTypes,
+                    field,
+                    allowSObjectFieldsTraversal
+                )
             )
             .sort((menuItem1, menuItem2) => {
                 // display elements with children first
