@@ -168,7 +168,7 @@ const defaultNewRecordLookupElement = () => ({
     ],
     getFirstRecordOnly: true,
     storeOutputAutomatically: false,
-    variableAndFieldMapping: 'manual'
+    variableAndFieldMapping: VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL
 });
 
 const recordLookupElementWithoutOutputRefNorOutputAssignment = () => ({
@@ -280,6 +280,19 @@ describe('record-lookup-editor', () => {
                     defaultNewRecordLookupElement(),
                     AddElementEvent.EVENT_NAME
                 );
+            });
+            it('default storeOutputAutomatically should be true', () => {
+                expect(recordLookupEditor.node.storeOutputAutomatically).toBe(
+                    true
+                );
+            });
+            it('default variableAndFieldMapping should be Automatic', () => {
+                expect(recordLookupEditor.node.variableAndFieldMapping).toBe(
+                    VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+                );
+            });
+            it('default queryFields should be Null', () => {
+                expect(recordLookupEditor.node.queriedFields).toBeNull();
             });
             describe('After entity (object) is selected', () => {
                 beforeEach(() => {

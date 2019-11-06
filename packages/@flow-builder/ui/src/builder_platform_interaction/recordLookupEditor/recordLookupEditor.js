@@ -106,12 +106,15 @@ export default class RecordLookupEditor extends LightningElement {
             this.isInAddElementMode &&
             this.isAutomaticOutputHandlingSupported
         ) {
+            // initiate the component can't be done in the factory because the processType features are not yet retrieved.
             this.state.recordLookupElement = Object.assign(
                 {},
                 this.state.recordLookupElement,
                 {
                     variableAndFieldMapping:
-                        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+                        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC,
+                    storeOutputAutomatically: true,
+                    queriedFields: null
                 }
             );
         } else if (
