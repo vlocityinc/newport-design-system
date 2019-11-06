@@ -116,35 +116,6 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         PARAM_PROPERTY: actual.PARAM_PROPERTY
     };
 });
-/*
-jest.mock('builder_platform_interaction/expressionUtils', () => {
-    const actual = require.requireActual(
-        '../../expressionUtils/expressionUtils.js'
-    );
-    return {
-        getElementsForMenuData: jest.fn().mockReturnValue([]),
-        EXPRESSION_PROPERTY_TYPE: actual.EXPRESSION_PROPERTY_TYPE,
-        getResourceByUniqueIdentifier: actual.getResourceByUniqueIdentifier,
-        isElementAllowed: actual.isElementAllowed,
-        sanitizeGuid: require.requireActual(
-            '../../dataMutationLib/dataMutationLib.js'
-        ).sanitizeGuid,
-        filterFieldsForChosenElement: actual.filterFieldsForChosenElement,
-        OPERATOR_DISPLAY_OPTION: actual.OPERATOR_DISPLAY_OPTION,
-        getFerovDataTypeForValidId: actual.getFerovDataTypeForValidId,
-        mutateFlowResourceToComboboxShape:
-            actual.mutateFlowResourceToComboboxShape,
-        getMenuItemForField: actual.getMenuItemForField,
-        getMenuItemsForField: actual.getMenuItemsForField,
-        validateExpressionShape: actual.validateExpressionShape,
-        LHS_DISPLAY_OPTION: actual.LHS_DISPLAY_OPTION,
-        populateLhsStateForField: actual.populateLhsStateForField,
-        populateRhsState: actual.populateRhsState,
-        getChildrenItemsPromise: actual.getChildrenItemsPromise,
-        getStoreElements: jest.fn(),
-        filterAndMutateMenuData: jest.fn()
-    };
-}); */
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
@@ -263,8 +234,10 @@ describe('fer-to-ferov-expression-builder', () => {
                     getMenuItemForField(
                         accountField,
                         accountVariableComboboxShape,
-                        true,
-                        true
+                        {
+                            showAsFieldReference: true,
+                            showSubText: true
+                        }
                     )
                 );
                 expect(baseExpressionBuilder.lhsParam).toMatchObject(
@@ -446,8 +419,10 @@ describe('fer-to-ferov-expression-builder', () => {
                     getMenuItemForField(
                         accountField,
                         accountVariableComboboxShape,
-                        true,
-                        true
+                        {
+                            showAsFieldReference: true,
+                            showSubText: true
+                        }
                     )
                 );
                 expect(baseExpressionBuilder.rhsIsField).toBeTruthy();

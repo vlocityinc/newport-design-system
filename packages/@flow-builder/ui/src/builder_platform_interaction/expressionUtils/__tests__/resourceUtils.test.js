@@ -203,12 +203,10 @@ describe('ResourceUtils', () => {
                 true
             );
             expect(lhsState.value).toBe('formattedField');
-            expect(getMenuItemForField).toHaveBeenCalledWith(
-                {},
-                account,
-                true,
-                true
-            );
+            expect(getMenuItemForField).toHaveBeenCalledWith({}, account, {
+                showAsFieldReference: true,
+                showSubText: true
+            });
         });
         it('should not throw an exception if the user does not have access to the SObject', () => {
             const lhsState = populateLhsStateForField(undefined, 'Name');

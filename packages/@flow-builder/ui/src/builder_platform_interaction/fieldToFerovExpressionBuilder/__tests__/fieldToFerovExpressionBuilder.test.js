@@ -178,8 +178,10 @@ describe('field-to-ferov-expression-builder', () => {
                 getMenuItemForField(
                     accountField,
                     { value: sobject },
-                    false,
-                    false
+                    {
+                        showAsFieldReference: false,
+                        showSubText: false
+                    }
                 )
             );
             expect(baseExpressionBuilder.lhsParam).toMatchObject(
@@ -336,8 +338,10 @@ describe('field-to-ferov-expression-builder', () => {
                     getMenuItemForField(
                         accountField,
                         accountVariableComboboxShape,
-                        true,
-                        true
+                        {
+                            showAsFieldReference: true,
+                            showSubText: true
+                        }
                     )
                 );
                 expect(baseExpressionBuilder.rhsIsField).toBeTruthy();

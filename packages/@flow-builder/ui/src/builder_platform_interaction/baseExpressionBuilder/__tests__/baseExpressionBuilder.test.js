@@ -997,8 +997,10 @@ describe('base expression builder', () => {
                 lhsValue: expressionUtilsMock.getMenuItemForField(
                     accountField,
                     accountVariable,
-                    true,
-                    true
+                    {
+                        showAsFieldReference: true,
+                        showSubText: true
+                    }
                 ),
                 lhsParam: rulesMock.elementToParam(accountField),
                 lhsIsField: true,

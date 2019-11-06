@@ -296,7 +296,10 @@ function getMenuItemsForSObjectField(
         return comboboxItems;
     }
     return [
-        getMenuItemForField(field, parent, showAsFieldReference, showSubText)
+        getMenuItemForField(field, parent, {
+            showAsFieldReference,
+            showSubText
+        })
     ];
 }
 

@@ -255,12 +255,10 @@ export const populateLhsStateForField = (
     };
     const field = fields && fields[fieldName];
     if (field) {
-        lhsState.value = getMenuItemForField(
-            field,
-            fieldParent,
-            isFieldOnSobjectVar,
-            isFieldOnSobjectVar
-        );
+        lhsState.value = getMenuItemForField(field, fieldParent, {
+            showAsFieldReference: isFieldOnSobjectVar,
+            showSubText: isFieldOnSobjectVar
+        });
         lhsState.activePicklistValues = field.activePicklistValues || false;
         lhsState.param = elementToParam(field);
     }
