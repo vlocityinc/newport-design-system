@@ -17,7 +17,10 @@ import * as store from 'mock/storeData';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as selectorsMock from 'builder_platform_interaction/selectors';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { getAllEntities } from 'builder_platform_interaction/sobjectLib';
+import {
+    ENTITY_TYPE,
+    getAllEntities
+} from 'builder_platform_interaction/sobjectLib';
 import {
     GLOBAL_CONSTANTS as gcLabels,
     GLOBAL_CONSTANT_OBJECTS as gcObjects,
@@ -133,6 +136,10 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             .mockImplementation(() => Promise.resolve(mockAccountFields)),
         getAllEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData').mockEntities;
+        }),
+        getWorkflowEnabledEntities: jest.fn().mockImplementation(() => {
+            return require.requireActual('mock/serverEntityData')
+                .mockWorkflowEnabledEntities;
         }),
         getEventTypes: jest.fn().mockImplementation(() => {
             return require('mock/eventTypesData').mockEventTypes;
@@ -651,6 +658,14 @@ describe('Menu data retrieval', () => {
             expect(entitiesMenuData[0].displayText).toEqual(entityApiName);
             expect(entitiesMenuData[0].text).toEqual(entityApiName);
             expect(entitiesMenuData[0].subText).toEqual(entityApiName);
+        });
+
+        it('filters on workflowEnabled entities', () => {
+            const entitiesMenuData = getEntitiesMenuData(
+                ENTITY_TYPE.WORKFLOW_ENABLED
+            );
+            expect(entitiesMenuData).toBeDefined();
+            expect(entitiesMenuData[0].text).toEqual('testWFEnabledEntity');
         });
     });
 

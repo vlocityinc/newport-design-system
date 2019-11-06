@@ -409,6 +409,9 @@ export const getEntitiesMenuData = entityType => {
         case sobjectLib.ENTITY_TYPE.UPDATABLE:
             entities = sobjectLib.getUpdateableEntities();
             break;
+        case sobjectLib.ENTITY_TYPE.WORKFLOW_ENABLED:
+            entities = sobjectLib.getWorkflowEnabledEntities();
+            break;
         default:
             entities = sobjectLib.getAllEntities();
             break;

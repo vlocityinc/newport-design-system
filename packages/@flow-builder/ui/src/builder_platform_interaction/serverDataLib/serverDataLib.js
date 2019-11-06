@@ -36,7 +36,8 @@ export const SERVER_ACTION_TYPE = {
     GET_PROCESS_TYPE_FEATURES: 'getSupportedFeaturesList',
     TOGGLE_FLOW_STATUS: 'toggleFlowStatus',
     GET_INVOCABLE_ACTION_DETAILS: 'getInvocableActionDetails',
-    GET_BUILDER_CONFIGS: 'getBuilderConfigs'
+    GET_BUILDER_CONFIGS: 'getBuilderConfigs',
+    GET_WORKFLOW_ENABLED_ENTITIES: 'getWorkflowEnabledEntities'
 };
 
 const actionConfig = {
@@ -84,7 +85,9 @@ const actionConfig = {
     [SERVER_ACTION_TYPE.TOGGLE_FLOW_STATUS]: 'c.toggleFlowStatus',
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]:
         'c.getInvocableActionDetails',
-    [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: 'c.getBuilderConfigs'
+    [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: 'c.getBuilderConfigs',
+    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]:
+        'c.getWorkflowEnabledEntities'
 };
 
 let auraFetch;
@@ -182,7 +185,9 @@ const KEY_PROVIDER = {
     [SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_DETAILS]: params =>
         `${params.actionName}-${params.actionType}`,
     [SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS]: () =>
-        SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS
+        SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS,
+    [SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES]: () =>
+        SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES
 };
 
 const fetchOnceCache = {};

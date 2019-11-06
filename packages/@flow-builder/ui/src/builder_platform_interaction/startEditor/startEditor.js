@@ -1,7 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import {
     fetchFieldsForEntity,
-    getAllEntities
+    getAllEntities,
+    ENTITY_TYPE
 } from 'builder_platform_interaction/sobjectLib';
 import {
     ELEMENT_TYPE,
@@ -249,6 +250,10 @@ export default class StartEditor extends LightningElement {
             entity => entity.apiName === this.recordEntityName
         );
         return entityToDisplay ? entityToDisplay.entityLabel : '';
+    }
+
+    get workflowEnabledFilter() {
+        return ENTITY_TYPE.WORKFLOW_ENABLED;
     }
 
     /**

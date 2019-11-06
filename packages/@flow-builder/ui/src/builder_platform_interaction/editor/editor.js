@@ -50,7 +50,10 @@ import {
     isRedoAvailable,
     INIT
 } from 'builder_platform_interaction/undoRedoLib';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import {
+    fetchFieldsForEntity,
+    setWorkflowEnabledEntities
+} from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
@@ -315,7 +318,7 @@ export default class Editor extends LightningElement {
                     onFeaturesLoaded: () => {
                         this.spinners.showLoadingSupportedFeaturesSpinner = false;
                     },
-                    onPeripheralDataFetched: ({ error }) => {
+                    onPeripheralDataLoaded: ({ error }) => {
                         if (!error) {
                             this.peripheralDataFetched = true;
                             getGlobalVariableTypeComboboxItems().forEach(
@@ -329,6 +332,14 @@ export default class Editor extends LightningElement {
                             const item = getFlowSystemVariableComboboxItem();
                             // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
                             addToParentElementCache(item.displayText, item);
+
+                            // Get workflow enabled entities for before-save trigger object list
+                            fetchOnce(
+                                SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES,
+                                {}
+                            ).then(data => {
+                                setWorkflowEnabledEntities(data);
+                            });
                         }
                     }
                 })

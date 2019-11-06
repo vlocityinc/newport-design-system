@@ -7,6 +7,7 @@ import {
     getCreateableEntities,
     getDeletableEntities,
     getUpdateableEntities,
+    getWorkflowEnabledEntities,
     getFieldsForEntity,
     fetchFieldsForEntity,
     getEntity
@@ -32,6 +33,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         const createableEntities = [];
         const deletableEntities = [];
         const updateableEntities = [];
+        const workflowEnabledEntities = [];
         mockEntities.forEach(entity => {
             allEntities.push(entity);
             allEntitiesMap[entity.apiName] = entity;
@@ -47,6 +49,9 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             if (entity.updateable) {
                 updateableEntities.push(entity);
             }
+            if (entity.workflowEnabled) {
+                workflowEnabledEntities.push(entity);
+            }
         });
         return {
             allEntities,
@@ -54,7 +59,8 @@ jest.mock('builder_platform_interaction/storeLib', () => {
             queryableEntities,
             createableEntities,
             deletableEntities,
-            updateableEntities
+            updateableEntities,
+            workflowEnabledEntities
         };
     };
     const entities = { entities: mockEntitiesForStore() };
@@ -136,11 +142,23 @@ describe('SObject Lib Tests', () => {
                 expect.objectContaining({ apiName: 'AcceptedEventRelation' })
             );
         });
+
+        it('Get Workflow Enabled Entities', () => {
+            const workflowEnabledEntities = getWorkflowEnabledEntities();
+            expect(workflowEnabledEntities).toContainEqual(
+                expect.objectContaining({ apiName: 'Account' })
+            );
+            expect(workflowEnabledEntities).not.toContainEqual(
+                expect.objectContaining({ apiName: 'AcceptedEventRelation' })
+            );
+        });
+
         it('Get existing entity description', () => {
             const entity = getEntity('Account');
             expect(entity).toBeDefined();
             expect(entity.apiName).toEqual('Account');
         });
+
         it('Get unexisting entity description', () => {
             const entity = getEntity('UnknownEntity');
             expect(entity).toBeUndefined();

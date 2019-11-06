@@ -12,7 +12,8 @@ export const ENTITY_TYPE = {
     CREATABLE: 'CREATABLE',
     QUERYABLE: 'QUERYABLE',
     UPDATABLE: 'UPDATABLE',
-    DELETABLE: 'DELETABLE'
+    DELETABLE: 'DELETABLE',
+    WORKFLOW_ENABLED: 'WORKFLOW_ENABLED'
 };
 
 /**
@@ -26,6 +27,7 @@ export const setEntities = (entities = null) => {
     const createableEntities = [];
     const deletableEntities = [];
     const updateableEntities = [];
+    const workflowEnabledEntities = [];
     const unfilteredEntities = JSON.parse(entities);
 
     if (unfilteredEntities) {
@@ -53,7 +55,8 @@ export const setEntities = (entities = null) => {
             queryableEntities,
             createableEntities,
             deletableEntities,
-            updateableEntities
+            updateableEntities,
+            workflowEnabledEntities
         })
     );
 };
@@ -85,6 +88,34 @@ export const getEntity = apiName => {
 };
 
 /**
+ * Takes a list of org-accessible workflow enabled entities, filters out the ones that are not user accessible based on
+ * the master entities list in the store, and adds the filtered workflow enabled entity list to the store
+ * @param {Array} orgWorkflowEnabledEntities List of api names of workflow enabled entities available in the org
+ */
+export const setWorkflowEnabledEntities = (orgWorkflowEnabledEntities = []) => {
+    const workflowEnabledEntities = [];
+    orgWorkflowEnabledEntities.forEach(entityApiName => {
+        const entity = getEntity(entityApiName);
+        if (entity) {
+            workflowEnabledEntities.push(entity);
+        }
+    });
+
+    const storedEntities = getStoredEntities();
+    Store.getStore().dispatch(
+        updateEntities({
+            allEntities: storedEntities.allEntities,
+            allEntitiesMap: storedEntities.allEntitiesMap,
+            queryableEntities: storedEntities.queryableEntities,
+            createableEntities: storedEntities.createableEntities,
+            deletableEntities: storedEntities.deletableEntities,
+            updateableEntities: storedEntities.updateableEntities,
+            workflowEnabledEntities
+        })
+    );
+};
+
+/**
  * Returns only queryable SObjects
  * @returns {Array} Queryable Entities
  */
@@ -113,11 +144,20 @@ export const getDeletableEntities = () => {
 
 /**
  * Returns only updatable SObjects
- * @returns {Array} Updateable
+ * @returns {Array} Updateable Entities
  */
 export const getUpdateableEntities = () => {
     const storedEntities = getStoredEntities();
     return storedEntities ? storedEntities.updateableEntities : [];
+};
+
+/**
+ * Returns only workflow enabled SObjects
+ * @returns {Array} Worflow Enabled Entities
+ */
+export const getWorkflowEnabledEntities = () => {
+    const storedEntities = getStoredEntities();
+    return storedEntities ? storedEntities.workflowEnabledEntities : [];
 };
 
 export const areFieldsForEntityAlreadyFetched = entityName => {
