@@ -10,7 +10,10 @@ import {
     getValueFromHydratedItem,
     getErrorsFromHydratedElement
 } from 'builder_platform_interaction/dataMutationLib';
-import { invocableActionReducer } from './invocableActionReducer';
+import {
+    invocableActionReducer,
+    MERGE_WITH_DATA_TYPE_MAPPINGS
+} from './invocableActionReducer';
 import {
     MERGE_WITH_PARAMETERS,
     REMOVE_UNSET_PARAMETERS,
@@ -26,10 +29,14 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     fetchDetailsForInvocableAction,
-    isAutomaticOutputHandlingSupported
+    isAutomaticOutputHandlingSupported,
+    applyDynamicTypeMappings
 } from 'builder_platform_interaction/invocableActionLib';
 
-import { translateUIModelToFlow, swapUidsForDevNames } from 'builder_platform_interaction/translatorLib';
+import {
+    translateUIModelToFlow,
+    swapUidsForDevNames
+} from 'builder_platform_interaction/translatorLib';
 import { createInputParameter } from 'builder_platform_interaction/elementFactory';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 
@@ -67,8 +74,8 @@ export default class InvocableActionEditor extends LightningElement {
         this.actionCallNode = newValue || {};
         if (this.connected) {
             this.fixNodeIfAutomaticOutputUnsupported();
-            this.fetchActionParameters();
             this.fetchInvocableActionDescriptor();
+            this.fetchActionParameters();
         }
     }
 
@@ -110,9 +117,12 @@ export default class InvocableActionEditor extends LightningElement {
             this.actionCallNode,
             event
         );
+        this.updateDataTypeMappings();
         let errors = getErrorsFromHydratedElement(this.actionCallNode);
         if (this.configurationEditor) {
-            const baseCalloutEditor = this.template.querySelector('builder_platform_interaction-base-callout-editor');
+            const baseCalloutEditor = this.template.querySelector(
+                'builder_platform_interaction-base-callout-editor'
+            );
             if (baseCalloutEditor) {
                 const baseCalloutEditorErrors = baseCalloutEditor.validate();
                 errors = [...errors, ...baseCalloutEditorErrors];
@@ -121,8 +131,12 @@ export default class InvocableActionEditor extends LightningElement {
                         'invocable-action-configuratior-editor-done',
                         'modal',
                         {
-                            actionName: getValueFromHydratedItem(this.node.actionName),
-                            actionType: getValueFromHydratedItem(this.node.actionType),
+                            actionName: getValueFromHydratedItem(
+                                this.node.actionName
+                            ),
+                            actionType: getValueFromHydratedItem(
+                                this.node.actionType
+                            ),
                             configurationEditor: this.configurationEditor.name
                         },
                         'click'
@@ -152,36 +166,71 @@ export default class InvocableActionEditor extends LightningElement {
             : undefined;
     }
 
+    get dataTypeMappings() {
+        return this.invocableActionDescriptor
+            ? this.actionCallNode.dataTypeMappings
+            : [];
+    }
+
+    get hasUnboundDataTypeMappings() {
+        return (
+            this.actionCallNode.dataTypeMappings &&
+            this.actionCallNode.dataTypeMappings.find(
+                dataTypeMapping =>
+                    !dataTypeMapping.typeValue ||
+                    !dataTypeMapping.typeValue.value ||
+                    dataTypeMapping.typeValue.error
+            )
+        );
+    }
+
+    get hideParameters() {
+        return this.isNewMode && this.hasUnboundDataTypeMappings;
+    }
+
     fetchActionParameters() {
-        const actionParams = {
-            actionName: getValueFromHydratedItem(this.node.actionName),
-            actionType: getValueFromHydratedItem(this.node.actionType)
-        };
-        this.displaySpinner = true;
-        this.invocableActionParametersDescriptor = undefined;
-        // Needed to unrender the existing configuration editor
-        this.invocableActionConfigurationEditorDescriptor = undefined;
-        fetchDetailsForInvocableAction(actionParams)
-            .then(({ configurationEditor, parameters }) => {
-                if (this.connected) {
-                    this.displaySpinner = false;
-                    this.invocableActionParametersDescriptor = parameters;
-                    this.invocableActionConfigurationEditorDescriptor = configurationEditor;
-                    const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
-                        detail: parameters
-                    });
-                    this.actionCallNode = invocableActionReducer(
-                        this.actionCallNode,
-                        event
-                    );
-                }
-            })
-            .catch(() => {
-                if (this.connected) {
-                    this.displaySpinner = false;
-                    this.cannotRetrieveParameters();
-                }
-            });
+        if (!this.hideParameters) {
+            const actionParams = {
+                actionName: getValueFromHydratedItem(this.node.actionName),
+                actionType: getValueFromHydratedItem(this.node.actionType)
+            };
+            this.displaySpinner = true;
+            this.invocableActionParametersDescriptor = undefined;
+            // Needed to unrender the existing configuration editor
+            this.invocableActionConfigurationEditorDescriptor = undefined;
+            fetchDetailsForInvocableAction(actionParams)
+                .then(({ configurationEditor, parameters }) => {
+                    if (this.connected) {
+                        if (
+                            this.actionCallNode.dataTypeMappings &&
+                            this.actionCallNode.dataTypeMappings.length > 0
+                        ) {
+                            parameters = applyDynamicTypeMappings(
+                                parameters,
+                                this.actionCallNode.dataTypeMappings
+                            );
+                        }
+                        this.displaySpinner = false;
+                        this.invocableActionParametersDescriptor = parameters;
+                        this.invocableActionConfigurationEditorDescriptor = configurationEditor;
+                        const event = new CustomEvent(MERGE_WITH_PARAMETERS, {
+                            detail: parameters
+                        });
+                        this.actionCallNode = invocableActionReducer(
+                            this.actionCallNode,
+                            event
+                        );
+                    }
+                })
+                .catch(() => {
+                    if (this.connected) {
+                        this.displaySpinner = false;
+                        this.cannotRetrieveParameters();
+                    }
+                });
+        } else {
+            this.displaySpinner = false;
+        }
     }
 
     cannotRetrieveParameters() {
@@ -219,6 +268,7 @@ export default class InvocableActionEditor extends LightningElement {
                             action.name === actionParams.actionName &&
                             action.type === actionParams.actionType
                     );
+                    this.updateDataTypeMappings();
                     this.updatePropertyEditorTitle();
                 }
             })
@@ -298,7 +348,11 @@ export default class InvocableActionEditor extends LightningElement {
     }
 
     _shouldCreateConfigurationEditor() {
-        return this.configurationEditor && this.configurationEditor.name && this.configurationEditor.errors.length === 0;
+        return (
+            this.configurationEditor &&
+            this.configurationEditor.name &&
+            this.configurationEditor.errors.length === 0
+        );
     }
 
     /**
@@ -324,7 +378,9 @@ export default class InvocableActionEditor extends LightningElement {
      */
     get flowContext() {
         if (this._shouldCreateConfigurationEditor()) {
-            const flow = translateUIModelToFlow(Store.getStore().getCurrentState());
+            const flow = translateUIModelToFlow(
+                Store.getStore().getCurrentState()
+            );
             const {
                 variables = [],
                 constants = [],
@@ -365,16 +421,23 @@ export default class InvocableActionEditor extends LightningElement {
      * then convert it into desired shape
      */
     get configurationEditorValues() {
-        if (this.invocableActionParametersDescriptor && this.actionCallNode && this._shouldCreateConfigurationEditor()) {
+        if (
+            this.invocableActionParametersDescriptor &&
+            this.actionCallNode &&
+            this._shouldCreateConfigurationEditor()
+        ) {
             const inputParameters = this.actionCallNode.inputParameters
-                                                        .filter(({value}) => !!value)
-                                                        .map(inputParameter => createInputParameter(inputParameter));
+                .filter(({ value }) => !!value)
+                .map(inputParameter => createInputParameter(inputParameter));
             dehydrate(inputParameters);
-            swapUidsForDevNames(Store.getStore().getCurrentState().elements, inputParameters);
-            return inputParameters.map(({name, value, valueDataType}) => ({
-                    id: name,
-                    value,
-                    dataType: valueDataType
+            swapUidsForDevNames(
+                Store.getStore().getCurrentState().elements,
+                inputParameters
+            );
+            return inputParameters.map(({ name, value, valueDataType }) => ({
+                id: name,
+                value,
+                dataType: valueDataType
             }));
         }
         return [];
@@ -392,6 +455,24 @@ export default class InvocableActionEditor extends LightningElement {
             event,
             elements
         );
+    }
+
+    updateDataTypeMappings() {
+        if (
+            this.invocableActionDescriptor &&
+            this.invocableActionDescriptor.genericTypes
+        ) {
+            const event = new CustomEvent(MERGE_WITH_DATA_TYPE_MAPPINGS, {
+                detail: {
+                    genericTypes: this.invocableActionDescriptor.genericTypes,
+                    isNewMode: this.isNewMode
+                }
+            });
+            this.actionCallNode = invocableActionReducer(
+                this.actionCallNode,
+                event
+            );
+        }
     }
 
     updatePropertyEditorTitle() {
@@ -423,5 +504,16 @@ export default class InvocableActionEditor extends LightningElement {
             this.actionCallNode,
             event
         );
+    }
+
+    handleDataTypeMappingChanged(event) {
+        event.stopPropagation();
+        this.actionCallNode = invocableActionReducer(
+            this.actionCallNode,
+            event
+        );
+
+        this.updateDataTypeMappings();
+        this.fetchActionParameters();
     }
 }

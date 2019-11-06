@@ -19,6 +19,10 @@ import {
     createOutputParameter,
     createOutputParameterMetadataObject
 } from './outputParameter';
+import {
+    createDynamicTypeMappings,
+    createDataTypeMappingsMetadataObject
+} from './dynamicTypeMapping';
 import { createConnectorObjects } from './connector';
 import { removeFromAvailableConnections } from 'builder_platform_interaction/connectorUtils';
 import {
@@ -36,10 +40,15 @@ export const getDefaultAvailableConnections = () => [
         type: CONNECTOR_TYPE.FAULT
     }
 ];
-const getSystemGeneratedOutputParameter = (actionName, actionType) => {
+const getSystemGeneratedOutputParameter = (
+    actionName,
+    actionType,
+    dataTypeMappings
+) => {
     const parameters = getParametersForInvocableAction({
         actionName,
-        actionType
+        actionType,
+        dataTypeMappings
     });
     return parameters
         ? parameters.find(
@@ -61,12 +70,14 @@ export function createActionCall(
     const newActionCall = baseCanvasElement(actionCall);
     const { actionType = '', actionName = '' } = actionCall;
     let {
+        dataTypeMappings = [],
         inputParameters = [],
         outputParameters = [],
         availableConnections = getDefaultAvailableConnections(),
         storeOutputAutomatically = true
     } = actionCall;
     let dataType;
+    dataTypeMappings = createDynamicTypeMappings(dataTypeMappings);
     inputParameters = inputParameters.map(inputParameter =>
         createInputParameter(inputParameter)
     );
@@ -78,7 +89,8 @@ export function createActionCall(
         outputParameters = [];
         const systemGeneratedOutputParameter = getSystemGeneratedOutputParameter(
             actionName,
-            actionType
+            actionType,
+            dataTypeMappings
         );
         if (systemGeneratedOutputParameter) {
             ({
@@ -107,6 +119,7 @@ export function createActionCall(
     const actionCallObject = Object.assign(newActionCall, {
         actionType,
         actionName,
+        dataTypeMappings,
         inputParameters,
         outputParameters,
         availableConnections,
@@ -169,6 +182,7 @@ export function createActionCallMetadataObject(actionCall, config) {
     let {
         inputParameters = [],
         outputParameters = [],
+        dataTypeMappings = [],
         storeOutputAutomatically
     } = actionCall;
     inputParameters = inputParameters.map(inputParameter =>
@@ -186,6 +200,7 @@ export function createActionCallMetadataObject(actionCall, config) {
             createOutputParameterMetadataObject(outputParameter)
         );
     }
+    dataTypeMappings = createDataTypeMappingsMetadataObject(dataTypeMappings);
 
     return Object.assign(
         actionCallMetadata,
@@ -193,7 +208,8 @@ export function createActionCallMetadataObject(actionCall, config) {
             actionType,
             actionName,
             inputParameters,
-            outputParameters
+            outputParameters,
+            dataTypeMappings
         },
         storeOutputAutomatically !== undefined
             ? { storeOutputAutomatically }

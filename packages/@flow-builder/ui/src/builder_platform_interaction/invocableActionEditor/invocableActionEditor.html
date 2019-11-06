@@ -4,8 +4,10 @@
         configuration-editor-properties={configurationEditorProperties}
         configuration-editor-values={configurationEditorValues}
         display-spinner={displaySpinner}
+        type-mappings={dataTypeMappings}
         element-type={elementType}
         flow-context={flowContext}
+        hide-parameters={hideParameters}
         label-description-config={actionCallNode}
         parameter-list-config={parameterListConfig}
         subtitle={subtitle}
@@ -13,6 +15,7 @@
         onupdateparameteritem={handleEvent}
         ondeleteparameteritem={handleEvent}
         onuseadvancedoptionsselectionchanged={handleAdvancedOptionsSelectionChange}
+        ondynamictypemappingchange={handleDataTypeMappingChanged}
         onvaluechanged={handleEvent}
     >
     </builder_platform_interaction-base-callout-editor>

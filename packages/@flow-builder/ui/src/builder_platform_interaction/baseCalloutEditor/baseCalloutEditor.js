@@ -1,10 +1,13 @@
 import { LightningElement, api, track } from 'lwc';
 import { LABELS } from './baseCalloutEditorLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
+import { DynamicTypeMappingChangeEvent } from 'builder_platform_interaction/events';
+import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 
 export default class BaseCalloutEditor extends LightningElement {
     @track
     state = {
+        typeMappings: [],
         parameterListConfig: {}
     };
     /**
@@ -40,6 +43,19 @@ export default class BaseCalloutEditor extends LightningElement {
      */
 
     /**
+     * Config for data type mappings component.
+     *
+     */
+    set typeMappings(newValue) {
+        this.state.typeMappings = newValue || [];
+    }
+
+    @api
+    get typeMappings() {
+        return this.state.typeMappings;
+    }
+
+    /**
      * Config for parameter list component.
      *
      */
@@ -51,6 +67,7 @@ export default class BaseCalloutEditor extends LightningElement {
     get parameterListConfig() {
         return this.state.parameterListConfig;
     }
+
     /**
      * Type of element
      *
@@ -116,11 +133,36 @@ export default class BaseCalloutEditor extends LightningElement {
     @api
     validate() {
         if (this.configurationEditor) {
-            const parameterList = this.template.querySelector('builder_platform_interaction-parameter-list');
+            const parameterList = this.template.querySelector(
+                'builder_platform_interaction-parameter-list'
+            );
             if (parameterList) {
                 return parameterList.validate();
             }
         }
         return [];
+    }
+
+    get showTypeMappings() {
+        return this.state.typeMappings && this.state.typeMappings.length > 0;
+    }
+
+    @api
+    hideParameters = false;
+
+    handleDataTypeMappingChange(event) {
+        const dataTypeMapping = this.state.typeMappings.find(
+            ({ rowIndex }) => rowIndex === event.target.rowIndex
+        );
+        this.dispatchEvent(
+            new DynamicTypeMappingChangeEvent({
+                typeName: getValueFromHydratedItem(dataTypeMapping.typeName),
+                typeValue: event.detail.item
+                    ? getValueFromHydratedItem(event.detail.item.value)
+                    : '',
+                rowIndex: event.target.rowIndex,
+                error: event.detail.error
+            })
+        );
     }
 }

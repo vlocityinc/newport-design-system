@@ -43,6 +43,7 @@ export const autolaunchedFlowUIModel = {
         },
         "actionType": "chatterPost",
         "actionName": "chatterPost",
+        "dataTypeMappings": [],
         "inputParameters": [
           {
             "rowIndex": "6d690706-908c-4d94-9513-1b219301b4c5",

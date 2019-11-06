@@ -136,10 +136,15 @@ const isSingleAnonymousOutput = parameter => {
     return parameter.isSystemGeneratedOutput && parameter.maxOccurs === 1;
 };
 
-function getInvocableActionComplexTypeOutputFields({ actionName, actionType }) {
+function getInvocableActionComplexTypeOutputFields({
+    actionName,
+    actionType,
+    dataTypeMappings
+}) {
     const parameters = getParametersForInvocableAction({
         actionName,
-        actionType
+        actionType,
+        dataTypeMappings
     });
     const fields =
         parameters &&
