@@ -154,7 +154,7 @@ describe('elementLabelLib', () => {
                     'FlowBuilderDataTypes.textDataTypeLabel from apexCall_anonymous_string'
                 );
             });
-            it('returns [Entity name]s from [ActionName] for single sobject', () => {
+            it('returns [Entity name]s from [ActionName] for sobject collection', () => {
                 const label = getResourceLabel(
                     apexCallAutomaticAnonymousAccountsOutput
                 );
@@ -163,7 +163,7 @@ describe('elementLabelLib', () => {
                     'Accounts from apexCall_anonymous_accounts'
                 );
             });
-            it('returns [Primitive label] Collection from [ActionName] for single primitive', () => {
+            it('returns [Primitive label] Collection from [ActionName] for primitive collection', () => {
                 const label = getResourceLabel(
                     apexCallAutomaticAnonymousStringsOutput
                 );
@@ -231,7 +231,9 @@ describe('elementLabelLib', () => {
         it('returns Collection Variable for action with anonymous string collection output as resource', () => {
             expect(
                 getResourceTypeLabel(apexCallAutomaticAnonymousStringsOutput)
-            ).toEqual('FlowBuilderElementConfig.collectionVariableSingularLabel');
+            ).toEqual(
+                'FlowBuilderElementConfig.collectionVariableSingularLabel'
+            );
         });
     });
     describe('getElementCategory', () => {
