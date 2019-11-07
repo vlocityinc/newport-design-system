@@ -20,6 +20,8 @@ import {
 import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import { SYSTEM_VARIABLES } from 'builder_platform_interaction/systemLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { isRunInModeSupported } from 'builder_platform_interaction/processTypeLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 /**
  * Flow Properties property editor for Flow Builder
@@ -244,6 +246,10 @@ export default class FlowPropertiesEditor extends LightningElement {
 
     get runInModeHelp() {
         return LABELS.runInModeHelpText;
+    }
+
+    get showRunInModeCombobox() {
+        return isRunInModeSupported(getTriggerType());
     }
 
     /**

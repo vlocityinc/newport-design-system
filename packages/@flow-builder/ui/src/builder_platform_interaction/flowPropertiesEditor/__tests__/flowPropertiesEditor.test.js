@@ -65,6 +65,12 @@ jest.mock('builder_platform_interaction/commonUtils', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    return {
+        getTriggerType: jest.fn()
+    };
+});
+
 format.format = jest.fn(() => {
     return mockFormattedLabel;
 });

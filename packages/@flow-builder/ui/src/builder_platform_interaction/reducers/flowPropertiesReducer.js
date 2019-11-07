@@ -14,9 +14,12 @@ import {
     UPDATE_PROPERTIES_AFTER_SAVING,
     UPDATE_PROPERTIES_AFTER_ACTIVATING,
     UPDATE_APEX_CLASSES,
-    UPDATE_ENTITIES
+    UPDATE_ENTITIES,
+    UPDATE_CANVAS_ELEMENT
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
+import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { isRunInModeSupported } from 'builder_platform_interaction/processTypeLib';
 
 /**
  * Reducer for properties
@@ -93,6 +96,20 @@ export default function flowPropertiesReducer(
         case UPDATE_APEX_CLASSES:
         case UPDATE_ENTITIES:
             return state;
+        case UPDATE_CANVAS_ELEMENT:
+            // If the start element is updated with a trigger type that does not support
+            // the run-in system mode, then set the run-in mode property to undefined
+            return payload.elementType === ELEMENT_TYPE.START_ELEMENT &&
+                !isRunInModeSupported(payload.triggerType)
+                ? {
+                      ...state,
+                      runInMode: undefined,
+                      hasUnsavedChanges: true
+                  }
+                : {
+                      ...state,
+                      hasUnsavedChanges: true
+                  };
         default:
             return {
                 ...state,

@@ -1,5 +1,8 @@
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import {
+    FLOW_PROCESS_TYPE,
+    FLOW_TRIGGER_TYPE
+} from 'builder_platform_interaction/flowMetadata';
 import { getProcessFeatures } from 'builder_platform_interaction/systemLib';
 
 export const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
@@ -135,4 +138,13 @@ export const isStartMetadataSupported = processType => {
         processType !== FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE &&
         processType !== FLOW_PROCESS_TYPE.DIGITAL_FORM
     );
+};
+
+/**
+ * Determines whether the flow run-in system mode feature is supported for the given trigger type
+ * * @param {String} triggerType
+ * @returns {Boolean}
+ */
+export const isRunInModeSupported = triggerType => {
+    return !triggerType || triggerType === FLOW_TRIGGER_TYPE.NONE;
 };
