@@ -154,14 +154,17 @@ const startPropertyChanged = (state, event) => {
         if (event.detail.value === FLOW_TRIGGER_TYPE.SCHEDULED) {
             setDefaultScheduledProperties(state);
         } else {
-            // clear all scheduled properties if trigger type is not 'Scheduled'
+            // clear all scheduled properties if  trigger type is not 'Scheduled'
             state = resetFilters(state);
             if (event.detail.value === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
                 setDefaultBeforeSaveProperties(state);
             }
         }
     } else if (event.detail.propertyName === PROPS.object) {
-        if (state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
+        if (
+            state.triggerType.value !== FLOW_TRIGGER_TYPE.BEFORE_SAVE ||
+            event.detail.error
+        ) {
             state = resetSubSections(state);
         }
     } else if (event.detail.propertyName === PROPS.filterType) {

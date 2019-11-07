@@ -273,7 +273,11 @@ export default class StartEditor extends LightningElement {
     }
 
     get showRecordFilterSection() {
-        return this.recordEntityName && this.showScheduleSection;
+        return (
+            this.recordEntityName &&
+            this.showScheduleSection &&
+            !this.startElement.object.error
+        );
     }
 
     /**
@@ -325,7 +329,9 @@ export default class StartEditor extends LightningElement {
                 false,
                 oldRecordEntityName
             );
-            this.recordEntityName = newRecordEntityName;
+            if (!error && newRecordEntityName) {
+                this.recordEntityName = newRecordEntityName;
+            }
         }
     }
 

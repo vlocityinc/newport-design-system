@@ -32,8 +32,12 @@ export const getRules = ({ filterType, object, triggerType }) => {
         }
     }
 
-    // validate filters if filter type is ALL
-    if (filterType === RECORD_FILTER_CRITERIA.ALL && object.value !== '') {
+    // validate filters if filter type is ALL and there is a valid Object
+    if (
+        filterType === RECORD_FILTER_CRITERIA.ALL &&
+        object.value !== '' &&
+        !object.error
+    ) {
         overriddenRules.filters = validateFilter();
     }
     return overriddenRules;
