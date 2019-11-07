@@ -15,13 +15,40 @@
   "masterLabel": "autolaunchedFlow",
   "metadata": {
 	  "start": {
-	    "locationX": 50,
-	    "locationY": 50,
+	    "locationX": 59,
+	    "locationY": 42,
 	    "connector": {
 	      "targetReference": "wait1"
 	    },
 	    "filters": []
 	  },
+	  "actionCalls": [
+	    {
+	      "name": "postToChatter",
+	      "description": "",
+	      "label": "postToChatter",
+	      "locationX": 558,
+	      "locationY": 206.3125,
+	      "actionType": "chatterPost",
+	      "actionName": "chatterPost",
+	      "inputParameters": [
+	        {
+	          "name": "text",
+	          "value": {
+	            "stringValue": "this is a post to chatter"
+	          }
+	        },
+	        {
+	          "name": "subjectNameOrId",
+	          "value": {
+	            "stringValue": "Automation Builder Simplification"
+	          }
+	        }
+	      ],
+	      "outputParameters": [],
+	      "storeOutputAutomatically": true
+	    }
+	  ],
 	  "waits": [
 	    {
 	      "name": "wait1",
@@ -74,38 +101,9 @@
 	      "locationY": 457,
 	      "object": "Account",
 	      "filters": [],
-	      "queriedFields": [
-	        "Id"
-	      ],
+	      "queriedFields": null,
 	      "storeOutputAutomatically": true,
 	      "getFirstRecordOnly": true
-	    }
-	  ],
-	  "actionCalls": [
-	    {
-	      "name": "postToChatter",
-	      "description": "",
-	      "label": "postToChatter",
-	      "locationX": 558,
-	      "locationY": 206.3125,
-	      "actionType": "chatterPost",
-	      "actionName": "chatterPost",
-	      "inputParameters": [
-	        {
-	          "name": "text",
-	          "value": {
-	            "stringValue": "this is a post to chatter"
-	          }
-	        },
-	        {
-	          "name": "subjectNameOrId",
-	          "value": {
-	            "stringValue": "Automation Builder Simplification"
-	          }
-	        }
-	      ],
-	      "outputParameters": [],
-	      "storeOutputAutomatically": true
 	    }
 	  ],
 	  "description": "",

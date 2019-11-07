@@ -216,19 +216,18 @@ function createRecordLookupWithAutomaticOutputHandling(recordLookup = {}) {
         ? RECORD_FILTER_CRITERIA.ALL
         : RECORD_FILTER_CRITERIA.NONE;
 
-    if (queriedFields) {
-        if (queriedFields && queriedFields.length > 0) {
-            queriedFields = queriedFields.map(queriedField =>
-                createQueriedField(queriedField)
-            );
-            variableAndFieldMapping =
-                VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
-        } else {
-            // If creating new queried fields, there needs to be one for the ID field, and a new blank one
-            queriedFields = ['Id', ''].map(queriedField =>
-                createQueriedField(queriedField)
-            );
+    // if queriedFields.length is 0 it means the user selected automatic version.
+    // the flow has been saved with queriedFields = null but the serialization create an empty array
+    if (queriedFields && queriedFields.length > 0) {
+        if (queriedFields.length === 1) {
+            // If creating new queried fields or only one field is selected, there needs to be one for the ID field, and a new blank one
+            queriedFields = ['Id', ''];
         }
+        queriedFields = queriedFields.map(queriedField =>
+            createQueriedField(queriedField)
+        );
+        variableAndFieldMapping =
+            VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS;
     } else {
         queriedFields = null;
     }

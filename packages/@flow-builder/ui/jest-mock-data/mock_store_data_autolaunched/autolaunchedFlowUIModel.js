@@ -4,8 +4,8 @@ export const autolaunchedFlowUIModel = {
       "07fd2a44-4192-4709-888d-8ccc18cb4580": {
         "guid": "07fd2a44-4192-4709-888d-8ccc18cb4580",
         "description": "",
-        "locationX": 50,
-        "locationY": 50,
+        "locationX": 59,
+        "locationY": 42,
         "isCanvasElement": true,
         "connectorCount": 1,
         "config": {
@@ -171,12 +171,7 @@ export const autolaunchedFlowUIModel = {
             "operator": ""
           }
         ],
-        "queriedFields": [
-          {
-            "field": "Id",
-            "rowIndex": "41c6da8a-c6e0-418b-8b23-9906b4adab11"
-          }
-        ],
+        "queriedFields": null,
         "sortOrder": "NotSorted",
         "sortField": "",
         "maxConnections": 2,
@@ -195,7 +190,7 @@ export const autolaunchedFlowUIModel = {
         "subtype": "Account",
         "storeOutputAutomatically": true,
         "getFirstRecordOnly": true,
-        "variableAndFieldMapping": "manuallySelectFields"
+        "variableAndFieldMapping": "automatic"
       }
     },
     "connectors": [

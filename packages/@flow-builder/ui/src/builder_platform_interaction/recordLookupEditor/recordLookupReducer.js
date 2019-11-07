@@ -165,15 +165,21 @@ const updateRecordFieldAssignment = (state, event) => {
 };
 
 const resetQueriedFields = state => {
-    // reset queriedFields: Id query field item and one empty query field item
-    return set(
-        state,
-        'queriedFields',
-        hydrateWithErrors([
-            { field: 'Id', rowIndex: generateGuid() },
-            { field: '', rowIndex: generateGuid() }
-        ])
-    );
+    if (
+        state.variableAndFieldMapping !==
+        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+    ) {
+        // reset queriedFields: Id query field item and one empty query field item
+        return set(
+            state,
+            'queriedFields',
+            hydrateWithErrors([
+                { field: 'Id', rowIndex: generateGuid() },
+                { field: '', rowIndex: generateGuid() }
+            ])
+        );
+    }
+    return set(state, 'queriedFields', null);
 };
 
 const updateOutputReferenceAndQueriedFields = (state, value, error) => {
