@@ -98,7 +98,7 @@ export default class ScreenExtensionPropertiesEditor extends LightningElement {
 
     get hasUnboundDynamicTypeMappings() {
         return this.state.dynamicTypeMappings && !!this.state.dynamicTypeMappings.find(dynamicTypeMapping =>
-            !dynamicTypeMapping.value || dynamicTypeMapping.errorMessage);
+            !dynamicTypeMapping.value || dynamicTypeMapping.comboboxConfig.errorMessage);
     }
 
     get hasDynamicTypeMappings() {

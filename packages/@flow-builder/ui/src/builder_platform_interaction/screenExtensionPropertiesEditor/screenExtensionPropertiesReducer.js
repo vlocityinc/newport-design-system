@@ -2,9 +2,9 @@ import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
 import { getFlowType, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { applyDynamicTypeMappings } from 'builder_platform_interaction/flowExtensionLib';
+import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
 
 const resetOuputParameters = (state, { extensionDescription }) => updateProperties(state, {
     outputParameters: (extensionDescription.outputParameters || []).map(descriptor => ({
@@ -126,12 +126,11 @@ const createOutputParameters = ({ extensionDescription, field }) => createParame
 );
 
 /**
- * Creates a list of dynamic type mappings for a given list of generic types. Uses type assignments from
- * the current dynamic type mappings.
+ * Creates a list of dynamic type mappings internal to this component. Its main job is to create comboboxConfig.
  * @param {[GenericType]} [genericTypes] - Generic types
  * @param {*} [dynamicTypeMappings] - Current dynamic type mappings
  * @param {*} disabled - Indicates if dynamic type mappings are changeable
- * @returns {[{ superType, value, rowIndex, comboboxConfig }]} - Collection of dynamic type mapping data
+ * @returns {[{ name, value, rowIndex, comboboxConfig }]} - Collection of dynamic type mapping data
  *  for rendering entity pickers
  */
 const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disabled) => (genericTypes || [])
@@ -150,16 +149,17 @@ const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disab
     .map(({ genericType, type, dynamicTypeMapping }) => ({
         comboboxConfig: getComboboxConfig({
             label: genericType.label,
-            errorMessage: dynamicTypeMapping ? getErrorFromHydratedItem(dynamicTypeMapping.typeValue) : null,
+            errorMessage: getErrorFromHydratedItem(dynamicTypeMapping.typeValue),
             required: true,
             disabled,
             type,
             allowSObjectFields: false,
             fieldLevelHelp: genericType.description
         }),
+        mode: EntityResourcePicker.ENTITY_MODE.SOBJECT,
         name: genericType.name,
-        rowIndex: dynamicTypeMapping && dynamicTypeMapping.rowIndex ? dynamicTypeMapping.rowIndex : generateGuid(),
-        value: dynamicTypeMapping ? getValueFromHydratedItem(dynamicTypeMapping.typeValue) : ''
+        rowIndex: dynamicTypeMapping.rowIndex,
+        value: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
     }));
 
 const createDynamicTypeMappingsReducer = ({ field, extensionDescription }) =>

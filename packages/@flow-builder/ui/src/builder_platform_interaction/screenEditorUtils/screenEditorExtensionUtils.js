@@ -1,16 +1,76 @@
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import {
-    getAllCachedExtensionTypes,
     describeExtensions,
     getCachedExtensions,
     COMPONENT_INSTANCE,
-    EXTENSION_TYPE_SOURCE
+    EXTENSION_TYPE_SOURCE,
+    getCachedExtensionType
 } from 'builder_platform_interaction/flowExtensionLib';
+import {
+    getValueFromHydratedItem,
+} from 'builder_platform_interaction/dataMutationLib';
+import { isExtensionField } from './screenEditorFieldTypeUtils';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const DEFAULT_ATTRIBUTE_TYPE_ICON = 'utility:all';
 
 /**
- * Replaces all local (temporary) extension field types with their server versions (if available) in every field in the provided screen
+ * Makes sure
+ * a) there is a data type mapping for each generic type
+ * b) there are no other data type mappings
+ * c) each data type mappings has a row index (for validation)
+ * @param {DynamicTypeMappings} [dynamicTypeMappings]
+ * @param {GenericType} [genericTypes]
+ * @returns {DynamicTypeMapping}
+ */
+function setDynamicTypeMappings(genericTypes = [], dynamicTypeMappings = []) {
+    if (!genericTypes || genericTypes.length === 0) {
+        return undefined;
+    }
+
+    return genericTypes.map(genericType => {
+        let dynamicTypeMapping;
+        if (dynamicTypeMappings) {
+            dynamicTypeMapping = dynamicTypeMappings.find(item => getValueFromHydratedItem(item.typeName) === genericType.name);
+        }
+        if (!dynamicTypeMapping) {
+            dynamicTypeMapping = {
+                typeName: {
+                    value: genericType.name,
+                    error: null
+                },
+                typeValue: {
+                    value: "",
+                    error: null
+                },
+                rowIndex : generateGuid()
+            };
+        } else if (!dynamicTypeMapping.rowIndex) {
+            dynamicTypeMapping.rowIndex = generateGuid();
+        }
+        return dynamicTypeMapping;
+    });
+}
+
+export function extendFlowExtensionScreenField(field) {
+    if (!isExtensionField(field)) {
+        throw new Error('Invalid screen flow extension field');
+    }
+
+    // Create/delete data type mappings based on generic types
+    const dynamicTypeMappings = setDynamicTypeMappings(field.type.genericTypes, field.dynamicTypeMappings);
+    if (dynamicTypeMappings && dynamicTypeMappings.length > 0) {
+        field.dynamicTypeMappings = dynamicTypeMappings;
+    } else if (field.dynamicTypeMappings) {
+        delete field.dynamicTypeMappings;
+    }
+
+    return field;
+}
+
+/**
+ * Replaces all local (temporary) extension field types with their server versions (if available) in every field in the provided screen.
+ * Update dynamic type mappings to match generic types.
  * @param {object} screen - the screen
  * @returns {object} the processed screen
  */
@@ -20,13 +80,8 @@ export function processScreenExtensionTypes(screen) {
             field.fieldType === COMPONENT_INSTANCE &&
             field.type.source === EXTENSION_TYPE_SOURCE.LOCAL
         ) {
-            const extensionTypes = getAllCachedExtensionTypes();
-            for (const type of extensionTypes) {
-                if (type.name === field.type.name) {
-                    field.type = type;
-                    break;
-                }
-            }
+            field.type = getCachedExtensionType(field.type.name);
+            extendFlowExtensionScreenField(field);
         }
     }
 

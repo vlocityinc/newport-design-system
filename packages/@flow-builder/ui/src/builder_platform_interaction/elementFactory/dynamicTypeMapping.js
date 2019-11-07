@@ -1,4 +1,5 @@
 import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
+import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 /**
  * @typedef {DynamicTypeMapping} Store representation of the dynamic type mapping.
@@ -12,19 +13,21 @@ import { getValueFromHydratedItem } from 'builder_platform_interaction/dataMutat
  */
 
 /**
- * Makes a copy of the dynamic type mapping
+ * Makes a copy of the dynamic type mapping.
  * @param {DynamicTypeMapping|DynamicTypeMappingMetadataObject} dynamicTypeMapping Dynamic type mapping to clone.
  * @returns {DynamicTypeMapping}
  */
 function createDynamicTypeMapping(dynamicTypeMapping) {
     const {
         typeName,
-        typeValue
+        typeValue,
+        rowIndex
     } = dynamicTypeMapping;
 
     return {
         typeName,
-        typeValue
+        typeValue,
+        rowIndex : rowIndex || generateGuid()
     };
 }
 

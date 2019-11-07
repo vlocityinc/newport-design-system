@@ -654,7 +654,7 @@ describe('Screen Extension Properties Editor', () => {
             expect(outputs).toHaveLength(0);
         });
 
-        it('disables entity pickers, if the field is not new', async () => {
+        it('disables entity pickers when the field is not new', async () => {
             const editor = createComponentWithDynmicTypes();
             const pickers = query(editor, SELECTORS.DYNAMIC_TYPE_MAPPINGS, true);
             expect(pickers[0].comboboxConfig.disabled).toBe(false);

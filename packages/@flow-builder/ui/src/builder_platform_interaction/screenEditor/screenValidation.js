@@ -4,7 +4,7 @@ import {
     defaultRules
 } from 'builder_platform_interaction/validation';
 
-import { getCachedExtensions } from 'builder_platform_interaction/flowExtensionLib';
+import { getCachedExtension, getCachedExtensionType } from 'builder_platform_interaction/flowExtensionLib';
 import {
     isExtensionField,
     isChoiceField
@@ -64,15 +64,26 @@ const addCommonFieldRules = (rules, { defaultValueIndex }) => {
 
 const getDescriptorForExtension = extName => {
     if (extName) {
-        const descs = getCachedExtensions([extName]);
-        if (descs && descs.length === 1) {
-            return descs[0];
+        const descriptor = getCachedExtension(extName);
+        if (descriptor) {
+            return descriptor;
         }
     }
 
     throw new Error(
         'Error found trying to determine the descriptor for ' + extName
     );
+};
+
+const getGenericTypesForExtension = extName => {
+    if (extName) {
+        const extension = getCachedExtensionType(extName);
+        if (extension) {
+            return extension.genericTypes;
+        }
+    }
+
+    throw new Error('Flow extension not found ' + extName);
 };
 
 // DISABLED UNTIL WE HAVE A CONVERSATION ABOUT TYPE VALIDATION OUTSIDE OF FRP
@@ -150,8 +161,9 @@ const getDynamicTypeMappingRules = (rowIndex) => {
 const getRulesForExtensionField = (field, rules) => {
     const extensionName = field.extensionName && field.extensionName.value;
     const descriptor = getDescriptorForExtension(extensionName);
+    const genericTypes = getGenericTypesForExtension(extensionName);
 
-    if (descriptor.genericTypes) {
+    if (genericTypes) {
         rules.dynamicTypeMappings = function (dynamicTypeMapping) {
             return {
                 typeValue: getDynamicTypeMappingRules(

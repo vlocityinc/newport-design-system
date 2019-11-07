@@ -14,7 +14,12 @@ export function createScreenFieldWithDynamicTypes() {
             isNewField: true,
             dynamicTypeMappings: [{
                 typeName: 'T',
-                typeValue: 'Asset'
+                typeValue: 'Asset',
+                rowIndex: 'abc'
+            }, {
+                typeName: 'S',
+                typeValue: '',
+                rowIndex: 'def'
             }],
             inputParameters: [],
             outputParameters: []

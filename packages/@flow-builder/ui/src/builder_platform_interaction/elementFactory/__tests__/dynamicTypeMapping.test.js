@@ -8,12 +8,19 @@ describe('Dynamic Type Mappings', () => {
                 typeValue: 'a_value'
             }, {
                 typeName: 'b_name',
-                typeValue: 'b_value'
+                typeValue: 'b_value',
+                rowIndex: 'abc'
             }];
             const dtms2 = createDynamicTypeMappings(dtms1);
-            expect(dtms2).toEqual(dtms1);
+            expect(dtms2).toHaveLength(2);
             expect(dtms2[0]).not.toBe(dtms1[0]);
             expect(dtms2[1]).not.toBe(dtms1[1]);
+            expect(dtms2[0]).toMatchObject({
+                typeName: 'a_name',
+                typeValue: 'a_value',
+                rowIndex: expect.anything()
+            });
+            expect(dtms2[1]).toEqual(dtms1[1]);
         });
 
         it('does not clone unknown properties', () => {

@@ -337,6 +337,8 @@ export function getAllCachedExtensionTypes() {
     return extensionCache;
 }
 
+export const getCachedExtensionType = (name) => extensionCache.find(extension => extension.name === name);
+
 export function getCachedFlowProcessType() {
     return flowProcessTypeCache;
 }

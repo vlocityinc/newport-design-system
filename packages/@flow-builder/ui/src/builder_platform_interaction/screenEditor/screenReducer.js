@@ -44,7 +44,8 @@ import {
     isMultiSelectCheckboxField,
     isRadioField,
     compareValues,
-    EXTENSION_PARAM_PREFIX
+    EXTENSION_PARAM_PREFIX,
+    extendFlowExtensionScreenField
 } from 'builder_platform_interaction/screenEditorUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
@@ -122,8 +123,15 @@ const clearGenericParameters = ({ parameters, extensionParameters, genericTypeNa
                 paramType.apiName === getValueFromHydratedItem(parameter.name))
         }))
         .map(({ parameter, parameterType }) => (
-            parameterType && parameterType.subtype === '{' + genericTypeName + '}' ?
-                { ...parameter, value: { value: "", error: null }} : parameter
+            parameterType && parameterType.subtype === '{' + genericTypeName + '}'
+                ? {
+                    ...parameter,
+                    value: {
+                        value: "",
+                        error: null
+                    }
+                }
+                : parameter
         ));
 
 /**
@@ -151,28 +159,24 @@ function clearGenericFieldParameters(field, genericTypeName) {
 }
 
 /**
- * Updates a values of a dynamic type mapping of a screen field or creates a new
- * dynamic type mapping. Also clears values of input and output parameters with
- * the generic type in the mapping.
+ * Updates a values of a dynamic type mapping of a screen field.
+ * Clears values of input and output parameters with the generic type in the changed mapping.
  */
 function setDynamicTypeMappingTypeValue(screen, field, event) {
-    const { typeName, typeValue, rowIndex } = event.detail;
-    // Find an existing dynamic type mapping by the type name or create new.
-    const dynamicTypeMappings = field.dynamicTypeMappings || [];
+    const { typeName, typeValue } = event.detail;
+    const { dynamicTypeMappings } = field;
+
+    // Find the dynamic type mapping.
     const index = dynamicTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
-    const dynamicTypeMapping = index >= 0 ? dynamicTypeMappings[index] : {
-        typeName: {
-            value: typeName,
-            error: null
-        },
-        rowIndex
-    };
+    const dynamicTypeMapping = dynamicTypeMappings[index];
+
     // Check if the value has actually changed
     if (index > 0 && getValueFromHydratedItem(dynamicTypeMapping.typeValue) === typeValue) {
         return screen;
     }
+
     // Update the dynamic type mapping with the new value and validate it.
-    const validation = getDynamicTypeMappingValidation(rowIndex);
+    const validation = getDynamicTypeMappingValidation(dynamicTypeMapping.rowIndex);
     const newDynamicTypeMapping = updateProperties(dynamicTypeMapping, {
         typeValue: {
             value: typeValue,
@@ -200,7 +204,13 @@ const addScreenField = (screen, event) => {
     const position = Number.isInteger(event.position)
         ? event.position
         : screen.fields.length;
+
     const field = createEmptyScreenFieldOfType(event.typeName);
+
+    // Add properties, specific to flow extensions
+    if (isExtensionField(field)) {
+        extendFlowExtensionScreenField(field);
+    }
 
     hydrateWithErrors(
         field,
