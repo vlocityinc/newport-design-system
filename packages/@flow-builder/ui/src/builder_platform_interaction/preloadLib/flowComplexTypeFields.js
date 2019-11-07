@@ -67,7 +67,7 @@ export function loadParametersForInvocableApexActionsInFlowFromMetadata(
         promises.push(
             fetchDetailsForInvocableAction(actionCallNameAndType, {
                 disableErrorModal: true,
-                background: false
+                background: true
             }).catch(() => {})
         )
     );
