@@ -207,15 +207,16 @@ const addScreenField = (screen, event) => {
 
     const field = createEmptyScreenFieldOfType(event.typeName);
 
+    hydrateWithErrors(
+        field,
+        elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties
+    );
+
     // Add properties, specific to flow extensions
     if (isExtensionField(field)) {
         extendFlowExtensionScreenField(field);
     }
 
-    hydrateWithErrors(
-        field,
-        elementTypeToConfigMap[ELEMENT_TYPE.SCREEN].nonHydratableProperties
-    );
     const updatedItems = insertItem(screen.fields, field, position);
     return set(screen, 'fields', updatedItems);
 };
