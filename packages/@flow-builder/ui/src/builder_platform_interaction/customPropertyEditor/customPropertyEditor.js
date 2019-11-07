@@ -157,7 +157,6 @@ export default class CustomPropertyEditor extends LightningElement {
                 key: CUSTOM_PROPERTY_EDITOR,
                 errorString: 'unable to create the component'
             }];
-            throw new Error('unable to create the component');
         };
 
         const cmpName = this.configurationEditor.name;

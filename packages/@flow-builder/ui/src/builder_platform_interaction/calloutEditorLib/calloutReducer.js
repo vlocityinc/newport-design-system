@@ -67,7 +67,7 @@ export const updateInputParameterItemConfigurationEditor = (
         throw new Error('id is not defined');
     }
 
-    if (!value) {
+    if (value === null || value === undefined) {
         throw new Error('value is not defined');
     }
 
