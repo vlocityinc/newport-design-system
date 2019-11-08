@@ -8,6 +8,10 @@ import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib'
 
 let mockEntityFieldsPromise = Promise.resolve(accountFields);
 
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
+
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(

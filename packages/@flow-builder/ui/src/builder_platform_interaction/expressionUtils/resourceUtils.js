@@ -160,10 +160,16 @@ export const getFerovInfoAndErrorFromEvent = (event, literalDataType) => {
     };
 };
 
-const normalizeMenuItemChildField = (parentMenuItem, fieldNames) => {
+const normalizeMenuItemChildField = (
+    parentMenuItem,
+    fieldNames,
+    { allowSObjectFieldsTraversal = true } = {}
+) => {
     const [fieldName, ...remainingFieldNames] = fieldNames;
     const fields = getChildrenItems(parentMenuItem);
-    const menuItems = filterFieldsForChosenElement(parentMenuItem, fields);
+    const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
+        allowSObjectFieldsTraversal
+    });
     const item = menuItems.find(menuItem => menuItem.text === fieldName);
     if (!item) {
         return undefined;
@@ -180,7 +186,10 @@ const normalizeMenuItemChildField = (parentMenuItem, fieldNames) => {
  * @param {String} identifier    used to identify value, could be GUID or literal
  * @returns {Item}               value in format displayable by combobox
  */
-export const normalizeFEROV = identifier => {
+export const normalizeFEROV = (
+    identifier,
+    { allowSObjectFieldsTraversal = true } = {}
+) => {
     let result = { itemOrDisplayText: identifier };
     const elementOrResource = getResourceByUniqueIdentifier(identifier);
     if (!elementOrResource) {
@@ -193,7 +202,8 @@ export const normalizeFEROV = identifier => {
     if (fieldNames) {
         const normalizedChildField = normalizeMenuItemChildField(
             elementOrResourceMenuItem,
-            fieldNames
+            fieldNames,
+            { allowSObjectFieldsTraversal }
         );
         if (!normalizedChildField) {
             result.itemOrDisplayText = addCurlyBraces(

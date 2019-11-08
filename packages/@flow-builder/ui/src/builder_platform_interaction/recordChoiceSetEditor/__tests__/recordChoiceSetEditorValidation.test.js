@@ -7,9 +7,25 @@ import {
 } from '../recordChoiceSetValidation';
 import { getErrorsFromHydratedElement } from 'builder_platform_interaction/dataMutationLib';
 
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
+jest.mock('builder_platform_interaction/storeLib', () => {
+    function getCurrentState() {
+        return {
+            properties: {
+                processType: 'flow'
+            },
+            elements: {}
+        };
+    }
+    function getStore() {
+        return {
+            getCurrentState
+        };
+    }
+    const storeLib = require('builder_platform_interaction_mocks/storeLib');
+    // Overriding mock storeLib to have custom getStore function
+    storeLib.Store.getStore = getStore;
+    return storeLib;
+});
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
 );

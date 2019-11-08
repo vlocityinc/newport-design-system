@@ -54,6 +54,9 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
         actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING,
+        isLookupTraversalSupported: jest.fn(() => {
+            return true;
+        }),
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn(processType => {
             return processType === MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
                 ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED

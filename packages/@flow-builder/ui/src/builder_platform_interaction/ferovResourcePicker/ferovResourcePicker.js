@@ -17,6 +17,7 @@ import {
 } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 
 let storeInstance;
 
@@ -271,6 +272,12 @@ export default class FerovResourcePicker extends LightningElement {
         }
     }
 
+    isLookupTraversalSupported() {
+        return isLookupTraversalSupported(
+            storeInstance.getCurrentState().properties.processType
+        );
+    }
+
     renderedCallback() {
         if (!this._isInitialized) {
             this._baseResourcePicker = this.template.querySelector(
@@ -280,7 +287,11 @@ export default class FerovResourcePicker extends LightningElement {
             const identifier = isObject(this.value)
                 ? this.value.value
                 : this.value;
-            this.initializeResourcePicker(normalizeFEROV(identifier));
+            this.initializeResourcePicker(
+                normalizeFEROV(identifier, {
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
+                })
+            );
         }
     }
 
@@ -320,7 +331,8 @@ export default class FerovResourcePicker extends LightningElement {
                     includeNewResource: !this.hideNewResource,
                     showSystemVariables: !this.hideSystemVariables,
                     showGlobalVariables: this.showGlobalVariables,
-                    allowSObjectFields: this.comboboxConfig.allowSObjectFields
+                    allowSObjectFields: this.comboboxConfig.allowSObjectFields,
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
                 }
             ).then(menuData => {
                 this._baseResourcePicker.setMenuData(menuData);

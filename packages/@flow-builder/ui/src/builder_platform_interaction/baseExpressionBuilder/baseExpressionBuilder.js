@@ -40,6 +40,7 @@ import {
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -783,7 +784,9 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isDisplayedAsFieldReference,
                 shouldBeWritable: this.lhsMustBeWritable,
                 allowSObjectFieldsTraversal:
-                    this.objectType == null && !this.lhsMustBeWritable
+                    this.isFieldTraversalSupported() &&
+                    this.objectType == null &&
+                    !this.lhsMustBeWritable
             }
         );
     }
@@ -859,6 +862,12 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     }
 
+    isFieldTraversalSupported() {
+        return isLookupTraversalSupported(
+            storeInstance.getCurrentState().properties.processType
+        );
+    }
+
     /**
      * Generic helper function to handle populating fields for LHS or RHS
      *
@@ -885,7 +894,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             isFerov = false,
             picklistValues = [],
             shouldBeWritable = false,
-            allowSObjectFieldsTraversal = true
+            allowSObjectFieldsTraversal = this.isFieldTraversalSupported()
         } = {}
     ) {
         const config = {

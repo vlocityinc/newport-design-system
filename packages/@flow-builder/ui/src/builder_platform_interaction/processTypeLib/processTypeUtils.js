@@ -49,7 +49,8 @@ export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
 
 export const FLOW_PROCESS_TYPE_FEATURE = {
     STORE_OUTPUT_AUTOMATICALLY: 'StoreOutputAutomatically',
-    CONFIGURABLE_START: 'ConfigurableStart'
+    CONFIGURABLE_START: 'ConfigurableStart',
+    LOOKUP_TRAVERSAL: 'LookupTraversal'
 };
 
 export const getProcessTypesWithIcons = (
@@ -84,6 +85,17 @@ export const getProcessTypeIcon = processType => {
     );
 };
 
+function hasProcessTypeFeature(processType, feature) {
+    const processTypeFeatures = getProcessFeatures(processType);
+
+    return processTypeFeatures &&
+        processTypeFeatures.find(
+            processTypeFeature => processTypeFeature === feature
+        )
+        ? true
+        : false;
+}
+
 /**
  * this function returns one of the value of the  FLOW_AUTOMATIC_OUTPUT_HANDLING enum.
  * Supported - The processType supports Automatic output handling and Advanced Options
@@ -94,19 +106,13 @@ export const getProcessTypeIcon = processType => {
  * @return {FLOW_AUTOMATIC_OUTPUT_HANDLING} Supported, Unsupported or Required
  */
 export const getProcessTypeAutomaticOutPutHandlingSupport = processType => {
-    const processTypeFeatures = getProcessFeatures(processType);
-
-    if (processTypeFeatures) {
-        const isStoreOutputAutomaticallyAvailable = processTypeFeatures.find(
-            processTypeFeature =>
-                processTypeFeature ===
-                FLOW_PROCESS_TYPE_FEATURE.STORE_OUTPUT_AUTOMATICALLY
-        );
-        if (isStoreOutputAutomaticallyAvailable) {
-            return FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED;
-        }
-    }
-    return FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED; // TODO: this should be removed when automaticOutputHandling will be returned by the server. (W-6136932)
+    const isStoreOutputAutomaticallyAvailable = hasProcessTypeFeature(
+        processType,
+        FLOW_PROCESS_TYPE_FEATURE.STORE_OUTPUT_AUTOMATICALLY
+    );
+    return isStoreOutputAutomaticallyAvailable
+        ? FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+        : FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED;
 };
 
 /**
@@ -115,15 +121,21 @@ export const getProcessTypeAutomaticOutPutHandlingSupport = processType => {
  * @returns {Boolean}
  */
 export const isConfigurableStartSupported = processType => {
-    const processTypeFeatures = getProcessFeatures(processType);
+    return hasProcessTypeFeature(
+        processType,
+        FLOW_PROCESS_TYPE_FEATURE.CONFIGURABLE_START
+    );
+};
 
-    return (
-        processTypeFeatures &&
-        processTypeFeatures.find(
-            processTypeFeature =>
-                processTypeFeature ===
-                FLOW_PROCESS_TYPE_FEATURE.CONFIGURABLE_START
-        )
+/**
+ * Whether or not field traversal is supported
+ * @param {Object} processType the current process type
+ * @returns {Boolean} true if field traversal is supported, false otherwise
+ */
+export const isLookupTraversalSupported = processType => {
+    return hasProcessTypeFeature(
+        processType,
+        FLOW_PROCESS_TYPE_FEATURE.LOOKUP_TRAVERSAL
     );
 };
 

@@ -6,6 +6,19 @@ import {
 } from 'builder_platform_interaction/events';
 import RecordFieldPickerRow from 'builder_platform_interaction/recordFieldPickerRow';
 
+jest.mock('builder_platform_interaction/storeLib', () => {
+    // this is needed for some reason even if createSelector isn't mocked
+    function createSelector() {
+        const actual = require.requireActual(
+            'builder_platform_interaction/storeLib'
+        );
+        return actual.createSelector;
+    }
+    const storeMockLib = require('builder_platform_interaction_mocks/storeLib');
+    storeMockLib.createSelector = createSelector;
+    return storeMockLib;
+});
+
 const ID_FIELD = 'Id';
 
 const selectors = {

@@ -2,12 +2,27 @@ import { createElement } from 'lwc';
 import FieldPicker from '../fieldPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         filterFieldsForChosenElement: jest.fn()
     };
 });
+
+jest.mock('builder_platform_interaction/storeLib', () => {
+    function createSelector() {
+        const actual = require.requireActual(
+            'builder_platform_interaction/storeLib'
+        );
+        return actual.createSelector;
+    }
+    const storeMockLib = require('builder_platform_interaction_mocks/storeLib');
+    storeMockLib.createSelector = createSelector;
+    return storeMockLib;
+});
+
+jest.mock('builder_platform_interaction/processTypeLib');
 
 const setupComponentUnderTest = props => {
     const element = createElement('builder_platform_interaction-field-picker', {
@@ -79,6 +94,7 @@ describe('field-picker', () => {
     });
     it('populates menuData with passed in fields', () => {
         const fields = ['field'];
+        isLookupTraversalSupported.mockImplementationOnce(() => true);
         setupComponentUnderTest({
             fields
         });
@@ -86,7 +102,29 @@ describe('field-picker', () => {
             expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
                 null,
                 fields,
-                { showAsFieldReference: false, showSubText: true }
+                {
+                    showAsFieldReference: false,
+                    showSubText: true,
+                    allowSObjectFieldsTraversal: true
+                }
+            );
+        });
+    });
+    it('populates menuData with passed in fields no traversal support', () => {
+        const fields = ['field'];
+        isLookupTraversalSupported.mockImplementationOnce(() => false);
+        setupComponentUnderTest({
+            fields
+        });
+        return Promise.resolve().then(() => {
+            expect(filterFieldsForChosenElement).toHaveBeenCalledWith(
+                null,
+                fields,
+                {
+                    showAsFieldReference: false,
+                    showSubText: true,
+                    allowSObjectFieldsTraversal: false
+                }
             );
         });
     });

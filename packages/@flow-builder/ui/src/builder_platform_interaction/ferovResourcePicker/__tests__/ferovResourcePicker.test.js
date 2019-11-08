@@ -14,6 +14,9 @@ import {
     removeLastCreatedInlineResource,
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+
+jest.mock('builder_platform_interaction/processTypeLib');
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -35,10 +38,6 @@ jest.mock('builder_platform_interaction/actions', () => {
         updateInlineResourceProperties: jest.fn(() => 'test response')
     };
 });
-
-jest.mock('builder_platform_interaction/storeLib', () =>
-    require('builder_platform_interaction_mocks/storeLib')
-);
 
 const SELECTORS = {
     BASE_RESOURCE_PICKER: 'builder_platform_interaction-base-resource-picker'
@@ -111,6 +110,9 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 describe('ferov-resource-picker', () => {
     let props;
 
+    beforeAll(() => {
+        isLookupTraversalSupported.mockImplementation(() => true);
+    });
     beforeEach(() => {
         props = {
             propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
@@ -213,7 +215,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false
+                    showGlobalVariables: false,
+                    allowSObjectFieldsTraversal: true
                 }
             );
         });
@@ -243,7 +246,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false
+                    showGlobalVariables: false,
+                    allowSObjectFieldsTraversal: true
                 }
             );
         });
@@ -273,7 +277,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false
+                    showGlobalVariables: false,
+                    allowSObjectFieldsTraversal: true
                 }
             );
         });
@@ -300,7 +305,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false
+                    showGlobalVariables: false,
+                    allowSObjectFieldsTraversal: true
                 }
             );
         });
@@ -359,7 +365,8 @@ describe('ferov-resource-picker', () => {
                     enableFieldDrilldown: false,
                     includeNewResource: true,
                     showSystemVariables: true,
-                    showGlobalVariables: false
+                    showGlobalVariables: false,
+                    allowSObjectFieldsTraversal: true
                 }
             );
         });
@@ -429,7 +436,9 @@ describe('ferov-resource-picker', () => {
         ferovResourcePicker.comboboxConfig = props.elementConfig;
         ferovResourcePicker.value = props.value;
         return Promise.resolve().then(() => {
-            expect(normalizeFEROV).toHaveBeenCalledWith(props.value);
+            expect(normalizeFEROV).toHaveBeenCalledWith('foobar', {
+                allowSObjectFieldsTraversal: true
+            });
         });
     });
 
@@ -442,7 +451,9 @@ describe('ferov-resource-picker', () => {
         ferovResourcePicker.comboboxConfig = props.comboboxConfig;
         ferovResourcePicker.value = props.value;
         return Promise.resolve().then(() => {
-            expect(normalizeFEROV).toHaveBeenCalledWith(props.value);
+            expect(normalizeFEROV).toHaveBeenCalledWith('foobar', {
+                allowSObjectFieldsTraversal: true
+            });
         });
     });
     describe('event handling', () => {
@@ -516,7 +527,8 @@ describe('ferov-resource-picker', () => {
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: true,
-                        showGlobalVariables: false
+                        showGlobalVariables: false,
+                        allowSObjectFieldsTraversal: true
                     }
                 );
             });
@@ -536,7 +548,8 @@ describe('ferov-resource-picker', () => {
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: true,
-                        showGlobalVariables: false
+                        showGlobalVariables: false,
+                        allowSObjectFieldsTraversal: true
                     }
                 );
             });
@@ -557,7 +570,8 @@ describe('ferov-resource-picker', () => {
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: false,
-                        showGlobalVariables: false
+                        showGlobalVariables: false,
+                        allowSObjectFieldsTraversal: true
                     }
                 );
             });
@@ -578,7 +592,8 @@ describe('ferov-resource-picker', () => {
                         enableFieldDrilldown: false,
                         includeNewResource: true,
                         showSystemVariables: true,
-                        showGlobalVariables: true
+                        showGlobalVariables: true,
+                        allowSObjectFieldsTraversal: true
                     }
                 );
             });

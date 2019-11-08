@@ -12,6 +12,8 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
 import { isObject } from 'builder_platform_interaction/commonUtils';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -103,6 +105,12 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     _containerElement;
 
+    isLookupTraversalSupported() {
+        return isLookupTraversalSupported(
+            Store.getStore().getCurrentState().properties.processType
+        );
+    }
+
     populateLhsState() {
         if (!this.state.expression || !this.containerElement) {
             return;
@@ -126,7 +134,9 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
                     this.state.lhsDisplayOption =
                         LHS_DISPLAY_OPTION.FIELD_ON_VARIABLE;
                 }
-                const normalizedFer = normalizeFEROV(lhs.value);
+                const normalizedFer = normalizeFEROV(lhs.value, {
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
+                });
                 if (isObject(normalizedFer)) {
                     if (normalizedFer.fields) {
                         this.state.lhsDescribe = updateProperties(

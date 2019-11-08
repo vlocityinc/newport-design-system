@@ -1,6 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 export default class FieldPicker extends LightningElement {
     @track
@@ -93,6 +95,12 @@ export default class FieldPicker extends LightningElement {
         }
     }
 
+    isFieldTraversalSupported() {
+        return isLookupTraversalSupported(
+            Store.getStore().getCurrentState().properties.processType
+        );
+    }
+
     /**
      * Populates the field menu data for the selected entity
      * Uses the BaseResourcePicker instance to set the full menu data
@@ -102,7 +110,8 @@ export default class FieldPicker extends LightningElement {
             this._baseResourcePicker.setMenuData(
                 filterFieldsForChosenElement(null, this.fields, {
                     showAsFieldReference: false,
-                    showSubText: true
+                    showSubText: true,
+                    allowSObjectFieldsTraversal: this.isFieldTraversalSupported()
                 })
             );
         }
