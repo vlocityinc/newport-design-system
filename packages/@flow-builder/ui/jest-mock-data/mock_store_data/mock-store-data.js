@@ -55,6 +55,7 @@ export const apexCallAutomaticAnonymousStringsOutput = getElementByName('apexCal
 export const apexCallManualAccountOutput = getElementByName('apexCall_action_account_manual_output');
 export const apexCallAccountAutomaticOutput = getElementByName('apexCall_account_automatic_output');
 export const apexCallStringAutomaticOutput = getElementByName('apexCall_String_automatic_output');
+export const apexCallApexTypeAutomaticOutput = getElementByName('apexCall_Car_automatic_output');
 export const emailAlertOnAccount = getElementByName('emailAlertOnAccount');
 export const externalServiceAutomaticOutput = getElementByName('addAccountExternalService');
 export const stringCollectionVariable1 = getElementByName('stringCollectionVariable1');

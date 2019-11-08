@@ -74,3 +74,16 @@ export const getFlowExtensions = flowProcessTypeToExtensions => ({
         data: extensions != null ? extensions : []
     };
 };
+
+export const getInvocableActionDetails = invocableActionParameters => params => {
+    let invocableActionParametersForAction;
+    const invocableActionParametersForType =
+        invocableActionParameters[params.actionType];
+    if (invocableActionParametersForType) {
+        invocableActionParametersForAction =
+            invocableActionParametersForType[params.actionName];
+    }
+    return invocableActionParametersForAction
+        ? { data: invocableActionParametersForAction }
+        : { error: 'Cannot find invocable action parameters' };
+};

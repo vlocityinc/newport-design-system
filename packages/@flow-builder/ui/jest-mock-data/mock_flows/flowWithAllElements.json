@@ -224,6 +224,25 @@
       "inputParameters": [],
       "outputParameters": [],
       "storeOutputAutomatically": true
+    },
+    {
+      "name": "apexCall_Car_automatic_output",
+      "description": "",
+      "label": "apexCall Car automatic output",
+      "locationX": 1106,
+      "locationY": 72.3125,
+      "actionType": "apex",
+      "actionName": "GetCarAction",
+      "inputParameters": [
+        {
+          "name": "names",
+          "value": {
+            "stringValue": "Clio"
+          }
+        }
+      ],
+      "outputParameters": [],
+      "storeOutputAutomatically": true
     }
   ],
   "assignments": [

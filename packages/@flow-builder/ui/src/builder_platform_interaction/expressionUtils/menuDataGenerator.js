@@ -324,6 +324,7 @@ export function getMenuItemForField(
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
         isCollection: field.isCollection,
         dataType: field.dataType,
+        subtype: field.subtype,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
         text: apiName,

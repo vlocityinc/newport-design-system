@@ -182,15 +182,6 @@ describe('ResourceUtils', () => {
                 }
             });
         });
-        it('should return the merge field as text for values that traverse more than two levels for apex fields', () => {
-            // field traversal for apex types is not yet supported
-            const normalizedFEROV = normalizeFEROV(
-                `${store.apexCarVariable.guid}.wheel.type`
-            );
-            expect(normalizedFEROV).toMatchObject({
-                itemOrDisplayText: `{!${store.apexCarVariable.name}.wheel.type}`
-            });
-        });
     });
 
     describe('populate LHS state for field', () => {

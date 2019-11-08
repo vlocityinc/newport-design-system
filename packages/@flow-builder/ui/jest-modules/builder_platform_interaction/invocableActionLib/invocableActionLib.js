@@ -1,11 +1,12 @@
-import { getAccountFromApexAnonymousOutputActionDetails as mockGetAccountFromApexAnonymousOutputActionDetails } from "serverData/GetInvocableActionDetails/getAccountFromApexAnonymousOutputActionDetails.json";
-import { getAccountNameFromApexAnonymousOutputActionDetails as mockGetAccountNameFromApexAnonymousOutputActionDetails } from "serverData/GetInvocableActionDetails/getAccountNameFromApexAnonymousOutputActionDetails.json";
-import { getAccountFromApexActionDetails as mockGetAccountFromApexActionDetails } from "serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json";
-import { getStringFromApexActionDetails as mockGetAccountNameFromApexActionDetails } from "serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json";
-import { logACallActionDetails as mockLogACallActionDetails } from "serverData/GetInvocableActionDetails/logACallActionDetails.json";
-import { chatterPostActionDetails as mockChatterPostActionDetails } from "serverData/GetInvocableActionDetails/chatterPostActionDetails.json";
-import { getAccountsFromApexAnonymousOutputActionDetails as mockGetAccountsFromApexAnonymousOutputActionDetails } from "serverData/GetInvocableActionDetails/getAccountsFromApexAnonymousOutputActionDetails.json";
-import { getAccountsNamesFromApexAnonymousOutputActionDetails as mockGetAccountsNamesFromApexAnonymousOutputActionDetails } from "serverData/GetInvocableActionDetails/getAccountsNamesFromApexAnonymousOutputActionDetails.json";
+import { getAccountFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexAnonymousOutputActionDetails.json';
+import { getAccountNameFromApexAnonymousOutputActionDetails  } from 'serverData/GetInvocableActionDetails/getAccountNameFromApexAnonymousOutputActionDetails.json';
+import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';
+import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
+import { logACallActionDetails } from 'serverData/GetInvocableActionDetails/logACallActionDetails.json';
+import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
+import { getAccountsFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsFromApexAnonymousOutputActionDetails.json';
+import { getAccountsNamesFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsNamesFromApexAnonymousOutputActionDetails.json';
+import { getCarFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarFromApexActionDetails.json';
 
 let notLoadedActionKey;
 
@@ -17,22 +18,24 @@ const mockImplementationForGetDetailsForInvocableAction = ({
   switch (key) {
     case notLoadedActionKey:
       return undefined;
-    case "chatterPost-chatterPost":
-      return mockChatterPostActionDetails;
-    case "quickAction-Case.LogACall":
-      return mockLogACallActionDetails;
-    case "apex-getAccounts":
-      return mockGetAccountFromApexAnonymousOutputActionDetails;
-    case "apex-InvocableGetAccountName":
-      return mockGetAccountNameFromApexAnonymousOutputActionDetails;
-    case "apex-generateDraftAccount":
-      return mockGetAccountFromApexActionDetails;
-    case "apex-GetAccountName":
-      return mockGetAccountNameFromApexActionDetails;
-    case "apex-GetAccounts":
-      return mockGetAccountsFromApexAnonymousOutputActionDetails;
-    case "apex-InvocableGetAccountsNames":
-      return mockGetAccountsNamesFromApexAnonymousOutputActionDetails;
+    case 'chatterPost-chatterPost':
+      return chatterPostActionDetails;
+    case 'quickAction-Case.LogACall':
+      return logACallActionDetails;
+    case 'apex-getAccounts':
+      return getAccountFromApexAnonymousOutputActionDetails;
+    case 'apex-InvocableGetAccountName':
+      return getAccountNameFromApexAnonymousOutputActionDetails;
+    case 'apex-generateDraftAccount':
+      return getAccountFromApexActionDetails;
+    case 'apex-GetAccountName':
+      return getStringFromApexActionDetails;
+    case 'apex-GetAccounts':
+      return getAccountsFromApexAnonymousOutputActionDetails;
+    case 'apex-InvocableGetAccountsNames':
+      return getAccountsNamesFromApexAnonymousOutputActionDetails;
+    case 'apex-GetCarAction':
+      return getCarFromApexActionDetails;
     default:
       return undefined;
   }

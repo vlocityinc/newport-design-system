@@ -12,13 +12,9 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
 
-jest.mock('builder_platform_interaction/sobjectLib', () => {
-    return {
-        getFieldsForEntity: jest
-            .fn()
-            .mockImplementation(() => mockAccountFields)
-    };
-});
+jest.mock('builder_platform_interaction/sobjectLib', () => ({
+    getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
+}));
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
@@ -40,18 +36,21 @@ describe('complexTypeFieldDescription', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.accountSObjectVariable
             );
+            expect(fields).toBe(mockAccountFields);
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
         it('returns properties for apex class when element data type is Apex', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.apexCarVariable
             );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
         it('returns extension parameters when element data type is LIGHTNING_COMPONENT_OUTPUT', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.emailScreenFieldAutomaticOutput
             );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
         it('uses concrete types specified in dynamic type mappings for generically typed parameters of LIGHTNING_COMPONENT_OUTPUT', () => {
@@ -67,12 +66,21 @@ describe('complexTypeFieldDescription', () => {
                     }
                 ])
             );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
-        it('return action parameters when element data type is ACTION_OUTPUT', () => {
+        it('returns action output parameters when element data type is ACTION_OUTPUT', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.actionCallAutomaticOutput
             );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
+            expectFieldsAreComplexTypeFieldDescriptions(fields);
+        });
+        it('returns action output parameters (including apex types) when element data type is ACTION_OUTPUT', () => {
+            const fields = retrieveResourceComplexTypeFields(
+                store.apexCallApexTypeAutomaticOutput
+            );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
             expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
         it('returns entity fields for action single anonymous automatic SObject output', () => {
@@ -86,7 +94,6 @@ describe('complexTypeFieldDescription', () => {
             const fields = retrieveResourceComplexTypeFields(
                 store.apexCallAutomaticAnonymousStringOutput
             );
-
             expect(fields).toBeUndefined();
         });
     });

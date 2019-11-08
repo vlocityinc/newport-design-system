@@ -36,7 +36,9 @@ export function getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
         apiName: invocableActionParamDescription.name,
         dataType: getFlowDataType(invocableActionParamDescription.dataType),
         isCollection: invocableActionParamDescription.maxOccurs > 1,
-        subtype: invocableActionParamDescription.sobjectType
+        subtype:
+            invocableActionParamDescription.sobjectType ||
+            invocableActionParamDescription.apexClass
     };
 }
 

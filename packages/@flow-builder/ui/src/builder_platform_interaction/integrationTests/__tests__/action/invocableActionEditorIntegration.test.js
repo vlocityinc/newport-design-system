@@ -26,7 +26,8 @@ import {
 } from '../../integrationTestUtils';
 import {
     auraFetch,
-    getAllInvocableActionsForType
+    getAllInvocableActionsForType,
+    getInvocableActionDetails
 } from '../../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -54,19 +55,6 @@ import {
 import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { submitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
-
-const getInvocableActionDetails = invocableActionParameters => params => {
-    let invocableActionParametersForAction;
-    const invocableActionParametersForType =
-        invocableActionParameters[params.actionType];
-    if (invocableActionParametersForType) {
-        invocableActionParametersForAction =
-            invocableActionParametersForType[params.actionName];
-    }
-    return invocableActionParametersForAction
-        ? { data: invocableActionParametersForAction }
-        : { error: 'Cannot find invocable action parameters' };
-};
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement(

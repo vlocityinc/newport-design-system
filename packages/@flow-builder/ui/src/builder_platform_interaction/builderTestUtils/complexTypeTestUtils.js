@@ -9,9 +9,10 @@ export const expectComplexTypeFieldDescription = field => {
     expect(field.apiName).toBeDefined();
     if (
         field.dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-        field.dataType === FLOW_DATA_TYPE.APEX
+        field.dataType === FLOW_DATA_TYPE.APEX.value
     ) {
         expect(field.subtype).toBeDefined();
+        expect(field.subtype).not.toBeNull();
     }
 };
 

@@ -40,9 +40,6 @@ export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
     for (let i = 0; i < parts.length; i++) {
         promise = promise.then(() => {
             let displayText = parts.slice(0, i + 1).join('.');
-            if (i !== parts.length - 1) {
-                displayText += '.';
-            }
             displayText = addCurlyBraces(displayText);
             groupedCombobox.dispatchEvent(textInputEvent(displayText));
             return ticks();

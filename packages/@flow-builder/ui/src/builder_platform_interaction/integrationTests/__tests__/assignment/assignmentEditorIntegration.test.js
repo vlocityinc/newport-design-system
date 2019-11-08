@@ -14,7 +14,11 @@ import {
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
 import { resetState } from '../../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
+import {
+    auraFetch,
+    getFieldsForEntity,
+    getInvocableActionDetails
+} from '../../serverDataTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity
@@ -47,6 +51,10 @@ import {
     EXPRESSION_BUILDER_SELECTORS,
     validateExpression
 } from '../../expressionBuilderTestUtils';
+import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
+import { getCarFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarFromApexActionDetails.json';
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -89,18 +97,26 @@ describe('Assignment Editor', () => {
         setGlobalVariables(globalVariablesForFlow);
         setSystemVariables(systemVariablesForFlow);
         setEntities(allEntities);
+        setApexClasses(apexTypesForAutolLaunchedFlow);
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': getFieldsForEntity({
                     Account: accountFields,
                     User: userFields,
                     FeedItem: feedItemFields
+                }),
+                'c.getInvocableActionDetails': getInvocableActionDetails({
+                    apex: {
+                        GetCarAction: getCarFromApexActionDetails
+                    }
                 })
             })
         );
     });
     afterAll(() => {
         resetState();
+        setAuraFetch();
+        setApexClasses(null);
     });
     describe('"Get Records" Automated ouput in combobox', () => {
         let assignment, assignmentForPropertyEditor;
@@ -236,9 +252,10 @@ describe('Assignment Editor', () => {
     });
     describe('Validation', () => {
         let assignment, expressionBuilder;
-        beforeAll(() => {
+        beforeAll(async () => {
             const uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
+            await loadFieldsForComplexTypesInFlow(uiFlow);
         });
         beforeEach(async () => {
             const assignmentElement = getElementByDevName('assignment1');
@@ -255,6 +272,7 @@ describe('Assignment Editor', () => {
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'not a number'}                                       | ${'FlowBuilderCombobox.numberErrorMessage'}
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Add'}    | ${'{!accountSObjectVariable.Name}'}                     | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
             ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
+            ${'{!apexCall_Car_automatic_output.car}'}      | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
         `(
             'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
             async ({ lhs, operator, rhs, rhsErrorMessage }) => {

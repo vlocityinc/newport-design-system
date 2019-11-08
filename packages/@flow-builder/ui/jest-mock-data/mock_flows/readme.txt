@@ -7,7 +7,7 @@ To update flowWithAllElements.json :
 flow = [paste from the contents of flowWithAllElements.json]
 5) the flow with all the elements is loaded
 6) Change the flow
-7) put a breakpoint in editor.js after
+7) put a breakpoint in editor.js in saveFlow after
 const flow = translatorLib.translateUIModelToFlow(storeInstance.getCurrentState());
 8) save the flow
 9) copy the output from JSON.stringify(flow.metadata, null, 2)
