@@ -68,7 +68,7 @@ const ERROR_MESSAGE = {
 /**
  * This regex looks for potential merge fields. Not everything this regex catches is necessarily a valid dev name
  */
-const MERGE_FIELD_REGEX = new RegExp('^[a-zA-Z][a-zA-Z0-9_]*$');
+const MERGE_FIELD_REGEX = new RegExp('^[a-zA-Z][a-zA-Z0-9_]*:?[a-zA-Z0-9_]*$');
 
 const isMatchWithTrailingSeparator = (
     text,

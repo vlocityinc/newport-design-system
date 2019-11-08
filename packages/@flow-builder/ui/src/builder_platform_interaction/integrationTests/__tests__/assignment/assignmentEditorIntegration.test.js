@@ -24,6 +24,8 @@ import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVari
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
+import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
@@ -31,16 +33,20 @@ import {
     expectGroupedComboboxItem,
     getGroupedComboboxItem,
     getGroupedComboboxItemInGroupByDisplayText,
-    expectGroupedComboboxItemInGroup
+    expectGroupedComboboxItemInGroup,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
 } from '../../integrationTestUtils';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    deepQuerySelector
+} from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
-
-const SELECTORS = {
-    LHS_COMBOBOX:
-        'builder_platform_interaction-combobox.lhs.slds-col.slds-grow',
-    RHS_COMBOBOX: 'builder_platform_interaction-combobox.rhs.slds-col.slds-grow'
-};
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import {
+    EXPRESSION_BUILDER_SELECTORS,
+    validateExpression
+} from '../../expressionBuilderTestUtils';
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -51,16 +57,28 @@ const createComponentForTest = assignmentElement => {
     return el;
 };
 
-const getComboBox = (assignment, comboSelector) => {
-    const ferToFerov = assignment.shadowRoot.querySelector(
-        'builder_platform_interaction-fer-to-ferov-expression-builder'
-    );
+const getFerToFerovExpressionBuilder = assignment => {
+    return deepQuerySelector(assignment, [
+        INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER
+    ]);
+};
 
-    const baseExpBuilder = ferToFerov.shadowRoot.querySelector(
-        'builder_platform_interaction-base-expression-builder'
-    );
-    const combo = baseExpBuilder.shadowRoot.querySelector(comboSelector);
-    return combo.shadowRoot.querySelector('lightning-grouped-combobox');
+const getLHSGroupedCombobox = assignment => {
+    return deepQuerySelector(assignment, [
+        INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER,
+        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+        EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    ]);
+};
+
+const getRHSGroupedCombobox = assignment => {
+    return deepQuerySelector(assignment, [
+        INTERACTION_COMPONENTS_SELECTORS.FER_TO_FEROV_EXPRESSION_BUILDER,
+        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+        EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX,
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    ]);
 };
 
 describe('Assignment Editor', () => {
@@ -74,7 +92,9 @@ describe('Assignment Editor', () => {
         setAuraFetch(
             auraFetch({
                 'c.getFieldsForEntity': getFieldsForEntity({
-                    Account: accountFields
+                    Account: accountFields,
+                    User: userFields,
+                    FeedItem: feedItemFields
                 })
             })
         );
@@ -99,10 +119,7 @@ describe('Assignment Editor', () => {
         });
         it('shows up automated output from Get Record in LHS', () => {
             return resolveRenderCycles(() => {
-                const lhsCombo = getComboBox(
-                    assignment,
-                    SELECTORS.LHS_COMBOBOX
-                );
+                const lhsCombo = getLHSGroupedCombobox(assignment);
                 expect(
                     getGroupedComboboxItemInGroupByDisplayText(
                         lhsCombo,
@@ -114,10 +131,7 @@ describe('Assignment Editor', () => {
         });
         it('shows up automated output from Get Record in RHS', () => {
             return resolveRenderCycles(() => {
-                const rhsCombo = getComboBox(
-                    assignment,
-                    SELECTORS.RHS_COMBOBOX
-                );
+                const rhsCombo = getRHSGroupedCombobox(assignment);
                 expect(
                     getGroupedComboboxItemInGroupByDisplayText(
                         rhsCombo,
@@ -129,7 +143,7 @@ describe('Assignment Editor', () => {
         });
         it('shows up record field when automated output from Get Record selected', async () => {
             await fetchFieldsForEntity('Account');
-            const lhsCombo = getComboBox(assignment, SELECTORS.LHS_COMBOBOX);
+            const lhsCombo = getLHSGroupedCombobox(assignment);
             const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
                 lhsCombo,
                 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
@@ -143,7 +157,7 @@ describe('Assignment Editor', () => {
         });
         it('can select automated output from Get Record field', async () => {
             await fetchFieldsForEntity('Account');
-            const lhsCombo = getComboBox(assignment, SELECTORS.LHS_COMBOBOX);
+            const lhsCombo = getLHSGroupedCombobox(assignment);
             const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
                 lhsCombo,
                 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
@@ -179,54 +193,79 @@ describe('Assignment Editor', () => {
             );
             store.dispatch(updateFlow(uiFlow));
         });
-        beforeEach(() => {
+        beforeEach(async () => {
             const assignmentElement = getElementByDevName('assignment');
             assignmentForPropertyEditor = getElementForPropertyEditor(
                 assignmentElement
             );
             assignment = createComponentForTest(assignmentForPropertyEditor);
+            await ticks();
         });
         it('shows up automated output from Create Record in LHS under "variables" section with correct "displayText" and "subtext"', () => {
-            return resolveRenderCycles(() => {
-                const lhsCombo = getComboBox(
-                    assignment,
-                    SELECTORS.LHS_COMBOBOX
-                );
-                expect(
-                    getGroupedComboboxItemInGroupByDisplayText(
-                        lhsCombo,
-                        'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                        recordCreateInAutomaticModeMergeFieldName
-                    )
-                ).toBeDefined();
-                expectGroupedComboboxItemInGroup(
+            const lhsCombo = getLHSGroupedCombobox(assignment);
+            expect(
+                getGroupedComboboxItemInGroupByDisplayText(
                     lhsCombo,
                     'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                    'FlowBuilderDataTypes.textDataTypeLabel',
-                    'subText'
-                );
-            });
+                    recordCreateInAutomaticModeMergeFieldName
+                )
+            ).toBeDefined();
+            expectGroupedComboboxItemInGroup(
+                lhsCombo,
+                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                'FlowBuilderDataTypes.textDataTypeLabel',
+                'subText'
+            );
         });
         it('shows up automated output from Create Record in RHS under "variables" section correct "displayText" and "subtext"', () => {
-            return resolveRenderCycles(() => {
-                const rhsCombo = getComboBox(
-                    assignment,
-                    SELECTORS.RHS_COMBOBOX
-                );
-                expect(
-                    getGroupedComboboxItemInGroupByDisplayText(
-                        rhsCombo,
-                        'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                        recordCreateInAutomaticModeMergeFieldName
-                    )
-                ).toBeDefined();
-                expectGroupedComboboxItemInGroup(
+            const rhsCombo = getRHSGroupedCombobox(assignment);
+            expect(
+                getGroupedComboboxItemInGroupByDisplayText(
                     rhsCombo,
                     'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
-                    'FlowBuilderDataTypes.textDataTypeLabel',
-                    'subText'
-                );
-            });
+                    recordCreateInAutomaticModeMergeFieldName
+                )
+            ).toBeDefined();
+            expectGroupedComboboxItemInGroup(
+                rhsCombo,
+                'FLOWBUILDERELEMENTCONFIG.VARIABLEPLURALLABEL',
+                'FlowBuilderDataTypes.textDataTypeLabel',
+                'subText'
+            );
         });
+    });
+    describe('Validation', () => {
+        let assignment, expressionBuilder;
+        beforeAll(() => {
+            const uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+        });
+        beforeEach(async () => {
+            const assignmentElement = getElementByDevName('assignment1');
+            const assignmentForPropertyEditor = getElementForPropertyEditor(
+                assignmentElement
+            );
+            assignment = createComponentForTest(assignmentForPropertyEditor);
+            await ticks();
+            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
+        });
+        it.each`
+            lhs                                            | operator    | rhs                                                     | rhsErrorMessage
+            ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'500.0'}                                              | ${undefined}
+            ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'not a number'}                                       | ${'FlowBuilderCombobox.numberErrorMessage'}
+            ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Add'}    | ${'{!accountSObjectVariable.Name}'}                     | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
+        `(
+            'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
+            async ({ lhs, operator, rhs, rhsErrorMessage }) => {
+                expect(
+                    await validateExpression(expressionBuilder, {
+                        lhs,
+                        operator,
+                        rhs
+                    })
+                ).toEqual({ rhsErrorMessage });
+            }
+        );
     });
 });

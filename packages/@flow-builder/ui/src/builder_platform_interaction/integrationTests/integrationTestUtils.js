@@ -56,7 +56,9 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     BASE_EXPRESSION_BUILDER:
         'builder_platform_interaction-base-expression-builder',
     ENTITY_RESOURCE_PICKER:
-        'builder_platform_interaction-entity-resource-picker'
+        'builder_platform_interaction-entity-resource-picker',
+    FER_TO_FEROV_EXPRESSION_BUILDER:
+        'builder_platform_interaction-fer-to-ferov-expression-builder'
 };
 
 export const getLabelDescriptionElement = editor => {
