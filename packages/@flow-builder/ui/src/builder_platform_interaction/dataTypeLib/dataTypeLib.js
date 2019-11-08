@@ -331,3 +331,16 @@ export function isComplexType(type) {
         FLOW_DATA_TYPE.ACTION_OUTPUT.value
     ].includes(type);
 }
+
+// Corresponds to moduleapi.interaction.GenericType.SuperType enumeration
+export const SUPER_TYPE = {
+    SOBJECT: {
+        flowDataType: FLOW_DATA_TYPE.SOBJECT
+    },
+    APEXTYPE: {
+        flowDataType: FLOW_DATA_TYPE.APEX
+    }
+};
+
+export const superTypeToFlowDataType = (superType) => SUPER_TYPE[superType].flowDataType;
+

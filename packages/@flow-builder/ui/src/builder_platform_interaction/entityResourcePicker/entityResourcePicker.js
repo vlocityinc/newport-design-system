@@ -9,6 +9,7 @@ import { isObject, isUndefinedOrNull } from 'builder_platform_interaction/common
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { memoize } from 'builder_platform_interaction/commonUtils';
 import { LABELS } from './entityResourcePickerLabels';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
 const ENTITY_MODE = {
     SOBJECT: 'sobject',
@@ -32,6 +33,13 @@ const DEFAULT_PLACEHOLDER_TEXT = {
  */
 export default class EntityResourcePicker extends LightningElement {
     static ENTITY_MODE = ENTITY_MODE;
+
+    static flowDataTypeNameToMode(flowDataType) {
+        return {
+            [FLOW_DATA_TYPE.SOBJECT.value]: ENTITY_MODE.SOBJECT,
+            [FLOW_DATA_TYPE.APEX.value]: ENTITY_MODE.APEX
+        }[flowDataType];
+    }
 
     /**
      * The entity type that will be displayed in the combobox

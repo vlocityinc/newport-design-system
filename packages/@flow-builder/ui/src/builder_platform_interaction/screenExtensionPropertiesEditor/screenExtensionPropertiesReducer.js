@@ -1,7 +1,7 @@
 import { updateProperties } from 'builder_platform_interaction/dataMutationLib';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
 import { getComboboxConfig } from 'builder_platform_interaction/baseResourcePicker';
-import { getFlowType, FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { superTypeToFlowDataType } from 'builder_platform_interaction/dataTypeLib';
 import { getValueFromHydratedItem, getErrorFromHydratedItem } from 'builder_platform_interaction/dataMutationLib';
 import { applyDynamicTypeMappings } from 'builder_platform_interaction/flowExtensionLib';
 import EntityResourcePicker from 'builder_platform_interaction/entityResourcePicker';
@@ -137,26 +137,26 @@ const createDynamicTypeMappings = (genericTypes, dynamicTypeMappings = [], disab
     // Add a flow type for a super type
     .map(genericType => ({
         genericType,
-        flowType: getFlowType(genericType.superType)
+        flowDataType: superTypeToFlowDataType(genericType.superType)
     }))
     // Add a flow data type and a current dynamic type mapping
-    .map(({ genericType, flowType }) => ({
+    .map(({ genericType, flowDataType }) => ({
         genericType,
-        type: flowType ? flowType.value : FLOW_DATA_TYPE.SOBJECT.value,
+        flowDataTypeName: flowDataType ? flowDataType.value : undefined,
         dynamicTypeMapping: dynamicTypeMappings.find(item => getValueFromHydratedItem(item.typeName) === genericType.name)
     }))
     // Create dynamic type mapping for rendering the entity picker
-    .map(({ genericType, type, dynamicTypeMapping }) => ({
+    .map(({ genericType, flowDataTypeName, dynamicTypeMapping }) => ({
         comboboxConfig: getComboboxConfig({
             label: genericType.label,
             errorMessage: getErrorFromHydratedItem(dynamicTypeMapping.typeValue),
             required: true,
             disabled,
-            type,
+            type: flowDataTypeName,
             allowSObjectFields: false,
             fieldLevelHelp: genericType.description
         }),
-        mode: EntityResourcePicker.ENTITY_MODE.SOBJECT,
+        mode: EntityResourcePicker.flowDataTypeNameToMode(flowDataTypeName),
         name: genericType.name,
         rowIndex: dynamicTypeMapping.rowIndex,
         value: getValueFromHydratedItem(dynamicTypeMapping.typeValue)
