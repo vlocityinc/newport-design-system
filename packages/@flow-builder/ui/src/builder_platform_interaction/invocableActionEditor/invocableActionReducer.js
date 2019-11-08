@@ -34,6 +34,7 @@ import {
     FLOW_DATA_TYPE
 } from 'builder_platform_interaction/dataTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 export const MERGE_WITH_DATA_TYPE_MAPPINGS = 'MERGE_WITH_DATA_TYPE_MAPPINGS';
 
@@ -49,6 +50,64 @@ const invocableActionPropertyChanged = (state, event) => {
         [event.detail.propertyName]: { value: event.detail.value, error }
     });
 };
+
+/**
+ * Clears values of field parameters with the specified generic type.
+ */
+// TODO: Can we consolidate this with the similar function in screenReducer.js?
+const clearGenericParameters = ({
+    actionCallParameters,
+    invocableActionParameters,
+    genericTypeName
+}) =>
+    actionCallParameters
+        .map(actionCallParameter => ({
+            actionCallParameter,
+            invocableActionParameter: invocableActionParameters.find(
+                invocableActionParameter =>
+                    invocableActionParameter.name ===
+                    getValueFromHydratedItem(actionCallParameter.name)
+            )
+        }))
+        .map(({ actionCallParameter, invocableActionParameter }) =>
+            (invocableActionParameter &&
+            invocableActionParameter.sobjectType === genericTypeName
+                ? { ...actionCallParameter, value: { value: '', error: null } }
+                : actionCallParameter)
+        );
+
+/**
+ * Clears values of input and output parameters of the specified generic type
+ * of an action call.
+ */
+function clearGenericActionCallParameters(actionCall, genericTypeName) {
+    const {
+        actionName,
+        actionType,
+        inputParameters,
+        outputParameters
+    } = actionCall;
+    const invocableActionParams = getParametersForInvocableAction({
+        actionName,
+        actionType
+    });
+    const result = {};
+    if (inputParameters) {
+        result.inputParameters = clearGenericParameters({
+            actionCallParameters: inputParameters,
+            invocableActionParameters: invocableActionParams,
+            genericTypeName
+        });
+    }
+    if (outputParameters) {
+        result.outputParameters = clearGenericParameters({
+            actionCallParameters: outputParameters,
+            invocableActionParameters: invocableActionParams,
+            genericTypeName
+        });
+    }
+    return result;
+}
 
 function setDynamicTypeMappingTypeValue(actionCall, event) {
     const { typeName, typeValue, rowIndex } = event.detail;
@@ -88,7 +147,8 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
             ? replaceItem(dataTypeMappings, newDynamicTypeMapping, index)
             : addItem(dataTypeMappings, newDynamicTypeMapping);
     return updateProperties(actionCall, {
-        dataTypeMappings: newDynamicTypeMappings
+        dataTypeMappings: newDynamicTypeMappings,
+        ...clearGenericActionCallParameters(actionCall, typeName)
     });
 }
 
