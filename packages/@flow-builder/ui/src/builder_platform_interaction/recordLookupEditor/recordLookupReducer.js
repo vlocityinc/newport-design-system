@@ -328,6 +328,7 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
     if (state.variableAndFieldMapping === variableAndFieldMapping) {
         return state;
     }
+    const prevVariableAndFieldMapping = state.variableAndFieldMapping;
     state = updateProperties(state, {
         variableAndFieldMapping
     });
@@ -336,17 +337,18 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
     ) {
         // reset outputReference and delete queried fields
         state = updateOutputReferenceAndQueriedFields(state, '', null);
-        state = set(state, 'queriedFields', null);
         state = resetOutputAssignments(state);
         state = updateProperties(state, {
             storeOutputAutomatically: true
         });
+        state = resetQueriedFields(state);
     } else if (
         variableAndFieldMapping ===
         VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
     ) {
-        state = resetOutputAssignmentsOutputReferenceAndQueriedfields(state);
+        state = resetOutputAssignments(state);
         state = updateProperties(state, {
+            outputReference: { value: '', error: null },
             storeOutputAutomatically: true
         });
     } else {
@@ -354,6 +356,15 @@ const variableAndFieldMappingChanged = (state, { variableAndFieldMapping }) => {
             storeOutputAutomatically: false
         });
     }
+
+    if (
+        prevVariableAndFieldMapping ===
+        VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC
+    ) {
+        // If previous value is AUTOMATIC we need to reset the queriedFields otherwise queriedFields are kept
+        state = resetQueriedFields(state);
+    }
+
     return state;
 };
 
