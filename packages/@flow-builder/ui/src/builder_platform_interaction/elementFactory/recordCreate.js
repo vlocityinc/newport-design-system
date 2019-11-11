@@ -3,7 +3,8 @@ import {
     baseCanvasElement,
     baseCanvasElementsArrayToMap,
     duplicateCanvasElement,
-    createAvailableConnection
+    createAvailableConnection,
+    automaticOutputHandlingSupport
 } from './base/baseElement';
 import { baseCanvasElementMetadataObject } from './base/baseMetadata';
 import { createConnectorObjects } from './connector';
@@ -144,12 +145,8 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         recordCreate,
         config
     );
-    const {
-        inputReference,
-        object,
-        getFirstRecordOnly,
-        storeOutputAutomatically
-    } = recordCreate;
+    let { storeOutputAutomatically } = recordCreate;
+    const { inputReference, object, getFirstRecordOnly } = recordCreate;
 
     if (getFirstRecordOnly && recordCreate.object !== '') {
         const { assignRecordIdToReference } = recordCreate;
@@ -159,6 +156,11 @@ export function createRecordCreateMetadataObject(recordCreate, config) {
         );
 
         inputAssignments = createEmptyAssignmentMetadata(inputAssignments);
+
+        if (!automaticOutputHandlingSupport()) {
+            // automaticOutputHandlingSupport To be able to save the flow if the user change the process type on the save as.
+            storeOutputAutomatically = undefined;
+        }
 
         const newRecordCreateMetadata = Object.assign(
             recordCreateMetadata,

@@ -11,6 +11,19 @@ import {
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import {
+    FLOW_AUTOMATIC_OUTPUT_HANDLING,
+    getProcessTypeAutomaticOutPutHandlingSupport
+} from 'builder_platform_interaction/processTypeLib';
+
+jest.mock('builder_platform_interaction/processTypeLib', () => {
+    const actual = require.requireActual(
+        '../../processTypeLib/processTypeLib.js'
+    );
+    return Object.assign({}, actual, {
+        getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()
+    });
+});
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -46,6 +59,24 @@ const flowRecordCreateFieldsMetadataAuto = () => ({
     storeOutputAutomatically: true
 });
 
+const flowRecordCreateFieldsMetadataManualFromAuto = () => ({
+    inputAssignments: [
+        {
+            field: 'BillingCity',
+            value: { elementReference: 'myCity' }
+        },
+        {
+            field: 'BillingCountry',
+            value: { elementReference: 'myCountry' }
+        }
+    ],
+    label: 'myCreate with fields',
+    locationX: 1074,
+    locationY: 527,
+    name: 'myCreate',
+    object: 'Account'
+});
+
 const flowRecordCreateFieldsStoreManual = () => ({
     assignRecordIdToReference: MOCK_ASSIGN_RECORD_ID_TO_REFERENCE,
     assignRecordIdToReferenceIndex: MOCK_GUID,
@@ -66,13 +97,13 @@ const flowRecordCreateFieldsStoreManual = () => ({
     inputAssignments: [
         {
             leftHandSide: 'Account.BillingCity',
-            rightHandSide: '28221fc3-b4a3-45ca-a195-7a849faa1dc6',
+            rightHandSide: 'myCity',
             rightHandSideDataType: 'reference',
             rowIndex: 'ae4ba97b-9f5b-4705-adec-32f7700498c3'
         },
         {
             leftHandSide: 'Account.BillingCountry',
-            rightHandSide: '382aed63-0e85-4e36-8f32-3836eb02acf3',
+            rightHandSide: 'myCountry',
             rightHandSideDataType: 'reference',
             rowIndex: 'e7aa85e8-1a18-4211-862f-60bd9e7f8192'
         }
@@ -481,5 +512,22 @@ describe('recordCreate UI model => flow metadata', () => {
                 ).toThrowError();
             }
         );
+    });
+});
+
+describe('recordLookup function with automatic handled output and saved with a process type that does not support automatic output handling', () => {
+    beforeEach(() => {
+        getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+            FLOW_AUTOMATIC_OUTPUT_HANDLING.UNSUPPORTED
+        );
+    });
+    it('Should not have storeOutputAutomatically', () => {
+        const actualResult = createRecordCreateMetadataObject(
+            flowRecordCreateFieldsStoreAuto()
+        );
+        expect(actualResult).toMatchObject(
+            flowRecordCreateFieldsMetadataManualFromAuto()
+        );
+        expect(actualResult.storeOutputAutomatically).toBe(undefined);
     });
 });
