@@ -10,7 +10,8 @@ import zoomToFitCommandLabel from '@salesforce/label/FlowBuilderKeyboardInteract
 import selectElementsLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.selectElementsLabel';
 import selectElementsText from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.selectElementsText';
 import deleteElementsLabel from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteElementsLabel';
-import deleteElementsText from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteElementsText';
+import deleteKey from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.deleteKey';
+import backspaceKey from '@salesforce/label/FlowBuilderKeyboardInteractionLabels.backspaceKey';
 
 
 export const LABELS = {
@@ -25,5 +26,6 @@ export const LABELS = {
     selectElementsLabel,
     selectElementsText,
     deleteElementsLabel,
-    deleteElementsText
+    deleteKey,
+    backspaceKey
 };

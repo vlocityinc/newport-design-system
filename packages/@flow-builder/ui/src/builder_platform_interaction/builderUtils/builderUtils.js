@@ -669,7 +669,6 @@ export function invokeKeyboardHelpDialog() {
     const modalFooterPromise = createComponentPromise(
         'builder_platform_interaction:modalFooter',
         {
-            keyMap: LABELS.footerKeyMap,
             buttons: {
                 buttonOne: {
                     buttonLabel: LABELS.okayButtonLabel,
