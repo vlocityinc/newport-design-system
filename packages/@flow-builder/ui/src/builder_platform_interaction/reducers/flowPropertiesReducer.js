@@ -19,7 +19,7 @@ import {
 } from 'builder_platform_interaction/actions';
 import { createFlowProperties } from 'builder_platform_interaction/elementFactory';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { isRunInModeSupported } from 'builder_platform_interaction/processTypeLib';
+import { isRunInModeSupported } from 'builder_platform_interaction/triggerTypeLib';
 
 /**
  * Reducer for properties
