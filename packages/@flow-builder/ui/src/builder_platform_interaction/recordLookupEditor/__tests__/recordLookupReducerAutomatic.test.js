@@ -176,7 +176,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                         event
                     );
                 });
-                it('it reset the queriedFields to null', () => {
+                it('it should not reset the queriedFields to null', () => {
                     expect(
                         stateAutoWithFieldsToManual.queriedFields
                     ).toMatchObject([
@@ -233,7 +233,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                         newState,
                         eventUpdateField
                     );
-                    // 2nd change the VariableAndFieldMapping to manual
+                    // 2nd change the VariableAndFieldMapping to automatic with fields
                     const event = {
                         type: VariableAndFieldMappingChangedEvent.EVENT_NAME,
                         detail: {
@@ -246,7 +246,7 @@ describe('record-lookup-reducerAutomatic Mode', () => {
                         event
                     );
                 });
-                it('it reset the queriedFields to null', () => {
+                it('it should not reset the queriedFields to null', () => {
                     expect(
                         stateManualToAutoWithFields.queriedFields
                     ).toMatchObject([
