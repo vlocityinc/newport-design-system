@@ -4,7 +4,7 @@ import variableAndFieldMappingLabel from '@salesforce/label/FlowBuilderRecordEdi
 import automatic from '@salesforce/label/FlowBuilderRecordEditor.automatic';
 import manuallySelectFields from '@salesforce/label/FlowBuilderRecordEditor.manuallySelectFields';
 import manual from '@salesforce/label/FlowBuilderRecordEditor.manual';
-import variableAndFieldMappingChangeConfirmation from '@salesforce/label/FlowBuilderAlertModal.variableAndFieldMappingChangeConfirmation';
+import clearVariableConfirmation from '@salesforce/label/FlowBuilderAlertModal.clearVariableConfirmation';
 import confirm from '@salesforce/label/FlowBuilderAlertModal.confirm';
 import areYouSure from '@salesforce/label/FlowBuilderAlertModal.areYouSure';
 import cancelButton from '@salesforce/label/FlowBuilderCommonPropertyEditor.cancelButton';
@@ -14,7 +14,7 @@ export const LABELS = {
     automatic,
     manuallySelectFields,
     manual,
-    variableAndFieldMappingChangeConfirmation,
+    clearVariableConfirmation,
     confirm,
     areYouSure,
     cancelButton

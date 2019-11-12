@@ -54,8 +54,7 @@ describe('record-lookup-variable-and-field-mapping', () => {
             return Promise.resolve().then(() => {
                 expect(invokeModal).toBeCalledWith({
                     bodyData: {
-                        bodyTextOne:
-                            LABELS.variableAndFieldMappingChangeConfirmation
+                        bodyTextOne: LABELS.clearVariableConfirmation
                     },
                     footerData: {
                         buttonOne: {
@@ -101,8 +100,7 @@ describe('record-lookup-variable-and-field-mapping', () => {
             return Promise.resolve().then(() => {
                 expect(invokeModal).toBeCalledWith({
                     bodyData: {
-                        bodyTextOne:
-                            LABELS.variableAndFieldMappingChangeConfirmation
+                        bodyTextOne: LABELS.clearVariableConfirmation
                     },
                     footerData: {
                         buttonOne: {

@@ -23,7 +23,7 @@ export default class RecordLookupVariableAndFieldMapping extends LightningElemen
                 headerTitle: LABELS.areYouSure
             },
             bodyData: {
-                bodyTextOne: LABELS.variableAndFieldMappingChangeConfirmation
+                bodyTextOne: LABELS.clearVariableConfirmation
             },
             footerData: {
                 buttonOne: {
