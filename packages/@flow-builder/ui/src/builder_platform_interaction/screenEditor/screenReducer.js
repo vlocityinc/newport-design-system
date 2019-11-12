@@ -17,7 +17,6 @@ import {
     replaceItem,
     hydrateWithErrors,
     isItemHydratedWithErrors,
-    addItem,
     getValueFromHydratedItem
 } from 'builder_platform_interaction/dataMutationLib';
 import {
@@ -166,12 +165,12 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
     const { typeName, typeValue } = event.detail;
     const { dynamicTypeMappings } = field;
 
-    // Find the dynamic type mapping.
+    // Find the dynamic type mapping. It has to be present in the array already.
     const index = dynamicTypeMappings.findIndex(mapping => getValueFromHydratedItem(mapping.typeName) === typeName);
     const dynamicTypeMapping = dynamicTypeMappings[index];
 
     // Check if the value has actually changed
-    if (index > 0 && getValueFromHydratedItem(dynamicTypeMapping.typeValue) === typeValue) {
+    if (getValueFromHydratedItem(dynamicTypeMapping.typeValue) === typeValue) {
         return screen;
     }
 
@@ -184,8 +183,7 @@ function setDynamicTypeMappingTypeValue(screen, field, event) {
         }
     });
     // Update dynamic type mappings in the state and return the new state.
-    const newDynamicTypeMappings = index >= 0 ?
-        replaceItem(dynamicTypeMappings, newDynamicTypeMapping, index) : addItem(dynamicTypeMappings, newDynamicTypeMapping);
+    const newDynamicTypeMappings = replaceItem(dynamicTypeMappings, newDynamicTypeMapping, index);
     return updateField(screen, field, {
             dynamicTypeMappings: newDynamicTypeMappings,
             ...clearGenericFieldParameters(field, typeName)

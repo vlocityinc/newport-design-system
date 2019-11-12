@@ -117,7 +117,7 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
         mapping => getValueFromHydratedItem(mapping.typeName) === typeName
     );
     const dataTypeMapping =
-        index >= 0
+        index !== -1
             ? dataTypeMappings[index]
             : {
                   typeName: {
@@ -128,7 +128,7 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
               };
     // Check if the value has actually changed
     if (
-        index > 0 &&
+        index !== -1 &&
         getValueFromHydratedItem(dataTypeMapping.typeValue) === typeValue
     ) {
         return actionCall;
@@ -143,7 +143,7 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
     });
     // Update dynamic type mappings in the state and return the new state.
     const newDynamicTypeMappings =
-        index >= 0
+        index !== -1
             ? replaceItem(dataTypeMappings, newDynamicTypeMapping, index)
             : addItem(dataTypeMappings, newDynamicTypeMapping);
     return updateProperties(actionCall, {
