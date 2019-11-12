@@ -29,7 +29,8 @@ import {
 } from 'builder_platform_interaction/events';
 import {
     logPerfMarkStart,
-    logPerfMarkEnd
+    logPerfMarkEnd,
+    logInteraction
 } from 'builder_platform_interaction/loggingUtils';
 import { ZoomInCommand, ZoomOutCommand, ZoomToFitCommand, ZoomToViewCommand, DeleteNodesCommand } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
@@ -445,7 +446,12 @@ export default class Canvas extends LightningElement {
             event.detail.action &&
             canZoom(event, this.isCanvasMouseDown, this.isMarqueeInProgress)
         ) {
-            this._canvasZoom(event.detail.action);
+            const action = event.detail.action;
+            this._canvasZoom(action);
+            const context = { action };
+            if (event.currentTarget === null) {
+                logInteraction('canvas', 'canvas', context, 'keydown');
+            }
         }
     };
 

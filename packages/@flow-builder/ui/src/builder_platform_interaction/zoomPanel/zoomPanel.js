@@ -50,6 +50,7 @@ export default class ZoomPanel extends LightningElement {
         const action = ZOOM_ACTION.ZOOM_OUT;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
+        logInteraction(`zoom-out-button`, 'zoom-panel', null, 'click');
     };
 
     /**
@@ -59,6 +60,7 @@ export default class ZoomPanel extends LightningElement {
         const action = ZOOM_ACTION.ZOOM_TO_FIT;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
+        logInteraction(`zoom-to-fit-button`, 'zoom-panel', null, 'click');
     };
 
     /**
@@ -68,6 +70,7 @@ export default class ZoomPanel extends LightningElement {
         const action = ZOOM_ACTION.ZOOM_TO_VIEW;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
+        logInteraction(`zoom-to-view-button`, 'zoom-panel', null, 'click');
     };
 
     /**
@@ -77,5 +80,6 @@ export default class ZoomPanel extends LightningElement {
         const action = ZOOM_ACTION.ZOOM_IN;
         const clickToZoomEvent = new ClickToZoomEvent(action);
         this.dispatchEvent(clickToZoomEvent);
+        logInteraction(`zoom-in-button`, 'zoom-panel', null, 'click');
     };
 }

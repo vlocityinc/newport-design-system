@@ -1044,6 +1044,12 @@ export default class Editor extends LightningElement {
                     this.template.querySelector(PANELS.HEADER).focus();
                 }
         }
+        logInteraction(
+            'editor',
+            'editor',
+            { 'operationStatus' : 'shift panel focus' },
+            'keydown'
+        );
     };
 
     /**
