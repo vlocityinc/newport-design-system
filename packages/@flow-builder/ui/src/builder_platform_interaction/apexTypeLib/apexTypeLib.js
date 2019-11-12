@@ -64,3 +64,21 @@ export const getPropertiesForClass = clazz => {
     cachePropertiesForClass(clazz);
     return apexFieldsForClass[clazz];
 };
+
+/**
+ * Get the apex property with given api name (case-insensitive)
+ * @param {Object} map of properties (apiName -> field)
+ * @param {string} fieldName
+ * @return {Object|undefined} the property with the api name or undefined if there is no property with this api name
+ */
+export function getApexPropertyWithName(properties, propertyName) {
+    propertyName = propertyName.toLowerCase();
+    for (const apiName in properties) {
+        if (properties.hasOwnProperty(apiName)) {
+            if (propertyName === apiName.toLowerCase()) {
+                return properties[apiName];
+            }
+        }
+    }
+    return undefined;
+}

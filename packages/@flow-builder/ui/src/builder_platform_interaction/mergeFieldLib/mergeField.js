@@ -1,13 +1,19 @@
 import { getResourceByUniqueIdentifier } from 'builder_platform_interaction/expressionUtils';
 import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
-import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
+import {
+    getPropertiesForClass,
+    getApexPropertyWithName
+} from 'builder_platform_interaction/apexTypeLib';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/complexTypeLib';
 import {
     isComplexType,
     FLOW_DATA_TYPE
 } from 'builder_platform_interaction/dataTypeLib';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import {
+    fetchFieldsForEntity,
+    getEntityFieldWithApiName
+} from 'builder_platform_interaction/sobjectLib';
 
 /**
  * Resolve the reference given its identifier.
@@ -125,7 +131,7 @@ function resolveEntityFieldReference(entityName, fieldNames) {
                         : undefined;
                 });
             }
-            const field = getFieldWithApiName(fields, fieldName);
+            const field = getEntityFieldWithApiName(fields, fieldName);
             if (!field) {
                 return undefined;
             }
@@ -175,19 +181,11 @@ function resolveLightningComponentOutputReference(extensionName, fieldNames) {
     );
 }
 
-function getApexPropertyWithName(properties, propertyName) {
-    propertyName = propertyName.toLowerCase();
-    for (const apiName in properties) {
-        if (properties.hasOwnProperty(apiName)) {
-            if (propertyName === apiName.toLowerCase()) {
-                return properties[apiName];
-            }
-        }
-    }
-    return undefined;
-}
-
-function getReferenceToName(field, relationshipName, specificEntityName) {
+export function getReferenceToName(
+    field,
+    relationshipName,
+    specificEntityName
+) {
     let referenceToName;
     if (specificEntityName) {
         if (
@@ -214,7 +212,7 @@ function entityFieldIncludesReferenceToName(entityField, referenceToName) {
     );
 }
 
-function getPolymorphicRelationShipName(fieldName) {
+export function getPolymorphicRelationShipName(fieldName) {
     const index = fieldName.indexOf(':');
     if (index < 0) {
         return { relationshipName: fieldName };
@@ -225,7 +223,7 @@ function getPolymorphicRelationShipName(fieldName) {
     };
 }
 
-function getEntityFieldWithRelationshipName(fields, relationshipName) {
+export function getEntityFieldWithRelationshipName(fields, relationshipName) {
     relationshipName = relationshipName.toLowerCase();
     for (const apiName in fields) {
         if (fields.hasOwnProperty(apiName)) {
@@ -242,18 +240,6 @@ function getEntityFieldWithRelationshipName(fields, relationshipName) {
                 ) {
                     return fields[apiName];
                 }
-            }
-        }
-    }
-    return undefined;
-}
-
-function getFieldWithApiName(fields, fieldName) {
-    fieldName = fieldName.toLowerCase();
-    for (const apiName in fields) {
-        if (fields.hasOwnProperty(apiName)) {
-            if (fieldName === apiName.toLowerCase()) {
-                return fields[apiName];
             }
         }
     }

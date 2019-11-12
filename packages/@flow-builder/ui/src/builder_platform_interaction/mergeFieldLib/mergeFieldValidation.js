@@ -22,11 +22,17 @@ import {
 } from 'builder_platform_interaction/ruleLib';
 import {
     getPropertiesForClass,
-    getApexClasses
+    getApexClasses,
+    getApexPropertyWithName
 } from 'builder_platform_interaction/apexTypeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
 import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/complexTypeLib';
 import * as validationErrors from './mergeFieldValidationErrors';
+import {
+    getEntityFieldWithRelationshipName,
+    getPolymorphicRelationShipName,
+    getReferenceToName
+} from './mergeField';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -305,25 +311,6 @@ export class MergeFieldsValidation {
         };
     }
 
-    _getPolymorphicRelationShipName(fieldName) {
-        const index = fieldName.indexOf(':');
-        if (index < 0) {
-            return { relationshipName: fieldName };
-        }
-        return {
-            relationshipName: fieldName.substr(0, index),
-            entityName: fieldName.substr(index + 1)
-        };
-    }
-
-    _entityFieldIncludesReferenceToName(entityField, referenceToName) {
-        referenceToName = referenceToName.toLowerCase();
-        return entityField.referenceToNames.some(
-            fieldReferenceToName =>
-                fieldReferenceToName.toLowerCase() === referenceToName
-        );
-    }
-
     _validateApexMergeField(apexClassName, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
         if (getApexClasses() === null) {
@@ -334,7 +321,7 @@ export class MergeFieldsValidation {
         }
         const properties = getPropertiesForClass(apexClassName);
         const property =
-            properties && this._getApexPropertyWithName(properties, fieldName);
+            properties && getApexPropertyWithName(properties, fieldName);
         if (!property) {
             return {
                 error: validationErrors.unknownRecordField(
@@ -376,7 +363,6 @@ export class MergeFieldsValidation {
     _validateSObjectMergeField(entityName, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
         let field;
-        let referenceToName;
         const fields = sobjectLib.getFieldsForEntity(entityName);
         if (!fields) {
             // entity not cached or no entity with this name ...
@@ -387,9 +373,9 @@ export class MergeFieldsValidation {
         if (remainingFieldNames.length > 0) {
             const {
                 relationshipName,
-                entityName: specificEntityName
-            } = this._getPolymorphicRelationShipName(fieldName);
-            field = this._getEntityFieldWithRelationshipName(
+                specificEntityName
+            } = getPolymorphicRelationShipName(fieldName);
+            field = getEntityFieldWithRelationshipName(
                 fields,
                 relationshipName
             );
@@ -403,34 +389,20 @@ export class MergeFieldsValidation {
                     )
                 };
             }
-            if (specificEntityName) {
-                if (
-                    !field.isPolymorphic ||
-                    !this._entityFieldIncludesReferenceToName(
-                        field,
-                        specificEntityName
+            const referenceToName = getReferenceToName(
+                field,
+                relationshipName,
+                specificEntityName
+            );
+            if (!referenceToName) {
+                return {
+                    error: validationErrors.invalidPolymorphicRecordFieldReference(
+                        entityName,
+                        fieldName,
+                        index,
+                        endIndex
                     )
-                ) {
-                    return {
-                        error: validationErrors.invalidPolymorphicRecordFieldReference(
-                            entityName,
-                            fieldName,
-                            index,
-                            endIndex
-                        )
-                    };
-                }
-                referenceToName = specificEntityName;
-            } else {
-                if (field.isPolymorphic) {
-                    return {
-                        error: validationErrors.invalidPolymorphicRecordFieldReference(
-                            entityName,
-                            fieldName
-                        )
-                    };
-                }
-                referenceToName = field.referenceToNames[0];
+                };
             }
             return this._validateSObjectMergeField(
                 referenceToName,
@@ -439,7 +411,7 @@ export class MergeFieldsValidation {
                 endIndex
             );
         }
-        field = this._getEntityFieldWithName(fields, fieldName);
+        field = sobjectLib.getEntityFieldWithApiName(fields, fieldName);
         if (!field) {
             return {
                 error: validationErrors.unknownRecordField(
@@ -457,7 +429,9 @@ export class MergeFieldsValidation {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
         const [elementName, ...fieldNames] = parts;
-        const element = getElementByDevName(elementName) || this._getUncommittedElement(elementName);
+        const element =
+            getElementByDevName(elementName) ||
+            this._getUncommittedElement(elementName);
 
         if (!element) {
             return [
@@ -518,7 +492,10 @@ export class MergeFieldsValidation {
         ) {
             const fieldName = fieldNames.join('.');
             // this lib is synchronous, we check the field only if already cached.
-            const extension = getCachedExtension(element.extensionName, element.dynamicTypeMappings);
+            const extension = getCachedExtension(
+                element.extensionName,
+                element.dynamicTypeMappings
+            );
             if (extension) {
                 field = this._getOutputParameterForExtension(
                     extension,
@@ -553,54 +530,6 @@ export class MergeFieldsValidation {
                 outputParam
             )
         );
-    }
-
-    _getEntityFieldWithName(fields, fieldName) {
-        fieldName = fieldName.toLowerCase();
-        for (const apiName in fields) {
-            if (fields.hasOwnProperty(apiName)) {
-                if (fieldName === apiName.toLowerCase()) {
-                    return fields[apiName];
-                }
-            }
-        }
-        return undefined;
-    }
-
-    _getEntityFieldWithRelationshipName(fields, relationshipName) {
-        relationshipName = relationshipName.toLowerCase();
-        for (const apiName in fields) {
-            if (fields.hasOwnProperty(apiName)) {
-                const field = fields[apiName];
-                if (field.isSpanningAllowed) {
-                    if (
-                        field.relationshipName &&
-                        relationshipName ===
-                            field.relationshipName.toLowerCase()
-                    ) {
-                        return fields[apiName];
-                    } else if (
-                        relationshipName === field.apiName.toLowerCase() &&
-                        field.isCustom
-                    ) {
-                        return fields[apiName];
-                    }
-                }
-            }
-        }
-        return undefined;
-    }
-
-    _getApexPropertyWithName(properties, propertyName) {
-        propertyName = propertyName.toLowerCase();
-        for (const apiName in properties) {
-            if (properties.hasOwnProperty(apiName)) {
-                if (propertyName === apiName.toLowerCase()) {
-                    return properties[apiName];
-                }
-            }
-        }
-        return undefined;
     }
 }
 

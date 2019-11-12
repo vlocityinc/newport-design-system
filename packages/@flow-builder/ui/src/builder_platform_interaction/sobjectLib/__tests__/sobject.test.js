@@ -10,18 +10,20 @@ import {
     getWorkflowEnabledEntities,
     getFieldsForEntity,
     fetchFieldsForEntity,
-    getEntity
+    getEntity,
+    getEntityFieldWithApiName
 } from 'builder_platform_interaction/sobjectLib';
 
 // Mocking out the fetch function to return Account fields
 jest.mock('builder_platform_interaction/serverDataLib', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/serverDataLib'
+    );
     return {
         fetchOnce: jest
             .fn()
             .mockImplementation(() => Promise.resolve(mockAccountFields)),
-        SERVER_ACTION_TYPE: require.requireActual(
-            '../../serverDataLib/serverDataLib.js'
-        ).SERVER_ACTION_TYPE
+        SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE
     };
 });
 
@@ -180,6 +182,30 @@ describe('SObject Lib Tests', () => {
             expect(Object.keys(fields)).toHaveLength(
                 Object.keys(mockAccountFields).length
             );
+        });
+    });
+
+    describe('getEntityFieldWithApiName', () => {
+        it('returns the field with given api name', () => {
+            const field = getEntityFieldWithApiName(mockAccountFields, 'Name');
+            expect(field).toMatchObject({
+                apiName: 'Name',
+                label: 'Account Name'
+            });
+        });
+        it('returns undefined if there is no field with given api name', () => {
+            const field = getEntityFieldWithApiName(
+                mockAccountFields,
+                'Unknown'
+            );
+            expect(field).toBeUndefined();
+        });
+        it('is not case sensitive', () => {
+            const field = getEntityFieldWithApiName(mockAccountFields, 'name');
+            expect(field).toMatchObject({
+                apiName: 'Name',
+                label: 'Account Name'
+            });
         });
     });
 });

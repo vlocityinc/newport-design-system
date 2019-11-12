@@ -104,6 +104,9 @@ jest.mock('builder_platform_interaction/systemLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/sobjectLib'
+    );
     return {
         getFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {
@@ -114,7 +117,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
                 return mockFeedItemFields;
             }
             return undefined;
-        })
+        }),
+        getEntityFieldWithApiName: actual.getEntityFieldWithApiName
     };
 });
 

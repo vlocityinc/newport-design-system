@@ -205,4 +205,22 @@ export const getFieldsForEntity = entityName => {
     return cachedEntityFields[entityName];
 };
 
+/**
+ * Get the field with given api name (case-insensitive)
+ * @param {Object} map of properties (apiName -> field)
+ * @param {string} fieldName
+ * @return {Object|undefined} the field with the api name or undefined if there is no field with this api name
+ */
+export const getEntityFieldWithApiName = (fields, fieldName) => {
+    fieldName = fieldName.toLowerCase();
+    for (const apiName in fields) {
+        if (fields.hasOwnProperty(apiName)) {
+            if (fieldName === apiName.toLowerCase()) {
+                return fields[apiName];
+            }
+        }
+    }
+    return undefined;
+};
+
 export const clearEntityFieldsCache = () => (cachedEntityFields = {});
