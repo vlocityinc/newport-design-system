@@ -160,6 +160,22 @@ describe('complexTypeFieldDescription', () => {
             expect(result.length).toBeGreaterThan(0);
             expectFieldsAreComplexTypeFieldDescriptions(result);
         });
+        it('returns LC screen field automatic output parameters with concrete types', () => {
+            const fields = getAutomaticOutputParameters(
+                store.lookupScreenField
+            );
+            expect(getCachedExtension).toBeCalledWith(
+                'c:lookup',
+                expect.arrayContaining([
+                    {
+                        typeName: 'T',
+                        typeValue: 'Asset'
+                    }
+                ])
+            );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
+            expectFieldsAreComplexTypeFieldDescriptions(fields);
+        });
         it('returns apex call automatic output parameters', () => {
             const result = getAutomaticOutputParameters(
                 store.apexCallStringAutomaticOutput

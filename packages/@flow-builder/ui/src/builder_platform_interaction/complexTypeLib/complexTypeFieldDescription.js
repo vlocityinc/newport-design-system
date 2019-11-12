@@ -54,7 +54,7 @@ export function getAutomaticOutputParameters(flowResource) {
             flowResource.dataType ===
             FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
         ) {
-            const extension = getCachedExtension(flowResource.extensionName);
+            const extension = getCachedExtension(flowResource.extensionName, flowResource.dynamicTypeMappings);
             if (extension === undefined) {
                 return undefined;
             }
