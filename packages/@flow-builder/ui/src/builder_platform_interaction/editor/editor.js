@@ -375,6 +375,7 @@ export default class Editor extends LightningElement {
      * Callback which gets executed once we get the flow from java controller
      *
      * @param {Object} has error property if there is error fetching the data else has data property
+     * In case of data retrieved from a template, data points directly to flow.metadata
      */
     getFlowCallback = ({ data, error }) => {
         if (error) {
@@ -383,7 +384,7 @@ export default class Editor extends LightningElement {
         } else {
             // We need to load the parameters first, so as having some information needed at the factory level (e.g. for Action with anonymous output we need parameter related information see actionCall#createActionCall)
             loadParametersForInvocableApexActionsInFlowFromMetadata(
-                data.metadata.actionCalls
+                (data.metadata || data).actionCalls
             ).then(() => {
                 storeInstance.dispatch(
                     updateFlow(translateFlowToUIModel(data))
@@ -391,7 +392,7 @@ export default class Editor extends LightningElement {
                 this.setOriginalFlowValues();
                 this.cacheSObjectsInComboboxShape();
                 this.loadFieldsForComplexTypesInFlow();
-                this.loadReferencesInFlow(data.metadata);
+                this.loadReferencesInFlow();
                 this.isFlowServerCallInProgress = false;
             });
         }
@@ -1060,7 +1061,6 @@ export default class Editor extends LightningElement {
      */
     saveFlow = saveType => {
         const flow = translateUIModelToFlow(storeInstance.getCurrentState());
-
         const params = {
             flow,
             saveType
