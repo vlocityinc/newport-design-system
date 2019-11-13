@@ -9,13 +9,13 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
-import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    ToggleOnChangeEvent
-} from '../../../integrationTestUtils';
-import { auraFetch, getFlowExtensions } from '../../../serverDataTestUtils';
+import { ToggleOnChangeEvent } from '../../integrationTestUtils';
+import { auraFetch, getFlowExtensions } from '../../serverDataTestUtils';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    LIGHTNING_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 

@@ -6,6 +6,7 @@ import globalConstantsNotAllowed from '@salesforce/label/FlowBuilderMergeFieldVa
 import invalidDataType from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidDataType';
 import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericErrorMessage';
 import invalidPolymorphicRecordField from '@salesforce/label/FlowBuilderMergeFieldValidation.invalidPolymorphicRecordField';
+import maximumNumberOfLevelsReached from '@salesforce/label/FlowBuilderMergeFieldValidation.maximumNumberOfLevelsReached';
 
 export const LABELS = {
     genericErrorMessage,
@@ -15,5 +16,6 @@ export const LABELS = {
     unknownRecordField,
     globalConstantsNotAllowed,
     invalidDataType,
-    invalidPolymorphicRecordField
+    invalidPolymorphicRecordField,
+    maximumNumberOfLevelsReached
 };

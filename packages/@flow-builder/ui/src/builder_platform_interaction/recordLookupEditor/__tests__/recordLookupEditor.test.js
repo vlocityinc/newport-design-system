@@ -24,7 +24,7 @@ import {
     getAccountWithSObject
 } from 'mock/storeDataContactrequest';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { INTERACTION_COMPONENTS_SELECTORS } from '../../integrationTests/integrationTestUtils';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')

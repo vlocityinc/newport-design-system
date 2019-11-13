@@ -1,15 +1,13 @@
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     resetState,
     getEntityResourcePicker,
     OnChangeEvent
-} from '../../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
+} from '../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
@@ -37,6 +35,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 const PROCESS_TYPE_FLOW = 'Flow';
 

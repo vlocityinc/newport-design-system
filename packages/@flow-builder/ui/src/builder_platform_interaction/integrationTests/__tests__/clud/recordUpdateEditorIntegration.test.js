@@ -2,7 +2,6 @@ import { createElement } from 'lwc';
 import RecordUpdateEditor from 'builder_platform_interaction/recordUpdateEditor';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    LIGHTNING_COMPONENTS_SELECTORS,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
@@ -16,8 +15,8 @@ import {
     changeComboboxValue,
     changeInputValue,
     resetState
-} from '../../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
+} from '../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
@@ -39,8 +38,9 @@ import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVari
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = node => {
     const el = createElement(

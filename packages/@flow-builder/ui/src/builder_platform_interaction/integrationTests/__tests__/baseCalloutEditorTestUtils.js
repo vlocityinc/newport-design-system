@@ -1,13 +1,11 @@
 import { getDataTypeIcons } from 'builder_platform_interaction/dataTypeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
-import {
-    FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
-} from './integrationTestUtils';
+import { FLOW_BUILDER_VALIDATION_ERROR_MESSAGES } from './integrationTestUtils';
 import {
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {

@@ -1,9 +1,7 @@
 import { createElement } from 'lwc';
 import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     focusoutEvent,
     changeComboboxValue,
@@ -15,7 +13,7 @@ import {
     getBaseExpressionBuilder,
     getRadioGroup,
     resetState
-} from '../../integrationTestUtils';
+} from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
@@ -47,7 +45,9 @@ import {
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getAdvancedOptionCheckbox,
-    getUseAdvancedOptionComponent
+    getUseAdvancedOptionComponent,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';

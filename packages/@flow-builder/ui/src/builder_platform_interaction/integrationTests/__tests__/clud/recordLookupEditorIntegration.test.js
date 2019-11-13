@@ -1,10 +1,8 @@
 import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     blurEvent,
     textInputEvent,
@@ -20,8 +18,8 @@ import {
     changeComboboxValue,
     newFilterItem,
     resetState
-} from '../../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
+} from '../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
@@ -51,6 +49,10 @@ import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalV
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT:

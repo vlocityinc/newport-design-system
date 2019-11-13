@@ -1,6 +1,10 @@
 import { createElement } from 'lwc';
 import FormulaEditor from 'builder_platform_interaction/formulaEditor';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -15,8 +19,6 @@ import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVari
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS,
     getLabelDescriptionNameElement,
     focusoutEvent,
     blurEvent,
@@ -26,8 +28,8 @@ import {
     getGroupedComboboxItemInGroup,
     getGroupedComboboxItem,
     resetState
-} from '../../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
+} from '../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity

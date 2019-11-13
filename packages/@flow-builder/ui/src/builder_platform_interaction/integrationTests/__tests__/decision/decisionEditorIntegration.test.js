@@ -2,7 +2,7 @@ import { createElement, unwrap } from 'lwc';
 import DecisionEditor from 'builder_platform_interaction/decisionEditor';
 import { ReorderListEvent } from 'builder_platform_interaction/events';
 import { CONDITION_LOGIC } from 'builder_platform_interaction/flowMetadata';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');

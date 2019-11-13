@@ -1,8 +1,6 @@
 import { createElement } from 'lwc';
 import RecordDeleteEditor from 'builder_platform_interaction/recordDeleteEditor';
-
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement,
@@ -17,8 +15,8 @@ import {
     getBaseExpressionBuilder,
     getFieldToFerovExpressionBuilders,
     resetState
-} from '../../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../../serverDataTestUtils';
+} from '../integrationTestUtils';
+import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { allEntities } from 'serverData/GetEntities/allEntities.json';
 import { setRules } from 'builder_platform_interaction/ruleLib';
@@ -39,6 +37,7 @@ import {
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = node => {
     const el = createElement(

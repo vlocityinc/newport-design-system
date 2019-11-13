@@ -6,7 +6,8 @@ const VALIDATION_ERROR_TYPE = {
     INVALID_GLOBAL_CONSTANT: 'invalidGlobalConstant',
     INVALID_GLOBAL_VARIABLE: 'invalidGlobalVariable',
     UNKNOWN_MERGE_FIELD: 'unknownMergeField',
-    WRONG_DATA_TYPE: 'wrongDataType'
+    WRONG_DATA_TYPE: 'wrongDataType',
+    MAXIMUM_LEVEL_REACHED: 'maximumLevelReached'
 };
 
 function validationError(errorType, message, startIndex, endIndex) {
@@ -16,6 +17,15 @@ function validationError(errorType, message, startIndex, endIndex) {
         startIndex,
         endIndex
     };
+}
+
+export function maximumNumberOfLevelsReached(startIndex, endIndex) {
+    return validationError(
+        VALIDATION_ERROR_TYPE.MAXIMUM_LEVEL_REACHED,
+        LABELS.maximumNumberOfLevelsReached,
+        startIndex,
+        endIndex
+    );
 }
 
 export function globalConstantsNotAllowed(startIndex, endIndex) {

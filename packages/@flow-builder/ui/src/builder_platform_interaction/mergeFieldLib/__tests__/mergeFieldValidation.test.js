@@ -248,6 +248,19 @@ describe('Merge field validation', () => {
             )
         ]);
     });
+    it('Returns a validation error when there are more than 10 levels in the merge field', () => {
+        const validationErrors = validateMergeField(
+            '{!accountSObjectVariable.LastModifiedBy.CreatedBy.CreatedBy.Contact.LastModifiedBy.Contact.LastModifiedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.Manager.UserRole.DeveloperName}'
+        );
+        expect(validationErrors).toEqual([
+            validationError(
+                2,
+                235,
+                'maximumLevelReached',
+                'FlowBuilderMergeFieldValidation.maximumNumberOfLevelsReached'
+            )
+        ]);
+    });
     describe('Variables', () => {
         it('Returns no validation error when it references an existing variable', () => {
             const validationErrors = validateMergeField('{!stringVariable}');

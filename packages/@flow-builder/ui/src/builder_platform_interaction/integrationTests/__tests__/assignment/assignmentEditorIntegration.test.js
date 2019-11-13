@@ -8,17 +8,13 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import {
     setGlobalVariables,
     setSystemVariables
 } from 'builder_platform_interaction/systemLib';
-import { resetState } from '../../integrationTestUtils';
-import {
-    auraFetch,
-    getFieldsForEntity,
-    getInvocableActionDetails
-} from '../../serverDataTestUtils';
+import { resetState } from '../integrationTestUtils';
+import { auraFetch, getAllAuraActions } from '../serverDataTestUtils';
 import {
     setEntities,
     fetchFieldsForEntity
@@ -27,34 +23,32 @@ import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
-import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
-import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
-import { setRules } from 'builder_platform_interaction/ruleLib';
+import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
     selectEvent,
     expectGroupedComboboxItem,
     getGroupedComboboxItem,
     getGroupedComboboxItemInGroupByDisplayText,
-    expectGroupedComboboxItemInGroup,
-    INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
-} from '../../integrationTestUtils';
+    expectGroupedComboboxItemInGroup
+} from '../integrationTestUtils';
 import {
     ticks,
-    deepQuerySelector
+    deepQuerySelector,
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
     EXPRESSION_BUILDER_SELECTORS,
     validateExpression
-} from '../../expressionBuilderTestUtils';
+} from '../expressionBuilderTestUtils';
 import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
-import { getCarFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarFromApexActionDetails.json';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { operators } from 'serverData/GetOperators/operators.json';
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -93,25 +87,13 @@ describe('Assignment Editor', () => {
     let store;
     beforeAll(() => {
         store = Store.getStore(reducer);
+        setOperators(operators);
         setRules(rules);
         setGlobalVariables(globalVariablesForFlow);
         setSystemVariables(systemVariablesForFlow);
         setEntities(allEntities);
         setApexClasses(apexTypesForAutolLaunchedFlow);
-        setAuraFetch(
-            auraFetch({
-                'c.getFieldsForEntity': getFieldsForEntity({
-                    Account: accountFields,
-                    User: userFields,
-                    FeedItem: feedItemFields
-                }),
-                'c.getInvocableActionDetails': getInvocableActionDetails({
-                    apex: {
-                        GetCarAction: getCarFromApexActionDetails
-                    }
-                })
-            })
-        );
+        setAuraFetch(auraFetch(getAllAuraActions(FLOW_PROCESS_TYPE.FLOW)));
     });
     afterAll(() => {
         resetState();
@@ -252,6 +234,24 @@ describe('Assignment Editor', () => {
     });
     describe('Validation', () => {
         let assignment, expressionBuilder;
+        const testExpression = {
+            each: (strings, ...keys) => {
+                it.each(strings, ...keys)(
+                    'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
+                    async ({ lhs, operator, rhs, rhsErrorMessage }) => {
+                        expect(
+                            await validateExpression(expressionBuilder, {
+                                lhs,
+                                operator,
+                                rhs
+                            })
+                        ).toEqual({ rhsErrorMessage });
+                    }
+                );
+                // just to workaround no-unused-expressions for template tag
+                return () => undefined;
+            }
+        };
         beforeAll(async () => {
             const uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
@@ -266,24 +266,50 @@ describe('Assignment Editor', () => {
             await ticks();
             expressionBuilder = getFerToFerovExpressionBuilder(assignment);
         });
-        it.each`
+        describe('When LHS is a picklist', () => {
+            testExpression.each`
+            lhs                                            | operator    | rhs                                                     | rhsErrorMessage
+            ${'{!accountSObjectVariable.AccountSource}'}   | ${'Assign'} | ${'Advertisement'}                                      | ${undefined}
+            ${'{!accountSObjectVariable.AccountSource}'}   | ${'Assign'} | ${'NotAPicklistValue'}                                  | ${undefined}
+            `();
+        });
+        describe('When LHS is a number', () => {
+            testExpression.each`
             lhs                                            | operator    | rhs                                                     | rhsErrorMessage
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'500.0'}                                              | ${undefined}
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Assign'} | ${'not a number'}                                       | ${'FlowBuilderCombobox.numberErrorMessage'}
             ${'{!accountSObjectVariable.BillingLatitude}'} | ${'Add'}    | ${'{!accountSObjectVariable.Name}'}                     | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
-            ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
-            ${'{!apexCall_Car_automatic_output.car}'}      | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
-        `(
-            'error for "$lhs $operator $rhs" should be : $rhsErrorMessage',
-            async ({ lhs, operator, rhs, rhsErrorMessage }) => {
+            `();
+        });
+        describe('cross-object field references', () => {
+            it('limit level for traversal to 10', async () => {
+                const lhs = '{!stringVariable}';
+                const operator = 'Assign';
+                const rhs =
+                    '{!accountSObjectVariable.LastModifiedBy.CreatedBy.CreatedBy.Contact.LastModifiedBy.Contact.LastModifiedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.Manager.UserRole.DeveloperName}';
                 expect(
                     await validateExpression(expressionBuilder, {
                         lhs,
                         operator,
                         rhs
                     })
-                ).toEqual({ rhsErrorMessage });
-            }
-        );
+                ).toEqual({
+                    rhsErrorMessage:
+                        'FlowBuilderMergeFieldValidation.maximumNumberOfLevelsReached'
+                });
+            });
+            describe('When rhs is a cross-Object Field Reference using Polymorphic Relationships', () => {
+                testExpression.each`
+                lhs                                            | operator    | rhs                                                     | rhsErrorMessage
+                ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
+                `();
+            });
+        });
+        describe('When using Apex types on LHS or RHS', () => {
+            testExpression.each`
+            lhs                                            | operator    | rhs                                                     | rhsErrorMessage
+            ${'{!apexCall_Car_automatic_output.car}'}      | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
+            `();
+        });
     });
 });

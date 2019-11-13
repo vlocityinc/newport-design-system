@@ -11,7 +11,7 @@ import {
     dateCollectionVariable,
     apexCallAutomaticAnonymousAccountOutput
 } from 'mock/storeData';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');

@@ -1,13 +1,14 @@
 import {
     ticks,
-    deepQuerySelector
+    deepQuerySelector,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     blurEvent,
     textInputEvent,
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
-    OnChangeEvent
+    OnChangeEvent,
+    selectEvent
 } from './integrationTestUtils';
 import {
     addCurlyBraces,
@@ -49,18 +50,38 @@ export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
     groupedCombobox.dispatchEvent(blurEvent);
 };
 
+export const selectOperator = (expressionBuilder, operator) => {
+    const operatorCombobox = deepQuerySelector(expressionBuilder, [
+        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+        EXPRESSION_BUILDER_SELECTORS.OPERATOR_COMBOBOX
+    ]);
+    if (operatorCombobox.options.find(option => option.value === operator)) {
+        operatorCombobox.dispatchEvent(new OnChangeEvent(operator));
+        return true;
+    }
+    return false;
+};
+
+export const getLhsCombobox = expressionBuilder => {
+    return deepQuerySelector(expressionBuilder, [
+        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+        EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX
+    ]);
+};
+
+export const getRhsCombobox = expressionBuilder => {
+    return deepQuerySelector(expressionBuilder, [
+        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
+        EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX
+    ]);
+};
+
 export const validateExpression = async (
     expressionBuilder,
     { lhs, rhs, operator }
 ) => {
-    const lhsCombobox = deepQuerySelector(expressionBuilder, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-        EXPRESSION_BUILDER_SELECTORS.LHS_COMBOBOX
-    ]);
-    const rhsCombobox = deepQuerySelector(expressionBuilder, [
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-        EXPRESSION_BUILDER_SELECTORS.RHS_COMBOBOX
-    ]);
+    const lhsCombobox = getLhsCombobox(expressionBuilder);
+    const rhsCombobox = getRhsCombobox(expressionBuilder);
     if (isReference(lhs)) {
         await typeMergeFieldInCombobox(lhsCombobox, lhs);
     } else {
@@ -70,18 +91,10 @@ export const validateExpression = async (
         return { lhsErrorMessage: lhsCombobox.errorMessage };
     }
     if (operator) {
-        const operatorCombobox = deepQuerySelector(expressionBuilder, [
-            INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER,
-            EXPRESSION_BUILDER_SELECTORS.OPERATOR_COMBOBOX
-        ]);
-        if (
-            operatorCombobox.options.find(option => option.value === operator)
-        ) {
-            operatorCombobox.dispatchEvent(new OnChangeEvent(operator));
-            await ticks();
-        } else {
+        if (!selectOperator(expressionBuilder, operator)) {
             return { operatorErrorMessage: `No operator ${operator}` };
         }
+        await ticks();
     }
     if (isReference(rhs)) {
         await typeMergeFieldInCombobox(rhsCombobox, rhs);
@@ -92,4 +105,52 @@ export const validateExpression = async (
         return { rhsErrorMessage: rhsCombobox.errorMessage };
     }
     return {};
+};
+
+export const getGroupedComboboxItemBy = (
+    groupedCombobox,
+    propertyName,
+    propertyValue
+) => {
+    for (const item of groupedCombobox.items) {
+        if (item.items) {
+            for (const subItem of item.items) {
+                if (subItem[propertyName] === propertyValue) {
+                    return subItem;
+                }
+            }
+        } else if (item[propertyName] === propertyValue) {
+            return item;
+        }
+    }
+    return undefined;
+};
+
+export const selectComboboxItemBy = async (
+    combobox,
+    propertyName,
+    propertyValues,
+    { blur = true }
+) => {
+    let promise = Promise.resolve();
+    for (const propertyValue of propertyValues) {
+        promise = promise.then(() => {
+            const comboboxItem = getGroupedComboboxItemBy(
+                combobox,
+                propertyName,
+                propertyValue
+            );
+            if (!comboboxItem) {
+                return undefined;
+            }
+            combobox.dispatchEvent(selectEvent(comboboxItem.value));
+            return ticks().then(() => comboboxItem);
+        });
+    }
+    const comboboxItem = await promise;
+    if (blur) {
+        combobox.dispatchEvent(blurEvent);
+    }
+    await ticks();
+    return comboboxItem;
 };

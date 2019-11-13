@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
@@ -18,7 +18,7 @@ import {
     focusoutEvent,
     resetState,
     ToggleOnChangeEvent
-} from '../../integrationTestUtils';
+} from '../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -27,7 +27,7 @@ import {
     getOutputParameterItems,
     getParameterListOutputDiv,
     verifyOutputParameter
-} from '../../baseCalloutEditorTestUtils';
+} from '../baseCalloutEditorTestUtils';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { actionPostToChatter } from 'mock/storeDataAutolaunched';
 import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
@@ -35,8 +35,7 @@ import { chatterPostActionDetails as mockChatterPostActionDetails } from 'server
 import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
-
-const MOCK_PROCESS_TYPE_AUTO_LAUNCHED_FLOW = 'AutoLaunchedFlow';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () => {
     const actual = require.requireActual(
@@ -62,7 +61,7 @@ const createComponentForTest = (node, { isNewMode = false } = {}) => {
     Object.assign(el, {
         node,
         isNewMode,
-        processType: MOCK_PROCESS_TYPE_AUTO_LAUNCHED_FLOW
+        processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
     });
     document.body.appendChild(el);
     return el;
@@ -81,7 +80,7 @@ describe('Invocable Action Editor', () => {
             Promise.resolve(mockChatterPostActionDetails)
         );
         setProcessTypeFeature(
-            MOCK_PROCESS_TYPE_AUTO_LAUNCHED_FLOW,
+            FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
             supportedFeaturesListForAutoLaunchedFlow
         );
         const uiFlow = translateFlowToUIModel(

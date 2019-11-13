@@ -5,3 +5,4 @@ export * from './useAdvancedOptionsTestUtils';
 export * from './goldObjectMatchers';
 export * from './domTestUtils';
 export * from './complexTypeTestUtils';
+export * from './selectors';

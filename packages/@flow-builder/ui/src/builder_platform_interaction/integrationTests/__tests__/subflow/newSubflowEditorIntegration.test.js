@@ -3,21 +3,21 @@ import CalloutEditor from 'builder_platform_interaction/calloutEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     ticks,
-    deepQuerySelector
+    deepQuerySelector,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import {
-    LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS,
     resetState,
     selectEvent,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement
-} from '../../integrationTestUtils';
+} from '../integrationTestUtils';
 import {
     auraFetch,
     getSubflows,
     getFlowInputOutputVariables
-} from '../../serverDataTestUtils';
+} from '../serverDataTestUtils';
 import {
     ELEMENT_TYPE,
     FLOW_PROCESS_TYPE
@@ -30,7 +30,7 @@ import {
     getBaseCalloutElement,
     verifyOptionalInputParameterNoValue,
     getInputParameterItems
-} from '../../baseCalloutEditorTestUtils';
+} from '../baseCalloutEditorTestUtils';
 
 const createComponentForTest = (node, processType) => {
     const el = createElement('builder_platform_interaction-callout-editor', {

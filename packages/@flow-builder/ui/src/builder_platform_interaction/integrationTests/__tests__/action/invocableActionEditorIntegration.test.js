@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
@@ -23,12 +23,12 @@ import {
     textInputEvent,
     blurEvent,
     resetState
-} from '../../integrationTestUtils';
+} from '../integrationTestUtils';
 import {
     auraFetch,
     getAllInvocableActionsForType,
     getInvocableActionDetails
-} from '../../serverDataTestUtils';
+} from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -51,7 +51,7 @@ import {
     filterParameterElements,
     findIndex,
     getElementGuid
-} from '../../baseCalloutEditorTestUtils';
+} from '../baseCalloutEditorTestUtils';
 import { mockAllTypesActionParameters, mockActions } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { submitForApprovalActionDetails } from 'serverData/GetInvocableActionDetails/submitForApprovalActionDetails.json';
@@ -1190,7 +1190,7 @@ describe('Invocable Action Editor', () => {
                     }),
                     'c.getInvocableActionDetails': getInvocableActionDetails({
                         submit: {
-                            submit: submitForApprovalActionDetails.parameters
+                            submit: submitForApprovalActionDetails
                         }
                     })
                 })

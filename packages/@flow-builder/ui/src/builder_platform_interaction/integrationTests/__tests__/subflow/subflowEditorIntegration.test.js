@@ -1,6 +1,6 @@
 import { createElement } from 'lwc';
 import SubflowEditor from 'builder_platform_interaction/subflowEditor';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -22,12 +22,12 @@ import {
     blurEvent,
     changeComboboxValue,
     resetState
-} from '../../integrationTestUtils';
+} from '../integrationTestUtils';
 import {
     auraFetch,
     getSubflows,
     getFlowInputOutputVariables
-} from '../../serverDataTestUtils';
+} from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -48,7 +48,7 @@ import {
     findParameterElement,
     filterParameterElements,
     getElementGuid
-} from '../../baseCalloutEditorTestUtils';
+} from '../baseCalloutEditorTestUtils';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';

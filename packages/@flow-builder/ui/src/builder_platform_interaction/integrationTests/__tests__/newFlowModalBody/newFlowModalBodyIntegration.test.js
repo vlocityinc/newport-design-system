@@ -1,10 +1,10 @@
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { resolveRenderCycles } from '../../resolveRenderCycles';
+import { resolveRenderCycles } from '../resolveRenderCycles';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { resetState } from '../../integrationTestUtils';
-import { auraFetch, getTemplates } from '../../serverDataTestUtils';
+import { resetState } from '../integrationTestUtils';
+import { auraFetch, getTemplates } from '../serverDataTestUtils';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';

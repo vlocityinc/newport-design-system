@@ -4,7 +4,7 @@ import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { auraFetch } from '../../integrationTests/serverDataTestUtils';
+import { auraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
 
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-editor', {
