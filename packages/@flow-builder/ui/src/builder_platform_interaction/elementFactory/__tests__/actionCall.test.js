@@ -15,7 +15,8 @@ import {
     apexCallAutomaticAnonymousAccountOutput,
     apexCallAutomaticAnonymousStringOutput,
     apexCallAutomaticAnonymousAccountsOutput,
-    apexCallAutomaticAnonymousStringsOutput
+    apexCallAutomaticAnonymousStringsOutput,
+    apexCallAutomaticAnonymousApexTypeCollectionOutput
 } from 'mock/storeData';
 import { getActionCallsByNames } from 'mock/flows/mock-flow.js';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -363,6 +364,9 @@ describe('actionCall', () => {
             it('should not define "isCollection"', () => {
                 expect(actionCall.isCollection).toBeUndefined();
             });
+            it('should not define apexClass', () => {
+                expect(actionCall.apexClass).toBeUndefined();
+            });
         });
 
         describe('when metadata action call with anonymous output handling is passed', () => {
@@ -420,6 +424,18 @@ describe('actionCall', () => {
                     FLOW_DATA_TYPE.SOBJECT.value
                 );
                 expect(createdAction.subtype).toBe('Account');
+                expect(createdAction.isCollection).toBe(true);
+            });
+            it('sets isSystemGeneratedOutput to true, isCollection to true, apex datatype and apex class for collection of apex types', () => {
+                const createdAction = createActionCall(
+                    getActionCallsByNames(flowWithAllElements, [
+                        apexCallAutomaticAnonymousApexTypeCollectionOutput.name
+                    ])[0]
+                );
+
+                expect(createdAction.isSystemGeneratedOutput).toBe(true);
+                expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.APEX.value);
+                expect(createdAction.apexClass).toBe('InvocableGetCars$GetCarResult');
                 expect(createdAction.isCollection).toBe(true);
             });
         });

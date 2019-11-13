@@ -88,7 +88,9 @@ export function getResourceLabel(resource) {
             // "Outputs from myAction
             label = format(LABELS.actionAsResourceText, label);
         } else if (isAnonymousPrimitiveOutputResource(resource)) {
-            const dataTypeLabel = getDataTypeLabel(resource.dataType);
+            const dataTypeLabel = resource.apexClass
+                ? resource.apexClass
+                : getDataTypeLabel(resource.dataType);
             label = resource.isCollection
                 ? format(
                       LABELS.actionAnonymousPrimitiveAsResourceText,

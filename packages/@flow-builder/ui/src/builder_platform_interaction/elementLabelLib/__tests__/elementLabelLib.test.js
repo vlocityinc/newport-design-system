@@ -16,7 +16,8 @@ import {
     apexCallAutomaticAnonymousStringOutput,
     createAccountWithAutomaticOutput,
     apexCallAutomaticAnonymousAccountsOutput,
-    apexCallAutomaticAnonymousStringsOutput
+    apexCallAutomaticAnonymousStringsOutput,
+    apexCallAutomaticAnonymousApexTypeCollectionOutput
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -170,6 +171,15 @@ describe('elementLabelLib', () => {
 
                 expect(label).toEqual(
                     'FlowBuilderDataTypes.textDataTypeLabel Collection from apexCall_anonymous_strings'
+                );
+            });
+            it('returns [Apex Type] Collection from [ActionName] for apex type collection', () => {
+                const label = getResourceLabel(
+                    apexCallAutomaticAnonymousApexTypeCollectionOutput
+                );
+
+                expect(label).toEqual(
+                    'InvocableGetCars$GetCarResult Collection from apexCall_anonymous_apex_collection'
                 );
             });
         });

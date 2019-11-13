@@ -642,7 +642,7 @@ describe('Loop Editor', () => {
                     );
                     const apexCollectionVariablesItems =
                         apexCollectionVariables.items;
-                    expect(apexCollectionVariablesItems).toHaveLength(1);
+                    expect(apexCollectionVariablesItems).toHaveLength(2);
                     expect(apexCollectionVariablesItems[0].text).toBe(
                         apexSampleCollectionVariable.name
                     );

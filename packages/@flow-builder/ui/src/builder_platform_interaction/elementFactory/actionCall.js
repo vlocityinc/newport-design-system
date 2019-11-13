@@ -84,6 +84,7 @@ export function createActionCall(
     let isSystemGeneratedOutput;
     let subtype;
     let isCollection;
+    let apexClass;
     if (storeOutputAutomatically) {
         dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
         outputParameters = [];
@@ -96,7 +97,8 @@ export function createActionCall(
             ({
                 isSystemGeneratedOutput,
                 dataType,
-                sobjectType: subtype
+                sobjectType: subtype,
+                apexClass
             } = systemGeneratedOutputParameter);
             isCollection = maxOccursToIsCollection(
                 systemGeneratedOutputParameter.maxOccurs
@@ -129,7 +131,8 @@ export function createActionCall(
         storeOutputAutomatically,
         isSystemGeneratedOutput,
         subtype,
-        isCollection
+        isCollection,
+        apexClass
     });
 
     return actionCallObject;

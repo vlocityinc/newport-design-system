@@ -52,6 +52,7 @@ export const apexCallAutomaticAnonymousAccountOutput = getElementByName('apexCal
 export const apexCallAutomaticAnonymousAccountsOutput = getElementByName('apexCall_anonymous_accounts');
 export const apexCallAutomaticAnonymousStringOutput = getElementByName('apexCall_anonymous_string');
 export const apexCallAutomaticAnonymousStringsOutput = getElementByName('apexCall_anonymous_strings');
+export const apexCallAutomaticAnonymousApexTypeCollectionOutput = getElementByName('apexCall_anonymous_apex_collection');
 export const apexCallManualAccountOutput = getElementByName('apexCall_action_account_manual_output');
 export const apexCallAccountAutomaticOutput = getElementByName('apexCall_account_automatic_output');
 export const apexCallStringAutomaticOutput = getElementByName('apexCall_String_automatic_output');
