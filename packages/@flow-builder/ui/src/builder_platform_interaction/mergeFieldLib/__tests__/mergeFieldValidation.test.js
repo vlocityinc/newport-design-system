@@ -152,6 +152,10 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
+
 jest.mock(
     '@salesforce/label/FlowBuilderMergeFieldValidation.notAValidMergeField',
     () => ({ default: `"{0}" isn't a valid merge field.` }),
@@ -756,6 +760,25 @@ describe('Merge field validation', () => {
                 );
                 expect(validationErrors).toHaveLength(0);
             });
+            it('Returns no validation error when traversing an SObject from the automatic output', () => {
+                const validationErrors = validateMergeField(
+                    '{!lightningCompWithAccountOutput.account.LastModifiedBy.Account.Name}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns a validation error when traversing an SObject from the automatic output and a field does not exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!lightningCompWithAccountOutput.account.LastModifiedBy.Account.Unknown}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        70,
+                        'unknownMergeField',
+                        `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
         });
         describe('Not in automatic output handling mode', () => {
             it('Returns a validation error when it references a LC param', () => {
@@ -831,6 +854,54 @@ describe('Merge field validation', () => {
                     }
                 ])
             );
+        });
+    });
+    describe('Action element', () => {
+        describe('Automatic output handling mode', () => {
+            it('Returns no validation error when it references an existing action output parameter', () => {
+                const validationErrors = validateMergeField(
+                    '{!apexCall_String_automatic_output.accountName}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns a validation error when it references an output parameter that does not exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!apexCall_String_automatic_output.Unknown}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        41,
+                        'unknownMergeField',
+                        `The "Unknown" field doesn't exist on the "apex-GetAccountName" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
+            it('Returns no validation error when traversing an SObject from the automatic output', () => {
+                const validationErrors = validateMergeField(
+                    '{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns no validation error when output is an anonymous output SObject', () => {
+                const validationErrors = validateMergeField(
+                    '{!apexCall_anonymous_account.LastModifiedBy.Account.Name}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns a validation error when output is an anonymous output SObject but a field does not exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!apexCall_anonymous_account.LastModifiedBy.Account.Unknown}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        58,
+                        'unknownMergeField',
+                        `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
         });
     });
 });

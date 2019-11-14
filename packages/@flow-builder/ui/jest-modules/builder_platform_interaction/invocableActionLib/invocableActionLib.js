@@ -64,6 +64,18 @@ export const getParametersForInvocableAction = jest
     })
   );
 
+export const fetchDetailsForInvocableAction = jest.fn().mockImplementation(({ actionName, actionType }) => {
+	const result = mockImplementationForGetDetailsForInvocableAction({
+    actionName,
+    actionType
+  });
+	if (!result) {
+		return Promise.reject(`Cannot load details for invocable action ${actionType}-${actionName}`);
+	}
+	return Promise.resolve(result);
+}
+);
+
 /**
  * To fake that the given action is not yet loaded
  * @param {*} action

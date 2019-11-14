@@ -311,5 +311,12 @@ describe('Assignment Editor', () => {
             ${'{!apexCall_Car_automatic_output.car}'}      | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
             `();
         });
+        describe('Automatic handling mode', () => {
+            testExpression.each`
+            lhs                          | operator    | rhs                                                                                    | rhsErrorMessage
+            ${'{!stringVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
+            ${'{!numberVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
+            `();
+        });
     });
 });

@@ -26,13 +26,17 @@ import {
     getApexPropertyWithName
 } from 'builder_platform_interaction/apexTypeLib';
 import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/complexTypeLib';
+import {
+    getExtensionParamDescriptionAsComplexTypeFieldDescription,
+    getInvocableActionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/complexTypeLib';
 import * as validationErrors from './mergeFieldValidationErrors';
 import {
     getEntityFieldWithRelationshipName,
     getPolymorphicRelationShipName,
     getReferenceToName
 } from './mergeField';
+import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -427,6 +431,120 @@ export class MergeFieldsValidation {
         return { field };
     }
 
+    _validateApexOrSObjectMergeField(
+        currentObjectName,
+        currentFieldName,
+        dataType,
+        subtype,
+        fieldNames,
+        index,
+        endIndex
+    ) {
+        if (dataType === FLOW_DATA_TYPE.APEX.value) {
+            return this._validateApexMergeField(
+                subtype,
+                fieldNames,
+                index,
+                endIndex
+            );
+        } else if (dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+            return this._validateSObjectMergeField(
+                subtype,
+                fieldNames,
+                index,
+                endIndex
+            );
+        }
+        return {
+            error: validationErrors.unknownRecordField(
+                currentObjectName,
+                currentFieldName,
+                index,
+                endIndex
+            )
+        };
+    }
+
+    _validateLightningComponentOutputMergeField(
+        element,
+        fieldNames,
+        index,
+        endIndex
+    ) {
+        const [fieldName, ...remainingFieldNames] = fieldNames;
+        const extension = getCachedExtension(
+            element.extensionName,
+            element.dynamicTypeMappings
+        );
+        if (!extension) {
+            // this lib is synchronous, we check the field only if already cached.
+            return {
+                field: undefined // we don't know if it is valid or not
+            };
+        }
+        const parameter = this._getOutputParameterForExtension(
+            extension,
+            fieldName
+        );
+        if (!parameter) {
+            return {
+                error: validationErrors.unknownRecordField(
+                    element.extensionName,
+                    fieldName,
+                    index,
+                    endIndex
+                )
+            };
+        }
+        if (remainingFieldNames.length > 0) {
+            return this._validateApexOrSObjectMergeField(
+                element.extensionName,
+                fieldName,
+                parameter.dataType,
+                parameter.subtype,
+                remainingFieldNames,
+                index,
+                endIndex
+            );
+        }
+        return { field: parameter };
+    }
+
+    _validateActionOutputMergeField(element, fieldNames, index, endIndex) {
+        const [fieldName, ...remainingFieldNames] = fieldNames;
+        const parameters = getParametersForInvocableAction(element);
+        if (!parameters) {
+            // this lib is synchronous, we check the field only if already cached.
+            return {
+                field: undefined // we don't know if it is valid or not
+            };
+        }
+        const parameter = this._getActionOutputParameter(parameters, fieldName);
+        const objectName = `${element.actionType}-${element.actionName}`;
+        if (!parameter) {
+            return {
+                error: validationErrors.unknownRecordField(
+                    objectName,
+                    fieldName,
+                    index,
+                    endIndex
+                )
+            };
+        }
+        if (remainingFieldNames.length > 0) {
+            return this._validateApexOrSObjectMergeField(
+                objectName,
+                fieldName,
+                parameter.dataType,
+                parameter.subtype,
+                remainingFieldNames,
+                index,
+                endIndex
+            );
+        }
+        return { field: parameter };
+    }
+
     _validateComplexTypeFieldMergeField(mergeFieldReferenceValue, index) {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
@@ -497,28 +615,33 @@ export class MergeFieldsValidation {
         } else if (
             element.dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
         ) {
-            const fieldName = fieldNames.join('.');
-            // this lib is synchronous, we check the field only if already cached.
-            const extension = getCachedExtension(
-                element.extensionName,
-                element.dynamicTypeMappings
+            const {
+                field: lightningComponentField,
+                error
+            } = this._validateLightningComponentOutputMergeField(
+                element,
+                fieldNames,
+                index,
+                endIndex
             );
-            if (extension) {
-                field = this._getOutputParameterForExtension(
-                    extension,
-                    fieldName
-                );
-                if (!field) {
-                    return [
-                        validationErrors.unknownRecordField(
-                            element.extensionName,
-                            fieldName,
-                            index,
-                            endIndex
-                        )
-                    ];
-                }
+            if (error) {
+                return [error];
             }
+            field = lightningComponentField;
+        } else if (element.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+            const {
+                field: actionField,
+                error
+            } = this._validateActionOutputMergeField(
+                element,
+                fieldNames,
+                index,
+                endIndex
+            );
+            if (error) {
+                return [error];
+            }
+            field = actionField;
         }
         if (field && !this._isElementValidForAllowedParamTypes(field)) {
             return [validationErrors.invalidDataType(index, endIndex)];
@@ -534,6 +657,21 @@ export class MergeFieldsValidation {
         return (
             outputParam &&
             getExtensionParamDescriptionAsComplexTypeFieldDescription(
+                outputParam
+            )
+        );
+    }
+
+    _getActionOutputParameter(parameters, parameterName) {
+        parameterName = parameterName.toLowerCase();
+        const outputParam = parameters.find(
+            param =>
+                param.isOutput === true &&
+                parameterName === param.name.toLowerCase()
+        );
+        return (
+            outputParam &&
+            getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
                 outputParam
             )
         );

@@ -57,6 +57,10 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/invocableActionLib', () =>
+    require('builder_platform_interaction_mocks/invocableActionLib')
+);
+
 const itSkip = it.skip;
 
 describe('mergeField', () => {
@@ -370,6 +374,51 @@ describe('mergeField', () => {
                     expect.objectContaining({
                         apiName: 'account',
                         dataType: 'SObject'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'Name',
+                        dataType: 'String'
+                    })
+                ]);
+            });
+        });
+        describe('Action with automatic output handling mode', () => {
+            it('resolves a reference to an output parameter from an action', async () => {
+                const apexCallStringAutomaticOutputGuid =
+                    mockStoreData.apexCallStringAutomaticOutput.guid;
+                const resolved = await resolveReferenceFromIdentifier(
+                    `${apexCallStringAutomaticOutputGuid}.accountName`
+                );
+                expect(resolved).toEqual([
+                    expect.objectContaining({
+                        name: 'apexCall_String_automatic_output',
+                        dataType: 'ActionOutput'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'accountName',
+                        dataType: 'String'
+                    })
+                ]);
+            });
+            it('resolves a reference to object field from an action in automatic output handling mode', async () => {
+                const apexCallAccountAutomaticOutputGuid =
+                    mockStoreData.apexCallAccountAutomaticOutput.guid;
+                const resolved = await resolveReferenceFromIdentifier(
+                    `${apexCallAccountAutomaticOutputGuid}.generatedAccount.LastModifiedBy.Name`
+                );
+                expect(resolved).toEqual([
+                    expect.objectContaining({
+                        name: 'apexCall_account_automatic_output',
+                        dataType: 'ActionOutput'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'generatedAccount',
+                        dataType: 'SObject',
+                        subtype: 'Account'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'LastModifiedById',
+                        dataType: 'String'
                     }),
                     expect.objectContaining({
                         apiName: 'Name',

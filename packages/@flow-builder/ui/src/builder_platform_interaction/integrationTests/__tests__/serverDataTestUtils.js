@@ -10,6 +10,14 @@ import { submitForApprovalActionDetails } from 'serverData/GetInvocableActionDet
 import { chatterPostActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import { invocableActionsForFlow } from 'serverData/GetAllInvocableActionsForType/invocableActionsForFlow.json';
 import { invocableActionsForAutoLaunchedFlow } from 'serverData/GetAllInvocableActionsForType/invocableActionsForAutoLaunchedFlow.json';
+import { getAccountFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexActionDetails.json';
+import { logACallActionDetails } from 'serverData/GetInvocableActionDetails/logACallActionDetails.json';
+import { getAccountFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountFromApexAnonymousOutputActionDetails.json';
+import { getAccountNameFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountNameFromApexAnonymousOutputActionDetails.json';
+import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
+import { getAccountsFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsFromApexAnonymousOutputActionDetails.json';
+import { getAccountsNamesFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsNamesFromApexAnonymousOutputActionDetails.json';
+import { getCarsFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarsFromApexActionDetails.json';
 
 export const auraFetch = actions => async (
     actionName,
@@ -120,9 +128,17 @@ export const getAllAuraActions = processType => ({
     }),
     'c.getInvocableActionDetails': getInvocableActionDetails({
         apex: {
-            GetCarAction: getCarFromApexActionDetails
+            GetCarAction: getCarFromApexActionDetails,
+            generateDraftAccount: getAccountFromApexActionDetails,
+            getAccounts: getAccountFromApexAnonymousOutputActionDetails,
+            InvocableGetAccountName: getAccountNameFromApexAnonymousOutputActionDetails,
+            GetAccountName: getStringFromApexActionDetails,
+            GetAccounts: getAccountsFromApexAnonymousOutputActionDetails,
+            InvocableGetAccountsNames: getAccountsNamesFromApexAnonymousOutputActionDetails,
+            ApexTypeCollectionAction: getCarsFromApexActionDetails
         },
         'submit-submit': submitForApprovalActionDetails,
-        'chatterPost-chatterPost': chatterPostActionDetails
+        'chatterPost-chatterPost': chatterPostActionDetails,
+        'quickAction-Case.LogACall': logACallActionDetails
     })
 });

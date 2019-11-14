@@ -329,6 +329,7 @@ export function getMenuItemForField(
         parent: showAsFieldReference ? parent : null,
         text: apiName,
         value: parent ? parent.value + '.' + apiName : apiName,
+        hasNext: isComplexType(field.dataType) && !field.isCollection,
         displayText: getFieldDisplayText(
             parent,
             apiName,

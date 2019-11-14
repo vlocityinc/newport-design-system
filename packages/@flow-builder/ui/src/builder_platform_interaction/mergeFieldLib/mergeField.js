@@ -5,7 +5,10 @@ import {
     getApexPropertyWithName
 } from 'builder_platform_interaction/apexTypeLib';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
-import { getExtensionParamDescriptionAsComplexTypeFieldDescription } from 'builder_platform_interaction/complexTypeLib';
+import {
+    getExtensionParamDescriptionAsComplexTypeFieldDescription,
+    getInvocableActionParamDescriptionAsComplexTypeFieldDescription
+} from 'builder_platform_interaction/complexTypeLib';
 import {
     isComplexType,
     FLOW_DATA_TYPE
@@ -16,6 +19,7 @@ import {
 } from 'builder_platform_interaction/sobjectLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 
 /**
  * Whether or not lookup traversal is supported in this flow
@@ -53,28 +57,30 @@ function resolveComplexTypeReference(flowResource, fieldNames) {
     if (!fieldNames || fieldNames.length === 0) {
         return Promise.resolve([flowResource]);
     }
+    let fieldsPromise;
     if (flowResource.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-        return resolveEntityFieldReference(
+        fieldsPromise = resolveEntityFieldReference(
             flowResource.subtype,
             fieldNames
-        ).then(fields => {
-            return fields ? [flowResource, ...fields] : undefined;
-        });
+        );
     } else if (flowResource.dataType === FLOW_DATA_TYPE.APEX.value) {
-        return resolveApexPropertyReference(
+        fieldsPromise = resolveApexPropertyReference(
             flowResource.subtype,
             fieldNames
-        ).then(fields => {
-            return fields ? [flowResource, ...fields] : undefined;
-        });
+        );
     } else if (
         flowResource.dataType ===
         FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
     ) {
-        return resolveLightningComponentOutputReference(
+        fieldsPromise = resolveLightningComponentOutputReference(
             flowResource.extensionName,
             fieldNames
-        ).then(fields => {
+        );
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+        fieldsPromise = resolveActionOutputReference(flowResource, fieldNames);
+    }
+    if (fieldsPromise) {
+        return fieldsPromise.then(fields => {
             return fields ? [flowResource, ...fields] : undefined;
         });
     }
@@ -162,34 +168,54 @@ function resolveLightningComponentOutputReference(extensionName, fieldNames) {
     const [fieldName, ...remainingFieldNames] = fieldNames;
     return fetchExtensionOutputParameters(extensionName).then(
         outputParameters => {
-            const outputParameter = outputParameters[fieldName];
-            if (!outputParameter) {
+            const field = outputParameters[fieldName];
+            if (!field) {
                 return undefined;
             }
-            const field = getExtensionParamDescriptionAsComplexTypeFieldDescription(
-                outputParameter
-            );
             if (remainingFieldNames.length > 0) {
-                if (field.dataType === FLOW_DATA_TYPE.APEX.value) {
-                    return resolveApexPropertyReference(
-                        field.subtype,
-                        remainingFieldNames
-                    ).then(remainingFields => {
-                        return remainingFields
-                            ? [field, ...remainingFields]
-                            : undefined;
-                    });
-                } else if (field.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
-                    return resolveEntityFieldReference(
-                        field.subtype,
-                        remainingFieldNames
-                    ).then(remainingFields => {
-                        return remainingFields
-                            ? [field, ...remainingFields]
-                            : undefined;
-                    });
-                }
+                return resolveApexPropertyOrEntityFieldReference(
+                    field,
+                    remainingFieldNames
+                ).then(remainingFields => {
+                    return remainingFields
+                        ? [field, ...remainingFields]
+                        : undefined;
+                });
+            }
+            return [field];
+        }
+    );
+}
+
+function resolveApexPropertyOrEntityFieldReference(field, fieldNames) {
+    if (field.dataType === FLOW_DATA_TYPE.APEX.value) {
+        return resolveApexPropertyReference(field.subtype, fieldNames);
+    } else if (field.dataType === FLOW_DATA_TYPE.SOBJECT.value) {
+        return resolveEntityFieldReference(field.subtype, fieldNames);
+    }
+    return Promise.resolve(undefined);
+}
+
+function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
+    if (fieldNames.length === 0) {
+        return Promise.resolve([]);
+    }
+    const [fieldName, ...remainingFieldNames] = fieldNames;
+    return fetchActionOutputParameters({ actionType, actionName }).then(
+        outputParameters => {
+            const field = outputParameters[fieldName];
+            if (!field) {
                 return undefined;
+            }
+            if (remainingFieldNames.length > 0) {
+                return resolveApexPropertyOrEntityFieldReference(
+                    field,
+                    remainingFieldNames
+                ).then(remainingFields => {
+                    return remainingFields
+                        ? [field, ...remainingFields]
+                        : undefined;
+                });
             }
             return [field];
         }
@@ -274,8 +300,28 @@ function getExtensionOutputParamDescriptions(extension) {
 
 function fetchExtensionOutputParameters(extensionName) {
     return describeExtension(extensionName, { disableErrorModal: true }).then(
-        extension => {
-            return getExtensionOutputParamDescriptions(extension);
-        }
+        extension => getExtensionOutputParamDescriptions(extension)
     );
+}
+
+function getActionOutputParameterDescriptions(details) {
+    return details.parameters
+        .filter(parameter => parameter.isOutput === true)
+        .reduce((acc, parameter) => {
+            acc[
+                parameter.name
+            ] = getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
+                parameter
+            );
+            return acc;
+        }, {});
+}
+
+function fetchActionOutputParameters({ actionType, actionName }) {
+    return fetchDetailsForInvocableAction(
+        { actionType, actionName },
+        {
+            disableErrorModal: true
+        }
+    ).then(details => getActionOutputParameterDescriptions(details));
 }
