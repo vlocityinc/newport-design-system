@@ -12,8 +12,9 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import { elementToParam } from 'builder_platform_interaction/ruleLib';
 import { isObject } from 'builder_platform_interaction/commonUtils';
-import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 
@@ -107,7 +108,8 @@ export default class FerToFerovExpressionBuilder extends LightningElement {
 
     isLookupTraversalSupported() {
         return isLookupTraversalSupported(
-            Store.getStore().getCurrentState().properties.processType
+            Store.getStore().getCurrentState().properties.processType,
+            getTriggerType()
         );
     }
 

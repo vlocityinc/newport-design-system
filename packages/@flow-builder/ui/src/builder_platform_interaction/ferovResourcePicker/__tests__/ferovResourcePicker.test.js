@@ -17,6 +17,7 @@ import {
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
 
 jest.mock('builder_platform_interaction/processTypeLib');
+jest.mock('builder_platform_interaction/storeUtils');
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')

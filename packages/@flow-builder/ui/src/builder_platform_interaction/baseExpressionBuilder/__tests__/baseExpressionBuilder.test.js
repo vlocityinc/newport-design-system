@@ -46,6 +46,20 @@ jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
 
+jest.mock('builder_platform_interaction/storeUtils', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/storeUtils'
+    );
+    return {
+        getElementByGuid: actual.getElementByGuid,
+        getElementByDevName: actual.getElementByDevName,
+        isDevNameInStore: actual.isDevNameInStore,
+        isOrderNumberInStore: actual.isOrderNumberInStore,
+        getDuplicateDevNameElements: actual.getDuplicateDevNameElements,
+        getTriggerType: jest.fn()
+    };
+});
+
 jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     return {
         getInlineResource: jest.fn()

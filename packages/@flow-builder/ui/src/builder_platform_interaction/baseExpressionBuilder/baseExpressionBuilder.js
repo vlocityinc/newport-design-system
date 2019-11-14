@@ -40,7 +40,8 @@ import {
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
-import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 const LHS = EXPRESSION_PROPERTY_TYPE.LEFT_HAND_SIDE;
 const OPERATOR = EXPRESSION_PROPERTY_TYPE.OPERATOR;
@@ -784,7 +785,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isDisplayedAsFieldReference,
                 shouldBeWritable: this.lhsMustBeWritable,
                 allowSObjectFieldsTraversal:
-                    this.isFieldTraversalSupported() &&
+                    this.isLookupTraversalSupported() &&
                     this.objectType == null &&
                     !this.lhsMustBeWritable
             }
@@ -862,9 +863,10 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     }
 
-    isFieldTraversalSupported() {
+    isLookupTraversalSupported() {
         return isLookupTraversalSupported(
-            storeInstance.getCurrentState().properties.processType
+            storeInstance.getCurrentState().properties.processType,
+            getTriggerType()
         );
     }
 
@@ -894,7 +896,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             isFerov = false,
             picklistValues = [],
             shouldBeWritable = false,
-            allowSObjectFieldsTraversal = this.isFieldTraversalSupported()
+            allowSObjectFieldsTraversal = this.isLookupTraversalSupported()
         } = {}
     ) {
         const config = {

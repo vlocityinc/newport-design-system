@@ -17,7 +17,8 @@ import {
 } from 'builder_platform_interaction/actions';
 import { getInlineResource } from 'builder_platform_interaction/inlineResourceUtils';
 import { logInteraction } from 'builder_platform_interaction/loggingUtils';
-import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 let storeInstance;
 
@@ -274,7 +275,8 @@ export default class FerovResourcePicker extends LightningElement {
 
     isLookupTraversalSupported() {
         return isLookupTraversalSupported(
-            storeInstance.getCurrentState().properties.processType
+            storeInstance.getCurrentState().properties.processType,
+            getTriggerType()
         );
     }
 

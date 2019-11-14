@@ -1,8 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
-import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { isLookupTraversalSupported } from 'builder_platform_interaction/mergeFieldLib';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { getTriggerType } from 'builder_platform_interaction/storeUtils';
 
 export default class FieldPicker extends LightningElement {
     @track
@@ -97,7 +98,8 @@ export default class FieldPicker extends LightningElement {
 
     isFieldTraversalSupported() {
         return isLookupTraversalSupported(
-            Store.getStore().getCurrentState().properties.processType
+            Store.getStore().getCurrentState().properties.processType,
+            getTriggerType()
         );
     }
 

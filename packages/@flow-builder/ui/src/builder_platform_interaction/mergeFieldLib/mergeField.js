@@ -14,6 +14,21 @@ import {
     fetchFieldsForEntity,
     getEntityFieldWithApiName
 } from 'builder_platform_interaction/sobjectLib';
+import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
+import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
+
+/**
+ * Whether or not lookup traversal is supported in this flow
+ * @param {String} processType the current process type
+ * @param {String} triggerType the current trigger type
+ * @returns {Boolean} true if lookup traversal is supported, false otherwise
+ */
+export const isLookupTraversalSupported = (processType, triggerType) => {
+    return (
+        isLookupTraversalSupportedByProcessType(processType) &&
+        isLookupTraversalSupportedByTriggerType(triggerType)
+    );
+};
 
 /**
  * Resolve the reference given its identifier.

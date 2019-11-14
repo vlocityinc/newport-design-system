@@ -3,4 +3,7 @@ export {
     validateTextWithMergeFields,
     isTextWithMergeFields
 } from './mergeFieldValidation';
-export { resolveReferenceFromIdentifier } from './mergeField';
+export {
+    resolveReferenceFromIdentifier,
+    isLookupTraversalSupported
+} from './mergeField';
