@@ -63,6 +63,17 @@ jest.mock('builder_platform_interaction/storeLib', () => {
 
 expect.extend(deepFindMatchers);
 
+const flowDataTypeMapping = {
+    typeName: 'T__record',
+    typeValue: 'Account'
+};
+
+const storeDataTypeMapping = {
+    typeName: 'T__record',
+    typeValue: 'Account',
+    rowIndex: mockGuid
+};
+
 const flowInputParameterWithDefaultValueAsString = {
     name: 'text',
     value: {
@@ -106,6 +117,7 @@ const storeOutputParameterWithDefaultValue = {
 const actionCallMetaData = {
     actionName: 'chatterPost',
     actionType: 'chatterPost',
+    dataTypeMappings: [flowDataTypeMapping],
     inputParameters: [
         flowInputParameterWithDefaultValueAsString,
         flowInputParameterWithDefaultValueAsReference
@@ -140,6 +152,7 @@ const actionCallInStore = {
     config: {
         isSelected: false
     },
+    dataTypeMappings: [storeDataTypeMapping],
     inputParameters: [
         storeInputParameterWithDefaultValueAsString,
         storeInputParameterWithDefaultValueAsReference
@@ -273,6 +286,11 @@ describe('actionCall', () => {
                     actionCallMetaData.actionType
                 );
             });
+            it('has dataTypeMappings matching the dataTypeMappings from store', () => {
+                expect(actionCall.dataTypeMappings).toEqual(
+                    actionCallInStore.dataTypeMappings
+                );
+            });
             it('has inputParameters matching the inputParameters from store', () => {
                 expect(actionCall.inputParameters).toEqual(
                     actionCallInStore.inputParameters
@@ -307,6 +325,11 @@ describe('actionCall', () => {
             it('has actionType equal to actionType from store', () => {
                 expect(actionCall.actionType).toEqual(
                     actionCallInStore.actionType
+                );
+            });
+            it('has dataTypeMappings matching the dataTypeMappings from store', () => {
+                expect(actionCall.dataTypeMappings).toEqual(
+                    actionCallInStore.dataTypeMappings
                 );
             });
             it('has inputParameters matching the inputParameters from store', () => {
@@ -435,7 +458,9 @@ describe('actionCall', () => {
 
                 expect(createdAction.isSystemGeneratedOutput).toBe(true);
                 expect(createdAction.dataType).toBe(FLOW_DATA_TYPE.APEX.value);
-                expect(createdAction.apexClass).toBe('InvocableGetCars$GetCarResult');
+                expect(createdAction.apexClass).toBe(
+                    'InvocableGetCars$GetCarResult'
+                );
                 expect(createdAction.isCollection).toBe(true);
             });
         });
@@ -528,6 +553,11 @@ describe('actionCall', () => {
             it('has actionType equal to actionType from flow', () => {
                 expect(actionCallMetaDataObject.actionType).toEqual(
                     actionCallMetaData.actionType
+                );
+            });
+            it('has dataTypeMappings matching the dataTypeMappings from flow', () => {
+                expect(actionCallMetaDataObject.dataTypeMappings).toEqual(
+                    actionCallMetaData.dataTypeMappings
                 );
             });
             it('has inputParameters matching the inputParameters from flow', () => {

@@ -4,12 +4,29 @@ import {
     REMOVE_UNSET_PARAMETERS,
     MERGE_WARNING_TYPE
 } from 'builder_platform_interaction/calloutEditorLib';
+import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { chatterPostActionDetails as mockActionDetails } from 'serverData/GetInvocableActionDetails/chatterPostActionDetails.json';
 import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent,
-    UseAdvancedOptionsSelectionChangedEvent
+    UseAdvancedOptionsSelectionChangedEvent,
+    DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
+
+jest.mock('builder_platform_interaction/invocableActionLib', () => {
+    const invocableActionLib = require.requireActual(
+        'builder_platform_interaction/invocableActionLib'
+    );
+    return Object.assign({}, invocableActionLib, {
+        getParametersForInvocableAction: jest.fn().mockReturnValue([
+            {
+                name: 'record',
+                dataType: 'sobject',
+                sobjectType: 'T__record'
+            }
+        ])
+    });
+});
 
 const getParameterItemsWithName = (parameterItems, name) =>
     parameterItems.filter(parameterItem => parameterItem.name === name);
@@ -129,6 +146,48 @@ const outputWithErrorState = {
                 error: 'Invalid value'
             },
             valueDataType: 'String'
+        }
+    ]
+};
+
+const actionWithDynamicallyTypedOutput = {
+    actionName: { value: 'chatterPost', error: null },
+    actionType: { value: 'chatterPost', error: null },
+    dataTypeMappings: [
+        {
+            rowIndex: 'index1',
+            typeName: {
+                value: 'T__record',
+                error: null
+            },
+            typeValue: {
+                value: 'Contact',
+                error: null
+            }
+        }
+    ],
+    description: { value: 'This is a description', error: null },
+    elementType: 'ACTION_CALL',
+    guid: '66b95c2c-468d-466b-baaf-5ad964be585e',
+    isCanvasElemen: true,
+    label: { value: 'Post to Chatter', error: null },
+    locationX: 358,
+    locationY: 227,
+    name: { value: 'Post_to_Chatter', error: null },
+    storeOutputAutomatically: false,
+    inputParameters: [],
+    outputParameters: [
+        {
+            rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
+            name: {
+                value: 'record',
+                error: null
+            },
+            value: {
+                value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
+                error: null
+            },
+            valueDataType: 'reference'
         }
     ]
 };
@@ -334,6 +393,55 @@ describe('invocable-action-reducer', () => {
             expect(newState).not.toBe(outputWithErrorState);
             expect(newState.storeOutputAutomatically).toBe(true);
             expect(newState.outputParameters[0].value).not.toBeDefined();
+        });
+    });
+    describe('data type mappings', () => {
+        let newState;
+        beforeEach(() => {
+            const event = {
+                type: DynamicTypeMappingChangeEvent.EVENT_NAME,
+                detail: {
+                    typeName: 'T__record',
+                    typeValue: 'Account',
+                    error: null,
+                    rowIndex: 'index1'
+                }
+            };
+            newState = invocableActionReducer(
+                actionWithDynamicallyTypedOutput,
+                event
+            );
+        });
+        it('updates data type mapping and clears relevant invocable action parameters', () => {
+            const dataTypeMappings = [
+                {
+                    typeName: {
+                        value: 'T__record',
+                        error: null
+                    },
+                    typeValue: {
+                        value: 'Account',
+                        error: null
+                    }
+                }
+            ];
+            expect(newState.dataTypeMappings).toMatchObject(dataTypeMappings);
+            expect(newState.outputParameters).toMatchObject([
+                {
+                    name: {
+                        value: 'record',
+                        error: null
+                    },
+                    value: {
+                        value: '',
+                        error: null
+                    }
+                }
+            ]);
+            expect(getParametersForInvocableAction).toBeCalledWith({
+                actionName: actionWithDynamicallyTypedOutput.actionName,
+                actionType: actionWithDynamicallyTypedOutput.actionType
+            });
         });
     });
 });
