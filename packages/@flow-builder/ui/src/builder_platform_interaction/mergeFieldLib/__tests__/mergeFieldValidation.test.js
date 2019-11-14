@@ -474,6 +474,26 @@ describe('Merge field validation', () => {
             );
             expect(validationErrors).toHaveLength(0);
         });
+        it('Returns validation error if traversal level more than 1 when allowLookupTraversal is false', () => {
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable.Parent.Id}',
+                {
+                    allowLookupTraversal: false
+                }
+            );
+
+            expect(validationErrors[0].message).toBe('Enter a valid value.');
+        });
+        it('Allows one level of traversal when allowLookupTraversal is false', () => {
+            const validationErrors = validateMergeField(
+                '{!accountSObjectVariable.ParentId}',
+                {
+                    allowLookupTraversal: false
+                }
+            );
+
+            expect(validationErrors).toHaveLength(0);
+        });
         describe('Apex types', () => {
             it('Allows apex which matches class type', () => {
                 const validationErrors = validateMergeField(

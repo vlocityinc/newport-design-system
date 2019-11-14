@@ -191,6 +191,10 @@ export default class FerovResourcePicker extends LightningElement {
         return null;
     }
 
+    get enableLookupTraversal() {
+        return this.isLookupTraversalSupported();
+    }
+
     /**
      * True if the component has been initialized, false otherwise. This is so we do not populate menu data twice on initializing api values
      * @type {Boolean}

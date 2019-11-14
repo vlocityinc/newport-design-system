@@ -83,6 +83,10 @@ export default class FieldPicker extends LightningElement {
         );
     }
 
+    get enableLookupTraversal() {
+        return this.isLookupTraversalSupported();
+    }
+
     renderedCallback() {
         if (!this._isInitialized) {
             this._baseResourcePicker = this.template.querySelector(
@@ -96,7 +100,7 @@ export default class FieldPicker extends LightningElement {
         }
     }
 
-    isFieldTraversalSupported() {
+    isLookupTraversalSupported() {
         return isLookupTraversalSupported(
             Store.getStore().getCurrentState().properties.processType,
             getTriggerType()
@@ -113,7 +117,7 @@ export default class FieldPicker extends LightningElement {
                 filterFieldsForChosenElement(null, this.fields, {
                     showAsFieldReference: false,
                     showSubText: true,
-                    allowSObjectFieldsTraversal: this.isFieldTraversalSupported()
+                    allowSObjectFieldsTraversal: this.isLookupTraversalSupported()
                 })
             );
         }

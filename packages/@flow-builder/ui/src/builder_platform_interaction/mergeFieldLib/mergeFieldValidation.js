@@ -56,6 +56,7 @@ const MAXIMUM_NUMBER_OF_LEVELS = 10;
 export class MergeFieldsValidation {
     allowGlobalConstants = true;
     allowCollectionVariables = false;
+    allowLookupTraversal = true;
 
     // The allowed param types for merge field based on rule service.
     // If present, this is used to validate the element merge field.
@@ -549,6 +550,9 @@ export class MergeFieldsValidation {
         const endIndex = index + mergeFieldReferenceValue.length - 1;
         const parts = splitStringBySeparator(mergeFieldReferenceValue);
         const [elementName, ...fieldNames] = parts;
+        if (this.allowLookupTraversal === false && fieldNames.length > 1) {
+            return [validationErrors.mergeFieldNotAllowed(index, endIndex)];
+        }
         if (fieldNames.length >= MAXIMUM_NUMBER_OF_LEVELS) {
             return [
                 validationErrors.maximumNumberOfLevelsReached(index, endIndex)
@@ -716,13 +720,15 @@ export function validateMergeField(
     {
         allowGlobalConstants = true,
         allowedParamTypes = null,
-        allowCollectionVariables = false
+        allowCollectionVariables = false,
+        allowLookupTraversal = true
     } = {}
 ) {
     const validation = new MergeFieldsValidation();
     validation.allowGlobalConstants = allowGlobalConstants;
     validation.allowedParamTypes = allowedParamTypes;
     validation.allowCollectionVariables = allowCollectionVariables;
+    validation.allowLookupTraversal = allowLookupTraversal;
     return validation.validateMergeField(mergeField);
 }
 

@@ -546,6 +546,9 @@ export default class Combobox extends LightningElement {
     @api
     enableFieldDrilldown = false;
 
+    @api
+    enableLookupTraversal = false;
+
     /**
      * Blocks all the data validation on the component.
      * @type {boolean}
@@ -1346,7 +1349,8 @@ export default class Combobox extends LightningElement {
     validateUsingMergeFieldLib(validateFunctionRef) {
         const errors = validateFunctionRef.call(this, this.state.displayText, {
             allowGlobalConstants: true,
-            allowedParamTypes: this.allowedParamTypes
+            allowedParamTypes: this.allowedParamTypes,
+            allowLookupTraversal: this.enableLookupTraversal
         });
         if (errors.length > 0) {
             this._errorMessage = errors[0].message;

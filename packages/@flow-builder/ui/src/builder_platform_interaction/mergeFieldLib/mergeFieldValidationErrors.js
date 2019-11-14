@@ -19,6 +19,15 @@ function validationError(errorType, message, startIndex, endIndex) {
     };
 }
 
+export function mergeFieldNotAllowed(startIndex, endIndex) {
+    return validationError(
+        VALIDATION_ERROR_TYPE.INVALID_MERGE_FIELD,
+        LABELS.genericErrorMessage,
+        startIndex,
+        endIndex
+    );
+}
+
 export function maximumNumberOfLevelsReached(startIndex, endIndex) {
     return validationError(
         VALIDATION_ERROR_TYPE.MAXIMUM_LEVEL_REACHED,

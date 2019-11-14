@@ -11,7 +11,8 @@ import { getElementForPropertyEditor } from 'builder_platform_interaction/proper
 import { resolveRenderCycles } from '../resolveRenderCycles';
 import {
     setGlobalVariables,
-    setSystemVariables
+    setSystemVariables,
+    setProcessTypeFeature
 } from 'builder_platform_interaction/systemLib';
 import { resetState } from '../integrationTestUtils';
 import { auraFetch, getAllAuraActions } from '../serverDataTestUtils';
@@ -49,6 +50,7 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { operators } from 'serverData/GetOperators/operators.json';
+import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -94,6 +96,10 @@ describe('Assignment Editor', () => {
         setEntities(allEntities);
         setApexClasses(apexTypesForAutolLaunchedFlow);
         setAuraFetch(auraFetch(getAllAuraActions(FLOW_PROCESS_TYPE.FLOW)));
+        setProcessTypeFeature(
+            FLOW_PROCESS_TYPE.FLOW,
+            supportedFeaturesListForFlow
+        );
     });
     afterAll(() => {
         resetState();

@@ -94,7 +94,7 @@ describe('field-picker', () => {
     });
     it('populates menuData with passed in fields', () => {
         const fields = ['field'];
-        isLookupTraversalSupported.mockImplementationOnce(() => true);
+        isLookupTraversalSupported.mockImplementation(() => true);
         setupComponentUnderTest({
             fields
         });
@@ -112,7 +112,7 @@ describe('field-picker', () => {
     });
     it('populates menuData with passed in fields no traversal support', () => {
         const fields = ['field'];
-        isLookupTraversalSupported.mockImplementationOnce(() => false);
+        isLookupTraversalSupported.mockImplementation(() => false);
         setupComponentUnderTest({
             fields
         });

@@ -12,6 +12,7 @@
             placeholder={lhsPlaceholder}
             position="left"
             value={lhsValue}
+            enable-lookup-traversal={enableLookupTraversal}
             onaddnewresource={handleAddNewResource}
             oncomboboxstatechanged={handleLhsValueChanged}
             onfiltermatches={handleFilterLhsMatches}
@@ -56,6 +57,7 @@
             render-incrementally={state.rhsRenderIncrementally}
             type={rhsDataType}
             value={rhsValue}
+            enable-lookup-traversal={enableLookupTraversal}
             onaddnewresource={handleAddNewResource}
             oncomboboxstatechanged={handleRhsValueChanged}
             onfiltermatches={handleFilterRhsMatches}

@@ -863,6 +863,10 @@ export default class BaseExpressionBuilder extends LightningElement {
         }
     }
 
+    get enableLookupTraversal() {
+        return this.isLookupTraversalSupported();
+    }
+
     isLookupTraversalSupported() {
         return isLookupTraversalSupported(
             storeInstance.getCurrentState().properties.processType,

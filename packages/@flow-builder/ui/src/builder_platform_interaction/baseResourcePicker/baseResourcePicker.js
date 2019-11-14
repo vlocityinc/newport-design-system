@@ -129,6 +129,10 @@ export default class BaseResourcePicker extends LightningElement {
         this.state.menuData = this._fullMenuData;
     }
 
+    @api
+    enableLookupTraversal;
+
+
     /**
      * The full menu data available for selection
      * @type {Object[]}
