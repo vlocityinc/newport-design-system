@@ -389,6 +389,9 @@ export default class Editor extends LightningElement {
                 storeInstance.dispatch(
                     updateFlow(translateFlowToUIModel(data))
                 );
+                if (!data.metadata) {
+                    this._resetFlowPropertiesWhenCreatedFromTemplate();
+                }
                 this.setOriginalFlowValues();
                 this.cacheSObjectsInComboboxShape();
                 this.loadFieldsForComplexTypesInFlow();
@@ -1047,7 +1050,7 @@ export default class Editor extends LightningElement {
         logInteraction(
             'editor',
             'editor',
-            { 'operationStatus' : 'shift panel focus' },
+            { operationStatus: 'shift panel focus' },
             'keydown'
         );
     };
@@ -1250,17 +1253,6 @@ export default class Editor extends LightningElement {
             setErrorMessage(modal, error[0].data.contextMessage);
         } else {
             this.getFlowCallback({ data, error });
-            storeInstance.dispatch(
-                updatePropertiesAfterCreatingFlowFromTemplate({
-                    versionNumber: null,
-                    status: null,
-                    isLightningFlowBuilder: true,
-                    isTemplate: false,
-                    lastModifiedDate: null,
-                    lastModifiedBy: null,
-                    name: ''
-                })
-            );
             modal.close();
         }
     };
@@ -1329,5 +1321,23 @@ export default class Editor extends LightningElement {
             storeInstance.dispatch(updateApexClasses(data));
             setApexClassesForPropertyEditor(data);
         });
+    };
+
+    /**
+     * Reset flow properties when the flow is created from a template
+     * (namely: versionNumber, status, isLightningFlowBuilder, isTemplate, lastModifiedDate, lastModifiedBy and name)
+     */
+    _resetFlowPropertiesWhenCreatedFromTemplate = () => {
+        storeInstance.dispatch(
+            updatePropertiesAfterCreatingFlowFromTemplate({
+                versionNumber: null,
+                status: null,
+                isLightningFlowBuilder: true,
+                isTemplate: false,
+                lastModifiedDate: null,
+                lastModifiedBy: null,
+                name: ''
+            })
+        );
     };
 }
