@@ -242,7 +242,11 @@ export default class Editor extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS).then(data =>
             setBuilderConfigs(data)
         );
-        this.retrieveApexInfo();
+        this.retrieveApexInfo(
+            new Promise(resolve => {
+                this.entitiesLoaded = resolve;
+            })
+        );
         this.keyboardInteractions = new KeyboardInteractions();
     }
 
@@ -321,6 +325,7 @@ export default class Editor extends LightningElement {
                     onPeripheralDataLoaded: ({ error }) => {
                         if (!error) {
                             this.peripheralDataFetched = true;
+                            this.entitiesLoaded();
                             getGlobalVariableTypeComboboxItems().forEach(
                                 item => {
                                     addToParentElementCache(
@@ -390,6 +395,8 @@ export default class Editor extends LightningElement {
                     updateFlow(translateFlowToUIModel(data))
                 );
                 if (!data.metadata) {
+                    // service does not return the api name but the api name lower cased
+
                     this._resetFlowPropertiesWhenCreatedFromTemplate();
                 }
                 this.setOriginalFlowValues();
@@ -1312,12 +1319,16 @@ export default class Editor extends LightningElement {
         this.disableSave = false;
     };
 
-    retrieveApexInfo = () => {
-        fetchOnce(
-            SERVER_ACTION_TYPE.GET_APEX_TYPES,
-            {},
-            { background: true }
-        ).then(data => {
+    retrieveApexInfo = loadEntitiesPromise => {
+        // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
+        Promise.all([
+            fetchOnce(
+                SERVER_ACTION_TYPE.GET_APEX_TYPES,
+                {},
+                { background: true }
+            ),
+            loadEntitiesPromise
+        ]).then(([data]) => {
             storeInstance.dispatch(updateApexClasses(data));
             setApexClassesForPropertyEditor(data);
         });

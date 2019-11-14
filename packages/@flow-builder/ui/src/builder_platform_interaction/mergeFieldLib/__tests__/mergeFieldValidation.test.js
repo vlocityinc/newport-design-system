@@ -107,6 +107,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = require.requireActual(
         'builder_platform_interaction/sobjectLib'
     );
+    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         getFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {
@@ -118,7 +119,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             }
             return undefined;
         }),
-        getEntityFieldWithApiName: actual.getEntityFieldWithApiName
+        getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
+        getEntity: jest
+            .fn()
+            .mockImplementation(apiName =>
+                mockEntities.find(entity => entity.apiName === apiName)
+            )
     };
 });
 

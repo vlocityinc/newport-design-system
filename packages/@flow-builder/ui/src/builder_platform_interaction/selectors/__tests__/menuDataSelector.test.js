@@ -100,7 +100,8 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
         },
         getDeletableEntities: () => {
             return mockDeleteableEntities;
-        }
+        },
+        getEntity: jest.fn()
     };
 });
 

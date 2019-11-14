@@ -33,7 +33,7 @@ export const setEntities = (entities = null) => {
     if (unfilteredEntities) {
         unfilteredEntities.forEach(entity => {
             allEntities.push(entity);
-            allEntitiesMap[entity.apiName] = entity;
+            allEntitiesMap[entity.apiName.toLowerCase()] = entity;
             if (entity.queryable) {
                 queryableEntities.push(entity);
             }
@@ -84,7 +84,7 @@ export const getAllEntities = () => {
 export const getEntity = apiName => {
     const storedEntities = getStoredEntities();
     const map = storedEntities ? storedEntities.allEntitiesMap : undefined;
-    return map ? map[apiName] : undefined;
+    return map ? map[apiName.toLowerCase()] : undefined;
 };
 
 /**

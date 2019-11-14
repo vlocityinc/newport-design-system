@@ -1,3 +1,5 @@
+import { getEntity } from 'builder_platform_interaction/sobjectLib';
+
 let apexClasses = null;
 let apexFieldsForClass = {};
 
@@ -7,10 +9,19 @@ let apexFieldsForClass = {};
  * @return {Object}          object with properties named like sobject field properties
  */
 const mutateProperty = (apexClassName, property) => {
+    let subtype;
+    if (property.objectType) {
+        // service does not return the api name but the api name lower cased
+        // see https://gus.lightning.force.com/lightning/r/0D5B000000xsWoiKAE/view
+        const entity = getEntity(property.objectType);
+        subtype = entity ? entity.apiName : property.objectType;
+    } else {
+        subtype = property.apexClass;
+    }
     return {
         apiName: property.name,
         dataType: property.type,
-        subtype: property.objectType || property.apexClass,
+        subtype,
         isCollection: property.isCollection,
         apexClass: apexClassName
     };
@@ -68,7 +79,7 @@ export const getPropertiesForClass = clazz => {
 /**
  * Get the apex property with given api name (case-insensitive)
  * @param {Object} map of properties (apiName -> field)
- * @param {string} fieldName
+ * @param {string} propertyName
  * @return {Object|undefined} the property with the api name or undefined if there is no property with this api name
  */
 export function getApexPropertyWithName(properties, propertyName) {

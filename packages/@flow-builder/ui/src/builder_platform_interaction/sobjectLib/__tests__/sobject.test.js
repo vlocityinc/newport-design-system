@@ -38,7 +38,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         const workflowEnabledEntities = [];
         mockEntities.forEach(entity => {
             allEntities.push(entity);
-            allEntitiesMap[entity.apiName] = entity;
+            allEntitiesMap[entity.apiName.toLowerCase()] = entity;
             if (entity.queryable) {
                 queryableEntities.push(entity);
             }

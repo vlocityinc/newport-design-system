@@ -45,7 +45,7 @@ import {
     EXPRESSION_BUILDER_SELECTORS,
     validateExpression
 } from '../expressionBuilderTestUtils';
-import { apexTypesForAutolLaunchedFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -94,7 +94,7 @@ describe('Assignment Editor', () => {
         setGlobalVariables(globalVariablesForFlow);
         setSystemVariables(systemVariablesForFlow);
         setEntities(allEntities);
-        setApexClasses(apexTypesForAutolLaunchedFlow);
+        setApexClasses(apexTypesForFlow);
         setAuraFetch(auraFetch(getAllAuraActions(FLOW_PROCESS_TYPE.FLOW)));
         setProcessTypeFeature(
             FLOW_PROCESS_TYPE.FLOW,
@@ -313,8 +313,10 @@ describe('Assignment Editor', () => {
         });
         describe('When using Apex types on LHS or RHS', () => {
             testExpression.each`
-            lhs                                            | operator    | rhs                                                     | rhsErrorMessage
-            ${'{!apexCall_Car_automatic_output.car}'}      | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
+            lhs                                             | operator    | rhs                                                     | rhsErrorMessage
+            ${'{!apexCall_Car_automatic_output.car}'}       | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
+            ${'{!apexCarVariable.wheel.type}'}              | ${'Assign'} | ${'Michelin'}                                           | ${undefined}
+            ${'{!apexCarVariable.wheel.type}'}              | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
             `();
         });
         describe('Automatic handling mode', () => {
