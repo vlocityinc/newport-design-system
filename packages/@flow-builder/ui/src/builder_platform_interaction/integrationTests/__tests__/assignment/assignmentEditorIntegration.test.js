@@ -323,7 +323,7 @@ describe('Assignment Editor', () => {
             testExpression.each`
             lhs                          | operator    | rhs                                                                                    | rhsErrorMessage
             ${'{!stringVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
-            ${'{!numberVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
+            ${'{!numberVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
             `();
         });
     });
