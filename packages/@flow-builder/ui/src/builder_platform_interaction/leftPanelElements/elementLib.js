@@ -44,7 +44,7 @@ function sortElementTypes(unsortedElementTypes = []) {
 const mutateElements = elements =>
     elements.reduce((acc, { elementType }) => {
         try {
-            const {nodeConfig, labels} = getConfigForElementType(elementType);
+            const { nodeConfig, labels } = getConfigForElementType(elementType);
             const {
                 iconName,
                 dragImageSrc,
@@ -52,7 +52,6 @@ const mutateElements = elements =>
                 section,
                 description
             } = nodeConfig;
-            const {leftPanel: label} = labels;
 
             if (section) {
                 if (!acc[section]) {
@@ -63,7 +62,7 @@ const mutateElements = elements =>
                     iconName,
                     dragImageSrc,
                     iconBackgroundColor,
-                    label,
+                    label: labels && labels.leftPanel,
                     description,
                     elementType
                 };
@@ -71,7 +70,9 @@ const mutateElements = elements =>
             }
         } catch (e) {
             // if an element is invalid, just log it but don't stop the rest from loading
-            logMetricsServiceErrorTransaction(JSON.stringify(e, Object.getOwnPropertyNames(e)));
+            logMetricsServiceErrorTransaction(
+                JSON.stringify(e, Object.getOwnPropertyNames(e))
+            );
         }
         return acc;
     }, {});
