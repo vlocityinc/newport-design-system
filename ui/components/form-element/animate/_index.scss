@@ -169,6 +169,10 @@ input[placeholder]::placeholder {
   font-weight: 400;
   text-transform: capitalize;
   margin-top: .625rem;
+  
+  &.nds-form-element__help_text-transform__none {
+    text-transform: none;
+  }
 }
 
 .nds-form-element__control-animated-label .nds-control-action__container {

@@ -70,7 +70,7 @@
   }
 
   /**
-   * Creates inline help styles, sits below .form-element__control
+   * Creates inline help styles, sits below .form-element__control. Text-form capitalized, by default.
    *
    * @selector .nds-form-element__help
    * @restrict .nds-form-element div
@@ -79,6 +79,16 @@
     font-size: $font-size-small;
     margin-top: $spacing-x-small;
     display: block;
+
+    /**
+     * Creates inline help styles, sits within .form-element__help. Text-transform set to none.
+     * 
+     * @selector .nds-form-element__help_text-transform__none
+     * @restrict .nds-form-element div
+     */
+    &__text-transform__none {
+      text-transform: none;
+    }
   }
 
   // Inline Edit on static form element
