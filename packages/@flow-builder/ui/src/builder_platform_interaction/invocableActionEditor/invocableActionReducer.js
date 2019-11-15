@@ -95,14 +95,18 @@ function clearGenericActionCallParameters(actionCall, genericTypeName) {
     if (inputParameters) {
         result.inputParameters = clearGenericParameters({
             actionCallParameters: inputParameters,
-            invocableActionParameters: invocableActionParams,
+            invocableActionParameters: invocableActionParams.filter(
+                invocableActionParam => invocableActionParam.isInput
+            ),
             genericTypeName
         });
     }
     if (outputParameters) {
         result.outputParameters = clearGenericParameters({
             actionCallParameters: outputParameters,
-            invocableActionParameters: invocableActionParams,
+            invocableActionParameters: invocableActionParams.filter(
+                invocableActionParam => invocableActionParam.isOutput
+            ),
             genericTypeName
         });
     }

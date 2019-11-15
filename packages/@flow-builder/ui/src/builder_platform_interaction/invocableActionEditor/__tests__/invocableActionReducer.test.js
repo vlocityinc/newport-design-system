@@ -22,7 +22,14 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => {
             {
                 name: 'record',
                 dataType: 'sobject',
-                sobjectType: 'T__record'
+                sobjectType: 'T__record',
+                isInput: true
+            },
+            {
+                name: 'record',
+                dataType: 'sobject',
+                sobjectType: 'U__record',
+                isOuput: true
             }
         ])
     });
@@ -161,7 +168,18 @@ const actionWithDynamicallyTypedOutput = {
                 error: null
             },
             typeValue: {
-                value: 'Contact',
+                value: 'Account',
+                error: null
+            }
+        },
+        {
+            rowIndex: 'index2',
+            typeName: {
+                value: 'U__record',
+                error: null
+            },
+            typeValue: {
+                value: 'Case',
                 error: null
             }
         }
@@ -175,7 +193,20 @@ const actionWithDynamicallyTypedOutput = {
     locationY: 227,
     name: { value: 'Post_to_Chatter', error: null },
     storeOutputAutomatically: false,
-    inputParameters: [],
+    inputParameters: [
+        {
+            rowIndex: '58d8bd82-1977-4cf3-a5a7-f629347fa0e8',
+            name: {
+                value: 'record',
+                error: null
+            },
+            value: {
+                value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
+                error: null
+            },
+            valueDataType: 'reference'
+        }
+    ],
     outputParameters: [
         {
             rowIndex: 'a27f10fb-5858-474c-8f87-0fc38a5c7ebf',
@@ -402,7 +433,7 @@ describe('invocable-action-reducer', () => {
                 type: DynamicTypeMappingChangeEvent.EVENT_NAME,
                 detail: {
                     typeName: 'T__record',
-                    typeValue: 'Account',
+                    typeValue: 'Contact',
                     error: null,
                     rowIndex: 'index1'
                 }
@@ -420,13 +451,23 @@ describe('invocable-action-reducer', () => {
                         error: null
                     },
                     typeValue: {
-                        value: 'Account',
+                        value: 'Contact',
+                        error: null
+                    }
+                },
+                {
+                    typeName: {
+                        value: 'U__record',
+                        error: null
+                    },
+                    typeValue: {
+                        value: 'Case',
                         error: null
                     }
                 }
             ];
             expect(newState.dataTypeMappings).toMatchObject(dataTypeMappings);
-            expect(newState.outputParameters).toMatchObject([
+            expect(newState.inputParameters).toMatchObject([
                 {
                     name: {
                         value: 'record',
@@ -434,6 +475,18 @@ describe('invocable-action-reducer', () => {
                     },
                     value: {
                         value: '',
+                        error: null
+                    }
+                }
+            ]);
+            expect(newState.outputParameters).toMatchObject([
+                {
+                    name: {
+                        value: 'record',
+                        error: null
+                    },
+                    value: {
+                        value: '578b0f58-afd1-4ddb-9d7e-fdfe6ab5703f',
                         error: null
                     }
                 }
