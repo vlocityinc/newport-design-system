@@ -20,7 +20,6 @@
   }
   .nds-dc-checkout-button {
     font-weight: 300;
-    margin-top: 10px;
     border-radius: 4px;
     font-size: 16px;
     padding-top: 5px;
@@ -185,7 +184,7 @@
         padding: 0px 10px;
       }
       .nds-dc-cart-item-category {
-        margin-left: 20px;
+        margin-left: 10px;
         margin-top: -10px;
       }
       .nds-dc-offer-menu {
@@ -227,7 +226,7 @@
 }
 
 /* shopping cart nested offer */
-.nds-dc-cart-lineItem {
+.nds-dc-cart-line-item {
   .nds-dc-each-item {
     border-top: 1px solid $newport-border-gray;
     padding-top: 20px;
