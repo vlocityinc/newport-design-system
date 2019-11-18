@@ -9,23 +9,10 @@ import { updateFlow } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { resolveRenderCycles } from '../resolveRenderCycles';
-import {
-    setGlobalVariables,
-    setSystemVariables,
-    setProcessTypeFeature
-} from 'builder_platform_interaction/systemLib';
 import { resetState } from '../integrationTestUtils';
-import { auraFetch, getAllAuraActions } from '../serverDataTestUtils';
-import {
-    setEntities,
-    fetchFieldsForEntity
-} from 'builder_platform_interaction/sobjectLib';
+import { auraFetch, allAuraActions } from '../serverDataTestUtils';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
-import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
     selectEvent,
     expectGroupedComboboxItem,
@@ -49,8 +36,7 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { operators } from 'serverData/GetOperators/operators.json';
-import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -87,19 +73,11 @@ const getRHSGroupedCombobox = assignment => {
 
 describe('Assignment Editor', () => {
     let store;
-    beforeAll(() => {
+    beforeAll(async () => {
         store = Store.getStore(reducer);
-        setOperators(operators);
-        setRules(rules);
-        setGlobalVariables(globalVariablesForFlow);
-        setSystemVariables(systemVariablesForFlow);
-        setEntities(allEntities);
+        setAuraFetch(auraFetch(allAuraActions));
+        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
         setApexClasses(apexTypesForFlow);
-        setAuraFetch(auraFetch(getAllAuraActions(FLOW_PROCESS_TYPE.FLOW)));
-        setProcessTypeFeature(
-            FLOW_PROCESS_TYPE.FLOW,
-            supportedFeaturesListForFlow
-        );
     });
     afterAll(() => {
         resetState();

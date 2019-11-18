@@ -10,18 +10,13 @@ import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
+import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
     FEATURED_SECTION: '.featured',
-    GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
-    PROCESS_TYPES_NAVIGATION:
-        'builder_platform_interaction-process-types-vertical-navigation',
-    PROCESS_TYPES_TEMPLATES:
-        'builder_platform_interaction-process-types-templates',
     TEMPLATES_SECTION: '.templates',
-    VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
-    VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list'
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const getProcessTypesNavigationItems = modalBody => {

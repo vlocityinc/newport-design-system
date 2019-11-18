@@ -51,24 +51,13 @@ import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/pro
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
-    RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT:
-        'builder_platform_interaction-record-sobject-and-query-fields',
-    RECORD_QUERY_FIELDS_COMPONENT:
-        'builder_platform_interaction-record-query-fields',
-    RECORD_FIELD_PICKER_ROW:
-        'builder_platform_interaction-record-field-picker-row',
-    RECORD_FIELD_PICKER: 'builder_platform_interaction-field-picker',
-    RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
-    RECORD_SORT: 'builder_platform_interaction-record-sort',
-    RECORD_INPUT_OUTPUT_ASSIGNMENTS:
-        'builder_platform_interaction-record-input-output-assignments',
-    SOBJECT_OR_SOBJECT_COLLECTION_PICKER:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker'
+    ...LIGHTNING_COMPONENTS_SELECTORS,
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const getRecordSobjectAndQueryFieldElement = recordLookupEditor => {
@@ -116,16 +105,11 @@ const getAllRecordFieldPickerRows = recordStoreFieldsComponent => {
 };
 
 const getEntityResourcePickerComboboxElement = entityResourcePicker => {
-    const resourcePicker = entityResourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const combobox = resourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-    );
-    const lightningGroupCombobox = combobox.shadowRoot.querySelector(
+    return deepQuerySelector(entityResourcePicker, [
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
-    return lightningGroupCombobox;
+    ]);
 };
 
 const getResourceGroupedCombobox = editor => {

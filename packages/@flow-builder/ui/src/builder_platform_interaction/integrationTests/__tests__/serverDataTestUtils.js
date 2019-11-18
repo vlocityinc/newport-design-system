@@ -18,6 +18,16 @@ import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDet
 import { getAccountsFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsFromApexAnonymousOutputActionDetails.json';
 import { getAccountsNamesFromApexAnonymousOutputActionDetails } from 'serverData/GetInvocableActionDetails/getAccountsNamesFromApexAnonymousOutputActionDetails.json';
 import { getCarsFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarsFromApexActionDetails.json';
+import { rules } from 'serverData/RetrieveAllRules/rules.json';
+import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { globalVariablesForAutoLaunchedFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForAutoLaunchedFlow.json';
+import { allEntities } from 'serverData/GetEntities/allEntities.json';
+import { operators } from 'serverData/GetOperators/operators.json';
+import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
+import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForAutoLaunchedFlow.json';
+import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
+import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
+import { eventTypes } from 'serverData/GetEventTypes/eventTypes.json';
 
 export const auraFetch = actions => async (
     actionName,
@@ -42,9 +52,9 @@ export const auraFetch = actions => async (
 export const getSubflows = flowProcessTypeToSubflows => ({
     flowProcessType
 }) => {
-    const subflows = flowProcessTypeToSubflows[flowProcessType];
+    const subflows = flowProcessTypeToSubflows[flowProcessType] || [];
     return {
-        data: subflows != null ? subflows : []
+        data: subflows
     };
 };
 
@@ -62,9 +72,10 @@ export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables =>
 export const getAllInvocableActionsForType = flowProcessTypeToInvocableActions => ({
     flowProcessType
 }) => {
-    const invocableActions = flowProcessTypeToInvocableActions[flowProcessType];
+    const invocableActions =
+        flowProcessTypeToInvocableActions[flowProcessType] || [];
     return {
-        data: invocableActions != null ? invocableActions : []
+        data: invocableActions
     };
 };
 
@@ -88,9 +99,9 @@ export const getTemplates = allTemplates => ({ processTypes }) => {
 export const getFlowExtensions = flowProcessTypeToExtensions => ({
     flowProcessType
 }) => {
-    const extensions = flowProcessTypeToExtensions[flowProcessType];
+    const extensions = flowProcessTypeToExtensions[flowProcessType] || [];
     return {
-        data: extensions != null ? extensions : []
+        data: extensions
     };
 };
 
@@ -112,11 +123,55 @@ export const getInvocableActionDetails = invocableActionParameters => params => 
         : { error: 'Cannot find invocable action parameters' };
 };
 
-export const getAllAuraActions = processType => ({
-    'c.getSystemVariables':
-        processType === FLOW_PROCESS_TYPE.FLOW
-            ? systemVariablesForFlow
-            : systemVariablesForAutoLaunchedFlow,
+export const getPeripheralDataForPropertyEditor = flowProcessTypeToPeripheralData => ({
+    flowProcessType
+}) => {
+    const peripheralData = flowProcessTypeToPeripheralData[flowProcessType];
+    return {
+        data: peripheralData
+    };
+};
+
+export const peripheralDataForFlow = {
+    rules,
+    operators,
+    resourceTypes: resourceTypesForFlow,
+    eventTypes,
+    globalVariables: globalVariablesForFlow,
+    systemVariables: systemVariablesForFlow,
+    entities: allEntities,
+    supportedFeatures: supportedFeaturesListForFlow
+};
+
+export const peripheralDataForAutoLaunchedFlow = {
+    rules,
+    operators,
+    resourceTypes: resourceTypesForAutoLaunchedFlow,
+    eventTypes,
+    globalVariables: globalVariablesForAutoLaunchedFlow,
+    systemVariables: systemVariablesForAutoLaunchedFlow,
+    entities: allEntities,
+    supportedFeatures: supportedFeaturesListForAutoLaunchedFlow
+};
+
+export const loadProcessTypeFeatures = flowProcessTypeToFeatures => ({
+    flowProcessType
+}) => {
+    const features = flowProcessTypeToFeatures[flowProcessType] || [];
+    return {
+        data: features
+    };
+};
+
+export const allAuraActions = {
+    'c.getPeripheralDataForPropertyEditor': getPeripheralDataForPropertyEditor({
+        [FLOW_PROCESS_TYPE.FLOW]: peripheralDataForFlow,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: peripheralDataForAutoLaunchedFlow
+    }),
+    'c.getSupportedFeaturesList': loadProcessTypeFeatures({
+        [FLOW_PROCESS_TYPE.FLOW]: supportedFeaturesListForFlow,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedFeaturesListForAutoLaunchedFlow
+    }),
     'c.getFieldsForEntity': getFieldsForEntity({
         Account: accountFields,
         User: userFields,
@@ -141,4 +196,4 @@ export const getAllAuraActions = processType => ({
         'chatterPost-chatterPost': chatterPostActionDetails,
         'quickAction-Case.LogACall': logACallActionDetails
     })
-});
+};

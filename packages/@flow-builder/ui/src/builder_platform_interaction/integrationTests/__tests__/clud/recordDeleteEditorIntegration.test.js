@@ -37,7 +37,10 @@ import {
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = node => {
     const el = createElement(
@@ -50,15 +53,13 @@ const createComponentForTest = node => {
 };
 
 const SELECTORS = {
-    SOBJECT_OR_SOBJECT_COLLECTION_PICKER:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options'
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
 const DELETE_RECORDS_USING_SOBJECT_FLOW_ELEMENT =
-        'delete_acccount_using_sobject',
-    DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'delete_acccount_using_fields';
+    'delete_acccount_using_sobject';
+const DELETE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'delete_acccount_using_fields';
 
 describe('Record Delete Editor', () => {
     let recordDeleteNode, recordDeleteComponent, store, uiFlow;
@@ -489,7 +490,7 @@ describe('Record Delete Editor', () => {
                     );
                     const operatorsComboboxComponent = getChildComponent(
                         baseExpressionBuilderComponent,
-                        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+                        SELECTORS.LIGHTNING_COMBOBOX
                     );
                     expect(operatorsComboboxComponent.options).toHaveLength(6);
                     expect(operatorsComboboxComponent.options).toEqual(

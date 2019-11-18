@@ -14,23 +14,15 @@ import { auraFetch, getFlowExtensions } from '../../serverDataTestUtils';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import {
     ticks,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
 import { flowExtensionsForFlow as mockFlowExtensions } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    SCREEN_PALETTE: 'builder_platform_interaction-screen-editor-palette',
-    SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas',
-    SCREEN_EDITOR_HIGHLIGHT:
-        'builder_platform_interaction-screen-editor-highlight',
-    SCREEN_PROPERTIES_EDITOR_CONTAINER:
-        'builder_platform_interaction-screen-properties-editor-container',
-    SCREEN_EXTENSION_PROPERTIES_EDITOR:
-        'builder_platform_interaction-screen-extension-properties-editor',
-    USE_ADVANCED_OPTIONS_CHECKBOX:
-        'builder_platform_interaction-use-advanced-options-checkbox'
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const createComponentUnderTest = props => {

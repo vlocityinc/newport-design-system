@@ -19,9 +19,6 @@ import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
-import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { setRules } from 'builder_platform_interaction/ruleLib';
-import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -33,33 +30,26 @@ import {
     flowWithCreateRecordUsingFields
 } from 'mock/flows/flowWithCreateRecord';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
-import {
-    setGlobalVariables,
-    setSystemVariables,
-    setProcessTypeFeature
-} from 'builder_platform_interaction/systemLib';
+import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
+import { auraFetch, allAuraActions } from '../serverDataTestUtils';
+import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    SOBJECT_OR_SOBJECT_COLLECTION_PICKER:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
-    RECORD_INPUT_OUTPUT_ASSIGNMENTS:
-        'builder_platform_interaction-record-input-output-assignments'
+    ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
 const VALIDATION_ERROR_MESSAGES = {
@@ -83,44 +73,29 @@ const getInputOutputAssignments = recordEditor => {
     );
 };
 
-const getResourceGroupedCombobox = editor => {
-    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-        editor
-    );
-    const ferovResourcePicker = sObjectOrSObjectCollectionPicker.shadowRoot.querySelector(
-        SELECTORS.FEROV_RESOURCE_PICKER
-    );
-    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
-        SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(
-        SELECTORS.INTERACTION_COMBOBOX
-    );
-    return interactionCombobox.shadowRoot.querySelector(
+const getResourceGroupedCombobox = recordEditor => {
+    return deepQuerySelector(recordEditor, [
+        SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER,
+        SELECTORS.FEROV_RESOURCE_PICKER,
+        SELECTORS.BASE_RESOURCE_PICKER,
+        SELECTORS.INTERACTION_COMBOBOX,
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
+    ]);
 };
 
 const getEntityResourcePickerComboboxElement = entityResourcePicker => {
-    const resourcePicker = entityResourcePicker.shadowRoot.querySelector(
-        SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const combobox = resourcePicker.shadowRoot.querySelector(
-        SELECTORS.COMBOBOX
-    );
-    const lightningGroupCombobox = combobox.shadowRoot.querySelector(
+    return deepQuerySelector(entityResourcePicker, [
+        SELECTORS.BASE_RESOURCE_PICKER,
+        SELECTORS.COMBOBOX,
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
-    return lightningGroupCombobox;
+    ]);
 };
 
 const getExpressionBuilderComboboxElement = expressionBuilder => {
-    const interactionCombobox = expressionBuilder.shadowRoot.querySelector(
-        SELECTORS.INTERACTION_COMBOBOX
-    );
-    return interactionCombobox.shadowRoot.querySelector(
+    return deepQuerySelector(expressionBuilder, [
+        SELECTORS.INTERACTION_COMBOBOX,
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
+    ]);
 };
 
 const getOutputResourcePicker = recordEditor => {
@@ -147,12 +122,10 @@ describe('Record Create Editor', () => {
     let recordCreateNode;
     let store;
     let uiFlow;
-    beforeAll(() => {
+    beforeAll(async () => {
         store = Store.getStore(reducer);
-        setRules(rules);
-        setEntities(allEntities);
-        setGlobalVariables(globalVariablesForFlow);
-        setSystemVariables(systemVariablesForFlow);
+        setAuraFetch(auraFetch(allAuraActions));
+        await loadDataForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
     });
     afterAll(() => {
         resetState();
@@ -547,9 +520,11 @@ describe('Record Create Editor', () => {
                 it('input Assignments should be visible and correctly displayed', () => {
                     return resolveRenderCycles(() => {
                         expect(fieldToFerovExpressionBuilder).toHaveLength(2);
-                        expect(baseExpressionBuilder.lhsValue).toBe(
-                            'Account.BillingCity'
-                        );
+                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                            value: 'Account.BillingCity',
+                            dataType: 'String',
+                            displayText: 'BillingCity'
+                        });
                         expect(
                             baseExpressionBuilder.operatorValue
                         ).toBeUndefined();
@@ -569,9 +544,11 @@ describe('Record Create Editor', () => {
                         baseExpressionBuilder = getBaseExpressionBuilder(
                             fieldToFerovExpressionBuilder[1]
                         );
-                        expect(baseExpressionBuilder.lhsValue).toBe(
-                            'Account.Name'
-                        );
+                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                            dataType: 'String',
+                            displayText: 'Name',
+                            value: 'Account.Name'
+                        });
                         expect(
                             baseExpressionBuilder.operatorValue
                         ).toBeUndefined();
@@ -600,9 +577,11 @@ describe('Record Create Editor', () => {
                         baseExpressionBuilder = getBaseExpressionBuilder(
                             fieldToFerovExpressionBuilder[0]
                         );
-                        expect(baseExpressionBuilder.lhsValue).toBe(
-                            'Account.BillingCity'
-                        );
+                        expect(baseExpressionBuilder.lhsValue).toMatchObject({
+                            dataType: 'String',
+                            displayText: 'BillingCity',
+                            value: 'Account.BillingCity'
+                        });
                     });
                 });
             });

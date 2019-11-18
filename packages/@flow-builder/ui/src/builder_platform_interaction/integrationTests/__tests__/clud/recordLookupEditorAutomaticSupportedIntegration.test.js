@@ -37,33 +37,15 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 
 const PROCESS_TYPE_FLOW = 'Flow';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS,
-    RECORD_SOBJECT_AND_QUERY_FIELDS_COMPONENT:
-        'builder_platform_interaction-record-sobject-and-query-fields',
-    RECORD_QUERY_FIELDS_COMPONENT:
-        'builder_platform_interaction-record-query-fields',
-    RECORD_FIELD_PICKER_ROW:
-        'builder_platform_interaction-record-field-picker-row',
-    RECORD_FIELD_PICKER: 'builder_platform_interaction-field-picker',
-    RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
-    RECORD_SORT: 'builder_platform_interaction-record-sort',
-    RECORD_INPUT_OUTPUT_ASSIGNMENTS:
-        'builder_platform_interaction-record-input-output-assignments',
-    SOBJECT_OR_SOBJECT_COLLECTION_PICKER:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    VARIABLE_AND_FIELD_MAPPING_COMPONENT:
-        'builder_platform_interaction-record-lookup-variable-and-field-mapping',
-    RECORD_NUMBER_RECORD_TO_STORE:
-        'builder_platform_interaction-record-number-record-to-store',
-    ROW: 'builder_platform_interaction-row'
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const getRecordSort = recordLookupEditor => {
@@ -87,19 +69,11 @@ const createComponentForTest = (
     return el;
 };
 
-const getVariableAndFieldMappingComponent = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(
-        SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT
-    );
-};
-
 const getVariableAndFieldMappingRadioButtonGroup = recordLookupEditor => {
-    const variableAndFieldmappingComponent = getVariableAndFieldMappingComponent(
-        recordLookupEditor
-    );
-    return variableAndFieldmappingComponent.shadowRoot.querySelector(
+    return deepQuerySelector(recordLookupEditor, [
+        SELECTORS.VARIABLE_AND_FIELD_MAPPING_COMPONENT,
         SELECTORS.LIGHTNING_RADIO_GROUP
-    );
+    ]);
 };
 
 const getQueryFields = recordLookupEditor => {
@@ -108,16 +82,11 @@ const getQueryFields = recordLookupEditor => {
     );
 };
 
-const getNumberRecordToStoreComponent = recordLookupEditor => {
-    return recordLookupEditor.shadowRoot.querySelector(
-        SELECTORS.RECORD_NUMBER_RECORD_TO_STORE
-    );
-};
-
 const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
-    return getNumberRecordToStoreComponent(
-        recordLookupEditor
-    ).shadowRoot.querySelector(SELECTORS.LIGHTNING_RADIO_GROUP);
+    return deepQuerySelector(recordLookupEditor, [
+        SELECTORS.RECORD_NUMBER_RECORD_TO_STORE,
+        SELECTORS.LIGHTNING_RADIO_GROUP
+    ]);
 };
 
 describe('Record Lookup Editor', () => {

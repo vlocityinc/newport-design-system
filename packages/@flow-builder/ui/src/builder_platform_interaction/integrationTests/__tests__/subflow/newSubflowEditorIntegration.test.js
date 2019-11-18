@@ -43,8 +43,7 @@ const createComponentForTest = (node, processType) => {
 
 const SELECTORS = {
     ...INTERACTION_COMPONENTS_SELECTORS,
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    ACTION_SELECTOR: 'builder_platform_interaction-action-selector'
+    ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
 const getActionSelectorElement = actionEditor => {

@@ -40,7 +40,10 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
-import { LIGHTNING_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS
+} from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = node => {
     const el = createElement(
@@ -53,17 +56,13 @@ const createComponentForTest = node => {
 };
 
 const SELECTORS = {
-    SOBJECT_OR_SOBJECT_COLLECTION_PICKER:
-        'builder_platform_interaction-sobject-or-sobject-collection-picker',
-    RECORD_FILTER: 'builder_platform_interaction-record-filter',
-    RECORD_STORE_OPTION: 'builder_platform_interaction-record-store-options',
-    RECORD_INPUT_OUTPUT_ASSIGNMENTS:
-        'builder_platform_interaction-record-input-output-assignments'
+    ...LIGHTNING_COMPONENTS_SELECTORS,
+    ...INTERACTION_COMPONENTS_SELECTORS
 };
 
 const UPDATE_RECORDS_USING_SOBJECT_FLOW_ELEMENT =
-        'update_contract_using_sobject',
-    UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'update_contract_using_fields';
+    'update_contract_using_sobject';
+const UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'update_contract_using_fields';
 
 describe('Record Update Editor', () => {
     let recordUpdateNode, recordUpdateComponent, store, uiFlow;
@@ -530,7 +529,7 @@ describe('Record Update Editor', () => {
                     );
                     const operatorsComboboxComponent = getChildComponent(
                         baseExpressionBuilderComponent,
-                        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_COMBOBOX
+                        SELECTORS.LIGHTNING_COMBOBOX
                     );
                     expect(operatorsComboboxComponent.options).toHaveLength(6);
                     expect(operatorsComboboxComponent.options).toEqual(

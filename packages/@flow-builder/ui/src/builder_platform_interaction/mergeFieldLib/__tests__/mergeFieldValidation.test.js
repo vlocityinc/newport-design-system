@@ -930,6 +930,49 @@ describe('Merge field validation', () => {
             });
         });
     });
+    describe('SObject or SObject collection validation', () => {
+        it.each`
+            mergeField                                      | options                              | error
+            ${'{!accountSObjectVariable}'}                  | ${undefined}                         | ${undefined}
+            ${'{!accountSObjectCollectionVariable}'}        | ${undefined}                         | ${undefined}
+            ${'{!stringVariable}'}                          | ${undefined}                         | ${'wrongDataType'}
+            ${'{!apexComplexTypeVariable.acct}'}            | ${undefined}                         | ${undefined}
+            ${'{!apexComplexTypeVariable.name}'}            | ${undefined}                         | ${'wrongDataType'}
+            ${'{!apexComplexTypeVariable.acct}'}            | ${{ canBeApexProperty: 'CannotBe' }} | ${'wrongDataType'}
+            ${'{!lightningCompWithAccountOutput.account}'}  | ${undefined}                         | ${undefined}
+            ${'{!lightningCompWithAccountOutput.greeting}'} | ${undefined}                         | ${'wrongDataType'}
+        `(
+            'the error for $mergeField should be $error',
+            ({ mergeField, options = {}, error }) => {
+                const allowedParamTypes = {
+                    SObject: [
+                        {
+                            ...{
+                                paramType: 'Data',
+                                dataType: 'SObject',
+                                canBeSobjectField: 'CannotBe',
+                                canBeSystemVariable: 'CannotBe',
+                                canBeApexProperty: 'CanBe'
+                            },
+                            ...options
+                        }
+                    ]
+                };
+                const validationErrors = validateMergeField(mergeField, {
+                    allowedParamTypes
+                });
+                if (error === undefined) {
+                    expect(validationErrors).toHaveLength(0);
+                } else {
+                    expect(validationErrors).toEqual([
+                        expect.objectContaining({
+                            errorType: error
+                        })
+                    ]);
+                }
+            }
+        );
+    });
 });
 
 describe('Text with merge fields validation', () => {
