@@ -3,3 +3,18 @@
     display: none;
   }
 }
+
+/**
+/* This styles overrides the lightining-file-upload styles that can't be customized on the component
+**/
+.nds-card {
+
+    .slds-file-selector.slds-file-selector_files {
+        width: 100%;
+    }
+    
+    .slds-file-selector__dropzone {
+        border: none;
+        width: 100%;
+    }
+}
