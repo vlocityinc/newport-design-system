@@ -5,7 +5,8 @@ import {
     getAdvancedOptionCheckbox,
     getUseAdvancedOptionComponent,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
@@ -57,35 +58,21 @@ const getFerovResourcePicker = parameterItem => {
 };
 
 export const getInputParameterComboboxElement = parameterItem => {
-    const ferovResourcePicker = parameterItem.shadowRoot.querySelector(
-        SELECTORS.FEROV_RESOURCE_PICKER
-    );
-    const resourcePicker = ferovResourcePicker.shadowRoot.querySelector(
-        SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const combobox = resourcePicker.shadowRoot.querySelector(
-        SELECTORS.COMBOBOX
-    );
-    const lightningGroupCombobox = combobox.shadowRoot.querySelector(
+    return deepQuerySelector(parameterItem, [
+        SELECTORS.FEROV_RESOURCE_PICKER,
+        SELECTORS.BASE_RESOURCE_PICKER,
+        SELECTORS.COMBOBOX,
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
-    return lightningGroupCombobox;
+    ]);
 };
 
 export const getOutputParameterComboboxElement = parameterItem => {
-    const outputResourcePicker = parameterItem.shadowRoot.querySelector(
-        SELECTORS.OUTPUT_RESOURCE_PICKER
-    );
-    const resourcePicker = outputResourcePicker.shadowRoot.querySelector(
-        SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const combobox = resourcePicker.shadowRoot.querySelector(
-        SELECTORS.COMBOBOX
-    );
-    const lightningGroupCombobox = combobox.shadowRoot.querySelector(
+    return deepQuerySelector(parameterItem, [
+        SELECTORS.OUTPUT_RESOURCE_PICKER,
+        SELECTORS.BASE_RESOURCE_PICKER,
+        SELECTORS.COMBOBOX,
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
-    return lightningGroupCombobox;
+    ]);
 };
 
 export const getLightningInputToggle = parameterItem => {

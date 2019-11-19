@@ -17,7 +17,11 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    deepQuerySelector,
+    focusoutEvent,
+    textInputEvent,
+    blurEvent
 } from 'builder_platform_interaction/builderTestUtils';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
@@ -46,32 +50,6 @@ export const getLabelDescriptionLabelElement = editor => {
     return getLabelDescriptionElement(editor).shadowRoot.querySelector(
         LABEL_DESCRIPTION_SELECTORS.LABEL
     );
-};
-
-export const focusoutEvent = new FocusEvent('focusout', {
-    bubbles: true,
-    cancelable: true
-});
-
-export const textInputEvent = textInput => {
-    return new CustomEvent('textinput', {
-        bubbles: true,
-        cancelable: true,
-        detail: { text: textInput }
-    });
-};
-
-export const blurEvent = new FocusEvent('blur', {
-    bubbles: true,
-    cancelable: true
-});
-
-export const selectEvent = value => {
-    return new CustomEvent('select', {
-        bubbles: true,
-        cancelable: true,
-        detail: { value }
-    });
 };
 
 export const expectGroupedComboboxItem = (groupedCombobox, itemText) => {
@@ -168,30 +146,20 @@ export const getChildComponent = (parentComponent, childComponentSelector) => {
 };
 
 export const getRecordVariablePickerChildGroupedComboboxComponent = parentPickerComponent => {
-    const ferovResourcePicker = parentPickerComponent.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER
-    );
-    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX
-    );
-    return interactionCombobox.shadowRoot.querySelector(
+    return deepQuerySelector(parentPickerComponent, [
+        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
+    ]);
 };
 
 export const getEntityResourcePickerChildGroupedComboboxComponent = parentPickerComponent => {
-    const resourcePicker = parentPickerComponent.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const combobox = resourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX
-    );
-    return combobox.shadowRoot.querySelector(
+    return deepQuerySelector(parentPickerComponent, [
+        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER,
+        INTERACTION_COMPONENTS_SELECTORS.COMBOBOX,
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
+    ]);
 };
 
 export const changeComboboxValue = (combobox, newValue) => {
@@ -248,11 +216,5 @@ export const resetState = () => {
 export class ToggleOnChangeEvent extends CustomEvent {
     constructor() {
         super('change', { detail: { checked: true } });
-    }
-}
-
-export class OnChangeEvent extends CustomEvent {
-    constructor(value) {
-        super('change', { detail: { value } });
     }
 }

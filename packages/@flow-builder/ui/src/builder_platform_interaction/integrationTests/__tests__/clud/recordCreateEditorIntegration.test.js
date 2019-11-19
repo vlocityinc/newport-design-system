@@ -3,7 +3,6 @@ import RecordCreateEditor from 'builder_platform_interaction/recordCreateEditor'
 import { resolveRenderCycles } from '../resolveRenderCycles';
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    focusoutEvent,
     changeComboboxValue,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement,
@@ -38,7 +37,8 @@ import {
     getUseAdvancedOptionComponent,
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    deepQuerySelector,
+    focusoutEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';

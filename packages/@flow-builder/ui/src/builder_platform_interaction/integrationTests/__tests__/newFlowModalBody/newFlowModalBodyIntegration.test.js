@@ -10,25 +10,25 @@ import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import {
+    INTERACTION_COMPONENTS_SELECTORS,
+    LIGHTNING_COMPONENTS_SELECTORS,
+    deepQuerySelector
+} from 'builder_platform_interaction/builderTestUtils';
 
 const SELECTORS = {
     ERROR_MESSAGE: '.errorMessage .slds-notify__content',
     FEATURED_SECTION: '.featured',
     TEMPLATES_SECTION: '.templates',
-    ...INTERACTION_COMPONENTS_SELECTORS
+    ...INTERACTION_COMPONENTS_SELECTORS,
+    ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
 const getProcessTypesNavigationItems = modalBody => {
-    const processTypeNavigation = modalBody.shadowRoot.querySelector(
-        SELECTORS.PROCESS_TYPES_NAVIGATION
-    );
-    const verticalNavigation = processTypeNavigation.shadowRoot.querySelector(
-        'lightning-vertical-navigation'
-    );
-    return verticalNavigation.querySelectorAll(
-        'lightning-vertical-navigation-item-icon'
-    );
+    return deepQuerySelector(modalBody, [
+        SELECTORS.PROCESS_TYPES_NAVIGATION,
+        SELECTORS.LIGHTNING_VERTICAL_NAVIGATION
+    ]).querySelectorAll('lightning-vertical-navigation-item-icon');
 };
 
 const selectProcessType = (processTypesNavigationItems, processType) => {

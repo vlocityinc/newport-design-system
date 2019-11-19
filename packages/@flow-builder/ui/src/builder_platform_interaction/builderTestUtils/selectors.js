@@ -4,7 +4,8 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_ICON: 'lightning-icon',
     LIGHTNING_TAB: 'lightning-tab',
     LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
-    LIGHTNING_INPUT: 'lightning-input'
+    LIGHTNING_INPUT: 'lightning-input',
+    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {

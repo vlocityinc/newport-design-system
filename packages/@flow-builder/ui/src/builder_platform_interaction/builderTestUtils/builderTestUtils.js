@@ -6,3 +6,4 @@ export * from './goldObjectMatchers';
 export * from './domTestUtils';
 export * from './complexTypeTestUtils';
 export * from './selectors';
+export * from './events';

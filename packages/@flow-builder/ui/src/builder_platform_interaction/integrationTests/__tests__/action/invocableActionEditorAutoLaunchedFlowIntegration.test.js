@@ -11,11 +11,13 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    focusoutEvent
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     getLabelDescriptionNameElement,
     getLabelDescriptionLabelElement,
-    focusoutEvent,
     resetState,
     ToggleOnChangeEvent
 } from '../integrationTestUtils';

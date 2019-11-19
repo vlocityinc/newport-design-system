@@ -2,44 +2,32 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 
-import {
-    resetState,
-    getEntityResourcePicker,
-    OnChangeEvent
-} from '../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
+import { resetState, getEntityResourcePicker } from '../integrationTestUtils';
+import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
-import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { setRules } from 'builder_platform_interaction/ruleLib';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import {
-    setGlobalVariables,
-    setSystemVariables,
-    setProcessTypeFeature
-} from 'builder_platform_interaction/systemLib';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
+import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { VARIABLE_AND_FIELD_MAPPING_VALUES } from 'builder_platform_interaction/recordEditorLib';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    deepQuerySelector,
+    changeEvent
 } from 'builder_platform_interaction/builderTestUtils';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const PROCESS_TYPE_FLOW = 'Flow';
 
@@ -91,20 +79,10 @@ const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
 
 describe('Record Lookup Editor', () => {
     let recordLookupNode, store, uiFlow, recordLookupElement;
-    beforeAll(() => {
+    beforeAll(async () => {
         store = Store.getStore(reducer);
-        setRules(rules);
-        setEntities(allEntities);
-        setGlobalVariables(globalVariablesForFlow);
-        setSystemVariables(systemVariablesForFlow);
-        setProcessTypeFeature(PROCESS_TYPE_FLOW, supportedFeaturesListForFlow);
-        setAuraFetch(
-            auraFetch({
-                'c.getFieldsForEntity': getFieldsForEntity({
-                    Account: accountFields
-                })
-            })
-        );
+        setAuraFetch(auraFetch(allAuraActions));
+        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
     afterAll(() => {
         resetState();
@@ -184,7 +162,7 @@ describe('Record Lookup Editor', () => {
                     recordLookupElement
                 );
                 variableAndFieldMappingRadioButtonGroup.dispatchEvent(
-                    new OnChangeEvent(
+                    changeEvent(
                         VARIABLE_AND_FIELD_MAPPING_VALUES.AUTOMATIC_WITH_FIELDS
                     )
                 );
@@ -214,7 +192,7 @@ describe('Record Lookup Editor', () => {
                     recordLookupElement
                 );
                 variableAndFieldMappingRadioButtonGroup.dispatchEvent(
-                    new OnChangeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
+                    changeEvent(VARIABLE_AND_FIELD_MAPPING_VALUES.MANUAL)
                 );
             });
             it('Variable and Field Mapping radiobutton group: Automatic should be selected', () => {

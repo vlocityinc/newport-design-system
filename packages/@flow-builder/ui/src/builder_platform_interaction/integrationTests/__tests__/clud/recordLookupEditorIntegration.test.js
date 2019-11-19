@@ -4,8 +4,6 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 
 import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
-    blurEvent,
-    textInputEvent,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement,
     expectGroupedComboboxItem,
@@ -19,16 +17,13 @@ import {
     newFilterItem,
     resetState
 } from '../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
+import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
-import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { setRules } from 'builder_platform_interaction/ruleLib';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -39,21 +34,17 @@ import {
     flowWithGetRecordUsingSObjectCollection,
     flowWithGetRecordUsingFields
 } from 'mock/flows/flowWithGetRecord';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import {
-    setGlobalVariables,
-    setSystemVariables
-} from 'builder_platform_interaction/systemLib';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_AUTOMATIC_OUTPUT_HANDLING } from 'builder_platform_interaction/processTypeLib';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
-    deepQuerySelector
+    deepQuerySelector,
+    blurEvent,
+    textInputEvent
 } from 'builder_platform_interaction/builderTestUtils';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -149,19 +140,10 @@ const createComponentForTest = (
 
 describe('Record Lookup Editor', () => {
     let recordLookupNode, store, uiFlow;
-    beforeAll(() => {
+    beforeAll(async () => {
         store = Store.getStore(reducer);
-        setRules(rules);
-        setEntities(allEntities);
-        setGlobalVariables(globalVariablesForFlow);
-        setSystemVariables(systemVariablesForFlow);
-        setAuraFetch(
-            auraFetch({
-                'c.getFieldsForEntity': getFieldsForEntity({
-                    Account: accountFields
-                })
-            })
-        );
+        setAuraFetch(auraFetch(allAuraActions));
+        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
     afterAll(() => {
         resetState();

@@ -16,26 +16,15 @@ import {
     changeInputValue,
     resetState
 } from '../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
+import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { setRules } from 'builder_platform_interaction/ruleLib';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { setEntities } from 'builder_platform_interaction/sobjectLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import * as FLOWS_WITH_UPDATE_RECORDS from 'mock/flows/flowWithUpdateRecord';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import {
-    setGlobalVariables,
-    setSystemVariables
-} from 'builder_platform_interaction/systemLib';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { RecordStoreOptionChangedEvent } from 'builder_platform_interaction/events';
 import { resolveRenderCycles } from '../resolveRenderCycles';
@@ -44,6 +33,8 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS
 } from 'builder_platform_interaction/builderTestUtils';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const createComponentForTest = node => {
     const el = createElement(
@@ -66,20 +57,10 @@ const UPDATE_RECORDS_USING_FIELDS_FLOW_ELEMENT = 'update_contract_using_fields';
 
 describe('Record Update Editor', () => {
     let recordUpdateNode, recordUpdateComponent, store, uiFlow;
-    beforeAll(() => {
+    beforeAll(async () => {
         store = Store.getStore(reducer);
-        setRules(rules);
-        setEntities(allEntities);
-        setGlobalVariables(globalVariablesForFlow);
-        setSystemVariables(systemVariablesForFlow);
-        setAuraFetch(
-            auraFetch({
-                'c.getFieldsForEntity': getFieldsForEntity({
-                    Account: accountFields,
-                    Contract: accountFields
-                })
-            })
-        );
+        setAuraFetch(auraFetch(allAuraActions));
+        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
     afterAll(() => {
         resetState();

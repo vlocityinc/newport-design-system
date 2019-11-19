@@ -2,14 +2,12 @@ import {
     ticks,
     deepQuerySelector,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
-} from 'builder_platform_interaction/builderTestUtils';
-import {
+    INTERACTION_COMPONENTS_SELECTORS,
     blurEvent,
     textInputEvent,
-    OnChangeEvent,
-    selectEvent
-} from './integrationTestUtils';
+    selectEvent,
+    changeEvent
+} from 'builder_platform_interaction/builderTestUtils';
 import {
     addCurlyBraces,
     removeCurlyBraces,
@@ -56,7 +54,7 @@ export const selectOperator = (expressionBuilder, operator) => {
         EXPRESSION_BUILDER_SELECTORS.OPERATOR_COMBOBOX
     ]);
     if (operatorCombobox.options.find(option => option.value === operator)) {
-        operatorCombobox.dispatchEvent(new OnChangeEvent(operator));
+        operatorCombobox.dispatchEvent(changeEvent(operator));
         return true;
     }
     return false;

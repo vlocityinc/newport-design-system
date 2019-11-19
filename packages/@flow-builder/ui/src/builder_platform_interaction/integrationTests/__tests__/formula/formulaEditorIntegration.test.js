@@ -3,7 +3,10 @@ import FormulaEditor from 'builder_platform_interaction/formulaEditor';
 import {
     ticks,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    focusoutEvent,
+    blurEvent,
+    selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -12,35 +15,23 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import {
-    setGlobalVariables,
-    setSystemVariables
-} from 'builder_platform_interaction/systemLib';
-import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { globalVariablesForFlow } from 'serverData/GetAllGlobalVariables/globalVariablesForFlow.json';
-import {
     FLOW_BUILDER_VALIDATION_ERROR_MESSAGES,
     getLabelDescriptionNameElement,
-    focusoutEvent,
-    blurEvent,
-    selectEvent,
     expectGroupedComboboxItem,
     expectGroupedComboboxItemInGroup,
     getGroupedComboboxItemInGroup,
     getGroupedComboboxItem,
     resetState
 } from '../integrationTestUtils';
-import { auraFetch, getFieldsForEntity } from '../serverDataTestUtils';
-import {
-    setEntities,
-    fetchFieldsForEntity
-} from 'builder_platform_interaction/sobjectLib';
+import { auraFetch, allAuraActions } from '../serverDataTestUtils';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import {
     setAuraFetch,
     resetFetchOnceCache
 } from 'builder_platform_interaction/serverDataLib';
 import { flowWithFormula } from 'mock/flows/flowWithFormula';
-import { allEntities } from 'serverData/GetEntities/allEntities.json';
-import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-formula-editor', {
@@ -102,18 +93,10 @@ const getResourceGroupedCombobox = editor => {
 
 describe('Formula Editor', () => {
     let store;
-    beforeAll(() => {
+    beforeAll(async () => {
         store = Store.getStore(reducer);
-        setGlobalVariables(globalVariablesForFlow);
-        setSystemVariables(systemVariablesForFlow);
-        setEntities(allEntities);
-        setAuraFetch(
-            auraFetch({
-                'c.getFieldsForEntity': getFieldsForEntity({
-                    Account: accountFields
-                })
-            })
-        );
+        setAuraFetch(auraFetch(allAuraActions));
+        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
     afterAll(() => {
         resetState();

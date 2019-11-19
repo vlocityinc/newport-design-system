@@ -3,6 +3,7 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { userFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { contractFields } from 'serverData/GetFieldsForEntity/contractFields.json';
 import { systemVariablesForFlow } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { systemVariablesForAutoLaunchedFlow } from 'serverData/GetSystemVariables/systemVariablesForAutoLaunchedFlow.json';
 import { getCarFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getCarFromApexActionDetails.json';
@@ -175,7 +176,8 @@ export const allAuraActions = {
     'c.getFieldsForEntity': getFieldsForEntity({
         Account: accountFields,
         User: userFields,
-        FeedItem: feedItemFields
+        FeedItem: feedItemFields,
+        Contract: contractFields
     }),
     'c.getAllInvocableActionsForType': getAllInvocableActionsForType({
         [FLOW_PROCESS_TYPE.FLOW]: invocableActionsForFlow,

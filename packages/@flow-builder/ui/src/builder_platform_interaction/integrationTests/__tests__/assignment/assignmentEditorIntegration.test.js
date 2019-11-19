@@ -14,7 +14,6 @@ import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import {
-    selectEvent,
     expectGroupedComboboxItem,
     getGroupedComboboxItem,
     getGroupedComboboxItemInGroupByDisplayText,
@@ -24,7 +23,8 @@ import {
     ticks,
     deepQuerySelector,
     INTERACTION_COMPONENTS_SELECTORS,
-    LIGHTNING_COMPONENTS_SELECTORS
+    LIGHTNING_COMPONENTS_SELECTORS,
+    selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';

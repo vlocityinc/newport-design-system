@@ -13,15 +13,17 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    focusoutEvent,
+    textInputEvent,
+    blurEvent
+} from 'builder_platform_interaction/builderTestUtils';
 import * as flowWithApexAction from 'mock/flows/flowWithApexAction.json';
 import { flowWithApexActionSubmitForApproval } from 'mock/flows/flowWithApexActionSubmitForApproval';
 import {
     getLabelDescriptionNameElement,
     getLabelDescriptionLabelElement,
-    focusoutEvent,
-    textInputEvent,
-    blurEvent,
     resetState
 } from '../integrationTestUtils';
 import {

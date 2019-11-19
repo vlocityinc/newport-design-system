@@ -5,11 +5,11 @@ import {
     ticks,
     deepQuerySelector,
     LIGHTNING_COMPONENTS_SELECTORS,
-    INTERACTION_COMPONENTS_SELECTORS
+    INTERACTION_COMPONENTS_SELECTORS,
+    selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import {
     resetState,
-    selectEvent,
     getLabelDescriptionLabelElement,
     getLabelDescriptionNameElement
 } from '../integrationTestUtils';

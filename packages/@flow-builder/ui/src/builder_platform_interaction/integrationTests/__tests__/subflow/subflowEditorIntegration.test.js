@@ -17,9 +17,6 @@ import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
 import {
     getLabelDescriptionNameElement,
     getLabelDescriptionLabelElement,
-    focusoutEvent,
-    textInputEvent,
-    blurEvent,
     changeComboboxValue,
     resetState
 } from '../integrationTestUtils';
@@ -51,7 +48,12 @@ import {
 } from '../baseCalloutEditorTestUtils';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
 import { rules } from 'serverData/RetrieveAllRules/rules.json';
-import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import {
+    ticks,
+    focusoutEvent,
+    textInputEvent,
+    blurEvent
+} from 'builder_platform_interaction/builderTestUtils';
 
 const createComponentForTest = node => {
     const el = createElement('builder_platform_interaction-subflow-editor', {
