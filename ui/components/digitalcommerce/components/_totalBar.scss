@@ -1,0 +1,33 @@
+/* dcTotalBar */
+.nds-dc-totalbar {
+  width: 100%;
+  background-color: $background-primary-blue;
+  bottom: 0px;
+  left: 0px;
+  line-height: 2rem;
+  z-index: 1;
+
+  .nds-dc-totabar-label {
+    font-weight: $font-weight-light;
+  }
+  .nds-dc-totabar-value {
+    font-size: $font-size-9;
+  }
+  .nds-dc-totalbar-container-pipe {
+    border: 0.5px solid $white;
+    height: 2.3rem;
+    margin: 15px 20px 0px 20px;
+  }
+  .nds-dc-checkout-button {
+    font-weight: $font-weight-light;;
+    border-radius: 4px;
+    font-size: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  @media only screen and (max-width: 22rem) {
+    .nds-dc-checkout-button {
+      padding: 5px 10px;
+    }
+  }
+}
