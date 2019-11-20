@@ -1,3 +1,3 @@
-# Digital Commerce Product Card
+# Digital Commerce Total Bar
 
-This renders a Product card from Digital Commerce
+This renders the Total Bar from Digital Commerce

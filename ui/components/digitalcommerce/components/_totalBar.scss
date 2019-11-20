@@ -2,32 +2,68 @@
 .nds-dc-totalbar {
   width: 100%;
   background-color: $background-primary-blue;
-  bottom: 0px;
-  left: 0px;
+  color: $white;
+  bottom: 0;
+  left: 0;
   line-height: 2rem;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  position: fixed;
 
-  .nds-dc-totabar-label {
-    font-weight: $font-weight-light;
-  }
-  .nds-dc-totabar-value {
-    font-size: $font-size-9;
-  }
-  .nds-dc-totalbar-container-pipe {
-    border: 0.5px solid $white;
-    height: 2.3rem;
-    margin: 15px 20px 0px 20px;
-  }
   .nds-dc-checkout-button {
-    font-weight: $font-weight-light;;
-    border-radius: 4px;
-    font-size: 16px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    margin-right: 1.5rem;
+    right: 0;
+    position: absolute;
   }
-  @media only screen and (max-width: 22rem) {
-    .nds-dc-checkout-button {
-      padding: 5px 10px;
-    }
+}
+
+.nds-dc-totalbar_label {
+  font-weight: $font-weight-light;
+}
+
+.nds-dc-totalbar_value {
+  font-size: $font-size-9;
+}
+
+.nds-dc-totalbar_price-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: auto;
+  flex-direction: row-reverse;
+
+  .nds-dc-totalbar_container:first-child {
+    text-align: left;
+  }
+
+  .nds-dc-totalbar_container:last-child {
+    text-align: right;
+  }
+}
+
+.nds-dc-totalbar_container {
+  float: right;
+}
+
+.nds-dc-totalbar_container-pipe {
+  border: .05rem solid $white;
+  height: 2.3rem;
+  margin: 1rem 1.5rem 0;
+}
+
+.nds-dc-checkout-button {
+  font-weight: $font-weight-light;
+  color: $color-text-link;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: .3rem 2rem;
+}
+
+@media only screen and (max-width: 22rem) {
+  .nds-dc-checkout-button {
+    padding: .3rem .75rem;
   }
 }
