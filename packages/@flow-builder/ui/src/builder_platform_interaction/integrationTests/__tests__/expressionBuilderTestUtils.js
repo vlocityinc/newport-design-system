@@ -142,7 +142,7 @@ export const selectComboboxItemBy = async (
                 return undefined;
             }
             combobox.dispatchEvent(selectEvent(comboboxItem.value));
-            return ticks().then(() => comboboxItem);
+            return ticks(50).then(() => comboboxItem);
         });
     }
     const comboboxItem = await promise;

@@ -29,6 +29,9 @@ import { supportedFeaturesListForAutoLaunchedFlow } from 'serverData/GetSupporte
 import { resourceTypesForFlow } from 'serverData/GetResourceTypes/resourceTypesForFlow.json';
 import { resourceTypesForAutoLaunchedFlow } from 'serverData/GetResourceTypes/resourceTypesForAutoLaunchedFlow.json';
 import { eventTypes } from 'serverData/GetEventTypes/eventTypes.json';
+import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
+import { flowExtensionsForFlow } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
+import { flowExtensionsForContactRequestFlow } from 'serverData/GetFlowExtensions/flowExtensionsForContactRequestFlow.json';
 
 export const auraFetch = actions => async (
     actionName,
@@ -155,6 +158,13 @@ export const peripheralDataForAutoLaunchedFlow = {
     supportedFeatures: supportedFeaturesListForAutoLaunchedFlow
 };
 
+const getFlowExtensionListParams = flowExtensionListParameters => params => ({
+    data: params.names.reduce((obj, name) => {
+        obj[name] = flowExtensionListParameters[name];
+        return obj;
+    }, {})
+});
+
 export const loadProcessTypeFeatures = flowProcessTypeToFeatures => ({
     flowProcessType
 }) => {
@@ -197,5 +207,12 @@ export const allAuraActions = {
         'submit-submit': submitForApprovalActionDetails,
         'chatterPost-chatterPost': chatterPostActionDetails,
         'quickAction-Case.LogACall': logACallActionDetails
+    }),
+    'c.getFlowExtensionListParams': getFlowExtensionListParams(
+        flowExtensionListParams
+    ),
+    'c.getFlowExtensions': getFlowExtensions({
+        [FLOW_PROCESS_TYPE.FLOW]: flowExtensionsForFlow,
+        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow
     })
 };

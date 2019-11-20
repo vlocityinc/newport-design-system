@@ -55,11 +55,15 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     SCREEN_EDITOR_CANVAS: 'builder_platform_interaction-screen-editor-canvas',
     SCREEN_EDITOR_HIGHLIGHT:
         'builder_platform_interaction-screen-editor-highlight',
+    SCREEN_EXTENSION_ATTRIBUTE_EDITOR:
+        'builder_platform_interaction-screen-extension-attribute-editor',
     SCREEN_EXTENSION_PROPERTIES_EDITOR:
         'builder_platform_interaction-screen-extension-properties-editor',
     SCREEN_PALETTE: 'builder_platform_interaction-screen-editor-palette',
     SCREEN_PROPERTIES_EDITOR_CONTAINER:
         'builder_platform_interaction-screen-properties-editor-container',
+    SCREEN_PROPERTY_FIELD_EDITOR:
+        'builder_platform_interaction-screen-property-field',
     SOBJECT_OR_SOBJECT_COLLECTION_PICKER:
         'builder_platform_interaction-sobject-or-sobject-collection-picker',
     SUBFLOW_EDITOR: 'builder_platform_interaction-subflow-editor',

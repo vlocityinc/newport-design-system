@@ -299,6 +299,30 @@
           }
         ],
         "defaultConnectorLabel": "Default Outcome"
+      },
+      {
+        "name": "decision",
+        "description": "",
+        "label": "decision",
+        "locationX": 846,
+        "locationY": 472.3125,
+        "rules": [
+          {
+            "name": "outcome",
+            "label": "outcome",
+            "conditions": [
+              {
+                "leftValueReference": "accountSObjectVariable",
+                "rightValue": {
+                  "elementReference": "accountSObjectVariable"
+                },
+                "operator": "EqualTo"
+              }
+            ],
+            "conditionLogic": "and"
+          }
+        ],
+        "defaultConnectorLabel": "Default Outcome"
       }
     ],
     "variables": [
@@ -731,6 +755,35 @@
             "scale": 0,
             "storeOutputAutomatically": true,
             "extensionName": "c:noSobjectOutputComp"
+          }
+        ],
+        "allowBack": true,
+        "allowFinish": true,
+        "allowPause": true,
+        "helpText": "",
+        "showFooter": true,
+        "showHeader": true
+      },
+      {
+        "name": "screenWithAddress",
+        "description": "",
+        "label": "screenWithAddress",
+        "locationX": 669,
+        "locationY": 483.3125,
+        "pausedText": "",
+        "fields": [
+          {
+            "choiceReferences": [],
+            "fieldText": "",
+            "fieldType": "ComponentInstance",
+            "helpText": "",
+            "inputParameters": [],
+            "isRequired": true,
+            "name": "Address",
+            "outputParameters": [],
+            "scale": 0,
+            "storeOutputAutomatically": true,
+            "extensionName": "flowruntime:address"
           }
         ],
         "allowBack": true,
