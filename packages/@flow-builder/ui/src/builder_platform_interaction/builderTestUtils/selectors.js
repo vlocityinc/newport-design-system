@@ -17,6 +17,7 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     CALLOUT_EDITOR_CONTAINER:
         'builder_platform_interaction-callout-editor-container',
     COMBOBOX: 'builder_platform_interaction-combobox',
+    CONDITION_LIST: 'builder_platform_interaction-condition-list',
     DATA_TYPE_PICKER: 'builder_platform_interaction-data-type-picker',
     ENTITY_RESOURCE_PICKER:
         'builder_platform_interaction-entity-resource-picker',
@@ -28,12 +29,14 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     GET_TEMPLATES_TILE: 'builder_platform_interaction-get-templates-tile',
     INTERACTION_COMBOBOX: 'builder_platform_interaction-combobox',
     LABEL_DESCRIPTION: 'builder_platform_interaction-label-description',
+    LIST: 'builder_platform_interaction-list',
     PARAMETER_ITEM: 'builder_platform_interaction-parameter-item',
     PARAMETER_LIST: 'builder_platform_interaction-parameter-list',
     PROCESS_TYPES_NAVIGATION:
         'builder_platform_interaction-process-types-vertical-navigation',
     PROCESS_TYPES_TEMPLATES:
         'builder_platform_interaction-process-types-templates',
+    OUTCOME: 'builder_platform_interaction-outcome',
     OUTPUT_RESOURCE_PICKER:
         'builder_platform_interaction-output-resource-picker',
     RECORD_FIELD_PICKER: 'builder_platform_interaction-field-picker',

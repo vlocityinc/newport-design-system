@@ -32,6 +32,7 @@ import { eventTypes } from 'serverData/GetEventTypes/eventTypes.json';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import { flowExtensionsForFlow } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { flowExtensionsForContactRequestFlow } from 'serverData/GetFlowExtensions/flowExtensionsForContactRequestFlow.json';
+import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
 
 export const auraFetch = actions => async (
     actionName,
@@ -158,6 +159,14 @@ export const peripheralDataForAutoLaunchedFlow = {
     supportedFeatures: supportedFeaturesListForAutoLaunchedFlow
 };
 
+export const peripheralDataForContactRequestFlow = {
+    rules,
+    operators,
+    eventTypes,
+    entities: allEntities,
+    supportedFeatures: supportedFeaturesListForContactRequestFlow
+};
+
 const getFlowExtensionListParams = flowExtensionListParameters => params => ({
     data: params.names.reduce((obj, name) => {
         obj[name] = flowExtensionListParameters[name];
@@ -177,7 +186,8 @@ export const loadProcessTypeFeatures = flowProcessTypeToFeatures => ({
 export const allAuraActions = {
     'c.getPeripheralDataForPropertyEditor': getPeripheralDataForPropertyEditor({
         [FLOW_PROCESS_TYPE.FLOW]: peripheralDataForFlow,
-        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: peripheralDataForAutoLaunchedFlow
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: peripheralDataForAutoLaunchedFlow,
+        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: peripheralDataForContactRequestFlow
     }),
     'c.getSupportedFeaturesList': loadProcessTypeFeatures({
         [FLOW_PROCESS_TYPE.FLOW]: supportedFeaturesListForFlow,

@@ -23,6 +23,7 @@ import {
     textInputEvent,
     blurEvent
 } from 'builder_platform_interaction/builderTestUtils';
+import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -211,6 +212,7 @@ export const resetState = () => {
     setRules();
     OutputResourcePicker.RULES = [];
     resetCacheTemplates();
+    clearExtensionsCache();
 };
 
 export class ToggleOnChangeEvent extends CustomEvent {
