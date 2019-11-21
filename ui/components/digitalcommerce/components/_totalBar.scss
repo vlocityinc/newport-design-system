@@ -15,7 +15,7 @@
   .nds-dc-checkout-button {
     margin-right: 1.5rem;
     right: 0;
-    position: absolute;
+    position: relative;
   }
 }
 
@@ -57,6 +57,7 @@
 .nds-dc-checkout-button {
   font-weight: $font-weight-light;
   color: $color-text-link;
+  background-color: $white;
   border-radius: 4px;
   font-size: 1rem;
   padding: .3rem 2rem;
@@ -65,5 +66,11 @@
 @media only screen and (max-width: 22rem) {
   .nds-dc-checkout-button {
     padding: .3rem .75rem;
+  }
+  .nds-dc-totalbar_container-pipe {
+    margin: 1rem 0.7rem 0;
+  }
+  .nds-dc-checkout-button {
+    margin-right: 0.5rem;
   }
 }
