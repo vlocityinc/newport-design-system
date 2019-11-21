@@ -25,6 +25,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = require.requireActual(
         'builder_platform_interaction/sobjectLib'
     );
+    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         fetchFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {
@@ -36,7 +37,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             }
             return Promise.reject(`No entity with name ${entityName}`);
         }),
-        getEntityFieldWithApiName: actual.getEntityFieldWithApiName
+        getEntityFieldWithApiName: actual.getEntityFieldWithApiName,
+        getEntity: jest.fn().mockImplementation(apiName => {
+            return mockEntities.find(
+                entity => entity.apiName.toLowerCase() === apiName.toLowerCase()
+            );
+        })
     };
 });
 
@@ -230,39 +236,33 @@ describe('mergeField', () => {
                 );
                 expect(resolved).toBeUndefined();
             });
-            // currently does not work because subtype for acct is 'account' instead of 'Account'
-            itSkip(
-                'resolves a reference with apex type with an sobject field',
-                async () => {
-                    const resolved = await resolveReferenceFromIdentifier(
-                        `${apexComplexTypeVariableGuid}.acct.CreatedBy.Name`
-                    );
-                    expectFieldsAreComplexTypeFieldDescriptions(
-                        resolved.slice(1)
-                    );
-                    expect(resolved).toEqual([
-                        expect.objectContaining({
-                            name: 'apexComplexTypeVariable',
-                            dataType: 'Apex',
-                            subtype: 'ApexComplexTypeTestOne216'
-                        }),
-                        expect.objectContaining({
-                            apiName: 'acct',
-                            dataType: 'SObject',
-                            apexClass: 'ApexComplexTypeTestOne216',
-                            subtype: 'Account'
-                        }),
-                        expect.objectContaining({
-                            apiName: 'CreatedById',
-                            dataType: 'String'
-                        }),
-                        expect.objectContaining({
-                            apiName: 'Name',
-                            dataType: 'String'
-                        })
-                    ]);
-                }
-            );
+            it('resolves a reference with apex type with an sobject field', async () => {
+                const resolved = await resolveReferenceFromIdentifier(
+                    `${apexComplexTypeVariableGuid}.acct.CreatedBy.Name`
+                );
+                expectFieldsAreComplexTypeFieldDescriptions(resolved.slice(1));
+                expect(resolved).toEqual([
+                    expect.objectContaining({
+                        name: 'apexComplexTypeVariable',
+                        dataType: 'Apex',
+                        subtype: 'ApexComplexTypeTestOne216'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'acct',
+                        dataType: 'SObject',
+                        apexClass: 'ApexComplexTypeTestOne216',
+                        subtype: 'Account'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'CreatedById',
+                        dataType: 'String'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'Name',
+                        dataType: 'String'
+                    })
+                ]);
+            });
             it('resolves a reference with apex type containing another apex type', async () => {
                 const resolved = await resolveReferenceFromIdentifier(
                     `${apexCarVariableGuid}.wheel.Type`
