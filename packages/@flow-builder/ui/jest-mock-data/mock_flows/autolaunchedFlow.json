@@ -14,161 +14,162 @@
   "manageableState": "unmanaged",
   "masterLabel": "autolaunchedFlow",
   "metadata": {
-	"start": {
-	  "locationX": 59,
-	  "locationY": 42,
-	  "connector": {
-		"targetReference": "wait1"
-	  },
-	  "triggerType": "Scheduled",
-	  "schedule": {
-		"startDate": "2019-11-18",
-		"startTime": "05:45:00.000",
-		"frequency": "Once"
-	  },
-	  "filters": []
-	},
-	"actionCalls": [
-	  {
-		"name": "postToChatter",
-		"description": "",
-		"label": "postToChatter",
-		"locationX": 558,
-		"locationY": 206.3125,
-		"actionType": "chatterPost",
-		"actionName": "chatterPost",
-		"inputParameters": [
-		  {
-			"name": "text",
-			"value": {
-			  "stringValue": "this is a post to chatter"
-			}
-		  },
-		  {
-			"name": "subjectNameOrId",
-			"value": {
-			  "stringValue": "Automation Builder Simplification"
-			}
-		  }
-		],
-		"outputParameters": [],
-		"storeOutputAutomatically": true
-	  }
-	],
-	"waits": [
-	  {
-		"name": "wait1",
-		"description": "",
-		"label": "wait1",
-		"locationX": 311,
-		"locationY": 284,
-		"waitEvents": [
-		  {
-			"name": "waitEvent1",
-			"label": "waitEvent1",
+		"start": {
+			"locationX": 59,
+			"locationY": 42,
 			"connector": {
-			  "targetReference": "lookupRecord"
+				"targetReference": "wait1"
 			},
-			"conditions": [
-			  {
-				"leftValueReference": "stringVariable",
-				"rightValue": {
-				  "stringValue": "text"
-				},
-				"operator": "EqualTo"
-			  }
-			],
-			"conditionLogic": "and",
-			"eventType": "FlowExecutionErrorEvent",
-			"inputParameters": [],
-			"outputParameters": []
-		  }
+			"triggerType": "Scheduled",
+			"schedule": {
+				"startDate": "2019-11-18",
+				"startTime": "05:45:00.000",
+				"frequency": "Once"
+			},
+			"object": "Account",
+			"filters": []
+		},
+		"actionCalls": [
+			{
+				"name": "postToChatter",
+				"description": "",
+				"label": "postToChatter",
+				"locationX": 558,
+				"locationY": 206.3125,
+				"actionType": "chatterPost",
+				"actionName": "chatterPost",
+				"inputParameters": [
+					{
+						"name": "text",
+						"value": {
+							"stringValue": "this is a post to chatter"
+						}
+					},
+					{
+						"name": "subjectNameOrId",
+						"value": {
+							"stringValue": "Automation Builder Simplification"
+						}
+					}
+				],
+				"outputParameters": [],
+				"storeOutputAutomatically": true
+			}
 		],
-		"defaultConnectorLabel": "Default Path"
-	  }
-	],
-	"variables": [
-	  {
-		"name": "stringVariable",
-		"description": "",
-		"dataType": "String",
-		"isCollection": false,
-		"isInput": false,
-		"isOutput": false,
-		"scale": 0
-	  },
-	  {
-		"name": "accountVariable",
-		"description": "",
-		"objectType": "Account",
-		"dataType": "SObject",
-		"isCollection": false,
-		"isInput": false,
-		"isOutput": false,
-		"scale": 2
-	  }
-	],
-	"recordLookups": [
-	  {
-		"name": "lookupRecord",
-		"description": "",
-		"label": "lookupRecord",
-		"locationX": 303,
-		"locationY": 457,
-		"object": "Account",
-		"filters": [],
-		"queriedFields": null,
-		"storeOutputAutomatically": true,
-		"getFirstRecordOnly": true
-	  }
-	],
-	"decisions": [
-	  {
-		"name": "decision",
-		"description": "",
-		"label": "decision",
-		"locationX": 552,
-		"locationY": 41.3125,
-		"rules": [
-		  {
-			"name": "outcome",
-			"label": "outcome",
-			"conditions": [
-			  {
-				"leftValueReference": "accountVariable.CreatedById",
-				"rightValue": {
-				  "elementReference": "accountVariable.CreatedById"
-				},
-				"operator": "EqualTo"
-			  }
-			],
-			"conditionLogic": "and"
-		  }
+		"decisions": [
+			{
+				"name": "decision",
+				"description": "",
+				"label": "decision",
+				"locationX": 552,
+				"locationY": 41.3125,
+				"rules": [
+					{
+						"name": "outcome",
+						"label": "outcome",
+						"conditions": [
+							{
+								"leftValueReference": "accountVariable.CreatedById",
+								"rightValue": {
+									"elementReference": "accountVariable.CreatedById"
+								},
+								"operator": "EqualTo"
+							}
+						],
+						"conditionLogic": "and"
+					}
+				],
+				"defaultConnectorLabel": "Default Outcome"
+			}
 		],
-		"defaultConnectorLabel": "Default Outcome"
-	  }
-	],
-	"description": "",
-	"interviewLabel": "flow {!$Flow.CurrentDateTime}",
-	"isTemplate": false,
-	"label": "autolaunchedFlow",
-	"processMetadataValues": [
-	  {
-		"name": "BuilderType",
-		"value": {
-		  "stringValue": "LightningFlowBuilder"
-		}
-	  },
-	  {
-		"name": "OriginBuilderType",
-		"value": {
-		  "stringValue": "LightningFlowBuilder"
-		}
-	  }
-	],
-	"processType": "AutoLaunchedFlow",
-	"status": "Draft"
-  },
+		"waits": [
+			{
+				"name": "wait1",
+				"description": "",
+				"label": "wait1",
+				"locationX": 311,
+				"locationY": 284,
+				"waitEvents": [
+					{
+						"name": "waitEvent1",
+						"label": "waitEvent1",
+						"connector": {
+							"targetReference": "lookupRecord"
+						},
+						"conditions": [
+							{
+								"leftValueReference": "stringVariable",
+								"rightValue": {
+									"stringValue": "text"
+								},
+								"operator": "EqualTo"
+							}
+						],
+						"conditionLogic": "and",
+						"eventType": "FlowExecutionErrorEvent",
+						"inputParameters": [],
+						"outputParameters": []
+					}
+				],
+				"defaultConnectorLabel": "Default Path"
+			}
+		],
+		"variables": [
+			{
+				"name": "stringVariable",
+				"description": "",
+				"dataType": "String",
+				"isCollection": false,
+				"isInput": false,
+				"isOutput": false,
+				"scale": 0
+			},
+			{
+				"name": "accountVariable",
+				"description": "",
+				"objectType": "Account",
+				"dataType": "SObject",
+				"isCollection": false,
+				"isInput": false,
+				"isOutput": false,
+				"scale": 2
+			}
+		],
+		"recordLookups": [
+			{
+				"name": "lookupRecord",
+				"description": "",
+				"label": "lookupRecord",
+				"locationX": 303,
+				"locationY": 457,
+				"object": "Account",
+				"filters": [],
+				"queriedFields": null,
+				"storeOutputAutomatically": true,
+				"getFirstRecordOnly": true
+			}
+		],
+		"description": "",
+		"interviewLabel": "flow {!$Flow.CurrentDateTime}",
+		"isTemplate": false,
+		"label": "autolaunchedFlow",
+		"processMetadataValues": [
+			{
+				"name": "BuilderType",
+				"value": {
+					"stringValue": "LightningFlowBuilder"
+				}
+			},
+			{
+				"name": "OriginBuilderType",
+				"value": {
+					"stringValue": "LightningFlowBuilder"
+				}
+			}
+		],
+		"processType": "AutoLaunchedFlow",
+		"status": "Draft"
+	},
   "processType": "AutoLaunchedFlow",
   "status": "Draft",
   "versionNumber": 1

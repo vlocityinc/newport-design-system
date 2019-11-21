@@ -1,5 +1,7 @@
 import { resolveReferenceFromIdentifier } from '../mergeField';
 import * as mockStoreData from 'mock/storeData';
+import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
+import { Store } from 'builder_platform_interaction_mocks/storeLib';
 import {
     GLOBAL_CONSTANT_OBJECTS,
     setSystemVariables
@@ -67,8 +69,6 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
 );
 
-const itSkip = it.skip;
-
 describe('mergeField', () => {
     beforeAll(() => {
         setSystemVariables(systemVariablesForFlow);
@@ -116,9 +116,31 @@ describe('mergeField', () => {
             const resolved = await resolveReferenceFromIdentifier('{!$Flow.A}');
             expect(resolved).toBeUndefined();
         });
-        itSkip('resolves record system variable identifier', async () => {
-            // TODO
-            await resolveReferenceFromIdentifier('$Record.BillingAddress');
+        describe('record system variable identifier', () => {
+            beforeEach(() => {
+                Store.resetStore();
+                Store.setMockState(autolaunchedFlowUIModel);
+            });
+            afterAll(() => {
+                Store.resetStore();
+            });
+            it('resolves record system variable identifier', async () => {
+                const resolved = await resolveReferenceFromIdentifier(
+                    '$Record.BillingAddress'
+                );
+
+                expect(resolved).toEqual([
+                    expect.objectContaining({
+                        dataType: 'SObject',
+                        name: '$Record',
+                        subtype: 'Account'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'BillingAddress',
+                        dataType: 'String'
+                    })
+                ]);
+            });
         });
         describe('record fields', () => {
             const accountSObjectVariableGuid =
