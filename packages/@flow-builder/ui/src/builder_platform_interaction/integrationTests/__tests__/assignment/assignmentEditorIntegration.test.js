@@ -286,6 +286,7 @@ describe('Assignment Editor', () => {
                 testExpression.each`
                 lhs                                            | operator    | rhs                                                     | rhsErrorMessage
                 ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.BillingLatitude}'} | ${undefined}
+                ${'{!numberVariable}'}                         | ${'Assign'} | ${'{!feedItemVariable.Parent:Account.Name}'}            | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
                 `();
             });
         });
@@ -299,9 +300,15 @@ describe('Assignment Editor', () => {
         });
         describe('Automatic handling mode', () => {
             testExpression.each`
-            lhs                          | operator    | rhs                                                                                    | rhsErrorMessage
-            ${'{!stringVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
-            ${'{!numberVariable}'}       | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            lhs                                              | operator    | rhs                                                                                    | rhsErrorMessage
+            ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${undefined}
+            ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!apexCall_account_automatic_output.generatedAccount.LastModifiedBy.Account.Name}'} | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!lookupRecordAutomaticOutput.LastModifiedBy.Account.Name}'}                        | ${undefined}
+            ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!lookupRecordAutomaticOutput.LastModifiedBy.Account.Name}'}                        | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!emailScreenFieldAutomaticOutput.disabled}'} | ${'Assign'} | ${'{!$GlobalConstant.True}'}                                                           | ${undefined}
+            ${'{!emailScreenFieldAutomaticOutput.disabled}'} | ${'Assign'} | ${'myString'}                                                                          | ${'FlowBuilderCombobox.genericErrorMessage'}
+            ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${undefined}
+            ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
             `();
         });
     });

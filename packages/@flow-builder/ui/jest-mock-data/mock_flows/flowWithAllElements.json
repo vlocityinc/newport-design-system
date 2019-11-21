@@ -811,6 +811,15 @@
         "choiceText": "Choice 1"
       }
     ],
+    "formulas": [
+      {
+        "name": "textFormula",
+        "description": "a text formula",
+        "expression": "IF({!accountSObjectVariable.AnnualRevenue} < 1000000,\"Small\", \"Big\")",
+        "dataType": "String",
+        "scale": 2
+      }
+    ],
     "description": "",
     "interviewLabel": "mockFlow {!$Flow.CurrentDateTime}",
     "isTemplate": false,

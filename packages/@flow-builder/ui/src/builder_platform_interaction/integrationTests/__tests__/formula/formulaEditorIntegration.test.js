@@ -24,14 +24,14 @@ import {
     resetState
 } from '../integrationTestUtils';
 import { auraFetch, allAuraActions } from '../serverDataTestUtils';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import {
     setAuraFetch,
     resetFetchOnceCache
 } from 'builder_platform_interaction/serverDataLib';
-import { flowWithFormula } from 'mock/flows/flowWithFormula';
 import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 
 const createComponentForTest = (node, { isNewMode = false } = {}) => {
     const el = createElement('builder_platform_interaction-formula-editor', {
@@ -105,9 +105,9 @@ describe('Formula Editor', () => {
         let formulaNode;
         let propertyEditor;
         beforeAll(async () => {
-            const uiFlow = translateFlowToUIModel(flowWithFormula);
+            const uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
-            await fetchFieldsForEntity('Account');
+            await loadFieldsForComplexTypesInFlow(uiFlow);
         });
         afterAll(() => {
             store.dispatch({ type: 'INIT' });
@@ -165,7 +165,7 @@ describe('Formula Editor', () => {
             it('contains the formula', () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 expect(textArea.value).toBe(
-                    'IF({!accountVar.AnnualRevenue} < 1000000,"Small", "Big")'
+                    'IF({!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")'
                 );
             });
             it('valides the formula on blur', async () => {
@@ -180,7 +180,7 @@ describe('Formula Editor', () => {
             it('displays an error if the formula contains invalid merge fields', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.value =
-                    'IF({!accountVar.invalidProp} < 1000000,"Small", "Big")';
+                    'IF({!accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
                 textArea.dispatchEvent(blurEvent);
                 await ticks();
                 expect(propertyEditor.node.expression.error).toBe(
@@ -203,14 +203,14 @@ describe('Formula Editor', () => {
                     'FlowBuilderExpressionUtils.newResourceLabel'
                 );
             });
-            it('contains a "Record Variables" group containing "accountVar"', () => {
+            it('contains a "Record Variables" group containing "accountSObjectVariable"', () => {
                 const groupedCombobox = getResourceGroupedCombobox(
                     propertyEditor
                 );
                 expectGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
-                    'accountVar'
+                    'accountSObjectVariable'
                 );
             });
             it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', () => {
@@ -255,7 +255,7 @@ describe('Formula Editor', () => {
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
-                    'accountVar'
+                    'accountSObjectVariable'
                 );
                 groupedCombobox.dispatchEvent(selectEvent(item.value));
                 await ticks();
@@ -271,7 +271,7 @@ describe('Formula Editor', () => {
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
-                    'accountVar'
+                    'accountSObjectVariable'
                 );
                 groupedCombobox.dispatchEvent(selectEvent(item.value));
                 await ticks();
@@ -282,7 +282,7 @@ describe('Formula Editor', () => {
                 groupedCombobox.dispatchEvent(selectEvent(subItem.value));
                 await ticks();
                 expect(textArea.value).toEqual(
-                    'IF({!accountVar.Description}{!accountVar.AnnualRevenue} < 1000000,"Small", "Big")'
+                    'IF({!accountSObjectVariable.Description}{!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")'
                 );
             });
         });
