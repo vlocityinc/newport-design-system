@@ -67,6 +67,9 @@
         margin: 0.875rem 0px;
         .nds-dc-tile-text {
           color: $black-secondary;
+          &.nds-dc-quantity {
+            margin-top: -10px;
+          }
         }
       }
     }
