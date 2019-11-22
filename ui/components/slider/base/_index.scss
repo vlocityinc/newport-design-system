@@ -209,6 +209,11 @@
   &.nds-form-element__legend {
     margin-right: 0.5rem;
   }
+
+  &.nds-slider-label__span {
+    margin-right: .125rem;
+    margin-top: -4px;
+  }
 }
 
 /**
@@ -218,6 +223,11 @@
  * @restrict .nds-slider-label span
  */
 .nds-slider-label__range {
+  &.nds-slider-label__span {
+    margin-left: .125rem;
+    margin-top: -4px;
+  }
+
   // Hook for adding a11y class to hide
 }
 
