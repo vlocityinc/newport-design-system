@@ -8,150 +8,117 @@ import {
 } from '../../../scripts/storybook';
 storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
-  .add('Product List', () => {
-    return withExample(`<article class="nds-product-list">
-      <div class="nds-card__header nds-grid">
-        <header class="nds-media nds-media_center nds-has-flexi-truncate">
-          <div class="nds-media__figure">
-            <span class="nds-icon_container nds-icon-standard-contact" title="description of icon when needed">
-              <svg class="nds-icon nds-icon_small" aria-hidden="true">
-                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
-              </svg>
-            </span>
+  .add('dcTotalBar', () => {
+    return withExample(`
+    <div class="nds-dc-totalbar">
+      <div class="nds-dc-totalbar_price-container">
+        <div class="nds-dc-totalbar_container">
+          <span class="nds-dc-totalbar_label">
+            Due Monthly
+          </span>
+          <div class="nds-dc-totalbar_value">
+            $90
           </div>
-          <div class="nds-media__body">
-            <h2>
-              <a href="javascript:void(0);" class="nds-card__header-link nds-truncate" title="[object Object]">
-                <span class="nds-text-heading_small">Product List</span>
-              </a>
-            </h2>
+        </div>
+        <span class="nds-dc-totalbar_container nds-dc-totalbar_container-pipe">
+        </span>
+        <div class="nds-dc-totalbar_container">
+          <span class="nds-dc-totalbar_label">
+            Due Today
+          </span>
+          <div class="nds-dc-totalbar_value">
+            $1200
           </div>
-        </header>
-        <div class="nds-no-flex">
-          <button class="nds-button nds-button_neutral">New</button>
         </div>
       </div>
-      <div class="nds-card__body nds-card__body_inner">      <ul>
-      <li>One</li>
-      <li>Two</li>
-      <li>Three</li>
-      </ul>
-      </div>
-      <footer class="nds-card__footer">Card Footer</footer>
-    </article>`);
+      <button class="nds-dc-checkout-button">Checkout</button>
+    </div>`);
   })
-  .add('Product Card', () => {
-    return withExample(`<div class="nds-product-offer-item-tile"><ul class="nds-has-dividers_around-space"><li class="nds-product-nds-item">
-    <a>
-      <article class="qnds-tile qnds-tile_board nds-tile_board nds-product-offer-item">      <nds-product-offer-list-view-image displaymode="grid">
-      <div class="via-nds">
-      <slot>
-                  <div class="nds-product-offer-image-container">
-                    <img class="listview" src="https://images-na.ssl-images-amazon.com/images/I/51YXG1bDM5L._SL1024_.jpg">
-                  </div>
-      </slot>
-    </div></nds-product-offer-list-view-image>
-        <div class="nds-product-offer-item-details">
-          <slot name="gridviewAttributesSlot">
-            <div class="nds-grid nds-wrap">
-              <div class="nds-size--1-of-2">
-                <div class="nds-product-tile-text">
-                  Apple
-                </div>
-                <div class="nds-product-offer-name">
-                  iPhone X
-                </div>
-              </div>
-              <div class="nds-size--1-of-2">
-                <nds-product-offer-list-view-attribute>
-                <div class="via-nds">
-      <slot name="listAttributes">              <div class="nds-product-offer-attributes">
-                              <slot name="productListTextAttribute">
-                                <div class="nds-product-tile-text">
-                                   :
-                                  5000mAh
-                                </div>
-                              </slot>
-                              <slot name="productListTextAttribute">
-                                <div class="nds-product-tile-text">
-                                   :
-                                  16MP
-                                </div>
-                              </slot>
-                              <div class="nds-product-tile-text">
-                                Available in
-                              </div>
-                              <slot name="productListRadioAttribute">
-                                <div class="nds-product-offer-round-button-set">
-                                      <span class="nds-product-offer-attribute" style="background-color: #FF0000"></span>
-                                      <span class="nds-product-offer-attribute" style="background-color: #D4AF37"></span>
-                                      <span class="nds-product-offer-attribute" style="background-color: #000000"></span>
-                                </div>
-                              </slot>
-                              <slot name="productListTextAttribute">
-                                <div class="nds-product-tile-text">
-                                   :
-                                  Retina HD Plus
-                                </div>
-                              </slot>
-                              <slot name="productListConfigAttribute">
-                                <div class="nds-product-offer-button-set">
-                                      <span class="nds-product-tile-text-small nds-product-offer-attribute">16GB</span>
-
-                                      <span class="nds-product-tile-text-small nds-product-offer-attribute">32GB</span>
-
-                                      <span class="nds-product-tile-text-small nds-product-offer-attribute">64GB</span>
-
-                                </div>
-                              </slot>
-                                                    <slot name="productListTextAttribute">
-                                <div class="nds-product-tile-text">
-                                   :
-                                  A10 Bionic Chip
-                                </div>
-                              </slot>
-
-              </div>      </slot>
-    </div></nds-product-offer-list-view-attribute>
-              </div>
-            </div>
-          </slot>
-          <hr>
-          <nds-product-offer-list-view-price class="pricelist" displaymode="grid">
-          <div class="via-nds">
-      <slot name="listViewPriceSlot">
-        <div class="nds-product-tile-text-small">
-          Starting From
-        </div>              <div class="nds-grid nds-wrap nds-product-offer-price-wrapper gridview">
-                <div class="nds-size--1-of-2 nds-product-price-items">
-                  <div class="nds-product-offer-price">
-                    <span class="nds-product-offer-discount-price">
-                      $89
-                    </span>
-                  </div>
-                  <div class="nds-product-tile-text-small">Recurring</div>
-                </div>
-                <div class="nds-size--1-of-2 nds-grid nds-wrap nds-product-price-items">
-                  <div class="nds-size--1-of-3 nds-product-tile-text-small">
-                    or
-                  </div>
-                  <div class="nds-size--2-of-3">
-                    <div class="nds-product-offer-price">
-                      $990
+  .add('dcShoppingCart', () => {
+    return withExample(`
+    <div class="nds-dc-cart">
+      <div class="nds-text-heading_large">
+        <span class="nds-dc-cart-header-title">My Cart</span>
+        <span class="nds-dc-total-items-circle">1</span>
+        <div class="nds-float_right nds-text-align_right">
+          <button class="nds-button nds-dc-button nds-button_brand nds-text-body_regular nds-p-vertical_xx-small nds-p-horizontal_x-small">Continue Shopping</button>
+        </div> 
+      </div>
+      <span class="nds-dc-underline-title"></span>
+      <!-- <div class="nds-dc-spinner nds-spinner_container">
+        <lightning-spinner alternative-text={translatedLabelsObj.DCLoading} size="large" variant="brand"></lightning-spinner>
+      </div> -->
+      <div class="nds-dc-offer-attribute">
+        <div class="nds-grid nds-wrap ng-scope nds-dc-cart-container">
+          <span class="nds-size--1-of-1 nds-dc-cart-offer-board">
+            <div class="nds-dc-offer-item-list">
+              <ul class="nds-has-dividers_around-space nds-dc-offer-item-list-ul">
+                <!-- sub total -->
+                <li class="nds-dc-cart-item-li nds-dc-sub-total">
+                  <div class="nds-dc-cart-item-category">Sub total</div>
+                  <article class="nds-tile nds-tile_board nds-dc-offer-item">
+                    <div class="nds-dc-title-container">
+                      <div class="nds-dc-offer-menu">
+                          <div class="nds-dc-tile-text nds-dc-title"></div>
+                          <div class="nds-dc-tile-text nds-dc-quantity"></div>
+                          <div class="nds-dc-tile-text nds-dc-due">Due Today</div>
+                          <div class="nds-dc-tile-text nds-dc-due">Due Monthly</div>
+                          <div class="nds-dc-tile-text nds-dc-icons"></div>
+                      </div>
+                      <div class="nds-dc-offer-menu nds-dc-sub-total">
+                          <div class="nds-dc-tile-text nds-dc-title"></div>
+                          <div class="nds-dc-tile-text nds-dc-quantity"></div>
+                          <div class="nds-dc-tile-text nds-dc-due">$900</div>
+                          <div class="nds-dc-tile-text nds-dc-due">$79</div>
+                          <div class="nds-dc-tile-text nds-dc-icons"></div>
+                      </div>
                     </div>
-                    <div class="nds-product-tile-text-small">One-time</div>
-                  </div>
-                </div>
-              </div>      </slot>
-    </div></nds-product-offer-list-view-price>
-          <slot name="productListDescSlot">
-            <hr>
-            <div class="nds-tile__detail nds-product-offer-detail">
-              iPhone X with A10 Bionic chip processor and 6inch Retina HD display.
+                  </article>
+                </li>
+              </ul>
             </div>
-          </slot>
+          </span>
         </div>
-      </article>
-    </a>
-  </li></ul></div>`);
+      </div>
+    </div>`);
+  })
+  .add('dcShoppingOfferDetails', () => {
+    return withExample(`
+    <div class="nds-dc-cart-line-item">
+      <div class="nds-dc-each-item">
+        <div class="nds-dc-cart-item-category">Devices</div>
+        <article class="nds-tile nds-tile_board nds-dc-offer-item">
+          <div class="nds-dc-title-container">
+            <div class="nds-dc-offer-menu">
+              <div class="nds-dc-tile-text nds-dc-title"></div>
+              <div class="nds-dc-tile-text nds-dc-quantity">Quantity</div>
+              <div class="nds-dc-tile-text nds-dc-due">Due Today</div>
+              <div class="nds-dc-tile-text nds-dc-due">Due Monthly</div>
+              <div class="nds-dc-tile-text nds-dc-icons"></div>
+            </div>
+            <div class="nds-dc-offer-menu nds-dc-offer-details">
+              <div class="nds-dc-tile-text nds-dc-title">iPhone X</div>
+              <div class="nds-dc-tile-text nds-dc-quantity"><input type="number" min ="1" name="" placeholder="Quantity" value="1"></div>
+              <div class="nds-dc-tile-text nds-dc-due">$320</div>
+              <div class="nds-dc-tile-text nds-dc-due">$19</div>
+              <div class="nds-dc-tile-text nds-dc-icons"><span class="nds-dc-tile-trash-title">Remove</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div if:true={offerOnly} class="nds-dc-each-item nds-dc-line-item">
+        <article class="slds-tile slds-tile_board nds-dc-offer-item">
+          <div class="nds-dc-title-container">
+            <div class="nds-dc-offer-menu nds-dc-offer-details">
+              <div class="nds-dc-tile-text nds-dc-title">iPhone X Case</div>
+              <div class="nds-dc-tile-text nds-dc-quantity"><input type="number" name="" placeholder="Enter Quantity" min ="1" value="1"></div>
+              <div class="nds-dc-tile-text nds-dc-due">$69</div>
+              <div class="nds-dc-tile-text nds-dc-due">$7</div>
+              <div class="nds-dc-tile-text nds-dc-icons"><span class="nds-dc-tile-trash-title">Remove</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+    `);
   });
