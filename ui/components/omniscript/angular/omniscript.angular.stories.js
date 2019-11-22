@@ -1851,7 +1851,7 @@ storiesOf(`${base}`, module)
                                <label for="Range"
                                       class="nds-form-element__label nds-is-expanded nds-element_text-font">
                                  <span class="nds-slider-label">
-                                   <span class="nds-slider-label__label ">Range</span>
+                                   <span class="nds-slider-label__label nds-slider-label__span">Range</span>
 
 
                                    <a class="nds-tooltip_container "
