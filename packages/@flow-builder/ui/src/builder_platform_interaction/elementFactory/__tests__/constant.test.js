@@ -4,6 +4,8 @@ import {
     createConstantMetadataObject
 } from '../constant';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -46,6 +48,12 @@ const constantFlowMetadataWithDefaultValueAsReference = {
 };
 
 describe('Constant:', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('createConstant function', () => {
         it('returns a new constant object when no argument is passed', () => {
             const expectedResult = {

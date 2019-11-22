@@ -21,6 +21,8 @@ import {
     lookupRecordOutputReference as lookupRecordManual
 } from 'mock/storeData';
 import { deepQuerySelector } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -272,7 +274,12 @@ const getVariableAndFieldMappingRadioButtonGroup = recordLookupEditor => {
 
 describe('record-lookup-editor', () => {
     let recordLookupEditor, entityResourcePicker, recordLookupNode;
-
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('Process type supporting the automatic mode', () => {
         describe('Adding element', () => {
             beforeEach(() => {

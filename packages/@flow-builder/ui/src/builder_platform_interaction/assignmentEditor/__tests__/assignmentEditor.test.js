@@ -8,6 +8,8 @@ import {
 } from 'builder_platform_interaction/events';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { RULE_OPERATOR } from 'builder_platform_interaction/ruleLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -79,6 +81,12 @@ const size2 = [
 ];
 
 describe('assignment-editor', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('handles the property changed event and updates the property', () => {
         const assignmentElement = createComponentForTest();
         assignmentElement.node = deepCopy(testObj);

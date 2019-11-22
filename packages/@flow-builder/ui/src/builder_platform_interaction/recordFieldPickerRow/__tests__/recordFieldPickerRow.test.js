@@ -5,6 +5,8 @@ import {
     UpdateRecordLookupFieldEvent
 } from 'builder_platform_interaction/events';
 import RecordFieldPickerRow from 'builder_platform_interaction/recordFieldPickerRow';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     // this is needed for some reason even if createSelector isn't mocked
@@ -55,6 +57,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => ({
 }));
 
 describe('record-field-picker-row', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         mockAccountFieldsPromise = Promise.resolve(accountFields);
     });

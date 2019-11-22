@@ -4,6 +4,8 @@ import {
 } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { decisionOutcome } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -236,6 +238,12 @@ const elements = {
 };
 
 describe('Used by library', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('returns an empty array if an element is not used anywhere', () => {
         const elementGuids = ['VARIABLE_2'];
         const actualResult = usedBy(elementGuids, elements);

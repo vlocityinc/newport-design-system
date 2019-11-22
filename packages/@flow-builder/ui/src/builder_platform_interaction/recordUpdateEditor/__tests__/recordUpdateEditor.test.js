@@ -15,6 +15,8 @@ import {
     DeleteRecordFieldAssignmentEvent,
     UpdateRecordFieldAssignmentEvent
 } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -174,6 +176,12 @@ const getInputOutputAssignments = recordUpdateEditor => {
 };
 
 describe('record-update-editor', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('with default values', () => {
         let recordUpdateEditor;
         beforeEach(() => {
@@ -200,6 +208,12 @@ describe('record-update-editor', () => {
 });
 
 describe('record-update-editor using sObject', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('Edit existing record element', () => {
         it('Selected sObject should be the same', () => {
             const recordUpdateEditor = createComponentForTest(
@@ -239,6 +253,12 @@ describe('record-update-editor using sObject', () => {
 });
 describe('record-update-editor usung fields', () => {
     let recordUpdateEditor;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         recordUpdateEditor = createComponentForTest(
             recordUpdateElementWithFields()

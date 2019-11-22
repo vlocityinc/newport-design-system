@@ -25,6 +25,8 @@ import {
 } from 'mock/storeDataContactrequest';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { INTERACTION_COMPONENTS_SELECTORS } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -204,6 +206,12 @@ const getInputOutputAssignments = recordLookupEditor => {
 
 describe('record-lookup-editor', () => {
     let recordLookupEditor, entityResourcePicker, recordLookupNode;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('Process type NOT supporting the automatic mode', () => {
         describe('Adding element', () => {
             beforeEach(() => {

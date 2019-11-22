@@ -16,6 +16,8 @@ import {
     FEROV_DATA_TYPE
 } from 'builder_platform_interaction/dataTypeLib';
 import { checkExpressionForDeletedElem } from 'builder_platform_interaction/expressionUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -99,6 +101,12 @@ describe('wait-reducer', () => {
             }
         ]
     };
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         currCondition = createCondition();
         initState = {

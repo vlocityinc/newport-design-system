@@ -29,6 +29,8 @@ import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEnt
 import { mockScreenElement } from 'mock/calloutData';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -91,6 +93,12 @@ jest.mock('../menuDataGenerator', () => {
 });
 
 describe('ResourceUtils', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('normalizeFEROV', () => {
         beforeAll(() => {
             setApexClasses(apexTypesForFlow);

@@ -10,6 +10,8 @@ import {
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -122,6 +124,12 @@ const parametersWithoutProcessMetaDataValue = (parameters, isInput) => {
 describe('apexPlugin', () => {
     const storeLib = require('builder_platform_interaction/storeLib');
     storeLib.generateGuid = jest.fn().mockReturnValue(mockGuid);
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('createApexPlugin function', () => {
         let apexPlugin;
         describe('when empty apexPlugin is created', () => {

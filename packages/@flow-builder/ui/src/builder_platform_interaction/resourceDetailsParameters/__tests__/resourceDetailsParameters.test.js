@@ -12,6 +12,8 @@ import {
     mockActionLocalActionInAutomaticOutputsModeResourceDetails
 } from 'mock/resourceDetailsData';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 const createComponentUnderTest = resourceDetails => {
     const el = createElement(
@@ -137,6 +139,12 @@ const EXPECTED_MOCK_ORDERED_PARAMETERS_FOR_ACTION_LOCAL_ACTION_IN_AUTO_MODE = [
 
 describe('Resource Details parameters', () => {
     let resourceDetailsParametersComponent;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('Extension (ie: ligthning component) screenfield in automatic outputs mode', () => {
         describe('No fetch exception', () => {
             beforeEach(() => {
@@ -220,13 +228,12 @@ describe('Resource Details parameters', () => {
                 });
                 describe('Parameters fetch server call OK but error', () => {
                     beforeAll(() => {
-                        fetchDetailsForInvocableAction.mockImplementation(
-                            () =>
-                                Promise.reject(
-                                    new Error(
-                                        'An error occured during extension parameters fetching'
-                                    )
+                        fetchDetailsForInvocableAction.mockImplementation(() =>
+                            Promise.reject(
+                                new Error(
+                                    'An error occured during extension parameters fetching'
                                 )
+                            )
                         );
                     });
                     test('check "Parameters" details (via API)', () => {
@@ -271,13 +278,12 @@ describe('Resource Details parameters', () => {
                 });
                 describe('Parameters fetch server call OK but error', () => {
                     beforeAll(() => {
-                        fetchDetailsForInvocableAction.mockImplementation(
-                            () =>
-                                Promise.reject(
-                                    new Error(
-                                        'An error occured during extension parameters fetching'
-                                    )
+                        fetchDetailsForInvocableAction.mockImplementation(() =>
+                            Promise.reject(
+                                new Error(
+                                    'An error occured during extension parameters fetching'
                                 )
+                            )
                         );
                     });
                     test('check "Parameters" details (via API)', () => {

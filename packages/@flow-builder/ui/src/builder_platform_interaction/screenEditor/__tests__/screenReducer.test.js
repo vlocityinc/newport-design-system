@@ -14,27 +14,31 @@ import {
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 
-import {
-    getCachedExtension
-} from 'builder_platform_interaction/flowExtensionLib';
+import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
 
 jest.mock('builder_platform_interaction/flowExtensionLib', () => {
-    const flowExtensionLib = require.requireActual('builder_platform_interaction/flowExtensionLib');
-    return Object.assign({},
-        flowExtensionLib, {
+    const flowExtensionLib = require.requireActual(
+        'builder_platform_interaction/flowExtensionLib'
+    );
+    return Object.assign({}, flowExtensionLib, {
         getCachedExtension: jest.fn().mockReturnValue({
-            inputParameters: [{
-                apiName: 'param1',
-                dataType: 'sobject',
-                subtype: '{abc}'
-            }, {
-                apiName: 'param2',
-                dataType: 'string'
-            }],
+            inputParameters: [
+                {
+                    apiName: 'param1',
+                    dataType: 'sobject',
+                    subtype: '{abc}'
+                },
+                {
+                    apiName: 'param2',
+                    dataType: 'string'
+                }
+            ],
             outputParameters: []
         })
     });
@@ -43,6 +47,12 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 const SCREEN_NAME = 'TestScreen1';
 
 describe('screen reducer', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('updates the label', () => {
         const event = {
             type: PropertyChangedEvent.EVENT_NAME,
@@ -328,24 +338,29 @@ describe('screen reducer', () => {
     describe('dynamic type mappings', () => {
         it('updates dynamic type mapping and clears relevant extension parameters', () => {
             const screen = createTestScreen(SCREEN_NAME, null);
-            const dynamicTypeMappings =  [{
-                typeName: 'abc',
-                typeValue: {
-                    value: 'type value 1',
-                    error: null
+            const dynamicTypeMappings = [
+                {
+                    typeName: 'abc',
+                    typeValue: {
+                        value: 'type value 1',
+                        error: null
+                    }
                 }
-            }];
+            ];
             const field = {
                 ...screen.fields[0],
                 extensionName: 'c:lookup',
                 dynamicTypeMappings,
-                inputParameters: [{
-                    name: 'param1',
-                    value: 'value 1'
-                }, {
-                    name: 'param2',
-                    value: 'value 2'
-                }]
+                inputParameters: [
+                    {
+                        name: 'param1',
+                        value: 'value 1'
+                    },
+                    {
+                        name: 'param2',
+                        value: 'value 2'
+                    }
+                ]
             };
             const event = {
                 type: DynamicTypeMappingChangeEvent.EVENT_NAME,
@@ -358,23 +373,28 @@ describe('screen reducer', () => {
             };
             const newScreen = screenReducer(screen, event, field);
             const newField = newScreen.fields[0];
-            expect(newField.dynamicTypeMappings).toMatchObject([{
-                typeName: 'abc',
-                typeValue: {
-                    value: 'type value 2',
-                    error: null
+            expect(newField.dynamicTypeMappings).toMatchObject([
+                {
+                    typeName: 'abc',
+                    typeValue: {
+                        value: 'type value 2',
+                        error: null
+                    }
                 }
-            }]);
-            expect(newField.inputParameters).toMatchObject([{
-                name: 'param1',
-                value: {
-                    value: '',
-                    error: null
+            ]);
+            expect(newField.inputParameters).toMatchObject([
+                {
+                    name: 'param1',
+                    value: {
+                        value: '',
+                        error: null
+                    }
+                },
+                {
+                    name: 'param2',
+                    value: 'value 2'
                 }
-            }, {
-                name: 'param2',
-                value: 'value 2'
-            }]);
+            ]);
             expect(getCachedExtension).toBeCalledWith(field.extensionName);
         });
     });

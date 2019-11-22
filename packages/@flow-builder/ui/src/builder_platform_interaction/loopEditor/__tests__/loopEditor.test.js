@@ -4,6 +4,8 @@ import {
     PropertyChangedEvent,
     ComboboxStateChangedEvent
 } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -31,6 +33,12 @@ const selectors = {
 
 describe('loop-editor', () => {
     let noErrorState;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         noErrorState = {
             name: { value: 'testLoop', error: null },

@@ -10,6 +10,8 @@ import {
 } from 'builder_platform_interaction/dateTimeUtils';
 import { validateTextWithMergeFields } from 'builder_platform_interaction/mergeFieldLib';
 import { validatePicker } from 'builder_platform_interaction/expressionValidator';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -55,6 +57,13 @@ jest.mock('builder_platform_interaction/dateTimeUtils', () => {
         getFormat: jest.fn().mockName('getFormat'),
         isValidMetadataDateTime: jest.fn().mockName('isValidMetadataDateTime')
     };
+});
+
+beforeAll(() => {
+    Store.setMockState(flowWithAllElementsUIModel);
+});
+afterAll(() => {
+    Store.resetStore();
 });
 
 describe('shouldNotBeBlank method', () => {

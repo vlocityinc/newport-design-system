@@ -1,7 +1,7 @@
 import { resolveReferenceFromIdentifier } from '../mergeField';
 import * as mockStoreData from 'mock/storeData';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
-import { Store } from 'builder_platform_interaction_mocks/storeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
 import {
     GLOBAL_CONSTANT_OBJECTS,
     setSystemVariables
@@ -18,6 +18,7 @@ import {
     mockLightningCompWithAccountOutputFlowExtensionDescription
 } from 'mock/flowExtensionsData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -76,6 +77,12 @@ describe('mergeField', () => {
     });
     afterAll(() => {
         setApexClasses(null);
+    });
+    beforeEach(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterEach(() => {
+        Store.resetStore();
     });
     describe('resolveReferenceFromIdentifier', () => {
         it('returns undefined if not a valid identifier', async () => {

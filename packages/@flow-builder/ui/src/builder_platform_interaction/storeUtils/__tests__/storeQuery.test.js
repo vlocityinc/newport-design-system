@@ -3,10 +3,19 @@ import {
     getDuplicateDevNameElements
 } from '../storeQuery';
 import { assignmentElement } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
+
+beforeAll(() => {
+    Store.setMockState(flowWithAllElementsUIModel);
+});
+afterAll(() => {
+    Store.resetStore();
+});
 
 describe('getElementByDevName', () => {
     it('returns element in a case-insensitive way by default', () => {

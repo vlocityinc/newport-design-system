@@ -15,6 +15,7 @@ import {
     updateInlineResourceProperties
 } from 'builder_platform_interaction/actions';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/processTypeLib');
 jest.mock('builder_platform_interaction/storeUtils');
@@ -112,7 +113,11 @@ describe('ferov-resource-picker', () => {
     let props;
 
     beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
         isLookupTraversalSupported.mockImplementation(() => true);
+    });
+    afterAll(() => {
+        Store.resetStore();
     });
     beforeEach(() => {
         props = {

@@ -14,6 +14,8 @@ import {
     UpdateRecordFilterEvent
 } from 'builder_platform_interaction/events';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -130,6 +132,12 @@ const getRecordFilter = recordDeleteEditor =>
 
 describe('Record delete editor', () => {
     let recordDeleteEditor;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('record delete editor with default values (added from palette)', () => {
         beforeEach(() => {
             recordDeleteEditor = createComponentForTest(

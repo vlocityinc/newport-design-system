@@ -1,6 +1,8 @@
 import ResourceDetailsParametersActionConfig from '../resourceDetailsParametersAction';
 import { mockSubmitForApprovalActionParameters } from 'mock/calloutData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -14,6 +16,12 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => ({
 
 describe('resource-details-parameters-action', () => {
     const callback = jest.fn();
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('fetchActionOutputParameters', () => {
         const fetchActionOutputFetchFunc = ResourceDetailsParametersActionConfig.fetch();
         test.each`

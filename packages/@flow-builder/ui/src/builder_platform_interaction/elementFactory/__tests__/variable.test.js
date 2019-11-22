@@ -4,6 +4,8 @@ import {
     createVariableMetadataObject
 } from '../variable';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -64,6 +66,12 @@ const variableFlowMetadataWithDefaultValueAsReference = {
 };
 
 describe('Variable:', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('createVariable function', () => {
         it('returns a new variable object when no argument is passed', () => {
             const expectedResult = {

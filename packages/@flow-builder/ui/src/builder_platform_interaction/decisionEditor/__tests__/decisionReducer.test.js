@@ -11,6 +11,8 @@ import {
     EXPRESSION_PROPERTY_TYPE,
     checkExpressionForDeletedElem
 } from 'builder_platform_interaction/expressionUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -27,7 +29,12 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 describe('decision-reducer', () => {
     let originalState;
-
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         originalState = {
             label: 'decisionLabel',

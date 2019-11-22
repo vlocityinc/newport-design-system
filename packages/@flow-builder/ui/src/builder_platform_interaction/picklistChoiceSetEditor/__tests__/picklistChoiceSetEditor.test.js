@@ -12,6 +12,8 @@ import {
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -111,7 +113,12 @@ describe('picklist-choice-set-editor', () => {
             error: null
         }
     };
-
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('Label description component', () => {
         let picklistChoiceEditor;
         let labelDescription;

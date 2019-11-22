@@ -15,6 +15,8 @@ import {
     FLOW_AUTOMATIC_OUTPUT_HANDLING,
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
@@ -215,6 +217,13 @@ const uiModelInputAssignmentFieldBooleanValue = {
     rightHandSide: GLOBAL_CONSTANTS.BOOLEAN_FALSE,
     rightHandSideDataType: 'Boolean'
 };
+
+beforeAll(() => {
+    Store.setMockState(flowWithAllElementsUIModel);
+});
+afterAll(() => {
+    Store.resetStore();
+});
 
 describe('recordCreate', () => {
     const storeLib = require('builder_platform_interaction/storeLib');

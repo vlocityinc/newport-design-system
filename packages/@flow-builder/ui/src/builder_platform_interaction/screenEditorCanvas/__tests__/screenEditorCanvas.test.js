@@ -9,6 +9,8 @@ import {
     SCREEN_EDITOR_EVENT_NAME,
     ReorderListEvent
 } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -40,6 +42,13 @@ const selectors = {
     screenFieldCardBody: 'p.slds-text-heading_small',
     screenCanvasHeader: 'span.slds-card__header-link'
 };
+
+beforeAll(() => {
+    Store.setMockState(flowWithAllElementsUIModel);
+});
+afterAll(() => {
+    Store.resetStore();
+});
 
 describe('help icon', () => {
     it('displays the help icon when there is help text', () => {

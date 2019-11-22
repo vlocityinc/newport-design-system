@@ -5,6 +5,8 @@ import {
     SCREEN_NO_DEF_VALUE
 } from 'builder_platform_interaction/builderTestUtils';
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -35,6 +37,13 @@ const createComponentUnderTest = props => {
     document.body.appendChild(el);
     return el;
 };
+
+beforeAll(() => {
+    Store.setMockState(flowWithAllElementsUIModel);
+});
+afterAll(() => {
+    Store.resetStore();
+});
 
 describe('input screen field with no label', () => {
     let testScreenField;

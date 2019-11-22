@@ -10,6 +10,8 @@ import {
     elementsForPropertyEditors
 } from 'mock/storeData';
 import { goldObjectMatchers } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 expect.extend(goldObjectMatchers);
 
@@ -18,6 +20,12 @@ jest.mock('builder_platform_interaction/storeLib', () =>
 );
 
 describe('propertyEditorFactory', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('getElementForPropertyEditor', () => {
         it('returns expected hydrated elements', () => {
             const elements = [

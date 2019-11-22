@@ -12,6 +12,8 @@ import {
     apexCallAutomaticAnonymousAccountOutput
 } from 'mock/storeData';
 import { resolveRenderCycles } from '../resolveRenderCycles';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
     const mockStoreLib = require('builder_platform_interaction_mocks/storeLib');
@@ -153,6 +155,12 @@ const getCollectionVariableComboboxElement = loop => {
 };
 
 describe('Loop Editor', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('name and dev name', () => {
         it('after the user modifies the name, the dev name is not changed if it already exists', () => {
             const newLoopName = 'new loop name!';

@@ -11,6 +11,8 @@ import {
 import RecordQueryFields from 'builder_platform_interaction/recordQueryFields';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import * as store from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -88,6 +90,12 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 });
 
 describe('record-store-fields', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('fields', () => {
         let recordQueryFields;
         it('show disable ID combobox', () => {

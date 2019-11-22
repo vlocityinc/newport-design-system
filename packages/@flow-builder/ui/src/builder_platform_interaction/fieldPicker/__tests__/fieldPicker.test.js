@@ -3,6 +3,8 @@ import FieldPicker from '../fieldPicker';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { filterFieldsForChosenElement } from 'builder_platform_interaction/expressionUtils';
 import { isLookupTraversalSupported } from 'builder_platform_interaction/processTypeLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
@@ -34,6 +36,12 @@ const setupComponentUnderTest = props => {
 };
 
 describe('field-picker', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('defaults requiredness to false', () => {
         const fieldPicker = setupComponentUnderTest();
         return Promise.resolve().then(() => {

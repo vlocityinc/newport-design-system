@@ -11,6 +11,7 @@ import {
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker/';
 import EntityResourcePicker from '../entityResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/baseResourcePicker', () =>
     require('../../../../jest-modules/builder_platform_interaction/baseResourcePicker/baseResourcePicker.js')
@@ -54,18 +55,19 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     };
 });
 
-
 describe('entity-resource-picker', () => {
     let props;
-
     beforeEach(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
         props = {
             crudFilterType: 'TEST_FILTER',
             comboboxConfig: {}
         };
         getEntitiesMenuData.mockReturnValueOnce(entityMenuData);
     });
-
+    afterEach(() => {
+        Store.resetStore();
+    });
     it('contains one base resource picker', () => {
         const entityResourcePicker = setupComponentUnderTest(props);
         return Promise.resolve().then(() => {
@@ -271,7 +273,9 @@ describe('entity-resource-picker', () => {
             return Promise.resolve().then(() => {
                 expect(apexClassesMenuDataSelector).toHaveBeenCalledTimes(2);
                 expect(baseResourcePicker.showActivityIndicator).toEqual(false);
-                expect(baseResourcePicker.fullMenuData).toEqual(apexClassMenuData);
+                expect(baseResourcePicker.fullMenuData).toEqual(
+                    apexClassMenuData
+                );
             });
         });
     });
@@ -288,7 +292,9 @@ describe('entity-resource-picker', () => {
                 BaseResourcePicker.SELECTOR
             );
             return Promise.resolve().then(() => {
-                expect(baseResourcePicker.placeholder).toEqual('FlowBuilderVariableConstantEditor.apexPickerPlaceholder');
+                expect(baseResourcePicker.placeholder).toEqual(
+                    'FlowBuilderVariableConstantEditor.apexPickerPlaceholder'
+                );
             });
         });
         it('uses apex types detault placeholder text when in the sobject mode', () => {
@@ -299,7 +305,9 @@ describe('entity-resource-picker', () => {
                 BaseResourcePicker.SELECTOR
             );
             return Promise.resolve().then(() => {
-                expect(baseResourcePicker.placeholder).toEqual('FlowBuilderRecordEditor.objectPlaceholder');
+                expect(baseResourcePicker.placeholder).toEqual(
+                    'FlowBuilderRecordEditor.objectPlaceholder'
+                );
             });
         });
         it('uses event typs detault placeholder text when in the event mode', () => {
@@ -310,10 +318,12 @@ describe('entity-resource-picker', () => {
                 BaseResourcePicker.SELECTOR
             );
             return Promise.resolve().then(() => {
-                expect(baseResourcePicker.placeholder).toEqual('FlowBuilderWaitEditor.selectEventLabel');
+                expect(baseResourcePicker.placeholder).toEqual(
+                    'FlowBuilderWaitEditor.selectEventLabel'
+                );
             });
         });
-        it('uses config\'s placehoder text, if supplied', () => {
+        it("uses config's placehoder text, if supplied", () => {
             const entityResourcePicker = setupComponentUnderTest(props, {
                 mode: EntityResourcePicker.ENTITY_MODE.EVENT,
                 comboboxConfig: {

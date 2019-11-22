@@ -5,6 +5,8 @@ import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import { SORT_ORDER } from 'builder_platform_interaction/recordEditorLib';
 import { until } from 'builder_platform_interaction/builderTestUtils';
 import { clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 let mockEntityFieldsPromise = Promise.resolve(accountFields);
 
@@ -63,6 +65,12 @@ const getFilterHelpText = recordSortResultComponent => {
 };
 
 describe('recordSort', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     afterEach(() => {
         mockEntityFieldsPromise = Promise.resolve(accountFields);
         clearEntityFieldsCache();

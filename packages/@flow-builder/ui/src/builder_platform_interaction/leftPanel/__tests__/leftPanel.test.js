@@ -17,6 +17,8 @@ import {
     stringVariable,
     assignmentElement
 } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/loggingUtils', () => ({
     logInteraction: jest.fn(),
@@ -67,6 +69,12 @@ const getSectionItem = (sections, { sectionLabel, elementGuid }) => {
 };
 
 describe('left-panel', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('element classes', () => {
         it('when in Flow Resource List view - the panel should match the transition layout classes.', () => {
             const element = createComponentUnderTest();

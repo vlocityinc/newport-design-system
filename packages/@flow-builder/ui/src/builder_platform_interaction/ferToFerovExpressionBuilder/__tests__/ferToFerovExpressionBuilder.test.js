@@ -25,6 +25,8 @@ import { untilNoFailure } from 'builder_platform_interaction/builderTestUtils';
 import { getFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -153,6 +155,12 @@ const placeholders = [
 ];
 
 describe('fer-to-ferov-expression-builder', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('label sanity checks', () => {
         for (let i = 0; i < 3; i++) {
             it(`has the ${labels[i]} defined`, () => {

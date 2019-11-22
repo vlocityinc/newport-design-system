@@ -32,6 +32,8 @@ import {
 } from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import FerovResourcePicker from 'builder_platform_interaction/ferovResourcePicker';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/selectors', () => ({
     readableElementsSelector: jest.fn(data => Object.values(data.elements))
@@ -171,7 +173,12 @@ describe('variable-constant-editor', () => {
     let dateVariable;
     let stringConstant;
     let sobjectVariable;
-
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         stringVariable = mockStoreData.stringVariableForPropertyEditor();
         numberVariable = mockStoreData.numberVariableForPropertyEditor();

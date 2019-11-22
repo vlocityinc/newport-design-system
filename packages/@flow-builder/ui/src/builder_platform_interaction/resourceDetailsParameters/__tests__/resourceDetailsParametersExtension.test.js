@@ -1,6 +1,8 @@
 import ResourceDetailsParametersExtensionConfig from '../resourceDetailsParametersExtension';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
 import { emailScreenFieldAutomaticOutput } from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -14,6 +16,12 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
 
 describe('resource-details-parameters-extension', () => {
     const callback = jest.fn();
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('fetchExtensionOutputParameters', () => {
         const fetchExtensionOutputFetchFunc = ResourceDetailsParametersExtensionConfig.fetch();
         test.each`

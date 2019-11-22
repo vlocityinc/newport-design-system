@@ -18,6 +18,8 @@ import { hydrateWithErrors } from 'builder_platform_interaction/dataMutationLib'
 import { recordChoiceSetReducer } from '../recordChoiceSetReducer';
 import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { accountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -161,6 +163,12 @@ describe('record-choice-set-editor', () => {
             error: null
         }
     };
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('Label description component', () => {
         let recordChoiceEditor;
         let labelDescription;

@@ -22,6 +22,7 @@ import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEnt
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { mockScreenElement } from 'mock/calloutData';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const lookupScreenField = require.requireActual('mock/storeData')
@@ -233,6 +234,12 @@ describe('Merge field validation', () => {
     });
     afterAll(() => {
         setApexClasses(null);
+    });
+    beforeEach(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterEach(() => {
+        Store.resetStore();
     });
     it('Returns a validation error when it is not a valid merge field', () => {
         const validationErrors = validateMergeField('{!stringVariable');
@@ -976,6 +983,12 @@ describe('Merge field validation', () => {
 });
 
 describe('Text with merge fields validation', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('Returns no validation error when it references existing variables', () => {
         const validationErrors = validateTextWithMergeFields(
             '{!accountSObjectVariable.Name} == {!stringVariable}'

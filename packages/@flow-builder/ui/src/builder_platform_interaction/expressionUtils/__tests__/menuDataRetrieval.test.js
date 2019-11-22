@@ -46,6 +46,8 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { mockScreenElement } from 'mock/calloutData';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -198,6 +200,12 @@ jest.mock('../resourceUtils', () => {
 });
 
 describe('Menu data retrieval', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     afterEach(() => {
         selectorsMock.writableElementsSelector.mockReset();
         selectorsMock.isOrCanContainsObjectOrSObjectCollectionSelector.mockReset();

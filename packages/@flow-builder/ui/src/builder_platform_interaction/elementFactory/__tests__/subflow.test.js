@@ -8,6 +8,8 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { DUPLICATE_ELEMENT_XY_OFFSET } from '../base/baseElement';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -125,6 +127,12 @@ const expectedSubflowMetadata = (subflow, { removeConnector = false } = {}) => {
 };
 
 describe('subflow', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('createSubflow function', () => {
         let subflow;
         describe('when empty subflow is created', () => {

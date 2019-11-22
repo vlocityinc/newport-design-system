@@ -8,6 +8,8 @@ import {
 import SObjectOrSObjectCollectionPicker from 'builder_platform_interaction/sobjectOrSobjectCollectionPicker';
 import { sObjectOrSObjectCollectionByEntitySelector } from 'builder_platform_interaction/selectors';
 import * as store from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -49,6 +51,12 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 describe('sobject-or-sobject-collection-picker', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     describe('base resource picker', () => {
         let ferovPicker;
         beforeAll(() => {

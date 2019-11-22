@@ -10,6 +10,8 @@ import {
 import { recordLookupReducer } from '../recordLookupReducer';
 import { LABELS } from 'builder_platform_interaction/validationRules';
 import { UseAdvancedOptionsSelectionChangedEvent } from 'builder_platform_interaction/events';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -171,6 +173,12 @@ const recordLookupElementWithValidSObject = () => ({
 
 describe('Record Lookup Validation', () => {
     let recordLookupEditorNode;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         recordLookupEditorNode = recordLookupElementWithValidSObject();
     });
@@ -311,6 +319,12 @@ describe('Record Lookup Validation', () => {
 });
 describe('Record Lookup Validation using sObject', () => {
     let recordLookupEditorNode;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         recordLookupEditorNode = recordLookupElementWithValidSObject();
     });
@@ -402,6 +416,12 @@ describe('Record Lookup Validation using sObject', () => {
 });
 describe('Record Lookup Validation using Fields', () => {
     let recordLookupEditorNode;
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     beforeEach(() => {
         recordLookupEditorNode = recordLookupElementWithValidFields();
     });
@@ -443,6 +463,12 @@ describe('Record Lookup Validation using Fields', () => {
     });
 });
 describe('Record Lookup Validation (automatic mode single record)', () => {
+    beforeAll(() => {
+        Store.setMockState(flowWithAllElementsUIModel);
+    });
+    afterAll(() => {
+        Store.resetStore();
+    });
     it('Switching from automatic to advanced (manual) mode should cause validation errors ("outputReference" required field error message)', () => {
         const event = {
             type: UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME,
