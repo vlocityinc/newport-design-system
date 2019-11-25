@@ -38,7 +38,8 @@ import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
-    focusoutEvent
+    focusoutEvent,
+    ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
@@ -583,6 +584,28 @@ describe('Record Create Editor', () => {
                             value: 'Account.BillingCity'
                         });
                     });
+                });
+                it('Should only display creatable fields', async () => {
+                    await ticks(50);
+                    const combobox = getExpressionBuilderComboboxElement(
+                        baseExpressionBuilder
+                    );
+                    // Type is creatable
+                    expect(combobox.items).toEqual(
+                        expect.arrayContaining([
+                            expect.objectContaining({
+                                text: 'Type'
+                            })
+                        ])
+                    );
+                    // CreatedById is not creatable
+                    expect(combobox.items).toEqual(
+                        expect.not.arrayContaining([
+                            expect.objectContaining({
+                                text: 'CreatedById'
+                            })
+                        ])
+                    );
                 });
             });
         });

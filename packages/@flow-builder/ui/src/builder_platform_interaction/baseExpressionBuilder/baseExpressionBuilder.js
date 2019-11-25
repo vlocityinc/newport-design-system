@@ -900,7 +900,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             isFerov = false,
             picklistValues = [],
             shouldBeWritable = false,
-            allowSObjectFieldsTraversal = this.isLookupTraversalSupported()
+            allowSObjectFieldsTraversal = this.isLookupTraversalSupported(),
+            allowApexTypeFieldsTraversal = this.isLookupTraversalSupported()
         } = {}
     ) {
         const config = {
@@ -908,7 +909,11 @@ export default class BaseExpressionBuilder extends LightningElement {
             shouldBeWritable
         };
 
-        const setFieldMenuData = (fields = this.state[preFetchedFields]) => {
+        // we use this Promise to make sure we call setFieldMenuData in the same order populateMenuData is called
+        if (!this.setFieldMenuDataPromise) {
+            this.setFieldMenuDataPromise = Promise.resolve();
+        }
+        const setFieldMenuData = fields => {
             this.state[preFetchedFields] = fields;
             this.state[fullMenuData] = this.state[
                 filteredMenuData
@@ -918,7 +923,9 @@ export default class BaseExpressionBuilder extends LightningElement {
                 showSubText: SHOW_SUBTEXT,
                 shouldBeWritable,
                 allowSObjectFieldsTraversal:
-                    !shouldBeWritable && allowSObjectFieldsTraversal
+                    !shouldBeWritable && allowSObjectFieldsTraversal,
+                allowApexTypeFieldsTraversal:
+                    !shouldBeWritable && allowApexTypeFieldsTraversal
             });
         };
 
@@ -938,11 +945,17 @@ export default class BaseExpressionBuilder extends LightningElement {
                 (!this.state[preFetchedFields] ||
                     preFetchedFieldsSubtype !== parentMenuItem.subtype)
             ) {
-                getChildrenItemsPromise(parentMenuItem).then(items =>
-                    setFieldMenuData(items)
+                this.setFieldMenuDataPromise = this.setFieldMenuDataPromise.then(
+                    () =>
+                        getChildrenItemsPromise(parentMenuItem).then(items =>
+                            setFieldMenuData(items)
+                        )
                 );
             } else {
-                setFieldMenuData();
+                const fields = this.state[preFetchedFields];
+                this.setFieldMenuDataPromise = this.setFieldMenuDataPromise.then(
+                    () => setFieldMenuData(fields)
+                );
             }
         } else {
             const menuDataElements = getStoreElements(
