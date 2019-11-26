@@ -35,7 +35,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
         const createableEntities = [];
         const deletableEntities = [];
         const updateableEntities = [];
-        const workflowEnabledEntities = [];
+        const workflowEnabledEntities = [{ apiName: 'Account' }];
         mockEntities.forEach(entity => {
             allEntities.push(entity);
             allEntitiesMap[entity.apiName.toLowerCase()] = entity;
