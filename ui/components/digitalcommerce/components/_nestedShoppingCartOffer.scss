@@ -32,6 +32,10 @@
           background-color: $white;
           text-align: center;
           border-bottom: 2px solid $newport-color-brand-orange;
+          &:active,
+          &:focus {
+            outline: 0;
+          }
         }
         &.nds-dc-title {
           width: 30%;
