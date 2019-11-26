@@ -5,6 +5,11 @@
   .nds-dc-spinner {
     position: fixed;
   }
+  .nds-dc-button {
+    .nds-dc-button-text {
+      color: $white;
+    }
+  }
   .nds-text-heading_large {
     .nds-dc-cart-header-title {
       font-weight: $font-weight-regular;
