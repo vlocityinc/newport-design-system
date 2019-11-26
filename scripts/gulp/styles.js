@@ -7,10 +7,11 @@ const cleanCSS = require('gulp-clean-css');
 const plumber = require('gulp-plumber');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
+const runSequence = require('run-sequence');
 
 const paths = require('../helpers/paths');
 
-gulp.task('styles:sass', () =>
+gulp.task('styles:sass', [], () =>
   gulp
     .src([
       'ui/nds-fonts.scss',
@@ -39,7 +40,7 @@ gulp.task('styles:sass', () =>
     .pipe(gulp.dest('assets/styles'))
 );
 
-gulp.task('styles:framework', gulp.series('styles:sass'));
+gulp.task('styles:framework', [], () => gulp.start('styles:sass'));
 
 // Quick check that all variants compile correctly to CSS
 gulp.task('styles:test', () =>
@@ -55,4 +56,6 @@ gulp.task('styles:test', () =>
     .pipe(gulp.dest('assets/styles/.test'))
 );
 
-gulp.task('styles', gulp.series('styles:framework', 'styles:test'));
+gulp.task('styles', callback => {
+  runSequence('styles:framework', 'styles:test', callback);
+});

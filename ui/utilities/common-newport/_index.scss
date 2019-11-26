@@ -200,6 +200,7 @@ ul.nds-dropdown-list {
 .nds-popover.nds-popover_tooltip .nds-popover__body {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .nds-modal_custom {

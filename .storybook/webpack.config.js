@@ -19,13 +19,21 @@ module.exports = async ({ config, mode }) => {
   });
 
   // Sass
-  const sassWatcher = gulp.watch(watchPaths.sass, gulp.series('styles:sass'));
+  const sassWatcher = gulp.watch(
+    watchPaths.sass,
+    ['styles:sass'] // This will trigger watchPaths.css
+  );
 
   sassWatcher.on('change', function(obj, stats) {
     console.log(`File ${obj.path} was changed`);
   });
 
-  gulp.series('styles:framework')();
+  const tokenWatcher = gulp.watch(watchPaths.tokens, ['styles']);
+  tokenWatcher.on('change', function(obj, stats) {
+    console.log(`File ${obj.path} was changed`);
+  });
+
+  gulp.start('styles:framework');
 
   // mock fs for comment parser
   config.node = {

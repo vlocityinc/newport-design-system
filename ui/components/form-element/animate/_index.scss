@@ -91,7 +91,7 @@ input[placeholder]::placeholder {
     +.nds-form-element__label {
       transform: translate3d(0, -1.2rem, 0);
       transition-duration: 300ms;
-      z-index: 1;
+      z-index: 0;
       top: .4rem;
       #{$left}: 0;
 
@@ -169,7 +169,7 @@ input[placeholder]::placeholder {
   font-weight: 400;
   text-transform: capitalize;
   margin-top: .625rem;
-
+  
   &.nds-form-element__help_text-transform__none {
     text-transform: none;
   }
