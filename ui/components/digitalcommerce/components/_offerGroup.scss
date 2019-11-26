@@ -1,90 +1,90 @@
 .nds-dc-offer-group {
   .nds-dc-offer-navigation {
-    padding: 15px 20px;
-    .nds-dc-offersFieldset {
+    padding: 1rem 1.25rem;
+    .nds-dc-offers-fieldset {
       display: block;
     }
     .nds-dc-plan-board {
-      padding: 10px 30px 10px 0px;
-      max-width: 500px;
-      min-width: 163px;
+      padding: 0.625rem 1.875rem 0.625rem 0;
+      max-width: 31.25rem;
+      min-width: 10.1875rem;
       &.nds-dc-group-sections {
-        padding-right: 30px;
+        padding-right: 1.875rem;
         max-width: 100%;
-        min-width: 163px;
+        min-width: 10.1875rem;
         flex: 0 0 50%;
       }
       &.nds-dc-accessories-large-size {
-        max-width: 540px;
+        max-width: 33.75rem;
       }
     }
     .nds-dc-plan-title {
-      font-size: 20px;
-      line-height: 41px;
-      color: #556a8c;
+      font-size: 1.25rem;
+      line-height: 2.56rem;
+      color: $newport-input-font-kashmiri-blue;
     }
-    .nds-dc-productCollapseInOut {
+    .nds-dc-product-collapse-in-out {
       display: none;
     }
-    &.nds-dc-nestedChild {
-      padding: 0px;
+    &.nds-dc-nested-child {
+      padding: 0;
     }
     &.nds-dc-parent {
       .nds-dc-plan-title {
-        font-size: 32px;
-        line-height: 41px;
-        color: #000;
+        font-size: 2rem;
+        line-height: 2.5625rem;
+        color: $black-primary;
       }
       .nds-dc-underline-title {
-        width: 50px;
+        width: 3.125rem;
         display: inline-block;
-        border-bottom: 3px solid #fd6e26;
+        border-bottom: 3px solid $newport-color-brand-orange;
       }
     }
   }
   .nds-dc-offer-group-separator {
     height: 2px;
     background-color: #eee;
-    margin: 0px 80px;
-    &.nds-dc-nestedChild {
-      margin: 10px 0px;
+    margin: 0 5rem;
+    &.nds-dc-nested-child {
+      margin: 0.625rem 0;
     }
   }
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 64rem) {
     .nds-dc-offer-navigation {
-      padding: 0px;
+      padding: 0;
       .nds-dc-plan-board {
         flex: 0 0 50%;
       }
     }
   }
-  @media screen and (max-width: 820px) {
+  @media screen and (max-width: 52rem) {
     .nds-dc-offer-navigation {
-      padding: 0px;
-      margin-left: 40px;
+      padding: 0;
+      margin-left: 2.5rem;
     }
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 48rem) {
     .nds-dc-offer-navigation {
-      padding: 0px;
-      margin-left: 0px;
+      padding: 0;
+      margin-left: 0;
     }
     .nds-dc-offer-group-separator {
-      margin: 10px 0px;
+      margin: 0.625rem 0;
     }
   }
-  @media screen and (max-width: 750px) {
+  @media screen and (max-width: 46.875rem) {
     .nds-dc-offer-navigation {
       .nds-dc-plan-board {
         flex: 0 0 100%;
         &.nds-dc-group-sections {
           flex: 0 0 100%;
-          padding-right: 10px;
+          padding-right: 0.625rem;
         }
       }
     }
   }
-  @media screen and (max-width: 420px) {
+  @media screen and (max-width: 27rem) {
     .nds-dc-offer-navigation {
       .nds-dc-plan-board {
         flex: 0 0 100%;
@@ -93,25 +93,25 @@
           flex: 0 0 100%;
         }
       }
-      .nds-dc-productCollapseInOut {
+      .nds-dc-product-collapse-in-out {
         display: block;
-        margin-top: -28px;
+        margin-top: -1.75rem;
         position: absolute;
         left: 90%;
         .nds-dc-expand-collapse-icons {
-          width: 20px;
-          right: 10px;
+          width: 1.25rem;
+          right: 0.625rem;
           position: relative;
         }
       }
-      .nds-dc-offersFieldset {
+      .nds-dc-offers-fieldset{
         &.nds-dc-collapse {
           display: none;
         }
       }
     }
     .nds-dc-offer-group-separator {
-      margin: 10px 0px;
+      margin: 0.625rem 0;
     }
   }
 }
