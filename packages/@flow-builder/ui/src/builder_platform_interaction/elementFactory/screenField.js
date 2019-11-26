@@ -36,7 +36,10 @@ import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { createValidationRuleObject } from './base/baseValidationInput';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { createDataTypeMappingsMetadataObject, createDynamicTypeMappings } from './dynamicTypeMapping';
+import {
+    createDataTypeMappingsMetadataObject,
+    createDynamicTypeMappings
+} from './dynamicTypeMapping';
 
 const elementType = ELEMENT_TYPE.SCREEN_FIELD;
 
@@ -73,18 +76,21 @@ export function createScreenField(screenField = {}, isNewField = false) {
             getScreenFieldTypeByName(screenField.extensionName) ||
             getLocalExtensionFieldType(screenField.extensionName);
         isRequired = true;
-        dynamicTypeMappings = createDynamicTypeMappings(dataTypeMappings || dynamicTypeMappings);
+        dynamicTypeMappings = createDynamicTypeMappings(
+            dataTypeMappings || dynamicTypeMappings
+        );
         inputParameters = inputParameters
             .filter(inputParameter => !!inputParameter.value)
             .map(inputParameter => createInputParameter(inputParameter));
+
         if (storeOutputAutomatically) {
             dataType = FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
             outputParameters = [];
         } else {
             storeOutputAutomatically = false;
             dataType = undefined;
-            outputParameters = outputParameters.map(
-                outputParameter => createOutputParameter(outputParameter)
+            outputParameters = outputParameters.map(outputParameter =>
+                createOutputParameter(outputParameter)
             );
         }
     } else {
@@ -170,7 +176,7 @@ export function createScreenField(screenField = {}, isNewField = false) {
             type,
             elementType,
             defaultSelectedChoiceReference,
-            visibilityRule,
+            visibilityRule
         },
         dynamicTypeMappings,
         storeOutputAutomatically !== undefined
@@ -201,8 +207,7 @@ export function createEmptyScreenFieldOfType(typeName) {
             formulaExpression: '',
             errorMessage: ''
         },
-        storeOutputAutomatically:
-            automaticOutputHandlingSupport()
+        storeOutputAutomatically: false // set default value to false (W-6862437)
     };
 
     // Always add a placeholder choice for any choice based fields.
@@ -266,10 +271,7 @@ export function createScreenFieldMetadataObject(screenField) {
         inputParameters = inputParameters.map(inputParameter =>
             createInputParameterMetadataObject(inputParameter)
         );
-        if (
-            storeOutputAutomatically &&
-            automaticOutputHandlingSupport()
-        ) {
+        if (storeOutputAutomatically && automaticOutputHandlingSupport()) {
             outputParameters = [];
             dataType = undefined;
         } else if (
@@ -287,7 +289,9 @@ export function createScreenFieldMetadataObject(screenField) {
             );
             storeOutputAutomatically = undefined;
         }
-        dataTypeMappings = createDataTypeMappingsMetadataObject(dynamicTypeMappings);
+        dataTypeMappings = createDataTypeMappingsMetadataObject(
+            dynamicTypeMappings
+        );
     }
 
     choiceReferences = choiceReferences.map(choiceReference =>

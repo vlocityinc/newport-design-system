@@ -1,6 +1,7 @@
 import {
     createScreenField,
-    createScreenFieldMetadataObject
+    createScreenFieldMetadataObject,
+    createEmptyScreenFieldOfType
 } from '../screenField';
 import { deepFindMatchers } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -37,6 +38,33 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     // Overriding mock storeLib to have custom getStore function
     storeLib.Store.getStore = getStore;
     return storeLib;
+});
+
+const mockGetScreenFieldTypeByNameEmail = () => ({
+    category: 'Input',
+    description: 'Email Component',
+    fieldType: 'ComponentInstance',
+    genericTypes: undefined,
+    icon: 'standard:email',
+    label: 'Email',
+    marker: undefined,
+    name: 'flowruntime:email',
+    source: 'server'
+});
+
+jest.mock('builder_platform_interaction/screenEditorUtils', () => {
+    const actual = require.requireActual(
+        '../../screenEditorUtils/screenEditorUtils.js'
+    );
+    return {
+        getFlowDataTypeByName: actual.getFlowDataTypeByName,
+        isExtensionField: actual.isExtensionField,
+        isChoiceField: actual.isChoiceField,
+        isTextAreaField: actual.isTextAreaField,
+        getScreenFieldTypeByName: jest.fn().mockImplementation(() => {
+            return mockGetScreenFieldTypeByNameEmail();
+        })
+    };
 });
 
 const componentAutomaticScreenFieldMetadata = () => ({
@@ -189,6 +217,22 @@ const componentAutomaticScreenFieldStore = () => ({
 });
 
 describe('screenField', () => {
+    describe('Add new Component on the screen (createEmptyScreenFieldOfType)', () => {
+        describe('LC screen field (automatic output handling supported)', () => {
+            let actualResult;
+            beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    'Supported'
+                );
+                actualResult = createEmptyScreenFieldOfType(
+                    'flowruntime:email'
+                );
+            });
+            it('"storeOutputAutomatically" should be false', () => {
+                expect(actualResult.storeOutputAutomatically).toBe(false);
+            });
+        });
+    });
     describe('screenField flow metadata => UI model', () => {
         describe('LC screen field with automatic output handling', () => {
             let screenFieldMetadata;
