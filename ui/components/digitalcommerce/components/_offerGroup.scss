@@ -1,0 +1,117 @@
+.nds-dc-offer-group {
+  .nds-dc-offer-navigation {
+    padding: 15px 20px;
+    .nds-dc-offersFieldset {
+      display: block;
+    }
+    .nds-dc-plan-board {
+      padding: 10px 30px 10px 0px;
+      max-width: 500px;
+      min-width: 163px;
+      &.nds-dc-group-sections {
+        padding-right: 30px;
+        max-width: 100%;
+        min-width: 163px;
+        flex: 0 0 50%;
+      }
+      &.nds-dc-accessories-large-size {
+        max-width: 540px;
+      }
+    }
+    .nds-dc-plan-title {
+      font-size: 20px;
+      line-height: 41px;
+      color: #556a8c;
+    }
+    .nds-dc-productCollapseInOut {
+      display: none;
+    }
+    &.nds-dc-nestedChild {
+      padding: 0px;
+    }
+    &.nds-dc-parent {
+      .nds-dc-plan-title {
+        font-size: 32px;
+        line-height: 41px;
+        color: #000;
+      }
+      .nds-dc-underline-title {
+        width: 50px;
+        display: inline-block;
+        border-bottom: 3px solid #fd6e26;
+      }
+    }
+  }
+  .nds-dc-offer-group-separator {
+    height: 2px;
+    background-color: #eee;
+    margin: 0px 80px;
+    &.nds-dc-nestedChild {
+      margin: 10px 0px;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .nds-dc-offer-navigation {
+      padding: 0px;
+      .nds-dc-plan-board {
+        flex: 0 0 50%;
+      }
+    }
+  }
+  @media screen and (max-width: 820px) {
+    .nds-dc-offer-navigation {
+      padding: 0px;
+      margin-left: 40px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .nds-dc-offer-navigation {
+      padding: 0px;
+      margin-left: 0px;
+    }
+    .nds-dc-offer-group-separator {
+      margin: 10px 0px;
+    }
+  }
+  @media screen and (max-width: 750px) {
+    .nds-dc-offer-navigation {
+      .nds-dc-plan-board {
+        flex: 0 0 100%;
+        &.nds-dc-group-sections {
+          flex: 0 0 100%;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 420px) {
+    .nds-dc-offer-navigation {
+      .nds-dc-plan-board {
+        flex: 0 0 100%;
+        padding: 10px 0px 0px 0px;
+        &.nds-dc-group-sections {
+          flex: 0 0 100%;
+        }
+      }
+      .nds-dc-productCollapseInOut {
+        display: block;
+        margin-top: -28px;
+        position: absolute;
+        left: 90%;
+        .nds-dc-expand-collapse-icons {
+          width: 20px;
+          right: 10px;
+          position: relative;
+        }
+      }
+      .nds-dc-offersFieldset {
+        &.nds-dc-collapse {
+          display: none;
+        }
+      }
+    }
+    .nds-dc-offer-group-separator {
+      margin: 10px 0px;
+    }
+  }
+}

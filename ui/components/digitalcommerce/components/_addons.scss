@@ -1,0 +1,25 @@
+.nds-dc-offer-addons {
+  .nds-dc-spinner {
+    position: fixed;
+  }
+}
+.nds-dc-add-to-cart-btn {
+  font-weight: $font-weight-light;
+  color: $white;
+  background-color: $blue-background-primary;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.625rem;
+  width: 9rem;
+}
+
+@media screen and (max-width: 64rem) {
+  .nds-dc-offer-addons {
+    padding: 15px 30px 50px 30px;
+  }
+}
+@media screen and (max-width: 27rem) {
+  .nds-dc-offer-addons {
+    padding: 10px 10px 50px 10px;
+  }
+}

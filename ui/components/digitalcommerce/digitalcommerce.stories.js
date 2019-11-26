@@ -1,14 +1,14 @@
-import { storiesOf } from '@storybook/html';
-import base from 'paths.macro';
-import notes from './doc.md';
+import { storiesOf } from "@storybook/html";
+import base from "paths.macro";
+import notes from "./doc.md";
 import {
   withExample,
   withDocs,
   commentToHTML
-} from '../../../scripts/storybook';
+} from "../../../scripts/storybook";
 storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
-  .add('dcTotalBar', () => {
+  .add("dcTotalBar", () => {
     return withExample(`
     <div class="nds-dc-totalbar">
       <div class="nds-dc-totalbar_price-container">
@@ -34,7 +34,7 @@ storiesOf(`${base}`, module)
       <button class="nds-dc-checkout-button">Checkout</button>
     </div>`);
   })
-  .add('dcShoppingCart', () => {
+  .add("dcShoppingCart", () => {
     return withExample(`
     <div class="nds-dc-cart">
       <div class="nds-text-heading_large">
@@ -82,7 +82,7 @@ storiesOf(`${base}`, module)
       </div>
     </div>`);
   })
-  .add('dcShoppingOfferDetails', () => {
+  .add("dcShoppingOfferDetails", () => {
     return withExample(`
     <div class="nds-dc-cart-line-item">
       <div class="nds-dc-each-item">
@@ -120,5 +120,67 @@ storiesOf(`${base}`, module)
         </article>
       </div>
     </div>
+    `);
+  })
+  .add("dcAddons", () => {
+    return withExample(`
+      <div class="nds-dc-offer-addons" if:true={currentPlanGroup}>
+        <!-- display product groups -->
+        <!-- no add-ons -->
+        <div if:false={productGroupsAvailable} class="nds-align_absolute-center nds-text-heading_large nds-m-top_x-large">
+            No Add-ons
+        </div>
+      </div>
+      <!-- buttons  -->
+      <button class="nds-align_absolute-center nds-dc-add-to-cart-btn nds-m-top_x-large">Add To Cart</button>
+    `);
+  })
+  .add("dcOfferGroupSelection", () => {
+    return withExample(`
+      <!-- when parent max quantity == 1 -->
+      <li class="nds-item nds-dc-nav-type selected">
+        <article class="nds-tile nds-tile_board nds-dc-tile_board nds-m-top_small">
+          <div class="nds-dc-desc-part">
+            <input class="radiobtn" type="radio" name="radio1" value="123" 
+            checked="true"
+            id="radio1"/>
+            <label for="radio1">
+              <span class="nds-tile__title nds-truncate nds-dc-plan-name" title="Radio">Protection Plan</span>
+            </label>
+            <slot name="offerDescriptionSlot"><div class="nds-tile__detail nds-dc-plan-item-description">Protects your device for Accidental and liquid damage.</div></slot>
+          </div>
+          <slot name="offerPaymentSlot">
+            <div class="nds-grid nds-dc-plan-item-details nds-dc-single-price">
+              <div class="nds-col nds-dc-plan-item-price-section">$76
+                <p class="paymentType">One-time</p>
+              </div>
+            </div>
+          </slot>
+        </article>
+      </li>
+      <!-- when parent max quantity > 1 -->
+      <li class="nds-item nds-dc-nav-type nds-dc-checkbox checked">
+                <div class="offerTag">Special Offer</div>
+                <article class="nds-tile nds-tile_board nds-m-top_small">
+                  <div class="nds-dc-desc-part">
+                    <div class="nds-dc-accessories"><img src="https://images-na.ssl-images-amazon.com/images/I/81t2wF1AvfL._SL1500_.jpg" alt="Mobile Case"/></div>
+                    <label for="iPhoneX">
+                      <span class="nds-tile__title nds-truncate nds-dc-plan-name" title="iPhoneX">Symmetry case for iPhoneX</span>
+                    </label>
+                    <slot name="offerDescriptionSlot"><div class="nds-tile__detail nds-dc-plan-item-description">Let the beautiful lines of your Apple iPhone X shone through the clear construction of this OtterBox Symmetry Series case.</div></slot>
+                  </div>
+                  <slot name="offerPaymentSlot">
+                    <div class="nds-grid nds-dc-plan-item-details nds-dc-single-price-quantity">
+                      <div class="nds-dc-quantity">
+                        <div class="nds-dc-quantity-label">Quantity</div>
+                        <input type="number" class="nds-dc-quantity-input" min="0" name="iPhoneX" placeholder="Quantity" value="1">
+                      </div>
+                      <div class="nds-col nds-dc-plan-item-price-section nds-dc-checkbox-price">$15
+                        <p class="paymentType">One-time</p>
+                      </div>
+                    </div>
+                  </slot>
+                </article>
+              </li>
     `);
   });
