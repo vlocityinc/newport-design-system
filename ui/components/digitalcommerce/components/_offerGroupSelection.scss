@@ -21,7 +21,7 @@
   .nds-dc-radiobtn:checked,
   .nds-dc-radiobtn:not(:checked) {
     position: absolute;
-    left: -9999px;
+    left: -600rem;
   }
   .nds-dc-radiobtn:checked + label,
   .nds-dc-radiobtn:not(:checked) + label {
@@ -115,16 +115,16 @@
           width: 5rem;
           border: none;
           box-shadow: none;
-          border-bottom: 2px solid #d8dde6;
+          border-bottom: 2px solid $geyser;
           font-size: 0.875rem;
           text-align: center;
           z-index: 1;
-          min-height: calc(1.875rem + (1px * 2));
+          min-height: 1.875rem;
           &:active,
           &:focus {
             outline: 0;
-            border-color: #ff6d00;
-            background-color: #fff;
+            border-color: $newport-color-brand-orange;
+            background-color: $white;
           }
         }
       }
@@ -150,7 +150,7 @@
       padding: 0.3125rem 0.625rem;
       position: absolute;
       font-size: 0.6875rem;
-      margin: -1rem 0px 0px -1rem;
+      margin: -1rem 0 0 -1rem;
       display: block;
     }
     .nds-dc-plan-item-price-section {
