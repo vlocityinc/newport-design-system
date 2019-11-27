@@ -12,6 +12,7 @@
     .nds-dc-offer-item {
       display: flex;
       padding: 0px 1.875rem;
+      padding-right: 1rem;
     }
     .nds-dc-title-container {
       flex: 1;
@@ -43,7 +44,7 @@
           padding-left: 1.25rem;
           .nds-dc-offer-image {
             height: 6.25rem;
-            margin: -16px 5px 0px -5px;
+            margin: -1rem 0.3125rem 0px -0.3125rem;
           }
         }
         &.nds-dc-quantity {
@@ -55,6 +56,7 @@
         }
         &.nds-dc-icons {
           width: 15%;
+          margin-left: 0.3125rem;
           .nds-dc-tile-trash {
             height: 0.8rem;
             cursor: pointer;
@@ -145,7 +147,7 @@
             width: 2.1875rem;
           }
           &.nds-dc-due {
-            width: 16%;
+            width: 15%;
             margin-right: 0.3125rem;
           }
           &.nds-dc-icons {
