@@ -30,13 +30,22 @@ import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
     EXPRESSION_BUILDER_SELECTORS,
-    validateExpression
+    validateExpression,
+    selectComboboxItemBy
 } from '../expressionBuilderTestUtils';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText',
+    () => {
+        return { default: 'Outputs from {0}' };
+    },
+    { virtual: true }
+);
 
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
@@ -214,6 +223,34 @@ describe('Assignment Editor', () => {
                 'FlowBuilderDataTypes.textDataTypeLabel',
                 'subText'
             );
+        });
+    });
+    describe('Invocable action Automated ouput in combobox', () => {
+        let assignment, assignmentForPropertyEditor;
+        beforeAll(async () => {
+            const uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+            await loadFieldsForComplexTypesInFlow(uiFlow);
+        });
+        beforeEach(async () => {
+            const assignmentElement = getElementByDevName('assignment1');
+            assignmentForPropertyEditor = getElementForPropertyEditor(
+                assignmentElement
+            );
+            assignment = createComponentForTest(assignmentForPropertyEditor);
+            await ticks();
+        });
+        it('shows up Apex type fields with expected icon', async () => {
+            const lhsCombo = getLHSGroupedCombobox(assignment);
+            const apexTypeField = await selectComboboxItemBy(
+                lhsCombo,
+                'text',
+                ['Outputs from apexCall_Car_automatic_output', 'car'],
+                { blur: false }
+            );
+
+            expect(apexTypeField).toBeDefined();
+            expect(apexTypeField.iconName).toBe('utility:apex');
         });
     });
     describe('Validation', () => {
