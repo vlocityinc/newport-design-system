@@ -106,6 +106,11 @@ export const mergeWithInputOutputParameters = (
         inputParameters: inputs,
         outputParameters: outputs
     });
+
+    if (state.storeOutputAutomatically && outputs.length === 0) {
+        state = updateProperties(state, { storeOutputAutomatically: false });
+    }
+
     return state;
 };
 
