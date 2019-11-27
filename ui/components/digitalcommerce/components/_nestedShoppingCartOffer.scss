@@ -11,7 +11,7 @@
     }
     .nds-dc-offer-item {
       display: flex;
-      padding: 0px 1.875rem;
+      padding: 0 1.875rem;
       padding-right: 1rem;
     }
     .nds-dc-title-container {
@@ -44,7 +44,7 @@
           padding-left: 1.25rem;
           .nds-dc-offer-image {
             height: 6.25rem;
-            margin: -1rem 0.3125rem 0px -0.3125rem;
+            margin: -1rem 0.3125rem 0 -0.3125rem;
           }
         }
         &.nds-dc-quantity {
@@ -70,7 +70,7 @@
         }
       }
       &.nds-dc-offer-details {
-        margin: 0.875rem 0px;
+        margin: 0.875rem 0;
         .nds-dc-tile-text {
           color: $black-secondary;
           &.nds-dc-quantity {
@@ -90,7 +90,7 @@
     }
     &.nds-dc-line-item {
       border: none;
-      padding-top: 0px;
+      padding-top: 0;
     }
     /* For iPad devices */
     @media only screen and (max-width: 48rem) {
@@ -98,7 +98,7 @@
         font-size: 0.8125rem;
       }
       .nds-dc-offer-item {
-        padding: 0px;
+        padding: 0;
       }
       .nds-dc-offer-menu {
         .nds-dc-tile-text {
@@ -108,7 +108,7 @@
           }
           &.nds-dc-icons {
             width: 20%;
-            margin-left: 0px;
+            margin-left: 0;
           }
         }
       }
@@ -128,7 +128,7 @@
     }
     @media only screen and (max-width: 29rem) {
       .nds-dc-offer-item {
-        padding: 0px 0.3125rem;
+        padding: 0 0.3125rem;
       }
       .nds-dc-cart-item-category {
         margin-left: 0.625rem;
@@ -164,7 +164,7 @@
           .nds-dc-tile-text {
             font-size: 0.75rem;
             &.nds-dc-quantity {
-              padding-top: 0px;
+              padding-top: 0;
               margin-top: -10px;
             }
           }
