@@ -132,7 +132,7 @@ storiesOf(`${base}`, module)
         </div>
       </div>
       <!-- buttons  -->
-      <button class="nds-align_absolute-center nds-button nds-button_brand nds-m-top_x-large nds-dc-add-to-cart-btn">Add To Cart</button>
+      <button class="nds-align_absolute-center nds-button nds-button_brand nds-m-top_x-large nds-dc-add_to-cart-btn">Add To Cart</button>
     `);
   })
   .add("dcOfferGroupSelection", () => {
