@@ -1,4 +1,4 @@
-import { mockEntities } from 'mock/serverEntityData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import {
     setEntities,
@@ -91,7 +91,7 @@ describe('SObject Lib Tests', () => {
         });
 
         it('Set Entities', () => {
-            setEntities(JSON.stringify(mockEntities));
+            setEntities(mockEntities);
         });
     });
 

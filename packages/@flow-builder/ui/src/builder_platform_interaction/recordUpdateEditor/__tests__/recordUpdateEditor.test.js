@@ -17,6 +17,7 @@ import {
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 
 jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
     require('builder_platform_interaction_mocks/fieldToFerovExpressionBuilder')
@@ -140,7 +141,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             .fn()
             .mockImplementation(() => Promise.resolve(mockAccountFields)),
         getUpdateableEntities: jest.fn().mockImplementation(() => {
-            return require('mock/serverEntityData').mockEntities;
+            return mockEntities;
         }),
         ENTITY_TYPE: require.requireActual('../../sobjectLib/sobjectLib.js')
             .ENTITY_TYPE

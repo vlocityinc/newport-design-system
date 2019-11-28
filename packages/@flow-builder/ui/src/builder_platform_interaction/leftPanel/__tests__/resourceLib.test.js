@@ -13,6 +13,7 @@ import {
     getElementByGuid,
     createAccountWithAutomaticOutput
 } from 'mock/storeData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -23,7 +24,6 @@ jest.mock(
 );
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         getEntity: jest.fn().mockImplementation(apiName => {
             return mockEntities.find(entity => entity.apiName === apiName);

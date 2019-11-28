@@ -23,6 +23,7 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { mockScreenElement } from 'mock/calloutData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const lookupScreenField = require.requireActual('mock/storeData')
@@ -108,7 +109,6 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = require.requireActual(
         'builder_platform_interaction/sobjectLib'
     );
-    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         getFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {

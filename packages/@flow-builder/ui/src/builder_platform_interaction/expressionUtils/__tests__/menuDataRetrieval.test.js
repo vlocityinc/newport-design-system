@@ -48,6 +48,7 @@ import { mockScreenElement } from 'mock/calloutData';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -138,7 +139,7 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             .fn()
             .mockImplementation(() => Promise.resolve(mockAccountFields)),
         getAllEntities: jest.fn().mockImplementation(() => {
-            return require.requireActual('mock/serverEntityData').mockEntities;
+            return mockEntities;
         }),
         getWorkflowEnabledEntities: jest.fn().mockImplementation(() => {
             return require.requireActual('mock/serverEntityData')

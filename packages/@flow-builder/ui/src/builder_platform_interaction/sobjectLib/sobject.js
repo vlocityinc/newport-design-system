@@ -28,10 +28,9 @@ export const setEntities = (entities = null) => {
     const deletableEntities = [];
     const updateableEntities = [];
     const workflowEnabledEntities = [];
-    const unfilteredEntities = JSON.parse(entities);
 
-    if (unfilteredEntities) {
-        unfilteredEntities.forEach(entity => {
+    if (entities) {
+        entities.forEach(entity => {
             allEntities.push(entity);
             allEntitiesMap[entity.apiName.toLowerCase()] = entity;
             if (entity.queryable) {

@@ -19,6 +19,7 @@ import {
 } from 'mock/flowExtensionsData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -28,7 +29,6 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
     const actual = require.requireActual(
         'builder_platform_interaction/sobjectLib'
     );
-    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         fetchFieldsForEntity: jest.fn().mockImplementation(entityName => {
             if (entityName === 'Account') {

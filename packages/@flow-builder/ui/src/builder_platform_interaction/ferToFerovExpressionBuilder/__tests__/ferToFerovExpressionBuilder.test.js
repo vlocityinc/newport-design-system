@@ -27,6 +27,7 @@ import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemV
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -129,7 +130,6 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         getFieldsForEntity: jest
             .fn()

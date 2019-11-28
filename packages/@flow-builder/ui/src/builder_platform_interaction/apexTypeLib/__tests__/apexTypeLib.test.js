@@ -4,13 +4,13 @@ import {
     getPropertiesForClass
 } from '../apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const mockEntities = require('mock/serverEntityData').mockEntities;
     return {
         getEntity: jest.fn().mockImplementation(apiName => {
             return mockEntities.find(
