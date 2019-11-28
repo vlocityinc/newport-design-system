@@ -145,33 +145,33 @@ storiesOf(`${base}`, module)
               </slot>
           </div>
           <slot name="offerPaymentSlot">
-            <div class="nds-grid nds-dc-plan-item-details nds-dc-single-price">
-              <div class="nds-col nds-dc-plan-item-price-section">$76
-                <p class="paymentType">One-time</p>
+            <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
+              <div class="nds-col nds-dc-plan_item-price-section">$76
+                <p class="nds-dc-payment_type">One-time</p>
               </div>
             </div>
           </slot>
         </article>
       </li>
       <!-- when parent max quantity > 1 -->
-      <li class="nds-item nds-dc-nav-type nds-dc-checkbox checked">
-                <div class="offerTag">Special Offer</div>
-                <article class="nds-tile nds-tile_board nds-m-top_small">
-                  <div class="nds-dc-desc-part">
+      <li class="nds-item nds-dc-nav_type nds-dc-checkbox nds-dc-checked">
+                <div class="nds-dc-offer_tag">Special Offer</div>
+                <article class="nds-tile_board nds-m-top_small">
+                  <div class="nds-dc-desc_part">
                     <div class="nds-dc-accessories"><img src="https://images-na.ssl-images-amazon.com/images/I/81t2wF1AvfL._SL1500_.jpg" alt="Mobile Case"/></div>
                     <label for="iPhoneX">
-                      <span class="nds-tile__title nds-truncate nds-dc-plan-name" title="iPhoneX">Symmetry case for iPhoneX</span>
+                      <span class="nds-tile__title nds-truncate nds-dc-plan_name" title="iPhoneX">Symmetry case for iPhoneX</span>
                     </label>
-                    <slot name="offerDescriptionSlot"><div class="nds-tile__detail nds-dc-plan-item-description">Let the beautiful lines of your Apple iPhone X shone through the clear construction of this OtterBox Symmetry Series case.</div></slot>
+                    <slot name="offerDescriptionSlot"><div class="nds-tile__detail nds-dc-plan_item-description">Let the beautiful lines of your Apple iPhone X shone through the clear construction of this OtterBox Symmetry Series case.</div></slot>
                   </div>
                   <slot name="offerPaymentSlot">
-                    <div class="nds-grid nds-dc-plan-item-details nds-dc-single-price-quantity">
+                    <div class="nds-grid nds-dc-plan_item_details nds-dc-single_price-quantity">
                       <div class="nds-dc-quantity">
-                        <div class="nds-dc-quantity-label">Quantity</div>
-                        <input type="number" class="nds-dc-quantity-input" min="0" name="iPhoneX" placeholder="Quantity" value="1">
+                        <div class="nds-dc-quantity_label">Quantity</div>
+                        <input type="number" class="nds-dc-quantity_input" min="0" name="iPhoneX" placeholder="Quantity" value="1">
                       </div>
-                      <div class="nds-col nds-dc-plan-item-price-section nds-dc-checkbox-price">$15
-                        <p class="paymentType">One-time</p>
+                      <div class="nds-col nds-dc-plan_item-price-section nds-dc-checkbox_price">$15
+                        <p class="nds-dc-payment_type">One-time</p>
                       </div>
                     </div>
                   </slot>

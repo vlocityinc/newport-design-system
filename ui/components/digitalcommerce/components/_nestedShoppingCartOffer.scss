@@ -1,26 +1,27 @@
 /* shopping cart nested offer */
-.nds-dc-cart-line-item {
-  .nds-dc-each-item {
+.nds-dc-cart_line-item {
+  .nds-dc-each_item {
     border-top: 1px solid $newport-border-gray;
     padding-top: 1.25rem;
-    .nds-dc-cart-item-category {
+    .nds-dc-cart_item-category {
       color: $kashmir-blue;
       font-weight: $font-weight-bold;
       font-size: 1.0625rem;
       margin-left: 1.875rem;
     }
-    .nds-dc-offer-item {
+    .nds-dc-offer_item {
       display: flex;
-      padding: 0px 1.875rem;
+      padding: 0 1.875rem;
+      padding-right: 1rem;
     }
-    .nds-dc-title-container {
+    .nds-dc-title_container {
       flex: 1;
       text-align: center;
     }
-    .nds-dc-offer-menu {
+    .nds-dc-offer_menu {
       width: 100%;
       display: flex;
-      .nds-dc-tile-text {
+      .nds-dc-tile_text {
         color: $kashmir-blue;
         font-size: 1.0625rem;
         letter-spacing: 0.2px;
@@ -41,9 +42,9 @@
           width: 30%;
           text-align: left;
           padding-left: 1.25rem;
-          .nds-dc-offer-image {
+          .nds-dc-offer_image {
             height: 6.25rem;
-            margin: -16px 5px 0px -5px;
+            margin: -1rem 0.3125rem 0 -0.3125rem;
           }
         }
         &.nds-dc-quantity {
@@ -55,11 +56,12 @@
         }
         &.nds-dc-icons {
           width: 15%;
-          .nds-dc-tile-trash {
+          margin-left: 0.3125rem;
+          .nds-dc-tile_trash {
             height: 0.8rem;
             cursor: pointer;
           }
-          .nds-dc-tile-trash-title {
+          .nds-dc-tile_trash-title {
             color: $background-primary-blue;
             font-size: 0.9375rem;
             margin-left: 0.3125rem;
@@ -67,9 +69,9 @@
           }
         }
       }
-      &.nds-dc-offer-details {
-        margin: 0.875rem 0px;
-        .nds-dc-tile-text {
+      &.nds-dc-offer_details {
+        margin: 0.875rem 0;
+        .nds-dc-tile_text {
           color: $black-secondary;
           &.nds-dc-quantity {
             margin-top: -10px;
@@ -77,7 +79,7 @@
         }
       }
     }
-    .nds-dc-offer-image-container {
+    .nds-dc-offer_image-container {
       width: 4rem;
       display: inline-block;
       margin-top: -2rem;
@@ -86,27 +88,27 @@
         display: none;
       }
     }
-    &.nds-dc-line-item {
+    &.nds-dc-line_item {
       border: none;
-      padding-top: 0px;
+      padding-top: 0;
     }
     /* For iPad devices */
     @media only screen and (max-width: 48rem) {
-      .nds-dc-cart-item-category {
+      .nds-dc-cart_item-category {
         font-size: 0.8125rem;
       }
-      .nds-dc-offer-item {
-        padding: 0px;
+      .nds-dc-offer_item {
+        padding: 0;
       }
-      .nds-dc-offer-menu {
-        .nds-dc-tile-text {
+      .nds-dc-offer_menu {
+        .nds-dc-tile_text {
           font-size: 0.75rem;
           &.nds-dc-title {
             padding-left: 2.5rem;
           }
           &.nds-dc-icons {
             width: 20%;
-            margin-left: 0px;
+            margin-left: 0;
           }
         }
       }
@@ -114,7 +116,7 @@
 
     /* For mobile devices */
     @media only screen and (max-width: 42rem) {
-      .nds-dc-offer-image-container {
+      .nds-dc-offer_image-container {
         display: none;
         &.mobile {
           display: flex;
@@ -125,19 +127,19 @@
       }
     }
     @media only screen and (max-width: 29rem) {
-      .nds-dc-offer-item {
-        padding: 0px 0.3125rem;
+      .nds-dc-offer_item {
+        padding: 0 0.3125rem;
       }
-      .nds-dc-cart-item-category {
+      .nds-dc-cart_item-category {
         margin-left: 0.625rem;
         margin-top: -10px;
       }
-      .nds-dc-offer-menu {
-        .nds-dc-tile-text {
+      .nds-dc-offer_menu {
+        .nds-dc-tile_text {
           &.nds-dc-title {
             width: 35%;
             padding-left: 0.3125rem;
-            .nds-dc-offer-image {
+            .nds-dc-offer_image {
               display: none;
             }
           }
@@ -145,12 +147,12 @@
             width: 2.1875rem;
           }
           &.nds-dc-due {
-            width: 16%;
+            width: 15%;
             margin-right: 0.3125rem;
           }
           &.nds-dc-icons {
             width: 10%;
-            .nds-dc-tile-trash-title {
+            .nds-dc-tile_trash-title {
               display: none;
             }
           }
@@ -158,11 +160,11 @@
             padding-top: 1.125rem;
           }
         }
-        &.nds-dc-offer-details {
-          .nds-dc-tile-text {
+        &.nds-dc-offer_details {
+          .nds-dc-tile_text {
             font-size: 0.75rem;
             &.nds-dc-quantity {
-              padding-top: 0px;
+              padding-top: 0;
               margin-top: -10px;
             }
           }
