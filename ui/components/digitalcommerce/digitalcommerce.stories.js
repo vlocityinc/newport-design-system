@@ -6,6 +6,7 @@ import {
   withDocs,
   commentToHTML
 } from "../../../scripts/storybook";
+
 storiesOf(`${base}`, module)
   .addDecorator(withDocs(notes))
   .add("dcTotalBar", () => {
@@ -37,84 +38,79 @@ storiesOf(`${base}`, module)
   .add("dcShoppingCart", () => {
     return withExample(`
     <div class="nds-dc-cart">
-      <div class="nds-text-heading_large">
-        <span class="nds-dc-cart_header-title">My Cart</span>
-        <span class="nds-dc-total_items-circle">1</span>
-        <div class="nds-float_right nds-text-align_right">
-          <button class="nds-button nds-dc-button nds-button_brand nds-text-body_regular nds-p-vertical_xx-small nds-p-horizontal_x-small">Continue Shopping</button>
-        </div> 
+      <div class="nds-dc-cart_heading">
+        <span class="nds-dc-cart_heading-title">My Cart</span>
+        <div class="nds-dc-cart_heading-notifcation">
+          <span class="nds-badge nds-badge_brand">1</span>
+        </div>
+        <button class="nds-button nds-dc-button nds-button_brand">Continue Shopping</button>
       </div>
-      <span class="nds-dc-underline_title"></span>
-      <!-- <div class="nds-dc-spinner nds-spinner_container">
-        <lightning-spinner alternative-text={translatedLabelsObj.DCLoading} size="large" variant="brand"></lightning-spinner>
-      </div> -->
-      <div class="nds-dc-offer_attribute">
-        <div class="nds-grid nds-wrap nds-dc-cart_container">
-          <span class="nds-size--1-of-1 nds-dc-cart_offer-board">
-            <div class="nds-dc-offer_item-list">
-              <ul class="nds-has-dividers_around-space nds-dc-offer_item-list-ul">
-                <!-- sub total -->
-                <li class="nds-dc-cart_item-li nds-dc-sub_total">
-                  <div class="nds-dc-cart_item-category">Sub total</div>
-                  <article class="nds-dc-offer_item">
-                    <div class="nds-dc-title_container">
-                      <div class="nds-dc-offer_menu">
-                          <div class="nds-dc-tile_text nds-dc-title"></div>
-                          <div class="nds-dc-tile_text nds-dc-quantity"></div>
-                          <div class="nds-dc-tile_text nds-dc-due">Due Today</div>
-                          <div class="nds-dc-tile_text nds-dc-due">Due Monthly</div>
-                          <div class="nds-dc-tile_text nds-dc-icons"></div>
-                      </div>
-                      <div class="nds-dc-offer_menu nds-dc-sub_total">
-                          <div class="nds-dc-tile_text nds-dc-title"></div>
-                          <div class="nds-dc-tile_text nds-dc-quantity"></div>
-                          <div class="nds-dc-tile_text nds-dc-due">$900</div>
-                          <div class="nds-dc-tile_text nds-dc-due">$79</div>
-                          <div class="nds-dc-tile_text nds-dc-icons"></div>
-                      </div>
+      <div class="nds-dc-cart_container">
+        <div class="nds-dc-cart_offer-board">
+          <ul class="nds-dc-cart_offer-item-list">
+              <li class="nds-dc-sub-total">
+                <div class="nds-dc-cart_offer-item-title">Sub total</div>
+                <article class="nds-dc-cart_offer-item">
+                  <div class="nds-dc-title-container">
+                    <div class="nds-dc-cart_offer-menu">
+                        <div class="nds-dc-tile-text nds-dc-title"></div>
+                        <div class="nds-dc-tile-text nds-dc-quantity"></div>
+                        <div class="nds-dc-tile-text nds-dc-due">Due Today</div>
+                        <div class="nds-dc-tile-text nds-dc-due">Due Monthly</div>
+                        <div class="nds-dc-tile-text nds-dc-icons"></div>
                     </div>
-                  </article>
-                </li>
-              </ul>
-            </div>
-          </span>
+                    <div class="nds-dc-cart_offer-menu nds-dc-sub-total">
+                        <div class="nds-dc-tile-text nds-dc-title"></div>
+                        <div class="nds-dc-tile-text nds-dc-quantity"></div>
+                        <div class="nds-dc-tile-text nds-dc-due">$900</div>
+                        <div class="nds-dc-tile-text nds-dc-due">$79</div>
+                        <div class="nds-dc-tile-text nds-dc-icons"></div>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            </ul>
         </div>
       </div>
     </div>`);
   })
   .add("dcShoppingOfferDetails", () => {
     return withExample(`
-    <div class="nds-dc-cart_line-item">
-      <div class="nds-dc-each_item">
-        <div class="nds-dc-cart_item-category">Devices</div>
-        <article class="nds-dc-offer_item">
-          <div class="nds-dc-title_container">
-            <div class="nds-dc-offer_menu">
-              <div class="nds-dc-tile_text nds-dc-title"></div>
-              <div class="nds-dc-tile_text nds-dc-quantity">Quantity</div>
-              <div class="nds-dc-tile_text nds-dc-due">Due Today</div>
-              <div class="nds-dc-tile_text nds-dc-due">Due Monthly</div>
-              <div class="nds-dc-tile_text nds-dc-icons"></div>
+    <div class="nds-dc-cart-line-item">
+      <div class="nds-dc-each-item">
+        <div class="nds-dc-cart-item-category">Devices</div>
+        <article class="nds-dc-offer-item">
+          <div class="nds-dc-title-container">
+            <div class="nds-dc-offer-menu">
+              <div class="nds-dc-tile-text nds-dc-title"></div>
+              <div class="nds-dc-tile-text nds-dc-quantity">Quantity</div>
+              <div class="nds-dc-tile-text nds-dc-due">Due Today</div>
+              <div class="nds-dc-tile-text nds-dc-due">Due Monthly</div>
+              <div class="nds-dc-tile-text nds-dc-icons"></div>
             </div>
-            <div class="nds-dc-offer_menu nds-dc-offer_details">
-              <div class="nds-dc-tile_text nds-dc-title">iPhone X</div>
-              <div class="nds-dc-tile_text nds-dc-quantity"><input type="number" min ="1" name="" placeholder="Quantity" value="1"></div>
-              <div class="nds-dc-tile_text nds-dc-due">$320</div>
-              <div class="nds-dc-tile_text nds-dc-due">$19</div>
-              <div class="nds-dc-tile_text nds-dc-icons"><span class="nds-dc-tile_trash-title">Remove</span></div>
+            <div class="nds-dc-offer-menu nds-dc-offer-details">
+              <div class="nds-dc-tile-text nds-dc-title">iPhone X</div>
+              <div class="nds-dc-tile-text nds-dc-quantity">
+                <input type="number" min ="1" name="" placeholder="Quantity" value="1">
+              </div>
+              <div class="nds-dc-tile-text nds-dc-due">$320</div>
+              <div class="nds-dc-tile-text nds-dc-due">$19</div>
+              <div class="nds-dc-tile-text nds-dc-icons"><span class="nds-dc-tile-trash-title">Remove</span></div>
             </div>
           </div>
         </article>
       </div>
-      <div class="nds-dc-each_item nds-dc-line_item">
-        <article class="nds-dc-offer_item">
-          <div class="nds-dc-title_container">
-            <div class="nds-dc-offer_menu nds-dc-offer_details">
-              <div class="nds-dc-tile_text nds-dc-title">iPhone X Case</div>
-              <div class="nds-dc-tile_text nds-dc-quantity"><input type="number" name="" placeholder="Enter Quantity" min ="1" value="1"></div>
-              <div class="nds-dc-tile_text nds-dc-due">$69</div>
-              <div class="nds-dc-tile_text nds-dc-due">$7</div>
-              <div class="nds-dc-tile_text nds-dc-icons"><span class="nds-dc-tile_trash-title">Remove</span></div>
+      <div class="nds-dc-each-item nds-dc-line-item">
+        <article class="nds-dc-offer-item">
+          <div class="nds-dc-title-container">
+            <div class="nds-dc-offer-menu nds-dc-offer-details">
+              <div class="nds-dc-tile-text nds-dc-title">iPhone X Case</div>
+              <div class="nds-dc-tile-text nds-dc-quantity">
+                <input type="number" name="" placeholder="Enter Quantity" min ="1" value="1">
+                  </div>
+              <div class="nds-dc-tile-text nds-dc-due">$69</div>
+              <div class="nds-dc-tile-text nds-dc-due">$7</div>
+              <div class="nds-dc-tile-text nds-dc-icons"><span class="nds-dc-tile-trash-title">Remove</span></div>
             </div>
           </div>
         </article>
@@ -124,30 +120,29 @@ storiesOf(`${base}`, module)
   })
   .add("dcAddons", () => {
     return withExample(`
-      <div class="nds-dc-offer_addons" if:true={currentPlanGroup}>
-        <!-- display product groups -->
-        <!-- no add-ons -->
-        <div if:false={productGroupsAvailable} class="nds-align_absolute-center nds-text-heading_large nds-m-top_x-large">
+      <div class="nds-dc-offer-addons">
+        <div class="nds-align_absolute-center nds-text-heading_large nds-m-top_x-large">
             No Add-ons
         </div>
       </div>
-      <!-- buttons  -->
-      <button class="nds-align_absolute-center nds-button nds-button_brand nds-m-top_x-large nds-dc-add_to-cart-btn">Add To Cart</button>
+      <button class="nds-align_absolute-center nds-button nds-button_brand nds-m-top_x-large">Add To Cart</button>
     `);
   })
   .add("dcOfferGroupSelection", () => {
     return withExample(`
-      <!-- when parent max quantity == 1 -->
-      <li class="nds-item nds-dc-nav_type nds-dc-selected">
-        <article class="nds-tile_board nds-dc-tile_board nds-m-top_small">
-          <div class="nds-dc-desc_part">
-            <input class="nds-dc-radiobtn" type="radio" name="radio1" value="123" 
-            checked="true"
-            id="radio1"/>
-            <label for="radio1">
-              <span class="nds-tile__title nds-truncate nds-dc-plan_name" title="Radio">Protection Plan</span>
+      <li class="nds-item nds-dc-nav-type selected">
+        <article class="nds-dc-tile_board nds-m-top_small">
+          <div class="nds-dc-desc-part">
+          <span class="nds-radio">
+            <input type="radio" id="radio-15" name="options" value="on">
+            <label class="nds-radio__label" for="radio-15">
+              <span class="nds-radio_faux"></span>
+              <span class="nds-form-element__label">Protection Plan</span>
             </label>
-            <slot name="offerDescriptionSlot"><div class="nds-tile__detail nds-dc-plan_item-description">Protects your device for Accidental and liquid damage.</div></slot>
+          </span>
+            <slot name="offerDescriptionSlot">
+              <div class="nnds-dc-plan-item-description">Protects your device for Accidental and liquid damage.</div>
+              </slot>
           </div>
           <slot name="offerPaymentSlot">
             <div class="nds-grid nds-dc-plan_item-details nds-dc-single_price">
