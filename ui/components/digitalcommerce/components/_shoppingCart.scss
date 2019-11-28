@@ -6,25 +6,25 @@
     position: fixed;
   }
   .nds-dc-button {
-    .nds-dc-button-text {
+    .nds-dc-button_text {
       color: $white;
     }
   }
   .nds-text-heading_large {
-    .nds-dc-cart-header-title {
+    .nds-dc-cart_header-itle {
       font-weight: $font-weight-regular;
     }
   }
-  .nds-dc-go-back-btn {
+  .nds-dc-go_back-btn {
     margin-top: 2rem;
     width: 9rem;
     font-weight: $font-weight-light;
   }
-  .nds-dc-empty-cart {
+  .nds-dc-empty_cart {
     text-align: center;
     margin-top: 3.125rem;
   }
-  .nds-dc-total-items-circle {
+  .nds-dc-total_items-circle {
     width: 1.5625rem;
     height: 1.5625rem;
     font-size: 13px;
@@ -37,46 +37,46 @@
     line-height: 1.5625rem;
     margin-left: 3.125rem;
   }
-  .nds-dc-underline-title {
+  .nds-dc-underline_title {
     width: 3.125rem;
     display: inline-block;
     border-bottom: 3px solid $newport-color-brand-orange;
   }
-  .nds-dc-cart-container {
+  .nds-dc-cart_container {
     margin-top: 1.5rem;
   }
-  .nds-dc-cart-offer-board {
+  .nds-dc-cart_offer-board {
     padding: 0.625rem 0.375rem;
   }
-  .nds-dc-offer-item-list {
+  .nds-dc-offer_item-list {
     min-height: 6.25rem;
     border: 1px solid $newport-border-gray;
     display: flex;
     box-shadow: 0 2px 0 0 $black-transparent-10;
   }
-  .nds-dc-offer-item-list .nds-dc-offer-item-list-ul {
+  .nds-dc-offer_item-list .nds-dc-offer_item-list-ul {
     width: 100%;
   }
-  .nds-dc-cart-item-li {
+  .nds-dc-cart_item-li {
     padding: 1.875rem 0px;
-    .nds-dc-cart-item-category {
+    .nds-dc-cart_item-category {
       color: $kashmir-blue;
       font-weight: $font-weight-bold;
       font-size: 17px;
       margin-left: 1.875rem;
     }
-    .nds-dc-offer-item {
+    .nds-dc-offer_item {
       display: flex;
       padding: 0px 1.875rem;
     }
-    .nds-dc-title-container {
+    .nds-dc-title_container {
       flex: 1;
       text-align: center;
     }
-    .nds-dc-offer-menu {
+    .nds-dc-offer_menu {
       width: 100%;
       display: flex;
-      .nds-dc-tile-text {
+      .nds-dc-tile_text {
         color: $kashmir-blue;
         font-size: 1.125rem;
         letter-spacing: 0.2px;
@@ -99,9 +99,9 @@
           margin-left: 5px;
         }
       }
-      &.nds-dc-sub-total {
+      &.nds-dc-sub_total {
         margin-top: 2.1875rem;
-        .nds-dc-tile-text {
+        .nds-dc-tile_text {
           &.nds-dc-due {
             color: $background-primary-blue;
             font-size: 2.5rem;
@@ -109,7 +109,7 @@
         }
       }
     }
-    &.nds-dc-sub-total {
+    &.nds-dc-sub_total {
       border-top: 1px solid $newport-border-gray;
       padding-bottom: 3.75rem;
     }
@@ -119,42 +119,42 @@
   }
   @media only screen and (max-width: 48rem) {
     padding: 1.5625rem;
-    .nds-dc-cart-item-li {
-      .nds-dc-offer-menu {
-        .nds-dc-tile-text {
+    .nds-dc-cart_item-li {
+      .nds-dc-offer_menu {
+        .nds-dc-tile_text {
           &.nds-dc-icons {
             width: 20%;
             margin-left: 0px;
           }
         }
-        &.nds-dc-sub-total {
-          .nds-dc-tile-text {
+        &.nds-dc-sub_total {
+          .nds-dc-tile_text {
             &.nds-dc-due {
               font-size: 1.5rem;
             }
           }
         }
       }
-      .nds-dc-cart-item-category {
+      .nds-dc-cart_item-category {
         font-size: 0.9375rem;
       }
     }
   }
   @media only screen and (max-width: 29rem) {
     padding: 1rem 5px;
-    .nds-dc-total-items-circle {
+    .nds-dc-total_items-circle {
       margin-left: 1.3rem;
     }
-    .nds-dc-cart-item-li {
-      .nds-dc-offer-item {
+    .nds-dc-cart_item-li {
+      .nds-dc-offer_item {
         padding: 0px 0.625rem;
       }
-      .nds-dc-cart-item-category {
+      .nds-dc-cart_item-category {
         margin-left: 0.625rem;
         margin-top: -10px;
       }
-      .nds-dc-offer-menu {
-        .nds-dc-tile-text {
+      .nds-dc-offer_menu {
+        .nds-dc-tile_text {
           &.nds-dc-due {
             width: 60%;
             font-size: 13px;
@@ -163,9 +163,9 @@
             display: none;
           }
         }
-        &.nds-dc-sub-total {
+        &.nds-dc-sub_total {
           margin-top: 15px;
-          .nds-dc-tile-text {
+          .nds-dc-tile_text {
             &.nds-dc-due {
               font-size: 1.5rem;
               width: 60%;
@@ -173,7 +173,7 @@
           }
         }
       }
-      &.nds-dc-sub-total {
+      &.nds-dc-sub_total {
         padding: 1.25rem 0px;
       }
     }
@@ -183,7 +183,7 @@
       padding: 0 0.3125rem;
       font-size: 0.6rem;
     }
-    .nds-dc-go-back-btn {
+    .nds-dc-go_back-btn {
       font-size: 0.8125rem;
       padding: 0.25rem;
     }

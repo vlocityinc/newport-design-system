@@ -1,4 +1,4 @@
-.nds-dc-nav-type {
+.nds-dc-nav_type {
   border: 1px solid $newport-border-gray;
   border-radius: 0.25rem;
   background-clip: padding-box;
@@ -7,7 +7,7 @@
   &.nds-dc-selected {
     border: 1px solid $newport-color-brand-orange;
   }
-  .nds-dc-plan-item-description {
+  .nds-dc-plan_item-description {
     font-size: 0.75rem;
     color: $newport-input-font-kashmiri-blue;
     line-height: 1rem;
@@ -68,26 +68,26 @@
     background: $newport-color-brand-orange;
     transform: scale(1);
   }
-  .nds-dc-single-price {
+  .nds-dc-single_price {
     margin: 0 1.19rem;
   }
-  .nds-dc-plan-item-price-section {
+  .nds-dc-plan_item-price-section {
     margin: 0.32rem 0;
     text-align: center;
     padding: 0.625rem;
     font-size: 1.7rem;
     border-top: 1px solid $newport-border-gray;
   }
-  .nds-dc-payment-type {
+  .nds-dc-payment_type {
     color: $newport-input-font-kashmiri-blue;
     font-size: 0.625rem;
     line-height: 0.812rem;
   }
-  .nds-dc-plan-name {
+  .nds-dc-plan_name {
     font-size: 0.875rem;
     font-weight: bold;
-    white-space: unset;
-    height: 5vh;
+    white-space: pre-line;
+    min-height: 2.5rem;
     overflow-y: auto;
   }
   &.nds-dc-checkbox {
@@ -98,7 +98,7 @@
     background-clip: padding-box;
     padding: 0.5rem;
 
-    .nds-dc-single-price-quantity {
+    .nds-dc-single_price-quantity {
       width: 100%;
       border-top: 1px solid $newport-border-gray;
       margin: 0;
@@ -106,12 +106,12 @@
         width: 50%;
         padding: 0.625rem;
         padding-bottom: 0;
-        .nds-dc-quantity-label {
+        .nds-dc-quantity_label {
           font-size: 0.9rem;
           padding-left: 0.3125rem;
           color: $newport-input-font-kashmiri-blue;
         }
-        .nds-dc-quantity-input {
+        .nds-dc-quantity_input {
           width: 5rem;
           border: none;
           box-shadow: none;
@@ -137,13 +137,13 @@
         max-height: 12.5rem;
       }
     }
-    .nds-dc-single-price {
+    .nds-dc-single_price {
       margin: 0 1.1875rem;
     }
     .nds-tile_board {
       margin-top: 0.625rem;
     }
-    .nds-dc-offer-tag {
+    .nds-dc-offer_tag {
       background-color: $newport-color-brand-orange;
       color: $white;
       text-align: center;
@@ -153,7 +153,7 @@
       margin: -1rem 0 0 -1rem;
       display: block;
     }
-    .nds-dc-plan-item-price-section {
+    .nds-dc-plan_item-price-section {
       margin-bottom: -0.5rem;
       text-align: center;
       padding: 0.625rem;
@@ -165,12 +165,12 @@
       margin-left: 0.75rem;
       display: grid;
     }
-    .nds-dc-payment-type {
+    .nds-dc-payment_type {
       color: $newport-input-font-kashmiri-blue;
       font-size: 0.625rem;
       line-height: 0.8125rem;
     }
-    .nds-dc-plan-item-description {
+    .nds-dc-plan_item-description {
       font-size: 0.75rem;
       color: $newport-input-font-kashmiri-blue;
       line-height: 1rem;
@@ -178,7 +178,7 @@
       position: static;
       font-weight: $font-weight-light;
     }
-    .nds-dc-plan-name {
+    .nds-dc-plan_name {
       font-weight: $font-weight-bold;
       font-size: 0.875rem;
     }
@@ -188,12 +188,12 @@
     }
     &.nds-dc-checked {
       border: 1px solid $newport-color-brand-orange;
-      .nds-dc-single-price-quantity {
+      .nds-dc-single_price-quantity {
         .nds-dc-quantity {
-          .nds-dc-quantity-input {
+          .nds-dc-quantity_input {
             border-bottom: 2px solid $newport-color-brand-orange;
           }
-          .nds-dc-quantity-label {
+          .nds-dc-quantity_label {
             color: $newport-color-brand-orange;
           }
         }
@@ -205,7 +205,7 @@
       .nds-tile_board {
         display: flex;
       }
-      .nds-dc-plan-item-price-section {
+      .nds-dc-plan_item-price-section {
         font-size: 1.7rem;
         text-align: end;
         padding: 0;
@@ -215,30 +215,30 @@
         right: 0;
         border-top: none;
       }
-      .nds-dc-desc-part {
+      .nds-dc-desc_part {
         padding: 0.3125rem 0.625rem 0 0;
         min-width: 12.5rem;
       }
-      .nds-dc-plan-name {
+      .nds-dc-plan_name {
         font-size: 0.8125rem;
       }
       &.nds-dc-attachments {
-        .nds-dc-plan-item-description {
+        .nds-dc-plan_item-description {
           padding-right: 0.625rem;
         }
-        .nds-dc-plan-item-price-section {
+        .nds-dc-plan_item-price-section {
           font-size: 1.5625rem;
           margin-top: 1.5625rem;
         }
-        .nds-dc-single-price-quantity {
+        .nds-dc-single_price-quantity {
           .nds-dc-quantity {
-            .nds-dc-quantity-input {
+            .nds-dc-quantity_input {
               font-size: 1.125rem;
             }
           }
         }
       }
-      .nds-dc-single-price-quantity {
+      .nds-dc-single_price-quantity {
         display: flex;
         border-top: none;
         margin-top: -0.625rem;
@@ -249,7 +249,7 @@
           padding: 0;
           text-align: end;
           order: 2;
-          .nds-dc-quantity-input {
+          .nds-dc-quantity_input {
             width: 4rem;
           }
         }
@@ -257,19 +257,18 @@
     }
   }
   @media only screen and (max-width: 27rem) {
-    .nds-dc-plan-name {
+    .nds-dc-plan_name {
       font-size: 0.875rem;
-      white-space: normal;
-      height: 6vh;
+      min-height: 4rem;
     }
-    .nds-dc-plan-item-price-section {
+    .nds-dc-plan_item-price-section {
       font-size: 1.5625rem;
     }
-    .nds-dc-plan-item-description {
+    .nds-dc-plan_item-description {
       padding: 0.625rem 3.625rem 0.625rem 2.1875rem;
     }
     &.nds-dc-checkbox {
-      .nds-dc-plan-name {
+      .nds-dc-plan_name {
         font-size: 0.875rem;
       }
     }
@@ -278,15 +277,15 @@
     .nds-dc-tile_board {
       display: block;
     }
-    .nds-dc-plan-item-description {
+    .nds-dc-plan_item-description {
       padding: 0.625rem 0 0.625rem 2.1875rem;
     }
-    .nds-dc-plan-item-price-section {
+    .nds-dc-plan_item-price-section {
       font-size: 1.25rem;
       position: relative;
-      padding: 0;
+      padding: 0.4rem 0 0;
       border-top: 1px solid $newport-border-gray;
-      .nds-dc-checkbox-price {
+      .nds-dc-checkbox_price {
         margin-bottom: -0.5rem;
         text-align: center;
         padding: 0.625rem;
@@ -297,17 +296,17 @@
       }
     }
     &.nds-dc-checkbox {
-      .nds-dc-plan-name {
+      .nds-dc-plan_name {
         white-space: normal;
       }
       &.nds-dc-attachments {
-        .nds-dc-plan-item-description {
+        .nds-dc-plan_item-description {
           margin-right: -1.125rem;
           padding: 0.625rem;
         }
       }
     }
-    .nds-dc-single-price-quantity {
+    .nds-dc-single_price-quantity {
       display: flex;
       width: 100%;
       border-top: 1px solid $newport-border-gray;
