@@ -18,6 +18,9 @@
   
   .nds-dc-totalbar_value {
     font-size: $font-size-9;
+    &.nds-dc-price {
+      font-size: $font-size-8;
+    }
   }
   
   .nds-dc-totalbar_price-container {
