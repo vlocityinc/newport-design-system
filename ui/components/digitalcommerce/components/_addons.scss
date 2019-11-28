@@ -1,0 +1,32 @@
+.nds-dc-offer_addons {
+  .nds-dc_spinner {
+    position: fixed;
+  }
+}
+.nds-dc-add_to-cart-btn {
+  font-weight: $font-weight-light;
+  color: $white;
+  background-color: $blue-background-primary;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.625rem;
+  width: 9rem;
+}
+
+@media screen and (max-width: 64rem) {
+  .nds-dc-offer_navigation {
+    padding: 0.93rem 1.88rem 3.125rem 1.88rem;
+  }
+  .nds-dc-offer_addons {
+    padding: 1rem 1.875rem 3.125rem 1.875rem;
+  }
+}
+@media screen and (max-width: 27rem) {
+  .nds-dc-offer_navigation {
+    padding: 0.625rem 0.625rem 3.125rem 0.625rem;
+  }
+  .nds-dc-offer_addons {
+    padding: 0.625rem;
+    padding-bottom: 3.125rem;
+  }
+}

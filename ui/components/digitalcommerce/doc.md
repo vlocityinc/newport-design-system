@@ -1,3 +1,3 @@
-# Digital Commerce Total Bar
+# Digital Commerce Web Components
 
-This renders the Total Bar from Digital Commerce
+This renders the Digital Commerce Web Components

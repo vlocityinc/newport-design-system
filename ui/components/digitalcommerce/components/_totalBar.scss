@@ -12,65 +12,65 @@
   padding: 1rem 0;
   position: fixed;
 
+  .nds-dc-totalbar_label {
+    font-weight: $font-weight-light;
+  }
+  
+  .nds-dc-totalbar_value {
+    font-size: $font-size-9;
+    &.nds-dc-price {
+      font-size: $font-size-8;
+    }
+  }
+  
+  .nds-dc-totalbar_price-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: auto;
+    flex-direction: row-reverse;
+  
+    .nds-dc-totalbar_container:first-child {
+      text-align: left;
+    }
+  
+    .nds-dc-totalbar_container:last-child {
+      text-align: right;
+    }
+  }
+  
+  .nds-dc-totalbar_container {
+    float: right;
+  }
+  
+  .nds-dc-totalbar_container-pipe {
+    border: .05rem solid $white;
+    height: 2.3rem;
+    margin: 1rem 1.5rem 0;
+  }
+  
   .nds-dc-checkout-button {
-    margin-right: 1.5rem;
+    font-weight: $font-weight-light;
+    color: $color-text-link;
+    background-color: $white;
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: .3rem 1rem;
+    margin-right: 1.2rem;
     right: 0;
     position: relative;
   }
-}
-
-.nds-dc-totalbar_label {
-  font-weight: $font-weight-light;
-}
-
-.nds-dc-totalbar_value {
-  font-size: $font-size-9;
-}
-
-.nds-dc-totalbar_price-container {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  margin: auto;
-  flex-direction: row-reverse;
-
-  .nds-dc-totalbar_container:first-child {
-    text-align: left;
-  }
-
-  .nds-dc-totalbar_container:last-child {
-    text-align: right;
-  }
-}
-
-.nds-dc-totalbar_container {
-  float: right;
-}
-
-.nds-dc-totalbar_container-pipe {
-  border: .05rem solid $white;
-  height: 2.3rem;
-  margin: 1rem 1.5rem 0;
-}
-
-.nds-dc-checkout-button {
-  font-weight: $font-weight-light;
-  color: $color-text-link;
-  background-color: $white;
-  border-radius: 4px;
-  font-size: 1rem;
-  padding: .3rem 2rem;
-}
-
-@media only screen and (max-width: 22rem) {
-  .nds-dc-checkout-button {
-    padding: .3rem .75rem;
-  }
-  .nds-dc-totalbar_container-pipe {
-    margin: 1rem 0.7rem 0;
-  }
-  .nds-dc-checkout-button {
-    margin-right: 0.5rem;
+  
+  @media only screen and (max-width: 22rem) {
+    .nds-dc-checkout-button {
+      padding: .3rem .75rem;
+    }
+    .nds-dc-totalbar_container-pipe {
+      margin: 1rem 0.7rem 0;
+    }
+    .nds-dc-checkout-button {
+      margin-right: 0.5rem;
+    }
   }
 }
