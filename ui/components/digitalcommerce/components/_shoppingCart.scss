@@ -5,14 +5,40 @@
   .nds-dc-spinner {
     position: fixed;
   }
+
+  .nds-dc-cart_heading {
+    display: flex;
+  
+    .nds-dc-cart_heading-title {
+      font-weight: $font-weight-light;
+      font-size: $font-size-xx-large;
+      line-height: $line-height-heading;
+      position: relative;
+  
+      &:after {
+        content: "";
+        background: $color-brand;
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 3.125rem;
+        height: 0.1875rem;
+      }
+    }
+  
+    .nds-dc-cart_heading-notifcation {
+      line-height: $line-height-heading;
+      margin: .6rem 1rem 0;
+    }
+  
+    .nds-dc-button {
+      margin-left: auto;
+    }
+  }
+
   .nds-dc-button {
     .nds-dc-button_text {
       color: $white;
-    }
-  }
-  .nds-text-heading_large {
-    .nds-dc-cart_header-itle {
-      font-weight: $font-weight-regular;
     }
   }
   .nds-dc-go_back-btn {
@@ -23,24 +49,6 @@
   .nds-dc-empty_cart {
     text-align: center;
     margin-top: 3.125rem;
-  }
-  .nds-dc-total_items-circle {
-    width: 1.5625rem;
-    height: 1.5625rem;
-    font-size: 13px;
-    border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
-    color: $white;
-    background-color: $newport-color-brand-orange;
-    display: inline-block;
-    line-height: 1.5625rem;
-    margin-left: 3.125rem;
-  }
-  .nds-dc-underline_title {
-    width: 3.125rem;
-    display: inline-block;
-    border-bottom: 3px solid $newport-color-brand-orange;
   }
   .nds-dc-cart_container {
     margin-top: 1.5rem;

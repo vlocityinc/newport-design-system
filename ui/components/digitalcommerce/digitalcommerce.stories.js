@@ -37,12 +37,12 @@ storiesOf(`${base}`, module)
   .add("dcShoppingCart", () => {
     return withExample(`
     <div class="nds-dc-cart">
-      <div class="nds-text-heading_large">
-        <span class="nds-dc-cart_header-title">My Cart</span>
-        <span class="nds-dc-total_items-circle">1</span>
-        <div class="nds-float_right nds-text-align_right">
-          <button class="nds-button nds-dc-button nds-button_brand nds-text-body_regular nds-p-vertical_xx-small nds-p-horizontal_x-small">Continue Shopping</button>
-        </div> 
+      <div class="nds-dc-cart_heading">
+        <span class="nds-dc-cart_heading-title">My Cart</span>
+        <div class="nds-dc-cart_heading-notifcation">
+          <span class="nds-badge nds-badge_brand">2</span>
+        </div>
+        <button class="nds-button nds-dc-button nds-button_brand">Continue Shopping</button>
       </div>
       <span class="nds-dc-underline_title"></span>
       <!-- <div class="nds-dc-spinner nds-spinner_container">
