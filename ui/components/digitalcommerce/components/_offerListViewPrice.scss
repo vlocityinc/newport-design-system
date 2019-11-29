@@ -1,0 +1,68 @@
+.nds-dc-list-prices {
+  .nds-dc-tile-text-small {
+    color: #54698d;
+    font-size: 12px;
+    line-height: 16px;
+    &.nds-dc-offer-listview {
+      text-align: center;
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  .nds-dc-offer-price-wrapper {
+    &.nds-dc-offer-listview {
+      display: block;
+      .nds-dc-price-items {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+        display: block;
+        .nds-dc-offer-price {
+          color: #16325c;
+          font-size: 25px;
+          line-height: 50px;
+          .nds-dc-offer-discount-price {
+            color: #fd6e26;
+            font-size: 25px;
+            line-height: 50px;
+          }
+          .nds-dc-offer-actual-price {
+            color: #16325c;
+            font-size: 27px;
+            font-size: 25px;
+            line-height: 50px;
+            display: block;
+            .nds-dc-offer-base-amount {
+              display: block;
+              font-size: 15px;
+              line-height: 5px;
+              margin-bottom: 10px;
+              color: #16325c;
+            }
+          }
+        }
+        .nds-dc-price-option-text {
+          margin-top: 10px;
+          margin-bottom: 0px;
+          .nds-dc-price-option {
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .nds-dc-list-prices {
+   .nds-dc-offer-price-wrapper {
+    .nds-dc-price-items {
+      .nds-dc-price-option-text {
+        margin-top: 24px;
+        margin-bottom: 15px;
+      }
+    }
+   } 
+  }
+}
