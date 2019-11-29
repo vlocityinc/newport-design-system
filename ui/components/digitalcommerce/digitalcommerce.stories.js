@@ -13,22 +13,13 @@ storiesOf(`${base}`, module)
     <div class="nds-dc-totalbar">
       <div class="nds-dc-totalbar_price-container">
         <div class="nds-dc-totalbar_container">
-          <span class="nds-dc-totalbar_label">
-            Due Monthly
-          </span>
-          <div class="nds-dc-totalbar_value">
-            $90
-          </div>
+          <span class="nds-dc-totalbar_label">Due Monthly</span>
+          <div class="nds-dc-totalbar_value">$90</div>
         </div>
-        <span class="nds-dc-totalbar_container nds-dc-totalbar_container-pipe">
-        </span>
+        <span class="nds-dc-totalbar_container nds-dc-totalbar_container-pipe"></span>
         <div class="nds-dc-totalbar_container">
-          <span class="nds-dc-totalbar_label">
-            Due Today
-          </span>
-          <div class="nds-dc-totalbar_value">
-            $1200
-          </div>
+          <span class="nds-dc-totalbar_label">Due Today</span>
+          <div class="nds-dc-totalbar_value">$1200</div>
         </div>
       </div>
       <button class="nds-dc-checkout-button">Checkout</button>
@@ -45,27 +36,23 @@ storiesOf(`${base}`, module)
         <button class="nds-button nds-dc-button nds-button_brand">Continue Shopping</button>
       </div>
       <span class="nds-dc-underline_title"></span>
-      <!-- <div class="nds-dc-spinner nds-spinner_container">
-        <lightning-spinner alternative-text={translatedLabelsObj.DCLoading} size="large" variant="brand"></lightning-spinner>
-      </div> -->
       <div class="nds-dc-offer_attribute">
         <div class="nds-grid nds-wrap nds-dc-cart_container">
-          <span class="nds-size--1-of-1 nds-dc-cart_offer-board">
-            <div class="nds-dc-offer_item-list">
+          <span class="nds-dc-cart_offer-board">
+            <div class="nds-dc-cart_offer-item-list">
               <ul class="nds-has-dividers_around-space nds-dc-offer_item-list-ul">
-                <!-- sub total -->
-                <li class="nds-dc-cart_item-li nds-dc-sub_total">
+                <li class="nds-dc-cart_offer-item nds-dc-sub-total">
                   <div class="nds-dc-cart_item-category">Sub total</div>
-                  <article class="nds-dc-offer_item">
+                  <article class="nds-tile_board nds-dc-offer_item">
                     <div class="nds-dc-title_container">
-                      <div class="nds-dc-offer_menu">
+                      <div class="nds-dc-cart_offer-menu">
                           <div class="nds-dc-tile_text nds-dc-title"></div>
                           <div class="nds-dc-tile_text nds-dc-quantity"></div>
                           <div class="nds-dc-tile_text nds-dc-due">Due Today</div>
                           <div class="nds-dc-tile_text nds-dc-due">Due Monthly</div>
                           <div class="nds-dc-tile_text nds-dc-icons"></div>
                       </div>
-                      <div class="nds-dc-offer_menu nds-dc-sub_total">
+                      <div class="nds-dc-cart_offer-menu nds-dc-sub-total">
                           <div class="nds-dc-tile_text nds-dc-title"></div>
                           <div class="nds-dc-tile_text nds-dc-quantity"></div>
                           <div class="nds-dc-tile_text nds-dc-due">$900</div>
@@ -124,20 +111,16 @@ storiesOf(`${base}`, module)
   })
   .add("dcAddons", () => {
     return withExample(`
-      <div class="nds-dc-offer_addons" if:true={currentPlanGroup}>
-        <!-- display product groups -->
-        <!-- no add-ons -->
-        <div if:false={productGroupsAvailable} class="nds-align_absolute-center nds-text-heading_large nds-m-top_x-large">
+      <div class="nds-dc-offer_addons">
+        <div class="nds-align_absolute-center nds-text-heading_large nds-m-top_x-large">
             No Add-ons
         </div>
       </div>
-      <!-- buttons  -->
       <button class="nds-align_absolute-center nds-button nds-button_brand nds-m-top_x-large nds-dc-add_to-cart-btn">Add To Cart</button>
     `);
   })
   .add("dcOfferGroupSelection", () => {
     return withExample(`
-      <!-- when parent max quantity == 1 -->
       <li class="nds-item nds-dc-nav_type nds-dc-selected">
         <article class="nds-tile_board nds-dc-tile_board nds-m-top_small">
           <div class="nds-dc-desc_part">
@@ -158,7 +141,6 @@ storiesOf(`${base}`, module)
           </slot>
         </article>
       </li>
-      <!-- when parent max quantity > 1 -->
       <li class="nds-item nds-dc-nav_type nds-dc-checkbox nds-dc-checked">
                 <div class="nds-dc-offer_tag">Special Offer</div>
                 <article class="nds-tile_board nds-m-top_small">
