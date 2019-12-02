@@ -13,7 +13,7 @@ import {
     getElementByGuid,
     createAccountWithAutomaticOutput
 } from 'mock/storeData';
-import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -148,11 +148,15 @@ const getItem = (sections, elementGuid) => {
 
 describe('resource-lib', () => {
     describe('getResourceSection', () => {
-        it('should be empty when flow is empty', () => {
-            const elementsForEmptyFlow = {
+        it.each([undefined, []])('returns empty passing %o', resources => {
+            const resourceSections = getResourceSections(resources);
+            expect(resourceSections).toHaveLength(0);
+        });
+        it('should be empty with a flow having nothing but a "startElement"', () => {
+            const flowElements = {
                 [startElement.guid]: startElement
             };
-            const resourceSections = getResourceSections(elementsForEmptyFlow);
+            const resourceSections = getResourceSections(flowElements);
             expect(resourceSections).toHaveLength(0);
         });
         test('sections and items have required properties', () => {
@@ -166,6 +170,7 @@ describe('resource-lib', () => {
                 forEachItemInSection(section, item => {
                     expect(item.guid).toBeDefined();
                     expect(item.label).toBeDefined();
+                    expect(item.description).toBe(item.label);
                     expect(item.elementType).toBeDefined();
                 });
             });
@@ -211,12 +216,12 @@ describe('resource-lib', () => {
             ).toBeDefined();
         });
         it.each`
-            elementGuid                                   | sectionLabel
-            ${lookupRecordAutomaticOutput.guid}           | ${'FlowBuilderElementConfig.sObjectPluralLabel'}
-            ${lookupRecordCollectionAutomaticOutput.guid} | ${'FlowBuilderElementConfig.sObjectCollectionPluralLabel'}
-            ${apexSampleVariable.guid}                    | ${'FlowBuilderElementConfig.apexVariablePluralLabel'}
+            elementName                                   | elementGuid                                   | sectionLabel
+            ${lookupRecordAutomaticOutput.name}           | ${lookupRecordAutomaticOutput.guid}           | ${'FlowBuilderElementConfig.sObjectPluralLabel'}
+            ${lookupRecordCollectionAutomaticOutput.name} | ${lookupRecordCollectionAutomaticOutput.guid} | ${'FlowBuilderElementConfig.sObjectCollectionPluralLabel'}
+            ${apexSampleVariable.name}                    | ${apexSampleVariable.guid}                    | ${'FlowBuilderElementConfig.apexVariablePluralLabel'}
         `(
-            'section for $elementGuid should be $sectionLabel',
+            'section for "$elementName" (guid: "$elementGuid") should be $sectionLabel',
             ({ elementGuid, sectionLabel }) => {
                 const sections = getResourceSections(
                     flowWithAllElementsUIModel.elements
@@ -227,15 +232,19 @@ describe('resource-lib', () => {
         );
     });
     describe('getElementSections', () => {
-        it('should be empty when flow is empty', () => {
-            const elementsForEmptyFlow = {
+        it.each([undefined, []])('returns empty passing %o', elements => {
+            const elementsSections = getElementSections(elements);
+            expect(elementsSections).toHaveLength(0);
+        });
+        it('should be empty with a flow having nothing but a "startElement"', () => {
+            const flowElements = {
                 [startElement.guid]: startElement
             };
-            const elementSections = getElementSections(elementsForEmptyFlow);
+            const elementSections = getElementSections(flowElements);
             expect(elementSections).toHaveLength(0);
         });
         test('sections and items have required properties', () => {
-            const sections = getResourceSections(
+            const sections = getElementSections(
                 flowWithAllElementsUIModel.elements
             );
             forEachSection(sections, section => {
@@ -245,6 +254,7 @@ describe('resource-lib', () => {
                 forEachItemInSection(section, item => {
                     expect(item.guid).toBeDefined();
                     expect(item.label).toBeDefined();
+                    expect(item.description).toBe(item.label);
                     expect(item.elementType).toBeDefined();
                 });
             });
@@ -266,11 +276,11 @@ describe('resource-lib', () => {
             });
         });
         it.each`
-            elementGuid                                   | sectionLabel
-            ${lookupRecordAutomaticOutput.guid}           | ${'FlowBuilderElementConfig.recordLookupPluralLabel'}
-            ${lookupRecordCollectionAutomaticOutput.guid} | ${'FlowBuilderElementConfig.recordLookupPluralLabel'}
+            elementName                                   | elementGuid                                   | sectionLabel
+            ${lookupRecordAutomaticOutput.name}           | ${lookupRecordAutomaticOutput.guid}           | ${'FlowBuilderElementConfig.recordLookupPluralLabel'}
+            ${lookupRecordCollectionAutomaticOutput.name} | ${lookupRecordCollectionAutomaticOutput.guid} | ${'FlowBuilderElementConfig.recordLookupPluralLabel'}
         `(
-            'section for $elementGuid should be $sectionLabel',
+            'section for "$elementName" (guid: "$elementGuid") should be $sectionLabel',
             ({ elementGuid, sectionLabel }) => {
                 const sections = getElementSections(
                     flowWithAllElementsUIModel.elements
@@ -297,13 +307,13 @@ describe('resource-lib', () => {
     });
     describe('getResourceIconName', () => {
         it.each`
-            elementGuid                                   | iconName
-            ${lookupRecordAutomaticOutput.guid}           | ${'utility:sobject'}
-            ${lookupRecordCollectionAutomaticOutput.guid} | ${'utility:sobject'}
-            ${apexSampleVariable.guid}                    | ${'utility:apex'}
-            ${createAccountWithAutomaticOutput.guid}      | ${'utility:text'}
+            elementName                                   | elementGuid                                   | iconName
+            ${lookupRecordAutomaticOutput.name}           | ${lookupRecordAutomaticOutput.guid}           | ${'utility:sobject'}
+            ${lookupRecordCollectionAutomaticOutput.name} | ${lookupRecordCollectionAutomaticOutput.guid} | ${'utility:sobject'}
+            ${apexSampleVariable.name}                    | ${apexSampleVariable.guid}                    | ${'utility:apex'}
+            ${createAccountWithAutomaticOutput.name}      | ${createAccountWithAutomaticOutput.guid}      | ${'utility:text'}
         `(
-            'icon for $elementGuid should be $iconName',
+            'icon for "$elementName" (guid: "$elementGuid") should be "$iconName"',
             ({ elementGuid, iconName }) => {
                 const icon = getResourceIconName(getElementByGuid(elementGuid));
                 expect(icon).toBe(iconName);

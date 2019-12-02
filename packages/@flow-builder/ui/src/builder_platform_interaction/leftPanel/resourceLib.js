@@ -48,7 +48,8 @@ const mutateElements = (elements, searchRegex) =>
             const resourceElement = {
                 elementType: element.elementType,
                 guid: element.guid,
-                label: element.name
+                label: element.name,
+                description: element.name
             };
 
             const category = getElementCategory(element);
@@ -97,7 +98,8 @@ const mutateResources = (elements, searchRegex) =>
                 elementType: element.elementType,
                 guid: element.guid,
                 label,
-                iconName: getResourceIconName(element)
+                iconName: getResourceIconName(element),
+                description: label
             };
             const category = getResourceCategory(element);
             if (!mutatedElements[category]) {
