@@ -19,7 +19,7 @@
         content: "";
         background: $color-brand;
         position: absolute;
-        bottom: -10px;
+        bottom: -0.625rem;
         left: 0;
         width: 3.125rem;
         height: 0.1875rem;
@@ -69,16 +69,16 @@
     }
   }
   .nds-dc-cart_offer-item {
-    padding: 1.875rem 0px;
+    padding: 1.875rem 0;
     .nds-dc-cart_item-category {
       color: $kashmir-blue;
       font-weight: $font-weight-bold;
-      font-size: 17px;
+      font-size: 1.0625rem;
       margin-left: 1.875rem;
     }
     .nds-dc-offer_item {
       display: flex;
-      padding: 0px 1.875rem;
+      padding: 0 1.875rem;
     }
     .nds-dc-title_container {
       flex: 1;
@@ -106,8 +106,8 @@
         }
         &.nds-dc-icons {
           width: 15%;
-          margin-top: -26px;
-          margin-left: 5px;
+          margin-top: -1.625rem;
+          margin-left: 0.3125rem;
         }
       }
       &.nds-dc-sub-total {
@@ -135,7 +135,7 @@
         .nds-dc-tile_text {
           &.nds-dc-icons {
             width: 20%;
-            margin-left: 0px;
+            margin-left: 0;
           }
         }
         &.nds-dc-sub-total {
@@ -152,30 +152,30 @@
     }
   }
   @media only screen and (max-width: 29rem) {
-    padding: 1rem 5px;
+    padding: 1rem 0.3125rem;
     .nds-dc-total_items-circle {
       margin-left: 1.3rem;
     }
     .nds-dc-cart_offer-item {
       .nds-dc-offer_item {
-        padding: 0px 0.625rem;
+        padding: 0 0.625rem;
       }
       .nds-dc-cart_item-category {
         margin-left: 0.625rem;
-        margin-top: -10px;
+        margin-top: -0.625rem;
       }
       .nds-dc-cart_offer-menu {
         .nds-dc-tile_text {
           &.nds-dc-due {
             width: 60%;
-            font-size: 13px;
+            font-size: 0.8125rem;
           }
           &.nds-dc-icons {
             display: none;
           }
         }
         &.nds-dc-sub-total {
-          margin-top: 15px;
+          margin-top: 0.9375rem;
           .nds-dc-tile_text {
             &.nds-dc-due {
               font-size: 1.5rem;
@@ -185,7 +185,7 @@
         }
       }
       &.nds-dc-sub-total {
-        padding: 1.25rem 0px;
+        padding: 1.25rem 0;
       }
     }
   }
