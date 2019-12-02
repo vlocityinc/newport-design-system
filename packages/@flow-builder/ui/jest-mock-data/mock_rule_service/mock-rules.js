@@ -31,6 +31,8 @@ export const mockRules =
                 canBeApexProperty:'CanBe',
             }
         ],
+        includeElems: [],
+        excludeElems: []
     },
     {
         ruleType:'assignment',
@@ -64,6 +66,7 @@ export const mockRules =
                 canBeElements:['CHOICE', 'CHOICELOOKUP', 'CONSTANT', 'FORMULA', 'SCREENFIELD', 'VARIABLE'],
             }
         ],
+        includeElems: [],
         excludeElems: ['ASSIGNMENT'],
     },
     {
@@ -86,7 +89,9 @@ export const mockRules =
                 canBeSystemVariable:'CanBe',
                 canBeApexProperty:'CanBe',
             }
-        ]
+        ],
+        includeElems: [],
+        excludeElems: []
     },
     {
         ruleType:'comparison',
@@ -109,6 +114,7 @@ export const mockRules =
                 canBeApexProperty:'CanBe',
             }
         ],
+        includeElems: [],
         excludeElems:['DECISION']
     },
     // duplicate rule needed for testing removal of duplicates.
@@ -133,7 +139,9 @@ export const mockRules =
                 canBeSystemVariable:'CanBe',
                 canBeApexProperty:'CanBe',
             }
-        ]
+        ],
+        includeElems: [],
+        excludeElems: []
     },
     {
         ruleType:'assignment',
@@ -155,7 +163,9 @@ export const mockRules =
                 canBeSystemVariable:'CanBe',
                 canBeApexProperty:'CanBe',
             }
-        ]
+        ],
+        includeElems: [],
+        excludeElems: []
     },
     {
         ruleType:'comparison',
@@ -178,6 +188,8 @@ export const mockRules =
                 canBeApexProperty:'CanBe',
             }
         ],
+        includeElems: [],
+        excludeElems: []
     },
     {
         ruleType:'comparison',
@@ -200,6 +212,8 @@ export const mockRules =
                 canBeApexProperty:'CanBe',
             }
         ],
+        includeElems: [],
+        excludeElems: []
     },
 ];
 
@@ -226,4 +240,6 @@ export const mockAssignCount = [{
             canBeApexProperty:'CanBe',
         }
     ],
+    includeElems: [],
+    excludeElems: [],
 }];

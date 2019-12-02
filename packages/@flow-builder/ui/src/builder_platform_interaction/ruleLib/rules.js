@@ -50,6 +50,7 @@
  *  }
  */
 import { UI_ELEMENT_TYPE_TO_RULE_ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { readonly } from 'lwc';
 
 let rulesInstance = {};
 let outputRules = [];
@@ -119,6 +120,13 @@ const storeRulesForIncludeElems = rule => {
     });
 };
 
+const hasIncludeElems = rule =>
+    rule[RULE_PROPERTY.INCLUDE_ELEMS] &&
+    rule[RULE_PROPERTY.INCLUDE_ELEMS].length > 0;
+const hasExcludeElems = rule =>
+    rule[RULE_PROPERTY.EXCLUDE_ELEMS] &&
+    rule[RULE_PROPERTY.EXCLUDE_ELEMS].length > 0;
+
 /**
  * Build map in the opposite way the original assignment rules are structured.
  * Meaning, the LHS will now be what is being assigned and the RHS is now a list of the places the LHS can be assigned into.
@@ -132,14 +140,14 @@ const addToStringifiedOutputRuleMap = (
     stringifiedInputsToOutputs,
     assignmentRulesWithExclusions
 ) => {
-    if (rule[RULE_PROPERTY.INCLUDE_ELEMS]) {
+    if (hasIncludeElems(rule)) {
         // this function only accounts for the EXCLUDE_ELEMS property. We don't have any instances of using INCLUDE_ELEMS yet
         throw new Error(
             'Output rules do not handle Assignment rules which only apply to certain elements.'
         );
     }
 
-    if (!rule[RULE_PROPERTY.EXCLUDE_ELEMS]) {
+    if (!hasExcludeElems(rule)) {
         rule[RULE_PROPERTY.RHS_PARAMS].forEach(rhsParam => {
             const rhs = JSON.stringify(rhsParam);
             if (!stringifiedInputsToOutputs[rhs]) {
@@ -195,35 +203,34 @@ export const setRules = (rules = null) => {
     // rules are not expected to accumulate, if we're setting them we should start from scratch
     rulesInstance = {};
     outputRules = [];
-    let allRules = [];
-    allRules = JSON.parse(rules);
     // Create the rules instance with all rule types, where
     // RULE_TYPES looks like this: { ASSIGNMENT: 'assignment', COMPARISON: 'comparison' }
     Object.values(RULE_TYPES).forEach(ruleTypeName => {
         rulesInstance[ruleTypeName] = [];
     });
     // Add rules to the correct buckets
-    if (allRules) {
+    if (rules) {
         const stringifiedInputsToOutputs = {};
         const assignmentRulesWithExclusions = [];
-        allRules.forEach(rule => {
+        rules.forEach(rule => {
+            let currentRule = Object.assign({}, rule);
             const ruleTypeName = rule[RULE_PROPERTY.RULE_TYPE];
             // rules come in with two fields - assignmentOperator and comparisonOperator
             // this combines those into one operator field for easier use throughout the client
-            rule[RULE_PROPERTY.OPERATOR] =
+            currentRule[RULE_PROPERTY.OPERATOR] =
                 rule[ruleTypeName + 'Operator'].value;
-
-            if (!rule[RULE_PROPERTY.INCLUDE_ELEMS]) {
+            currentRule = readonly(currentRule);
+            if (!hasIncludeElems(rule)) {
                 // add rules with no includeElems list to the main rule array for their type
-                rulesInstance[ruleTypeName].push(rule);
+                rulesInstance[ruleTypeName].push(currentRule);
             } else {
-                storeRulesForIncludeElems(rule);
+                storeRulesForIncludeElems(currentRule);
             }
 
             // if it's an assignment rule, store it backwards to create output rules (rules for outputs from actions, etc)
-            if (rule[RULE_PROPERTY.OPERATOR] === RULE_OPERATOR.ASSIGN) {
+            if (currentRule[RULE_PROPERTY.OPERATOR] === RULE_OPERATOR.ASSIGN) {
                 addToStringifiedOutputRuleMap(
-                    rule,
+                    currentRule,
                     stringifiedInputsToOutputs,
                     assignmentRulesWithExclusions
                 );

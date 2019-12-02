@@ -12,199 +12,191 @@ const { LEFT, RHS_PARAMS, EXCLUDE_ELEMS } = RULE_PROPERTY;
 
 const decisionElement = 'DECISION';
 
-const mockRulesFromServiceAssignmentAndComparison =
-    '[{' +
-    '       "ruleType": "comparison",' +
-    '       "assignmentOperator":null,' +
-    '       "comparisonOperator":{"value":"Equal"},' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   },' +
-    '   {' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   }]';
+const mockRulesFromServiceAssignmentAndComparison = [
+    {
+        ruleType: 'comparison',
+        comparisonOperator: { value: 'Equal' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    },
+    {
+        ruleType: 'assignment',
+        assignmentOperator: { value: 'Assign' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    }
+];
 
-const mockRulesFromServiceAssignmentComparisonAndIncludedElems =
-    '[{' +
-    '       "ruleType": "comparison",' +
-    '       "assignmentOperator":null,' +
-    '       "comparisonOperator":{"value":"Equal"},' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   },' +
-    '   {' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '    },' +
-    '    {' +
-    '       "ruleType": "comparison",' +
-    '       "assignmentOperator":null,' +
-    '       "comparisonOperator":{"value":"Equal"},' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":["' +
-    decisionElement +
-    '"],' +
-    '       "excludeElems":null' +
-    '   }]';
+const mockRulesFromServiceAssignmentComparisonAndIncludedElems = [
+    {
+        ruleType: 'comparison',
+        comparisonOperator: { value: 'Equal' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    },
+    {
+        ruleType: 'assignment',
+        assignmentOperator: { value: 'Assign' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    },
+    {
+        ruleType: 'comparison',
+        comparisonOperator: { value: 'Equal' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [decisionElement],
+        excludeElems: []
+    }
+];
 
-const mockRulesFromServiceOnlyAssignment =
-    '[{' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   },' +
-    '   {' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"String"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   }]';
+const mockRulesFromServiceOnlyAssignment = [
+    {
+        ruleType: 'assignment',
+        assignmentOperator: { value: 'Assign' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    },
+    {
+        ruleType: 'assignment',
+        assignmentOperator: { value: 'Assign' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'String' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    }
+];
 
-const mockSingleAssignmentRule =
-    '[{' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"Number"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           },' +
-    '           {' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"Date"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":null' +
-    '   }]';
-const mockSingleAssignmentRuleWithExcludeElems =
-    '[{' +
-    '       "ruleType": "assignment",' +
-    '       "assignmentOperator":{"value":"Assign"},' +
-    '       "comparisonOperator":null,' +
-    '       "left":{' +
-    '           "paramType":"Data",' +
-    '           "dataType":{"value":"String"},' +
-    '           "elementType":null,' +
-    '           "collection":false' +
-    '           },' +
-    '       "rhsParams":[{' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"Number"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           },' +
-    '           {' +
-    '               "paramType":"Data",' +
-    '               "dataType":{"value":"Date"},' +
-    '               "elementType":null,' +
-    '               "collection":false' +
-    '           }],' +
-    '       "includeElems":null,' +
-    '       "excludeElems":["SUBFLOW"]' +
-    '   }]';
+const mockSingleAssignmentRule = [
+    {
+        ruleType: 'assignment',
+        assignmentOperator: { value: 'Assign' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'Number' },
+                collection: false
+            },
+            {
+                paramType: 'Data',
+                dataType: { value: 'Date' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: []
+    }
+];
+const mockSingleAssignmentRuleWithExcludeElems = [
+    {
+        ruleType: 'assignment',
+        assignmentOperator: { value: 'Assign' },
+        left: {
+            paramType: 'Data',
+            dataType: { value: 'String' },
+            collection: false
+        },
+        rhsParams: [
+            {
+                paramType: 'Data',
+                dataType: { value: 'Number' },
+                collection: false
+            },
+            {
+                paramType: 'Data',
+                dataType: { value: 'Date' },
+                collection: false
+            }
+        ],
+        includeElems: [],
+        excludeElems: ['SUBFLOW']
+    }
+];
 
 const verifyProperties = testRulesVariable => {
     expect(testRulesVariable).toHaveProperty(COMPARISON);
@@ -215,7 +207,7 @@ const verifyOutputRuleShape = testExcludeElems => {
     const rule = testExcludeElems
         ? mockSingleAssignmentRuleWithExcludeElems
         : mockSingleAssignmentRule;
-    const initialRule = JSON.parse(rule)[0];
+    const initialRule = rule[0];
     const initialLHS = initialRule[LEFT];
     const initialRHSParams = initialRule[RHS_PARAMS];
 
