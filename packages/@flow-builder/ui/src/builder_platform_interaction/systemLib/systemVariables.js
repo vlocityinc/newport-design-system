@@ -1,15 +1,21 @@
 import systemVariableCategory from '@salesforce/label/FlowBuilderSystemVariables.systemVariableCategory';
+import { readonly } from 'lwc';
 
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';
 export const SYSTEM_VARIABLE_CLIENT_PREFIX = '$Client';
 const SYSTEM_VARIABLE_RECORD_CATEGORY = 'Record';
-export const SYSTEM_VARIABLE_RECORD_PREFIX = '$' + SYSTEM_VARIABLE_RECORD_CATEGORY;
+export const SYSTEM_VARIABLE_RECORD_PREFIX =
+    '$' + SYSTEM_VARIABLE_RECORD_CATEGORY;
 
 export const SYSTEM_VARIABLES = {
     CURRENT_DATE_TIME: SYSTEM_VARIABLE_PREFIX + '.CurrentDateTime'
 };
 
 let systemVariables = {};
+
+export const resetSystemVariables = () => {
+    systemVariables = {};
+};
 
 /**
  * Converts serialized FlowSystemVariablesEnums to a form usable by menus.
@@ -20,7 +26,8 @@ let systemVariables = {};
 const convertData = data =>
     data.reduce((acc, obj) => {
         const name = `$${obj.category}.${obj.devName}`;
-        const variable = Object.assign(obj, {
+        const currentObj = Object.assign({}, obj);
+        const variable = Object.assign(currentObj, {
             category: systemVariableCategory,
             apiName: obj.devName,
             dataType: obj.dataType,
@@ -44,21 +51,19 @@ const convertData = data =>
  *            data the data returned by the service
  */
 export const setSystemVariables = data => {
-    const parsedVariables = JSON.parse(data);
-    if (Array.isArray(parsedVariables)) {
-        // Remove $Record var. In the current implementation $Record is treated as an alias to the start element.
-        // The attributes communicated in $Record here are hard-coded in the start element factory.
-        // With that the visibility of $Record communicated by the backend based on the process type is ignored in the Flow Builder.
-        // If it is ever needed, it can be tracked with a dedicated local var here and surfaced in the app by
-        // e.g. a function like isRecordSystemVariableEnabled().
-        if (parsedVariables) {
-            const index = parsedVariables.findIndex(variable => variable.category === SYSTEM_VARIABLE_RECORD_CATEGORY);
-            if (index !== -1) {
-                parsedVariables.splice(index, 1);
-            }
-        }
-        systemVariables = convertData(parsedVariables);
+    const variables = [...data];
+    // Remove $Record var. In the current implementation $Record is treated as an alias to the start element.
+    // The attributes communicated in $Record here are hard-coded in the start element factory.
+    // With that the visibility of $Record communicated by the backend based on the process type is ignored in the Flow Builder.
+    // If it is ever needed, it can be tracked with a dedicated local var here and surfaced in the app by
+    // e.g. a function like isRecordSystemVariableEnabled().
+    const index = variables.findIndex(
+        variable => variable.category === SYSTEM_VARIABLE_RECORD_CATEGORY
+    );
+    if (index !== -1) {
+        variables.splice(index, 1);
     }
+    systemVariables = readonly(convertData(variables));
 };
 
 /**

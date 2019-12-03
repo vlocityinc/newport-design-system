@@ -901,13 +901,13 @@ describe('Menu data retrieval', () => {
             );
             expect(menuItems).toHaveLength(3);
             expect(menuItems[0]).toMatchObject({
-                displayText: '{!$Flow.CurrentStage}'
-            });
-            expect(menuItems[1]).toMatchObject({
                 displayText: '{!$Flow.ActiveStages}'
             });
-            expect(menuItems[2]).toMatchObject({
+            expect(menuItems[1]).toMatchObject({
                 displayText: '{!$Flow.CurrentRecord}'
+            });
+            expect(menuItems[2]).toMatchObject({
+                displayText: '{!$Flow.CurrentStage}'
             });
         });
         it('returns menuItems for both number fields and spannable fields when allowed param types are numbers', () => {

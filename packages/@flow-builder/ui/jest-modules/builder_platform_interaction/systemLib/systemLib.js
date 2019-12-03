@@ -1,10 +1,8 @@
 const mockSystemLib = require('builder_platform_interaction/systemLib');
-import globalConstantFalseLabel from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantFalse';
 import globalConstantCategory from '@salesforce/label/FlowBuilderGlobalConstants.globalConstantCategory';
 import emptyStringMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.emptyStringMetaLine';
 import trueMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.trueMetaLine';
 import falseMetaLine from '@salesforce/label/FlowBuilderGlobalConstants.falseMetaLine';
-import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 
 const removeCurlyBraces = (id) => {
     if (typeof id === 'string' && id.startsWith('{!') && id.endsWith('}')) {
@@ -12,8 +10,6 @@ const removeCurlyBraces = (id) => {
     }
     return id;
 };
-
-mockSystemLib.setSystemVariables(systemVariables);
 
 export const GLOBAL_CONSTANT_PREFIX = mockSystemLib.GLOBAL_CONSTANT_PREFIX;
 export const SYSTEM_VARIABLE_PREFIX = '$Flow';

@@ -65,6 +65,7 @@ export {
     setSystemVariables,
     getSystemVariables,
     isSystemVariablesCategoryNotEmpty,
+    resetSystemVariables,
     SYSTEM_VARIABLE_PREFIX,
     SYSTEM_VARIABLE_CLIENT_PREFIX,
     SYSTEM_VARIABLE_RECORD_PREFIX,

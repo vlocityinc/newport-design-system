@@ -8,7 +8,8 @@ import {
 } from 'builder_platform_interaction/serverDataLib';
 import {
     setGlobalVariables,
-    setSystemVariables
+    setSystemVariables,
+    resetSystemVariables
 } from 'builder_platform_interaction/systemLib';
 import { setRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
@@ -213,6 +214,7 @@ export const resetState = () => {
     OutputResourcePicker.RULES = [];
     resetCacheTemplates();
     clearExtensionsCache();
+    resetSystemVariables();
 };
 
 export class ToggleOnChangeEvent extends CustomEvent {
