@@ -774,6 +774,10 @@ export default class BaseExpressionBuilder extends LightningElement {
     populateLhsMenuData(getFields, parentMenuItem) {
         const isDisplayedAsFieldReference =
             this.lhsDisplayOption !== LHS_DISPLAY_OPTION.SOBJECT_FIELD;
+        const allowFieldsTraversal =
+            this.isLookupTraversalSupported() &&
+            this.objectType == null &&
+            !this.lhsMustBeWritable;
         this.populateMenuData(
             getFields,
             parentMenuItem,
@@ -784,10 +788,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             {
                 isDisplayedAsFieldReference,
                 shouldBeWritable: this.lhsMustBeWritable,
-                allowSObjectFieldsTraversal:
-                    this.isLookupTraversalSupported() &&
-                    this.objectType == null &&
-                    !this.lhsMustBeWritable
+                allowSObjectFieldsTraversal: allowFieldsTraversal,
+                allowApexTypeFieldsTraversal: allowFieldsTraversal
             }
         );
     }
@@ -908,28 +910,28 @@ export default class BaseExpressionBuilder extends LightningElement {
             elementType: this.containerElement,
             shouldBeWritable
         };
-
-        // we use this Promise to make sure we call setFieldMenuData in the same order populateMenuData is called
-        if (!this.setFieldMenuDataPromise) {
-            this.setFieldMenuDataPromise = Promise.resolve();
-        }
-        const setFieldMenuData = fields => {
-            this.state[preFetchedFields] = fields;
-            this.state[fullMenuData] = this.state[
-                filteredMenuData
-            ] = filterFieldsForChosenElement(parentMenuItem, fields, {
-                allowedParamTypes: paramTypes,
-                showAsFieldReference: isDisplayedAsFieldReference,
-                showSubText: SHOW_SUBTEXT,
-                shouldBeWritable,
-                allowSObjectFieldsTraversal:
-                    !shouldBeWritable && allowSObjectFieldsTraversal,
-                allowApexTypeFieldsTraversal:
-                    !shouldBeWritable && allowApexTypeFieldsTraversal
-            });
+        const updateState = stateUpdatesPromise => {
+            // we use this Promise to make sure we update the state in the same order populateMenuData is called
+            if (!this.updateStatePromise) {
+                this.updateStatePromise = Promise.resolve();
+            }
+            stateUpdatesPromise = Promise.resolve(stateUpdatesPromise);
+            this.updateStatePromise = this.updateStatePromise
+                .then(() => stateUpdatesPromise)
+                .then(stateUpdates => Object.assign(this.state, stateUpdates));
         };
-
         if (getFields) {
+            const filterFields = fields =>
+                filterFieldsForChosenElement(parentMenuItem, fields, {
+                    allowedParamTypes: paramTypes,
+                    showAsFieldReference: isDisplayedAsFieldReference,
+                    showSubText: SHOW_SUBTEXT,
+                    shouldBeWritable,
+                    allowSObjectFieldsTraversal:
+                        !shouldBeWritable && allowSObjectFieldsTraversal,
+                    allowApexTypeFieldsTraversal:
+                        !shouldBeWritable && allowApexTypeFieldsTraversal
+                });
             let preFetchedFieldsSubtype;
             // get the sobject type from the first field
             for (const prop in this.state[preFetchedFields]) {
@@ -945,26 +947,31 @@ export default class BaseExpressionBuilder extends LightningElement {
                 (!this.state[preFetchedFields] ||
                     preFetchedFieldsSubtype !== parentMenuItem.subtype)
             ) {
-                this.setFieldMenuDataPromise = this.setFieldMenuDataPromise.then(
-                    () =>
-                        getChildrenItemsPromise(parentMenuItem).then(items =>
-                            setFieldMenuData(items)
-                        )
+                updateState(
+                    getChildrenItemsPromise(parentMenuItem).then(items => {
+                        const menuData = filterFields(items);
+                        return {
+                            [preFetchedFields]: items,
+                            [fullMenuData]: menuData,
+                            [filteredMenuData]: menuData
+                        };
+                    })
                 );
             } else {
                 const fields = this.state[preFetchedFields];
-                this.setFieldMenuDataPromise = this.setFieldMenuDataPromise.then(
-                    () => setFieldMenuData(fields)
-                );
+                const menuData = filterFields(fields);
+                updateState({
+                    [preFetchedFields]: fields,
+                    [fullMenuData]: menuData,
+                    [filteredMenuData]: menuData
+                });
             }
         } else {
             const menuDataElements = getStoreElements(
                 storeInstance.getCurrentState(),
                 config
             );
-            this.state[fullMenuData] = this.state[
-                filteredMenuData
-            ] = filterAndMutateMenuData(
+            const menuData = filterAndMutateMenuData(
                 menuDataElements,
                 paramTypes,
                 !this.hideNewResource,
@@ -973,6 +980,10 @@ export default class BaseExpressionBuilder extends LightningElement {
                 picklistValues,
                 !this.hideSystemVariables
             );
+            updateState({
+                [fullMenuData]: menuData,
+                [filteredMenuData]: menuData
+            });
         }
 
         const {

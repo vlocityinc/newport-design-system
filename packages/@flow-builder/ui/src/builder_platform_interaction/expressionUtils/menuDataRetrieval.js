@@ -433,6 +433,7 @@ export const getEntitiesMenuData = entityType => {
  * @param {boolean} [options.showSubText] show sub text
  * @param {boolean} [options.shouldBeWritable] true if fields must be writable
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
+ * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
  * @returns {MenuItem[]} array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
@@ -443,7 +444,8 @@ export function filterFieldsForChosenElement(
         showAsFieldReference = true,
         showSubText = true,
         shouldBeWritable = false,
-        allowSObjectFieldsTraversal = true
+        allowSObjectFieldsTraversal = true,
+        allowApexTypeFieldsTraversal = true
     } = {}
 ) {
     if (fields) {
@@ -467,7 +469,8 @@ export function filterFieldsForChosenElement(
                         getMenuItemsForField(field, chosenElement, {
                             showAsFieldReference,
                             showSubText,
-                            allowSObjectFieldsTraversal
+                            allowSObjectFieldsTraversal,
+                            allowApexTypeFieldsTraversal
                         })
                     ),
                 []

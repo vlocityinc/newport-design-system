@@ -18,11 +18,8 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import {
-    selectComboboxItemBy,
-    getLhsCombobox,
-    getRhsCombobox
-} from '../expressionBuilderTestUtils';
+import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
+import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
 import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {
@@ -103,7 +100,7 @@ describe('Decision Editor', () => {
             });
             it('shows up chevron on fields in LHS', async () => {
                 const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                const accountCreatedByItem = await selectComboboxItemBy(
+                const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     lhsCombobox,
                     'text',
                     ['accountSObjectVariable', 'CreatedBy'],
@@ -116,7 +113,7 @@ describe('Decision Editor', () => {
             });
             it('shows up chevron on fields in RHS', async () => {
                 const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                const accountCreatedByItem = await selectComboboxItemBy(
+                const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     rhsCombobox,
                     'text',
                     ['accountSObjectVariable', 'CreatedBy'],
@@ -145,7 +142,7 @@ describe('Decision Editor', () => {
                 });
                 it('does not show up chevron on fields in LHS', async () => {
                     const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                    const accountCreatedByItem = await selectComboboxItemBy(
+                    const accountCreatedByItem = await selectGroupedComboboxItemBy(
                         lhsCombobox,
                         'text',
                         ['accountVariable', 'CreatedBy'],
@@ -154,7 +151,7 @@ describe('Decision Editor', () => {
 
                     expect(accountCreatedByItem).toBeUndefined();
 
-                    const accountCreatedByIdItem = await selectComboboxItemBy(
+                    const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
                         lhsCombobox,
                         'text',
                         ['accountVariable', 'CreatedById'],
@@ -168,7 +165,7 @@ describe('Decision Editor', () => {
                 });
                 it('does not show up chevron on fields in RHS', async () => {
                     const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                    const accountCreatedByItem = await selectComboboxItemBy(
+                    const accountCreatedByItem = await selectGroupedComboboxItemBy(
                         rhsCombobox,
                         'text',
                         ['accountVariable', 'CreatedBy'],
@@ -177,7 +174,7 @@ describe('Decision Editor', () => {
 
                     expect(accountCreatedByItem).toBeUndefined();
 
-                    const accountCreatedByIdItem = await selectComboboxItemBy(
+                    const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
                         rhsCombobox,
                         'text',
                         ['accountVariable', 'CreatedById'],
@@ -209,7 +206,7 @@ describe('Decision Editor', () => {
             });
             it('does not show up chevron on fields in LHS', async () => {
                 const lhsCombobox = getLHSGroupedCombobox(decisionEditor);
-                const accountCreatedByItem = await selectComboboxItemBy(
+                const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     lhsCombobox,
                     'text',
                     ['vMyTestAccount', 'CreatedBy'],
@@ -218,7 +215,7 @@ describe('Decision Editor', () => {
 
                 expect(accountCreatedByItem).toBeUndefined();
 
-                const accountCreatedByIdItem = await selectComboboxItemBy(
+                const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
                     lhsCombobox,
                     'text',
                     ['vMyTestAccount', 'CreatedById'],
@@ -230,7 +227,7 @@ describe('Decision Editor', () => {
             });
             it('does not show up chevron on fields in RHS', async () => {
                 const rhsCombobox = getRHSGroupedCombobox(decisionEditor);
-                const accountCreatedByItem = await selectComboboxItemBy(
+                const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     rhsCombobox,
                     'text',
                     ['vMyTestAccount', 'CreatedBy'],
@@ -239,7 +236,7 @@ describe('Decision Editor', () => {
 
                 expect(accountCreatedByItem).toBeUndefined();
 
-                const accountCreatedByIdItem = await selectComboboxItemBy(
+                const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
                     rhsCombobox,
                     'text',
                     ['vMyTestAccount', 'CreatedById'],

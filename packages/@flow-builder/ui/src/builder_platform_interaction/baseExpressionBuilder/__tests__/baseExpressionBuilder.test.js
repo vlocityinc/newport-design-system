@@ -41,6 +41,7 @@ import genericErrorMessage from '@salesforce/label/FlowBuilderCombobox.genericEr
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { ticks } from 'builder_platform_interaction/builderTestUtils';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -253,7 +254,7 @@ describe('base expression builder', () => {
     });
 
     describe('basic set up', () => {
-        it('should set lhs menu data based on container element', () => {
+        it('should set lhs menu data based on container element', async () => {
             const expressionBuilder = createComponentForTest({
                 rules: [],
                 containerElement: ELEMENT_TYPE.ASSIGNMENT,
@@ -263,6 +264,7 @@ describe('base expression builder', () => {
                 showLhsAsFieldReference: true,
                 lhsMustBeWritable: true
             });
+            await ticks();
             const lhsCombobox = getComboboxElements(expressionBuilder)[0];
 
             expect(rulesMock.getLHSTypes).toHaveBeenCalled();
@@ -758,38 +760,27 @@ describe('base expression builder', () => {
             expect(rulesMock.getOperators).toHaveBeenCalled();
             expect(operatorCombobox.options).toBeDefined();
         });
-        it('should populate rhs menu data', () => {
+        it('should populate rhs menu data', async () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest();
-            return Promise.resolve().then(() => {
-                const rhsCombobox = getComboboxElements(expressionBuilder)[1];
-                expect(rulesMock.getRHSTypes).toHaveBeenCalled();
-                expect(rhsCombobox.menuData).toBeDefined();
-            });
+            await ticks();
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rulesMock.getRHSTypes).toHaveBeenCalled();
+            expect(rhsCombobox.menuData).toBeDefined();
         });
-        it('should populate the expression builder with values from the store', () => {
+        it('should populate the expression builder with values from the store', async () => {
             const expressionBuilder = createDefaultFerToFerovComponentForTest();
-            return Promise.resolve()
-                .then(() => {
-                    const comboboxes = getComboboxElements(expressionBuilder);
-                    const lhsCombobox = comboboxes[0];
-                    const operatorCombobox = getLightningCombobox(
-                        expressionBuilder
-                    );
-                    expect(lhsCombobox.value.displayText).toEqual(
-                        addCurlyBraces(numberVariable.name)
-                    );
-                    expect(operatorCombobox.value).toEqual(
-                        rulesMock.RULE_OPERATOR.ADD
-                    );
-                })
-                .then(() => {
-                    const rhsCombobox = getComboboxElements(
-                        expressionBuilder
-                    )[1];
-                    expect(rhsCombobox.value.displayText).toEqual(
-                        addCurlyBraces(numberVariable.name)
-                    );
-                });
+            await ticks();
+            const comboboxes = getComboboxElements(expressionBuilder);
+            const lhsCombobox = comboboxes[0];
+            const operatorCombobox = getLightningCombobox(expressionBuilder);
+            expect(lhsCombobox.value.displayText).toEqual(
+                addCurlyBraces(numberVariable.name)
+            );
+            expect(operatorCombobox.value).toEqual(rulesMock.RULE_OPERATOR.ADD);
+            const rhsCombobox = getComboboxElements(expressionBuilder)[1];
+            expect(rhsCombobox.value.displayText).toEqual(
+                addCurlyBraces(numberVariable.name)
+            );
         });
         it('should populate operator menu with the item operator if lhs fields is empty', () => {
             // lhsParam is null if we cannot get this entity field (no access ...)

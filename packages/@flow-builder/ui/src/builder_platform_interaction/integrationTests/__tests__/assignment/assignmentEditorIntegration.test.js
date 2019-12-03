@@ -8,10 +8,8 @@ import { reducer } from 'builder_platform_interaction/reducers';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import AssignmentEditor from 'builder_platform_interaction/assignmentEditor';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { resolveRenderCycles } from '../resolveRenderCycles';
 import { resetState } from '../integrationTestUtils';
 import { auraFetch, allAuraActions } from '../serverDataTestUtils';
-import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import {
     expectGroupedComboboxItem,
@@ -31,8 +29,9 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
     EXPRESSION_BUILDER_SELECTORS,
     validateExpression,
-    selectComboboxItemBy
+    getLhsCombobox
 } from '../expressionBuilderTestUtils';
+import { selectComboboxItemBy } from '../comboboxTestUtils';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
@@ -90,50 +89,46 @@ describe('Assignment Editor', () => {
     });
     afterAll(() => {
         resetState();
-        setAuraFetch();
         setApexClasses(null);
     });
     describe('"Get Records" Automated ouput in combobox', () => {
         let assignment, assignmentForPropertyEditor;
-        beforeAll(() => {
+        beforeAll(async () => {
             const uiFlow = translateFlowToUIModel(
                 flowWithGetRecordUsingSObjectSingleAutomatedOutput
             );
             store.dispatch(updateFlow(uiFlow));
+            await loadFieldsForComplexTypesInFlow(uiFlow);
         });
-        beforeEach(() => {
+        beforeEach(async () => {
             const assignmentElement = getElementByDevName('assignment');
             assignmentForPropertyEditor = getElementForPropertyEditor(
                 assignmentElement
             );
             assignment = createComponentForTest(assignmentForPropertyEditor);
+            await ticks();
         });
         it('shows up automated output from Get Record in LHS', () => {
-            return resolveRenderCycles(() => {
-                const lhsCombo = getLHSGroupedCombobox(assignment);
-                expect(
-                    getGroupedComboboxItemInGroupByDisplayText(
-                        lhsCombo,
-                        'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                        '{!Get_single_record_automatic_output}'
-                    )
-                ).toBeDefined();
-            });
+            const lhsCombo = getLHSGroupedCombobox(assignment);
+            expect(
+                getGroupedComboboxItemInGroupByDisplayText(
+                    lhsCombo,
+                    'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
+                    '{!Get_single_record_automatic_output}'
+                )
+            ).toBeDefined();
         });
         it('shows up automated output from Get Record in RHS', () => {
-            return resolveRenderCycles(() => {
-                const rhsCombo = getRHSGroupedCombobox(assignment);
-                expect(
-                    getGroupedComboboxItemInGroupByDisplayText(
-                        rhsCombo,
-                        'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                        '{!Get_single_record_automatic_output}'
-                    )
-                ).toBeDefined();
-            });
+            const rhsCombo = getRHSGroupedCombobox(assignment);
+            expect(
+                getGroupedComboboxItemInGroupByDisplayText(
+                    rhsCombo,
+                    'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
+                    '{!Get_single_record_automatic_output}'
+                )
+            ).toBeDefined();
         });
         it('shows up record field when automated output from Get Record selected', async () => {
-            await fetchFieldsForEntity('Account');
             const lhsCombo = getLHSGroupedCombobox(assignment);
             const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
                 lhsCombo,
@@ -147,7 +142,6 @@ describe('Assignment Editor', () => {
             expectGroupedComboboxItem(lhsCombo, 'Name');
         });
         it('can select automated output from Get Record field', async () => {
-            await fetchFieldsForEntity('Account');
             const lhsCombo = getLHSGroupedCombobox(assignment);
             const automatedOutputFromGetRecord = getGroupedComboboxItemInGroupByDisplayText(
                 lhsCombo,
@@ -226,7 +220,7 @@ describe('Assignment Editor', () => {
         });
     });
     describe('Invocable action Automated ouput in combobox', () => {
-        let assignment, assignmentForPropertyEditor;
+        let assignment, assignmentForPropertyEditor, expressionBuilder;
         beforeAll(async () => {
             const uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
@@ -238,15 +232,15 @@ describe('Assignment Editor', () => {
                 assignmentElement
             );
             assignment = createComponentForTest(assignmentForPropertyEditor);
+            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
             await ticks();
         });
         it('shows up Apex type fields with expected icon', async () => {
-            const lhsCombo = getLHSGroupedCombobox(assignment);
+            const lhsCombobox = getLhsCombobox(expressionBuilder);
             const apexTypeField = await selectComboboxItemBy(
-                lhsCombo,
+                lhsCombobox,
                 'text',
-                ['Outputs from apexCall_Car_automatic_output', 'car'],
-                { blur: false }
+                ['Outputs from apexCall_Car_automatic_output', 'car']
             );
 
             expect(apexTypeField).toBeDefined();
@@ -319,6 +313,7 @@ describe('Assignment Editor', () => {
                         'FlowBuilderMergeFieldValidation.maximumNumberOfLevelsReached'
                 });
             });
+            it('cannot traverse more than 2 levels on the LHS', async () => {});
             describe('When rhs is a cross-Object Field Reference using Polymorphic Relationships', () => {
                 testExpression.each`
                 lhs                                            | operator    | rhs                                                     | rhsErrorMessage
@@ -331,9 +326,24 @@ describe('Assignment Editor', () => {
             testExpression.each`
             lhs                                             | operator    | rhs                                                     | rhsErrorMessage
             ${'{!apexCall_Car_automatic_output.car}'}       | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
-            ${'{!apexCarVariable.wheel.type}'}              | ${'Assign'} | ${'Michelin'}                                           | ${undefined}
-            ${'{!apexCarVariable.wheel.type}'}              | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!stringVariable}'}                          | ${'Assign'} | ${'{!apexCarVariable.wheel.type}'}                      | ${undefined}
             `();
+            it('cannot traverse more than 2 levels in the LHS', async () => {
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                expect(
+                    await selectComboboxItemBy(lhsCombobox, 'text', [
+                        'apexCarVariable',
+                        'wheel'
+                    ])
+                ).toMatchObject({ displayText: '{!apexCarVariable.wheel}' });
+                expect(
+                    await selectComboboxItemBy(lhsCombobox, 'text', [
+                        'apexCarVariable',
+                        'wheel',
+                        'type'
+                    ])
+                ).toBeUndefined();
+            });
         });
         describe('Automatic handling mode', () => {
             testExpression.each`

@@ -919,12 +919,15 @@ export default class Combobox extends LightningElement {
      */
     fireFetchMenuDataEvent(item) {
         if (this.enableFieldDrilldown) {
-            if (item) {
-                this._mergeFieldLevel++;
-            } else if (this._mergeFieldLevel > 1) {
-                this._mergeFieldLevel--;
-            }
             this._clearMenuData();
+            if (item) {
+                if (!item.hasNext) {
+                    return;
+                }
+                this._mergeFieldLevel = this.getMergeFieldLevel(item) + 1;
+            } else {
+                this._mergeFieldLevel = 1;
+            }
             const fetchMenuDataEvent = new FetchMenuDataEvent(item);
             this.dispatchEvent(fetchMenuDataEvent);
             this.state.showActivityIndicator = true;

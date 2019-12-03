@@ -311,25 +311,42 @@ function getMenuItemsForSObjectField(
  * @param {Object} [options]
  * @param {boolean} [options.showAsFieldReference] true to show the display text as field reference on record variable, otherwise show the field's apiName
  * @param {boolean} [options.showSubText] true to show the sub text
+ * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
+ * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
 export function getMenuItemForField(
     field,
     parent,
-    { showAsFieldReference = true, showSubText = true } = {}
+    {
+        showAsFieldReference = true,
+        showSubText = true,
+        allowSObjectFieldsTraversal = true,
+        allowApexTypeFieldsTraversal = true
+    } = {}
 ) {
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
+    let hasNext;
+    const { dataType, isCollection, subtype } = field;
+    if (
+        (dataType === SOBJECT_TYPE && !allowSObjectFieldsTraversal) ||
+        (dataType === APEX_TYPE && !allowApexTypeFieldsTraversal)
+    ) {
+        hasNext = false;
+    } else {
+        hasNext = isComplexType(dataType) && !isCollection;
+    }
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
-        isCollection: field.isCollection,
-        dataType: field.dataType,
-        subtype: field.subtype,
+        isCollection,
+        dataType,
+        subtype,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
         text: apiName,
         value: parent ? parent.value + '.' + apiName : apiName,
-        hasNext: isComplexType(field.dataType) && !field.isCollection,
+        hasNext,
         displayText: getFieldDisplayText(
             parent,
             apiName,
@@ -350,6 +367,7 @@ export function getMenuItemForField(
  * @param {boolean} [options.showAsFieldReference] true to show the display text as field reference on record variable, otherwise show the field's apiName
  * @param {boolean} [options.showSubText] true to show the sub text
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
+ * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
  * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
  */
 export function getMenuItemsForField(
@@ -358,7 +376,8 @@ export function getMenuItemsForField(
     {
         showAsFieldReference = true,
         showSubText = true,
-        allowSObjectFieldsTraversal = true
+        allowSObjectFieldsTraversal = true,
+        allowApexTypeFieldsTraversal = true
     } = {}
 ) {
     if (parent && parent.dataType === SOBJECT_TYPE) {
@@ -371,7 +390,9 @@ export function getMenuItemsForField(
     return [
         getMenuItemForField(field, parent, {
             showAsFieldReference,
-            showSubText
+            showSubText,
+            allowSObjectFieldsTraversal,
+            allowApexTypeFieldsTraversal
         })
     ];
 }

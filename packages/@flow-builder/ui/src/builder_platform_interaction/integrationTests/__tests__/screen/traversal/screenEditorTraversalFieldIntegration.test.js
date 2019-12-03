@@ -18,7 +18,7 @@ import {
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { selectComboboxItemBy } from '../../expressionBuilderTestUtils';
+import { selectGroupedComboboxItemBy } from '../../comboboxTestUtils';
 import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {
@@ -90,8 +90,6 @@ describe('ScreenEditor', () => {
         });
         afterAll(() => {
             resetState();
-            setAuraFetch();
-            store.dispatch({ type: 'INIT' });
         });
         describe('Process type supports lookup traversal', () => {
             beforeEach(async () => {
@@ -117,7 +115,7 @@ describe('ScreenEditor', () => {
                 const groupedCombobox = getGroupedCombobox(
                     getExtensionPropertiesEditorElement(screenEditor)
                 );
-                const accountCreatedByItem = await selectComboboxItemBy(
+                const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',
                     [
@@ -136,7 +134,9 @@ describe('ScreenEditor', () => {
             beforeEach(async () => {
                 uiFlow = translateFlowToUIModel(contactRequestFlow);
                 store.dispatch(updateFlow(uiFlow));
-                await loadDataForProcessType(FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW);
+                await loadDataForProcessType(
+                    FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW
+                );
 
                 const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
@@ -156,7 +156,7 @@ describe('ScreenEditor', () => {
                 const groupedCombobox = getGroupedCombobox(
                     getExtensionPropertiesEditorElement(screenEditor)
                 );
-                const accountCreatedByItem = await selectComboboxItemBy(
+                const accountCreatedByItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',
                     ['{!vMyTestAccount}', '{!vMyTestAccount.CreatedBy}'],
@@ -165,7 +165,7 @@ describe('ScreenEditor', () => {
 
                 expect(accountCreatedByItem).toBeUndefined();
 
-                const accountCreatedByIdItem = await selectComboboxItemBy(
+                const accountCreatedByIdItem = await selectGroupedComboboxItemBy(
                     groupedCombobox,
                     'displayText',
                     ['{!vMyTestAccount}', '{!vMyTestAccount.CreatedById}'],
