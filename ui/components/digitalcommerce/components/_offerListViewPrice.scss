@@ -1,50 +1,53 @@
 .nds-dc-list-prices {
   .nds-dc-tile-text-small {
-    color: #54698d;
-    font-size: 12px;
-    line-height: 16px;
+    color: $kashmir-blue;
+    font-size: 0.75rem;
+    line-height: 1rem;
     &.nds-dc-offer-listview {
       text-align: center;
-      display: block;
+      display: flex;
       width: 100%;
       max-width: 100%;
     }
   }
   .nds-dc-offer-price-wrapper {
     &.nds-dc-offer-listview {
-      display: block;
+      display: flex;
+
       .nds-dc-price-items {
         width: 100%;
         max-width: 100%;
-        text-align: center;
+        text-align: left;
         display: block;
+        &.nds-grid.nds-wrap {
+          display: flex;
+        }
         .nds-dc-offer-price {
-          color: #16325c;
-          font-size: 25px;
-          line-height: 50px;
+          color: $biscay;
+          font-size: 1.5625rem;
+          line-height: 3.125rem;
           .nds-dc-offer-discount-price {
-            color: #fd6e26;
-            font-size: 25px;
-            line-height: 50px;
+            color: $newport-color-brand-orange;
+            font-size: 1.5625rem;
+            line-height: 3.125rem;
           }
           .nds-dc-offer-actual-price {
-            color: #16325c;
-            font-size: 27px;
-            font-size: 25px;
-            line-height: 50px;
+            color: $biscay;
+            font-size: 1.5625rem;
+            line-height: 3.125rem;
             display: block;
             .nds-dc-offer-base-amount {
               display: block;
-              font-size: 15px;
-              line-height: 5px;
-              margin-bottom: 10px;
-              color: #16325c;
+              font-size: 1rem;
+              line-height: 0.3125rem;
+              margin-bottom: 0.625rem;
+              color: $biscay;
             }
           }
         }
         .nds-dc-price-option-text {
-          margin-top: 10px;
-          margin-bottom: 0px;
+          margin-top: 0.625rem;
+          margin-bottom: 0;
           .nds-dc-price-option {
             margin: 0 auto;
           }
@@ -54,13 +57,13 @@
   }
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 48rem) {
   .nds-dc-list-prices {
    .nds-dc-offer-price-wrapper {
     .nds-dc-price-items {
       .nds-dc-price-option-text {
-        margin-top: 24px;
-        margin-bottom: 15px;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
       }
     }
    } 
