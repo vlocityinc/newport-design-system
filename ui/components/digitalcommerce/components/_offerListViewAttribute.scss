@@ -19,6 +19,7 @@
   .nds-dc-offer-button-set {
     padding-top: 0.1875rem;
     display: flex;
+    overflow: auto;
     .nds-dc-offer-attribute {
       padding: 0.125rem;
       margin: 0.1875rem 0.375rem 0.1875rem 0;
