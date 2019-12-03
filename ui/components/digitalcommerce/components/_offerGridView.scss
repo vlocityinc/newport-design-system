@@ -6,7 +6,6 @@
       padding: 0.625rem 0.3125rem;
       .nds-dc-offer-item-tile {
         min-height: 33.625rem;
-        min-width: 18.75rem;
         margin: auto;
         border: 0.5px solid $newport-border-gray;
         box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.2);
@@ -68,5 +67,15 @@
 @media only screen and (min-width: 64rem) {
   .nds-dc-offer-item-tile {
     min-width: 100%;
+  }
+}
+
+@media only screen and (min-width: 80rem) {
+  .nds-dc-offer-grid-view {
+    .nds-dc-offer-board {
+      .nds-dc-offer-item-tile {
+        max-width: 25rem;
+      } 
+    }
   }
 }
