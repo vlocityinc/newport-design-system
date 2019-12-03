@@ -2,6 +2,7 @@
   padding: 1.25rem;
   .nds-dc-wrapper {
     display: flex;
+    border-bottom: 1px solid $newport-border-gray;
     .nds-dc-child-catalog-item {
       font-weight: normal;
       font-size: 0.8125rem;
@@ -29,7 +30,6 @@
   .nds-dc-child-catalog-container {
     padding: 1.25rem;
     .nds-dc-wrapper {
-      border-bottom: 1px solid $newport-border-gray;
       width: 100%;
       align-items: center;
       justify-content: space-between;
