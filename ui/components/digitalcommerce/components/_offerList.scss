@@ -1,0 +1,25 @@
+.nds-dc-offerlist-container {
+  margin-top: 3rem;
+  .nds-dc-filter-container {
+    right: 0.5rem;
+    position: relative;
+    top: -3rem;
+    svg {
+      float: right;
+      height: 2.8125rem;
+      width: 2.8125rem;
+    }
+  }
+
+  .nds-dc-load-more {
+    text-align: center;
+  }
+  .nds-dc-load-more button {
+    color: $white;
+    background-color: $newport-background-primary-blue;
+    text-align: center;
+    border-radius: 5px;
+    margin: 1.875rem 0;
+    padding: 0.625rem 1.25rem;
+  }
+}
