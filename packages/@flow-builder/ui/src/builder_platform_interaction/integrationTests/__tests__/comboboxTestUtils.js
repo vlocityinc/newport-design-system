@@ -18,7 +18,7 @@ export const typeLiteralValueInCombobox = async (combobox, value) => {
         LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
     groupedCombobox.dispatchEvent(textInputEvent(value));
-    await ticks();
+    await ticks(50);
     groupedCombobox.dispatchEvent(blurEvent);
 };
 
@@ -33,7 +33,7 @@ export const typeMergeFieldInCombobox = async (combobox, mergeField) => {
             let displayText = parts.slice(0, i + 1).join('.');
             displayText = addCurlyBraces(displayText);
             groupedCombobox.dispatchEvent(textInputEvent(displayText));
-            return ticks();
+            return ticks(50);
         });
     }
     await promise;

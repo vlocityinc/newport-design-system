@@ -149,6 +149,31 @@ describe('ResourceUtils', () => {
                 }
             });
         });
+        it('should normalize a merge field containing a polymorphic relationships', () => {
+            const normalizedFEROV = normalizeFEROV(
+                store.feedItemVariable.guid + '.CreatedBy:User.AboutMe'
+            );
+            expect(normalizedFEROV).toMatchObject({
+                itemOrDisplayText: {
+                    dataType: 'String',
+                    displayText: '{!feedItemVariable.CreatedBy:User.AboutMe}',
+                    parent: {
+                        dataType: 'SObject',
+                        displayText: '{!feedItemVariable.CreatedBy:User}',
+                        hasNext: true,
+                        parent: {
+                            dataType: 'SObject',
+                            displayText: '{!feedItemVariable}',
+                            hasNext: true
+                        }
+                    }
+                },
+                fields: {
+                    Id: {},
+                    Email: {}
+                }
+            });
+        });
         it('should not throw an exception if the user does not have access to the SObject in a merge field', () => {
             getFieldsForEntity.mockReturnValueOnce(undefined);
             const field = '.Name';

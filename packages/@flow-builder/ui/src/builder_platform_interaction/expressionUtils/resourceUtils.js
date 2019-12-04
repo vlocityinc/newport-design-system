@@ -170,7 +170,12 @@ const normalizeMenuItemChildField = (
     const menuItems = filterFieldsForChosenElement(parentMenuItem, fields, {
         allowSObjectFieldsTraversal
     });
-    const item = menuItems.find(menuItem => menuItem.text === fieldName);
+    const fieldDisplayText = addCurlyBraces(
+        removeCurlyBraces(parentMenuItem.displayText) + '.' + fieldName
+    );
+    const item = menuItems.find(
+        menuItem => menuItem.displayText === fieldDisplayText
+    );
     if (!item) {
         return undefined;
     }

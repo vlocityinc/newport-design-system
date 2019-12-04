@@ -52,7 +52,7 @@ export const validateExpression = async (
         if (!selectOperator(expressionBuilder, operator)) {
             return { operatorErrorMessage: `No operator ${operator}` };
         }
-        await ticks();
+        await ticks(50);
     }
     await typeReferenceOrValueInCombobox(rhsCombobox, rhs);
     if (rhsCombobox.errorMessage) {
