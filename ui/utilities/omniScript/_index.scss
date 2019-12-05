@@ -4,15 +4,23 @@
   }
 }
 
+
+.nds-omni-lookup {
+    // The following rule disables the cursor.
+    input {
+        color: transparent;
+        text-shadow: 0 0 0 $color-text-default;
+    }
+}
 /**
-/* This styles overrides the lightining-file-upload styles that can't be customized on the component
-**/
+ * This styles overrides the lightning-file-upload styles that can't be customized on the component
+ */
 .nds-card {
 
     .slds-file-selector.slds-file-selector_files {
         width: 100%;
     }
-    
+
     .slds-file-selector__dropzone {
         border: none;
         width: 100%;
