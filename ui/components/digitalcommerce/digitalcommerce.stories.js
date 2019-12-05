@@ -165,4 +165,28 @@ storiesOf(`${base}`, module)
                 </article>
               </li>
     `);
+  })
+  .add("dcFilter", () => {
+    return withExample(`
+      <div class="nds-dc-filter">
+        <button class="nds-button nds-button_brand nds-dc-filter_btn">
+          <span class="nds-button__icon nds-button__icon_left">
+            <svg enable-background="new 0 0 36 30" height="30px" id="Layer_1" version="1.1" viewBox="0 0 36 30" width="36px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#FFFF" points="14,30 22,25 22,17 35.999,0 17.988,0 0,0 14,17 "></polygon></svg>
+          </span>
+          Refine
+        </button>
+        <div class="nds-filter-dropdown-show">
+          <div class="nds-dc-filter-section-container">
+              <div class="nds-dc-filter-group"><div class="nds-dc-filter-section">Promotion</div>
+              <input type="checkbox" name="Promotion only" value="promotions"><span><span>Promotion only<br></span></span></div>
+          </div>
+        </div>
+        <div class="nds-dc-filter-criteria-container">
+          <span class="nds-dc-filter-criteria">
+            Promotion only
+          </span>
+          <span class="nds-dc-filter-remove">✕</span>
+        </div>
+      </div>
+    `);
   });
