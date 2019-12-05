@@ -25,12 +25,14 @@
 
 // for Edit Block
 @media screen and (max-width: 48em) {
+
   /* stylelint-disable selector-class-pattern */
   .via-nds .nds-max-medium-table_stacked-horizontal tr>td:last-child {
     overflow: visible;
     position: relative;
     height: 3rem;
   }
+
   /* stylelint-enable selector-class-pattern */
 }
 
@@ -42,59 +44,6 @@
       right: 0.7rem;
       font-size: .8125rem;
       font-weight: 400;
-    }
-  }
-}
-
-// for lwc newport text block (follows the heading format from lightning-formatted-rich-text)
-.nds-text-block {
-  .slds-rich-text-editor__output  {
-    h1, h2, h3, h4, h5, h6 {
-      margin:  {
-        bottom: 0.75rem;
-      };
-    }
-
-    h1 {
-      font: {
-        size: 1.5rem;
-        weight: 300;
-      }
-    }
-
-    h2 {
-      font: {
-        size: 1.125rem;
-        weight: 700;
-      }
-    }
-
-    h3 {
-      font: {
-        size: 1.125rem;
-        weight: 400;
-      }
-    }
-
-    h4 {
-      font: {
-        size: 0.875rem;
-        weight: 700;
-      }
-    }
-
-    h5 {
-      font: {
-        size: 0.875rem;
-        weight: 300;
-      }
-    }
-
-    h6 {
-      font: {
-        size: 0.75rem;
-        weight: 700;
-      }
     }
   }
 }
