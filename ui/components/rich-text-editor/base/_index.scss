@@ -116,7 +116,8 @@
  * We may need to add or adjust these later based on further input.
  */
 .nds-rich-text-editor__textarea,
-.nds-rich-text-editor__output {
+.nds-rich-text-editor__output, 
+.slds-rich-text-editor__output {
   line-height: $line-height-text;
   overflow-wrap: break-word;
   word-wrap: break-word;
