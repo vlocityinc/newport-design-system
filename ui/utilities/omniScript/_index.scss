@@ -3,3 +3,12 @@
     display: none;
   }
 }
+
+
+.nds-omni-lookup {
+    // The following rule disables the cursor.
+    input {
+        color: transparent;
+        text-shadow: 0 0 0 $color-text-default;
+    }
+}
