@@ -15,8 +15,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
         0 - 100
       </span>
     </span>
@@ -33,8 +33,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
         0 - 100
       </span>
     </span>
@@ -51,8 +51,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -69,8 +69,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -87,8 +87,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -105,8 +105,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -123,8 +123,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -141,8 +141,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
         0 - 400
       </span>
     </span>
@@ -159,8 +159,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 400
       </span>
     </span>
@@ -177,8 +177,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -195,8 +195,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -213,8 +213,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -231,8 +231,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
@@ -249,8 +249,8 @@ storiesOf(`${base}`, module)
     return withExample(`<div class="nds-form-element nds-has-error">
   <label class="nds-form-element__label" for="slider-id-01">
     <span class="nds-slider-label">
-      <span class="nds-slider-label__label">Slider Label</span>
-      <span class="nds-slider-label__range">
+      <span class="nds-slider-label__label nds-slider-label__span">Slider Label</span>
+      <span class="nds-slider-label__range nds-slider-label__span">
       0 - 100
       </span>
     </span>
