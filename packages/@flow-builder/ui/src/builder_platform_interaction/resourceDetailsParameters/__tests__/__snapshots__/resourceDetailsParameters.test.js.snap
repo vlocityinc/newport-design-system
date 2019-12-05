@@ -15,94 +15,112 @@ exports[`Resource Details parameters Extension (ie: ligthning component) screenf
         class="slds-has-block-links test-list-section-items"
       >
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="Prevents the user from modifying or copying the value."
-          >
-            Disabled
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="Prevents the user from modifying or copying the value."
+            >
+              Disabled
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="The label that appears above the email field."
-          >
-            Label
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="The label that appears above the email field."
+            >
+              Label
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="Text that appears in the field when it's empty. Use placeholder text to give users a hint about what to enter in the field."
-          >
-            Placeholder Text
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="Text that appears in the field when it's empty. Use placeholder text to give users a hint about what to enter in the field."
+            >
+              Placeholder Text
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="Prevents the user from modifying the value, but not from copying it."
-          >
-            Read Only
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="Prevents the user from modifying the value, but not from copying it."
+            >
+              Read Only
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="Requires the user to enter a value."
-          >
-            Required
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="Requires the user to enter a value."
+            >
+              Required
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="To provide a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable."
-          >
-            Value
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="To provide a default value, set this attribute's value. To use the user-entered value elsewhere in your flow, store this attribute's output value in a variable."
+            >
+              Value
+            </span>
+          </div>
         </li>
       </ul>
     </div>
@@ -130,32 +148,36 @@ exports[`Resource Details parameters core action "Local action" in automatic out
         class="slds-has-block-links test-list-section-items"
       >
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-          >
-            greeting
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              greeting
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-          >
-            subject
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span>
+              subject
+            </span>
+          </div>
         </li>
       </ul>
     </div>
@@ -183,79 +205,94 @@ exports[`Resource Details parameters core action "submit for approval" in automa
         class="slds-has-block-links test-list-section-items"
       >
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="The ID of the approval process instance."
-          >
-            Instance ID
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="The ID of the approval process instance."
+            >
+              Instance ID
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="The status of the approval. The valid values are \\"Approved,\\" \\"Rejected,\\" \\"Removed,\\" or \\"Pending.\\""
-          >
-            Instance Status
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="The status of the approval. The valid values are \\"Approved,\\" \\"Rejected,\\" \\"Removed,\\" or \\"Pending.\\""
+            >
+              Instance Status
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="An array of the ID(s) of the work item(s) created for the next step in this approval process."
-          >
-            New Work Item IDs
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="An array of the ID(s) of the work item(s) created for the next step in this approval process."
+            >
+              New Work Item IDs
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="An array of the ID(s) of the next approver(s)."
-          >
-            Next Approver IDs
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="An array of the ID(s) of the next approver(s)."
+            >
+              Next Approver IDs
+            </span>
+          </div>
         </li>
         <li
-          class="slds-item slds-truncate_container"
+          class="slds-item"
         >
-          <lightning-icon
-            class="slds-m-right_xx-small"
+          <div
+            class="slds-grid"
           >
-            #shadow-root(open)
-          </lightning-icon>
-          <span
-            class="slds-text-body_regular slds-align-middle slds-truncate"
-            title="The ID of the record submitted for approval."
-          >
-            Record ID
-          </span>
+            <lightning-icon
+              class="slds-m-right_xx-small slds-m-top_xx-small"
+            >
+              #shadow-root(open)
+            </lightning-icon>
+            <span
+              title="The ID of the record submitted for approval."
+            >
+              Record ID
+            </span>
+          </div>
         </li>
       </ul>
     </div>

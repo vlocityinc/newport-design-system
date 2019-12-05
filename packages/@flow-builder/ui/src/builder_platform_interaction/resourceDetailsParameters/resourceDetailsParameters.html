@@ -18,22 +18,19 @@
         </div>
         <ul class="slds-has-block-links test-list-section-items">
             <template for:each={parameters} for:item="parameter">
-                <li
-                    key={parameter.apiName}
-                    class="slds-item slds-truncate_container"
-                >
-                    <lightning-icon
-                        if:true={parameter.typeIconName}
-                        class="slds-m-right_xx-small"
-                        icon-name={parameter.typeIconName}
-                        size="xx-small"
-                        alternative-text={parameter.dataType}
-                    ></lightning-icon>
-                    <span
-                        class="slds-text-body_regular slds-align-middle slds-truncate"
-                        title={parameter.description}
-                        >{parameter.label}</span
-                    >
+                <li key={parameter.apiName} class="slds-item">
+                    <div class="slds-grid">
+                        <lightning-icon
+                            if:true={parameter.typeIconName}
+                            class="slds-m-right_xx-small slds-m-top_xx-small"
+                            icon-name={parameter.typeIconName}
+                            size="xx-small"
+                            alternative-text={parameter.dataType}
+                        ></lightning-icon>
+                        <span title={parameter.description}
+                            >{parameter.label}</span
+                        >
+                    </div>
                 </li>
             </template>
         </ul>
