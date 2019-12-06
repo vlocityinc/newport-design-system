@@ -24,7 +24,7 @@ export function convertHTMLToQuillHTML(htmlText) {
     );
 
     document.childNodes.forEach(node => {
-        processNode(node, document);
+        processNode(node);
     });
     return serializeToString(document);
 }
@@ -53,11 +53,11 @@ function serializeToString(document) {
 /*
  * Process the given node
  *
- * @param {HtmlElement} node
+ * @param {HTMLElement} node
  */
 function processNode(node) {
     let newNode;
-    const nodeName = node.nodeName;
+    const {nodeName} = node;
 
     if (nodeName === 'DIV') {
         newNode = processDivNode(node);
@@ -77,7 +77,7 @@ function processNode(node) {
 
     if (newNode) {
         newNode.childNodes.forEach(childNode => {
-            processNode(childNode, newNode);
+            processNode(childNode);
         });
     }
 }
