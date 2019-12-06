@@ -126,7 +126,7 @@ export default class Node extends LightningElement {
                     return LABELS.nodeIconTitleStartDefault;
                 case BEFORE_SAVE:
                     return format(
-                        this.formatStartSaveType(this.node.saveType),
+                        this.formatStartSaveType(this.node.recordTriggerType),
                         this.node.object.toLowerCase()
                     );
                 case SCHEDULED:

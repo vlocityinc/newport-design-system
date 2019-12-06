@@ -51,7 +51,7 @@ export function createStartElement(startElement = {}) {
         triggerType = FLOW_TRIGGER_TYPE.NONE,
         object = '',
         objectIndex = generateGuid(),
-        saveType,
+        recordTriggerType,
         filters = []
     } = startElement;
     const { startDate, startTime, frequency } =
@@ -79,7 +79,7 @@ export function createStartElement(startElement = {}) {
 
     let label;
     if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
-        label = getBeforeSaveLabel(object, saveType);
+        label = getBeforeSaveLabel(object, recordTriggerType);
     } else if (triggerType === FLOW_TRIGGER_TYPE.SCHEDULED) {
         label = getscheduledLabel(startDate, isoStartTime, frequency);
     }
@@ -93,7 +93,7 @@ export function createStartElement(startElement = {}) {
         filterType,
         startDate,
         startTime: isoStartTime,
-        saveType,
+        recordTriggerType,
         frequency,
         object,
         objectIndex,
@@ -155,7 +155,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
         object,
         triggerType,
         startDate,
-        saveType,
+        recordTriggerType,
         startTime,
         frequency,
         filters = []
@@ -178,7 +178,7 @@ export function createStartElementMetadataObject(startElement, config = {}) {
             triggerType === FLOW_TRIGGER_TYPE.NONE ? undefined : triggerType,
         schedule,
         object: object === '' ? undefined : object,
-        saveType: saveType === '' ? undefined : saveType,
+        recordTriggerType: recordTriggerType === '' ? undefined : recordTriggerType,
         filters: recordFilters
     });
 }
@@ -192,8 +192,8 @@ function getISOTimeFromMillis(timeinMillis) {
         .split('T')[1];
 }
 
-function getBeforeSaveLabel(object, saveType) {
-    switch (saveType) {
+function getBeforeSaveLabel(object, recordTriggerType) {
+    switch (recordTriggerType) {
         case CREATE:
             return format(LABELS.startElementRecordCreated, object);
         case UPDATE:

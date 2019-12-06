@@ -149,8 +149,8 @@ export default class StartEditor extends LightningElement {
     }
 
     get saveType() {
-        return this.startElement.saveType
-            ? this.startElement.saveType.value
+        return this.startElement.recordTriggerType
+            ? this.startElement.recordTriggerType.value
             : UNSET_TRIGGER_SAVE_TYPE;
     }
 

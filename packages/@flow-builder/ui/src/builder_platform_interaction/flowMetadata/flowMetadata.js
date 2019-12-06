@@ -304,7 +304,7 @@ export const FLOW_TRIGGER_FREQUENCY = {
 
 export const START_ELEMENT_FIELDS = {
     TRIGGER_TYPE: 'triggerType',
-    TRIGGER_SAVE_TYPE: 'saveType',
+    TRIGGER_SAVE_TYPE: 'recordTriggerType',
     FREQUENCY: 'frequency',
     START_DATE: 'startDate',
     START_TIME: 'startTime',

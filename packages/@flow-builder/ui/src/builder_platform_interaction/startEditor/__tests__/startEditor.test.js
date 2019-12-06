@@ -143,7 +143,7 @@ const beforeSaveNewStartElement = () => ({
     frequency: undefined,
     startDate: undefined,
     startTime: undefined,
-    saveType: { value: 'Update', error: null },
+    recordTriggerType: { value: 'Update', error: null },
     triggerType: { value: FLOW_TRIGGER_TYPE.BEFORE_SAVE, error: null }
 });
 

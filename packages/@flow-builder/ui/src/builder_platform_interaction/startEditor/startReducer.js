@@ -35,7 +35,7 @@ const PROPS = {
     object: 'object',
     filters: 'filters',
     filterType: 'filterType',
-    saveType: 'saveType'
+    recordTriggerType: 'recordTriggerType'
 };
 
 const NON_HYDRATABLE_PROPS = new Set([
@@ -105,7 +105,7 @@ const resetFilters = state => {
 const clearAllProperties = state => {
     state[PROPS.object] = { value: '', error: null };
     state[PROPS.filterType] = {};
-    state[PROPS.saveType] = { value: '', error: null };
+    state[PROPS.recordTriggerType] = { value: '', error: null };
     clearScheduledProperties(state);
 };
 
