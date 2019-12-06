@@ -39,12 +39,16 @@ import {
     INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector,
     focusoutEvent,
+    clickEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
 import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { getLhsCombobox } from '../expressionBuilderTestUtils';
+import { selectComboboxItemBy, getComboboxItems } from '../comboboxTestUtils';
+import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
@@ -370,6 +374,27 @@ describe('Record Create Editor', () => {
         });
         describe('Working with fields', () => {
             let recordCreateElement;
+            const selectEntity = async apiName => {
+                const entityResourcePicker = getEntityResourcePicker(
+                    recordCreateElement
+                );
+                const comboboxElement = getEntityResourcePickerComboboxElement(
+                    entityResourcePicker
+                );
+                changeComboboxValue(comboboxElement, apiName);
+                await ticks(50);
+            };
+            const clickAddFieldButton = async () => {
+                const inputAssignments = getInputOutputAssignments(
+                    recordCreateElement
+                );
+                const addFieldButton = deepQuerySelector(inputAssignments, [
+                    SELECTORS.LIST,
+                    SELECTORS.LIGHTNING_BUTTON
+                ]);
+                addFieldButton.dispatchEvent(clickEvent());
+                await ticks(50);
+            };
             beforeAll(() => {
                 uiFlow = translateFlowToUIModel(
                     flowWithCreateRecordUsingFields
@@ -379,12 +404,13 @@ describe('Record Create Editor', () => {
             afterAll(() => {
                 store.dispatch({ type: 'INIT' });
             });
-            beforeEach(() => {
+            beforeEach(async () => {
                 const element = getElementByDevName(
                     'Create_Record_using_Fields'
                 );
                 recordCreateNode = getElementForPropertyEditor(element);
                 recordCreateElement = createComponentForTest(recordCreateNode);
+                await ticks(50);
             });
             it('record store option should have "Only the first record" and "In separate variables" selected and the second radio group should be visible', () => {
                 const recordStoreElement = getRecordStoreOption(
@@ -461,66 +487,42 @@ describe('Record Create Editor', () => {
                     expect(radioGroupElement).toHaveLength(2);
                 });
             });
-            it('enter an invalid value in the entity resource picker should not display other element but should display an error', () => {
-                const entityResourcePicker = getEntityResourcePicker(
-                    recordCreateElement
+            it('enter an invalid value in the entity resource picker should not display other element but should display an error', async () => {
+                await selectEntity('invalidValue');
+                expect(
+                    getInputOutputAssignments(recordCreateElement)
+                ).toBeNull();
+                expect(getOutputResourcePicker(recordCreateElement)).toBeNull();
+                expect(recordCreateElement.node.object.error).toBe(
+                    VALIDATION_ERROR_MESSAGES.GENERIC
                 );
-                const comboboxElement = getEntityResourcePickerComboboxElement(
-                    entityResourcePicker
-                );
-                changeComboboxValue(comboboxElement, 'invalidValue');
-                return resolveRenderCycles(() => {
-                    expect(
-                        getInputOutputAssignments(recordCreateElement)
-                    ).toBeNull();
-                    expect(
-                        getOutputResourcePicker(recordCreateElement)
-                    ).toBeNull();
-                    expect(recordCreateElement.node.object.error).toBe(
-                        VALIDATION_ERROR_MESSAGES.GENERIC
-                    );
-                });
             });
-            it('enter an valid value in the entity resource picker should not display an error', () => {
-                const entityResourcePicker = getEntityResourcePicker(
-                    recordCreateElement
-                );
-                const comboboxElement = getEntityResourcePickerComboboxElement(
-                    entityResourcePicker
-                );
-                changeComboboxValue(comboboxElement, 'Case');
-                return resolveRenderCycles(() => {
-                    return resolveRenderCycles(() => {
-                        expect(
-                            recordCreateElement.node.object.error
-                        ).toBeNull();
-                        expect(
-                            getInputOutputAssignments(recordCreateElement)
-                        ).not.toBeNull();
-                        expect(
-                            getOutputResourcePicker(recordCreateElement)
-                        ).not.toBeNull();
-                    });
-                });
+            it('enter an valid value in the entity resource picker should not display an error', async () => {
+                await selectEntity('Case');
+                expect(recordCreateElement.node.object.error).toBeNull();
+                expect(
+                    getInputOutputAssignments(recordCreateElement)
+                ).not.toBeNull();
+                expect(
+                    getOutputResourcePicker(recordCreateElement)
+                ).not.toBeNull();
             });
             describe('Input Assignments', () => {
                 let inputAssignments;
-                let fieldToFerovExpressionBuilder;
-                let baseExpressionBuilder;
                 beforeEach(() => {
                     inputAssignments = getInputOutputAssignments(
                         recordCreateElement
                     );
-                    fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(
-                        inputAssignments
-                    );
-                    baseExpressionBuilder = getBaseExpressionBuilder(
-                        fieldToFerovExpressionBuilder[0]
-                    );
                 });
                 it('input Assignments should be visible and correctly displayed', () => {
                     return resolveRenderCycles(() => {
-                        expect(fieldToFerovExpressionBuilder).toHaveLength(2);
+                        const fieldToFerovExpressionBuilders = getFieldToFerovExpressionBuilders(
+                            inputAssignments
+                        );
+                        expect(fieldToFerovExpressionBuilders).toHaveLength(2);
+                        let baseExpressionBuilder = getBaseExpressionBuilder(
+                            fieldToFerovExpressionBuilders[0]
+                        );
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             value: 'Account.BillingCity',
                             dataType: 'String',
@@ -543,7 +545,7 @@ describe('Record Create Editor', () => {
                             type: 'option-card'
                         });
                         baseExpressionBuilder = getBaseExpressionBuilder(
-                            fieldToFerovExpressionBuilder[1]
+                            fieldToFerovExpressionBuilders[1]
                         );
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             dataType: 'String',
@@ -569,14 +571,21 @@ describe('Record Create Editor', () => {
                     });
                 });
                 it('Removing the selected field should not change the value if the RHS has a value', () => {
+                    let baseExpressionBuilder = getBaseExpressionBuilder(
+                        getFieldToFerovExpressionBuilders(inputAssignments)[0]
+                    );
                     const combobox = getExpressionBuilderComboboxElement(
                         baseExpressionBuilder
                     );
                     changeComboboxValue(combobox, '');
                     return resolveRenderCycles(() => {
-                        expect(fieldToFerovExpressionBuilder).toHaveLength(2);
+                        expect(
+                            getFieldToFerovExpressionBuilders(inputAssignments)
+                        ).toHaveLength(2);
                         baseExpressionBuilder = getBaseExpressionBuilder(
-                            fieldToFerovExpressionBuilder[0]
+                            getFieldToFerovExpressionBuilders(
+                                inputAssignments
+                            )[0]
                         );
                         expect(baseExpressionBuilder.lhsValue).toMatchObject({
                             dataType: 'String',
@@ -586,7 +595,9 @@ describe('Record Create Editor', () => {
                     });
                 });
                 it('Should only display creatable fields', async () => {
-                    await ticks(50);
+                    const baseExpressionBuilder = getBaseExpressionBuilder(
+                        getFieldToFerovExpressionBuilders(inputAssignments)[0]
+                    );
                     const combobox = getExpressionBuilderComboboxElement(
                         baseExpressionBuilder
                     );
@@ -606,6 +617,48 @@ describe('Record Create Editor', () => {
                             })
                         ])
                     );
+                });
+                it('Should display no fields once all creatable fields have been selected', async () => {
+                    await selectEntity('Feed Item');
+                    inputAssignments = getInputOutputAssignments(
+                        recordCreateElement
+                    );
+                    const creatableFields = Object.values(feedItemFields)
+                        .filter(field => field.creatable)
+                        .map(field => field.apiName);
+                    expect(creatableFields.length).toBeGreaterThan(15);
+                    // workaround for no-await-in-loop
+                    let promise = Promise.resolve();
+                    for (let i = 0; i < creatableFields.length; i++) {
+                        // workaround for no-loop-func
+                        const creatableFieldsLength = creatableFields.length;
+                        const creatableField = creatableFields[i];
+                        const inputOutputAssignments = inputAssignments;
+                        promise = promise.then(() => {
+                            const fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(
+                                inputOutputAssignments
+                            );
+                            const lhsCombobox = getLhsCombobox(
+                                fieldToFerovExpressionBuilder[i]
+                            );
+                            expect(getComboboxItems(lhsCombobox)).toHaveLength(
+                                creatableFieldsLength - i
+                            );
+                            return selectComboboxItemBy(
+                                lhsCombobox,
+                                'displayText',
+                                [creatableField]
+                            ).then(() => clickAddFieldButton());
+                        });
+                    }
+                    await promise;
+                    const fieldToFerovExpressionBuilder = getFieldToFerovExpressionBuilders(
+                        inputAssignments
+                    );
+                    const lhsCombobox = getLhsCombobox(
+                        fieldToFerovExpressionBuilder[creatableFields.length]
+                    );
+                    expect(getComboboxItems(lhsCombobox)).toHaveLength(0);
                 });
             });
         });

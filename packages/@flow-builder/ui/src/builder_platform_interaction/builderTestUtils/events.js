@@ -31,3 +31,10 @@ export const changeEvent = value => {
         detail: { value }
     });
 };
+
+export const clickEvent = () => {
+    return new CustomEvent('click', {
+        bubbles: true,
+        cancelable: false
+    });
+};

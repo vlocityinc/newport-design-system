@@ -789,7 +789,8 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isDisplayedAsFieldReference,
                 shouldBeWritable: this.lhsMustBeWritable,
                 allowSObjectFieldsTraversal: allowFieldsTraversal,
-                allowApexTypeFieldsTraversal: allowFieldsTraversal
+                allowApexTypeFieldsTraversal: allowFieldsTraversal,
+                objectType: this.objectType
             }
         );
     }
@@ -879,16 +880,20 @@ export default class BaseExpressionBuilder extends LightningElement {
     /**
      * Generic helper function to handle populating fields for LHS or RHS
      *
-     * @param {Boolean} getFields                      true if the menu data should be fields
-     * @param {Object} parentMenuItem                  object representing the parent object of the fields, if getFields is true
-     * @param {String} fullMenuData                    the name of the property on the state where the full menu data should be stored
-     * @param {String} filteredMenuData                the name of the property on the state where the filtered menu data should be stored
-     * @param {Object[]} preFetchedFields              the name of the property on the state which holds the fields for the menu data
-     * @param {rule/param[]} paramTypes                the param types that should be used to filter the menu data
-     * @param {Boolean} shouldBeWritable               true if the items in the menu data must be writable
-     * @param {Boolean} isDisplayedAsFieldReference    true if the items should be displayed as fields on sobject variables when chosen
-     * @param {Boolean} isFerov                        true if this combobox holds FEROVs
-     * @param {String[]} picklistValues                list of picklist values that should be included in menu data
+     * @param {Boolean} getFields -  true if the menu data should be fields
+     * @param {Object} parentMenuItem - object representing the parent object of the fields, if getFields is true
+     * @param {String} fullMenuData - the name of the property on the state where the full menu data should be stored
+     * @param {String} filteredMenuData - the name of the property on the state where the filtered menu data should be stored
+     * @param {Object[]} preFetchedFields - the name of the property on the state which holds the fields for the menu data
+     * @param {rule/param[]} paramTypes - the param types that should be used to filter the menu data
+     * @param {Object} options - options
+     * @param {Boolean} options.shouldBeWritable - true if the items in the menu data must be writable
+     * @param {Boolean} options.isDisplayedAsFieldReference - true if the items should be displayed as fields on sobject variables when chosen
+     * @param {Boolean} options.isFerov - true if this combobox holds FEROVs
+     * @param {String[]} options.picklistValues - list of picklist values that should be included in menu data
+     * @param {Boolean} options.allowSObjectFieldsTraversal - true to allow SObject fields traversal
+     * @param {Boolean} options.allowApexTypeFieldsTraversal - true to allow Apex Type fields traversal
+     * @param {String} options.objectType - objectType for preFetchedFields. If set, fields in preFetchedFields won't be updated
      */
     populateMenuData(
         getFields,
@@ -903,7 +908,8 @@ export default class BaseExpressionBuilder extends LightningElement {
             picklistValues = [],
             shouldBeWritable = false,
             allowSObjectFieldsTraversal = this.isLookupTraversalSupported(),
-            allowApexTypeFieldsTraversal = this.isLookupTraversalSupported()
+            allowApexTypeFieldsTraversal = this.isLookupTraversalSupported(),
+            objectType = undefined
         } = {}
     ) {
         const config = {
@@ -943,6 +949,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             }
             // get fields if preFetchedFields is empty or of the wrong sobject
             if (
+                !objectType &&
                 parentMenuItem &&
                 (!this.state[preFetchedFields] ||
                     preFetchedFieldsSubtype !== parentMenuItem.subtype)

@@ -117,3 +117,10 @@ export const selectComboboxItemBy = async (
         { blur }
     );
 };
+
+export const getComboboxItems = combobox => {
+    const groupedCombobox = deepQuerySelector(combobox, [
+        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+    ]);
+    return groupedCombobox.items;
+};

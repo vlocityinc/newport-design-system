@@ -1,4 +1,5 @@
 export const LIGHTNING_COMPONENTS_SELECTORS = {
+    LIGHTNING_BUTTON: 'lightning-button',
     LIGHTNING_COMBOBOX: 'lightning-combobox',
     LIGHTNING_GROUPED_COMBOBOX: 'lightning-grouped-combobox',
     LIGHTNING_ICON: 'lightning-icon',
