@@ -21,7 +21,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         getRulesForElementType: jest
             .fn()

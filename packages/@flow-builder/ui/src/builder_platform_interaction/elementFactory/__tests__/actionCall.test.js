@@ -27,7 +27,7 @@ const mockGuid = 'mockGuid';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,

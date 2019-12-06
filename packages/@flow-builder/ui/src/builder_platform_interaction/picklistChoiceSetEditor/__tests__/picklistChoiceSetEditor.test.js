@@ -43,7 +43,7 @@ jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
         PROPERTY_EDITOR_ACTION: require.requireActual(
-            '../../actions/actions.js'
+            'builder_platform_interaction/actions'
         ).PROPERTY_EDITOR_ACTION
     };
 });
@@ -60,7 +60,7 @@ jest.mock('../picklistChoiceSetReducer', () => {
 const mockAccountFieldsPromise = Promise.resolve(accountFields);
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
+    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest
         .fn()

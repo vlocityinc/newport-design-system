@@ -48,7 +48,7 @@ function mockGenerateGuid() {
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     return Object.assign({}, actual, {
         getProcessTypeAutomaticOutPutHandlingSupport: jest
@@ -59,7 +59,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
 
 // we want to use the real implementation (and we cannot use unmock ...)
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const actual = require.requireActual('../../storeLib/storeLib.js');
+    const actual = require.requireActual('builder_platform_interaction/storeLib');
     return Object.assign({}, actual, {
         generateGuid: mockGenerateGuid
     });

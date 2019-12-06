@@ -17,7 +17,7 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { LABELS } from '../choiceEditorLabels';
-import { FEROV_DATA_TYPE } from '../../dataTypeLib/dataTypeLib';
+import { FEROV_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { STORED_VALUE_DATA_TYPE_PROPERTY } from 'builder_platform_interaction/elementFactory';
 
 jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
@@ -67,7 +67,7 @@ jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
         PROPERTY_EDITOR_ACTION: require.requireActual(
-            '../../actions/actions.js'
+            'builder_platform_interaction/actions'
         ).PROPERTY_EDITOR_ACTION
     };
 });
@@ -86,7 +86,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
         getResourceByUniqueIdentifier: jest.fn(),
         getFerovDataTypeForValidId: jest.fn(),
         getItemOrDisplayText: require.requireActual(
-            '../../expressionUtils/expressionUtils.js'
+            'builder_platform_interaction/expressionUtils'
         ).getItemOrDisplayText,
         getFerovInfoAndErrorFromEvent: jest
             .fn()

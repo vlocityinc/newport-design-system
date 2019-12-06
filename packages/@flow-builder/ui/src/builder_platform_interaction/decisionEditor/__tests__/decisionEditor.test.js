@@ -36,7 +36,7 @@ jest.mock('../decisionReducer', () => {
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = require.requireActual(
-        '../../dataMutationLib/dataMutationLib.js'
+        'builder_platform_interaction/dataMutationLib'
     );
     return {
         pick: actual.pick,

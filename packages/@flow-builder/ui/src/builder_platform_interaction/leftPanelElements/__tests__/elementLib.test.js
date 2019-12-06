@@ -2,7 +2,7 @@ import { getElementSections } from '../elementLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 jest.mock('builder_platform_interaction/storeLib', () => {
-    const actual = require.requireActual('../../storeLib/storeLib.js');
+    const actual = require.requireActual('builder_platform_interaction/storeLib');
     return {
         deepCopy: actual.deepCopy,
         generateGuid: jest.fn().mockImplementation(() => {

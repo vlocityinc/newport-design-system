@@ -43,7 +43,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 const mockDateTimeString = 'some date time string';
 jest.mock('builder_platform_interaction/dateTimeUtils', () => {
     return {
-        getFormat: require.requireActual('../../dateTimeUtils/dateTimeUtils.js')
+        getFormat: require.requireActual('builder_platform_interaction/dateTimeUtils')
             .getFormat,
         normalizeDateTime: jest.fn()
     };
@@ -59,7 +59,7 @@ jest.mock('builder_platform_interaction/commonUtils', () => {
         format: jest.fn(),
         isUndefinedOrNull: jest.fn(),
         addCurlyBraces: require.requireActual(
-            '../../commonUtils/commonUtils.js'
+            'builder_platform_interaction/commonUtils'
         ).addCurlyBraces,
         removeCurlyBraces: jest.fn()
     };

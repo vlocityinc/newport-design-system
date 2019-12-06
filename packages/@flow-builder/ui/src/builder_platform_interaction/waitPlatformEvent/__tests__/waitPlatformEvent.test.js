@@ -29,8 +29,9 @@ jest.mock('builder_platform_interaction/fieldToFerovExpressionBuilder', () =>
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
     return {
-        getEventTypes: require.requireActual('../../sobjectLib/sobjectLib.js')
-            .getEventTypes,
+        getEventTypes: require.requireActual(
+            'builder_platform_interaction/sobjectLib'
+        ).getEventTypes,
         getInputParametersForEventType: jest
             .fn()
             .mockName('getInputParametersForEventType')

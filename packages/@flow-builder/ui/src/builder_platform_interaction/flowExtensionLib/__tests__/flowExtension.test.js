@@ -19,7 +19,7 @@ import {
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
-        '../../serverDataLib/serverDataLib.js'
+        'builder_platform_interaction/serverDataLib'
     );
     return {
         SERVER_ACTION_TYPE: actual.SERVER_ACTION_TYPE,

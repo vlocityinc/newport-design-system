@@ -21,7 +21,7 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     };
 });
 
-const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
+const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation(

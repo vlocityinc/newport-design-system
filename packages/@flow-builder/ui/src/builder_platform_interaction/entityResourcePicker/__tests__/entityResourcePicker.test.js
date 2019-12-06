@@ -14,7 +14,7 @@ import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/baseResourcePicker', () =>
-    require('../../../../jest-modules/builder_platform_interaction/baseResourcePicker/baseResourcePicker.js')
+    require('builder_platform_interaction_mocks/baseResourcePicker')
 );
 
 jest.mock('builder_platform_interaction/storeLib', () =>

@@ -13,7 +13,7 @@ const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'flow';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -54,7 +54,7 @@ const mockGetScreenFieldTypeByNameEmail = () => ({
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = require.requireActual(
-        '../../screenEditorUtils/screenEditorUtils.js'
+        'builder_platform_interaction/screenEditorUtils'
     );
     return {
         getFlowDataTypeByName: actual.getFlowDataTypeByName,

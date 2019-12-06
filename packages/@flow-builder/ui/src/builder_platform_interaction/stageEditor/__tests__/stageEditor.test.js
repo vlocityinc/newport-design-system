@@ -13,7 +13,7 @@ jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
         PROPERTY_EDITOR_ACTION: require.requireActual(
-            '../../actions/actions.js'
+            'builder_platform_interaction/actions'
         ).PROPERTY_EDITOR_ACTION
     };
 });

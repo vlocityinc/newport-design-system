@@ -37,8 +37,8 @@ import {
     getEventTypes,
     fetchFieldsForEntity
 } from 'builder_platform_interaction/sobjectLib';
-import { setSystemVariables } from '../../../../jest-modules/builder_platform_interaction/systemLib/systemLib';
-import { getSystemVariables } from '../../systemLib/systemLib';
+import { setSystemVariables } from 'builder_platform_interaction_mocks/systemLib';
+import { getSystemVariables } from 'builder_platform_interaction/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
 import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
@@ -118,7 +118,7 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
 
 jest.mock('builder_platform_interaction/screenEditorUtils', () => {
     const actual = require.requireActual(
-        '../../screenEditorUtils/screenEditorUtils.js'
+        'builder_platform_interaction/screenEditorUtils'
     );
     return {
         getFlowDataTypeByName: actual.getFlowDataTypeByName,
@@ -133,7 +133,7 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
 );
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
+    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     return {
         fetchFieldsForEntity: jest
             .fn()
@@ -161,7 +161,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual('../../dataTypeLib/dataTypeLib.js');
+    const actual = require.requireActual('builder_platform_interaction/dataTypeLib');
     const {
         ELEMENT_TYPE: elementType
     } = require('builder_platform_interaction/flowMetadata');
@@ -184,7 +184,7 @@ jest.mock('builder_platform_interaction/dataTypeLib', () => {
 
 jest.mock('builder_platform_interaction/elementLabelLib', () => {
     const actual = require.requireActual(
-        '../../elementLabelLib/elementLabelLib.js'
+        'builder_platform_interaction/elementLabelLib'
     );
     return {
         getResourceLabel: jest

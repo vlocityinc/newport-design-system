@@ -20,7 +20,7 @@ import { flowWithAllElementsUIModel } from 'mock/storeData';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     return Object.assign({}, actual, {
         getProcessTypeAutomaticOutPutHandlingSupport: jest.fn()

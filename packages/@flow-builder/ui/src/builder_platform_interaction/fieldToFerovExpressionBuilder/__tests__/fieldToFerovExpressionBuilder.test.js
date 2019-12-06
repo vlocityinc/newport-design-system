@@ -78,7 +78,7 @@ function getBaseExpressionBuilder(fieldToFerovWrapper) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         getDataType: actual.getDataType,
         elementToParam: actual.elementToParam,
@@ -96,7 +96,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         SERVER_ACTION_TYPE: require.requireActual(
-            '../../serverDataLib/serverDataLib.js'
+            'builder_platform_interaction/serverDataLib'
         ).SERVER_ACTION_TYPE
     };
 });

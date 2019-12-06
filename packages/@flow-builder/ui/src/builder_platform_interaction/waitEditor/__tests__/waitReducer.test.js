@@ -444,7 +444,7 @@ describe('wait-reducer', () => {
                 );
 
                 const usedByLib = require.requireActual(
-                    '../../usedByLib/usedByLib.js'
+                    'builder_platform_interaction/usedByLib'
                 );
                 // An element is found which uses the outcome
                 usedByLib.usedByStoreAndElementState = jest

@@ -64,7 +64,7 @@ const parentRecordVar = {
 };
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,

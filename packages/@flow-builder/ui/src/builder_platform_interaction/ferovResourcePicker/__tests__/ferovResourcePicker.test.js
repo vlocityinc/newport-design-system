@@ -8,7 +8,7 @@ import {
 } from 'builder_platform_interaction/expressionUtils';
 import * as mockRuleLib from 'builder_platform_interaction/ruleLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from '../../dataTypeLib/dataTypeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import {
     removeLastCreatedInlineResource,
@@ -73,7 +73,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         dataType: 'Currency',
         collection: false
     };
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         mockParam,
         RULE_OPERATOR: actual.RULE_OPERATOR,
@@ -103,7 +103,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
             .mockName('getMenuData'),
         normalizeFEROV: jest.fn().mockImplementation(rhsId => {
             return require
-                .requireActual('../../expressionUtils/expressionUtils.js')
+                .requireActual('builder_platform_interaction/expressionUtils')
                 .normalizeFEROV(rhsId);
         })
     };

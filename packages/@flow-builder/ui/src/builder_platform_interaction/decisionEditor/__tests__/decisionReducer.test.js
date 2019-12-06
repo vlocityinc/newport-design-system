@@ -22,7 +22,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
     return {
         checkExpressionForDeletedElem: jest.fn(),
         EXPRESSION_PROPERTY_TYPE: require.requireActual(
-            '../../expressionUtils/expressionUtils.js'
+            'builder_platform_interaction/expressionUtils'
         ).EXPRESSION_PROPERTY_TYPE
     };
 });

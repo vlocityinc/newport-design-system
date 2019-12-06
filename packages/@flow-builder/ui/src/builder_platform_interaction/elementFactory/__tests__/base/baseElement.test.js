@@ -13,7 +13,7 @@ import {
     ELEMENT_TYPE,
     CONNECTOR_TYPE
 } from 'builder_platform_interaction/flowMetadata';
-import { FLOW_DATA_TYPE } from '../../../dataTypeLib/dataTypeLib';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import * as baseList from '../../base/baseList';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {

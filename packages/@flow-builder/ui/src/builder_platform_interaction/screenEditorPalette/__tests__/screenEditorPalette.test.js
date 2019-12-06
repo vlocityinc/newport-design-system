@@ -16,7 +16,7 @@ function createComponentForTest() {
 jest.mock('builder_platform_interaction/flowExtensionLib', () => ({
     getAllCachedExtensionTypes: () => {
         const componentInstanceFieldType = require.requireActual(
-            '../../screenEditorUtils/screenEditorUtils.js'
+            'builder_platform_interaction/screenEditorUtils'
         ).COMPONENT_INSTANCE;
         return [
             {

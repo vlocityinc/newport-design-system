@@ -34,7 +34,7 @@ let mockSubflowsPromise = Promise.resolve(mockSubflows);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
-        '../../serverDataLib/serverDataLib.js'
+        'builder_platform_interaction/serverDataLib'
     );
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
@@ -101,9 +101,9 @@ describe('Action selector', () => {
             numberActions
         ) => {
             expect(actionsChangedEventCallback).toHaveBeenCalled();
-            expect(actionsChangedEventCallback.mock.calls[1][0].detail).toEqual(
-                { value: { elementType }, number: numberActions }
-            );
+            expect(
+                actionsChangedEventCallback.mock.calls[1][0].detail
+            ).toEqual({ value: { elementType }, number: numberActions });
         };
         beforeEach(() => {
             mockApexPluginsPromise = Promise.resolve([]);

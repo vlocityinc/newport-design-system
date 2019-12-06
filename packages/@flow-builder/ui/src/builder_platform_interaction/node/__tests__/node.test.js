@@ -13,7 +13,7 @@ jest.mock('builder_platform_interaction/drawingLib', () =>
 );
 
 const elementConfig = require.requireActual(
-    '../../elementConfig/elementConfig.js'
+    'builder_platform_interaction/elementConfig'
 );
 elementConfig.getConfigForElementType = jest
     .fn()

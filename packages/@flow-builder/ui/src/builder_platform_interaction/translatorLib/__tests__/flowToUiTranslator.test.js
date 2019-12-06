@@ -22,7 +22,7 @@ jest.mock('builder_platform_interaction/elementFactory', () => {
             };
         }),
         getDataTypeKey: require.requireActual(
-            '../../elementFactory/elementFactory.js'
+            'builder_platform_interaction/elementFactory'
         ).getDataTypeKey
     };
 });

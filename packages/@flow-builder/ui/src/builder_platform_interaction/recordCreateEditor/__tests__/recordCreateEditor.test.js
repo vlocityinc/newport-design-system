@@ -65,14 +65,14 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
             return Promise.resolve(mockAccountFields);
         },
         SERVER_ACTION_TYPE: require.requireActual(
-            '../../serverDataLib/serverDataLib.js'
+            'builder_platform_interaction/serverDataLib'
         ).SERVER_ACTION_TYPE
     };
 });
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = require.requireActual(
-        '../../expressionUtils/expressionUtils.js'
+        'builder_platform_interaction/expressionUtils'
     );
     return {
         getResourceByUniqueIdentifier: jest.fn(),
@@ -84,7 +84,7 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     const FLOW_AUTOMATIC_OUTPUT_HANDLING =
         actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;

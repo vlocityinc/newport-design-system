@@ -30,7 +30,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         getRulesForElementType: jest
             .fn()
@@ -61,7 +61,7 @@ let mockGetProcessTypeAutomaticOutPutHandlingSupport = jest.fn(processType => {
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     const FLOW_AUTOMATIC_OUTPUT_HANDLING =
         actual.FLOW_AUTOMATIC_OUTPUT_HANDLING;

@@ -28,7 +28,7 @@ jest.mock('builder_platform_interaction/ferovResourcePicker', () =>
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
-        '../../processTypeLib/processTypeLib.js'
+        'builder_platform_interaction/processTypeLib'
     );
     return {
         FLOW_AUTOMATIC_OUTPUT_HANDLING: actual.FLOW_AUTOMATIC_OUTPUT_HANDLING,
@@ -36,7 +36,7 @@ jest.mock('builder_platform_interaction/processTypeLib', () => {
     };
 });
 
-const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
+const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation(
@@ -156,7 +156,7 @@ let mockActionsPromise = Promise.resolve(mockActions);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
-        '../../serverDataLib/serverDataLib.js'
+        'builder_platform_interaction/serverDataLib'
     );
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {

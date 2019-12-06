@@ -74,7 +74,7 @@ jest.mock('builder_platform_interaction/comboboxCache', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('../../sobjectLib/sobjectLib.js');
+    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest
         .fn()
@@ -84,14 +84,14 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
 
 jest.mock('builder_platform_interaction/dataMutationLib', () => {
     const actual = require.requireActual(
-        '../../dataMutationLib/dataMutationLib.js'
+        'builder_platform_interaction/dataMutationLib'
     );
     return {
         getErrorsFromHydratedElement: jest.fn(),
         getValueFromHydratedItem: actual.getValueFromHydratedItem,
         GUID_SUFFIX: actual.GUID_SUFFIX,
         FEROV_DATA_TYPE_PROPERTY: require.requireActual(
-            '../../elementFactory/elementFactory.js'
+            'builder_platform_interaction/elementFactory'
         ).FEROV_DATA_TYPE_PROPERTY,
         pick: actual.pick,
         dehydrate: actual.dehydrate,
@@ -103,7 +103,7 @@ jest.mock('builder_platform_interaction/actions', () => {
     return {
         createAction: jest.fn().mockImplementation((type, payload) => payload),
         PROPERTY_EDITOR_ACTION: require.requireActual(
-            '../../actions/actions.js'
+            'builder_platform_interaction/actions'
         ).PROPERTY_EDITOR_ACTION
     };
 });
@@ -118,7 +118,9 @@ jest.mock('../variableConstantReducer', () => {
 });
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual(
+        'builder_platform_interaction/ruleLib'
+    );
     return {
         getRHSTypes: jest.fn(),
         getDataType: actual.getDataType,
@@ -131,7 +133,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = require.requireActual(
-        '../../expressionUtils/expressionUtils.js'
+        'builder_platform_interaction/expressionUtils'
     );
     return {
         filterMatches: jest.fn(),
@@ -271,7 +273,9 @@ describe('variable-constant-editor', () => {
                     scale: 3
                 };
                 dispatchValueChangedEvent(variableEditor, eventPayload);
-                expect(createAction).toHaveBeenCalledWith(
+                expect(
+                    createAction
+                ).toHaveBeenCalledWith(
                     PROPERTY_EDITOR_ACTION.CHANGE_DATA_TYPE,
                     { value: eventPayload }
                 );

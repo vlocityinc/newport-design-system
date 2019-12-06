@@ -166,7 +166,7 @@ function getLightningCombobox(expressionBuilder) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('../../ruleLib/ruleLib.js');
+    const actual = require.requireActual('builder_platform_interaction/ruleLib');
     return {
         getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
@@ -191,7 +191,7 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = require.requireActual(
-        '../../expressionUtils/expressionUtils.js'
+        'builder_platform_interaction/expressionUtils'
     );
     return {
         getStoreElements: actual.getStoreElements,

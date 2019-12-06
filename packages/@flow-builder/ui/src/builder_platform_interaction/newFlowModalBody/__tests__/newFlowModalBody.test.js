@@ -25,7 +25,7 @@ let mockTemplatesPromise = Promise.resolve(MOCK_ALL_TEMPLATES);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
-        '../../serverDataLib/serverDataLib.js'
+        'builder_platform_interaction/serverDataLib'
     );
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {

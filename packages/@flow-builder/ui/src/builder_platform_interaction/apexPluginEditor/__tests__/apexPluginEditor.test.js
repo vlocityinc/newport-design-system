@@ -35,7 +35,7 @@ jest.mock('builder_platform_interaction/storeLib', () => {
     return storeLib;
 });
 
-const commonUtils = require.requireActual('../../commonUtils/commonUtils.js');
+const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
 commonUtils.format = jest
     .fn()
     .mockImplementation(
@@ -115,7 +115,7 @@ let mockApexPluginsPromise = Promise.resolve(mockApexPlugins);
 
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     const actual = require.requireActual(
-        '../../serverDataLib/serverDataLib.js'
+        'builder_platform_interaction/serverDataLib'
     );
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {

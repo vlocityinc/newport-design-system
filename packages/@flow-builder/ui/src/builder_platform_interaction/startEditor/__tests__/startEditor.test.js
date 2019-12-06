@@ -33,7 +33,7 @@ jest.mock('builder_platform_interaction/contextLib', () => {
 
 jest.mock('builder_platform_interaction/expressionUtils', () => {
     const actual = require.requireActual(
-        '../../expressionUtils/expressionUtils.js'
+        'builder_platform_interaction/expressionUtils'
     );
     return {
         getResourceByUniqueIdentifier: jest.fn(),
