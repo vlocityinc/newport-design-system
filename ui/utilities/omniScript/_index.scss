@@ -24,5 +24,20 @@
     .slds-file-selector__dropzone {
         border: none;
         width: 100%;
+        overflow: hidden;
+    }
+
+    .omni-file-input {
+        .slds-form-element__label {
+            display: none;
+        }
+
+        .slds-file-selector__body {
+            white-space: nowrap;
+        }
+
+        .slds-file-selector__button {
+           white-space: nowrap;
+        }
     }
 }
