@@ -175,13 +175,23 @@ storiesOf(`${base}`, module)
           </span>
           Refine
         </button>
-        <div class="nds-filter-dropdown-show">
-          <div class="nds-dc-filter-section-container">
-              <div class="nds-dc-filter-group"><div class="nds-dc-filter-section">Promotion</div>
-              <input type="checkbox" name="Promotion only" value="promotions"><span><span>Promotion only<br></span></span></div>
+        <div class="nds-dc-filter-dropdown_show">
+          <div class="nds-dc-filter-section_container">
+              <div class="nds-dc-filter-group">
+                <div class="nds-dc-filter-section">Promotion</div>
+
+                <label class="nds-checkbox">
+                  <input type="checkbox" name="options" id="checkbox-1" value="on">
+                  <span class="nds-checkbox_faux"></span>
+                  <label class="nds-checkbox__label">
+                    <span class="nds-form-element__label">Promotion only</span>
+                  </label>
+                </label>
+
+              </div>
           </div>
         </div>
-        <div class="nds-dc-filter-criteria-container">
+        <div class="nds-dc-filter-criteria_container">
           <span class="nds-dc-filter-criteria">
             Promotion only
           </span>
