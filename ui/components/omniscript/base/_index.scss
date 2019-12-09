@@ -47,26 +47,3 @@
     }
   }
 }
-
-.via-nds {
-  [class*="nds-size_0-"],
-      [class*="nds-size--0-"],
-      [class*="nds-x-small-size_0-"],
-      [class*="nds-x-small-size--0-"],
-      [class*="nds-small-size_0-"],
-      [class*="nds-small-size--0-"],
-      [class*="nds-medium-size_0-"],
-      [class*="nds-medium-size--0-"],
-      [class*="nds-large-size_0-"],
-      [class*="nds-large-size--0-"],
-      [class*="nds-max-x-small-size_0-"],
-      [class*="nds-max-x-small-size--0-"],
-      [class*="nds-max-small-size_0-"],
-      [class*="nds-max-small-size--0-"],
-      [class*="nds-max-medium-size_0-"],
-      [class*="nds-max-medium-size--0-"],
-      [class*="nds-max-large-size_0-"],
-      [class*="nds-max-large-size--0-"] {
-          display: none;
-      }
-}
