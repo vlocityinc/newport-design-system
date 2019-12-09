@@ -1,0 +1,50 @@
+/* The Modal (background) */
+.nds-dc-modal {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 6.25rem; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: $black-transparent-40; /* Black w/ opacity */
+
+    /* Modal Content */
+    .nds-dc-modal-content {
+        background-color: $dc-modal-background-color;
+        margin: auto;
+        padding: 1.25rem;
+        border: 1px solid $dc-modal-border-color;
+        width: 80%;
+        max-height: 70%;
+        overflow: auto;
+
+        /* The Close Button */
+        .nds-dc-modal-close {
+            color: $dc-modal-close-color;
+            float: right;
+            font-size: 1.75rem;
+            font-weight: bold;
+        }
+        
+        .nds-dc-modal-close:hover,
+        .nds-dc-modal-close:focus {
+            color: $black-primary;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+
+    /* For iPad devices */
+    @media only screen and (max-width: 48rem) {
+        padding-top: 1.5rem;
+
+        .nds-dc-modal-content {
+            width: 95%;
+            max-height: 95%;
+        }
+    }
+  }
+  
+  
