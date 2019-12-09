@@ -1,0 +1,70 @@
+.nds-dc-promotion_list-component{
+    padding: 1.4rem 1.875rem;
+    padding-right: 1rem;
+    border-top: 1px solid $newport-border-gray;
+
+    .nds-dc-promotion_list-heading{
+        color: $kashmir-blue;
+        font-weight: $font-weight-bold;
+        font-size: 1.0625rem;
+        margin-bottom: 1.875rem;
+    }
+
+    .nds-dc-promotion_list{
+        background-clip: padding-box;
+        list-style: none;
+        margin-bottom: 1.25rem;
+
+        .nds-dc-promotion_list-title{
+            font-size: 1.0625rem;
+            letter-spacing: 0.2px;
+            line-height: 1.25rem;
+            color: $black-background-primary;
+            font-weight: $font-weight-bold;
+        }
+        .nds-dc-promotion_list-description{
+            font-size: 1rem;
+        }
+        label.nds-dc-promotion_list-apply{
+            font-size: 0.9375rem;
+            color: $background-primary-blue;
+            cursor: pointer;
+        }
+    }
+    #promoList{
+        display: grid;
+    }
+    #promoList input[type=checkbox]{
+        display:none;
+    }
+    
+    
+    .nds-dc-align_center{
+        text-align: center;
+    }
+    
+    /* For iPad devices */
+    @media only screen and (max-width: 48rem) {
+        padding: 1.5rem 2rem;
+        .nds-dc-promotion_list-heading{
+            font-size: 0.8125rem;
+            margin-bottom: 0.75rem;
+        }
+        .nds-p-horizontal_small{
+            padding: 0rem;
+        }
+        .nds-dc-promotion_list{
+            .nds-dc-promotion_list-title, .nds-dc-promotion_list-description{
+                font-size: 0.75rem;
+            }
+        } 
+    }
+  
+    /* For mobile devices */
+    @media only screen and (max-width: 29rem) {
+        padding: 0.5rem;
+        label.nds-dc-promotion_list-apply {
+            font-size: 0.6rem;
+        }
+    }
+  }

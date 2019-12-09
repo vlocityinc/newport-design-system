@@ -199,4 +199,60 @@ storiesOf(`${base}`, module)
         </div>
       </div>
     `);
+  })
+  .add("dcPromotionList", () => {
+    return withExample(`
+    <div class="nds-dc-promotion_list-component">
+      <div class="nds-dc-promotion_list-heading">Available Promotion</div>
+
+      <div id="promoList" class="nds-dc-promotion_list">
+        <div class="nds-grid nds-wrap">
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_4-of-6 nds-large-size_10-of-12">
+            <input type="checkbox" name="iPhone11ProOffer" id="iPhone11ProOffer">
+            <label class="nds-dc-promotion_list-container">
+              <div class="nds-dc-promotion_list-title">iPhone11ProOffer</div>
+              <div class="nds-dc-promotion_list-description">Pro Triple Cameras.  6.5 inch Super Retina XDR display. Fastest processor ever A13 chip.</div>
+            </label>
+          </div>
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_2-of-6 nds-large-size_2-of-12 nds-dc-align_center">
+            <label class="nds-dc-promotion_list-apply nds-button nds-button_neutral" name="iPhone11ProOffer" for="iPhone11ProOffer">
+              Apply Promo
+            </label>
+          </div>
+        </div>
+      </div>
+      <div id="promoList" class="nds-dc-promotion_list">
+        <div class="nds-grid nds-wrap">
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_4-of-6 nds-large-size_10-of-12">
+            <input type="checkbox" name="5percentOffer" id="5percentOffer">
+            <label class="nds-dc-promotion_list-container">
+              <div class="nds-dc-promotion_list-title">5percentOffer</div>
+              <div class="nds-dc-promotion_list-description">Pro Triple Cameras.  6.5 inch Super Retina XDR display. Fastest processor ever A13 chip.</div>
+            </label>
+          </div>
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_2-of-6 nds-large-size_2-of-12 nds-dc-align_center">
+            <label class="nds-dc-promotion_list-apply nds-button nds-button_neutral" name="5percentOffer" for="5percentOffer">
+              Apply Promo
+            </label>
+          </div>
+        </div>
+      </div>
+      <div id="promoList" class="nds-dc-promotion_list">
+        <div class="nds-grid nds-wrap">
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_4-of-6 nds-large-size_10-of-12">
+            <input type="checkbox" name="10percentOffer" id="10percentOffer">
+            <label class="nds-dc-promotion_list-container">
+              <div class="nds-dc-promotion_list-title">10percentOffer</div>
+              <div class="nds-dc-promotion_list-description">Pro Triple Cameras.  6.5 inch Super Retina XDR display. Fastest processor ever A13 chip.</div>
+            </label>
+          </div>
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_2-of-6 nds-large-size_2-of-12 nds-dc-align_center">
+            <label class="nds-dc-promotion_list-apply nds-button nds-button_neutral" name="10percentOffer" for="10percentOffer">
+              Apply Promo
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
   });
