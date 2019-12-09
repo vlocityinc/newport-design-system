@@ -29,9 +29,15 @@ import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import {
     EXPRESSION_BUILDER_SELECTORS,
     validateExpression,
-    getLhsCombobox
+    getLhsCombobox,
+    getRhsCombobox,
+    selectOperator
 } from '../expressionBuilderTestUtils';
-import { selectComboboxItemBy } from '../comboboxTestUtils';
+import {
+    selectComboboxItemBy,
+    typeMergeFieldInCombobox,
+    getComboboxItems
+} from '../comboboxTestUtils';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
@@ -297,11 +303,11 @@ describe('Assignment Editor', () => {
             `();
         });
         describe('cross-object field references', () => {
-            it('limit level for traversal to 10', async () => {
+            it('does not allow a merge field with more than 10 levels', async () => {
                 const lhs = '{!stringVariable}';
                 const operator = 'Assign';
                 const rhs =
-                    '{!accountSObjectVariable.LastModifiedBy.CreatedBy.CreatedBy.Contact.LastModifiedBy.Contact.LastModifiedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.Manager.UserRole.DeveloperName}';
+                    '{!accountSObjectVariable.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.Name}';
                 expect(
                     await validateExpression(expressionBuilder, {
                         lhs,
@@ -312,6 +318,19 @@ describe('Assignment Editor', () => {
                     rhsErrorMessage:
                         'FlowBuilderMergeFieldValidation.maximumNumberOfLevelsReached'
                 });
+            });
+            it('does allow a merge field with 9 levels', async () => {
+                const lhs = '{!stringVariable}';
+                const operator = 'Assign';
+                const rhs =
+                    '{!accountSObjectVariable.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.LastModifiedBy.CreatedBy.Name}';
+                expect(
+                    await validateExpression(expressionBuilder, {
+                        lhs,
+                        operator,
+                        rhs
+                    })
+                ).toEqual({});
             });
             it('cannot traverse more than 2 levels on the LHS', async () => {});
             describe('When rhs is a cross-Object Field Reference using Polymorphic Relationships', () => {
@@ -357,6 +376,54 @@ describe('Assignment Editor', () => {
             ${'{!stringVariable}'}                           | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${undefined}
             ${'{!numberVariable}'}                           | ${'Assign'} | ${'{!createAccountWithAutomaticOutput}'}                                               | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
             `();
+        });
+    });
+    describe('Traversal', () => {
+        let assignment, expressionBuilder;
+        beforeAll(async () => {
+            const uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+            await loadFieldsForComplexTypesInFlow(uiFlow);
+        });
+        beforeEach(async () => {
+            const assignmentElement = getElementByDevName('assignment1');
+            const assignmentForPropertyEditor = getElementForPropertyEditor(
+                assignmentElement
+            );
+            assignment = createComponentForTest(assignmentForPropertyEditor);
+            await ticks();
+            expressionBuilder = getFerToFerovExpressionBuilder(assignment);
+        });
+        it('is limited to 10 levels', async () => {
+            // Given
+            const lhsCombobox = getLhsCombobox(expressionBuilder);
+            const rhsCombobox = getRhsCombobox(expressionBuilder);
+            await typeMergeFieldInCombobox(lhsCombobox, '{!stringVariable}');
+            selectOperator(expressionBuilder, 'Assign');
+
+            // When
+            const comboboxItem = await selectComboboxItemBy(
+                rhsCombobox,
+                'text',
+                [
+                    'accountSObjectVariable',
+                    'LastModifiedBy',
+                    'CreatedBy',
+                    'LastModifiedBy',
+                    'CreatedBy',
+                    'LastModifiedBy',
+                    'CreatedBy',
+                    'LastModifiedBy',
+                    'CreatedBy'
+                ],
+                { blur: false }
+            );
+
+            // Then
+            expect(comboboxItem.hasNext).toBe(true);
+            for (const item of getComboboxItems(rhsCombobox)) {
+                expect(item.hasNext).toBeUndefined();
+            }
         });
     });
 });

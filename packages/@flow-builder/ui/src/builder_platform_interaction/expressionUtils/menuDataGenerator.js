@@ -26,6 +26,8 @@ import { apexClassesSelector } from 'builder_platform_interaction/selectors';
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 
+export const MAXIMUM_NUMBER_OF_LEVELS = 10;
+
 const SOBJECT_TYPE = FLOW_DATA_TYPE.SOBJECT.value;
 const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
 const STRING_TYPE = FLOW_DATA_TYPE.STRING.value;
@@ -266,6 +268,17 @@ function getMenuItemForSpannableSObjectField(
     });
 }
 
+function getMergeFieldLevel(item) {
+    let mergeFieldLevel = 1;
+    if (item) {
+        while (item.parent) {
+            mergeFieldLevel++;
+            item = item.parent;
+        }
+    }
+    return mergeFieldLevel;
+}
+
 function getMenuItemsForSObjectField(
     field,
     parent,
@@ -275,7 +288,11 @@ function getMenuItemsForSObjectField(
         allowSObjectFieldsTraversal = true
     } = {}
 ) {
-    if (allowSObjectFieldsTraversal && field.isSpanningAllowed === true) {
+    if (
+        allowSObjectFieldsTraversal &&
+        field.isSpanningAllowed === true &&
+        getMergeFieldLevel(parent) < MAXIMUM_NUMBER_OF_LEVELS - 1
+    ) {
         const comboboxItems = [];
         field.referenceToNames.forEach(referenceToName => {
             comboboxItems.push(
@@ -335,7 +352,10 @@ export function getMenuItemForField(
     ) {
         hasNext = false;
     } else {
-        hasNext = isComplexType(dataType) && !isCollection;
+        hasNext =
+            isComplexType(dataType) &&
+            !isCollection &&
+            getMergeFieldLevel(parent) < MAXIMUM_NUMBER_OF_LEVELS - 1;
     }
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
