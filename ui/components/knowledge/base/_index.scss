@@ -35,7 +35,7 @@
 
 .nds-knowledge-block {
   position: fixed;
-  top: 10.625rem;
+  top: 8.625rem;
   #{$right}: 0;
   width: 30%;
   background: $white;
@@ -139,13 +139,43 @@
             /* stylelint-enable max-nesting-depth */
           }
         }
+        p {
+          overflow: hidden;
+          width: 100%;
+          min-width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
 
       h3 {
         color: $color-light-border;
       }
+
+      .nds-item-list {
+        margin-left: 0;
+        border-bottom: 1px solid #cfd7e6;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgb(207, 215, 230);
+        min-height: 6rem;
+        height: 6rem;
+        color: #456792;
+        padding: 0 5% 0 0;
+      }
+
     }
 
+    .nds-knowledge-item-list{
+      min-height: 18rem;
+      height: 18rem;
+      overflow-y: auto;
+      padding-top: 0;
+      background: #fff;
+      border-top: none;
+      width: 100%;
+      margin-right: -1rem;
+    }
 
     .nds-knowledge-data_wrapper {
       position: relative;
@@ -160,6 +190,10 @@
         svg {
           fill: $color-icon-grey;
           #{$left}: 0;
+        }
+
+        .nds-form-container{
+          padding: 0;
         }
       }
     }
