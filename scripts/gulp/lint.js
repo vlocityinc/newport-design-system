@@ -35,10 +35,9 @@ gulp.task('lint:spaces', () =>
       'ui/**/*.*',
       'scripts/**/*.{js}'
     ])
-    .pipe(cache('lintspaces'))
+    .pipe(lintspaces)
     .pipe(
       lintspaces({
-        fix: true,
         editorconfig: '.editorconfig',
         ignores: [
           /\/\*[\s\S]*?\*\//g // Ignore comments
@@ -70,4 +69,4 @@ gulp.task(
   ])
 );
 
-gulp.task('lint', ['lint:sass', 'lint:spaces', 'lint:js']);
+gulp.task('lint',  gulp.series('lint:sass', 'lint:spaces', 'lint:js'));
