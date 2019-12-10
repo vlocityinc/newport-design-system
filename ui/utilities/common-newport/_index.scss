@@ -248,6 +248,13 @@ ul.nds-dropdown-list {
   }
 }
 
+.nds-modal__container {
+  .nds-modal__content {
+    // adds box-shadow for consistency with .nds-modal__footer
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  }
+}
+
 @media only screen and (max-width: 30em) {
 
   .nds-modal_custom .nds-modal .nds-modal__container .nds-modal__content {
