@@ -2,13 +2,13 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * @summary Vlocity Newport branded radio selector with image
- *
- * @name newport
- * @selector .nds-radio_custom-group
- * @restrict .nds-radio
- * @variant
- */
+* @summary Vlocity Newport branded radio selector with image
+*
+* @name newport
+* @selector .nds-radio_custom-group
+* @restrict .nds-radio
+* @variant
+*/
 
 .nds-radio_custom-group {
   position: relative;
@@ -30,10 +30,11 @@
 }
 
 .nds-radio_custom-group {
+
   /**
-   * @selector .nds-radio_button
-   * @restrict .nds-radio_button-group span
-   */
+  * @selector .nds-radio_button
+  * @restrict .nds-radio_button-group span
+  */
   .nds-radio_button,
   .nds-radio--button {
     display: flex;
@@ -44,11 +45,11 @@
     border-radius: $border-radius-medium;
 
     /**
-     * Create styled button when adjacent to the input[radio] element
-     *
-     * @selector .nds-radio_faux
-     * @restrict .nds-radio_button span
-     */
+    * Create styled button when adjacent to the input[radio] element
+    *
+    * @selector .nds-radio_faux
+    * @restrict .nds-radio_button span
+    */
     .nds-radio_faux,
     .nds-radio--faux {
       padding-#{$left}: $spacing-medium;
@@ -218,11 +219,11 @@
   }
 
   /**
-   * Label element inside of a radio button
-   *
-   * @selector .nds-radio_button__label
-   * @restrict .nds-radio_button label
-   */
+  * Label element inside of a radio button
+  *
+  * @selector .nds-radio_button__label
+  * @restrict .nds-radio_button label
+  */
   .nds-radio_button__label,
   .nds-radio--button__label {
     background-color: transparent;
