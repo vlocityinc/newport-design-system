@@ -1,5 +1,5 @@
 .nds-dc-filter{
-    margin-left: 12px;
+    margin-left: 0.75rem;
     .nds-dc-filter_btn {
         svg{
             height: 0.625rem;
@@ -9,7 +9,7 @@
             fill: $blue-background-primary;
         }
     }
-    .nds-dc-filter-dropdown_show{
+    .nds-dc-filter_dropdown_show{
         border: 0.063rem solid $blue-background-primary;
         max-height: 13.75rem;
         transition: height 0.15s ease-in;
@@ -30,7 +30,7 @@
                 color:$kashmir-blue;
             }
             .nds-checkbox .nds-form-element__label{
-                margin-left: 5px;
+                margin-left: 0.313rem;
                 font-size: 1.25rem;
             }
             .nds-checkbox .nds-checkbox_faux{
@@ -44,11 +44,11 @@
             }
         }
     }
-    .nds-dc-filter-dropdown_hide{
+    .nds-dc-filter_dropdown_hide{
         height: 0;
         transition: max-height 0.15s ease-out;
     }
-    .nds-dc-filter-criteria_container{
+    .nds-dc-filter_criteria-container{
         width: 10rem;
         height: 2.688rem;
         margin-top: 0.625rem;
