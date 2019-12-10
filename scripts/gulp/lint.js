@@ -35,7 +35,7 @@ gulp.task('lint:spaces', () =>
       'ui/**/*.*',
       'scripts/**/*.{js}'
     ])
-    .pipe(lintspaces)
+    .pipe(cache('lintspaces'))
     .pipe(
       lintspaces({
         editorconfig: '.editorconfig',
