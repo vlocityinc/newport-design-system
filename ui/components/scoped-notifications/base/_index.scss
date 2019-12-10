@@ -2,34 +2,34 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- *
- * @name base
- * @selector .nds-scoped-notification
- * @restrict div
- * @variant
- */
+*
+* @name base
+* @selector .nds-scoped-notification
+* @restrict div
+* @variant
+*/
 .nds-scoped-notification {
   padding: $spacing-small;
 }
 
 /**
- * @summary This renders a light notification
- *
- * @selector .nds-scoped-notification_light
- * @restrict .nds-scoped-notification
- * @modifier
- */
+* @summary This renders a light notification
+*
+* @selector .nds-scoped-notification_light
+* @restrict .nds-scoped-notification
+* @modifier
+*/
 .nds-scoped-notification_light {
   background-color: $color-background;
 }
 
 /**
- * @summary This renders the dark notification
- *
- * @selector .nds-scoped-notification_dark
- * @restrict .nds-scoped-notification
- * @modifier
- */
+* @summary This renders the dark notification
+*
+* @selector .nds-scoped-notification_dark
+* @restrict .nds-scoped-notification
+* @modifier
+*/
 .nds-scoped-notification_dark {
   background-color: $notification-color-background-inverse;
   color: $color-text-inverse;
@@ -46,23 +46,23 @@
 }
 
 /**
- *
- * @name form
- * @summary This has modifications to accept and display focus in certain scenarios
- * @selector .nds-scoped-notification_form
- * @restrict .nds-scoped-notification
- */
- .nds-scoped-notification_form {
+*
+* @name form
+* @summary This has modifications to accept and display focus in certain scenarios
+* @selector .nds-scoped-notification_form
+* @restrict .nds-scoped-notification
+*/
+.nds-scoped-notification_form {
   border-radius: .25rem;
 
-  &:focus{
+  &:focus {
     outline: none;
     background-clip: padding-box;
   }
 
   // so far the only use case for focus has been for error
   &.nds-scoped-notification--error:focus,
-  &.nds-scoped-notification_error:focus{
+  &.nds-scoped-notification_error:focus {
     box-shadow: $newport-color-requirement-msz 0 0 0 2px inset;
   }
 
