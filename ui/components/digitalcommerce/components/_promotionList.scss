@@ -1,43 +1,43 @@
-.nds-dc-promotion_list-component{
+.nds-dc-promotion_list-component {
     padding: 0.5rem;
     padding-right: 1rem;
     border-top: 1px solid $newport-border-gray;
 
-    .nds-dc-promotion_list-heading{
+    .nds-dc-promotion_list-heading {
         color: $kashmir-blue;
         font-weight: $font-weight-bold;
         font-size: 0.8125rem;
         margin-bottom: 0.75rem;
     }
 
-    .nds-dc-promotion_list{
+    .nds-dc-promotion_list {
         background-clip: padding-box;
         list-style: none;
         margin-bottom: 1.25rem;
 
-        .nds-dc-promotion_list-title{
+        .nds-dc-promotion_list-title {
             font-size: 0.75rem;
             letter-spacing: 0.2px;
             line-height: 1.25rem;
             color: $black-background-primary;
             font-weight: $font-weight-bold;
         }
-        .nds-dc-promotion_list-description{
+        .nds-dc-promotion_list-description {
             font-size: 0.75rem;
         }
-        label.nds-dc-promotion_list-apply{
+        label.nds-dc-promotion_list-apply {
             font-size: 0.6rem;
             color: $background-primary-blue;
             cursor: pointer;
         } 
-        input[type=checkbox]{
+        input[type=checkbox] {
             display:none;
         }
     }
     .nds-p-horizontal_small {
         padding: 0;
     }
-    .nds-dc-align_center{
+    .nds-dc-align_center {
         text-align: center;
     }
 
@@ -49,22 +49,22 @@
     }
     @media only screen and (min-width: 50rem) {
         padding: 1.5rem 2rem;
-        .nds-dc-promotion_list-heading{
+        .nds-dc-promotion_list-heading {
             font-size: 1.0625rem;
             margin-bottom: 1.875rem;
         }
         .nds-dc-promotion_list label.nds-dc-promotion_list-apply {
             font-size: 0.9375rem;
         }
-        .nds-p-horizontal_small{
+        .nds-p-horizontal_small {
             padding-right: .75rem;
             padding-left: .75rem;
         }
-        .nds-dc-promotion_list{
-            .nds-dc-promotion_list-title{
+        .nds-dc-promotion_list {
+            .nds-dc-promotion_list-title {
                 font-size: 1.0625rem;
             }
-            .nds-dc-promotion_list-description{
+            .nds-dc-promotion_list-description {
                 font-size: 1rem;
             }
         }
