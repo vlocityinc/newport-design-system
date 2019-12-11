@@ -1,6 +1,5 @@
 .nds-dc-filter {
-    margin-left: 0.75rem;
-    .nds-dc-filter_btn {
+    .nds-dc-filter_button {
         svg {
             height: 0.625rem;
             width: 1.25rem;
@@ -9,13 +8,19 @@
             fill: $blue-background-primary;
         }
     }
-    .nds-dc-filter_dropdown_show {
-        border: 0.063rem solid $blue-background-primary;
-        max-height: 13.75rem;
-        transition: height 0.15s ease-in;
-        margin-top: 1.25rem;
-        padding: 1rem 1.5rem;
-        border-radius: 5px;
+    .nds-dc-filter-container{
+        &.nds-dc-filter_container_show {
+            border: 0.063rem solid $blue-background-primary;
+            height: 13.75rem;
+            transition: height 0.15s ease-in;
+            margin-top: 1.25rem;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+        }
+        &.nds-dc-filter_container_hide {
+            height: 0;
+            transition: height 0.15s ease-out;
+        }
         .nds-dc-filter-section_container {
             display: table;
             width: 100%;
@@ -23,30 +28,27 @@
             input {
                 font-size: 3.125rem;
                 margin-top: 0.625rem;
-            }
-            .nds-dc-filter-section {
-                font-weight: $font-weight-bold;
-                font-size: 1.25rem;
-                color:$kashmir-blue;
-            }
-            .nds-checkbox .nds-form-element__label {
-                margin-left: 0.313rem;
-                font-size: 1.25rem;
-            }
-            .nds-checkbox .nds-checkbox_faux {
-                width: 1.2rem;
-                height: 1.2rem;
+                margin-left: 1rem;
             }
             .nds-dc-filter-group {
                 display: table-cell;
                 width: 25%;
                 height: 100%;
+                .nds-dc-filter-section {
+                    font-weight: $font-weight-bold;
+                    font-size: 1.25rem;
+                    color:$kashmir-blue;
+                }
+                .nds-checkbox .nds-form-element__label {
+                    margin-left: 0.313rem;
+                    font-size: 1.25rem;
+                }
+                .nds-checkbox .nds-checkbox_faux {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                }
             }
         }
-    }
-    .nds-dc-filter_dropdown_hide {
-        height: 0;
-        transition: max-height 0.15s ease-out;
     }
     .nds-dc-filter_criteria-container {
         width: 10rem;
@@ -68,6 +70,7 @@
             position: absolute;
             top: 0.625rem;
             right: 0.625rem;
+            cursor: pointer;
         }
     }
 }
