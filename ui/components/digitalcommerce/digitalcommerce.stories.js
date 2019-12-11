@@ -165,4 +165,124 @@ storiesOf(`${base}`, module)
                 </article>
               </li>
     `);
-  });
+  })
+  .add("dcFilter", () => {
+    return withExample(`
+      <div class="nds-dc-filter">
+        <button class="nds-button nds-button_brand nds-dc-filter_btn">
+          <span class="nds-button__icon nds-button__icon_left">
+            <svg enable-background="new 0 0 36 30" height="30px" id="Layer_1" version="1.1" viewBox="0 0 36 30" width="36px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#FFFF" points="14,30 22,25 22,17 35.999,0 17.988,0 0,0 14,17 "></polygon></svg>
+          </span>
+          Refine
+        </button>
+        <div class="nds-dc-filter-dropdown_show">
+          <div class="nds-dc-filter-section_container">
+              <div class="nds-dc-filter-group">
+                <div class="nds-dc-filter-section">Promotion</div>
+
+                <label class="nds-checkbox">
+                  <input type="checkbox" name="options" id="checkbox-1" value="on">
+                  <span class="nds-checkbox_faux"></span>
+                  <label class="nds-checkbox__label">
+                    <span class="nds-form-element__label">Promotion only</span>
+                  </label>
+                </label>
+
+              </div>
+          </div>
+        </div>
+        <div class="nds-dc-filter-criteria_container">
+          <span class="nds-dc-filter-criteria">
+            Promotion only
+          </span>
+          <span class="nds-dc-filter-remove">✕</span>
+        </div>
+      </div>
+    `);
+  })
+  .add("dcPromotionList", () => {
+    return withExample(`
+    <div class="nds-dc-promotion_list-component">
+      <div class="nds-dc-promotion_list-heading">Available Promotion</div>
+
+      <div id="promoList" class="nds-dc-promotion_list">
+        <div class="nds-grid nds-wrap">
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_4-of-6 nds-large-size_10-of-12">
+            <input type="checkbox" name="iPhone11ProOffer" id="iPhone11ProOffer">
+            <label class="nds-dc-promotion_list-container">
+              <div class="nds-dc-promotion_list-title">iPhone11ProOffer</div>
+              <div class="nds-dc-promotion_list-description">Pro Triple Cameras.  6.5 inch Super Retina XDR display. Fastest processor ever A13 chip.</div>
+            </label>
+          </div>
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_2-of-6 nds-large-size_2-of-12 nds-dc-align_center">
+            <label class="nds-dc-promotion_list-apply nds-button nds-button_neutral" name="iPhone11ProOffer" for="iPhone11ProOffer">
+              Apply Promo
+            </label>
+          </div>
+        </div>
+      </div>
+      <div id="promoList" class="nds-dc-promotion_list">
+        <div class="nds-grid nds-wrap">
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_4-of-6 nds-large-size_10-of-12">
+            <input type="checkbox" name="5percentOffer" id="5percentOffer">
+            <label class="nds-dc-promotion_list-container">
+              <div class="nds-dc-promotion_list-title">5percentOffer</div>
+              <div class="nds-dc-promotion_list-description">Pro Triple Cameras.  6.5 inch Super Retina XDR display. Fastest processor ever A13 chip.</div>
+            </label>
+          </div>
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_2-of-6 nds-large-size_2-of-12 nds-dc-align_center">
+            <label class="nds-dc-promotion_list-apply nds-button nds-button_neutral" name="5percentOffer" for="5percentOffer">
+              Apply Promo
+            </label>
+          </div>
+        </div>
+      </div>
+      <div id="promoList" class="nds-dc-promotion_list">
+        <div class="nds-grid nds-wrap">
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_4-of-6 nds-large-size_10-of-12">
+            <input type="checkbox" name="10percentOffer" id="10percentOffer">
+            <label class="nds-dc-promotion_list-container">
+              <div class="nds-dc-promotion_list-title">10percentOffer</div>
+              <div class="nds-dc-promotion_list-description">Pro Triple Cameras.  6.5 inch Super Retina XDR display. Fastest processor ever A13 chip.</div>
+            </label>
+          </div>
+          <div class="nds-p-horizontal_small nds-size_1-of-2 nds-medium-size_2-of-6 nds-large-size_2-of-12 nds-dc-align_center">
+            <label class="nds-dc-promotion_list-apply nds-button nds-button_neutral" name="10percentOffer" for="10percentOffer">
+              Apply Promo
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    `);
+  })
+  .add("dcAppliedPromotionList", () => {
+    return withExample(`
+      <article class="nds-dc-applied-promo-container">
+        <div class="nds-dc-applied-promo">
+          <div class="nds-dc-applied-promo-label">10percentOffer</div>
+          <div class="nds-dc-adjustment-value-one-time">
+            <span class="">
+              -100$
+            </span>
+          </div>
+          <div class="nds-dc-adjustment-value-recurring"></div>
+
+          <div class="nds-dc-delete-icon">
+            <svg class="nds-dc-tile_trash" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" fill="rgb(28, 102, 188);" viewBox="0 0 900.5 900.5" style="enable-background:new 0 0 900.5 900.5; height: .8rem" xml:space="preserve">
+              <g>
+                <path d="M176.415,880.5c0,11.046,8.954,20,20,20h507.67c11.046,0,20-8.954,20-20V232.487h-547.67V880.5L176.415,880.5z
+              M562.75,342.766h75v436.029h-75V342.766z M412.75,342.766h75v436.029h-75V342.766z M262.75,342.766h75v436.029h-75V342.766z"></path>
+                <path d="M618.825,91.911V20c0-11.046-8.954-20-20-20h-297.15c-11.046,0-20,8.954-20,20v71.911v12.5v12.5H141.874
+              c-11.046,0-20,8.954-20,20v50.576c0,11.045,8.954,20,20,20h34.541h547.67h34.541c11.046,0,20-8.955,20-20v-50.576
+              c0-11.046-8.954-20-20-20H618.825v-12.5V91.911z M543.825,112.799h-187.15v-8.389v-12.5V75h187.15v16.911v12.5V112.799z"></path>
+              </g>
+            </svg>
+            <span class="nds-dc-tile_trash-title nds-dc-trash-title">Remove</span>
+          </div>
+          <div class="nds-dc-edit-column"></div>
+        </div>
+        <div class="nds-dc-offer-group-separator nestedChild"></div>
+      </article>
+    `);
+  });;
