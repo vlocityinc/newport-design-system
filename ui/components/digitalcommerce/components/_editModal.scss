@@ -13,7 +13,7 @@
         background-color: $dc-modal-background-color;
         margin: auto;
         padding: 1.25rem;
-        border: 1px solid $dc-modal-border-color;
+        border: 0.063rem solid $dc-modal-border-color;
         width: 95%;
         max-height: 95%;
         overflow: auto;
@@ -33,7 +33,7 @@
         }
     }
 
-    @media only screen and (min-width: 50rem) {
+    @media only screen and (min-width: 48rem) {
         padding-top: 6.25rem;
         .nds-dc-modal_content {
             width: 80%;

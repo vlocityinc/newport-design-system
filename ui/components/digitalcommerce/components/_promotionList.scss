@@ -1,7 +1,7 @@
 .nds-dc-promotion_list-component {
     padding: 0.5rem;
     padding-right: 1rem;
-    border-top: 1px solid $newport-border-gray;
+    border-top: 0.063rem solid $newport-border-gray;
 
     .nds-dc-promotion_list-heading {
         color: $kashmir-blue;
@@ -17,7 +17,6 @@
 
         .nds-dc-promotion_list-title {
             font-size: 0.75rem;
-            letter-spacing: 0.2px;
             line-height: 1.25rem;
             color: $black-background-primary;
             font-weight: $font-weight-bold;
@@ -47,7 +46,7 @@
             font-size: 0.9375rem;
         }
     }
-    @media only screen and (min-width: 50rem) {
+    @media only screen and (min-width: 48rem) {
         padding: 1.5rem 2rem;
         .nds-dc-promotion_list-heading {
             font-size: 1.0625rem;
