@@ -1,0 +1,54 @@
+.nds-dc-sign-in {
+  .nds-dc-step_label {
+    color: $kashmir-blue;
+    font-weight: $font-weight-regular;
+    margin: 1rem 0;
+  }
+  .nds-dc-form_label {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    font-weight: $font-weight-regular;
+  }
+  .nds-dc-form-element_row {
+    margin-top: 1.8rem;
+  }
+  .nds-form_compound {
+    border: 1px solid $newport-border-gray;
+    box-shadow: 0 2px 0 0 $black-transparent-10;
+    padding: 0.8rem 0.8rem 1.5rem 0.8rem;
+    margin: 2.5rem 0 1rem 0;
+  }
+  .nds-radio {
+    .nds-dc-radio_faux {
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+    .nds-form-element__label {
+      margin-left: 0.5rem;
+    }
+  }
+  .nds-radio [type="radio"]:checked + .nds-radio__label .nds-dc-radio_faux {
+    &:after {
+      width: 0.7rem;
+      height: 0.7rem;
+    }
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  @media only screen and (min-width: 48rem) {
+    .nds-form_compound {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin-bottom: 0;
+    }
+    .nds-dc-form_label {
+      font-weight: $font-weight-light;
+    }
+  }
+}

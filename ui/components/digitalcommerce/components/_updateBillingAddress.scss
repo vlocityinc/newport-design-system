@@ -1,0 +1,52 @@
+.nds-dc-update-address {
+    .nds-dc-step_label {
+      color: $kashmir-blue;
+      font-weight: $font-weight-regular;
+      margin: 1rem 0;
+    }
+    .nds-dc-form_label {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+      font-weight: $font-weight-regular;
+    }
+    .nds-dc-form-element_row {
+      margin-top: 1.3rem;
+    }
+    .nds-form_compound {
+      border: 1px solid $newport-border-gray;
+      box-shadow: 0 2px 0 0 $black-transparent-10;
+      padding: 0.8rem 0.8rem 1.5rem 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .nds-dc-checkout_hr {
+      display: none;
+    }
+    .nds-dc-checkbox {
+      .nds-checkbox_faux {
+        margin-right: 0.4rem;
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+      .nds-form-element__label {
+        color: $san-juan;
+      }
+    }
+    .nds-dc-form-element {
+      margin-top: 2rem;
+    }
+    @media only screen and (min-width: 48rem) {
+      .nds-form_compound {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin-bottom: 0;
+      }
+      .nds-dc-form_label {
+        font-weight: $font-weight-light;
+      }
+      .nds-dc-checkout_hr {
+        display: block;
+      }
+    }
+  }
+  
