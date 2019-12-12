@@ -24,7 +24,9 @@ import {
     lightningCompAutomaticOutputNoSObjectExtension,
     lightningCompAutomaticOutputContainsAccountExtension,
     apexCallStringAutomaticOutput,
-    apexCallAccountAutomaticOutput
+    apexCallAccountAutomaticOutput,
+    localActionApexDoesNotContainSObjectAutomaticOutput,
+    localActionApexDoesContainsSObjectAutomaticOutput
 } from 'mock/storeData';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
@@ -438,6 +440,23 @@ describe('getCanContainsSObjectElements', () => {
     });
     it('does not return apex variable which does not contain SObject', () => {
         const result = getCanContainsSObjectElements([apexCarVariable]);
+
+        expect(result).toHaveLength(0);
+    });
+    it('returns local action that has apex variable which contains SObject', () => {
+        const result = getCanContainsSObjectElements([localActionApexDoesContainsSObjectAutomaticOutput]);
+
+        expect(result).toHaveLength(1);
+        expect(result[0]).toHaveProperty('name', localActionApexDoesContainsSObjectAutomaticOutput.name);
+    });
+    it('does not return local action that has apex variable which contains SObject that does not correspond to retrieveOptions', () => {
+        // localActionApexDoesContainsSObjectAutomaticOutput returns ApexComplexTypeOne216, that has account field. Account is mocked to not be deletable here
+        const result = getCanContainsSObjectElements([localActionApexDoesContainsSObjectAutomaticOutput], {deleteable: true});
+
+        expect(result).toHaveLength(0);
+    });
+    it('does not return local action that has apex variable which does not contain SObject', () => {
+        const result = getCanContainsSObjectElements([localActionApexDoesNotContainSObjectAutomaticOutput]);
 
         expect(result).toHaveLength(0);
     });

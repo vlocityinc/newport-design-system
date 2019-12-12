@@ -11,6 +11,79 @@ import { getCarsFromApexActionDetails } from 'serverData/GetInvocableActionDetai
 
 let notLoadedActionKey;
 
+// TODO This evil stuff needs to be removed when W-7013783 is fixed
+const lightningWithApexContainsSObjectDetails = {
+  "configurationEditor":null,
+  "parameters":[
+    {
+      "isRequired":false,
+      "isInput":true,
+      "dataType":"Apex",
+      "description":null,
+      "label":"ApexWithSObject",
+      "isOutput":false,
+      "name":"apexWithSObject",
+      "apexClass":"ApexComplexTypeTestOne216",
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"component-c:LightningWithApexContainsSObject-input-apexWithSObject",
+      "sobjectType":null
+    },
+    {
+      "isRequired":false,
+      "isInput":false,
+      "dataType":"Apex",
+      "description":null,
+      "label":"ApexWithSObject",
+      "isOutput":true,
+      "name":"apexWithSObject",
+      "apexClass":"ApexComplexTypeTestOne216",
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"component-c:LightningWithApexContainsSObject-output-apexWithSObject",
+      "sobjectType":null
+    }
+  ]
+};
+
+const lightningWithApexDoesNotContainSObjectDetails = {
+  "configurationEditor":null,
+  "parameters":[
+    {
+      "isRequired":false,
+      "isInput":true,
+      "dataType":"Apex",
+      "description":null,
+      "label":"ApexWithoutSObject",
+      "isOutput":false,
+      "name":"apexWithoutSObject",
+      "apexClass":"Car",
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"component-c:LightningComponentWithApexNoSObject-input-apexWithoutSObject",
+      "sobjectType":null
+    },
+    {
+      "isRequired":false,
+      "isInput":false,
+      "dataType":"Apex",
+      "description":null,
+      "label":"ApexWithoutSObject",
+      "isOutput":true,
+      "name":"apexWithoutSObject",
+      "apexClass":"Car",
+      "maxOccurs":1,
+      "id":null,
+      "isSystemGeneratedOutput":false,
+      "durableId":"component-c:LightningComponentWithApexNoSObject-output-apexWithoutSObject",
+      "sobjectType":null
+    }
+  ]
+};
+
 const mockImplementationForGetDetailsForInvocableAction = ({
   actionName,
   actionType
@@ -39,6 +112,10 @@ const mockImplementationForGetDetailsForInvocableAction = ({
       return getCarFromApexActionDetails;
     case 'apex-ApexTypeCollectionAction':
       return getCarsFromApexActionDetails;
+    case 'component-c:LightningWithApexContainsSObject':
+     return lightningWithApexContainsSObjectDetails;
+     case 'component-c:LightningComponentWithApexNoSObject':
+     return lightningWithApexDoesNotContainSObjectDetails;
     default:
       return undefined;
   }

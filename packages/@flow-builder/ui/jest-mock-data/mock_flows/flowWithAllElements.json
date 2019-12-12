@@ -255,6 +255,30 @@
         "inputParameters": [],
         "outputParameters": [],
         "storeOutputAutomatically": true
+      },
+      {
+        "name": "actionCallLC_apex_no_sobject_auto",
+        "description": "",
+        "label": "actionCallLC apex no sobject auto",
+        "locationX": 924,
+        "locationY": 367.3125,
+        "actionType": "component",
+        "actionName": "c:LightningComponentWithApexNoSObject",
+        "inputParameters": [],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
+      },
+      {
+        "name": "actionCallLC_apex_with_sobject_auto",
+        "description": "",
+        "label": "actionCallLC apex with sobject auto",
+        "locationX": 1044,
+        "locationY": 367.3125,
+        "actionType": "component",
+        "actionName": "c:LightningWithApexContainsSObject",
+        "inputParameters": [],
+        "outputParameters": [],
+        "storeOutputAutomatically": true
       }
     ],
     "assignments": [
@@ -323,6 +347,15 @@
           }
         ],
         "defaultConnectorLabel": "Default Outcome"
+      }
+    ],
+    "formulas": [
+      {
+        "name": "textFormula",
+        "description": "a text formula",
+        "expression": "IF({!accountSObjectVariable.AnnualRevenue} < 1000000,\"Small\", \"Big\")",
+        "dataType": "String",
+        "scale": 2
       }
     ],
     "variables": [
@@ -809,15 +842,6 @@
         "description": "",
         "dataType": "Number",
         "choiceText": "Choice 1"
-      }
-    ],
-    "formulas": [
-      {
-        "name": "textFormula",
-        "description": "a text formula",
-        "expression": "IF({!accountSObjectVariable.AnnualRevenue} < 1000000,\"Small\", \"Big\")",
-        "dataType": "String",
-        "scale": 2
       }
     ],
     "description": "",
