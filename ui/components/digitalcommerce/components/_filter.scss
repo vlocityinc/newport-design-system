@@ -7,6 +7,10 @@
         &.nds-button_neutral svg polygon {
             fill: $blue-background-primary;
         }
+        img {
+            height: 1rem;
+            margin-left: 0.25rem;
+        }
     }
     .nds-dc-filter-container{
         &.nds-dc-filter_container_show {
