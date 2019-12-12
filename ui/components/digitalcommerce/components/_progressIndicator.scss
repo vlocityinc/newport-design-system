@@ -1,0 +1,27 @@
+.nds-dc-progress-indicator {
+    .nds-progress {
+      max-width: 90%;
+      color: $science-blue;
+      font-weight: $font-weight-light;
+    }
+    .nds-progress__step-label {
+      font-size: 0.8rem;
+      white-space: normal;
+      margin-left: 0.2rem;
+    }
+    .nds-progress__item {
+      cursor: default;
+      &.nds-is-completed {
+        .nds-progress__step-label {
+          margin-top: 1.2rem;
+        }
+      }
+    }
+    @media only screen and (min-width: 64rem) {
+      .nds-progress__step-label {
+        white-space: nowrap;
+        font-size: 1rem;
+      }
+    }
+  }
+  
