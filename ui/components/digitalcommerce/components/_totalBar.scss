@@ -54,23 +54,23 @@
     font-weight: $font-weight-light;
     color: $color-text-link;
     background-color: $white;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     font-size: 1rem;
     padding: .3rem 1rem;
-    margin-right: 1.2rem;
+    margin-right: 1rem;
     right: 0;
     position: relative;
+    min-width: 8rem;
   }
   
-  @media only screen and (max-width: 22rem) {
+  @media only screen and (max-width: 24rem) {
     .nds-dc-checkout-button {
       padding: .3rem .75rem;
+      min-width: 4rem;
+      margin-right: 0.5rem;
     }
     .nds-dc-totalbar_container-pipe {
       margin: 1rem 0.7rem 0;
-    }
-    .nds-dc-checkout-button {
-      margin-right: 0.5rem;
     }
   }
 }
