@@ -25,7 +25,6 @@
         .nds-dc-tile_text {
           color: $kashmir-blue;
           font-size: $font-size-applied-promo;
-          letter-spacing: 0.2px;
           input {
             width: 5rem;
             padding: 0.3125rem;
@@ -178,7 +177,7 @@
       }
     }
 
-    .nds-dc-edit-icon{
+    .nds-dc-edit-icon {
       width: 1rem;
       height: 1rem;
       margin-left: 1rem;
@@ -198,94 +197,91 @@
       width: 20%;
       text-align: right;
     }
-    .nds-dc-applied-promo-container{
+    .nds-dc-applied-promo-container {
       display: flex;
       padding: 0 1.875rem;
       padding-right: 1rem;
     }
-    .nds-dc-applied-promo{
+    .nds-dc-applied-promo {
       width: 100%;
       display: flex;
       margin: .875rem 0;
     }
-    .nds-dc-applied-promo-label{
+    .nds-dc-applied-promo-label {
       width: 30%;
       text-align: left;
       padding-left: 1.25rem;
       font-size: $font-size-applied-promo;
-      letter-spacing: .2px;
       box-sizing: border-box;
       color: $new-york-pink;
     }
-    .nds-dc-adjustment-value-one-time{
+    .nds-dc-adjustment-value-one-time {
       font-size: $font-size-applied-promo;
-      letter-spacing: .2px;
       margin-top: -0.625rem;
       width: 40%;
       text-align: right;
       font-size: $font-size-applied-promo;
     }
-    .nds-dc-adjustments-value-recurring{
+    .nds-dc-adjustments-value-recurring {
       font-size: $font-size-applied-promo;
-      letter-spacing: .2px;
       margin-top: -0.625rem;
       width: 35%;
     }
-    .nds-dc-trash-title{
+    .nds-dc-trash-title {
       color: $background-primary-blue;
       font-size: .9375rem;
       margin-left: .3125rem;
       cursor: pointer;
     }
-    .nds-dc-delete-icon{
+    .nds-dc-delete-icon {
       width: 15%;
       margin-left: .3125rem;
       text-align: center;
     }
-    .vlocity-dc-edit-icon-column{
+    .vlocity-dc-edit-icon-column {
       width: 1rem;
       height: 1rem;
       margin-left: 1rem;
     }
-    .nds-dc-value-one-time{
+    .nds-dc-value-one-time {
       border-bottom: 0.1rem solid;
       width: 6rem;
       display: inline-block;
     }
 
-    @media only screen and (max-width: 29rem){
-      .nds-dc-edit-icon{
+    @media only screen and (max-width: 29rem) {
+      .nds-dc-edit-icon {
         margin-left: 0;
         }
-        .nds-dc-offer-actual-price{
+        .nds-dc-offer-actual-price {
           font-size:0.75rem;
         }
         .nds-dc-offer-base-amount {
           font-size:0.75rem;
         }
-        .nds-dc-applied-promo-container{
+        .nds-dc-applied-promo-container {
           font-size: 0.75rem;
           padding: 0 .3125rem;
           }
-          .nds-dc-applied-promo-label{
+          .nds-dc-applied-promo-label {
             width: 35%;
             padding-left: .3125rem;
             font-size: .75rem;
           }
-          .nds-dc-trash-title{
+          .nds-dc-trash-title {
             display:none;
           }
-          .nds-dc-adjustment-value-one-time{
+          .nds-dc-adjustment-value-one-time {
             font-size: .75rem;
           }
-          .nds-dc-adjustments-value-recurring{
+          .nds-dc-adjustments-value-recurring {
             width: 25%;
             margin-right: .3125rem;
           }
-          .nds-dc-delete-icon{
+          .nds-dc-delete-icon {
             width: 10%;
           }
-          .vlocity-dc-edit-icon-column{
+          .vlocity-dc-edit-icon-column {
               margin-left: 0; 
           }
     }
