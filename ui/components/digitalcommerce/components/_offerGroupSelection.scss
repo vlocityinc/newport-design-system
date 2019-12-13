@@ -160,6 +160,9 @@
       font-size: 1.5625rem;
       border: none;
       width: 50%;
+      &.nds-dc-hide-price {
+        visibility:hidden;
+      }
     }
     label {
       margin-left: 0.75rem;
