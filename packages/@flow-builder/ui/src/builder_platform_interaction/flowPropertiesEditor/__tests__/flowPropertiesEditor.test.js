@@ -34,6 +34,9 @@ jest.mock('builder_platform_interaction/expressionUtils', () => {
                 {
                     value: 'systemModeWithSharing',
                     label: 'systemModeWithSharing'
+                },
+                {   value: 'systemModeWithoutSharing',
+                    lable: 'systemModeWithoutSharing'
                 }
             ];
         }

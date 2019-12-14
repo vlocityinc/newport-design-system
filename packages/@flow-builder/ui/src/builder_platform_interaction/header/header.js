@@ -59,7 +59,7 @@ export default class Header extends LightningElement {
     }
 
     get isSystemMode() {
-        return this.runInMode === 'SystemModeWithSharing';
+        return this.runInMode === 'SystemModeWithSharing' || this.runInMode === 'SystemModeWithoutSharing';
     }
 
     get systemModeLabel() {

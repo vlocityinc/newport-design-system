@@ -103,7 +103,7 @@ export default class BaseCalloutEditor extends LightningElement {
 
     get isSystemMode() {
         return this.runinmode
-            ? this.runinmode.name === 'SystemModeWithSharing'
+            ? this.runinmode.name === 'SystemModeWithSharing' || this.runinmode.name === 'SystemModeWithoutSharing'
             : false;
     }
 

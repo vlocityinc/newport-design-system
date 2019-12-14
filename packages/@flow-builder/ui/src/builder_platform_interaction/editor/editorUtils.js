@@ -631,5 +631,5 @@ export const setErrorMessage = (modal, message) => {
  * @param flow run in mode
  */
 export const canRunDebugWith = (runInMode, status) => {
-    return status === 'Active' || !(runInMode === 'SystemModeWithSharing' && !canUserVAD());
+    return status === 'Active' || !((runInMode === 'SystemModeWithSharing' || runInMode === 'SystemModeWithoutSharing') && !canUserVAD());
 };
