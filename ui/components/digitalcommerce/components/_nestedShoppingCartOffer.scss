@@ -1,5 +1,4 @@
 /* shopping cart nested offer */
-@import 'tokens';
   .nds-dc-cart_line-item {
     .nds-dc-each_item {
       border-top: 1px solid $newport-border-gray;
@@ -12,8 +11,7 @@
       }
       .nds-dc-offer_item {
         display: flex;
-        padding: 0 1.875rem;
-        padding-right: 1rem;
+        padding: 0 $spacing-medium 0 1.875rem;
       }
       .nds-dc-title_container {
         flex: 1;
@@ -27,7 +25,7 @@
           font-size: $font-size-applied-promo;
           input {
             width: 5rem;
-            padding: 0.3125rem;
+            padding: $spacing-applied-promo;
             border: none;
             background-color: $white;
             text-align: center;
@@ -43,7 +41,7 @@
             padding-left: 1.25rem;
             .nds-dc-offer_image {
               height: 6.25rem;
-              margin: -1rem 0.3125rem 0 -0.3125rem;
+              margin: -1rem $spacing-applied-promo 0 -$spacing-applied-promo;
             }
           }
           &.nds-dc-quantity {
@@ -55,7 +53,7 @@
           }
           &.nds-dc-icons {
             width: 15%;
-            margin-left: 0.3125rem;
+            margin-left: $spacing-applied-promo;
             .nds-dc-tile_trash {
               height: 0.8rem;
               cursor: pointer;
@@ -63,7 +61,7 @@
             .nds-dc-tile_trash-title {
               color: $background-primary-blue;
               font-size: 0.9375rem;
-              margin-left: 0.3125rem;
+              margin-left: $spacing-applied-promo;
               cursor: pointer;
             }
           }
@@ -127,7 +125,7 @@
       }
       @media only screen and (max-width: 29rem) {
         .nds-dc-offer_item {
-          padding: 0 0.3125rem;
+          padding: 0 $spacing-applied-promo;
         }
         .nds-dc-cart_item-category {
           margin-left: 0.625rem;
@@ -137,7 +135,7 @@
           .nds-dc-tile_text {
             &.nds-dc-title {
               width: 35%;
-              padding-left: 0.3125rem;
+              padding-left: $spacing-applied-promo;
               .nds-dc-offer_image {
                 display: none;
               }
@@ -147,7 +145,7 @@
             }
             &.nds-dc-due {
               width: 15%;
-              margin-right: 0.3125rem;
+              margin-right: $spacing-applied-promo;
             }
             &.nds-dc-icons {
               width: 10%;
@@ -171,8 +169,8 @@
         }
       }
     }
-    .nds-dc-modal {
-      .modal-container {
+    .nds-dc-base-modal {
+      .nds-dc-modal-container {
         display: block;
       }
     }
@@ -193,14 +191,13 @@
       margin-bottom: 0.625rem;
       color: $newport-blue-text-secondary;
     }
-    .nds-dc-tile-text.due {
+    .nds-dc-tile-text.nds-dc-due {
       width: 20%;
       text-align: right;
     }
     .nds-dc-applied-promo-container {
       display: flex;
-      padding: 0 1.875rem;
-      padding-right: 1rem;
+      padding: 0 $spacing-medium 0 1.875rem;
     }
     .nds-dc-applied-promo {
       width: 100%;
@@ -220,7 +217,6 @@
       margin-top: -0.625rem;
       width: 40%;
       text-align: right;
-      font-size: $font-size-applied-promo;
     }
     .nds-dc-adjustments-value-recurring {
       font-size: $font-size-applied-promo;
@@ -238,13 +234,13 @@
       margin-left: .3125rem;
       text-align: center;
     }
-    .vlocity-dc-edit-icon-column {
+    .nds-dc-edit-icon-column {
       width: 1rem;
       height: 1rem;
       margin-left: 1rem;
     }
     .nds-dc-value-one-time {
-      border-bottom: 0.1rem solid;
+      border-bottom: 0.1rem solid $black-border-primary;
       width: 6rem;
       display: inline-block;
     }
@@ -252,38 +248,34 @@
     @media only screen and (max-width: 29rem) {
       .nds-dc-edit-icon {
         margin-left: 0;
-        }
-        .nds-dc-offer-actual-price {
-          font-size:0.75rem;
-        }
-        .nds-dc-offer-base-amount {
-          font-size:0.75rem;
-        }
-        .nds-dc-applied-promo-container {
-          font-size: 0.75rem;
-          padding: 0 .3125rem;
-          }
-          .nds-dc-applied-promo-label {
-            width: 35%;
-            padding-left: .3125rem;
-            font-size: .75rem;
-          }
-          .nds-dc-trash-title {
-            display:none;
-          }
-          .nds-dc-adjustment-value-one-time {
-            font-size: .75rem;
-          }
-          .nds-dc-adjustments-value-recurring {
-            width: 25%;
-            margin-right: .3125rem;
-          }
-          .nds-dc-delete-icon {
-            width: 10%;
-          }
-          .vlocity-dc-edit-icon-column {
-              margin-left: 0; 
-          }
+      }
+      .nds-dc-offer-actual-price,
+      .nds-dc-offer-base-amount,
+      .nds-dc-applied-promo-container,
+      .nds-dc-applied-promo-label,
+      .nds-dc-adjustment-value-one-time {
+        font-size:0.75rem;
+      }
+      .nds-dc-applied-promo-container {
+        padding: 0 .3125rem;
+      }
+      .nds-dc-applied-promo-label {
+        width: 35%;
+        padding-left: .3125rem;
+      }
+      .nds-dc-trash-title {
+        display:none;
+      }
+      .nds-dc-adjustments-value-recurring {
+        width: 25%;
+        margin-right: .3125rem;
+      }
+      .nds-dc-delete-icon {
+        width: 10%;
+      }
+      .nds-dc-edit-icon-column {
+          margin-left: 0; 
+      }
     }
 
   }
