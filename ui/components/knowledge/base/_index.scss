@@ -38,7 +38,6 @@
   top: 8.625rem;
   #{$right}: 0;
   width: 30%;
-  background: $white;
   bottom: 0;
 
   .nds-right_panel {
@@ -68,6 +67,7 @@
       text-overflow: ellipsis;
       cursor: pointer;
       text-align: center;
+      background: $white;
     }
 
     .nds-input-has-icon_left {
@@ -181,6 +181,7 @@
       border-top: 2px solid $color-grey-shaded;
       height: 100%;
       padding: 1.25rem;
+      background: $white;
 
       .nds-knowledge-data_wrapper-search {
         position: relative;
@@ -203,6 +204,10 @@
         top: 0.75rem;
         #{$right}: 0;
         cursor: pointer;
+      }
+
+      h3{
+        font-size: 1.125rem
       }
     }
 
