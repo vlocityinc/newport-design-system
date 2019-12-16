@@ -78,6 +78,16 @@
   @include flex-wrap(false);
 }
 
+/**
+ * @summary Applies nowrap to white-space property.
+ * 
+ * @selector .nds-nowrap-whitespace
+ * @modifer
+ */
+.nds-nowrap-whitespace {
+  white-space: nowrap;;
+}
+
 @include deprecate('4.0.0', 'Use .nds-{size}-nowrap instead') {
 
   .nds-nowrap_small,
