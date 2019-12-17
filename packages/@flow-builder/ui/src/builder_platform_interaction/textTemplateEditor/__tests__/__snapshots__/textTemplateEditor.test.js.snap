@@ -45,7 +45,7 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
               class="slds-grid slds-grid_vertical"
             >
               <div
-                class="slds-col slds-order_1 slds-size_1-of-2"
+                class="slds-col slds-order_1 slds-size_1-of-1"
               >
                 <span
                   class="slds-form-element__label"

@@ -10,7 +10,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
         class="slds-grid slds-grid_vertical"
       >
         <div
-          class="slds-col slds-order_1 slds-size_1-of-2"
+          class="slds-col slds-order_1 slds-size_1-of-1"
         >
           <span
             class="slds-form-element__label"
@@ -70,7 +70,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
         class="slds-grid slds-grid_vertical"
       >
         <div
-          class="slds-col slds-order_1 slds-size_1-of-2"
+          class="slds-col slds-order_1 slds-size_1-of-1"
         >
           <span
             class="slds-form-element__label"
@@ -143,7 +143,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         class="slds-grid slds-grid_vertical"
       >
         <div
-          class="slds-col slds-order_1 slds-size_1-of-2"
+          class="slds-col slds-order_1 slds-size_1-of-1"
         >
           <span
             class="slds-form-element__label"
@@ -203,7 +203,7 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         class="slds-grid slds-grid_vertical"
       >
         <div
-          class="slds-col slds-order_1 slds-size_1-of-2"
+          class="slds-col slds-order_1 slds-size_1-of-1"
         >
           <span
             class="slds-form-element__label"
