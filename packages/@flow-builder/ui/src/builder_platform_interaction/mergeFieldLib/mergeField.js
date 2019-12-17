@@ -140,7 +140,6 @@ function resolveEntityFieldReference(entityName, fieldNames) {
                 }
                 const referenceToName = getReferenceToName(
                     field,
-                    relationshipName,
                     specificEntityName
                 );
                 return resolveEntityFieldReference(
@@ -224,7 +223,6 @@ function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
 
 export function getReferenceToName(
     field,
-    relationshipName,
     specificEntityName
 ) {
     let referenceToName;

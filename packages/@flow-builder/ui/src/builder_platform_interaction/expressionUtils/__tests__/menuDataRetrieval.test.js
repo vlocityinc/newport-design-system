@@ -41,14 +41,17 @@ import { setSystemVariables } from 'builder_platform_interaction_mocks/systemLib
 import { getSystemVariables } from 'builder_platform_interaction/systemLib';
 import { getPropertiesForClass } from 'builder_platform_interaction/apexTypeLib';
 import { systemVariablesForFlow as systemVariables } from 'serverData/GetSystemVariables/systemVariablesForFlow.json';
-import { mockFlowRuntimeEmailFlowExtensionDescription } from 'mock/flowExtensionsData';
+import {
+    mockFlowRuntimeEmailFlowExtensionDescription,
+    mockLightningCompWithAccountOutputFlowExtensionDescription
+} from 'mock/flowExtensionsData';
 import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntity/accountFields.json';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { mockScreenElement } from 'mock/calloutData';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -133,7 +136,9 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
 );
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = require.requireActual(
+        'builder_platform_interaction/sobjectLib'
+    );
     return {
         fetchFieldsForEntity: jest
             .fn()
@@ -156,12 +161,17 @@ jest.mock('builder_platform_interaction/selectors', () => {
     return {
         writableElementsSelector: jest.fn(),
         isOrCanContainsObjectOrSObjectCollectionSelector: jest.fn(),
-        readableElementsSelector: jest.fn()
+        readableElementsSelector: jest.fn(),
+        canContainSObjectElements: jest.fn().mockImplementation(element => {
+            return element.apiName === 'account';
+        })
     };
 });
 
 jest.mock('builder_platform_interaction/dataTypeLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/dataTypeLib');
+    const actual = require.requireActual(
+        'builder_platform_interaction/dataTypeLib'
+    );
     const {
         ELEMENT_TYPE: elementType
     } = require('builder_platform_interaction/flowMetadata');
@@ -411,7 +421,9 @@ describe('Menu data retrieval', () => {
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            sObjectSelector: true
+            sObjectSelectorConfig: {
+                queryable: true
+            }
         });
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[1].items).toHaveLength(1);
@@ -425,7 +437,9 @@ describe('Menu data retrieval', () => {
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            sObjectSelector: true
+            sObjectSelectorConfig: {
+                queryable: true
+            }
         });
         expect(menuData[1].label).toBe(sobjectCollectionVariable);
         expect(menuData[1].items).toHaveLength(1);
@@ -444,7 +458,9 @@ describe('Menu data retrieval', () => {
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-            sObjectSelector: true
+            sObjectSelectorConfig: {
+                queryable: true
+            }
         });
         // TODO: W-5624868 when getElementsForMenuData is removed, this test should pass showSystemVariables = false so that menuData only expects length 2
         expect(menuData).toHaveLength(4);
@@ -465,7 +481,9 @@ describe('Menu data retrieval', () => {
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
-            sObjectSelector: true
+            sObjectSelectorConfig: {
+                queryable: true
+            }
         });
         expect(menuData[1].label).toBe(sobjectVariable);
         expect(menuData[1].items).toHaveLength(1);
@@ -479,7 +497,9 @@ describe('Menu data retrieval', () => {
         );
         const menuData = getElementsForMenuData({
             elementType: ELEMENT_TYPE.RECORD_UPDATE,
-            sObjectSelector: true
+            sObjectSelectorConfig: {
+                queryable: true
+            }
         });
         expect(menuData[1].label).toBe(sobjectCollectionVariable);
         expect(menuData[1].items).toHaveLength(1);
@@ -536,7 +556,9 @@ describe('Menu data retrieval', () => {
             const menuData = getElementsForMenuData(
                 {
                     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-                    sObjectSelector: true
+                    sObjectSelectorConfig: {
+                        queryable: true
+                    }
                 },
                 null,
                 false,
@@ -560,7 +582,9 @@ describe('Menu data retrieval', () => {
             const menuData = getElementsForMenuData(
                 {
                     elementType: ELEMENT_TYPE.RECORD_LOOKUP,
-                    sObjectSelector: true
+                    sObjectSelectorConfig: {
+                        queryable: true
+                    }
                 },
                 null,
                 false,
@@ -940,6 +964,51 @@ describe('Menu data retrieval', () => {
                     displayText: '{!recordVar.BestCommentId}'
                 })
             );
+        });
+        it('returns only sobject or can contain sobject elements when sobjectSelectorConfig is set', () => {
+            const parentMenuItem =
+                store.lightningCompAutomaticOutputContainsAccountExtension;
+            const fields = {
+                ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
+            };
+
+            const menuItems = filterFieldsForChosenElement(
+                parentMenuItem,
+                fields,
+                {
+                    sObjectSelectorConfig: {
+                        sObjectCollectionCriterion: 'SOBJECT'
+                    }
+                }
+            );
+
+            expect(menuItems).toHaveLength(1);
+            expect(menuItems).toContainEqual(
+                expect.objectContaining({
+                    displayText: 'account',
+                    dataType: 'sobject'
+                })
+            );
+        });
+        it('does not set hasNext when sobjectSelectorConfig is set', () => {
+            const parentMenuItem =
+                store.lightningCompAutomaticOutputContainsAccountExtension;
+            const fields = {
+                ...mockLightningCompWithAccountOutputFlowExtensionDescription.outputParameters
+            };
+
+            const menuItems = filterFieldsForChosenElement(
+                parentMenuItem,
+                fields,
+                {
+                    sObjectSelectorConfig: {
+                        sObjectCollectionCriterion: 'SOBJECT'
+                    }
+                }
+            );
+
+            expect(menuItems).toHaveLength(1);
+            expect(menuItems[0].hasNext).toBeUndefined();
         });
     });
 

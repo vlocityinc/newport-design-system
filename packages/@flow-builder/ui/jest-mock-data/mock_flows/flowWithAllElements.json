@@ -629,6 +629,14 @@
         ],
         "storeOutputAutomatically": false,
         "assignRecordIdToReference": "vAccountIdFromCreate"
+      },
+      {
+        "name": "createFromAnAccount",
+        "description": "",
+        "label": "createFromAnAccount",
+        "locationX": 196,
+        "locationY": 486.3125,
+        "inputReference": "accountSObjectVariable"
       }
     ],
     "recordLookups": [

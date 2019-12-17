@@ -47,8 +47,14 @@ import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox } from '../expressionBuilderTestUtils';
-import { selectComboboxItemBy, getComboboxItems } from '../comboboxTestUtils';
+import {
+    selectComboboxItemBy,
+    getComboboxItems,
+    selectGroupedComboboxItemBy
+} from '../comboboxTestUtils';
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
@@ -720,6 +726,103 @@ describe('Record Create Editor', () => {
             expect(advancedOptionCheckbox).toBeDefined();
             expect(advancedOptionCheckbox.type).toBe('checkbox');
             expect(advancedOptionCheckbox.checked).toBe(false);
+        });
+    });
+    describe('sObject Or SObject Collection Picker', () => {
+        let recordCreateElement, sObjectOrSObjectCollectionPicker;
+        beforeAll(async () => {
+            store = Store.getStore(reducer);
+            setAuraFetch(auraFetch(allAuraActions));
+            uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+            await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+            setApexClasses(apexTypesForFlow);
+        });
+        afterAll(() => {
+            resetState();
+            setApexClasses(null);
+        });
+        beforeEach(() => {
+            const element = getElementByDevName('createFromAnAccount');
+            recordCreateNode = getElementForPropertyEditor(element);
+            recordCreateElement = createComponentForTest(
+                recordCreateNode,
+                EditElementEvent.EVENT_NAME,
+                MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE
+            );
+            sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(
+                recordCreateElement
+            );
+        });
+        it('should contain single sobject elements, and no traversal', async () => {
+            sObjectOrSObjectCollectionPicker = getResourceGroupedCombobox(
+                recordCreateElement
+            );
+            const account = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['accountSObjectVariable'],
+                { blur: false }
+            );
+
+            expect(account).toBeDefined();
+            expect(account.rightIconName).toBe('');
+
+            const accountCollection = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['accountSObjectCollectionVariable'],
+                { blur: false }
+            );
+            expect(accountCollection).toBeUndefined();
+        });
+        it('should contain elements that contains sobject and shows only single sobject fields up. Sobject fields should not be traversable', async () => {
+            const apexContainsSObject = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['apexComplexTypeVariable'],
+                { blur: false }
+            );
+
+            expect(apexContainsSObject).toBeDefined();
+            expect(apexContainsSObject.rightIconName).toBeDefined();
+
+            const accountField = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['apexComplexTypeVariable', 'acct'],
+                { blur: false }
+            );
+
+            expect(accountField).toBeDefined();
+            expect(accountField.rightIconName).toBeUndefined();
+
+            const accountCollectionField = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['apexComplexTypeVariable', 'acctListField'],
+                { blur: false }
+            );
+
+            expect(accountCollectionField).toBeUndefined();
+
+            const nameField = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['apexComplexTypeVariable', 'name'],
+                { blur: false }
+            );
+            expect(nameField).toBeUndefined();
+        });
+        it('should not contain elements that are not sobject or contain no sobject', async () => {
+            const apexCarVariable = await selectGroupedComboboxItemBy(
+                sObjectOrSObjectCollectionPicker,
+                'text',
+                ['apexCarVariable'],
+                { blur: false }
+            );
+
+            expect(apexCarVariable).toBeUndefined();
         });
     });
 });

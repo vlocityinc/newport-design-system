@@ -4,6 +4,7 @@ import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker'
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { SObjectReferenceChangedEvent } from 'builder_platform_interaction/events';
+import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 
 /**
  * a combobox to retrieve a list of sobject and/or sobject collection variables of a specified entity or all if no entity
@@ -13,7 +14,8 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     state = {
         recordEntityName: '',
         value: '',
-        isCollection: false,
+        sobjectCollectionCriterion:
+            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT,
         errorMessage: ''
     };
 
@@ -27,9 +29,6 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     }
 
     @api
-    elementType;
-
-    @api
     label;
 
     @api
@@ -41,6 +40,18 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
      */
     @api
     rowIndex;
+
+    @api
+    createable;
+
+    @api
+    updateable;
+
+    @api
+    deleteable;
+
+    @api
+    queryable;
 
     element = undefined;
 
@@ -57,15 +68,15 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
     }
 
     /**
-     * @param {Boolean} isCollection true if select from sObject collection variables
+     * @param {String} sobjectCollectionCriterion one of SOBJECT, SOBJECT_COLLECTION, SOBJECT_OR_SOBJECT_COLLECTION
      */
-    set isCollection(isCollection) {
-        this.state.isCollection = isCollection;
+    set sobjectCollectionCriterion(sobjectCollectionCriterion) {
+        this.state.sobjectCollectionCriterion = sobjectCollectionCriterion;
     }
 
     @api
-    get isCollection() {
-        return this.state.isCollection;
+    get sobjectCollectionCriterion() {
+        return this.state.sobjectCollectionCriterion;
     }
 
     /**
@@ -114,10 +125,15 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
 
     get sobjectVariableElementConfig() {
         return {
-            elementType: this.elementType,
-            isCollection: this.state.isCollection,
-            entityName: this.state.recordEntityName,
-            sObjectSelector: true
+            sObjectSelectorConfig: {
+                sobjectCollectionCriterion: this.state
+                    .sobjectCollectionCriterion,
+                entityName: this.state.recordEntityName,
+                createable: this.createable,
+                updateable: this.updateable,
+                queryable: this.queryable,
+                deleteable: this.deleteable
+            }
         };
     }
 

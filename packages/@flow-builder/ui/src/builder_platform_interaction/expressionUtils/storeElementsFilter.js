@@ -43,21 +43,15 @@ function writableOrReadableElement(shouldBeWritable) {
 
 /**
  * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
- * @param {Boolean} sObjectSelector     optional: true if using selector to retrieve sobject/sobject collection variables
- * @param {Object} retrieveOptions      Object containing the parameter of the sObjectOrSObjectCollectionByEntitySelector
- * @returns {Function}
+ * @param {Object} sObjectSelectorConfig  if using selector to retrieve sobject/sobject collection variables, contain options to retrieve sobject (e.g. isCollection, queryable/creatable/updatable/deleteable, entityName, ...)
+ * @returns {FilterInformation}
  */
-function buildCludSelector(shouldBeWritable, sObjectSelector) {
-    return function (retrieveOptions) {
-        const selector = sObjectSelector
-            ? isOrCanContainsObjectOrSObjectCollectionSelector(retrieveOptions)
-            : shouldBeWritable
-            ? writableElementsSelector
-            : readableElementsSelector;
-        return {
-            selector,
-            isWritable: !sObjectSelector && shouldBeWritable
-        };
+function sobjectSelector(sObjectSelectorConfig) {
+    return {
+        selector: isOrCanContainsObjectOrSObjectCollectionSelector(
+            sObjectSelectorConfig
+        ),
+        isWritable: false
     };
 }
 
@@ -71,8 +65,6 @@ function buildCludSelector(shouldBeWritable, sObjectSelector) {
  * @returns {FilterInformation}
  */
 function sObjectOrByTypeElements(
-    shouldBeWritable,
-    elementType,
     isCollection,
     dataType,
     entityName,
@@ -132,49 +124,13 @@ const filterInformationProviderMap = {
         writableOrReadableElement(shouldBeWritable),
     [ELEMENT_TYPE.SCREEN]: ({ shouldBeWritable, dataType, choices }) =>
         screenSelectors(shouldBeWritable, choices, dataType),
-    [ELEMENT_TYPE.RECORD_CREATE]: ({
-        shouldBeWritable,
-        isCollection,
-        entityName,
-        sObjectSelector
-    }) =>
-        buildCludSelector(shouldBeWritable, sObjectSelector)({
-            isCollection,
-            entityName,
-            createable: true
-        }),
-    [ELEMENT_TYPE.RECORD_UPDATE]: ({ shouldBeWritable, sObjectSelector }) =>
-        buildCludSelector(shouldBeWritable, sObjectSelector)({
-            allSObjectsAndSObjectCollections: true,
-            updateable: true
-        }),
-    [ELEMENT_TYPE.RECORD_DELETE]: ({ shouldBeWritable, sObjectSelector }) =>
-        buildCludSelector(shouldBeWritable, sObjectSelector)({
-            allSObjectsAndSObjectCollections: true,
-            deleteable: true
-        }),
-    [ELEMENT_TYPE.RECORD_LOOKUP]: ({
-        shouldBeWritable,
-        isCollection,
-        entityName,
-        sObjectSelector
-    }) =>
-        buildCludSelector(shouldBeWritable, sObjectSelector)({
-            isCollection,
-            entityName,
-            queryable: true
-        }),
     [ELEMENT_TYPE.LOOP]: ({
-        shouldBeWritable,
-        elementType,
         isCollection,
         dataType,
         entityName,
         sObjectSelector
     }) =>
         sObjectOrByTypeElements(
-            shouldBeWritable,
-            elementType,
             isCollection,
             dataType,
             entityName,
@@ -182,8 +138,21 @@ const filterInformationProviderMap = {
         )
 };
 
+const CLUD_ELEMENT_TYPES = [
+    ELEMENT_TYPE.RECORD_CREATE,
+    ELEMENT_TYPE.RECORD_UPDATE,
+    ELEMENT_TYPE.RECORD_DELETE,
+    ELEMENT_TYPE.RECORD_LOOKUP
+];
+
 function getFilterInformation(config = {}) {
-    const { elementType } = config;
+    const { elementType, shouldBeWritable, sObjectSelectorConfig } = config;
+    if (sObjectSelectorConfig) {
+        return sobjectSelector(sObjectSelectorConfig);
+    }
+    if (CLUD_ELEMENT_TYPES.includes(elementType)) {
+        return writableOrReadableElement(shouldBeWritable);
+    }
     return filterInformationProviderMap[elementType]
         ? filterInformationProviderMap[elementType](config)
         : {};

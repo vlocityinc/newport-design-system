@@ -398,7 +398,6 @@ export class MergeFieldsValidation {
             }
             const referenceToName = getReferenceToName(
                 field,
-                relationshipName,
                 specificEntityName
             );
             if (!referenceToName) {

@@ -78,11 +78,12 @@
                 is-collection={isCollection}
                 record-entity-name={recordEntityName}
                 resource-display-text={resourceDisplayText}
-                element-type={elementType}
                 queried-fields={state.recordLookupElement.queriedFields}
                 output-reference={outputReferenceValue}
                 output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
                 sobject-variable-error-message={outputReferenceErrorMessage}
+                sobject-collection-criterion={sObjectCollectionCriterion}
+                queryable=true
                 onsobjectreferencechanged={handleSObjectReferenceChanged}
                 onaddrecordlookupfield={handlePropertyOrListItemChanged}
                 onupdaterecordlookupfield={handlePropertyOrListItemChanged}
@@ -176,11 +177,12 @@
                     query-fields-separation-div-css=""
                     record-entity-name={recordEntityName}
                     resource-display-text={resourceDisplayText}
-                    element-type={elementType}
                     queried-fields={state.recordLookupElement.queriedFields}
                     output-reference={outputReferenceValue}
                     output-reference-index={state.recordLookupElement.outputReferenceIndex.value}
                     sobject-variable-error-message={outputReferenceErrorMessage}
+                    sobject-collection-criterion={sobjectCollectionCriterion}
+                    queryable=true
                     onsobjectreferencechanged={handleSObjectReferenceChanged}
                     onaddrecordlookupfield={handlePropertyOrListItemChanged}
                     onupdaterecordlookupfield={handlePropertyOrListItemChanged}

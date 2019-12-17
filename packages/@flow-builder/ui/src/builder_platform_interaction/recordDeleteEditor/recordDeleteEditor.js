@@ -15,11 +15,8 @@ import {
     fetchFieldsForEntity
 } from 'builder_platform_interaction/sobjectLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import {
-    getRulesForElementType,
-    RULE_TYPES
-} from 'builder_platform_interaction/ruleLib';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
+import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 
 /**
  * Record Delete Editor class
@@ -32,14 +29,6 @@ export default class RecordDeleteEditor extends LightningElement {
         recordDeleteElement: {},
         entityFields: {}
     };
-
-    /**
-     * element specific rules
-     */
-    rules = getRulesForElementType(
-        RULE_TYPES.ASSIGNMENT,
-        ELEMENT_TYPE.RECORD_DELETE
-    );
 
     /**
      * CRUD filter in place nothing but "DELETABLE" entities allowed
@@ -55,6 +44,9 @@ export default class RecordDeleteEditor extends LightningElement {
      * only "All criteria" allowed for the conditions to met filtering
      */
     filterType = RECORD_FILTER_CRITERIA.ALL;
+
+    sobjectCollectionCriterion =
+        SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
 
     /**
      * API function to return the node

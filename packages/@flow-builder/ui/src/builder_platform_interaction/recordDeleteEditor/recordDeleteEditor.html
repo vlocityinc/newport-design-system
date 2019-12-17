@@ -29,13 +29,13 @@
                 class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
                 <builder_platform_interaction-sobject-or-sobject-collection-picker
-                    is-collection={isCollection}
                     label={labels.recordVariableOrRecordCollectionVariable}
                     placeholder={labels.searchRecords}
-                    element-type={elementType}
                     value={inputReferenceValue}
                     row-index={state.recordDeleteElement.inputReferenceIndex.value}
                     error-message={state.recordDeleteElement.inputReference.error}
+                    sobject-collection-criterion={sobjectCollectionCriterion}
+                    deleteable=true
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}
                 >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>

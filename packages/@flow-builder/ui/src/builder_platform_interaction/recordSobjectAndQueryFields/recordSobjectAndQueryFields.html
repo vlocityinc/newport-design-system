@@ -5,14 +5,14 @@
         </h3>
         <div class={sObjectVariablePickerDivCss}>
             <builder_platform_interaction-sobject-or-sobject-collection-picker
-                is-collection={state.isCollection}
                 label={sObjectVariablePickerLabel}
                 placeholder={sObjectVariablePickerPlaceholder}
                 record-entity-name={state.recordEntityName}
-                element-type={elementType}
                 value={state.outputReference}
                 row-index={outputReferenceIndex}
                 error-message={sobjectVariableErrorMessage}
+                sobject-collection-criterion={sobjectCollectionCriterion}
+                queryable={queryable}
             >
             </builder_platform_interaction-sobject-or-sobject-collection-picker>
         </div>

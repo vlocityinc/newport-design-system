@@ -10,6 +10,7 @@ import { sObjectOrSObjectCollectionByEntitySelector } from 'builder_platform_int
 import * as store from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -58,16 +59,25 @@ describe('sobject-or-sobject-collection-picker', () => {
         Store.resetStore();
     });
     describe('base resource picker', () => {
-        let ferovPicker;
+        let ferovPicker, sobjectOrSobjectCollectionPicker;
         beforeAll(() => {
             sObjectOrSObjectCollectionByEntitySelector.mockReturnValue(
                 jest.fn().mockReturnValue([])
             );
-            ferovPicker = getFerovResourcePicker(createComponentUnderTest());
+            sobjectOrSobjectCollectionPicker = createComponentUnderTest();
+            ferovPicker = getFerovResourcePicker(
+                sobjectOrSobjectCollectionPicker
+            );
         });
 
         it('contains a ferov resource picker', () => {
             expect(ferovPicker).not.toBeNull();
+        });
+
+        it('defaults sObjectCollectionCriterion to SOBJECT', () => {
+            expect(
+                sobjectOrSobjectCollectionPicker.sobjectCollectionCriterion
+            ).toBe(SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT);
         });
     });
 

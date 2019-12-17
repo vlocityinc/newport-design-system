@@ -3,7 +3,7 @@ import {
     byTypeWritableElementsSelector,
     byElementTypeElementsSelector,
     writableElementsSelector,
-    getCanContainsSObjectElements
+    getCanContainSObjectElements
 } from '../menuDataSelector';
 import {
     apexCallAutomaticAnonymousStringOutput,
@@ -30,6 +30,7 @@ import {
 } from 'mock/storeData';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
@@ -167,7 +168,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to select all sObject & sObject collection returns all sObject and sObject collection elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: true
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
                 ELEMENTS_IN_STORE,
@@ -189,7 +191,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to select all sObject & sObject collection and only queryable elements returns only queryable elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION,
                 queryable: true
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -206,7 +209,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to select all sObject & sObject collection and only createable elements returns only createable elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION,
                 createable: true
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -223,7 +227,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to select all sObject & sObject collection and only updateable elements returns only updateable elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION,
                 updateable: true
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -234,7 +239,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to select all sObject & sObject collection and only deleteable elements returns only deleteable elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION,
                 deleteable: true
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -252,7 +258,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to filter only by entity name "Opportunity" elements returns all elements with entity name "Opportunity', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION,
                 entityName: 'Opportunity'
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -269,8 +276,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to filter only sObject collection returns the sObject collection elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: false,
-                isCollection: true
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
                 ELEMENTS_IN_STORE,
@@ -287,8 +294,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to filter only sObject collection & entity name "Case" returns sonly "Case" collection elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: false,
-                isCollection: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION,
                 entityName: 'Case'
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -299,8 +306,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to filter only sObject collection & entity name "Campaign" returns an empty array', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: false,
-                isCollection: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION,
                 entityName: 'Campaign'
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -311,8 +318,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to filter only sObject collection with entity name "Opportunity"" & deleteable entity returns the only one sObject Opportunity collection element', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: false,
-                isCollection: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION,
                 deleteable: true,
                 entityName: 'Opportunity'
             };
@@ -324,8 +331,8 @@ describe('menuDataSelector', () => {
         });
         it('with options to filter only sObject collection & deleteable entity returns the "Opportunity" sObject deletable collection elements', () => {
             const retrieveOptions = {
-                allSObjectsAndSObjectCollections: false,
-                isCollection: true,
+                sobjectCollectionCriterion:
+                    SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION,
                 deleteable: true
             };
             const results = getSObjectOrSObjectCollectionByEntityElements(
@@ -389,7 +396,7 @@ describe('menuDataSelector', () => {
         });
     });
 });
-describe('getCanContainsSObjectElements', () => {
+describe('getCanContainSObjectElements', () => {
     beforeAll(() => {
         setApexClasses(apexTypesForFlow);
     });
@@ -397,7 +404,7 @@ describe('getCanContainsSObjectElements', () => {
         setApexClasses();
     });
     it('returns apex action with SObject automatic output', () => {
-        const result = getCanContainsSObjectElements([
+        const result = getCanContainSObjectElements([
             apexCallAccountAutomaticOutput
         ]);
 
@@ -408,14 +415,14 @@ describe('getCanContainsSObjectElements', () => {
         );
     });
     it('does not return apex action with primitive automatic output', () => {
-        const result = getCanContainsSObjectElements([
+        const result = getCanContainSObjectElements([
             apexCallStringAutomaticOutput
         ]);
 
         expect(result).toHaveLength(0);
     });
     it('returns flow extension that has SObject in automatic output', () => {
-        const result = getCanContainsSObjectElements([
+        const result = getCanContainSObjectElements([
             lightningCompAutomaticOutputContainsAccountExtension
         ]);
 
@@ -426,37 +433,47 @@ describe('getCanContainsSObjectElements', () => {
         );
     });
     it('does not return flow extension that does not have SObject in automatic output', () => {
-        const result = getCanContainsSObjectElements([
+        const result = getCanContainSObjectElements([
             lightningCompAutomaticOutputNoSObjectExtension
         ]);
 
         expect(result).toHaveLength(0);
     });
     it('returns apex variable which contains SObject', () => {
-        const result = getCanContainsSObjectElements([apexComplexTypeVariable]);
+        const result = getCanContainSObjectElements([apexComplexTypeVariable]);
 
         expect(result).toHaveLength(1);
         expect(result[0]).toHaveProperty('name', apexComplexTypeVariable.name);
     });
     it('does not return apex variable which does not contain SObject', () => {
-        const result = getCanContainsSObjectElements([apexCarVariable]);
+        const result = getCanContainSObjectElements([apexCarVariable]);
 
         expect(result).toHaveLength(0);
     });
     it('returns local action that has apex variable which contains SObject', () => {
-        const result = getCanContainsSObjectElements([localActionApexDoesContainsSObjectAutomaticOutput]);
+        const result = getCanContainSObjectElements([
+            localActionApexDoesContainsSObjectAutomaticOutput
+        ]);
 
         expect(result).toHaveLength(1);
-        expect(result[0]).toHaveProperty('name', localActionApexDoesContainsSObjectAutomaticOutput.name);
+        expect(result[0]).toHaveProperty(
+            'name',
+            localActionApexDoesContainsSObjectAutomaticOutput.name
+        );
     });
     it('does not return local action that has apex variable which contains SObject that does not correspond to retrieveOptions', () => {
         // localActionApexDoesContainsSObjectAutomaticOutput returns ApexComplexTypeOne216, that has account field. Account is mocked to not be deletable here
-        const result = getCanContainsSObjectElements([localActionApexDoesContainsSObjectAutomaticOutput], {deleteable: true});
+        const result = getCanContainSObjectElements(
+            [localActionApexDoesContainsSObjectAutomaticOutput],
+            { deleteable: true }
+        );
 
         expect(result).toHaveLength(0);
     });
     it('does not return local action that has apex variable which does not contain SObject', () => {
-        const result = getCanContainsSObjectElements([localActionApexDoesNotContainSObjectAutomaticOutput]);
+        const result = getCanContainSObjectElements([
+            localActionApexDoesNotContainSObjectAutomaticOutput
+        ]);
 
         expect(result).toHaveLength(0);
     });

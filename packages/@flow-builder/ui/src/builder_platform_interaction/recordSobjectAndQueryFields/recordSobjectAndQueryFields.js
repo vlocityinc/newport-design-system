@@ -20,9 +20,6 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
     sobjectVariableErrorMessage;
 
     @api
-    elementType;
-
-    @api
     resourceDisplayText;
 
     /**
@@ -52,6 +49,12 @@ export default class RecordSobjectAndQueryFields extends LightningElement {
 
     @api
     queryFieldsSeparationDivCss = 'slds-m-bottom_small slds-border_top';
+
+    @api
+    queryable;
+
+    @api
+    sobjectCollectionCriterion;
 
     /**
      * @param {String} entityName the selected entity name (from select object combobox)

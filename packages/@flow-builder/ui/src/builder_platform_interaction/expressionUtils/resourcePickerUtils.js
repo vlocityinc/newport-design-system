@@ -5,18 +5,33 @@ import {
 } from './menuDataRetrieval';
 import { getStoreElements } from './storeElementsFilter';
 
+/**
+ * Retrieve fields of selected element
+ * @param {Function} populateParamTypesFn
+ * @param {Object} parentItem the selected element
+ * @param {Object} entityFields fields of selected
+ * @param {boolean} [options.shouldBeWritable] true if fields must be writable
+ * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
+ * @param {Object}  [options.sObjectSelectorConfig] if set, means that we need to select only sobject or element that contain sobject with the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
+ * @returns {MenuItem[]} array of alphabetized menu items
+ */
 const getFieldMenuData = (
     populateParamTypesFn,
     parentItem,
     entityFields,
-    { allowSObjectFieldsTraversal = true, shouldBeWritable = false } = {}
+    {
+        allowSObjectFieldsTraversal = true,
+        shouldBeWritable = false,
+        sObjectSelectorConfig
+    } = {}
 ) => {
     const options = {
         allowedParamTypes: populateParamTypesFn(),
         showAsFieldReference: true,
         showSubText: true,
         allowSObjectFieldsTraversal,
-        shouldBeWritable
+        shouldBeWritable,
+        sObjectSelectorConfig
     };
     if (entityFields) {
         return Promise.resolve(
@@ -98,7 +113,9 @@ export const getMenuData = (
             allowSObjectFieldsTraversal,
             shouldBeWritable: !!(
                 elementConfig && elementConfig.shouldBeWritable
-            )
+            ),
+            sObjectSelectorConfig:
+                elementConfig && elementConfig.sObjectSelectorConfig
         });
     }
     return Promise.resolve(

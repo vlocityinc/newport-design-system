@@ -45,6 +45,7 @@ import {
 import { format } from 'builder_platform_interaction/commonUtils';
 import { getScreenElement } from './resourceUtils';
 import { getStoreElements } from './storeElementsFilter';
+import { canContainSObjectElements } from 'builder_platform_interaction/selectors';
 
 const {
     SOBJECT_FIELD_REQUIREMENT,
@@ -140,8 +141,14 @@ function elementMatchesRule(allowedParamTypes, element) {
 export function isElementAllowed(
     allowedParamTypes,
     element,
-    showComplexObjectsForFields = false
+    showComplexObjectsForFields = false,
+    sObjectSelectorConfig
 ) {
+    if (sObjectSelectorConfig) {
+        if (!canContainSObjectElements(element, sObjectSelectorConfig)) {
+            return false;
+        }
+    }
     const isElementMatchForProperty = property => {
         if (!property) {
             return false;
@@ -423,6 +430,10 @@ export const getEntitiesMenuData = entityType => {
     return mutateEntitiesToComboboxShape(entities);
 };
 
+const isWritable = field => {
+    return isSystemVariableId(field.guid) ? !field.readOnly : true;
+};
+
 /**
  * Filters list of fields based on allowed types and returns them in combobox-friendly shape
  * @param {Object} chosenElement The parent chosen element
@@ -434,6 +445,7 @@ export const getEntitiesMenuData = entityType => {
  * @param {boolean} [options.shouldBeWritable] true if fields must be writable
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
  * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
+ * @param {Object}  [options.sObjectSelectorConfig] if set, means that we need to select only sobject or element that contain sobject with the given settings (isCollection, creatable/queryable/updateable/deleteable, ...)
  * @returns {MenuItem[]} array of alphabetized menu items
  */
 export function filterFieldsForChosenElement(
@@ -445,24 +457,26 @@ export function filterFieldsForChosenElement(
         showSubText = true,
         shouldBeWritable = false,
         allowSObjectFieldsTraversal = true,
-        allowApexTypeFieldsTraversal = true
+        allowApexTypeFieldsTraversal = true,
+        sObjectSelectorConfig
     } = {}
 ) {
     if (fields) {
+        if (sObjectSelectorConfig) {
+            allowSObjectFieldsTraversal = false;
+        }
         return Object.values(fields)
             .filter(field => {
-                if (shouldBeWritable && isSystemVariableId(field.guid)) {
-                    return !field.readOnly;
-                }
-                return true;
+                return (
+                    (shouldBeWritable ? isWritable(field) : true) &&
+                    isElementAllowed(
+                        allowedParamTypes,
+                        field,
+                        allowSObjectFieldsTraversal,
+                        sObjectSelectorConfig
+                    )
+                );
             })
-            .filter(field =>
-                isElementAllowed(
-                    allowedParamTypes,
-                    field,
-                    allowSObjectFieldsTraversal
-                )
-            )
             .reduce(
                 (acc, field) =>
                     acc.concat(

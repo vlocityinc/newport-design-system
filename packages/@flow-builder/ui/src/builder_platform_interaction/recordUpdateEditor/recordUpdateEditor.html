@@ -31,13 +31,13 @@
                 class="slds-p-horizontal_small slds-form-element slds-size_1-of-2 slds-m-bottom_small"
             >
                 <builder_platform_interaction-sobject-or-sobject-collection-picker
-                    is-collection={isCollection}
                     label={labels.recordVariableOrRecordCollectionVariable}
                     placeholder={labels.searchRecords}
-                    element-type={state.recordUpdateElement.elementType}
                     value={inputReference}
                     row-index={state.recordUpdateElement.inputReferenceIndex.value}
                     error-message={state.recordUpdateElement.inputReference.error}
+                    sobject-collection-criterion={sobjectCollectionCriterion}
+                    updateable="true"
                     onsobjectreferencechanged={handleInputReferenceChangedEvent}
                 >
                 </builder_platform_interaction-sobject-or-sobject-collection-picker>
