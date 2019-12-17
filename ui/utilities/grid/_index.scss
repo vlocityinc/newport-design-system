@@ -85,7 +85,7 @@
  * @modifer
  */
 .nds-nowrap-whitespace {
-  white-space: nowrap;;
+  white-space: nowrap;
 }
 
 @include deprecate('4.0.0', 'Use .nds-{size}-nowrap instead') {
