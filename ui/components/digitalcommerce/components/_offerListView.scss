@@ -100,11 +100,11 @@
                   border-bottom: none;
                   .nds-dc-offer-item-values {
                     border-right: 1px solid $newport-border-gray;
-                    .nds-dc-offer-details {
-                      flex: 2;
-                      border-bottom: none;
-                      border-right: 1px solid $newport-border-gray;
-                    }
+                  }
+                  .nds-dc-offer-details {
+                    flex: 2;
+                    border-bottom: none;
+                    border-right: 1px solid $newport-border-gray;
                   }
                 }
               }
