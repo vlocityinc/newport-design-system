@@ -11,7 +11,7 @@
     }
   }
   .nds-dc-offer-price-wrapper {
-    &.nds-dc-offer-listview {
+    &.nds-dc-offer-listview, &.nds-dc-offer-gridview {
       display: flex;
 
       .nds-dc-price-items {
