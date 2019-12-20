@@ -373,8 +373,7 @@ export default class VariableConstantEditor extends LightningElement {
     get isExternallyAccessible() {
         return (
             this.isVariable &&
-            this.dataType &&
-            this.dataType !== FLOW_DATA_TYPE.APEX.value
+            this.dataType
         );
     }
 
