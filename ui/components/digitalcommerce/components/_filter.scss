@@ -4,6 +4,12 @@
             height: 0.625rem;
             width: 1.25rem;
         }
+        img{
+            width: 1.5rem;
+            height: auto;
+            margin-left: 0.625rem;
+            margin-top: 0.313rem;
+        }
         &.nds-button_neutral svg polygon {
             fill: $blue-background-primary;
         }
