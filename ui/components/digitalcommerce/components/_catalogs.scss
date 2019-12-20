@@ -17,6 +17,9 @@
       color: $newport-color-brand-orange;
     }
   }
+  .nds-dc-mobile-menu-list {
+    display: none;
+  }
   .nds-dc-mobile-menu-list-open {
     position: fixed;
     top: 0;
@@ -24,9 +27,12 @@
     bottom: 0;
     right: 0;
     z-index: 10;
+    display: block;
     background-color: $newport-text-highlight;
     .nds-dc-menu-icon {
       margin: 0.625rem 0 0 0.625rem;
+      color: $white;
+      font-size: 1.5rem;
     }
     ul {
       border-bottom: 1px solid $white;
@@ -46,9 +52,6 @@
         border-bottom: none;
       }
     }
-  }
-  .nds-dc-mobile-menu-list {
-    display: none;
   }
 }
 @media only screen and (min-width: 48rem) {
@@ -78,7 +81,7 @@
           height: 11rem;
           color: $white;
         }
-        svg {
+        svg, img {
           height: 3.75rem;
           width: 3.75rem;
           margin-bottom: 0.625rem;
