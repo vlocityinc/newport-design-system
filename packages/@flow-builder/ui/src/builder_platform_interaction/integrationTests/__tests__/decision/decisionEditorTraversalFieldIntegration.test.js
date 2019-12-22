@@ -9,19 +9,18 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { resetState } from '../integrationTestUtils';
-import { auraFetch, allAuraActions } from '../serverDataTestUtils';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
+import {  initializeAuraFetch } from '../serverDataTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox, getRhsCombobox } from '../expressionBuilderTestUtils';
 import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import {
     createComponentForTest,
     getFerToFerovExpressionBuilder
 } from './decisionEditorTestUtils';
+import { initializeLoader, loadOnProcessTypeChange } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -44,7 +43,8 @@ describe('Decision Editor', () => {
     let decisionForPropertyEditor, decisionEditor, store, uiFlow;
     beforeAll(() => {
         store = Store.getStore(reducer);
-        setAuraFetch(auraFetch(allAuraActions));
+        initializeAuraFetch();
+        initializeLoader(store);
     });
     afterAll(() => {
         resetState();
@@ -53,7 +53,7 @@ describe('Decision Editor', () => {
         beforeEach(async () => {
             uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
-            await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
 
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);
@@ -91,9 +91,7 @@ describe('Decision Editor', () => {
             beforeEach(async () => {
                 uiFlow = translateFlowToUIModel(autoLaunchedFlow);
                 store.dispatch(updateFlow(uiFlow));
-                await loadDataForProcessType(
-                    FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                );
+                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
 
                 const element = getElementByDevName('decision');
                 decisionForPropertyEditor = getElementForPropertyEditor(
@@ -151,9 +149,7 @@ describe('Decision Editor', () => {
         beforeEach(async () => {
             uiFlow = translateFlowToUIModel(contactRequestFlow);
             store.dispatch(updateFlow(uiFlow));
-            await loadDataForProcessType(
-                FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW
-            );
+            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW);
 
             const element = getElementByDevName('decision');
             decisionForPropertyEditor = getElementForPropertyEditor(element);

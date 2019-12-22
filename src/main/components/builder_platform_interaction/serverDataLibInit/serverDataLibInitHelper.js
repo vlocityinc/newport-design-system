@@ -48,6 +48,7 @@
         var serverDataLib = cmp.find('serverDataLib');
         if (!$A.util.isUndefinedOrNull(serverDataLib)) {
             serverDataLib.setAuraFetch(auraFetch);
+            serverDataLib.setAuraGetCallback($A.getCallback);
         }
     },
 

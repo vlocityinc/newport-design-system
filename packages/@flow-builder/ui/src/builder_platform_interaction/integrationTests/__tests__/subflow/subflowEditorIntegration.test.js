@@ -7,7 +7,6 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
@@ -21,9 +20,9 @@ import {
     resetState
 } from '../integrationTestUtils';
 import {
-    auraFetch,
     getSubflows,
-    getFlowInputOutputVariables
+    getFlowInputOutputVariables,
+    initializeAuraFetch
 } from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -69,16 +68,14 @@ const itSkip = it.skip;
 describe('Subflow Editor', () => {
     beforeAll(() => {
         setRules(rules);
-        setAuraFetch(
-            auraFetch({
-                'c.getSubflows': getSubflows({
-                    [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
-                }),
-                'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
-                    FlowWithAllTypesVariables: mockSubflowAllTypesVariables
-                })
+        initializeAuraFetch({
+            'c.getSubflows': getSubflows({
+                [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
+            }),
+            'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
+                FlowWithAllTypesVariables: mockSubflowAllTypesVariables
             })
-        );
+        });
         OutputResourcePicker.RULES = getOutputRules();
         const store = Store.getStore(reducer);
         const uiFlow = translateFlowToUIModel(flowWithSubflows);

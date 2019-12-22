@@ -1,8 +1,8 @@
 Jest integration test rules
 ===========================
-1) Never ever mock anything else than a call to FlowBuilderController
-That can be done using (for ex) :
-setAuraFetch(auraFetch(getAllAuraActions(FLOW_PROCESS_TYPE.FLOW)));
+1) Never ever mock anything else than calls to FlowBuilderController.
+Default call out stubs are activated with the call to initializeAuraFetch().
+See initializeAuraFetch() implementation if you need to override the default stubs.
 
 Exceptions :
 - labels

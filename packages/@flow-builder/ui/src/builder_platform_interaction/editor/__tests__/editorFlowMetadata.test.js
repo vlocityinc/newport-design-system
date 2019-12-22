@@ -3,8 +3,7 @@ import Editor from '../editor';
 import { loadParametersForInvocableApexActionsInFlowFromMetadata } from 'builder_platform_interaction/preloadLib';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { auraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
+import { initializeAuraFetch } from '../../integrationTests/__tests__/serverDataTestUtils';
 
 const createComponentUnderTest = props => {
     const el = createElement('builder_platform_interaction-editor', {
@@ -17,7 +16,12 @@ const createComponentUnderTest = props => {
 
 jest.mock('builder_platform_interaction/preloadLib', () => {
     return {
-        loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn()
+        loadParametersForInvocableApexActionsInFlowFromMetadata: jest.fn().mockResolvedValue({}),
+        loadFieldsForComplexTypesInFlow: jest.fn(),
+        loadReferencesIn: jest.fn().mockResolvedValue({}),
+        initializeLoader: jest.fn(),
+        loadOnStart: jest.fn(),
+        loadOnProcessTypeChange: jest.fn()
     };
 });
 
@@ -28,9 +32,10 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     const SERVER_ACTION_TYPE = actual.SERVER_ACTION_TYPE;
     return {
         SERVER_ACTION_TYPE,
-        fetchOnce: jest.fn(() => Promise.resolve()),
+        fetchOnce: jest.fn().mockResolvedValue({}),
         fetch: actual.fetch,
-        setAuraFetch: actual.setAuraFetch
+        setAuraFetch: actual.setAuraFetch,
+        setAuraGetCallback: actual.setAuraGetCallback
     };
 });
 
@@ -59,13 +64,11 @@ describe('editorMetadata', () => {
         `(
             'calls "loadParametersForInvocableApexActionsInFlowFromMetadata" with action calls from $source',
             async ({ mockData }) => {
-                setAuraFetch(
-                    auraFetch({
-                        'c.retrieveFlow': () => ({
-                            data: mockData
-                        })
+                initializeAuraFetch({
+                    'c.retrieveFlow': () => ({
+                        data: mockData
                     })
-                );
+                });
                 createComponentUnderTest({
                     flowId: '301RM0000000E4N'
                 });

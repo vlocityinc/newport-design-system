@@ -1,17 +1,7 @@
-import {
-    setEntities,
-    clearEntityFieldsCache
-} from 'builder_platform_interaction/sobjectLib';
-import {
-    setAuraFetch,
-    resetFetchOnceCache
-} from 'builder_platform_interaction/serverDataLib';
-import {
-    setGlobalVariables,
-    setSystemVariables,
-    resetSystemVariables
-} from 'builder_platform_interaction/systemLib';
-import { setRules } from 'builder_platform_interaction/ruleLib';
+import { setEntities, clearEntityFieldsCache } from 'builder_platform_interaction/sobjectLib';
+import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
+import { setGlobalVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';
+import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
@@ -25,6 +15,10 @@ import {
     blurEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib';
+import { setResourceTypes } from 'builder_platform_interaction/dataTypeLib';
+import { initializeAuraFetch } from './serverDataTestUtils';
+import { initializeLoader, loadOnStart, loadOnProcessTypeChange, clearLoader } from 'builder_platform_interaction/preloadLib';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 
 export const FLOW_BUILDER_VALIDATION_ERROR_MESSAGES = {
     CANNOT_BE_BLANK: 'FlowBuilderValidation.cannotBeBlank',
@@ -37,50 +31,31 @@ const LABEL_DESCRIPTION_SELECTORS = {
 };
 
 export const getLabelDescriptionElement = editor => {
-    return editor.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION
-    );
+    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.LABEL_DESCRIPTION);
 };
 
 export const getLabelDescriptionNameElement = editor => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(
-        LABEL_DESCRIPTION_SELECTORS.DEV_NAME
-    );
+    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.DEV_NAME);
 };
 
 export const getLabelDescriptionLabelElement = editor => {
-    return getLabelDescriptionElement(editor).shadowRoot.querySelector(
-        LABEL_DESCRIPTION_SELECTORS.LABEL
-    );
+    return getLabelDescriptionElement(editor).shadowRoot.querySelector(LABEL_DESCRIPTION_SELECTORS.LABEL);
 };
 
 export const expectGroupedComboboxItem = (groupedCombobox, itemText) => {
-    expect(groupedCombobox.items).toEqual(
-        expect.arrayContaining([expect.objectContaining({ text: itemText })])
-    );
+    expect(groupedCombobox.items).toEqual(expect.arrayContaining([expect.objectContaining({ text: itemText })]));
 };
-export const expectGroupedComboboxItemInGroup = (
-    groupedCombobox,
-    groupLabel,
-    value,
-    property = 'text'
-) => {
+export const expectGroupedComboboxItemInGroup = (groupedCombobox, groupLabel, value, property = 'text') => {
     expect(groupedCombobox.items).toEqual(
         expect.arrayContaining([
             expect.objectContaining({
                 label: groupLabel,
-                items: expect.arrayContaining([
-                    expect.objectContaining({ [property]: value })
-                ])
+                items: expect.arrayContaining([expect.objectContaining({ [property]: value })])
             })
         ])
     );
 };
-export const getGroupedComboboxItemInGroup = (
-    groupedCombobox,
-    groupLabel,
-    itemText
-) => {
+export const getGroupedComboboxItemInGroup = (groupedCombobox, groupLabel, itemText) => {
     for (const item of groupedCombobox.items) {
         if (item.label === groupLabel && item.items) {
             for (const subItem of item.items) {
@@ -93,11 +68,7 @@ export const getGroupedComboboxItemInGroup = (
     return undefined;
 };
 
-export const getGroupedComboboxItemInGroupByDisplayText = (
-    groupedCombobox,
-    groupLabel,
-    displayText
-) => {
+export const getGroupedComboboxItemInGroupByDisplayText = (groupedCombobox, groupLabel, displayText) => {
     for (const item of groupedCombobox.items) {
         if (item.label === groupLabel && item.items) {
             for (const subItem of item.items) {
@@ -126,21 +97,15 @@ export const getFieldToFerovExpressionBuilders = parentElement => {
 };
 
 export const getBaseExpressionBuilder = parentElement => {
-    return parentElement.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER
-    );
+    return parentElement.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.BASE_EXPRESSION_BUILDER);
 };
 
 export const getEntityResourcePicker = editor => {
-    return editor.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER
-    );
+    return editor.shadowRoot.querySelector(INTERACTION_COMPONENTS_SELECTORS.ENTITY_RESOURCE_PICKER);
 };
 
 export const getRadioGroup = parentElement => {
-    return parentElement.shadowRoot.querySelectorAll(
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP
-    );
+    return parentElement.shadowRoot.querySelectorAll(LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_RADIO_GROUP);
 };
 
 export const getChildComponent = (parentComponent, childComponentSelector) => {
@@ -174,12 +139,7 @@ export const changeInputValue = (input, newValue) => {
     input.dispatchEvent(focusoutEvent);
 };
 
-export const newFilterItem = (
-    lhsValue = '',
-    operatorValue = '',
-    rhsValue = '',
-    rhsDataType = ''
-) => ({
+export const newFilterItem = (lhsValue = '', operatorValue = '', rhsValue = '', rhsDataType = '') => ({
     leftHandSide: {
         value: lhsValue,
         error: null
@@ -198,23 +158,35 @@ export const newFilterItem = (
     }
 });
 
+export const setupStateForProcessType = async processType => {
+    const store = Store.getStore(reducer);
+    initializeAuraFetch();
+    initializeLoader(store);
+    loadOnStart();
+    await loadOnProcessTypeChange(processType);
+    return store;
+};
+
 /**
  * Reset the state (to be called in afterAll)
  */
 export const resetState = () => {
     setEntities();
     clearEntityFieldsCache();
-    setSystemVariables('[]');
     setGlobalVariables({ globalVariableTypes: [], globalVariables: [] });
     setAuraFetch();
     resetFetchOnceCache();
     const store = Store.getStore(reducer);
     store.dispatch({ type: 'INIT' });
     setRules();
+    setOperators();
+    setResourceTypes();
     OutputResourcePicker.RULES = [];
     resetCacheTemplates();
     clearExtensionsCache();
     resetSystemVariables();
+    setApexClasses(null);
+    clearLoader();
 };
 
 export class ToggleOnChangeEvent extends CustomEvent {

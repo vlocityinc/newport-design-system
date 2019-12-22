@@ -25,7 +25,6 @@ import {
     TOGGLE_ON_CANVAS,
     DESELECT_ON_CANVAS,
     MARQUEE_SELECT_ON_CANVAS,
-    updateApexClasses,
     ADD_START_ELEMENT,
     UPDATE_APEX_CLASSES,
     UPDATE_ENTITIES
@@ -51,8 +50,7 @@ import {
     INIT
 } from 'builder_platform_interaction/undoRedoLib';
 import {
-    fetchFieldsForEntity,
-    setWorkflowEnabledEntities
+    fetchFieldsForEntity
 } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
@@ -85,7 +83,6 @@ import {
     setFlowErrorsAndWarnings,
     flowPropertiesCallback,
     saveAsFlowCallback,
-    setApexClassesForPropertyEditor,
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
     highlightCanvasElement,
@@ -108,7 +105,10 @@ import { removeLastCreatedInlineResource } from 'builder_platform_interaction/ac
 import {
     loadFieldsForComplexTypesInFlow,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
-    loadReferencesIn
+    loadReferencesIn,
+    loadOnStart,
+    loadOnProcessTypeChange,
+    initializeLoader
 } from 'builder_platform_interaction/preloadLib';
 import {
     ShiftFocusForwardCommand,
@@ -116,11 +116,6 @@ import {
     DisplayShortcutsCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
-import {
-    getFlowSystemVariableComboboxItem,
-    getGlobalVariableTypeComboboxItems
-} from 'builder_platform_interaction/expressionUtils';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -178,8 +173,7 @@ export default class Editor extends LightningElement {
     @track
     spinners = {
         showFlowMetadataSpinner: false,
-        showPropertyEditorSpinner: false,
-        showLoadingSupportedFeaturesSpinner: false
+        showPropertyEditorSpinner: false
     };
     @track
     hasNotBeenSaved = true;
@@ -242,12 +236,9 @@ export default class Editor extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS).then(data =>
             setBuilderConfigs(data)
         );
-        this.retrieveApexInfo(
-            new Promise(resolve => {
-                this.entitiesLoaded = resolve;
-            })
-        );
         this.keyboardInteractions = new KeyboardInteractions();
+        initializeLoader(storeInstance);
+        loadOnStart();
     }
 
     @api
@@ -287,8 +278,7 @@ export default class Editor extends LightningElement {
     get showSpinner() {
         return (
             this.spinners.showFlowMetadataSpinner ||
-            this.spinners.showPropertyEditorSpinner ||
-            this.spinners.showLoadingSupportedFeaturesSpinner
+            this.spinners.showPropertyEditorSpinner
         );
     }
 
@@ -316,38 +306,8 @@ export default class Editor extends LightningElement {
             currentState.properties.processType &&
             currentState.properties.processType !== this.properties.processType
         ) {
-            this.spinners.showLoadingSupportedFeaturesSpinner = true;
             this.propertyEditorBlockerCalls.push(
-                loadDataForProcessType(currentState.properties.processType, {
-                    onFeaturesLoaded: () => {
-                        this.spinners.showLoadingSupportedFeaturesSpinner = false;
-                    },
-                    onPeripheralDataLoaded: ({ error }) => {
-                        if (!error) {
-                            this.peripheralDataFetched = true;
-                            this.entitiesLoaded();
-                            getGlobalVariableTypeComboboxItems().forEach(
-                                item => {
-                                    addToParentElementCache(
-                                        item.displayText,
-                                        item
-                                    );
-                                }
-                            );
-                            const item = getFlowSystemVariableComboboxItem();
-                            // system variables are treated like sobjects in the menu data so this category is a "parent element" as well
-                            addToParentElementCache(item.displayText, item);
-
-                            // Get workflow enabled entities for before-save trigger object list
-                            fetchOnce(
-                                SERVER_ACTION_TYPE.GET_WORKFLOW_ENABLED_ENTITIES,
-                                {}
-                            ).then(data => {
-                                setWorkflowEnabledEntities(data);
-                            });
-                        }
-                    }
-                })
+                loadOnProcessTypeChange(currentState.properties.processType)
             );
 
             // Set Builder Configuration
@@ -1317,21 +1277,6 @@ export default class Editor extends LightningElement {
         );
         createStartElement(storeInstance);
         this.disableSave = false;
-    };
-
-    retrieveApexInfo = loadEntitiesPromise => {
-        // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
-        Promise.all([
-            fetchOnce(
-                SERVER_ACTION_TYPE.GET_APEX_TYPES,
-                {},
-                { background: true }
-            ),
-            loadEntitiesPromise
-        ]).then(([data]) => {
-            storeInstance.dispatch(updateApexClasses(data));
-            setApexClassesForPropertyEditor(data);
-        });
     };
 
     /**

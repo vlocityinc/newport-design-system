@@ -27,9 +27,9 @@ import {
     resetState
 } from '../integrationTestUtils';
 import {
-    auraFetch,
     getAllInvocableActionsForType,
-    getInvocableActionDetails
+    getInvocableActionDetails,
+    initializeAuraFetch
 } from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -81,18 +81,16 @@ describe('Invocable Action Editor', () => {
     });
     describe('Flow with an apex action with all types', () => {
         beforeAll(() => {
-            setAuraFetch(
-                auraFetch({
-                    'c.getAllInvocableActionsForType': getAllInvocableActionsForType(
-                        { [FLOW_PROCESS_TYPE.FLOW]: mockActions }
-                    ),
-                    'c.getInvocableActionDetails': getInvocableActionDetails({
-                        apex: {
-                            AllTypesApexAction: mockAllTypesActionParameters
-                        }
-                    })
+            initializeAuraFetch({
+                'c.getAllInvocableActionsForType': getAllInvocableActionsForType(
+                    { [FLOW_PROCESS_TYPE.FLOW]: mockActions }
+                ),
+                'c.getInvocableActionDetails': getInvocableActionDetails({
+                    apex: {
+                        AllTypesApexAction: mockAllTypesActionParameters
+                    }
                 })
-            );
+            });
             const uiFlow = translateFlowToUIModel(flowWithApexAction);
             store.dispatch(updateFlow(uiFlow));
         });
@@ -1185,18 +1183,16 @@ describe('Invocable Action Editor', () => {
     });
     describe('Flow with an action that has a text collection input parameter set to a text collection variable', () => {
         beforeAll(() => {
-            setAuraFetch(
-                auraFetch({
-                    'c.getAllInvocableActionsForType': () => ({
-                        data: mockActions
-                    }),
-                    'c.getInvocableActionDetails': getInvocableActionDetails({
-                        submit: {
-                            submit: submitForApprovalActionDetails
-                        }
-                    })
+            initializeAuraFetch({
+                'c.getAllInvocableActionsForType': () => ({
+                    data: mockActions
+                }),
+                'c.getInvocableActionDetails': getInvocableActionDetails({
+                    submit: {
+                        submit: submitForApprovalActionDetails
+                    }
                 })
-            );
+            });
             const uiFlow = translateFlowToUIModel(
                 flowWithApexActionSubmitForApproval
             );

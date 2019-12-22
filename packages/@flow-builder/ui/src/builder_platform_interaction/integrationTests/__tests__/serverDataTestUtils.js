@@ -33,60 +33,45 @@ import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/f
 import { flowExtensionsForFlow } from 'serverData/GetFlowExtensions/flowExtensionsForFlow.json';
 import { flowExtensionsForContactRequestFlow } from 'serverData/GetFlowExtensions/flowExtensionsForContactRequestFlow.json';
 import { supportedFeaturesListForContactRequestFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForContactRequestFlow.json';
+import { setAuraFetch, setAuraGetCallback } from 'builder_platform_interaction/serverDataLib';
 
-export const auraFetch = actions => async (
-    actionName,
-    shouldExecuteCallback,
-    callback,
-    params
-) => {
+const auraFetch = actions => async (actionName, shouldExecuteCallback, callback, params) => {
     await ticks(10);
     if (!shouldExecuteCallback()) {
-        return undefined;
+        return;
     }
     let result;
     if (actions[actionName]) {
         result = actions[actionName](params);
     } else {
-        result = { error: 'Unknown actionName' };
+        result = { error: `Unknown actionName ${actionName}` };
     }
     callback(result);
-    return undefined;
 };
 
-export const getSubflows = flowProcessTypeToSubflows => ({
-    flowProcessType
-}) => {
+export const getSubflows = flowProcessTypeToSubflows => ({ flowProcessType }) => {
     const subflows = flowProcessTypeToSubflows[flowProcessType] || [];
     return {
         data: subflows
     };
 };
 
-export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables => ({
-    flowName
-}) => {
-    const flowInputOutputVariables =
-        flowNameToFlowInputOutputVariables[flowName];
+export const getFlowInputOutputVariables = flowNameToFlowInputOutputVariables => ({ flowName }) => {
+    const flowInputOutputVariables = flowNameToFlowInputOutputVariables[flowName];
     if (flowInputOutputVariables != null) {
         return { data: flowInputOutputVariables };
     }
     return { error: 'Unknown flow' };
 };
 
-export const getAllInvocableActionsForType = flowProcessTypeToInvocableActions => ({
-    flowProcessType
-}) => {
-    const invocableActions =
-        flowProcessTypeToInvocableActions[flowProcessType] || [];
+export const getAllInvocableActionsForType = flowProcessTypeToInvocableActions => ({ flowProcessType }) => {
+    const invocableActions = flowProcessTypeToInvocableActions[flowProcessType] || [];
     return {
         data: invocableActions
     };
 };
 
-export const getFieldsForEntity = entityApiNameToEntityFields => ({
-    entityApiName
-}) => {
+const getFieldsForEntity = entityApiNameToEntityFields => ({ entityApiName }) => {
     const fields = entityApiNameToEntityFields[entityApiName];
     if (fields != null) {
         return { data: fields };
@@ -95,77 +80,28 @@ export const getFieldsForEntity = entityApiNameToEntityFields => ({
 };
 
 export const getTemplates = allTemplates => ({ processTypes }) => {
-    const matchingTemplates = allTemplates.filter(template =>
-        processTypes.includes(template.ProcessType)
-    );
+    const matchingTemplates = allTemplates.filter(template => processTypes.includes(template.ProcessType));
     return { data: matchingTemplates };
-};
-
-export const getFlowExtensions = flowProcessTypeToExtensions => ({
-    flowProcessType
-}) => {
-    const extensions = flowProcessTypeToExtensions[flowProcessType] || [];
-    return {
-        data: extensions
-    };
 };
 
 export const getInvocableActionDetails = invocableActionParameters => params => {
     let invocableActionParametersForAction;
-    const invocableActionParametersForType =
-        invocableActionParameters[params.actionType];
+    const invocableActionParametersForType = invocableActionParameters[params.actionType];
     if (invocableActionParametersForType) {
-        invocableActionParametersForAction =
-            invocableActionParametersForType[params.actionName];
+        invocableActionParametersForAction = invocableActionParametersForType[params.actionName];
     } else {
-        invocableActionParametersForAction =
-            invocableActionParameters[
-                params.actionType + '-' + params.actionName
-            ];
+        invocableActionParametersForAction = invocableActionParameters[params.actionType + '-' + params.actionName];
     }
     return invocableActionParametersForAction
         ? { data: invocableActionParametersForAction }
         : { error: 'Cannot find invocable action parameters' };
 };
 
-export const getPeripheralDataForPropertyEditor = flowProcessTypeToPeripheralData => ({
-    flowProcessType
-}) => {
-    const peripheralData = flowProcessTypeToPeripheralData[flowProcessType];
-    return {
-        data: peripheralData
-    };
-};
+const createGetter = data => () => ({ data });
 
-export const peripheralDataForFlow = {
-    rules,
-    operators,
-    resourceTypes: resourceTypesForFlow,
-    eventTypes,
-    globalVariables: globalVariablesForFlow,
-    systemVariables: systemVariablesForFlow,
-    entities: allEntities,
-    supportedFeatures: supportedFeaturesListForFlow
-};
-
-export const peripheralDataForAutoLaunchedFlow = {
-    rules,
-    operators,
-    resourceTypes: resourceTypesForAutoLaunchedFlow,
-    eventTypes,
-    globalVariables: globalVariablesForAutoLaunchedFlow,
-    systemVariables: systemVariablesForAutoLaunchedFlow,
-    entities: allEntities,
-    supportedFeatures: supportedFeaturesListForAutoLaunchedFlow
-};
-
-export const peripheralDataForContactRequestFlow = {
-    rules,
-    operators,
-    eventTypes,
-    entities: allEntities,
-    supportedFeatures: supportedFeaturesListForContactRequestFlow
-};
+export const createGetterByProcessType = (map, defaultValue = []) => ({ flowProcessType }) => ({
+    data: map[flowProcessType] || defaultValue
+});
 
 const getFlowExtensionListParams = flowExtensionListParameters => params => ({
     data: params.names.reduce((obj, name) => {
@@ -174,24 +110,27 @@ const getFlowExtensionListParams = flowExtensionListParameters => params => ({
     }, {})
 });
 
-export const loadProcessTypeFeatures = flowProcessTypeToFeatures => ({
-    flowProcessType
-}) => {
-    const features = flowProcessTypeToFeatures[flowProcessType] || [];
-    return {
-        data: features
-    };
-};
-
-export const allAuraActions = {
-    'c.getPeripheralDataForPropertyEditor': getPeripheralDataForPropertyEditor({
-        [FLOW_PROCESS_TYPE.FLOW]: peripheralDataForFlow,
-        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: peripheralDataForAutoLaunchedFlow,
-        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: peripheralDataForContactRequestFlow
+const allAuraActions = {
+    'c.retrieveAllRules': createGetter(rules),
+    'c.getOperators': createGetter(operators),
+    'c.getEventTypes': createGetter(eventTypes),
+    'c.getEntities': createGetter(allEntities),
+    'c.getResourceTypes': createGetterByProcessType({
+        [FLOW_PROCESS_TYPE.FLOW]: resourceTypesForFlow,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: resourceTypesForAutoLaunchedFlow
     }),
-    'c.getSupportedFeaturesList': loadProcessTypeFeatures({
+    'c.getSystemVariables': createGetterByProcessType({
+        [FLOW_PROCESS_TYPE.FLOW]: systemVariablesForFlow,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: systemVariablesForAutoLaunchedFlow
+    }),
+    'c.getAllGlobalVariables': createGetterByProcessType({
+        [FLOW_PROCESS_TYPE.FLOW]: globalVariablesForFlow,
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: globalVariablesForAutoLaunchedFlow
+    }),
+    'c.getSupportedFeaturesList': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: supportedFeaturesListForFlow,
-        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedFeaturesListForAutoLaunchedFlow
+        [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW]: supportedFeaturesListForAutoLaunchedFlow,
+        [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: supportedFeaturesListForContactRequestFlow
     }),
     'c.getFieldsForEntity': getFieldsForEntity({
         Account: accountFields,
@@ -218,11 +157,23 @@ export const allAuraActions = {
         'chatterPost-chatterPost': chatterPostActionDetails,
         'quickAction-Case.LogACall': logACallActionDetails
     }),
-    'c.getFlowExtensionListParams': getFlowExtensionListParams(
-        flowExtensionListParams
-    ),
-    'c.getFlowExtensions': getFlowExtensions({
+    'c.getFlowExtensionListParams': getFlowExtensionListParams(flowExtensionListParams),
+    'c.getFlowExtensions': createGetterByProcessType({
         [FLOW_PROCESS_TYPE.FLOW]: flowExtensionsForFlow,
         [FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW]: flowExtensionsForContactRequestFlow
-    })
+    }),
+    'c.getApexPlugins': createGetter([]),
+    'c.getSubflows': createGetter([]),
+    'c.getApexTypes': createGetter([]),
+    'c.getBuilderConfigs': createGetter({})
 };
+
+export function initializeAuraFetch(actions = {}) {
+    setAuraFetch(
+        auraFetch({
+            ...allAuraActions,
+            ...actions
+        })
+    );
+    setAuraGetCallback(callback => callback);
+}

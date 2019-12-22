@@ -2,9 +2,8 @@ import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { resolveRenderCycles } from '../resolveRenderCycles';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { resetState } from '../integrationTestUtils';
-import { auraFetch, getTemplates } from '../serverDataTestUtils';
+import { getTemplates, initializeAuraFetch } from '../serverDataTestUtils';
 import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import { processTypes } from 'serverData/GetProcessTypes/processTypes.json';
 import { templatesForFlowAndAutoLaunchedFlow } from 'serverData/GetTemplates/templatesForFlowAndAutoLaunchedFlow.json';
@@ -80,16 +79,14 @@ describe('new Flow Modal Body', () => {
     describe('with existing templates', () => {
         beforeAll(() => {
             Store.getStore(reducer);
-            setAuraFetch(
-                auraFetch({
-                    'c.getProcessTypes': () => ({
-                        data: processTypes
-                    }),
-                    'c.getTemplates': getTemplates(
-                        templatesForFlowAndAutoLaunchedFlow
-                    )
-                })
-            );
+            initializeAuraFetch({
+                'c.getProcessTypes': () => ({
+                    data: processTypes
+                }),
+                'c.getTemplates': getTemplates(
+                    templatesForFlowAndAutoLaunchedFlow
+                )
+            });
         });
         beforeEach(() => {
             newFlowModalBody = createComponentForTest();
@@ -188,14 +185,12 @@ describe('new Flow Modal Body', () => {
     });
     describe('without templates', () => {
         beforeAll(() => {
-            setAuraFetch(
-                auraFetch({
-                    'c.getProcessTypes': () => ({
-                        data: processTypes
-                    }),
-                    'c.getTemplates': () => ({ data: [] })
-                })
-            );
+            initializeAuraFetch({
+                'c.getProcessTypes': () => ({
+                    data: processTypes
+                }),
+                'c.getTemplates': () => ({ data: [] })
+            });
         });
         beforeEach(() => {
             newFlowModalBody = createComponentForTest();

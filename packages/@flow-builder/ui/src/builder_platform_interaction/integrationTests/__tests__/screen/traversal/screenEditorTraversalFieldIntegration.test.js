@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import ScreenEditor from 'builder_platform_interaction/screenEditor';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -10,7 +9,7 @@ import { translateFlowToUIModel } from 'builder_platform_interaction/translatorL
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { resetState } from '../../integrationTestUtils';
-import { auraFetch, allAuraActions } from '../../serverDataTestUtils';
+import { initializeAuraFetch } from '../../serverDataTestUtils';
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
     INTERACTION_COMPONENTS_SELECTORS,
@@ -19,7 +18,7 @@ import {
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { selectGroupedComboboxItemBy } from '../../comboboxTestUtils';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { initializeLoader, loadOnProcessTypeChange  } from 'builder_platform_interaction/preloadLib';
 
 const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
@@ -86,7 +85,8 @@ describe('ScreenEditor', () => {
     describe('existing flow with a screen lightning component : Address, and an account variable', () => {
         beforeAll(async () => {
             store = Store.getStore(reducer);
-            setAuraFetch(auraFetch(allAuraActions));
+            initializeAuraFetch();
+            initializeLoader(store);
         });
         afterAll(() => {
             resetState();
@@ -95,7 +95,7 @@ describe('ScreenEditor', () => {
             beforeEach(async () => {
                 uiFlow = translateFlowToUIModel(flowWithAllElements);
                 store.dispatch(updateFlow(uiFlow));
-                await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
 
                 const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);
@@ -134,9 +134,7 @@ describe('ScreenEditor', () => {
             beforeEach(async () => {
                 uiFlow = translateFlowToUIModel(contactRequestFlow);
                 store.dispatch(updateFlow(uiFlow));
-                await loadDataForProcessType(
-                    FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW
-                );
+                await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW);
 
                 const element = getElementByDevName('screenWithAddress');
                 screenNode = getElementForPropertyEditor(element);

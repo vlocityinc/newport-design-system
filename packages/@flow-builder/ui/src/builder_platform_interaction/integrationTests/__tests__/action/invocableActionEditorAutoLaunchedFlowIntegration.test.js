@@ -5,7 +5,6 @@ import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
 import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
@@ -92,8 +91,6 @@ describe('Invocable Action Editor', () => {
     });
     afterAll(() => {
         resetState();
-        setAuraFetch();
-        setApexClasses(null);
     });
     describe('name and dev name', () => {
         beforeEach(() => {

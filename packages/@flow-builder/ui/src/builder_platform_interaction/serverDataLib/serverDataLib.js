@@ -91,6 +91,7 @@ const actionConfig = {
 };
 
 let auraFetch;
+let auraCallback;
 
 /**
  * Set the generic function to get server data
@@ -98,6 +99,19 @@ let auraFetch;
  */
 export function setAuraFetch(fn) {
     auraFetch = fn;
+}
+
+export function setAuraGetCallback(value) {
+    auraCallback = value;
+}
+
+/**
+ * Provides the aura wrapper function, which ensures that a function supplied to the wrapper
+ * is executed under aura context. This is used for making sure the aura can bundle
+ * together multiple foreground calls.
+ */
+export function getAuraCallback(fn) {
+    return auraCallback(fn);
 }
 
 /**
@@ -239,7 +253,17 @@ export function fetchOnce(
                 pending = false;
                 if (error) {
                     rejected = true;
-                    reject(new Error(error));
+                    const errorMessage =
+                        Array.isArray(error) &&
+                        error.length === 1 &&
+                        error[0].message
+                            ? error[0].message
+                            : error;
+                    const newError = new Error(errorMessage);
+                    if (typeof error === 'object') {
+                        newError.cause = error;
+                    }
+                    reject(newError);
                 } else {
                     resolve(readonly(data));
                 }

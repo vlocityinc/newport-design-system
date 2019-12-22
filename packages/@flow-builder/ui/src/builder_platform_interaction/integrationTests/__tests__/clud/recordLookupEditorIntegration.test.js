@@ -15,20 +15,17 @@ import {
     changeInputValue,
     changeComboboxValue,
     newFilterItem,
-    resetState
+    resetState,
+    setupStateForProcessType
 } from '../integrationTestUtils';
-import { auraFetch, allAuraActions } from '../serverDataTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import {
     flowWithGetRecordUsingSObject,
     flowWithGetRecordUsingSObjectCollection,
@@ -43,7 +40,6 @@ import {
     blurEvent,
     textInputEvent
 } from 'builder_platform_interaction/builderTestUtils';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const SELECTORS = {
@@ -141,9 +137,7 @@ const createComponentForTest = (
 describe('Record Lookup Editor', () => {
     let recordLookupNode, store, uiFlow;
     beforeAll(async () => {
-        store = Store.getStore(reducer);
-        setAuraFetch(auraFetch(allAuraActions));
-        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
     afterAll(() => {
         resetState();

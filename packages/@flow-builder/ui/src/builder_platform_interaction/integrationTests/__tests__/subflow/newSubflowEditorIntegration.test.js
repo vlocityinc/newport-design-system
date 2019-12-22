@@ -14,9 +14,9 @@ import {
     getLabelDescriptionNameElement
 } from '../integrationTestUtils';
 import {
-    auraFetch,
     getSubflows,
-    getFlowInputOutputVariables
+    getFlowInputOutputVariables,
+    initializeAuraFetch
 } from '../serverDataTestUtils';
 import {
     ELEMENT_TYPE,
@@ -25,7 +25,6 @@ import {
 import { reducer } from 'builder_platform_interaction/reducers';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { mockSubflows, mockSubflowAllTypesVariables } from 'mock/calloutData';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import {
     getBaseCalloutElement,
     verifyOptionalInputParameterNoValue,
@@ -68,16 +67,14 @@ describe('Subflow Editor (new subflow)', () => {
     let propertyEditor;
     beforeAll(() => {
         Store.getStore(reducer);
-        setAuraFetch(
-            auraFetch({
-                'c.getSubflows': getSubflows({
-                    [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
-                }),
-                'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
-                    mynamespace__subflow: mockSubflowAllTypesVariables
-                })
+        initializeAuraFetch({
+            'c.getSubflows': getSubflows({
+                [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
+            }),
+            'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
+                mynamespace__subflow: mockSubflowAllTypesVariables
             })
-        );
+        });
     });
     afterAll(() => {
         resetState();

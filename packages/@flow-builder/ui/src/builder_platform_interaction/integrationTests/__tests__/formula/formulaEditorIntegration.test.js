@@ -8,8 +8,6 @@ import {
     blurEvent,
     selectEvent
 } from 'builder_platform_interaction/builderTestUtils';
-import { Store } from 'builder_platform_interaction/storeLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -21,14 +19,10 @@ import {
     expectGroupedComboboxItemInGroup,
     getGroupedComboboxItemInGroup,
     getGroupedComboboxItem,
-    resetState
+    resetState,
+    setupStateForProcessType
 } from '../integrationTestUtils';
-import { auraFetch, allAuraActions } from '../serverDataTestUtils';
-import {
-    setAuraFetch,
-    resetFetchOnceCache
-} from 'builder_platform_interaction/serverDataLib';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
+import { resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
 import { loadFieldsForComplexTypesInFlow } from 'builder_platform_interaction/preloadLib';
@@ -58,9 +52,7 @@ const getDataTypePickerElement = editor => {
 };
 
 const getDataTypeComboboxElement = editor => {
-    return getDataTypePickerElement(editor).shadowRoot.querySelector(
-        SELECTORS.LIGHTNING_COMBOBOX
-    );
+    return getDataTypePickerElement(editor).shadowRoot.querySelector(SELECTORS.LIGHTNING_COMBOBOX);
 };
 
 const getResourcedTextArea = editor => {
@@ -68,35 +60,23 @@ const getResourcedTextArea = editor => {
 };
 
 const getFormulaTextArea = editor => {
-    return getResourcedTextArea(editor).shadowRoot.querySelector(
-        SELECTORS.TEXTAREA
-    );
+    return getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.TEXTAREA);
 };
 
 const getFerovResourcePicker = editor => {
-    return getResourcedTextArea(editor).shadowRoot.querySelector(
-        SELECTORS.FEROV_RESOURCE_PICKER
-    );
+    return getResourcedTextArea(editor).shadowRoot.querySelector(SELECTORS.FEROV_RESOURCE_PICKER);
 };
 
 const getResourceGroupedCombobox = editor => {
-    const baseResourcePicker = getFerovResourcePicker(
-        editor
-    ).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(
-        SELECTORS.INTERACTION_COMBOBOX
-    );
-    return interactionCombobox.shadowRoot.querySelector(
-        SELECTORS.LIGHTNING_GROUPED_COMBOBOX
-    );
+    const baseResourcePicker = getFerovResourcePicker(editor).shadowRoot.querySelector(SELECTORS.BASE_RESOURCE_PICKER);
+    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(SELECTORS.INTERACTION_COMBOBOX);
+    return interactionCombobox.shadowRoot.querySelector(SELECTORS.LIGHTNING_GROUPED_COMBOBOX);
 };
 
 describe('Formula Editor', () => {
     let store;
     beforeAll(async () => {
-        store = Store.getStore(reducer);
-        setAuraFetch(auraFetch(allAuraActions));
-        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
     });
     afterAll(() => {
         resetState();
@@ -126,9 +106,7 @@ describe('Formula Editor', () => {
         describe('dev name', () => {
             it('modify the dev name', async () => {
                 const newDevName = 'newName';
-                const devNameInput = getLabelDescriptionNameElement(
-                    propertyEditor
-                );
+                const devNameInput = getLabelDescriptionNameElement(propertyEditor);
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 await ticks();
@@ -136,77 +114,54 @@ describe('Formula Editor', () => {
             });
             it('display error if devName is cleared', async () => {
                 const newDevName = '';
-                const devNameInput = getLabelDescriptionNameElement(
-                    propertyEditor
-                );
+                const devNameInput = getLabelDescriptionNameElement(propertyEditor);
                 devNameInput.value = newDevName;
                 devNameInput.dispatchEvent(focusoutEvent);
                 await ticks();
-                expect(propertyEditor.node.name.error).toBe(
-                    VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                );
+                expect(propertyEditor.node.name.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
         });
         describe('Data Type', () => {
             it('is set to Text', () => {
-                const dataTypeCombobox = getDataTypeComboboxElement(
-                    propertyEditor
-                );
+                const dataTypeCombobox = getDataTypeComboboxElement(propertyEditor);
                 expect(dataTypeCombobox.value).toBe('String');
             });
             it('is disabled', () => {
-                const dataTypeCombobox = getDataTypeComboboxElement(
-                    propertyEditor
-                );
+                const dataTypeCombobox = getDataTypeComboboxElement(propertyEditor);
                 expect(dataTypeCombobox.disabled).toBe(true);
             });
         });
         describe('Formula text area', () => {
             it('contains the formula', () => {
                 const textArea = getFormulaTextArea(propertyEditor);
-                expect(textArea.value).toBe(
-                    'IF({!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")'
-                );
+                expect(textArea.value).toBe('IF({!accountSObjectVariable.AnnualRevenue} < 1000000,"Small", "Big")');
             });
             it('valides the formula on blur', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.value = '';
                 textArea.dispatchEvent(blurEvent);
                 await ticks();
-                expect(propertyEditor.node.expression.error).toBe(
-                    VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK
-                );
+                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.CANNOT_BE_BLANK);
             });
             it('displays an error if the formula contains invalid merge fields', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
-                textArea.value =
-                    'IF({!accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
+                textArea.value = 'IF({!accountSObjectVariable.invalidProp} < 1000000,"Small", "Big")';
                 textArea.dispatchEvent(blurEvent);
                 await ticks();
-                expect(propertyEditor.node.expression.error).toBe(
-                    VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD
-                );
+                expect(propertyEditor.node.expression.error).toBe(VALIDATION_ERROR_MESSAGES.UNKNOWN_RECORD_FIELD);
             });
         });
         describe('Resource picker', () => {
             const GROUP_LABELS = {
                 RECORD_VARIABLES: 'FLOWBUILDERELEMENTCONFIG.SOBJECTPLURALLABEL',
-                GLOBAL_VARIABLES:
-                    'FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory'
+                GLOBAL_VARIABLES: 'FlowBuilderSystemGlobalVariables.systemGlobalVariableCategory'
             };
             it('contains "New Resource"', () => {
-                const groupedCombobox = getResourceGroupedCombobox(
-                    propertyEditor
-                );
-                expectGroupedComboboxItem(
-                    groupedCombobox,
-                    'FlowBuilderExpressionUtils.newResourceLabel'
-                );
+                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
+                expectGroupedComboboxItem(groupedCombobox, 'FlowBuilderExpressionUtils.newResourceLabel');
             });
             it('contains a "Record Variables" group containing "accountSObjectVariable"', () => {
-                const groupedCombobox = getResourceGroupedCombobox(
-                    propertyEditor
-                );
+                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 expectGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
@@ -214,44 +169,16 @@ describe('Formula Editor', () => {
                 );
             });
             it('contains a "Global Variables" group containing $Flow, $Api, $Organization, $Profile, $System, $User', () => {
-                const groupedCombobox = getResourceGroupedCombobox(
-                    propertyEditor
-                );
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.GLOBAL_VARIABLES,
-                    '$Flow'
-                );
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.GLOBAL_VARIABLES,
-                    '$Api'
-                );
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.GLOBAL_VARIABLES,
-                    '$Organization'
-                );
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.GLOBAL_VARIABLES,
-                    '$Profile'
-                );
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.GLOBAL_VARIABLES,
-                    '$System'
-                );
-                expectGroupedComboboxItemInGroup(
-                    groupedCombobox,
-                    GROUP_LABELS.GLOBAL_VARIABLES,
-                    '$User'
-                );
+                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
+                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Flow');
+                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Api');
+                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Organization');
+                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$Profile');
+                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$System');
+                expectGroupedComboboxItemInGroup(groupedCombobox, GROUP_LABELS.GLOBAL_VARIABLES, '$User');
             });
             it('displays the record properties when selecting a record variable', async () => {
-                const groupedCombobox = getResourceGroupedCombobox(
-                    propertyEditor
-                );
+                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
@@ -265,9 +192,7 @@ describe('Formula Editor', () => {
             it('inserts the resource in the textarea when we select a resource', async () => {
                 const textArea = getFormulaTextArea(propertyEditor);
                 textArea.setSelectionRange(3, 3);
-                const groupedCombobox = getResourceGroupedCombobox(
-                    propertyEditor
-                );
+                const groupedCombobox = getResourceGroupedCombobox(propertyEditor);
                 const item = getGroupedComboboxItemInGroup(
                     groupedCombobox,
                     GROUP_LABELS.RECORD_VARIABLES,
@@ -275,10 +200,7 @@ describe('Formula Editor', () => {
                 );
                 groupedCombobox.dispatchEvent(selectEvent(item.value));
                 await ticks();
-                const subItem = getGroupedComboboxItem(
-                    groupedCombobox,
-                    'Description'
-                );
+                const subItem = getGroupedComboboxItem(groupedCombobox, 'Description');
                 groupedCombobox.dispatchEvent(selectEvent(subItem.value));
                 await ticks();
                 expect(textArea.value).toEqual(

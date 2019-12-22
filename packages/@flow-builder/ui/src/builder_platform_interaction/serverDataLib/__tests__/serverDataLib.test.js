@@ -130,14 +130,14 @@ describe('fetchOnce function', () => {
             SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS,
             parameters
         );
-        await expect(firstCallPromise).rejects.toEqual(
+        await expect(firstCallPromise).rejects.toMatchObject(
             new Error('error during the call')
         );
         const secondCallPromise = fetchOnce(
             SERVER_ACTION_TYPE.GET_INVOCABLE_ACTION_PARAMETERS,
             parameters
         );
-        await expect(secondCallPromise).rejects.toEqual(
+        await expect(secondCallPromise).rejects.toMatchObject(
             new Error('error during the call')
         );
         setAuraFetch(mockIdentityAuraFetch);

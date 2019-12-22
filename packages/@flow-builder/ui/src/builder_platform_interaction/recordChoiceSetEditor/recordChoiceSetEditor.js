@@ -167,16 +167,8 @@ export default class RecordChoiceSetEditor extends LightningElement {
     }
 
     get resourceDisplayText() {
-        const entityToDisplay = sobjectLib
-            .getAllEntities()
-            .filter(
-                entity =>
-                    entity.apiName === this.recordChoiceSetResource.object.value
-            );
-        if (entityToDisplay.length === 1) {
-            return entityToDisplay[0].entityLabel;
-        }
-        return '';
+        const entityToDisplay = sobjectLib.getEntity(this.recordChoiceSetResource.object.value);
+        return entityToDisplay ? entityToDisplay.entityLabel : '';
     }
 
     get dataTypeList() {

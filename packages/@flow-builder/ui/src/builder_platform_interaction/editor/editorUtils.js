@@ -16,7 +16,6 @@ import { SaveType } from 'builder_platform_interaction/saveType';
 import { SaveFlowEvent } from 'builder_platform_interaction/events';
 import { getElementForStore } from 'builder_platform_interaction/propertyEditorFactory';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getConfigForElementType } from 'builder_platform_interaction/elementConfig';
@@ -309,10 +308,6 @@ export const saveAsFlowCallback = (
     flowPropertiesCallback(storeInstance)(flowProperties);
     resetStartElementIfNeeded(storeInstance, processType.value || processType);
     saveFlowFn(saveType);
-};
-
-export const setApexClassesForPropertyEditor = apexTypes => {
-    setApexClasses(apexTypes);
 };
 
 /**

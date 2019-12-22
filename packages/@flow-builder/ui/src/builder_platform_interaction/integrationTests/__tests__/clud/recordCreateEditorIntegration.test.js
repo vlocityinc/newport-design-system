@@ -11,7 +11,8 @@ import {
     getFieldToFerovExpressionBuilders,
     getBaseExpressionBuilder,
     getRadioGroup,
-    resetState
+    resetState,
+    setupStateForProcessType
 } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
@@ -19,10 +20,8 @@ import {
     AddElementEvent
 } from 'builder_platform_interaction/events';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import {
     flowWithCreateRecordUsingSObject,
     flowWithCreateRecordUsingSObjectCollection,
@@ -42,9 +41,6 @@ import {
     clickEvent,
     ticks
 } from 'builder_platform_interaction/builderTestUtils';
-import { auraFetch, allAuraActions } from '../serverDataTestUtils';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getLhsCombobox } from '../expressionBuilderTestUtils';
 import {
@@ -55,6 +51,10 @@ import {
 import { feedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import { loadOnProcessTypeChange, loadOnStart, initializeLoader, clearLoader } from 'builder_platform_interaction/preloadLib';
+import { initializeAuraFetch } from '../serverDataTestUtils';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { reducer } from 'builder_platform_interaction/reducers';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
@@ -134,9 +134,7 @@ describe('Record Create Editor', () => {
     let store;
     let uiFlow;
     beforeAll(async () => {
-        store = Store.getStore(reducer);
-        setAuraFetch(auraFetch(allAuraActions));
-        await loadDataForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
+        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW);
     });
     afterAll(() => {
         resetState();
@@ -732,15 +730,17 @@ describe('Record Create Editor', () => {
         let recordCreateElement, sObjectOrSObjectCollectionPicker;
         beforeAll(async () => {
             store = Store.getStore(reducer);
-            setAuraFetch(auraFetch(allAuraActions));
+            initializeAuraFetch();
+            clearLoader();
+            initializeLoader(store);
+            loadOnStart();
             uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
-            await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+            await loadOnProcessTypeChange(FLOW_PROCESS_TYPE.FLOW);
             setApexClasses(apexTypesForFlow);
         });
         afterAll(() => {
             resetState();
-            setApexClasses(null);
         });
         beforeEach(() => {
             const element = getElementByDevName('createFromAnAccount');

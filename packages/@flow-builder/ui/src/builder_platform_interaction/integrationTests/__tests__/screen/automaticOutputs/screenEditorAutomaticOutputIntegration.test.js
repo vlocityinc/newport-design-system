@@ -1,6 +1,5 @@
 import { createElement } from 'lwc';
 import ScreenEditor from 'builder_platform_interaction/screenEditor';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
@@ -10,7 +9,7 @@ import { updateFlow } from 'builder_platform_interaction/actions';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { clearExtensionsCache } from 'builder_platform_interaction/flowExtensionLib/';
 import { ToggleOnChangeEvent } from '../../integrationTestUtils';
-import { auraFetch, getFlowExtensions } from '../../serverDataTestUtils';
+import { initializeAuraFetch, createGetterByProcessType } from '../../serverDataTestUtils';
 import { flowExtensionListParams } from 'serverData/GetFlowExtensionListParams/flowExtensionListParams.json';
 import {
     ticks,
@@ -122,19 +121,17 @@ describe('ScreenEditor', () => {
     });
     describe('existing flow with a screen lightning component : Address and automatic value output', () => {
         beforeAll(() => {
-            setAuraFetch(
-                auraFetch({
-                    'c.getFlowExtensionListParams': params => ({
-                        data: params.names.reduce((obj, name) => {
-                            obj[name] = flowExtensionListParams[name];
-                            return obj;
-                        }, {})
-                    }),
-                    'c.getFlowExtensions': getFlowExtensions({
-                        [FLOW_PROCESS_TYPE.FLOW]: mockFlowExtensions
-                    })
+            initializeAuraFetch({
+                'c.getFlowExtensionListParams': params => ({
+                    data: params.names.reduce((obj, name) => {
+                        obj[name] = flowExtensionListParams[name];
+                        return obj;
+                    }, {})
+                }),
+                'c.getFlowExtensions': createGetterByProcessType({
+                    [FLOW_PROCESS_TYPE.FLOW]: mockFlowExtensions
                 })
-            );
+            });
             store = Store.getStore(reducer);
             uiFlow = translateFlowToUIModel(
                 flowWithScreenAndLightningComponentAddress

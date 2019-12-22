@@ -2,20 +2,16 @@ import { createElement } from 'lwc';
 import RecordLookupEditor from 'builder_platform_interaction/recordLookupEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 
-import { resetState, getEntityResourcePicker } from '../integrationTestUtils';
-import { auraFetch, allAuraActions } from '../serverDataTestUtils';
+import { resetState, getEntityResourcePicker, setupStateForProcessType } from '../integrationTestUtils';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import {
     EditElementEvent,
     AddElementEvent
 } from 'builder_platform_interaction/events';
 import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
-import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
@@ -26,7 +22,6 @@ import {
     deepQuerySelector,
     changeEvent
 } from 'builder_platform_interaction/builderTestUtils';
-import { loadDataForProcessType } from 'builder_platform_interaction/preloadLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 const PROCESS_TYPE_FLOW = 'Flow';
@@ -80,9 +75,7 @@ const getAutomaticRecordStoreOptionsRadioGroup = recordLookupEditor => {
 describe('Record Lookup Editor', () => {
     let recordLookupNode, store, uiFlow, recordLookupElement;
     beforeAll(async () => {
-        store = Store.getStore(reducer);
-        setAuraFetch(auraFetch(allAuraActions));
-        await loadDataForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
     });
     afterAll(() => {
         resetState();

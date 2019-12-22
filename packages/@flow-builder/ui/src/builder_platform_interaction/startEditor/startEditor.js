@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import {
     fetchFieldsForEntity,
-    getAllEntities,
+    getEntity,
     ENTITY_TYPE
 } from 'builder_platform_interaction/sobjectLib';
 import {
@@ -246,9 +246,7 @@ export default class StartEditor extends LightningElement {
      * @returns {string} entity label if any found for current selected entity empty string otherwise
      */
     get resourceDisplayText() {
-        const entityToDisplay = getAllEntities().find(
-            entity => entity.apiName === this.recordEntityName
-        );
+        const entityToDisplay = getEntity(this.recordEntityName);
         return entityToDisplay ? entityToDisplay.entityLabel : '';
     }
 
