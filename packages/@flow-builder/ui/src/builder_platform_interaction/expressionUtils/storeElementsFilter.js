@@ -42,7 +42,6 @@ function writableOrReadableElement(shouldBeWritable) {
 }
 
 /**
- * @param {Boolean} shouldBeWritable    if true, only writable elements will be returned
  * @param {Object} sObjectSelectorConfig  if using selector to retrieve sobject/sobject collection variables, contain options to retrieve sobject (e.g. isCollection, queryable/creatable/updatable/deleteable, entityName, ...)
  * @returns {FilterInformation}
  */

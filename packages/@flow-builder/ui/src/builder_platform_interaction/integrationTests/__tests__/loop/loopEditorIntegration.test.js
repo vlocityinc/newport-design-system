@@ -7,9 +7,9 @@ import {
     accountSObjectVariable,
     lookupRecordAutomaticOutput,
     caseSObjectCollectionVariable,
-    apexSampleCollectionVariable,
     dateCollectionVariable,
-    apexCallAutomaticAnonymousAccountOutput
+    apexCallAutomaticAnonymousAccountOutput,
+    apexComplexTypeCollectionVariable
 } from 'mock/storeData';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -650,9 +650,9 @@ describe('Loop Editor', () => {
                     );
                     const apexCollectionVariablesItems =
                         apexCollectionVariables.items;
-                    expect(apexCollectionVariablesItems).toHaveLength(2);
+                    expect(apexCollectionVariablesItems).toHaveLength(3);
                     expect(apexCollectionVariablesItems[0].text).toBe(
-                        apexSampleCollectionVariable.name
+                        apexComplexTypeCollectionVariable.name
                     );
 
                     // There are 4 non-sObject variables with 'isCollection:

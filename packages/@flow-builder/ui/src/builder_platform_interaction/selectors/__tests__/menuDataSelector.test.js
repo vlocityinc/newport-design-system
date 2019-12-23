@@ -20,6 +20,7 @@ import {
     stringVariable,
     actionCallElement,
     apexComplexTypeVariable,
+    apexComplexTypeCollectionVariable,
     apexCarVariable,
     lightningCompAutomaticOutputNoSObjectExtension,
     lightningCompAutomaticOutputContainsAccountExtension,
@@ -447,6 +448,13 @@ describe('getCanContainSObjectElements', () => {
     });
     it('does not return apex variable which does not contain SObject', () => {
         const result = getCanContainSObjectElements([apexCarVariable]);
+
+        expect(result).toHaveLength(0);
+    });
+    it('does not return apex collection variable even if apex contains SObject', () => {
+        const result = getCanContainSObjectElements([
+            apexComplexTypeCollectionVariable
+        ]);
 
         expect(result).toHaveLength(0);
     });

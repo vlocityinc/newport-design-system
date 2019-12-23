@@ -207,8 +207,10 @@ export const getCanContainSObjectElements = (elements, retrieveOptions) => {
         elements,
         retrieveOptions
     );
-    const sobjectAllElements = getFilteredElements(element =>
-        isFlowResourceWithSObjectField(element, retrieveOptions)
+    const sobjectAllElements = getFilteredElements(
+        element =>
+            !element.isCollection &&
+            isFlowResourceWithSObjectField(element, retrieveOptions)
     )(elements);
 
     if (sobjectAllElements && sobjectAllElements.length > 0) {

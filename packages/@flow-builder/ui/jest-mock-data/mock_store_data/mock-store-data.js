@@ -73,6 +73,7 @@ export const dateCollectionVariable = getElementByName('dateCollectionVariable')
 export const decisionOutcome = getElementByName('outcome1');
 export const caseLogACallAutomatic = getElementByName('caseLogACallAutomatic');
 export const apexComplexTypeVariable = getElementByName('apexComplexTypeVariable');
+export const apexComplexTypeCollectionVariable = getElementByName('apexComplexTypeCollectionVariable');
 export const apexCarVariable = getElementByName('apexCarVariable');
 export const createAccountWithAutomaticOutput = getElementByName('createAccountWithAutomaticOutput');
 export const lightningCompAutomaticOutputContainsAccountExtension = getElementByName('lightningCompWithAccountOutput');

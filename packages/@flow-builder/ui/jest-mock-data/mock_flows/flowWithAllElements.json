@@ -563,6 +563,16 @@
         "isInput": false,
         "isOutput": false,
         "scale": 2
+      },
+      {
+        "name": "apexComplexTypeCollectionVariable",
+        "description": "",
+        "apexClass": "ApexComplexTypeTestOne216",
+        "dataType": "Apex",
+        "isCollection": true,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 2
       }
     ],
     "constants": [
