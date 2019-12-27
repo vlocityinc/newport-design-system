@@ -573,6 +573,26 @@
         "isInput": false,
         "isOutput": false,
         "scale": 2
+      },
+      {
+        "name": "apexContainsOnlyASingleSObjectVariable",
+        "description": "",
+        "apexClass": "ApexContainsOnlyASingleSObject",
+        "dataType": "Apex",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 2
+      },
+      {
+        "name": "apexContainsOnlyAnSObjectCollectionVariable",
+        "description": "",
+        "apexClass": "ApexContainsOnlyAnSObjectCollection",
+        "dataType": "Apex",
+        "isCollection": false,
+        "isInput": false,
+        "isOutput": false,
+        "scale": 2
       }
     ],
     "constants": [
@@ -620,8 +640,8 @@
         "name": "createAccountWithoutAdvancedOptions",
         "description": "",
         "label": "createAccountWithoutAdvancedOptions",
-        "locationX": 469,
-        "locationY": 513,
+        "locationX": 430,
+        "locationY": 483,
         "object": "Account",
         "inputAssignments": [
           {
@@ -647,6 +667,14 @@
         "locationX": 196,
         "locationY": 486.3125,
         "inputReference": "accountSObjectVariable"
+      },
+      {
+        "name": "createFromMultipleAccounts",
+        "description": "",
+        "label": "createFromMultipleAccounts",
+        "locationX": 566,
+        "locationY": 486,
+        "inputReference": "accountSObjectCollectionVariable"
       }
     ],
     "recordLookups": [
@@ -860,6 +888,17 @@
         "description": "",
         "dataType": "Number",
         "choiceText": "Choice 1"
+      }
+    ],
+    "recordDeletes": [
+      {
+        "name": "deleteAccount",
+        "description": "",
+        "label": "deleteAccount",
+        "locationX": 751,
+        "locationY": 469.359375,
+        "inputReference": "accountSObjectVariable",
+        "filters": []
       }
     ],
     "description": "",

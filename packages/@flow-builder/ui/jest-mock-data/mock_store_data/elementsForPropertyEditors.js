@@ -201,7 +201,7 @@ export const elementsForPropertyEditors =  {
     }
   },
   "textTemplate1": {
-    "guid": "cea1a8e6-1cb0-4b2f-9549-2610c8b61f78",
+    "guid": "02504510-b361-4fb3-878e-81925a76160f",
     "name": {
       "value": "textTemplate1",
       "error": null
@@ -221,7 +221,7 @@ export const elementsForPropertyEditors =  {
     }
   },
   "stringConstant": {
-    "guid": "e502e40a-7dfc-4e71-8a42-c491f86a560a",
+    "guid": "f79b5397-57f9-426b-aa00-5ef1b8b8f75d",
     "name": {
       "value": "stringConstant",
       "error": null
@@ -244,7 +244,7 @@ export const elementsForPropertyEditors =  {
       "error": null
     },
     "defaultValueIndex": {
-      "value": "3d47c47d-df60-4f92-85c8-71982afd9938",
+      "value": "42afe63b-0744-4dec-a7e6-20c67691dd81",
       "error": null
     }
   }
