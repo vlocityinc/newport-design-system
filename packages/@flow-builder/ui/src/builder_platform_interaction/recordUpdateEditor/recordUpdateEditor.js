@@ -31,6 +31,14 @@ export default class RecordUpdateEditor extends LightningElement {
         entityFields: {}
     };
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
+
     /**
      * public api function to return the node
      *

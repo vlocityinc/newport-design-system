@@ -96,6 +96,10 @@ export default class ScreenEditor extends LightningElement {
         return Store.getStore().getCurrentState().properties.label;
     }
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
     @api
     get processType() {
         return this.processTypeValue;

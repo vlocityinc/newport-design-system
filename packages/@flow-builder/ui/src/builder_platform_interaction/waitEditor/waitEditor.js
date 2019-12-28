@@ -26,6 +26,14 @@ export default class WaitEditor extends LightningElement {
     @track waitElement;
     @track activeWaitEventId;
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
+
     @api
     get node() {
         return this.waitElement;

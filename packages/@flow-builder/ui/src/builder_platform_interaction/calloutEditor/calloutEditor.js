@@ -88,6 +88,10 @@ export default class CalloutEditor extends LightningElement {
         return this.template.querySelector(CONTAINER_SELECTOR).getNode();
     }
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
     /**
      * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
      */

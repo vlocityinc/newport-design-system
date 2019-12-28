@@ -36,6 +36,14 @@ export default class AssignmentEditor extends LightningElement {
         return this.assignmentElement.assignmentItems.length > 1;
     }
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
+
     @api
     get node() {
         return this.assignmentElement;

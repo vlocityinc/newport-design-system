@@ -48,6 +48,14 @@ export default class RecordDeleteEditor extends LightningElement {
     sobjectCollectionCriterion =
         SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION;
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
+
     /**
      * API function to return the node
      * @returns {object} node - current node

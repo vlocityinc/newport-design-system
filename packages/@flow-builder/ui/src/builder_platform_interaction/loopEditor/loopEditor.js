@@ -47,6 +47,14 @@ export default class LoopEditor extends LightningElement {
     @track loopVariableState;
     @track isLoopVariableDisabled;
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
+
     @api
     get node() {
         return this.loopElement;
