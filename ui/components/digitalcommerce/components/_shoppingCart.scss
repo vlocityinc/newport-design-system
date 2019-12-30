@@ -4,6 +4,7 @@
   margin-bottom: 6.25rem;
   .nds-dc-spinner {
     position: fixed;
+    z-index: 9999;
   }
 
   .nds-dc-cart_heading {
@@ -33,6 +34,11 @@
   
     .nds-dc-button {
       margin-left: auto;
+    }
+    .nds-dc-save-cart_icon {
+      height: 2rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
     }
   }
 
