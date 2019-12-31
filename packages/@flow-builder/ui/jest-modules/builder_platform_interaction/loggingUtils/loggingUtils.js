@@ -21,3 +21,4 @@ export const logPerfMarkStart = (arg) => {
 export const logPerfMarkEnd = (arg) => {
     return mock.logPerfMarkEnd(arg);
 };
+export const logInteraction = jest.fn();

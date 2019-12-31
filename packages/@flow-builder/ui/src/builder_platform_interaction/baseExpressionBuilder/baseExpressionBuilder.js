@@ -925,6 +925,7 @@ export default class BaseExpressionBuilder extends LightningElement {
             this.updateStatePromise = this.updateStatePromise
                 .then(() => stateUpdatesPromise)
                 .then(stateUpdates => Object.assign(this.state, stateUpdates));
+            return this.updateStatePromise;
         };
         if (getFields) {
             const filterFields = fields =>
@@ -1000,12 +1001,12 @@ export default class BaseExpressionBuilder extends LightningElement {
         } = storeInstance.getCurrentState().properties;
 
         if (newResourceGuid && this.rowIndex === newResourceRowIndex) {
-            this.state = {
-                ...this.state,
+            updateState({
                 operatorAndRhsDisabled: false
-            };
-            this.setInlineResource(newResourcePosition, newResourceGuid);
-            storeInstance.dispatch(removeLastCreatedInlineResource);
+            }).then(() => {
+                this.setInlineResource(newResourcePosition, newResourceGuid);
+                storeInstance.dispatch(removeLastCreatedInlineResource);
+            });
         }
     }
 

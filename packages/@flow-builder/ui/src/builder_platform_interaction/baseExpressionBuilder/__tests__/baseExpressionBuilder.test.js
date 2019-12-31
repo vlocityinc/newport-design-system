@@ -166,7 +166,9 @@ function getLightningCombobox(expressionBuilder) {
 }
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = require.requireActual(
+        'builder_platform_interaction/ruleLib'
+    );
     return {
         getLHSTypes: jest.fn(),
         getOperators: jest.fn().mockImplementation(() => {
@@ -1419,7 +1421,7 @@ describe('base expression builder', () => {
                 expect(logInteraction).toHaveBeenCalled();
             });
         });
-        it('dispatches removeLastCreatedInlineResource if the rowIndex equals the newResourceRowIndex and getMenuData is triggered', () => {
+        it('dispatches removeLastCreatedInlineResource if the rowIndex equals the newResourceRowIndex and getMenuData is triggered', async () => {
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
             const expressionBuilder = createMockEmptyRHSExpression(
                 stringVariable.guid
@@ -1438,14 +1440,11 @@ describe('base expression builder', () => {
 
             const spy = Store.getStore().dispatch;
             cmp.dispatchEvent(handleFetchMenuData());
-            return Promise.resolve().then(() => {
-                expect(spy).toHaveBeenCalled();
-                expect(spy).toHaveBeenCalledWith(
-                    removeLastCreatedInlineResource
-                );
-            });
+            await ticks();
+            expect(spy).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalledWith(removeLastCreatedInlineResource);
         });
-        it('calls getInlineResource if the rowIndex equals the newResourceRowIndex and there is a position set', () => {
+        it('calls getInlineResource if the rowIndex equals the newResourceRowIndex and there is a position set', async () => {
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
             const expressionBuilder = createMockEmptyRHSExpression(
                 stringVariable.guid
@@ -1463,9 +1462,8 @@ describe('base expression builder', () => {
                 'builder_platform_interaction-combobox'
             );
             cmp.dispatchEvent(handleFetchMenuData());
-            return Promise.resolve().then(() => {
-                expect(getInlineResource).toHaveBeenCalled();
-            });
+            await ticks();
+            expect(getInlineResource).toHaveBeenCalled();
         });
         it('does not call getInlineResource if the rowIndex equals the newResourceRowIndex and there is no position set', () => {
             const idx = 'kl214fea-9c9a-45cf-b804-76fc6df47c23';
