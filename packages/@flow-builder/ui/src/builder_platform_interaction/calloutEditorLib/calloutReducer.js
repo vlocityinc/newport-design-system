@@ -75,7 +75,15 @@ export const updateInputParameterItemConfigurationEditor = (
         throw new Error('value data type is not defined');
     }
 
-    const { rowIndex } = state.inputParameters.find(({ name }) => name === id);
+    const { rowIndex } =
+        state.inputParameters.find(({ name }) => name === id) || {};
+
+    if (!rowIndex) {
+        throw new Error(
+            `'${id}' parameter does not exist in the input parameter list`
+        );
+    }
+
     const obj = {
         isInput: true,
         valueDataType,
