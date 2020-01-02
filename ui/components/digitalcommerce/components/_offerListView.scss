@@ -79,6 +79,9 @@
           margin: -1rem 0 0 -1rem;
           display: block;
         }
+        &.nds-dc-selected {
+          border: 1px solid $newport-color-brand-orange;
+        }
       }
     }
   }
