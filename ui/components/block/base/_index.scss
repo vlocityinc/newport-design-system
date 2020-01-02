@@ -12,15 +12,16 @@
  */
 
 @mixin forie11andup() {
+
   @media all and (-ms-high-contrast: none),
-    (-ms-high-contrast: active) {
+  (-ms-high-contrast: active) {
     @content;
   }
 }
 
 .nds-block {
 
-  > .nds-form-element__control {
+  >.nds-form-element__control {
     flex-grow: 1;
     display: inline-block;
     width: 100%;
@@ -41,7 +42,7 @@
     padding-#{$right}: 0;
     color: $color-background-brand-primary;
 
-    > span {
+    >span {
       display: inline-block; // rtl
       padding: 0 5px;
       border-#{$left}: 2px solid $color-shadow-overflow;
@@ -58,7 +59,7 @@
 
   // block indentation
   label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-elem='visible'],
-  .nds-block_container > label ~ .nds-block_body {
+  .nds-block_container>label~.nds-block_body {
     font-size: 1rem;
     padding-top: 1.5rem;
     font-weight: 300;
@@ -69,7 +70,7 @@
   div[vlc-slds-toggle-elem='visible'],
   .nds-block_body {
 
-    > .nds-control-action__container {
+    >.nds-control-action__container {
       display: block;
       text-align: $right;
       margin-bottom: 0.5rem;
@@ -78,7 +79,7 @@
 
   // stylelint-disable-next-line selector-class-pattern
   label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'].toggleElement,
-  .nds-block_container > label ~ .nds-block_body[aria-expanded='false']  {
+  .nds-block_container>label~.nds-block_body[aria-expanded='false'] {
     max-height: 0;
     overflow: hidden;
     transition: opacity 1s, max-height 1s ease-out;
@@ -86,7 +87,7 @@
   }
 
   label[vlc-slds-toggle='toggle']~div[vlc-slds-toggle-cust-elem='visible'],
-  .nds-block_container > label ~ .nds-block_body {
+  .nds-block_container>label~.nds-block_body {
     padding-top: 1.5rem;
     padding-#{$left}: 2.5rem;
     max-height: 1000rem;
@@ -95,7 +96,7 @@
 
     .nds-wrap ng-form,
     .nds-wrap form,
-    .nds-wrap > * {
+    .nds-wrap>* {
       margin-bottom: 0.5rem;
       padding-top: 0;
     }
@@ -108,6 +109,7 @@
 }
 
 .nds-block__action-icon {
+  // stylelint-disable-next-line declaration-no-important
   margin-top: 0 !important;
   flex-shrink: 0;
   transform: rotate(-90deg);
@@ -134,7 +136,7 @@
 }
 
 label[vlc-slds-toggle],
-.nds-block_container > label {
+.nds-block_container>label {
   font-size: 1rem; // half the size of the step title
   display: flex;
   font-weight: 300;
@@ -159,12 +161,12 @@ label[vlc-slds-toggle],
 /* stylelint-disable selector-class-pattern */
 .clicked {
 
-  > .nds-expand {
+  >.nds-expand {
     display: block;
     padding: 2px;
   }
 
-  > .nds-collapse {
+  >.nds-collapse {
     display: none;
   }
 
@@ -176,6 +178,7 @@ label[vlc-slds-toggle],
     }
   }
 }
+
 /* stylelint-enable selector-class-pattern */
 
 .nds-control-action__container {
@@ -187,7 +190,7 @@ label[vlc-slds-toggle],
 
 .nds-block_container {
 
-  > .nds-form-element__label {
+  >.nds-form-element__label {
     width: 100%;
     display: flex;
     outline: none;

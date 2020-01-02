@@ -2,13 +2,13 @@
 // Licensed under BSD 3-Clause - see LICENSE.txt or git.io/sfdc-license
 
 /**
- * @summary Creates layout for a form element
- *
- * @name base
- * @selector .nds-form-element
- * @restrict div, fieldset, li
- * @variant
- */
+* @summary Creates layout for a form element
+*
+* @name base
+* @selector .nds-form-element
+* @restrict div, fieldset, li
+* @variant
+*/
 .nds-form-element {
   position: relative;
 
@@ -20,11 +20,11 @@
   }
 
   /**
-   * Creates label styles for our form elements
-   *
-   * @selector .nds-form-element__label
-   * @restrict .nds-form-element label, .nds-form-element span, .nds-form-element legend, [class*='nds-checkbox'] span, [class*='nds-radio'] span, span
-   */
+  * Creates label styles for our form elements
+  *
+  * @selector .nds-form-element__label
+  * @restrict .nds-form-element label, .nds-form-element span, .nds-form-element legend, [class*='nds-checkbox'] span, [class*='nds-radio'] span, span
+  */
   &__label {
     display: inline-block;
     color: $color-text-label;
@@ -39,14 +39,18 @@
     &:empty {
       margin: 0;
     }
+
+    span {
+      word-break: break-all;
+    }
   }
 
   /**
-   * Wrapper to any form display element
-   *
-   * @selector .nds-form-element__control
-   * @restrict .nds-form-element div
-   */
+  * Wrapper to any form display element
+  *
+  * @selector .nds-form-element__control
+  * @restrict .nds-form-element div
+  */
   &__control {
 
     // Force radios and checkboxes to be on own line when there
@@ -58,34 +62,34 @@
   }
 
   /**
-   * When an icon sits within a form element wrapper and adjacent to another
-   * element inside that wrapper such as a .form-element__label
-   *
-   * @selector .nds-form-element__icon
-   * @restrict .nds-form-element div
-   */
+  * When an icon sits within a form element wrapper and adjacent to another
+  * element inside that wrapper such as a .form-element__label
+  *
+  * @selector .nds-form-element__icon
+  * @restrict .nds-form-element div
+  */
   &__icon {
     display: inline-block;
     position: relative; // Since this container can have a tooltip
   }
 
   /**
-   * Creates inline help styles, sits below .form-element__control. Text-form capitalized, by default.
-   *
-   * @selector .nds-form-element__help
-   * @restrict .nds-form-element div
-   */
+  * Creates inline help styles, sits below .form-element__control. Text-form capitalized, by default.
+  *
+  * @selector .nds-form-element__help
+  * @restrict .nds-form-element div
+  */
   &__help {
     font-size: $font-size-small;
     margin-top: $spacing-x-small;
     display: block;
 
     /**
-     * Creates inline help styles, sits within .form-element__help. Text-transform set to none.
-     * 
-     * @selector .nds-form-element__help_text-transform__none
-     * @restrict .nds-form-element div
-     */
+    * Creates inline help styles, sits within .form-element__help. Text-transform set to none.
+    *
+    * @selector .nds-form-element__help_text-transform__none
+    * @restrict .nds-form-element div
+    */
     &__text-transform__none {
       text-transform: none;
     }
@@ -102,24 +106,24 @@
 }
 
 /**
- * Required Star
- *
- * @selector .nds-required
- * @restrict .nds-form-element abbr, abbr
- */
+* Required Star
+*
+* @selector .nds-required
+* @restrict .nds-form-element abbr, abbr
+*/
 .nds-required {
   color: $color-text-error;
   margin: 0 $spacing-xxx-small 0 -0.18rem;
 }
 
 /**
- * Error styles for form element
- *
- * @selector .nds-has-error
- * @restrict .nds-form-element
- * @modifier
- * @group feedback
- */
+* Error styles for form element
+*
+* @selector .nds-has-error
+* @restrict .nds-form-element
+* @modifier
+* @group feedback
+*/
 .nds-has-error {
 
   .nds-form-element__help {
