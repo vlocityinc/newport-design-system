@@ -51,6 +51,9 @@
             }
           }
         }
+        &.nds-dc-selected {
+          border: 1px solid $newport-color-brand-orange;
+        }
       }
     }
   //}
