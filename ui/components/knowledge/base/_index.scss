@@ -38,7 +38,7 @@
 .nds-knowledge-block {
   position: fixed;
   top: 8.625rem;
-  #{$right}: 0;
+  #{$right}: 0.625rem;
   width: 30%;
   bottom: 0;
   
@@ -237,6 +237,18 @@
       margin-bottom: 1rem;
     }
   }
+}
+
+.nds-knowledge-block.nds-kb-wrapper {
+  top: 10.625rem;
+}
+
+.nds-knowledge-block.nds-kb-wrapper .nds-lookup.nds-knowledge-component .nds-knowledge-item h3.nds-knowledge-desc {
+  font-size: 0.875rem;
+}
+
+.nds-knowledge-block.nds-kb-wrapper .nds-lookup.nds-knowledge-component .nds-knowledge-item h3.nds-knowledge-lastpubdate {
+  font-size: 0.8125rem;
 }
 
 .nds-knowledge_full-cont-width {
