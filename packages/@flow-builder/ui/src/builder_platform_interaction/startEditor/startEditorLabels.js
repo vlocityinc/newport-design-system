@@ -6,6 +6,7 @@ import triggerTypeInputLabel from '@salesforce/label/FlowBuilderStartEditor.trig
 import triggerTypeAutomatically from '@salesforce/label/FlowBuilderStartEditor.triggerTypeAutomatically';
 import triggerTypeBeforeSaveInputLabel from '@salesforce/label/FlowBuilderStartEditor.triggerTypeBeforeSaveInputLabel';
 import triggerTypeScheduled from '@salesforce/label/FlowBuilderStartEditor.triggerTypeScheduled';
+import triggerTypeScheduledJourney from '@salesforce/label/FlowBuilderStartEditor.triggerTypeScheduledJourney';
 import triggerTypeUpdated from '@salesforce/label/FlowBuilderStartEditor.triggerTypeUpdated';
 import triggerTypeCreated from '@salesforce/label/FlowBuilderStartEditor.triggerTypeCreated';
 import triggerTypeCreatedOrUpdated from '@salesforce/label/FlowBuilderStartEditor.triggerTypeCreatedOrUpdated';
@@ -38,6 +39,7 @@ export const LABELS = {
     triggerTypeInputLabel,
     triggerTypeAutomatically,
     triggerTypeScheduled,
+    triggerTypeScheduledJourney,
     triggerTypeUpdated,
     triggerTypeCreated,
     triggerTypeCreatedOrUpdated,

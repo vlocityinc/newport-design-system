@@ -33,7 +33,7 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
  * @since 214
  */
 
-const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
+const { NONE, BEFORE_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
 
 export default class Node extends LightningElement {
@@ -130,6 +130,7 @@ export default class Node extends LightningElement {
                         this.node.object.toLowerCase()
                     );
                 case SCHEDULED:
+                case SCHEDULED_JOURNEY:
                     return LABELS.nodeIconTitleStartScheduled;
                 default:
                     return '';

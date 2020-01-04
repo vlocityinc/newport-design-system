@@ -19,6 +19,7 @@ import { PropertyChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { LABELS } from './startEditorLabels';
 import { orgHasBeforeSaveEnabled } from 'builder_platform_interaction/contextLib';
+import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 
 const UNSET_TRIGGER_SAVE_TYPE = '';
 
@@ -28,7 +29,7 @@ const SELECTORS = {
 };
 
 const { CREATE, UPDATE, CREATE_AND_UPDATE } = FLOW_TRIGGER_SAVE_TYPE;
-const { NONE, BEFORE_SAVE, SCHEDULED } = FLOW_TRIGGER_TYPE;
+const { NONE, BEFORE_SAVE, SCHEDULED, SCHEDULED_JOURNEY } = FLOW_TRIGGER_TYPE;
 const { ONCE, DAILY, WEEKLY } = FLOW_TRIGGER_FREQUENCY;
 
 const noneRadioOption = { label: LABELS.triggerTypeAutomatically, value: NONE };
@@ -40,6 +41,13 @@ const scheduledRadioOption = {
     label: LABELS.triggerTypeScheduled,
     value: SCHEDULED
 };
+// TODO: Temporary until UI makes use of the services
+const scheduledJourneyRadioOption = {
+    label: LABELS.triggerTypeScheduledJourney,
+    value: SCHEDULED_JOURNEY
+};
+
+
 /**
  * Screen for the start element
  */
@@ -96,7 +104,7 @@ export default class StartEditor extends LightningElement {
     }
 
     get showScheduleSection() {
-        return this.triggerType === SCHEDULED;
+        return isScheduledTriggerType(this.triggerType);
     }
 
     get showRecordCreateOrUpdate() {
@@ -105,7 +113,7 @@ export default class StartEditor extends LightningElement {
 
     get showObjectSection() {
         return (
-            this.triggerType === SCHEDULED || this.triggerType === BEFORE_SAVE
+            this.triggerType === SCHEDULED || this.triggerType === SCHEDULED_JOURNEY || this.triggerType === BEFORE_SAVE
         );
     }
 
@@ -159,6 +167,7 @@ export default class StartEditor extends LightningElement {
             case BEFORE_SAVE:
                 return this.labels.createOrUpdateSectionHeader;
             case SCHEDULED:
+            case SCHEDULED_JOURNEY:
                 return this.labels.chooseObjectAndRecord;
             default:
                 return 'unsupported trigger type';
@@ -166,7 +175,7 @@ export default class StartEditor extends LightningElement {
     }
 
     get triggerTypeOptions() {
-        const triggerOptions = [noneRadioOption, scheduledRadioOption];
+        const triggerOptions = [noneRadioOption, scheduledRadioOption, scheduledJourneyRadioOption];
 
         // Checking if before save is enabled
         if (orgHasBeforeSaveEnabled()) {
@@ -200,6 +209,7 @@ export default class StartEditor extends LightningElement {
             case BEFORE_SAVE:
                 return this.labels.createOrUpdateTriggerDescription;
             case SCHEDULED:
+            case SCHEDULED_JOURNEY:
                 return this.labels.scheduledTriggerDescription;
             default:
                 return 'unsupported trigger type';

@@ -21,6 +21,7 @@ import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEdito
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { SYSTEM_VARIABLE_RECORD_PREFIX } from 'builder_platform_interaction/systemLib';
+import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import {
     formatDateTimeUTC,
     getDayOfTheWeek
@@ -80,7 +81,7 @@ export function createStartElement(startElement = {}) {
     let label;
     if (triggerType === FLOW_TRIGGER_TYPE.BEFORE_SAVE) {
         label = getBeforeSaveLabel(object, recordTriggerType);
-    } else if (triggerType === FLOW_TRIGGER_TYPE.SCHEDULED) {
+    } else if (isScheduledTriggerType(triggerType)) {
         label = getscheduledLabel(startDate, isoStartTime, frequency);
     }
 

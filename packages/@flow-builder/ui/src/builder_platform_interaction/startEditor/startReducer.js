@@ -9,6 +9,7 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import { EXPRESSION_PROPERTY_TYPE } from 'builder_platform_interaction/expressionUtils';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 import { RECORD_FILTER_CRITERIA } from 'builder_platform_interaction/recordEditorLib';
+import { isScheduledTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { elementTypeToConfigMap } from 'builder_platform_interaction/elementConfig';
 import {
     ELEMENT_TYPE,
@@ -151,7 +152,7 @@ const startPropertyChanged = (state, event) => {
 
     if (event.detail.propertyName === START_ELEMENT_FIELDS.TRIGGER_TYPE) {
         clearAllProperties(state);
-        if (event.detail.value === FLOW_TRIGGER_TYPE.SCHEDULED) {
+        if (isScheduledTriggerType(event.detail.value)) {
             setDefaultScheduledProperties(state);
         } else {
             // clear all scheduled properties if trigger type is not 'Scheduled'

@@ -21,3 +21,13 @@ export const isRunInModeSupported = triggerType => {
 export const isLookupTraversalSupported = triggerType => {
     return isUndefinedOrNoneTriggerType(triggerType);
 };
+
+/**
+ * Whether or not this trigger type has a schedule
+ * @param {String} triggerType
+ * @returns {Boolean} true if it has a schedule, false otherwise
+ */
+export const isScheduledTriggerType = triggerType => {
+    // TODO this information should eventually just come from the trigger type service
+    return triggerType === FLOW_TRIGGER_TYPE.SCHEDULED || triggerType === FLOW_TRIGGER_TYPE.SCHEDULED_JOURNEY;
+};
