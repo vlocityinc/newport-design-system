@@ -54,18 +54,18 @@
         }
     }
     
-    @media only screen and (min-width: 30rem){
+    @media only screen and (min-width: 30rem) {
         padding: 0 1.875rem;
         .nds-dc-applied-promo {
-            .nds-dc-applied-promo-label{
+            .nds-dc-applied-promo-label {
                 width: 30%;
                 padding-left: 1.25rem;
                 font-size: $font-size-applied-promo;
             }
-            .nds-dc-adjustment-value-one-time{
+            .nds-dc-adjustment-value-one-time {
                 font-size: $font-size-applied-promo;
             }
-            .nds-dc-adjustment-value-recurring{
+            .nds-dc-adjustment-value-recurring {
                 width: 20%;
                 font-size: $font-size-applied-promo;
                 margin-right: unset;
@@ -81,7 +81,6 @@
                 margin-left: 0; 
                 float: right;
             }
-            
             .nds-dc-value-one-time {
                 width: 6rem;
             }
