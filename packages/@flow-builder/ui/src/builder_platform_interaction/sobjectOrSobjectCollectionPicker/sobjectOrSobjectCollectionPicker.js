@@ -125,6 +125,19 @@ export default class SObjectOrSObjectCollectionPicker extends LightningElement {
 
     get sobjectVariableElementConfig() {
         return {
+            allowedParamTypes: {
+                SObject: [
+                    {
+                        paramType: 'Data',
+                        dataType: this.state.recordEntityName
+                            ? this.state.recordEntityName
+                            : 'SObject',
+                        canBeSobjectField: 'CannotBe',
+                        canBeSystemVariable: 'CanBe',
+                        canBeApexProperty: 'CanBe'
+                    }
+                ]
+            },
             sObjectSelectorConfig: {
                 sobjectCollectionCriterion: this.state
                     .sobjectCollectionCriterion,

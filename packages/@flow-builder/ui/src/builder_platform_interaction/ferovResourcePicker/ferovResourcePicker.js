@@ -312,7 +312,7 @@ export default class FerovResourcePicker extends LightningElement {
 
     populateParamTypes = () => {
         this.paramTypes = this.elementConfig
-            ? null
+            ? this.elementConfig.allowedParamTypes
             : getRHSTypes(
                   this.propertyEditorElementType,
                   this.elementParam,

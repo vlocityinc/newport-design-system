@@ -10,22 +10,28 @@ export const comboboxInitialConfig = {
             label: 'SObject Variables',
             items: [
                 {
+                    iconSize: 'xx-small',
                     text: 'MyAccount',
                     subText: 'Account',
                     value: 'b4c16f3b-b29c-4f73-a561-442247440fba',
                     displayText: '{!MyAccount}',
                     hasNext: true,
-                    iconName: 'standard:account',
+                    iconName: 'utility:sobject',
                     type: 'option-card',
+                    dataType: 'SObject',
+                    subtype: 'Account'
                 },
                 {
+                    iconSize: 'xx-small',
                     text: 'MyContact',
                     subText: 'Contact',
                     value: 'VAR2',
                     displayText: '{!MyContact}',
                     hasNext: true,
-                    iconName: 'standard:contact',
+                    iconName: 'utility:sobject',
                     type: 'option-card',
+                    dataType: 'SObject',
+                    subtype: 'Contact'
                 },
             ]
         },
@@ -33,40 +39,52 @@ export const comboboxInitialConfig = {
             label: 'Variables',
             items: [
                 {
+                    iconSize: 'xx-small',
                     text: 'MyName',
-                    subText: 'String',
+                    subText: 'Text',
                     value: 'VAR3',
                     displayText: '{!MyVar1}',
                     hasNext: false,
-                    iconName: 'utility:text_color',
+                    iconName: 'utility:text',
                     type: 'option-card',
+                    dataType: 'String',
+                    subtype: null
                 },
                 {
+                    iconSize: 'xx-small',
                     text: 'MyNumber2',
                     subText: 'Number',
                     value: 'VAR4',
                     displayText: '{!MyNumber2}',
                     hasNext: false,
-                    iconName: 'utility:number',
+                    iconName: 'utility:topic2',
                     type: 'option-card',
+                    dataType: 'Number',
+                    subtype: null
                 },
                 {
+                    iconSize: 'xx-small',
                     text: 'StartDateVar',
                     subText: 'Date',
                     value: 'VAR5',
                     displayText: '{!StartDateVar}',
                     hasNext: false,
-                    iconName: 'utility:date',
+                    iconName: 'utility:event',
                     type: 'option-card',
+                    dataType: 'Date',
+                    subtype: null
                 },
                 {
+                    iconSize: 'xx-small',
                     text: 'Is Applicable?',
-                    subText: 'Date',
+                    subText: 'Boolean',
                     value: 'VAR6',
                     displayText: '{!MyBooleanVar}',
                     hasNext: false,
-                    iconName: 'utility:boolean',
+                    iconName: 'utility:crossfilter',
                     type: 'option-card',
+                    dataType: 'Boolean',
+                    subtype: null
                 },
             ]
         },
@@ -80,6 +98,8 @@ export const comboboxInitialConfig = {
                     displayText: '{!$GlobalConstant.True}',
                     hasNext: false,
                     type: 'option-card',
+                    dataType: 'Boolean',
+                    subtype: null
                 },
                 {
                     text: '$GlobalConstant.EmptyString',
@@ -88,6 +108,8 @@ export const comboboxInitialConfig = {
                     displayText: '{!$GlobalConstant.EmptyString}',
                     hasNext: false,
                     type: 'option-card',
+                    dataType: 'String',
+                    subtype: null
                 },
             ]
         }

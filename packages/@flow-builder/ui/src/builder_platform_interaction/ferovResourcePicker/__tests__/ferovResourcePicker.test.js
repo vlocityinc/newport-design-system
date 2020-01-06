@@ -73,7 +73,9 @@ jest.mock('builder_platform_interaction/ruleLib', () => {
         dataType: 'Currency',
         collection: false
     };
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = require.requireActual(
+        'builder_platform_interaction/ruleLib'
+    );
     return {
         mockParam,
         RULE_OPERATOR: actual.RULE_OPERATOR,
@@ -377,7 +379,34 @@ describe('ferov-resource-picker', () => {
             );
         });
     });
+    it('sets param types if elementConfig has allowedParamTypes', () => {
+        const allowedParamTypes = {
+            SObject: [
+                {
+                    paramType: 'Data',
+                    dataType: 'SObject',
+                    canBeSobjectField: 'CannotBe',
+                    canBeSystemVariable: 'CannotBe',
+                    canBeApexProperty: 'CanBe'
+                }
+            ]
+        };
+        const elementConfigProps = {
+            propertyEditorElementType: ELEMENT_TYPE.VARIABLE,
+            elementConfig: {
+                allowedParamTypes,
+                elementType: ELEMENT_TYPE.VARIABLE,
+                shouldBeWritable: false
+            }
+        };
 
+        setupComponentUnderTest(elementConfigProps);
+
+        return Promise.resolve().then(() => {
+            const populateParamTypesFn = getMenuData.mock.calls[0][2];
+            expect(populateParamTypesFn()).toStrictEqual(allowedParamTypes);
+        });
+    });
     it('sends param types to the base picker when enableFieldDrilldown is true', () => {
         const normalizedValue = {
             itemOrDisplayText: {

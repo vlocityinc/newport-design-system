@@ -1291,17 +1291,22 @@ export default class Combobox extends LightningElement {
     validateResource() {
         if (this.literalsAllowed && this.isExpressionIdentifierLiteral()) {
             this.validateLiteralForDataType();
-        } else if (this._mergeFieldLevel === 1 && !this.allowedParamTypes) {
-            // For single level merge field use menu data
-            if (!this._item) {
+        } else {
+            let isValidUsingMergeField = true;
+            if (this._mergeFieldLevel > 1 || this.allowedParamTypes) {
+                isValidUsingMergeField = this.validateUsingMergeFieldLib(
+                    validateMergeField,
+                    this.allowedParamTypes
+                );
+            }
+            // For single level merge field also use menu data
+            if (
+                isValidUsingMergeField &&
+                this._mergeFieldLevel === 1 &&
+                !this._item
+            ) {
                 this._errorMessage = ERROR_MESSAGE.GENERIC;
             }
-        } else {
-            // for two levels use merge field lib
-            this.validateUsingMergeFieldLib(
-                validateMergeField,
-                this.allowedParamTypes
-            );
         }
     }
 
@@ -1348,6 +1353,7 @@ export default class Combobox extends LightningElement {
     /**
      * Validate the merge field or merge fields with text using passed in merge field validation function reference.
      * @param {function} validateFunctionRef a existing function reference from merge field lib that returns promise.
+     * @return {Boolean} true if validation was succesful, false otherwise
      */
     validateUsingMergeFieldLib(validateFunctionRef) {
         const errors = validateFunctionRef.call(this, this.state.displayText, {
@@ -1357,7 +1363,9 @@ export default class Combobox extends LightningElement {
         });
         if (errors.length > 0) {
             this._errorMessage = errors[0].message;
+            return false;
         }
+        return true;
     }
 
     /**

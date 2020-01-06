@@ -9,12 +9,17 @@ export const SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS
 };
 
-export const getResourceGroupedCombobox = recordEditor => {
+export const getResourceCombobox = recordEditor => {
     return deepQuerySelector(recordEditor, [
         SELECTORS.SOBJECT_OR_SOBJECT_COLLECTION_PICKER,
         SELECTORS.FEROV_RESOURCE_PICKER,
         SELECTORS.BASE_RESOURCE_PICKER,
-        SELECTORS.INTERACTION_COMBOBOX,
+        SELECTORS.INTERACTION_COMBOBOX
+    ]);
+};
+
+export const getResourceGroupedCombobox = recordEditor => {
+    return deepQuerySelector(getResourceCombobox(recordEditor), [
         SELECTORS.LIGHTNING_GROUPED_COMBOBOX
     ]);
 };

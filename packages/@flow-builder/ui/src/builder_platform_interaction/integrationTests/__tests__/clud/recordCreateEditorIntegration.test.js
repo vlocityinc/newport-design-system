@@ -58,12 +58,17 @@ import {
 import { initializeAuraFetch } from '../serverDataTestUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
-import { SELECTORS, getResourceGroupedCombobox } from './cludEditorTestUtils';
+import {
+    SELECTORS,
+    getResourceGroupedCombobox,
+    getResourceCombobox
+} from './cludEditorTestUtils';
 
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
 const VALIDATION_ERROR_MESSAGES = {
     GENERIC: 'FlowBuilderCombobox.genericErrorMessage',
+    INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
     ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
 };
 
@@ -824,6 +829,26 @@ describe('Record Create Editor', () => {
                 expect(
                     apexContainsOnlyAnSObjectCollectionVariable
                 ).toBeUndefined();
+            });
+            it('should throw validation error if selecting a non SObject from the combobox', async () => {
+                await changeComboboxValue(
+                    sObjectOrSObjectCollectionPicker,
+                    '{!apexComplexTypeVariable}'
+                );
+
+                expect(
+                    getResourceCombobox(recordCreateElement).errorMessage
+                ).toBe(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
+            });
+            it('should throw validation error if manually entering an SObject collection', async () => {
+                await changeComboboxValue(
+                    sObjectOrSObjectCollectionPicker,
+                    '{!accountSObjectCollectionVariable}'
+                );
+
+                expect(
+                    getResourceCombobox(recordCreateElement).errorMessage
+                ).toBe(VALIDATION_ERROR_MESSAGES.GENERIC);
             });
         });
         describe('create from collection', () => {
