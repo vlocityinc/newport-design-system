@@ -47,7 +47,7 @@
   .nds-dc-totalbar_container-pipe {
     border: .05rem solid $white;
     height: 2.3rem;
-    margin: 1rem 1.5rem 0;
+    margin: 1rem 0.7rem 0;
   }
   
   .nds-dc-checkout-button {
@@ -56,21 +56,21 @@
     background-color: $white;
     border-radius: 0.25rem;
     font-size: 1rem;
-    padding: .3rem 1rem;
-    margin-right: 1rem;
+    padding: .3rem .75rem;
+    margin-right: 0.5rem;
     right: 0;
     position: relative;
-    min-width: 8rem;
+    min-width: 4rem;
   }
   
-  @media only screen and (max-width: 24rem) {
+  @media only screen and (min-width: 24rem) {
     .nds-dc-checkout-button {
-      padding: .3rem .75rem;
-      min-width: 4rem;
-      margin-right: 0.5rem;
+      padding: .3rem 1rem;
+      min-width: 8rem;
+      margin-right: 1rem;
     }
     .nds-dc-totalbar_container-pipe {
-      margin: 1rem 0.7rem 0;
+      margin: 1rem 1.5rem 0;
     }
   }
 }
