@@ -219,7 +219,7 @@ describe('start-editor', () => {
             startElement,
             SELECTORS.TRIGGER_TYPE_INPUT
         );
-        expect(scheduleSection.options).toHaveLength(2);
+        expect(scheduleSection.options).toHaveLength(3);
     });
 
     it('when before save trigger perm is enabled, before save trigger type is displayed', () => {
@@ -229,7 +229,7 @@ describe('start-editor', () => {
             startElement,
             SELECTORS.TRIGGER_TYPE_INPUT
         );
-        expect(scheduleSection.options).toHaveLength(3);
+        expect(scheduleSection.options).toHaveLength(4);
     });
 
     it('when triggerType is scheduled, schedule section is displayed', () => {
