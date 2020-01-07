@@ -121,12 +121,4 @@
     padding-right: 0.625rem;
     flex-basis: 60%;
   }
-} 
-
-@media only screen and (min-width: 64rem) {
-  .nds-large-size--1-of-3,
-  .nds-large-size_1-of-3 {
-    flex: 0 0 33%;
-    max-width: 33%;
-  }
 }

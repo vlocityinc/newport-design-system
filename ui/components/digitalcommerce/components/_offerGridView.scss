@@ -1,7 +1,6 @@
 .nds-dc-offer-grid-view {
   padding: 0;
   width: 100%;
-  //.nds-dc-offer-grid-item {
     .nds-dc-offer-board {
       padding: 0.625rem 0.3125rem;
       .nds-dc-offer-item-tile {
@@ -56,15 +55,6 @@
         }
       }
     }
-  //}
-}
-
-@media only screen and (min-width: 48rem) {
-  .nds-large-size--1-of-3,
-  .nds-large-size_1-of-3 {
-    flex: 0 0 100%;
-    max-width: 100%;
-  }
 }
 
 @media only screen and (min-width: 64rem) {

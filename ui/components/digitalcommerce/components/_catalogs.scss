@@ -1,10 +1,6 @@
 .nds-dc-catalog-wrapper {
   display: none;
 }
-.nds-dc-mobile-catalog-wrapper *,
-.nds-dc-catalog-wrapper * {
-  box-sizing: border-box;
-}
 .nds-dc-mobile-catalog-wrapper {
   padding: 1.25rem 0.625rem;
   border-bottom: 1px solid $newport-border-gray;
