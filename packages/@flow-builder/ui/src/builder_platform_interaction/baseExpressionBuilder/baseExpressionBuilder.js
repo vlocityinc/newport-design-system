@@ -789,7 +789,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                 isDisplayedAsFieldReference,
                 shouldBeWritable: this.lhsMustBeWritable,
                 allowSObjectFieldsTraversal: allowFieldsTraversal,
-                allowApexTypeFieldsTraversal: allowFieldsTraversal,
+                allowApexTypeFieldsTraversal: true,
                 objectType: this.objectType
             }
         );
@@ -936,8 +936,7 @@ export default class BaseExpressionBuilder extends LightningElement {
                     shouldBeWritable,
                     allowSObjectFieldsTraversal:
                         !shouldBeWritable && allowSObjectFieldsTraversal,
-                    allowApexTypeFieldsTraversal:
-                        !shouldBeWritable && allowApexTypeFieldsTraversal
+                    allowApexTypeFieldsTraversal
                 });
             let preFetchedFieldsSubtype;
             // get the sobject type from the first field

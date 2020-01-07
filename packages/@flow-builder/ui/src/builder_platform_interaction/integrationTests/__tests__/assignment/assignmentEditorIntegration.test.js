@@ -338,7 +338,6 @@ describe('Assignment Editor', () => {
                     })
                 ).toEqual({});
             });
-            it('cannot traverse more than 2 levels on the LHS', async () => {});
             describe('When rhs is a cross-Object Field Reference using Polymorphic Relationships', () => {
                 testExpression.each`
                 lhs                                            | operator    | rhs                                                     | rhsErrorMessage
@@ -353,7 +352,7 @@ describe('Assignment Editor', () => {
             ${'{!apexCall_Car_automatic_output.car}'}       | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
             ${'{!stringVariable}'}                          | ${'Assign'} | ${'{!apexCarVariable.wheel.type}'}                      | ${undefined}
             `();
-            it('cannot traverse more than 2 levels in the LHS', async () => {
+            it('can traverse more than 2 levels in the LHS', async () => {
                 const lhsCombobox = getLhsCombobox(expressionBuilder);
                 expect(
                     await selectComboboxItemBy(lhsCombobox, 'text', [
@@ -369,7 +368,9 @@ describe('Assignment Editor', () => {
                         'wheel',
                         'type'
                     ])
-                ).toBeUndefined();
+                ).toMatchObject({
+                    displayText: '{!apexCarVariable.wheel.type}'
+                });
             });
         });
         describe('Automatic handling mode', () => {
