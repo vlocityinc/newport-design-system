@@ -41,11 +41,15 @@ import {
     textInputEvent
 } from 'builder_platform_interaction/builderTestUtils';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-
-const SELECTORS = {
-    ...LIGHTNING_COMPONENTS_SELECTORS,
-    ...INTERACTION_COMPONENTS_SELECTORS
-};
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { selectGroupedComboboxItemBy } from '../comboboxTestUtils';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
+import {
+    SELECTORS,
+    getResourceGroupedCombobox,
+    getResourceCombobox
+} from './cludEditorTestUtils';
 
 const getRecordSobjectAndQueryFieldElement = recordLookupEditor => {
     return recordLookupEditor.shadowRoot.querySelector(
@@ -99,21 +103,9 @@ const getEntityResourcePickerComboboxElement = entityResourcePicker => {
     ]);
 };
 
-const getResourceGroupedCombobox = editor => {
-    const sObjectOrSObjectCollectionPicker = getSObjectOrSObjectCollectionPicker(
-        editor
-    );
-    const ferovResourcePicker = sObjectOrSObjectCollectionPicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.FEROV_RESOURCE_PICKER
-    );
-    const baseResourcePicker = ferovResourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.BASE_RESOURCE_PICKER
-    );
-    const interactionCombobox = baseResourcePicker.shadowRoot.querySelector(
-        INTERACTION_COMPONENTS_SELECTORS.INTERACTION_COMBOBOX
-    );
-    return interactionCombobox.shadowRoot.querySelector(
-        LIGHTNING_COMPONENTS_SELECTORS.LIGHTNING_GROUPED_COMBOBOX
+const getRecordObjectAndQueryFieldResourceGroupedCombobox = editor => {
+    return getResourceGroupedCombobox(
+        getRecordSobjectAndQueryFieldElement(editor)
     );
 };
 
@@ -389,7 +381,7 @@ describe('Record Lookup Editor', () => {
                 });
             });
             it('SObject Or SObject Collection Picker contains "New Resource"', () => {
-                const rhsGroupedCombobox = getResourceGroupedCombobox(
+                const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(
                     recordLookupElement
                 );
                 return resolveRenderCycles(() => {
@@ -444,7 +436,7 @@ describe('Record Lookup Editor', () => {
                 });
             });
             it('SObject Or SObject Collection Picker contains "New Resource"', () => {
-                const rhsGroupedCombobox = getResourceGroupedCombobox(
+                const rhsGroupedCombobox = getRecordObjectAndQueryFieldResourceGroupedCombobox(
                     recordLookupElement
                 );
                 return resolveRenderCycles(() => {
@@ -685,6 +677,114 @@ describe('Record Lookup Editor', () => {
                         text: 'vBillingCity',
                         type: 'option-card'
                     });
+                });
+            });
+        });
+        describe('assign variables', () => {
+            beforeAll(async () => {
+                uiFlow = translateFlowToUIModel(flowWithAllElements);
+                store.dispatch(updateFlow(uiFlow));
+                setApexClasses(apexTypesForFlow);
+            });
+            afterAll(() => {
+                resetState();
+            });
+            let recordLookupElement, sObjectOrSObjectCollectionPicker;
+            beforeEach(() => {
+                const element = getElementByDevName(
+                    'lookupRecordOutputReference'
+                );
+                recordLookupNode = getElementForPropertyEditor(element);
+                recordLookupElement = createComponentForTest(
+                    recordLookupNode,
+                    EditElementEvent.EVENT_NAME,
+                    FLOW_AUTOMATIC_OUTPUT_HANDLING.SUPPORTED
+                );
+                sObjectOrSObjectCollectionPicker = getRecordObjectAndQueryFieldResourceGroupedCombobox(
+                    recordLookupElement
+                );
+            });
+            describe('Sobject or Sobject collection picker', () => {
+                it('shows account variables up, no traversal', async () => {
+                    const account = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['accountSObjectVariable'],
+                        { blur: false }
+                    );
+
+                    expect(account).toBeDefined();
+                    expect(account.rightIconName).toBe('');
+                });
+                it('shows variable containing account up, only single account field', async () => {
+                    const apexContainsSObject = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['apexComplexTypeVariable'],
+                        { blur: false }
+                    );
+
+                    expect(apexContainsSObject).toBeDefined();
+                    expect(apexContainsSObject.rightIconName).toBeDefined();
+
+                    const accountCollectionField = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['apexComplexTypeVariable', 'acctListField'],
+                        { blur: false }
+                    );
+                    expect(accountCollectionField).toBeUndefined();
+
+                    const accountField = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['apexComplexTypeVariable', 'acct'],
+                        { blur: false }
+                    );
+
+                    expect(accountField).toBeDefined();
+
+                    const nameField = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['apexComplexTypeVariable', 'name'],
+                        { blur: false }
+                    );
+                    expect(nameField).toBeUndefined();
+                });
+                it('does not show non account variable up', async () => {
+                    const caseObject = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['caseSObjectVariable'],
+                        { blur: false }
+                    );
+
+                    expect(caseObject).toBeUndefined();
+                });
+                it('does not show account collection variable up', async () => {
+                    const accountCollection = await selectGroupedComboboxItemBy(
+                        sObjectOrSObjectCollectionPicker,
+                        'text',
+                        ['accountSObjectCollectionVariable'],
+                        { blur: false }
+                    );
+
+                    expect(accountCollection).toBeUndefined();
+                });
+                it('throws validation error when manually entering a non account variable', () => {
+                    changeComboboxValue(
+                        sObjectOrSObjectCollectionPicker,
+                        '{!caseSObjectVariable}'
+                    );
+
+                    expect(
+                        getResourceCombobox(
+                            getRecordSobjectAndQueryFieldElement(
+                                recordLookupElement
+                            )
+                        ).errorMessage
+                    ).toBe(FLOW_BUILDER_VALIDATION_ERROR_MESSAGES.GENERIC);
                 });
             });
         });
