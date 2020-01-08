@@ -49,7 +49,7 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
               >
                 <span
                   class="slds-form-element__label"
-                  id="resourcedRichTextEditorLabel-5"
+                  id="[shadow:guid]"
                 >
                   <abbr
                     class="slds-required"
@@ -67,7 +67,7 @@ exports[`text-template-editor check UI (snapshot) - "RichTextPlainTextSwitch" di
               </div>
             </div>
             <div
-              aria-labelledby="resourcedRichTextEditorLabel-5"
+              aria-labelledby="[shadow:guid]"
               class="container slds-grid slds-grid_vertical"
             >
               <div>

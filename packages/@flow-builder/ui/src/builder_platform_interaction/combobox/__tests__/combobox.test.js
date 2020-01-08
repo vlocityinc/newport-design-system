@@ -1592,7 +1592,7 @@ describe('Combobox Tests', () => {
         });
 
         it('uses localized date format when type is date and literals are allowed', () => {
-            getFormat.mockReturnValueOnce(mockDateFormat);
+            getFormat.mockReturnValue(mockDateFormat);
             combobox.type = FLOW_DATA_TYPE.DATE.value;
             combobox.literalsAllowed = true;
 
@@ -1603,7 +1603,7 @@ describe('Combobox Tests', () => {
         });
 
         it('uses localized date time format when type is dateTime and literals are allowed', () => {
-            getFormat.mockReturnValueOnce(mockDatetimeFormat);
+            getFormat.mockReturnValue(mockDatetimeFormat);
             combobox.type = FLOW_DATA_TYPE.DATE_TIME.value;
             combobox.literalsAllowed = true;
 

@@ -14,12 +14,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Disable it 
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-54"
+            id="[shadow:guid]"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-54"
+        aria-labelledby="[shadow:guid]"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -74,12 +74,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via API Enable it 1
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-47"
+            id="[shadow:guid]"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-47"
+        aria-labelledby="[shadow:guid]"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -147,12 +147,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-74"
+            id="[shadow:guid]"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-74"
+        aria-labelledby="[shadow:guid]"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
@@ -207,12 +207,12 @@ exports[`ResourcedRichTextEditor Plain text mode Change mode via UI (button menu
         >
           <span
             class="slds-form-element__label"
-            id="resourcedRichTextEditorLabel-61"
+            id="[shadow:guid]"
           />
         </div>
       </div>
       <div
-        aria-labelledby="resourcedRichTextEditorLabel-61"
+        aria-labelledby="[shadow:guid]"
         class="container slds-grid slds-grid_vertical"
       >
         <div>
