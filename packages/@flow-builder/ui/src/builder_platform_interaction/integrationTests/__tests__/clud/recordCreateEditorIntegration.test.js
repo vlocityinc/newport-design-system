@@ -67,7 +67,6 @@ import {
 const MOCK_PROCESS_TYPE_SUPPORTING_AUTOMATIC_MODE = 'Flow';
 
 const VALIDATION_ERROR_MESSAGES = {
-    GENERIC: 'FlowBuilderCombobox.genericErrorMessage',
     INVALID_DATA_TYPE: 'FlowBuilderMergeFieldValidation.invalidDataType',
     ...FLOW_BUILDER_VALIDATION_ERROR_MESSAGES
 };
@@ -831,7 +830,7 @@ describe('Record Create Editor', () => {
                 ).toBeUndefined();
             });
             it('should throw validation error if selecting a non SObject from the combobox', async () => {
-                await changeComboboxValue(
+                changeComboboxValue(
                     sObjectOrSObjectCollectionPicker,
                     '{!apexComplexTypeVariable}'
                 );
@@ -841,7 +840,7 @@ describe('Record Create Editor', () => {
                 ).toBe(VALIDATION_ERROR_MESSAGES.INVALID_DATA_TYPE);
             });
             it('should throw validation error if manually entering an SObject collection', async () => {
-                await changeComboboxValue(
+                changeComboboxValue(
                     sObjectOrSObjectCollectionPicker,
                     '{!accountSObjectCollectionVariable}'
                 );

@@ -1295,8 +1295,7 @@ export default class Combobox extends LightningElement {
             let isValidUsingMergeField = true;
             if (this._mergeFieldLevel > 1 || this.allowedParamTypes) {
                 isValidUsingMergeField = this.validateUsingMergeFieldLib(
-                    validateMergeField,
-                    this.allowedParamTypes
+                    validateMergeField
                 );
             }
             // For single level merge field also use menu data
