@@ -24,6 +24,7 @@ import {
     apexCarVariable,
     lightningCompAutomaticOutputNoSObjectExtension,
     lightningCompAutomaticOutputContainsAccountExtension,
+    lightningCompAutomaticOutputSObjectCollectionExtension,
     apexCallStringAutomaticOutput,
     apexCallAccountAutomaticOutput,
     localActionApexDoesNotContainSObjectAutomaticOutput,
@@ -484,5 +485,140 @@ describe('getCanContainSObjectElements', () => {
         ]);
 
         expect(result).toHaveLength(0);
+    });
+    describe('collection criterion', () => {
+        describe('Only single values', () => {
+            it('does not return flow extensions that only have an SObject collection in automatic', () => {
+                const result = getCanContainSObjectElements(
+                    [lightningCompAutomaticOutputSObjectCollectionExtension],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT
+                    }
+                );
+
+                expect(result).toHaveLength(0);
+            });
+            it('does return flow extensions that only have a single SObject in automatic', () => {
+                const result = getCanContainSObjectElements(
+                    [lightningCompAutomaticOutputContainsAccountExtension],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    lightningCompAutomaticOutputContainsAccountExtension.name
+                );
+            });
+            it('does return local action that has apex variable which contains both single SObject and SObject collection', () => {
+                const result = getCanContainSObjectElements(
+                    [localActionApexDoesContainsSObjectAutomaticOutput],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    localActionApexDoesContainsSObjectAutomaticOutput.name
+                );
+            });
+        });
+        describe('Only collections', () => {
+            it('does return flow extensions that only have an SObject collection in automatic', () => {
+                const result = getCanContainSObjectElements(
+                    [lightningCompAutomaticOutputSObjectCollectionExtension],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    lightningCompAutomaticOutputSObjectCollectionExtension.name
+                );
+            });
+            it('does not return flow extensions that only have a single SObject in automatic', () => {
+                const result = getCanContainSObjectElements(
+                    [lightningCompAutomaticOutputContainsAccountExtension],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION
+                    }
+                );
+
+                expect(result).toHaveLength(0);
+            });
+            it('does return local action that has apex variable which contains both single SObject and SObject collection', () => {
+                const result = getCanContainSObjectElements(
+                    [localActionApexDoesContainsSObjectAutomaticOutput],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_COLLECTION
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    localActionApexDoesContainsSObjectAutomaticOutput.name
+                );
+            });
+        });
+        describe('Both single values and collections', () => {
+            it('does return flow extensions that only have an SObject collection in automatic', () => {
+                const result = getCanContainSObjectElements(
+                    [lightningCompAutomaticOutputSObjectCollectionExtension],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    lightningCompAutomaticOutputSObjectCollectionExtension.name
+                );
+            });
+            it('does return flow extensions that only have a single SObject in automatic', () => {
+                const result = getCanContainSObjectElements(
+                    [lightningCompAutomaticOutputContainsAccountExtension],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    lightningCompAutomaticOutputContainsAccountExtension.name
+                );
+            });
+            it('does return local action that has apex variable which contains both single SObject and SObject collection', () => {
+                const result = getCanContainSObjectElements(
+                    [localActionApexDoesContainsSObjectAutomaticOutput],
+                    {
+                        sobjectCollectionCriterion:
+                            SOBJECT_OR_SOBJECT_COLLECTION_FILTER.SOBJECT_OR_SOBJECT_COLLECTION
+                    }
+                );
+
+                expect(result).toHaveLength(1);
+                expect(result[0]).toHaveProperty(
+                    'name',
+                    localActionApexDoesContainsSObjectAutomaticOutput.name
+                );
+            });
+        });
     });
 });

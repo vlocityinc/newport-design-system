@@ -12,7 +12,7 @@ import {
 } from 'builder_platform_interaction/sobjectLib';
 import { COMPONENT_INSTANCE } from 'builder_platform_interaction/flowExtensionLib';
 import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
-import { getAutomaticOutputParameters } from 'builder_platform_interaction/complexTypeLib';
+import { retrieveResourceComplexTypeFields } from 'builder_platform_interaction/complexTypeLib';
 import { SOBJECT_OR_SOBJECT_COLLECTION_FILTER } from 'builder_platform_interaction/filterTypeLib';
 
 const elementsSelector = state => state.elements;
@@ -399,7 +399,7 @@ function isFlowResourceWithSObjectField(flowResource, retrieveOptions = {}) {
     const automaticOutputParametersOrApexClassProperties =
         flowResource.dataType === FLOW_DATA_TYPE.APEX.value
             ? apexTypeLib.getPropertiesForClass(flowResource.subtype)
-            : getAutomaticOutputParameters(flowResource);
+            : retrieveResourceComplexTypeFields(flowResource);
     let sobjectParameters = getSObjectOrContainsSObjectParameters(
         automaticOutputParametersOrApexClassProperties
     );

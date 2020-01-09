@@ -749,6 +749,17 @@
         "getFirstRecordOnly": true
       }
     ],
+    "recordDeletes": [
+      {
+        "name": "deleteAccount",
+        "description": "",
+        "label": "deleteAccount",
+        "locationX": 751,
+        "locationY": 469.359375,
+        "inputReference": "accountSObjectVariable",
+        "filters": []
+      }
+    ],
     "screens": [
       {
         "name": "screen1",
@@ -834,6 +845,19 @@
             "scale": 0,
             "storeOutputAutomatically": true,
             "extensionName": "c:noSobjectOutputComp"
+          },
+          {
+            "choiceReferences": [],
+            "fieldText": "",
+            "fieldType": "ComponentInstance",
+            "helpText": "",
+            "inputParameters": [],
+            "isRequired": true,
+            "name": "lightningCompWithAccountsOutput",
+            "outputParameters": [],
+            "scale": 0,
+            "storeOutputAutomatically": true,
+            "extensionName": "c:sobjectCollectionOutputComp"
           }
         ],
         "allowBack": true,
@@ -888,17 +912,6 @@
         "description": "",
         "dataType": "Number",
         "choiceText": "Choice 1"
-      }
-    ],
-    "recordDeletes": [
-      {
-        "name": "deleteAccount",
-        "description": "",
-        "label": "deleteAccount",
-        "locationX": 751,
-        "locationY": 469.359375,
-        "inputReference": "accountSObjectVariable",
-        "filters": []
       }
     ],
     "description": "",

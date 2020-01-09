@@ -78,6 +78,7 @@ export const apexCarVariable = getElementByName('apexCarVariable');
 export const createAccountWithAutomaticOutput = getElementByName('createAccountWithAutomaticOutput');
 export const lightningCompAutomaticOutputContainsAccountExtension = getElementByName('lightningCompWithAccountOutput');
 export const lightningCompAutomaticOutputNoSObjectExtension = getElementByName('lightningCompWithNoAccountOutput');
+export const lightningCompAutomaticOutputSObjectCollectionExtension = getElementByName('lightningCompWithAccountsOutput');
 export const localActionApexDoesNotContainSObjectAutomaticOutput = getElementByName('actionCallLC_apex_no_sobject_auto');
 export const localActionApexDoesContainsSObjectAutomaticOutput = getElementByName('actionCallLC_apex_with_sobject_auto');
 export const feedItemVariable = getElementByName('feedItemVariable');

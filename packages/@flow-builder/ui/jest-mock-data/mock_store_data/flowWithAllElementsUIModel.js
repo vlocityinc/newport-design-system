@@ -1,5 +1,5 @@
 // To update flowWithAllElementsUIModel from flowWithAllElements, run flowTranslator.test.js and follow instructions
-export const flowWithAllElementsUIModel = {
+export const flowWithAllElementsUIModel =  {
   "elements": {
     "07fd2a44-4192-4709-888d-8ccc18cb4580": {
       "guid": "07fd2a44-4192-4709-888d-8ccc18cb4580",
@@ -1592,6 +1592,9 @@ export const flowWithAllElementsUIModel = {
         },
         {
           "fieldReference": "dc0f5b41-7ae2-4b45-9258-3a4cbacc745c"
+        },
+        {
+          "fieldReference": "c7027d6d-66ae-440f-b340-0c652eaebe79"
         }
       ],
       "elementType": "Screen",
@@ -1760,6 +1763,40 @@ export const flowWithAllElementsUIModel = {
     },
     "c7027d6d-66ae-440f-b340-0c652eaebe79": {
       "guid": "c7027d6d-66ae-440f-b340-0c652eaebe79",
+      "name": "lightningCompWithAccountsOutput",
+      "choiceReferences": [],
+      "dataType": "LightningComponentOutput",
+      "defaultValue": "",
+      "defaultValueIndex": "5a8a33e6-d476-45dc-b263-b3bae11ee715",
+      "validationRule": {
+        "formulaExpression": null,
+        "errorMessage": null
+      },
+      "extensionName": "c:sobjectCollectionOutputComp",
+      "fieldType": "ComponentInstance",
+      "fieldText": "",
+      "helpText": "",
+      "inputParameters": [],
+      "isNewField": false,
+      "isRequired": true,
+      "outputParameters": [],
+      "scale": "0",
+      "type": {
+        "name": "c:sobjectCollectionOutputComp",
+        "fieldType": "ComponentInstance",
+        "label": "c:sobjectCollectionOutputComp",
+        "icon": "standard:lightning_component",
+        "source": "local"
+      },
+      "elementType": "SCREEN_FIELD",
+      "visibilityRule": {
+        "conditionLogic": "no_conditions",
+        "conditions": []
+      },
+      "storeOutputAutomatically": true
+    },
+    "0d02ed31-ffad-42ba-967f-5ebbbdb83dd5": {
+      "guid": "0d02ed31-ffad-42ba-967f-5ebbbdb83dd5",
       "name": "screenWithAddress",
       "description": "",
       "label": "screenWithAddress",
@@ -1780,19 +1817,19 @@ export const flowWithAllElementsUIModel = {
       "showHeader": true,
       "fieldReferences": [
         {
-          "fieldReference": "5a8a33e6-d476-45dc-b263-b3bae11ee715"
+          "fieldReference": "d65a9682-db73-4ea7-8a38-9e2d8ee50d43"
         }
       ],
       "elementType": "Screen",
       "maxConnections": 1
     },
-    "5a8a33e6-d476-45dc-b263-b3bae11ee715": {
-      "guid": "5a8a33e6-d476-45dc-b263-b3bae11ee715",
+    "d65a9682-db73-4ea7-8a38-9e2d8ee50d43": {
+      "guid": "d65a9682-db73-4ea7-8a38-9e2d8ee50d43",
       "name": "Address",
       "choiceReferences": [],
       "dataType": "LightningComponentOutput",
       "defaultValue": "",
-      "defaultValueIndex": "0d02ed31-ffad-42ba-967f-5ebbbdb83dd5",
+      "defaultValueIndex": "553332e6-c579-49e7-8757-8044dd8b530f",
       "validationRule": {
         "formulaExpression": null,
         "errorMessage": null
@@ -1820,8 +1857,8 @@ export const flowWithAllElementsUIModel = {
       },
       "storeOutputAutomatically": true
     },
-    "d65a9682-db73-4ea7-8a38-9e2d8ee50d43": {
-      "guid": "d65a9682-db73-4ea7-8a38-9e2d8ee50d43",
+    "cb13b620-ebec-4c72-aff0-beebd24ef0c2": {
+      "guid": "cb13b620-ebec-4c72-aff0-beebd24ef0c2",
       "name": "stage1",
       "description": "",
       "isActive": false,
@@ -1829,8 +1866,8 @@ export const flowWithAllElementsUIModel = {
       "label": "stage1",
       "elementType": "Stage"
     },
-    "553332e6-c579-49e7-8757-8044dd8b530f": {
-      "guid": "553332e6-c579-49e7-8757-8044dd8b530f",
+    "9f2723ee-84ae-473a-b265-ebee9afa6697": {
+      "guid": "9f2723ee-84ae-473a-b265-ebee9afa6697",
       "name": "numberChoice",
       "description": "",
       "elementType": "Choice",
@@ -1838,7 +1875,7 @@ export const flowWithAllElementsUIModel = {
       "choiceText": "Choice 1",
       "storedValue": null,
       "storedValueDataType": null,
-      "storedValueIndex": "cb13b620-ebec-4c72-aff0-beebd24ef0c2",
+      "storedValueIndex": "8d06ba06-b0e4-4a15-ab56-651dc35a83a8",
       "isShowInputSelected": false,
       "isValidateSelected": false
     }
@@ -1876,7 +1913,7 @@ export const flowWithAllElementsUIModel = {
     "8f88fc57-1b46-4e64-8821-bd1e1bcc6de6",
     "5abbcb4e-faba-4750-91f2-46c9509713ea",
     "bf98c1eb-cd97-49dd-b11d-7b6aca391ca6",
-    "c7027d6d-66ae-440f-b340-0c652eaebe79"
+    "0d02ed31-ffad-42ba-967f-5ebbbdb83dd5"
   ],
   "properties": {
     "canOnlySaveAsNewDefinition": false,

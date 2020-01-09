@@ -346,3 +346,33 @@ export const mockLightningCompWithGenericTypesFlowExtensionDescription = {
     }
   ]
 };
+
+export const mockLightningCompWithSObjectCollectionOutputFlowExtensionDescription = {
+  name: "c:sobjectCollectionOutputComp",
+  inputParameters: [
+    {
+      apiName: "accounts",
+      dataType: "sobject",
+      subtype: "Account",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Accounts",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 2000
+    }
+  ],
+  outputParameters: [
+    {
+      apiName: "accounts",
+      dataType: "sobject",
+      subtype: "Account",
+      hasDefaultValue: false,
+      isRequired: false,
+      label: "Accounts",
+      isInput: true,
+      isOutput: true,
+      maxOccurs: 2000
+    }
+  ]
+};

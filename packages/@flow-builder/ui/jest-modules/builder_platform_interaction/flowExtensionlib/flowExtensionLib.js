@@ -43,6 +43,10 @@ const mockGetCachedExtensionImplementation = (
     case extensions
       .mockLightningCompWithoutSObjectOutputFlowExtensionDescription.name:
       return extensions.mockLightningCompWithoutSObjectOutputFlowExtensionDescription;
+    case extensions
+      .mockLightningCompWithSObjectCollectionOutputFlowExtensionDescription
+      .name:
+      return extensions.mockLightningCompWithSObjectCollectionOutputFlowExtensionDescription;
     default:
       return undefined;
   }
