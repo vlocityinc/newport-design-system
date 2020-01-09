@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+
+    "declaration": true,
+    "sourceMap": false,
+
+    "module": "es6",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "target": "ESNext",
+    "lib": ["dom"]
+  },
+
+  "exclude": ["**/__tests__", "node_modules"],
+  "files": ["./packages/@types/index.d.ts"]
+}

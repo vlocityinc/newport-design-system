@@ -1,0 +1,116 @@
+{
+    "name": "automation-builder",
+    "version": "1.0.0",
+    "description": "Builders and Components",
+    "private": true,
+    "publishConfig": {
+        "registry": "https://nexus.soma.salesforce.com/nexus/content/groups/npm-all/"
+    },
+    "config": {
+        "auraVersion": "0.6000.2395",
+        "lwcVersion": "1.0.2-222.18",
+        "lwcApiVersion": "0.222.13",
+        "lwcJestPreset": "2.2.0"
+    },
+    "scripts": {
+        "clean": "rm -rf src/main/modules && lerna run clean",
+        "ci:lint": "lerna run lint",
+        "format": "prettier --write '{docs,src,packages}/**/*.{js,ts,json,md,json}'",
+        "ci:prettify": "prettier --check '{docs,src}/**/*.{js,ts,json,md,json}'",
+        "build:packages": "lerna run build --stream",
+        "build:core": "node ./scripts/npm2lwc.js src/main/modules packages --core ",
+        "build:poc": "node ./scripts/npm2lwc.js packages/flow-builder-pocs/build packages && lerna run build:poc",
+        "build:dev": "lerna run build:dev --stream && yarn build:core && yarn build:poc",
+        "build": "yarn build:packages && yarn build:core && yarn build:poc",
+        "serve": "lerna run start --stream",
+        "start": "run-p watch:poc serve watch watch:core",
+        "test:nba-components": "./scripts/testNbaComponents.sh",
+        "watch:poc": "node ./scripts/npm2lwc.js packages/flow-builder-pocs/build/ packages --watch",
+        "watch": "lerna run watch --parallel",
+        "watch:core": "yarn build:core && node ./scripts/npm2lwc.js src/main/modules packages --watch --core",
+        "test:unit": "lerna run test",
+        "test:unit:ci": "lerna run --no-bail test:coverage",
+        "test:integration": "lerna run test:integration:dev",
+        "test:integration:ci": "lerna run test:integration:prod",
+        "generate:sfdc-components-package": "node ./scripts/generateNpmPackage.js",
+        "release:sfdc-components-package": "cd dist/builder-platform-interaction-components && npm publish --verbose --registry=https://nexus-proxy-prd.soma.salesforce.com/nexus/content/repositories/npmjs-internal/",
+        "update:auraPomVersion": "mvn versions:update-property -Dproperty=aura.version -DnewVersion=[$npm_package_config_auraVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
+        "update:lwcPomVersion": "mvn versions:update-property -Dproperty=lwc.version -DnewVersion=[$npm_package_config_lwcVersion] -DallowDowngrade=true -DgenerateBackupPoms=false",
+        "update:lwcPackages": "node ./scripts/updateLwcVersions && yarn install",
+        "update:versions": "yarn update:lwcPomVersion && yarn update:auraPomVersion && yarn update:lwcPackages",
+        "utils:copy-to-nba": "./scripts/copyToNba.sh",
+        "utils:sync-from-core": "./scripts/syncFromCore.sh"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@git.soma.salesforce.com:automation-platform/automation-platform/ui-interaction-builder-components.git"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.8.0",
+        "@babel/preset-env": "^7.8.2",
+        "@salesforce/eslint-config-lwc": "^0.3.0",
+        "concurrently": "^5.0.2",
+        "dotenv": "^8.2.0",
+        "eslint": "^5.8.0",
+        "eslint-config-prettier": "^6.9.0",
+        "eslint-plugin-eslint-comments": "^3.1.2",
+        "eslint-plugin-lwc": "^0.5.2",
+        "eslint-plugin-lwc-core": "^1.0.1",
+        "eslint-plugin-prettier": "^3.1.2",
+        "fs-extra": "^8.1.0",
+        "husky": "^4.0.7",
+        "jest": "^24.9.0",
+        "jest-extended": "^0.11.2",
+        "jest-html-reporter": "^2.8.0",
+        "lerna": "3.20.2",
+        "lint-staged": "^9.5.0",
+        "lwc-testrunner": "^4.1.1",
+        "npm-run-all": "^4.1.5",
+        "prettier": "~1.19.1",
+        "rollup": "^1.29.0",
+        "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-terser": "^5.2.0",
+        "semver": "^7.1.1",
+        "ts-jest": "^24.3.0",
+        "tslint": "^5.20.1",
+        "typescript": "~3.7.4",
+        "xml2js": "^0.4.23",
+        "yargs": "^15.1.0"
+    },
+    "workspaces": [
+        "packages/@flow-builder/ui"
+    ],
+    "engines": {},
+    "volta": {},
+    "husky": {
+        "hooks": {
+            "pre-commit": [
+                "lint-staged"
+            ],
+            "pre-push": [
+                "test:nba-components"
+            ]
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,css,json,yaml,md,html}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.{ts}": [
+            "tslint -p ./tsconfig.json"
+        ],
+        "*.{js}": [
+            "eslint --fix --max-warnings 0"
+        ],
+        "packages/@flow-builder/ui/jsconfig.json": [
+            "node ./scripts/genJsConfig.js > packages/@flow-builder/ui/jsconfig.json",
+            "git add packages/@flow-builder/ui/jsconfig.json"
+        ]
+    },
+    "jest-html-reporter": {
+        "pageTitle": "ui-interaction-builder-components Jest test report",
+        "outputPath": "./jest-report/index.html",
+        "includeFailureMsg": true
+    }
+}

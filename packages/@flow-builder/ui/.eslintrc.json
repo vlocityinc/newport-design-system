@@ -1,0 +1,28 @@
+{
+    "extends": ["../../../modules.eslintrc.json"],
+    "rules": {
+        "lwc-core/no-inline-disable": [
+            "error",
+            {
+                "whitelist": {
+                    "complexity": ["**/builder_platform_interaction/reducers/elementsReducer.js"],
+                    "@lwc/lwc/no-async-operation": [
+                        "**/builder_platform_interaction/conditionEditorPopover/conditionEditorPopover.js"
+                    ],
+                    "@lwc/lwc/no-document-query": ["**/builder_platform_interaction/drawingLib/drawingLib.js"],
+                    "@lwc/lwc/no-inner-html": [
+                        "**/builder_platform_interaction/resourcedRichTextEditor/__tests__/richTextConverter.test.js"
+                    ],
+                    "@lwc/lwc/valid-api": [
+                        "**/builder_platform_interaction/connectorPicker/connectorPicker.js",
+                        "**/builder_platform_interaction/palette/palette.js"
+                    ],
+                    "lwc-core/no-aura": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
+                    "lwc-core/no-interop-create": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
+                    "lwc-core/no-interop-dispatch": ["**/builder_platform_interaction/builderUtils/builderUtils.js"],
+                    "lwc-core/no-interop-render": ["**/builder_platform_interaction/builderUtils/builderUtils.js"]
+                }
+            }
+        ]
+    }
+}

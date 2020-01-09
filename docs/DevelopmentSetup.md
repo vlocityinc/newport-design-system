@@ -1,0 +1,158 @@
+# Development Setup
+
+## Local Git Repo
+
+1. Install prerequisites
+
+Node.js (version 10.16.3)
+yarn (version 1.19.1)
+
+Setup nexus/npm as described here: https://confluence.internal.salesforce.com/pages/viewpage.action?spaceKey=NEXUS&title=Nexus+NPM+Repositories
+
+2. Check that you have the right versions installed:
+
+```sh
+yarn --version && node --version
+> 1.19.1
+> v10.16.3
+```
+
+3. Clone this repo somewhere on your filesystem (using `~projects` in this doc as an example):
+
+```sh
+cd ~/projects
+git clone git@git.soma.salesforce.com:automation-platform/ui-interaction-builder-components.git
+```
+
+4. cd to the root of the cloned git repo:
+
+```sh
+ cd ~/projects/ui-interaction-builder-components
+```
+
+5.  Create .env file and add NBA_COMPONENTS variable
+
+    -   We do this step because we run our changes against the ui-nba-components repo to make sure we are not breaking
+        their team codebase with our changes. When we run git push, husky runs the git push hook that runs their codebase based on this path.
+
+    `echo NBA_COMPONENTS=/Users/atrzeciak/blt/app/main/core/ui-nba-components > .env`
+    -- modified for your dev setup pointing to the repository modules for ui-nba-components repo
+
+6.  Switch to the `master` branch if you are not already on it:
+
+    ```sh
+    git checkout master
+    ```
+
+7.  Install the npm modules for the repo:
+
+        ```sh
+        yarn install
+        ```
+
+    (if you have issues with this command run `rm yarn.lock` or run `git clean -xfd` and make sure you have no file changed with `git status`)
+
+8.  Build the repo:
+
+    ```sh
+    yarn build
+    ```
+
+9.  Run mvn compile (See instructions here to setup mvn: https://sites.google.com/a/salesforce.com/butc/user-documentation/install-maven):
+
+    ```sh
+    mvn compile
+    ```
+
+10. Run this watch command so that when you modify files, they are picked up by core:
+
+```sh
+ yarn run watch:core
+```
+
+11. (Optional) Run the unit tests:
+
+```sh
+yarn run test:unit
+```
+
+Once core is up and running, if you make changes in your git repo, they should be reflected in the your running core instance after a few seconds.
+
+## Core Setup
+
+Currently the Flow Builder app cannot be run as a standalone app and must be run in core.
+
+When doing development you need to configure core and point it to where you cloned this repository so that it can pick up the `ui-interaction-builder-components` sources as you edit them, instead of using the JAR published in Nexus:
+
+1.  Open `~/blt/app/main/core/workspace-user.xml` to edit
+
+2.  Add a `<moduleImport>` entry under the `<moduleImports>` node, updating the value of the entry to be the absolute path to the location of your cloned repository. `<moduleImports>` is under `<workspace>` node.
+
+        ```xml
+        <moduleImports>
+            <moduleImport>/Users/ppominville/projects/ui-interaction-builder-components</moduleImport>
+        </moduleImports>
+        ```
+
+    and remove or comment out the `ui-interaction-builder-components` module:
+
+```xml
+<!--
+<module>ui-interaction-builder-components</module>
+<module>ui-interaction-builder-components/test/func</module>
+<module>ui-interaction-builder-components/test/unit</module>
+-->
+```
+
+3.  Add the following properties to the `<properties>` node if they are not already present.
+    `<properties>` node is under `<workspace>` node.
+
+    ```xml
+      <properties>
+        <repository.system.validation>DISABLED</repository.system.validation>
+        <modularity.enforcer.disabled>true</modularity.enforcer.disabled>
+        <skipJsDoc>true</skipJsDoc>
+        <ui-interaction-builder-components.version>226-SNAPSHOT</ui-interaction-builder-components.version>
+      </properties>
+    ```
+
+    The end result should be a `core/workspace-user.xml` file that looks a bit like this:
+
+```xml
+  <?xml version="1.0" ?>
+  <workspace>
+     <username>Ld5pROLS</username>
+     <password>********</password>
+     <source>
+      <branch>main</branch>
+      <revision>20240879</revision>
+      </source>
+      <modules>
+          ...
+      </modules>
+      <moduleImports>
+          <moduleImport>/Users/ppominville/projects/ui-interaction-builder-components</moduleImport>
+      </moduleImports>
+      <properties>
+          <repository.system.validation>DISABLED</repository.system.validation>
+          <modularity.enforcer.disabled>true</modularity.enforcer.disabled>
+          <skipJsDoc>true</skipJsDoc>
+          <ui-interaction-builder-components.version>226-SNAPSHOT</ui-interaction-builder-components.version>
+      </properties>
+  </workspace>
+```
+
+### **Important**: Branch Mismatch
+
+When working with any branch other than the current release branch (e.g. 224), make sure the repositories point to the same release.
+
+```sh
+# In this repository, check out the proper branch:
+git checkout 224
+```
+
+In the `workspace-user.xml`, update the `ui-interaction-builder-components` version:
+
+```xml
+<ui-interaction-builder-components.version>224-SNAPSHOT</ui-interaction-builder-components.version>
+```

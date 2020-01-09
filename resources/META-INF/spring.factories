@@ -1,0 +1,7 @@
+#
+# Copyright, 1999-2015, salesforce.com
+# All Rights Reserved
+# Company Confidential
+#
+
+com.force.commons.bootstrap.AutoConfiguration=ui.interactionbuilder.components.configuration.UIInteractionBuilderComponentsAutoConfiguration

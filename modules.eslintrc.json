@@ -1,0 +1,32 @@
+{
+    "root": true,
+
+    "plugins": ["lwc-core", "eslint-comments"],
+    "extends": [
+        "@salesforce/eslint-config-lwc/recommended",
+        "plugin:lwc-core/recommended",
+        "plugin:lwc-core/style",
+        "plugin:prettier/recommended"
+    ],
+
+    "globals": {
+        "process": false
+    },
+
+    "rules": {
+        "lwc-core/valid-offline-wire": "error",
+
+        "jest/valid-describe": "off",
+        "jest/valid-expect-in-promise": "off",
+        "jest/valid-expect": "off",
+        "jest/no-alias-methods": "off",
+
+        "eslint-comments/no-unused-disable": "error",
+        "eslint-comments/no-use": [
+            "error",
+            {
+                "allow": ["eslint-disable-line", "eslint-disable-next-line"]
+            }
+        ]
+    }
+}

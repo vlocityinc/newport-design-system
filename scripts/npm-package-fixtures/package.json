@@ -1,0 +1,17 @@
+{
+    "name": "builder-platform-interaction-components",
+    "version": "{VERSION}",
+    "engines": {
+        "node": ">=10.16.3"
+    },
+    "files": [
+        "labels",
+        "src/builder_platform_interaction/*/!(__container__|__integration__|__perf__|__raptorMocks__|__test__|__tests__)"
+    ],
+    "lwc": {
+        "mapNamespaceFromPath": true,
+        "modules": [
+            "src"
+        ]
+    }
+}

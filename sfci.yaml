@@ -1,0 +1,23 @@
+pipeline:
+    name: published-lwc
+    github_source:
+        repo: automation-platform/sfci-pipelines
+        branch: useLargeFlavor
+
+release_branches: ['master']
+
+precompile_lwc_components: true
+
+validations:
+    - name: 'Code Compile'
+      command: 'yarn build'
+    - name: 'Code Prettiness'
+      command: 'yarn ci:prettify'
+    - name: 'Code Lint'
+      command: 'yarn ci:lint'
+    - name: 'Unit Tests'
+      command: 'yarn test:unit'
+
+core:
+    module_name: 'ui-interaction-builder-components'
+    version_property_name: 'ui-interaction-builder-components.version'

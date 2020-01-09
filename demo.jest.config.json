@@ -1,0 +1,9 @@
+{
+  "preset": "lwc-jest-preset",
+  "moduleNameMapper": {
+    "^(community_[a-z0-9]+)/(.+)$": "<rootDir>/src/main/modules/$1/$2/$2",
+    "^(lightning)/(.+)$": "<rootDir>/src/main/jest/$1/$2/$2",
+    "^(siteforce):(quarterbacklibrary)$": "<rootDir>/src/main/jest/$1/$2",
+    "^(demo)/(.+)$": "<rootDir>/src/demo-app/modules/$1/$2/$2"
+  }
+}
