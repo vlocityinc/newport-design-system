@@ -49,9 +49,7 @@ import {
     isRedoAvailable,
     INIT
 } from 'builder_platform_interaction/undoRedoLib';
-import {
-    fetchFieldsForEntity
-} from 'builder_platform_interaction/sobjectLib';
+import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { LABELS } from './editorLabels';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import {
@@ -116,6 +114,7 @@ import {
     DisplayShortcutsCommand
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
+import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -322,6 +321,7 @@ export default class Editor extends LightningElement {
                 {}
             ).then(data => {
                 setProcessTypes(data);
+                loadAllSupportedFeatures(getProcessTypes());
             });
             this.propertyEditorBlockerCalls.push(getProcessTypesCall);
         }

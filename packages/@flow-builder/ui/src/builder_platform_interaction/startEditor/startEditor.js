@@ -47,7 +47,6 @@ const scheduledJourneyRadioOption = {
     value: SCHEDULED_JOURNEY
 };
 
-
 /**
  * Screen for the start element
  */
@@ -62,6 +61,14 @@ export default class StartEditor extends LightningElement {
     fields;
 
     labels = LABELS;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
 
     @api
     get node() {
@@ -113,7 +120,9 @@ export default class StartEditor extends LightningElement {
 
     get showObjectSection() {
         return (
-            this.triggerType === SCHEDULED || this.triggerType === SCHEDULED_JOURNEY || this.triggerType === BEFORE_SAVE
+            this.triggerType === SCHEDULED ||
+            this.triggerType === SCHEDULED_JOURNEY ||
+            this.triggerType === BEFORE_SAVE
         );
     }
 
@@ -175,7 +184,11 @@ export default class StartEditor extends LightningElement {
     }
 
     get triggerTypeOptions() {
-        const triggerOptions = [noneRadioOption, scheduledRadioOption, scheduledJourneyRadioOption];
+        const triggerOptions = [
+            noneRadioOption,
+            scheduledRadioOption,
+            scheduledJourneyRadioOption
+        ];
 
         // Checking if before save is enabled
         if (orgHasBeforeSaveEnabled()) {

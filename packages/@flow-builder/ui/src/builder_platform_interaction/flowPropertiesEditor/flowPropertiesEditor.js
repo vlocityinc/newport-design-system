@@ -39,6 +39,14 @@ export default class FlowPropertiesEditor extends LightningElement {
     _toggleAdvancedClass = TOGGLE_CLASS_SHOW;
     _toggleAdvancedLabel = LABELS.showAdvanced;
 
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    mode;
+
+    // DO NOT REMOVE THIS - Added it to prevent the console warnings mentioned in W-6506350
+    @api
+    processType;
+
     @api
     get node() {
         return this.flowProperties;
@@ -137,7 +145,7 @@ export default class FlowPropertiesEditor extends LightningElement {
     /**
      * The value of the currently selected process type
      */
-    get processType() {
+    get processTypeValue() {
         let retVal = null;
         if (this.flowProperties.processType) {
             retVal = this.flowProperties.processType.value;

@@ -9,6 +9,7 @@ import {
     getProcessTypes
 } from 'builder_platform_interaction/systemLib';
 import { LABELS } from 'builder_platform_interaction/processTypeLib';
+import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
 
 export default class NewFlowModalBody extends LightningElement {
     labels = LABELS;
@@ -38,6 +39,7 @@ export default class NewFlowModalBody extends LightningElement {
                 setProcessTypes(data);
                 this.processTypes = getProcessTypes();
                 this.state.processTypesFetched = true;
+                loadAllSupportedFeatures(this.processTypes);
             })
             .catch(() => {
                 this.state.processTypesFetched = true;
