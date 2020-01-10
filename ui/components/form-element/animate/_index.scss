@@ -264,3 +264,13 @@ textarea:focus::placeholder {
   max-width: calc(100% - 4.5rem);
 }
 /* stylelint-enable selector-class-pattern */
+
+.nds-disclosure .nds-relative-tooltip div.nds-form-element__control {
+  order: 0;
+}
+
+.nds-disclosure .nds-has-error .nds-form-element__help.nds-form-element__help_text-transform__none {
+  position: absolute;
+  left: 16px;
+  bottom: -4px;
+}
