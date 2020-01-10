@@ -259,6 +259,21 @@ export default class LoopEditor extends LightningElement {
             getValueFromHydratedItem(
                 this.loopElement.assignNextValueToReference
             );
+        const isDataTypeChanged =
+            this.getLoopVariableDataType() !==
+            this.getCollectionVariableDataType();
+        const isSubtypeChanged =
+            this.getLoopVariableSubtype() !==
+            this.getCollectionVariableSubtype();
+
+        if (
+            this.loopVariableState &&
+            this._collectionVariable &&
+            (isDataTypeChanged || isSubtypeChanged)
+        ) {
+            // set datatype mismatch error message for loopVariable
+            loopVariableError = LABELS.loopVariableErrorMessage;
+        }
 
         if (
             loopVariableError === null &&
