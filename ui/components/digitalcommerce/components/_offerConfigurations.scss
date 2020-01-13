@@ -15,14 +15,14 @@
             height: 0.313rem;
         }
         .nds-dc-offer-text-attribute-value {
-            font-size: 1rem;
+            font-size: 0.875rem;
             margin-right: $spacing-medium-offer-configuration;
         }
     }
    
-   @media only screen and (max-width: 800px) {
+   @media only screen and (min-width: 48rem) {
         .nds-dc-offer-text-set .nds-dc-offer-text-attribute-value {
-            font-size: 0.875rem;
+            font-size: 1rem;
         }
    }
 }

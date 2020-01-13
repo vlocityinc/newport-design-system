@@ -2,10 +2,11 @@
     overflow: auto;
     display: flex;
     .nds-dc-offer-attribute-label {
-        font-size: 0.8125rem;
         flex: 0 0 auto;
         display: inline-flex;
         align-items: center;
+        min-width: 3.125rem;
+        font-size: 0.875rem;
     }
     .nds-dc-offer-attribute,
     .nds-dc-offer-attribute
@@ -24,6 +25,9 @@
         text-align: center;
         margin-right:0.313rem;
         cursor: pointer;
+        font-size: 0.813rem;
+        min-width: 4.688rem;
+        margin-bottom: 0.625rem;
         .nds-dc-offer-color-bg {
             height: 0.625rem;
             width: 100%;
@@ -44,19 +48,18 @@
             opacity: 0.3;
         }
     }
-    @media only screen and (max-width: 800px) {
-      .nds-dc-offer-round-button-set .nds-dc-offer-attribute {
-        font-size: 0.813rem;
+    @media only screen and (min-width: 48rem) {
+      .nds-dc-offer-attribute, .nds-dc-offer-attribute-label  {
+        min-width: unset;
+      }
+      .nds-dc-offer-attribute-label {
+        font-size: 0.8125rem;
       }
     }
-    
-    @media only screen and (max-width: 450px) {
-      .nds-dc-offer-round-button-set .nds-dc-offer-attribute-label {
-        min-width: 3.125rem;
-        font-size: 0.875rem;
-      }
-      .nds-dc-offer-round-button-set .nds-dc-offer-attribute {
-        min-width: 4.688rem;
+    @media only screen and (min-width: 64rem) {
+      .nds-dc-offer-attribute {
+        font-size: unset;
+        margin-bottom: 0;
       }
     }
   }
