@@ -1,6 +1,6 @@
 /* shopping cart */
 .nds-dc-cart {
-  padding: 3.125rem 0.625rem;
+  padding: 1rem 0.3125rem;
   margin-bottom: 6.25rem;
   .nds-dc-spinner {
     position: fixed;
@@ -33,6 +33,8 @@
     }
   
     .nds-dc-button {
+      padding: 0 0.3125rem;
+      font-size: 0.6rem;
       margin-left: auto;
     }
     .nds-dc-save-cart_icon {
@@ -92,11 +94,12 @@
       color: $kashmir-blue;
       font-weight: $font-weight-bold;
       font-size: 1.0625rem;
-      margin-left: 1.875rem;
+      margin-left: 0.625rem;
+      margin-top: -0.625rem;
     }
     .nds-dc-offer_item {
       display: flex;
-      padding: 0 1.875rem;
+      padding: 0 0.625rem;
     }
     .nds-dc-title_container {
       flex: 1;
@@ -119,102 +122,83 @@
           width: 20%;
         }
         &.nds-dc-due {
-          width: 20%;
+          width: 60%;
+          font-size: 0.8125rem;
           text-align: right;
         }
         &.nds-dc-icons {
+          display: none;
           width: 10%;
           margin-top: -1.625rem;
           margin-left: 0.3125rem;
         }
       }
       &.nds-dc-sub-total {
-        margin-top: 2.1875rem;
+        margin-top: 0.9375rem;
         .nds-dc-tile_text {
           &.nds-dc-due {
             color: $background-primary-blue;
-            font-size: 2.5rem;
+            font-size: 1.5rem;
+            width: 60%;
           }
         }
       }
     }
     &.nds-dc-sub-total {
       border-top: 1px solid $newport-border-gray;
-      padding-bottom: 3.75rem;
+      padding: 1.25rem 0;
     }
   }
-  @media only screen and (max-width: 64rem) {
-    padding: 3.125rem;
-  }
-  @media only screen and (max-width: 48rem) {
-    padding: 1.5625rem;
-    .nds-dc-cart_offer-item {
-      .nds-dc-cart_offer-menu {
-        .nds-dc-tile_text {
-          &.nds-dc-icons {
-            width: 20%;
-            margin-left: 0;
-          }
-        }
-        &.nds-dc-sub-total {
-          .nds-dc-tile_text {
-            &.nds-dc-due {
-              font-size: 1.5rem;
-            }
-          }
-        }
-      }
-      .nds-dc-cart_item-category {
-        font-size: 0.9375rem;
-      }
-    }
-  }
-  @media only screen and (max-width: 29rem) {
-    padding: 1rem 0.3125rem;
-    .nds-dc-total_items-circle {
-      margin-left: 1.3rem;
+
+  @media only screen and (min-width: 48rem) {
+    padding: 3.125rem 0.625rem;
+    .nds-dc-cart_heading .nds-dc-button {
+      padding: 0 1rem;
+      font-size: 1rem;
     }
     .nds-dc-cart_offer-item {
       .nds-dc-offer_item {
-        padding: 0 0.625rem;
+        padding: 0 1.875rem;
       }
       .nds-dc-cart_item-category {
-        margin-left: 0.625rem;
-        margin-top: -0.625rem;
+            margin-left: 1.875rem;
+            margin-top: unset;
       }
       .nds-dc-cart_offer-menu {
         .nds-dc-tile_text {
           &.nds-dc-due {
-            width: 60%;
+            width: 30%;
             font-size: 0.8125rem;
-          }
-          &.nds-dc-icons {
-            display: none;
           }
         }
         &.nds-dc-sub-total {
-          margin-top: 0.9375rem;
+          margin-top: 2.1875rem;
           .nds-dc-tile_text {
             &.nds-dc-due {
-              font-size: 1.5rem;
-              width: 60%;
+              font-size: 2.5rem;
+              width: 30%;
             }
           }
         }
       }
       &.nds-dc-sub-total {
-        padding: 1.25rem 0;
+            padding-bottom: 3.75rem;
       }
     }
   }
-  @media only screen and (max-width: 20rem) {
-    .nds-dc-button {
-      padding: 0 0.3125rem;
-      font-size: 0.6rem;
+  @media only screen and (min-width: 64rem) {
+    padding: 1.5625rem;
+  }
+  @media only screen and (min-width: 80rem) {
+    padding: 3.125rem;
+    .nds-dc-cart_offer-item .nds-dc-cart_offer-menu .nds-dc-tile_text.nds-dc-quantity{
+      width: 30%;
     }
-    .nds-dc-go-back-btn {
-      font-size: 0.8125rem;
-      padding: 0.25rem;
+    .nds-dc-cart_offer-item .nds-dc-cart_offer-menu .nds-dc-tile_text.nds-dc-due, .nds-dc-cart_offer-item .nds-dc-cart_offer-menu.nds-dc-sub-total .nds-dc-tile_text.nds-dc-due{
+      width: 15%;
+    }
+    .nds-dc-cart_offer-item .nds-dc-cart_offer-menu .nds-dc-tile_text.nds-dc-icons{
+      display: block;
     }
   }
 }

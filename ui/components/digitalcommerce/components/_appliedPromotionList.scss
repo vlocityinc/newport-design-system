@@ -50,7 +50,7 @@
             }
         }
         .nds-dc-edit-column {
-            margin-left: -1rem;
+            margin-left: 0;
         }
     }
     
@@ -73,9 +73,6 @@
             .nds-dc-delete-icon {
                 width: 10%;
                 margin-top: unset;
-                .nds-dc-trash-title {
-                    display:unset;
-                }
             }
             .nds-dc-edit-column {
                 margin-left: 0; 
@@ -84,6 +81,11 @@
             .nds-dc-value-one-time {
                 width: 6rem;
             }
+        }
+    }
+    @media only screen and (min-width: 80rem) {
+        .nds-dc-applied-promo .nds-dc-delete-icon .nds-dc-trash-title{
+            display: unset;
         }
     }
 }
