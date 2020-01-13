@@ -1,57 +1,70 @@
 <template>
     <!-- should be replaced by stencil placeholder: W-5921905 -->
-    <div class="slds-grid" if:false={state.processTypesFetched}>
-        <lightning-spinner
-            size="medium"
-            variant="brand"
-            class="spinner"
-            alternative-text={labels.spinnerAlternativeText}
-        ></lightning-spinner>
-    </div>
-    <div class="slds-grid" if:true={state.processTypesFetched}>
-        <div class="slds-size_small slds-grow-none slds-shrink-none">
-            <builder_platform_interaction-process-types-vertical-navigation
-                process-types={processTypes}
-                selected-process-type={selectedProcessType}
-                onprocesstypeselected={handleSelectProcessType}
-            >
-            </builder_platform_interaction-process-types-vertical-navigation>
+    <div class="slds-grid slds-grid_align-center" if:false={state.processTypesFetched}>
+        <div class="slds-col spinner">
+            <lightning-spinner
+                size="medium"
+                variant="brand"
+                class="spinner"
+                alternative-text={labels.spinnerAlternativeText}
+            ></lightning-spinner>
         </div>
-        <div class="canvas-container slds-grow slds-shrink slds-scrollable_x">
-            <div
-                if:true={errorMessage}
-                class="slds-notify_container slds-is-relative errorMessage"
-            >
-                <div
-                    class="slds-notify slds-notify_toast slds-theme_error"
-                    role="status"
-                >
-                    <lightning-icon
-                        icon-name="utility:error"
-                        class="slds-m-right_small slds-no-flex slds-align-top"
-                        variant="inverse"
-                        size="x-small"
+    </div>
+    <lightning-tabset if:true={state.processTypesFetched}>
+        <lightning-tab label={labels.recommended} value="recommended" class="recommended" onactive={handleTabActive}>
+            <builder_platform_interaction-visual-picker-list
+                if:true={state.recommendedItems}
+                items={state.recommendedItems}
+                onvisualpickerlistchanged={handleSelectRecommendedItem}
+            ></builder_platform_interaction-visual-picker-list>
+        </lightning-tab>
+        <lightning-tab label={labels.templates} value="templates" class="templates" onactive={handleTabActive}>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_small slds-grow-none slds-shrink-none slds-scrollable slds-is-relative">
+                    <builder_platform_interaction-process-types-vertical-navigation
+                        process-types={state.processTypes}
+                        selected-process-type={state.selectedProcessType}
+                        onprocesstypeselected={handleSelectProcessType}
                     >
-                    </lightning-icon>
-                    <div class="slds-notify__content">
-                        <span>{errorMessage}</span>
+                    </builder_platform_interaction-process-types-vertical-navigation>
+                </div>
+                <div class="slds-col canvas-container slds-grow slds-shrink slds-scrollable slds-is-relative">
+                    <div
+                        if:true={state.errorMessage}
+                        class="slds-notify_container slds-is-relative errorMessage"
+                    >
+                        <div
+                            class="slds-notify slds-notify_toast slds-theme_error"
+                            role="status"
+                        >
+                            <lightning-icon
+                                icon-name="utility:error"
+                                class="slds-m-right_small slds-no-flex slds-align-top"
+                                variant="inverse"
+                                size="x-small"
+                            >
+                            </lightning-icon>
+                            <div class="slds-notify__content">
+                                <span>{errorMessage}</span>
+                            </div>
+                            <div class="slds-notify__close">
+                                <lightning-button-icon
+                                    icon-name="utility:close"
+                                    variant="bare-inverse"
+                                    class="slds-m-left_xx-small"
+                                    onclick={handleCloseErrorMessage}
+                                ></lightning-button-icon>
+                            </div>
+                        </div>
                     </div>
-                    <div class="slds-notify__close">
-                        <lightning-button-icon
-                            icon-name="utility:close"
-                            variant="bare-inverse"
-                            class="slds-m-left_xx-small"
-                            onclick={handleCloseErrorMessage}
-                        ></lightning-button-icon>
-                    </div>
+                    <builder_platform_interaction-process-types-templates
+                        process-types={state.processTypes}
+                        process-type={state.selectedProcessType}
+                        ontemplatechanged={handleSelectTemplate}
+                        oncannotretrievetemplates={handleCannotRetrieveTemplates}
+                    ></builder_platform_interaction-process-types-templates>
                 </div>
             </div>
-            <builder_platform_interaction-process-types-templates
-                process-type={selectedProcessType}
-                ontemplatechanged={handleSelectTemplate}
-                oncannotretrievetemplates={handleCannotRetrieveTemplates}
-            >
-            </builder_platform_interaction-process-types-templates>
-        </div>
-    </div>
+        </lightning-tab>
+    </lightning-tabset>
 </template>

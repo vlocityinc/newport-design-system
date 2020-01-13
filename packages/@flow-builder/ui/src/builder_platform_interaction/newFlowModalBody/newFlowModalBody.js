@@ -1,45 +1,67 @@
 import { LightningElement, api, track } from 'lwc';
-import { ALL_PROCESS_TYPE } from 'builder_platform_interaction/processTypeLib';
 import {
     fetchOnce,
     SERVER_ACTION_TYPE
 } from 'builder_platform_interaction/serverDataLib';
 import {
-    setProcessTypes,
-    getProcessTypes
-} from 'builder_platform_interaction/systemLib';
-import { LABELS } from 'builder_platform_interaction/processTypeLib';
+    PROCESS_TYPES_ICONS,
+    ALL_PROCESS_TYPE,
+    createProcessTypeTile
+} from 'builder_platform_interaction/processTypeLib';
+
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
+
+import {
+    LABELS
+} from './newFlowModalBodyLabels';
+
+function createRecommendedItems(processTypes) {
+    const result = processTypes.filter(processType => PROCESS_TYPES_ICONS.FEATURED.has(processType.name))
+        .map((processType, index) => {
+            const tile = createProcessTypeTile(processTypes, processType.name, index === 0);
+            return tile;
+        });
+    return result;
+}
 
 export default class NewFlowModalBody extends LightningElement {
     labels = LABELS;
 
-    @track state = {
+    @track
+    state = {
         // the selected process type in process type navigation tree
         selectedProcessType: ALL_PROCESS_TYPE.name,
         // the selected template
-        selectedTemplate: '',
+        selectedTemplate: null,
         // true if the featured (process type) is selected
         isProcessType: false,
+        errorMessage: null,
+        processTypes: [],
         processTypesFetched: false,
-        errorMessage: ''
+        recommendedItems: null,
+        activeTab: 'recommended'
     };
 
-    @api footer;
+    @api
+    footer;
 
-    processTypes = [];
+    @api
+    get selectedProcessType() {
+        return this.state.selectedProcessType;
+    }
 
     connectedCallback() {
-        fetchOnce(
-            SERVER_ACTION_TYPE.GET_PROCESS_TYPES,
-            {},
-            { disableErrorModal: true }
-        )
-            .then(data => {
-                setProcessTypes(data);
-                this.processTypes = getProcessTypes();
+        this.state.processTypesFetched = false;
+        fetchOnce(SERVER_ACTION_TYPE.GET_PROCESS_TYPES)
+            .then(processTypes => {
+                loadAllSupportedFeatures(processTypes);
                 this.state.processTypesFetched = true;
-                loadAllSupportedFeatures(this.processTypes);
+                this.state.processTypes = processTypes;
+                this.state.recommendedItems = createRecommendedItems(processTypes);
+                const selectedItem = this.state.recommendedItems.find(item => item.isSelected);
+                if (selectedItem) {
+                    this.updateSelectedTemplate(true, selectedItem.itemId);
+                }
             })
             .catch(() => {
                 this.state.processTypesFetched = true;
@@ -55,29 +77,29 @@ export default class NewFlowModalBody extends LightningElement {
      */
     @api
     get isProcessType() {
-        return this.state.isProcessType;
+        switch (this.state.activeTab) {
+        case 'recommended':
+            return true;
+        case 'templates':
+            return this.state.isProcessType;
+        default:
+        }
+        return null;
     }
 
-    set selectedTemplate(value) {
-        this.state.selectedTemplate = value || '';
-    }
     /**
      * @returns the selected template
      */
     @api
     get selectedTemplate() {
-        return this.state.selectedTemplate;
-    }
-
-    set selectedProcessType(value) {
-        this.state.selectedProcessType = value || ALL_PROCESS_TYPE.name;
-    }
-    /**
-     * @returns the selected process type
-     */
-    @api
-    get selectedProcessType() {
-        return this.state.selectedProcessType;
+        switch (this.state.activeTab) {
+            case 'recommended':
+                return this.state.recommendedItems ? this.state.recommendedItems.find(item => item.isSelected).itemId : null;
+            case 'templates':
+                return this.state.selectedTemplate;
+            default:
+            }
+            return null;
     }
 
     /**
@@ -121,6 +143,33 @@ export default class NewFlowModalBody extends LightningElement {
         }
     }
 
+    handleSelectRecommendedItem(event) {
+        event.stopPropagation();
+        const selectedItem = event.detail.items.find(item => item.isSelected);
+        const deselectedItem = event.detail.items.find(item => !item.isSelected);
+        if (deselectedItem && !selectedItem) {
+            this.setRecommendedItemIsSelected(deselectedItem.id, true);
+            return;
+        }
+        if (deselectedItem) {
+            this.setRecommendedItemIsSelected(deselectedItem.id, false);
+        }
+        if (selectedItem) {
+            this.setRecommendedItemIsSelected(selectedItem.id, true);
+            this.updateSelectedTemplate(true, selectedItem.id);
+        }
+    }
+
+    setRecommendedItemIsSelected(itemId, isSelected) {
+        const index = this.state.recommendedItems.findIndex(
+            item => item.itemId === itemId
+        );
+        // This is a hacky way of triggering re-render of <visual-picker-list/>.
+        // Needs to be fixed at the picker level.
+        this.state.recommendedItems[index].isSelected = !isSelected;
+        this.state.recommendedItems[index].isSelected = isSelected;
+    }
+
     updateSelectedTemplate(isProcessType, selectedTemplate) {
         this.state.selectedTemplate = selectedTemplate;
         this.state.isProcessType = isProcessType;
@@ -155,5 +204,9 @@ export default class NewFlowModalBody extends LightningElement {
     handleCannotRetrieveProcessTypes() {
         this.state.errorMessage = LABELS.errorLoadingProcessTypes;
         this.footer.disableButtons();
+    }
+
+    handleTabActive(event) {
+        this.state.activeTab = event.target.value;
     }
 }

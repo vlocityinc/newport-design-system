@@ -1,8 +1,23 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { VisualPickerListChangedEvent } from 'builder_platform_interaction/events';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
 
 const NUMBER_OF_COLUMNS_DEFAULT_VALUE = 2;
+
+function splitItems(items, size) {
+    const results = [];
+    if (items) {
+        // looping through the array until we have reached the final index
+        for (let i = 0; i < items.length; i += size) {
+            results.push({
+                rowIndex: generateGuid(),
+                items: items.slice(i, i + size)
+            });
+        }
+    }
+    return results;
+}
+
 
 export default class VisualPickerList extends LightningElement {
     @api
@@ -23,35 +38,46 @@ export default class VisualPickerList extends LightningElement {
      * @property {String} itemId     the item's id
      */
 
+    @track
+    state = {
+        items: [],
+        itemsPerRow: [],
+        numberOfColumns: NUMBER_OF_COLUMNS_DEFAULT_VALUE,
+        checkAllowMultipleSelection: false
+    };
+
     /**
      * List of VisualPickerItem
      *
      */
     @api
-    items = [];
+    get items() {
+        return this.state.items;
+    }
 
-    _numberOfColumns;
-
-    _checkAllowMultipleSelection = false;
+    set items(value) {
+        this.state.items = value;
+        this.state.itemsPerRow = splitItems(this.state.items, this.numberOfColumns);
+    }
 
     /**
      * number of visual picker items per row
      *
      */
+    @api
+    get numberOfColumns() {
+        return this.state.numberOfColumns;
+    }
+
     set numberOfColumns(value) {
-        this._numberOfColumns = parseInt(value, 10);
-        if (isNaN(this._numberOfColumns) || this._numberOfColumns <= 0) {
-            this._numberOfColumns = NUMBER_OF_COLUMNS_DEFAULT_VALUE;
+        this.state.numberOfColumns = parseInt(value, 10);
+        if (isNaN(this.state.numberOfColumns) || this.state.numberOfColumns <= 0) {
+            this.state.numberOfColumns = NUMBER_OF_COLUMNS_DEFAULT_VALUE;
         }
     }
 
-    @api
-    get numberOfColumns() {
-        return this._numberOfColumns || NUMBER_OF_COLUMNS_DEFAULT_VALUE;
-    }
-
     renderedCallback() {
-        if (!this._checkAllowMultipleSelection) {
+        if (!this.state.checkAllowMultipleSelection) {
             this.checkAllowMultipleSelection();
         }
     }
@@ -61,22 +87,11 @@ export default class VisualPickerList extends LightningElement {
         if (selectedItems.length > 1 && !this.allowMultipleSelection) {
             throw new Error('Can not select more than 1 item');
         }
-        this._checkAllowMultipleSelection = true;
+        this.state.checkAllowMultipleSelection = true;
     }
 
     get itemsPerRow() {
-        const results = [];
-        let i = 0;
-        // looping through the array until we have reached the final index
-        while (i < this.items.length) {
-            const chunkedItems =
-                {
-                    rowIndex: generateGuid(),
-                    items: this.items.slice(i, (i += this.numberOfColumns))
-                } || {};
-            results.push(chunkedItems);
-        }
-        return results;
+        return this.state.itemsPerRow;
     }
 
     handleItemChanged(event) {

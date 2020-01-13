@@ -1,4 +1,4 @@
-import { LABELS } from 'builder_platform_interaction/processTypeLib';
+import { LABELS } from '../newFlowModalBodyLabels';
 import { createElement } from 'lwc';
 import NewFlowModalBody from 'builder_platform_interaction/newFlowModalBody';
 import {
@@ -13,9 +13,7 @@ import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import {
     MOCK_ALL_TEMPLATES,
-    MOCK_AUTO_TEMPLATE,
-    MOCK_SCREEN_TEMPLATE_1,
-    MOCK_SCREEN_TEMPLATE_2
+    MOCK_AUTO_TEMPLATE
 } from 'mock/templates';
 import { setProcessTypes } from 'builder_platform_interaction/systemLib';
 import { ticks } from 'builder_platform_interaction/builderTestUtils';
@@ -43,52 +41,37 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
     };
 });
 
-function createComponentForTest() {
+function createComponentForTest(props) {
     const el = createElement(
         'builder_platform_interaction-new-flow-modal-body',
         { is: NewFlowModalBody }
     );
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 }
 
-const SELECTORS = {
-    PROCESS_TYPES_NAVIGATION:
-        'builder_platform_interaction-process-types-vertical-navigation',
-    PROCESS_TYPES_TEMPLATES:
-        'builder_platform_interaction-process-types-templates',
-    FEATURED_SECTION: '.featured',
-    TEMPLATES_SECTION: '.templates',
-    VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
-    ERROR_MESSAGE: '.errorMessage .slds-notify__content',
-    ERROR_CLOSING_BUTTON: 'lightning-button-icon'
-};
+const getTemplatesTab = modalBody => modalBody.shadowRoot
+    .querySelector('lightning-tab.templates');
 
-const getProcessTypesNavigation = modalBody => {
-    return modalBody.shadowRoot.querySelector(
-        SELECTORS.PROCESS_TYPES_NAVIGATION
-    );
-};
+const getProcessTypesNavigation = modalBody => modalBody.shadowRoot
+    .querySelector('builder_platform_interaction-process-types-vertical-navigation');
 
-const getProcessTypesTemplates = modalBody => {
-    return modalBody.shadowRoot.querySelector(
-        SELECTORS.PROCESS_TYPES_TEMPLATES
-    );
-};
+const getProcessTypesTemplates = modalBody => modalBody.shadowRoot
+    .querySelector('builder_platform_interaction-process-types-templates');
 
-const getTemplates = (processTypeTemplates, section) => {
-    return processTypeTemplates.shadowRoot
-        .querySelector(section)
-        .querySelector(SELECTORS.VISUAL_PICKER_LIST);
-};
+const getRecommended = (modalBody) => modalBody.shadowRoot
+    .querySelector('lightning-tab.recommended')
+    .querySelector('builder_platform_interaction-visual-picker-list');
 
-const getErrorMessage = modalBody => {
-    return modalBody.shadowRoot.querySelector(SELECTORS.ERROR_MESSAGE);
-};
+const getTemplates = (processTypeTemplates) => processTypeTemplates.shadowRoot
+    .querySelector('builder_platform_interaction-visual-picker-list');
 
-const getErrorClosingButton = modalBody => {
-    return modalBody.shadowRoot.querySelector(SELECTORS.ERROR_CLOSING_BUTTON);
-};
+const getErrorMessage = modalBody => modalBody.shadowRoot
+    .querySelector('.errorMessage .slds-notify__content');
+
+const getErrorClosingButton = modalBody => modalBody.shadowRoot
+    .querySelector('lightning-button-icon');
 
 const getProcessType = processTypeName =>
     MOCK_ALL_PROCESS_TYPES.find(
@@ -98,6 +81,36 @@ const getProcessType = processTypeName =>
 const resetProcessTypesCache = () => setProcessTypes([]);
 
 describe('new-flow-modal-body', () => {
+    describe('recommended items', () => {
+        let newFlowModalBody;
+        beforeEach(() => {
+            newFlowModalBody = createComponentForTest();
+        });
+        afterAll(() => {
+            resetProcessTypesCache();
+        });
+        it('shows correct number of process types in navigation', () => {
+            const recommendedTiles = getRecommended(newFlowModalBody);
+            expect(recommendedTiles.items).toEqual([
+                {
+                    description: "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription",
+                    iconName: "utility:magicwand",
+                    isSelected: true,
+                    itemId: "AutoLaunchedFlow",
+                    label: "Autolaunched Flow"
+                },
+                {
+                    description:
+                        'FlowBuilderProcessTypeTemplates.newFlowDescription',
+                    iconName: 'utility:desktop',
+                    isSelected: false,
+                    itemId: FLOW_PROCESS_TYPE.FLOW,
+                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label
+                }
+            ]);
+        });
+    });
+
     describe('process types navigation', () => {
         let newFlowModalBody;
         beforeEach(() => {
@@ -140,11 +153,10 @@ describe('new-flow-modal-body', () => {
             expect(processTypesTemplates.processType).toEqual(
                 FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
             );
-            const processTypeTiles = getTemplates(
-                processTypesTemplates,
-                SELECTORS.FEATURED_SECTION
+            const templates = getTemplates(
+                processTypesTemplates
             );
-            expect(processTypeTiles.items).toEqual([
+            expect(templates.items).toEqual([
                 {
                     description:
                         'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
@@ -153,19 +165,14 @@ describe('new-flow-modal-body', () => {
                     itemId: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                     label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
                         .label
-                }
-            ]);
-            const templates = getTemplates(
-                processTypesTemplates,
-                SELECTORS.TEMPLATES_SECTION
-            );
-            expect(templates.items).toEqual([
+                },
                 {
                     description: MOCK_AUTO_TEMPLATE.Description,
                     iconName: 'utility:magicwand',
                     isSelected: false,
                     itemId: MOCK_AUTO_TEMPLATE.EnumOrID,
-                    label: MOCK_AUTO_TEMPLATE.Label
+                    label: MOCK_AUTO_TEMPLATE.Label,
+                    isTemplate: true
                 }
             ]);
         });
@@ -173,12 +180,15 @@ describe('new-flow-modal-body', () => {
 
     describe('process types templates', () => {
         let newFlowModalBody;
+
         beforeEach(() => {
             newFlowModalBody = createComponentForTest();
         });
+
         afterAll(() => {
             resetProcessTypesCache();
         });
+
         it('shows process types templates', () => {
             const processTypesTemplates = getProcessTypesTemplates(
                 newFlowModalBody
@@ -189,64 +199,94 @@ describe('new-flow-modal-body', () => {
             );
         });
 
-        it('shows 2 process type tiles: one screen and one autolaunched', () => {
+        it('shows 8 process types and 3 templates', () => {
             const processTypesTemplates = getProcessTypesTemplates(
                 newFlowModalBody
             );
             const processTypeTiles = getTemplates(
-                processTypesTemplates,
-                SELECTORS.FEATURED_SECTION
+                processTypesTemplates
             );
             expect(processTypeTiles.items).toEqual([
+                {
+                    description: "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription",
+                    iconName: "utility:magicwand",
+                    isSelected: true,
+                    itemId: "AutoLaunchedFlow",
+                    label: "Autolaunched Flow"
+                },
                 {
                     description:
                         'FlowBuilderProcessTypeTemplates.newFlowDescription',
                     iconName: 'utility:desktop',
-                    isSelected: true,
+                    isSelected: false,
                     itemId: FLOW_PROCESS_TYPE.FLOW,
                     label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label
                 },
                 {
-                    description:
-                        'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
-                    iconName: 'utility:magicwand',
+                    description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription",
+                    iconName: "utility:cart",
                     isSelected: false,
-                    itemId: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
-                        .label
-                }
-            ]);
-        });
-
-        it('shows 3 templates: two screens and one autolaunched', () => {
-            const processTypesTemplates = getProcessTypesTemplates(
-                newFlowModalBody
-            );
-            const templates = getTemplates(
-                processTypesTemplates,
-                SELECTORS.TEMPLATES_SECTION
-            );
-            expect(templates.items).toEqual([
-                {
-                    description: MOCK_AUTO_TEMPLATE.Description,
-                    iconName: 'utility:magicwand',
-                    isSelected: false,
-                    itemId: MOCK_AUTO_TEMPLATE.EnumOrID,
-                    label: MOCK_AUTO_TEMPLATE.Label
+                    itemId: "CheckoutFlow",
+                    label: "Checkout Flow"
                 },
                 {
-                    description: MOCK_SCREEN_TEMPLATE_1.Description,
-                    iconName: 'utility:desktop',
+                    description: "FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription",
+                    iconName: "utility:contact_request",
                     isSelected: false,
-                    itemId: MOCK_SCREEN_TEMPLATE_1.EnumOrID,
-                    label: MOCK_SCREEN_TEMPLATE_1.Label
+                    itemId: "ContactRequestFlow",
+                    label: "Contact Request Flow",
                 },
                 {
-                    description: MOCK_SCREEN_TEMPLATE_2.Description,
-                    iconName: 'utility:desktop',
+                    description: "FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription",
+                    iconName: "utility:insert_tag_field",
                     isSelected: false,
-                    itemId: MOCK_SCREEN_TEMPLATE_2.EnumOrID,
-                    label: MOCK_SCREEN_TEMPLATE_2.Label
+                    itemId: "FieldServiceWeb",
+                    label: "Embedded Appointment Management Flow",
+                },
+                {
+                    description: "FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription",
+                    iconName: "utility:phone_portrait",
+                    isSelected: false,
+                    itemId: "FieldServiceMobile",
+                    label: "Field Service Mobile Flow",
+                },
+                {
+                    description: "FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription",
+                    iconName: "utility:user",
+                    isSelected: false,
+                    itemId: "UserProvisioningFlow",
+                    label: "User Provisioning Flow",
+                },
+                {
+                    description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription",
+                    iconName: "utility:flow",
+                    isSelected: false,
+                    itemId: "WeDoNotKnowYou",
+                    label: "Well no icon yet",
+                },
+                {
+                    description: "This is an autolaunched template",
+                    iconName: "utility:magicwand",
+                    isSelected: false,
+                    isTemplate: true,
+                    itemId: "1",
+                    label: "Autolaunched template",
+                },
+                {
+                    description: "This is a screen template",
+                    iconName: "utility:desktop",
+                    isSelected: false,
+                    isTemplate: true,
+                    itemId: "2",
+                    label: "Screen template",
+                },
+                {
+                    description: "This is a screen template 2",
+                    iconName: "utility:desktop",
+                    isSelected: false,
+                    isTemplate: true,
+                    itemId: "3",
+                    label: "Screen template 2",
                 }
             ]);
         });
@@ -274,7 +314,6 @@ describe('new-flow-modal-body', () => {
             const processTypesNavigation = getProcessTypesNavigation(
                 newFlowModalBody
             );
-            newFlowModalBody.selectedTemplate = MOCK_SCREEN_TEMPLATE_2.EnumOrId;
             processTypesNavigation.dispatchEvent(
                 new ProcessTypeSelectedEvent(
                     FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
@@ -285,6 +324,8 @@ describe('new-flow-modal-body', () => {
             expect(errorMessage).toBeNull();
         });
         it('should reset error message when changing the template', async () => {
+            const templatesTab = getTemplatesTab(newFlowModalBody);
+            templatesTab.dispatchEvent(new CustomEvent('active'));
             newFlowModalBody.errorMessage = ERROR_MESSAGE;
             await Promise.resolve();
             const processTypesTemplates = getProcessTypesTemplates(
@@ -310,7 +351,11 @@ describe('fetch server data error cases', () => {
             mockProcessTypesPromise = Promise.reject();
         });
         beforeEach(async () => {
-            newFlowModalBody = createComponentForTest();
+            newFlowModalBody = createComponentForTest({
+                footer: {
+                    disableButtons() {}
+                }
+            });
             await ticks(10);
         });
         afterAll(() => {

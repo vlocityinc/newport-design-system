@@ -4,7 +4,6 @@ import {
     TemplateChangedEvent,
     CannotRetrieveTemplatesEvent
 } from 'builder_platform_interaction/events';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     ALL_PROCESS_TYPE,
     resetCacheTemplates
@@ -60,28 +59,30 @@ function createComponentForTest({ processType = ALL_PROCESS_TYPE.name } = {}) {
         'builder_platform_interaction-process-types-templates',
         { is: ProcessTypesTemplates }
     );
-    Object.assign(el, { processType });
+    Object.assign(el, {
+        processType,
+        processTypes: MOCK_ALL_PROCESS_TYPES
+    });
     document.body.appendChild(el);
     return el;
 }
 
 const SELECTORS = {
-    FEATURED_SECTION: '.featured',
     TEMPLATES_SECTION: '.templates',
     VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
     CHECKBOX: 'input[type="checkbox"]'
 };
 
-const getVisualPickerList = (processTypeTemplates, section) => {
+const getVisualPickerList = (processTypeTemplates) => {
     const featuredSection = processTypeTemplates.shadowRoot.querySelector(
-        section
+        SELECTORS.TEMPLATES_SECTION
     );
     return featuredSection.querySelector(SELECTORS.VISUAL_PICKER_LIST);
 };
 
-const getTemplates = (processTypeTemplates, section) => {
-    const visualPickerList = getVisualPickerList(processTypeTemplates, section);
+const getTemplates = (processTypeTemplates) => {
+    const visualPickerList = getVisualPickerList(processTypeTemplates);
     return visualPickerList.items;
 };
 
@@ -98,10 +99,6 @@ const getCheckbox = visualPickerItem => {
 const getChangedEvent = () => {
     return new Event('change');
 };
-const getProcessType = processTypeName =>
-    MOCK_ALL_PROCESS_TYPES.find(
-        processType => processType.name === processTypeName
-    );
 
 describe('process-type-templates', () => {
     let processTypeTemplates;
@@ -111,44 +108,72 @@ describe('process-type-templates', () => {
     afterAll(() => {
         resetCacheTemplates();
     });
-    it('shows 2 process type tiles: one screen and one autolaunched', () => {
-        const processTypeTiles = getTemplates(
-            processTypeTemplates,
-            SELECTORS.FEATURED_SECTION
-        );
-        expect(processTypeTiles).toHaveLength(2);
-        expect(processTypeTiles).toEqual([
-            {
-                description:
-                    'FlowBuilderProcessTypeTemplates.newFlowDescription',
-                iconName: 'utility:desktop',
-                isSelected: true,
-                itemId: FLOW_PROCESS_TYPE.FLOW,
-                label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label
-            },
-            {
-                description:
-                    'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
-                iconName: 'utility:magicwand',
-                isSelected: false,
-                itemId: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
-                    .label
-            }
-        ]);
-    });
 
     it('shows 3 templates: two screens and one autolaunched', () => {
-        const templates = getTemplates(
-            processTypeTemplates,
-            SELECTORS.TEMPLATES_SECTION
-        );
-        expect(templates).toHaveLength(3);
+        const templates = getTemplates(processTypeTemplates);
+        expect(templates).toHaveLength(11); // MOCK_ALL_PROCESS_TYPES.length + MOCK_ALL_TEMPLATES.length
         expect(templates).toEqual([
+            {
+                itemId: "AutoLaunchedFlow",
+                label: "Autolaunched Flow",
+                description: "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription",
+                iconName: "utility:magicwand",
+                isSelected: true
+            },
+            {
+                itemId: "Flow",
+                label: "Screen Flow",
+                description: "FlowBuilderProcessTypeTemplates.newFlowDescription",
+                iconName: "utility:desktop",
+                isSelected: false
+            },
+            {
+                itemId: "CheckoutFlow",
+                label: "Checkout Flow",
+                description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Checkout Flow)",
+                iconName: "utility:cart",
+                isSelected: false
+            },
+            {
+                itemId: "ContactRequestFlow",
+                label: "Contact Request Flow",
+                description: "FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription",
+                iconName: "utility:contact_request",
+                isSelected: false
+            },
+            {
+                itemId: "FieldServiceWeb",
+                label: "Embedded Appointment Management Flow",
+                description: "FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription",
+                iconName: "utility:insert_tag_field",
+                isSelected: false
+            },
+            {
+                itemId: "FieldServiceMobile",
+                label: "Field Service Mobile Flow",
+                description: "FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription",
+                iconName: "utility:phone_portrait",
+                isSelected: false
+            },
+            {
+                itemId: "UserProvisioningFlow",
+                label: "User Provisioning Flow",
+                description: "FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription",
+                iconName: "utility:user",
+                isSelected: false
+            },
+            {
+                itemId: "WeDoNotKnowYou",
+                label: "Well no icon yet",
+                description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Well no icon yet)",
+                iconName: "utility:flow",
+                isSelected: false,
+            },
             {
                 description: MOCK_AUTO_TEMPLATE.Description,
                 iconName: 'utility:magicwand',
                 isSelected: false,
+                isTemplate: true,
                 itemId: MOCK_AUTO_TEMPLATE.EnumOrID,
                 label: MOCK_AUTO_TEMPLATE.Label
             },
@@ -156,6 +181,7 @@ describe('process-type-templates', () => {
                 description: MOCK_SCREEN_TEMPLATE_1.Description,
                 iconName: 'utility:desktop',
                 isSelected: false,
+                isTemplate: true,
                 itemId: MOCK_SCREEN_TEMPLATE_1.EnumOrID,
                 label: MOCK_SCREEN_TEMPLATE_1.Label
             },
@@ -163,6 +189,7 @@ describe('process-type-templates', () => {
                 description: MOCK_SCREEN_TEMPLATE_2.Description,
                 iconName: 'utility:desktop',
                 isSelected: false,
+                isTemplate: true,
                 itemId: MOCK_SCREEN_TEMPLATE_2.EnumOrID,
                 label: MOCK_SCREEN_TEMPLATE_2.Label
             }
@@ -170,16 +197,10 @@ describe('process-type-templates', () => {
     });
 
     it('selects template should uncheck the process type tile', async () => {
-        const screenProcessTypeTile = getTemplates(
-            processTypeTemplates,
-            SELECTORS.FEATURED_SECTION
-        )[0];
+        const screenProcessTypeTile = getTemplates(processTypeTemplates)[0];
         expect(screenProcessTypeTile.isSelected).toBe(true);
-        const visualPickerList = getVisualPickerList(
-            processTypeTemplates,
-            SELECTORS.TEMPLATES_SECTION
-        );
-        const template = getVisualPickerItems(visualPickerList)[0];
+        const visualPickerList = getVisualPickerList(processTypeTemplates);
+        const template = getVisualPickerItems(visualPickerList)[1];
         const checkbox = getCheckbox(template);
         checkbox.checked = true;
         checkbox.dispatchEvent(getChangedEvent());
@@ -188,10 +209,7 @@ describe('process-type-templates', () => {
     });
 
     it('selects the same template should keep this template checked', async () => {
-        const visualPickerList = getVisualPickerList(
-            processTypeTemplates,
-            SELECTORS.FEATURED_SECTION
-        );
+        const visualPickerList = getVisualPickerList(processTypeTemplates);
         const screenProcessTypeTile = getVisualPickerItems(visualPickerList)[0];
         const checkbox = getCheckbox(screenProcessTypeTile);
         checkbox.checked = false;
@@ -206,11 +224,9 @@ describe('process-type-templates', () => {
             TemplateChangedEvent.EVENT_NAME,
             eventCallback
         );
-        const visualPickerList = getVisualPickerList(
-            processTypeTemplates,
-            SELECTORS.TEMPLATES_SECTION
-        );
-        const template = getVisualPickerItems(visualPickerList)[0];
+        const visualPickerList = getVisualPickerList(processTypeTemplates);
+        const visualPickerItems = getVisualPickerItems(visualPickerList);
+        const template = visualPickerItems[visualPickerItems.length - 1];
         const checkbox = getCheckbox(template);
         checkbox.checked = true;
         checkbox.dispatchEvent(getChangedEvent());

@@ -119,7 +119,7 @@ describe('new Flow Modal Body', () => {
                     );
                     const templateItems = getTemplateItems(templatesTiles);
                     expect(templateItems).toHaveLength(
-                        templatesForFlowAndAutoLaunchedFlow.length
+                        templatesForFlowAndAutoLaunchedFlow.length + processTypes.length
                     );
                 });
             });
@@ -141,7 +141,7 @@ describe('new Flow Modal Body', () => {
                         SELECTORS.TEMPLATES_SECTION
                     );
                     const templateItems = getTemplateItems(templateList);
-                    expect(templateItems).toHaveLength(1);
+                    expect(templateItems).toHaveLength(2); // process type AutoLaunched + 1 template
 
                     const templateItemTitles = Array.from(templateItems).map(
                         templateItem => getTemplateItemTitle(templateItem)
@@ -221,7 +221,8 @@ describe('new Flow Modal Body', () => {
                     processTypesTemplates,
                     SELECTORS.TEMPLATES_SECTION
                 );
-                expect(templatesTiles).toBeNull();
+                const templateItems = getTemplateItems(templatesTiles);
+                expect(templateItems).toHaveLength(processTypes.length);
             });
         });
     });

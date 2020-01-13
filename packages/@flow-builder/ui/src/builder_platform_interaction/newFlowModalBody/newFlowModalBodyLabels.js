@@ -1,10 +1,14 @@
 /* Labels */
+import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
+import recommended from '@salesforce/label/FlowBuilderNewFlowModal.recommended';
+import templates from '@salesforce/label/FlowBuilderProcessTypeTemplates.templates';
 import errorLoadingProcessTypes from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingProcessTypes';
 import errorLoadingTemplates from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingTemplates';
-import errorLoadingTemplateData from '@salesforce/label/FlowBuilderNewFlowModal.errorLoadingTemplateData';
 
 export const LABELS = {
-    errorLoadingProcessTypes,
+    spinnerAlternativeText,
+    recommended,
+    templates,
     errorLoadingTemplates,
-    errorLoadingTemplateData
+    errorLoadingProcessTypes
 };

@@ -1,4 +1,3 @@
-import { getProcessTypes } from 'builder_platform_interaction/systemLib';
 import { LABELS } from './processTypeLibLabels';
 import { format } from 'builder_platform_interaction/commonUtils';
 import { ALL_PROCESS_TYPE, getProcessTypeIcon } from './processTypeUtils';
@@ -15,8 +14,8 @@ const groupByProcessType = templates => {
     }, {});
 };
 
-export const getProcessTypeTile = (processTypeName, isSelected) => {
-    const processType = getProcessTypes().find(
+export const createProcessTypeTile = (processTypes, processTypeName, isSelected) => {
+    const processType = processTypes.find(
         type => type.name === processTypeName
     );
     if (!processType) {
@@ -36,10 +35,9 @@ export const getProcessTypeTile = (processTypeName, isSelected) => {
     };
 };
 
-export const cacheTemplates = (processType, templates) => {
+export const cacheTemplates = (allProcessTypes, processType, templates) => {
     if (processType === ALL_PROCESS_TYPE.name) {
         allTemplates = groupByProcessType(templates);
-        const allProcessTypes = getProcessTypes();
         allProcessTypes.forEach(type => {
             allTemplates[type.name] = allTemplates[type.name] || [];
         });

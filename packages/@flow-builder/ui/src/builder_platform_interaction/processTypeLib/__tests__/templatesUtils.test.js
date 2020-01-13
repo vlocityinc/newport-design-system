@@ -1,7 +1,7 @@
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     ALL_PROCESS_TYPE,
-    getProcessTypeTile,
+    createProcessTypeTile,
     cacheTemplates,
     getTemplates
 } from 'builder_platform_interaction/processTypeLib';
@@ -36,7 +36,8 @@ const getProcessType = processTypeName =>
 describe('templatesUtils', () => {
     describe('getting the process types tiles', () => {
         it('should return the new screen flow tile with title and description in label file', () => {
-            const screenProcessTypeTile = getProcessTypeTile(
+            const screenProcessTypeTile = createProcessTypeTile(
+                MOCK_ALL_PROCESS_TYPES,
                 FLOW_PROCESS_TYPE.FLOW,
                 true
             );
@@ -52,7 +53,8 @@ describe('templatesUtils', () => {
             });
         });
         it('should return the new checkout flow tile with default title and description in label file', () => {
-            const checkoutProcessTypeTile = getProcessTypeTile(
+            const checkoutProcessTypeTile = createProcessTypeTile(
+                MOCK_ALL_PROCESS_TYPES,
                 FLOW_PROCESS_TYPE.CHECKOUT_FLOW,
                 true
             );
@@ -71,13 +73,13 @@ describe('templatesUtils', () => {
         });
         it('thows an error when given an invalid process type name', () => {
             expect(() =>
-                getProcessTypeTile('invalidProcessType', true)
+                createProcessTypeTile('invalidProcessType', true)
             ).toThrow();
         });
     });
     describe('caching the templates', () => {
         beforeEach(() => {
-            cacheTemplates(ALL_PROCESS_TYPE.name, MOCK_ALL_TEMPLATES);
+            cacheTemplates(MOCK_ALL_PROCESS_TYPES, ALL_PROCESS_TYPE.name, MOCK_ALL_TEMPLATES);
         });
         it('should cache all the templates', () => {
             expect(getTemplates([ALL_PROCESS_TYPE.name])).toEqual(
