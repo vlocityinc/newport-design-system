@@ -228,6 +228,20 @@ describe('screenField', () => {
                     'flowruntime:email'
                 );
             });
+            it('"storeOutputAutomatically" should be true', () => {
+                expect(actualResult.storeOutputAutomatically).toBe(true);
+            });
+        });
+        describe('LC screen field (automatic output handling unsupported)', () => {
+            let actualResult;
+            beforeEach(() => {
+                getProcessTypeAutomaticOutPutHandlingSupport.mockReturnValue(
+                    'Unsupported'
+                );
+                actualResult = createEmptyScreenFieldOfType(
+                    'flowruntime:email'
+                );
+            });
             it('"storeOutputAutomatically" should be false', () => {
                 expect(actualResult.storeOutputAutomatically).toBe(false);
             });

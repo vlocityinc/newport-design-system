@@ -207,7 +207,7 @@ export function createEmptyScreenFieldOfType(typeName) {
             formulaExpression: '',
             errorMessage: ''
         },
-        storeOutputAutomatically: false // set default value to false (W-6862437)
+        storeOutputAutomatically: automaticOutputHandlingSupport()
     };
 
     // Always add a placeholder choice for any choice based fields.
