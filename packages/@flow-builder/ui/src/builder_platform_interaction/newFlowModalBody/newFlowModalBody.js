@@ -24,8 +24,13 @@ function createRecommendedItems(processTypes) {
     return result;
 }
 
+const TAB_RECOMMENDED = 'recommended';
+const TAB_TEMPLATES = 'templates';
+
 export default class NewFlowModalBody extends LightningElement {
     labels = LABELS;
+    TAB_RECOMMENDED = TAB_RECOMMENDED;
+    TAB_TEMPLATES = TAB_TEMPLATES;
 
     @track
     state = {
@@ -39,7 +44,7 @@ export default class NewFlowModalBody extends LightningElement {
         processTypes: [],
         processTypesFetched: false,
         recommendedItems: null,
-        activeTab: 'recommended'
+        activeTab: TAB_RECOMMENDED
     };
 
     @api
@@ -78,9 +83,9 @@ export default class NewFlowModalBody extends LightningElement {
     @api
     get isProcessType() {
         switch (this.state.activeTab) {
-        case 'recommended':
+        case TAB_RECOMMENDED:
             return true;
-        case 'templates':
+        case TAB_TEMPLATES:
             return this.state.isProcessType;
         default:
         }
@@ -93,9 +98,9 @@ export default class NewFlowModalBody extends LightningElement {
     @api
     get selectedTemplate() {
         switch (this.state.activeTab) {
-            case 'recommended':
+            case TAB_RECOMMENDED:
                 return this.state.recommendedItems ? this.state.recommendedItems.find(item => item.isSelected).itemId : null;
-            case 'templates':
+            case TAB_TEMPLATES:
                 return this.state.selectedTemplate;
             default:
             }
