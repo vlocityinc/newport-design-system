@@ -418,7 +418,7 @@ function onDestroyPopover(panel) {
             onClose(panel);
         }
 
-        panel.close();
+        panel.close(null, false); // set shouldReturnFocus param to false to prevent focus from leaving modal on closing the popover
         popoverState = null;
     }
 }
