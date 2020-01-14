@@ -263,4 +263,8 @@ textarea:focus::placeholder {
 .nds-form-container .nds-form-element__control-animated-label .nds-form-element__label.nds-date-label label{
   max-width: calc(100% - 4.5rem);
 }
+
+.nds-form-container .nds-form-element__control-animated-label.nds-input-has-icon_right .nds-form-element__label .nds-lookup-form-element__label{
+  max-width: calc(100% - 5rem);
+}
 /* stylelint-enable selector-class-pattern */
