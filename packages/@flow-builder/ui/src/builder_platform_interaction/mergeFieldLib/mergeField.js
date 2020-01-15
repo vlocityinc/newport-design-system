@@ -4,6 +4,7 @@ import {
     getPropertiesForClass,
     getApexPropertyWithName
 } from 'builder_platform_interaction/apexTypeLib';
+import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
 import { describeExtension } from 'builder_platform_interaction/flowExtensionLib';
 import {
     getExtensionParamDescriptionAsComplexTypeFieldDescription,
@@ -87,12 +88,16 @@ function resolveComplexTypeReference(flowResource, fieldNames) {
     return Promise.resolve(undefined);
 }
 
+function fetchPropertiesForClass(clazz) {
+    return loadApexClasses().then(() => getPropertiesForClass(clazz));
+}
+
 function resolveApexPropertyReference(clazz, fieldNames) {
     if (fieldNames.length === 0) {
         return Promise.resolve([]);
     }
     const [fieldName, ...remainingFieldNames] = fieldNames;
-    return Promise.resolve(getPropertiesForClass(clazz)).then(properties => {
+    return fetchPropertiesForClass(clazz).then(properties => {
         const property = getApexPropertyWithName(properties, fieldName);
         if (!property) {
             return undefined;
@@ -221,10 +226,7 @@ function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
     );
 }
 
-export function getReferenceToName(
-    field,
-    specificEntityName
-) {
+export function getReferenceToName(field, specificEntityName) {
     let referenceToName;
     if (specificEntityName) {
         if (
@@ -297,9 +299,9 @@ function getExtensionOutputParamDescriptions(extension) {
 }
 
 function fetchExtensionOutputParameters(extensionName) {
-    return describeExtension(extensionName, { disableErrorModal: true }).then(
-        extension => getExtensionOutputParamDescriptions(extension)
-    );
+    return describeExtension(extensionName, {
+        disableErrorModal: true
+    }).then(extension => getExtensionOutputParamDescriptions(extension));
 }
 
 function getActionOutputParameterDescriptions(details) {

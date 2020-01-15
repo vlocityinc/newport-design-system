@@ -1,4 +1,4 @@
-import { resolveReferenceFromIdentifier } from 'builder_platform_interaction/mergeFieldLib';
+import { resolveReferenceFromIdentifier } from './mergeFieldLib';
 import {
     recursiveSwap,
     getSwapValueFunction

@@ -83,9 +83,9 @@ const deletableFilter = element => {
 };
 
 const apexClassHasSomePropertyMatching = (apexClass, filter) => {
-    return Object.values(apexTypeLib.getPropertiesForClass(apexClass)).some(
-        property => filter(property)
-    );
+    return Object.values(
+        apexTypeLib.getPropertiesForClass(apexClass)
+    ).some(property => filter(property));
 };
 
 const filterByRetrieveOptions = (elements, retrieveOptions) => {
@@ -240,9 +240,8 @@ export const canContainSObjectElements = (element, retrieveOptions) => {
  * @param {RetrieveOptions} retrieveOptions options such as whether we want only deletable/queryable etc... SObject
  */
 export const isOrCanContainsObjectOrSObjectCollectionSelector = retrieveOptions => {
-    return createSelector(
-        [elementsSelector],
-        elements => getCanContainSObjectElements(elements, retrieveOptions)
+    return createSelector([elementsSelector], elements =>
+        getCanContainSObjectElements(elements, retrieveOptions)
     );
 };
 
@@ -265,27 +264,21 @@ export const isOrCanContainsObjectOrSObjectCollectionSelector = retrieveOptions 
  */
 
 export const sObjectOrSObjectCollectionByEntitySelector = retrieveOptions => {
-    return createSelector(
-        [elementsSelector],
-        elements =>
-            getSObjectOrSObjectCollectionByEntityElements(
-                elements,
-                retrieveOptions
-            )
+    return createSelector([elementsSelector], elements =>
+        getSObjectOrSObjectCollectionByEntityElements(elements, retrieveOptions)
     );
 };
 
-export const byTypeWritableElementsSelector = dataType => {
-    return createSelector(
-        [elementsSelector],
-        getFilteredElements(
-            element =>
-                element.dataType === dataType &&
-                !element.isCollection &&
-                element.elementType === ELEMENT_TYPE.VARIABLE
-        )
+export const filteredElementsSelector = filter =>
+    createSelector([elementsSelector], getFilteredElements(filter));
+
+export const byTypeWritableElementsSelector = dataType =>
+    filteredElementsSelector(
+        element =>
+            element.dataType === dataType &&
+            !element.isCollection &&
+            element.elementType === ELEMENT_TYPE.VARIABLE
     );
-};
 
 const choiceTypes = [
     ELEMENT_TYPE.CHOICE,
@@ -296,76 +289,56 @@ const textCompatibleTypes = [
     FLOW_DATA_TYPE.PICKLIST.value,
     FLOW_DATA_TYPE.MULTI_PICKLIST.value
 ];
-export const choiceSelector = dataType => {
-    // element must be a choice
-    // if a dataType is specified for the choice field, this choice must have a compatible dataType
-    return createSelector(
-        [elementsSelector],
-        getFilteredElements(element => {
-            return (
-                choiceTypes.includes(element.elementType) &&
-                (!dataType ||
-                    dataType === element.dataType ||
-                    (dataType === FLOW_DATA_TYPE.STRING.value &&
-                        textCompatibleTypes.includes(element.dataType)))
-            );
-        })
+
+export const choiceSelector = dataType =>
+    filteredElementsSelector(
+        element =>
+            choiceTypes.includes(element.elementType) &&
+            (!dataType ||
+                dataType === element.dataType ||
+                (dataType === FLOW_DATA_TYPE.STRING.value &&
+                    textCompatibleTypes.includes(element.dataType)))
     );
-};
 
 // Only variables and automatic output from GetRecord/Actions/Create elements are writable.
 // Lightning components screen fields in automatic handling mode and Actions in automatic handling mode have writable fields.
-export const writableElementsSelector = createSelector(
-    [elementsSelector],
-    getFilteredElements(
-        ({ elementType, dataType, object, isSystemGeneratedOutput }) =>
-            elementType === ELEMENT_TYPE.VARIABLE ||
-            (elementType === ELEMENT_TYPE.START_ELEMENT && !!object) ||
-            dataType === FLOW_DATA_TYPE.SOBJECT.value ||
-            dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
-            dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
-            (elementType === ELEMENT_TYPE.RECORD_CREATE &&
-                dataType === FLOW_DATA_TYPE.STRING.value) ||
-            isSystemGeneratedOutput === true
-    )
-);
-export const readableElementsSelector = createSelector(
-    [elementsSelector],
-    getFilteredElements(
-        element =>
-            element.elementType !== ELEMENT_TYPE.START_ELEMENT ||
-            !!element.object
-    )
-);
-export const collectionElementsSelector = createSelector(
-    [elementsSelector],
-    getFilteredElements(element => element.isCollection)
-);
-export const apexScalarVariablesSelector = createSelector(
-    [elementsSelector],
-    getFilteredElements(
-        element =>
-            element.elementType === ELEMENT_TYPE.VARIABLE &&
-            element.dataType === FLOW_DATA_TYPE.APEX.value &&
-            !element.isCollection
-    )
+export const writableElementsSelector = filteredElementsSelector(
+    ({ elementType, dataType, object, isSystemGeneratedOutput }) =>
+        elementType === ELEMENT_TYPE.VARIABLE ||
+        (elementType === ELEMENT_TYPE.START_ELEMENT && !!object) ||
+        dataType === FLOW_DATA_TYPE.SOBJECT.value ||
+        dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
+        dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
+        (elementType === ELEMENT_TYPE.RECORD_CREATE &&
+            dataType === FLOW_DATA_TYPE.STRING.value) ||
+        isSystemGeneratedOutput === true
 );
 
-export const componentInstanceScreenFieldsSelector = createSelector(
-    [elementsSelector],
-    getFilteredElements(
-        element =>
-            element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
-            element.fieldType === COMPONENT_INSTANCE
-    )
+export const readableElementsSelector = filteredElementsSelector(
+    element =>
+        element.elementType !== ELEMENT_TYPE.START_ELEMENT || !!element.object
+);
+
+export const collectionElementsSelector = filteredElementsSelector(
+    element => element.isCollection
+);
+
+export const apexScalarVariablesSelector = filteredElementsSelector(
+    element =>
+        element.elementType === ELEMENT_TYPE.VARIABLE &&
+        element.dataType === FLOW_DATA_TYPE.APEX.value &&
+        !element.isCollection
+);
+
+export const componentInstanceScreenFieldsSelector = filteredElementsSelector(
+    element =>
+        element.elementType === ELEMENT_TYPE.SCREEN_FIELD &&
+        element.fieldType === COMPONENT_INSTANCE
 );
 
 export const byElementTypeElementsSelector = (...elementType) =>
-    createSelector(
-        [elementsSelector],
-        getFilteredElements(element =>
-            elementType.includes(element.elementType)
-        )
+    filteredElementsSelector(element =>
+        elementType.includes(element.elementType)
     );
 
 const hasSObjectProperties = apexClassProperties => {

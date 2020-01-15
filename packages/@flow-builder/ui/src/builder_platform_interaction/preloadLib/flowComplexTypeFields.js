@@ -4,12 +4,15 @@ import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import {
     getSObjectOrSObjectCollectionByEntityElements,
     componentInstanceScreenFieldsSelector,
-    byElementTypeElementsSelector
+    byElementTypeElementsSelector,
+    filteredElementsSelector
 } from 'builder_platform_interaction/selectors';
 import {
     ELEMENT_TYPE,
     ACTION_TYPE
 } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { loadApexClasses } from './preloadLib';
 
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
@@ -18,8 +21,22 @@ export function loadFieldsForComplexTypesInFlow(state) {
     return Promise.all([
         loadFieldsForSobjectsInFlow(state),
         loadFieldsForExtensionsInFlow(state),
-        loadParametersForInvocableActionsInFlow(state)
+        loadParametersForInvocableActionsInFlow(state),
+        loadFieldsForApexClassesInFlow(state)
     ]);
+}
+
+export function loadFieldsForApexClassesInFlow(state) {
+    const selector = filteredElementsSelector(
+        element =>
+            element.dataType === FLOW_DATA_TYPE.APEX.value &&
+            !element.isCollection
+    );
+    const apexTypes = selector(state);
+    if (apexTypes.length > 0) {
+        return loadApexClasses();
+    }
+    return Promise.resolve();
 }
 
 export function loadFieldsForSobjectsInFlow(state) {

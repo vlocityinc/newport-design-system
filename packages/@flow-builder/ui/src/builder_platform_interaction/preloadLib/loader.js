@@ -81,6 +81,10 @@ class Loader {
         resolve: null
     };
 
+    apexClassesLoaded = {
+        promise: null
+    };
+
     constructor(store) {
         this.store = store;
         this.createEntitiesLoadedPromise();
@@ -88,19 +92,27 @@ class Loader {
 
     // @api
     loadOnStart() {
-        // Load apex
-        // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
-        Promise.all([
-            fetchOnce(
-                SERVER_ACTION_TYPE.GET_APEX_TYPES,
-                {},
-                { background: true }
-            ),
-            this.entitiesLoaded.promise
-        ]).then(([data]) => {
-            this.store.dispatch(updateApexClasses(data));
-            setApexClasses(data);
-        });
+        this.loadApexClasses();
+    }
+
+    // @api
+    loadApexClasses() {
+        if (!this.apexClassesLoaded.promise) {
+            // Load apex
+            // we don't set the apex types until we loaded the entities because we need entities before we can get apex properties
+            this.apexClassesLoaded.promise = Promise.all([
+                fetchOnce(
+                    SERVER_ACTION_TYPE.GET_APEX_TYPES,
+                    {},
+                    { background: true }
+                ),
+                this.entitiesLoaded.promise
+            ]).then(([data]) => {
+                this.store.dispatch(updateApexClasses(data));
+                setApexClasses(data);
+            });
+        }
+        return this.apexClassesLoaded.promise;
     }
 
     // @api
@@ -222,6 +234,12 @@ export const loadOnStart = () => loader.loadOnStart();
  */
 export const loadOnProcessTypeChange = processType =>
     loader.loadOnProcessTypeChange(processType);
+
+/**
+ * Load all apex classes
+ * @returns {Promise} A promise that is resolved when apex classes have been loaded
+ */
+export const loadApexClasses = () => loader.loadApexClasses();
 
 /**
  * Load all supported features for the given list of process types

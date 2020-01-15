@@ -2,8 +2,10 @@ import {
     loadFieldsForSobjectsInFlow,
     loadFieldsForExtensionsInFlow,
     loadParametersForInvocableActionsInFlow,
-    loadParametersForInvocableApexActionsInFlowFromMetadata
+    loadParametersForInvocableApexActionsInFlowFromMetadata,
+    loadFieldsForApexClassesInFlow
 } from '../flowComplexTypeFields';
+import { loadApexClasses } from 'builder_platform_interaction/preloadLib';
 import {
     accountSObjectVariable,
     accountSObjectCollectionVariable,
@@ -17,7 +19,9 @@ import {
     actionCallElement,
     apexCallAutomaticAnonymousAccountOutput,
     externalServiceAutomaticOutput,
-    apexCallManualAccountOutput
+    apexCallManualAccountOutput,
+    apexCarVariable,
+    apexComplexTypeCollectionVariable
 } from 'mock/storeData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { describeExtensions } from 'builder_platform_interaction/flowExtensionLib';
@@ -45,6 +49,10 @@ jest.mock('builder_platform_interaction/invocableActionLib', () => ({
     fetchDetailsForInvocableAction: jest
         .fn()
         .mockImplementation(() => Promise.resolve())
+}));
+
+jest.mock('builder_platform_interaction/preloadLib', () => ({
+    loadApexClasses: jest.fn().mockImplementation(() => Promise.resolve())
 }));
 
 describe('flowComplexTypeFields', () => {
@@ -91,6 +99,20 @@ describe('flowComplexTypeFields', () => {
                 stateWithElements([lookupRecordOutputReference])
             );
             expect(fetchFieldsForEntity.mock.calls).toHaveLength(0);
+        });
+    });
+    describe('loadFieldsForApexClassesInFlow', () => {
+        it('Load fields for apex type variables', async () => {
+            await loadFieldsForApexClassesInFlow(
+                stateWithElements([apexCarVariable])
+            );
+            expect(loadApexClasses.mock.calls).toHaveLength(1);
+        });
+        it('Does not load fields for apex type variable collections', async () => {
+            await loadFieldsForApexClassesInFlow(
+                stateWithElements([apexComplexTypeCollectionVariable])
+            );
+            expect(loadApexClasses.mock.calls).toHaveLength(0);
         });
     });
     describe('loadFieldsForExtensionsInFlow', () => {

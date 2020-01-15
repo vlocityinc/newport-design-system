@@ -7,3 +7,4 @@ export {
     resolveReferenceFromIdentifier,
     isLookupTraversalSupported
 } from './mergeField';
+export { loadReferencesIn } from './references';

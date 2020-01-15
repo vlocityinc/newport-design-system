@@ -104,7 +104,6 @@ import { removeLastCreatedInlineResource } from 'builder_platform_interaction/ac
 import {
     loadFieldsForComplexTypesInFlow,
     loadParametersForInvocableApexActionsInFlowFromMetadata,
-    loadReferencesIn,
     loadOnStart,
     loadOnProcessTypeChange,
     initializeLoader
@@ -116,6 +115,7 @@ import {
 } from 'builder_platform_interaction/commands';
 import { KeyboardInteractions } from 'builder_platform_interaction/keyboardInteractionUtils';
 import { loadAllSupportedFeatures } from 'builder_platform_interaction/preloadLib';
+import { loadReferencesIn } from 'builder_platform_interaction/mergeFieldLib';
 
 let unsubscribeStore;
 let storeInstance;
@@ -833,7 +833,10 @@ export default class Editor extends LightningElement {
     showPropertyEditor(params) {
         if (this.builderConfig.usePanelForPropertyEditor) {
             this.showPropertyEditorRightPanel = true;
-            this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
+            this.propertyEditorParams = getPropertyEditorConfig(
+                params.mode,
+                params
+            );
         } else {
             invokePropertyEditor(PROPERTY_EDITOR, params);
         }

@@ -1,5 +1,6 @@
 export { canvasSelector } from './canvasSelector';
 export {
+    filteredElementsSelector,
     readableElementsSelector,
     writableElementsSelector,
     collectionElementsSelector,

@@ -11,15 +11,18 @@ import { accountFields as mockAccountFields } from 'serverData/GetFieldsForEntit
 import { userFields as mockUserFields } from 'serverData/GetFieldsForEntity/userFields.json';
 import { feedItemFields as mockFeedItemFields } from 'serverData/GetFieldsForEntity/feedItemFields.json';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
-import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
-import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
+import {
+    setApexClasses,
+    setApexClasses as mockSetApexClasses
+} from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow as mockApexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import {
     mockFlowRuntimeEmailFlowExtensionDescription,
     mockLightningCompWithAccountOutputFlowExtensionDescription
 } from 'mock/flowExtensionsData';
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -66,6 +69,15 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
     };
 });
 
+jest.mock('builder_platform_interaction/preloadLib', () => {
+    return {
+        loadApexClasses: jest.fn().mockImplementation(() => {
+            mockSetApexClasses(mockApexTypesForFlow);
+            return Promise.resolve();
+        })
+    };
+});
+
 jest.mock('builder_platform_interaction/invocableActionLib', () =>
     require('builder_platform_interaction_mocks/invocableActionLib')
 );
@@ -73,16 +85,13 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
 describe('mergeField', () => {
     beforeAll(() => {
         setSystemVariables(systemVariablesForFlow);
-        setApexClasses(apexTypesForFlow);
-    });
-    afterAll(() => {
-        setApexClasses(null);
     });
     beforeEach(() => {
         Store.setMockState(flowWithAllElementsUIModel);
     });
     afterEach(() => {
         Store.resetStore();
+        setApexClasses(null);
     });
     describe('resolveReferenceFromIdentifier', () => {
         it('returns undefined if not a valid identifier', async () => {
