@@ -2,9 +2,24 @@ import {
     getPropertyEditorConfig,
     showPopover,
     isPopoverOpen,
-    createConfigurationEditor
+    createConfigurationEditor,
 } from '../builderUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
+
+const mockPackage = 'foo';
+const mockComponent = 'bar';
+
+jest.mock('builder_platform_interaction/elementConfig', () => {
+        const actual = require.requireActual('builder_platform_interaction/elementConfig');
+
+        return Object.assign({}, actual, {
+            getConfigForElementType : jest.fn((type) => {
+                const config = actual.getConfigForElementType(type);
+                config.descriptor = `${mockPackage}:${mockComponent}`;
+                return config;
+            })
+        });
+});
 
 jest.mock('aura', () => {
     return {
@@ -122,6 +137,16 @@ describe('builderUtils', () => {
                     modePropertyNestedPath,
                     ADD_MODE
                 );
+            });
+            it('sets className based on descriptor', () => {
+                const params = getAttributes(ADD_MODE);
+
+                const actualResult = getPropertyEditorConfig(
+                    ADD_MODE,
+                    params
+                );
+
+                expect(actualResult.attr.bodyComponent.className).toEqual(`${mockPackage}/${mockComponent}`);
             });
         });
     });

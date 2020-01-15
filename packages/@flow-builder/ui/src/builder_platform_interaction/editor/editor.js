@@ -1,5 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 import {
+    getPropertyEditorConfig,
     invokePropertyEditor,
     PROPERTY_EDITOR,
     invokeModalInternalData,
@@ -200,6 +201,12 @@ export default class Editor extends LightningElement {
 
     @track
     builderConfig = {};
+
+    @track
+    showPropertyEditorRightPanel = false;
+
+    @track
+    propertyEditorParams = null;
 
     propertyEditorBlockerCalls = [];
 
@@ -823,13 +830,22 @@ export default class Editor extends LightningElement {
         this.hasNotBeenSaved = false;
     };
 
+    showPropertyEditor(params) {
+        if (this.builderConfig.usePanelForPropertyEditor) {
+            this.showPropertyEditorRightPanel = true;
+            this.propertyEditorParams = getPropertyEditorConfig(params.mode, params);
+        } else {
+            invokePropertyEditor(PROPERTY_EDITOR, params);
+        }
+    }
+
     queueOpenPropertyEditor = params => {
         this.spinners.showPropertyEditorSpinner = true;
         Promise.all(this.propertyEditorBlockerCalls)
             .then(() => {
                 this.spinners.showPropertyEditorSpinner = false;
                 this.propertyEditorBlockerCalls = [];
-                invokePropertyEditor(PROPERTY_EDITOR, params);
+                this.showPropertyEditor(params);
             })
             .catch(() => {
                 // we don't open the property editor because at least one promise was rejected
@@ -845,6 +861,8 @@ export default class Editor extends LightningElement {
     handleAddResourceElement = event => {
         const mode = event.type;
         const nodeUpdate = this.deMutateAndAddNodeCollection;
+        // TODO: This is currently not supported by the inline panel.
+        // TODO Discuss with UX how we're going to handle nested editors
         this.queueOpenPropertyEditor({ mode, nodeUpdate });
     };
 
@@ -876,6 +894,7 @@ export default class Editor extends LightningElement {
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
+
             this.queueOpenPropertyEditor({
                 mode,
                 node,
@@ -923,6 +942,27 @@ export default class Editor extends LightningElement {
             }
         }
     };
+
+    /**
+     * Close the currently displayed property editor panel (for property editors shown inline
+     */
+    handleClosePropertyEditor() {
+        this.showPropertyEditorRightPanel = false;
+    }
+
+    /**
+     * Handle adding of a node from an inline property editor
+     */
+    handleAddNode(event) {
+        this.deMutateAndAddNodeCollection(event.detail.node);
+    }
+
+    /**
+     * Handle adding of a node from an inline property editor
+     */
+    handleUpdateNode(event) {
+        this.deMutateAndUpdateNodeCollection(event.detail.node);
+    }
 
     /**
      * Load all references in flow. No property editor can be opened until the references are loaded
@@ -1158,7 +1198,7 @@ export default class Editor extends LightningElement {
      */
     newResourceCallback = () => {
         // This doesn't need the promise since a property editor already has to be open in this case
-        invokePropertyEditor(PROPERTY_EDITOR, {
+        this.showPropertyEditor({
             mode: NewResourceEvent.EVENT_NAME,
             nodeUpdate: this.deMutateAndAddNodeCollection
         });

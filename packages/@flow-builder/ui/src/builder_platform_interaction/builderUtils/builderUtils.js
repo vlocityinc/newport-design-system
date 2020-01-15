@@ -255,6 +255,15 @@ const getPropertyEditorDescriptor = (mode, elementConfig) => {
     return desc[mode];
 };
 
+/**
+ * Convert a property editor descriptor in to a class name for dynamic lwc loading.
+ */
+const getPropertyEditorClassName = (desc) => {
+    const packageAndClass = desc.split(':');
+
+    return packageAndClass[0] + '/' + packageAndClass[1];
+};
+
 const invokeModalWithComponentsOnCreate = (modal, data) => {
     const modalFooter = modal.get('v.footer')[0];
     if (data.closeModalCallback) {
@@ -288,7 +297,9 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         titleForModal = getTitleForModalHeader(mode, elementType),
         labelForOkButton = getLabelForOkButton(mode),
         desc = getPropertyEditorDescriptor(mode, elementConfig),
+        className = getPropertyEditorClassName(desc),
         processType = attributes.processType;
+
     if (!desc) {
         throw new Error(
             'descriptor is not defined in the element config for the element type: ' +
@@ -301,6 +312,7 @@ export const getPropertyEditorConfig = (mode, attributes) => {
         newResourceCallback,
         bodyComponent: {
             desc,
+            className,
             attr: {
                 node,
                 processType,
