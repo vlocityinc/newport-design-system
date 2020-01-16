@@ -20,6 +20,8 @@ import {
     createEmptyAssignmentMetadata
 } from './base/baseRecordElement';
 import { generateGuid } from 'builder_platform_interaction/storeLib';
+import * as apexTypeLib from 'builder_platform_interaction/apexTypeLib';
+import { sanitizeGuid } from 'builder_platform_interaction/dataMutationLib';
 
 const elementType = ELEMENT_TYPE.RECORD_CREATE;
 const maxConnections = 2;
@@ -73,13 +75,27 @@ export function createRecordCreate(recordCreate = {}) {
         if (inputReference) {
             // When the builder is loaded the store does not yet contain the variables
             // getFirstRecordOnly can only be calculated at the opening on the element
+            const complexGuid = sanitizeGuid(inputReference);
             const variable =
-                getElementByGuid(inputReference) ||
-                getGlobalConstantOrSystemVariable(inputReference);
+                getElementByGuid(complexGuid.guidOrLiteral) ||
+                getGlobalConstantOrSystemVariable(complexGuid.guidOrLiteral);
             if (variable) {
-                getFirstRecordOnly =
-                    variable.dataType !== FLOW_DATA_TYPE.SOBJECT.value ||
-                    !variable.isCollection;
+                if (variable.dataType !== FLOW_DATA_TYPE.APEX.value) {
+                    getFirstRecordOnly =
+                        variable.dataType !== FLOW_DATA_TYPE.SOBJECT.value ||
+                        !variable.isCollection;
+                } else if (
+                    variable.dataType === FLOW_DATA_TYPE.APEX.value &&
+                    complexGuid.fieldNames.length === 1
+                ) {
+                    const apexClazz = apexTypeLib.getPropertiesForClass(
+                        variable.subtype
+                    );
+                    const property = apexClazz[complexGuid.fieldNames[0]];
+                    if (property) {
+                        getFirstRecordOnly = !property.isCollection;
+                    }
+                }
             }
         }
 

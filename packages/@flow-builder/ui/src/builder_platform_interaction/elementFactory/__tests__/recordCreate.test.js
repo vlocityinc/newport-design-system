@@ -16,7 +16,16 @@ import {
     getProcessTypeAutomaticOutPutHandlingSupport
 } from 'builder_platform_interaction/processTypeLib';
 import { Store } from 'builder_platform_interaction/storeLib';
-import { flowWithAllElementsUIModel } from 'mock/storeData';
+import {
+    flowWithAllElementsUIModel,
+    createWithApexDefSingleSObjectVariable,
+    createWithApexDefSObjectCollectionVariable
+} from 'mock/storeData';
+import {
+    setApexClasses,
+    cachePropertiesForClass
+} from 'builder_platform_interaction/apexTypeLib';
+import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 
 jest.mock('builder_platform_interaction/processTypeLib', () => {
     const actual = require.requireActual(
@@ -267,6 +276,43 @@ describe('recordCreate', () => {
         );
     });
 });
+describe('recordCreate using Apex-Defined Variable', () => {
+    beforeEach(() => {
+        setApexClasses(apexTypesForFlow);
+    });
+    afterEach(() => {
+        setApexClasses(null);
+    });
+    describe('Single Variable', () => {
+        beforeEach(() => {
+            cachePropertiesForClass('apexContainsOnlyASingleSObjectVariable');
+        });
+        it('has getFirstRecordOnly = true', () => {
+            const loadCreateWithApexDefSingleSObjectVariable = createRecordCreate(
+                createWithApexDefSingleSObjectVariable
+            );
+            expect(
+                loadCreateWithApexDefSingleSObjectVariable.getFirstRecordOnly
+            ).toBe(true);
+        });
+    });
+    describe('Collection Variable', () => {
+        beforeEach(() => {
+            cachePropertiesForClass(
+                'apexContainsOnlyAnSObjectCollectionVariable'
+            );
+        });
+        it('has getFirstRecordOnly = false', () => {
+            const loadCreateWithApexDefSObjectCollectionVariable = createRecordCreate(
+                createWithApexDefSObjectCollectionVariable
+            );
+            expect(
+                loadCreateWithApexDefSObjectCollectionVariable.getFirstRecordOnly
+            ).toBe(false);
+        });
+    });
+});
+
 describe('recordCreate new element from left panel', () => {
     it('returns a new record create object when no argument is passed; getFirstRecordOnly should be true by default', () => {
         const uiModelResult = {

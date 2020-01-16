@@ -687,15 +687,18 @@ export default class Editor extends LightningElement {
 
         // Pop flow properties editor and do the following on callback.
         const flowProperties = storeInstance.getCurrentState().properties;
-        const node = getElementForPropertyEditor(flowProperties);
-        node.saveType = SaveType.UPDATE;
+
         const nodeUpdate = flowPropertiesCallback(storeInstance);
         const newResourceCallback = this.newResourceCallback;
-        this.queueOpenPropertyEditor({
-            mode,
-            node,
-            nodeUpdate,
-            newResourceCallback
+        this.queueOpenPropertyEditor(() => {
+            const node = getElementForPropertyEditor(flowProperties);
+            node.saveType = SaveType.UPDATE;
+            return {
+                mode,
+                node,
+                nodeUpdate,
+                newResourceCallback
+            };
         });
     };
 
@@ -750,18 +753,22 @@ export default class Editor extends LightningElement {
             if (saveType === SaveType.UPDATE) {
                 this.saveFlow(SaveType.UPDATE);
             } else {
-                flowProperties = getElementForPropertyEditor(flowProperties);
-                flowProperties.saveType = saveType;
                 const nodeUpdate = saveAsFlowCallback(
                     storeInstance,
                     this.saveFlow
                 );
                 const newResourceCallback = this.newResourceCallback;
-                this.queueOpenPropertyEditor({
-                    mode: eventType,
-                    node: flowProperties,
-                    nodeUpdate,
-                    newResourceCallback
+                this.queueOpenPropertyEditor(() => {
+                    flowProperties = getElementForPropertyEditor(
+                        flowProperties
+                    );
+                    flowProperties.saveType = saveType;
+                    return {
+                        mode: eventType,
+                        node: flowProperties,
+                        nodeUpdate,
+                        newResourceCallback
+                    };
                 });
             }
         }
@@ -841,14 +848,13 @@ export default class Editor extends LightningElement {
             invokePropertyEditor(PROPERTY_EDITOR, params);
         }
     }
-
-    queueOpenPropertyEditor = params => {
+    queueOpenPropertyEditor = paramsProvider => {
         this.spinners.showPropertyEditorSpinner = true;
         Promise.all(this.propertyEditorBlockerCalls)
             .then(() => {
                 this.spinners.showPropertyEditorSpinner = false;
                 this.propertyEditorBlockerCalls = [];
-                this.showPropertyEditor(params);
+                this.showPropertyEditor(paramsProvider());
             })
             .catch(() => {
                 // we don't open the property editor because at least one promise was rejected
@@ -866,7 +872,10 @@ export default class Editor extends LightningElement {
         const nodeUpdate = this.deMutateAndAddNodeCollection;
         // TODO: This is currently not supported by the inline panel.
         // TODO Discuss with UX how we're going to handle nested editors
-        this.queueOpenPropertyEditor({ mode, nodeUpdate });
+        this.queueOpenPropertyEditor(() => ({
+            mode,
+            nodeUpdate
+        }));
     };
 
     /** *********** Canvas and Node Event Handling *************** **/
@@ -888,22 +897,26 @@ export default class Editor extends LightningElement {
         if (event && event.type && event.detail) {
             logPerfTransactionStart('PropertyEditor');
             const mode = event.type;
-            const node = getElementForPropertyEditor({
-                locationX: event.detail.locationX,
-                locationY: event.detail.locationY,
-                elementType: event.detail.elementType,
-                isNewElement: true
-            });
+
             const nodeUpdate = this.deMutateAndAddNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
-
-            this.queueOpenPropertyEditor({
-                mode,
-                node,
-                nodeUpdate,
-                newResourceCallback,
-                processType
+            this.queueOpenPropertyEditor(() => {
+                // getElementForPropertyEditor need to be called after propertyEditorBlockerCalls
+                // has been resolved
+                const node = getElementForPropertyEditor({
+                    locationX: event.detail.locationX,
+                    locationY: event.detail.locationY,
+                    elementType: event.detail.elementType,
+                    isNewElement: true
+                });
+                return {
+                    mode,
+                    node,
+                    nodeUpdate,
+                    newResourceCallback,
+                    processType
+                };
             });
         }
     };
@@ -919,23 +932,26 @@ export default class Editor extends LightningElement {
             const mode = event.type;
             const guid = event.detail.canvasElementGUID;
             const element = storeInstance.getCurrentState().elements[guid];
-            const node = getElementForPropertyEditor(element);
+
             const nodeUpdate = this.deMutateAndUpdateNodeCollection;
             const newResourceCallback = this.newResourceCallback;
             const processType = this.properties.processType;
             if (
-                node.elementType !== ELEMENT_TYPE.START_ELEMENT ||
+                element.elementType !== ELEMENT_TYPE.START_ELEMENT ||
                 isConfigurableStartSupported(processType)
             ) {
                 logPerfTransactionStart('PropertyEditor');
-                this.queueOpenPropertyEditor({
-                    mode,
-                    nodeUpdate,
-                    node,
-                    newResourceCallback,
-                    processType
+                this.queueOpenPropertyEditor(() => {
+                    const node = getElementForPropertyEditor(element);
+                    return {
+                        mode,
+                        nodeUpdate,
+                        node,
+                        newResourceCallback,
+                        processType
+                    };
                 });
-                if (node && node.isCanvasElement) {
+                if (element && element.isCanvasElement) {
                     storeInstance.dispatch(
                         selectOnCanvas({
                             guid

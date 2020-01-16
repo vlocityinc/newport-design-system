@@ -1,4 +1,3 @@
-import { isCanvasElement } from 'builder_platform_interaction/elementConfig';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
     UNDO,
@@ -206,7 +205,7 @@ export const addElement = payload => {
             case ELEMENT_TYPE.START_ELEMENT:
                 return createAction(ADD_START_ELEMENT, payload);
             default:
-                if (isCanvasElement(payload.elementType)) {
+                if (payload.isCanvasElement) {
                     return createAction(ADD_CANVAS_ELEMENT, payload);
                 }
                 // Added to support strategy builder non-canvas elements
@@ -246,7 +245,7 @@ export const updateElement = payload => {
             case ELEMENT_TYPE.SCREEN_WITH_MODIFIED_AND_DELETED_SCREEN_FIELDS:
                 return createAction(MODIFY_SCREEN_WITH_FIELDS, payload);
             default:
-                if (isCanvasElement(payload.elementType)) {
+                if (payload.isCanvasElement) {
                     return createAction(UPDATE_CANVAS_ELEMENT, payload);
                 }
 
@@ -282,7 +281,7 @@ export const deleteElement = payload => {
             break;
         default:
             // Check if element is a canvas element or multiple elements are being deleted
-            if (isCanvasElement(payload.elementType) || !payload.elementType) {
+            if (payload.isCanvasElement || !payload.elementType) {
                 action = createAction(DELETE_ELEMENT, payload);
             } else {
                 // Added to support strategy builder non-canvas elements
