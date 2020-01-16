@@ -97,6 +97,7 @@ describe('resourcePickerUtils', () => {
                 parentItem,
                 fields,
                 {
+                    allowSObjectFields: true,
                     allowedParamTypes: paramTypes,
                     allowSObjectFieldsTraversal: true,
                     showAsFieldReference: true,
@@ -128,6 +129,7 @@ describe('resourcePickerUtils', () => {
                 parentItem,
                 ['field2'],
                 {
+                    allowSObjectFields: true,
                     allowedParamTypes: paramTypes,
                     showAsFieldReference: true,
                     showSubText: true,

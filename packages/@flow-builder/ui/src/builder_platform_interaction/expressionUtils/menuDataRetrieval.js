@@ -458,7 +458,8 @@ export function filterFieldsForChosenElement(
         shouldBeWritable = false,
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
-        sObjectSelectorConfig
+        sObjectSelectorConfig,
+        allowSObjectFields
     } = {}
 ) {
     if (fields) {
@@ -484,7 +485,8 @@ export function filterFieldsForChosenElement(
                             showAsFieldReference,
                             showSubText,
                             allowSObjectFieldsTraversal,
-                            allowApexTypeFieldsTraversal
+                            allowApexTypeFieldsTraversal,
+                            allowSObjectFields
                         })
                     ),
                 []

@@ -20,6 +20,7 @@ const getFieldMenuData = (
     parentItem,
     entityFields,
     {
+        allowSObjectFields = true,
         allowSObjectFieldsTraversal = true,
         shouldBeWritable = false,
         sObjectSelectorConfig
@@ -31,7 +32,8 @@ const getFieldMenuData = (
         showSubText: true,
         allowSObjectFieldsTraversal,
         shouldBeWritable,
-        sObjectSelectorConfig
+        sObjectSelectorConfig,
+        allowSObjectFields
     };
     if (entityFields) {
         return Promise.resolve(
@@ -110,6 +112,7 @@ export const getMenuData = (
 ) => {
     if (parentItem) {
         return getFieldMenuData(populateParamTypesFn, parentItem, fields, {
+            allowSObjectFields,
             allowSObjectFieldsTraversal,
             shouldBeWritable: !!(
                 elementConfig && elementConfig.shouldBeWritable

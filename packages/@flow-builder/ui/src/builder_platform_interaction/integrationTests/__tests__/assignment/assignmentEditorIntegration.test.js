@@ -372,6 +372,28 @@ describe('Assignment Editor', () => {
                     displayText: '{!apexCarVariable.wheel.type}'
                 });
             });
+            it('can traverse SObject in the Apex types', async () => {
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                expect(
+                    await selectComboboxItemBy(lhsCombobox, 'text', [
+                        'apexComplexTypeVariable',
+                        'acct',
+                        'AccountSource'
+                    ])
+                ).toMatchObject({
+                    displayText: '{!apexComplexTypeVariable.acct.AccountSource}'
+                });
+            });
+            it('cannot traverse more than one level of an SObject in the Apex types', async () => {
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                expect(
+                    await selectComboboxItemBy(lhsCombobox, 'text', [
+                        'apexComplexTypeVariable',
+                        'acct',
+                        'CreatedBy'
+                    ])
+                ).toBeUndefined();
+            });
         });
         describe('Automatic handling mode', () => {
             testExpression.each`

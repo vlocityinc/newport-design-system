@@ -320,6 +320,15 @@ function getMenuItemsForSObjectField(
     ];
 }
 
+const hasApexParentAndApexFieldAllowed = (
+    parent,
+    allowApexTypeFieldsTraversal
+) => {
+    return (
+        parent && parent.dataType === APEX_TYPE && allowApexTypeFieldsTraversal
+    );
+};
+
 /**
  * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
  *
@@ -339,7 +348,8 @@ export function getMenuItemForField(
         showAsFieldReference = true,
         showSubText = true,
         allowSObjectFieldsTraversal = true,
-        allowApexTypeFieldsTraversal = true
+        allowApexTypeFieldsTraversal = true,
+        allowSObjectFields = true
     } = {}
 ) {
     // support for parameter items being converted to field shape
@@ -347,7 +357,13 @@ export function getMenuItemForField(
     let hasNext;
     const { dataType, isCollection, subtype } = field;
     if (
-        (dataType === SOBJECT_TYPE && !allowSObjectFieldsTraversal) ||
+        (dataType === SOBJECT_TYPE &&
+            (!allowSObjectFields ||
+                !hasApexParentAndApexFieldAllowed(
+                    parent,
+                    allowApexTypeFieldsTraversal
+                )) &&
+            !allowSObjectFieldsTraversal) ||
         (dataType === APEX_TYPE && !allowApexTypeFieldsTraversal)
     ) {
         hasNext = false;
@@ -397,7 +413,8 @@ export function getMenuItemsForField(
         showAsFieldReference = true,
         showSubText = true,
         allowSObjectFieldsTraversal = true,
-        allowApexTypeFieldsTraversal = true
+        allowApexTypeFieldsTraversal = true,
+        allowSObjectFields
     } = {}
 ) {
     if (parent && parent.dataType === SOBJECT_TYPE) {
@@ -412,7 +429,8 @@ export function getMenuItemsForField(
             showAsFieldReference,
             showSubText,
             allowSObjectFieldsTraversal,
-            allowApexTypeFieldsTraversal
+            allowApexTypeFieldsTraversal,
+            allowSObjectFields
         })
     ];
 }
