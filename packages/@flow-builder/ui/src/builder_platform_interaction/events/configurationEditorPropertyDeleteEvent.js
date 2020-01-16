@@ -1,4 +1,4 @@
-const eventName = 'propertydeleted';
+const eventName = 'valuedeleted';
 /**
  * This event can be used by partner teams to
  * notify invocable action editor regarding to
