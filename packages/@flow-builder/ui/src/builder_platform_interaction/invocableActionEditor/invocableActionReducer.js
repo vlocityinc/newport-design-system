@@ -16,6 +16,7 @@ import {
     DeleteParameterItemEvent,
     UseAdvancedOptionsSelectionChangedEvent,
     ConfigurationEditorChangeEvent,
+    ConfigurationEditorPropertyDeleteEvent,
     DynamicTypeMappingChangeEvent
 } from 'builder_platform_interaction/events';
 import {
@@ -42,9 +43,9 @@ const invocableActionPropertyChanged = (state, event) => {
     const error =
         event.detail.error === null
             ? invocableActionValidation.validateProperty(
-                  event.detail.propertyName,
-                  event.detail.value
-              )
+                event.detail.propertyName,
+                event.detail.value
+            )
             : event.detail.error;
     return updateProperties(state, {
         [event.detail.propertyName]: { value: event.detail.value, error }
@@ -71,7 +72,7 @@ const clearGenericParameters = ({
         }))
         .map(({ actionCallParameter, invocableActionParameter }) =>
             (invocableActionParameter &&
-            invocableActionParameter.sobjectType === genericTypeName
+                invocableActionParameter.sobjectType === genericTypeName
                 ? { ...actionCallParameter, value: { value: '', error: null } }
                 : actionCallParameter)
         );
@@ -124,12 +125,12 @@ function setDynamicTypeMappingTypeValue(actionCall, event) {
         index !== -1
             ? dataTypeMappings[index]
             : {
-                  typeName: {
-                      value: typeName,
-                      error: null
-                  },
-                  rowIndex
-              };
+                typeName: {
+                    value: typeName,
+                    error: null
+                },
+                rowIndex
+            };
     // Check if the value has actually changed
     if (
         index !== -1 &&
@@ -255,6 +256,7 @@ export const invocableActionReducer = (state, event, elements) => {
         case VALIDATE_ALL:
             return invocableActionValidation.validateAll(state);
         case ConfigurationEditorChangeEvent.EVENT_NAME:
+        case ConfigurationEditorPropertyDeleteEvent.EVENT_NAME:
             return updateInputParameterItemConfigurationEditor(
                 state,
                 event.detail,

@@ -446,7 +446,6 @@ export default class InvocableActionEditor extends LightningElement {
     /**
      * @param {object} event - property changed event coming from label-description component or parameter-item component
      */
-
     handleEvent(event) {
         event.stopPropagation();
         const elements = Store.getStore().getCurrentState().elements;

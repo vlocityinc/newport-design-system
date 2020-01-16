@@ -60,20 +60,15 @@ export const updateParameterItem = (state, param) => {
 
 export const updateInputParameterItemConfigurationEditor = (
     state,
-    { id, newValueDataType: valueDataType, newValue: value },
+    { id, newValueDataType, newValue },
     elements
 ) => {
     if (!id) {
         throw new Error('id is not defined');
     }
 
-    if (value === null || value === undefined) {
-        throw new Error('value is not defined');
-    }
-
-    if (!valueDataType) {
-        throw new Error('value data type is not defined');
-    }
+    const valueDataType = newValueDataType ? newValueDataType : null;
+    const value = newValue ? newValue : null;
 
     const { rowIndex } =
         state.inputParameters.find(({ name }) => name === id) || {};

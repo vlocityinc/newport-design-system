@@ -118,6 +118,9 @@ export { ToggleFlowStatusEvent } from './toolbarEvents/toggleFlowStatusEvent';
 export {
     ConfigurationEditorChangeEvent
 } from './configurationEditorChangeEvent';
+export {
+    ConfigurationEditorPropertyDeleteEvent
+} from './configurationEditorPropertyDeleteEvent';
 export { DynamicTypeMappingChangeEvent } from './dynamicTypeMappingChangeEvent';
 export {
     VariableAndFieldMappingChangedEvent
