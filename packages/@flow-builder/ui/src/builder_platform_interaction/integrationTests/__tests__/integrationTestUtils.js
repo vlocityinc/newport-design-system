@@ -2,7 +2,6 @@ import { setEntities, clearEntityFieldsCache } from 'builder_platform_interactio
 import { setAuraFetch, resetFetchOnceCache } from 'builder_platform_interaction/serverDataLib';
 import { setGlobalVariables, resetSystemVariables } from 'builder_platform_interaction/systemLib';
 import { setRules, setOperators } from 'builder_platform_interaction/ruleLib';
-import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { reducer } from 'builder_platform_interaction/reducers';
 import { resetCacheTemplates } from 'builder_platform_interaction/processTypeLib';
@@ -181,7 +180,6 @@ export const resetState = () => {
     setRules();
     setOperators();
     setResourceTypes();
-    OutputResourcePicker.RULES = [];
     resetCacheTemplates();
     clearExtensionsCache();
     resetSystemVariables();

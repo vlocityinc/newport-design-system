@@ -2,8 +2,7 @@ import { createElement } from 'lwc';
 import InvocableActionEditor from 'builder_platform_interaction/invocableActionEditor';
 import { resolveRenderCycles } from '../resolveRenderCycles';
 import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
-import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
-import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
+import { setRules } from 'builder_platform_interaction/ruleLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { updateFlow } from 'builder_platform_interaction/actions';
 import { Store } from 'builder_platform_interaction/storeLib';
@@ -74,7 +73,6 @@ describe('Invocable Action Editor', () => {
     let coreActionElement;
     beforeAll(() => {
         setRules(rules);
-        OutputResourcePicker.RULES = getOutputRules();
         store = Store.getStore(reducer);
         setApexClasses(apexTypesForAutolLaunchedFlow);
         fetchDetailsForInvocableAction.mockImplementation(() =>

@@ -22,8 +22,6 @@ import { logInteraction } from 'builder_platform_interaction/loggingUtils';
 let storeInstance;
 
 export default class OutputResourcePicker extends LightningElement {
-    static RULES = getOutputRules();
-
     @track
     _customValidity;
 
@@ -238,7 +236,7 @@ export default class OutputResourcePicker extends LightningElement {
             this.propertyEditorElementType,
             this.elementParam,
             RULE_OPERATOR.ASSIGN,
-            OutputResourcePicker.RULES
+            getOutputRules()
         );
         return this.paramTypes;
     };

@@ -3,8 +3,7 @@ import InvocableActionEditor from 'builder_platform_interaction/invocableActionE
 import { resolveRenderCycles } from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
-import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
-import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
+import { setRules } from 'builder_platform_interaction/ruleLib';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { setAuraFetch } from 'builder_platform_interaction/serverDataLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
@@ -73,7 +72,6 @@ describe('Invocable Action Editor', () => {
     let actionNode;
     beforeAll(() => {
         setRules(rules);
-        OutputResourcePicker.RULES = getOutputRules();
         store = Store.getStore(reducer);
     });
     afterAll(() => {

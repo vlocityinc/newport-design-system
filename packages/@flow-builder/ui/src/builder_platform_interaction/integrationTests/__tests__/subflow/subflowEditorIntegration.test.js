@@ -4,26 +4,18 @@ import { resolveRenderCycles } from '../resolveRenderCycles';
 import { addCurlyBraces } from 'builder_platform_interaction/commonUtils';
 import { GLOBAL_CONSTANTS } from 'builder_platform_interaction/systemLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { setRules, getOutputRules } from 'builder_platform_interaction/ruleLib';
-import OutputResourcePicker from 'builder_platform_interaction/outputResourcePicker';
 import { getElementForPropertyEditor } from 'builder_platform_interaction/propertyEditorFactory';
 import { updateFlow } from 'builder_platform_interaction/actions';
-import { Store } from 'builder_platform_interaction/storeLib';
 import { getElementByDevName } from 'builder_platform_interaction/storeUtils';
 import { translateFlowToUIModel } from 'builder_platform_interaction/translatorLib';
-import { reducer } from 'builder_platform_interaction/reducers';
 import { flowWithSubflows } from 'mock/flows/flowWithSubflows';
 import {
     getLabelDescriptionNameElement,
     getLabelDescriptionLabelElement,
     changeComboboxValue,
-    resetState
+    resetState,
+    setupStateForProcessType
 } from '../integrationTestUtils';
-import {
-    getSubflows,
-    getFlowInputOutputVariables,
-    initializeAuraFetch
-} from '../serverDataTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
     getBaseCalloutElement,
@@ -45,8 +37,6 @@ import {
     filterParameterElements,
     getElementGuid
 } from '../baseCalloutEditorTestUtils';
-import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
-import { rules } from 'serverData/RetrieveAllRules/rules.json';
 import {
     ticks,
     focusoutEvent,
@@ -66,18 +56,8 @@ const createComponentForTest = node => {
 const itSkip = it.skip;
 
 describe('Subflow Editor', () => {
-    beforeAll(() => {
-        setRules(rules);
-        initializeAuraFetch({
-            'c.getSubflows': getSubflows({
-                [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
-            }),
-            'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
-                FlowWithAllTypesVariables: mockSubflowAllTypesVariables
-            })
-        });
-        OutputResourcePicker.RULES = getOutputRules();
-        const store = Store.getStore(reducer);
+    beforeAll(async () => {
+        const store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
         const uiFlow = translateFlowToUIModel(flowWithSubflows);
         store.dispatch(updateFlow(uiFlow));
     });
