@@ -200,7 +200,6 @@ ul.nds-dropdown-list {
 .nds-popover.nds-popover_tooltip .nds-popover__body {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .nds-modal_custom {
@@ -246,6 +245,13 @@ ul.nds-dropdown-list {
         }
       }
     }
+  }
+}
+
+.nds-modal__container {
+  .nds-modal__content {
+    // adds box-shadow for consistency with .nds-modal__footer
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
   }
 }
 
