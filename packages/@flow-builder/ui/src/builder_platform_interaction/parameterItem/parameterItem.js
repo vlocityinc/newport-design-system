@@ -4,7 +4,10 @@ import {
     FLOW_DATA_TYPE
 } from 'builder_platform_interaction/dataTypeLib';
 import { getFerovInfoAndErrorFromEvent } from 'builder_platform_interaction/expressionUtils';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import {
+    isUndefinedOrNull,
+    sanitizeBoolean
+} from 'builder_platform_interaction/commonUtils';
 import {
     getErrorFromHydratedItem,
     getValueFromHydratedItem
@@ -112,7 +115,7 @@ export default class ParameterItem extends LightningElement {
     }
 
     set isInput(value) {
-        this.state.isInput = value ? value !== 'false' : false;
+        this.state.isInput = sanitizeBoolean(value);
         this.state.toggleStatus =
             !this.state.isInput ||
             this.state.parameterItem.isRequired ||

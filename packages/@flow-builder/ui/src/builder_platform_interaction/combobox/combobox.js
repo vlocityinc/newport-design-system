@@ -18,7 +18,8 @@ import {
     isValidNumber,
     addCurlyBraces,
     splitStringBySeparator,
-    isReference
+    isReference,
+    sanitizeBoolean
 } from 'builder_platform_interaction/commonUtils';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { LABELS } from './comboboxLabels';
@@ -229,7 +230,7 @@ export default class Combobox extends LightningElement {
      */
     set literalsAllowed(isAllowed) {
         const previousIsLiteralAllowed = this._isLiteralAllowed;
-        this._isLiteralAllowed = isAllowed ? isAllowed !== 'false' : false;
+        this._isLiteralAllowed = sanitizeBoolean(isAllowed);
         if (
             this._isValidationEnabled &&
             previousIsLiteralAllowed !== this._isLiteralAllowed

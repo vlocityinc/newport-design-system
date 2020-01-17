@@ -170,7 +170,10 @@ export function memoize(func) {
     let lastResult;
     return function () {
         // Invoke the memoized function, but only if never invoked or if the arguments are different.
-        if (everInvoked === false || !equalArguments(lastArguments, arguments)) {
+        if (
+            everInvoked === false ||
+            !equalArguments(lastArguments, arguments)
+        ) {
             lastResult = func.apply(null, arguments);
             lastArguments = arguments;
             everInvoked = true;
@@ -178,6 +181,15 @@ export function memoize(func) {
         return lastResult;
     };
 }
+
+/**
+ * Basicaly converts possible string boolean values into real booleans
+ * @param {string || boolean} rawValue - dirty value about ot be sanitized could be false, true or "false", "true"
+ * @returns {boolean} corresponding "pure" boolean value (eg: 'false' => false)
+ */
+export const sanitizeBoolean = rawValue => {
+    return rawValue ? rawValue !== 'false' : false;
+};
 
 /**
  * Compares two arrays for equality. For the two arrays to be equal they should either be
@@ -199,4 +211,3 @@ function equalArguments(left, right) {
 
     return true;
 }
-

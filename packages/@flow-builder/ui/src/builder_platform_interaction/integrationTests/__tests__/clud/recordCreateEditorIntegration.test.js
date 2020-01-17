@@ -241,6 +241,17 @@ describe('Record Create Editor', () => {
                 expect(sObjectOrSObjectCollectionPickerElement.value).toBe('');
             });
         });
+        // W-7118031
+        it('Displays NO "A value is required." error message for the sobjectOrSobjectCollectionPicker ("record selection")', () => {
+            const sObjectOrSObjectCollectionPickerElement = getSObjectOrSObjectCollectionPicker(
+                recordCreateElement
+            );
+            return resolveRenderCycles(() => {
+                expect(
+                    sObjectOrSObjectCollectionPickerElement.errorMessage
+                ).toBeNull();
+            });
+        });
         it('record Store Option should have firstRecord and sObjectVariable selected', () => {
             const recordStoreElement = getRecordStoreOption(
                 recordCreateElement

@@ -3,7 +3,10 @@ import { filterMatches } from 'builder_platform_interaction/expressionUtils';
 import { isCollectionRequired } from 'builder_platform_interaction/ruleLib';
 import { LIGHTNING_INPUT_VARIANTS } from 'builder_platform_interaction/screenEditorUtils';
 import { saveResourcePicker } from 'builder_platform_interaction/expressionValidator';
-import { isUndefinedOrNull } from 'builder_platform_interaction/commonUtils';
+import {
+    isUndefinedOrNull,
+    sanitizeBoolean
+} from 'builder_platform_interaction/commonUtils';
 
 /**
  * The base resource picker that contains one flow combobox
@@ -132,7 +135,6 @@ export default class BaseResourcePicker extends LightningElement {
     @api
     enableLookupTraversal;
 
-
     /**
      * The full menu data available for selection
      * @type {Object[]}
@@ -191,20 +193,23 @@ export default class BaseResourcePicker extends LightningElement {
         if (!this.comboboxConfig) {
             return false;
         }
+        const { literalsAllowed, type } = this.comboboxConfig;
+        const isLiteralsAllowed = sanitizeBoolean(literalsAllowed);
+
         if (!this.allowedParamTypes) {
-            return this.comboboxConfig.literalsAllowed;
+            return isLiteralsAllowed;
         }
         return (
-            this.comboboxConfig.literalsAllowed &&
-            !isCollectionRequired(
-                this.allowedParamTypes,
-                this.comboboxConfig.type
-            )
+            isLiteralsAllowed &&
+            !isCollectionRequired(this.allowedParamTypes, type)
         );
     }
 
     get effectivePlaceholder() {
-        if (this.comboboxConfig && !isUndefinedOrNull(this.comboboxConfig.placeholder)) {
+        if (
+            this.comboboxConfig &&
+            !isUndefinedOrNull(this.comboboxConfig.placeholder)
+        ) {
             return this.comboboxConfig.placeholder;
         }
         return this.placeholder;
