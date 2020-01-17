@@ -31,15 +31,11 @@ export { SelectNodeEvent } from './canvasEvents/selectNodeEvent';
 export { CanvasMouseUpEvent } from './canvasEvents/canvasMouseUpEvent';
 export { AddConnectionEvent } from './canvasEvents/addConnectionEvent';
 export { ConnectorSelectedEvent } from './canvasEvents/connectorSelectedEvent';
-export {
-    ToggleMarqueeOnEvent
-} from './canvasEvents/zoomPanelEvent/toggleMarqueeOnEvent';
+export { ToggleMarqueeOnEvent } from './canvasEvents/zoomPanelEvent/toggleMarqueeOnEvent';
 export { MarqueeSelectEvent } from './canvasEvents/marqueeSelectEvent';
 export { ClickToZoomEvent } from './canvasEvents/zoomPanelEvent/zoomEvent';
 export { DuplicateEvent } from './toolbarEvents/duplicateEvent';
-export {
-    EditFlowPropertiesEvent
-} from './toolbarEvents/editFlowPropertiesEvent';
+export { EditFlowPropertiesEvent } from './toolbarEvents/editFlowPropertiesEvent';
 export { UndoEvent } from './toolbarEvents/undoEvent';
 export { RedoEvent } from './toolbarEvents/redoEvent';
 export { RunFlowEvent } from './toolbarEvents/runFlowEvent';
@@ -47,14 +43,10 @@ export { DebugFlowEvent } from './toolbarEvents/debugFlowEvent';
 export { SaveFlowEvent } from './toolbarEvents/saveFlowEvent';
 export { DiffFlowEvent } from './toolbarEvents/diffFlowEvent';
 export { AddElementEvent } from './elementEvents/addElementEvent';
-export {
-    AddNonCanvasElementEvent
-} from './elementEvents/addNonCanvasElementEvent';
+export { AddNonCanvasElementEvent } from './elementEvents/addNonCanvasElementEvent';
 export { EditElementEvent } from './elementEvents/editElementEvent';
 export { DeleteElementEvent } from './elementEvents/deleteElementEvent';
-export {
-    PaletteItemClickedEvent
-} from './paletteEvents/paletteItemClickedEvent';
+export { PaletteItemClickedEvent } from './paletteEvents/paletteItemClickedEvent';
 export { PropertyEditorWarningEvent } from './propertyEditorWarningEvent';
 export { ItemSelectedEvent } from './itemSelectedEvent';
 export { ComboboxStateChangedEvent } from './comboboxStateChangedEvent';
@@ -62,12 +54,8 @@ export { AddRecordFilterEvent } from './addRecordFilterEvent';
 export { UpdateRecordFilterEvent } from './updateRecordFilterEvent';
 export { DeleteRecordFilterEvent } from './deleteRecordFilterEvent';
 export { RecordFilterTypeChangedEvent } from './recordFilterTypeChangedEvent';
-export {
-    LocatorIconClickedEvent
-} from './paletteEvents/locatorIconClickedEvent';
-export {
-    PaletteItemChevronClickedEvent
-} from './paletteEvents/paletteItemChevronClickedEvent';
+export { LocatorIconClickedEvent } from './paletteEvents/locatorIconClickedEvent';
+export { PaletteItemChevronClickedEvent } from './paletteEvents/paletteItemChevronClickedEvent';
 export { RecordStoreOptionChangedEvent } from './recordStoreOptionChangedEvent';
 export { SObjectReferenceChangedEvent } from './sObjectReferenceChangedEvent';
 export { AddRecordLookupFieldEvent } from './addRecordLookupFieldEvent';
@@ -78,24 +66,16 @@ export { LoopCollectionChangedEvent } from './loopCollectionChangedEvent';
 export { UpdateParameterItemEvent } from './updateParameterItemEvent';
 export { DeleteParameterItemEvent } from './deleteParameterItemEvent';
 export { AddRecordFieldAssignmentEvent } from './addRecordFieldAssignmentEvent';
-export {
-    UpdateRecordFieldAssignmentEvent
-} from './updateRecordFieldAssignmentEvent';
-export {
-    DeleteRecordFieldAssignmentEvent
-} from './deleteRecordFieldAssignmentEvent';
+export { UpdateRecordFieldAssignmentEvent } from './updateRecordFieldAssignmentEvent';
+export { DeleteRecordFieldAssignmentEvent } from './deleteRecordFieldAssignmentEvent';
 export { WaitEventPropertyChangedEvent } from './waitEventPropertyChangedEvent';
-export {
-    WaitEventParameterChangedEvent
-} from './waitEventParameterChangedEvent';
+export { WaitEventParameterChangedEvent } from './waitEventParameterChangedEvent';
 export { WaitEventAddParameterEvent } from './waitEventAddParameterEvent';
 export { WaitEventDeleteParameterEvent } from './waitEventDeleteParameterEvent';
 export { UpdateWaitEventEventTypeEvent } from './updateWaitEventEventTypeEvent';
 export { ValidationRuleChangedEvent } from './validationRuleChangedEvent';
 export { ClosePropertyEditorEvent } from './closePropertyEditorEvent';
-export {
-    CannotRetrieveCalloutParametersEvent
-} from './cannotRetrieveCalloutParametersEvent';
+export { CannotRetrieveCalloutParametersEvent } from './cannotRetrieveCalloutParametersEvent';
 export { CannotRetrieveActionsEvent } from './cannotRetrieveActionsEvent';
 export { ActionsLoadedEvent } from './actionsLoadedEvent';
 export { SetPropertyEditorTitleEvent } from './setPropertyEditorTitleEvent';
@@ -104,24 +84,14 @@ export { VisualPickerListChangedEvent } from './visualPickerListChangedEvent';
 export { ProcessTypeSelectedEvent } from './processTypeSelectedEvent';
 export { TemplateChangedEvent } from './templateChangedEvent';
 export { CannotRetrieveTemplatesEvent } from './cannotRetrieveTemplatesEvent';
-export {
-    NumberRecordToStoreChangedEvent
-} from './numberRecordToStoreChangedEvent';
-export {
-    UseAdvancedOptionsSelectionChangedEvent
-} from './useAdvancedOptionsSelectionChangedEvent';
+export { NumberRecordToStoreChangedEvent } from './numberRecordToStoreChangedEvent';
+export { UseAdvancedOptionsSelectionChangedEvent } from './useAdvancedOptionsSelectionChangedEvent';
 export { ShowResourceDetailsEvent } from './showResourceDetailsEvent';
-export {
-    RichTextPlainTextSwitchChangedEvent
-} from './richTextPlainTextSwitchChangedEvent';
+export { RichTextPlainTextSwitchChangedEvent } from './richTextPlainTextSwitchChangedEvent';
 export { ToggleFlowStatusEvent } from './toolbarEvents/toggleFlowStatusEvent';
-export {
-    ConfigurationEditorChangeEvent
-} from './configurationEditorChangeEvent';
-export {
-    ConfigurationEditorPropertyDeleteEvent
-} from './configurationEditorPropertyDeleteEvent';
+export { ConfigurationEditorChangeEvent } from './configurationEditorChangeEvent';
+export { ConfigurationEditorPropertyDeleteEvent } from './configurationEditorPropertyDeleteEvent';
 export { DynamicTypeMappingChangeEvent } from './dynamicTypeMappingChangeEvent';
-export {
-    VariableAndFieldMappingChangedEvent
-} from './variableAndFieldMappingChangedEvent';
+export { VariableAndFieldMappingChangedEvent } from './variableAndFieldMappingChangedEvent';
+export { AddNodeEvent } from './addNodeEvent';
+export { UpdateNodeEvent } from './updateNodeEvent';
