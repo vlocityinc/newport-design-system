@@ -5,7 +5,6 @@ require('@babel/register');
 
 const del = require('del');
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
 
 const paths = require('./scripts/helpers/paths');
 
@@ -16,15 +15,7 @@ require('./scripts/gulp/styles');
 // NOTE: Don't remove reports on purpose.
 // This exception is already fixed on the remove-website branch.
 gulp.task('clean', () =>
-  del.sync([
-    paths.generated,
-    paths.tmp,
-    paths.logs,
-    paths.build,
-    paths.html
-  ])
+  del.sync([paths.generated, paths.tmp, paths.logs, paths.build, paths.html])
 );
 
-gulp.task('build', callback => {
-  runSequence('clean', 'styles', 'icons', callback);
-});
+gulp.task('build', gulp.series('clean', 'styles', 'icons'));
