@@ -1,0 +1,13 @@
+.nds-dc-offer-image-container {
+  flex: 1;
+  text-align: center;
+  img.nds-dc-listview,img.nds-dc-gridview {
+    height: 11.25rem;
+  }
+}
+@media only screen and (min-wdth: 64rem) {
+  .nds-dc-offer-image-container img:hover {
+    transform: scale(2, 2);
+    transition: 0.3s transform;
+  }
+}

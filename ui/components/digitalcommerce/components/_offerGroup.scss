@@ -1,0 +1,102 @@
+.nds-dc-offer_group {
+  .nds-dc-offer_navigation {
+    margin: 0;
+    padding: 0;
+    .nds-dc-offers_fieldset {
+      display: block;
+      &.nds-dc-collapse {
+        display: none;
+      }
+    }
+    .nds-dc-plan_board {
+      flex: 0 0 100%;
+      padding: 0.625rem 0 0 0;
+      &.nds-dc-group_sections {
+        flex: 0 0 100%;
+      }
+    }
+    .nds-dc-product_collapse-in-out {
+      display: block;
+      margin-top: -1.75rem;
+      position: absolute;
+      left: 90%;
+      .nds-dc-expand_collapse-icons {
+        width: 1.25rem;
+        right: 0.625rem;
+        position: relative;
+      }
+    }
+    .nds-dc-plan_title {
+      font-size: 1.25rem;
+      line-height: 2.56rem;
+      color: $newport-input-font-kashmiri-blue;
+    }
+    
+  }
+  .nds-dc-offer_group-separator {
+    height: 2px;
+    background-color: #eee;
+    margin: 0.625rem 0;
+  }
+  &.nds-dc-parent {
+    .nds-dc-plan_title {
+      font-size: 2rem;
+      line-height: 2.5625rem;
+      color: $black-primary;
+    }
+    .nds-dc-underline_title {
+      width: 3.125rem;
+      display: inline-block;
+      border-bottom: 3px solid $newport-color-brand-orange;
+    }
+  }
+}
+
+@media only screen and (min-width: 48rem) {
+  .nds-dc-offer_group {
+    .nds-dc-offer_navigation {
+      padding: 0;
+      .nds-dc-offers_fieldset {
+        display: block;
+      }
+      .nds-dc-plan_board {
+        padding: 0.625rem 1.875rem 0.625rem 0;
+        max-width: 31.25rem;
+        min-width: 10.1875rem;
+        flex: 0 0 50%;
+        &.nds-dc-group_sections {
+          padding-right: 1.875rem;
+          max-width: 100%;
+          min-width: 10.1875rem;
+          flex: 0 0 50%;
+        }
+        &.nds-dc-accessories_large-size {
+          max-width: 33.75rem;
+        }
+      }
+      .nds-dc-product_collapse-in-out {
+        display: none;
+      }
+      &.nds-dc-nested_child {
+        padding: 0;
+      }
+    }
+    .nds-dc-offer_group-separator {
+      margin: 0;
+      &.nds-dc-nested_child {
+        margin: 0.625rem 0;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 64rem) {
+  .nds-dc-offer_group {
+    .nds-dc-offer_navigation {
+      padding: 1rem 1.25rem;
+    }
+    .nds-dc-offer_group-separator {
+      margin: 0 5rem;
+    }
+  }
+}
