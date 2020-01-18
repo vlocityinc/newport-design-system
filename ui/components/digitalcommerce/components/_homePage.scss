@@ -1,0 +1,17 @@
+.nds-dc-home-page {
+    padding: 0 1rem;
+    background: $white-primary;
+}
+@media only screen and (min-width: 50rem) {
+    .nds-dc-home-page {
+        padding: 0 0.625rem;
+    }
+}
+@media only screen and (min-width: 64rem) {
+    .nds-dc-home-page {
+        padding: 0 3rem;
+    }
+}
+  
+  
+  

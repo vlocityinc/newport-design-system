@@ -1,0 +1,82 @@
+.nds-dc-filter {
+    .nds-dc-filter_button {
+        svg {
+            height: 0.625rem;
+            width: 1.25rem;
+        }
+        img{
+            width: 1.5rem;
+            height: auto;
+            margin-left: 0.625rem;
+            margin-top: 0.313rem;
+        }
+        &.nds-button_neutral svg polygon {
+            fill: $blue-background-primary;
+        }
+    }
+    .nds-dc-filter-container{
+        &.nds-dc-filter_container_show {
+            border: 0.063rem solid $blue-background-primary;
+            height: 13.75rem;
+            transition: height 0.15s ease-in;
+            margin-top: 1.25rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.313rem;
+        }
+        &.nds-dc-filter_container_hide {
+            height: 0;
+            transition: height 0.15s ease-out;
+        }
+        .nds-dc-filter-section_container {
+            display: table;
+            width: 100%;
+            height: 100%;
+            input {
+                font-size: 3.125rem;
+                margin-top: 0.625rem;
+                margin-left: 1rem;
+            }
+            .nds-dc-filter-group {
+                display: table-cell;
+                width: 25%;
+                height: 100%;
+                .nds-dc-filter-section {
+                    font-weight: $font-weight-bold;
+                    font-size: 1.25rem;
+                    color:$kashmir-blue;
+                }
+                .nds-checkbox .nds-form-element__label {
+                    margin-left: 0.313rem;
+                    font-size: 1.25rem;
+                }
+                .nds-checkbox .nds-checkbox_faux {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                }
+            }
+        }
+    }
+    .nds-dc-filter_criteria-container {
+        width: 10rem;
+        height: 2.688rem;
+        margin-top: 0.625rem;
+        position: relative;
+        border-radius: 0.625rem;
+        background-color: $blue-background-primary;
+        color: $white-primary;
+        position: relative;
+        display: inline-block;
+        margin-right: 0.625rem;
+        .nds-dc-filter-criteria {
+            display: inline-block;
+            padding-left: 0.625rem;
+            padding-top: 0.625rem;
+        }
+        .nds-dc-filter-remove {
+            position: absolute;
+            top: 0.625rem;
+            right: 0.625rem;
+            cursor: pointer;
+        }
+    }
+}

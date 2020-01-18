@@ -1,0 +1,64 @@
+.nds-dc-offer_config {
+  margin: 0 1rem;
+  .nds-dc-spinner {
+    position: fixed;
+  }
+  .nds-dc-offer-config-title-container {
+    margin: 1rem 0 0 1rem;
+    .nds-dc-plan-title {
+      font-size: $font-size-xx-large;
+      color: $newport-black-primary;
+    }
+    .nds-dc-underline-title {
+      width: 3.125rem;
+      display: inline-block;
+      border-bottom: 0.188rem solid $newport-color-brand-orange;
+    }
+  }
+  .nds-dc-offer-config-container {
+    display: block;
+    width: 100%;
+    .nds-dc-media-container {
+      min-width: 18.75rem;
+      width: 100%;
+    }
+    .nds-dc-offer-config-details {
+      padding-top: 2rem;
+      margin-bottom: 2.5rem;
+      width: 100%;
+      padding-right: 0;
+    }
+  }
+  .nds-dc-continue-btn {
+    color: $white;
+    background-color: $newport-blue-text-primary;
+    text-align: center;
+    border-radius: 0.188rem;
+    padding: $spacing-medium-offer-configuration $spacing-large-offer-config;
+    position: relative;
+    margin: 0 auto;
+    margin-top: $spacing-large-offer-config;
+    display: block;
+  }
+  .nds-dc-offer-group-sections {
+    display: block;
+  }
+
+  @media only screen and (min-width: 48rem) {
+    .nds-dc-offer-config-title-container {
+      margin: 3.125rem 0 0 3.125rem;
+    }
+    .nds-dc-offer-group-sections {
+      padding: 0 $spacing-large-offer-config;
+    }
+    .nds-dc-offer-config-container {
+      display: flex;
+      .nds-dc-offer-config-details {
+        width: 60%;
+      }
+      .nds-dc-media-container {
+        width: 40%;
+      }
+    }
+  }
+}

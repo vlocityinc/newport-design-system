@@ -1,0 +1,67 @@
+.nds-dc-offer-round-button-set {
+    overflow: auto;
+    display: flex;
+    .nds-dc-offer-attribute-label {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        min-width: 3.125rem;
+        font-size: 0.875rem;
+    }
+    .nds-dc-offer-attribute,
+    .nds-dc-offer-attribute
+    .nds-dc-offer-color-bg {
+        display: inline-block;
+    }
+    .nds-dc-offer-attribute-label {
+        width: 4.75rem;
+        display: inline-block;
+    }
+    .nds-dc-offer-attribute {
+        border: 0.063rem solid $palette-cool-gray-5;
+        width: 6.25rem;
+        height: 3.125rem;
+        padding-bottom:0.313rem;
+        text-align: center;
+        margin-right:0.313rem;
+        cursor: pointer;
+        font-size: 0.813rem;
+        min-width: 4.688rem;
+        margin-bottom: 0.625rem;
+        .nds-dc-offer-color-bg {
+            height: 0.625rem;
+            width: 100%;
+            position: relative;
+            top: -0.438rem;
+            background-color: $palette-cool-gray-6;
+        }
+        .nds-dc-offer-color-label {
+            display: block;
+            margin-top: -0.375rem;
+            font-size: 0.8125rem;
+        }
+        &.nds-dc-active {
+            border: 0.063rem solid $newport-color-brand-orange;
+        }
+        &.disable {
+            pointer-events: none;
+            opacity: 0.3;
+        }
+    }
+    @media only screen and (min-width: 48rem) {
+      .nds-dc-offer-attribute, .nds-dc-offer-attribute-label  {
+        min-width: unset;
+      }
+      .nds-dc-offer-attribute-label {
+        font-size: 0.8125rem;
+      }
+    }
+    @media only screen and (min-width: 64rem) {
+      .nds-dc-offer-attribute {
+        font-size: unset;
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  

@@ -1,0 +1,124 @@
+.nds-dc-offer-list-view {
+  margin-top: 3rem;
+  .nds-grid.nds-wrap {
+    width: 100%;
+    .nds-dc-offer-board {
+      padding: 0.625rem 0.3125rem;
+      .nds-dc-offer-item-list {
+        min-height: 6.25rem;
+        padding: 0.625rem;
+        border: 0.5px solid $newport-border-gray;
+        box-shadow: 0 1px 2px 0 rgba(17, 17, 17, 0.2);
+        margin: 0 1.25rem;
+        display: flex;
+        ul {
+          width: 100%;
+          color: $newport-border-gray;
+          .nds-dc-nds-item {
+            border: none;
+            color: $newport-border-gray;
+            a:hover {
+              text-decoration: none;
+            }
+            .nds-dc-offer-item {
+              display: block;
+              .nds-dc-offer-wrapper {
+                display: block;
+                flex-basis: 20%;
+                border-bottom: 1px solid $newport-border-gray;
+                .nds-dc-offer-item-values {
+                  flex: 2;
+                  padding: 0.3125rem;
+                  .nds-dc-image-container {
+                    text-align: center;
+                  }
+                }
+                .nds-dc-offer-details {
+                  border-bottom: 1px solid $newport-border-gray;
+                  display: flex;
+                  padding-bottom: 0.625rem;
+                  .nds-dc-offer-title-container {
+                    flex: 1;
+                    padding-top: 1rem;
+                    margin-left: 0.625rem;
+                    .nds-dc-tile-text {
+                      color: $kashmir-blue;
+                      font-size: 0.875rem;
+                      line-height: 1.875rem;
+                    }
+                    .nds-dc-offer-name {
+                      color: $biscay;
+                      font-size: 1.25rem;
+                      line-height: 1.625rem;
+                      padding-right: 0.3125rem;
+                    }
+                  }
+                  .nds-dc-offer-item-config {
+                    flex: 1;
+                    padding: 1rem 0 0 1rem;
+                  }
+                }
+              }
+              .nds-dc-offer-item-details {
+                flex: 3;
+                padding: 0.625rem;
+                hr {
+                  margin: 1.5rem 0;
+                }
+              }
+            }
+          }
+        }
+        .nds-dc-offer-tag {
+          background-color: $newport-color-brand-orange;
+          color: $white;
+          text-align: center;
+          padding: 0.3125rem 0.625rem;
+          position: absolute;
+          font-size: 0.6875rem;
+          margin: -1rem 0 0 -1rem;
+          display: block;
+        }
+        &.nds-dc-selected {
+          border: 1px solid $newport-color-brand-orange;
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (min-width: 48rem) {
+  .nds-dc-offer-list-view {
+    .nds-grid.nds-wrap {
+      .nds-dc-offer-board {
+        .nds-dc-offer-item-list {
+          ul {
+            .nds-dc-nds-item {
+              .nds-dc-offer-item {
+                display: flex;
+                .nds-dc-offer-wrapper {
+                  flex: 4;
+                  display: flex;
+                  border-bottom: none;
+                  .nds-dc-offer-item-values {
+                    border-right: 1px solid $newport-border-gray;
+                  }
+                  .nds-dc-offer-details {
+                    flex: 2;
+                    border-bottom: none;
+                    border-right: 1px solid $newport-border-gray;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .nds-dc-offer-item-details {
+    padding-right: 0.625rem;
+    flex-basis: 60%;
+  }
+}

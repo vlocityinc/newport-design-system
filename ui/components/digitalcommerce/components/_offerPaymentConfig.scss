@@ -1,0 +1,34 @@
+.nds-dc-offer-payment {
+  .nds-dc-offer-attribute-label {
+    display: inline-block;
+    width: 4.75rem;
+    margin-top: 0.625rem;
+    font-size: 0.875rem;
+  }
+  .nds-dc-offer-payment-config {
+    display: flex;
+    flex-basis: 100%;
+    padding: 1.25rem 0;
+    .nds-dc-offer-config-payment-plans {
+      flex: 1;
+      border: 0.063rem solid $palette-cool-gray-5;
+      padding: 0.625rem;
+      margin-right: 0.313rem;
+      .nds-dc-term-text {
+        font-size: 0.75rem;
+        color: $newport-input-font-kashmiri-blue;
+        font-weight: $font-weight-light;
+        margin-bottom: 0.625rem;
+        display: inline-block;
+      }
+      .nds-dc-term-value {
+        font-size: 1.7rem;
+        font-weight: $font-weight-regular;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 48rem) {
+    font-size: 0.8125rem;
+  }
+}
