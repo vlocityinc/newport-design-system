@@ -257,12 +257,12 @@ export const updateElement = payload => {
 };
 
 /**
- * Action for deleting an element from the store.
+ * Action for deleting an element or multiple elements from the store.
  *
- * @param {Object} payload - contains GUID of the element to be deleted
+ * @param {Object} payload - contains the elements to be deleted
  * @returns {Object} action new action based on type and payload
  */
-export const deleteElement = payload => {
+export const deleteElements = payload => {
     if (!payload) {
         return {};
     }
@@ -281,7 +281,12 @@ export const deleteElement = payload => {
             break;
         default:
             // Check if element is a canvas element or multiple elements are being deleted
-            if (payload.isCanvasElement || !payload.elementType) {
+            if (
+                (payload.selectedElements &&
+                    payload.selectedElements.length &&
+                    payload.selectedElements[0].isCanvasElement) ||
+                !payload.elementType
+            ) {
                 action = createAction(DELETE_ELEMENT, payload);
             } else {
                 // Added to support strategy builder non-canvas elements

@@ -8,7 +8,35 @@ import {
     ADD_WAIT_WITH_WAIT_EVENTS
 } from 'builder_platform_interaction/actions';
 
-const oldCanvasElementsState = [1, 2];
+const elementToRemove = {
+    guid: '84cc7b31-ab2a-4372-b525-6d1ea13d57b0',
+    name: 'mySecondElement',
+    description: '',
+    label: 'mySecondElement',
+    locationX: 740,
+    locationY: 352.3125,
+    isCanvasElement: true,
+    connectorCount: 0,
+    config: { isSelected: true, isHighlighted: false },
+    object: 'Account',
+    objectIndex: '26039970-150e-43db-8f82-e802b61a95ac',
+    inputAssignments: {},
+    getFirstRecordOnly: true,
+    inputReference: '',
+    inputReferenceIndex: '949820f3-5bdc-48ca-b1fa-a4d33a2ff4f7',
+    availableConnections: {},
+    maxConnections: 2,
+    elementType: 'RecordCreate',
+    assignRecordIdToReference: '',
+    assignRecordIdToReferenceIndex: 'e4f96b53-a609-4c95-a4f9-c3c4ee8f94d9',
+    dataType: 'String',
+    storeOutputAutomatically: true
+};
+
+const oldCanvasElementsState = [
+    '5ab8833f-f00f-437f-a13b-bd6dbf5f0d40',
+    '84cc7b31-ab2a-4372-b525-6d1ea13d57b0'
+];
 const newCanvasElementsState = [3];
 
 describe('canvas-elements-reducer', () => {
@@ -82,10 +110,10 @@ describe('canvas-elements-reducer', () => {
             oldCanvasElementsState,
             {
                 type: DELETE_ELEMENT,
-                payload: { selectedElementGUIDs: [oldCanvasElementsState[1]] }
+                payload: { selectedElements: [elementToRemove] }
             }
         );
-        expect(newCanvasElementState).not.toBe(oldCanvasElementsState[0]);
+        expect(newCanvasElementState).not.toContain(elementToRemove.guid);
         expect(newCanvasElementState).toHaveLength(1);
     });
 

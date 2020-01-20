@@ -80,7 +80,7 @@ export default function elementsReducer(state = {}, action) {
         case DELETE_ELEMENT:
             return _deleteAndUpdateElements(
                 state,
-                action.payload.selectedElementGUIDs,
+                action.payload.selectedElements,
                 action.payload.connectorsToDelete
             );
         case ADD_CONNECTOR:
@@ -288,10 +288,13 @@ function _addOrUpdateElement(state, guid, element) {
 function _updateCanvasElementsLocation(state, updatedCanvasElementLocations) {
     const newState = updateProperties(state);
     updatedCanvasElementLocations.map(info => {
-        newState[info.canvasElementGuid] = updateProperties(newState[info.canvasElementGuid], {
-            locationX: info.locationX,
-            locationY: info.locationY
-        });
+        newState[info.canvasElementGuid] = updateProperties(
+            newState[info.canvasElementGuid],
+            {
+                locationX: info.locationX,
+                locationY: info.locationY
+            }
+        );
         return info;
     });
 
@@ -373,14 +376,17 @@ function _getSubElementGuids(node) {
  * @returns {Object} new state after reduction
  * @private
  */
-function _deleteAndUpdateElements(elements, originalGUIDs, connectorsToDelete) {
+function _deleteAndUpdateElements(
+    elements,
+    originalElements,
+    connectorsToDelete
+) {
     const guidsToDelete = [];
-    for (let i = 0; i < originalGUIDs.length; i++) {
-        const guid = originalGUIDs[i];
-        guidsToDelete.push(..._getSubElementGuids(elements[guid]));
-    }
 
-    guidsToDelete.push(...originalGUIDs);
+    originalElements.forEach(element => {
+        guidsToDelete.push(..._getSubElementGuids(element.guid));
+        guidsToDelete.push(...[element.guid]);
+    });
 
     const newState = omit(elements, guidsToDelete);
 

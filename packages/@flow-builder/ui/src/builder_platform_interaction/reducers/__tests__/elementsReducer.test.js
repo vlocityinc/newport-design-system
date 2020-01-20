@@ -589,13 +589,20 @@ describe('elements-reducer', () => {
         it('with state set to undefined & action type is DELETE_ELEMENT should return empty state', () => {
             const newElementState = elementReducer(undefined, {
                 type: DELETE_ELEMENT,
-                payload: { selectedElementGUIDs: [], connectorsToDelete: [] }
+                payload: { selectedElements: [], connectorsToDelete: [] }
             });
             expect(newElementState).toEqual({});
         });
 
         it('with state set to defined & action type is DELETE_ELEMENT should delete the property from the element object', () => {
-            const omitProps = ['guid1'];
+            const omitProps = [
+                {
+                    name: 'ass1',
+                    label: 'assignment 1',
+                    description: 'desc 1',
+                    guid: 'guid1'
+                }
+            ];
             const connector = {
                 source: 'guid2',
                 type: 'DEFAULT'
@@ -631,9 +638,8 @@ describe('elements-reducer', () => {
                     ]
                 }
             };
-
             const payload = {
-                selectedElementGUIDs: omitProps,
+                selectedElements: omitProps,
                 connectorsToDelete: [connector]
             };
             const newElementState = elementReducer(oldProperties, {

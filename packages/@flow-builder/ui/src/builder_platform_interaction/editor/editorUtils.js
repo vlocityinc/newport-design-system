@@ -3,7 +3,7 @@ import {
     invokeUsedByAlertModal
 } from 'builder_platform_interaction/usedByLib';
 import {
-    deleteElement,
+    deleteElements,
     updatePropertiesAfterSaving,
     updateProperties,
     updatePropertiesAfterSaveFailed,
@@ -107,12 +107,15 @@ const doDeleteOrInvokeAlert = (
     const storeElements = currentState.elements;
 
     const usedByElements = usedBy(selectedElementGUIDs, storeElements);
+    const selectedElements = Object.values(storeElements).filter(
+        element => selectedElementGUIDs.indexOf(element.guid) !== -1
+    );
 
     if (!usedByElements || usedByElements.length === 0) {
         // Deleting the elements that are not being referenced anywhere else
         storeInstance.dispatch(
-            deleteElement({
-                selectedElementGUIDs,
+            deleteElements({
+                selectedElements,
                 connectorsToDelete,
                 elementType
             })
@@ -626,5 +629,12 @@ export const setErrorMessage = (modal, message) => {
  * @param flow run in mode
  */
 export const canRunDebugWith = (runInMode, status) => {
-    return status === 'Active' || !((runInMode === 'SystemModeWithSharing' || runInMode === 'SystemModeWithoutSharing') && !canUserVAD());
+    return (
+        status === 'Active' ||
+        !(
+            (runInMode === 'SystemModeWithSharing' ||
+                runInMode === 'SystemModeWithoutSharing') &&
+            !canUserVAD()
+        )
+    );
 };

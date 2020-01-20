@@ -59,7 +59,7 @@ jest.mock('builder_platform_interaction/selectors', () => {
 
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        deleteElement: jest.fn().mockImplementation(payload => {
+        deleteElements: jest.fn().mockImplementation(payload => {
             return {
                 type: 'deleteElement',
                 payload
@@ -163,6 +163,32 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
     };
 });
 
+const canvasElement1 = {
+    guid: 'canvasElement1',
+    elementType: ELEMENT_TYPE.ASSIGNMENT,
+    config: {
+        isSelected: true,
+        isHighlighted: false
+    }
+};
+
+const canvasElement2 = {
+    guid: 'canvasElement2',
+    elementType: ELEMENT_TYPE.DECISION,
+    config: {
+        isSelected: false,
+        isHighlighted: false
+    }
+};
+const canvasElement3 = {
+    guid: 'canvasElement3',
+    elementType: ELEMENT_TYPE.ASSIGNMENT,
+    config: {
+        isSelected: true,
+        isHighlighted: false
+    }
+};
+
 describe('Editor Utils Test', () => {
     describe('getElementsToBeDeleted function', () => {
         let storeInstance;
@@ -182,30 +208,9 @@ describe('Editor Utils Test', () => {
                                 isHighlighted: false
                             }
                         },
-                        canvasElement1: {
-                            guid: 'canvasElement1',
-                            elementType: ELEMENT_TYPE.ASSIGNMENT,
-                            config: {
-                                isSelected: true,
-                                isHighlighted: false
-                            }
-                        },
-                        canvasElement2: {
-                            guid: 'canvasElement2',
-                            elementType: ELEMENT_TYPE.DECISION,
-                            config: {
-                                isSelected: false,
-                                isHighlighted: false
-                            }
-                        },
-                        canvasElement3: {
-                            guid: 'canvasElement3',
-                            elementType: ELEMENT_TYPE.ASSIGNMENT,
-                            config: {
-                                isSelected: true,
-                                isHighlighted: false
-                            }
-                        },
+                        canvasElement1,
+                        canvasElement2,
+                        canvasElement3,
                         canvasElement4: {
                             guid: 'canvasElement4',
                             elementType: ELEMENT_TYPE.ASSIGNMENT,
@@ -259,7 +264,7 @@ describe('Editor Utils Test', () => {
             const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;
 
             const payload = {
-                selectedElementGUIDs: ['canvasElement1'],
+                selectedElements: [canvasElement1],
                 connectorsToDelete: [],
                 elementType: ELEMENT_TYPE.ASSIGNMENT
             };
@@ -280,7 +285,7 @@ describe('Editor Utils Test', () => {
             const selectedElementType = ELEMENT_TYPE.ASSIGNMENT;
 
             const payload = {
-                selectedElementGUIDs: ['canvasElement2'],
+                selectedElements: [canvasElement2],
                 connectorsToDelete: [
                     {
                         source: 'canvasElement2',
@@ -316,7 +321,7 @@ describe('Editor Utils Test', () => {
             const selectedElementType = undefined;
 
             const payload = {
-                selectedElementGUIDs: ['canvasElement1', 'canvasElement3'],
+                selectedElements: [canvasElement1, canvasElement3],
                 connectorsToDelete: [
                     {
                         source: 'canvasElement2',
