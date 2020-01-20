@@ -1,4 +1,5 @@
 .nds-dc-filter {
+    padding: 0.5rem;
     .nds-dc-filter_button {
         svg {
             height: 0.625rem;
@@ -67,6 +68,7 @@
         position: relative;
         display: inline-block;
         margin-right: 0.625rem;
+        font-size: $font-size-large;
         .nds-dc-filter-criteria {
             display: inline-block;
             padding-left: 0.625rem;
