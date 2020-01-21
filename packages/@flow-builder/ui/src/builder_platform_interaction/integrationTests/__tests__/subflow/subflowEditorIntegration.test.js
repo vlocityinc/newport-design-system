@@ -14,7 +14,8 @@ import {
     getLabelDescriptionLabelElement,
     changeComboboxValue,
     resetState,
-    setupStateForProcessType
+    setupStateForProcessType,
+    ToggleOnChangeEvent
 } from '../integrationTestUtils';
 import {
     VALIDATION_ERROR_MESSAGES,
@@ -35,7 +36,9 @@ import {
     getParameter,
     findParameterElement,
     filterParameterElements,
-    getElementGuid
+    getElementGuid,
+    getAutomaticOutputAdvancedOptionCheckbox,
+    getAutomaticOutputAdvancedOptionComponent
 } from '../baseCalloutEditorTestUtils';
 import {
     ticks,
@@ -43,6 +46,17 @@ import {
     textInputEvent,
     blurEvent
 } from 'builder_platform_interaction/builderTestUtils';
+import {
+    getFlowInputOutputVariables,
+    initializeAuraFetch
+} from '../serverDataTestUtils';
+import { EditElementEvent } from 'builder_platform_interaction/events';
+import { setProcessTypeFeature } from 'builder_platform_interaction/systemLib';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { supportedFeaturesListForFlow } from 'serverData/GetSupportedFeaturesList/supportedFeaturesListForFlow.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+
+const PROCESS_TYPE_FLOW = 'Flow';
 
 const createComponentForTest = node => {
     const el = createElement('builder_platform_interaction-subflow-editor', {
@@ -54,6 +68,64 @@ const createComponentForTest = node => {
 };
 
 const itSkip = it.skip;
+
+describe('Subflow Editor with automatic ouput', () => {
+    let store, uiFlow;
+    beforeAll(async () => {
+        store = await setupStateForProcessType(FLOW_PROCESS_TYPE.FLOW);
+        initializeAuraFetch({
+            'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
+                flowWithActiveAndLatest: mockFlowWithActiveAndLatest
+            })
+        });
+        setProcessTypeFeature(PROCESS_TYPE_FLOW, supportedFeaturesListForFlow);
+        uiFlow = translateFlowToUIModel(flowWithAllElements);
+        store.dispatch(updateFlow(uiFlow));
+    });
+    afterAll(() => {
+        resetState();
+    });
+    describe('use Advanced Options Component', () => {
+        let subflowNode, subflowElement;
+        beforeAll(() => {
+            const element = getElementByDevName('subflowAutomaticOutput');
+            subflowNode = getElementForPropertyEditor(element);
+            subflowElement = createComponentForTest(
+                subflowNode,
+                EditElementEvent.EVENT_NAME
+            );
+        });
+        it('"useAdvancedOptionsCheckbox" should be unchecked', () => {
+            return resolveRenderCycles(() => {
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
+                    subflowElement
+                );
+
+                expect(advancedOptionCheckbox).toBeDefined();
+                expect(advancedOptionCheckbox.type).toBe('checkbox');
+                expect(advancedOptionCheckbox.checked).toBe(false);
+            });
+        });
+        describe('modify from automatic to advanced', () => {
+            beforeAll(async () => {
+                await ticks(50);
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
+                    subflowElement
+                );
+                advancedOptionCheckbox.dispatchEvent(new ToggleOnChangeEvent());
+                await ticks(50);
+            });
+            it('"useAdvancedOptionsCheckbox" should checked', () => {
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
+                    subflowElement
+                );
+                expect(advancedOptionCheckbox).toBeDefined();
+                expect(advancedOptionCheckbox.type).toBe('checkbox');
+                expect(advancedOptionCheckbox.checked).toBe(true);
+            });
+        });
+    });
+});
 
 describe('Subflow Editor', () => {
     beforeAll(async () => {
@@ -1297,6 +1369,26 @@ describe('Subflow Editor', () => {
                         });
                     });
                 });
+            });
+        });
+        describe('use Advanced Options Component', () => {
+            let subflowElement;
+            beforeAll(async () => {
+                subflowElement = createComponentForTest(subflowNode);
+            });
+            it('"useAdvancedOptionsComponent" should be display', () => {
+                const advancedOptionComponent = getAutomaticOutputAdvancedOptionComponent(
+                    subflowElement
+                );
+                expect(advancedOptionComponent).not.toBeNull();
+            });
+            it('"useAdvancedOptionsCheckbox" should be checked', () => {
+                const advancedOptionCheckbox = getAutomaticOutputAdvancedOptionCheckbox(
+                    subflowElement
+                );
+                expect(advancedOptionCheckbox).toBeDefined();
+                expect(advancedOptionCheckbox.type).toBe('checkbox');
+                expect(advancedOptionCheckbox.checked).toBe(true);
             });
         });
         describe('error cases', () => {

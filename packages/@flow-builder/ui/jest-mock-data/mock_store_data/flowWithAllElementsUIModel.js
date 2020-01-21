@@ -1,5 +1,5 @@
 // To update flowWithAllElementsUIModel from flowWithAllElements, run flowTranslator.test.js and follow instructions
-export const flowWithAllElementsUIModel =  {
+export const flowWithAllElementsUIModel =   {
   "elements": {
       "07fd2a44-4192-4709-888d-8ccc18cb4580": {
         "guid": "07fd2a44-4192-4709-888d-8ccc18cb4580",
@@ -1170,6 +1170,34 @@ export const flowWithAllElementsUIModel =  {
       },
       "26b1d461-e66e-41c7-bb0e-5c86b04280db": {
         "guid": "26b1d461-e66e-41c7-bb0e-5c86b04280db",
+        "name": "subflowAutomaticOutput",
+        "description": "",
+        "label": "subflowAutomaticOutput",
+        "locationX": 966,
+        "locationY": 507.1062469482422,
+        "isCanvasElement": true,
+        "connectorCount": 0,
+        "config": {
+          "isSelected": false,
+          "isHighlighted": false
+        },
+        "flowName": "flowWithActiveAndLatest",
+        "inputAssignments": [
+          {
+            "rowIndex": "4d5723fe-7d36-4044-8f59-1f6da02eacbe",
+            "name": "input1",
+            "value": "a string",
+            "valueDataType": "String"
+          }
+        ],
+        "outputAssignments": [],
+        "maxConnections": 1,
+        "elementType": "Subflow",
+        "storeOutputAutomatically": true,
+        "dataType": "ActionOutput"
+      },
+      "41a189ff-01f4-4018-b75c-3f363b65cc42": {
+        "guid": "41a189ff-01f4-4018-b75c-3f363b65cc42",
         "name": "createAccountWithAutomaticOutput",
         "description": "",
         "label": "createAccountWithAutomaticOutput",
@@ -1182,16 +1210,16 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "Account",
-        "objectIndex": "4d5723fe-7d36-4044-8f59-1f6da02eacbe",
+        "objectIndex": "b3a76739-4414-41d2-984e-e44bca6402c6",
         "inputAssignments": [
           {
-            "rowIndex": "796969f1-a892-4b16-836e-209180057a2b",
+            "rowIndex": "38f77648-3c7e-4431-8403-239492238623",
             "leftHandSide": "Account.Name",
             "rightHandSide": "my Account test",
             "rightHandSideDataType": "String"
           },
           {
-            "rowIndex": "b3a76739-4414-41d2-984e-e44bca6402c6",
+            "rowIndex": "65909adb-0efe-4743-b4a7-ca6e93d71c92",
             "leftHandSide": "Account.BillingCountry",
             "rightHandSide": "France",
             "rightHandSideDataType": "String"
@@ -1199,7 +1227,7 @@ export const flowWithAllElementsUIModel =  {
         ],
         "getFirstRecordOnly": true,
         "inputReference": "",
-        "inputReferenceIndex": "8ca42594-136e-4ab4-b3d6-ff72c2c0dc2e",
+        "inputReferenceIndex": "796969f1-a892-4b16-836e-209180057a2b",
         "availableConnections": [
           {
             "type": "REGULAR"
@@ -1211,12 +1239,12 @@ export const flowWithAllElementsUIModel =  {
         "maxConnections": 2,
         "elementType": "RecordCreate",
         "assignRecordIdToReference": "",
-        "assignRecordIdToReferenceIndex": "41a189ff-01f4-4018-b75c-3f363b65cc42",
+        "assignRecordIdToReferenceIndex": "6160bbc3-c247-458e-b1b8-abc60b4d3d39",
         "dataType": "String",
         "storeOutputAutomatically": true
       },
-      "6160bbc3-c247-458e-b1b8-abc60b4d3d39": {
-        "guid": "6160bbc3-c247-458e-b1b8-abc60b4d3d39",
+      "d66cf236-ca0a-4351-952d-b12df4abdaf8": {
+        "guid": "d66cf236-ca0a-4351-952d-b12df4abdaf8",
         "name": "createAccountWithoutAdvancedOptions",
         "description": "",
         "label": "createAccountWithoutAdvancedOptions",
@@ -1229,16 +1257,16 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "Account",
-        "objectIndex": "65909adb-0efe-4743-b4a7-ca6e93d71c92",
+        "objectIndex": "c9f73d4d-7d65-41bd-b1b6-f6e8b47cef56",
         "inputAssignments": [
           {
-            "rowIndex": "2e02687e-41a2-42eb-ba74-81c130218b86",
+            "rowIndex": "013c0515-5f96-493f-bf5b-3d261350a4e6",
             "leftHandSide": "Account.Name",
             "rightHandSide": "my test account",
             "rightHandSideDataType": "String"
           },
           {
-            "rowIndex": "c9f73d4d-7d65-41bd-b1b6-f6e8b47cef56",
+            "rowIndex": "201c3554-f05a-4fff-8482-1495f16e2f8b",
             "leftHandSide": "Account.BillingCountry",
             "rightHandSide": "France",
             "rightHandSideDataType": "String"
@@ -1246,7 +1274,7 @@ export const flowWithAllElementsUIModel =  {
         ],
         "getFirstRecordOnly": true,
         "inputReference": "",
-        "inputReferenceIndex": "38f77648-3c7e-4431-8403-239492238623",
+        "inputReferenceIndex": "2e02687e-41a2-42eb-ba74-81c130218b86",
         "availableConnections": [
           {
             "type": "REGULAR"
@@ -1258,12 +1286,12 @@ export const flowWithAllElementsUIModel =  {
         "maxConnections": 2,
         "elementType": "RecordCreate",
         "assignRecordIdToReference": "d7b1d0e5-68d7-4734-b1d1-01247631d93f",
-        "assignRecordIdToReferenceIndex": "d66cf236-ca0a-4351-952d-b12df4abdaf8",
+        "assignRecordIdToReferenceIndex": "52bc2460-8775-417b-a692-f72725a8f6b0",
         "dataType": "Boolean",
         "storeOutputAutomatically": false
       },
-      "52bc2460-8775-417b-a692-f72725a8f6b0": {
-        "guid": "52bc2460-8775-417b-a692-f72725a8f6b0",
+      "cf176378-9ab0-436f-a161-079057c789f4": {
+        "guid": "cf176378-9ab0-436f-a161-079057c789f4",
         "name": "createFromAnAccount",
         "description": "",
         "label": "createFromAnAccount",
@@ -1276,10 +1304,10 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "",
-        "objectIndex": "201c3554-f05a-4fff-8482-1495f16e2f8b",
+        "objectIndex": "583e40d5-e735-4d8c-8f30-097d48de7ec8",
         "getFirstRecordOnly": true,
         "inputReference": "90da6513-4272-44d6-9f80-4cfc29acc5a3",
-        "inputReferenceIndex": "013c0515-5f96-493f-bf5b-3d261350a4e6",
+        "inputReferenceIndex": "27cfbe21-2aa1-4503-aa13-3677c687153d",
         "availableConnections": [
           {
             "type": "REGULAR"
@@ -1290,11 +1318,11 @@ export const flowWithAllElementsUIModel =  {
         ],
         "maxConnections": 2,
         "elementType": "RecordCreate",
-        "assignRecordIdToReferenceIndex": "cf176378-9ab0-436f-a161-079057c789f4",
+        "assignRecordIdToReferenceIndex": "e41bbbb0-08ee-40bf-ab4a-810a34f151a1",
         "dataType": "Boolean"
       },
-      "27cfbe21-2aa1-4503-aa13-3677c687153d": {
-        "guid": "27cfbe21-2aa1-4503-aa13-3677c687153d",
+      "58d4a602-1abb-46e4-8c10-54c225dd56af": {
+        "guid": "58d4a602-1abb-46e4-8c10-54c225dd56af",
         "name": "createFromMultipleAccounts",
         "description": "",
         "label": "createFromMultipleAccounts",
@@ -1307,10 +1335,10 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "",
-        "objectIndex": "e41bbbb0-08ee-40bf-ab4a-810a34f151a1",
+        "objectIndex": "aa0ba870-d79b-48cb-a7ec-bc9441a7b635",
         "getFirstRecordOnly": true,
         "inputReference": "a8368340-a386-4406-9118-02389237ad54",
-        "inputReferenceIndex": "583e40d5-e735-4d8c-8f30-097d48de7ec8",
+        "inputReferenceIndex": "940c4a6d-ab72-4477-8d60-f9f696d2bfd7",
         "availableConnections": [
           {
             "type": "REGULAR"
@@ -1321,11 +1349,11 @@ export const flowWithAllElementsUIModel =  {
         ],
         "maxConnections": 2,
         "elementType": "RecordCreate",
-        "assignRecordIdToReferenceIndex": "58d4a602-1abb-46e4-8c10-54c225dd56af",
+        "assignRecordIdToReferenceIndex": "d385d33b-7ce5-4c7a-a867-690dfb63ea97",
         "dataType": "Boolean"
       },
-      "940c4a6d-ab72-4477-8d60-f9f696d2bfd7": {
-        "guid": "940c4a6d-ab72-4477-8d60-f9f696d2bfd7",
+      "9189cb3c-2245-4cfb-aabe-c2e979f15c6d": {
+        "guid": "9189cb3c-2245-4cfb-aabe-c2e979f15c6d",
         "name": "withApexDefSingleSObjectVariable",
         "description": "",
         "label": "withApexDefSingleSObjectVariable",
@@ -1338,10 +1366,10 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "",
-        "objectIndex": "d385d33b-7ce5-4c7a-a867-690dfb63ea97",
+        "objectIndex": "f317c423-f755-4d64-bd4a-e218107b57db",
         "getFirstRecordOnly": true,
         "inputReference": "e502e40a-7dfc-4e71-8a42-c491f86a560a.account",
-        "inputReferenceIndex": "aa0ba870-d79b-48cb-a7ec-bc9441a7b635",
+        "inputReferenceIndex": "048203c3-6751-4189-b9ab-939f0ef6d7d3",
         "availableConnections": [
           {
             "type": "REGULAR"
@@ -1352,11 +1380,11 @@ export const flowWithAllElementsUIModel =  {
         ],
         "maxConnections": 2,
         "elementType": "RecordCreate",
-        "assignRecordIdToReferenceIndex": "9189cb3c-2245-4cfb-aabe-c2e979f15c6d",
+        "assignRecordIdToReferenceIndex": "794b3296-5246-473a-b618-584b8956809c",
         "dataType": "Boolean"
       },
-      "048203c3-6751-4189-b9ab-939f0ef6d7d3": {
-        "guid": "048203c3-6751-4189-b9ab-939f0ef6d7d3",
+      "1669c1f5-9872-461f-a826-b4fa64d902dd": {
+        "guid": "1669c1f5-9872-461f-a826-b4fa64d902dd",
         "name": "withApexDefSObjectCollectionVariable",
         "description": "",
         "label": "withApexDefSObjectCollectionVariable",
@@ -1369,10 +1397,10 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "",
-        "objectIndex": "794b3296-5246-473a-b618-584b8956809c",
+        "objectIndex": "f94a6136-8394-445d-a2f1-1ef06f109cb5",
         "getFirstRecordOnly": true,
         "inputReference": "b2eef3a8-57d5-42b7-ad31-c9923cd8a782.accounts",
-        "inputReferenceIndex": "f317c423-f755-4d64-bd4a-e218107b57db",
+        "inputReferenceIndex": "9c51615d-c61a-46f7-b26a-7157f6908b21",
         "availableConnections": [
           {
             "type": "REGULAR"
@@ -1383,11 +1411,11 @@ export const flowWithAllElementsUIModel =  {
         ],
         "maxConnections": 2,
         "elementType": "RecordCreate",
-        "assignRecordIdToReferenceIndex": "1669c1f5-9872-461f-a826-b4fa64d902dd",
+        "assignRecordIdToReferenceIndex": "1a279fff-8bfc-4714-bc0f-2d7a203c6b16",
         "dataType": "Boolean"
       },
-      "9c51615d-c61a-46f7-b26a-7157f6908b21": {
-        "guid": "9c51615d-c61a-46f7-b26a-7157f6908b21",
+      "4197d875-e006-4afc-844f-753d75b8c4d1": {
+        "guid": "4197d875-e006-4afc-844f-753d75b8c4d1",
         "name": "lookupRecordAutomaticOutput",
         "description": "",
         "label": "lookupRecordAutomaticOutput",
@@ -1400,11 +1428,11 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "Account",
-        "objectIndex": "f94a6136-8394-445d-a2f1-1ef06f109cb5",
+        "objectIndex": "0c77e4b9-7c32-4ce0-862d-ab58bb5b7553",
         "filterType": "none",
         "filters": [
           {
-            "rowIndex": "4197d875-e006-4afc-844f-753d75b8c4d1",
+            "rowIndex": "20719b7b-1961-4eda-a3f3-b42d939e604a",
             "leftHandSide": "",
             "rightHandSide": "",
             "rightHandSideDataType": "",
@@ -1424,7 +1452,7 @@ export const flowWithAllElementsUIModel =  {
           }
         ],
         "elementType": "RecordQuery",
-        "outputReferenceIndex": "1a279fff-8bfc-4714-bc0f-2d7a203c6b16",
+        "outputReferenceIndex": "8f88fc57-1b46-4e64-8821-bd1e1bcc6de6",
         "dataType": "SObject",
         "isCollection": false,
         "subtype": "Account",
@@ -1432,8 +1460,8 @@ export const flowWithAllElementsUIModel =  {
         "getFirstRecordOnly": true,
         "variableAndFieldMapping": "automatic"
       },
-      "0c77e4b9-7c32-4ce0-862d-ab58bb5b7553": {
-        "guid": "0c77e4b9-7c32-4ce0-862d-ab58bb5b7553",
+      "0f5d3e82-2fcc-4efa-8ff0-ccb452206df7": {
+        "guid": "0f5d3e82-2fcc-4efa-8ff0-ccb452206df7",
         "name": "lookupRecordCollectionAutomaticOutput",
         "description": "",
         "label": "lookupRecordCollectionAutomaticOutput",
@@ -1446,11 +1474,11 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "Account",
-        "objectIndex": "8f88fc57-1b46-4e64-8821-bd1e1bcc6de6",
+        "objectIndex": "fff17adf-4565-4360-91b9-64f7fd54a9d7",
         "filterType": "none",
         "filters": [
           {
-            "rowIndex": "0f5d3e82-2fcc-4efa-8ff0-ccb452206df7",
+            "rowIndex": "ed78dc90-dad8-4f67-b39a-59d06fa41665",
             "leftHandSide": "",
             "rightHandSide": "",
             "rightHandSideDataType": "",
@@ -1470,7 +1498,7 @@ export const flowWithAllElementsUIModel =  {
           }
         ],
         "elementType": "RecordQuery",
-        "outputReferenceIndex": "20719b7b-1961-4eda-a3f3-b42d939e604a",
+        "outputReferenceIndex": "12e8090b-c0e9-4ff4-9df4-5cefcdbbf3c0",
         "dataType": "SObject",
         "isCollection": true,
         "subtype": "Account",
@@ -1478,8 +1506,8 @@ export const flowWithAllElementsUIModel =  {
         "getFirstRecordOnly": false,
         "variableAndFieldMapping": "automatic"
       },
-      "fff17adf-4565-4360-91b9-64f7fd54a9d7": {
-        "guid": "fff17adf-4565-4360-91b9-64f7fd54a9d7",
+      "1875750b-574e-40d4-adff-7aa4f06fc0fe": {
+        "guid": "1875750b-574e-40d4-adff-7aa4f06fc0fe",
         "name": "lookupRecordOutputReference",
         "description": "",
         "label": "lookupRecordOutputReference",
@@ -1492,13 +1520,13 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "Account",
-        "objectIndex": "12e8090b-c0e9-4ff4-9df4-5cefcdbbf3c0",
+        "objectIndex": "8ca8f838-4af4-4ae6-89fd-abdcc075a85e",
         "outputReference": "90da6513-4272-44d6-9f80-4cfc29acc5a3",
         "assignNullValuesIfNoRecordsFound": false,
         "filterType": "none",
         "filters": [
           {
-            "rowIndex": "1875750b-574e-40d4-adff-7aa4f06fc0fe",
+            "rowIndex": "a709dfe7-af21-4c63-a373-38ee99bcbf73",
             "leftHandSide": "",
             "rightHandSide": "",
             "rightHandSideDataType": "",
@@ -1508,7 +1536,7 @@ export const flowWithAllElementsUIModel =  {
         "queriedFields": [
           {
             "field": "Id",
-            "rowIndex": "8ca8f838-4af4-4ae6-89fd-abdcc075a85e"
+            "rowIndex": "97ff27bc-bc3f-49cd-b600-abec79e81e50"
           }
         ],
         "sortOrder": "NotSorted",
@@ -1523,14 +1551,14 @@ export const flowWithAllElementsUIModel =  {
           }
         ],
         "elementType": "RecordQuery",
-        "outputReferenceIndex": "ed78dc90-dad8-4f67-b39a-59d06fa41665",
+        "outputReferenceIndex": "5abbcb4e-faba-4750-91f2-46c9509713ea",
         "dataType": "Boolean",
         "storeOutputAutomatically": false,
         "getFirstRecordOnly": true,
         "variableAndFieldMapping": "manual"
       },
-      "5abbcb4e-faba-4750-91f2-46c9509713ea": {
-        "guid": "5abbcb4e-faba-4750-91f2-46c9509713ea",
+      "bf98c1eb-cd97-49dd-b11d-7b6aca391ca6": {
+        "guid": "bf98c1eb-cd97-49dd-b11d-7b6aca391ca6",
         "name": "getAccountAutoWithFields",
         "description": "",
         "label": "getAccountAutoWithFields",
@@ -1543,18 +1571,18 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "object": "Account",
-        "objectIndex": "a709dfe7-af21-4c63-a373-38ee99bcbf73",
+        "objectIndex": "ac66cdf6-9167-4628-8faa-079f39e2e32b",
         "filterType": "all",
         "filters": [
           {
-            "rowIndex": "ac66cdf6-9167-4628-8faa-079f39e2e32b",
+            "rowIndex": "26774e1d-4c9f-45f1-a426-89bad7c78eef",
             "leftHandSide": "Account.BillingCity",
             "rightHandSide": "Paris",
             "rightHandSideDataType": "String",
             "operator": "EqualTo"
           },
           {
-            "rowIndex": "9fa9376a-5212-49a1-980b-ddca1dd82388",
+            "rowIndex": "777c097c-f3b9-4845-9418-b50d40eb2550",
             "leftHandSide": "Account.BillingPostalCode",
             "rightHandSide": "75007",
             "rightHandSideDataType": "String",
@@ -1564,11 +1592,11 @@ export const flowWithAllElementsUIModel =  {
         "queriedFields": [
           {
             "field": "Id",
-            "rowIndex": "b3ab254b-af11-4c5e-b0c5-949f27d4bccb"
+            "rowIndex": "16a960f8-b2e1-4481-aac8-cf744c4bf266"
           },
           {
             "field": "Name",
-            "rowIndex": "26774e1d-4c9f-45f1-a426-89bad7c78eef"
+            "rowIndex": "f6526a3c-c24b-49e8-a910-d99a8c8342b5"
           }
         ],
         "sortOrder": "Desc",
@@ -1583,7 +1611,7 @@ export const flowWithAllElementsUIModel =  {
           }
         ],
         "elementType": "RecordQuery",
-        "outputReferenceIndex": "97ff27bc-bc3f-49cd-b600-abec79e81e50",
+        "outputReferenceIndex": "9fa9376a-5212-49a1-980b-ddca1dd82388",
         "dataType": "SObject",
         "isCollection": false,
         "subtype": "Account",
@@ -1591,8 +1619,8 @@ export const flowWithAllElementsUIModel =  {
         "getFirstRecordOnly": true,
         "variableAndFieldMapping": "manuallySelectFields"
       },
-      "777c097c-f3b9-4845-9418-b50d40eb2550": {
-        "guid": "777c097c-f3b9-4845-9418-b50d40eb2550",
+      "554e2ae3-5e7f-4efc-9cdb-c6bc62fc7e14": {
+        "guid": "554e2ae3-5e7f-4efc-9cdb-c6bc62fc7e14",
         "name": "deleteAccount",
         "description": "",
         "label": "deleteAccount",
@@ -1605,9 +1633,9 @@ export const flowWithAllElementsUIModel =  {
           "isHighlighted": false
         },
         "inputReference": "90da6513-4272-44d6-9f80-4cfc29acc5a3",
-        "inputReferenceIndex": "16a960f8-b2e1-4481-aac8-cf744c4bf266",
+        "inputReferenceIndex": "e7dfb0f5-be90-4dcd-9841-da7bd989dee5",
         "object": "",
-        "objectIndex": "f6526a3c-c24b-49e8-a910-d99a8c8342b5",
+        "objectIndex": "1b13e911-67d9-409a-abee-fc6663dd4108",
         "filters": [],
         "maxConnections": 2,
         "availableConnections": [
@@ -1622,8 +1650,8 @@ export const flowWithAllElementsUIModel =  {
         "dataType": "Boolean",
         "useSobject": true
       },
-      "554e2ae3-5e7f-4efc-9cdb-c6bc62fc7e14": {
-        "guid": "554e2ae3-5e7f-4efc-9cdb-c6bc62fc7e14",
+      "b689132a-b516-47d0-9e51-03ea751c7cc9": {
+        "guid": "b689132a-b516-47d0-9e51-03ea751c7cc9",
         "name": "screen1",
         "description": "",
         "label": "screen1",
@@ -1644,31 +1672,31 @@ export const flowWithAllElementsUIModel =  {
         "showHeader": true,
         "fieldReferences": [
           {
-            "fieldReference": "e7dfb0f5-be90-4dcd-9841-da7bd989dee5"
+            "fieldReference": "2ca03260-0885-4ffb-bb88-cf862f5d2cb4"
           },
           {
-            "fieldReference": "dc0f5b41-7ae2-4b45-9258-3a4cbacc745c"
+            "fieldReference": "5a8a33e6-d476-45dc-b263-b3bae11ee715"
           },
           {
-            "fieldReference": "553332e6-c579-49e7-8757-8044dd8b530f"
+            "fieldReference": "8d06ba06-b0e4-4a15-ab56-651dc35a83a8"
           },
           {
-            "fieldReference": "9f2723ee-84ae-473a-b265-ebee9afa6697"
+            "fieldReference": "0a3d0031-d1de-4f69-9a41-c302eecc0ea5"
           },
           {
-            "fieldReference": "d6542367-8e40-4576-95aa-3baa12d98ac7"
+            "fieldReference": "3606994f-008f-4e3a-a353-cc4f7fa75086"
           }
         ],
         "elementType": "Screen",
         "maxConnections": 1
       },
-      "e7dfb0f5-be90-4dcd-9841-da7bd989dee5": {
-        "guid": "e7dfb0f5-be90-4dcd-9841-da7bd989dee5",
+      "2ca03260-0885-4ffb-bb88-cf862f5d2cb4": {
+        "guid": "2ca03260-0885-4ffb-bb88-cf862f5d2cb4",
         "name": "emailScreenFieldAutomaticOutput",
         "choiceReferences": [],
         "dataType": "LightningComponentOutput",
         "defaultValue": "",
-        "defaultValueIndex": "1b13e911-67d9-409a-abee-fc6663dd4108",
+        "defaultValueIndex": "5041d41a-0822-4ddc-9685-8a09b840bb0d",
         "validationRule": {
           "formulaExpression": null,
           "errorMessage": null
@@ -1679,13 +1707,13 @@ export const flowWithAllElementsUIModel =  {
         "helpText": "",
         "inputParameters": [
           {
-            "rowIndex": "2ca03260-0885-4ffb-bb88-cf862f5d2cb4",
+            "rowIndex": "dc0f5b41-7ae2-4b45-9258-3a4cbacc745c",
             "name": "label",
             "value": "emailScreenFieldAutomaticOutput",
             "valueDataType": "String"
           },
           {
-            "rowIndex": "de8efb2a-4b75-4a44-a3c9-3a78018a2207",
+            "rowIndex": "c7027d6d-66ae-440f-b340-0c652eaebe79",
             "name": "placeholder",
             "value": "your email address",
             "valueDataType": "String"
@@ -1709,12 +1737,12 @@ export const flowWithAllElementsUIModel =  {
         },
         "storeOutputAutomatically": true
       },
-      "dc0f5b41-7ae2-4b45-9258-3a4cbacc745c": {
-        "guid": "dc0f5b41-7ae2-4b45-9258-3a4cbacc745c",
+      "5a8a33e6-d476-45dc-b263-b3bae11ee715": {
+        "guid": "5a8a33e6-d476-45dc-b263-b3bae11ee715",
         "name": "emailScreenField",
         "choiceReferences": [],
         "defaultValue": "",
-        "defaultValueIndex": "8574a485-6312-4e06-820d-4b7a5f030f3a",
+        "defaultValueIndex": "0d02ed31-ffad-42ba-967f-5ebbbdb83dd5",
         "validationRule": {
           "formulaExpression": null,
           "errorMessage": null
@@ -1725,13 +1753,13 @@ export const flowWithAllElementsUIModel =  {
         "helpText": "",
         "inputParameters": [
           {
-            "rowIndex": "5a8a33e6-d476-45dc-b263-b3bae11ee715",
+            "rowIndex": "553332e6-c579-49e7-8757-8044dd8b530f",
             "name": "label",
             "value": "emailScreenField",
             "valueDataType": "String"
           },
           {
-            "rowIndex": "d65a9682-db73-4ea7-8a38-9e2d8ee50d43",
+            "rowIndex": "9f2723ee-84ae-473a-b265-ebee9afa6697",
             "name": "placeholder",
             "value": "your email",
             "valueDataType": "String"
@@ -1755,13 +1783,13 @@ export const flowWithAllElementsUIModel =  {
         },
         "storeOutputAutomatically": false
       },
-      "553332e6-c579-49e7-8757-8044dd8b530f": {
-        "guid": "553332e6-c579-49e7-8757-8044dd8b530f",
+      "8d06ba06-b0e4-4a15-ab56-651dc35a83a8": {
+        "guid": "8d06ba06-b0e4-4a15-ab56-651dc35a83a8",
         "name": "lightningCompWithAccountOutput",
         "choiceReferences": [],
         "dataType": "LightningComponentOutput",
         "defaultValue": "",
-        "defaultValueIndex": "cb13b620-ebec-4c72-aff0-beebd24ef0c2",
+        "defaultValueIndex": "d6542367-8e40-4576-95aa-3baa12d98ac7",
         "validationRule": {
           "formulaExpression": null,
           "errorMessage": null
@@ -1789,13 +1817,13 @@ export const flowWithAllElementsUIModel =  {
         },
         "storeOutputAutomatically": true
       },
-      "9f2723ee-84ae-473a-b265-ebee9afa6697": {
-        "guid": "9f2723ee-84ae-473a-b265-ebee9afa6697",
+      "0a3d0031-d1de-4f69-9a41-c302eecc0ea5": {
+        "guid": "0a3d0031-d1de-4f69-9a41-c302eecc0ea5",
         "name": "lightningCompWithNoAccountOutput",
         "choiceReferences": [],
         "dataType": "LightningComponentOutput",
         "defaultValue": "",
-        "defaultValueIndex": "8d06ba06-b0e4-4a15-ab56-651dc35a83a8",
+        "defaultValueIndex": "76a209b0-66ab-4a14-ad73-56b02b937714",
         "validationRule": {
           "formulaExpression": null,
           "errorMessage": null
@@ -1823,13 +1851,13 @@ export const flowWithAllElementsUIModel =  {
         },
         "storeOutputAutomatically": true
       },
-      "d6542367-8e40-4576-95aa-3baa12d98ac7": {
-        "guid": "d6542367-8e40-4576-95aa-3baa12d98ac7",
+      "3606994f-008f-4e3a-a353-cc4f7fa75086": {
+        "guid": "3606994f-008f-4e3a-a353-cc4f7fa75086",
         "name": "lightningCompWithAccountsOutput",
         "choiceReferences": [],
         "dataType": "LightningComponentOutput",
         "defaultValue": "",
-        "defaultValueIndex": "0a3d0031-d1de-4f69-9a41-c302eecc0ea5",
+        "defaultValueIndex": "3ce2bd36-67b8-4bc3-b144-1ba05ee7dafe",
         "validationRule": {
           "formulaExpression": null,
           "errorMessage": null
@@ -1857,8 +1885,8 @@ export const flowWithAllElementsUIModel =  {
         },
         "storeOutputAutomatically": true
       },
-      "76a209b0-66ab-4a14-ad73-56b02b937714": {
-        "guid": "76a209b0-66ab-4a14-ad73-56b02b937714",
+      "123b2338-5cb1-4a98-966f-58a56114c1f6": {
+        "guid": "123b2338-5cb1-4a98-966f-58a56114c1f6",
         "name": "screenWithAddress",
         "description": "",
         "label": "screenWithAddress",
@@ -1879,19 +1907,19 @@ export const flowWithAllElementsUIModel =  {
         "showHeader": true,
         "fieldReferences": [
           {
-            "fieldReference": "3606994f-008f-4e3a-a353-cc4f7fa75086"
+            "fieldReference": "49bf649f-45c0-4d54-8533-93b51f9b557e"
           }
         ],
         "elementType": "Screen",
         "maxConnections": 1
       },
-      "3606994f-008f-4e3a-a353-cc4f7fa75086": {
-        "guid": "3606994f-008f-4e3a-a353-cc4f7fa75086",
+      "49bf649f-45c0-4d54-8533-93b51f9b557e": {
+        "guid": "49bf649f-45c0-4d54-8533-93b51f9b557e",
         "name": "Address",
         "choiceReferences": [],
         "dataType": "LightningComponentOutput",
         "defaultValue": "",
-        "defaultValueIndex": "3ce2bd36-67b8-4bc3-b144-1ba05ee7dafe",
+        "defaultValueIndex": "d51b4de8-82af-4bac-a2ec-3780738278d4",
         "validationRule": {
           "formulaExpression": null,
           "errorMessage": null
@@ -1919,8 +1947,8 @@ export const flowWithAllElementsUIModel =  {
         },
         "storeOutputAutomatically": true
       },
-      "123b2338-5cb1-4a98-966f-58a56114c1f6": {
-        "guid": "123b2338-5cb1-4a98-966f-58a56114c1f6",
+      "37cfa784-b1db-4323-8baa-51d1da0c010f": {
+        "guid": "37cfa784-b1db-4323-8baa-51d1da0c010f",
         "name": "stage1",
         "description": "",
         "isActive": false,
@@ -1928,8 +1956,8 @@ export const flowWithAllElementsUIModel =  {
         "label": "stage1",
         "elementType": "Stage"
       },
-      "49bf649f-45c0-4d54-8533-93b51f9b557e": {
-        "guid": "49bf649f-45c0-4d54-8533-93b51f9b557e",
+      "e89486d4-cd00-4c09-b4f4-539075ae4924": {
+        "guid": "e89486d4-cd00-4c09-b4f4-539075ae4924",
         "name": "numberChoice",
         "description": "",
         "elementType": "Choice",
@@ -1937,7 +1965,7 @@ export const flowWithAllElementsUIModel =  {
         "choiceText": "Choice 1",
         "storedValue": null,
         "storedValueDataType": null,
-        "storedValueIndex": "d51b4de8-82af-4bac-a2ec-3780738278d4",
+        "storedValueIndex": "5889818c-cb99-4524-a6fb-79c576f21d26",
         "isShowInputSelected": false,
         "isValidateSelected": false
       }
@@ -1966,18 +1994,19 @@ export const flowWithAllElementsUIModel =  {
       "bb597c66-db1e-4636-85b6-31f89b320bd4",
       "956ee0bf-ff21-44f4-9917-65676160e094",
       "26b1d461-e66e-41c7-bb0e-5c86b04280db",
-      "6160bbc3-c247-458e-b1b8-abc60b4d3d39",
-      "52bc2460-8775-417b-a692-f72725a8f6b0",
-      "27cfbe21-2aa1-4503-aa13-3677c687153d",
-      "940c4a6d-ab72-4477-8d60-f9f696d2bfd7",
-      "048203c3-6751-4189-b9ab-939f0ef6d7d3",
-      "9c51615d-c61a-46f7-b26a-7157f6908b21",
-      "0c77e4b9-7c32-4ce0-862d-ab58bb5b7553",
-      "fff17adf-4565-4360-91b9-64f7fd54a9d7",
-      "5abbcb4e-faba-4750-91f2-46c9509713ea",
-      "777c097c-f3b9-4845-9418-b50d40eb2550",
+      "41a189ff-01f4-4018-b75c-3f363b65cc42",
+      "d66cf236-ca0a-4351-952d-b12df4abdaf8",
+      "cf176378-9ab0-436f-a161-079057c789f4",
+      "58d4a602-1abb-46e4-8c10-54c225dd56af",
+      "9189cb3c-2245-4cfb-aabe-c2e979f15c6d",
+      "1669c1f5-9872-461f-a826-b4fa64d902dd",
+      "4197d875-e006-4afc-844f-753d75b8c4d1",
+      "0f5d3e82-2fcc-4efa-8ff0-ccb452206df7",
+      "1875750b-574e-40d4-adff-7aa4f06fc0fe",
+      "bf98c1eb-cd97-49dd-b11d-7b6aca391ca6",
       "554e2ae3-5e7f-4efc-9cdb-c6bc62fc7e14",
-      "76a209b0-66ab-4a14-ad73-56b02b937714"
+      "b689132a-b516-47d0-9e51-03ea751c7cc9",
+      "123b2338-5cb1-4a98-966f-58a56114c1f6"
     ],
     "properties": {
       "canOnlySaveAsNewDefinition": false,

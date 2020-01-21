@@ -22,6 +22,8 @@ import {
     SetPropertyEditorTitleEvent
 } from 'builder_platform_interaction/events';
 import { Store } from 'builder_platform_interaction/storeLib';
+import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
+import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -35,17 +37,31 @@ export default class SubflowEditor extends LightningElement {
     @track subflowRunInMode;
 
     labels = LABELS;
+    processTypeValue = FLOW_PROCESS_TYPE.FLOW;
     connected = false;
 
     // true if we are creating a new subflow element, false if editing an existing subflow element
     @api
     isNewMode = false;
 
+    /**
+     * @returns {FLOW_PROCESS_TYPE} Flow process Type supports automatic output handling
+     */
+    @api
+    get processType() {
+        return this.processTypeValue;
+    }
+
+    set processType(newValue) {
+        this.processTypeValue = newValue;
+    }
+
     connectedCallback() {
         this.connected = true;
         this.updatePropertyEditorTitle();
         if (this.subflowNode) {
             this.fetchSubflowDescriptor();
+            this.fixNodeIfAutomaticOutputUnsupported();
             this.fetchFlowInputOutputVariables();
             this.fetchSubflowRunInMode();
         }
@@ -53,6 +69,16 @@ export default class SubflowEditor extends LightningElement {
 
     disconnectedCallback() {
         this.connected = false;
+    }
+
+    fixNodeIfAutomaticOutputUnsupported() {
+        if (!isAutomaticOutputHandlingSupported(this.processTypeValue)) {
+            // If the process type does not support automatic output handling we need to set storeOutputAutomatically to false.
+            this.subflowNode = {
+                ...this.subflowNode,
+                storeOutputAutomatically: false
+            };
+        }
     }
 
     fetchFlowInputOutputVariables() {
@@ -218,6 +244,11 @@ export default class SubflowEditor extends LightningElement {
             ? this.subflowNode.outputAssignments
             : [];
         const warnings = getParameterListWarnings(inputs, outputs, this.labels);
+        const storeOutputAutomatically = this.subflowNode
+            .storeOutputAutomatically;
+        const automaticOutputHandlingSupported = isAutomaticOutputHandlingSupported(
+            this.processTypeValue
+        );
         return {
             inputHeader: this.labels.inputHeader,
             outputHeader: this.labels.outputHeader,
@@ -236,7 +267,8 @@ export default class SubflowEditor extends LightningElement {
             inputs,
             outputs,
             warnings,
-            automaticOutputHandlingSupported: false, // automatic output handling are not supported yet for subflows
+            storeOutputAutomatically,
+            automaticOutputHandlingSupported,
             emptyInputsOutputsBody: format(
                 this.labels.emptyInputsOutputsBody,
                 this.labels.subflowTypeLabel
@@ -249,6 +281,15 @@ export default class SubflowEditor extends LightningElement {
      * @param {object} event - property changed event coming from label-description component and parameter-item component
      */
     handleEvent(event) {
+        event.stopPropagation();
+        this.subflowNode = subflowReducer(this.subflowNode, event);
+    }
+
+    /**
+     * Handles selection/deselection of 'Use Advanced Options' checkbox
+     * @param {Object} event - event
+     */
+    handleAdvancedOptionsSelectionChange(event) {
         event.stopPropagation();
         this.subflowNode = subflowReducer(this.subflowNode, event);
     }

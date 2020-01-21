@@ -89,6 +89,7 @@ export const contactSObjectVariable = getElementByName('contactSObjectVariable')
 export const campaignSObjectVariable = getElementByName('campaignSObjectVariable');
 export const opportunitySObjectVariable = getElementByName('opportunitySObjectVariable');
 export const opportunitySObjectCollectionVariable = getElementByName('opportunitySObjectCollectionVariable');
+export const subflowAutomaticOutput = getElementByName('subflowAutomaticOutput');
 
 // elements after getElementForPropertyEditor
 const deepCopy = (obj) => JSON.parse(JSON.stringify(obj));

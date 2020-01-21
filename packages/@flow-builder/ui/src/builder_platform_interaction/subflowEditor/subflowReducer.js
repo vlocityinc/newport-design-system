@@ -4,13 +4,15 @@ import { VALIDATE_ALL } from 'builder_platform_interaction/validationRules';
 import {
     UpdateParameterItemEvent,
     DeleteParameterItemEvent,
-    PropertyChangedEvent
+    PropertyChangedEvent,
+    UseAdvancedOptionsSelectionChangedEvent
 } from 'builder_platform_interaction/events';
 import {
     updateParameterItem,
     removeUnsetParameters,
     deleteParameterItem,
-    mergeWithInputOutputVariables
+    mergeWithInputOutputVariables,
+    updateUseAdvancedOptionSelection
 } from 'builder_platform_interaction/calloutEditorLib';
 
 export const MERGE_WITH_VARIABLES = 'MERGE_WITH_VARIABLES';
@@ -49,6 +51,8 @@ export const subflowReducer = (state, event) => {
             return removeUnsetParameters(state);
         case VALIDATE_ALL:
             return subflowValidation.validateAll(state);
+        case UseAdvancedOptionsSelectionChangedEvent.EVENT_NAME:
+            return updateUseAdvancedOptionSelection(state, event.detail);
         default:
             return state;
     }
