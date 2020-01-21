@@ -9,7 +9,7 @@ import {
     ALL_PROCESS_TYPE,
     resetCacheTemplates
 } from 'builder_platform_interaction/processTypeLib';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { MOCK_ALL_PROCESS_TYPES } from 'mock/processTypesData';
 import {
     MOCK_ALL_TEMPLATES,
@@ -34,8 +34,10 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                     return mockProcessTypesPromise;
                 case SERVER_ACTION_TYPE.GET_TEMPLATES:
                     return mockTemplatesPromise;
+                case SERVER_ACTION_TYPE.GET_PROCESS_TYPE_FEATURES:
+                    return Promise.resolve([]);
                 default:
-                    return Promise.reject();
+                    return Promise.reject(new Error('Unexpected server action ' + serverActionType));
             }
         }
     };
@@ -93,19 +95,35 @@ describe('new-flow-modal-body', () => {
             const recommendedTiles = getRecommended(newFlowModalBody);
             expect(recommendedTiles.items).toEqual([
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription",
-                    iconName: "utility:magicwand",
-                    isSelected: true,
-                    itemId: "AutoLaunchedFlow",
-                    label: "Autolaunched Flow"
+                    description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
+                    iconName: 'utility:desktop',
+                    itemId: FLOW_PROCESS_TYPE.FLOW,
+                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
+                    processType: FLOW_PROCESS_TYPE.FLOW,
+                    isSelected: true
                 },
                 {
-                    description:
-                        'FlowBuilderProcessTypeTemplates.newFlowDescription',
-                    iconName: 'utility:desktop',
-                    isSelected: false,
-                    itemId: FLOW_PROCESS_TYPE.FLOW,
-                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label
+                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                    iconName: 'utility:record_update',
+                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
+                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+                },
+                {
+                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                    iconName: 'utility:clock',
+                    itemId: 'AutoLaunchedFlow-Scheduled',
+                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                },
+                {
+                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                    iconName: 'utility:magicwand',
+                    itemId: 'AutoLaunchedFlow',
+                    label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label,
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
                 }
             ]);
         });
@@ -158,21 +176,35 @@ describe('new-flow-modal-body', () => {
             );
             expect(templates.items).toEqual([
                 {
-                    description:
-                        'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                    iconName: 'utility:record_update',
+                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
+                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                    isSelected: true
+                },
+                {
+                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                    iconName: 'utility:clock',
+                    itemId: 'AutoLaunchedFlow-Scheduled',
+                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                },
+                {
+                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
                     iconName: 'utility:magicwand',
-                    isSelected: true,
                     itemId: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                    label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW)
-                        .label
+                    label: getProcessType(FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW).label,
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
                 },
                 {
                     description: MOCK_AUTO_TEMPLATE.Description,
                     iconName: 'utility:magicwand',
-                    isSelected: false,
                     itemId: MOCK_AUTO_TEMPLATE.EnumOrID,
                     label: MOCK_AUTO_TEMPLATE.Label,
-                    isTemplate: true
+                    templateId: '1'
                 }
             ]);
         });
@@ -193,7 +225,14 @@ describe('new-flow-modal-body', () => {
             const processTypesTemplates = getProcessTypesTemplates(
                 newFlowModalBody
             );
-            expect(newFlowModalBody.isProcessType).toBe(true);
+            expect(newFlowModalBody.selectedItem).toEqual({
+                description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
+                iconName: 'utility:desktop',
+                isSelected: true,
+                itemId: 'Flow',
+                label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
+                processType: FLOW_PROCESS_TYPE.FLOW
+            });
             expect(processTypesTemplates.processType).toEqual(
                 ALL_PROCESS_TYPE.name
             );
@@ -208,85 +247,99 @@ describe('new-flow-modal-body', () => {
             );
             expect(processTypeTiles.items).toEqual([
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription",
-                    iconName: "utility:magicwand",
-                    isSelected: true,
-                    itemId: "AutoLaunchedFlow",
-                    label: "Autolaunched Flow"
+                    description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                    iconName: 'utility:record_update',
+                    itemId: 'AutoLaunchedFlow-RecordBeforeSave',
+                    label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE,
+                    isSelected: true
+                },
+                {
+                    description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                    iconName: 'utility:clock',
+                    itemId: 'AutoLaunchedFlow-Scheduled',
+                    label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    triggerType: FLOW_TRIGGER_TYPE.SCHEDULED,
+                },
+                {
+                    description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                    iconName: 'utility:magicwand',
+                    itemId: 'AutoLaunchedFlow',
+                    label: 'Autolaunched Flow',
+                    processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
                 },
                 {
                     description:
                         'FlowBuilderProcessTypeTemplates.newFlowDescription',
                     iconName: 'utility:desktop',
-                    isSelected: false,
                     itemId: FLOW_PROCESS_TYPE.FLOW,
-                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label
+                    label: getProcessType(FLOW_PROCESS_TYPE.FLOW).label,
+                    processType: FLOW_PROCESS_TYPE.FLOW,
                 },
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription",
-                    iconName: "utility:cart",
-                    isSelected: false,
-                    itemId: "CheckoutFlow",
-                    label: "Checkout Flow"
+                    description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription',
+                    iconName: 'utility:cart',
+                    itemId: 'CheckoutFlow',
+                    label: 'Checkout Flow',
+                    processType: "CheckoutFlow"
                 },
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription",
-                    iconName: "utility:contact_request",
-                    isSelected: false,
-                    itemId: "ContactRequestFlow",
-                    label: "Contact Request Flow",
+                    description: 'FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription',
+                    iconName: 'utility:contact_request',
+                    itemId: 'ContactRequestFlow',
+                    label: 'Contact Request Flow',
+                    processType: "ContactRequestFlow"
                 },
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription",
-                    iconName: "utility:insert_tag_field",
-                    isSelected: false,
-                    itemId: "FieldServiceWeb",
-                    label: "Embedded Appointment Management Flow",
+                    description: 'FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription',
+                    iconName: 'utility:insert_tag_field',
+                    itemId: 'FieldServiceWeb',
+                    label: 'Embedded Appointment Management Flow',
+                    processType: "FieldServiceWeb"
                 },
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription",
-                    iconName: "utility:phone_portrait",
-                    isSelected: false,
-                    itemId: "FieldServiceMobile",
-                    label: "Field Service Mobile Flow",
+                    description: 'FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription',
+                    iconName: 'utility:phone_portrait',
+                    itemId: 'FieldServiceMobile',
+                    label: 'Field Service Mobile Flow',
+                    processType: "FieldServiceMobile"
                 },
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription",
-                    iconName: "utility:user",
-                    isSelected: false,
-                    itemId: "UserProvisioningFlow",
-                    label: "User Provisioning Flow",
+                    description: 'FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription',
+                    iconName: 'utility:user',
+                    itemId: 'UserProvisioningFlow',
+                    label: 'User Provisioning Flow',
+                    processType: "UserProvisioningFlow"
                 },
                 {
-                    description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription",
-                    iconName: "utility:flow",
-                    isSelected: false,
-                    itemId: "WeDoNotKnowYou",
-                    label: "Well no icon yet",
+                    description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription',
+                    iconName: 'utility:flow',
+                    itemId: 'WeDoNotKnowYou',
+                    label: 'Well no icon yet',
+                    processType: "WeDoNotKnowYou"
                 },
                 {
-                    description: "This is an autolaunched template",
-                    iconName: "utility:magicwand",
-                    isSelected: false,
-                    isTemplate: true,
-                    itemId: "1",
-                    label: "Autolaunched template",
+                    description: 'This is an autolaunched template',
+                    iconName: 'utility:magicwand',
+                    templateId: '1',
+                    itemId: '1',
+                    label: 'Autolaunched template',
                 },
                 {
-                    description: "This is a screen template",
-                    iconName: "utility:desktop",
-                    isSelected: false,
-                    isTemplate: true,
-                    itemId: "2",
-                    label: "Screen template",
+                    description: 'This is a screen template',
+                    iconName: 'utility:desktop',
+                    templateId: '2',
+                    itemId: '2',
+                    label: 'Screen template',
                 },
                 {
-                    description: "This is a screen template 2",
-                    iconName: "utility:desktop",
-                    isSelected: false,
-                    isTemplate: true,
-                    itemId: "3",
-                    label: "Screen template 2",
+                    description: 'This is a screen template 2',
+                    iconName: 'utility:desktop',
+                    templateId: '3',
+                    itemId: '3',
+                    label: 'Screen template 2',
                 }
             ]);
         });
@@ -335,7 +388,7 @@ describe('new-flow-modal-body', () => {
                 new TemplateChangedEvent(MOCK_AUTO_TEMPLATE.EnumOrId, false)
             );
             await Promise.resolve();
-            expect(newFlowModalBody.selectedTemplate).toBe(
+            expect(newFlowModalBody.selectedItem).toBe(
                 MOCK_AUTO_TEMPLATE.EnumOrId
             );
             errorMessage = getErrorMessage(newFlowModalBody);

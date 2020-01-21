@@ -2,13 +2,12 @@ import { createElement } from 'lwc';
 import ProcessTypesVerticalNavigation from '../processTypesVerticalNavigation';
 import {
     ALL_PROCESS_TYPE,
-    PROCESS_TYPES_ICONS,
-    PROCESS_TYPE_DEFAULT_ICON
+    getProcessTypeIcon
 } from 'builder_platform_interaction/processTypeLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import {
-    MOCK_PROCESS_TYPES,
+//    MOCK_PROCESS_TYPES,
     MOCK_ALL_PROCESS_TYPES
 } from 'mock/processTypesData';
 
@@ -21,11 +20,6 @@ const createComponentUnderTest = (processTypes = MOCK_ALL_PROCESS_TYPES) => {
     document.body.appendChild(el);
     return el;
 };
-
-const createComponentUnderTestWithFeaturedTypesOnly = createComponentUnderTest.bind(
-    null,
-    MOCK_PROCESS_TYPES.FEATURED
-);
 
 const SELECTORS = {
     VERTICAL_NAVIGATION_ITEM_ICON: 'lightning-vertical-navigation-item-icon',
@@ -49,97 +43,82 @@ describe('process-types-vertical-navigation ', () => {
             );
         });
 
-        test('number of "featured" process types', () => {
+        test('number of process types', () => {
             expect(
-                processTypesVerticalNavigation.featuredProcessTypes
-            ).toHaveLength(MOCK_PROCESS_TYPES.FEATURED.length + 1); // 'ALL' entry included
+                processTypesVerticalNavigation.items
+            ).toHaveLength(MOCK_ALL_PROCESS_TYPES.length + 1); // 'ALL' entry included
         });
 
-        test('number of "other" process types', () => {
+        test('"All" entry in first place (among process types) (API)', () => {
             expect(
-                processTypesVerticalNavigation.otherProcessTypes
-            ).toHaveLength(MOCK_PROCESS_TYPES.OTHERS.length);
-        });
-
-        test('"All" entry in first place (among featured process types) (API)', () => {
-            expect(
-                processTypesVerticalNavigation.featuredProcessTypes[0]
+                processTypesVerticalNavigation.items[0]
             ).toMatchObject({ name: ALL_PROCESS_TYPE.name });
         });
 
         test('details of "featured" process types ("all" included) (API)', () => {
-            expect(processTypesVerticalNavigation.featuredProcessTypes).toEqual(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        label: 'FlowBuilderProcessTypesVerticalNavigation.all',
-                        name: ALL_PROCESS_TYPE.name,
-                        iconName: PROCESS_TYPES_ICONS.FEATURED.get(
-                            ALL_PROCESS_TYPE.name
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Autolaunched Flow',
-                        name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                        iconName: PROCESS_TYPES_ICONS.FEATURED.get(
-                            FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Screen Flow',
-                        name: FLOW_PROCESS_TYPE.FLOW,
-                        iconName: PROCESS_TYPES_ICONS.FEATURED.get(
-                            FLOW_PROCESS_TYPE.FLOW
-                        )
-                    })
-                ])
-            );
-        });
-
-        test('details of "other" process types (API)', () => {
-            expect(processTypesVerticalNavigation.otherProcessTypes).toEqual(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        label: 'Checkout Flow',
-                        name: FLOW_PROCESS_TYPE.CHECKOUT_FLOW,
-                        iconName: PROCESS_TYPES_ICONS.OTHERS.get(
-                            FLOW_PROCESS_TYPE.CHECKOUT_FLOW
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Contact Request Flow',
-                        name: FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW,
-                        iconName: PROCESS_TYPES_ICONS.OTHERS.get(
-                            FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Embedded Appointment Management Flow',
-                        name: FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB,
-                        iconName: PROCESS_TYPES_ICONS.OTHERS.get(
-                            FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Field Service Mobile Flow',
-                        name: FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE,
-                        iconName: PROCESS_TYPES_ICONS.OTHERS.get(
-                            FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'User Provisioning Flow',
-                        name: FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW,
-                        iconName: PROCESS_TYPES_ICONS.OTHERS.get(
-                            FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Well no icon yet',
-                        name: 'WeDoNotKnowYou',
-                        iconName: PROCESS_TYPE_DEFAULT_ICON
-                    })
-                ])
-            );
+            expect(processTypesVerticalNavigation.items).toEqual([
+                {
+                    label: 'FlowBuilderProcessTypesVerticalNavigation.all',
+                    name: ALL_PROCESS_TYPE.name,
+                    iconName: getProcessTypeIcon(
+                        ALL_PROCESS_TYPE.name
+                    )
+                },
+                {
+                    label: 'Autolaunched Flow',
+                    name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
+                    )
+                },
+                {
+                    label: 'Screen Flow',
+                    name: FLOW_PROCESS_TYPE.FLOW,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.FLOW
+                    )
+                },
+                {
+                    label: 'Checkout Flow',
+                    name: FLOW_PROCESS_TYPE.CHECKOUT_FLOW,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.CHECKOUT_FLOW
+                    )
+                },
+                {
+                    label: 'Contact Request Flow',
+                    name: FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.CONTACT_REQUEST_FLOW
+                    )
+                },
+                {
+                    label: 'Embedded Appointment Management Flow',
+                    name: FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.FIELD_SERVICE_WEB
+                    )
+                },
+                {
+                    label: 'Field Service Mobile Flow',
+                    name: FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.FIELD_SERVICE_MOBILE
+                    )
+                },
+                {
+                    label: 'User Provisioning Flow',
+                    name: FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW,
+                    iconName: getProcessTypeIcon(
+                        FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW
+                    )
+                },
+                {
+                    label: 'Well no icon yet',
+                    name: 'WeDoNotKnowYou',
+                    iconName: getProcessTypeIcon('WeDoNotKnowYou')
+                }
+            ]);
         });
 
         test('process types name', () => {
@@ -165,15 +144,18 @@ describe('process-types-vertical-navigation ', () => {
             const processTypesVerticalNavigationItemIcons = getAllVerticalNavigationItemIcons(
                 processTypesVerticalNavigation
             );
-            const joinedProcessTypesIconNames = Array.from(
-                processTypesVerticalNavigationItemIcons
-            )
-                .map(itemIcon => {
-                    return itemIcon.iconName;
-                })
-                .join('');
-            const expectedJoinedIconNames = `${PROCESS_TYPE_DEFAULT_ICON}utility:magicwandutility:desktoputility:cartutility:contact_requestutility:insert_tag_fieldutility:phone_portraitutility:user${PROCESS_TYPE_DEFAULT_ICON}`;
-            expect(joinedProcessTypesIconNames).toBe(expectedJoinedIconNames);
+            const actualIconNames = Array.from(processTypesVerticalNavigationItemIcons).map(itemIcon => itemIcon.iconName);
+            expect(actualIconNames).toEqual([
+                'utility:flow',
+                'utility:magicwand',
+                'utility:desktop',
+                'utility:cart',
+                'utility:contact_request',
+                'utility:insert_tag_field',
+                'utility:phone_portrait',
+                'utility:user',
+                'utility:flow'
+            ]);
         });
     });
 
@@ -202,67 +184,6 @@ describe('process-types-vertical-navigation ', () => {
             expect(eventCallback.mock.calls[0][0].detail).toEqual({
                 name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
             });
-        });
-    });
-});
-
-describe('process-types-vertical-navigation only with featured types', () => {
-    let processTypesVerticalNavigation;
-    beforeEach(() => {
-        processTypesVerticalNavigation = createComponentUnderTestWithFeaturedTypesOnly();
-    });
-
-    describe('Process types details', () => {
-        test('by default "all" entry selected', () => {
-            expect(processTypesVerticalNavigation.selectedProcessType).toBe(
-                ALL_PROCESS_TYPE.name
-            );
-        });
-
-        test('number of "featured" process types', () => {
-            expect(
-                processTypesVerticalNavigation.featuredProcessTypes
-            ).toHaveLength(MOCK_PROCESS_TYPES.FEATURED.length + 1); // 'ALL' entry included
-        });
-
-        test('number of "other" process types', () => {
-            expect(
-                processTypesVerticalNavigation.otherProcessTypes
-            ).toHaveLength(0);
-        });
-
-        test('"All" entry in first place (among featured process types) (API)', () => {
-            expect(
-                processTypesVerticalNavigation.featuredProcessTypes[0]
-            ).toMatchObject({ name: ALL_PROCESS_TYPE.name });
-        });
-
-        test('details of "featured" process types ("all" included) (API)', () => {
-            expect(processTypesVerticalNavigation.featuredProcessTypes).toEqual(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        label: 'FlowBuilderProcessTypesVerticalNavigation.all',
-                        name: ALL_PROCESS_TYPE.name,
-                        iconName: PROCESS_TYPES_ICONS.FEATURED.get(
-                            ALL_PROCESS_TYPE.name
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Autolaunched Flow',
-                        name: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
-                        iconName: PROCESS_TYPES_ICONS.FEATURED.get(
-                            FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
-                        )
-                    }),
-                    expect.objectContaining({
-                        label: 'Screen Flow',
-                        name: FLOW_PROCESS_TYPE.FLOW,
-                        iconName: PROCESS_TYPES_ICONS.FEATURED.get(
-                            FLOW_PROCESS_TYPE.FLOW
-                        )
-                    })
-                ])
-            );
         });
     });
 });

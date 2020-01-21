@@ -85,7 +85,7 @@ import {
     getDuplicateElementGuidMaps,
     getConnectorToDuplicate,
     highlightCanvasElement,
-    getSelectedTemplate,
+    getSelectedFlowEntry,
     setErrorMessage,
     closeModalAndNavigateTo,
     createStartElement
@@ -1295,20 +1295,22 @@ export default class Editor extends LightningElement {
      * @param modal the flow modal
      */
     createFlowFromTemplateCallback = modal => {
-        const { templateId, processType } = getSelectedTemplate(modal);
-        if (templateId) {
+        const item = getSelectedFlowEntry(modal);
+        // Template id
+        if (typeof item === 'string') {
             logInteraction(
                 `create-new-flow-button`,
                 'editor-component',
-                { devNameOrId: templateId },
+                { devNameOrId: item },
                 'click',
                 'user'
             );
             // create the flow from the template
-            this.createFlowFromTemplate(templateId, modal);
+            this.createFlowFromTemplate(item, modal);
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
         } else {
+            const { processType, triggerType } = item;
             if (processType) {
                 logInteraction(
                     `create-new-flow-button`,
@@ -1319,7 +1321,7 @@ export default class Editor extends LightningElement {
                 );
                 // create the empty flow for the selected process type
                 this.spinners.showFlowMetadataSpinner = true;
-                this.createFlowFromProcessType(processType);
+                this.createFlowFromProcessType(processType, triggerType);
                 this.spinners.showFlowMetadataSpinner = false;
             }
             modal.close();
@@ -1330,11 +1332,12 @@ export default class Editor extends LightningElement {
      * Create the blank flow from the process type
      * @param processType the selected process type
      */
-    createFlowFromProcessType = processType => {
+    createFlowFromProcessType = (processType, triggerType) => {
+        const payload = { processType };
         storeInstance.dispatch(
-            updatePropertiesAfterCreatingFlowFromProcessType({ processType })
+            updatePropertiesAfterCreatingFlowFromProcessType(payload)
         );
-        createStartElement(storeInstance);
+        createStartElement(storeInstance, triggerType);
         this.disableSave = false;
     };
 

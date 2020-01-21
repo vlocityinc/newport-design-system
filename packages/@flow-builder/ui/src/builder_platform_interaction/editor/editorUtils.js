@@ -570,9 +570,10 @@ export const highlightCanvasElement = (storeInstance, elementGuid) => {
  *
  * @param {object} storeInstance store instancce
  */
-export const createStartElement = storeInstance => {
+export const createStartElement = (storeInstance, triggerType) => {
     const startElement = getElementForStore({
-        elementType: ELEMENT_TYPE.START_ELEMENT
+        elementType: ELEMENT_TYPE.START_ELEMENT,
+        triggerType
     });
     storeInstance.dispatch(addElement(startElement));
 };
@@ -592,27 +593,23 @@ export const closeModalAndNavigateTo = navigateUrl => {
 };
 
 /**
- * @typedef {Object} SelectedTemplate
+ * @typedef {Object} FlowSnippet
  *
- * @property {String} [templateId]
- * @property {String} [processType]
+ * @property {String} processType Flow process type
+ * @property {String} [triggerType] Flow trigger type
  */
 /**
- * Get the selected template
- * @param modal the flow modal
- * @return {SelectedTemplate} selectedTemplate
+ * @typedef {String} TemplateId
  */
-export const getSelectedTemplate = modal => {
+/**
+ * Get the selected item
+ * @param modal the new flow modal
+ * @return {TemplateId|FlowSnippet} selectedItem
+ */
+export function getSelectedFlowEntry(modal) {
     const templatesModalBody = modal.get('v.body')[0];
-    const isProcessType = templatesModalBody.get('v.isProcessType');
-    const processTypeOrTemplateId = templatesModalBody.get(
-        'v.selectedTemplate'
-    );
-    const processTypeOrTemplateProp = isProcessType
-        ? 'processType'
-        : 'templateId';
-    return { [processTypeOrTemplateProp]: processTypeOrTemplateId };
-};
+    return templatesModalBody.get('v.selectedItem');
+}
 
 /**
  * Set the error message in the flow modal

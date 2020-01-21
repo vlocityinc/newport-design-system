@@ -10,34 +10,17 @@
             >
                 <!-- Featured process types section -->
                 <template
-                    for:each={featuredProcessTypes}
-                    for:item="featuredProcessType"
+                    for:each={items}
+                    for:item="processType"
                 >
                     <lightning-vertical-navigation-item-icon
-                        key={featuredProcessType.name}
-                        label={featuredProcessType.label}
-                        name={featuredProcessType.name}
-                        icon-name={featuredProcessType.iconName}
+                        key={processType.name}
+                        label={processType.label}
+                        name={processType.name}
+                        icon-name={processType.iconName}
                     >
                     </lightning-vertical-navigation-item-icon>
                 </template>
-                <!-- Other process types section -->
-                <lightning-vertical-navigation-overflow
-                    if:true={hasOtherProcessTypes}
-                >
-                    <template
-                        for:each={otherProcessTypes}
-                        for:item="otherProcessType"
-                    >
-                        <lightning-vertical-navigation-item-icon
-                            key={otherProcessType.name}
-                            label={otherProcessType.label}
-                            name={otherProcessType.name}
-                            icon-name={otherProcessType.iconName}
-                        >
-                        </lightning-vertical-navigation-item-icon>
-                    </template>
-                </lightning-vertical-navigation-overflow>
             </lightning-vertical-navigation>
         </div>
     </div>

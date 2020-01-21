@@ -1,6 +1,6 @@
 <template>
     <!-- should be replaced by stencil placeholder: W-5921905 -->
-    <div class="slds-grid slds-grid_align-center" if:false={state.processTypesFetched}>
+    <div class="slds-grid slds-grid_align-center" if:true={state.processTypesLoading}>
         <div class="slds-col spinner">
             <lightning-spinner
                 size="medium"
@@ -10,7 +10,7 @@
             ></lightning-spinner>
         </div>
     </div>
-    <lightning-tabset if:true={state.processTypesFetched}>
+    <lightning-tabset if:false={state.processTypesLoading}>
         <lightning-tab label={labels.recommended} value={TAB_RECOMMENDED} class="recommended" onactive={handleTabActive}>
             <builder_platform_interaction-visual-picker-list
                 if:true={state.recommendedItems}
@@ -60,7 +60,7 @@
                     <builder_platform_interaction-process-types-templates
                         process-types={state.processTypes}
                         process-type={state.selectedProcessType}
-                        ontemplatechanged={handleSelectTemplate}
+                        ontemplatechanged={handleSelectTemplatesItem}
                         oncannotretrievetemplates={handleCannotRetrieveTemplates}
                     ></builder_platform_interaction-process-types-templates>
                 </div>

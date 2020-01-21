@@ -1,4 +1,5 @@
 import { createElement } from 'lwc';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import ProcessTypesTemplates from 'builder_platform_interaction/processTypesTemplates';
 import {
     TemplateChangedEvent,
@@ -81,7 +82,7 @@ const getVisualPickerList = (processTypeTemplates) => {
     return featuredSection.querySelector(SELECTORS.VISUAL_PICKER_LIST);
 };
 
-const getTemplates = (processTypeTemplates) => {
+const getVisualPickerListItems = (processTypeTemplates) => {
     const visualPickerList = getVisualPickerList(processTypeTemplates);
     return visualPickerList.items;
 };
@@ -110,94 +111,108 @@ describe('process-type-templates', () => {
     });
 
     it('shows 3 templates: two screens and one autolaunched', () => {
-        const templates = getTemplates(processTypeTemplates);
-        expect(templates).toHaveLength(11); // MOCK_ALL_PROCESS_TYPES.length + MOCK_ALL_TEMPLATES.length
+        const templates = getVisualPickerListItems(processTypeTemplates);
+        expect(templates).toHaveLength(13); // MOCK_ALL_PROCESS_TYPES.length + MOCK_ALL_TEMPLATES.length + 2 (scheduled + before save)
         expect(templates).toEqual([
             {
-                itemId: "AutoLaunchedFlow",
-                label: "Autolaunched Flow",
-                description: "FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription",
-                iconName: "utility:magicwand",
-                isSelected: true
+                description: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowDescription',
+                iconName: 'utility:record_update',
+                isSelected: true,
+                itemId: 'AutoLaunchedFlow-RecordBeforeSave',
+                label: 'FlowBuilderProcessTypeTemplates.newBeforeSaveFlowLabel',
+                processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                triggerType: FLOW_TRIGGER_TYPE.BEFORE_SAVE
+            }, {
+                description: 'FlowBuilderProcessTypeTemplates.newScheduledFlowDescription',
+                iconName: 'utility:clock',
+                itemId: 'AutoLaunchedFlow-Scheduled',
+                label: 'FlowBuilderProcessTypeTemplates.newScheduledFlowLabel',
+                processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW,
+                triggerType: FLOW_TRIGGER_TYPE.SCHEDULED
             },
             {
-                itemId: "Flow",
-                label: "Screen Flow",
-                description: "FlowBuilderProcessTypeTemplates.newFlowDescription",
-                iconName: "utility:desktop",
-                isSelected: false
+                itemId: 'AutoLaunchedFlow',
+                label: 'Autolaunched Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newAutolaunchedFlowDescription',
+                iconName: 'utility:magicwand',
+                processType: FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW
             },
             {
-                itemId: "CheckoutFlow",
-                label: "Checkout Flow",
-                description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Checkout Flow)",
-                iconName: "utility:cart",
-                isSelected: false
+                itemId: 'Flow',
+                label: 'Screen Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newFlowDescription',
+                iconName: 'utility:desktop',
+                processType: FLOW_PROCESS_TYPE.FLOW
             },
             {
-                itemId: "ContactRequestFlow",
-                label: "Contact Request Flow",
-                description: "FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription",
-                iconName: "utility:contact_request",
-                isSelected: false
+                itemId: 'CheckoutFlow',
+                label: 'Checkout Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Checkout Flow)',
+                iconName: 'utility:cart',
+                processType: 'CheckoutFlow'
             },
             {
-                itemId: "FieldServiceWeb",
-                label: "Embedded Appointment Management Flow",
-                description: "FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription",
-                iconName: "utility:insert_tag_field",
-                isSelected: false
+                itemId: 'ContactRequestFlow',
+                label: 'Contact Request Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newContactRequestFlowDescription',
+                iconName: 'utility:contact_request',
+                processType: 'ContactRequestFlow'
             },
             {
-                itemId: "FieldServiceMobile",
-                label: "Field Service Mobile Flow",
-                description: "FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription",
-                iconName: "utility:phone_portrait",
-                isSelected: false
+                itemId: 'FieldServiceWeb',
+                label: 'Embedded Appointment Management Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newFieldServiceWebDescription',
+                iconName: 'utility:insert_tag_field',
+                processType: 'FieldServiceWeb'
             },
             {
-                itemId: "UserProvisioningFlow",
-                label: "User Provisioning Flow",
-                description: "FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription",
-                iconName: "utility:user",
-                isSelected: false
+                itemId: 'FieldServiceMobile',
+                label: 'Field Service Mobile Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newFieldServiceMobileDescription',
+                iconName: 'utility:phone_portrait',
+                processType: 'FieldServiceMobile'
             },
             {
-                itemId: "WeDoNotKnowYou",
-                label: "Well no icon yet",
-                description: "FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Well no icon yet)",
-                iconName: "utility:flow",
-                isSelected: false,
+                itemId: 'UserProvisioningFlow',
+                label: 'User Provisioning Flow',
+                description: 'FlowBuilderProcessTypeTemplates.newUserProvisioningFlowDescription',
+                iconName: 'utility:user',
+                processType: 'UserProvisioningFlow'
+            },
+            {
+                itemId: 'WeDoNotKnowYou',
+                label: 'Well no icon yet',
+                description: 'FlowBuilderProcessTypeTemplates.newProcessTypeDescription(Well no icon yet)',
+                iconName: 'utility:flow',
+                processType: 'WeDoNotKnowYou'
             },
             {
                 description: MOCK_AUTO_TEMPLATE.Description,
                 iconName: 'utility:magicwand',
-                isSelected: false,
-                isTemplate: true,
+                templateId: MOCK_AUTO_TEMPLATE.EnumOrID,
                 itemId: MOCK_AUTO_TEMPLATE.EnumOrID,
                 label: MOCK_AUTO_TEMPLATE.Label
             },
             {
                 description: MOCK_SCREEN_TEMPLATE_1.Description,
                 iconName: 'utility:desktop',
-                isSelected: false,
-                isTemplate: true,
+                templateId: MOCK_SCREEN_TEMPLATE_1.EnumOrID,
                 itemId: MOCK_SCREEN_TEMPLATE_1.EnumOrID,
                 label: MOCK_SCREEN_TEMPLATE_1.Label
             },
             {
                 description: MOCK_SCREEN_TEMPLATE_2.Description,
                 iconName: 'utility:desktop',
-                isSelected: false,
-                isTemplate: true,
+                templateId: MOCK_SCREEN_TEMPLATE_2.EnumOrID,
                 itemId: MOCK_SCREEN_TEMPLATE_2.EnumOrID,
                 label: MOCK_SCREEN_TEMPLATE_2.Label
             }
         ]);
     });
 
-    it('selects template should uncheck the process type tile', async () => {
-        const screenProcessTypeTile = getTemplates(processTypeTemplates)[0];
+    it('should uncheck the process type tile after selecting a template ', async () => {
+        const items = getVisualPickerListItems(processTypeTemplates);
+        const screenProcessTypeTile = items[0];
         expect(screenProcessTypeTile.isSelected).toBe(true);
         const visualPickerList = getVisualPickerList(processTypeTemplates);
         const template = getVisualPickerItems(visualPickerList)[1];
@@ -232,10 +247,7 @@ describe('process-type-templates', () => {
         checkbox.dispatchEvent(getChangedEvent());
         await Promise.resolve();
         expect(eventCallback).toHaveBeenCalled();
-        expect(eventCallback.mock.calls[0][0].detail).toEqual({
-            id: template.itemId,
-            isProcessType: false
-        });
+        expect(eventCallback.mock.calls[0][0].detail).toEqual('3');
     });
 });
 describe('templates load server error', () => {

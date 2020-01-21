@@ -42,6 +42,10 @@ jest.mock('builder_platform_interaction/flowMetadata', () => {
         FLOW_PROCESS_TYPE: {
             AUTO_LAUNCHED_FLOW: 'AutoLaunchedFlow'
         },
+        FLOW_TRIGGER_TYPE: {
+            SCHEDULED: 'Scheduled',
+            BEFORE_SAVE: 'BeforeSave'
+        },
         FLOW_SUPPORTED_FEATURES: {
             CONDITIONAL_FIELD_VISIBILITY: 'ConditionalFieldVisibility',
             CONFIGURABLE_START: 'ConfigurableStart'

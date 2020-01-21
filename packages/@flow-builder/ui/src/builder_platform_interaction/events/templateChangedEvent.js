@@ -1,15 +1,16 @@
 const eventName = 'templatechanged';
 
 export class TemplateChangedEvent {
-    constructor(id, isProcessType) {
+    /**
+     *
+     * @param {TemplateId|{ processType: string, triggerType: string}} detail
+     */
+    constructor(detail) {
         return new CustomEvent(eventName, {
             cancelable: false,
             composed: true,
             bubbles: true,
-            detail: {
-                id,
-                isProcessType
-            }
+            detail
         });
     }
 

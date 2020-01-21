@@ -1,18 +1,16 @@
 import all from '@salesforce/label/FlowBuilderProcessTypesVerticalNavigation.all';
-import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { FLOW_PROCESS_TYPE, FLOW_TRIGGER_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { getProcessFeatures } from 'builder_platform_interaction/systemLib';
 
-export const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
 
 export const ALL_PROCESS_TYPE = { name: 'all', label: all };
 
-export const PROCESS_TYPES_ICONS = {
-    FEATURED: new Map([
+const PROCESS_TYPE_DEFAULT_ICON = 'utility:flow';
+
+const PROCESS_TYPES_ICONS = new Map([
         [ALL_PROCESS_TYPE.name, 'utility:flow'],
         [FLOW_PROCESS_TYPE.AUTO_LAUNCHED_FLOW, 'utility:magicwand'],
-        [FLOW_PROCESS_TYPE.FLOW, 'utility:desktop']
-    ]),
-    OTHERS: new Map([
+        [FLOW_PROCESS_TYPE.FLOW, 'utility:desktop'],
         [FLOW_PROCESS_TYPE.ACTION_CADENCE_FLOW, 'utility:activity'],
         [FLOW_PROCESS_TYPE.ACTION_PLAN, 'utility:fallback'],
         [FLOW_PROCESS_TYPE.APPOINTMENTS, 'utility:events'],
@@ -29,14 +27,15 @@ export const PROCESS_TYPES_ICONS = {
         [FLOW_PROCESS_TYPE.ORCHESTRATION_FLOW, 'utility:classic_interface'],
         [FLOW_PROCESS_TYPE.SURVEY, 'utility:survey'],
         [FLOW_PROCESS_TYPE.USER_PROVISIONING_FLOW, 'utility:user'],
-        [
-            FLOW_PROCESS_TYPE.TRANSACTION_SECURITY_FLOW,
-            'utility:inspector_panel'
-        ],
+        [FLOW_PROCESS_TYPE.TRANSACTION_SECURITY_FLOW, 'utility:inspector_panel'],
         [FLOW_PROCESS_TYPE.WORKFLOW, 'utility:pause'],
         [FLOW_PROCESS_TYPE.SALES_ENTRY_EXPERIENCE_FLOW, 'utility:macros']
-    ])
-};
+    ]);
+
+const TRIGGER_TYPE_ICONS = new Map([
+    [FLOW_TRIGGER_TYPE.SCHEDULED, 'utility:clock'],
+    [FLOW_TRIGGER_TYPE.BEFORE_SAVE, 'utility:record_update']
+]);
 
 export const FLOW_AUTOMATIC_OUTPUT_HANDLING = {
     SUPPORTED: 'Supported',
@@ -50,37 +49,23 @@ export const FLOW_PROCESS_TYPE_FEATURE = {
     LOOKUP_TRAVERSAL: 'LookupTraversal'
 };
 
-export const getProcessTypesWithIcons = (
-    unfilteredProcessTypes,
-    processTypesMap,
-    filtering,
-    postFiltering
-) => {
-    let filteredProcessTypes = unfilteredProcessTypes;
-    if (filtering) {
-        filteredProcessTypes = unfilteredProcessTypes.filter(filtering);
-    }
+export const getProcessTypeIcon = processType => PROCESS_TYPES_ICONS.get(processType) || PROCESS_TYPE_DEFAULT_ICON;
 
-    if (postFiltering) {
-        postFiltering(filteredProcessTypes);
-    }
-    return filteredProcessTypes.map(processType => {
-        const {
-            name,
-            label,
-            iconName = processTypesMap.get(name) || PROCESS_TYPE_DEFAULT_ICON
-        } = processType;
-        return { name, label, iconName };
-    });
-};
+export const getTriggerTypeIcon = (processType, triggerType) => TRIGGER_TYPE_ICONS.get(triggerType) || PROCESS_TYPE_DEFAULT_ICON;
 
-export const getProcessTypeIcon = processType => {
-    return (
-        PROCESS_TYPES_ICONS.FEATURED.get(processType) ||
-        PROCESS_TYPES_ICONS.OTHERS.get(processType) ||
-        PROCESS_TYPE_DEFAULT_ICON
-    );
-};
+/**
+ * @typedef {Object} ProcessTypeWithIcon
+ *
+ * @property {String} name
+ * @property {String} label
+ * @property {String} iconName
+ */
+export const getProcessTypesWithIcons = processTypes =>
+    processTypes.map(({ name, label }) => ({
+        name,
+        label,
+        iconName: getProcessTypeIcon(name)
+    }));
 
 function hasProcessTypeFeature(processType, feature) {
     const processTypeFeatures = getProcessFeatures(processType);

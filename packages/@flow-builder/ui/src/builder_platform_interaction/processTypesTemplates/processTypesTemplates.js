@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
 import {
     ALL_PROCESS_TYPE,
-    getProcessTypeIcon,
     getTemplates,
     cacheTemplates,
-    createProcessTypeTile
+    createFlowEntryTilesForProcessTypes,
+    createFlowEntryTilesForTemplates
 } from 'builder_platform_interaction/processTypeLib';
 import {
     fetchOnce,
@@ -18,23 +18,10 @@ import {
 
 import spinnerAlternativeText from '@salesforce/label/FlowBuilderEditor.spinnerAlternativeText';
 
-const LABELS = {
-    spinnerAlternativeText
-};
-
 export default class ProcessTypesTemplates extends LightningElement {
-    labels = LABELS;
-    /**
-     * @typedef {Object} Template
-     *
-     * @property {String} itemId
-     * @property {String} label
-     * @property {String} iconName
-     * @property {String} description
-     */
-
-    @api
-    selectedItem;
+    LABELS = {
+        spinnerAlternativeText
+    };
 
     @api
     get processTypes() {
@@ -43,175 +30,147 @@ export default class ProcessTypesTemplates extends LightningElement {
 
     set processTypes(value) {
         this.state.processTypes = value;
-        this.updateProcessTypeTiles();
+        this.selectedItem = null;
+        this.updateTiles();
     }
-
-    @track
-    state = {
-        processTypes: null,
-        templates: [], // an array of Template that are fetched for the selected process type
-        processTypesTiles: [], // an array of process type tiles,
-        items: [] // a union of templates and process type tiles
-    };
-
-    @track
-    displaySpinner = false;
-
-    selectedItemId;
-    selectedItemIsTemplate;
-
-    _processType;
 
     /**
      * @param newValue the selected process type to fetch the templates
      */
-    set processType(newValue) {
-        if (this._processType === newValue) {
-            return;
-        }
+    @api
+    get processType() {
+        return this.state.processType;
+    }
 
-        this._processType = newValue;
-        this.selectedItemId = null;
-        this.selectedItemIsTemplate = null;
-        this.updateProcessTypeTiles();
-        if (!this._processType) {
-            this.state.templates = [];
-            this.updateItems();
+    set processType(newValue) {
+        if (this.state.processType !== newValue) {
+            this.state.processType = newValue;
+            this.selectedItem = null;
+            this.updateTiles();
         }
     }
 
     @api
-    get processType() {
-        return this._processType;
+    get selectedItem() {
+        return this.state.selectedItem;
+    }
+
+    set selectedItem(value) {
+        if (this.state.selectedItem !== value) {
+            this.state.selectedItem = value;
+            let detail;
+            if (value) {
+                value.isSelected = false;
+                value.isSelected = true;
+                detail = value.templateId || {
+                    processType: this.state.selectedItem.processType,
+                    triggerType: this.state.selectedItem.triggerType
+                };
+            }
+            this.dispatchEvent(new TemplateChangedEvent(detail));
+        }
+    }
+
+    @track
+    state = {
+        displaySpinner: false,
+        processTypes: null,
+        processType: null,
+        templates: [], // an array of Template that are fetched for the selected process type
+        processTypesTiles: [], // an array of process type tiles
+    };
+
+    get items() {
+        return this.state.processTypesTiles.concat(this.state.templates);
     }
 
     get showGetTemplates() {
-        return (!this.state.templates || this.state.templates.length === 0) && this._processType;
+        return (!this.state.templates || this.state.templates.length === 0) && this.state.processType;
     }
 
-    /**
-     * fetch the templates
-     */
-    fetchTemplates() {
-        // this.state.templates = [];
-        // check if we can get the templates from cache
-        const cachedTemplates = getTemplates(this._processType);
-        if (!cachedTemplates && this._processType) {
-            let processTypes;
-            if (this._processType === ALL_PROCESS_TYPE.name) {
-                // get all process types
-                processTypes = this.state.processTypes.map(type => type.name);
-            } else {
-                processTypes = [this._processType];
-            }
-            if (processTypes && processTypes.length > 0) {
-                this.displaySpinner = true;
-                // fetch templates
-                fetchOnce(
-                    SERVER_ACTION_TYPE.GET_TEMPLATES,
-                    { processTypes },
-                    { disableErrorModal: true }
-                )
-                    .then(data => {
-                        this.state.templates = this.mapToTemplates(data);
-                        this.updateItems();
-                        // caches the returned templates to avoid calling to server when changing the process type
-                        cacheTemplates(this.state.processTypes, this._processType, data);
-                        this.displaySpinner = false;
-                    })
-                    .catch(() => {
-                        this.displaySpinner = false;
-                        this.fireCannotRetrieveTemplatesEvent();
-                    });
-            }
-        } else {
-            this.state.templates = this.mapToTemplates(cachedTemplates);
-            this.updateItems();
-        }
+    updateTiles() {
+        this.updateBlankTiles();
+        this.updateTemplateTiles();
+        this.updateSelectedItem();
     }
 
-    /**
-     * @typedef {Object} FlowVersionDescriptor
-     *
-     * @property {String} EnumOrID
-     * @property {String} ProcessType
-     * @property {String} Status
-     * @property {String} IsTemplate
-     * @property {String} VersionNumber
-     * @property {String} Description
-     * @property {String} Label
-     */
-
-    /**
-     * @param data an array of FlowVersionDescriptor
-     * @return (Template[]) an array of Template
-     */
-    mapToTemplates(data) {
-        return data.map(flowVer => {
-            const itemId = flowVer.EnumOrID;
-            const isSelected = itemId === this.selectedTemplate;
-            return {
-                itemId,
-                label: flowVer.Label,
-                iconName: getProcessTypeIcon(flowVer.ProcessType),
-                description: flowVer.Description,
-                isSelected,
-                isTemplate: true
-            };
-        });
-    }
-
-    /**
-     * get the process types tiles for the selected process type
-     */
-    updateProcessTypeTiles() {
-        if (this.state.processTypes && this.state.processTypes.length > 0 && this._processType) {
-            this.fetchTemplates();
-            if (this._processType === ALL_PROCESS_TYPE.name) {
-                this.state.processTypesTiles = this.state.processTypes.map((processType, index) =>
-                    createProcessTypeTile(this.processTypes, processType.name, index === 0));
-
-                if (this.state.processTypes.length > 0) {
-                    this.selectedItemId = this.state.processTypes[0].name;
-                }
-            } else {
-                this.state.processTypesTiles = [
-                    createProcessTypeTile(this.processTypes, this._processType, true)
-                ];
-                this.selectedItemId = this._processType;
+    updateBlankTiles() {
+        let processTypes = this.processTypes;
+        if (processTypes && processTypes.length > 0 && this.processType) {
+            if (this.processType !== ALL_PROCESS_TYPE.name) {
+                processTypes = processTypes.filter(processType => processType.name === this.processType);
             }
-            this.selectedItemIsTemplate = false;
-            this.fireSelectedTemplateChangedEvent(this.selectedItemId, true);
+            this.state.processTypesTiles = createFlowEntryTilesForProcessTypes(processTypes);
         } else {
             this.state.processTypesTiles = [];
         }
-        this.updateItems();
     }
 
-    updateItems() {
-        this.state.items = this.state.processTypesTiles.concat(this.state.templates);
+    updateTemplateTiles() {
+        // check if we can get the templates from cache
+        const templates = getTemplates(this.processType);
+        if (!templates) {
+            this.state.templates = [];
+            this.fetchTemplates();
+        } else {
+            this.state.templates = createFlowEntryTilesForTemplates(templates);
+        }
+    }
+
+    fetchTemplates() {
+        if (!this.processType || !this.state.processTypes || this.state.processTypes.length === 0) {
+            return;
+        }
+
+        const processTypes = this.processType !== ALL_PROCESS_TYPE.name ? [this.processType] : this.state.processTypes.map(type => type.name);
+        if (!processTypes || processTypes.length === 0) {
+            return;
+        }
+        this.state.displaySpinner = true;
+        fetchOnce(
+            SERVER_ACTION_TYPE.GET_TEMPLATES,
+            { processTypes },
+            { disableErrorModal: true }
+        )
+            .then(data => {
+                this.state.displaySpinner = false;
+                // caches the returned templates to avoid calling to server when changing the process type
+                cacheTemplates(this.state.processTypes, this.processType, data);
+                this.updateTemplateTiles();
+                this.updateSelectedItem();
+            })
+            .catch(() => {
+                this.state.displaySpinner = false;
+                this.dispatchEvent(new CannotRetrieveTemplatesEvent());
+            });
+    }
+
+    updateSelectedItem() {
+        const items = this.items;
+        let selectedItem = this.selectedItem;
+        // Make sure the selected item is present in the current tile set and
+        // re-select it in case the current tile set has changed.
+        if (selectedItem) {
+            selectedItem = items ? items.find(i => i.itemId === selectedItem.itemId) : null;
+        }
+        // Select the first item, if none are selected.
+        if (!selectedItem && items && items.length > 0) {
+            selectedItem = items[0];
+        }
+        this.selectedItem = selectedItem;
     }
 
     select(itemId) {
-        const index = this.state.items.findIndex(
-            template => template.itemId === itemId
-        );
-        const item = this.state.items[index];
-        this.state.items[index].isSelected = false;
-        this.state.items[index].isSelected = true;
-        this.state.selectedItemId = itemId;
-        this.state.selectedItemIsTemplate = item.isTemplate;
-        this.fireSelectedTemplateChangedEvent(itemId, !item.isTemplate);
+        const item = this.items.find(template => template.itemId === itemId);
+        item.isSelected = false;
+        item.isSelected = true;
+        this.selectedItem = item;
     }
 
     deselect(itemId) {
-        const index = this.state.items.findIndex(
-            template => template.itemId === itemId
-        );
-        this.state.items[index].isSelected = true;
-        this.state.items[index].isSelected = false;
-        this.state.selectedItemId = null;
-        this.state.selectedItemIsTemplate = null;
+        const item = this.items.find(template => template.itemId === itemId);
+        item.isSelected = true;
+        item.isSelected = false;
     }
 
     handleTemplateOrProcessTypeTileChanged(event) {
@@ -229,13 +188,5 @@ export default class ProcessTypesTemplates extends LightningElement {
         if (selectedItem) {
             this.select(selectedItem.id);
         }
-    }
-
-    fireSelectedTemplateChangedEvent(selectedId, isProcessType) {
-        this.dispatchEvent(new TemplateChangedEvent(selectedId, isProcessType));
-    }
-
-    fireCannotRetrieveTemplatesEvent() {
-        this.dispatchEvent(new CannotRetrieveTemplatesEvent());
     }
 }

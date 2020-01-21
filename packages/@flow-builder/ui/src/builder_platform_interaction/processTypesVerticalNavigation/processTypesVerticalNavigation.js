@@ -1,18 +1,29 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { ProcessTypeSelectedEvent } from 'builder_platform_interaction/events';
 import {
     ALL_PROCESS_TYPE,
-    getProcessTypesWithIcons,
-    PROCESS_TYPES_ICONS
+    getProcessTypesWithIcons
 } from 'builder_platform_interaction/processTypeLib';
 
 export default class ProcessTypesVerticalNavigation extends LightningElement {
     /**
-     * All unfiltered process types
+     * All process types
      * @return {Array} array of all the process types
      */
     @api
-    processTypes;
+    get processTypes() {
+        return this.state.processTypes;
+    }
+
+    set processTypes(processTypes) {
+        this.state.processTypes = processTypes;
+        this.state.items = getProcessTypesWithIcons([ALL_PROCESS_TYPE].concat(this.processTypes || []));
+    }
+
+    @api
+    get items() {
+        return this.state.items;
+    }
 
     /**
      * Select(ed) process type name
@@ -21,52 +32,10 @@ export default class ProcessTypesVerticalNavigation extends LightningElement {
     @api
     selectedProcessType = ALL_PROCESS_TYPE.name;
 
-    /**
-     * Has some other process types?
-     * @return {Boolean} true if other process types exist false otherwise
-     */
-    get hasOtherProcessTypes() {
-        return this.otherProcessTypes && this.otherProcessTypes.length;
-    }
-
-    /**
-     * @typedef {Object} ProcessTypeWithIcon
-     *
-     * @property {String} name
-     * @property {String} label
-     * @property {String} iconName
-     */
-
-    /**
-     * Get the "featured" process types with their corresponding icon (or default if none found)
-     * @return {ProcessTypeWithIcon[]} array of "featured" process types with corresponding icon or default one (fallback) if none foundd
-     */
-    @api
-    get featuredProcessTypes() {
-        return getProcessTypesWithIcons(
-            this.processTypes,
-            PROCESS_TYPES_ICONS.FEATURED,
-            processType => PROCESS_TYPES_ICONS.FEATURED.has(processType.name),
-            filteredProcessTypes =>
-                filteredProcessTypes.unshift(ALL_PROCESS_TYPE)
-        );
-    }
-
-    /**
-     * Get the "other" process types with their corresponding icon (or default if none found)
-     * @return {ProcessTypeWithIcon[]} array of "other" process types with corresponding icon or default one (fallback) if none foundd
-     */
-    @api
-    get otherProcessTypes() {
-        if (!this._otherProcessTypes) {
-            this._otherProcessTypes = getProcessTypesWithIcons(
-                this.processTypes,
-                PROCESS_TYPES_ICONS.OTHERS,
-                processType =>
-                    !PROCESS_TYPES_ICONS.FEATURED.has(processType.name)
-            );
-        }
-        return this._otherProcessTypes;
+    @track
+    state = {
+        processTypes: [],
+        items: []
     }
 
     /**

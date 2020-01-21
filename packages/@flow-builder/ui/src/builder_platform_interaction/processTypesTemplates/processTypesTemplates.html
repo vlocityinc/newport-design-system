@@ -1,15 +1,15 @@
 <template>
     <div class="slds-p-around_x-small">
         <lightning-spinner
-            if:true={displaySpinner}
+            if:true={state.displaySpinner}
             size="medium"
             variant="brand"
             class="spinner"
-            alternative-text={labels.spinnerAlternativeText}
+            alternative-text={LABELS.spinnerAlternativeText}
         ></lightning-spinner>
-        <div class="templates slds-template__container" if:false={displaySpinner}>
+        <div class="templates slds-template__container" if:false={state.displaySpinner}>
             <builder_platform_interaction-visual-picker-list                
-                items={state.items}
+                items={items}
                 onvisualpickerlistchanged={handleTemplateOrProcessTypeTileChanged}
             >
                 <builder_platform_interaction-get-templates-tile if:true={showGetTemplates}>
