@@ -25,6 +25,8 @@
       margin: 0.1875rem 0.375rem 0.1875rem 0;
       border: 1px solid $newport-border-gray;
       display: inline-block;
+      height: inherit;
+      width: 4rem
     }
     .nds-dc-tile-text-small {
       color: $kashmir-blue;
