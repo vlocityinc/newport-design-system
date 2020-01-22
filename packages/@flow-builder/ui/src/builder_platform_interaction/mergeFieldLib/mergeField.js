@@ -21,6 +21,7 @@ import {
 import { isLookupTraversalSupported as isLookupTraversalSupportedByProcessType } from 'builder_platform_interaction/processTypeLib';
 import { isLookupTraversalSupported as isLookupTraversalSupportedByTriggerType } from 'builder_platform_interaction/triggerTypeLib';
 import { fetchDetailsForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 /**
  * Whether or not lookup traversal is supported in this flow
@@ -79,6 +80,8 @@ function resolveComplexTypeReference(flowResource, fieldNames) {
         );
     } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         fieldsPromise = resolveActionOutputReference(flowResource, fieldNames);
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
+        fieldsPromise = resolveSubflowOutputReference(flowResource, fieldNames);
     }
     if (fieldsPromise) {
         return fieldsPromise.then(fields => {
@@ -224,6 +227,30 @@ function resolveActionOutputReference({ actionType, actionName }, fieldNames) {
             return [field];
         }
     );
+}
+
+function resolveSubflowOutputReference({ flowName }, fieldNames) {
+    if (fieldNames.length === 0) {
+        return Promise.resolve([]);
+    }
+    const [fieldName, ...remainingFieldNames] = fieldNames;
+    return fetchMergedFlowOutputVariables(flowName).then(variables => {
+        const field = variables.find(variable => variable.name === fieldName);
+        if (!field) {
+            return undefined;
+        }
+        if (remainingFieldNames.length > 0) {
+            return resolveApexPropertyOrEntityFieldReference(
+                field,
+                remainingFieldNames
+            ).then(remainingFields => {
+                return remainingFields
+                    ? [field, ...remainingFields]
+                    : undefined;
+            });
+        }
+        return [field];
+    });
 }
 
 export function getReferenceToName(field, specificEntityName) {

@@ -5,6 +5,7 @@ import { getCachedExtension } from 'builder_platform_interaction/flowExtensionLi
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
 import { getFlowDataTypeByName } from 'builder_platform_interaction/screenEditorUtils';
 import { getFlowDataType } from 'builder_platform_interaction/dataTypeLib';
+import { getMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 /**
  * Get the extension parameter description as a complex type field description
@@ -54,7 +55,10 @@ export function getAutomaticOutputParameters(flowResource) {
             flowResource.dataType ===
             FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
         ) {
-            const extension = getCachedExtension(flowResource.extensionName, flowResource.dynamicTypeMappings);
+            const extension = getCachedExtension(
+                flowResource.extensionName,
+                flowResource.dynamicTypeMappings
+            );
             if (extension === undefined) {
                 return undefined;
             }
@@ -69,6 +73,10 @@ export function getAutomaticOutputParameters(flowResource) {
             automaticOutputParameters = parameters.filter(
                 parameter => parameter.isOutput
             );
+        } else if (
+            flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
+        ) {
+            return getMergedFlowOutputVariables(flowResource.flowName);
         }
     }
     return automaticOutputParameters;
@@ -111,6 +119,8 @@ export function retrieveResourceComplexTypeFields(flowResource) {
         fields = getExtensionComplexTypeOutputFields(flowResource);
     } else if (flowResource.dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
         fields = getInvocableActionComplexTypeOutputFields(flowResource);
+    } else if (flowResource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
+        fields = getSubflowComplexTypeOutputFields(flowResource);
     }
     return fields;
 }
@@ -137,6 +147,17 @@ function getExtensionComplexTypeOutputFields(flowResource) {
 const isSingleAnonymousOutput = parameter => {
     return parameter.isSystemGeneratedOutput && parameter.maxOccurs === 1;
 };
+
+function getSubflowComplexTypeOutputFields({ flowName }) {
+    const outputVariables = getMergedFlowOutputVariables(flowName);
+    const fields =
+        outputVariables &&
+        outputVariables.reduce((acc, outputVariable) => {
+            acc[outputVariable.name] = outputVariable;
+            return acc;
+        }, {});
+    return fields;
+}
 
 function getInvocableActionComplexTypeOutputFields({
     actionName,

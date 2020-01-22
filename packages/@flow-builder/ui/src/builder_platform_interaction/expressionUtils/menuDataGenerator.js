@@ -25,6 +25,7 @@ import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { apexClassesSelector } from 'builder_platform_interaction/selectors';
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
+import { getSubflowVariableLabelWithWarning } from 'builder_platform_interaction/subflowsLib';
 
 export const MAXIMUM_NUMBER_OF_LEVELS = 10;
 
@@ -373,6 +374,12 @@ export function getMenuItemForField(
             !isCollection &&
             getMergeFieldLevel(parent) < MAXIMUM_NUMBER_OF_LEVELS - 1;
     }
+    let text;
+    if (parent && parent.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
+        text = getSubflowVariableLabelWithWarning(field);
+    } else {
+        text = apiName;
+    }
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
         isCollection,
@@ -380,7 +387,7 @@ export function getMenuItemForField(
         subtype,
         subText: showSubText ? getFieldSubText(parent, field) : '',
         parent: showAsFieldReference ? parent : null,
-        text: apiName,
+        text,
         value: parent ? parent.value + '.' + apiName : apiName,
         hasNext,
         displayText: getFieldDisplayText(

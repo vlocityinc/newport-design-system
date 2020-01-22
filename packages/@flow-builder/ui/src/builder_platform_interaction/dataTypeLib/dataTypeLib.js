@@ -79,6 +79,12 @@ const FLOW_DATA_TYPE = {
         value: 'ActionOutput',
         iconName: 'standard:output',
         utilityIconName: 'utility:fallback'
+    },
+    SUBFLOW_OUTPUT: {
+        label: DATA_TYPE_LABELS.subflowOutputDataTypeLabel,
+        value: 'SubflowOutput',
+        iconName: 'standard:output',
+        utilityIconName: 'utility:fallback'
     }
 };
 
@@ -95,7 +101,8 @@ const FLOW_API_VALUE_TO_FLOW_DATA_TYPE = {
     [FLOW_DATA_TYPE.APEX.value]: 'APEX',
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]:
         'LIGHTNING_COMPONENT_OUTPUT',
-    [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: 'ACTION_OUTPUT'
+    [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: 'ACTION_OUTPUT',
+    [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: 'SUBFLOW_OUTPUT'
 };
 
 export const SCALE_RANGE = {
@@ -135,7 +142,8 @@ const TYPE_MAPPING = {
     [FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value]: [
         'lightningComponentOutput'
     ],
-    [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: ['actionOutput']
+    [FLOW_DATA_TYPE.ACTION_OUTPUT.value]: ['actionOutput'],
+    [FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value]: ['subflowOutput']
 };
 
 export const STAGE_ORDER_RANGE = {
@@ -328,7 +336,8 @@ export function isComplexType(type) {
         FLOW_DATA_TYPE.SOBJECT.value,
         FLOW_DATA_TYPE.APEX.value,
         FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value,
-        FLOW_DATA_TYPE.ACTION_OUTPUT.value
+        FLOW_DATA_TYPE.ACTION_OUTPUT.value,
+        FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
     ].includes(type);
 }
 
@@ -342,5 +351,5 @@ export const SUPER_TYPE = {
     }
 };
 
-export const superTypeToFlowDataType = (superType) => SUPER_TYPE[superType].flowDataType;
-
+export const superTypeToFlowDataType = superType =>
+    SUPER_TYPE[superType].flowDataType;

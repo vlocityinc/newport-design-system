@@ -14,6 +14,7 @@ const APEX_TYPE = FLOW_DATA_TYPE.APEX.value;
 const LIGHTNING_COMPONENT_OUTPUT_TYPE =
     FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value;
 const ACTION_OUTPUT_TYPE = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
+const SUBFLOW_OUTPUT_TYPE = FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value;
 const isAnonymousPrimitiveOutputResource = ({
     isSystemGeneratedOutput,
     dataType
@@ -102,6 +103,9 @@ export function getResourceLabel(resource) {
                       dataTypeLabel,
                       label
                   );
+        } else if (resource.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
+            // "Outputs from mySubflow"
+            label = format(LABELS.subflowAsResourceText, label);
         }
     }
     return label;
@@ -198,6 +202,8 @@ export function getResourceCategory({
         categoryLabel = LABELS.screenFieldPluralLabel;
     } else if (dataType === ACTION_OUTPUT_TYPE) {
         categoryLabel = LABELS.actionPluralLabel;
+    } else if (dataType === SUBFLOW_OUTPUT_TYPE) {
+        categoryLabel = LABELS.subflowPluralLabel;
     }
     return categoryLabel;
 }
@@ -262,6 +268,8 @@ export function getResourceTypeLabel({
         typeLabel = LABELS.screenFieldSingularLabel;
     } else if (dataType === ACTION_OUTPUT_TYPE) {
         typeLabel = LABELS.actionSingularLabel;
+    } else if (dataType === SUBFLOW_OUTPUT_TYPE) {
+        typeLabel = LABELS.subflowSingularLabel;
     }
     return typeLabel;
 }

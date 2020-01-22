@@ -13,7 +13,7 @@ import {
 } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 import { loadApexClasses } from './preloadLib';
-
+import { fetchMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 /**
  * This is called once the flow has been loaded, so that complex types in the flow have their fields loaded and cached.
  */
@@ -22,7 +22,8 @@ export function loadFieldsForComplexTypesInFlow(state) {
         loadFieldsForSobjectsInFlow(state),
         loadFieldsForExtensionsInFlow(state),
         loadParametersForInvocableActionsInFlow(state),
-        loadFieldsForApexClassesInFlow(state)
+        loadFieldsForApexClassesInFlow(state),
+        loadFieldsForSubflowsInFlow(state)
     ]);
 }
 
@@ -64,6 +65,25 @@ export function loadFieldsForExtensionsInFlow(state) {
         disableErrorModal: true,
         background: true
     }).catch(() => {});
+}
+
+export function loadFieldsForSubflowsInFlow(state) {
+    const selector = filteredElementsSelector(
+        element => element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
+    );
+    const subFlowNames = selector(state).map(
+        subflowElement => subflowElement.flowName
+    );
+    const promises = [];
+    for (let i = 0; i < subFlowNames.length; i++) {
+        // fetch fields and cache them
+        promises.push(
+            fetchMergedFlowOutputVariables(subFlowNames[i], {
+                disableErrorModal: true
+            }).catch(() => {})
+        );
+    }
+    return Promise.all(promises);
 }
 
 export function loadParametersForInvocableApexActionsInFlowFromMetadata(

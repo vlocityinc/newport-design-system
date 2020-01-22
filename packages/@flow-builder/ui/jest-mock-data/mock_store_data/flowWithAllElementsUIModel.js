@@ -1194,7 +1194,7 @@ export const flowWithAllElementsUIModel =   {
         "maxConnections": 1,
         "elementType": "Subflow",
         "storeOutputAutomatically": true,
-        "dataType": "ActionOutput"
+        "dataType": "SubflowOutput"
       },
       "41a189ff-01f4-4018-b75c-3f363b65cc42": {
         "guid": "41a189ff-01f4-4018-b75c-3f363b65cc42",

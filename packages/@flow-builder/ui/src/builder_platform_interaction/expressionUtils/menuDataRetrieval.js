@@ -552,7 +552,10 @@ export function getChildrenItems(parentItem) {
         const resourceGuid = parentItem.value;
         const element = getScreenFieldElementByGuid(resourceGuid);
         result = retrieveResourceComplexTypeFields(element);
-    } else if (dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value) {
+    } else if (
+        dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
+        dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value
+    ) {
         const resourceGuid = parentItem.value;
         const element = getElementByGuid(resourceGuid);
         result = retrieveResourceComplexTypeFields(element);

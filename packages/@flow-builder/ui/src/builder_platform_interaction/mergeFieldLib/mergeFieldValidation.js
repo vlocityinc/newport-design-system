@@ -37,6 +37,7 @@ import {
     getReferenceToName
 } from './mergeField';
 import { getParametersForInvocableAction } from 'builder_platform_interaction/invocableActionLib';
+import { getMergedFlowOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 const MERGE_FIELD_START_CHARS = '{!';
 const MERGE_FIELD_END_CHARS = '}';
@@ -510,6 +511,43 @@ export class MergeFieldsValidation {
         return { field: parameter };
     }
 
+    _validateSubflowOutputMergeField(element, fieldNames, index, endIndex) {
+        const [fieldName, ...remainingFieldNames] = fieldNames;
+        const outputVariables = getMergedFlowOutputVariables(element.flowName);
+        if (!outputVariables) {
+            // this lib is synchronous, we check the field only if already cached.
+            return {
+                field: undefined // we don't know if it is valid or not
+            };
+        }
+        const outputVariable = this._getSubflowOutputVariable(
+            outputVariables,
+            fieldName
+        );
+        if (!outputVariable) {
+            return {
+                error: validationErrors.unknownRecordField(
+                    element.flowName,
+                    fieldName,
+                    index,
+                    endIndex
+                )
+            };
+        }
+        if (remainingFieldNames.length > 0) {
+            return this._validateApexOrSObjectMergeField(
+                element.flowName,
+                fieldName,
+                outputVariable.dataType,
+                outputVariable.subtype,
+                remainingFieldNames,
+                index,
+                endIndex
+            );
+        }
+        return { field: outputVariable };
+    }
+
     _validateActionOutputMergeField(element, fieldNames, index, endIndex) {
         const [fieldName, ...remainingFieldNames] = fieldNames;
         const parameters = getParametersForInvocableAction(element);
@@ -645,6 +683,20 @@ export class MergeFieldsValidation {
                 return [error];
             }
             field = actionField;
+        } else if (element.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
+            const {
+                field: subflowField,
+                error
+            } = this._validateSubflowOutputMergeField(
+                element,
+                fieldNames,
+                index,
+                endIndex
+            );
+            if (error) {
+                return [error];
+            }
+            field = subflowField;
         }
         if (field && !this._isElementValidForAllowedParamTypes(field)) {
             return [validationErrors.invalidDataType(index, endIndex)];
@@ -677,6 +729,13 @@ export class MergeFieldsValidation {
             getInvocableActionParamDescriptionAsComplexTypeFieldDescription(
                 outputParam
             )
+        );
+    }
+
+    _getSubflowOutputVariable(outputVariables, variableName) {
+        variableName = variableName.toLowerCase();
+        return outputVariables.find(
+            variable => variableName === variable.name.toLowerCase()
         );
     }
 }

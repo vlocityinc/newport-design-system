@@ -52,6 +52,7 @@ import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_in
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -101,6 +102,12 @@ const parentActionItem = {
     dataType: FLOW_DATA_TYPE.ACTION_OUTPUT.value,
     displayText: 'action',
     value: store.actionCallAutomaticOutput.guid
+};
+
+const parentSubflowItem = {
+    dataType: FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value,
+    displayText: 'subflow',
+    value: store.subflowAutomaticOutput.guid
 };
 
 jest.mock('builder_platform_interaction/apexTypeLib', () => {
@@ -201,6 +208,22 @@ jest.mock('builder_platform_interaction/elementLabelLib', () => {
             .fn()
             .mockImplementation(resource => resource.name),
         getResourceCategory: actual.getResourceCategory
+    };
+});
+
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/subflowsLib'
+    );
+    return {
+        getMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+            if (flowName === 'flowWithActiveAndLatest') {
+                return actual.getMergedInputOutputVariables(
+                    mockFlowWithActiveAndLatest
+                ).outputVariables;
+            }
+            return undefined;
+        })
     };
 });
 
@@ -880,6 +903,18 @@ describe('Menu data retrieval', () => {
             expect(Object.keys(items)).toEqual(
                 expect.arrayContaining(['feedItemId'])
             );
+            expectFieldsAreComplexTypeFieldDescriptions(items);
+        });
+        it('should fetch output variables for subflow with automatic handling', async () => {
+            const items = await getChildrenItemsPromise(parentSubflowItem);
+            expect(Object.keys(items)).toEqual([
+                'inputOutput1',
+                'inputOutput2',
+                'output1',
+                'output2',
+                'output3',
+                'output4'
+            ]);
             expectFieldsAreComplexTypeFieldDescriptions(items);
         });
     });

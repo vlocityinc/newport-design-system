@@ -31,7 +31,9 @@ const createComponentUnderTest = (node, { isNewMode = false } = {}) => {
     return el;
 };
 
-const commonUtils = require.requireActual('builder_platform_interaction/commonUtils');
+const commonUtils = require.requireActual(
+    'builder_platform_interaction/commonUtils'
+);
 commonUtils.format = jest
     .fn()
     .mockImplementation(
@@ -58,6 +60,14 @@ jest.mock('builder_platform_interaction/serverDataLib', () => {
                     return Promise.reject();
             }
         }
+    };
+});
+
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    return {
+        fetchFlowInputOutputVariables: jest
+            .fn()
+            .mockImplementation(() => mockSubflowVariablesPromise)
     };
 });
 

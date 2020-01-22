@@ -74,7 +74,9 @@ jest.mock('builder_platform_interaction/comboboxCache', () => {
 });
 
 jest.mock('builder_platform_interaction/sobjectLib', () => {
-    const sobjectLib = require.requireActual('builder_platform_interaction/sobjectLib');
+    const sobjectLib = require.requireActual(
+        'builder_platform_interaction/sobjectLib'
+    );
     const mockSobjectLib = Object.assign({}, sobjectLib);
     mockSobjectLib.fetchFieldsForEntity = jest
         .fn()
@@ -258,8 +260,8 @@ describe('variable-constant-editor', () => {
                         'builder_platform_interaction-data-type-picker'
                     )
                     .shadowRoot.querySelector('lightning-combobox');
-                // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT nor ACTION_OUTPUT
-                const expectedLength = Object.values(FLOW_DATA_TYPE).length - 2;
+                // should not contain an entry for LIGHTNING_COMPONENT_OUTPUT, ACTION_OUTPUT nor SUBFLOW_OUTPUT
+                const expectedLength = Object.values(FLOW_DATA_TYPE).length - 3;
                 expect(dataTypePicker.options).toHaveLength(expectedLength);
             });
         });

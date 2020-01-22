@@ -24,6 +24,7 @@ import {
 import { Store } from 'builder_platform_interaction/storeLib';
 import { isAutomaticOutputHandlingSupported } from 'builder_platform_interaction/invocableActionLib';
 import { FLOW_PROCESS_TYPE } from 'builder_platform_interaction/flowMetadata';
+import { fetchFlowInputOutputVariables } from 'builder_platform_interaction/subflowsLib';
 
 export default class SubflowEditor extends LightningElement {
     @track subflowNode = {};
@@ -85,11 +86,7 @@ export default class SubflowEditor extends LightningElement {
         this.displaySpinner = true;
         this.subflowVariablesDescriptor = undefined;
         const flowName = getValueFromHydratedItem(this.subflowNode.flowName);
-        const serverActionParams = { flowName };
-        fetchOnce(
-            SERVER_ACTION_TYPE.GET_FLOW_INPUT_OUTPUT_VARIABLES,
-            serverActionParams
-        )
+        fetchFlowInputOutputVariables(flowName)
             .then(inputOutputVariables => {
                 if (this.connected) {
                     this.displaySpinner = false;

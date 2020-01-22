@@ -11,6 +11,7 @@ import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { expectFieldsAreComplexTypeFieldDescriptions } from 'builder_platform_interaction/builderTestUtils';
 import { getStringFromApexActionDetails } from 'serverData/GetInvocableActionDetails/getStringFromApexActionDetails.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
 jest.mock('builder_platform_interaction/sobjectLib', () => ({
     getFieldsForEntity: jest.fn().mockImplementation(() => mockAccountFields)
@@ -23,6 +24,22 @@ jest.mock('builder_platform_interaction/invocableActionLib', () =>
 jest.mock('builder_platform_interaction/flowExtensionLib', () =>
     require('builder_platform_interaction_mocks/flowExtensionLib')
 );
+
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/subflowsLib'
+    );
+    return {
+        getMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+            if (flowName === 'flowWithActiveAndLatest') {
+                return actual.getMergedInputOutputVariables(
+                    mockFlowWithActiveAndLatest
+                ).outputVariables;
+            }
+            return undefined;
+        })
+    };
+});
 
 describe('complexTypeFieldDescription', () => {
     beforeAll(() => {
@@ -95,6 +112,13 @@ describe('complexTypeFieldDescription', () => {
                 store.apexCallAutomaticAnonymousStringOutput
             );
             expect(fields).toBeUndefined();
+        });
+        it('returns subflow output variables where element data type is SUBFLOW_OUTPUT', () => {
+            const fields = retrieveResourceComplexTypeFields(
+                store.subflowAutomaticOutput
+            );
+            expect(Object.keys(fields).length).toBeGreaterThan(0);
+            expectFieldsAreComplexTypeFieldDescriptions(fields);
         });
     });
     describe('isAutomaticOutputElementWithoutChildren', () => {

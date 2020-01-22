@@ -23,6 +23,7 @@ import {
 import { fetchFieldsForEntity } from 'builder_platform_interaction/sobjectLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
@@ -66,6 +67,26 @@ jest.mock('builder_platform_interaction/flowExtensionLib', () => {
             }
             return Promise.reject(`No flow extension with name ${name}`);
         })
+    };
+});
+
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/subflowsLib'
+    );
+    return {
+        fetchMergedFlowOutputVariables: jest
+            .fn()
+            .mockImplementation(flowName => {
+                if (flowName === 'flowWithActiveAndLatest') {
+                    return Promise.resolve(
+                        actual.getMergedInputOutputVariables(
+                            mockFlowWithActiveAndLatest
+                        ).outputVariables
+                    );
+                }
+                return Promise.reject(`No flow with name ${flowName}`);
+            })
     };
 });
 
@@ -460,6 +481,25 @@ describe('mergeField', () => {
                     }),
                     expect.objectContaining({
                         apiName: 'Name',
+                        dataType: 'String'
+                    })
+                ]);
+            });
+        });
+        describe('Subflow with automatic output handling mode', () => {
+            it('resolves a reference to an output variable from a subflow', async () => {
+                const subflowAutomaticOutputGuid =
+                    mockStoreData.subflowAutomaticOutput.guid;
+                const resolved = await resolveReferenceFromIdentifier(
+                    `${subflowAutomaticOutputGuid}.output1`
+                );
+                expect(resolved).toEqual([
+                    expect.objectContaining({
+                        name: 'subflowAutomaticOutput',
+                        dataType: 'SubflowOutput'
+                    }),
+                    expect.objectContaining({
+                        apiName: 'output1',
                         dataType: 'String'
                     })
                 ]);

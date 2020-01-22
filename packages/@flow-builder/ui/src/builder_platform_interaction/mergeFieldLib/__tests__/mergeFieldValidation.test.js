@@ -23,7 +23,8 @@ import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json'
 import { autolaunchedFlowUIModel } from 'mock/storeDataAutolaunched';
 import { mockScreenElement } from 'mock/calloutData';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
-import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
+import { flowWithActiveAndLatest as mockFlowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
 
 jest.mock('builder_platform_interaction/storeUtils', () => {
     const lookupScreenField = require.requireActual('mock/storeData')
@@ -126,6 +127,22 @@ jest.mock('builder_platform_interaction/sobjectLib', () => {
             .mockImplementation(apiName =>
                 mockEntities.find(entity => entity.apiName === apiName)
             )
+    };
+});
+
+jest.mock('builder_platform_interaction/subflowsLib', () => {
+    const actual = require.requireActual(
+        'builder_platform_interaction/subflowsLib'
+    );
+    return {
+        getMergedFlowOutputVariables: jest.fn().mockImplementation(flowName => {
+            if (flowName === 'flowWithActiveAndLatest') {
+                return actual.getMergedInputOutputVariables(
+                    mockFlowWithActiveAndLatest
+                ).outputVariables;
+            }
+            return undefined;
+        })
     };
 });
 
@@ -932,6 +949,29 @@ describe('Merge field validation', () => {
                         58,
                         'unknownMergeField',
                         `The "Unknown" field doesn't exist on the "Account" object, or you don't have access to the field.`
+                    )
+                ]);
+            });
+        });
+    });
+    describe('Subflow element', () => {
+        describe('Automatic output handling mode', () => {
+            it('Returns no validation error when it references an existing subflow output variable', () => {
+                const validationErrors = validateMergeField(
+                    '{!subflowAutomaticOutput.output1}'
+                );
+                expect(validationErrors).toHaveLength(0);
+            });
+            it('Returns a validation error when it references an output variable that does not exist', () => {
+                const validationErrors = validateMergeField(
+                    '{!subflowAutomaticOutput.Unknown}'
+                );
+                expect(validationErrors).toEqual([
+                    validationError(
+                        2,
+                        31,
+                        'unknownMergeField',
+                        `The "Unknown" field doesn't exist on the "flowWithActiveAndLatest" object, or you don't have access to the field.`
                     )
                 ]);
             });

@@ -35,7 +35,7 @@ export function createSubflow(subflow = {}) {
 
     if (storeOutputAutomatically) {
         outputAssignments = [];
-        dataType = FLOW_DATA_TYPE.ACTION_OUTPUT.value;
+        dataType = FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value;
     } else {
         outputAssignments = outputAssignments.map(outputParameter =>
             createOutputParameter(outputParameter)

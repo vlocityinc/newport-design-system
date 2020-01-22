@@ -71,7 +71,8 @@ const DATATYPES_WITH_NO_DEFAULT_VALUE = [
 const flowDataTypeVariableMenuItems = Object.values(FLOW_DATA_TYPE).filter(
     type =>
         type !== FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT &&
-        type !== FLOW_DATA_TYPE.ACTION_OUTPUT
+        type !== FLOW_DATA_TYPE.ACTION_OUTPUT &&
+        type !== FLOW_DATA_TYPE.SUBFLOW_OUTPUT
 );
 const flowDataTypeConstantMenuItems = [
     FLOW_DATA_TYPE.STRING,
@@ -371,10 +372,7 @@ export default class VariableConstantEditor extends LightningElement {
     }
 
     get isExternallyAccessible() {
-        return (
-            this.isVariable &&
-            this.dataType
-        );
+        return this.isVariable && this.dataType;
     }
 
     get entityMode() {

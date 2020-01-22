@@ -309,6 +309,7 @@ export const writableElementsSelector = filteredElementsSelector(
         dataType === FLOW_DATA_TYPE.SOBJECT.value ||
         dataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ||
         dataType === FLOW_DATA_TYPE.ACTION_OUTPUT.value ||
+        dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value ||
         (elementType === ELEMENT_TYPE.RECORD_CREATE &&
             dataType === FLOW_DATA_TYPE.STRING.value) ||
         isSystemGeneratedOutput === true

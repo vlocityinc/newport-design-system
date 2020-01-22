@@ -17,12 +17,13 @@ import {
     createAccountWithAutomaticOutput,
     apexCallAutomaticAnonymousAccountsOutput,
     apexCallAutomaticAnonymousStringsOutput,
-    apexCallAutomaticAnonymousApexTypeCollectionOutput
+    apexCallAutomaticAnonymousApexTypeCollectionOutput,
+    subflowAutomaticOutput
 } from 'mock/storeData';
 import { deepCopy } from 'builder_platform_interaction/storeLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
-import { allEntities as mockEntities } from "serverData/GetEntities/allEntities.json";
+import { allEntities as mockEntities } from 'serverData/GetEntities/allEntities.json';
 
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.recordLookupAsResourceText',
@@ -54,6 +55,13 @@ jest.mock(
 );
 jest.mock(
     '@salesforce/label/FlowBuilderElementLabels.actionAsResourceText',
+    () => {
+        return { default: 'Outputs from {0}' };
+    },
+    { virtual: true }
+);
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText',
     () => {
         return { default: 'Outputs from {0}' };
     },
@@ -183,13 +191,13 @@ describe('elementLabelLib', () => {
                 );
             });
         });
-        it('returns "Outputs" from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
+        it('returns "Outputs from [LCScreenFieldName]" for LC screen field with automatic handling mode', () => {
             const label = getResourceLabel(emailScreenFieldAutomaticOutput);
             expect(label).toEqual(
                 'Outputs from emailScreenFieldAutomaticOutput'
             );
         });
-        it('returns "Outputs" from [ActionName]" for action with automatic handling mode', () => {
+        it('returns "Outputs from [ActionName]" for action with automatic handling mode', () => {
             const label = getResourceLabel(actionCallAutomaticOutput);
             expect(label).toEqual('Outputs from actionCallAutomaticOutput');
         });
@@ -198,6 +206,10 @@ describe('elementLabelLib', () => {
             expect(label).toEqual(
                 'AccountId from createAccountWithAutomaticOutput'
             );
+        });
+        it('returns "Outputs from [SubflowName]" for subflow with automatic output handling mode', () => {
+            const label = getResourceLabel(subflowAutomaticOutput);
+            expect(label).toEqual('Outputs from subflowAutomaticOutput');
         });
     });
     describe('getResourceTypeLabel', () => {
@@ -226,6 +238,10 @@ describe('elementLabelLib', () => {
         it('returns "Action" for action with automatic handling mode', () => {
             const typeLabel = getResourceTypeLabel(actionCallAutomaticOutput);
             expect(typeLabel).toEqual(LABELS.actionSingularLabel);
+        });
+        it('returns "Subflow" for subflow with automatic handling mode', () => {
+            const typeLabel = getResourceTypeLabel(subflowAutomaticOutput);
+            expect(typeLabel).toEqual(LABELS.subflowSingularLabel);
         });
         it('returns "Variable" for create records with automatic handling mode', () => {
             const typeLabel = getResourceTypeLabel(
@@ -275,7 +291,7 @@ describe('elementLabelLib', () => {
                     )
                 ).toEqual('Get Records');
             });
-            it('for lightning component screen field as record resource', () => {
+            it('for lightning component screen field as resource', () => {
                 expect(
                     getElementCategory(
                         createElement(
@@ -286,7 +302,7 @@ describe('elementLabelLib', () => {
                     )
                 ).toEqual('FlowBuilderElementConfig.screenFieldPluralLabel');
             });
-            it('for action as record resource', () => {
+            it('for action as resource', () => {
                 expect(
                     getElementCategory(
                         createElement(
@@ -296,6 +312,17 @@ describe('elementLabelLib', () => {
                         )
                     )
                 ).toEqual('FlowBuilderElementConfig.actionPluralLabel');
+            });
+            it('for subflow as resource', () => {
+                expect(
+                    getElementCategory(
+                        createElement(
+                            ELEMENT_TYPE.SUBFLOW,
+                            FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value,
+                            false
+                        )
+                    )
+                ).toEqual('FlowBuilderElementConfig.subflowPluralLabel');
             });
         });
         it('for collections variables', () => {
@@ -428,6 +455,17 @@ describe('elementLabelLib', () => {
                 ).toEqual(
                     'FlowBuilderElementConfig.collectionVariablePluralLabel'
                 );
+            });
+            it('for subflow as resource', () => {
+                expect(
+                    getResourceCategory(
+                        createElement(
+                            ELEMENT_TYPE.SUBFLOW,
+                            FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value,
+                            false
+                        )
+                    )
+                ).toEqual('FlowBuilderElementConfig.subflowPluralLabel');
             });
             it('for create record as resource', () => {
                 expect(
