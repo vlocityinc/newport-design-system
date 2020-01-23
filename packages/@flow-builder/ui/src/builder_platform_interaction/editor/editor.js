@@ -675,6 +675,10 @@ export default class Editor extends LightningElement {
                 unduplicatedCanvasElementsGuids
             };
             storeInstance.dispatch(doDuplicate(payload));
+
+            // If the property editor panel is open, it should be closed
+            // when elements are duplicated
+            this.showPropertyEditorRightPanel = false;
         }
     };
 
