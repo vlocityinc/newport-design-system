@@ -70,37 +70,38 @@ export default class ScreenEditorCanvas extends LightningElement {
         event.preventDefault();
         this.handleDragEnd();
         const range = this.getDraggingRange(event);
-
-        // Figure out if we're adding a field or moving a field and fire the correct event.
-        if (
-            event.dataTransfer &&
-            (event.dataTransfer.effectAllowed === 'copy' ||
-                event.dataTransfer.getData('dragStartLocation') === 'leftPanel')
-        ) {
-            // Field is being added from the palette.
-            const fieldTypeName = event.dataTransfer.getData('text');
-            const addFieldEvent = createAddScreenFieldEvent(
-                fieldTypeName,
-                range.index
-            );
-            this.dispatchEvent(addFieldEvent);
-            this.clearDraggingState();
-        } else {
-            // Existing field is being moved around.
-            const sourceGuid = event.dataTransfer.getData('text');
-            const sourceIndex = this.screen.getFieldIndexByGUID(sourceGuid);
-            const destIndex =
-                range.index > sourceIndex ? range.index - 1 : range.index;
-            const destScreenField = this.screen.fields[destIndex];
-            if (destScreenField) {
-                const destGuid = destScreenField.guid;
-                if (sourceGuid && destIndex !== sourceIndex) {
-                    this.fireReorder(sourceGuid, destGuid);
-                    this.clearDraggingState();
-                }
+        // Make sure range is not null
+        if (range) {
+            // Figure out if we're adding a field or moving a field and fire the correct event.
+            if (
+                event.dataTransfer &&
+                (event.dataTransfer.effectAllowed === 'copy' ||
+                    event.dataTransfer.getData('dragStartLocation') === 'leftPanel')
+            ) {
+                // Field is being added from the palette.
+                const fieldTypeName = event.dataTransfer.getData('text');
+                const addFieldEvent = createAddScreenFieldEvent(
+                    fieldTypeName,
+                    range.index
+                );
+                this.dispatchEvent(addFieldEvent);
+                this.clearDraggingState();
             } else {
-                throw new Error(
-                    'No screen field found at drag destination. Source index: ' +
+                // Existing field is being moved around.
+                const sourceGuid = event.dataTransfer.getData('text');
+                const sourceIndex = this.screen.getFieldIndexByGUID(sourceGuid);
+                const destIndex =
+                    range.index > sourceIndex ? range.index - 1 : range.index;
+                const destScreenField = this.screen.fields[destIndex];
+                if (destScreenField) {
+                    const destGuid = destScreenField.guid;
+                    if (sourceGuid && destIndex !== sourceIndex) {
+                        this.fireReorder(sourceGuid, destGuid);
+                        this.clearDraggingState();
+                    }
+                } else {
+                    throw new Error(
+                        'No screen field found at drag destination. Source index: ' +
                         sourceIndex +
                         '. Destination index: ' +
                         destIndex +
@@ -108,7 +109,8 @@ export default class ScreenEditorCanvas extends LightningElement {
                         event.dataTransfer.effectAllowed +
                         '. Number of screen fields: ' +
                         this.screen.fields.length
-                );
+                    );
+                }
             }
         }
     }
@@ -190,7 +192,6 @@ export default class ScreenEditorCanvas extends LightningElement {
                 return range;
             }
         }
-
         return null;
     }
 
