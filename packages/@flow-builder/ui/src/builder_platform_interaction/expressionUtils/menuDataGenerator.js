@@ -26,6 +26,7 @@ import { apexClassesSelector } from 'builder_platform_interaction/selectors';
 import { createSelector } from 'builder_platform_interaction/storeLib';
 import { getIconNameFromDataType } from 'builder_platform_interaction/screenEditorUtils';
 import { getSubflowVariableLabelWithWarning } from 'builder_platform_interaction/subflowsLib';
+import { LABELS } from './expressionUtilsLabels';
 
 export const MAXIMUM_NUMBER_OF_LEVELS = 10;
 
@@ -82,6 +83,7 @@ function getSubText(
  * @property {String} subText the subtext that will displayed below the text
  * @property {String} displayText   the value displayed in the input field when this menu item is selected
  * @property {String} iconName  the icon that will be displayed next to the menu item in a dropdown list
+ * @property {String} iconAlternativeText  the alternativeText for the icon that will be displayed next to the menu item in a dropdown list
  * @property {String} value the id or api name of the value stored by the flow combobox. This is what we want to put in store/events
  * @property {Object} parent in the case that this is a second level item, this is the parent flow element in combobox shape
  * @property {String} dataType the data type for the menu item. eg: Date, Currency, SObject
@@ -108,6 +110,7 @@ function getSubText(
  * @param {String} subText  the subtext of the menu item
  * @param {String} displayText the display text of the menu item
  * @param {String} iconName the icon of the menu item
+ * @param {String} iconAlternativeText alternativeText for the icon of the menu item
  * @param {String} value the value of the menu item
  * @param {Object} parent the parent flow element of the second level item in combobox shape
  * @param {String} dataType the data type for the menu item. eg: Date, Currency, SObject
@@ -121,6 +124,7 @@ const createMenuItem = ({
     subText,
     displayText,
     iconName,
+    iconAlternativeText,
     value,
     parent,
     dataType,
@@ -132,6 +136,7 @@ const createMenuItem = ({
     subText,
     displayText,
     iconName,
+    iconAlternativeText,
     iconSize: ICON_SIZE,
     value,
     parent,
@@ -206,6 +211,7 @@ function getFieldDisplayText(
 function createMenuItemForField({
     text = '',
     iconName,
+    iconAlternativeText,
     subText = '',
     displayText = '',
     value,
@@ -218,6 +224,7 @@ function createMenuItemForField({
     const menuItem = createMenuItem({
         type: COMBOBOX_ITEM_DISPLAY_TYPE.OPTION_CARD,
         iconName,
+        iconAlternativeText,
         text,
         subText,
         value,
@@ -382,6 +389,7 @@ export function getMenuItemForField(
     }
     const comboboxItem = createMenuItemForField({
         iconName: getDataTypeIcons(field.dataType, ICON_TYPE),
+        iconAlternativeText: dataType,
         isCollection,
         dataType,
         subtype,
@@ -500,6 +508,8 @@ export function mutateFlowResourceToComboboxShape(resource) {
         newElement.rightIconName = RIGHT_ICON_NAME;
         newElement.rightIconSize = ICON_SIZE;
     }
+
+    newElement.iconAlternativeText = resourceDataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ? LABELS.lightningComponentScreenFieldIconAltText : resourceDataType;
     return newElement;
 }
 
@@ -559,6 +569,7 @@ export const mutatePicklistValue = picklistOption => {
         subText: FLOW_DATA_TYPE.STRING.label,
         displayText: picklistOption.value,
         iconName: getDataTypeIcons(FLOW_DATA_TYPE.STRING.value, ICON_TYPE),
+        iconAlternativeText: FLOW_DATA_TYPE.STRING.value,
         // This is to insure uniqueness among picklist values
         value: picklistOption.label
             ? picklistOption.value + '-' + picklistOption.label
@@ -596,7 +607,8 @@ const mutateSystemAndGlobalVariablesToComboboxShape = value => {
         iconName: ICON_TYPE + ':system_and_global_variable',
         iconSize: ICON_SIZE,
         rightIconName: RIGHT_ICON_NAME,
-        rightIconSize: ICON_SIZE
+        rightIconSize: ICON_SIZE,
+        iconAlternativeText: LABELS.systemGlobalVariableCategoryIconAltText
     };
 };
 
