@@ -32,7 +32,8 @@ import {
 import {
     selectComboboxItemBy,
     typeMergeFieldInCombobox,
-    getComboboxItems
+    getComboboxItems,
+    typeReferenceOrValueInCombobox
 } from '../comboboxTestUtils';
 import { apexTypesForFlow } from 'serverData/GetApexTypes/apexTypesForFlow.json';
 import { setApexClasses } from 'builder_platform_interaction/apexTypeLib';
@@ -351,6 +352,11 @@ describe('Assignment Editor', () => {
             lhs                                             | operator    | rhs                                                     | rhsErrorMessage
             ${'{!apexCall_Car_automatic_output.car}'}       | ${'Assign'} | ${'{!apexCarVariable}'}                                 | ${undefined}
             ${'{!stringVariable}'}                          | ${'Assign'} | ${'{!apexCarVariable.wheel.type}'}                      | ${undefined}
+            ${'{!apexComplexTypeVariable}'}                 | ${'Assign'} | ${'{!apexComplexTypeVariable}'}                         | ${undefined}
+            ${'{!apexComplexTypeVariable.acct}'}            | ${'Assign'} | ${'{!apexComplexTypeVariable}'}                         | ${'FlowBuilderMergeFieldValidation.invalidDataType'}
+            ${'{!apexComplexTypeVariable.acct}'}            | ${'Assign'} | ${'{!accountSObjectVariable}'}                          | ${undefined}
+            ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!apexComplexTypeVariable.acct}'}                    | ${undefined}
+            ${'{!accountSObjectVariable}'}                  | ${'Assign'} | ${'{!apexComplexTypeVariable.doesNotExist}'}            | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
             `();
             it('can traverse more than 2 levels in the LHS', async () => {
                 const lhsCombobox = getLhsCombobox(expressionBuilder);
@@ -445,7 +451,7 @@ describe('Assignment Editor', () => {
         });
     });
     describe('Traversal', () => {
-        let assignment, expressionBuilder;
+        let assignment, expressionBuilder, lhsCombobox;
         beforeAll(async () => {
             const uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
@@ -459,10 +465,10 @@ describe('Assignment Editor', () => {
             assignment = createComponentForTest(assignmentForPropertyEditor);
             await ticks();
             expressionBuilder = getFerToFerovExpressionBuilder(assignment);
+            lhsCombobox = getLhsCombobox(expressionBuilder);
         });
         it('is limited to 10 levels', async () => {
             // Given
-            const lhsCombobox = getLhsCombobox(expressionBuilder);
             const rhsCombobox = getRhsCombobox(expressionBuilder);
             await typeMergeFieldInCombobox(lhsCombobox, '{!stringVariable}');
             selectOperator(expressionBuilder, 'Assign');
@@ -491,5 +497,30 @@ describe('Assignment Editor', () => {
                 expect(item.hasNext).toBeUndefined();
             }
         });
+        it('can select account field of apex type in the LHS', async () => {
+            // When
+            const selectedItem = await selectComboboxItemBy(
+                lhsCombobox,
+                'text',
+                ['apexComplexTypeVariable', 'acct'],
+                { blur: true }
+            );
+
+            // Then
+            expect(selectedItem).toBeDefined();
+            expect(lhsCombobox.errorMessage).toBeNull();
+        });
+        it.each`
+            lhs                                           | expectedErrorMessage
+            ${'{!apexComplexTypeVariable.acct}'}          | ${null}
+            ${'{!apexComplexTypeVariable.doesNotExist}'}  | ${'FlowBuilderMergeFieldValidation.unknownRecordField'}
+            ${'{!apexComplexTypeVariable.doesNotExist.}'} | ${'FlowBuilderCombobox.genericErrorMessage'}
+        `(
+            'error for "$lhs should be : $expectedErrorMessage',
+            async ({ lhs, expectedErrorMessage }) => {
+                await typeReferenceOrValueInCombobox(lhsCombobox, lhs);
+                expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
+            }
+        );
     });
 });

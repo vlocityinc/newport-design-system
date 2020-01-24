@@ -1017,17 +1017,20 @@ export default class BaseExpressionBuilder extends LightningElement {
     }
 
     /**
-     * @param {String} value       a guid
+     * @param {String} value       a guid or a literal or a merge field starting by a GUID (resource) or a literal.field
      * @param {Object[]} fields    fields populating the relevant menu data, if there are any
      * @returns {Object}           Object representing the field or the FER represented by the guid
      */
     getElementOrField(value, fields) {
-        const fieldNames = sanitizeGuid(value).fieldNames;
-        if (fieldNames) {
-            const fieldName = fieldNames[fieldNames.length - 1];
-            return fields[fieldName];
+        const elementOrField = getResourceByUniqueIdentifier(value);
+        if (!elementOrField) {
+            const fieldNames = sanitizeGuid(value).fieldNames;
+            if (fieldNames) {
+                const fieldName = fieldNames[fieldNames.length - 1];
+                return fields[fieldName];
+            }
         }
-        return getResourceByUniqueIdentifier(value);
+        return elementOrField;
     }
 
     /**
