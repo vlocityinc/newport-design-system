@@ -33,6 +33,12 @@
                 value={fieldText}
             >
             </builder_platform_interaction-screen-display-text-field>
+            <builder_platform_interaction-screen-section-field
+                if:true={isSectionType}
+                type-name={screenfield.type.name}
+                title={name}
+            >
+            </builder_platform_interaction-screen-section-field>
             <builder_platform_interaction-screen-textarea-field
                 if:true={isTextAreaType}
                 label={fieldText}

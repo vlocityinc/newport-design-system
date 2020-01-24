@@ -33,6 +33,10 @@ export function orgHasFlowBuilderDebug() {
     return context.access && context.access.orgHasFlowBuilderDebug;
 }
 
+export function orgHasFlowScreenSections() {
+    return context.access && context.access.orgHasFlowScreenSections;
+}
+
 export function canUserVAD() {
     return context.canVAD;
 }

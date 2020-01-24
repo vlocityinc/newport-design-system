@@ -56,6 +56,10 @@ export default class ScreenField extends LightningElement {
         return this.screenfield.type.fieldType === 'DisplayText';
     }
 
+    get isSectionType() {
+        return this.screenfield.type.fieldType === 'Section';
+    }
+
     get isRequired() {
         // There is no concept of required for a checkbox.
         if (this.screenfield.type.name === 'Checkbox') {

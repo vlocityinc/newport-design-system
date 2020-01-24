@@ -1,0 +1,13 @@
+<!--
+ Wrapper for section fields, used for the purpose of screen builder canvas preview only
+ -->
+<template>
+    <div class="slds-grid">
+        <template for:each={columns} for:item="column">
+            <span class="slds-col slds-align_absolute-center" key={column.guid}>
+                {column.name}
+            </span>
+        </template>
+    </div>
+</template>
+<!---->

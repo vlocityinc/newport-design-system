@@ -7,6 +7,7 @@ import {
 import { getElementByGuid } from 'builder_platform_interaction/storeUtils';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
+import { orgHasFlowScreenSections } from 'builder_platform_interaction/contextLib';
 
 const FEROV_TYPES = {
     String: ['TEXT', 'STRING', 'PASSWORD', 'PASSWORDFIELD'],
@@ -154,6 +155,17 @@ const screenFieldTypes = [
  * @return {array} - The field types
  */
 export function getAllScreenFieldTypes() {
+    if (orgHasFlowScreenSections()) {
+        const sectionFieldType = {
+            name: 'Section',
+            fieldType: 'Section',
+            dataType: undefined,
+            label: LABELS.fieldTypeLabelSection,
+            icon: 'standard:display_text',
+            category: LABELS.fieldCategoryDisplay
+        };
+        return screenFieldTypes.concat(sectionFieldType);
+    }
     return screenFieldTypes;
 }
 
@@ -180,7 +192,7 @@ export function getLocalExtensionFieldType(name) {
  */
 export function getScreenFieldTypeByName(name) {
     name = name && name.toLowerCase();
-    return [...screenFieldTypes, ...getAllCachedExtensionTypes()].find(
+    return [...getAllScreenFieldTypes(), ...getAllCachedExtensionTypes()].find(
         type => type.name.toLowerCase() === name
     );
 }
@@ -195,7 +207,7 @@ export function getScreenFieldType(field) {
     const fieldType = field.fieldType;
     const dataType = field.dataType;
 
-    for (const type of screenFieldTypes) {
+    for (const type of getAllScreenFieldTypes()) {
         if (fieldType === type.fieldType && dataType === type.dataType) {
             return type;
         }
@@ -432,7 +444,7 @@ export function getFerovTypeFromTypeName(type) {
 }
 
 export function getPlaceHolderLabel(fieldName) {
-    for (const type of screenFieldTypes) {
+    for (const type of getAllScreenFieldTypes()) {
         if (fieldName === type.name) {
             return '[' + type.label + ']';
         }
