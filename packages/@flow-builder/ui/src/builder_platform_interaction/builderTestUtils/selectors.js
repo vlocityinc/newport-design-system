@@ -6,7 +6,8 @@ export const LIGHTNING_COMPONENTS_SELECTORS = {
     LIGHTNING_TAB: 'lightning-tab',
     LIGHTNING_RADIO_GROUP: 'lightning-radio-group',
     LIGHTNING_INPUT: 'lightning-input',
-    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation'
+    LIGHTNING_VERTICAL_NAVIGATION: 'lightning-vertical-navigation',
+    LIGHTNING_BUTTON_ICON: 'lightning-button-icon'
 };
 
 export const INTERACTION_COMPONENTS_SELECTORS = {

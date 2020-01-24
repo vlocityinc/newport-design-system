@@ -24,77 +24,28 @@ import {
     ADD_SCREEN_WITH_FIELDS,
     MODIFY_SCREEN_WITH_FIELDS
 } from 'builder_platform_interaction/actions';
+import { CONNECTOR_TYPE } from 'builder_platform_interaction/flowMetadata';
 import {
-    ELEMENT_TYPE,
-    CONNECTOR_TYPE
-} from 'builder_platform_interaction/flowMetadata';
+    stringVariable,
+    textTemplate1,
+    assignmentElement,
+    decision1Outcome1,
+    decision2Outcome1,
+    decision1,
+    decision2
+} from 'mock/storeData';
+import { Store } from 'builder_platform_interaction/storeLib';
+import { flowWithAllElementsUIModel } from 'mock/storeData';
 
-const mockAssignment = {
-    guid: 'originalAssignmentId',
-    label: 'test Original Assignment',
-    name: 'test_Original_Assignment',
-    elementType: ELEMENT_TYPE.ASSIGNMENT,
-    config: {
-        isSelected: true
-    }
-};
+jest.mock('builder_platform_interaction/storeLib', () =>
+    require('builder_platform_interaction_mocks/storeLib')
+);
 
-const mockOutcome = {
-    guid: 'originalOutcomeId',
-    name: 'test_Original_Outcome',
-    elementType: ELEMENT_TYPE.OUTCOME
-};
-
-const mockOutcome2 = {
-    guid: 'originalOutcome2Id',
-    name: 'test_Original_Outcome_0',
-    elementType: ELEMENT_TYPE.OUTCOME
-};
-
-const mockDecision = {
-    guid: 'originalDecisionId',
-    label: 'test Original Decision',
-    name: 'test_Original_Decision',
-    elementType: ELEMENT_TYPE.DECISION,
-    outcomeReferences: [{ outcomeReference: mockOutcome.guid }],
-    config: {
-        isSelected: true
-    }
-};
-
-const mockDecision2 = {
-    guid: 'originalDecision2Id',
-    label: 'test Original Decision2',
-    name: 'test_Original_Decision_0',
-    elementType: ELEMENT_TYPE.DECISION,
-    outcomeReferences: [{ outcomeReference: mockOutcome2.guid }],
-    config: {
-        isSelected: true
-    }
-};
-
-const mockOriginalState = {
-    [mockAssignment.guid]: mockAssignment,
-    [mockOutcome.guid]: mockOutcome,
-    [mockDecision.guid]: mockDecision,
-    [mockOutcome2.guid]: mockOutcome2,
-    [mockDecision2.guid]: mockDecision2
-};
-
-jest.mock('builder_platform_interaction/storeLib', () => {
-    const getCurrentState = () => {
-        return {
-            elements: mockOriginalState
-        };
-    };
-    const getStore = () => {
-        return {
-            getCurrentState
-        };
-    };
-    const storeLib = require('builder_platform_interaction_mocks/storeLib');
-    storeLib.Store.getStore = getStore;
-    return storeLib;
+beforeAll(() => {
+    Store.setMockState(flowWithAllElementsUIModel);
+});
+afterAll(() => {
+    Store.resetStore();
 });
 
 const getElement = (guid, name) => {
@@ -138,19 +89,23 @@ describe('elements-reducer', () => {
     });
 
     describe('DO_DUPLICATE', () => {
+        let state;
+        beforeEach(() => {
+            state = Store.getStore().getCurrentState();
+        });
         it('duplicates canvas element with no child elements', () => {
-            const duplicateAssignmentGuid = 'duplicateAssignmentId';
+            const duplicateAssignmentGuid = 'duplicateAssignmentGuid';
             const canvasElementGuidMap = {
-                [mockAssignment.guid]: duplicateAssignmentGuid
+                [assignmentElement.guid]: duplicateAssignmentGuid
             };
-            const newState = elementReducer(mockOriginalState, {
+            const newState = elementReducer(state.elements, {
                 type: DO_DUPLICATE,
                 payload: {
                     canvasElementGuidMap
                 }
             });
 
-            const originalElement = newState[mockAssignment.guid];
+            const originalElement = newState[assignmentElement.guid];
             const duplicateElement = newState[duplicateAssignmentGuid];
             expect(duplicateElement.name).not.toEqual(originalElement.name);
             expect(duplicateElement.guid).toEqual(duplicateAssignmentGuid);
@@ -161,12 +116,12 @@ describe('elements-reducer', () => {
             const duplicateDecisionGuid = 'duplicateDecisionId';
             const duplicateOutcomeGuid = 'duplicateOutcomeId';
             const canvasElementGuidMap = {
-                [mockDecision.guid]: duplicateDecisionGuid
+                [decision1.guid]: duplicateDecisionGuid
             };
             const childElementGuidMap = {
-                [mockOutcome.guid]: duplicateOutcomeGuid
+                [decision1Outcome1.guid]: duplicateOutcomeGuid
             };
-            const newState = elementReducer(mockOriginalState, {
+            const newState = elementReducer(state.elements, {
                 type: DO_DUPLICATE,
                 payload: {
                     canvasElementGuidMap,
@@ -174,7 +129,7 @@ describe('elements-reducer', () => {
                 }
             });
 
-            const originalChildElement = newState[mockOutcome.guid];
+            const originalChildElement = newState[decision1Outcome1.guid];
             const duplicateChildElement = newState[duplicateOutcomeGuid];
             expect(duplicateChildElement.name).not.toEqual(
                 originalChildElement.name
@@ -186,18 +141,18 @@ describe('elements-reducer', () => {
             const duplicateDecisionGuid = 'duplicateDecisionId';
             const duplicateOutcomeGuid = 'duplicateOutcomeId';
             const canvasElementGuidMap = {
-                [mockDecision.guid]: duplicateDecisionGuid
+                [decision1.guid]: duplicateDecisionGuid
             };
             const childElementGuidMap = {
-                [mockOutcome.guid]: duplicateOutcomeGuid
+                [decision1Outcome1.guid]: duplicateOutcomeGuid
             };
             const connector = {
-                source: mockDecision.guid,
-                target: mockAssignment.guid,
+                source: decision1.guid,
+                target: assignmentElement.guid,
                 type: CONNECTOR_TYPE.DEFAULT
             };
             const connectorsToDuplicate = [connector];
-            const newState = elementReducer(mockOriginalState, {
+            const newState = elementReducer(state.elements, {
                 type: DO_DUPLICATE,
                 payload: {
                     canvasElementGuidMap,
@@ -223,19 +178,19 @@ describe('elements-reducer', () => {
             const duplicateDecisionGuid = 'duplicateDecisionId';
             const duplicateOutcomeGuid = 'duplicateOutcomeId';
             const canvasElementGuidMap = {
-                [mockDecision.guid]: duplicateDecisionGuid
+                [decision1.guid]: duplicateDecisionGuid
             };
             const childElementGuidMap = {
-                [mockOutcome.guid]: duplicateOutcomeGuid
+                [decision1Outcome1.guid]: duplicateOutcomeGuid
             };
             const connector = {
-                source: mockDecision.guid,
-                childSource: mockOutcome.guid,
-                target: mockAssignment.guid,
+                source: decision1.guid,
+                childSource: decision1Outcome1.guid,
+                target: assignmentElement.guid,
                 type: CONNECTOR_TYPE.DEFAULT
             };
             const connectorsToDuplicate = [connector];
-            const newState = elementReducer(mockOriginalState, {
+            const newState = elementReducer(state.elements, {
                 type: DO_DUPLICATE,
                 payload: {
                     canvasElementGuidMap,
@@ -260,10 +215,10 @@ describe('elements-reducer', () => {
             const duplicateDecisionGuid = 'duplicateDecisionId';
             const duplicateDecision2Guid = 'duplicateDecision2Id';
             const canvasElementGuidMap = {
-                [mockDecision.guid]: duplicateDecisionGuid,
-                [mockDecision2.guid]: duplicateDecision2Guid
+                [decision1.guid]: duplicateDecisionGuid,
+                [decision2.guid]: duplicateDecision2Guid
             };
-            const newState = elementReducer(mockOriginalState, {
+            const newState = elementReducer(state.elements, {
                 type: DO_DUPLICATE,
                 payload: {
                     canvasElementGuidMap
@@ -275,13 +230,13 @@ describe('elements-reducer', () => {
             expect(duplicateDecision1.name).not.toBeUndefined();
             expect(duplicateDecision2.name).not.toBeUndefined();
             const elementNamesExceptDuplicateDecision1Name = [
-                mockDecision.name,
-                mockDecision2.name,
+                decision1.name,
+                decision2.name,
                 duplicateDecision2.name
             ];
             const elementNamesExceptDuplicateDecision2Name = [
-                mockDecision.name,
-                mockDecision2.name,
+                decision1.name,
+                decision2.name,
                 duplicateDecision1.name
             ];
             expect(elementNamesExceptDuplicateDecision1Name).not.toContain(
@@ -298,14 +253,14 @@ describe('elements-reducer', () => {
             const duplicateOutcomeGuid = 'duplicateOutcomeId';
             const duplicateOutcome2Guid = 'duplicateOutcome2Id';
             const canvasElementGuidMap = {
-                [mockDecision.guid]: duplicateDecisionGuid,
-                [mockDecision2.guid]: duplicateDecision2Guid
+                [decision1.guid]: duplicateDecisionGuid,
+                [decision2.guid]: duplicateDecision2Guid
             };
             const childElementGuidMap = {
-                [mockOutcome.guid]: duplicateOutcomeGuid,
-                [mockOutcome2.guid]: duplicateOutcome2Guid
+                [decision1Outcome1.guid]: duplicateOutcomeGuid,
+                [decision2Outcome1.guid]: duplicateOutcome2Guid
             };
-            const newState = elementReducer(mockOriginalState, {
+            const newState = elementReducer(state.elements, {
                 type: DO_DUPLICATE,
                 payload: {
                     canvasElementGuidMap,
@@ -318,13 +273,13 @@ describe('elements-reducer', () => {
             expect(duplicateOutcome1.name).not.toBeUndefined();
             expect(duplicateOutcome2.name).not.toBeUndefined();
             const elementNamesExceptDuplicateOutcome1Name = [
-                mockOutcome.name,
-                mockOutcome2.name,
+                decision1Outcome1.name,
+                decision2Outcome1.name,
                 duplicateOutcome2.name
             ];
             const elementNamesExceptDuplicateOutcome2Name = [
-                mockOutcome.name,
-                mockOutcome2.name,
+                decision1Outcome1.name,
+                decision2Outcome1.name,
                 duplicateOutcome1.name
             ];
             expect(elementNamesExceptDuplicateOutcome1Name).not.toContain(
@@ -695,34 +650,21 @@ describe('elements-reducer', () => {
 
     describe('Delete Resource', () => {
         it('with state set to undefined & action type set to DELETE_RESOURCE should return an empty object', () => {
-            const propToOmit = 'description';
             const newElementState = elementReducer(undefined, {
                 type: DELETE_RESOURCE,
-                payload: { selectedElementGUIDs: [propToOmit] }
+                payload: { selectedElements: [textTemplate1] }
             });
             expect(newElementState).toEqual({});
         });
 
         it('with state set to defined & action type set to DELETE_RESOURCE should return the new element state with the excluded properties', () => {
-            const omitProps = 'description';
-            const oldProperties = {
-                name: 'ass1',
-                label: 'assignment 1',
-                description: 'desc 1',
-                guid: 'guid1'
-            };
-            const newProperties = {
-                name: 'ass1',
-                label: 'assignment 1',
-                guid: 'guid1'
-            };
-
-            const payload = { selectedElementGUIDs: [omitProps] };
-            const newElementState = elementReducer(oldProperties, {
+            const state = Store.getStore().getCurrentState();
+            const payload = { selectedElements: [stringVariable] };
+            const newElementState = elementReducer(state.elements, {
                 type: DELETE_RESOURCE,
                 payload
             });
-            expect(newElementState).toEqual(newProperties);
+            expect(newElementState).not.toHaveProperty(stringVariable.guid);
         });
     });
 

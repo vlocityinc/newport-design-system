@@ -86,7 +86,14 @@ export default function elementsReducer(state = {}, action) {
         case ADD_CONNECTOR:
             return _updateElementOnAddConnection(state, action.payload);
         case DELETE_RESOURCE:
-            return omit(state, action.payload.selectedElementGUIDs);
+            if (
+                action.payload.selectedElements &&
+                action.payload.selectedElements.length > 0 &&
+                action.payload.selectedElements[0]
+            ) {
+                state = omit(state, action.payload.selectedElements[0].guid);
+            }
+            return state;
         case SELECT_ON_CANVAS:
             return _selectCanvasElement(state, action.payload.guid);
         case TOGGLE_ON_CANVAS:

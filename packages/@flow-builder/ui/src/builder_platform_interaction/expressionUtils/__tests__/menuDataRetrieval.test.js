@@ -330,13 +330,13 @@ describe('Menu data retrieval', () => {
     });
     it('should set subText to label if there is a label', () => {
         selectorsMock.readableElementsSelector.mockReturnValue([
-            store.decisionOutcome
+            store.decision1Outcome1
         ]);
         const copiedElement = getElementsForMenuData({
             elementType: ELEMENT_TYPE.DECISION,
             shouldBeWritable: true
         })[0].items[0];
-        expect(copiedElement.subText).toBe(store.decisionOutcome.name);
+        expect(copiedElement.subText).toBe(store.decision1Outcome1.name);
     });
     it('should set subText to dataType label if no subtype or label', () => {
         selectorsMock.writableElementsSelector.mockReturnValue([

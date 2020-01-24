@@ -200,7 +200,11 @@ const allAuraActions = {
     }),
     'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
         FlowWithAllTypesVariables: mockSubflowAllTypesVariables
-    })
+    }),
+    'c.retrieveElementsPalette': createGetter([]),
+    'c.retrieveHeaderUrls': createGetter([]),
+    'c.getProcessTypes': createGetter([]),
+    'c.getRunInModes': createGetter([])
 };
 
 export function initializeAuraFetch(actions = {}) {

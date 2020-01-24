@@ -3,7 +3,7 @@ import {
     usedByStoreAndElementState
 } from 'builder_platform_interaction/usedByLib';
 import { ELEMENT_TYPE } from 'builder_platform_interaction/flowMetadata';
-import { decisionOutcome } from 'mock/storeData';
+import { decision1Outcome1 } from 'mock/storeData';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
 
@@ -408,7 +408,7 @@ describe('Used by library', () => {
         });
         it('returns the referencing element if an element is referenced by an element other than the parent', () => {
             const actualResult = usedByStoreAndElementState(
-                decisionOutcome.guid,
+                decision1Outcome1.guid,
                 'DECISION_1',
                 []
             );
@@ -434,7 +434,7 @@ describe('Used by library', () => {
         });
         it('returns the referencing screen field element if an element is referenced by any element other than the parent screen element', () => {
             const actualResult = usedByStoreAndElementState(
-                decisionOutcome.guid,
+                decision1Outcome1.guid,
                 'SCREEN_1',
                 []
             );
