@@ -7,6 +7,8 @@ See initializeAuraFetch() implementation if you need to override the default stu
 Exceptions :
 - labels
 - uses of Aura
+- drawingLib
+- keyboardInteractionUtils
 
 2) Do not forge your mock data
 Instead, use gold files created using FlowBuilderControllerGoldFileTest

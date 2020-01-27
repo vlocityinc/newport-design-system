@@ -77,5 +77,9 @@ export const INTERACTION_COMPONENTS_SELECTORS = {
     VARIABLE_AND_FIELD_MAPPING_COMPONENT:
         'builder_platform_interaction-record-lookup-variable-and-field-mapping',
     VISUAL_PICKER_ITEM: 'builder_platform_interaction-visual-picker-item',
-    VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list'
+    VISUAL_PICKER_LIST: 'builder_platform_interaction-visual-picker-list',
+    LEFT_PANEL: 'builder_platform_interaction-left-panel',
+    LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',
+    LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',
+    LEFT_PANEL_RESOURCE_DETAILS: 'builder_platform_interaction-resource-details'
 };

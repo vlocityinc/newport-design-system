@@ -1,40 +1,50 @@
 import {
     LIGHTNING_COMPONENTS_SELECTORS,
+    INTERACTION_COMPONENTS_SELECTORS,
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 
 const LEFT_PANEL_SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
-    LEFT_PANEL_RESOURCES: 'builder_platform_interaction-left-panel-resources',
-    LEFT_PANEL_PALETTE: 'builder_platform_interaction-palette',
-    LEFT_PANEL_RESOURCE_DETAILS:
-        'builder_platform_interaction-resource-details',
+    ...INTERACTION_COMPONENTS_SELECTORS,
     RESOURCE_DETAILS_PANEL_DELETE_BUTTON_TITLE:
         'FlowBuilderResourceDetailsPanel.deleteButtonLabel',
     RESOURCE_DETAILS_PANEL_EDIT_BUTTON_TITLE:
-        'FlowBuilderResourceDetailsPanel.editButtonLabel'
+        'FlowBuilderResourceDetailsPanel.editButtonLabel',
+    BUTTON_LOCATOR_ICON: '.test-locator-icon',
+    BUTTON_VIEW_DETAIL: '.test-details-chevron-icon'
 };
 
-export const getPalette = leftPanel => {
-    return deepQuerySelector(leftPanel, [
-        LEFT_PANEL_SELECTORS.LEFT_PANEL_RESOURCES,
+export const getPalette = (leftPanel, paletteIndex) => {
+    const panelResources = leftPanel.shadowRoot.querySelector(
+        LEFT_PANEL_SELECTORS.LEFT_PANEL_RESOURCES
+    );
+    return panelResources.shadowRoot.querySelectorAll(
         LEFT_PANEL_SELECTORS.LEFT_PANEL_PALETTE
-    ]);
+    )[paletteIndex];
 };
 
-export const getChevronElement = (leftPanel, resourceGuid) => {
-    const palette = getPalette(leftPanel);
-    return palette.shadowRoot.querySelectorAll(
+export const getChevronElement = (leftPanel, paletteIndex, resourceGuid) => {
+    const palette = getPalette(leftPanel, paletteIndex);
+    return palette.shadowRoot.querySelector(
         '[data-key="' + resourceGuid + '"]'
     );
 };
 
-export const clickOnChevron = chevronElement => {
+export const clickOnViewDetailButton = chevronElement => {
     const chevronButton = chevronElement.querySelector(
-        LEFT_PANEL_SELECTORS.LIGHTNING_BUTTON_ICON
+        LEFT_PANEL_SELECTORS.BUTTON_VIEW_DETAIL
     );
     expect(chevronButton).toBeDefined();
     chevronButton.click();
+};
+
+export const clickOnLocatorButton = chevronElement => {
+    const locatorButton = chevronElement.querySelector(
+        LEFT_PANEL_SELECTORS.BUTTON_LOCATOR_ICON
+    );
+    expect(locatorButton).toBeDefined();
+    locatorButton.click();
 };
 
 export const clickDeleteButtonInResourceDetailsPanel = resourceDetailsPanel => {
@@ -45,4 +55,18 @@ export const clickDeleteButtonInResourceDetailsPanel = resourceDetailsPanel => {
     );
     expect(deleteButton).toBeDefined();
     deleteButton.click();
+};
+
+export const getResourceDetail = leftPanel => {
+    return deepQuerySelector(leftPanel, [
+        LEFT_PANEL_SELECTORS.LEFT_PANEL_RESOURCE_DETAILS
+    ]);
+};
+
+export const getLeftPanel = editorCmp => {
+    return editorCmp.shadowRoot.querySelector(LEFT_PANEL_SELECTORS.LEFT_PANEL);
+};
+
+export const getElementByTitle = (parent, title) => {
+    return parent.shadowRoot.querySelector('[title="' + title + '"]');
 };

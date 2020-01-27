@@ -391,7 +391,7 @@ function _deleteAndUpdateElements(
     const guidsToDelete = [];
 
     originalElements.forEach(element => {
-        guidsToDelete.push(..._getSubElementGuids(element.guid));
+        guidsToDelete.push(..._getSubElementGuids(element));
         guidsToDelete.push(...[element.guid]);
     });
 
