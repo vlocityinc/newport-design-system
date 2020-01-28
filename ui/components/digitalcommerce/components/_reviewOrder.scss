@@ -30,10 +30,18 @@
             font-size: $font-size-4;
             margin-top: 0.2rem;
           }
-          &.nds-dc-checkout_payment-review {
-            display: flex;
-            .nds-dc-review_name {
-              margin-right: $spacing-medium;
+        }
+      }
+    }
+    @media only screen and (min-width: 48rem) {
+      .nds-dc-checkout_review-order {
+        .nds-dc-checkout_details-container {
+          .nds-dc-review_details-body {
+            &.nds-dc-checkout_payment-review {
+              display: flex;
+              .nds-dc-review_name {
+                margin-right: $spacing-medium;
+              }
             }
           }
         }
