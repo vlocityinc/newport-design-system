@@ -11,10 +11,10 @@ export const setBuilderConfigs = data => {
 };
 
 /**
- * Gets all available builder configs per builder type.
+ * Get a builder config for a builder type.
  *
- * @returns {Object} builder configs
+ * @param {string} builderType builder type
+ * @returns {Object} builder config
  */
-export const getBuilderConfigs = () => {
-    return builderConfigs;
-};
+export const getBuilderConfig = builderType => (builderConfigs ? builderConfigs[builderType] : null);
+

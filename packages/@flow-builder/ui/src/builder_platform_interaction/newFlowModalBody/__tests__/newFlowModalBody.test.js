@@ -48,6 +48,10 @@ function createComponentForTest(props) {
         'builder_platform_interaction-new-flow-modal-body',
         { is: NewFlowModalBody }
     );
+    Object.assign(el, {
+        showRecommended: true,
+        showAll: true
+    });
     Object.assign(el, props);
     document.body.appendChild(el);
     return el;

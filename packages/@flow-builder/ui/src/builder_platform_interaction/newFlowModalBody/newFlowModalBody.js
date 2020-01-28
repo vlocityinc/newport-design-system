@@ -36,6 +36,15 @@ export default class NewFlowModalBody extends LightningElement {
     };
 
     @api
+    builderType;
+
+    @api
+    showRecommended;
+
+    @api
+    showAll
+
+    @api
     footer;
 
     @api
@@ -67,6 +76,10 @@ export default class NewFlowModalBody extends LightningElement {
 
     set errorMessage(value) {
         this.state.errorMessage = value || '';
+    }
+
+    get showAllTab() {
+        return this.showAll || !this.showRecommended; // Always show the All/Templates tab if all other tabs are hidden
     }
 
     connectedCallback() {

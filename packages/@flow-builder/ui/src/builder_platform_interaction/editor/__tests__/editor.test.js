@@ -46,6 +46,7 @@ jest.mock('builder_platform_interaction/elementConfig', () => {
         {
             getConfigForElementType: jest.fn().mockImplementation(() => {
                 return {
+                    descriptor: 'test descriptor',
                     canBeDuplicated: false,
                     isDeletable: false,
                     nodeConfig: {isSelectable: false},
@@ -110,7 +111,10 @@ jest.mock('builder_platform_interaction/translatorLib', () => {
 jest.mock('builder_platform_interaction/serverDataLib', () => {
     return {
         fetch: jest.fn(),
-        fetchOnce: jest.fn(() => {
+        fetchOnce: jest.fn((action) => {
+            if (action === 'getBuilderConfigs') {
+                return Promise.resolve({});
+            }
             return {
                 then: () => {}
             };
@@ -125,13 +129,15 @@ jest.mock('builder_platform_interaction/systemLib', () => {
     const actual = require.requireActual('builder_platform_interaction/systemLib');
 
     return Object.assign({}, actual, {
-        getBuilderConfigs: () => {
-            return [
-                {
-                    supportedProcessTypes: ['right'],
-                    usePanelForPropertyEditor: true
-                }
-            ];
+        getBuilderConfig: (builderType) => {
+            return (builderType === 'old' ? {
+                supportedProcessTypes: ['right']
+            }
+            :
+            {
+                supportedProcessTypes: ['right'],
+                usePanelForPropertyEditor: true
+            });
         }
     });
 });
@@ -151,13 +157,11 @@ jest.mock('builder_platform_interaction/actions', () => {
 
     };
 });
-const createComponentUnderTest = props => {
+const createComponentUnderTest = (props = { builderType: 'old' }) => {
     const el = createElement('builder_platform_interaction-editor', {
         is: Editor
     });
-    if (props) {
-        Object.assign(el, props);
-    }
+    Object.assign(el, props);
     document.body.appendChild(el);
     return el;
 };
@@ -370,9 +374,9 @@ const describeSkip = describe.skip;
 describeSkip('editor', () => {
     describe('saving', () => {
         it('translates the ui model to flow data', () => {
-            const toolbarComponent = createComponentUnderTest();
+            const editorComponent = createComponentUnderTest();
             return Promise.resolve().then(() => {
-                toolbarComponent.shadowRoot
+                editorComponent.shadowRoot
                     .querySelector(selectors.save)
                     .click();
 
@@ -384,13 +388,13 @@ describeSkip('editor', () => {
         });
 
         it('passes the translated value to fetch', () => {
-            const toolbarComponent = createComponentUnderTest();
+            const editorComponent = createComponentUnderTest();
             return Promise.resolve().then(() => {
                 const flow = { x: 1 };
 
                 translateUIModelToFlow.mockReturnValue(flow);
 
-                toolbarComponent.shadowRoot
+                editorComponent.shadowRoot
                     .querySelector(selectors.save)
                     .click();
                 // Check against the last call to fetch.  The first is in editor.js constructor and thus
@@ -781,7 +785,9 @@ describe('editor property editor', () => {
     it('is opened in the right panel when builderConfig.usePanelForPropertyEditor = true', () => {
         mockStoreState.properties.processType = 'right';
 
-        const editorComponent = createComponentUnderTest();
+        const editorComponent = createComponentUnderTest({
+            builderType: 'new'
+        });
 
         const elementType = 'ASSIGNMENT';
 
@@ -807,7 +813,9 @@ describe('editor property editor', () => {
         beforeEach(() => {
             mockStoreState.properties.processType = 'right';
 
-            editorComponent = createComponentUnderTest();
+            editorComponent = createComponentUnderTest({
+                builderType: 'new'
+            });
 
             return Promise.resolve().then(() => {
                 const elementType = 'ASSIGNMENT';

@@ -96,7 +96,7 @@ import {
     setProcessTypes,
     getRunInModes,
     setRunInModes,
-    getBuilderConfigs,
+    getBuilderConfig,
     setBuilderConfigs
 } from 'builder_platform_interaction/systemLib';
 import { isConfigurableStartSupported } from 'builder_platform_interaction/processTypeLib';
@@ -133,6 +133,8 @@ const PANELS = {
     CANVAS: 'builder_platform_interaction-canvas-container'
 };
 
+const BUILDER_TYPE_FLOW_BUILDER = 'FlowBuilder';
+
 /**
  * Editor component for flow builder. This is the top-level smart component for
  * flow builder. It is responsible for maintaining the overall state of app and
@@ -142,6 +144,9 @@ const PANELS = {
  * @since 214
  */
 export default class Editor extends LightningElement {
+    @api
+    builderType;
+
     @track
     flowStatus;
 
@@ -200,15 +205,45 @@ export default class Editor extends LightningElement {
     isRedoDisabled = true;
 
     @track
-    builderConfig = {};
-
-    @track
     showPropertyEditorRightPanel = false;
 
     @track
     propertyEditorParams = null;
 
     propertyEditorBlockerCalls = [];
+
+    @track
+    builderConfigLoading = false;
+
+    /** Builder configuration for the current builder type */
+    get builderConfig() {
+        return getBuilderConfig(this.builderType || BUILDER_TYPE_FLOW_BUILDER) || {};
+    }
+
+    /** Indicates if the component has a flow to edit (now or in future) */
+    get hasFlow() {
+        if (storeInstance) {
+            const currentState = storeInstance.getCurrentState();
+            return !!(this.currentFlowId || (currentState && currentState.properties && currentState.properties.processType));
+        }
+        return false;
+    }
+
+    /** Default flow as supplied in the builder config */
+    get defaultFlow() {
+        return this.builderConfig && this.builderConfig.newFlowConfig && this.builderConfig.newFlowConfig.defaultNewFlow;
+    }
+
+    /** Indicates that the new flow modal should be displayed */
+    get showNewFlowDialog() {
+        // Show New Flow modal if there is no flow to edit,
+        // builder configuration isn't loading
+        // and no default flow to create.
+        return !this.hasFlow && !this.builderConfigLoading && !this.defaultFlow;
+    }
+
+    /** Indicates that the new flow modal is displayed */
+    newFlowModalActive = false;
 
     constructor() {
         super();
@@ -239,9 +274,12 @@ export default class Editor extends LightningElement {
         fetchOnce(SERVER_ACTION_TYPE.GET_HEADER_URLS).then(data =>
             this.getHeaderUrlsCallBack(data)
         );
-        fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS).then(data =>
-            setBuilderConfigs(data)
-        );
+        this.builderConfigLoading = true;
+        fetchOnce(SERVER_ACTION_TYPE.GET_BUILDER_CONFIGS)
+            .then(setBuilderConfigs)
+            .then(() => {
+                this.builderConfigLoading = false;
+            });
         this.keyboardInteractions = new KeyboardInteractions();
         initializeLoader(storeInstance);
         loadOnStart();
@@ -264,11 +302,6 @@ export default class Editor extends LightningElement {
             });
             this.isFlowServerCallInProgress = true;
             this.spinners.showFlowMetadataSpinner = true;
-        } else {
-            invokeNewFlowModal(
-                this.closeFlowModalCallback,
-                this.createFlowFromTemplateCallback
-            );
         }
     }
 
@@ -284,7 +317,8 @@ export default class Editor extends LightningElement {
     get showSpinner() {
         return (
             this.spinners.showFlowMetadataSpinner ||
-            this.spinners.showPropertyEditorSpinner
+            this.spinners.showPropertyEditorSpinner ||
+            this.builderConfigLoading
         );
     }
 
@@ -315,9 +349,6 @@ export default class Editor extends LightningElement {
             this.propertyEditorBlockerCalls.push(
                 loadOnProcessTypeChange(currentState.properties.processType)
             );
-
-            // Set Builder Configuration
-            this.setBuilderConfig(currentState.properties.processType);
         }
         this.properties = currentState.properties;
         this.showWarningIfUnsavedChanges();
@@ -622,25 +653,6 @@ export default class Editor extends LightningElement {
                 'beforeunload',
                 this.beforeUnloadCallback
             );
-        }
-    };
-
-    /**
-     * Return the appropriate builder config based on process type.
-     * NOTE: starting in 226 we are going have the builder type as a UI parameter that different builders
-     * like Journey Builder can set on initialization that will then drive the builder config.
-     * At that point we won't need to do this process type check and we can fetch the config directly.
-     */
-    setBuilderConfig = processType => {
-        const builderConfigs = getBuilderConfigs();
-        if (builderConfigs) {
-            this.builderConfig =
-                Object.values(builderConfigs).find(config => {
-                    return (
-                        config.supportedProcessTypes &&
-                        config.supportedProcessTypes.includes(processType)
-                    );
-                }) || {};
         }
     };
 
@@ -1228,6 +1240,28 @@ export default class Editor extends LightningElement {
     };
 
     renderedCallback() {
+        // Show New Flow modal.
+        // Hiding (!this.showNewFlowDialog && this.newFlowModalActive) is done in
+        // the modal callbacks since the editor does not hold a reference to the modal.
+        if (this.showNewFlowDialog && !this.newFlowModalActive) {
+            this.newFlowModalActive = true;
+            invokeNewFlowModal(
+                this.builderType,
+                (this.builderConfig && this.builderConfig.newFlowConfig) || undefined,
+                this.closeFlowModalCallback,
+                this.createFlowFromTemplateCallback
+            );
+        }
+
+        // Create a default flow.
+        if (!this.hasFlow && this.defaultNewFlow && !this.isFlowServerCallInProgress) {
+            this.isFlowServerCallInProgress = true;
+            this.spinners.showFlowMetadataSpinner = true;
+            this.getFlowCallback({
+                data: this.builderConfig.newFlowConfig.defaultNewFlow
+            });
+        }
+
         const currentState = storeInstance.getCurrentState();
         if (
             !this.isFlowServerCallInProgress &&
@@ -1284,6 +1318,7 @@ export default class Editor extends LightningElement {
         } else {
             this.getFlowCallback({ data, error });
             modal.close();
+            this.newFlowModalActive = false;
         }
     };
 
@@ -1291,6 +1326,7 @@ export default class Editor extends LightningElement {
      * Callback passed when user clicks on Exit icon from new flow modal
      */
     closeFlowModalCallback = () => {
+        this.newFlowModalActive = false;
         return closeModalAndNavigateTo(this.backUrl);
     };
 
@@ -1329,6 +1365,7 @@ export default class Editor extends LightningElement {
                 this.spinners.showFlowMetadataSpinner = false;
             }
             modal.close();
+            this.newFlowModalActive = false;
         }
     };
 

@@ -579,6 +579,11 @@ export const invokeModalInternalData = data => {
  * @param {Function} createFlowFromTemplateCallback the callback to execute when clicking the create button
  */
 export const invokeNewFlowModal = (
+    builderType,
+    configuration = {
+        showRecommended: true,
+        showAll: true
+    },
     closeFlowModalAction,
     createFlowFromTemplateCallback
 ) => {
@@ -588,8 +593,10 @@ export const invokeNewFlowModal = (
             headerTitle: LABELS.headerTitle
         }
     );
+
     const modalBodyPromise = createComponentPromise(
-        'builder_platform_interaction:newFlowModalBody'
+        'builder_platform_interaction:newFlowModalBody',
+        { ...configuration, builderType }
     );
     const modalFooterPromise = createComponentPromise(
         'builder_platform_interaction:modalFooter',
