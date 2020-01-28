@@ -38,6 +38,9 @@ import {
     setAuraGetCallback
 } from 'builder_platform_interaction/serverDataLib';
 import { mockSubflowAllTypesVariables, mockSubflows } from 'mock/calloutData';
+import * as flowWithAllElements from 'mock/flows/flowWithAllElements.json';
+import { flowWithActiveAndLatest } from 'serverData/GetFlowInputOutputVariables/flowWithActiveAndLatest.json';
+import { flowWithNoActiveVersion } from 'serverData/GetFlowInputOutputVariables/flowWithNoActiveVersion.json';
 
 const auraFetch = actions => async (
     actionName,
@@ -138,7 +141,18 @@ const getFlowExtensionListParams = flowExtensionListParameters => params => ({
     }, {})
 });
 
+const retrieveFlow = flowIdToFlow => ({ flowId }) => {
+    const flow = flowIdToFlow[flowId];
+    if (flow != null) {
+        return { data: flow };
+    }
+    return { error: 'Unknown flow' };
+};
+
 const allAuraActions = {
+    'c.retrieveFlow': retrieveFlow({
+        '301xx000003GhbnAAC': flowWithAllElements
+    }),
     'c.retrieveAllRules': createGetter(rules),
     'c.getOperators': createGetter(operators),
     'c.getEventTypes': createGetter(eventTypes),
@@ -199,7 +213,9 @@ const allAuraActions = {
         [FLOW_PROCESS_TYPE.FLOW]: mockSubflows
     }),
     'c.getFlowInputOutputVariables': getFlowInputOutputVariables({
-        FlowWithAllTypesVariables: mockSubflowAllTypesVariables
+        FlowWithAllTypesVariables: mockSubflowAllTypesVariables,
+        flowWithActiveAndLatest,
+        flowWithNoActiveVersion
     }),
     'c.retrieveElementsPalette': createGetter([]),
     'c.retrieveHeaderUrls': createGetter([]),

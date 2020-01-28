@@ -908,11 +908,15 @@ describe('Menu data retrieval', () => {
         it('should fetch output variables for subflow with automatic handling', async () => {
             const items = await getChildrenItemsPromise(parentSubflowItem);
             expect(Object.keys(items)).toEqual([
+                'accountOutput',
+                'accountOutputCollection',
                 'inputOutput1',
                 'inputOutput2',
                 'output1',
                 'output2',
                 'output3',
+                'carOutput',
+                'carOutputCollection',
                 'output4'
             ]);
             expectFieldsAreComplexTypeFieldDescriptions(items);

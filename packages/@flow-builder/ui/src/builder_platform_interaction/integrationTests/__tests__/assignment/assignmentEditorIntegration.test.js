@@ -62,6 +62,30 @@ jest.mock(
     { virtual: true }
 );
 
+jest.mock(
+    '@salesforce/label/FlowBuilderElementLabels.subflowAsResourceText',
+    () => {
+        return { default: 'Outputs from {0}' };
+    },
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderSubflows.variableInLatestVersionOnly',
+    () => {
+        return { default: '{0} (Latest Version Only)' };
+    },
+    { virtual: true }
+);
+
+jest.mock(
+    '@salesforce/label/FlowBuilderSubflows.variableInActiveVersionOnly',
+    () => {
+        return { default: '{0} (Active Version Only)' };
+    },
+    { virtual: true }
+);
+
 const createComponentForTest = assignmentElement => {
     const el = createElement('builder_platform_interaction-assignment-editor', {
         is: AssignmentEditor
@@ -497,19 +521,6 @@ describe('Assignment Editor', () => {
                 expect(item.hasNext).toBeUndefined();
             }
         });
-        it('can select account field of apex type in the LHS', async () => {
-            // When
-            const selectedItem = await selectComboboxItemBy(
-                lhsCombobox,
-                'text',
-                ['apexComplexTypeVariable', 'acct'],
-                { blur: true }
-            );
-
-            // Then
-            expect(selectedItem).toBeDefined();
-            expect(lhsCombobox.errorMessage).toBeNull();
-        });
         it.each`
             lhs                                           | expectedErrorMessage
             ${'{!apexComplexTypeVariable.acct}'}          | ${null}
@@ -522,5 +533,57 @@ describe('Assignment Editor', () => {
                 expect(lhsCombobox.errorMessage).toEqual(expectedErrorMessage);
             }
         );
+    });
+    describe('Selection using comboboxes', () => {
+        let assignment;
+        const itCanSelectInLhs = lhs =>
+            it(`can select [${lhs}] on lhs`, async () => {
+                const expressionBuilder = getFerToFerovExpressionBuilder(
+                    assignment
+                );
+                const lhsCombobox = getLhsCombobox(expressionBuilder);
+                const selectedLhsItem = await selectComboboxItemBy(
+                    lhsCombobox,
+                    'text',
+                    lhs,
+                    { blur: true }
+                );
+                expect(selectedLhsItem).toBeDefined();
+                expect(lhsCombobox.errorMessage).toBeNull();
+            });
+        beforeAll(async () => {
+            const uiFlow = translateFlowToUIModel(flowWithAllElements);
+            store.dispatch(updateFlow(uiFlow));
+            await loadFieldsForComplexTypesInFlow(uiFlow);
+        });
+        beforeEach(async () => {
+            const assignmentElement = getElementByDevName('assignment1');
+            const assignmentForPropertyEditor = getElementForPropertyEditor(
+                assignmentElement
+            );
+            assignment = createComponentForTest(assignmentForPropertyEditor);
+            await ticks();
+        });
+        itCanSelectInLhs(['apexComplexTypeVariable', 'acct']);
+        itCanSelectInLhs(['apexComplexTypeVariable', 'acct', 'Name']);
+        itCanSelectInLhs([
+            'Outputs from subflowAutomaticOutput',
+            'output2 (Active Version Only)'
+        ]);
+        itCanSelectInLhs([
+            'Outputs from subflowAutomaticOutput',
+            'accountOutput'
+        ]);
+        itCanSelectInLhs([
+            'Outputs from subflowAutomaticOutput',
+            'accountOutput',
+            'Name'
+        ]);
+        itCanSelectInLhs([
+            'Outputs from subflowAutomaticOutput',
+            'carOutput (Latest Version Only)',
+            'wheel',
+            'type'
+        ]);
     });
 });

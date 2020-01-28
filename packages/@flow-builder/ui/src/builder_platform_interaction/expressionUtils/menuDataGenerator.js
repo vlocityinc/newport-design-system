@@ -328,14 +328,45 @@ function getMenuItemsForSObjectField(
     ];
 }
 
-const hasApexParentAndApexFieldAllowed = (
+function isTraversable(
+    field,
     parent,
-    allowApexTypeFieldsTraversal
-) => {
-    return (
-        parent && parent.dataType === APEX_TYPE && allowApexTypeFieldsTraversal
-    );
-};
+    {
+        allowSObjectFieldsTraversal = true,
+        allowApexTypeFieldsTraversal = true,
+        allowSObjectFields = true,
+        allowApexTypeFields = true
+    } = {}
+) {
+    const { dataType, isCollection } = field;
+    if (!isComplexType(dataType) || isCollection) {
+        return false;
+    }
+    let hasNext = false;
+    const parentDataType = parent && parent.dataType;
+    if (parentDataType === SOBJECT_TYPE) {
+        if (dataType === SOBJECT_TYPE) {
+            hasNext = allowSObjectFieldsTraversal;
+        }
+    } else if (parentDataType === APEX_TYPE) {
+        if (dataType === SOBJECT_TYPE) {
+            hasNext = allowSObjectFields && allowApexTypeFieldsTraversal;
+        } else if (dataType === APEX_TYPE) {
+            hasNext = allowApexTypeFields && allowApexTypeFieldsTraversal;
+        }
+    } else if (dataType === SOBJECT_TYPE) {
+        // no parent or parent is SUBFLOW_OUTPUT_TYPE, ACTION_OUTPUT_TYPE or LIGHTNING_COMPONENT_OUTPUT
+        hasNext = allowSObjectFields;
+    } else if (dataType === APEX_TYPE) {
+        // no parent or parent is SUBFLOW_OUTPUT_TYPE, ACTION_OUTPUT_TYPE or LIGHTNING_COMPONENT_OUTPUT
+        hasNext = allowApexTypeFields;
+    }
+
+    if (hasNext && getMergeFieldLevel(parent) >= MAXIMUM_NUMBER_OF_LEVELS - 1) {
+        hasNext = false;
+    }
+    return hasNext;
+}
 
 /**
  * Makes copy of server data fields of parent objects(SObjects, Global/System Variables) with fields as needed by combobox
@@ -347,6 +378,8 @@ const hasApexParentAndApexFieldAllowed = (
  * @param {boolean} [options.showSubText] true to show the sub text
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
  * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
+ * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
+ * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
  * @returns {MenuItem} Representation of flow element in shape combobox needs
  */
 export function getMenuItemForField(
@@ -357,30 +390,19 @@ export function getMenuItemForField(
         showSubText = true,
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
-        allowSObjectFields = true
+        allowSObjectFields = true,
+        allowApexTypeFields = true
     } = {}
 ) {
     // support for parameter items being converted to field shape
     const apiName = field.apiName || field.qualifiedApiName;
-    let hasNext;
+    const hasNext = isTraversable(field, parent, {
+        allowSObjectFieldsTraversal,
+        allowApexTypeFieldsTraversal,
+        allowSObjectFields,
+        allowApexTypeFields
+    });
     const { dataType, isCollection, subtype } = field;
-    if (
-        (dataType === SOBJECT_TYPE &&
-            (!allowSObjectFields ||
-                !hasApexParentAndApexFieldAllowed(
-                    parent,
-                    allowApexTypeFieldsTraversal
-                )) &&
-            !allowSObjectFieldsTraversal) ||
-        (dataType === APEX_TYPE && !allowApexTypeFieldsTraversal)
-    ) {
-        hasNext = false;
-    } else {
-        hasNext =
-            isComplexType(dataType) &&
-            !isCollection &&
-            getMergeFieldLevel(parent) < MAXIMUM_NUMBER_OF_LEVELS - 1;
-    }
     let text;
     if (parent && parent.dataType === FLOW_DATA_TYPE.SUBFLOW_OUTPUT.value) {
         text = getSubflowVariableLabelWithWarning(field);
@@ -419,6 +441,8 @@ export function getMenuItemForField(
  * @param {boolean} [options.showSubText] true to show the sub text
  * @param {boolean} [options.allowSObjectFieldsTraversal] true if sobject fields that are spannable can be traversed
  * @param {boolean} [options.allowApexTypeFieldsTraversal] true if apex type fields can be traversed
+ * @param {boolean} [options.allowSObjectFields] true to allow SObject traversal (1st level : SObject fields)
+ * @param {boolean} [options.allowApexTypeFields] true to allow Apex type traversal (1st level : apex type fields)
  * @returns {MenuItem[]} menu items for the field (possibly more than one for SObject fields that are spannable)
  */
 export function getMenuItemsForField(
@@ -429,7 +453,8 @@ export function getMenuItemsForField(
         showSubText = true,
         allowSObjectFieldsTraversal = true,
         allowApexTypeFieldsTraversal = true,
-        allowSObjectFields
+        allowSObjectFields = true,
+        allowApexTypeFields = true
     } = {}
 ) {
     if (parent && parent.dataType === SOBJECT_TYPE) {
@@ -445,7 +470,8 @@ export function getMenuItemsForField(
             showSubText,
             allowSObjectFieldsTraversal,
             allowApexTypeFieldsTraversal,
-            allowSObjectFields
+            allowSObjectFields,
+            allowApexTypeFields
         })
     ];
 }
@@ -509,7 +535,10 @@ export function mutateFlowResourceToComboboxShape(resource) {
         newElement.rightIconSize = ICON_SIZE;
     }
 
-    newElement.iconAlternativeText = resourceDataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value ? LABELS.lightningComponentScreenFieldIconAltText : resourceDataType;
+    newElement.iconAlternativeText =
+        resourceDataType === FLOW_DATA_TYPE.LIGHTNING_COMPONENT_OUTPUT.value
+            ? LABELS.lightningComponentScreenFieldIconAltText
+            : resourceDataType;
     return newElement;
 }
 
