@@ -7,21 +7,28 @@ import {
 import { LABELS } from 'builder_platform_interaction/screenEditorI18nUtils';
 import { Store } from 'builder_platform_interaction/storeLib';
 import { flowWithAllElementsUIModel } from 'mock/storeData';
+import * as contextLibMock from 'builder_platform_interaction/contextLib';
 
 jest.mock('builder_platform_interaction/storeLib', () =>
     require('builder_platform_interaction_mocks/storeLib')
 );
+
 jest.mock('builder_platform_interaction/selectors', () => {
     return {
         readableElementsSelector: jest.fn(data => Object.values(data.elements))
     };
 });
 
+jest.mock('builder_platform_interaction/contextLib', () => {
+    return { orgHasFlowScreenSections: jest.fn() };
+});
+
 const SELECTORS = {
     INPUT_FIELD: 'builder_platform_interaction-screen-input-field',
     TEXT_AREA_FIELD: 'builder_platform_interaction-screen-textarea-field',
     DISPLAY_FIELD: 'builder_platform_interaction-screen-display-text-field',
-    SCREEN_FIELD_CARD: 'builder_platform_interaction-screen-field-card'
+    SCREEN_FIELD_CARD: 'builder_platform_interaction-screen-field-card',
+    SECTION_FIELD: 'builder_platform_interaction-screen-section-field'
 };
 
 const emptyFieldName = '';
@@ -298,4 +305,23 @@ describe('number field with literal default', () => {
     });
 });
 
+describe('section field', () => {
+    let testScreenField;
+    beforeEach(() => {
+        contextLibMock.orgHasFlowScreenSections.mockReturnValue(true);
+        const sectionField = createTestScreenField('Section', 'Section');
+        testScreenField = createComponentUnderTest({
+            screenfield: sectionField
+        });
+    });
+    it('Section preview is displayed', () => {
+        return Promise.resolve().then(() => {
+            const renderedSectionField = testScreenField.shadowRoot.querySelector(
+                SELECTORS.SECTION_FIELD
+            );
+            expect(renderedSectionField).toBeDefined();
+            expect(renderedSectionField.title).toBe('Section');
+        });
+    });
+});
 // TODO - add tests where default value is a reference for each field type
