@@ -29,7 +29,7 @@ describe('Decision Editor expression builder', () => {
     });
     describe('Validation', () => {
         let expressionBuilder;
-        beforeAll(async () => {
+        beforeAll(() => {
             const uiFlow = translateFlowToUIModel(flowWithAllElements);
             store.dispatch(updateFlow(uiFlow));
         });

@@ -979,7 +979,7 @@ export default class Combobox extends LightningElement {
     }
 
     /**
-     * If there is a single item that matches with text, assign that to _item
+     * Find a single item that matches with text if any and if _item isn't already set
      * @param {String} text The text to match with an item's displayText
      * @param {Boolean} setItem set _item if a match is found
      * @returns {MenuItem} returns the item if found, otherwise undefined

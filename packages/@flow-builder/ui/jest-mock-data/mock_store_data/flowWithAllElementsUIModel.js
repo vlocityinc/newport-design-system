@@ -1245,9 +1245,9 @@ export const flowWithAllElementsUIModel =   {
       },
       "d66cf236-ca0a-4351-952d-b12df4abdaf8": {
         "guid": "d66cf236-ca0a-4351-952d-b12df4abdaf8",
-        "name": "createAccountWithoutAdvancedOptions",
+        "name": "createAccountWithAdvancedOptions",
         "description": "",
-        "label": "createAccountWithoutAdvancedOptions",
+        "label": "createAccountWithAdvancedOptions",
         "locationX": 430,
         "locationY": 483,
         "isCanvasElement": true,

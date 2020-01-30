@@ -16,7 +16,6 @@ import {
     getRHSTypes,
     RULE_OPERATOR
 } from 'builder_platform_interaction/ruleLib';
-import { ComboboxStateChangedEvent } from 'builder_platform_interaction/events';
 import BaseResourcePicker from 'builder_platform_interaction/baseResourcePicker';
 import { FLOW_DATA_TYPE } from 'builder_platform_interaction/dataTypeLib';
 
@@ -30,13 +29,8 @@ jest.mock('builder_platform_interaction/inlineResourceUtils', () => {
     };
 });
 
-jest.mock('builder_platform_interaction/loggingUtils', () => ({
-    logInteraction: jest.fn()
-}));
-
 jest.mock('builder_platform_interaction/actions', () => {
     return {
-        removeLastCreatedInlineResource: jest.fn(),
         updateInlineResourceProperties: jest.fn(() => 'test response')
     };
 });
@@ -64,7 +58,9 @@ const parentRecordVar = {
 };
 
 jest.mock('builder_platform_interaction/ruleLib', () => {
-    const actual = require.requireActual('builder_platform_interaction/ruleLib');
+    const actual = require.requireActual(
+        'builder_platform_interaction/ruleLib'
+    );
     return {
         RULE_OPERATOR: actual.RULE_OPERATOR,
         PARAM_PROPERTY: actual.PARAM_PROPERTY,
@@ -154,51 +150,6 @@ describe('output-resource-picker', () => {
             });
         });
     });
-
-    describe('combobox state changed event handler', () => {
-        let outputResourcePicker;
-        const displayText = 'hello world';
-
-        beforeEach(() => {
-            outputResourcePicker = setupComponentUnderTest(props);
-        });
-        it('updates the value to the item if there is both item and display text', () => {
-            const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
-            const itemPayload = { value: 'foo' };
-            baseResourcePicker.dispatchEvent(
-                new ComboboxStateChangedEvent(itemPayload, displayText)
-            );
-            return Promise.resolve().then(() => {
-                expect(baseResourcePicker.value).toEqual(itemPayload);
-            });
-        });
-        it('updates the value to the item if there is no display text', () => {
-            const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
-            const itemPayload = { value: 'foo' };
-            baseResourcePicker.dispatchEvent(
-                new ComboboxStateChangedEvent(itemPayload)
-            );
-            return Promise.resolve().then(() => {
-                expect(baseResourcePicker.value).toEqual(itemPayload);
-            });
-        });
-        it('updates the value to the display text if there is no item', () => {
-            const baseResourcePicker = outputResourcePicker.shadowRoot.querySelector(
-                BaseResourcePicker.SELECTOR
-            );
-            baseResourcePicker.dispatchEvent(
-                new ComboboxStateChangedEvent(undefined, displayText)
-            );
-            return Promise.resolve().then(() => {
-                expect(baseResourcePicker.value).toEqual(displayText);
-            });
-        });
-    });
-
     it('retrieves fer menu data on initial load when value is fer', () => {
         props.value = 'foo';
         setupComponentUnderTest(props);

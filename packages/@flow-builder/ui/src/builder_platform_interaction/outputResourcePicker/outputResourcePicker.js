@@ -159,10 +159,6 @@ export default class OutputResourcePicker extends LightningElement {
 
     /** Event handlers */
 
-    handleValueChange(event) {
-        this.value = event.detail.item || event.detail.displayText;
-    }
-
     handleFetchMenuData(event) {
         const selectedItem = event.detail.item;
         this.populateMenuData(selectedItem);
