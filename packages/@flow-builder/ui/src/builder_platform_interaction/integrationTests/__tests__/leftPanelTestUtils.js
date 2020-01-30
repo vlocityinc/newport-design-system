@@ -4,6 +4,9 @@ import {
     deepQuerySelector
 } from 'builder_platform_interaction/builderTestUtils';
 
+export const PALETTE_RESOURCES_INDEX = 0;
+export const PALETTE_ELEMENTS_INDEX = 1;
+
 const LEFT_PANEL_SELECTORS = {
     ...LIGHTNING_COMPONENTS_SELECTORS,
     ...INTERACTION_COMPONENTS_SELECTORS,
@@ -15,7 +18,10 @@ const LEFT_PANEL_SELECTORS = {
     BUTTON_VIEW_DETAIL: '.test-details-chevron-icon'
 };
 
-export const getPalette = (leftPanel, paletteIndex) => {
+export const getPalette = (
+    leftPanel,
+    paletteIndex = PALETTE_RESOURCES_INDEX
+) => {
     const panelResources = leftPanel.shadowRoot.querySelector(
         LEFT_PANEL_SELECTORS.LEFT_PANEL_RESOURCES
     );
@@ -24,7 +30,11 @@ export const getPalette = (leftPanel, paletteIndex) => {
     )[paletteIndex];
 };
 
-export const getChevronElement = (leftPanel, paletteIndex, resourceGuid) => {
+export const getChevronElement = (
+    leftPanel,
+    resourceGuid,
+    paletteIndex = PALETTE_RESOURCES_INDEX
+) => {
     const palette = getPalette(leftPanel, paletteIndex);
     return palette.shadowRoot.querySelector(
         '[data-key="' + resourceGuid + '"]'
